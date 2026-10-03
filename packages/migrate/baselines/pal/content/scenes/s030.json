@@ -90,61 +90,51 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2430"
-                            },
-                            {
-                              "text": "dlg.2431"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.药铺老板"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2430"
+                          },
+                          {
+                            "text": "dlg.2431"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.药铺老板"
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "openShop",
-                        "shop": 5,
-                        "mode": "buy"
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "shop": 5,
+                      "mode": "buy"
                     }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "openShop",
-                        "shop": 5,
-                        "mode": "buy"
-                      }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                  ],
+                  "next": "after-checkpoint"
+                },
+                {
+                  "id": "after-checkpoint",
+                  "body": [
+                    {
+                      "kind": "openShop",
+                      "shop": 5,
+                      "mode": "buy"
                     }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         },
@@ -158,22 +148,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s030",
-                        "entity": "e539"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s030",
-                        "entity": "e539"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s030",
+                            "entity": "e539"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s030",
+                            "entity": "e539"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -211,511 +216,501 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2626"
-                            },
-                            {
-                              "text": "dlg.2627"
-                            },
-                            {
-                              "text": "dlg.2628"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2630"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赵灵儿",
-                            "portrait": {
-                              "asset": "portrait.pal.011",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "continuation-003"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "continuation-001"
-                      }
-                    }
-                  },
-                  "after-checkpoint": {
-                    "label": "检查点后的执行",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2636"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "初次交互",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2626"
                           },
-                          "slot": "top"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "continuation-001": {
-                    "label": "流程分支 001",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      }
-                    ],
-                    "next": {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "not",
-                        "cond": {
-                          "kind": "hasMoney",
-                          "atLeast": 100
-                        }
-                      },
-                      "then": {
-                        "kind": "continue",
-                        "state": "continuation-005"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "continuation-007"
-                      }
-                    }
-                  },
-                  "continuation-002": {
-                    "label": "流程分支 002",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      }
-                    ],
-                    "next": {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "not",
-                        "cond": {
-                          "kind": "hasMoney",
-                          "atLeast": 100
-                        }
-                      },
-                      "then": {
-                        "kind": "continue",
-                        "state": "continuation-006"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "continuation-008"
-                      }
-                    }
-                  },
-                  "continuation-003": {
-                    "label": "流程分支 003",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2640"
-                            },
-                            {
-                              "text": "dlg.2641"
-                            },
-                            {
-                              "text": "dlg.2642"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "phase-004"
-                    }
-                  },
-                  "continuation-004": {
-                    "label": "流程分支 004",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2640"
-                            },
-                            {
-                              "text": "dlg.2641"
-                            },
-                            {
-                              "text": "dlg.2642"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "phase-004"
-                    }
-                  },
-                  "continuation-005": {
-                    "label": "流程分支 005",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2644"
-                            },
-                            {
-                              "text": "dlg.2645"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "phase-002"
-                    }
-                  },
-                  "continuation-006": {
-                    "label": "流程分支 006",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2644"
-                            },
-                            {
-                              "text": "dlg.2645"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "continuation-007": {
-                    "label": "流程分支 007",
-                    "body": [
-                      {
-                        "kind": "giveMoney",
-                        "delta": -100
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2632"
-                            },
-                            {
-                              "text": "dlg.2633"
-                            },
-                            {
-                              "text": "dlg.2634"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2636"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女"
+                          {
+                            "text": "dlg.2627"
                           },
-                          "slot": "top"
+                          {
+                            "text": "dlg.2628"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "continuation-008": {
-                    "label": "流程分支 008",
-                    "body": [
-                      {
-                        "kind": "giveMoney",
-                        "delta": -100
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2632"
-                            },
-                            {
-                              "text": "dlg.2633"
-                            },
-                            {
-                              "text": "dlg.2634"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2630"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.011",
+                            "side": "right"
                           }
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2636"
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "onYes": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "hasMoney",
+                              "atLeast": 100
                             }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女"
                           },
-                          "slot": "top"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "after-checkpoint"
-                    }
-                  },
-                  "phase-002": {
-                    "label": "后续阶段 002",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
+                          "then": [
                             {
-                              "text": "dlg.2626"
+                              "kind": "dialog",
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2644"
+                                  },
+                                  {
+                                    "text": "dlg.2645"
+                                  }
+                                ],
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.李逍遥",
+                                  "portrait": {
+                                    "asset": "portrait.pal.001",
+                                    "side": "right"
+                                  }
+                                }
+                              }
                             },
                             {
-                              "text": "dlg.2627"
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stage",
+                                "stage": "phase-002"
+                              }
+                            }
+                          ],
+                          "else": [
+                            {
+                              "kind": "giveMoney",
+                              "delta": -100
                             },
                             {
-                              "text": "dlg.2628"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
+                              "kind": "dialog",
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2632"
+                                  },
+                                  {
+                                    "text": "dlg.2633"
+                                  },
+                                  {
+                                    "text": "dlg.2634"
+                                  }
+                                ],
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.李逍遥",
+                                  "portrait": {
+                                    "asset": "portrait.pal.001",
+                                    "side": "right"
+                                  }
+                                }
+                              }
+                            },
                             {
-                              "text": "dlg.2630"
+                              "kind": "clearDialog"
+                            },
+                            {
+                              "kind": "dialog",
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2636"
+                                  }
+                                ],
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.少女"
+                                },
+                                "slot": "top"
+                              }
+                            },
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stage",
+                                "stage": "after-checkpoint"
+                              }
                             }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赵灵儿",
-                            "portrait": {
-                              "asset": "portrait.pal.011",
-                              "side": "right"
+                          ]
+                        }
+                      ],
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2640"
+                              },
+                              {
+                                "text": "dlg.2641"
+                              },
+                              {
+                                "text": "dlg.2642"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.李逍遥",
+                              "portrait": {
+                                "asset": "portrait.pal.001",
+                                "side": "right"
+                              }
                             }
                           }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stage",
+                            "stage": "phase-004"
+                          }
                         }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-002",
-                        "onNo": []
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "after-checkpoint",
+                  "label": "交互后续 1",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2636"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女"
+                        },
+                        "slot": "top"
                       }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-002",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "continuation-004"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "continuation-002"
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
                       }
                     }
-                  },
-                  "phase-003": {
-                    "label": "后续阶段 003",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2638"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                  ]
+                },
+                {
+                  "id": "phase-004",
+                  "label": "交互后续 2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2638"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "stay"
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stage",
+                        "stage": "phase-003"
+                      }
                     }
-                  },
-                  "phase-004": {
-                    "label": "后续阶段 004",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.2638"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.少女",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
+                  ]
+                },
+                {
+                  "id": "phase-002",
+                  "label": "交互后续 3",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2626"
+                          },
+                          {
+                            "text": "dlg.2627"
+                          },
+                          {
+                            "text": "dlg.2628"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "phase-003"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2630"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.011",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "onYes": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "hasMoney",
+                              "atLeast": 100
+                            }
+                          },
+                          "then": [
+                            {
+                              "kind": "dialog",
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2644"
+                                  },
+                                  {
+                                    "text": "dlg.2645"
+                                  }
+                                ],
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.李逍遥",
+                                  "portrait": {
+                                    "asset": "portrait.pal.001",
+                                    "side": "right"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stage",
+                                "stage": "continuation-006"
+                              }
+                            }
+                          ],
+                          "else": [
+                            {
+                              "kind": "giveMoney",
+                              "delta": -100
+                            },
+                            {
+                              "kind": "dialog",
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2632"
+                                  },
+                                  {
+                                    "text": "dlg.2633"
+                                  },
+                                  {
+                                    "text": "dlg.2634"
+                                  }
+                                ],
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.李逍遥",
+                                  "portrait": {
+                                    "asset": "portrait.pal.001",
+                                    "side": "right"
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "kind": "clearDialog"
+                            },
+                            {
+                              "kind": "dialog",
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2636"
+                                  }
+                                ],
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.少女"
+                                },
+                                "slot": "top"
+                              }
+                            },
+                            {
+                              "kind": "finishStep",
+                              "next": {
+                                "kind": "stage",
+                                "stage": "after-checkpoint"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2640"
+                              },
+                              {
+                                "text": "dlg.2641"
+                              },
+                              {
+                                "text": "dlg.2642"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.李逍遥",
+                              "portrait": {
+                                "asset": "portrait.pal.001",
+                                "side": "right"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stage",
+                            "stage": "phase-004"
+                          }
+                        }
+                      ]
                     }
-                  }
+                  ]
+                },
+                {
+                  "id": "continuation-006",
+                  "label": "交互后续 4",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2644"
+                          },
+                          {
+                            "text": "dlg.2645"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "phase-003",
+                  "label": "交互后续 5",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2638"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.少女",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
+                      }
+                    }
+                  ]
                 }
-              }
+              ]
             }
           }
         }

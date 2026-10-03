@@ -198,461 +198,408 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "confirm-decisions",
-                "label": "默认触发行为",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "步骤 initial",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1457"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1457"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.居民"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.1506"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.中年人"
                             }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.居民"
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
                           }
                         }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-001",
-                        "onNo": []
+                      ],
+                      "onYes": []
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1459"
+                          },
+                          {
+                            "text": "dlg.1460"
+                          },
+                          {
+                            "text": "dlg.1461"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人"
+                        }
                       }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-001",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-001-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-002"
+                    },
+                    {
+                      "kind": "confirm",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.1506"
+                              }
+                            ],
+                            "identity": {
+                              "kind": "unbound",
+                              "speaker": "spk.中年人"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ],
+                      "onYes": []
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1463"
+                          },
+                          {
+                            "text": "dlg.1464"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1465"
+                          },
+                          {
+                            "text": "dlg.1466"
+                          },
+                          {
+                            "text": "dlg.1467"
+                          },
+                          {
+                            "text": "dlg.1468"
+                          },
+                          {
+                            "text": "dlg.1469"
+                          },
+                          {
+                            "text": "dlg.1470"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1471"
+                          },
+                          {
+                            "text": "dlg.1472"
+                          },
+                          {
+                            "text": "dlg.1473"
+                          },
+                          {
+                            "text": "dlg.1474"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1476"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1478"
+                          },
+                          {
+                            "text": "dlg.1479"
+                          },
+                          {
+                            "text": "dlg.1480"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1481"
+                          },
+                          {
+                            "text": "dlg.1482"
+                          },
+                          {
+                            "text": "dlg.1483"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1484"
+                          },
+                          {
+                            "text": "dlg.1485"
+                          },
+                          {
+                            "text": "dlg.1486"
+                          },
+                          {
+                            "text": "dlg.1487"
+                          },
+                          {
+                            "text": "dlg.1488"
+                          },
+                          {
+                            "text": "dlg.1489"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1490"
+                          },
+                          {
+                            "text": "dlg.1491"
+                          },
+                          {
+                            "text": "dlg.1492"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1493"
+                          },
+                          {
+                            "text": "dlg.1494"
+                          },
+                          {
+                            "text": "dlg.1495"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
                       }
                     }
-                  },
-                  "decision-001-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1506"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1497"
+                          },
+                          {
+                            "text": "dlg.1498"
+                          },
+                          {
+                            "text": "dlg.1499"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人"
                         }
-                      }
-                    ],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  },
-                  "decision-002": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1459"
-                            },
-                            {
-                              "text": "dlg.1460"
-                            },
-                            {
-                              "text": "dlg.1461"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "confirm",
-                        "id": "decision-002",
-                        "onNo": []
-                      }
-                    ],
-                    "next": {
-                      "kind": "commandOutcome",
-                      "commandId": "decision-002",
-                      "command": "confirm",
-                      "outcome": "no",
-                      "then": {
-                        "kind": "continue",
-                        "state": "decision-002-no"
-                      },
-                      "else": {
-                        "kind": "continue",
-                        "state": "decision-002-yes"
                       }
                     }
-                  },
-                  "decision-002-no": {
-                    "label": "默认触发行为 · 选择否",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1506"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1501"
+                          },
+                          {
+                            "text": "dlg.1502"
+                          },
+                          {
+                            "text": "dlg.1503"
+                          },
+                          {
+                            "text": "dlg.1504"
                           }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.中年人"
                         }
                       }
-                    ],
-                    "next": {
-                      "kind": "restart"
                     }
-                  },
-                  "decision-002-yes": {
-                    "label": "默认触发行为 · 继续",
-                    "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1463"
-                            },
-                            {
-                              "text": "dlg.1464"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1465"
-                            },
-                            {
-                              "text": "dlg.1466"
-                            },
-                            {
-                              "text": "dlg.1467"
-                            },
-                            {
-                              "text": "dlg.1468"
-                            },
-                            {
-                              "text": "dlg.1469"
-                            },
-                            {
-                              "text": "dlg.1470"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1471"
-                            },
-                            {
-                              "text": "dlg.1472"
-                            },
-                            {
-                              "text": "dlg.1473"
-                            },
-                            {
-                              "text": "dlg.1474"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1476"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1478"
-                            },
-                            {
-                              "text": "dlg.1479"
-                            },
-                            {
-                              "text": "dlg.1480"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1481"
-                            },
-                            {
-                              "text": "dlg.1482"
-                            },
-                            {
-                              "text": "dlg.1483"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1484"
-                            },
-                            {
-                              "text": "dlg.1485"
-                            },
-                            {
-                              "text": "dlg.1486"
-                            },
-                            {
-                              "text": "dlg.1487"
-                            },
-                            {
-                              "text": "dlg.1488"
-                            },
-                            {
-                              "text": "dlg.1489"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1490"
-                            },
-                            {
-                              "text": "dlg.1491"
-                            },
-                            {
-                              "text": "dlg.1492"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1493"
-                            },
-                            {
-                              "text": "dlg.1494"
-                            },
-                            {
-                              "text": "dlg.1495"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人",
-                            "portrait": {
-                              "asset": "portrait.pal.001",
-                              "side": "right"
-                            }
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "legacy-002"
-                    }
-                  },
-                  "legacy-002": {
-                    "label": "步骤 legacy-002",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1497"
-                            },
-                            {
-                              "text": "dlg.1498"
-                            },
-                            {
-                              "text": "dlg.1499"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "advance",
-                      "state": "legacy-003"
-                    }
-                  },
-                  "legacy-003": {
-                    "label": "步骤 legacy-003",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.1501"
-                            },
-                            {
-                              "text": "dlg.1502"
-                            },
-                            {
-                              "text": "dlg.1503"
-                            },
-                            {
-                              "text": "dlg.1504"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.中年人"
-                          }
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }

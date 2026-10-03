@@ -425,13 +425,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s291",
-                        "entity": "e4977"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s291",
+                            "entity": "e4977"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -820,13 +831,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s291",
-                        "entity": "e4988"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s291",
+                            "entity": "e4988"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1316,47 +1338,37 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stateMachine",
-            "machine": {
-              "id": "machine",
-              "label": "默认进场行为",
-              "initial": "initial",
-              "states": {
-                "initial": {
-                  "label": "首次执行",
-                  "body": [
-                    {
-                      "kind": "teleportParty",
-                      "pos": {
-                        "col": 112,
-                        "row": 97,
-                        "height": 0
-                      }
-                    },
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.026"
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 112,
+                      "row": 97,
+                      "height": 0
                     }
-                  ],
-                  "next": {
-                    "kind": "advance",
-                    "state": "after-checkpoint"
+                  },
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.026"
                   }
-                },
-                "after-checkpoint": {
-                  "label": "检查点后的执行",
-                  "body": [
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.026"
-                    }
-                  ],
-                  "next": {
-                    "kind": "stay"
+                ],
+                "next": "after-checkpoint"
+              },
+              {
+                "id": "after-checkpoint",
+                "body": [
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.026"
                   }
-                }
+                ]
               }
-            }
+            ]
           }
         }
       }

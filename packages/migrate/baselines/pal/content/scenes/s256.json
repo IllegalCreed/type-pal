@@ -259,22 +259,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s256",
-                        "entity": "e4531"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s256",
-                        "entity": "e4531"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s256",
+                            "entity": "e4531"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s256",
+                            "entity": "e4531"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -376,22 +391,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s256",
-                        "entity": "e4532"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s256",
-                        "entity": "e4532"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "left",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s256",
+                            "entity": "e4532"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s256",
+                            "entity": "e4532"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -515,22 +545,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s256",
-                        "entity": "e4533"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s256",
-                        "entity": "e4533"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s256",
+                            "entity": "e4533"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s256",
+                            "entity": "e4533"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

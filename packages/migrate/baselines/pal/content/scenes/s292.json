@@ -258,13 +258,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s292",
-                        "entity": "e4998"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s292",
+                            "entity": "e4998"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -521,13 +532,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s292",
-                        "entity": "e5004"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s292",
+                            "entity": "e5004"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -812,13 +834,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s292",
-                        "entity": "e5011"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s292",
+                            "entity": "e5011"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -947,13 +980,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s292",
-                        "entity": "e5012"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s292",
+                            "entity": "e5012"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

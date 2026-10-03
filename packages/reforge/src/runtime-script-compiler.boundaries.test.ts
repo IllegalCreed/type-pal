@@ -15,41 +15,27 @@ import { compileRuntimeCommands, RuntimeSharedScriptResolver } from './runtime-s
 
 const DIGEST = 'a'.repeat(64)
 
-describe('B1 同 id 的 timing×boundary 缓存隔离', () => {
-  test('auto/interactive × perCommand/transition 四键互不复用；元数据与产物逐项精确', () => {
+describe('B1 同 id 的 timing 缓存隔离', () => {
+  test('auto/interactive 两键互不复用；元数据与显式产物逐项精确', () => {
     const resolver = new RuntimeSharedScriptResolver(legalSharedLibrary(), DIGEST)
-    const combos = [
-      { timing: 'auto', boundary: 'perCommand' },
-      { timing: 'auto', boundary: 'transition' },
-      { timing: 'interactive', boundary: 'perCommand' },
-      { timing: 'interactive', boundary: 'transition' },
-    ] as const
-    const compiled = combos.map(({ timing, boundary }) =>
-      resolver.resolve('shared/greet', timing, boundary),
-    )
+    const combos = ['auto', 'interactive'] as const
+    const compiled = combos.map((timing) => resolver.resolve('shared/greet', timing))
     // 同组合二次 resolve 命中缓存（同引用）；跨组合互不相同引用
-    for (const [i, { timing, boundary }] of combos.entries()) {
-      expect(resolver.resolve('shared/greet', timing, boundary)).toBe(compiled[i])
+    for (const [i, timing] of combos.entries()) {
+      expect(resolver.resolve('shared/greet', timing)).toBe(compiled[i])
       expect(compiled[i]?.timing).toBe(timing)
-      expect(compiled[i]?.boundaryPolicy).toBe(boundary)
       expect(compiled[i]?.id).toBe('shared/greet')
       expect(compiled[i]?.name).toBe('问好')
       expect(compiled[i]?.canonicalContentDigest).toBe(DIGEST)
     }
     const unique = new Set(compiled.map((entry) => entry as unknown))
-    expect(unique.size).toBe(4)
-    // 正文完整编译：leaf 包装 + 每条 after 按组合精确（auto/perCommand 有 100ms wait 边界）
-    const expectedAfter = (timing: string, policy: string): unknown[] =>
-      timing === 'auto' && policy === 'perCommand' ? [{ kind: 'wait', ms: 100 }] : []
-    for (const [i, { timing, boundary }] of combos.entries()) {
+    expect(unique.size).toBe(2)
+    for (const [i] of combos.entries()) {
       expect(compiled[i]!.body.map((item) => item.kind)).toEqual(['leaf', 'leaf'])
       expect(
         compiled[i]!.body.map((item) => (item as { command: { kind: string } }).command.kind),
       ).toEqual(['dialog', 'giveItem'])
-      expect(compiled[i]!.body.map((item) => item.after)).toEqual([
-        expectedAfter(timing, boundary),
-        expectedAfter(timing, boundary),
-      ])
+      expect(compiled[i]!.body.every((item) => !('after' in item))).toBe(true)
     }
   })
 })
@@ -107,13 +93,12 @@ describe('B3 编译产物不污染真正传入的输入', () => {
     const snapshot = deepSnapshot(library)
     const resolver = new RuntimeSharedScriptResolver(library, DIGEST)
     const product = resolver.resolve('shared/greet', 'auto')
-    resolver.resolve('shared/greet', 'interactive', 'transition')
+    resolver.resolve('shared/greet', 'interactive')
     expect(library).toEqual(snapshot)
     // 库先过现行守卫（合法性自证）
     expect(() => checkRuntimeScriptLibrary(library)).not.toThrow()
     // 修改编译产物不污染真正传入的库（同一输入对象，非另一份 fixture）
     for (const item of product.body) {
-      item.after = []
       if ('command' in item) {
         const command = item.command as { kind?: string; itemId?: string; count?: number }
         command.kind = 'stopMusic'

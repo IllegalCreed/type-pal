@@ -781,7 +781,7 @@ describe('K11 EnemyTab 敌定义真实业务工作流', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 75 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: ITEM_B, count: 2 },
       {
@@ -804,7 +804,7 @@ describe('K11 EnemyTab 敌定义真实业务工作流', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 75 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: ITEM_B, count: 2 },
       {
@@ -823,7 +823,7 @@ describe('K11 EnemyTab 敌定义真实业务工作流', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 75 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: ITEM_A, count: 2 },
       {
@@ -845,7 +845,7 @@ describe('K11 EnemyTab 敌定义真实业务工作流', () => {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 75 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: ITEM_A, count: 5 },
       {

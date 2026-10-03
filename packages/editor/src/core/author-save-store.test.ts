@@ -18,7 +18,7 @@ function receipt(): AuthorSaveReceipt {
   const workspaceId = 'cf448da8-601d-4c9c-bbdc-235b7d61d483'
   return {
     version: 1,
-    contentVersion: 21,
+    contentVersion: 22,
     workspaceId,
     identity: { workspaceId, projectId: 'p', mode: 'local-project', source: 'blank-project' },
     operationId: 'b174d84c-6e57-4479-a5b6-84b1c25e6c71',

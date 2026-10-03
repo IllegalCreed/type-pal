@@ -1,7 +1,6 @@
 import {
   buildEntityLifecycleReferenceIndex,
   emptyWorldScriptState,
-  type FlowCursor,
   type RuntimeCommand,
   type RuntimeSceneDef,
   type RuntimeScriptFlow,
@@ -18,10 +17,13 @@ import scene250 from '../../../projects/pal/content/scenes/s250.json' with { typ
 import scene257 from '../../../projects/pal/content/scenes/s257.json' with { type: 'json' }
 import scene277 from '../../../projects/pal/content/scenes/s277.json' with { type: 'json' }
 import scene285 from '../../../projects/pal/content/scenes/s285.json' with { type: 'json' }
+import oracle from './__tests__/pal-interactive-governance-oracle.json' with { type: 'json' }
+import {
+  interactiveGovernanceTrace,
+  normalizeInteractiveWaits,
+} from './__tests__/pal-interactive-governance-trace.js'
 import { sha256Bytes } from './hash.js'
-import { compileRuntimeScriptFlow } from './runtime-script-compiler.js'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from './runtime-script-project.js'
-import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
 
 const cases = [
   {
@@ -66,6 +68,29 @@ const scenes = validateAuthorScenes([scene231, scene249, scene250, scene257, sce
 const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [actor.id, actor]))
 const digest = 'b'.repeat(64)
 
+test('wait trace projection sums only adjacent waits, preserving action and decision boundaries', () => {
+  const command = (kind: string, ms?: number) => [
+    'command',
+    { kind, ...(ms === undefined ? {} : { ms }) },
+  ]
+  expect(
+    normalizeInteractiveWaits([
+      command('wait', 40),
+      command('wait', 320),
+      command('giveMoney'),
+      command('wait', 100),
+      ['condition', { kind: 'chance', percent: 10 }],
+      command('wait', 200),
+    ]),
+  ).toEqual([
+    command('wait', 360),
+    command('giveMoney'),
+    command('wait', 100),
+    ['condition', { kind: 'chance', percent: 10 }],
+    command('wait', 200),
+  ])
+})
+
 function currentFlow(candidate: (typeof cases)[number]) {
   const scene = scenes.find((value) => value.id === candidate.scene)
   const flow = candidate.entity
@@ -79,112 +104,24 @@ function currentFlow(candidate: (typeof cases)[number]) {
   expect(stage.id).toBe('initial')
   expect(stage.next).toBeUndefined()
   expect(stage.entry).toBeUndefined()
-  expect(stage.body).toHaveLength(candidate.parts.reduce((total, count) => total + count, 0))
+  expect(stage.body.length).toBeGreaterThan(0)
   return flow
 }
 
-/** The old cuts are evidence, not a second interpreter: both forms run the production runner. */
-function originalFlow(body: RuntimeCommand[], parts: readonly number[]): RuntimeScriptFlow {
-  let start = 0
-  const id = (index: number) =>
-    index === 0 ? 'initial' : `continuation-${String(index).padStart(3, '0')}`
-  return {
-    kind: 'stateMachine',
-    machine: {
-      id: 'machine',
-      label: 'historical synchronous cuts',
-      initial: 'initial',
-      states: Object.fromEntries(
-        parts.map((count, index) => {
-          const commands = body.slice(start, start + count)
-          start += count
-          return [
-            id(index),
-            {
-              label: id(index),
-              body: commands,
-              next:
-                index === parts.length - 1
-                  ? { kind: 'restart' as const }
-                  : { kind: 'continue' as const, state: id(index + 1) },
-            },
-          ]
-        }),
-      ),
-    },
-  }
-}
-
-async function trace(flow: RuntimeScriptFlow, answer: boolean, cursor?: FlowCursor) {
-  const events: unknown[] = []
-  const commits: FlowCursor[] = []
-  const host: ScriptRuntimeHost = {
-    execute: (command) => {
-      events.push(['command', command])
-    },
-    evalCondition: (condition) => {
-      events.push(['condition', condition])
-      return answer
-    },
-    confirm: async () => answer,
-    startBattle: async (request) => {
-      events.push(['battle', request])
-      return answer ? 'victory' : 'defeat'
-    },
-    teleportOut: async () => answer,
-    wait: async (ms) => {
-      events.push(['wait', ms])
-    },
-    waitWorldTick: async () => {
-      events.push('worldTick')
-    },
-    yieldMacroTask: async () => {
-      events.push('macroTask')
-    },
-  }
-  await new RuntimeScriptRunner(host, new AbortController().signal).runFlow(
-    compileRuntimeScriptFlow(flow, { timing: 'interactive', canonicalContentDigest: digest }),
-    {
-      cursor,
-      cursorController: {
-        reachSafePoint(next) {
-          commits.push(next)
-          return 'continue'
-        },
-      },
-    },
-  )
-  expect(commits).toHaveLength(1)
-  return { events, cursor: commits[0] }
-}
-
 test.each(
   cases,
-)('$scene has one step with every original command in execution order', async (candidate) => {
-  const flow = currentFlow(candidate)
-  expect(await sha256Bytes(new TextEncoder().encode(JSON.stringify(flow.stages[0]!.body)))).toBe(
-    candidate.hash,
-  )
-})
-
-test.each(
-  cases,
-)('$scene keeps repeat activation, branch outcomes and all explicit waits', async (candidate) => {
+)('$scene preserves four activations of every original leaf, decision, modal and next step', async (candidate) => {
   const current = resolveAuthorDialogueTree(currentFlow(candidate), actors)
-  const previous = originalFlow(current.stages[0]!.body, candidate.parts)
-  for (const answer of [false, true]) {
-    let oldCursor: FlowCursor | undefined
-    let newCursor: FlowCursor | undefined
-    for (let activation = 0; activation < 3; activation++) {
-      const old = await trace(previous, answer, oldCursor)
-      const next = await trace(current, answer, newCursor)
-      expect(next.events).toEqual(old.events)
-      expect(old.cursor).toEqual({ kind: 'state', machine: 'machine', state: 'initial' })
-      expect(next.cursor).toEqual({ kind: 'stage', stage: 'initial' })
-      oldCursor = old.cursor
-      newCursor = next.cursor
+  const key = `${candidate.scene}/${candidate.entity ?? ''}/default`
+  const expected = Object.entries(oracle.cases).find(([value]) => value === key)?.[1]
+  expect(expected).toBeDefined()
+  const hashes: string[] = []
+  for (const answer of [false, true])
+    for (let mask = 0; mask < 8; mask++) {
+      const trace = await interactiveGovernanceTrace(current, answer, mask)
+      hashes.push(await sha256Bytes(new TextEncoder().encode(JSON.stringify(trace))))
     }
-  }
+  expect(hashes).toEqual(expected)
 })
 
 function deferred() {
@@ -270,10 +207,7 @@ function oneStep(body: RuntimeCommand[]): RuntimeScriptFlow {
   return { kind: 'stages', initial: 'initial', stages: [{ id: 'initial', body }] }
 }
 
-test.each([
-  'original',
-  'organized',
-] as const)('%s ProjectRuntime stops a cancelled source at loadScene without late tail or cursor commit', async (form) => {
+test('ProjectRuntime stops a cancelled source at loadScene without late tail or cursor commit', async () => {
   const source = resolveAuthorDialogueTree(currentFlow(cases[1]), actors)
   const body: RuntimeCommand[] = [
     ...source.stages[0]!.body,
@@ -281,7 +215,7 @@ test.each([
   ]
   const controller = new AbortController()
   const observed: string[] = []
-  const flow = form === 'original' ? originalFlow(body, [3, 2, 2, 2, 2]) : oneStep(body)
+  const flow = oneStep(body)
   const fixture = projectFixture(flow, {
     executeEffect(command) {
       observed.push(command.kind)
@@ -298,10 +232,7 @@ test.each([
   expect(fixture.runtime.isEntityTriggerActive(target)).toBe(false)
 })
 
-test.each([
-  'original',
-  'organized',
-] as const)('%s ProjectRuntime interruption preserves prior effects and never commits the rest', async (form) => {
+test('ProjectRuntime interruption preserves prior effects and never commits the rest', async () => {
   const controller = new AbortController()
   const entered = deferred()
   const release = deferred()
@@ -310,16 +241,13 @@ test.each([
     { kind: 'wait', ms: 100 },
     { kind: 'setFlag', flag: 'late', value: true },
   ]
-  const fixture = projectFixture(
-    form === 'original' ? originalFlow(body, [1, 1, 1]) : oneStep(body),
-    {
-      async executeEffect(command) {
-        if (command.kind !== 'wait') return
-        entered.resolve()
-        await release.promise
-      },
+  const fixture = projectFixture(oneStep(body), {
+    async executeEffect(command) {
+      if (command.kind !== 'wait') return
+      entered.resolve()
+      await release.promise
     },
-  )
+  })
   const running = fixture.activate(controller.signal)
   await entered.promise
   expect(fixture.world.script?.flags).toEqual({ committed: true })
@@ -333,10 +261,7 @@ test.each([
   expect(fixture.runtime.isEntityTriggerActive(target)).toBe(false)
 })
 
-test.each([
-  'original',
-  'organized',
-] as const)('%s ProjectRuntime cannot overwrite a self-selected replacement with the old completion cursor', async (form) => {
+test('ProjectRuntime cannot overwrite a self-selected replacement with the old completion cursor', async () => {
   const body: RuntimeCommand[] = [
     { kind: 'setFlag', flag: 'before-switch', value: true },
     {
@@ -347,9 +272,7 @@ test.each([
     },
     { kind: 'setFlag', flag: 'same-activation-tail', value: true },
   ]
-  const fixture = projectFixture(
-    form === 'original' ? originalFlow(body, [1, 1, 1]) : oneStep(body),
-  )
+  const fixture = projectFixture(oneStep(body))
   await fixture.activate()
   expect(fixture.world.script?.flags).toEqual({
     'before-switch': true,

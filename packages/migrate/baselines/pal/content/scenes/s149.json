@@ -38,6 +38,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -53,6 +54,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -66,6 +71,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -77,13 +86,21 @@
                         "scene": "s149",
                         "entity": "e2456"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -119,6 +136,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -135,7 +153,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 320
                     },
                     {
                       "facing": "up",
@@ -144,6 +162,10 @@
                         "scene": "s149",
                         "entity": "e2457"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 0,
@@ -155,7 +177,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 320
                     },
                     {
                       "kind": "moveEntity",
@@ -169,13 +191,21 @@
                         "scene": "s149",
                         "entity": "e2457"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -211,6 +241,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -226,6 +257,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -237,6 +272,10 @@
                         "scene": "s149",
                         "entity": "e2458"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -252,6 +291,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -265,6 +308,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -276,13 +323,21 @@
                         "scene": "s149",
                         "entity": "e2458"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -317,6 +372,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -332,6 +388,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -343,6 +403,10 @@
                         "scene": "s149",
                         "entity": "e2459"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -358,6 +422,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -371,6 +439,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -384,6 +456,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -395,13 +471,21 @@
                         "scene": "s149",
                         "entity": "e2459"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -437,6 +521,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "facing": "right",
@@ -447,6 +532,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -456,7 +545,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 400
                     },
                     {
                       "facing": "up",
@@ -467,6 +556,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -476,7 +569,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -487,6 +580,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -496,7 +593,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 360
                     },
                     {
                       "facing": "up",
@@ -507,6 +604,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -516,7 +617,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 360
                     },
                     {
                       "kind": "moveEntity",
@@ -533,7 +634,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 280
                     },
                     {
                       "kind": "moveEntity",
@@ -547,13 +648,21 @@
                         "scene": "s149",
                         "entity": "e2460"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -589,6 +698,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -604,6 +714,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -615,6 +729,10 @@
                         "scene": "s149",
                         "entity": "e2461"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -630,6 +748,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -641,6 +763,10 @@
                         "scene": "s149",
                         "entity": "e2461"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -656,6 +782,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -667,6 +797,10 @@
                         "scene": "s149",
                         "entity": "e2461"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -682,6 +816,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -695,6 +833,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -706,13 +848,21 @@
                         "scene": "s149",
                         "entity": "e2461"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -748,6 +898,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -761,6 +912,10 @@
                         "scene": "s149",
                         "entity": "e2462"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -777,7 +932,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
+                      "ms": 400
                     },
                     {
                       "kind": "moveEntity",
@@ -793,6 +948,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "run",
                       "to": {
@@ -804,13 +963,21 @@
                         "scene": "s149",
                         "entity": "e2462"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -845,6 +1012,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -860,6 +1028,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -871,6 +1043,10 @@
                         "scene": "s149",
                         "entity": "e2463"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -886,6 +1062,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -899,6 +1079,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -910,13 +1094,21 @@
                         "scene": "s149",
                         "entity": "e2463"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }

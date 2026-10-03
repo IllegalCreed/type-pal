@@ -4,8 +4,6 @@ import type {
   BaseEntityBehavior,
   BaseEntityPage,
   BaseSceneHook,
-  BaseScriptStateMachine,
-  BaseStateTransition,
   CommandValidationOptions,
   EntityAddress,
 } from './author-script-core.js'
@@ -56,27 +54,11 @@ export interface RuntimeStage {
   next?: BaseAuthorStage['next']
 }
 
-export type RuntimeStateTransition = BaseStateTransition
-
-export interface RuntimeScriptStateMachine {
-  id: BaseScriptStateMachine['id']
-  label: string
-  cadence?: 'transition'
+export interface RuntimeScriptFlow {
+  kind: 'stages'
   initial: string
-  states: Record<
-    string,
-    {
-      label: string
-      entry?: RuntimeSceneEntryPresentation
-      body: RuntimeCommand[]
-      next: RuntimeStateTransition
-    }
-  >
+  stages: RuntimeStage[]
 }
-
-export type RuntimeScriptFlow =
-  | { kind: 'stages'; initial: string; stages: RuntimeStage[] }
-  | { kind: 'stateMachine'; machine: RuntimeScriptStateMachine }
 
 export interface RuntimeEntityBehavior {
   label: BaseEntityBehavior['label']

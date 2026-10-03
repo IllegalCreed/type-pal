@@ -36,8 +36,8 @@ function state(stamps: StampTemplate[] = []): EditorState {
     manifest: {
       id: 'editor-boundaries',
       name: 'E',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       content: stamps.length ? { stamps: 'content/stamps.json' } : {},
       assets: { catalog: 'assets/index.json', roles: {} },

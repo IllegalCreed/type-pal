@@ -20,30 +20,18 @@ describe('Canonical preview controls', () => {
     r.unchanged()
   })
 
-  test('starts at a selected machine state and preserves the ordinary one-command gate', async () => {
+  test('starts at the selected repeat step and preserves the one-command gate', async () => {
     const r = preview()
     await r.start(
       {
-        kind: 'stateMachine',
-        machine: {
-          id: 'talk',
-          label: '交谈',
-          initial: 'first',
-          states: {
-            first: {
-              label: '首次',
-              body: [{ kind: 'giveMoney', delta: 101 }],
-              next: { kind: 'stay' },
-            },
-            repeat: {
-              label: '复读',
-              body: [{ kind: 'giveMoney', delta: 7 }],
-              next: { kind: 'stay' },
-            },
-          },
-        },
+        kind: 'stages',
+        initial: 'first',
+        stages: [
+          { id: 'first', body: [{ kind: 'giveMoney', delta: 101 }] },
+          { id: 'repeat', body: [{ kind: 'giveMoney', delta: 7 }] },
+        ],
       },
-      { cursor: { kind: 'state', machine: 'talk', state: 'repeat' }, paused: true },
+      { cursor: { kind: 'stage', stage: 'repeat' }, paused: true },
     )
     expect(r.p.stepNumber).toBe(0)
     r.p.step()
@@ -120,7 +108,7 @@ describe('Canonical preview controls', () => {
     await r.start(
       flowOf([
         dialogue(),
-        { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: -8 }] },
+        { kind: 'confirm', onYes: [], onNo: [{ kind: 'giveMoney', delta: -8 }] },
         { kind: 'giveMoney', delta: 5 },
       ]),
     )
@@ -152,7 +140,10 @@ describe('Canonical preview controls', () => {
     const r = preview(),
       p = r.p
     await r.start(
-      flowOf([dialogue(), { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: -1 }] }]),
+      flowOf([
+        dialogue(),
+        { kind: 'confirm', onYes: [], onNo: [{ kind: 'giveMoney', delta: -1 }] },
+      ]),
     )
     p.confirmDialog()
     await settle()

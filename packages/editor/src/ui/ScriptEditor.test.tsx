@@ -70,182 +70,6 @@ describe('CanonicalScriptEditor author presentation', () => {
     host.remove()
   })
 
-  test('explicitly organizes first conversation and repetition into real author steps', async () => {
-    const original: AuthorScriptFlow = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'talk',
-        label: '交谈',
-        initial: 'first',
-        states: {
-          first: {
-            label: '首次',
-            body: [{ kind: 'giveMoney', delta: 7 }],
-            next: { kind: 'advance', state: 'repeat' },
-          },
-          repeat: {
-            label: '复读',
-            body: [{ kind: 'setFlag', flag: 'repeat', value: true }],
-            next: { kind: 'stay' },
-          },
-        },
-      },
-    }
-    let saved: AuthorScriptFlow = original
-    const changes = vi.fn()
-    function Harness() {
-      const [flow, setFlow] = useState<AuthorScriptFlow>(original)
-      return (
-        <CanonicalScriptFlowEditor
-          flow={flow}
-          onChange={(next) => {
-            saved = next
-            changes(next)
-            setFlow(next)
-            return true
-          }}
-        />
-      )
-    }
-    await act(async () => root.render(<Harness />))
-    expect(changes).not.toHaveBeenCalled()
-    const organize = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
-      (candidate) => candidate.textContent === '整理为步骤',
-    )
-    expect(organize).toBeDefined()
-    await act(async () => organize!.click())
-    expect(changes).toHaveBeenCalledOnce()
-    expect(saved).toEqual({
-      kind: 'stages',
-      initial: 'first',
-      stages: [
-        { id: 'first', label: '首次', body: [{ kind: 'giveMoney', delta: 7 }], next: 'repeat' },
-        { id: 'repeat', label: '复读', body: [{ kind: 'setFlag', flag: 'repeat', value: true }] },
-      ],
-    })
-    expect(host.querySelectorAll('.canonical-stage-card')).toHaveLength(2)
-    expect(host.textContent).toContain('下次进入步骤 2')
-    expect(host.textContent).toContain('下次仍执行当前步骤')
-    expect(host.textContent).not.toContain('新建状态')
-  })
-
-  test('explains advanced transitions in author language and shows target labels without changing IDs', async () => {
-    const changes = vi.fn()
-    const original: AuthorScriptFlow = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'route',
-        label: '路线',
-        cadence: 'transition',
-        initial: 'technical-first',
-        states: {
-          'technical-first': {
-            label: '走到楼梯口',
-            body: [],
-            next: { kind: 'to', state: 'technical-last', yield: 'worldTick' },
-          },
-          'technical-last': { label: '到大厅等逍遥', body: [], next: { kind: 'complete' } },
-        },
-      },
-    }
-    await act(async () =>
-      root.render(<CanonicalScriptFlowEditor flow={original} onChange={changes} />),
-    )
-    expect(host.textContent).toContain('本次运行稍后继续执行指定段落')
-    expect(host.textContent).toContain('当前执行先结束')
-    expect(host.textContent).not.toContain('让步')
-    const transitions = await openCombobox('后续执行')
-    expect(
-      [...transitions.querySelectorAll('[role="option"]')].map((option) => option.textContent),
-    ).toEqual([
-      '本方案结束，不再运行',
-      '下次运行，重复这一段',
-      '下次运行，从起始段落重新开始',
-      '本次运行，立即执行指定段落',
-      '下次运行，执行指定段落',
-      '本次运行，稍后执行指定段落',
-      '按条件选择后续',
-      '按操作结果选择后续',
-    ])
-    await act(async () => combobox('后续执行').click())
-    expect(combobox('目标段落').textContent).toContain('到大厅等逍遥')
-    const timing = await openCombobox('继续时机')
-    expect(timing.textContent).not.toMatch(/worldTick|macroTask/)
-    expect(timing.textContent).toContain('下一次世界更新')
-    const option = [...timing.querySelectorAll<HTMLElement>('[role="option"]')].find(
-      (candidate) => candidate.textContent === '稍后继续（不等世界更新）',
-    )!
-    expect(changes).not.toHaveBeenCalled()
-    await act(async () => option.click())
-    const saved = changes.mock.calls[0]![0] as AuthorScriptFlow
-    if (saved.kind !== 'stateMachine') throw new Error('expected original flow kind')
-    expect(saved.machine.states['technical-first']!.next).toEqual({
-      kind: 'to',
-      state: 'technical-last',
-      yield: 'macroTask',
-    })
-    expect(saved.machine.states['technical-first']!.body).toEqual([])
-    expect(original.machine.states['technical-first']!.next).toEqual({
-      kind: 'to',
-      state: 'technical-last',
-      yield: 'worldTick',
-    })
-  })
-
-  test('restart describes the configured initial paragraph even when it is not first in the list', async () => {
-    const original: AuthorScriptFlow = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'route',
-        label: '路线',
-        cadence: 'transition',
-        initial: 'second',
-        states: {
-          first: { label: '前一段', body: [], next: { kind: 'complete' } },
-          second: { label: '实际起始段', body: [], next: { kind: 'restart' } },
-        },
-      },
-    }
-    const changes = vi.fn()
-    await act(async () =>
-      root.render(<CanonicalScriptFlowEditor flow={original} onChange={changes} />),
-    )
-    expect(host.textContent).toContain('下一次运行从上方设定的起始段落重新开始')
-    expect(host.textContent).toContain('不一定是列表第一项')
-    expect(host.textContent).not.toContain('从第一段')
-    expect(host.textContent).not.toContain('属于待整理的旧编排')
-    expect(changes).not.toHaveBeenCalled()
-    expect(original.machine.initial).toBe('second')
-  })
-
-  test('failed author-step organization keeps the old flow visible and does not invent a success', async () => {
-    const onChange = vi.fn(() => false)
-    await act(async () =>
-      root.render(
-        <CanonicalScriptFlowEditor
-          flow={{
-            kind: 'stateMachine',
-            machine: {
-              id: 'talk',
-              label: '交谈',
-              initial: 'first',
-              states: { first: { label: '首次', body: [], next: { kind: 'stay' } } },
-            },
-          }}
-          onChange={onChange}
-        />,
-      ),
-    )
-    const organize = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
-      (candidate) => candidate.textContent === '整理为步骤',
-    )
-    expect(organize).toBeDefined()
-    await act(async () => organize!.click())
-    expect(onChange).toHaveBeenCalledOnce()
-    expect(host.querySelector('.canonical-stage-card')).toBeNull()
-    expect(host.textContent).toContain('首次')
-  })
-
   test('single-step details choose completion or repetition without manufacturing another step', async () => {
     let saved: AuthorScriptFlow | undefined
     function Harness() {
@@ -495,7 +319,11 @@ describe('CanonicalScriptEditor author presentation', () => {
       ),
     )
     const enabledKinds = Object.entries(RUNTIME_COMMAND_KINDS)
-      .filter(([kind, enabled]) => enabled && kind !== 'holdScreen' && kind !== 'revealScreen')
+      .filter(
+        ([kind, enabled]) =>
+          enabled &&
+          !['holdScreen', 'revealScreen', 'finishStep', 'breakLoop', 'continueLoop'].includes(kind),
+      )
       .map(([kind]) => kind)
     expect([...insertKinds].sort()).toEqual(enabledKinds.sort())
     const unavailableShared = host.querySelector<HTMLButtonElement>(
@@ -1990,67 +1818,33 @@ describe('CanonicalScriptEditor author presentation', () => {
     ).toBe(false)
   })
 
-  test('preserves the preparation tab for state-machine entries', async () => {
-    const changes = vi.fn()
-    function Harness() {
-      const [flow, setFlow] = useState<AuthorScriptFlow>({
-        kind: 'stateMachine',
-        machine: {
-          id: 'dialogue',
-          label: '连续对话',
-          initial: 'first',
-          states: {
-            first: {
-              label: '第一次交谈',
-              entry: {
-                prepare: [{ kind: 'playMusic', asset: 'music.pal.001' }],
-                reveal: { kind: 'cut' },
-              },
-              body: [{ kind: 'setFlag', flag: 'body', value: true }],
-              next: { kind: 'stay' },
-            },
+  test('preserves preparation tabs for ordinary scene-entry steps', async () => {
+    const flow: AuthorScriptFlow = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        {
+          id: 'first',
+          label: '第一次交谈',
+          entry: {
+            prepare: [{ kind: 'playMusic', asset: 'music.pal.001' }],
+            reveal: { kind: 'cut' },
           },
+          body: [{ kind: 'setFlag', flag: 'body', value: true }],
         },
-      })
-      return (
-        <CanonicalScriptFlowEditor
-          flow={flow}
-          onChange={(next) => {
-            changes(next)
-            setFlow(next)
-            return true
-          }}
-        />
-      )
+      ],
     }
-
-    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      root.render(<CanonicalScriptFlowEditor flow={flow} onChange={() => true} />),
+    )
     const tabs = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
-    expect(tabs.map((candidate) => candidate.textContent)).toEqual([
+    expect(tabs.map((c) => c.textContent)).toEqual([
       expect.stringContaining('画面出现前'),
       expect.stringContaining('脚本正文'),
     ])
-    expect(host.querySelector('[aria-label="第一次交谈 · 正文"]')).not.toBeNull()
-
-    const stateName = host.querySelector<HTMLInputElement>('.canonical-state-label input')!
-    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
-    await act(async () => {
-      for (let index = 0; index < 100; index += 1) {
-        valueSetter.call(stateName, `第一次交谈 ${index}`)
-        stateName.dispatchEvent(new Event('input', { bubbles: true }))
-      }
-    })
-    expect(changes).not.toHaveBeenCalled()
-    await act(async () => {
-      stateName.focus()
-      stateName.blur()
-    })
-    expect(changes).toHaveBeenCalledOnce()
-    expect(changes.mock.calls[0]?.[0].machine.states.first.label).toBe('第一次交谈 99')
-
+    expect(host.querySelector('[aria-label="脚本正文"]')).not.toBeNull()
     await act(async () => tabs[0]!.click())
     expect(host.querySelector('[aria-label="画面出现前的准备"]')).not.toBeNull()
     expect(host.textContent).toContain('播放音乐')
-    expect(host.querySelector('[aria-label="第一次交谈 · 正文"]')).toBeNull()
   })
 })

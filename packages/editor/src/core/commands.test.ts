@@ -120,7 +120,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 21,
+      contentVersion: 22,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {
@@ -2382,13 +2382,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(21)
+    expect(s1.manifest.contentVersion).toBe(22)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(21)
+    expect(back.manifest.contentVersion).toBe(22)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 

@@ -1034,6 +1034,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -1047,6 +1048,10 @@
                         "scene": "s067",
                         "entity": "e1343"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -1063,7 +1068,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 280
                     },
                     {
                       "facing": "down",
@@ -1074,19 +1079,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 12,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s067",
                         "entity": "e1343"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1122,6 +1139,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -1137,6 +1155,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "run",
                       "to": {
@@ -1148,13 +1170,21 @@
                         "scene": "s067",
                         "entity": "e1344"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1190,6 +1220,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -1205,6 +1236,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "run",
                       "to": {
@@ -1216,13 +1251,21 @@
                         "scene": "s067",
                         "entity": "e1345"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }

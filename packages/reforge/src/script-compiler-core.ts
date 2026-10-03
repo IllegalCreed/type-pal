@@ -5,289 +5,203 @@ import {
   type BaseScriptFlow,
   type BaseScriptLibrary,
   type BaseSharedScript,
-  type BaseStateTransition,
   checkBaseAuthorCommands,
   checkBaseScriptFlow,
   checkBaseScriptLibrary,
   type EntityAddress,
   type StageNext,
+  type StepExit,
 } from '@type-pal/content'
 
-export const SCRIPT_COMPILER_VERSION = 2 as const
-
+export const SCRIPT_COMPILER_VERSION = 3 as const
 export type ScriptTiming = 'auto' | 'interactive'
-export type ScriptBoundaryPolicy = 'perCommand' | 'transition'
-
-export interface ExecutableCommandBoundary {
-  kind: 'wait'
-  ms: 100
-}
+export type ScriptRootScope = 'flow' | 'script'
 
 type BaseStartBattleCommand = Extract<BaseAuthorCommand, { kind: 'startBattle' }>
-type BaseRuntimeLeafCommand = Exclude<
+export type BaseRuntimeLeafCommand = Exclude<
   BaseAuthorCommand,
-  | { kind: 'branch' }
-  | { kind: 'callScript' }
-  | { kind: 'confirm' }
-  | { kind: 'loop' }
-  | { kind: 'startBattle' }
-  | { kind: 'stopScript' }
-  | { kind: 'teleportOut' }
+  {
+    kind:
+      | 'branch'
+      | 'callScript'
+      | 'confirm'
+      | 'loop'
+      | 'repeat'
+      | 'startBattle'
+      | 'returnScript'
+      | 'finishStep'
+      | 'breakLoop'
+      | 'continueLoop'
+      | 'teleportOut'
+  }
 >
 
-interface ExecutableCommandBase {
-  after: readonly ExecutableCommandBoundary[]
-}
-
-export type ExecutableCommandLike<RuntimeLeafCommand> =
-  | (ExecutableCommandBase & {
-      kind: 'leaf'
-      command: RuntimeLeafCommand
-    })
-  | (ExecutableCommandBase & {
-      kind: 'stop'
-    })
-  | (ExecutableCommandBase & {
+export type ExecutableCommandLike<T> =
+  | { kind: 'leaf'; command: T }
+  | { kind: 'returnScript' }
+  | { kind: 'finishStep'; next: StepExit }
+  | { kind: 'breakLoop' }
+  | { kind: 'continueLoop'; loop?: string }
+  | {
       kind: 'branch'
       cond: AuthorCondition
-      then: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-      else: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-    })
-  | (ExecutableCommandBase & {
+      then: readonly ExecutableCommandLike<T>[]
+      else: readonly ExecutableCommandLike<T>[]
+    }
+  | {
       kind: 'loop'
+      id?: string
       mode: 'while' | 'until'
       cond: AuthorCondition
-      body: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-      maxIterations: number
-    })
-  | (ExecutableCommandBase & {
+      body: readonly ExecutableCommandLike<T>[]
+    }
+  | { kind: 'loop'; id?: string; mode: 'forever'; body: readonly ExecutableCommandLike<T>[] }
+  | { kind: 'repeat'; id?: string; count: number; body: readonly ExecutableCommandLike<T>[] }
+  | {
       kind: 'confirm'
-      id?: string
-      onNo: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-    })
-  | (ExecutableCommandBase & {
+      onYes: readonly ExecutableCommandLike<T>[]
+      onNo: readonly ExecutableCommandLike<T>[]
+    }
+  | {
       kind: 'startBattle'
       request: Omit<BaseStartBattleCommand, 'kind' | 'onLose' | 'onFlee'>
-      onLose?: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-      onFlee?: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-    })
-  | (ExecutableCommandBase & {
-      kind: 'teleportOut'
-      onFail?: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-    })
-  | (ExecutableCommandBase & {
-      kind: 'callScript'
-      script: string
-      self?: EntityAddress
-    })
+      onLose?: readonly ExecutableCommandLike<T>[]
+      onFlee?: readonly ExecutableCommandLike<T>[]
+    }
+  | { kind: 'teleportOut'; onFail?: readonly ExecutableCommandLike<T>[] }
+  | { kind: 'callScript'; script: string; self?: EntityAddress }
 
 export type ExecutableBaseCommand = ExecutableCommandLike<BaseRuntimeLeafCommand>
-
-export interface ExecutableSceneEntryLike<RuntimeLeafCommand> {
-  prepare: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
+export interface ExecutableSceneEntryLike<T> {
+  prepare: readonly ExecutableCommandLike<T>[]
   reveal: BaseSceneEntryPresentation['reveal']
 }
-
 export type ExecutableBaseSceneEntry = ExecutableSceneEntryLike<BaseRuntimeLeafCommand>
-
-export interface ExecutableStageLike<RuntimeLeafCommand> {
+export interface ExecutableStageLike<T> {
   id: string
-  entry?: ExecutableSceneEntryLike<RuntimeLeafCommand>
-  body: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
+  entry?: ExecutableSceneEntryLike<T>
+  body: readonly ExecutableCommandLike<T>[]
   next?: StageNext
 }
-
 export type ExecutableBaseStage = ExecutableStageLike<BaseRuntimeLeafCommand>
-
-export interface ExecutableStateLike<RuntimeLeafCommand> {
-  label: string
-  entry?: ExecutableSceneEntryLike<RuntimeLeafCommand>
-  body: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
-  next: BaseStateTransition
+export interface ExecutableScriptFlowBodyLike<T> {
+  kind: 'stages'
+  initial: string
+  stages: readonly ExecutableStageLike<T>[]
 }
-
-export type ExecutableBaseState = ExecutableStateLike<BaseRuntimeLeafCommand>
-
-export type ExecutableScriptFlowBodyLike<RuntimeLeafCommand> =
-  | {
-      kind: 'stages'
-      initial: string
-      stages: readonly ExecutableStageLike<RuntimeLeafCommand>[]
-    }
-  | {
-      kind: 'stateMachine'
-      machine: {
-        id: string
-        label: string
-        initial: string
-        states: Readonly<Record<string, ExecutableStateLike<RuntimeLeafCommand>>>
-      }
-    }
-
 export type ExecutableBaseScriptFlowBody = ExecutableScriptFlowBodyLike<BaseRuntimeLeafCommand>
-
-export interface ExecutableBaseScriptFlowLike<RuntimeLeafCommand> {
+export interface ExecutableBaseScriptFlowLike<T> {
   compilerVersion: typeof SCRIPT_COMPILER_VERSION
   canonicalContentDigest: string
   timing: ScriptTiming
-  boundaryPolicy: ScriptBoundaryPolicy
-  flow: ExecutableScriptFlowBodyLike<RuntimeLeafCommand>
+  rootScope: ScriptRootScope
+  flow: ExecutableScriptFlowBodyLike<T>
 }
-
 export type ExecutableBaseScriptFlow = ExecutableBaseScriptFlowLike<BaseRuntimeLeafCommand>
-
-export interface ExecutableSharedScriptLike<RuntimeLeafCommand> {
+export interface ExecutableSharedScriptLike<T> {
   compilerVersion: typeof SCRIPT_COMPILER_VERSION
   canonicalContentDigest: string
   timing: ScriptTiming
-  boundaryPolicy: ScriptBoundaryPolicy
   id: string
   name: string
   self: BaseSharedScript['self']
-  body: readonly ExecutableCommandLike<RuntimeLeafCommand>[]
+  body: readonly ExecutableCommandLike<T>[]
 }
-
 export type ExecutableBaseSharedScript = ExecutableSharedScriptLike<BaseRuntimeLeafCommand>
-
 export interface CompileBaseScriptFlowOptions {
   canonicalContentDigest: string
   timing: ScriptTiming
   allowSceneEntry?: boolean
   forbidLoadScene?: boolean
 }
-
-function clone<T>(value: T): T {
-  return structuredClone(value)
-}
-
 function checkDigest(value: string): void {
   if (!/^[a-f0-9]{64}$/.test(value)) throw new Error('canonicalContentDigest: 期望小写 SHA-256')
 }
-
-function boundaries(
-  timing: ScriptTiming,
-  boundaryPolicy: ScriptBoundaryPolicy,
-): readonly ExecutableCommandBoundary[] {
-  return timing === 'auto' && boundaryPolicy === 'perCommand' ? [{ kind: 'wait', ms: 100 }] : []
-}
-
-function compileEntry(
-  entry: BaseSceneEntryPresentation,
-  timing: ScriptTiming,
-  boundaryPolicy: ScriptBoundaryPolicy,
-): ExecutableBaseSceneEntry {
-  return {
-    prepare: compileBaseCommandsUncheckedAfterValidation(entry.prepare, timing, boundaryPolicy),
-    reveal: clone(entry.reveal),
-  }
-}
-
-function compileBaseAuthorCommand(
-  command: BaseAuthorCommand,
-  timing: ScriptTiming,
-  boundaryPolicy: ScriptBoundaryPolicy,
-): ExecutableBaseCommand {
-  const after = boundaries(timing, boundaryPolicy)
+function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): ExecutableBaseCommand {
+  const body = (commands: readonly BaseAuthorCommand[]) =>
+    compileBaseCommandsUncheckedAfterValidation(commands, timing)
   switch (command.kind) {
     case 'runEntityTrigger':
       if (timing !== 'interactive') throw new Error('runEntityTrigger 仅允许 interactive 编译时序')
-      return { kind: 'leaf', command: clone(command), after }
-    case 'stopScript':
-      return { kind: 'stop', after }
+      return { kind: 'leaf', command: structuredClone(command) }
+    case 'returnScript':
+      return { kind: 'returnScript' }
+    case 'breakLoop':
+      return { kind: 'breakLoop' }
+    case 'continueLoop':
+      return { kind: 'continueLoop', ...(command.loop ? { loop: command.loop } : {}) }
+    case 'finishStep':
+      return { kind: 'finishStep', next: structuredClone(command.next) }
     case 'branch':
       return {
         kind: 'branch',
-        cond: clone(command.cond),
-        then: compileBaseCommandsUncheckedAfterValidation(command.then, timing, boundaryPolicy),
-        else: compileBaseCommandsUncheckedAfterValidation(
-          command.else ?? [],
-          timing,
-          boundaryPolicy,
-        ),
-        after,
+        cond: structuredClone(command.cond),
+        then: body(command.then),
+        else: body(command.else ?? []),
       }
     case 'loop':
+      return command.mode === 'forever'
+        ? {
+            kind: 'loop',
+            ...(command.id ? { id: command.id } : {}),
+            mode: 'forever',
+            body: body(command.body),
+          }
+        : {
+            kind: 'loop',
+            ...(command.id ? { id: command.id } : {}),
+            mode: command.mode,
+            cond: structuredClone(command.cond),
+            body: body(command.body),
+          }
+    case 'repeat':
       return {
-        kind: 'loop',
-        mode: command.mode,
-        cond: clone(command.cond),
-        body: compileBaseCommandsUncheckedAfterValidation(command.body, timing, boundaryPolicy),
-        maxIterations: command.maxIterations,
-        after,
+        kind: 'repeat',
+        ...(command.id ? { id: command.id } : {}),
+        count: command.count,
+        body: body(command.body),
       }
     case 'confirm':
-      return {
-        kind: 'confirm',
-        ...(command.id === undefined ? {} : { id: command.id }),
-        onNo: compileBaseCommandsUncheckedAfterValidation(command.onNo, timing, boundaryPolicy),
-        after,
-      }
+      return { kind: 'confirm', onYes: body(command.onYes), onNo: body(command.onNo) }
     case 'startBattle': {
       const { kind: _kind, onLose, onFlee, ...request } = command
       return {
         kind: 'startBattle',
-        request: clone(request),
-        ...(onLose === undefined
-          ? {}
-          : {
-              onLose: compileBaseCommandsUncheckedAfterValidation(onLose, timing, boundaryPolicy),
-            }),
-        ...(onFlee === undefined
-          ? {}
-          : {
-              onFlee: compileBaseCommandsUncheckedAfterValidation(onFlee, timing, boundaryPolicy),
-            }),
-        after,
+        request: structuredClone(request),
+        ...(onLose === undefined ? {} : { onLose: body(onLose) }),
+        ...(onFlee === undefined ? {} : { onFlee: body(onFlee) }),
       }
     }
     case 'teleportOut':
       return {
         kind: 'teleportOut',
-        ...(command.onFail === undefined
-          ? {}
-          : {
-              onFail: compileBaseCommandsUncheckedAfterValidation(
-                command.onFail,
-                timing,
-                boundaryPolicy,
-              ),
-            }),
-        after,
+        ...(command.onFail === undefined ? {} : { onFail: body(command.onFail) }),
       }
     case 'callScript':
       return {
         kind: 'callScript',
         script: command.script,
-        ...(command.self === undefined ? {} : { self: clone(command.self) }),
-        after,
+        ...(command.self ? { self: structuredClone(command.self) } : {}),
       }
     default:
-      return { kind: 'leaf', command: clone(command), after }
+      return { kind: 'leaf', command: structuredClone(command) }
   }
 }
-
-/**
- * 已由方言 validator 校验后的共享控制流内核。供基础方言与当前运行时方言复用；
- * 调用方不得把未校验 JSON 送进这里。
- */
+/** Already validated by the owning author/runtime dialect. No implicit scheduling boundaries. */
 export function compileBaseCommandsUncheckedAfterValidation(
   commands: readonly BaseAuthorCommand[],
   timing: ScriptTiming,
-  boundaryPolicy: ScriptBoundaryPolicy,
 ): readonly ExecutableBaseCommand[] {
-  return commands.map((command) => compileBaseAuthorCommand(command, timing, boundaryPolicy))
+  return commands.map((command) => compileCommand(command, timing))
 }
-
 export function compileBaseCommands(
   commands: readonly BaseAuthorCommand[],
   timing: ScriptTiming,
   path = 'commands',
-  boundaryPolicy: ScriptBoundaryPolicy = 'perCommand',
 ): readonly ExecutableBaseCommand[] {
-  checkBaseAuthorCommands(commands, path)
-  return compileBaseCommandsUncheckedAfterValidation(commands, timing, boundaryPolicy)
+  checkBaseAuthorCommands(commands, path, { rootScope: 'script', loopDepth: 0 })
+  return compileBaseCommandsUncheckedAfterValidation(commands, timing)
 }
-
 export function compileBaseScriptFlow(
   flow: BaseScriptFlow,
   options: CompileBaseScriptFlowOptions,
@@ -298,72 +212,51 @@ export function compileBaseScriptFlow(
   })
   return compileBaseScriptFlowUncheckedAfterValidation(flow, options)
 }
-
-/** 与 author-command bridge 同纪律：schema 已由调用方言入口校验后才可调用。 */
 export function compileBaseScriptFlowUncheckedAfterValidation(
   flow: BaseScriptFlow,
   options: CompileBaseScriptFlowOptions,
+  rootScope: ScriptRootScope = 'flow',
 ): ExecutableBaseScriptFlow {
   checkDigest(options.canonicalContentDigest)
-  const boundaryPolicy: ScriptBoundaryPolicy =
-    flow.kind === 'stateMachine' && flow.machine.cadence === 'transition'
-      ? 'transition'
-      : 'perCommand'
-  const executable: ExecutableBaseScriptFlowBody =
-    flow.kind === 'stages'
-      ? {
-          kind: 'stages',
-          initial: flow.initial,
-          stages: flow.stages.map((stage) => ({
-            id: stage.id,
-            ...(stage.entry === undefined
-              ? {}
-              : { entry: compileEntry(stage.entry, options.timing, boundaryPolicy) }),
-            body: compileBaseCommandsUncheckedAfterValidation(
-              stage.body,
-              options.timing,
-              boundaryPolicy,
-            ),
-            ...(stage.next === undefined ? {} : { next: structuredClone(stage.next) }),
-          })),
-        }
-      : {
-          kind: 'stateMachine',
-          machine: {
-            id: flow.machine.id,
-            label: flow.machine.label,
-            initial: flow.machine.initial,
-            states: Object.fromEntries(
-              Object.entries(flow.machine.states).map(([id, state]) => [
-                id,
-                {
-                  label: state.label,
-                  ...(state.entry === undefined
-                    ? {}
-                    : { entry: compileEntry(state.entry, options.timing, boundaryPolicy) }),
-                  body: compileBaseCommandsUncheckedAfterValidation(
-                    state.body,
-                    options.timing,
-                    boundaryPolicy,
-                  ),
-                  next: clone(state.next),
-                },
-              ]),
-            ),
-          },
-        }
+  const commands = (body: readonly BaseAuthorCommand[]) =>
+    compileBaseCommandsUncheckedAfterValidation(body, options.timing)
   return {
     compilerVersion: SCRIPT_COMPILER_VERSION,
     canonicalContentDigest: options.canonicalContentDigest,
     timing: options.timing,
-    boundaryPolicy,
-    flow: executable,
+    rootScope,
+    flow: {
+      kind: 'stages',
+      initial: flow.initial,
+      stages: flow.stages.map((stage) => ({
+        id: stage.id,
+        body: commands(stage.body),
+        ...(stage.next === undefined ? {} : { next: structuredClone(stage.next) }),
+        ...(stage.entry
+          ? {
+              entry: {
+                prepare: commands(stage.entry.prepare),
+                reveal: structuredClone(stage.entry.reveal),
+              },
+            }
+          : {}),
+      })),
+    },
   }
 }
-
+export function compileBaseCommandRoot(
+  commands: readonly BaseAuthorCommand[],
+  options: CompileBaseScriptFlowOptions,
+): ExecutableBaseScriptFlow {
+  checkBaseAuthorCommands(commands, 'commands', { rootScope: 'script', loopDepth: 0 })
+  return compileBaseScriptFlowUncheckedAfterValidation(
+    { kind: 'stages', initial: '__script', stages: [{ id: '__script', body: [...commands] }] },
+    options,
+    'script',
+  )
+}
 export class BaseSharedScriptResolver {
   private readonly cache = new Map<string, ExecutableBaseSharedScript>()
-
   constructor(
     private readonly library: BaseScriptLibrary,
     private readonly canonicalContentDigest: string,
@@ -371,13 +264,8 @@ export class BaseSharedScriptResolver {
     checkDigest(canonicalContentDigest)
     checkBaseScriptLibrary(library)
   }
-
-  resolve(
-    id: string,
-    timing: ScriptTiming,
-    boundaryPolicy: ScriptBoundaryPolicy = 'perCommand',
-  ): ExecutableBaseSharedScript {
-    const key = `${timing}\u0000${boundaryPolicy}\u0000${id}`
+  resolve(id: string, timing: ScriptTiming): ExecutableBaseSharedScript {
+    const key = `${timing}\u0000${id}`
     const cached = this.cache.get(key)
     if (cached) return cached
     const script = this.library[id]
@@ -386,15 +274,12 @@ export class BaseSharedScriptResolver {
       compilerVersion: SCRIPT_COMPILER_VERSION,
       canonicalContentDigest: this.canonicalContentDigest,
       timing,
-      boundaryPolicy,
       id,
       name: script.name,
       self: script.self,
-      body: compileBaseCommandsUncheckedAfterValidation(script.body, timing, boundaryPolicy),
+      body: compileBaseCommandsUncheckedAfterValidation(script.body, timing),
     }
     this.cache.set(key, compiled)
     return compiled
   }
 }
-
-export type { BaseRuntimeLeafCommand }

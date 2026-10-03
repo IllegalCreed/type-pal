@@ -1,7 +1,7 @@
 /**
  * TEST-MIGRATION-BOUNDARIES-1 T08：pal-item-scheme-labels 剩余漂移轴。
  * 既有 pal-item-scheme-labels.test 已覆盖闭包/稳定序/零/多 root/环/悬空/opaque——不重复。
- * 本文件：期望计数单轴漂移（schemes/machineInners/itemRoots）精确拒绝、
+ * 本文件：期望计数单轴漂移（schemes/itemRoots）精确拒绝、
  * 同 root 菱形（两 root 指向同一 hook）非环、完整 labels 报告与输入不变。
  */
 import type {
@@ -11,7 +11,7 @@ import type {
   AuthorScriptFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { assertPalItemSchemeLabelInvariant } from './pal-item-scheme-labels.js'
+import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
 
 const target = (entity: string, behavior: string, sceneId = 's001'): AuthorCommand => ({
   kind: 'selectEntityBehavior',
@@ -30,16 +30,6 @@ const stages = (body: AuthorCommand[]): AuthorScriptFlow => ({
   kind: 'stages',
   initial: 'main',
   stages: [{ id: 'main', body }],
-})
-
-const machine = (label: string): AuthorScriptFlow => ({
-  kind: 'stateMachine',
-  machine: {
-    id: 'machine',
-    label,
-    initial: 'main',
-    states: { main: { label: 'main', body: [], next: { kind: 'stay' } } },
-  },
 })
 
 function item(id: string, body: AuthorCommand[]): AuthorItemData {
@@ -73,7 +63,7 @@ function scene(sceneId = 's001'): AuthorSceneDef {
             'c8-a': {
               label: '物品292剧情方案',
               order: 10,
-              flow: machine('物品292剧情方案连续流程'),
+              flow: stages([]),
             },
           },
         },
@@ -99,23 +89,21 @@ function args() {
     items: [item('292', [hook('c8-hook')])],
     scenes: [scene()],
     expectedSchemes: 2,
-    expectedMachineInners: 1,
     expectedItemRoots: 1,
   }
 }
 
 describe('T08 scheme-labels 剩余漂移轴', () => {
-  test('合法报告完整 labels（含 machineLabel）；输入深快照不变', () => {
+  test('合法报告完整作者 labels；输入深快照不变', () => {
     const input = args()
     const snapshot = structuredClone(input)
-    const report = assertPalItemSchemeLabelInvariant(input)
+    const report = inspectPalItemSchemeRoots(input)
     expect(report.labels).toEqual([
       {
         id: 'c8-a',
         itemId: '292',
         path: 'scenes.s001.entities.e1.behaviors.auto.c8-a',
         label: '物品292剧情方案',
-        machineLabel: '物品292剧情方案连续流程',
       },
       {
         id: 'c8-hook',
@@ -126,14 +114,11 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
     ])
     expect(structuredClone(input)).toEqual(snapshot)
   })
-  test('期望计数单轴漂移（schemes/machineInners/itemRoots）各自精确拒绝', () => {
-    expect(() => assertPalItemSchemeLabelInvariant({ ...args(), expectedSchemes: 3 })).toThrow(
+  test('期望计数单轴漂移（schemes/itemRoots）各自精确拒绝', () => {
+    expect(() => inspectPalItemSchemeRoots({ ...args(), expectedSchemes: 3 })).toThrow(
       'PAL 物品剧情方案数量漂移: 2 != 3',
     )
-    expect(() =>
-      assertPalItemSchemeLabelInvariant({ ...args(), expectedMachineInners: 2 }),
-    ).toThrow('PAL 物品剧情方案 machine-inner 数漂移: 1 != 2')
-    expect(() => assertPalItemSchemeLabelInvariant({ ...args(), expectedItemRoots: 2 })).toThrow(
+    expect(() => inspectPalItemSchemeRoots({ ...args(), expectedItemRoots: 2 })).toThrow(
       'PAL 物品剧情方案 item root 数漂移: 1 != 2',
     )
   })
@@ -146,7 +131,7 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
     secondEntity.behaviors.auto['c8-a'] = {
       label: '物品293剧情方案 2',
       order: 10,
-      flow: machine('物品293剧情方案 2连续流程'),
+      flow: stages([]),
     }
     secondScene.hooks = {
       onEnter: {
@@ -195,14 +180,13 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
       items: [item('292', [hook('c8-hook')]), item('293', [hook('c9-hook', 's002')])],
       scenes: [scene(), secondWithTrigger],
       expectedSchemes: 5,
-      expectedMachineInners: 2,
       expectedItemRoots: 2,
     }
     const snapshot = structuredClone(input)
     /** 拒绝见证取值形式（mutation 负控下 produces 纯 AssertionError）。 */
     const report = (() => {
       try {
-        return assertPalItemSchemeLabelInvariant(input)
+        return inspectPalItemSchemeRoots(input)
       } catch (error) {
         return (error as Error).message
       }
@@ -239,12 +223,11 @@ describe('T08 scheme-labels 剩余漂移轴', () => {
       items: [item('292', [hook('c8-hook'), target('e1', 'c8-a')])],
       scenes: [diamondScene],
       expectedSchemes: 2, // c8-a(10) + c8-hook(20)：同一 c8-a 只计一次（去重按地址）
-      expectedMachineInners: 1,
       expectedItemRoots: 1,
     }
     const report = (() => {
       try {
-        return assertPalItemSchemeLabelInvariant(input)
+        return inspectPalItemSchemeRoots(input)
       } catch (error) {
         return (error as Error).message
       }

@@ -1087,10 +1087,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1099,6 +1104,10 @@
                         "scene": "s065",
                         "entity": "e1248"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1109,12 +1118,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1248"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1125,12 +1142,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1248"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1141,6 +1166,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1149,19 +1178,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1248"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1190,10 +1231,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1202,6 +1248,10 @@
                         "scene": "s065",
                         "entity": "e1250"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1212,12 +1262,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1250"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1228,12 +1286,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1250"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1244,6 +1310,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1252,19 +1322,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1250"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1293,10 +1375,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1305,6 +1392,10 @@
                         "scene": "s065",
                         "entity": "e1252"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1315,12 +1406,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1252"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1331,12 +1430,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1252"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1347,6 +1454,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1355,19 +1466,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1252"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1396,10 +1519,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1408,6 +1536,10 @@
                         "scene": "s065",
                         "entity": "e1254"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1418,12 +1550,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1254"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1434,12 +1574,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1254"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1450,6 +1598,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1458,19 +1610,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1254"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1499,10 +1663,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1511,6 +1680,10 @@
                         "scene": "s065",
                         "entity": "e1256"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1521,12 +1694,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1256"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1537,12 +1718,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1256"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1553,6 +1742,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1561,19 +1754,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1256"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1602,10 +1807,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1614,6 +1824,10 @@
                         "scene": "s065",
                         "entity": "e1258"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1624,12 +1838,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1258"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1640,12 +1862,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1258"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1656,6 +1886,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1664,19 +1898,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1258"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1705,10 +1951,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1717,6 +1968,10 @@
                         "scene": "s065",
                         "entity": "e1260"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1727,12 +1982,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1260"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1743,12 +2006,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1260"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1759,6 +2030,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1767,19 +2042,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1260"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1808,10 +2095,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1820,6 +2112,10 @@
                         "scene": "s065",
                         "entity": "e1262"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1830,12 +2126,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1262"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1846,12 +2150,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1262"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1862,6 +2174,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1870,19 +2186,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1262"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1911,10 +2239,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1923,6 +2256,10 @@
                         "scene": "s065",
                         "entity": "e1264"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -1933,12 +2270,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1264"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -1949,12 +2294,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1264"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -1965,6 +2318,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1973,19 +2330,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1264"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2014,10 +2383,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2026,6 +2400,10 @@
                         "scene": "s065",
                         "entity": "e1266"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2036,12 +2414,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1266"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2052,12 +2438,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1266"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2068,6 +2462,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2076,19 +2474,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1266"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2117,10 +2527,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2129,6 +2544,10 @@
                         "scene": "s065",
                         "entity": "e1268"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2139,12 +2558,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1268"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2155,12 +2582,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1268"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2171,6 +2606,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2179,19 +2618,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1268"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2220,10 +2671,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2232,6 +2688,10 @@
                         "scene": "s065",
                         "entity": "e1270"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2242,12 +2702,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1270"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2258,12 +2726,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1270"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2274,6 +2750,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2282,19 +2762,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1270"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2323,10 +2815,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2335,6 +2832,10 @@
                         "scene": "s065",
                         "entity": "e1272"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2345,12 +2846,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1272"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2361,12 +2870,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1272"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2377,6 +2894,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2385,19 +2906,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1272"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2426,10 +2959,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2438,6 +2976,10 @@
                         "scene": "s065",
                         "entity": "e1274"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2448,12 +2990,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1274"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2464,12 +3014,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1274"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2480,6 +3038,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2488,19 +3050,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1274"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2529,10 +3103,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2541,6 +3120,10 @@
                         "scene": "s065",
                         "entity": "e1276"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2551,12 +3134,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1276"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2567,12 +3158,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1276"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2583,6 +3182,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2591,19 +3194,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1276"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2632,10 +3247,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2644,6 +3264,10 @@
                         "scene": "s065",
                         "entity": "e1278"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2654,12 +3278,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1278"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2670,12 +3302,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1278"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2686,6 +3326,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2694,19 +3338,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1278"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2735,10 +3391,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2747,6 +3408,10 @@
                         "scene": "s065",
                         "entity": "e1280"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2757,12 +3422,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1280"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2773,12 +3446,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1280"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2789,6 +3470,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2797,19 +3482,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1280"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2838,10 +3535,15 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "asset": "sound.pal.113",
                       "kind": "playSound"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -2850,6 +3552,10 @@
                         "scene": "s065",
                         "entity": "e1282"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 1,
@@ -2860,12 +3566,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1282"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 2,
@@ -2876,12 +3590,20 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s065",
                         "entity": "e1282"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "frame": 3,
@@ -2892,6 +3614,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2900,19 +3626,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 4,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s065",
                         "entity": "e1282"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }

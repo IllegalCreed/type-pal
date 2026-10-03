@@ -4,6 +4,7 @@ export type AuthorCommandChildKey =
   | 'then'
   | 'else'
   | 'body'
+  | 'onYes'
   | 'onNo'
   | 'onLose'
   | 'onFlee'
@@ -16,6 +17,7 @@ const CHILD_KEYS = new Set<AuthorCommandChildKey>([
   'then',
   'else',
   'body',
+  'onYes',
   'onNo',
   'onLose',
   'onFlee',
@@ -46,7 +48,9 @@ export function authorCommandChildBody(
     case 'else':
       return command.kind === 'branch' ? command.else : undefined
     case 'body':
-      return command.kind === 'loop' ? command.body : undefined
+      return command.kind === 'loop' || command.kind === 'repeat' ? command.body : undefined
+    case 'onYes':
+      return command.kind === 'confirm' ? command.onYes : undefined
     case 'onNo':
       return command.kind === 'confirm' ? command.onNo : undefined
     case 'onLose':
@@ -71,8 +75,12 @@ function withChildBody(
       if (command.kind !== 'branch') throw new Error(`${command.kind} 没有 else 子块`)
       return { ...command, else: body }
     case 'body':
-      if (command.kind !== 'loop') throw new Error(`${command.kind} 没有 body 子块`)
+      if (command.kind !== 'loop' && command.kind !== 'repeat')
+        throw new Error(`${command.kind} 没有 body 子块`)
       return { ...command, body }
+    case 'onYes':
+      if (command.kind !== 'confirm') throw new Error(`${command.kind} 没有 onYes 子块`)
+      return { ...command, onYes: body }
     case 'onNo':
       if (command.kind !== 'confirm') throw new Error(`${command.kind} 没有 onNo 子块`)
       return { ...command, onNo: body }
@@ -212,17 +220,68 @@ export function copyAuthorCommandAt(
   const command = getAuthorCommandAt(body, path)
   if (!command) return [...body]
 
-  const copyWithoutStableIds = (source: AuthorCommand): AuthorCommand => {
-    let copy: AuthorCommand =
-      source.kind === 'confirm'
-        ? { kind: 'confirm', onNo: structuredClone(source.onNo) }
-        : structuredClone(source)
+  const occupied = new Set(collectAuthorLoopIds(body))
+  const copyWithLocalIds = (
+    source: AuthorCommand,
+    enclosing: ReadonlyMap<string, string>,
+  ): AuthorCommand => {
+    let copy = structuredClone(source)
+    let names = enclosing
+    if ((copy.kind === 'loop' || copy.kind === 'repeat') && copy.id) {
+      const oldId = copy.id
+      let id = `${oldId}-copy`
+      let suffix = 2
+      while (occupied.has(id)) id = `${oldId}-copy-${suffix++}`
+      occupied.add(id)
+      copy = { ...copy, id }
+      names = new Map([...enclosing, [oldId, id]])
+    }
+    if (copy.kind === 'continueLoop' && copy.loop && names.has(copy.loop))
+      copy = { ...copy, loop: names.get(copy.loop)! }
     for (const key of CHILD_KEYS) {
       const child = authorCommandChildBody(copy, key)
-      if (child) copy = withChildBody(copy, key, child.map(copyWithoutStableIds))
+      if (child)
+        copy = withChildBody(
+          copy,
+          key,
+          child.map((nested) => copyWithLocalIds(nested, names)),
+        )
     }
     return copy
   }
 
-  return insertAuthorCommandAfter(body, path, copyWithoutStableIds(command))
+  return insertAuthorCommandAfter(body, path, copyWithLocalIds(command, new Map()))
+}
+
+export function mapAuthorCommandTree(
+  body: readonly AuthorCommand[],
+  map: (command: AuthorCommand) => AuthorCommand,
+): AuthorCommand[] {
+  return body.map((source) => {
+    let command = structuredClone(source)
+    for (const key of CHILD_KEYS) {
+      const child = authorCommandChildBody(command, key)
+      if (child) command = withChildBody(command, key, mapAuthorCommandTree(child, map))
+    }
+    return map(command)
+  })
+}
+
+export function collectAuthorLoopIds(body: readonly AuthorCommand[]): string[] {
+  const ids: string[] = []
+  mapAuthorCommandTree(body, (command) => {
+    if ((command.kind === 'loop' || command.kind === 'repeat') && command.id) ids.push(command.id)
+    return command
+  })
+  return ids
+}
+
+export function authorLoopAncestors(body: readonly AuthorCommand[], path: AuthorCommandPath) {
+  const loops: Array<{ id?: string; label?: string }> = []
+  for (let offset = 1; offset < path.length; offset += 2) {
+    const parent = getAuthorCommandAt(body, path.slice(0, offset))
+    if (path[offset] === 'body' && (parent?.kind === 'loop' || parent?.kind === 'repeat'))
+      loops.push({ id: parent.id, label: parent.label })
+  }
+  return loops
 }

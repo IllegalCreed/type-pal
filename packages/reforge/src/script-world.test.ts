@@ -1,7 +1,6 @@
 import {
   type BaseSceneDef,
   type BaseSceneEntity,
-  type CursorHandoff,
   type EntityAddress,
   emptyWorldScriptState,
   type FlowCursor,
@@ -119,19 +118,9 @@ function entity(): BaseSceneEntity {
           label: '待机',
           order: 0,
           flow: {
-            kind: 'stateMachine',
-            machine: {
-              id: 'machine',
-              label: '待机',
-              initial: 'initial',
-              states: {
-                initial: {
-                  label: '初始',
-                  body: [],
-                  next: { kind: 'stay' },
-                },
-              },
-            },
+            kind: 'stages',
+            initial: 'initial',
+            stages: [{ id: 'initial', body: [] }],
           },
         },
       },
@@ -222,7 +211,7 @@ describe('canonical script world authority', () => {
             selection: { kind: 'use', value: 'idle' },
             cursor: {
               behavior: 'idle',
-              at: { kind: 'state', machine: 'machine', state: 'initial' },
+              at: { kind: 'stage', stage: 'initial' },
             },
           },
           triggerActivation: { kind: 'disabled' },
@@ -251,7 +240,7 @@ describe('canonical script world authority', () => {
       auto: {
         cursor: {
           behavior: 'idle',
-          at: { kind: 'state', machine: 'machine', state: 'initial' },
+          at: { kind: 'stage', stage: 'initial' },
         },
       },
     })
@@ -322,225 +311,6 @@ describe('canonical script world authority', () => {
         channel: 'trigger',
       }),
     ).toBe(1)
-  })
-
-  test('state-map handoff maps the effective cursor and commits selection plus cursor atomically', () => {
-    const definition = entity()
-    const world = emptyWorldScriptState()
-    const coordinator = new FlowRuntimeCoordinator()
-    const handoff: CursorHandoff = {
-      kind: 'stateMap',
-      fromBehavior: 'talk',
-      cases: [
-        {
-          from: { kind: 'stage', stage: 'initial' },
-          to: { kind: 'stage', stage: 'later' },
-        },
-      ],
-      onUnmapped: 'error',
-    }
-    expect(
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'inspect' },
-        coordinator,
-        handoff,
-      ),
-    ).toBe(true)
-    expect(world.behaviors.entities?.scene?.entity?.trigger).toEqual({
-      selection: { kind: 'use', value: 'inspect' },
-      cursor: {
-        behavior: 'inspect',
-        at: { kind: 'stage', stage: 'later' },
-      },
-    })
-    expect(resolveEntityBehavior(definition, world, target, 'trigger')?.cursor).toEqual({
-      kind: 'stage',
-      stage: 'later',
-    })
-  })
-
-  test('state-map handoff uses a persisted source cursor and rejects invalid mappings before writing', () => {
-    const definition = entity()
-    const world = emptyWorldScriptState()
-    const coordinator = new FlowRuntimeCoordinator()
-    world.behaviors.entities = {
-      scene: {
-        entity: {
-          trigger: {
-            cursor: {
-              behavior: 'talk',
-              at: { kind: 'stage', stage: 'waiting' },
-            },
-          },
-        },
-      },
-    }
-    const valid: CursorHandoff = {
-      kind: 'stateMap',
-      fromBehavior: 'talk',
-      cases: [
-        {
-          from: { kind: 'stage', stage: 'waiting' },
-          to: { kind: 'stage', stage: 'later' },
-        },
-      ],
-      onUnmapped: 'error',
-    }
-    const before = structuredClone(world)
-    expect(() =>
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'inspect' },
-        coordinator,
-        {
-          ...valid,
-          cases: [
-            {
-              from: { kind: 'stage', stage: 'initial' },
-              to: { kind: 'stage', stage: 'later' },
-            },
-          ],
-        },
-      ),
-    ).toThrow(/命中 0 条映射/)
-    expect(world).toEqual(before)
-    expect(() =>
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'inspect' },
-        coordinator,
-        {
-          ...valid,
-          cases: [
-            {
-              from: { kind: 'stage', stage: 'waiting' },
-              to: { kind: 'stage', stage: 'missing' },
-            },
-          ],
-        },
-      ),
-    ).toThrow(/stage cursor 不存在 missing/)
-    expect(world).toEqual(before)
-    expect(() =>
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'inspect' },
-        coordinator,
-        {
-          ...valid,
-          cases: [
-            ...valid.cases,
-            {
-              from: { stage: 'waiting', kind: 'stage' },
-              to: { kind: 'stage', stage: 'initial' },
-            },
-          ],
-        },
-      ),
-    ).toThrow(/来源游标重复/)
-    expect(world).toEqual(before)
-    expect(
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'inspect' },
-        coordinator,
-        valid,
-      ),
-    ).toBe(true)
-    expect(resolveEntityBehavior(definition, world, target, 'trigger')?.cursor).toEqual({
-      kind: 'stage',
-      stage: 'later',
-    })
-  })
-
-  test('state-map handoff requires a coordinator and leaves world state untouched without one', () => {
-    const definition = entity()
-    const world = emptyWorldScriptState()
-    const before = structuredClone(world)
-    expect(() =>
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'inspect' },
-        undefined,
-        {
-          kind: 'stateMap',
-          fromBehavior: 'talk',
-          cases: [
-            {
-              from: { kind: 'stage', stage: 'initial' },
-              to: { kind: 'stage', stage: 'later' },
-            },
-          ],
-          onUnmapped: 'error',
-        },
-      ),
-    ).toThrow(/缺少 FlowRuntimeCoordinator/)
-    expect(world).toEqual(before)
-  })
-
-  test('explicit same-behavior handoff bumps the epoch and stale leases cannot overwrite it', async () => {
-    const definition = entity()
-    const world = emptyWorldScriptState()
-    const coordinator = new FlowRuntimeCoordinator()
-    const activation = coordinator.beginEntityBehavior(world, definition, target, 'trigger')
-    if (!activation) throw new Error('expected activation')
-    expect(
-      selectEntityBehavior(
-        world,
-        definition,
-        target,
-        'trigger',
-        { kind: 'use', value: 'talk' },
-        coordinator,
-        {
-          kind: 'stateMap',
-          fromBehavior: 'talk',
-          cases: [
-            {
-              from: { kind: 'stage', stage: 'initial' },
-              to: { kind: 'stage', stage: 'waiting' },
-            },
-          ],
-          onUnmapped: 'error',
-        },
-      ),
-    ).toBe(true)
-    expect(
-      coordinator.epoch({
-        kind: 'entity-behavior',
-        target,
-        channel: 'trigger',
-      }),
-    ).toBe(1)
-    expect(
-      await activation.lease.reachSafePoint({
-        kind: 'stage',
-        stage: 'initial',
-      }),
-    ).toBe('stop')
-    expect(world.behaviors.entities?.scene?.entity?.trigger?.cursor).toEqual({
-      behavior: 'talk',
-      at: { kind: 'stage', stage: 'waiting' },
-    })
   })
 
   test('trigger activation inherit follows the selected page', () => {

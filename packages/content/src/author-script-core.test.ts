@@ -67,32 +67,6 @@ describe('canonical author script schema', () => {
     ).toThrow(/未知字段/)
   })
 
-  test('machine completion cannot smuggle a target or yield boundary', () => {
-    const machine = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'once',
-        label: 'Once',
-        initial: 'one',
-        states: { one: { label: 'One', body: [], next: { kind: 'complete' } } },
-      },
-    }
-    expect(() => checkBaseScriptFlow(machine, 'flow')).not.toThrow()
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          ...machine,
-          machine: {
-            ...machine.machine,
-            states: {
-              one: { label: 'One', body: [], next: { kind: 'complete', yield: 'worldTick' } },
-            },
-          },
-        },
-        'flow',
-      ),
-    ).toThrow(/未知字段/)
-  })
   test('world state uses composite entity maps and has no flat stage/binding authority', () => {
     expect(emptyWorldScriptState()).toEqual({
       flags: {},
@@ -119,7 +93,7 @@ describe('canonical author script schema', () => {
                   selection: { kind: 'use', value: 'talk' },
                   cursor: {
                     behavior: 'talk',
-                    at: { kind: 'state', machine: 'conversation', state: 'waiting' },
+                    at: { kind: 'stage', stage: 'waiting' },
                   },
                 },
                 auto: { selection: { kind: 'disabled' } },
@@ -209,7 +183,7 @@ describe('canonical author script schema', () => {
     ).toThrow(/entityStage: 未知字段/)
   })
 
-  test('accepts stable entity selections, composite conditions and bounded loops', () => {
+  test('accepts stable entity selections, composite conditions and structured loops', () => {
     expect(() =>
       checkBaseAuthorCommands(
         [
@@ -224,79 +198,11 @@ describe('canonical author script schema', () => {
             mode: 'until',
             cond: { kind: 'entityState', target, is: 2 },
             body: [{ kind: 'setEntityState', target, state: 1 }],
-            yield: 'worldTick',
-            maxIterations: 100,
           },
         ],
         'commands',
       ),
     ).not.toThrow()
-  })
-
-  test('validates explicit state-map cursor handoff without weakening ordinary selections', () => {
-    const command = {
-      kind: 'selectEntityBehavior',
-      target,
-      channel: 'auto',
-      selection: { kind: 'use', value: 'flee' },
-      cursorHandoff: {
-        kind: 'stateMap',
-        fromBehavior: 'idle',
-        cases: [
-          {
-            from: { kind: 'state', machine: 'idle', state: 'waiting' },
-            to: { kind: 'stage', stage: 'start' },
-          },
-        ],
-        onUnmapped: 'error',
-      },
-    }
-    expect(() => checkBaseAuthorCommands([command], 'commands')).not.toThrow()
-    expect(() =>
-      checkBaseAuthorCommands(
-        [
-          {
-            ...command,
-            selection: { kind: 'inherit' },
-          },
-        ],
-        'commands',
-      ),
-    ).toThrow(/仅 selection\.use/)
-    expect(() =>
-      checkBaseAuthorCommands(
-        [
-          {
-            ...command,
-            cursorHandoff: {
-              ...command.cursorHandoff,
-              cases: [
-                ...command.cursorHandoff.cases,
-                {
-                  from: { state: 'waiting', machine: 'idle', kind: 'state' },
-                  to: { kind: 'stage', stage: 'later' },
-                },
-              ],
-            },
-          },
-        ],
-        'commands',
-      ),
-    ).toThrow(/映射来源重复/)
-    expect(() =>
-      checkBaseAuthorCommands(
-        [
-          {
-            ...command,
-            cursorHandoff: {
-              ...command.cursorHandoff,
-              cases: [],
-            },
-          },
-        ],
-        'commands',
-      ),
-    ).toThrow(/非空映射数组/)
   })
 
   test.each([
@@ -477,202 +383,6 @@ describe('canonical author script schema', () => {
         'flow',
       ),
     ).toThrow(/未命中 stage/)
-  })
-
-  test('validates synchronous, next-activation, and command-outcome transitions', () => {
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stateMachine',
-          machine: {
-            id: 'machine',
-            label: '状态机',
-            cadence: 'transition',
-            initial: 'initial',
-            states: {
-              initial: {
-                label: '初始',
-                body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
-                next: {
-                  kind: 'commandOutcome',
-                  commandId: 'choice',
-                  command: 'confirm',
-                  outcome: 'no',
-                  then: { kind: 'to', state: 'initial', yield: 'worldTick' },
-                  else: { kind: 'continue', state: 'after-confirm' },
-                },
-              },
-              'after-confirm': {
-                label: '确认后',
-                body: [],
-                next: { kind: 'advance', state: 'initial' },
-              },
-            },
-          },
-        },
-        'flow',
-      ),
-    ).not.toThrow()
-  })
-
-  test('only accepts the explicit transition-driven state-machine cadence', () => {
-    const machine = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'machine',
-        label: '状态机',
-        cadence: 'command',
-        initial: 'initial',
-        states: {
-          initial: {
-            label: '初始',
-            body: [],
-            next: { kind: 'stay' },
-          },
-        },
-      },
-    }
-    expect(() => checkBaseScriptFlow(machine, 'flow')).toThrow(/cadence: 期望 transition/)
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stages',
-          cadence: 'transition',
-          initial: 'initial',
-          stages: [{ id: 'initial', body: [] }],
-        },
-        'flow',
-      ),
-    ).toThrow(/cadence: 未知字段/)
-  })
-
-  test('rejects duplicate, nested, and cross-state command outcome references', () => {
-    const machine = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'machine',
-        label: '状态机',
-        initial: 'initial',
-        states: {
-          initial: {
-            label: '初始',
-            body: [
-              { kind: 'confirm', id: 'choice', onNo: [] },
-              { kind: 'confirm', id: 'choice', onNo: [] },
-            ],
-            next: { kind: 'stay' },
-          },
-        },
-      },
-    }
-    expect(() => checkBaseScriptFlow(machine, 'flow')).toThrow(/重复 CommandId choice/)
-
-    const outcome = {
-      kind: 'commandOutcome',
-      commandId: 'choice',
-      command: 'confirm',
-      outcome: 'no',
-      then: { kind: 'stay' },
-      else: { kind: 'stay' },
-    }
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stateMachine',
-          machine: {
-            id: 'machine',
-            label: '状态机',
-            initial: 'initial',
-            states: {
-              initial: {
-                label: '初始',
-                body: [
-                  {
-                    kind: 'branch',
-                    cond: { kind: 'flag', flag: 'nested', is: true },
-                    then: [{ kind: 'confirm', id: 'choice', onNo: [] }],
-                  },
-                ],
-                next: outcome,
-              },
-            },
-          },
-        },
-        'flow',
-      ),
-    ).toThrow(/未命中同一 state 顶层结果命令 choice/)
-
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stateMachine',
-          machine: {
-            id: 'machine',
-            label: '状态机',
-            initial: 'initial',
-            states: {
-              initial: {
-                label: '初始',
-                body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
-                next: { kind: 'advance', state: 'other' },
-              },
-              other: { label: '其它', body: [], next: outcome },
-            },
-          },
-        },
-        'flow',
-      ),
-    ).toThrow(/未命中同一 state 顶层结果命令 choice/)
-  })
-
-  test('rejects continue-only SCCs and dangling synchronous targets', () => {
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stateMachine',
-          machine: {
-            id: 'machine',
-            label: '状态机',
-            initial: 'a',
-            states: {
-              a: { label: 'A', body: [], next: { kind: 'continue', state: 'b' } },
-              b: {
-                label: 'B',
-                body: [],
-                next: {
-                  kind: 'branch',
-                  cond: { kind: 'flag', flag: 'again', is: true },
-                  then: { kind: 'continue', state: 'a' },
-                  else: { kind: 'stay' },
-                },
-              },
-            },
-          },
-        },
-        'flow',
-      ),
-    ).toThrow(/continue 转移形成无让步环 a -> b -> a/)
-
-    expect(() =>
-      checkBaseScriptFlow(
-        {
-          kind: 'stateMachine',
-          machine: {
-            id: 'machine',
-            label: '状态机',
-            initial: 'a',
-            states: {
-              a: {
-                label: 'A',
-                body: [],
-                next: { kind: 'continue', state: 'missing' },
-              },
-            },
-          },
-        },
-        'flow',
-      ),
-    ).toThrow(/未知 state missing/)
   })
 
   test('validates pages against local behavior registries', () => {

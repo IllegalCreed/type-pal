@@ -22,32 +22,10 @@ test('selection validates without changing the authored initial step', () => {
   })
 })
 
-test('machine identity and deleted states fall back synchronously', () => {
-  const machine: AuthorScriptFlow = {
-    kind: 'stateMachine',
-    machine: {
-      id: 'current',
-      label: '对话',
-      initial: 'first',
-      states: {
-        first: { label: '首次', body: [], next: { kind: 'stay' } },
-        repeat: { label: '复读', body: [], next: { kind: 'stay' } },
-      },
-    },
-  }
-  const repeat = { kind: 'state', machine: 'current', state: 'repeat' } as const
-  expect(previewFlowCursor(machine, repeat)).toEqual(repeat)
-  expect(previewStepLabel(machine, repeat)).toBe('复读')
-  expect(previewFlowCursor(machine, { ...repeat, machine: 'previous' })).toEqual({
-    kind: 'state',
-    machine: 'current',
-    state: 'first',
-  })
-  expect(previewFlowCursor(machine, { ...repeat, state: 'missing' })).toEqual({
-    kind: 'state',
-    machine: 'current',
-    state: 'first',
-  })
+test('completed or absent selection uses the configured initial step', () => {
+  expect(previewFlowCursor(flow, { kind: 'completed' })).toEqual({ kind: 'stage', stage: 'first' })
+  expect(previewFlowCursor(flow)).toEqual({ kind: 'stage', stage: 'first' })
+  expect(previewStepLabel(flow, { kind: 'completed' })).toBe('已完成')
 })
 
 test('step titles include purpose while equal names still select different stable IDs', () => {

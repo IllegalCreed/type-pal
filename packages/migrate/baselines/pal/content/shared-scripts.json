@@ -1,1 +1,1771 @@
-{}
+{
+  "environment-sound-duet": {
+    "name": "双段环境声序列",
+    "self": "none",
+    "body": [
+      {
+        "kind": "repeat",
+        "count": 1,
+        "body": [
+          {
+            "kind": "wait",
+            "ms": 420
+          },
+          {
+            "asset": "sound.pal.066",
+            "kind": "playSound"
+          },
+          {
+            "kind": "wait",
+            "ms": 100
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 41
+            },
+            "then": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 68
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "wait",
+                "ms": 900
+              },
+              {
+                "asset": "sound.pal.073",
+                "kind": "playSound"
+              },
+              {
+                "kind": "wait",
+                "ms": 1000
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 31
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "asset": "sound.pal.073",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 99
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 140
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 340
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.066",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 520
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 68
+                },
+                "then": [
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              }
+            ]
+          },
+          {
+            "kind": "wait",
+            "ms": 900
+          },
+          {
+            "asset": "sound.pal.073",
+            "kind": "playSound"
+          },
+          {
+            "kind": "wait",
+            "ms": 1000
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 31
+            },
+            "then": [
+              {
+                "kind": "breakLoop"
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "asset": "sound.pal.073",
+                "kind": "playSound"
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 99
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 140
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "mode": "forever",
+        "body": [
+          {
+            "kind": "wait",
+            "ms": 420
+          },
+          {
+            "asset": "sound.pal.066",
+            "kind": "playSound"
+          },
+          {
+            "kind": "wait",
+            "ms": 100
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 41
+            },
+            "then": [
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "wait",
+                    "ms": 340
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.066",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 520
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 93
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 68
+            },
+            "then": [
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "continueLoop"
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "wait",
+            "ms": 900
+          },
+          {
+            "asset": "sound.pal.073",
+            "kind": "playSound"
+          },
+          {
+            "kind": "wait",
+            "ms": 1000
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 31
+            },
+            "then": [
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "continueLoop"
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "asset": "sound.pal.073",
+                "kind": "playSound"
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 99
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 140
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "environment-sound-three-stage": {
+    "name": "三段环境声序列",
+    "self": "none",
+    "body": [
+      {
+        "kind": "repeat",
+        "count": 1,
+        "body": [
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "kind": "wait",
+                "ms": 900
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 95
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "asset": "sound.pal.060",
+                "kind": "playSound"
+              },
+              {
+                "kind": "wait",
+                "ms": 800
+              },
+              {
+                "kind": "breakLoop"
+              }
+            ]
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 51
+            },
+            "then": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.062",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1000
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 71
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              }
+            ],
+            "else": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.061",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 680
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.062",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1000
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 71
+                },
+                "then": [
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              }
+            ]
+          },
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 99
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 140
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "mode": "forever",
+        "body": [
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 51
+            },
+            "then": [
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.062",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1000
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.061",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 680
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 91
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "asset": "sound.pal.062",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1000
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 97
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 71
+            },
+            "then": [
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "continueLoop"
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 99
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 140
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "environment-sound-varied": {
+    "name": "多段环境声随机轮换",
+    "self": "none",
+    "body": [
+      {
+        "kind": "loop",
+        "mode": "forever",
+        "body": [
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 76
+            },
+            "then": [
+              {
+                "kind": "wait",
+                "ms": 40
+              },
+              {
+                "kind": "continueLoop"
+              }
+            ]
+          },
+          {
+            "kind": "wait",
+            "ms": 100
+          },
+          {
+            "kind": "breakLoop"
+          }
+        ]
+      },
+      {
+        "kind": "repeat",
+        "count": 1,
+        "body": [
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 16
+            },
+            "then": [
+              {
+                "kind": "breakLoop"
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 19
+            },
+            "then": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "asset": "sound.pal.064",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 760
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 56
+                    },
+                    "then": [
+                      {
+                        "kind": "breakLoop"
+                      }
+                    ],
+                    "else": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "breakLoop"
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "branch",
+            "cond": {
+              "kind": "chance",
+              "percent": 21
+            },
+            "then": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "id": "sound-cycle-1",
+                "label": "重复当前动作片段",
+                "body": [
+                  {
+                    "kind": "loop",
+                    "mode": "forever",
+                    "body": [
+                      {
+                        "asset": "sound.pal.065",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 440
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 40
+                          },
+                          {
+                            "kind": "continueLoop",
+                            "loop": "sound-cycle-1"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 31
+                          }
+                        },
+                        "then": [
+                          {
+                            "kind": "breakLoop"
+                          }
+                        ],
+                        "else": [
+                          {
+                            "kind": "wait",
+                            "ms": 100
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 140
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              }
+            ],
+            "else": []
+          },
+          {
+            "kind": "repeat",
+            "count": 1,
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 21
+                },
+                "then": [
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 26
+                },
+                "then": [
+                  {
+                    "kind": "loop",
+                    "mode": "forever",
+                    "body": [
+                      {
+                        "asset": "sound.pal.069",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 440
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 40
+                          },
+                          {
+                            "kind": "continueLoop"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 26
+                        },
+                        "then": [
+                          {
+                            "kind": "breakLoop"
+                          }
+                        ],
+                        "else": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "loop",
+                    "mode": "forever",
+                    "body": [
+                      {
+                        "asset": "sound.pal.070",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 520
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 40
+                          },
+                          {
+                            "kind": "continueLoop"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 26
+                        },
+                        "then": [
+                          {
+                            "kind": "breakLoop"
+                          }
+                        ],
+                        "else": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 31
+                },
+                "then": [
+                  {
+                    "kind": "loop",
+                    "mode": "forever",
+                    "body": [
+                      {
+                        "asset": "sound.pal.070",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 520
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 40
+                          },
+                          {
+                            "kind": "continueLoop"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 26
+                        },
+                        "then": [
+                          {
+                            "kind": "breakLoop"
+                          }
+                        ],
+                        "else": []
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 36
+                    },
+                    "then": [
+                      {
+                        "asset": "sound.pal.084",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 520
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 61
+                        },
+                        "then": [
+                          {
+                            "kind": "wait",
+                            "ms": 40
+                          },
+                          {
+                            "kind": "continueLoop"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 76
+                        },
+                        "then": [
+                          {
+                            "asset": "sound.pal.083",
+                            "kind": "playSound"
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 520
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "breakLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 41
+                },
+                "then": [
+                  {
+                    "kind": "loop",
+                    "mode": "forever",
+                    "body": [
+                      {
+                        "asset": "sound.pal.083",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 560
+                      }
+                    ]
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 96
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 140
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "asset": "sound.pal.068",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 520
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 26
+                    },
+                    "then": [
+                      {
+                        "kind": "breakLoop"
+                      }
+                    ],
+                    "else": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "asset": "sound.pal.069",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 440
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 26
+                    },
+                    "then": [
+                      {
+                        "kind": "breakLoop"
+                      }
+                    ],
+                    "else": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "loop",
+                "mode": "forever",
+                "body": [
+                  {
+                    "asset": "sound.pal.070",
+                    "kind": "playSound"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 520
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 81
+                    },
+                    "then": [
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      },
+                      {
+                        "kind": "continueLoop"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "chance",
+                      "percent": 26
+                    },
+                    "then": [
+                      {
+                        "kind": "breakLoop"
+                      }
+                    ],
+                    "else": []
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "loop",
+        "mode": "forever",
+        "body": [
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "asset": "sound.pal.063",
+                "kind": "playSound"
+              },
+              {
+                "kind": "wait",
+                "ms": 680
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 81
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 31
+                },
+                "then": [
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "wait",
+                "ms": 40
+              }
+            ]
+          },
+          {
+            "kind": "wait",
+            "ms": 100
+          },
+          {
+            "kind": "loop",
+            "mode": "forever",
+            "body": [
+              {
+                "asset": "sound.pal.064",
+                "kind": "playSound"
+              },
+              {
+                "kind": "wait",
+                "ms": 760
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 81
+                },
+                "then": [
+                  {
+                    "kind": "wait",
+                    "ms": 40
+                  },
+                  {
+                    "kind": "continueLoop"
+                  }
+                ]
+              },
+              {
+                "kind": "wait",
+                "ms": 100
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "chance",
+                  "percent": 56
+                },
+                "then": [
+                  {
+                    "kind": "breakLoop"
+                  }
+                ],
+                "else": []
+              },
+              {
+                "kind": "wait",
+                "ms": 40
+              }
+            ]
+          },
+          {
+            "kind": "wait",
+            "ms": 100
+          }
+        ]
+      }
+    ]
+  }
+}

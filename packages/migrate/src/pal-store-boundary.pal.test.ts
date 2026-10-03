@@ -55,19 +55,19 @@ function projectContent() {
 }
 
 describe('PAL Store0 publication boundary', () => {
-  it('protects the fixed generated seed while current author shops are not required to mirror it', () => {
+  it('protects source-owned inventory and alchemy while retaining current author shop commands', () => {
     const sources = loadPalContentSupplySources(repo)
     const expected = {
       sourceStores: sources.stores,
-      expectedBuyCalls: 29,
-      expectedSellCalls: 6,
-      expectedSellShopId: 0,
     }
     const baseline = assertPalStoreBoundaryInvariant({ ...baselineContent(), ...expected })
     const project = projectContent()
     assertPalAlchemyBoundaryInvariant({ sourceStores: sources.stores, items: project.items })
     validateShops(project.shops)
 
-    expect(baseline).toEqual({ buyCalls: 29, sellCalls: 6 })
+    const current = assertPalStoreBoundaryInvariant({ ...project, ...expected })
+    expect(baseline).toEqual(current)
+    expect(current.buyCalls).toBeGreaterThan(0)
+    expect(current.sellCalls).toBe(6)
   })
 })

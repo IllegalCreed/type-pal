@@ -118,26 +118,16 @@ export function sceneFixture(id = 'target'): RuntimeSceneDef {
             label: 'after',
             order: 1,
             flow: {
-              kind: 'stateMachine',
-              machine: {
-                id: 'entry-machine',
-                label: 'entry',
-                initial: 'one',
-                states: {
-                  one: {
-                    label: 'one',
-                    body: [],
-                    next: { kind: 'stay' },
-                    entry: { prepare: [], reveal: { kind: 'cut' } },
-                  },
-                  two: {
-                    label: 'two',
-                    body: [],
-                    next: { kind: 'stay' },
-                    entry: { prepare: [], reveal: { kind: 'fade', outMs: 20, inMs: 20 } },
-                  },
+              kind: 'stages',
+              initial: 'one',
+              stages: [
+                { id: 'one', body: [], entry: { prepare: [], reveal: { kind: 'cut' } } },
+                {
+                  id: 'two',
+                  body: [],
+                  entry: { prepare: [], reveal: { kind: 'fade', outMs: 20, inMs: 20 } },
                 },
-              },
+              ],
             },
           },
         },

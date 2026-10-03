@@ -135,6 +135,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -150,19 +151,27 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s117",
                         "entity": "e2153"
                       }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -199,6 +208,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -212,13 +222,21 @@
                         "scene": "s117",
                         "entity": "e2154"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -232,102 +250,67 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
-                      "dx": 8,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "dx": 8,
+                          "dy": 0,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s117",
+                            "entity": "e2154"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s117",
+                            "entity": "e2154"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s117",
-                        "entity": "e2154"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 8,
+                          "dy": -4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s117",
+                            "entity": "e2154"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s117",
+                            "entity": "e2154"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
                       "facing": "left",
@@ -338,19 +321,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s117",
                         "entity": "e2154"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -386,6 +381,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -401,6 +397,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -414,6 +414,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -425,13 +429,21 @@
                         "scene": "s117",
                         "entity": "e2155"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -445,6 +457,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -460,6 +473,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -473,19 +490,27 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s117",
                         "entity": "e2155"
                       }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1830,22 +1855,19 @@
                     }
                   },
                   {
-                    "dx": -4,
-                    "dy": 2,
-                    "kind": "nudgeParty"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
-                  },
-                  {
-                    "dx": -4,
-                    "dy": 2,
-                    "kind": "nudgeParty"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 80
+                    "kind": "repeat",
+                    "count": 2,
+                    "body": [
+                      {
+                        "dx": -4,
+                        "dy": 2,
+                        "kind": "nudgeParty"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 80
+                      }
+                    ]
                   },
                   {
                     "facing": "down",
@@ -2525,11 +2547,9 @@
                     }
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

@@ -1,4 +1,10 @@
-import type { Command, ScriptChunkV1, SpriteDef } from '@type-pal/content'
+import type {
+  AuthorCommand,
+  AuthorScriptLibrary,
+  Command,
+  ScriptChunkV1,
+  SpriteDef,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import {
@@ -7,6 +13,7 @@ import {
   collectSpriteAutomaticScriptBehaviors,
   describeSpriteReferenceBehavior,
   projectCanonicalScriptFlowPreview,
+  projectCanonicalSpritePreviewState,
 } from './world-sprite-behavior.js'
 
 const definition: SpriteDef = {
@@ -208,36 +215,24 @@ describe('describeSpriteReferenceBehavior', () => {
     ).toMatchObject({ kind: 'unavailable' })
   })
 
-  test('a conditional edge indirectly reaching completion cannot be advertised as a proven loop', () => {
+  test('conditional step completion is not advertised as a proven static loop', () => {
     const stages = projectCanonicalScriptFlowPreview(
       {
-        kind: 'stateMachine',
-        machine: {
-          id: 'maybe-once',
-          label: 'Maybe once',
-          initial: 'one',
-          states: {
-            one: {
-              label: 'One',
-              body: [
-                { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 1 },
-              ],
-              next: {
+        kind: 'stages',
+        initial: 'one',
+        stages: [
+          {
+            id: 'one',
+            body: [
+              { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 1 },
+              {
                 kind: 'branch',
                 cond: { kind: 'flag', flag: 'finish', is: true },
-                then: { kind: 'to', state: 'finish', yield: 'worldTick' },
-                else: { kind: 'stay' },
+                then: [{ kind: 'finishStep', next: { kind: 'complete' } }],
               },
-            },
-            finish: {
-              label: 'Finish',
-              body: [
-                { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e001' }, frame: 2 },
-              ],
-              next: { kind: 'complete' },
-            },
+            ],
           },
-        },
+        ],
       },
       { scene: 's001', entity: 'e001' },
       {},
@@ -426,6 +421,225 @@ describe('describeSpriteReferenceBehavior', () => {
 })
 
 describe('projectCanonicalScriptFlowPreview', () => {
+  const canonicalSample = (body: AuthorCommand[], sharedScripts: AuthorScriptLibrary = {}) => {
+    const shell = state([])
+    const before = JSON.stringify({ shell, body, sharedScripts })
+    const projected = projectCanonicalSpritePreviewState(shell, {
+      sharedScripts,
+      scenes: [
+        {
+          id: 's001',
+          mapId: 'map-1',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e001',
+              pos: { col: 1, row: 1, height: 0 },
+              sprite: definition.id,
+              initialPage: 'default',
+              pages: [{ id: 'default', label: '默认外观', auto: 'animate' }],
+              behaviors: {
+                auto: {
+                  animate: {
+                    label: '自动切帧',
+                    order: 0,
+                    flow: { kind: 'stages', initial: 'start', stages: [{ id: 'start', body }] },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+    })
+    const result = describeSpriteReferenceBehavior(projected, reference, definition, 16)
+    expect(JSON.stringify({ shell, body, sharedScripts })).toBe(before)
+    return result.preview
+  }
+
+  test('bounded canonical frame samples preserve named continue and skip unreachable frames', () => {
+    const target = { scene: 's001', entity: 'e001' }
+    const result = canonicalSample([
+      {
+        kind: 'repeat',
+        id: 'outer',
+        count: 3,
+        body: [
+          {
+            kind: 'repeat',
+            count: 2,
+            body: [
+              { kind: 'animEntity', target },
+              { kind: 'wait', ms: 100 },
+              { kind: 'continueLoop', loop: 'outer' },
+              { kind: 'setEntityFrame', target, frame: 14 },
+            ],
+          },
+          { kind: 'setEntityFrame', target, frame: 15 },
+        ],
+      },
+      { kind: 'setEntityFrame', target, frame: 4 },
+      { kind: 'wait', ms: 100 },
+      { kind: 'finishStep', next: { kind: 'complete' } },
+    ])
+    expect(result?.kind).toBe('variants')
+    if (result?.kind !== 'variants') throw new Error('Expected a representative path')
+    expect(result.variants.map((variant) => variant.steps.map((step) => step.frame))).toEqual([
+      [1, 2, 3, 4],
+    ])
+    expect(result.note).toContain('不是唯一循环')
+  })
+
+  test('a local break and a shared return retain the caller tail in the sample', () => {
+    const target = { scene: 's001', entity: 'e001' }
+    const result = canonicalSample(
+      [
+        {
+          kind: 'loop',
+          mode: 'forever',
+          body: [
+            { kind: 'setEntityFrame', target, frame: 1 },
+            { kind: 'wait', ms: 100 },
+            { kind: 'breakLoop' },
+            { kind: 'setEntityFrame', target, frame: 14 },
+          ],
+        },
+        { kind: 'callScript', script: 'local' },
+        { kind: 'setEntityFrame', target, frame: 3 },
+        { kind: 'wait', ms: 100 },
+        { kind: 'finishStep', next: { kind: 'complete' } },
+      ],
+      {
+        local: {
+          name: '局部切帧',
+          self: 'none',
+          body: [
+            { kind: 'setEntityFrame', target, frame: 2 },
+            { kind: 'wait', ms: 100 },
+            { kind: 'returnScript' },
+            { kind: 'setEntityFrame', target, frame: 15 },
+          ],
+        },
+      },
+    )
+    expect(result?.kind).toBe('variants')
+    if (result?.kind !== 'variants') throw new Error('Expected a representative path')
+    expect(result.variants.map((variant) => variant.steps.map((step) => step.frame))).toEqual([
+      [1, 2, 3],
+    ])
+  })
+
+  test('empty infinite visual loops terminate at the sampling budget and side effects stay unavailable', () => {
+    const target = { scene: 's001', entity: 'e001' }
+    const result = canonicalSample([
+      { kind: 'setEntityFrame', target, frame: 1 },
+      { kind: 'loop', mode: 'forever', body: [{ kind: 'continueLoop' }] },
+    ])
+    expect(result?.kind).toBe('variants')
+    if (result?.kind !== 'variants') throw new Error('Expected a bounded prefix')
+    expect(result.variants[0]?.note).toContain('前一部分')
+    expect(
+      canonicalSample([
+        { kind: 'setEntityFrame', target, frame: 1 },
+        { kind: 'giveMoney', delta: 5 },
+        { kind: 'repeat', count: 2, body: [{ kind: 'breakLoop' }] },
+      ]),
+    ).toMatchObject({ kind: 'unavailable' })
+    expect(
+      canonicalSample([
+        { kind: 'setEntityFrame', target: { scene: 'another', entity: 'e001' }, frame: 1 },
+        { kind: 'repeat', count: 2, body: [{ kind: 'breakLoop' }] },
+      ]),
+    ).toMatchObject({ kind: 'unavailable' })
+  })
+
+  test('conditional loops show representative paths instead of advertising a unique frame cycle', () => {
+    const target = { scene: 's001', entity: 'e001' }
+    for (const mode of ['while', 'until'] as const) {
+      const result = canonicalSample([
+        {
+          kind: 'loop',
+          mode,
+          cond: { kind: 'chance', percent: 50 },
+          body: [
+            { kind: 'setEntityFrame', target, frame: 1 },
+            { kind: 'wait', ms: 100 },
+          ],
+        },
+        { kind: 'setEntityFrame', target, frame: 2 },
+        { kind: 'wait', ms: 100 },
+        { kind: 'finishStep', next: { kind: 'complete' } },
+      ])
+      expect(result?.kind).toBe('variants')
+      if (result?.kind !== 'variants') throw new Error('Expected conditional path samples')
+      expect(result.note).toContain('不是唯一循环')
+      expect(result.variants.some((variant) => variant.steps.at(-1)?.frame === 2)).toBe(true)
+      if (mode === 'until')
+        expect(result.variants.every((variant) => variant.steps[0]?.frame === 1)).toBe(true)
+    }
+  })
+
+  test('frame samples reject unresolved continues and loop control crossing a shared root', () => {
+    const target = { scene: 's001', entity: 'e001' }
+    const prefix: AuthorCommand[] = [
+      { kind: 'setEntityFrame', target, frame: 1 },
+      { kind: 'wait', ms: 100 },
+    ]
+    expect(
+      canonicalSample([
+        {
+          kind: 'loop',
+          mode: 'until',
+          cond: { kind: 'chance', percent: 50 },
+          body: [...prefix, { kind: 'continueLoop', loop: 'missing' }],
+        },
+      ]),
+    ).toMatchObject({ kind: 'unavailable' })
+    expect(
+      canonicalSample(
+        [
+          {
+            kind: 'loop',
+            mode: 'until',
+            id: 'outer',
+            cond: { kind: 'chance', percent: 50 },
+            body: [...prefix, { kind: 'callScript', script: 'cross-root' }],
+          },
+        ],
+        {
+          'cross-root': {
+            name: '非法跨根跳转',
+            self: 'none',
+            body: [{ kind: 'continueLoop', loop: 'outer' }],
+          },
+        },
+      ),
+    ).toMatchObject({ kind: 'unavailable' })
+  })
+
+  test('fixed repeats and simple continuous loops retain the supported frame preview', () => {
+    const target = { scene: 's001', entity: 'e001' }
+    const body: AuthorCommand[] = [
+      { kind: 'setEntityFrame', target, frame: 1 },
+      { kind: 'wait', ms: 100 },
+      { kind: 'setEntityFrame', target, frame: 2 },
+      { kind: 'wait', ms: 100 },
+    ]
+    const project = (commands: AuthorCommand[]) =>
+      projectCanonicalScriptFlowPreview(
+        { kind: 'stages', initial: 'start', stages: [{ id: 'start', body: commands }] },
+        target,
+        {},
+      )
+    const repeated = project([{ kind: 'repeat', count: 2, body }])
+    expect(repeated).toEqual(project([...body, ...body]))
+    expect(behavior(repeated).preview).toEqual(behavior(project([...body, ...body])).preview)
+    expect(behavior(repeated).preview).toBeDefined()
+    expect(behavior(repeated).preview?.kind).not.toBe('unavailable')
+    expect(behavior(project([{ kind: 'loop', mode: 'forever', body }])).preview).toEqual(
+      behavior(project(body)).preview,
+    )
+  })
   test('lowers canonical entity addresses and nested conditions for the map preview runner', () => {
     const stages = projectCanonicalScriptFlowPreview(
       {
@@ -708,7 +922,7 @@ describe('collectSpriteAutomaticScriptBehaviors', () => {
           scripts: {
             [callee.id]: [
               { kind: 'setEntityFrame', entity: 'e001', frame: 1 },
-              { kind: 'stopScript' },
+              { kind: 'returnScript' },
               { kind: 'setEntityFrame', entity: 'e001', frame: 9 },
             ],
           },
@@ -729,7 +943,7 @@ describe('collectSpriteAutomaticScriptBehaviors', () => {
         {
           body: [
             { kind: 'setEntityFrame', entity: 'e001', frame: 1 },
-            { kind: 'stopScript' },
+            { kind: 'returnScript' },
             { kind: 'setEntityFrame', entity: 'e001', frame: 9 },
           ],
           next: 'advance',

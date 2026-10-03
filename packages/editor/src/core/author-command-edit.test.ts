@@ -49,16 +49,26 @@ const commandContainers: Array<{
         mode: 'while',
         cond: { kind: 'flag', flag: 'again', is: true },
         body: [],
-        yield: 'worldTick',
-        maxIterations: 8,
       },
     ],
     insertPath: [0, 'body', -1],
     childPath: [0, 'body'],
   },
   {
+    label: '是否询问的同意分支',
+    body: [{ kind: 'confirm', onYes: [], onNo: [] }],
+    insertPath: [0, 'onYes', -1],
+    childPath: [0, 'onYes'],
+  },
+  {
+    label: '固定次数重复',
+    body: [{ kind: 'repeat', count: 3, body: [] }],
+    insertPath: [0, 'body', -1],
+    childPath: [0, 'body'],
+  },
+  {
     label: '是否询问的否分支',
-    body: [{ kind: 'confirm', onNo: [] }],
+    body: [{ kind: 'confirm', onYes: [], onNo: [] }],
     insertPath: [0, 'onNo', -1],
     childPath: [0, 'onNo'],
   },
@@ -87,8 +97,6 @@ describe('canonical author command edit', () => {
           mode: 'while',
           cond: { kind: 'flag', flag: 'again', is: true },
           body: [dialog('inside')],
-          yield: 'worldTick',
-          maxIterations: 8,
         },
       ],
       else: [],
@@ -196,24 +204,27 @@ describe('canonical author command edit', () => {
     expect(body).toEqual(original)
   })
 
-  test('copy keeps the original stable ids and clears them recursively from the copy', () => {
+  test('copy remaps named loops and their internal continues without changing the original', () => {
     const original: AuthorCommand[] = [
       {
-        kind: 'branch',
-        cond: { kind: 'flag', flag: 'enabled', is: true },
-        then: [{ kind: 'confirm', id: 'nested-choice', onNo: [] }],
+        kind: 'repeat',
+        id: 'attempt',
+        label: '尝试',
+        count: 3,
+        body: [{ kind: 'confirm', onYes: [{ kind: 'continueLoop', loop: 'attempt' }], onNo: [] }],
       },
-      { kind: 'confirm', id: 'top-choice', onNo: [] },
     ]
-    let copied = copyAuthorCommandAt(original, [0])
-    copied = copyAuthorCommandAt(copied, [2])
-
-    expect(getAuthorCommandAt(original, [0, 'then', 0])).toMatchObject({
-      id: 'nested-choice',
+    const copied = copyAuthorCommandAt(original, [0])
+    expect(getAuthorCommandAt(original, [0])).toMatchObject({ id: 'attempt' })
+    expect(getAuthorCommandAt(copied, [1])).toMatchObject({ id: 'attempt-copy', label: '尝试' })
+    expect(getAuthorCommandAt(copied, [1, 'body', 0, 'onYes', 0])).toEqual({
+      kind: 'continueLoop',
+      loop: 'attempt-copy',
     })
-    expect(getAuthorCommandAt(copied, [1, 'then', 0])).not.toHaveProperty('id')
-    expect(getAuthorCommandAt(original, [1])).toMatchObject({ id: 'top-choice' })
-    expect(getAuthorCommandAt(copied, [3])).not.toHaveProperty('id')
+    expect(getAuthorCommandAt(original, [0, 'body', 0, 'onYes', 0])).toEqual({
+      kind: 'continueLoop',
+      loop: 'attempt',
+    })
     expect(() =>
       checkAuthorScriptFlow(
         {
@@ -224,5 +235,34 @@ describe('canonical author command edit', () => {
         'flow',
       ),
     ).not.toThrow()
+  })
+
+  test('copying an inner loop preserves its reference to an external ancestor', () => {
+    const original: AuthorCommand[] = [
+      {
+        kind: 'loop',
+        mode: 'forever',
+        id: 'outer',
+        body: [
+          {
+            kind: 'repeat',
+            count: 2,
+            id: 'inner',
+            body: [{ kind: 'continueLoop', loop: 'outer' }],
+          },
+          { kind: 'breakLoop' },
+        ],
+      },
+    ]
+    const copied = copyAuthorCommandAt(original, [0, 'body', 0])
+    expect(getAuthorCommandAt(copied, [0, 'body', 1])).toMatchObject({ id: 'inner-copy' })
+    expect(getAuthorCommandAt(copied, [0, 'body', 1, 'body', 0])).toEqual({
+      kind: 'continueLoop',
+      loop: 'outer',
+    })
+    expect(() => checkAuthorCommands(copied, 'copied')).not.toThrow()
+    expect(() =>
+      checkAuthorCommands([getAuthorCommandAt(copied, [0, 'body', 1])!], 'detached'),
+    ).toThrow()
   })
 })

@@ -8,7 +8,6 @@ import {
 const resume = (): AutoScriptContinuation => ({
   digest: 'c'.repeat(64),
   frames: [{ index: 2 }],
-  outcomes: {},
 })
 function world(continuation: unknown, channel = 'auto', completed = false) {
   return {
@@ -55,7 +54,7 @@ describe('engine-only automatic continuation guard', () => {
     { ...resume(), frames: [{ index: -1 }] },
     { ...resume(), frames: [{ index: 1.5 }] },
     { ...resume(), frames: [{ index: 0, hiddenStep: true }] },
-    { ...resume(), frames: [{ index: 0, control: { kind: 'loop', iteration: 0, phase: 'body' } }] },
+    { ...resume(), frames: [{ index: 0, control: { kind: 'repeat', iteration: 0 } }] },
     {
       ...resume(),
       frames: [{ index: 0, control: { kind: 'loop', iteration: 1, phase: 'worldTick' } }],

@@ -45,7 +45,7 @@ describe('findEditableEnemyDefeatedItemReward 剩余合同', () => {
   test('finds a plain giveItem with probability, count and trailing dialog', () => {
     const commands = [
       { kind: 'dialog', cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.bye' }] } },
-      { kind: 'branch', cond: { kind: 'chance', percent: 25 }, then: [{ kind: 'stopScript' }] },
+      { kind: 'branch', cond: { kind: 'chance', percent: 25 }, then: [{ kind: 'returnScript' }] },
       { kind: 'giveItem', itemId: 'herb', count: 3 },
       { kind: 'dialog', cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.bye' }] } },
     ] satisfies Commands
@@ -72,8 +72,8 @@ describe('findEditableEnemyDefeatedItemReward 剩余合同', () => {
     ]
     expect(findEditableEnemyDefeatedItemReward(doubleGive)).toBeUndefined()
     const afterBranch: Commands = [
-      { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [{ kind: 'stopScript' }] },
-      { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [{ kind: 'stopScript' }] },
+      { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [{ kind: 'returnScript' }] },
+      { kind: 'branch', cond: { kind: 'chance', percent: 50 }, then: [{ kind: 'returnScript' }] },
       { kind: 'giveItem', itemId: 'herb', count: 1 },
     ]
     expect(findEditableEnemyDefeatedItemReward(afterBranch)).toBeUndefined()
@@ -84,7 +84,7 @@ describe('replaceEditableEnemyDefeatedItemReward 剩余合同', () => {
   test('rewrites probability branch, item and keeps the trailing dialog text', () => {
     const commands = [
       { kind: 'dialog', cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.bye' }] } },
-      { kind: 'branch', cond: { kind: 'chance', percent: 25 }, then: [{ kind: 'stopScript' }] },
+      { kind: 'branch', cond: { kind: 'chance', percent: 25 }, then: [{ kind: 'returnScript' }] },
       { kind: 'giveItem', itemId: 'herb', count: 1 },
       { kind: 'dialog', cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.bye' }] } },
     ] satisfies Commands
@@ -102,7 +102,7 @@ describe('replaceEditableEnemyDefeatedItemReward 剩余合同', () => {
     expect(next?.[1]).toEqual({
       kind: 'branch',
       cond: { kind: 'chance', percent: 25 },
-      then: [{ kind: 'stopScript' }],
+      then: [{ kind: 'returnScript' }],
     })
     expect(next?.[2]).toEqual({ kind: 'giveItem', itemId: 'herb', count: 5 })
     expect(next?.[3]).toEqual({

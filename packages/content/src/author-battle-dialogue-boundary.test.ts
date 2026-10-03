@@ -21,9 +21,7 @@ const cases: { name: string; path: string; wrap: Wrap }[] = [
   {
     name: 'loop',
     path: 'commands[0].body[0]',
-    wrap: (body) => [
-      { kind: 'loop', mode: 'while', cond: flag, body, yield: 'worldTick', maxIterations: 2 },
-    ],
+    wrap: (body) => [{ kind: 'loop', mode: 'while', cond: flag, body }],
   },
   {
     name: 'onLose',
@@ -40,7 +38,11 @@ const cases: { name: string; path: string; wrap: Wrap }[] = [
     path: 'commands[0].onFail[0]',
     wrap: (body) => [{ kind: 'teleportOut', onFail: body }],
   },
-  { name: 'onNo', path: 'commands[0].onNo[0]', wrap: (body) => [{ kind: 'confirm', onNo: body }] },
+  {
+    name: 'onNo',
+    path: 'commands[0].onNo[0]',
+    wrap: (body) => [{ kind: 'confirm', onYes: [], onNo: body }],
+  },
 ]
 
 function battle(identity: AuthorDialogueCue['identity'] = { kind: 'narration' }) {

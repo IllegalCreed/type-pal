@@ -44,7 +44,8 @@ interface Position {
 
 interface RouteState {
   positions: Map<string, Position>
-  stop?: 'script' | 'boundary'
+  stop?: 'script' | 'step' | 'boundary' | 'break' | 'continue'
+  loop?: string
 }
 
 const PARTY_KEY = 'party'
@@ -64,10 +65,7 @@ const samePos = (a?: GridPos, b?: GridPos): boolean =>
 
 function selectedBody(flow: AuthorScriptFlow, cursor?: FlowCursor) {
   const selected = previewFlowCursor(flow, cursor)
-  if (flow.kind === 'stages' && selected.kind === 'stage')
-    return flow.stages.find((stage) => stage.id === selected.stage)
-  if (flow.kind === 'stateMachine' && selected.kind === 'state')
-    return flow.machine.states[selected.state]
+  if (selected.kind === 'stage') return flow.stages.find((stage) => stage.id === selected.stage)
   return undefined
 }
 
@@ -75,16 +73,21 @@ function cloneState(state: RouteState): RouteState {
   return {
     positions: new Map([...state.positions].map(([key, position]) => [key, { ...position }])),
     stop: state.stop,
+    loop: state.loop,
   }
 }
 
 /** Merge knowledge, not execution: divergent arms must not supply a fictitious next start point. */
 function mergeStates(state: RouteState, arms: readonly RouteState[]): void {
-  state.stop = arms.some((arm) => arm.stop === 'boundary')
-    ? 'boundary'
-    : arms.some((arm) => arm.stop === 'script')
-      ? 'script'
-      : undefined
+  const stopped = arms.filter((arm) => arm.stop)
+  state.stop =
+    stopped.length === 0
+      ? undefined
+      : stopped.length === arms.length &&
+          stopped.every((arm) => arm.stop === stopped[0]?.stop && arm.loop === stopped[0]?.loop)
+        ? stopped[0]!.stop
+        : 'boundary'
+  state.loop = stopped[0]?.loop
   for (const key of state.positions.keys()) {
     const first = arms[0]?.positions.get(key)
     if (!first?.pos || arms.some((arm) => !samePos(first.pos, arm.positions.get(key)?.pos))) {
@@ -236,8 +239,18 @@ export function collectScriptMovementPreview(options: {
           )
           invalidate(route)
           break
-        case 'stopScript':
+        case 'returnScript':
           route.stop = 'script'
+          break
+        case 'finishStep':
+          route.stop = 'step'
+          break
+        case 'breakLoop':
+          route.stop = 'break'
+          break
+        case 'continueLoop':
+          route.stop = 'continue'
+          route.loop = command.loop
           break
         case 'moveEntity':
           addPoint(
@@ -356,12 +369,37 @@ export function collectScriptMovementPreview(options: {
         case 'branch':
           alternatives([command.then, command.else ?? []])
           break
-        case 'loop':
-          alternatives([[], command.body])
-          notes.add('循环仅展示一次循环体，不展开重复次数。')
+        case 'repeat': {
+          if (command.body.length === 0) break
+          for (let iteration = 0; iteration < command.count; iteration++) {
+            walk(command.body, route, owner, conditional, calls)
+            if (route.stop === 'break') {
+              route.stop = undefined
+              break
+            }
+            if (route.stop === 'continue' && (!route.loop || route.loop === command.id)) {
+              route.stop = undefined
+              route.loop = undefined
+            }
+            if (route.stop) break
+          }
           break
+        }
+        case 'loop': {
+          const body = cloneState(route)
+          walk(command.body, body, owner, true, calls)
+          const exits = body.stop === 'break'
+          if (exits || (body.stop === 'continue' && (!body.loop || body.loop === command.id))) {
+            body.stop = undefined
+            body.loop = undefined
+          }
+          if (command.mode === 'forever' && !exits && !body.stop) body.stop = 'boundary'
+          mergeStates(route, command.mode === 'forever' ? [body] : [cloneState(route), body])
+          notes.add('条件循环仅展示一轮；不能确定后续位置时会断开轨迹。')
+          break
+        }
         case 'confirm':
-          alternatives([[], command.onNo])
+          alternatives([command.onYes, command.onNo])
           break
         case 'startBattle':
           alternatives([[], command.onLose ?? [], command.onFlee ?? []])

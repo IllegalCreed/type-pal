@@ -184,346 +184,145 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "auto-lifecycle-s115-e2136-legacy-001",
-                "label": "自动行为 1 · 源循环",
-                "initial": "source-20699",
-                "states": {
-                  "source-20699": {
-                    "label": "源指令 20699",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "facing": "down"
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "frame": 1
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20700",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20700": {
-                    "label": "源指令 20700",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-20701"
-                    }
-                  },
-                  "source-20701": {
-                    "label": "源指令 20701",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "facing": "down"
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "frame": 2
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20702",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20702": {
-                    "label": "源指令 20702",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-20703"
-                    }
-                  },
-                  "source-20703": {
-                    "label": "源指令 20703",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "facing": "down"
+                      "frame": 1
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 140
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "frame": 3
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20704",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20704": {
-                    "label": "源指令 20704",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-20705"
-                    }
-                  },
-                  "source-20705": {
-                    "label": "源指令 20705",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "facing": "down"
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "frame": 4
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20706": {
-                    "label": "源指令 20706",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706-wait-2",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20707": {
-                    "label": "源指令 20707",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "facing": "down"
+                      "frame": 2
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 140
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "frame": 5
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20708",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20708": {
-                    "label": "源指令 20708",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-20709"
-                    }
-                  },
-                  "source-20709": {
-                    "label": "源指令 20709",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
-                        },
-                        "facing": "down"
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
                       },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s115",
-                          "entity": "e2136"
+                      "frame": 3
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 140
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
+                      },
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s115",
+                        "entity": "e2136"
+                      },
+                      "frame": 4
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 800
+                    },
+                    {
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2136"
+                          },
+                          "facing": "down"
                         },
-                        "frame": 4
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710",
-                      "yield": "worldTick"
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2136"
+                          },
+                          "frame": 5
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        },
+                        {
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2136"
+                          },
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2136"
+                          },
+                          "frame": 4
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 940
+                        },
+                        {
+                          "kind": "continueLoop"
+                        }
+                      ]
                     }
-                  },
-                  "source-20710": {
-                    "label": "源指令 20710",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-2",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20711": {
-                    "label": "源指令 20711",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "source-20707"
-                    }
-                  },
-                  "source-20706-wait-2": {
-                    "label": "源指令 20706 · 等待 2/7",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706-wait-3",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20706-wait-3": {
-                    "label": "源指令 20706 · 等待 3/7",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706-wait-4",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20706-wait-4": {
-                    "label": "源指令 20706 · 等待 4/7",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706-wait-5",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20706-wait-5": {
-                    "label": "源指令 20706 · 等待 5/7",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706-wait-6",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20706-wait-6": {
-                    "label": "源指令 20706 · 等待 6/7",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20706-wait-7",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20706-wait-7": {
-                    "label": "源指令 20706 · 等待 7/7",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20707",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-2": {
-                    "label": "源指令 20710 · 等待 2/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-3",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-3": {
-                    "label": "源指令 20710 · 等待 3/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-4",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-4": {
-                    "label": "源指令 20710 · 等待 4/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-5",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-5": {
-                    "label": "源指令 20710 · 等待 5/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-6",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-6": {
-                    "label": "源指令 20710 · 等待 6/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-7",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-7": {
-                    "label": "源指令 20710 · 等待 7/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20710-wait-8",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-20710-wait-8": {
-                    "label": "源指令 20710 · 等待 8/8",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-20711",
-                      "yield": "worldTick"
-                    }
-                  }
-                },
-                "cadence": "transition"
-              }
+                  ]
+                }
+              ]
             }
           }
         }
@@ -710,124 +509,50 @@
                       "ms": 160
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 7,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 6,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 7,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 6,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 7,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 6,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "frame": 7,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "frame": 6,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -1490,84 +1215,50 @@
                       "ms": 320
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 19,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 20,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 19,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "frame": 20,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s115",
-                        "entity": "e2145"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "frame": 19,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 120
+                        },
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "frame": 20,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s115",
+                            "entity": "e2145"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 120
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -1987,11 +1678,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 200
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 160
+                      "ms": 360
                     },
                     {
                       "facing": "down",
@@ -2523,6 +2210,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -2538,6 +2226,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "moveEntity",
                       "speed": "normal",
                       "to": {
@@ -2551,6 +2243,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2559,19 +2255,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s115",
                         "entity": "e2146"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2860,11 +2568,9 @@
                     ]
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

@@ -196,6 +196,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -211,11 +212,21 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s038",
                         "entity": "e623"
+                      }
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],
@@ -258,32 +269,46 @@
               "stages": [
                 {
                   "id": "initial",
-                  "body": [],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "moveEntity",
-                      "speed": "fast",
-                      "to": {
-                        "col": 117,
-                        "height": 0,
-                        "row": 30
-                      },
-                      "target": {
-                        "scene": "s038",
-                        "entity": "e624"
-                      }
+                      "kind": "wait",
+                      "ms": 40
                     },
                     {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s038",
-                        "entity": "e624"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "moveEntity",
+                          "speed": "fast",
+                          "to": {
+                            "col": 117,
+                            "height": 0,
+                            "row": 30
+                          },
+                          "target": {
+                            "scene": "s038",
+                            "entity": "e624"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "setEntityState",
+                          "state": 0,
+                          "target": {
+                            "scene": "s038",
+                            "entity": "e624"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

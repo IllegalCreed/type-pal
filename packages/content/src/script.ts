@@ -164,7 +164,7 @@ export type Command =
   // END(op 目标 0 = 全局 0 号 END,当场退)。翻译把跳转内联成臂后,臂跑完必须终止本次脚本
   // 运行(否则落穿回父体 = 概率门/确认门全废)——翻译器在每个跳走臂尾发射本命令;
   // runner 收到即结束 runStages 本次运行且**阶段不转移**(auto 下拍重跑 = 原版"原地不动")。
-  | { kind: 'stopScript' }
+  | { kind: 'returnScript' }
   | { kind: 'quitToTitle'; videos?: AssetId[] } // 0xA0 游戏通关退出(拜月最终决战后 → 回标题屏;仙剑单一结局)
   // 世界状态
   | { kind: 'giveItem'; itemId: string; count?: number }
@@ -212,7 +212,7 @@ export type Command =
   // 走 onFail(「引路蜂不灵」提示)。战斗中禁用(原版 !fInBattle,道具菜单本就战外,冗余守卫)。
   | { kind: 'teleportOut'; onFail?: Command[] }
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
-  | { kind: 'confirm'; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
+  | { kind: 'confirm'; onYes: Command[]; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)
   | { kind: 'cameraPan'; dx: number; dy: number; frames: number } // 相对:每帧位移 ×frames,阻塞
   | { kind: 'cameraSnap'; to?: GridPos } // 绝对跳到格(to)/回正跟随(缺省)
@@ -335,7 +335,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   shakeScreen: 'safe',
   startBattle: 'blocked',
   stepEntity: 'safe',
-  stopScript: 'blocked',
+  returnScript: 'blocked',
   stopEntityAction: 'safe',
   takeEntity: 'safe',
   teleportOut: 'blocked',
@@ -672,8 +672,10 @@ export function checkCommands(
       const onFail = (c as { onFail?: unknown }).onFail
       if (onFail !== undefined) checkCommands(onFail, `${path}[${i}].onFail`, options)
     }
-    if (k === 'confirm')
+    if (k === 'confirm') {
+      checkCommands((c as { onYes?: unknown }).onYes, `${path}[${i}].onYes`, options)
       checkCommands((c as { onNo?: unknown }).onNo, `${path}[${i}].onNo`, options)
+    }
     if (k === 'callScript' || k === 'jumpScript')
       checkRef((c as { ref?: unknown }).ref, `${path}[${i}].ref`)
     if (

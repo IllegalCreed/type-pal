@@ -14,7 +14,7 @@ function currentState(): EditorState {
     manifest: {
       id: 'current-editor-test',
       name: 'Current editor test',
-      contentVersion: 21,
+      contentVersion: 22,
       defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/',
@@ -30,7 +30,7 @@ function currentState(): EditorState {
           startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
-      minimumSaveVersion: 10,
+      minimumSaveVersion: 11,
     },
     scenes: [
       {

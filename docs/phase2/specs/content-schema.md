@@ -1,15 +1,15 @@
 # 内容工程当前格式
 
-类型：现行规范（current）。当前产品为 contentVersion 21 / SAVE10；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/content-schema.md)，不作为当前执行入口。
 
-## 当前 canonical 项目入口（contentVersion 21，2026-09-30）
+## 当前 canonical 项目入口 contentVersion 22
 
-当前产品只接受 contentVersion 21。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
+当前产品只接受 contentVersion 22。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
 显示名、启动场景、可选开场视频和必填 `StartWorld`。`manifest.defaultEntryId` 必须命中其中一项，只决定无
 `menu` / `entry` 参数时直接启动哪一项；它不是父入口或模板。当前 manifest 不含顶层 `entryScene`、顶层
-`startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立保持 9，payload 记录完整世界与位置，不记录入口 id。
+`startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立为 11，payload 记录完整世界与位置，不记录入口 id。
 
 角色初始化同样只有一组权威输入：`ActorDef.battler` 持有初始等级、当前/最大 HP/MP 基线、基础属性、
 初始装备与初始技能；新实例经验固定从 0 开始。`StartWorld` 只持有队伍与顺序、金钱、库存、世界资源，
@@ -25,10 +25,10 @@
 `severe`（`incurable` 保留），从存档恢复时则对 party 与 reserve 全部清除，包括不可解毒。剧情变化使用
 稳定 ActorId 的显式施加/清除命令，`setParty` 仍只负责阵容，不隐式播种或清理 condition。
 
-旧内容版本 1..19、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
+旧内容版本 1..21、旧顶层字段、可选入口表和缺省 StartWorld 不属于当前输入合同；开发期历史由 Git 保存，不在产品
 loader、editor 或 migrate publication 中保留 upgrader。
 
-### SceneIndex：发现、名称与路径真值（content21）
+### SceneIndex：发现、名称与路径真值（content22）
 
 `manifest.content.scenes` 指向场景目录，目录内 `index.json` 是唯一的场景发现、作者显示名和正文路径真值：
 
@@ -47,7 +47,7 @@ loader、editor 或 migrate publication 中保留 upgrader。
   不得从 SceneId 拼接文件名。
 - 重复/非法 id、空名称、重复/越界 path、缺正文、正文 id 不符和输出路径冲突全部 fail-loud。
 - PAL 初次迁移用地图可读名按稳定场景顺序确定性消歧；之后 publication 以 baseline-first 保留作者修改的
-  `name/path`。当前产品不保留 content19 string[] parser、upgrader 或 fallback。
+  `name/path`。当前产品不保留旧版 string[] parser、upgrader 或 fallback。
 
 ## 共享等距内容与 ProjectMap v4（尺寸可变 + 多来源 + 实例高度 + 碰撞层）
 
@@ -89,7 +89,7 @@ loader、editor 或 migrate publication 中保留 upgrader。
 
 ### 地图资产注册与场景绑定（W7F，2026-07-14）
 
-地图的稳定身份不由文件路径或场景反向推导。当前 contentVersion 21 工程通过
+地图的稳定身份不由文件路径或场景反向推导。当前 contentVersion 22 工程通过
 `manifest.content.maps` 指向 `content/maps/index.json`：
 
 ```jsonc

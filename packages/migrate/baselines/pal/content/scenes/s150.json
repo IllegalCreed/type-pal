@@ -48,38 +48,61 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s150",
-                        "entity": "e2465"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s150",
-                        "entity": "e2465"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s150",
-                        "entity": "e2465"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s150",
-                        "entity": "e2465"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "dx": 8,
+                          "dy": -4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s150",
+                            "entity": "e2465"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s150",
+                            "entity": "e2465"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 8,
+                          "dy": -4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s150",
+                            "entity": "e2465"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s150",
+                            "entity": "e2465"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -112,118 +135,90 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "auto-lifecycle-s150-e2466-default",
-                "label": "默认自动行为 · 源循环",
-                "initial": "source-24991",
-                "states": {
-                  "source-24991": {
-                    "label": "源指令 24991",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s150",
-                          "entity": "e2466"
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s150",
+                        "entity": "e2466"
+                      },
+                      "dx": 6,
+                      "dy": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s150",
+                        "entity": "e2466"
+                      },
+                      "dx": 8,
+                      "dy": -1
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s150",
+                        "entity": "e2466"
+                      },
+                      "dx": 10,
+                      "dy": -2
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s150",
+                        "entity": "e2466"
+                      },
+                      "dx": 12,
+                      "dy": -3
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s150",
+                            "entity": "e2466"
+                          },
+                          "dx": 12,
+                          "dy": -4
                         },
-                        "dx": 6,
-                        "dy": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-24992",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-24992": {
-                    "label": "源指令 24992",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s150",
-                          "entity": "e2466"
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         },
-                        "dx": 8,
-                        "dy": -1
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-24993",
-                      "yield": "worldTick"
+                        {
+                          "kind": "continueLoop"
+                        }
+                      ]
                     }
-                  },
-                  "source-24993": {
-                    "label": "源指令 24993",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s150",
-                          "entity": "e2466"
-                        },
-                        "dx": 10,
-                        "dy": -2
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-24994",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-24994": {
-                    "label": "源指令 24994",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s150",
-                          "entity": "e2466"
-                        },
-                        "dx": 12,
-                        "dy": -3
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-24995",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-24995": {
-                    "label": "源指令 24995",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s150",
-                          "entity": "e2466"
-                        },
-                        "dx": 12,
-                        "dy": -4
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "source-24996",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "source-24996": {
-                    "label": "源指令 24996",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "source-24995"
-                    }
-                  }
-                },
-                "cadence": "transition"
-              }
+                  ]
+                }
+              ]
             }
           }
         }

@@ -114,8 +114,8 @@ export async function previewCacheFixture(
   const manifest: CurrentManifest = {
     id: projectId,
     name: projectId,
-    contentVersion: 21,
-    minimumSaveVersion: 10,
+    contentVersion: 22,
+    minimumSaveVersion: 11,
     defaultEntryId: 'start',
     entryPoints: [
       {

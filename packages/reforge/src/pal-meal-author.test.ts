@@ -48,7 +48,7 @@ test('wine private use only guards, selects and explicitly awaits the NPC-owned 
         range: 1,
       },
     },
-    then: [{ kind: 'dialog' }, { kind: 'stopScript' }],
+    then: [{ kind: 'dialog' }, { kind: 'returnScript' }],
   })
   expect(commands).toHaveLength(4)
   expect(commands.slice(2)).toEqual([
@@ -131,14 +131,20 @@ test('the carried meal uses existing persistent appearance, retaining the detail
     actor: 'li-xiaoyao',
     spriteId: 'li-xiaoyao',
   })
-  expect(serve.filter((command) => command.kind === 'nudgeEntity')).toEqual(
-    Array.from({ length: 6 }, () => ({
-      kind: 'nudgeEntity',
-      dx: 8,
-      dy: 4,
-      target: { scene: 's001', entity: 'e26' },
-    })),
-  )
+  expect(serve.find((command) => command.kind === 'repeat')).toEqual({
+    kind: 'repeat',
+    count: 6,
+    body: [
+      { kind: 'clearDialog' },
+      {
+        kind: 'nudgeEntity',
+        dx: 8,
+        dy: 4,
+        target: { scene: 's001', entity: 'e26' },
+      },
+      { kind: 'animEntity', target: { scene: 's001', entity: 'e26' } },
+    ],
+  })
   expect(
     serve.flatMap((command) =>
       command.kind === 'setPartyFacing' && command.gesture !== undefined ? [command.gesture] : [],

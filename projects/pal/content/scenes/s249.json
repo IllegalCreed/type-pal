@@ -57,31 +57,19 @@
                       "ms": 40
                     },
                     {
-                      "kind": "nudgeParty",
-                      "dx": -8,
-                      "dy": -8
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "kind": "nudgeParty",
-                      "dx": -8,
-                      "dy": -8
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "kind": "nudgeParty",
-                      "dx": -8,
-                      "dy": -8
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "kind": "nudgeParty",
+                          "dx": -8,
+                          "dy": -8
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "kind": "loadScene",
@@ -282,13 +270,24 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s249",
-                        "entity": "e4396"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s249",
+                            "entity": "e4396"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }

@@ -75,7 +75,7 @@ function enemy(over: Record<string, unknown> = {}): Record<string, unknown> {
         kind: 'branch',
         cond: { kind: 'flag', flag: 'boss-ready', is: true },
         then: [{ kind: 'giveItem', itemId: 'item-reward' }],
-        else: [{ kind: 'stopScript' }],
+        else: [{ kind: 'returnScript' }],
       },
     ],
     ...over,

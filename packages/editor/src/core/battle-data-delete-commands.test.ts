@@ -91,7 +91,7 @@ function state(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 21,
+      contentVersion: 22,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

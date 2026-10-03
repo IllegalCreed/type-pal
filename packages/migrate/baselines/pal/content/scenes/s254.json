@@ -279,121 +279,203 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 128,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4468"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 96
-                      },
-                      "then": [
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
                         {
-                          "kind": "stopScript"
+                          "kind": "loop",
+                          "mode": "forever",
+                          "body": [
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 128,
+                                "height": 0,
+                                "row": 46
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4468"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 96
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "breakLoop"
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "kind": "loop",
+                          "mode": "forever",
+                          "body": [
+                            {
+                              "facing": "up",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4468"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4468"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 93
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "facing": "down",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4468"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4468"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 91
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 128,
+                                "height": 0,
+                                "row": 54
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4468"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 95
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "breakLoop"
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
                         }
                       ]
                     }
-                  ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": [
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4468"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4468"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 93
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4468"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4468"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 91
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 128,
-                        "height": 0,
-                        "row": 54
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4468"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 95
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    }
-                  ],
-                  "next": "initial"
+                  ]
                 }
               ]
             }
@@ -538,110 +620,186 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 133,
-                        "height": 0,
-                        "row": 61
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4470"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 91
-                      },
-                      "then": [
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
                         {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4470"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4470"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 93
-                      },
-                      "then": [
+                          "kind": "loop",
+                          "mode": "forever",
+                          "body": [
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 133,
+                                "height": 0,
+                                "row": 61
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4470"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 91
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "facing": "up",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4470"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4470"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 93
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 136,
+                                "height": 0,
+                                "row": 61
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4470"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 91
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "facing": "up",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4470"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4470"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 91
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "breakLoop"
+                            }
+                          ]
+                        },
                         {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 136,
-                        "height": 0,
-                        "row": 61
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4470"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 91
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4470"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4470"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 91
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
+                          "kind": "wait",
+                          "ms": 40
                         }
                       ]
                     }
@@ -879,22 +1037,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4473"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4473"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4473"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4473"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1060,148 +1233,240 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 114,
-                        "height": 0,
-                        "row": 62
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 81
-                      },
-                      "then": [
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
                         {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 96,
-                        "height": 0,
-                        "row": 62
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 98
-                      },
-                      "then": [
+                          "kind": "loop",
+                          "mode": "forever",
+                          "body": [
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 114,
+                                "height": 0,
+                                "row": 62
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 81
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 96,
+                                "height": 0,
+                                "row": 62
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 98
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 119,
+                                "height": 0,
+                                "row": 62
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 91
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "facing": "down",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 97
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "moveEntity",
+                              "speed": "slow",
+                              "to": {
+                                "col": 115,
+                                "height": 0,
+                                "row": 62
+                              },
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "facing": "up",
+                              "kind": "setEntityFacing",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "frame": 0,
+                              "kind": "setEntityFrame",
+                              "target": {
+                                "scene": "s254",
+                                "entity": "e4475"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "branch",
+                              "cond": {
+                                "kind": "chance",
+                                "percent": 96
+                              },
+                              "then": [
+                                {
+                                  "kind": "wait",
+                                  "ms": 40
+                                },
+                                {
+                                  "kind": "continueLoop"
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "kind": "breakLoop"
+                            }
+                          ]
+                        },
                         {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 119,
-                        "height": 0,
-                        "row": 62
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 91
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 97
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 115,
-                        "height": 0,
-                        "row": 62
-                      },
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4475"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 96
-                      },
-                      "then": [
-                        {
-                          "kind": "stopScript"
+                          "kind": "wait",
+                          "ms": 40
                         }
                       ]
                     }
@@ -1280,68 +1545,91 @@
               "stages": [
                 {
                   "id": "initial",
-                  "body": [],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 96
-                      },
-                      "then": []
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4476"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4476"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 96
+                          },
+                          "then": []
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "facing": "up",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4476"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4476"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        },
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 93
+                          },
+                          "then": []
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4476"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4476"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
-                  ],
-                  "next": "legacy-003"
-                },
-                {
-                  "id": "legacy-003",
-                  "body": [
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "chance",
-                        "percent": 93
-                      },
-                      "then": []
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4476"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4476"
-                      }
-                    }
-                  ],
-                  "next": "initial"
+                  ]
                 }
               ]
             }
@@ -1416,22 +1704,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4477"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4477"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4477"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4477"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1508,22 +1811,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4478"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4478"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "down",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4478"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4478"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1607,22 +1925,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4479"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s254",
-                        "entity": "e4479"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "right",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4479"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s254",
+                            "entity": "e4479"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2081,11 +2414,9 @@
                     "kind": "dialog"
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

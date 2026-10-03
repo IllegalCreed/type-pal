@@ -1,0 +1,678 @@
+{
+  "baselineRevision": "1b3bffb79",
+  "note": "Recorded original content21 compiler/runner trace hashes; 180 effects or 180000 modeled milliseconds. 32 independent RNG seeds for each of three sound families. Expected hashes are not regenerated from content22.",
+  "cases": [
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 1,
+      "environment": false,
+      "expected": "19433b240a046a4de85e38ffab8a353e913d820aaccbbdb192fd4d7f975d61d3",
+      "effects": 68
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 2,
+      "environment": false,
+      "expected": "bc2883cd380ef8b49360dbce420ddd7fc07e03ed3ea547e8f4908212fb8e4bb7",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 3,
+      "environment": false,
+      "expected": "22d2a20db5bbb780a2282cb192f05dc9a7808c28376bfa5d266e74721fe8833b",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 4,
+      "environment": false,
+      "expected": "983299c7aaa273a76fe0bd5190ecd55e1e9dc609ed6ccd05c479a89523c1c943",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 5,
+      "environment": false,
+      "expected": "96ca06f475f1393c9cf5742b3120e2103f35b5940d47b625b1c42e5581f004aa",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 6,
+      "environment": false,
+      "expected": "e573c74898ebbe0562760f8e17d805dfe6812e81a3ab163b09e9dc87719d5c32",
+      "effects": 139
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 7,
+      "environment": false,
+      "expected": "d2a0790cd4ce7d7f38d18e8711e38048ec7ef2d9aa5a8592792cd980bae776bf",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 8,
+      "environment": false,
+      "expected": "c7fd104fe18ccdb5e2842d39af3593516b57f62d05eafcb69f754eff173a29fc",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 9,
+      "environment": false,
+      "expected": "2a22a9b766105797d45265a089a1c49200f7b3514f52471091e9f9a79f709de1",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 10,
+      "environment": false,
+      "expected": "a91b6b831de8e81ca4465efe1a1a4c463e3db3bf243c337ca71f0d959556944f",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 11,
+      "environment": false,
+      "expected": "f55af374ff0511fbf754567257a26945ceb80f0dbf7a7b3dd77be642a61f6784",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 12,
+      "environment": false,
+      "expected": "0fb295cc55671efafb488e83b792a420a42f734bbdabfb32b2cf736e0e338a70",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 13,
+      "environment": false,
+      "expected": "e1eee88309e94b613dbd08fbcd2c65c68168527fa4678af4cb737638aeea710c",
+      "effects": 77
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 14,
+      "environment": false,
+      "expected": "b6e3b8857a69d5173e8c44dd14f0982cee15675e97e6cc2764eaed897b5d002f",
+      "effects": 65
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 15,
+      "environment": false,
+      "expected": "852a07702cf297410204a8ade799decfd30c56ea486fcf12f45b45bef6e763b6",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 16,
+      "environment": false,
+      "expected": "9b95468064bad034b07660813f080ccea135cef3cad6ca812ba34ce8bc319d6f",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 17,
+      "environment": false,
+      "expected": "bee32fdb6e0232dc4edce83b635dc61fc49b1ae250dadbbd09cdba5fc2b088db",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 18,
+      "environment": false,
+      "expected": "3a14ea2d6cde2bb14bf8c5714f26c4aaed534739e48e1597d060d536a99c9eb1",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 19,
+      "environment": false,
+      "expected": "8be679afd89a6396ae2a4cb14e6dae513647b35dd6cc73dbf56d4fa709676bb3",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 20,
+      "environment": false,
+      "expected": "de3038b4202e8d8e396309d43d427b5ab27841abdf40c84fa0117444a0ce2a1f",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 21,
+      "environment": false,
+      "expected": "670ee97b5a1ea58a32c88f3f60f545da7f83fc9fa24e7b23a3b6a2f89ab8c8f3",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 22,
+      "environment": false,
+      "expected": "9f48b4e9b6ab013b834c62917608d1ce4fb68152ac74c5714b961d3f28b0bdd5",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 23,
+      "environment": false,
+      "expected": "62190ae61278d60a301bb03dca2d2f8a0559148aba0a415a571a415895fad336",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 24,
+      "environment": false,
+      "expected": "f153dd217464af12031a01585676d4ad31cdf9283b5525a49a57cd03ed0bc5ad",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 25,
+      "environment": false,
+      "expected": "06e71b20c7665146bc5f6db9d3b9a746c578b2a66b38d0cea3c9a24f8d54165b",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 26,
+      "environment": false,
+      "expected": "aeacf3defda0fea98fa3a8d5232f9b4e16cca177a77e409b220c3f5f9f709080",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 27,
+      "environment": false,
+      "expected": "1dff4d726c9ceb84fed2c2ae5fc23fcb587ddd672fdab2391ead3334ab07c6ed",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 28,
+      "environment": false,
+      "expected": "8c2d20d9d3f6ca8b93e70fa6ac55980b1b5f76a283c38ee1a40e47dbba1fc7a8",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 29,
+      "environment": false,
+      "expected": "ee124f9a3eeb977e4d5e3c29fa77889f2cf0a131933efb4fee81aa688831ee27",
+      "effects": 180
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 30,
+      "environment": false,
+      "expected": "67ffbe8e2ee0c8fc2afdefac669f6e164832fb9c895f54c191f06afbcb34138e",
+      "effects": 74
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 31,
+      "environment": false,
+      "expected": "34af2cb3fd51e17c02e4e9696159c2eae622ccd347394890fd0b6b8dce9507c2",
+      "effects": 77
+    },
+    {
+      "key": "s006/e168/auto/default",
+      "seed": 32,
+      "environment": false,
+      "expected": "deb4895cac67726910538043e8b85b59de4ed801ed07b5d70320a7ff8f6c3704",
+      "effects": 83
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 1,
+      "environment": false,
+      "expected": "5fa60ec72c547e660251486e1723dba0d5843bd548be070e162cf6c9dd31c718",
+      "effects": 132
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 2,
+      "environment": false,
+      "expected": "0f01a60c067e68d2911b5e384a4a4e900ede2a1ba3dc28061d9f210052915f19",
+      "effects": 134
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 3,
+      "environment": false,
+      "expected": "e49b423d888de0110ea30f3c76d97f67457bfe06d3bbff6621bfe6c2b9cfc56c",
+      "effects": 147
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 4,
+      "environment": false,
+      "expected": "a60cff367c2cbb50d5f09a2bdecd6a699758c19d5d8d881e29583481a67b56cf",
+      "effects": 120
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 5,
+      "environment": false,
+      "expected": "e80c1b74cfd0233a386e65d5cfd3d9b7bf3254655e564fe95474487d4db1f4b2",
+      "effects": 92
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 6,
+      "environment": false,
+      "expected": "21965e6650566cb157df4c000b1123528755fe6c9810944ab51ef143b8ae753c",
+      "effects": 118
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 7,
+      "environment": false,
+      "expected": "13a41cf451a3b5696f5d0d7a17b55509b31db5415cb49c1fda514bc779524aae",
+      "effects": 116
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 8,
+      "environment": false,
+      "expected": "9b217de6e6087f8df5c9a78fb9522a12a4714e640cb0843c757ab2b8fd6fc3a8",
+      "effects": 150
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 9,
+      "environment": false,
+      "expected": "c4fd10fd4d0ef7a8cd7d6ac83cdf1ba109cd0cc688895983029e4b1a298f3bd8",
+      "effects": 104
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 10,
+      "environment": false,
+      "expected": "f5785d981b36f18a68ce134f891346fc243fc9c4432e4a00a2489158ed079f64",
+      "effects": 107
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 11,
+      "environment": false,
+      "expected": "8223fdab9ec2fe9b8ebf63ea74436e75b9b225bae1dc79f6eb11ef1982b603be",
+      "effects": 72
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 12,
+      "environment": false,
+      "expected": "f58f3f0d1d28dd94141afd2476968fa7b00934d408b78afed8b0c9465928a278",
+      "effects": 112
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 13,
+      "environment": false,
+      "expected": "c9a7479bdea62ea48b043e1cd8880c4586957b764c2d942011b9022a9f30fff7",
+      "effects": 48
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 14,
+      "environment": false,
+      "expected": "3d667cdbbfd71fdc74449588ee36ce22b90af502fbb6650398c6678c808d24af",
+      "effects": 55
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 15,
+      "environment": false,
+      "expected": "903ff582b6ce30c1f38ecceba61a3f6cd362d507bbe7b06c378e5b22feead181",
+      "effects": 152
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 16,
+      "environment": false,
+      "expected": "1be5e1b4a99f98e2666edca6009dfc0cb7bc481862a25d50ad9586ef1d85d2c1",
+      "effects": 140
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 17,
+      "environment": false,
+      "expected": "4e76d756a31c0c6f278fa774fac0d10a506042d92a8c4d8af521188871b705f8",
+      "effects": 109
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 18,
+      "environment": false,
+      "expected": "fd71850974b96ca883dc690ec7fb966c64af7a8d1f5b354c8dc42ac465d0f8b7",
+      "effects": 136
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 19,
+      "environment": false,
+      "expected": "3f4524a018d4718a53ed47ed0cf6e70f3a5b751b3c2d1231f6b8861474db5304",
+      "effects": 111
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 20,
+      "environment": false,
+      "expected": "fc8bc5cf900e2c93c59024061f21c4227cc84ac3ade56d2cdfdd9c58ffbe08cc",
+      "effects": 117
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 21,
+      "environment": false,
+      "expected": "5aad6d82202143c0d5380a40a07216aa5bc813c62c17725ae8096814ef8f5ab0",
+      "effects": 121
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 22,
+      "environment": false,
+      "expected": "a3e3a0827bc86bfa76f0f2f4647ff4111471b00d25672cf055def9a4a15d6f74",
+      "effects": 124
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 23,
+      "environment": false,
+      "expected": "924ddde306c28978223431f3f78ab56512a38572dae4d0216726cd729a781d31",
+      "effects": 123
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 24,
+      "environment": false,
+      "expected": "5a34e5b984afb08a27032365f4109220805a156cb97492dfb8e6544ef2b37fc9",
+      "effects": 85
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 25,
+      "environment": false,
+      "expected": "ce6847e4dfa698361152136e7c3adcad6d3249a7cf55097a048cda058c0bb0b2",
+      "effects": 121
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 26,
+      "environment": false,
+      "expected": "837ad33a73bcc431725e7d43ee56d2807968720b13eeaaa70509d07c1cc5bfb1",
+      "effects": 114
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 27,
+      "environment": false,
+      "expected": "9f3d955c2c624a23c7900e2f892283f5ca7f84b2135c003f555a99c17965b331",
+      "effects": 77
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 28,
+      "environment": false,
+      "expected": "3f531ad680ccb063fe579026d193e7d2f94d48707cdc9e8d99e10da244616952",
+      "effects": 114
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 29,
+      "environment": false,
+      "expected": "a1b87baad61901b77a73bbb8fddc479ee963e661ace3393817adce7f4045f91c",
+      "effects": 144
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 30,
+      "environment": false,
+      "expected": "4c03b9521a98236921f46eaeb1ae2726b8a6e80cb7f1948f134e60c3a069dc16",
+      "effects": 110
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 31,
+      "environment": false,
+      "expected": "df447eb1f63d98df51a245ab13d17b0361abf25e0f32dcf3ce7a54b2aceb70db",
+      "effects": 94
+    },
+    {
+      "key": "s061/e1179/auto/default",
+      "seed": 32,
+      "environment": false,
+      "expected": "58b2ee9a9203238b91f5eccb08ac6cb6c0ab119dec02d1bc2e47f1d75c2a874f",
+      "effects": 120
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 1,
+      "environment": false,
+      "expected": "bf74d33e1900ada468067e4f2a97086958f8784773a75d9e14bb4e3b78165ff8",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 2,
+      "environment": false,
+      "expected": "0aef680551060f98f01fb6bc479ed29de4cd6eef89bf59f64a12d3b8252e557d",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 3,
+      "environment": false,
+      "expected": "f02db02f4990ddfcdcd321eea14c4d1ee8998c399a4f0418e10845ed8a9368d6",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 4,
+      "environment": false,
+      "expected": "e2485afca7026c1556182b116ec80dbb46a0174acf3face4425bd36b5f6378d5",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 5,
+      "environment": false,
+      "expected": "bde3123e8757a404c481adcea9586e6167849b2095dc559715dfbe9a2af81554",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 6,
+      "environment": false,
+      "expected": "cebfa2f39ebb1ef6b7b6967a523443c1fcd84becfdf98223e05fbd7dbd1c84cd",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 7,
+      "environment": false,
+      "expected": "4bf8cba53bbc8d764cce827d72765d569fb69da06663b9618b4f04cccdf44724",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 8,
+      "environment": false,
+      "expected": "c08a4130f228ed1ca752703a14139efa02b21027fedb33ec3776dc090935caf5",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 9,
+      "environment": false,
+      "expected": "181310fdab8c1d768348efbe501106b8559bfb9beb9c208368f64d83f6bcd14f",
+      "effects": 0
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 10,
+      "environment": false,
+      "expected": "a25ef6e595d7f59f0084fd8002aaa5d43b83c84f39da158e92e5f44d63cf26a3",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 11,
+      "environment": false,
+      "expected": "b87da9cbd847a525724148980495830d1276cecd3f209ef6586de1dc315b82ae",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 12,
+      "environment": false,
+      "expected": "5621ad910e511bd3a8ca5ab6ca06c155a255602dd45406ba94ceb272d062d471",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 13,
+      "environment": false,
+      "expected": "71566f11946ee7b51a9fabfa25e98e3f9a991a68d077f45f69095463ac36cb5f",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 14,
+      "environment": false,
+      "expected": "cfe5d2d7e500a64bd65ca823cfb2eb0626deeacb419a083ed7a8a6effb886a32",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 15,
+      "environment": false,
+      "expected": "42a79e1215c1b8f2bde3afd8a1206538a9af63fa6f1532e4dbb42fa2a6262ffd",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 16,
+      "environment": false,
+      "expected": "86feaeb4daf2036fdaf280e87ac7362d7da1a74f4894520aa2cceb222bff0926",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 17,
+      "environment": false,
+      "expected": "7695de41c0fbf7525e908334ada1b9ebee02f5889719a436056c6f56d68f5ba9",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 18,
+      "environment": false,
+      "expected": "7ca1ee329058b70b44f364a32847b38401d07e37fe52292dc103466f076506e7",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 19,
+      "environment": false,
+      "expected": "28c0199e308f2755780fbfba3df482b7dc142b854e0c4f18ea00759645723367",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 20,
+      "environment": false,
+      "expected": "c69bdbd37c61ac95072a7da89ccde5bc5085e5cd02253ba1a44f5e84b2505dca",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 21,
+      "environment": false,
+      "expected": "25533d0076400b0049bca36adbcb9bd1c5787cd0f179d17866998359813a0d9f",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 22,
+      "environment": false,
+      "expected": "550f53404e669e5db553a1ed1e4501c4cd36d8ee8b4e6f89f4bf3f13b52a2a63",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 23,
+      "environment": false,
+      "expected": "a0006a2c664b041ab724cd3fabfb22a89a94092ffcf81e9d3c07b56aff1c86e8",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 24,
+      "environment": false,
+      "expected": "f12cde5178c1f1a723e9c2b3527df78e87708cc0f4350ca263c25ed9924495ff",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 25,
+      "environment": false,
+      "expected": "37527890b2985c9cbd5f5512e69eebed15fceead729bfc735280083031a75139",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 26,
+      "environment": false,
+      "expected": "794b86e7b4a17bc064d53d8c1ca52c2cae4afc366fb75eda34d1ff7a0266794d",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 27,
+      "environment": false,
+      "expected": "b4a969cc13127dc89073bf43adea8f60f19b2a9e902d03d2655fe4de85a6c051",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 28,
+      "environment": false,
+      "expected": "1fd00052ebadd028eace3b86ec3a7db66285a2fbb1d5e8ef2aaff39e26f55a26",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 29,
+      "environment": false,
+      "expected": "0d159f5a444404d988b5767042076221709239eb242932e76ccf0904dd0d0c8d",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 30,
+      "environment": false,
+      "expected": "c0e1fdb9dd996523f1d5ce5ef6198f33d0add37c6bc32209b3f850d224e49595",
+      "effects": 0
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 31,
+      "environment": false,
+      "expected": "7229f1ce441f8508fda3a271117360868e850393469f1ddca6f4bbdad077d21a",
+      "effects": 180
+    },
+    {
+      "key": "s176/e2930/auto/default",
+      "seed": 32,
+      "environment": false,
+      "expected": "adeabe8b508a66c740f26736430b4e132801a1bc26ba56ef79b123ec27cbdc26",
+      "effects": 180
+    }
+  ]
+}

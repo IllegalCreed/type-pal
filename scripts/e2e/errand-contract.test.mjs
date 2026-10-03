@@ -457,8 +457,8 @@ test('005 evidence requires contiguous sequence and successful atomic restore, n
   assert.throws(() => assertErrandRestored(trace, {}, 'game'), /restore commit/)
   assert.throws(() => assertErrandSuite([]), /six independent/)
   const payload = {
-    version: 10,
-    contentVersion: 21,
+    version: 11,
+    contentVersion: 22,
     projectId: 'pal',
     position: { sceneId: 's004' },
     world: { party: [], script: { auto: { e83: { continuation: 'test' } } } },

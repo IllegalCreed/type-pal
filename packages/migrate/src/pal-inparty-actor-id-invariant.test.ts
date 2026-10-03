@@ -5,13 +5,16 @@ import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invaria
 const actors = [{ id: 'zhao-linger' }, { id: 'anu' }] as ActorDef[]
 
 describe('PAL inParty stable ActorId invariant', () => {
-  test('复用 typed walker 覆盖 stages/stateMachine transition/loop 与 all-any-not', () => {
+  test('复用 typed walker 覆盖普通步骤、循环、双臂确认与 all-any-not', () => {
     const report = assertPalInPartyActorIdInvariant({
       actors,
       commandRoots: [
         {
+          kind: 'stages',
+          initial: 'main',
           stages: [
             {
+              id: 'main',
               body: [
                 {
                   kind: 'branch',
@@ -25,28 +28,35 @@ describe('PAL inParty stable ActorId invariant', () => {
                   then: [
                     {
                       kind: 'loop',
+                      mode: 'while',
                       cond: {
                         kind: 'any',
                         of: [{ kind: 'inParty', actorId: 'anu' }],
                       },
-                      body: [],
+                      body: [{ kind: 'wait', ms: 100 }],
+                    },
+                  ],
+                },
+                {
+                  kind: 'repeat',
+                  count: 2,
+                  body: [
+                    {
+                      kind: 'confirm',
+                      onYes: [
+                        {
+                          kind: 'branch',
+                          cond: { kind: 'inParty', actorId: 'zhao-linger' },
+                          then: [],
+                        },
+                      ],
+                      onNo: [],
                     },
                   ],
                 },
               ],
             },
           ],
-          machine: {
-            states: {
-              initial: {
-                body: [],
-                next: {
-                  kind: 'branch',
-                  cond: { kind: 'inParty', actorId: 'zhao-linger' },
-                },
-              },
-            },
-          },
         },
       ],
     })

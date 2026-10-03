@@ -81,85 +81,75 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stateMachine",
-            "machine": {
-              "id": "machine",
-              "label": "默认进场行为",
-              "initial": "initial",
-              "states": {
-                "initial": {
-                  "label": "首次执行",
-                  "entry": {
-                    "prepare": [
-                      {
-                        "kind": "teleportParty",
-                        "pos": {
-                          "col": 72,
-                          "row": -2,
-                          "height": 0
-                        }
-                      }
-                    ],
-                    "reveal": {
-                      "kind": "dither",
-                      "ms": 2160,
-                      "source": "previousPresentedFrame"
-                    }
-                  },
-                  "body": [
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "entry": {
+                  "prepare": [
                     {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s054",
-                        "entity": "e926"
-                      },
-                      "channel": "trigger",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 72,
+                        "row": -2,
+                        "height": 0
                       }
-                    },
-                    {
-                      "kind": "dialog",
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.4344"
-                          }
-                        ],
-                        "identity": {
-                          "kind": "unbound",
-                          "portrait": {
-                            "asset": "portrait.pal.002",
-                            "side": "right"
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.078"
                     }
                   ],
-                  "next": {
-                    "kind": "advance",
-                    "state": "after-checkpoint"
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 2160,
+                    "source": "previousPresentedFrame"
                   }
                 },
-                "after-checkpoint": {
-                  "label": "检查点后的执行",
-                  "body": [
-                    {
-                      "kind": "playMusic",
-                      "asset": "music.pal.078"
+                "body": [
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s054",
+                      "entity": "e926"
+                    },
+                    "channel": "trigger",
+                    "selection": {
+                      "kind": "use",
+                      "value": "legacy-001"
                     }
-                  ],
-                  "next": {
-                    "kind": "stay"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.4344"
+                        }
+                      ],
+                      "identity": {
+                        "kind": "unbound",
+                        "portrait": {
+                          "asset": "portrait.pal.002",
+                          "side": "right"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.078"
                   }
-                }
+                ],
+                "next": "after-checkpoint"
+              },
+              {
+                "id": "after-checkpoint",
+                "body": [
+                  {
+                    "kind": "playMusic",
+                    "asset": "music.pal.078"
+                  }
+                ]
               }
-            }
+            ]
           }
         }
       }

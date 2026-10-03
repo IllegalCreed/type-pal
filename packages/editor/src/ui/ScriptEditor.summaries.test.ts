@@ -126,8 +126,7 @@ test.each([
         kind: 'loop',
         mode: 'while',
         cond: condition,
-        yield: 'worldTick',
-        maxIterations: 2,
+
         body: [],
       },
       conditionContext,

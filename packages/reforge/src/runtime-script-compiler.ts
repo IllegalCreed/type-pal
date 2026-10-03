@@ -18,7 +18,6 @@ import {
   type ExecutableBaseScriptFlowLike,
   type ExecutableCommandLike,
   type ExecutableSharedScriptLike,
-  type ScriptBoundaryPolicy,
   type ScriptTiming,
 } from './script-compiler-core.js'
 
@@ -29,7 +28,7 @@ export type RuntimeLeafCommand = Exclude<
   | { kind: 'confirm' }
   | { kind: 'loop' }
   | { kind: 'startBattle' }
-  | { kind: 'stopScript' }
+  | { kind: 'returnScript' | 'finishStep' | 'breakLoop' | 'continueLoop' | 'repeat' }
   | { kind: 'teleportOut' }
 >
 
@@ -54,13 +53,11 @@ export function compileRuntimeCommands(
   commands: readonly RuntimeCommand[],
   timing: ScriptTiming,
   path = 'commands',
-  boundaryPolicy: ScriptBoundaryPolicy = 'perCommand',
 ): readonly ExecutableRuntimeCommand[] {
   checkRuntimeCommands(commands, path)
   return compileBaseCommandsUncheckedAfterValidation(
     validatedBaseCommands(commands),
     timing,
-    boundaryPolicy,
   ) as unknown as readonly ExecutableRuntimeCommand[]
 }
 
@@ -78,6 +75,23 @@ export function compileRuntimeScriptFlow(
   ) as unknown as ExecutableRuntimeScriptFlow
 }
 
+/** An unowned command root is not an owner flow even though the executable uses one list. */
+export function compileRuntimeCommandRoot(
+  commands: readonly RuntimeCommand[],
+  options: CompileRuntimeScriptFlowOptions,
+): ExecutableRuntimeScriptFlow {
+  checkRuntimeCommands(commands, 'commands', { rootScope: 'script', loopDepth: 0 })
+  return compileBaseScriptFlowUncheckedAfterValidation(
+    validatedBaseFlow({
+      kind: 'stages',
+      initial: '__script',
+      stages: [{ id: '__script', body: [...commands] }],
+    }),
+    options,
+    'script',
+  ) as unknown as ExecutableRuntimeScriptFlow
+}
+
 export class RuntimeSharedScriptResolver {
   private readonly cache = new Map<string, ExecutableRuntimeSharedScript>()
 
@@ -90,12 +104,8 @@ export class RuntimeSharedScriptResolver {
     checkRuntimeScriptLibrary(library)
   }
 
-  resolve(
-    id: string,
-    timing: ScriptTiming,
-    boundaryPolicy: ScriptBoundaryPolicy = 'perCommand',
-  ): ExecutableRuntimeSharedScript {
-    const key = `${timing}\u0000${boundaryPolicy}\u0000${id}`
+  resolve(id: string, timing: ScriptTiming): ExecutableRuntimeSharedScript {
+    const key = `${timing}\u0000${id}`
     const cached = this.cache.get(key)
     if (cached) return cached
     const script = this.library[id]
@@ -104,14 +114,12 @@ export class RuntimeSharedScriptResolver {
       compilerVersion: CORE_SCRIPT_COMPILER_VERSION,
       canonicalContentDigest: this.canonicalContentDigest,
       timing,
-      boundaryPolicy,
       id,
       name: script.name,
       self: script.self,
       body: compileBaseCommandsUncheckedAfterValidation(
         validatedBaseCommands(script.body),
         timing,
-        boundaryPolicy,
       ) as unknown as readonly ExecutableRuntimeCommand[],
     }
     this.cache.set(key, compiled)

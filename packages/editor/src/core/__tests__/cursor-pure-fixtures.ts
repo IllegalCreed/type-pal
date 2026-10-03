@@ -29,8 +29,6 @@ const loopHasItem: AuthorCommand = {
   mode: 'while',
   cond: { kind: 'hasItem', itemId: 'target-herb' },
   body: [{ kind: 'wait', ms: 1 }],
-  yield: 'worldTick',
-  maxIterations: 2,
 }
 
 /** 空白项目 + 两件合法物品 + onEnter loop(hasItem)；经 loader / 保存门。 */

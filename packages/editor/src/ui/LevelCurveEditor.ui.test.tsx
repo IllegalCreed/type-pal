@@ -42,8 +42,8 @@ function editorState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       content: {},
       entryPoints: [],

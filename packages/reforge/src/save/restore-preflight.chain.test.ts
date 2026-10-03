@@ -158,8 +158,8 @@ const makeWorld = () =>
   content.buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor })
 type Payload = ReturnType<typeof makePayload>
 const makePayload = () => ({
-  version: 10 as const,
-  contentVersion: 21 as const,
+  version: 11 as const,
+  contentVersion: 22 as const,
   projectId: 'audit',
   world: makeWorld(),
   position: { sceneId: 'saved-scene', pos: { col: 2, row: 3, height: 0 }, facing: 'down' as const },
@@ -183,7 +183,7 @@ function harness(
   ;(world.script as { flags: Record<string, unknown> }).flags.live = true
   const canonicalScript = world.script
   const project = {
-    manifest: { id: 'audit', name: 'audit', contentVersion: 21, minimumSaveVersion: 10 },
+    manifest: { id: 'audit', name: 'audit', contentVersion: 22, minimumSaveVersion: 11 },
     actorsById: { hero: actor },
     spritesById: { 'sprite.hero': { id: 'sprite.hero', asset: 'sprite.asset' } },
     items: {},

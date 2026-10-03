@@ -474,7 +474,10 @@ function commandArms(command: Command): Array<[string, readonly Command[] | unde
         ['else', command.else],
       ]
     case 'confirm':
-      return [['onNo', command.onNo]]
+      return [
+        ['onYes', command.onYes],
+        ['onNo', command.onNo],
+      ]
     case 'startBattle':
       return [
         ['onLose', command.onLose],

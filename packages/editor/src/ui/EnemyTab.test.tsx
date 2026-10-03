@@ -68,7 +68,7 @@ function state(): EditorState {
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 75 },
-        then: [{ kind: 'stopScript' }],
+        then: [{ kind: 'returnScript' }],
       },
       { kind: 'giveItem', itemId: 'item-b', count: 2 },
       {
@@ -101,8 +101,8 @@ function state(): EditorState {
     manifest: {
       id: 'test-project',
       name: '测试项目',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       content: {},
       entryPoints: [

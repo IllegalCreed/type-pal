@@ -12,7 +12,7 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { flowCanComplete, resolveEntitySpriteId } from '@type-pal/content'
+import { resolveEntitySpriteId } from '@type-pal/content'
 import { actualFrameIndex } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
@@ -102,10 +102,19 @@ export interface CanonicalSpritePreviewState {
   sharedScripts: AuthorScriptLibrary
 }
 
+/** Read-only resource-view metadata; this projected entity is never an author/save input. */
+type SpritePreviewEntity = EntityDef & {
+  spritePreviewScript?: {
+    flow: AuthorScriptFlow
+    self: { scene: string; entity: string }
+    sharedScripts: AuthorScriptLibrary
+  }
+}
+
 export const SCRIPT_PREVIEW_SHARED_CHUNK = '__author-script-preview/shared'
 
 function projectPreviewCondition(
-  condition: Extract<AuthorCommand, { kind: 'branch' | 'loop' }>['cond'],
+  condition: Extract<AuthorCommand, { kind: 'branch' }>['cond'],
 ): ScriptCondition {
   switch (condition.kind) {
     case 'entityState':
@@ -258,7 +267,7 @@ function projectPreviewCommands(
         })
         break
       case 'wait':
-      case 'stopScript':
+      case 'returnScript':
         projected.push(structuredClone(command))
         break
       case 'branch': {
@@ -274,8 +283,23 @@ function projectPreviewCommands(
         })
         break
       }
+      case 'repeat': {
+        const body = projectPreviewCommands(command.body, self, sharedScripts, depth + 1)
+        if (body.length === 0) break
+        if (command.count * body.length <= MAX_VISUAL_SAMPLE_COMMANDS) {
+          for (let iteration = 0; iteration < command.count; iteration++) projected.push(...body)
+          break
+        }
+        // Preserve the unsupported author node for the existing safe-graph rejection below.
+        projected.push(unsupportedVisualCommand(command))
+        break
+      }
       case 'loop': {
         const body = projectPreviewCommands(command.body, self, sharedScripts, depth + 1)
+        if (command.mode === 'forever') {
+          projected.push(...body, { kind: 'returnScript' })
+          break
+        }
         if (command.mode === 'until') {
           // until 至少执行一次；视觉投影只展开这条必然合法的首轮路径。
           projected.push(...body)
@@ -292,6 +316,7 @@ function projectPreviewCommands(
       case 'confirm':
         projected.push({
           ...structuredClone(command),
+          onYes: projectPreviewCommands(command.onYes, self, sharedScripts, depth + 1),
           onNo: projectPreviewCommands(command.onNo, self, sharedScripts, depth + 1),
         })
         break
@@ -362,10 +387,15 @@ function projectPreviewCommands(
       }
       default:
         // 保留未知/有副作用命令的 kind，让既有安全图验证明确返回 unavailable。
-        projected.push(structuredClone(command) as Command)
+        projected.push(unsupportedVisualCommand(command))
     }
   }
   return projected
+}
+
+/** Static resource thumbnails deliberately reject unsupported current author control nodes. */
+function unsupportedVisualCommand(command: AuthorCommand): Command {
+  return structuredClone(command) as Command
 }
 
 function orderedIds(initial: string, ids: readonly string[]): string[] {
@@ -377,65 +407,32 @@ function projectPreviewFlow(
   self: { scene: string; entity: string },
   sharedScripts: AuthorScriptLibrary,
 ): ScriptStage[] {
-  if (flow.kind === 'stages') {
-    const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
-    const ids = orderedIds(
-      flow.initial,
-      flow.stages.map((stage) => stage.id),
-    )
-    return ids.flatMap((id, index) => {
-      const stage = byId.get(id)
-      if (!stage) return []
-      // In this read-only lowering only, index == length is an explicit terminal edge.
-      const target =
-        typeof stage.next === 'object'
-          ? ids.length
-          : stage.next === undefined
-            ? index
-            : ids.indexOf(stage.next)
-      return [
-        {
-          ...(stage.entry
-            ? {
-                entry: {
-                  prepare: projectPreviewCommands(stage.entry.prepare, self, sharedScripts),
-                  reveal: structuredClone(stage.entry.reveal),
-                },
-              }
-            : {}),
-          body: projectPreviewCommands(stage.body, self, sharedScripts),
-          ...(target >= 0 && target !== index ? { next: target } : {}),
-        },
-      ]
-    })
-  }
-  const machine = flow.machine
-  const ids = orderedIds(machine.initial, Object.keys(machine.states))
+  const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
+  const ids = orderedIds(
+    flow.initial,
+    flow.stages.map((stage) => stage.id),
+  )
   return ids.flatMap((id, index) => {
-    const state = machine.states[id]
-    if (!state) return []
-    const next = state.next
-    const targetId =
-      next.kind === 'continue' || next.kind === 'advance' || next.kind === 'to'
-        ? next.state
-        : next.kind === 'restart'
-          ? machine.initial
-          : id
-    const target = next.kind === 'complete' ? ids.length : ids.indexOf(targetId)
+    const stage = byId.get(id)
+    if (!stage) return []
+    // In this read-only lowering only, index == length is an explicit terminal edge.
+    const target =
+      typeof stage.next === 'object'
+        ? ids.length
+        : stage.next === undefined
+          ? index
+          : ids.indexOf(stage.next)
     return [
       {
-        ...(state.entry
+        ...(stage.entry
           ? {
               entry: {
-                prepare: projectPreviewCommands(state.entry.prepare, self, sharedScripts),
-                reveal: structuredClone(state.entry.reveal),
+                prepare: projectPreviewCommands(stage.entry.prepare, self, sharedScripts),
+                reveal: structuredClone(stage.entry.reveal),
               },
             }
           : {}),
-        body: projectPreviewCommands(state.body, self, sharedScripts),
-        ...((next.kind === 'branch' || next.kind === 'commandOutcome') && flowCanComplete(flow)
-          ? { previewUncertainTransition: true }
-          : {}),
+        body: projectPreviewCommands(stage.body, self, sharedScripts),
         ...(target >= 0 && target !== index ? { next: target } : {}),
       },
     ]
@@ -476,7 +473,7 @@ function projectPreviewEntity(
   shell: EntityDef,
   canonical: AuthorSceneEntityDef,
   sharedScripts: AuthorScriptLibrary,
-): EntityDef {
+): SpritePreviewEntity {
   const page =
     canonical.pages?.find((candidate) => candidate.id === canonical.initialPage) ??
     canonical.pages?.[0]
@@ -485,6 +482,11 @@ function projectPreviewEntity(
   const currentPage = shell.pages?.[0]
   return {
     ...shell,
+    spritePreviewScript: {
+      flow: auto.flow,
+      self: { scene: sceneId, entity: canonical.id },
+      sharedScripts,
+    },
     pages: [
       {
         ...(currentPage ?? {}),
@@ -855,7 +857,7 @@ function validateVisualCommandGraph(
       if (command.entity !== entityId) return false
       continue
     }
-    if (command.kind === 'wait' || command.kind === 'stopScript') continue
+    if (command.kind === 'wait' || command.kind === 'returnScript') continue
     if (command.kind === 'branch') {
       if (!command.cond || command.cond.kind !== 'chance' || !Array.isArray(command.then))
         return false
@@ -898,7 +900,7 @@ function runVisualSampleBody(
       addVisualSampleWait(context, command.ms)
       continue
     }
-    if (command.kind === 'stopScript') throw new VisualScriptStopped()
+    if (command.kind === 'returnScript') throw new VisualScriptStopped()
     if (command.kind === 'branch') {
       if (command.cond.kind !== 'chance') throw new VisualScriptBudgetExhausted()
       const arm = chooseVisualChance(context, command.cond.percent)
@@ -1091,9 +1093,278 @@ function collectSafeScriptProjection(
   }
 }
 
+type FrameSampleSignal =
+  | { kind: 'return' | 'break' }
+  | { kind: 'continue'; loop?: string }
+  | { kind: 'finish'; next: Extract<AuthorCommand, { kind: 'finishStep' }>['next'] }
+
+function containsConditionalVisualLoop(
+  body: readonly AuthorCommand[],
+  sharedScripts: AuthorScriptLibrary,
+  calls: ReadonlySet<string> = new Set(),
+): boolean {
+  return body.some((command) => {
+    const contains = (nested: readonly AuthorCommand[]) =>
+      containsConditionalVisualLoop(nested, sharedScripts, calls)
+    switch (command.kind) {
+      case 'loop':
+        return command.mode !== 'forever' || contains(command.body)
+      case 'repeat':
+        return contains(command.body)
+      case 'branch':
+        return contains(command.then) || contains(command.else ?? [])
+      case 'confirm':
+        return contains(command.onYes) || contains(command.onNo)
+      case 'startBattle':
+        return contains(command.onLose ?? []) || contains(command.onFlee ?? [])
+      case 'teleportOut':
+        return contains(command.onFail ?? [])
+      case 'callScript': {
+        const script = sharedScripts[command.script]
+        return (
+          !calls.has(command.script) &&
+          Boolean(
+            script &&
+              containsConditionalVisualLoop(
+                script.body,
+                sharedScripts,
+                new Set([...calls, command.script]),
+              ),
+          )
+        )
+      }
+      default:
+        return false
+    }
+  })
+}
+
+/** Pure, bounded samples only. No world state, asynchronous hosts, or gameplay side effects. */
+function collectCanonicalFrameSamples(
+  entity: SpritePreviewEntity,
+  actualFrameCount: number,
+): SpriteAutomaticScriptPreview | undefined {
+  const source = entity.spritePreviewScript
+  if (!source) return undefined
+  let remainingValidation = MAX_VISUAL_SAMPLE_COMMANDS
+  const pureCondition = (condition: ScriptCondition): boolean => {
+    if (--remainingValidation <= 0) return false
+    if (condition.kind === 'chance') return true
+    if (condition.kind === 'not') return pureCondition(condition.cond)
+    if (condition.kind === 'all' || condition.kind === 'any')
+      return condition.of.every(pureCondition)
+    return false
+  }
+  const pureBody = (
+    body: readonly AuthorCommand[],
+    calls: ReadonlySet<string>,
+    loops: readonly (string | undefined)[] = [],
+    root: 'flow' | 'script' = 'flow',
+  ): boolean =>
+    body.every((command) => {
+      if (--remainingValidation <= 0) return false
+      switch (command.kind) {
+        case 'setEntityFrame':
+        case 'setEntityFacing':
+        case 'animEntity':
+          return (
+            command.target.scene === source.self.scene &&
+            command.target.entity === source.self.entity
+          )
+        case 'wait':
+          return true
+        case 'breakLoop':
+          return loops.length > 0
+        case 'continueLoop':
+          return loops.length > 0 && (!command.loop || loops.includes(command.loop))
+        case 'returnScript':
+          return root === 'script'
+        case 'finishStep':
+          return root === 'flow'
+        case 'branch':
+          return (
+            pureCondition(projectPreviewCondition(command.cond)) &&
+            pureBody(command.then, calls, loops, root) &&
+            pureBody(command.else ?? [], calls, loops, root)
+          )
+        case 'repeat':
+          return pureBody(command.body, calls, [...loops, command.id], root)
+        case 'loop':
+          return (
+            (command.mode === 'forever' || pureCondition(projectPreviewCondition(command.cond))) &&
+            pureBody(command.body, calls, [...loops, command.id], root)
+          )
+        case 'callScript': {
+          if (
+            calls.has(command.script) ||
+            calls.size >= MAX_VISUAL_CALL_DEPTH ||
+            (command.self &&
+              (command.self.scene !== source.self.scene ||
+                command.self.entity !== source.self.entity))
+          )
+            return false
+          const script = source.sharedScripts[command.script]
+          return Boolean(
+            script && pureBody(script.body, new Set([...calls, command.script]), [], 'script'),
+          )
+        }
+        default:
+          return false
+      }
+    })
+  if (!source.flow.stages.every((stage) => !stage.entry && pureBody(stage.body, new Set())))
+    return undefined
+
+  const variants = new Map<string, SpriteAutomaticScriptPreviewVariant>()
+  for (const strategy of VISUAL_BRANCH_STRATEGIES) {
+    let remaining = MAX_VISUAL_SAMPLE_COMMANDS
+    let branchIndex = 0
+    let frameOverride: number | undefined
+    let animationStep = 0
+    let bounded = false
+    const steps: Array<{ frame: number; holdMs: number }> = []
+    const consume = () => {
+      if (--remaining <= 0) throw new VisualScriptBudgetExhausted()
+    }
+    const visibleFrame = () => actualFrameIndex(frameOverride ?? animationStep, actualFrameCount)
+    const push = () => {
+      const frame = visibleFrame()
+      if (steps.at(-1)?.frame !== frame) steps.push({ frame, holdMs: 0 })
+    }
+    const condition = (value: ScriptCondition): boolean => {
+      consume()
+      switch (value.kind) {
+        case 'chance':
+          if (value.percent <= 0) return false
+          if (value.percent >= 100) return true
+          return strategy.pattern[branchIndex++ % strategy.pattern.length] ?? false
+        case 'not':
+          return !condition(value.cond)
+        case 'all':
+          return value.of.every(condition)
+        case 'any':
+          return value.of.some(condition)
+        default:
+          throw new Error('非概率条件不能进入纯帧采样')
+      }
+    }
+    const run = (body: readonly AuthorCommand[]): FrameSampleSignal | undefined => {
+      for (const command of body) {
+        consume()
+        switch (command.kind) {
+          case 'setEntityFrame':
+            frameOverride = command.frame
+            push()
+            break
+          case 'animEntity':
+            animationStep++
+            if (frameOverride === undefined) push()
+            break
+          case 'setEntityFacing':
+            break
+          case 'wait':
+            push()
+            steps[steps.length - 1]!.holdMs += command.ms
+            break
+          case 'branch': {
+            const signal = run(
+              condition(projectPreviewCondition(command.cond))
+                ? command.then
+                : (command.else ?? []),
+            )
+            if (signal) return signal
+            break
+          }
+          case 'returnScript':
+            return { kind: 'return' }
+          case 'finishStep':
+            return { kind: 'finish', next: command.next }
+          case 'breakLoop':
+            return { kind: 'break' }
+          case 'continueLoop':
+            return { kind: 'continue', loop: command.loop }
+          case 'repeat':
+          case 'loop': {
+            for (let iteration = 0; ; iteration++) {
+              consume()
+              if (command.kind === 'repeat' && iteration >= command.count) break
+              if (
+                command.kind === 'loop' &&
+                command.mode === 'while' &&
+                !condition(projectPreviewCondition(command.cond))
+              )
+                break
+              const signal = run(command.body)
+              if (signal?.kind === 'break') break
+              if (
+                signal &&
+                !(signal.kind === 'continue' && (!signal.loop || signal.loop === command.id))
+              )
+                return signal
+              if (
+                command.kind === 'loop' &&
+                command.mode === 'until' &&
+                condition(projectPreviewCondition(command.cond))
+              )
+                break
+            }
+            break
+          }
+          case 'callScript': {
+            const script = source.sharedScripts[command.script]
+            if (!script) throw new Error('纯帧采样引用已消失')
+            const signal = run(script.body)
+            if (signal && signal.kind !== 'return') return signal
+            break
+          }
+          default:
+            throw new Error('非视觉指令不能进入纯帧采样')
+        }
+      }
+      return undefined
+    }
+    try {
+      let stageId: string | undefined = source.flow.initial
+      for (let activation = 0; stageId && activation < MAX_VISUAL_SAMPLE_TICKS; activation++) {
+        const stage = source.flow.stages.find((candidate) => candidate.id === stageId)
+        if (!stage) break
+        const signal = run(stage.body)
+        const next = signal?.kind === 'finish' ? signal.next : stage.next
+        stageId =
+          typeof next === 'string'
+            ? next
+            : next?.kind === 'stage'
+              ? next.stage
+              : next?.kind === 'complete'
+                ? undefined
+                : stageId
+        if (stageId && activation === MAX_VISUAL_SAMPLE_TICKS - 1) bounded = true
+      }
+    } catch (error) {
+      if (!(error instanceof VisualScriptBudgetExhausted)) throw error
+      bounded = true
+    }
+    if (!steps.length) continue
+    const sampled = finalizeSteps(collapseAdjacentSteps(steps))
+    variants.set(JSON.stringify(sampled), {
+      id: strategy.id,
+      label: strategy.label,
+      steps: sampled,
+      note: bounded ? '只展示这条路径的前一部分，请到场景中播放完整脚本。' : '代表性合法路径',
+    })
+  }
+  return variants.size
+    ? {
+        kind: 'variants',
+        variants: [...variants.values()],
+        note: '下列是脚本的代表性合法分支示例，不是完整概率分布，也不是唯一循环。',
+      }
+    : undefined
+}
+
 function describeAutomaticEntityBehavior(
   state: EditorState,
-  entity: EntityDef,
+  entity: SpritePreviewEntity,
   definition: SpriteDef,
   actualFrameCount?: number,
 ): SpriteReferenceBehavior | undefined {
@@ -1104,9 +1375,16 @@ function describeAutomaticEntityBehavior(
     actualFrameCount !== undefined &&
     Number.isInteger(actualFrameCount) &&
     actualFrameCount > 0
+  const canonical = entity.spritePreviewScript
+  const hasConditionalLoop = canonical?.flow.stages.some((stage) =>
+    containsConditionalVisualLoop(stage.body, canonical.sharedScripts),
+  )
   const preview = canResolvePhysicalFrames
-    ? (collectDeterministicStagePreview(state, entity, definition, actualFrameCount) ??
-      collectSafeScriptProjection(state, entity, actualFrameCount))
+    ? hasConditionalLoop
+      ? collectCanonicalFrameSamples(entity, actualFrameCount)
+      : (collectDeterministicStagePreview(state, entity, definition, actualFrameCount) ??
+        collectSafeScriptProjection(state, entity, actualFrameCount) ??
+        collectCanonicalFrameSamples(entity, actualFrameCount))
     : undefined
   if (preview?.kind === 'once')
     return {

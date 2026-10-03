@@ -47,9 +47,7 @@ import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   type CanonicalSchemeReferenceIndexes,
   type CanonicalScriptCommandVisit,
-  type CanonicalScriptTransitionVisit,
   collectCanonicalScriptCommandVisits,
-  collectCanonicalScriptTransitionVisits,
   collectCanonicalSharedScriptReferencesFromVisits,
   collectScriptReferenceIssuesFromVisits,
   type ScriptEditorState,
@@ -621,7 +619,6 @@ export interface EditorDiagnosticsDependencies {
   collectEditorAssetReferenceSnapshotFromSlices: typeof collectEditorAssetReferenceSnapshotFromSlices
   collectEditorAssetDiagnostics: typeof collectEditorAssetDiagnostics
   collectCanonicalScriptCommandVisits: typeof collectCanonicalScriptCommandVisits
-  collectCanonicalScriptTransitionVisits: typeof collectCanonicalScriptTransitionVisits
   collectCanonicalAssetReferenceEntries: typeof collectCanonicalAssetReferenceEntries
   collectCanonicalSharedScriptReferencesFromVisits: typeof collectCanonicalSharedScriptReferencesFromVisits
   collectScriptReferenceIssuesFromVisits: typeof collectScriptReferenceIssuesFromVisits
@@ -645,7 +642,6 @@ export function createEditorDiagnosticsSnapshotCollector(
     collectEditorAssetReferenceSnapshotFromSlices,
     collectEditorAssetDiagnostics,
     collectCanonicalScriptCommandVisits,
-    collectCanonicalScriptTransitionVisits,
     collectCanonicalAssetReferenceEntries,
     collectCanonicalSharedScriptReferencesFromVisits,
     collectScriptReferenceIssuesFromVisits,
@@ -676,8 +672,6 @@ export function createEditorDiagnosticsSnapshotCollector(
     })
     const commandVisits: CanonicalScriptCommandVisit[] =
       dependencies.collectCanonicalScriptCommandVisits(scriptState)
-    const transitionVisits: CanonicalScriptTransitionVisit[] =
-      dependencies.collectCanonicalScriptTransitionVisits(scriptState)
     const sharedScriptReferences = dependencies.collectCanonicalSharedScriptReferencesFromVisits(
       scriptState,
       commandVisits,
@@ -716,7 +710,6 @@ export function createEditorDiagnosticsSnapshotCollector(
       state: currentAuthorState,
       scriptState,
       commandVisits,
-      transitionVisits,
       entityAddressReferences,
       assetReferences: assetSnapshot.references,
       canonicalAssetReferences,

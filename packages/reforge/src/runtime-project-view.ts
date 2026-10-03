@@ -90,12 +90,8 @@ function entryAtCursor(
     ? import('@type-pal/content').FlowCursor
     : never,
 ): BaseSceneEntryPresentation | undefined {
-  if (flow.kind === 'stages') {
-    if (cursor.kind !== 'stage') return
-    return flow.stages.find((stage) => stage.id === cursor.stage)?.entry
-  }
-  if (cursor.kind !== 'state' || cursor.machine !== flow.machine.id) return
-  return flow.machine.states[cursor.state]?.entry
+  if (cursor.kind !== 'stage') return
+  return flow.stages.find((stage) => stage.id === cursor.stage)?.entry
 }
 
 function projectRuntimeHookBinding(
@@ -218,12 +214,7 @@ export function captureRuntimeSceneBehaviorDependencies(
     const cursor = resolved.cursor
     return {
       hookId: resolved.hookId,
-      cursor:
-        cursor.kind === 'completed'
-          ? ['completed']
-          : cursor.kind === 'stage'
-            ? ['stage', cursor.stage]
-            : ['state', cursor.machine, cursor.state],
+      cursor: cursor.kind === 'completed' ? ['completed'] : ['stage', cursor.stage],
     }
   }
   return {

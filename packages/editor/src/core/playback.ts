@@ -129,6 +129,7 @@ export class Playback {
   private commandInFlight = false
   private dialogTimeLeft = 0
   private timers: { left: number; resolve: () => void }[] = []
+  private gameplayTime = 0
 
   constructor(
     scene: SceneDef,
@@ -397,6 +398,7 @@ export class Playback {
         },
         currentSceneId: () => runtimeScene.id,
         currentSceneSessionId: () => `${runtimeScene.id}:${key}`,
+        gameplayNow: () => this.gameplayTime,
         entityPosRelativeToParty: (target, dcol, drow) => {
           if (target.scene !== runtimeScene.id)
             throw new Error(`预览相对摆位不属于当前场景: ${target.scene}/${target.entity}`)
@@ -419,7 +421,7 @@ export class Playback {
           facingEntity: (target, range) =>
             target.scene === runtimeScene.id && this.host.query.facingEntity(target.entity, range),
         },
-        confirm: (signal) => this.requestConfirm(signal),
+        confirm: (signal, reportInteraction) => this.requestConfirm(signal, reportInteraction),
         startBattle: (request, signal) =>
           this.host.startBattle(
             request.enemyTeamId,
@@ -575,7 +577,7 @@ export class Playback {
     if (prompt) this.answerConfirm(prompt.selectedYes)
   }
 
-  private requestConfirm(signal?: AbortSignal): Promise<boolean> {
+  private requestConfirm(signal?: AbortSignal, reportInteraction?: () => void): Promise<boolean> {
     if (signal?.aborted) return Promise.reject(new DOMException('preview aborted', 'AbortError'))
     return new Promise<boolean>((resolve, reject) => {
       let settled = false
@@ -583,6 +585,7 @@ export class Playback {
         if (settled) return
         settled = true
         signal?.removeEventListener('abort', abort)
+        reportInteraction?.()
         resolve(accepted)
       }
       const abort = (): void => {
@@ -643,6 +646,7 @@ export class Playback {
     const autoDialogue = this.mode === 'running' && this.view.dialog !== null
     const active =
       this.moves.length > 0 || this.fadeJob !== null || this.timers.length > 0 || autoDialogue
+    if (active && d > 0) this.gameplayTime += d
     if (autoDialogue) {
       this.dialogTimeLeft -= d
       if (this.dialogTimeLeft <= 0) this.confirmDialog()

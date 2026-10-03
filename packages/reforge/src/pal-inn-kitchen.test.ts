@@ -68,11 +68,20 @@ async function run(source: RuntimeScriptFlow, stage?: string) {
 test('hall arrival selects first-day greeting, without overwriting the later sword lesson', () => {
   const arrival = flow('s003', 'e56', 'auto', 'legacy-006')
   if (arrival.kind !== 'stages') throw new Error('arrival route missing')
-  expect(arrival.stages.at(-1)?.body.at(-1)).toEqual({
+  expect(
+    arrival.stages
+      .at(-1)
+      ?.body.filter((command) => command.kind !== 'wait')
+      .at(-2),
+  ).toEqual({
     kind: 'selectEntityBehavior',
     target: { scene: 's003', entity: 'e56' },
     channel: 'trigger',
     selection: { kind: 'use', value: 'greet-after-guests' },
+  })
+  expect(arrival.stages.at(-1)?.body.at(-1)).toEqual({
+    kind: 'finishStep',
+    next: { kind: 'complete' },
   })
   expect(arrival.stages.at(-1)?.next).toEqual({ kind: 'complete' })
   expect(JSON.stringify(flow('s003', 'e56', 'trigger', 'legacy-001'))).toContain('dlg.824')
@@ -134,15 +143,20 @@ test('kitchen command sequence moves the hallway mother three times before showi
       [129, 66],
       [129, 61],
       [124, 61],
-    ].map(([col, row]) => ({
-      kind: 'moveEntity',
-      target: { scene: 's003', entity: 'e56' },
-      to: { col, row, height: 0 },
-      speed: 'normal',
-    })),
+    ].flatMap(([col, row]) => [
+      {
+        kind: 'moveEntity',
+        target: { scene: 's003', entity: 'e56' },
+        to: { col, row, height: 0 },
+        speed: 'normal',
+      },
+      { kind: 'wait', ms: 100 },
+    ]),
     { kind: 'setEntityState', state: 2, target: { scene: 's001', entity: 'e19' } },
+    { kind: 'wait', ms: 100 },
     { kind: 'setEntityState', state: 0, target: { scene: 's003', entity: 'e56' } },
   ])
+  expect(result.cursors).toEqual([{ kind: 'completed' }])
 })
 
 test('first beggar conversation arms serving and dishes between refusal and final begging, exactly once', async () => {

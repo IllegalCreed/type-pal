@@ -204,6 +204,7 @@
 | [SAVE-ISOLATION-1 - 工程与工作区存档隔离](../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SAVE-PREFLIGHT-1 - 当前存档预检与恢复失败隔离](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理](../archive/tasks/done/SCRIPT-COMPLETE-1-explicit-flow-completion.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [SCRIPT-GOV-2 统一作者步骤模型](../archive/tasks/done/SCRIPT-GOV-2-unified-author-steps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [SCRIPT-STEPS-1 — 首次对话与复读回归普通步骤](../archive/tasks/done/SCRIPT-STEPS-1-redundant-machine-cleanup.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-BATTLE-WORKFLOWS-1 - 战斗会话完整流程补测](../archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CODEX-COMMAND-FORMS-1 — 当前命令弹层参数与输入保真](../archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md) | done | 完成证据、历史签字与交接见原卡。 |

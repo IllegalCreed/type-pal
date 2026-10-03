@@ -23,7 +23,7 @@ function shell(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 21,
+      contentVersion: 22,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: { catalog: 'assets/index.json', roles: {} },

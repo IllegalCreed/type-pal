@@ -29,7 +29,6 @@ import {
 } from './entity-address-references.js'
 import {
   collectCanonicalItemTaggedReferences,
-  collectCanonicalItemTransitionTaggedReferences,
   collectItemReferences,
   collectLegacyItemReferences,
   type ItemReference,
@@ -49,7 +48,6 @@ import {
 import type {
   CanonicalSchemeReferenceIndexes,
   CanonicalScriptCommandVisit,
-  CanonicalScriptTransitionVisit,
   CanonicalSharedScriptReferenceEntry,
   ScriptCommandOwner,
   ScriptEditorState,
@@ -57,7 +55,6 @@ import type {
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
   collectCanonicalScriptCommandVisits,
-  collectCanonicalScriptTransitionVisits,
   collectCanonicalSharedScriptReferencesFromVisits,
 } from './script-editor.js'
 import {
@@ -245,23 +242,6 @@ export function canonicalCommandTargetEdges(
     const source = sourceForScriptOwner(visit.locator.owner, scriptState)
     return targets.map((target) =>
       commandReferenceEdge(target, source, { kind: 'canonical-script', reference }),
-    )
-  })
-}
-
-function canonicalTransitionSceneEdges(
-  visits: readonly CanonicalScriptTransitionVisit[],
-  scriptState: ScriptEditorState,
-): ProjectReferenceEdgeInput[] {
-  return visits.flatMap((visit) => {
-    // A visit owns one state.next tree, including nested transitions and condition combinations.
-    // Command bodies and EntityAddress dependencies have their own collectors; do not scan twice.
-    const targets = collectCommandTargetReferences(visit.transition, visit.path).filter(
-      (reference) => reference.target.kind === 'scene',
-    )
-    const source = sourceForScriptOwner(visit.owner, scriptState)
-    return targets.map((reference) =>
-      commandReferenceEdge(reference, source, { kind: 'script-owner', owner: visit.owner }),
     )
   })
 }
@@ -684,36 +664,14 @@ function legacyActorReferenceEdges(
   )
 }
 
-function canonicalActorTransitionReferenceEdges(
-  visits: readonly CanonicalScriptTransitionVisit[],
-  scriptState: ScriptEditorState,
-): ProjectReferenceEdgeInput[] {
-  return visits.flatMap((visit) => {
-    const references = collectActorTaggedReferences(visit.transition, visit.path)
-    if (!references.length) return []
-    const source = sourceForScriptOwner(visit.owner, scriptState)
-    return references.map((reference) => ({
-      target: { kind: 'actor' as const, id: reference.actorId },
-      source,
-      relation: { kind: 'actor-use' as const, use: reference.kind },
-      where: reference.where,
-      detail: ACTOR_REFERENCE_POLICIES[reference.kind].label,
-      locator: { kind: 'script-owner' as const, owner: visit.owner },
-      deletePolicy: 'replace-suggest' as const,
-    }))
-  })
-}
-
 export function actorReferenceEdges(
   state: EditorState,
   visits: readonly CanonicalScriptCommandVisit[],
-  transitionVisits: readonly CanonicalScriptTransitionVisit[],
   scriptState: ScriptEditorState,
 ): ProjectReferenceEdgeInput[] {
   return [
     ...collectActorReferences(state, { includeScriptCommands: false }).map(actorReferenceEdge),
     ...canonicalActorReferenceEdges(visits, scriptState),
-    ...canonicalActorTransitionReferenceEdges(transitionVisits, scriptState),
     ...legacyActorReferenceEdges(state.scriptChunks),
   ]
 }
@@ -857,30 +815,9 @@ function canonicalItemReferenceEdges(
   })
 }
 
-function canonicalItemTransitionReferenceEdges(
-  visits: readonly CanonicalScriptTransitionVisit[],
-  scriptState: ScriptEditorState,
-): ProjectReferenceEdgeInput[] {
-  return visits.flatMap((visit) => {
-    const references = collectCanonicalItemTransitionTaggedReferences(visit.transition, visit.path)
-    if (!references.length) return []
-    const source = sourceForScriptOwner(visit.owner, scriptState)
-    return references.map((reference) => ({
-      target: { kind: 'item' as const, id: reference.itemId },
-      source,
-      relation: { kind: 'item-use' as const, access: reference.access },
-      where: reference.where,
-      detail: reference.detail,
-      locator: { kind: 'script-owner' as const, owner: visit.owner },
-      deletePolicy: 'replace-suggest' as const,
-    }))
-  })
-}
-
 export function itemReferenceEdges(
   state: EditorState,
   commandVisits: readonly CanonicalScriptCommandVisit[],
-  transitionVisits: readonly CanonicalScriptTransitionVisit[],
   scriptState: ScriptEditorState,
 ): ProjectReferenceEdgeInput[] {
   return [
@@ -889,7 +826,6 @@ export function itemReferenceEdges(
       includeLegacyScripts: false,
     }).map(itemReferenceEdge),
     ...canonicalItemReferenceEdges(commandVisits, scriptState),
-    ...canonicalItemTransitionReferenceEdges(transitionVisits, scriptState),
     ...collectLegacyItemReferences(state).map(itemReferenceEdge),
   ]
 }
@@ -1852,7 +1788,6 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
   state: EditorState
   scriptState: ScriptEditorState
   commandVisits: readonly CanonicalScriptCommandVisit[]
-  transitionVisits: readonly CanonicalScriptTransitionVisit[]
   entityAddressReferences: readonly EntityAddressReference[]
   assetReferences: readonly LocatedAssetReference[]
   canonicalAssetReferences: readonly CanonicalAssetReferenceEntry[]
@@ -1864,21 +1799,10 @@ export function buildProjectReferenceSnapshotFromProjection(input: {
     [
       ...structuralProjectReferenceEdges(input.state),
       ...canonicalCommandTargetEdges(input.commandVisits, input.scriptState),
-      ...canonicalTransitionSceneEdges(input.transitionVisits, input.scriptState),
       ...legacyScriptChunkTargetEdges(input.state.scriptChunks),
       ...battleDataReferenceEdges(input.state, input.commandVisits, input.scriptState),
-      ...actorReferenceEdges(
-        input.state,
-        input.commandVisits,
-        input.transitionVisits,
-        input.scriptState,
-      ),
-      ...itemReferenceEdges(
-        input.state,
-        input.commandVisits,
-        input.transitionVisits,
-        input.scriptState,
-      ),
+      ...actorReferenceEdges(input.state, input.commandVisits, input.scriptState),
+      ...itemReferenceEdges(input.state, input.commandVisits, input.scriptState),
       ...spriteReferenceEdges(input.state, input.commandVisits, input.scriptState),
       ...assetReferenceEdges(
         input.state,
@@ -1911,7 +1835,6 @@ export function collectCurrentProjectReferenceIndex(
     ? scriptEditorStateFromCurrentAuthorSlices(canonical, author)
     : worldVariableScriptStateFromEditorStateV1(currentAuthorState)
   const commandVisits = collectCanonicalScriptCommandVisits(scriptState)
-  const transitionVisits = collectCanonicalScriptTransitionVisits(scriptState)
   const entityAddressReferences = collectEntityAddressReferences(currentAuthorState)
   const assetReferences = collectEditorAssetReferences(currentAuthorState, undefined, {
     includeCanonicalAuthorCommands: false,
@@ -1934,7 +1857,6 @@ export function collectCurrentProjectReferenceIndex(
       state: currentAuthorState,
       scriptState,
       commandVisits,
-      transitionVisits,
       entityAddressReferences,
       assetReferences,
       canonicalAssetReferences,

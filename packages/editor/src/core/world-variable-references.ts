@@ -1,6 +1,5 @@
 import type {
   AuthorCondition,
-  AuthorScriptFlow,
   WorldVariableKindV1,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
@@ -13,11 +12,6 @@ import type {
   ScriptEditorState,
 } from './script-editor.js'
 import { collectCanonicalScriptCommandVisits } from './script-editor.js'
-
-type AuthorStateTransition = Extract<
-  AuthorScriptFlow,
-  { kind: 'stateMachine' }
->['machine']['states'][string]['next']
 
 export type WorldVariableAccessV1 = 'read' | 'write'
 
@@ -120,86 +114,6 @@ function collectCondition(
     collectCondition(condition.cond, `${path}.not`, owner, state, output, locator)
 }
 
-function collectTransition(
-  transition: AuthorStateTransition,
-  path: string,
-  owner: ScriptCommandOwner,
-  state: ScriptEditorState,
-  output: WorldVariableReferenceV1[],
-): void {
-  if (transition.kind === 'branch') {
-    collectCondition(transition.cond, `${path}.cond`, owner, state, output)
-    collectTransition(transition.then, `${path}.then`, owner, state, output)
-    collectTransition(transition.else, `${path}.else`, owner, state, output)
-  } else if (transition.kind === 'commandOutcome') {
-    collectTransition(transition.then, `${path}.then`, owner, state, output)
-    collectTransition(transition.else, `${path}.else`, owner, state, output)
-  }
-}
-
-function collectFlowTransitions(
-  flow: AuthorScriptFlow,
-  path: string,
-  owner: ScriptCommandOwner,
-  state: ScriptEditorState,
-  output: WorldVariableReferenceV1[],
-): void {
-  if (flow.kind !== 'stateMachine') return
-  for (const [stateId, machineState] of Object.entries(flow.machine.states))
-    collectTransition(
-      machineState.next,
-      `${path}.machine.states.${stateId}.next`,
-      owner,
-      state,
-      output,
-    )
-}
-
-function collectAllTransitionConditions(
-  state: ScriptEditorState,
-  output: WorldVariableReferenceV1[],
-): void {
-  for (const scene of state.scenes) {
-    for (const entity of scene.entities) {
-      for (const channel of ['trigger', 'auto'] as const) {
-        for (const [behaviorId, behavior] of Object.entries(entity.behaviors?.[channel] ?? {})) {
-          const owner: ScriptCommandOwner = {
-            kind: 'entity-behavior',
-            sceneId: scene.id,
-            entityId: entity.id,
-            channel,
-            behaviorId,
-          }
-          collectFlowTransitions(
-            behavior.flow,
-            `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${behaviorId}.flow`,
-            owner,
-            state,
-            output,
-          )
-        }
-      }
-    }
-    for (const slot of ['onEnter', 'onTeleport'] as const) {
-      for (const [hookId, hook] of Object.entries(scene.hooks?.[slot]?.variants ?? {})) {
-        const owner: ScriptCommandOwner = {
-          kind: 'scene-hook',
-          sceneId: scene.id,
-          slot,
-          hookId,
-        }
-        collectFlowTransitions(
-          hook.flow,
-          `scenes.${scene.id}.hooks.${slot}.variants.${hookId}.flow`,
-          owner,
-          state,
-          output,
-        )
-      }
-    }
-  }
-}
-
 /** canonical collector；迁移 seed、保存门、删除保护与 UI 必须全部消费本函数。 */
 export function collectWorldVariableReferencesV1FromVisits(
   state: ScriptEditorState,
@@ -240,10 +154,9 @@ export function collectWorldVariableReferencesV1FromVisits(
         detail: `${command.delta >= 0 ? '+' : ''}= ${command.delta}`,
         path: `${path}.var`,
       })
-    if (command.kind === 'branch' || command.kind === 'loop')
+    if (command.kind === 'branch' || (command.kind === 'loop' && command.mode !== 'forever'))
       collectCondition(command.cond, `${path}.cond`, locator.owner, state, all, locator)
   }
-  collectAllTransitionConditions(state, all)
   all.sort((left, right) => left.path.localeCompare(right.path))
   const mutable = new Map<string, WorldVariableReferenceV1[]>()
   for (const reference of all) {

@@ -96,9 +96,7 @@ function installedBehavior(
   )
   const hooks = Object.values(source.hooks?.onEnter?.variants ?? {})
   const commands = [...behaviors, ...hooks].flatMap((behavior) =>
-    behavior.flow.kind === 'stages'
-      ? behavior.flow.stages.flatMap((stage) => stage.body)
-      : Object.values(behavior.flow.machine.states).flatMap((state) => state.body),
+    behavior.flow.stages.flatMap((stage) => stage.body),
   )
   const matches = commands.filter(
     (command) =>
@@ -230,7 +228,7 @@ async function saveAndRestore(world: WorldState, sceneId: string) {
   return restored.world
 }
 
-test('the installed doctor gift advances once into repeatable shop service, including after SAVE10 restore', async () => {
+test('the installed doctor gift advances once into repeatable shop service, including after SAVE11 restore', async () => {
   // Original install entry 1062 -> L_2018; advance 2024 -> 2025, plain end 2030.
   const first = harness('s010')
   first.world.party[0]!.hp = first.world.party[0]!.maxHP

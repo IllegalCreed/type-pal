@@ -47,8 +47,8 @@ function state(): EditorState {
     manifest: {
       id: 'demo',
       name: 'Demo',
-      contentVersion: 21,
-      minimumSaveVersion: 10,
+      contentVersion: 22,
+      minimumSaveVersion: 11,
       defaultEntryId: 'main',
       entryPoints: [
         {
@@ -281,7 +281,7 @@ describe('EnemyTeamTab authoring closure', () => {
         {
           kind: 'branch',
           cond: { kind: 'chance', percent: 89 },
-          then: [{ kind: 'stopScript' }],
+          then: [{ kind: 'returnScript' }],
         },
         { kind: 'giveItem', itemId: '115', count: 1 },
         {

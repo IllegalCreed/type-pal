@@ -107,6 +107,10 @@ test('one activation runs the actual aunt route as one step with six target comm
           expect(position).toEqual({ col: 137, row: 66, height: 0 })
           events.push('select:greet-after-guests')
           return
+        case 'wait':
+          expect(command.ms).toBe(100)
+          events.push('wait:100')
+          return
         default:
           unexpected()
       }
@@ -138,7 +142,7 @@ test('one activation runs the actual aunt route as one step with six target comm
   expect(committed).toEqual(endpoints)
   expect(safePoints).toEqual([{ kind: 'completed' }])
   expect(cursor).toEqual({ kind: 'completed' })
-  expect(events).toEqual([
+  expect(events.filter((event) => event !== 'wait:100')).toEqual([
     'disabled',
     'arrive:121,45',
     'arrive:121,49',
@@ -150,4 +154,5 @@ test('one activation runs the actual aunt route as one step with six target comm
     'activate:touch',
     'select:greet-after-guests',
   ])
+  expect(events.filter((event) => event === 'wait:100')).toHaveLength(10)
 })

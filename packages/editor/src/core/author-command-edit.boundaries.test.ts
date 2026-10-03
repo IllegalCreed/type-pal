@@ -28,11 +28,10 @@ const loop: AuthorCommand = {
   kind: 'loop',
   mode: 'while',
   cond,
-  yield: 'worldTick',
-  maxIterations: 10,
+
   body: [leaf(13)],
 } as AuthorCommand
-const confirm: AuthorCommand = { kind: 'confirm', onNo: [leaf(14)] } as AuthorCommand
+const confirm: AuthorCommand = { kind: 'confirm', onYes: [], onNo: [leaf(14)] } as AuthorCommand
 const battle: AuthorCommand = {
   kind: 'startBattle',
   enemyTeamId: 'team-1',

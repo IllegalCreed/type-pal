@@ -117,22 +117,19 @@
                       "ms": 40
                     },
                     {
-                      "kind": "nudgeParty",
-                      "dx": 8,
-                      "dy": 8
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "kind": "nudgeParty",
-                      "dx": 8,
-                      "dy": 8
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "kind": "nudgeParty",
+                          "dx": 8,
+                          "dy": 8
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "kind": "loadScene",

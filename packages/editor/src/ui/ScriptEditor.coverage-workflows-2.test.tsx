@@ -208,13 +208,16 @@ describe('当前脚本属性弹窗的未覆盖作者工作流', () => {
     })
   })
 
-  test('确认结果标识编辑只提交标识，否分支正文保持原样', async () => {
+  test('确认双臂由指令树编辑，不再暴露结果标识', async () => {
     const initial: AuthorCommand = {
       kind: 'confirm',
+      onYes: [{ kind: 'wait', ms: 20 }],
       onNo: [{ kind: 'wait', ms: 40 }],
     }
     const f = await commandForm(initial, { requireLeafFormRow: false })
-    await enter('高级：结果识别名', '  refuse  ')
-    await f.finish({ ...initial, id: 'refuse' })
+    expect(document.body.textContent).not.toContain('高级：结果识别名')
+    await click('完成')
+    f.pending()
+    expect(document.querySelector('[role="dialog"]')).toBeNull()
   })
 })

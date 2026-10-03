@@ -17,36 +17,20 @@ const canonicalScene: AuthorSceneDef = {
 }
 
 const choiceFlow: AuthorScriptFlow = {
-  kind: 'stateMachine',
-  machine: {
-    id: 'preview-choice',
-    label: '预览选择',
-    initial: 'choice',
-    states: {
-      choice: {
-        label: '选择',
-        body: [{ kind: 'confirm', id: 'decision', onNo: [] }],
-        next: {
-          kind: 'commandOutcome',
-          commandId: 'decision',
-          command: 'confirm',
-          outcome: 'no',
-          then: { kind: 'continue', state: 'no' },
-          else: { kind: 'continue', state: 'yes' },
+  kind: 'stages',
+  initial: 'choice',
+  stages: [
+    {
+      id: 'choice',
+      body: [
+        {
+          kind: 'confirm',
+          onYes: [{ kind: 'setPartyFacing', facing: 'right' }],
+          onNo: [{ kind: 'setPartyFacing', facing: 'left' }],
         },
-      },
-      no: {
-        label: '否',
-        body: [{ kind: 'setPartyFacing', facing: 'left' }],
-        next: { kind: 'stay' },
-      },
-      yes: {
-        label: '是',
-        body: [{ kind: 'setPartyFacing', facing: 'right' }],
-        next: { kind: 'stay' },
-      },
+      ],
     },
-  },
+  ],
 }
 
 describe('Playback', () => {
@@ -222,7 +206,7 @@ describe('Playback', () => {
   test.each([
     { accepted: false, facing: 'left' as const },
     { accepted: true, facing: 'right' as const },
-  ])('canonical preview executes the real commandOutcome arm ($accepted)', async ({
+  ])('canonical preview executes the real confirmation arm ($accepted)', async ({
     accepted,
     facing,
   }) => {

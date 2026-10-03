@@ -23,7 +23,11 @@ import {
 } from './entity-lifecycle-command.js'
 import type { LoadedCurrentProjectCore } from './project-loader.js'
 import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
-import { compileRuntimeScriptFlow, RuntimeSharedScriptResolver } from './runtime-script-compiler.js'
+import {
+  compileRuntimeCommandRoot,
+  compileRuntimeScriptFlow,
+  RuntimeSharedScriptResolver,
+} from './runtime-script-compiler.js'
 import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
 import type { StoredAutomaticChaseClaim } from './save/types.js'
 import {
@@ -32,6 +36,7 @@ import {
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
+import { ScriptExecutionBudgets } from './script-execution-budget.js'
 import {
   type BaseProjectScriptHostOptions,
   BaseProjectScriptRuntimeHost,
@@ -195,8 +200,12 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     return this.retainedHost.evalCondition(condition, context)
   }
 
-  confirm(signal: AbortSignal): Promise<boolean> {
-    return this.retainedHost.confirm(signal)
+  gameplayNow(): number {
+    return this.retainedHost.gameplayNow()
+  }
+
+  confirm(signal: AbortSignal, reportInteraction?: () => void): Promise<boolean> {
+    return this.retainedHost.confirm(signal, reportInteraction)
   }
 
   async startBattle(
@@ -299,6 +308,7 @@ type SynchronousSnapshot<T> = T extends PromiseLike<unknown> ? never : T
 
 /** 当前 project runtime；只在 current validator/loader 已通过后可构造。 */
 export class ScriptProjectRuntime {
+  private readonly executionBudgets = new ScriptExecutionBudgets()
   readonly coordinator: FlowRuntimeCoordinator
   readonly host: ProjectScriptRuntimeHost
   private readonly shared: RuntimeSharedScriptResolver
@@ -375,8 +385,21 @@ export class ScriptProjectRuntime {
     return scope ? this.registerInvocationScope(signal, scope) : () => {}
   }
 
-  private runner(signal: AbortSignal, owner?: EntityAddress): RuntimeScriptRunner {
-    const runner = new RuntimeScriptRunner(this.host, signal, this.shared)
+  private runner(
+    signal: AbortSignal,
+    owner?: EntityAddress,
+    automatic = false,
+  ): RuntimeScriptRunner {
+    const budget =
+      automatic && owner
+        ? this.executionBudgets.forAutomatic(
+            this.host.currentSceneSessionId(),
+            owner.scene,
+            owner.entity,
+            signal,
+          )
+        : this.executionBudgets.forSignal(signal)
+    const runner = new RuntimeScriptRunner(this.host, signal, this.shared, budget)
     const kind = (event: ScriptStepEventLike<RuntimeLeafCommand>): string =>
       event.command.kind === 'leaf' ? event.command.command.kind : event.command.kind
     if (this.invocationScopes.has(signal) || this.observers.beforeStep)
@@ -490,7 +513,7 @@ export class ScriptProjectRuntime {
       active.lease.close()
       throw new Error(`script behavior 在激活后消失: ${scene.id}/${entityId}/${channel}`)
     }
-    const runner = this.runner(options.signal, target)
+    const runner = this.runner(options.signal, target, channel === 'auto')
     const releaseScope = this.inheritInvocationScope(options.signal)
     try {
       await withRegisteredScriptActivityLineage(
@@ -599,19 +622,12 @@ export class ScriptProjectRuntime {
       await withScriptActivityLineage(this.host, this.coordinator, options.signal, async () => {
         const runner = this.runner(options.signal, options.self)
         await runner.runFlow(
-          compileRuntimeScriptFlow(
-            {
-              kind: 'stages',
-              initial: '__transient',
-              stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
-            },
-            {
-              canonicalContentDigest: this.canonicalContentDigest,
-              timing: options.timing ?? 'interactive',
-            },
-          ),
+          compileRuntimeCommandRoot(commands, {
+            canonicalContentDigest: this.canonicalContentDigest,
+            timing: options.timing ?? 'interactive',
+          }),
           {
-            cursor: { kind: 'stage', stage: '__transient' },
+            cursor: { kind: 'stage', stage: '__script' },
             cursorController: { reachSafePoint: () => 'continue' },
             ...(options.self ? { self: structuredClone(options.self) } : {}),
           },

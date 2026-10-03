@@ -111,7 +111,7 @@ test.each([
   host = await installShellHost()
   const fixture = await shellProject({
     first: sceneWithCommands('a', [
-      { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: 3 }] },
+      { kind: 'confirm', onYes: [], onNo: [{ kind: 'giveMoney', delta: 3 }] },
       { kind: 'giveMoney', delta: 5 },
     ]),
   })

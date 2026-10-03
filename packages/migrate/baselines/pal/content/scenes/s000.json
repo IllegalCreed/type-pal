@@ -15,7 +15,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "开场梦境：罗刹鬼婆现身",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -112,7 +112,8 @@
                     "kind": "loadScene",
                     "scene": "s001"
                   }
-                ]
+                ],
+                "label": "梦中遭擒，转入客栈醒来"
               }
             ]
           }

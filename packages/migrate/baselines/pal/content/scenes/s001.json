@@ -100,76 +100,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": 10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 10,
-                      "dy": 10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 6,
-                      "dy": 6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "dx": 10,
+                          "dy": 10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": 6,
+                          "dy": 6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -216,76 +168,28 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": -10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -10,
-                      "dy": -10,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -6,
-                      "dy": -6,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "dx": -10,
+                          "dy": -10,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -6,
+                          "dy": -6,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -368,40 +272,19 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 8,
-                      "dy": -4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "dx": 8,
+                          "dy": -4,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     }
                   ]
                 }
@@ -696,68 +579,42 @@
                       "ms": 80
                     },
                     {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -16,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 4,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -16,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 4,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "gesture": 5,
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "facing": "down",
+                          "gesture": 6,
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "dx": 0,
+                          "dy": -16,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "facing": "down",
+                          "gesture": 4,
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 120
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -879,80 +736,29 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "dx": -4,
+                          "dy": -2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "clearDialog"
@@ -968,6 +774,35 @@
                     },
                     {
                       "kind": "clearDialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "carrying-dishes-blocked": {
+            "label": "端着酒菜不能爬密道",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.12"
+                          }
+                        ],
+                        "slot": "center"
+                      }
                     }
                   ]
                 }
@@ -1008,68 +843,42 @@
                       "ms": 80
                     },
                     {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -16,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 4,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 5,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 6,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -16,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "facing": "down",
-                      "gesture": 4,
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "facing": "down",
+                          "gesture": 5,
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "facing": "down",
+                          "gesture": 6,
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "dx": 0,
+                          "dy": -16,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "facing": "down",
+                          "gesture": 4,
+                          "kind": "setPartyFacing"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 120
+                        }
+                      ]
                     },
                     {
                       "facing": "down",
@@ -1191,80 +1000,29 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "dx": -4,
+                          "dy": -2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "clearDialog"
@@ -1399,6 +1157,7 @@
     },
     {
       "id": "e8",
+      "label": "密道遮挡物",
       "pos": {
         "col": 61,
         "row": -25,
@@ -1509,80 +1268,29 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "dx": 4,
+                          "dy": 2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
+                        }
+                      ]
                     },
                     {
                       "cue": {
@@ -1623,80 +1331,29 @@
                       "kind": "dialog"
                     },
                     {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": -4,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "dx": -4,
+                          "dy": -2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "clearDialog"
@@ -1727,294 +1384,169 @@
               ]
             }
           },
+          "carrying-dishes-blocked": {
+            "label": "端着酒菜不能爬密道",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "narration"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.11"
+                          }
+                        ],
+                        "slot": "center"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
           "legacy-001": {
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "触发行为 1",
-                "initial": "initial",
-                "states": {
-                  "initial": {
-                    "label": "首次执行",
-                    "body": [
-                      {
-                        "dx": 4,
-                        "dy": 2,
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "初次交互",
+                  "body": [
+                    {
+                      "dx": 4,
+                      "dy": 2,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e8"
                       }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-001"
-                    }
-                  },
-                  "continuation-001": {
-                    "label": "流程分支 001",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": 4,
-                        "dy": 2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-002"
-                    }
-                  },
-                  "continuation-002": {
-                    "label": "流程分支 002",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": 4,
-                        "dy": 2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-003"
-                    }
-                  },
-                  "continuation-003": {
-                    "label": "流程分支 003",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": 4,
-                        "dy": 2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-004"
-                    }
-                  },
-                  "continuation-004": {
-                    "label": "流程分支 004",
-                    "body": [
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.14"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.赵灵儿",
-                            "portrait": {
-                              "asset": "portrait.pal.011",
-                              "side": "right"
-                            }
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "dx": 4,
+                          "dy": 2,
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
                           }
                         }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      },
-                      {
-                        "kind": "dialog",
-                        "cue": {
-                          "rows": [
-                            {
-                              "text": "dlg.16"
-                            },
-                            {
-                              "text": "dlg.17"
-                            },
-                            {
-                              "text": "dlg.18"
-                            }
-                          ],
-                          "identity": {
-                            "kind": "unbound",
-                            "speaker": "spk.李逍遥",
-                            "portrait": {
-                              "asset": "portrait.pal.009",
-                              "side": "right"
-                            }
+                      ]
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e8"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.14"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.赵灵儿",
+                          "portrait": {
+                            "asset": "portrait.pal.011",
+                            "side": "right"
                           }
                         }
-                      },
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": -4,
-                        "dy": -2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
                       }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-005"
-                    }
-                  },
-                  "continuation-005": {
-                    "label": "流程分支 005",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": -4,
-                        "dy": -2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.16"
+                          },
+                          {
+                            "text": "dlg.17"
+                          },
+                          {
+                            "text": "dlg.18"
+                          }
+                        ],
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
                         }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
                       }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-006"
-                    }
-                  },
-                  "continuation-006": {
-                    "label": "流程分支 006",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": -4,
-                        "dy": -2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "kind": "nudgeEntity",
+                          "dx": -4,
+                          "dy": -2,
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
                         }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
+                      ]
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "stay"
                       }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-007"
                     }
-                  },
-                  "continuation-007": {
-                    "label": "流程分支 007",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "dx": -4,
-                        "dy": -2,
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e8"
-                        }
-                      },
-                      {
-                        "kind": "clearDialog"
-                      }
-                    ],
-                    "next": {
-                      "kind": "continue",
-                      "state": "continuation-008"
-                    }
-                  },
-                  "continuation-008": {
-                    "label": "流程分支 008",
-                    "body": [],
-                    "next": {
-                      "kind": "restart"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-002": {
@@ -2028,80 +1560,29 @@
                   "id": "initial",
                   "body": [
                     {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e8"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
+                      "kind": "repeat",
+                      "count": 4,
+                      "body": [
+                        {
+                          "dx": 4,
+                          "dy": 2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e8"
+                          }
+                        },
+                        {
+                          "kind": "clearDialog"
+                        }
+                      ]
                     },
                     {
                       "kind": "setEntityTriggerActivation",
@@ -2127,6 +1608,7 @@
     },
     {
       "id": "e10",
+      "label": "李大娘（房内走动）",
       "pos": {
         "col": 60,
         "row": -23,
@@ -2138,6 +1620,7 @@
     },
     {
       "id": "e11",
+      "label": "李大娘（床边）",
       "pos": {
         "col": 60,
         "row": -23,
@@ -2147,6 +1630,7 @@
     },
     {
       "id": "e12",
+      "label": "随从客房出口",
       "pos": {
         "col": 108,
         "row": 33,
@@ -2168,7 +1652,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "离开苗人随从客房",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2189,7 +1673,8 @@
                         "evidenceId": "pal-load-scene-220"
                       }
                     }
-                  ]
+                  ],
+                  "label": "回到客栈二楼"
                 }
               ]
             }
@@ -2365,6 +1850,7 @@
     },
     {
       "id": "e15",
+      "label": "送酒菜触发区",
       "pos": {
         "col": 108,
         "row": 29,
@@ -2387,7 +1873,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "送酒菜给苗人随从，接回退酒",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2495,118 +1981,29 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e26"
-                      }
+                      "kind": "repeat",
+                      "count": 6,
+                      "body": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "dx": 8,
+                          "dy": 4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "clearDialog"
@@ -2792,9 +2189,9 @@
                       "kind": "giveItem"
                     },
                     {
+                      "kind": "setActorAppearance",
                       "actor": "li-xiaoyao",
-                      "kind": "setActorSprite",
-                      "sprite": "li-xiaoyao"
+                      "spriteId": "li-xiaoyao"
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -2880,7 +2277,8 @@
                         "value": "legacy-001"
                       }
                     }
-                  ]
+                  ],
+                  "label": "端上酒菜，客人退回桂花酒"
                 }
               ]
             }
@@ -2890,6 +2288,7 @@
     },
     {
       "id": "e16",
+      "label": "苗人客房酒菜",
       "pos": {
         "col": 109,
         "row": 26,
@@ -2953,6 +2352,7 @@
     },
     {
       "id": "e18",
+      "label": "厨房出口",
       "pos": {
         "col": 102,
         "row": 59,
@@ -2974,7 +2374,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "离开厨房",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2995,7 +2395,8 @@
                         "evidenceId": "pal-load-scene-236"
                       }
                     }
-                  ]
+                  ],
+                  "label": "回到客栈大厅"
                 }
               ]
             }
@@ -3005,6 +2406,7 @@
     },
     {
       "id": "e19",
+      "label": "李大娘（厨房）",
       "pos": {
         "col": 89,
         "row": 45,
@@ -3018,7 +2420,6 @@
           "id": "default",
           "label": "默认模式",
           "trigger": "default",
-          "auto": "default",
           "triggerActivation": {
             "on": "interact",
             "range": 3
@@ -3029,7 +2430,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "赶道士期间：追问是否打发走",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3052,13 +2453,94 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "复读：追问是否赶走道士"
+                }
+              ]
+            }
+          },
+          "busy-in-kitchen": {
+            "label": "厨房忙碌提醒",
+            "order": 11,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.129"
+                          },
+                          {
+                            "text": "dlg.130"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "label": "复读：催逍遥帮忙"
+                }
+              ]
+            }
+          },
+          "serve-guests": {
+            "label": "交代把酒菜端给楼上客人",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.126"
+                          },
+                          {
+                            "text": "dlg.127"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e20"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "take-dishes"
+                      }
+                    }
+                  ],
+                  "label": "交代把桌上酒菜端给客人"
                 }
               ]
             }
           },
           "c8-74bc98f07f8e": {
-            "label": "桂花酒剧情方案",
+            "label": "赠酒后：给钱托逍遥买鲜虾",
             "order": 1006,
             "flow": {
               "kind": "stages",
@@ -3188,7 +2670,8 @@
                       }
                     }
                   ],
-                  "next": "stage-2"
+                  "next": "stage-2",
+                  "label": "领取五十文并受托买鲜虾"
                 },
                 {
                   "id": "stage-2",
@@ -3210,40 +2693,8 @@
                         }
                       }
                     }
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e19"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e19"
-                      }
-                    }
-                  ]
+                  ],
+                  "label": "复读：催逍遥帮忙"
                 }
               ]
             }
@@ -3253,6 +2704,7 @@
     },
     {
       "id": "e20",
+      "label": "厨房待端酒菜",
       "pos": {
         "col": 92,
         "row": 51,
@@ -3276,7 +2728,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "未受托时：桌上酒菜已备好",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3302,7 +2754,158 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "查看桌上酒菜"
+                }
+              ]
+            }
+          },
+          "take-dishes": {
+            "label": "拿起待送的酒菜",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "actor",
+                          "actor": "li-daniang"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.141"
+                          },
+                          {
+                            "text": "dlg.142"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "setActorAppearance",
+                      "actor": "li-xiaoyao",
+                      "spriteId": "sprite-208"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e20"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "busy-in-kitchen"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e24"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "decline-meal"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "beg-for-guest-wine"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e15"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e9"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "carrying-dishes-blocked"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e7"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "carrying-dishes-blocked"
+                      }
+                    }
+                  ],
+                  "label": "听李大娘叮嘱，端起酒菜"
                 }
               ]
             }
@@ -3522,6 +3125,7 @@
     },
     {
       "id": "e24",
+      "label": "苗人头领",
       "pos": {
         "col": 35,
         "row": 1,
@@ -3567,6 +3171,91 @@
                         }
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "decline-meal": {
+            "label": "头领不饿：先送给隔壁",
+            "order": 10,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗人头领",
+                          "portrait": {
+                            "asset": "portrait.pal.059",
+                            "side": "left"
+                          }
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.78"
+                          },
+                          {
+                            "text": "dlg.79"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "insist"
+                },
+                {
+                  "id": "insist",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗人头领"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.81"
+                          },
+                          {
+                            "text": "dlg.82"
+                          }
+                        ],
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "dismiss"
+                },
+                {
+                  "id": "dismiss",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "identity": {
+                          "kind": "unbound",
+                          "speaker": "spk.苗人头领"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.84"
+                          },
+                          {
+                            "text": "dlg.85"
+                          }
+                        ],
+                        "slot": "top"
+                      }
                     }
                   ]
                 }
@@ -3640,6 +3329,7 @@
     },
     {
       "id": "e25",
+      "label": "苗人随从（开门）",
       "pos": {
         "col": 112,
         "row": 27,
@@ -3773,22 +3463,37 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e25"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e25"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "facing": "left",
+                          "kind": "setEntityFacing",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e25"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e25"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3799,754 +3504,204 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "自动行为 1",
-                "cadence": "transition",
-                "initial": "intro",
-                "states": {
-                  "completed": {
-                    "label": "completed",
-                    "body": [],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "cycle-01": {
-                    "label": "cycle-01",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 8,
+                      "body": [
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e25"
+                          },
+                          "dx": 16,
+                          "dy": -8
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e25"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-02": {
-                    "label": "cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
+                      ]
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
+                      "dx": 16,
+                      "dy": -8
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-03": {
-                    "label": "cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-03",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-04": {
-                    "label": "cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
+                      "facing": "left"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-04",
-                      "yield": "worldTick"
                     }
-                  },
-                  "cycle-01-phase-05": {
-                    "label": "cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-06": {
-                    "label": "cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-07": {
-                    "label": "cycle-01-phase-07",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-07",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-08": {
-                    "label": "cycle-01-phase-08",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-08",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-09": {
-                    "label": "cycle-01-phase-09",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-09",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-02": {
-                    "label": "cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-02"
-                    }
-                  },
-                  "cycle-02-phase-02": {
-                    "label": "cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-03"
-                    }
-                  },
-                  "cycle-02-phase-03": {
-                    "label": "cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-04"
-                    }
-                  },
-                  "cycle-02-phase-04": {
-                    "label": "cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-05"
-                    }
-                  },
-                  "cycle-02-phase-05": {
-                    "label": "cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-06"
-                    }
-                  },
-                  "cycle-02-phase-06": {
-                    "label": "cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-07"
-                    }
-                  },
-                  "cycle-02-phase-07": {
-                    "label": "cycle-02-phase-07",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-08"
-                    }
-                  },
-                  "cycle-02-phase-08": {
-                    "label": "cycle-02-phase-08",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-09"
-                    }
-                  },
-                  "cycle-02-phase-09": {
-                    "label": "cycle-02-phase-09",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "outro",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "intro": {
-                    "label": "intro",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "facing": "up"
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-01",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "outro": {
-                    "label": "outro",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "facing": "left"
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "completed",
-                      "yield": "worldTick"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-002": {
             "label": "自动行为 2",
             "order": 2,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "自动行为 2",
-                "cadence": "transition",
-                "initial": "intro",
-                "states": {
-                  "completed": {
-                    "label": "completed",
-                    "body": [],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "cycle-01": {
-                    "label": "cycle-01",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 8,
+                      "body": [
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e25"
+                          },
+                          "dx": -16,
+                          "dy": 8
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e25"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-02": {
-                    "label": "cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
+                      ]
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
+                      "dx": -16,
+                      "dy": 8
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-03": {
-                    "label": "cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e25"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
+                      "state": 0
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-03",
-                      "yield": "worldTick"
                     }
-                  },
-                  "cycle-01-phase-04": {
-                    "label": "cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-04",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-05": {
-                    "label": "cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-06": {
-                    "label": "cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-07": {
-                    "label": "cycle-01-phase-07",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-07",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-08": {
-                    "label": "cycle-01-phase-08",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-08",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-09": {
-                    "label": "cycle-01-phase-09",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-09",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-02": {
-                    "label": "cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-02"
-                    }
-                  },
-                  "cycle-02-phase-02": {
-                    "label": "cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-03"
-                    }
-                  },
-                  "cycle-02-phase-03": {
-                    "label": "cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-04"
-                    }
-                  },
-                  "cycle-02-phase-04": {
-                    "label": "cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-05"
-                    }
-                  },
-                  "cycle-02-phase-05": {
-                    "label": "cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-06"
-                    }
-                  },
-                  "cycle-02-phase-06": {
-                    "label": "cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-07"
-                    }
-                  },
-                  "cycle-02-phase-07": {
-                    "label": "cycle-02-phase-07",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-08"
-                    }
-                  },
-                  "cycle-02-phase-08": {
-                    "label": "cycle-02-phase-08",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-09"
-                    }
-                  },
-                  "cycle-02-phase-09": {
-                    "label": "cycle-02-phase-09",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "outro",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "intro": {
-                    "label": "intro",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "facing": "down"
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-01",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "outro": {
-                    "label": "outro",
-                    "body": [
-                      {
-                        "kind": "setEntityState",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e25"
-                        },
-                        "state": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "completed",
-                      "yield": "worldTick"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }
@@ -4554,6 +3709,7 @@
     },
     {
       "id": "e26",
+      "label": "苗人随从（随行）",
       "pos": {
         "col": 106,
         "row": 24,
@@ -4674,984 +3830,244 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "自动行为 1",
-                "cadence": "transition",
-                "initial": "intro",
-                "states": {
-                  "completed": {
-                    "label": "completed",
-                    "body": [],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "cycle-01": {
-                    "label": "cycle-01",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 8,
+                      "body": [
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          },
+                          "dx": 16,
+                          "dy": -8
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-02": {
-                    "label": "cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
+                      ]
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
+                      "dx": 16,
+                      "dy": -8
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-03": {
-                    "label": "cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-03",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-04": {
-                    "label": "cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
+                      "facing": "left"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-04",
-                      "yield": "worldTick"
                     }
-                  },
-                  "cycle-01-phase-05": {
-                    "label": "cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-06": {
-                    "label": "cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-07": {
-                    "label": "cycle-01-phase-07",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-07",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-08": {
-                    "label": "cycle-01-phase-08",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-08",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-09": {
-                    "label": "cycle-01-phase-09",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": 16,
-                        "dy": -8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-09",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-02": {
-                    "label": "cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-02"
-                    }
-                  },
-                  "cycle-02-phase-02": {
-                    "label": "cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-03"
-                    }
-                  },
-                  "cycle-02-phase-03": {
-                    "label": "cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-04"
-                    }
-                  },
-                  "cycle-02-phase-04": {
-                    "label": "cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-05"
-                    }
-                  },
-                  "cycle-02-phase-05": {
-                    "label": "cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-06"
-                    }
-                  },
-                  "cycle-02-phase-06": {
-                    "label": "cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-07"
-                    }
-                  },
-                  "cycle-02-phase-07": {
-                    "label": "cycle-02-phase-07",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-08"
-                    }
-                  },
-                  "cycle-02-phase-08": {
-                    "label": "cycle-02-phase-08",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-09"
-                    }
-                  },
-                  "cycle-02-phase-09": {
-                    "label": "cycle-02-phase-09",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "outro",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "intro": {
-                    "label": "intro",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "facing": "up"
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-01",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "outro": {
-                    "label": "outro",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "facing": "left"
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "completed",
-                      "yield": "worldTick"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-002": {
             "label": "自动行为 2",
             "order": 2,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "自动行为 2",
-                "cadence": "transition",
-                "initial": "intro",
-                "states": {
-                  "completed": {
-                    "label": "completed",
-                    "body": [],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "cycle-01": {
-                    "label": "cycle-01",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "repeat",
+                      "count": 8,
+                      "body": [
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          },
+                          "dx": -16,
+                          "dy": 8
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-02": {
-                    "label": "cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
+                      ]
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
+                      "dx": -16,
+                      "dy": 8
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-03": {
-                    "label": "cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
+                      "state": 0
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-03",
-                      "yield": "worldTick"
                     }
-                  },
-                  "cycle-01-phase-04": {
-                    "label": "cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-04",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-05": {
-                    "label": "cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-06": {
-                    "label": "cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-07": {
-                    "label": "cycle-01-phase-07",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-07",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-08": {
-                    "label": "cycle-01-phase-08",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-08",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-09": {
-                    "label": "cycle-01-phase-09",
-                    "body": [
-                      {
-                        "kind": "nudgeEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dx": -16,
-                        "dy": 8
-                      },
-                      {
-                        "kind": "animEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        }
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-09",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-02": {
-                    "label": "cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-02"
-                    }
-                  },
-                  "cycle-02-phase-02": {
-                    "label": "cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-03"
-                    }
-                  },
-                  "cycle-02-phase-03": {
-                    "label": "cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-04"
-                    }
-                  },
-                  "cycle-02-phase-04": {
-                    "label": "cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-05"
-                    }
-                  },
-                  "cycle-02-phase-05": {
-                    "label": "cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-06"
-                    }
-                  },
-                  "cycle-02-phase-06": {
-                    "label": "cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-07"
-                    }
-                  },
-                  "cycle-02-phase-07": {
-                    "label": "cycle-02-phase-07",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-08"
-                    }
-                  },
-                  "cycle-02-phase-08": {
-                    "label": "cycle-02-phase-08",
-                    "body": [],
-                    "next": {
-                      "kind": "continue",
-                      "state": "cycle-01-phase-09"
-                    }
-                  },
-                  "cycle-02-phase-09": {
-                    "label": "cycle-02-phase-09",
-                    "body": [],
-                    "next": {
-                      "kind": "to",
-                      "state": "outro",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "intro": {
-                    "label": "intro",
-                    "body": [
-                      {
-                        "kind": "setEntityFacing",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "facing": "down"
-                      },
-                      {
-                        "kind": "setEntityFrame",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "frame": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-01",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "outro": {
-                    "label": "outro",
-                    "body": [
-                      {
-                        "kind": "setEntityState",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "state": 0
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "completed",
-                      "yield": "worldTick"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           },
           "legacy-003": {
             "label": "自动行为 3",
             "order": 3,
             "flow": {
-              "kind": "stateMachine",
-              "machine": {
-                "id": "machine",
-                "label": "自动行为 3",
-                "cadence": "transition",
-                "initial": "cycle-01",
-                "states": {
-                  "completed": {
-                    "label": "completed",
-                    "body": [],
-                    "next": {
-                      "kind": "stay"
-                    }
-                  },
-                  "cycle-01": {
-                    "label": "cycle-01",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
+              "kind": "stages",
+              "initial": "routine",
+              "stages": [
+                {
+                  "id": "routine",
+                  "label": "自动动作编排",
+                  "body": [
+                    {
+                      "kind": "repeat",
+                      "count": 8,
+                      "body": [
+                        {
+                          "kind": "stepEntity",
+                          "target": {
+                            "scene": "s001",
+                            "entity": "e26"
+                          },
+                          "dir": "left"
                         },
-                        "dir": "left"
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02",
-                      "yield": "worldTick"
                     }
-                  },
-                  "cycle-01-phase-02": {
-                    "label": "cycle-01-phase-02",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-02",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-03": {
-                    "label": "cycle-01-phase-03",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-03",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-04": {
-                    "label": "cycle-01-phase-04",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-04",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-05": {
-                    "label": "cycle-01-phase-05",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-05",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-06": {
-                    "label": "cycle-01-phase-06",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-06",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-07": {
-                    "label": "cycle-01-phase-07",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-07",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-01-phase-08": {
-                    "label": "cycle-01-phase-08",
-                    "body": [
-                      {
-                        "kind": "stepEntity",
-                        "target": {
-                          "scene": "s001",
-                          "entity": "e26"
-                        },
-                        "dir": "left"
-                      }
-                    ],
-                    "next": {
-                      "kind": "to",
-                      "state": "cycle-02-phase-08",
-                      "yield": "worldTick"
-                    }
-                  },
-                  "cycle-02": {
-                    "label": "cycle-02",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-02"
-                    }
-                  },
-                  "cycle-02-phase-02": {
-                    "label": "cycle-02-phase-02",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-03"
-                    }
-                  },
-                  "cycle-02-phase-03": {
-                    "label": "cycle-02-phase-03",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-04"
-                    }
-                  },
-                  "cycle-02-phase-04": {
-                    "label": "cycle-02-phase-04",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-05"
-                    }
-                  },
-                  "cycle-02-phase-05": {
-                    "label": "cycle-02-phase-05",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-06"
-                    }
-                  },
-                  "cycle-02-phase-06": {
-                    "label": "cycle-02-phase-06",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-07"
-                    }
-                  },
-                  "cycle-02-phase-07": {
-                    "label": "cycle-02-phase-07",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "cycle-01-phase-08"
-                    }
-                  },
-                  "cycle-02-phase-08": {
-                    "label": "cycle-02-phase-08",
-                    "body": [],
-                    "next": {
-                      "kind": "advance",
-                      "state": "completed"
-                    }
-                  }
+                  ]
                 }
-              }
+              ]
             }
           }
         }
@@ -6726,7 +5142,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "梦醒客栈：婶婶叫逍遥招呼客人",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -7492,80 +5908,29 @@
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 4,
-                    "dy": 2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 4,
-                    "dy": 2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 4,
-                    "dy": 2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": 4,
-                    "dy": 2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
+                    "kind": "repeat",
+                    "count": 4,
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "dx": 4,
+                        "dy": 2,
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e8"
+                        }
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e8"
+                        }
+                      }
+                    ]
                   },
                   {
                     "kind": "clearDialog"
@@ -7739,61 +6104,29 @@
                     "kind": "setPartyFacing"
                   },
                   {
-                    "dx": -4,
-                    "dy": -2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": -4,
-                    "dy": -2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": -4,
-                    "dy": -2,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "animEntity",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e8"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
+                    "kind": "repeat",
+                    "count": 3,
+                    "body": [
+                      {
+                        "dx": -4,
+                        "dy": -2,
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e8"
+                        }
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e8"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      }
+                    ]
                   },
                   {
                     "dx": -4,
@@ -7832,11 +6165,10 @@
                     "kind": "setPartyFacing"
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                },
+                "label": "叫醒逍遥并交代接客"
               }
             ]
           }
@@ -7885,11 +6217,9 @@
                     "kind": "dialog"
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }
@@ -8043,11 +6373,9 @@
                     }
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }
@@ -8202,11 +6530,9 @@
                     }
                   }
                 ],
-                "next": "stage-2"
-              },
-              {
-                "id": "stage-2",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

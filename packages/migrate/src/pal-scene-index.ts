@@ -2,7 +2,7 @@ import type { MapIndexV1, SceneDef, SceneIndexV1 } from '@type-pal/content'
 import { validateSceneIndex } from '@type-pal/content'
 
 /**
- * PAL raw scenes 的 content21 初始目录。名称只在首次生成时由地图可读名播种；publication 之后
+ * PAL raw scenes 的当前初始目录。名称只在首次生成时由地图可读名播种；publication 之后
  * baseline-first 保留作者修改的 name/path，不会每次重迁覆盖。
  */
 export function buildPalSceneIndex(

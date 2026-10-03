@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, AuthorSceneDef, SceneIndexV1 } from '@type-pal/content'
+import type { ActorDef, AuthorCommand, AuthorSceneDef, SceneIndexV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 
@@ -44,20 +44,33 @@ function targetBranches(scenes: readonly AuthorSceneDef[]) {
     return flow
   }
   const s023 = flowOf('s023', 'e433')
-  if (s023.kind !== 'stateMachine') throw new Error('s023/e433 expected stateMachine')
-  const s023Next = s023.machine.states.initial?.next
-  if (!s023Next || s023Next.kind !== 'branch') throw new Error('s023/e433 expected branch next')
+  const inPartyBranches: Extract<AuthorCommand, { kind: 'branch' }>[] = []
+  const collect = (commands: readonly AuthorCommand[]): void => {
+    for (const command of commands) {
+      if (command.kind === 'branch') {
+        if (command.cond.kind === 'inParty') inPartyBranches.push(command)
+        collect(command.then)
+        collect(command.else ?? [])
+      } else if (command.kind === 'loop' || command.kind === 'repeat') collect(command.body)
+      else if (command.kind === 'confirm') {
+        collect(command.onYes)
+        collect(command.onNo)
+      }
+    }
+  }
+  for (const stage of s023.stages) collect(stage.body)
+  if (inPartyBranches.length !== 1) throw new Error('s023/e433 expected one inParty branch')
+  const s023Branch = inPartyBranches[0]!
 
   const stageBranch = (sceneId: string, entityId: string, stageId: string, index: number) => {
     const flow = flowOf(sceneId, entityId)
-    if (flow.kind !== 'stages') throw new Error(`${sceneId}/${entityId} expected stages`)
     const command = flow.stages.find(({ id }) => id === stageId)?.body[index]
     if (!command || command.kind !== 'branch')
       throw new Error(`${sceneId}/${entityId}/${stageId}[${index}] expected branch`)
     return command
   }
   return [
-    s023Next,
+    s023Branch,
     stageBranch('s202', 'e3392', 'initial', 0),
     stageBranch('s202', 'e3392', 'legacy-002', 0),
     stageBranch('s213', 'e3638', 'initial', 3),
@@ -81,8 +94,8 @@ describe('PAL current/baseline inParty ActorId publication', () => {
       ])
       expect(report.references).toHaveLength(4)
     }
-    // Author-owned flows may modernize independently of the historical supply baseline.
-    // Preserve the four complete inParty branches, including their bodies and transitions,
+    // Author-owned flows may modernize independently of the current publication baseline.
+    // Preserve the four complete inParty branches, including their bodies and step exits,
     // rather than freezing unrelated flow endings elsewhere in the same scenes.
     expect(targetBranches(current.scenes)).toEqual(targetBranches(baseline.scenes))
   })

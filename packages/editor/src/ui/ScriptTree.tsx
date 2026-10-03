@@ -219,8 +219,8 @@ export function describeScriptCommand(
         icon: '🏁',
         label: `战斗结束(${cmd.result === 'won' ? '判胜' : cmd.result === 'lost' ? '判负' : '终止无奖励'})`,
       }
-    case 'stopScript':
-      return { icon: '⛔', label: '终止脚本(跳转臂尾;阶段不转移)' }
+    case 'returnScript':
+      return { icon: '↩', label: '返回调用处' }
     case 'quitToTitle':
       return { icon: '🏁', label: '游戏通关退出 → 回标题屏' }
     case 'setEntityState':
@@ -442,7 +442,10 @@ export function describeScriptCommand(
       return {
         icon: '❓',
         label: '是/否 询问',
-        blocks: [{ title: '选「否」', seg: 'onNo', body: cmd.onNo }],
+        blocks: [
+          { title: '选「是」', seg: 'onYes', body: cmd.onYes },
+          { title: '选「否」', seg: 'onNo', body: cmd.onNo },
+        ],
       }
     case 'branch':
       return {

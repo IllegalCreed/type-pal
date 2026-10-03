@@ -5,7 +5,6 @@ import type {
   AuthorSceneHooks,
   AuthorScriptFlow,
 } from '@type-pal/content'
-import { organizeFlowAsStages } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
   buildProjectReferenceSnapshot,
@@ -23,7 +22,6 @@ import {
   CopyEntityBehaviorCommand,
   CopySceneHookCommand,
   collectCanonicalScriptCommandVisits,
-  collectCanonicalScriptTransitionVisits,
   collectCanonicalSharedScriptReferencesFromVisits,
   collectScriptReferenceIssues,
   DeleteEntityBehaviorCommand,
@@ -47,7 +45,6 @@ import {
   SetItemPrivateScriptBodyCommand,
   SetSceneHookInitialCommand,
   sceneHookReferences,
-  stateTransitionExecutionLabel,
   UpdateEntityBehaviorCommand,
   UpdateSceneHookCommand,
   UpdateSharedScriptCommand,
@@ -68,46 +65,36 @@ const currentSharedScriptReferences = (state: ScriptEditorState) => {
 
 const target = { scene: 's001', entity: 'e1' }
 
-function firstRepeatMachine(): AuthorScriptFlow {
+function firstRepeatStages(): AuthorScriptFlow {
   return {
-    kind: 'stateMachine',
-    machine: {
-      id: 'talk',
-      label: '交谈',
-      initial: 'first',
-      states: {
-        first: {
-          label: '首次',
-          body: [{ kind: 'giveMoney', delta: 7 }],
-          next: { kind: 'advance', state: 'repeat' },
-        },
-        repeat: { label: '复读', body: [{ kind: 'giveMoney', delta: 0 }], next: { kind: 'stay' } },
-      },
-    },
+    kind: 'stages',
+    initial: 'first',
+    stages: [
+      { id: 'first', label: '首次', body: [{ kind: 'giveMoney', delta: 7 }], next: 'repeat' },
+      { id: 'repeat', label: '复读', body: [{ kind: 'giveMoney', delta: 0 }] },
+    ],
   }
 }
 
-test('explicit step organization is one validated edit with undo, redo and canonical reopening', () => {
+test('editing ordinary steps is transactional across undo, redo and reopening', () => {
   const state = editorState()
-  const behavior = triggerRegistry(state).talk!
-  behavior.flow = firstRepeatMachine()
   const session = new ScriptEditSession(state)
-  const organized = organizeFlowAsStages(behavior.flow)!
-  session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow: organized }))
-  const persisted = JSON.stringify(session.getState())
-  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(organized)
+  const next = firstRepeatStages()
+  session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow: next }))
+  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(next)
+  const saved = JSON.stringify(session.getState())
   expect(session.undo()).toBe(true)
-  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(behavior.flow)
+  expect(triggerRegistry(session.getState()).talk!.flow).toEqual(triggerRegistry(state).talk!.flow)
   expect(session.redo()).toBe(true)
-  const reopened = new ScriptEditSession(JSON.parse(persisted))
-  expect(triggerRegistry(reopened.getState()).talk!.flow).toEqual(organized)
-  expect(collectScriptReferenceIssues(reopened.getState())).toEqual([])
+  expect(triggerRegistry(new ScriptEditSession(JSON.parse(saved)).getState()).talk!.flow).toEqual(
+    next,
+  )
 })
 
 test('step-purpose editing, undo, redo and reopening preserve identity, next and commands', () => {
   const state = editorState()
   const behavior = triggerRegistry(state).talk!
-  behavior.flow = organizeFlowAsStages(firstRepeatMachine())!
+  behavior.flow = firstRepeatStages()
   const original = structuredClone(behavior.flow)
   const session = new ScriptEditSession(state)
   const renamed = {
@@ -126,39 +113,19 @@ test('step-purpose editing, undo, redo and reopening preserve identity, next and
   )
 })
 
-test('step organization with external state-cursor references is rejected without half-edit or history pollution', () => {
+test('a dangling finishStep target is rejected without half-edit or history pollution', () => {
   const state = editorState()
-  triggerRegistry(state).talk!.flow = firstRepeatMachine()
-  state.sharedScripts['shared/cursor'] = {
-    name: '游标调用',
-    self: 'none',
-    body: [
-      {
-        kind: 'selectEntityBehavior',
-        target,
-        channel: 'trigger',
-        selection: { kind: 'use', value: 'talk' },
-        cursorHandoff: {
-          kind: 'stateMap',
-          fromBehavior: 'talk',
-          onUnmapped: 'error',
-          cases: [
-            {
-              from: { kind: 'state', machine: 'talk', state: 'repeat' },
-              to: { kind: 'state', machine: 'talk', state: 'repeat' },
-            },
-          ],
-        },
-      },
+  const session = new ScriptEditSession(state)
+  const flow: AuthorScriptFlow = {
+    kind: 'stages',
+    initial: 'start',
+    stages: [
+      { id: 'start', body: [{ kind: 'finishStep', next: { kind: 'stage', stage: 'missing' } }] },
     ],
   }
-  const session = new ScriptEditSession(state)
-  const organized = organizeFlowAsStages(triggerRegistry(state).talk!.flow)!
   expect(() =>
-    session.dispatch(
-      new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow: organized }),
-    ),
-  ).toThrow('游标不属于')
+    session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'talk', { flow })),
+  ).toThrow()
   expect(session.getState()).toEqual(state)
   expect(session.canUndo()).toBe(false)
   expect(session.isDirty()).toBe(false)
@@ -189,7 +156,6 @@ test('completion survives validated author export/reopen and editor undo/redo wi
     completed,
   )
   expect(collectScriptReferenceIssues(reopened.getState())).toEqual([])
-  expect(stateTransitionExecutionLabel({ kind: 'complete' })).toBe('本方案完成')
 })
 type AuthorEntityBehavior = NonNullable<AuthorEntityBehaviors['trigger']>[string]
 type AuthorSceneHook = NonNullable<AuthorSceneHooks['onEnter']>['variants'][string]
@@ -458,47 +424,28 @@ describe('canonical script editor commands', () => {
     expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('greet')
   })
 
-  test('tracks and rewrites cursor-handoff source behaviors without duplicate references', () => {
+  test('renaming follows selectors nested in both confirmation arms and repetition', () => {
     const state = editorState()
-    triggerRegistry(state).alternate = behavior('alternate')
     state.sharedScripts['shared/user/select-talk']!.body = [
       {
-        kind: 'selectEntityBehavior',
-        target,
-        channel: 'trigger',
-        selection: { kind: 'use', value: 'alternate' },
-        cursorHandoff: {
-          kind: 'stateMap',
-          fromBehavior: 'talk',
-          cases: [
-            {
-              from: { kind: 'stage', stage: 'start' },
-              to: { kind: 'stage', stage: 'alternate' },
-            },
-          ],
-          onUnmapped: 'error',
-        },
+        kind: 'confirm',
+        onYes: [{ kind: 'repeat', count: 2, body: [selectionCommand('talk')] }],
+        onNo: [selectionCommand('talk')],
       },
     ]
-    expect(
-      behaviorReferences(state, target, 'trigger', 'talk').filter(
-        (reference) => reference.kind === 'command',
-      ),
-    ).toEqual([
-      expect.objectContaining({
-        path: 'items.private.use.effects[0].script.body[0]',
-      }),
-      expect.objectContaining({
-        path: 'sharedScripts.shared/user/select-talk.body[0].cursorHandoff.fromBehavior',
-      }),
-    ])
-
     const session = new ScriptEditSession(state)
     session.dispatch(new RenameEntityBehaviorCommand(target, 'trigger', 'talk', 'greet'))
-    expect(session.getState().sharedScripts['shared/user/select-talk']!.body[0]).toMatchObject({
-      selection: { kind: 'use', value: 'alternate' },
-      cursorHandoff: { fromBehavior: 'greet' },
-    })
+    const body = session.getState().sharedScripts['shared/user/select-talk']!.body
+    expect(body).toEqual([
+      {
+        kind: 'confirm',
+        onYes: [{ kind: 'repeat', count: 2, body: [selectionCommand('greet')] }],
+        onNo: [selectionCommand('greet')],
+      },
+    ])
+    expect(behaviorReferences(session.getState(), target, 'trigger', 'talk')).toEqual([])
+    expect(session.undo()).toBe(true)
+    expect(session.getState()).toEqual(state)
   })
 
   test('tracks and rewrites references inside an entity battle-loss script', () => {
@@ -568,52 +515,36 @@ describe('canonical script editor commands', () => {
     expect(session.getState().scenes[0]!.entities[0]!.hostile?.onLose).toBe('gameOver')
   })
 
-  test('locates state-machine commands and rejects an invalid command path', () => {
+  test('locates nested step commands and rejects an invalid path', () => {
     const state = editorState()
-    state.sharedScripts['shared/user/select-talk'] = {
-      name: '连续剧情',
-      self: 'none',
-      body: [],
-    }
     state.scenes[0]!.entities[0]!.behaviors!.trigger!.source = {
-      label: '连续来源',
+      label: '对话来源',
       order: 1,
       flow: {
-        kind: 'stateMachine',
-        machine: {
-          id: 'conversation',
-          label: '连续交谈',
-          initial: 'opening',
-          states: {
-            opening: {
-              label: '开场',
-              body: [selectionCommand('talk')],
-              next: { kind: 'stay' },
-            },
+        kind: 'stages',
+        initial: 'opening',
+        stages: [
+          {
+            id: 'opening',
+            label: '开场',
+            body: [{ kind: 'confirm', onYes: [selectionCommand('talk')], onNo: [] }],
           },
-        },
+        ],
       },
     }
     const reference = behaviorReferences(state, target, 'trigger', 'talk').find(
-      (candidate) =>
-        candidate.kind === 'command' &&
-        candidate.locator.owner.kind === 'entity-behavior' &&
-        candidate.locator.owner.behaviorId === 'source',
+      (r) =>
+        r.kind === 'command' &&
+        r.locator.owner.kind === 'entity-behavior' &&
+        r.locator.owner.behaviorId === 'source',
     )
     expect(reference).toMatchObject({
       locator: {
-        container: {
-          kind: 'state',
-          machineId: 'conversation',
-          stateId: 'opening',
-          section: 'body',
-        },
-        commandPath: '0',
+        container: { kind: 'step', stepId: 'opening', section: 'body' },
+        commandPath: '0/onYes/0',
       },
     })
-    expect(describeCanonicalScriptReference(state, reference!)).toBe(
-      '场景 s001 / 实体 e1 / 交互脚本“连续来源” / 连续流程“连续交谈” / 状态“开场” / 脚本正文 / 第 1 条指令「切换实体脚本方案」',
-    )
+    expect(describeCanonicalScriptReference(state, reference!)).toContain('步骤 1 · 开场')
     if (reference?.kind !== 'command') throw new Error('missing command reference')
     expect(resolveCanonicalScriptCommand(state, reference.locator)?.kind).toBe(
       'selectEntityBehavior',
@@ -626,51 +557,38 @@ describe('canonical script editor commands', () => {
     ).toBeUndefined()
   })
 
-  test('collects state-machine transitions with stable owner and exact path', () => {
+  test('condition and finishStep commands share exact step ownership', () => {
     const state = editorState()
     state.scenes[0]!.entities[0]!.behaviors!.trigger!.source = {
-      label: '连续来源',
+      label: '按条件结束',
       order: 1,
       flow: {
-        kind: 'stateMachine',
-        machine: {
-          id: 'conversation',
-          label: '连续交谈',
-          initial: 'opening',
-          states: {
-            opening: {
-              label: '开场',
-              body: [],
-              next: {
+        kind: 'stages',
+        initial: 'opening',
+        stages: [
+          {
+            id: 'opening',
+            body: [
+              {
                 kind: 'branch',
                 cond: { kind: 'inParty', actorId: 'hero' },
-                then: { kind: 'stay' },
-                else: { kind: 'restart' },
+                then: [{ kind: 'finishStep', next: { kind: 'complete' } }],
+                else: [{ kind: 'finishStep', next: { kind: 'stay' } }],
               },
-            },
+            ],
           },
-        },
+        ],
       },
     }
-
-    expect(collectCanonicalScriptTransitionVisits(state)).toEqual([
-      {
-        transition: {
-          kind: 'branch',
-          cond: { kind: 'inParty', actorId: 'hero' },
-          then: { kind: 'stay' },
-          else: { kind: 'restart' },
-        },
-        path: 'scenes.s001.entities.e1.behaviors.trigger.source.flow.machine.states.opening.next',
-        owner: {
-          kind: 'entity-behavior',
-          sceneId: 's001',
-          entityId: 'e1',
-          channel: 'trigger',
-          behaviorId: 'source',
-        },
-      },
-    ])
+    const visits = collectCanonicalScriptCommandVisits(state).filter(
+      (v) => v.locator.owner.kind === 'entity-behavior' && v.locator.owner.behaviorId === 'source',
+    )
+    expect(visits.map((v) => v.locator.commandPath)).toEqual(['0', '0/then/0', '0/else/0'])
+    expect(
+      visits.every(
+        (v) => v.locator.container.kind === 'step' && v.locator.container.stepId === 'opening',
+      ),
+    ).toBe(true)
   })
 
   test('copies and deletes only unreferenced behaviors', () => {
@@ -916,11 +834,9 @@ describe('canonical script editor commands', () => {
           mode: 'while',
           cond: { kind: 'flag', flag: 'enabled', is: true },
           body: entityStateCommands(),
-          yield: 'worldTick',
-          maxIterations: 8,
         },
       ],
-      confirm: [{ kind: 'confirm', onNo: entityStateCommands() }],
+      confirm: [{ kind: 'confirm', onYes: [], onNo: entityStateCommands() }],
       battle: [
         {
           kind: 'startBattle',
@@ -1197,7 +1113,7 @@ describe('canonical script editor commands', () => {
 })
 
 describe('canonical script editor presentation', () => {
-  test('renders all selection and transition execution semantics explicitly', () => {
+  test('renders explicit scheme selections', () => {
     expect(presentSelection({ kind: 'inherit' }, String)).toEqual({
       tone: 'inherit',
       label: '继承静态定义',
@@ -1210,36 +1126,5 @@ describe('canonical script editor presentation', () => {
       tone: 'use',
       label: '使用：talk',
     })
-    expect(stateTransitionExecutionLabel({ kind: 'stay' })).toBe('下次重复本段')
-    expect(stateTransitionExecutionLabel({ kind: 'restart' })).toBe('下次从起始段开始')
-    expect(stateTransitionExecutionLabel({ kind: 'continue', state: 'next' })).toBe('本次立即继续')
-    expect(stateTransitionExecutionLabel({ kind: 'advance', state: 'next' })).toBe(
-      '下次执行指定段落',
-    )
-    expect(
-      stateTransitionExecutionLabel({
-        kind: 'to',
-        state: 'next',
-        yield: 'worldTick',
-      }),
-    ).toBe('本次稍后继续')
-    expect(
-      stateTransitionExecutionLabel({
-        kind: 'branch',
-        cond: { kind: 'flag', flag: 'route', is: true },
-        then: { kind: 'stay' },
-        else: { kind: 'restart' },
-      }),
-    ).toBe('按条件选择后续')
-    expect(
-      stateTransitionExecutionLabel({
-        kind: 'commandOutcome',
-        commandId: 'confirm',
-        command: 'confirm',
-        outcome: 'no',
-        then: { kind: 'stay' },
-        else: { kind: 'complete' },
-      }),
-    ).toBe('按操作结果选择后续')
   })
 })

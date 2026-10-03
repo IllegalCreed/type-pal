@@ -34,6 +34,40 @@ const preview = (body: AuthorCommand[], sharedScripts?: AuthorScriptLibrary) =>
   collectScriptMovementPreview({ scene, flow: flowOf(body), self: target, sharedScripts })
 
 describe('selected author movement preview', () => {
+  test('fixed repeats preserve their exact route while named continue skips unreachable movement', () => {
+    const result = preview([
+      {
+        kind: 'repeat',
+        id: 'outer',
+        count: 3,
+        body: [
+          {
+            kind: 'repeat',
+            count: 2,
+            body: [
+              { kind: 'stepEntity', target, dir: 'right' },
+              { kind: 'continueLoop', loop: 'outer' },
+              move(99),
+            ],
+          },
+          move(88),
+        ],
+      },
+      move(8),
+    ])
+    expect(result.tracks[0]?.nodes.map((node) => node.pos.col)).toEqual([1, 1.5, 2, 2.5, 8])
+    expect(preview([{ kind: 'repeat', count: Number.MAX_SAFE_INTEGER, body: [] }]).tracks).toEqual(
+      [],
+    )
+  })
+
+  test('break exits only its loop and keeps the following route', () => {
+    const result = preview([
+      { kind: 'repeat', count: 3, body: [move(2), { kind: 'breakLoop' }, move(99)] },
+      move(8),
+    ])
+    expect(result.tracks[0]?.nodes.map((node) => node.pos.col)).toEqual([1, 2, 8])
+  })
   test('an explicit entity call is an unknown-position boundary, never a fabricated connected route', () => {
     const result = preview([
       move(2),
@@ -51,8 +85,8 @@ describe('selected author movement preview', () => {
     ])
     expect(result.tracks[0]?.nodes.map((node) => node.pos.col)).toEqual([1, 2, 8, 10])
   })
-  test('stopScript ends the current flow, including a branch or loop arm', () => {
-    const stop: AuthorCommand = { kind: 'stopScript' }
+  test('finishStep ends the current activation, including a branch or loop arm', () => {
+    const stop: AuthorCommand = { kind: 'finishStep', next: { kind: 'stay' } }
     expect(
       preview([move(2), stop, move(5)]).tracks[0]?.segments.map((segment) => [
         segment.from.pos.col,
@@ -82,8 +116,6 @@ describe('selected author movement preview', () => {
           mode: 'while',
           cond: { kind: 'flag', flag: 'choice', is: true },
           body: [move(2), stop, move(5)],
-          yield: 'worldTick',
-          maxIterations: 3,
         },
         move(10),
       ]).tracks[0]?.nodes.at(-1)?.pos.col,
@@ -92,7 +124,7 @@ describe('selected author movement preview', () => {
 
   test('shared stop is local, but a shared scene change still ends current-map preview', () => {
     const shared: AuthorScriptLibrary = {
-      local: { name: '局部结束', self: 'none', body: [move(2), { kind: 'stopScript' }, move(5)] },
+      local: { name: '局部结束', self: 'none', body: [move(2), { kind: 'returnScript' }, move(5)] },
       boundary: {
         name: '切场景',
         self: 'none',
@@ -197,22 +229,18 @@ describe('selected author movement preview', () => {
     ).toEqual([[3, 5]])
     expect(collect().tracks[0]?.nodes.some((node) => node.pos.col === 20)).toBe(false)
     const machine: AuthorScriptFlow = {
-      kind: 'stateMachine',
-      machine: {
-        id: 'talk',
-        label: '对话',
-        initial: 'first',
-        states: {
-          first: { label: '首次', body: [move(20)], next: { kind: 'continue', state: 'repeat' } },
-          repeat: { label: '复读', body: [move(6)], next: { kind: 'stay' } },
-        },
-      },
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        { id: 'first', body: [move(20)], next: 'repeat' },
+        { id: 'repeat', body: [move(6)] },
+      ],
     }
     expect(
       collectScriptMovementPreview({
         scene,
         flow: machine,
-        cursor: { kind: 'state', machine: 'talk', state: 'repeat' },
+        cursor: { kind: 'stage', stage: 'repeat' },
       }).tracks[0]?.nodes.at(-1)?.pos.col,
     ).toBe(6)
     expect(
@@ -260,8 +288,6 @@ describe('selected author movement preview', () => {
         mode: 'while',
         cond: { kind: 'flag', flag: 'patrol', is: true },
         body: [move(3)],
-        yield: 'worldTick',
-        maxIterations: 100,
       },
       { kind: 'stepEntity', target, dir: 'down' },
       move(5),
@@ -269,7 +295,7 @@ describe('selected author movement preview', () => {
     expect(result.tracks[0]?.segments).toHaveLength(1)
     expect(result.tracks[0]?.segments[0]?.conditional).toBe(true)
     expect(result.tracks[0]?.nodes.at(-1)?.pos.col).toBe(5)
-    expect(result.notes.join(' ')).toContain('循环仅展示一次')
+    expect(result.notes.join(' ')).toContain('条件循环仅展示一轮')
     expect(result.notes.join(' ')).toContain('未猜测落点')
   })
 

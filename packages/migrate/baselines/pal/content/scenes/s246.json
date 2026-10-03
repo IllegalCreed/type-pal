@@ -39,56 +39,80 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
-                      "dx": 0,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4348"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4348"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4348"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4348"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4348"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4348"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "dx": 0,
+                          "dy": 4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4348"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4348"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "repeat",
+                          "count": 2,
+                          "body": [
+                            {
+                              "dx": 0,
+                              "dy": 4,
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s246",
+                                "entity": "e4348"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4348"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 0,
+                          "dy": 4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4348"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -126,6 +150,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "持续自动动作",
                   "body": [
                     {
                       "dx": 0,
@@ -137,11 +162,19 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "animEntity",
                       "target": {
                         "scene": "s246",
                         "entity": "e4349"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 0,
@@ -153,54 +186,51 @@
                       }
                     },
                     {
-                      "dx": 0,
-                      "dy": -8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 0,
+                          "dy": -8,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 0,
+                          "dy": -8,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
                       "dx": 0,
@@ -212,11 +242,19 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "animEntity",
                       "target": {
                         "scene": "s246",
                         "entity": "e4349"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 0,
@@ -226,6 +264,10 @@
                         "scene": "s246",
                         "entity": "e4349"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 0,
@@ -237,93 +279,8 @@
                       }
                     },
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    }
-                  ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": [
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    }
-                  ],
-                  "next": "legacy-003"
-                },
-                {
-                  "id": "legacy-003",
-                  "body": [
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    }
-                  ],
-                  "next": "legacy-004"
-                },
-                {
-                  "id": "legacy-004",
-                  "body": [
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "animEntity",
@@ -333,262 +290,338 @@
                       }
                     },
                     {
-                      "dx": 2,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
-                      "dx": 3,
-                      "dy": 3,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "repeat",
+                      "count": 2,
+                      "body": [
+                        {
+                          "dx": 0,
+                          "dy": -1,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     },
                     {
-                      "dx": 4,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 5,
-                      "dy": 5,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 6,
-                      "dy": 6,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 7,
-                      "dy": 7,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 9,
-                      "dy": 9,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 10,
-                      "dy": 10,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 11,
-                      "dy": 11,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s246",
-                        "entity": "e4349"
-                      }
+                      "kind": "loop",
+                      "mode": "forever",
+                      "body": [
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 0,
+                          "dy": 1,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 1,
+                          "dy": 1,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 2,
+                          "dy": 2,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 3,
+                          "dy": 3,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 4,
+                          "dy": 4,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 5,
+                          "dy": 5,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 6,
+                          "dy": 6,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 7,
+                          "dy": 7,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 8,
+                          "dy": 8,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 9,
+                          "dy": 9,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 10,
+                          "dy": 10,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "dx": 11,
+                          "dy": 11,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "repeat",
+                          "count": 5,
+                          "body": [
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s246",
+                                "entity": "e4349"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "dx": 12,
+                              "dy": 12,
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s246",
+                                "entity": "e4349"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            },
+                            {
+                              "dx": 12,
+                              "dy": 12,
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s246",
+                                "entity": "e4349"
+                              }
+                            },
+                            {
+                              "kind": "wait",
+                              "ms": 100
+                            }
+                          ]
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "setEntityState",
+                          "state": 0,
+                          "target": {
+                            "scene": "s246",
+                            "entity": "e4349"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 140
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1625,6 +1658,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "facing": "up",
@@ -1635,19 +1669,31 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s246",
                         "entity": "e4351"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1704,6 +1750,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "dx": 48,
@@ -1713,6 +1760,10 @@
                         "scene": "s246",
                         "entity": "e4355"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -1726,13 +1777,21 @@
                         "scene": "s246",
                         "entity": "e4355"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1769,6 +1828,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -1782,13 +1842,21 @@
                         "scene": "s246",
                         "entity": "e4356"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -1825,6 +1893,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -1838,13 +1907,21 @@
                         "scene": "s246",
                         "entity": "e4357"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
                     }
                   ],
-                  "next": "completed"
-                },
-                {
-                  "id": "completed",
-                  "body": []
+                  "next": {
+                    "kind": "complete"
+                  }
                 }
               ]
             }
@@ -2131,11 +2208,9 @@
                     "kind": "dialog"
                   }
                 ],
-                "next": "legacy-002"
-              },
-              {
-                "id": "legacy-002",
-                "body": []
+                "next": {
+                  "kind": "complete"
+                }
               }
             ]
           }

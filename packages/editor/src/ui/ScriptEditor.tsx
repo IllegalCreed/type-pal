@@ -20,17 +20,19 @@ import type {
   SpriteDef,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
-import { organizeFlowAsStages } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
 import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   type AuthorCommandChildKey,
   type AuthorCommandPath,
+  authorLoopAncestors,
+  collectAuthorLoopIds,
   copyAuthorCommandAt,
   formatAuthorCommandPath,
   getAuthorCommandAt,
   insertAuthorCommandAfter,
+  mapAuthorCommandTree,
   moveAuthorCommandToIndex,
   parseAuthorCommandPath,
   removeAuthorCommandAt,
@@ -41,7 +43,6 @@ import { entityDisplayLabel } from '../core/entity-display.js'
 import { effectiveTriggerRange } from '../core/entity-placement.js'
 import type { ProjectReferenceEdge } from '../core/project-reference.js'
 import type { ScriptCommandLocator, ScriptEditorState } from '../core/script-editor.js'
-import { stateTransitionExecutionLabel } from '../core/script-editor.js'
 import { previewFlowCursor, previewStepLabel } from '../core/script-flow-preview.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { BattleFieldPicker } from './BattleFieldPicker.js'
@@ -74,10 +75,6 @@ import { describeScriptCommand, describeScriptCondition } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
 
 type AuthorHostileBehavior = NonNullable<AuthorSceneDef['entities'][number]['hostile']>
-type AuthorStateTransition = Extract<
-  AuthorScriptFlow,
-  { kind: 'stateMachine' }
->['machine']['states'][string]['next']
 
 function CanonicalField(props: {
   label: string
@@ -95,7 +92,14 @@ function CanonicalField(props: {
   )
 }
 
+export type EditorCommandScope =
+  | { kind: 'flow'; currentStep: string; steps: readonly { id: string; label?: string }[] }
+  | { kind: 'script' | 'prepare' }
+
 export interface CanonicalScriptEditorContext {
+  commandScope?: EditorCommandScope
+  enclosingLoops?: readonly { id?: string; label?: string }[]
+  loopIds?: readonly string[]
   state: ScriptEditorState
   currentSceneId?: string
   shellScenes: SceneDef[]
@@ -222,11 +226,7 @@ export function ScriptSchemeStrip(props: {
               onClick={() => props.onSelect(option.id)}
             >
               <strong>{option.label}</strong>
-              <span>
-                {option.flow.kind === 'stages'
-                  ? `${option.flow.stages.length} 个步骤`
-                  : '连续流程（高级）'}
-              </span>
+              <span>{`${option.flow.stages.length} 个步骤`}</span>
               {option.isDefault ? <small>默认方案</small> : null}
             </DsPressable>
             <span className="script-scheme-card-actions">
@@ -611,7 +611,11 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   stepEntity: ['👣', '实体走一步'],
   stopEntityAction: ['⏹', '停止实体动作'],
   stopMusic: ['⏹', '停止音乐'],
-  stopScript: ['⛔', '终止本次脚本'],
+  finishStep: ['⛔', '结束本次执行'],
+  returnScript: ['↩', '返回调用处'],
+  repeat: ['🔁', '重复指定次数'],
+  breakLoop: ['↪', '退出当前循环'],
+  continueLoop: ['🔄', '开始下一轮'],
   takeEntity: ['🔒', '接管实体控制'],
   teleportOut: ['🌀', '使用传送出口'],
   teleportParty: ['📍', '队伍瞬移'],
@@ -677,9 +681,13 @@ function commandChildren(command: AuthorCommand): DescribedCommand['children'] {
         { key: 'else', label: '不满足条件', body: command.else ?? [] },
       ]
     case 'loop':
+    case 'repeat':
       return [{ key: 'body', label: '循环正文', body: command.body }]
     case 'confirm':
-      return [{ key: 'onNo', label: '选择“否”', body: command.onNo }]
+      return [
+        { key: 'onYes', label: '选择“是”', body: command.onYes },
+        { key: 'onNo', label: '选择“否”', body: command.onNo },
+      ]
     case 'startBattle':
       return [
         { key: 'onLose', label: '战败', body: command.onLose ?? [] },
@@ -792,7 +800,7 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
     case 'teleportOut':
       return { kind: command.kind, onFail: [] }
     case 'confirm':
-      return { kind: command.kind, onNo: [] }
+      return undefined
     case 'branch':
       return {
         kind: command.kind,
@@ -820,6 +828,11 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
           : {}),
       }
     case 'loop':
+    case 'repeat':
+    case 'finishStep':
+    case 'returnScript':
+    case 'breakLoop':
+    case 'continueLoop':
     case 'selectEntityBehavior':
     case 'runEntityTrigger':
     case 'selectEntityPage':
@@ -848,8 +861,45 @@ export function describeCanonicalCommand(
     case 'loop':
       return {
         icon: '🔁',
-        label: `${command.mode === 'while' ? '当' : '直到'} ${conditionLabel(command.cond, context)}`,
-        detail: `每轮让步 · 最多 ${command.maxIterations} 次`,
+        label:
+          command.mode === 'forever'
+            ? '持续循环'
+            : `${command.mode === 'while' ? '当' : '直到'} ${conditionLabel(command.cond, context)}`,
+        children,
+      }
+    case 'repeat':
+      return { icon: '🔁', label: `重复 ${command.count} 次`, children }
+    case 'confirm':
+      return { icon: '❓', label: '是/否询问', children }
+    case 'finishStep': {
+      const scope = context?.commandScope
+      const step = command.next.kind === 'stage' ? command.next.stage : undefined
+      const target =
+        scope?.kind === 'flow' ? scope.steps.find((candidate) => candidate.id === step) : undefined
+      return {
+        icon: '⛔',
+        label: '结束本次执行',
+        detail:
+          command.next.kind === 'complete'
+            ? '本方案完成，不再执行'
+            : command.next.kind === 'stay'
+              ? '下次仍执行当前步骤'
+              : `下次进入${target?.label ?? step}`,
+        children,
+      }
+    }
+    case 'returnScript':
+      return { icon: '↩', label: '返回调用处', children }
+    case 'breakLoop':
+      return { icon: '↪', label: '退出当前循环', children }
+    case 'continueLoop':
+      return {
+        icon: '🔄',
+        label: '开始下一轮',
+        detail: command.loop
+          ? (context?.enclosingLoops?.find((loop) => loop.id === command.loop)?.label ??
+            command.loop)
+          : '当前循环',
         children,
       }
     case 'selectEntityBehavior':
@@ -866,7 +916,7 @@ export function describeCanonicalCommand(
             : command.selection.kind === 'disabled'
               ? '关闭'
               : '恢复页面默认方案'
-        }${command.cursorHandoff ? ' · 接续已有执行进度' : ''}`,
+        }`,
         children,
       }
     case 'selectEntityPage':
@@ -1151,7 +1201,17 @@ function CommandRows(props: {
                   <CommandRows
                     body={child.body}
                     parentPath={[...props.parentPath, index, child.key]}
-                    context={props.context}
+                    context={
+                      props.context && (command.kind === 'loop' || command.kind === 'repeat')
+                        ? {
+                            ...props.context,
+                            enclosingLoops: [
+                              ...(props.context.enclosingLoops ?? []),
+                              { id: command.id, label: command.label },
+                            ],
+                          }
+                        : props.context
+                    }
                     selectedPath={props.selectedPath}
                     referenceFocusPath={props.referenceFocusPath}
                     referenceFocusRevision={props.referenceFocusRevision}
@@ -1743,12 +1803,10 @@ function primitiveField(
             { value: 'auto', label: '自动行为' },
           ]}
           onValueChange={(channel) =>
-            onChange(
-              stripCursorHandoff({
-                ...command,
-                [key]: channel,
-              } as AuthorCommand),
-            )
+            onChange({
+              ...command,
+              [key]: channel,
+            } as AuthorCommand)
           }
         />
       </CanonicalField>
@@ -1772,12 +1830,6 @@ function primitiveField(
       )}
     </CanonicalField>
   )
-}
-
-function stripCursorHandoff(command: AuthorCommand): AuthorCommand {
-  if (command.kind !== 'selectEntityBehavior' || command.cursorHandoff === undefined) return command
-  const { cursorHandoff: _cursorHandoff, ...next } = command
-  return next
 }
 
 function CanonicalCommandForm(props: {
@@ -1824,53 +1876,147 @@ function CanonicalCommandForm(props: {
       )
   }
 
-  if (command.kind === 'branch' || command.kind === 'loop')
+  if (command.kind === 'finishStep') {
+    const scope = context?.commandScope
+    if (scope?.kind !== 'flow') return <p className="hint">结束步骤只能用于方案的步骤正文。</p>
+    const selectedStage = command.next.kind === 'stage' ? command.next.stage : undefined
+    const value = command.next.kind === 'stage' ? `stage:${command.next.stage}` : command.next.kind
+    return (
+      <CanonicalField label="结束本次执行后">
+        <DsSelect
+          size="compact"
+          value={value}
+          options={[
+            { value: 'stay', label: '下次仍执行当前步骤' },
+            { value: 'complete', label: '本方案完成，不再执行' },
+            ...scope.steps.map((step) => ({
+              value: `stage:${step.id}`,
+              label: `下次进入${step.label ?? step.id}`,
+            })),
+            ...(selectedStage && !scope.steps.some((step) => step.id === selectedStage)
+              ? [{ value, label: '目标步骤不存在（请重新选择）' }]
+              : []),
+          ]}
+          onValueChange={(value) =>
+            props.onChange({
+              ...command,
+              next:
+                value === 'stay'
+                  ? { kind: 'stay' }
+                  : value === 'complete'
+                    ? { kind: 'complete' }
+                    : { kind: 'stage', stage: value.slice(6) },
+            })
+          }
+        />
+      </CanonicalField>
+    )
+  }
+
+  if (command.kind === 'continueLoop')
+    return (
+      <CanonicalField label="开始下一轮">
+        <DsSelect
+          size="compact"
+          value={command.loop ?? ''}
+          options={[
+            { value: '', label: '当前循环' },
+            ...(context?.enclosingLoops ?? []).flatMap((loop) =>
+              loop.id ? [{ value: loop.id, label: loop.label ?? loop.id }] : [],
+            ),
+            ...(command.loop &&
+            !(context?.enclosingLoops ?? []).some((loop) => loop.id === command.loop)
+              ? [{ value: command.loop, label: '目标不是当前外层循环（请重新选择）' }]
+              : []),
+          ]}
+          onValueChange={(loop) => props.onChange({ ...command, loop: loop || undefined })}
+        />
+      </CanonicalField>
+    )
+
+  if (command.kind === 'branch' || command.kind === 'loop' || command.kind === 'repeat')
     return (
       <div className="canonical-command-form-fields">
-        {command.kind === 'loop' ? (
-          <>
-            <CanonicalField label="循环方式">
-              <DsSelect
-                size="compact"
-                value={command.mode}
-                options={[
-                  { value: 'while', label: '条件成立时' },
-                  { value: 'until', label: '直到条件成立' },
-                ]}
-                onValueChange={(mode) =>
-                  props.onChange({
-                    ...command,
-                    mode: mode as 'while' | 'until',
-                  })
+        {command.kind === 'loop' || command.kind === 'repeat' ? (
+          <CanonicalField label="循环名称（供内层指令选择）">
+            <DsTextInput
+              size="compact"
+              value={command.label ?? ''}
+              placeholder="例如：重新尝试挑选姿态"
+              onChange={(event) => {
+                const label = event.target.value
+                let id = command.id
+                if (label.trim() && !id) {
+                  let suffix = 1
+                  const ids = new Set(context?.loopIds ?? [])
+                  while (ids.has(`loop-${suffix}`)) suffix++
+                  id = `loop-${suffix}`
                 }
-              />
-            </CanonicalField>
-            <CanonicalField label="最大次数">
-              <DsNumberInput
-                size="compact"
-                min={1}
-                value={command.maxIterations}
-                onChange={(event) =>
-                  props.onChange({
-                    ...command,
-                    maxIterations: Math.max(1, Number(event.target.value) || 1),
-                  })
-                }
-              />
-            </CanonicalField>
-          </>
+                props.onChange({ ...command, ...(id ? { id } : {}), label: label || undefined })
+              }}
+            />
+          </CanonicalField>
         ) : null}
-        <ConditionEditor
-          value={command.cond}
-          state={context?.state}
-          sceneIndex={context?.sceneIndex}
-          displayContext={context}
-          references={context?.references}
-          worldVariables={context?.worldVariables}
-          onOpenWorldVariable={context?.onOpenWorldVariable}
-          onChange={(cond) => props.onChange({ ...command, cond })}
-        />
-        <p className="hint">分支和循环正文在左侧树中直接增删、排序和编辑。</p>
+        {command.kind === 'repeat' ? (
+          <CanonicalField label="重复次数">
+            <DsNumberInput
+              size="compact"
+              min={1}
+              step={1}
+              value={command.count}
+              onChange={(event) =>
+                props.onChange({ ...command, count: Number(event.target.value) })
+              }
+            />
+          </CanonicalField>
+        ) : null}
+        {command.kind === 'loop' ? (
+          <CanonicalField label="循环方式">
+            <DsSelect
+              size="compact"
+              value={command.mode}
+              options={[
+                { value: 'while', label: '条件成立时重复' },
+                { value: 'until', label: '直到条件成立' },
+                { value: 'forever', label: '持续循环' },
+              ]}
+              onValueChange={(mode) => {
+                if (mode !== 'while' && mode !== 'until' && mode !== 'forever') return
+                const { kind: _kind, mode: _mode, body, id, label } = command
+                props.onChange(
+                  mode === 'forever'
+                    ? { kind: 'loop', mode, body, id, label }
+                    : {
+                        kind: 'loop',
+                        mode,
+                        body,
+                        id,
+                        label,
+                        cond:
+                          command.mode === 'forever'
+                            ? { kind: 'flag', flag: 'my-flag', is: true }
+                            : command.cond,
+                      },
+                )
+              }}
+            />
+          </CanonicalField>
+        ) : null}
+        {command.kind === 'branch' || (command.kind === 'loop' && command.mode !== 'forever') ? (
+          <ConditionEditor
+            value={command.cond}
+            state={context?.state}
+            sceneIndex={context?.sceneIndex}
+            displayContext={context}
+            references={context?.references}
+            worldVariables={context?.worldVariables}
+            onOpenWorldVariable={context?.onOpenWorldVariable}
+            onChange={(cond) => props.onChange({ ...command, cond })}
+          />
+        ) : null}
+        <p className="hint">
+          分支和循环正文在左侧树中编辑。持续循环需要等待或耗时动作；退出循环请使用明确的退出指令。
+        </p>
       </div>
     )
 
@@ -2235,7 +2381,8 @@ function CanonicalCommandForm(props: {
     command.kind === 'halveMoney' ||
     command.kind === 'loadLastSave' ||
     command.kind === 'stopMusic' ||
-    command.kind === 'stopScript' ||
+    command.kind === 'returnScript' ||
+    command.kind === 'breakLoop' ||
     command.kind === 'unmountParty'
   )
     return <p className="hint">这条指令没有需要设置的参数。</p>
@@ -2287,9 +2434,7 @@ function CanonicalCommandForm(props: {
             sceneIndex={context?.sceneIndex}
             displayContext={context}
             entityFilter={command.kind === 'setEntityFacing' ? entitySupportsFacing : undefined}
-            onChange={(next) =>
-              props.onChange(stripCursorHandoff({ ...command, target: next } as AuthorCommand))
-            }
+            onChange={(next) => props.onChange({ ...command, target: next } as AuthorCommand)}
           />
         ) : (
           <div className="hint">未指定目标：使用当前 self。</div>
@@ -2398,23 +2543,15 @@ function CanonicalCommandForm(props: {
                 })),
               ]}
               onValueChange={(value) => {
-                props.onChange(
-                  stripCursorHandoff({
-                    ...command,
-                    selection: value.startsWith('use:')
-                      ? { kind: 'use', value: value.slice(4) }
-                      : { kind: value as 'inherit' | 'disabled' },
-                  }),
-                )
+                props.onChange({
+                  ...command,
+                  selection: value.startsWith('use:')
+                    ? { kind: 'use', value: value.slice(4) }
+                    : { kind: value as 'inherit' | 'disabled' },
+                })
               }}
             />
           </CanonicalField>
-        ) : null}
-        {command.kind === 'selectEntityBehavior' && command.cursorHandoff ? (
-          <p className="hint">
-            这条指令会接续“{command.cursorHandoff.fromBehavior}”的运行进度，共{' '}
-            {command.cursorHandoff.cases.length} 项映射。修改目标、脚本类型或选择后会移除此映射。
-          </p>
         ) : null}
         {command.kind === 'selectEntityPage' ? (
           <CanonicalField label="页面选择">
@@ -2551,20 +2688,9 @@ function CanonicalCommandForm(props: {
 
   if (command.kind === 'confirm')
     return (
-      <div className="canonical-command-form-fields">
-        <CanonicalField label="高级：结果识别名">
-          <DsTextInput
-            size="compact"
-            value={command.id ?? ''}
-            onChange={(event) =>
-              props.onChange({ ...command, id: event.target.value.trim() || undefined })
-            }
-          />
-        </CanonicalField>
-        <p className="hint">
-          “否”分支在左侧树中编辑；识别名只在连续剧情需要根据回答切换状态时使用。
-        </p>
-      </div>
+      <p className="hint">
+        同意与拒绝的指令在左侧子块中编辑；分支结束后继续下方指令。需要提前结束时，请明确添加结束指令。
+      </p>
     )
 
   if (command.kind === 'startBattle')
@@ -2733,29 +2859,17 @@ function projectCommandExamples(state: ScriptEditorState): AuthorCommand[] {
     for (const entity of scene.entities)
       for (const channel of ['trigger', 'auto'] as const)
         for (const behavior of Object.values(entity.behaviors?.[channel] ?? {})) {
-          if (behavior.flow.kind === 'stages')
-            for (const stage of behavior.flow.stages) {
-              visitCommandExamples(stage.entry?.prepare ?? [], examples)
-              visitCommandExamples(stage.body, examples)
-            }
-          else
-            for (const item of Object.values(behavior.flow.machine.states)) {
-              visitCommandExamples(item.entry?.prepare ?? [], examples)
-              visitCommandExamples(item.body, examples)
-            }
-        }
-    for (const slot of ['onEnter', 'onTeleport'] as const)
-      for (const hook of Object.values(scene.hooks?.[slot]?.variants ?? {})) {
-        if (hook.flow.kind === 'stages')
-          for (const stage of hook.flow.stages) {
+          for (const stage of behavior.flow.stages) {
             visitCommandExamples(stage.entry?.prepare ?? [], examples)
             visitCommandExamples(stage.body, examples)
           }
-        else
-          for (const item of Object.values(hook.flow.machine.states)) {
-            visitCommandExamples(item.entry?.prepare ?? [], examples)
-            visitCommandExamples(item.body, examples)
-          }
+        }
+    for (const slot of ['onEnter', 'onTeleport'] as const)
+      for (const hook of Object.values(scene.hooks?.[slot]?.variants ?? {})) {
+        for (const stage of hook.flow.stages) {
+          visitCommandExamples(stage.entry?.prepare ?? [], examples)
+          visitCommandExamples(stage.body, examples)
+        }
       }
   }
   for (const script of Object.values(state.sharedScripts))
@@ -2777,10 +2891,11 @@ function cleanInsertionExample(
       next = { ...next, then: [], else: [] }
       break
     case 'loop':
+    case 'repeat':
       next = { ...next, body: [] }
       break
     case 'confirm':
-      next = { ...next, onNo: [] }
+      next = { ...next, onYes: [], onNo: [] }
       break
     case 'startBattle':
       next = { ...next, onLose: [], onFlee: [] }
@@ -2794,11 +2909,6 @@ function cleanInsertionExample(
     case 'selectSceneHooks':
       if (sceneId) next = { ...next, scene: sceneId }
       break
-    case 'selectEntityBehavior': {
-      const { cursorHandoff: _cursorHandoff, ...withoutHandoff } = next
-      next = withoutHandoff
-      break
-    }
     case 'loadScene':
       if (sceneId) next = { ...next, scene: sceneId }
       break
@@ -2916,6 +3026,14 @@ function fallbackInsertionChoice(
 }
 
 function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup[] {
+  const allowed = (kind: AuthorCommand['kind']): boolean =>
+    kind === 'finishStep'
+      ? context?.commandScope?.kind === 'flow'
+      : kind === 'returnScript'
+        ? (context?.commandScope?.kind ?? 'script') === 'script'
+        : kind === 'breakLoop' || kind === 'continueLoop'
+          ? Boolean(context?.enclosingLoops?.length)
+          : true
   const item = context?.references.choices('item')[0]?.id
   const shared = Object.keys(context?.state.sharedScripts ?? {})[0]
   const music = context ? musicAssets(context.assetCatalog)[0]?.id : undefined
@@ -3056,12 +3174,15 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
               mode: 'while',
               cond: { kind: 'flag', flag: 'my-flag', is: true },
               body: [],
-              yield: 'worldTick',
-              maxIterations: 100,
             },
           ],
         },
-        { label: '❓ 是/否询问', commands: [{ kind: 'confirm', onNo: [] }] },
+        { label: '❓ 是/否询问', commands: [{ kind: 'confirm', onYes: [], onNo: [] }] },
+        { label: '🔁 重复指定次数', commands: [{ kind: 'repeat', count: 2, body: [] }] },
+        { label: '⛔ 结束本次执行', commands: [{ kind: 'finishStep', next: { kind: 'stay' } }] },
+        { label: '↩ 返回调用处', commands: [{ kind: 'returnScript' }] },
+        { label: '↪ 退出当前循环', commands: [{ kind: 'breakLoop' }] },
+        { label: '🔄 开始下一轮', commands: [{ kind: 'continueLoop' }] },
         ...(item
           ? [
               {
@@ -3176,7 +3297,10 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
     ]),
   )
   const more = (Object.keys(AUTHOR_COMMAND_PRESENTATION_) as AuthorCommand['kind'][])
-    .filter((kind) => !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen')
+    .filter(
+      (kind) =>
+        allowed(kind) && !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen',
+    )
     .map((kind) => {
       if (kind === 'setEntityFacing' && !facingTarget)
         return {
@@ -3200,7 +3324,14 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
       title: '更多指令',
       choices: more,
     })
-  return groups.filter((group) => group.choices.length > 0)
+  return groups
+    .map((group) => ({
+      ...group,
+      choices: group.choices.filter((choice) =>
+        choice.commands.every((command) => allowed(command.kind)),
+      ),
+    }))
+    .filter((group) => group.choices.length > 0)
 }
 
 function insertCommandsAfter(
@@ -3245,7 +3376,22 @@ export function CanonicalScriptBodyEditor(props: {
   const [insertPath, setInsertPath] = useState<string>()
   const [insertSearch, setInsertSearch] = useState('')
   const editing = editingDraft?.command
-  const groups = useMemo(() => insertionGroups(props.context), [props.context])
+  const loopIds = useMemo(() => collectAuthorLoopIds(props.body), [props.body])
+  const insertionContext = props.context
+    ? {
+        ...props.context,
+        loopIds,
+        enclosingLoops: authorLoopAncestors(props.body, parseAuthorCommandPath(insertPath ?? '')),
+      }
+    : undefined
+  const editingContext = props.context
+    ? {
+        ...props.context,
+        loopIds,
+        enclosingLoops: authorLoopAncestors(props.body, parseAuthorCommandPath(editingPath ?? '')),
+      }
+    : undefined
+  const groups = insertionGroups(insertionContext)
   const visibleGroups = useMemo(() => {
     const query = insertSearch.trim().toLocaleLowerCase()
     if (!query) return groups
@@ -3499,7 +3645,7 @@ export function CanonicalScriptBodyEditor(props: {
         >
           <CanonicalCommandForm
             command={editing}
-            context={props.context}
+            context={editingContext}
             reorderScopeKey={`canonical:${editingPath}`}
             onChange={(command) =>
               setEditingDraft((current) =>
@@ -3597,219 +3743,6 @@ export function CanonicalHostileOnLoseEditor(props: {
       ) : null}
     </>
   )
-}
-
-function defaultTransition(
-  kind: AuthorStateTransition['kind'],
-  states: readonly string[],
-  commandIds: readonly string[],
-): AuthorStateTransition {
-  const state = states[0] ?? 'state'
-  switch (kind) {
-    case 'complete':
-    case 'stay':
-      return { kind }
-    case 'restart':
-      return { kind }
-    case 'continue':
-    case 'advance':
-      return { kind, state }
-    case 'to':
-      return { kind, state, yield: 'worldTick' }
-    case 'branch':
-      return {
-        kind,
-        cond: { kind: 'flag', flag: 'my-flag', is: true },
-        then: { kind: 'stay' },
-        else: { kind: 'stay' },
-      }
-    case 'commandOutcome':
-      return {
-        kind,
-        commandId: commandIds[0] ?? 'confirm',
-        command: 'confirm',
-        outcome: 'no',
-        then: { kind: 'stay' },
-        else: { kind: 'stay' },
-      }
-  }
-}
-
-function TransitionEditor(props: {
-  value: AuthorStateTransition
-  states: readonly string[]
-  stateLabels: Readonly<Record<string, string>>
-  commandIds: readonly string[]
-  context?: CanonicalScriptEditorContext
-  label?: string
-  onChange: (transition: AuthorStateTransition) => void
-}) {
-  const transition = props.value
-  const explanations: Record<AuthorStateTransition['kind'], string> = {
-    complete: '这套方案执行完毕；再次触发也不会重放。切换到另一套方案后，按新方案运行。',
-    stay: '当前执行先结束；下一次运行再次执行这一段。',
-    restart: '当前执行先结束；下一次运行从上方设定的起始段落重新开始，不一定是列表第一项。',
-    continue: '本次运行立即继续执行指定段落，不等待再次触发。',
-    advance: '当前执行先结束；下一次运行才执行指定段落。',
-    to: '本次运行稍后继续执行指定段落，不等待再次触发；下方选择继续时机。',
-    branch: '检查所选条件，再按成立或不成立的去向执行。',
-    commandOutcome: '检查本段确认操作的结果，再按对应去向执行。',
-  }
-  return (
-    <div className="canonical-transition-editor">
-      <CanonicalField label={props.label ?? '后续执行'}>
-        <DsSelect
-          aria-label={props.label ?? '后续执行'}
-          size="compact"
-          value={transition.kind}
-          options={[
-            { value: 'complete', label: '本方案结束，不再运行' },
-            { value: 'stay', label: '下次运行，重复这一段' },
-            { value: 'restart', label: '下次运行，从起始段落重新开始' },
-            { value: 'continue', label: '本次运行，立即执行指定段落' },
-            { value: 'advance', label: '下次运行，执行指定段落' },
-            { value: 'to', label: '本次运行，稍后执行指定段落' },
-            { value: 'branch', label: '按条件选择后续' },
-            { value: 'commandOutcome', label: '按操作结果选择后续' },
-          ]}
-          onValueChange={(kind) =>
-            props.onChange(
-              defaultTransition(
-                kind as AuthorStateTransition['kind'],
-                props.states,
-                props.commandIds,
-              ),
-            )
-          }
-        />
-      </CanonicalField>
-      <strong className="canonical-transition-execution">
-        {stateTransitionExecutionLabel(transition)}
-      </strong>
-      <p className="canonical-field-hint">{explanations[transition.kind]}</p>
-      <p className="canonical-field-hint">
-        下次运行：当前执行先结束；交互脚本要再次触发，自动行为则进入下一轮。
-      </p>
-      {transition.kind === 'continue' ||
-      transition.kind === 'advance' ||
-      transition.kind === 'to' ? (
-        <CanonicalField label="目标段落">
-          <DsSelect
-            aria-label="目标段落"
-            size="compact"
-            value={transition.state}
-            options={[
-              ...(!props.states.includes(transition.state)
-                ? [{ value: transition.state, label: `${transition.state}（引用失效）` }]
-                : []),
-              ...props.states.map((state) => ({
-                value: state,
-                label: props.stateLabels[state] ?? state,
-              })),
-            ]}
-            onValueChange={(state) => props.onChange({ ...transition, state })}
-          />
-        </CanonicalField>
-      ) : null}
-      {transition.kind === 'to' ? (
-        <CanonicalField label="继续时机">
-          <DsSelect
-            aria-label="继续时机"
-            size="compact"
-            value={transition.yield}
-            options={[
-              { value: 'worldTick', label: '下一次世界更新' },
-              { value: 'macroTask', label: '稍后继续（不等世界更新）' },
-            ]}
-            onValueChange={(value) =>
-              props.onChange({
-                ...transition,
-                yield: value as 'macroTask' | 'worldTick',
-              })
-            }
-          />
-        </CanonicalField>
-      ) : null}
-      {transition.kind === 'to' ? (
-        <p className="canonical-field-hint">
-          世界更新是场景推进一个逻辑拍，不是画面刷新。稍后继续会先让其他任务处理，不等待世界推进。
-          走位和停顿请在正文使用移动、等待指令，不靠这个选项控制时长。
-        </p>
-      ) : null}
-      {transition.kind === 'branch' ? (
-        <>
-          <ConditionEditor
-            value={transition.cond}
-            state={props.context?.state}
-            sceneIndex={props.context?.sceneIndex}
-            displayContext={props.context}
-            references={props.context?.references}
-            worldVariables={props.context?.worldVariables}
-            onOpenWorldVariable={props.context?.onOpenWorldVariable}
-            onChange={(cond) => props.onChange({ ...transition, cond })}
-          />
-          <TransitionEditor
-            {...props}
-            label="条件成立"
-            value={transition.then}
-            onChange={(then) => props.onChange({ ...transition, then })}
-          />
-          <TransitionEditor
-            {...props}
-            label="条件不成立"
-            value={transition.else}
-            onChange={(otherwise) => props.onChange({ ...transition, else: otherwise })}
-          />
-        </>
-      ) : null}
-      {transition.kind === 'commandOutcome' ? (
-        <>
-          <CanonicalField label="确认命令">
-            <DsSelect
-              size="compact"
-              value={transition.commandId}
-              options={[
-                ...(!props.commandIds.includes(transition.commandId)
-                  ? [
-                      {
-                        value: transition.commandId,
-                        label: `${transition.commandId}（本状态中不存在）`,
-                      },
-                    ]
-                  : []),
-                ...props.commandIds.map((id) => ({ value: id, label: id })),
-              ]}
-              onValueChange={(commandId) => props.onChange({ ...transition, commandId })}
-            />
-          </CanonicalField>
-          <TransitionEditor
-            {...props}
-            label="选择“否”"
-            value={transition.then}
-            onChange={(then) => props.onChange({ ...transition, then })}
-          />
-          <TransitionEditor
-            {...props}
-            label="选择“是”"
-            value={transition.else}
-            onChange={(otherwise) => props.onChange({ ...transition, else: otherwise })}
-          />
-        </>
-      ) : null}
-    </div>
-  )
-}
-
-function confirmIds(body: readonly AuthorCommand[]): string[] {
-  const ids: string[] = []
-  const visit = (commands: readonly AuthorCommand[]): void => {
-    for (const command of commands) {
-      if (command.kind === 'confirm' && command.id) ids.push(command.id)
-      for (const child of commandChildren(command)) visit(child.body)
-    }
-  }
-  visit(body)
-  return ids
 }
 
 function CanonicalFlowBodyTabs(props: {
@@ -3910,7 +3843,11 @@ function CanonicalFlowBodyTabs(props: {
           <CanonicalScriptBodyEditor
             label="画面出现前的准备"
             body={props.prepare}
-            context={props.context}
+            context={
+              props.context
+                ? { ...props.context, commandScope: { kind: 'prepare' }, enclosingLoops: [] }
+                : undefined
+            }
             onError={props.onError}
             onChange={(prepare) => props.onPrepareChange?.(prepare)}
             focusCommandPath={props.focusSection === 'prepare' ? props.focusCommandPath : undefined}
@@ -3950,7 +3887,17 @@ export function removeTriggerStage(
     initial: flow.initial === stageId ? replacementId : flow.initial,
     stages: flow.stages
       .filter((stage) => stage.id !== stageId)
-      .map((stage) => (stage.next === stageId ? { ...stage, next: replacementId } : stage)),
+      .map((stage) => ({
+        ...stage,
+        ...(stage.next === stageId ? { next: replacementId } : {}),
+        body: mapAuthorCommandTree(stage.body, (command) =>
+          command.kind === 'finishStep' &&
+          command.next.kind === 'stage' &&
+          command.next.stage === stageId
+            ? { ...command, next: { kind: 'stage', stage: replacementId } }
+            : command,
+        ),
+      })),
   }
 }
 
@@ -3965,34 +3912,24 @@ export function CanonicalScriptFlowEditor(props: {
   focusLocator?: ScriptCommandLocator
   focusRevision?: number
 }) {
-  const ids =
-    props.flow.kind === 'stages'
-      ? props.flow.stages.map((stage) => stage.id)
-      : Object.keys(props.flow.machine.states)
-  const initialId = props.flow.kind === 'stages' ? props.flow.initial : props.flow.machine.initial
+  const ids = props.flow.stages.map((stage) => stage.id)
+  const initialId = props.flow.initial
   const [localSelectedId, setLocalSelectedId] = useState(initialId)
   const cursor = previewFlowCursor(props.flow, props.previewCursor)
   const selectedId = props.previewCursor
     ? cursor.kind === 'stage'
       ? cursor.stage
-      : cursor.kind === 'state'
-        ? cursor.state
-        : initialId
+      : initialId
     : ids.includes(localSelectedId)
       ? localSelectedId
       : initialId
-  const machineId = props.flow.kind === 'stateMachine' ? props.flow.machine.id : undefined
   const onSelectPreviewCursor = props.onSelectPreviewCursor
   const setSelectedId = useCallback(
     (id: string) => {
       setLocalSelectedId(id)
-      onSelectPreviewCursor?.(
-        machineId === undefined
-          ? { kind: 'stage', stage: id }
-          : { kind: 'state', machine: machineId, state: id },
-      )
+      onSelectPreviewCursor?.({ kind: 'stage', stage: id })
     },
-    [machineId, onSelectPreviewCursor],
+    [onSelectPreviewCursor],
   )
   const [detailsOpen, setDetailsOpen] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
@@ -4010,570 +3947,373 @@ export function CanonicalScriptFlowEditor(props: {
     if (props.focusRevision === undefined || !container) return
     if (lastAppliedFlowFocusRevisionRef.current === props.focusRevision) return
     lastAppliedFlowFocusRevisionRef.current = props.focusRevision
-    if (props.flow.kind === 'stages' && container.kind === 'step') {
+    if (container.kind === 'step') {
       if (props.flow.stages.some((stage) => stage.id === container.stepId))
         setSelectedId(container.stepId)
       return
     }
-    if (
-      props.flow.kind === 'stateMachine' &&
-      container.kind === 'state' &&
-      props.flow.machine.id === container.machineId &&
-      props.flow.machine.states[container.stateId]
-    )
-      setSelectedId(container.stateId)
   }, [props.flow, props.focusLocator, props.focusRevision, setSelectedId])
 
-  if (props.flow.kind === 'stages') {
-    const flow = props.flow
-    const stage = flow.stages.find((candidate) => candidate.id === selectedId) ?? flow.stages[0]
-    const hasMultipleStages = flow.stages.length > 1
-    const stageIndex = stage ? flow.stages.findIndex((candidate) => candidate.id === stage.id) : -1
-    const stageLabel = (id: string): string => {
-      return previewStepLabel(flow, { kind: 'stage', stage: id })
-    }
-    const stageNextLabel = (candidate: (typeof flow.stages)[number]): string =>
-      typeof candidate.next === 'object'
-        ? '本方案完成，不再执行'
-        : candidate.next
-          ? `下次进入${stageLabel(candidate.next)}`
-          : '下次仍执行当前步骤'
-    const stageChoice = (id: string): string => JSON.stringify(['stage', id])
-    const replacement =
-      stage && hasMultipleStages
-        ? (flow.stages[stageIndex + 1] ?? flow.stages[stageIndex - 1])
-        : undefined
-    const addStage = (): void => {
-      let index = flow.stages.length + 1
-      let id = `stage-${index}`
-      while (ids.includes(id)) id = `stage-${++index}`
-      const stages = flow.stages.map((candidate) =>
-        linkNewStage && stage && candidate.id === stage.id ? { ...candidate, next: id } : candidate,
-      )
-      const applied = props.onChange({
-        ...flow,
-        stages: [...stages, { id, body: [] }],
-      })
-      if (applied === false) return
-      setSelectedId(id)
-      setCreateOpen(false)
-    }
-    const deleteStage = (): void => {
-      if (!stage || !replacement) return
-      const applied = props.onChange(removeTriggerStage(flow, stage.id, replacement.id))
-      if (applied === false) return
-      setSelectedId(replacement.id)
-      setDeleteOpen(false)
-    }
-    return (
-      <section className="canonical-flow-editor">
-        <header className="canonical-flow-explanation">
-          <div className="script-section-heading">
-            <strong className="script-section-title">步骤列表</strong>
-            <span className="script-section-count canonical-flow-count">
-              {flow.stages.length} 个步骤
-            </span>
-            <DsHelpTip label="步骤列表">
-              每套方案由步骤和指令组成。每次运行只执行当前步骤；步骤详情可指定下次重复、进入另一步骤，或完成本方案。
-            </DsHelpTip>
-          </div>
-          <div className="canonical-flow-actions">
-            <DsButton
-              size="compact"
-              variant="secondary"
-              icon="add"
-              onClick={() => {
-                setLinkNewStage(true)
-                setCreateOpen(true)
-              }}
-            >
-              新建步骤
-            </DsButton>
-          </div>
-        </header>
-        <nav className="canonical-stage-tabs" aria-label="执行步骤">
-          {flow.stages.map((candidate, index) => (
-            <div
-              key={candidate.id}
-              className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
-            >
-              <DsPressable
-                className="canonical-stage-card-select"
-                aria-pressed={candidate.id === stage?.id}
-                aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
-                onClick={() => setSelectedId(candidate.id)}
-              >
-                <span className="canonical-stage-card-heading">
-                  <strong>步骤 {index + 1}</strong>
-                  <span>{candidate.body.length} 条指令</span>
-                </span>
-                {candidate.label ? (
-                  <span className="canonical-stage-card-name">{candidate.label}</span>
-                ) : null}
-                <small>
-                  {candidate.id === flow.initial ? <span>首次运行</span> : null}
-                  <span>{stageNextLabel(candidate)}</span>
-                </small>
-              </DsPressable>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                className="canonical-stage-card-details"
-                aria-label={`打开“${stageLabel(candidate.id)}”详情`}
-                onClick={() => {
-                  setSelectedId(candidate.id)
-                  setDetailsOpen(true)
-                }}
-              >
-                步骤详情
-              </DsButton>
-            </div>
-          ))}
-        </nav>
-        {stage ? (
-          <CanonicalFlowBodyTabs
-            key={stage.id}
-            prepare={stage.entry?.prepare}
-            body={stage.body}
-            bodyLabel={hasMultipleStages ? `${stageLabel(stage.id)} · 脚本正文` : '脚本正文'}
-            context={props.context}
-            onError={props.onError}
-            focusSection={
-              props.focusLocator?.container.kind === 'step' &&
-              props.focusLocator.container.stepId === stage.id
-                ? props.focusLocator.container.section
-                : undefined
-            }
-            focusCommandPath={
-              props.focusLocator?.container.kind === 'step' &&
-              props.focusLocator.container.stepId === stage.id
-                ? props.focusLocator.commandPath
-                : undefined
-            }
-            focusRevision={
-              props.focusLocator?.container.kind === 'step' &&
-              props.focusLocator.container.stepId === stage.id
-                ? props.focusRevision
-                : undefined
-            }
-            onPrepareChange={
-              stage.entry
-                ? (prepare) =>
-                    props.onChange({
-                      ...flow,
-                      stages: flow.stages.map((candidate) =>
-                        candidate.id === stage.id
-                          ? { ...candidate, entry: { ...stage.entry!, prepare } }
-                          : candidate,
-                      ),
-                    })
-                : undefined
-            }
-            onBodyChange={(body) =>
-              props.onChange({
-                ...flow,
-                stages: flow.stages.map((candidate) =>
-                  candidate.id === stage.id ? { ...candidate, body } : candidate,
-                ),
-              })
-            }
-          />
-        ) : null}
-        {stage && detailsOpen ? (
-          <CanonicalScriptDialog
-            title={`${stageLabel(stage.id)} · 详情`}
-            className="canonical-flow-settings-dialog"
-            onClose={() => setDetailsOpen(false)}
-            footer={
-              <>
-                <DsButton
-                  size="compact"
-                  variant="danger"
-                  disabled={!hasMultipleStages}
-                  title={hasMultipleStages ? undefined : '每套方案至少需要保留一个步骤。'}
-                  onClick={() => {
-                    setDetailsOpen(false)
-                    setDeleteOpen(true)
-                  }}
-                >
-                  删除步骤
-                </DsButton>
-                {!hasMultipleStages ? (
-                  <span className="canonical-stage-delete-note">
-                    每套方案至少需要保留一个步骤。
-                  </span>
-                ) : null}
-                <span className="spacer" />
-                <DsButton size="compact" variant="secondary" onClick={() => setDetailsOpen(false)}>
-                  关闭
-                </DsButton>
-              </>
-            }
-          >
-            <div className="canonical-flow-settings-fields">
-              <section className="canonical-flow-setting">
-                <DsField
-                  id={stageNameInputId}
-                  label="步骤名称"
-                  help={{
-                    label: '步骤名称',
-                    content:
-                      '说明这一轮执行什么，例如“首次交谈”或“提醒去厨房”。只修改显示名称，不改变步骤编号、运行去向或游戏行为；留空表示尚未命名。',
-                  }}
-                >
-                  <DsDraftTextInput
-                    size="compact"
-                    id={stageNameInputId}
-                    aria-label="步骤名称"
-                    placeholder="例如：走到房门并进房"
-                    draftKey={`canonical-flow:${props.ownerLabel}:${stage.id}:label`}
-                    syncToken={props.focusRevision}
-                    value={stage.label ?? ''}
-                    onCommit={(value) => {
-                      const label = value.trim()
-                      if (label === (stage.label ?? '')) return true
-                      return props.onChange({
-                        ...flow,
-                        stages: flow.stages.map((candidate) => {
-                          if (candidate.id !== stage.id) return candidate
-                          const updated = { ...candidate }
-                          if (label) updated.label = label
-                          else delete updated.label
-                          return updated
-                        }),
-                      })
-                    }}
-                  />
-                </DsField>
-              </section>
-              <section className="canonical-flow-setting">
-                <header className="canonical-dialog-field-heading">
-                  <strong>起始步骤</strong>
-                  <DsHelpTip label="起始步骤">
-                    每套脚本方案只能有一个起始步骤。切换到这套方案后，第一次运行会从这里开始。
-                  </DsHelpTip>
-                </header>
-                <div className="canonical-stage-initial-setting">
-                  <span>
-                    {flow.initial === stage.id ? '当前步骤是起始步骤' : '当前步骤不是起始步骤'}
-                  </span>
-                  {flow.initial !== stage.id ? (
-                    <DsButton
-                      size="compact"
-                      variant="secondary"
-                      onClick={() => props.onChange({ ...flow, initial: stage.id })}
-                    >
-                      设为起始步骤
-                    </DsButton>
-                  ) : null}
-                </div>
-              </section>
-              <section className="canonical-flow-setting">
-                <header className="canonical-dialog-field-heading">
-                  <label htmlFor={stageNextSelectId}>下次运行</label>
-                  <DsHelpTip label="下次运行">
-                    当前步骤跑完后，可以重复、进入下一步骤，或完成本方案并不再执行。真正切换到另一方案再回来时，才会从起始步骤重新运行。
-                  </DsHelpTip>
-                </header>
-                <DsSelect
-                  size="compact"
-                  id={stageNextSelectId}
-                  value={
-                    typeof stage.next === 'object'
-                      ? 'complete'
-                      : stage.next
-                        ? stageChoice(stage.next)
-                        : ''
-                  }
-                  options={[
-                    { value: '', label: '仍执行当前步骤' },
-                    { value: 'complete', label: '本方案完成，不再执行' },
-                    ...flow.stages
-                      .filter((candidate) => candidate.id !== stage.id)
-                      .map((candidate) => ({
-                        value: stageChoice(candidate.id),
-                        label: `进入${stageLabel(candidate.id)}`,
-                      })),
-                  ]}
-                  onValueChange={(nextStageId) => {
-                    const stages = flow.stages.map((candidate) =>
-                      candidate.id === stage.id
-                        ? {
-                            ...candidate,
-                            next:
-                              nextStageId === 'complete'
-                                ? { kind: 'complete' as const }
-                                : flow.stages.find(
-                                    (target) => stageChoice(target.id) === nextStageId,
-                                  )?.id,
-                          }
-                        : candidate,
-                    )
-                    props.onChange({ ...flow, stages })
-                  }}
-                />
-              </section>
-            </div>
-          </CanonicalScriptDialog>
-        ) : null}
-        {stage && createOpen ? (
-          <CanonicalScriptDialog
-            title="新建执行步骤"
-            className="canonical-stage-create-dialog"
-            onClose={() => setCreateOpen(false)}
-          >
-            <div className="canonical-stage-create-form">
-              <div className="canonical-modal-context">
-                <span>所属方案：{props.ownerLabel ?? '当前脚本'}</span>
-                <DsHelpTip label="新建步骤">
-                  新步骤拥有独立的出现前准备和脚本正文，只会加入当前脚本方案。
-                </DsHelpTip>
-              </div>
-              <DsCheckbox
-                size="compact"
-                label={`创建后，将“${stageLabel(stage.id)}”的下次运行改为新步骤`}
-                checked={linkNewStage}
-                onChange={(event) => setLinkNewStage(event.target.checked)}
-              />
-              {linkNewStage && stage.next ? (
-                <p className="canonical-stage-create-warning">
-                  当前去向“{stageNextLabel(stage)}”会改为新步骤。
-                </p>
-              ) : null}
-              <div className="script-scheme-create-actions">
-                <DsButton size="compact" variant="secondary" onClick={() => setCreateOpen(false)}>
-                  取消
-                </DsButton>
-                <DsButton size="compact" variant="primary" onClick={addStage}>
-                  创建步骤
-                </DsButton>
-              </div>
-            </div>
-          </CanonicalScriptDialog>
-        ) : null}
-        {stage && replacement && deleteOpen ? (
-          <CanonicalScriptDialog
-            title={`删除${stageLabel(stage.id)}？`}
-            className="canonical-stage-delete-dialog"
-            onClose={() => setDeleteOpen(false)}
-          >
-            <div className="canonical-stage-delete-confirm" role="alert">
-              <p>
-                将删除这个步骤的 {stage.body.length} 条正文指令
-                {stage.entry?.prepare.length
-                  ? `和 ${stage.entry.prepare.length} 条画面出现前准备`
-                  : ''}
-                。
-              </p>
-              <p>
-                {flow.initial === stage.id ? `起始步骤将改为${stageLabel(replacement.id)}。` : ''}
-                其他指向这个步骤的去向将改为{stageLabel(replacement.id)}。
-              </p>
-              <p>删除后仍可使用编辑器的撤销恢复。</p>
-              <div className="script-scheme-create-actions">
-                <DsButton size="compact" variant="secondary" onClick={() => setDeleteOpen(false)}>
-                  取消
-                </DsButton>
-                <DsButton size="compact" variant="danger" onClick={deleteStage}>
-                  确认删除步骤
-                </DsButton>
-              </div>
-            </div>
-          </CanonicalScriptDialog>
-        ) : null}
-      </section>
-    )
-  }
-
   const flow = props.flow
-  const organized = organizeFlowAsStages(flow)
-  const state = flow.machine.states[selectedId] ?? Object.values(flow.machine.states)[0]
-  const stateId = flow.machine.states[selectedId] ? selectedId : Object.keys(flow.machine.states)[0]
+  const stage = flow.stages.find((candidate) => candidate.id === selectedId) ?? flow.stages[0]
+  const hasMultipleStages = flow.stages.length > 1
+  const stageIndex = stage ? flow.stages.findIndex((candidate) => candidate.id === stage.id) : -1
+  const stageLabel = (id: string): string => {
+    return previewStepLabel(flow, { kind: 'stage', stage: id })
+  }
+  const stageNextLabel = (candidate: (typeof flow.stages)[number]): string =>
+    typeof candidate.next === 'object'
+      ? '本方案完成，不再执行'
+      : candidate.next
+        ? `下次进入${stageLabel(candidate.next)}`
+        : '下次仍执行当前步骤'
+  const stageChoice = (id: string): string => JSON.stringify(['stage', id])
+  const replacement =
+    stage && hasMultipleStages
+      ? (flow.stages[stageIndex + 1] ?? flow.stages[stageIndex - 1])
+      : undefined
+  const addStage = (): void => {
+    let index = flow.stages.length + 1
+    let id = `stage-${index}`
+    while (ids.includes(id)) id = `stage-${++index}`
+    const stages = flow.stages.map((candidate) =>
+      linkNewStage && stage && candidate.id === stage.id ? { ...candidate, next: id } : candidate,
+    )
+    const applied = props.onChange({
+      ...flow,
+      stages: [...stages, { id, body: [] }],
+    })
+    if (applied === false) return
+    setSelectedId(id)
+    setCreateOpen(false)
+  }
+  const deleteStage = (): void => {
+    if (!stage || !replacement) return
+    const applied = props.onChange(removeTriggerStage(flow, stage.id, replacement.id))
+    if (applied === false) return
+    setSelectedId(replacement.id)
+    setDeleteOpen(false)
+  }
   return (
     <section className="canonical-flow-editor">
       <header className="canonical-flow-explanation">
         <div className="script-section-heading">
-          <strong className="script-section-title">连续流程（高级）</strong>
-          <span className="script-section-count canonical-flow-count">{ids.length} 个状态</span>
-          <DsHelpTip label="连续流程">
-            {flow.machine.cadence === 'transition'
-              ? '执行时机由段落去向明确控制。普通目标走位不需要拆成逐拍状态。'
-              : '用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。'}
+          <strong className="script-section-title">步骤列表</strong>
+          <span className="script-section-count canonical-flow-count">
+            {flow.stages.length} 个步骤
+          </span>
+          <DsHelpTip label="步骤列表">
+            每套方案由步骤和指令组成。每次运行只执行当前步骤；步骤详情可指定下次重复、进入另一步骤，或完成本方案。
           </DsHelpTip>
         </div>
-        <CanonicalField label="起始状态">
-          <DsSelect
-            size="compact"
-            value={flow.machine.initial}
-            options={ids.map((id) => ({
-              value: id,
-              label: flow.machine.states[id]?.label ?? id,
-            }))}
-            onValueChange={(initial) =>
-              props.onChange({
-                ...flow,
-                machine: { ...flow.machine, initial },
-              })
-            }
-          />
-        </CanonicalField>
-      </header>
-      {organized ? (
         <div className="canonical-flow-actions">
-          <p>
-            这套流程只控制下次运行的内容，可以整理为普通步骤。整理后显示步骤编号并保留原状态名称；
-            指令、出现前准备、步骤稳定编号和运行去向保持，操作可撤销。
-          </p>
           <DsButton
             size="compact"
             variant="secondary"
+            icon="add"
             onClick={() => {
-              if (props.onChange(organized) === false) return
-              setDetailsOpen(false)
-              setCreateOpen(false)
-              setDeleteOpen(false)
+              setLinkNewStage(true)
+              setCreateOpen(true)
             }}
           >
-            整理为步骤
+            新建步骤
           </DsButton>
         </div>
-      ) : null}
-      <nav aria-label="连续流程状态">
-        {Object.entries(flow.machine.states).map(([id, candidate]) => (
-          <DsButton
-            size="compact"
-            variant={id === stateId ? 'primary' : 'secondary'}
-            key={id}
-            onClick={() => setSelectedId(id)}
+      </header>
+      <nav className="canonical-stage-tabs" aria-label="执行步骤">
+        {flow.stages.map((candidate, index) => (
+          <div
+            key={candidate.id}
+            className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
           >
-            <span>{candidate.label}</span>
-            <small>{stateTransitionExecutionLabel(candidate.next)}</small>
-          </DsButton>
+            <DsPressable
+              className="canonical-stage-card-select"
+              aria-pressed={candidate.id === stage?.id}
+              aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
+              onClick={() => setSelectedId(candidate.id)}
+            >
+              <span className="canonical-stage-card-heading">
+                <strong>步骤 {index + 1}</strong>
+                <span>{candidate.body.length} 条指令</span>
+              </span>
+              {candidate.label ? (
+                <span className="canonical-stage-card-name">{candidate.label}</span>
+              ) : null}
+              <small>
+                {candidate.id === flow.initial ? <span>首次运行</span> : null}
+                <span>{stageNextLabel(candidate)}</span>
+              </small>
+            </DsPressable>
+            <DsButton
+              size="compact"
+              variant="quiet"
+              className="canonical-stage-card-details"
+              aria-label={`打开“${stageLabel(candidate.id)}”详情`}
+              onClick={() => {
+                setSelectedId(candidate.id)
+                setDetailsOpen(true)
+              }}
+            >
+              步骤详情
+            </DsButton>
+          </div>
         ))}
-        <DsButton
-          size="compact"
-          variant="secondary"
-          icon="add"
-          onClick={() => {
-            let index = ids.length + 1
-            let id = `state-${index}`
-            while (ids.includes(id)) id = `state-${++index}`
+      </nav>
+      {stage ? (
+        <CanonicalFlowBodyTabs
+          key={stage.id}
+          prepare={stage.entry?.prepare}
+          body={stage.body}
+          bodyLabel={hasMultipleStages ? `${stageLabel(stage.id)} · 脚本正文` : '脚本正文'}
+          context={
+            props.context
+              ? {
+                  ...props.context,
+                  commandScope: { kind: 'flow', currentStep: stage.id, steps: flow.stages },
+                  enclosingLoops: [],
+                }
+              : undefined
+          }
+          onError={props.onError}
+          focusSection={
+            props.focusLocator?.container.kind === 'step' &&
+            props.focusLocator.container.stepId === stage.id
+              ? props.focusLocator.container.section
+              : undefined
+          }
+          focusCommandPath={
+            props.focusLocator?.container.kind === 'step' &&
+            props.focusLocator.container.stepId === stage.id
+              ? props.focusLocator.commandPath
+              : undefined
+          }
+          focusRevision={
+            props.focusLocator?.container.kind === 'step' &&
+            props.focusLocator.container.stepId === stage.id
+              ? props.focusRevision
+              : undefined
+          }
+          onPrepareChange={
+            stage.entry
+              ? (prepare) =>
+                  props.onChange({
+                    ...flow,
+                    stages: flow.stages.map((candidate) =>
+                      candidate.id === stage.id
+                        ? { ...candidate, entry: { ...stage.entry!, prepare } }
+                        : candidate,
+                    ),
+                  })
+              : undefined
+          }
+          onBodyChange={(body) =>
             props.onChange({
               ...flow,
-              machine: {
-                ...flow.machine,
-                states: {
-                  ...flow.machine.states,
-                  [id]: { label: id, body: [], next: { kind: 'stay' } },
-                },
-              },
+              stages: flow.stages.map((candidate) =>
+                candidate.id === stage.id ? { ...candidate, body } : candidate,
+              ),
             })
-            setSelectedId(id)
-          }}
+          }
+        />
+      ) : null}
+      {stage && detailsOpen ? (
+        <CanonicalScriptDialog
+          title={`${stageLabel(stage.id)} · 详情`}
+          className="canonical-flow-settings-dialog"
+          onClose={() => setDetailsOpen(false)}
+          footer={
+            <>
+              <DsButton
+                size="compact"
+                variant="danger"
+                disabled={!hasMultipleStages}
+                title={hasMultipleStages ? undefined : '每套方案至少需要保留一个步骤。'}
+                onClick={() => {
+                  setDetailsOpen(false)
+                  setDeleteOpen(true)
+                }}
+              >
+                删除步骤
+              </DsButton>
+              {!hasMultipleStages ? (
+                <span className="canonical-stage-delete-note">每套方案至少需要保留一个步骤。</span>
+              ) : null}
+              <span className="spacer" />
+              <DsButton size="compact" variant="secondary" onClick={() => setDetailsOpen(false)}>
+                关闭
+              </DsButton>
+            </>
+          }
         >
-          新建状态
-        </DsButton>
-      </nav>
-      {state && stateId ? (
-        <>
-          <CanonicalField label="状态名称" className="canonical-state-label">
-            <DsDraftTextInput
-              size="compact"
-              draftKey={`canonical-flow:${flow.machine.id}:${stateId}:label`}
-              syncToken={props.focusRevision}
-              value={state.label}
-              onCommit={(label) =>
-                props.onChange({
-                  ...flow,
-                  machine: {
-                    ...flow.machine,
-                    states: {
-                      ...flow.machine.states,
-                      [stateId]: { ...state, label },
-                    },
-                  },
-                })
-              }
-            />
-          </CanonicalField>
-          <CanonicalFlowBodyTabs
-            key={stateId}
-            prepare={state.entry?.prepare}
-            body={state.body}
-            bodyLabel={`${state.label} · 正文`}
-            context={props.context}
-            onError={props.onError}
-            focusSection={
-              props.focusLocator?.container.kind === 'state' &&
-              props.focusLocator.container.machineId === flow.machine.id &&
-              props.focusLocator.container.stateId === stateId
-                ? props.focusLocator.container.section
-                : undefined
-            }
-            focusCommandPath={
-              props.focusLocator?.container.kind === 'state' &&
-              props.focusLocator.container.machineId === flow.machine.id &&
-              props.focusLocator.container.stateId === stateId
-                ? props.focusLocator.commandPath
-                : undefined
-            }
-            focusRevision={
-              props.focusLocator?.container.kind === 'state' &&
-              props.focusLocator.container.machineId === flow.machine.id &&
-              props.focusLocator.container.stateId === stateId
-                ? props.focusRevision
-                : undefined
-            }
-            onPrepareChange={
-              state.entry
-                ? (prepare) =>
-                    props.onChange({
+          <div className="canonical-flow-settings-fields">
+            <section className="canonical-flow-setting">
+              <DsField
+                id={stageNameInputId}
+                label="步骤名称"
+                help={{
+                  label: '步骤名称',
+                  content:
+                    '说明这一轮执行什么，例如“首次交谈”或“提醒去厨房”。只修改显示名称，不改变步骤编号、运行去向或游戏行为；留空表示尚未命名。',
+                }}
+              >
+                <DsDraftTextInput
+                  size="compact"
+                  id={stageNameInputId}
+                  aria-label="步骤名称"
+                  placeholder="例如：走到房门并进房"
+                  draftKey={`canonical-flow:${props.ownerLabel}:${stage.id}:label`}
+                  syncToken={props.focusRevision}
+                  value={stage.label ?? ''}
+                  onCommit={(value) => {
+                    const label = value.trim()
+                    if (label === (stage.label ?? '')) return true
+                    return props.onChange({
                       ...flow,
-                      machine: {
-                        ...flow.machine,
-                        states: {
-                          ...flow.machine.states,
-                          [stateId]: { ...state, entry: { ...state.entry!, prepare } },
-                        },
-                      },
+                      stages: flow.stages.map((candidate) => {
+                        if (candidate.id !== stage.id) return candidate
+                        const updated = { ...candidate }
+                        if (label) updated.label = label
+                        else delete updated.label
+                        return updated
+                      }),
                     })
-                : undefined
-            }
-            onBodyChange={(body) =>
-              props.onChange({
-                ...flow,
-                machine: {
-                  ...flow.machine,
-                  states: {
-                    ...flow.machine.states,
-                    [stateId]: { ...state, body },
-                  },
-                },
-              })
-            }
-          />
-          <TransitionEditor
-            value={state.next}
-            states={ids}
-            stateLabels={Object.fromEntries(
-              Object.entries(flow.machine.states).map(([id, value]) => [id, value.label]),
-            )}
-            commandIds={confirmIds(state.body)}
-            context={props.context}
-            onChange={(next) =>
-              props.onChange({
-                ...flow,
-                machine: {
-                  ...flow.machine,
-                  states: {
-                    ...flow.machine.states,
-                    [stateId]: { ...state, next },
-                  },
-                },
-              })
-            }
-          />
-        </>
+                  }}
+                />
+              </DsField>
+            </section>
+            <section className="canonical-flow-setting">
+              <header className="canonical-dialog-field-heading">
+                <strong>起始步骤</strong>
+                <DsHelpTip label="起始步骤">
+                  每套脚本方案只能有一个起始步骤。切换到这套方案后，第一次运行会从这里开始。
+                </DsHelpTip>
+              </header>
+              <div className="canonical-stage-initial-setting">
+                <span>
+                  {flow.initial === stage.id ? '当前步骤是起始步骤' : '当前步骤不是起始步骤'}
+                </span>
+                {flow.initial !== stage.id ? (
+                  <DsButton
+                    size="compact"
+                    variant="secondary"
+                    onClick={() => props.onChange({ ...flow, initial: stage.id })}
+                  >
+                    设为起始步骤
+                  </DsButton>
+                ) : null}
+              </div>
+            </section>
+            <section className="canonical-flow-setting">
+              <header className="canonical-dialog-field-heading">
+                <label htmlFor={stageNextSelectId}>下次运行</label>
+                <DsHelpTip label="下次运行">
+                  当前步骤跑完后，可以重复、进入下一步骤，或完成本方案并不再执行。真正切换到另一方案再回来时，才会从起始步骤重新运行。
+                </DsHelpTip>
+              </header>
+              <DsSelect
+                size="compact"
+                id={stageNextSelectId}
+                value={
+                  typeof stage.next === 'object'
+                    ? 'complete'
+                    : stage.next
+                      ? stageChoice(stage.next)
+                      : ''
+                }
+                options={[
+                  { value: '', label: '仍执行当前步骤' },
+                  { value: 'complete', label: '本方案完成，不再执行' },
+                  ...flow.stages
+                    .filter((candidate) => candidate.id !== stage.id)
+                    .map((candidate) => ({
+                      value: stageChoice(candidate.id),
+                      label: `进入${stageLabel(candidate.id)}`,
+                    })),
+                ]}
+                onValueChange={(nextStageId) => {
+                  const stages = flow.stages.map((candidate) =>
+                    candidate.id === stage.id
+                      ? {
+                          ...candidate,
+                          next:
+                            nextStageId === 'complete'
+                              ? { kind: 'complete' as const }
+                              : flow.stages.find((target) => stageChoice(target.id) === nextStageId)
+                                  ?.id,
+                        }
+                      : candidate,
+                  )
+                  props.onChange({ ...flow, stages })
+                }}
+              />
+            </section>
+          </div>
+        </CanonicalScriptDialog>
+      ) : null}
+      {stage && createOpen ? (
+        <CanonicalScriptDialog
+          title="新建执行步骤"
+          className="canonical-stage-create-dialog"
+          onClose={() => setCreateOpen(false)}
+        >
+          <div className="canonical-stage-create-form">
+            <div className="canonical-modal-context">
+              <span>所属方案：{props.ownerLabel ?? '当前脚本'}</span>
+              <DsHelpTip label="新建步骤">
+                新步骤拥有独立的出现前准备和脚本正文，只会加入当前脚本方案。
+              </DsHelpTip>
+            </div>
+            <DsCheckbox
+              size="compact"
+              label={`创建后，将“${stageLabel(stage.id)}”的下次运行改为新步骤`}
+              checked={linkNewStage}
+              onChange={(event) => setLinkNewStage(event.target.checked)}
+            />
+            {linkNewStage && stage.next ? (
+              <p className="canonical-stage-create-warning">
+                当前去向“{stageNextLabel(stage)}”会改为新步骤。
+              </p>
+            ) : null}
+            <div className="script-scheme-create-actions">
+              <DsButton size="compact" variant="secondary" onClick={() => setCreateOpen(false)}>
+                取消
+              </DsButton>
+              <DsButton size="compact" variant="primary" onClick={addStage}>
+                创建步骤
+              </DsButton>
+            </div>
+          </div>
+        </CanonicalScriptDialog>
+      ) : null}
+      {stage && replacement && deleteOpen ? (
+        <CanonicalScriptDialog
+          title={`删除${stageLabel(stage.id)}？`}
+          className="canonical-stage-delete-dialog"
+          onClose={() => setDeleteOpen(false)}
+        >
+          <div className="canonical-stage-delete-confirm" role="alert">
+            <p>
+              将删除这个步骤的 {stage.body.length} 条正文指令
+              {stage.entry?.prepare.length
+                ? `和 ${stage.entry.prepare.length} 条画面出现前准备`
+                : ''}
+              。
+            </p>
+            <p>
+              {flow.initial === stage.id ? `起始步骤将改为${stageLabel(replacement.id)}。` : ''}
+              其他指向这个步骤的去向将改为{stageLabel(replacement.id)}。
+            </p>
+            <p>删除后仍可使用编辑器的撤销恢复。</p>
+            <div className="script-scheme-create-actions">
+              <DsButton size="compact" variant="secondary" onClick={() => setDeleteOpen(false)}>
+                取消
+              </DsButton>
+              <DsButton size="compact" variant="danger" onClick={deleteStage}>
+                确认删除步骤
+              </DsButton>
+            </div>
+          </div>
+        </CanonicalScriptDialog>
       ) : null}
     </section>
   )

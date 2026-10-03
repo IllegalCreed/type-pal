@@ -184,31 +184,19 @@
                       "ms": 160
                     },
                     {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "dx": 8,
+                          "dy": 4,
+                          "kind": "nudgeParty"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        }
+                      ]
                     },
                     {
                       "dx": 8,
@@ -325,6 +313,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "完成本段自动动作",
                   "body": [
                     {
                       "dx": 0,
@@ -336,6 +325,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "dx": 0,
                       "dy": 4,
                       "kind": "nudgeEntity",
@@ -343,6 +336,10 @@
                         "scene": "s139",
                         "entity": "e2347"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 0,
@@ -354,6 +351,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "dx": 0,
                       "dy": 12,
                       "kind": "nudgeEntity",
@@ -361,6 +362,10 @@
                         "scene": "s139",
                         "entity": "e2347"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 0,
@@ -372,30 +377,32 @@
                       }
                     },
                     {
-                      "dx": 0,
-                      "dy": 18,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s139",
-                        "entity": "e2347"
-                      }
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
-                      "dx": 0,
-                      "dy": 18,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s139",
-                        "entity": "e2347"
-                      }
+                      "kind": "repeat",
+                      "count": 3,
+                      "body": [
+                        {
+                          "dx": 0,
+                          "dy": 18,
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s139",
+                            "entity": "e2347"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        }
+                      ]
                     },
                     {
-                      "dx": 0,
-                      "dy": 18,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s139",
-                        "entity": "e2347"
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
                       }
                     }
                   ],

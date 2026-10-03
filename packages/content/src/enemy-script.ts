@@ -98,7 +98,7 @@ export type EnemyOnDefeatedLeaf = Extract<
       | 'setFlag'
       | 'setVar'
       | 'addVar'
-      | 'stopScript'
+      | 'returnScript'
   }
 >
 
@@ -360,7 +360,7 @@ const ON_DEFEATED_LEAF_KEYS = {
   setFlag: ['kind', 'flag', 'value'],
   setVar: ['kind', 'var', 'value'],
   addVar: ['kind', 'var', 'delta'],
-  stopScript: ['kind'],
+  returnScript: ['kind'],
 } as const satisfies Record<EnemyOnDefeatedLeaf['kind'], readonly string[]>
 
 export function checkEnemyOnDefeatedCommands(

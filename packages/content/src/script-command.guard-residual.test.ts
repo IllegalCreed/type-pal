@@ -223,7 +223,7 @@ describe('G4 checkCommands 残差', () => {
     const control = [
       { kind: 'startBattle', enemyTeamId: 'team', onFlee: [{ kind: 'wait', ms: 1 }] },
       { kind: 'teleportOut', pos: { col: 1, row: 1, height: 0 }, onFail: [] },
-      { kind: 'confirm', onNo: [] },
+      { kind: 'confirm', onYes: [], onNo: [] },
     ]
     expectAcceptsUnchanged((value) => checkCommands(value, 'commands'), control)
     const badFlee = [
@@ -248,7 +248,7 @@ describe('G4 checkCommands 残差', () => {
       'commands[0].onFail[0].asset: 期望非空 AssetId',
     )
     expect(badFail).toEqual(badFailBefore)
-    const badNo = [{ kind: 'confirm', onNo: [{}] }]
+    const badNo = [{ kind: 'confirm', onYes: [], onNo: [{}] }]
     const badNoBefore = deepSnapshot(badNo)
     expectExactError(() => checkCommands(badNo, 'commands'), 'commands[0].onNo[0]: 缺 kind')
     expect(badNo).toEqual(badNoBefore)
