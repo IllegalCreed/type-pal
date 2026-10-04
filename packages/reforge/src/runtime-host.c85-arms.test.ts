@@ -298,3 +298,53 @@ describe('C85 ScriptRunnerCore 流臂', () => {
     expect(effects).toEqual([])
   })
 })
+
+test('实体无行为臂:实体未声明 trigger 行为时 runEntityBehavior 安静 false', async () => {
+  const world = makeWorld()
+  const runtime = new ScriptProjectRuntime({ sharedScripts: {} }, world, digest, hostOptions())
+  await expect(
+    runtime.runEntityBehavior(scene, 'e001', 'trigger', {
+      signal: new AbortController().signal,
+    }),
+  ).resolves.toBe(false)
+})
+
+test('钩子无变体臂:场景无 onTeleport 钩子时 runSceneHook 安静 false', async () => {
+  const world = makeWorld()
+  const runtime = new ScriptProjectRuntime({ sharedScripts: {} }, world, digest, hostOptions())
+  await expect(
+    runtime.runSceneHook(scene, 'onTeleport', { signal: new AbortController().signal }),
+  ).resolves.toBe(false)
+})
+
+test('完成游标复入臂:行为游标已 completed 时不再取得租约', async () => {
+  const world = makeWorld()
+  const hooked: RuntimeSceneDef = {
+    ...scene,
+    hooks: {
+      onEnter: {
+        initial: 'main',
+        variants: {
+          main: {
+            label: 'Main',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 's0',
+              stages: [{ id: 's0', body: [], next: { kind: 'complete' } }],
+            },
+          },
+        },
+      },
+    },
+  }
+  const scriptState = world.script
+  if (!scriptState) throw new Error('world script missing')
+  scriptState.behaviors.scenes = {
+    s001: { onEnter: { cursor: { hook: 'main', at: { kind: 'completed' } } } },
+  }
+  const runtime = new ScriptProjectRuntime({ sharedScripts: {} }, world, digest, hostOptions())
+  await expect(
+    runtime.runSceneHook(hooked, 'onEnter', { signal: new AbortController().signal }),
+  ).resolves.toBe(false)
+})

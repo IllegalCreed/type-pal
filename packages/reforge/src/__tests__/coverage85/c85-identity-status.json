@@ -1,6 +1,6 @@
 {
   "profile": "fast",
-  "testCount": 108,
+  "testCount": 113,
   "entries": [
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
@@ -255,6 +255,24 @@
       "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > 游标缺失臂:flow 指针指向不存在的 stage 即拒"
     },
     {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "完成游标复入臂:行为游标已 completed 时不再取得租约",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: 完成游标复入臂:行为游标已 completed 时不再取得租约"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "实体无行为臂:实体未声明 trigger 行为时 runEntityBehavior 安静 false",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: 实体无行为臂:实体未声明 trigger 行为时 runEntityBehavior 安静 false"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "钩子无变体臂:场景无 onTeleport 钩子时 runSceneHook 安静 false",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: 钩子无变体臂:场景无 onTeleport 钩子时 runSceneHook 安静 false"
+    },
+    {
       "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
       "fullName": "chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传",
       "status": "passed",
@@ -466,9 +484,21 @@
     },
     {
       "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "后台失败静默臂:未取消 runner 收到 AbortError 型拒绝同样静默不上报",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 后台失败静默臂:未取消 runner 收到 AbortError 型拒绝同样静默不上报"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
       "fullName": "命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力",
       "status": "passed",
       "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力"
+    },
+    {
+      "file": "packages/reforge/src/script-runner.c85-arms.test.ts",
+      "fullName": "场景覆写 stages 臂:setSceneOnTeleport 内联段落到全新场景槽",
+      "status": "passed",
+      "identity": "packages/reforge/src/script-runner.c85-arms.test.ts :: project reforge :: 场景覆写 stages 臂:setSceneOnTeleport 内联段落到全新场景槽"
     },
     {
       "file": "packages/reforge/src/script-runner.c85-arms.test.ts",

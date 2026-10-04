@@ -1,12 +1,15 @@
 {
-  "note": "基线=dispatch 基点全量 fast(不含本卡新测试);终态=含本卡新测试。这是 +N 臂闭合账,不是 85% 达标声明。",
-  "baselineLcov": "/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/coverage/c85-baseline/lcov.info",
-  "finalLcov": "/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/coverage/c85-final/lcov.info",
+  "note": "基线=排除本卡 *.c85-*.test.ts 的 fast 全量(精确复现 dispatch 测试集);终态=含本卡新测试。这是 +N 臂闭合账,不是 85% 达标声明。原始 lcov 拷贝:src/__tests__/coverage85/c85-baseline-lcov.info 与 c85-final-lcov.info。",
+  "inputs": {
+    "baselineLcov": "coverage/c85-baseline/lcov.info(运行产物)",
+    "finalLcov": "coverage/c85-final/lcov.info(运行产物)",
+    "argvOverride": "node scripts/c85-branch-delta.mjs <baselineLcov> <finalLcov>"
+  },
   "targets": {
     "src/main.ts": 7,
     "src/battle/battle-session.ts": 8,
     "src/battle/battle-core.ts": 13,
-    "src/script-runner.ts": 41,
+    "src/script-runner.ts": 43,
     "src/script-runner-core.ts": 2,
     "src/script-host-adapter.ts": 26,
     "src/entity-motion.ts": 7,
@@ -14,7 +17,7 @@
     "src/script-world.ts": 19,
     "src/runtime-script-project.ts": 5
   },
-  "targetClosedTotal": 128,
+  "targetClosedTotal": 130,
   "perFile": {
     "src/main.ts": {
       "baselineMissedArms": 835,
@@ -39,12 +42,12 @@
     },
     "src/script-runner.ts": {
       "baselineMissedArms": 60,
-      "finalMissedArms": 19,
-      "closedByThisCard": 41,
+      "finalMissedArms": 17,
+      "closedByThisCard": 43,
       "newlyMissedArms": 0,
       "closedLines": [
         234, 236, 273, 372, 477, 483, 504, 510, 518, 521, 528, 616, 658, 661, 671, 681, 696, 744,
-        787, 801, 811, 820
+        787, 801, 805, 811, 820
       ]
     },
     "src/script-runner-core.ts": {

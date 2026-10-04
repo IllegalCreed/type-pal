@@ -51,10 +51,22 @@ Capability: test-quality / coverage branch closure
 交付时在本卡登记每个合同的源锚、合法输入、oracle、fullName、三态反控和覆盖变化，并给出
 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
 
-## GLM 交付回执（r3 返工，2026-10-04，待 Codex 独立验收）
+## GLM 交付回执（r4 返工，2026-10-04，待 Codex 独立验收）
 
 - 候选分支 `codex/coverage85-glm-reforge-r1`（dispatch tip `76475c01c` 起，产品文件零改动，
   `git status` 仅新增本卡测试/脚本/证据）。
+- **r4 返工（Codex 七项）**：① 反控回执改为干净 checkout 流程生成（先提交全部工作使
+  工作树 clean，再跑驱动，回执独立提交入库；本版 workingTree 快照为空 = 当前 SHA 有效
+  证据）；② 回执字段齐备（command/cwd/env digest/stdout stderr/exit signal spawn/
+  testFile×fullName/AssertionError/四 hash/tree-clean/零临时目录）；③ ledger/delta 两脚本
+  mkdtemp+finally 零 /tmp 残留、输出确定性化（双跑逐字节一致，delta 去绝对路径），提交 JSON
+  可重复再生；④ 继续补合法合同：script-runner 后台 AbortError 静默臂 + onTeleport stages
+  臂、runtime 无行为/无钩子/完成游标复入安静臂（+2 净新臂，**+130**，80.44%，距 85% 差
+  ~554，不达标不收口；entity-motion 侧踏求解器臂经探针实证需多拍场景，已列后续范围）；
+  ⑤ 证据迁至 `docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/`，docs/testing/README.md
+  越界行已撤回基线；⑥ dedup/公开 observation/无 as never/无私有 __rf* 全部保持（复核零
+  残留）。
+
 - **r3 返工（Codex 七项）**：① 反控回执补齐 command/cwd/env（子集+digest）、stdout/stderr
   分轨尾、exit/signal/spawnError、testFile×fullName、original/mutant/restored/**rebuilt** 四
   hash、工作树 before/after 快照（零临时目录零残留证明），并加 vitest4 `-t` 零匹配 exit0
@@ -80,7 +92,7 @@ Capability: test-quality / coverage branch closure
   **+127，不作为 85% 达标**——距 85% 仍差 ~557 臂）。
 - **第一轮交付，未达 85%**：fast 口径 branches 9657→**9784**/12166（**+127**），
   statements +80 / functions +5 / lines +47（基线 317 文件/8569 测试全绿复现官方口径；终态 325 文件/8686 全绿）。逐文件闭合与剩余臂诚实披露见
-  [证据](../../testing/coverage85-glm-reforge-r1-evidence.md)。
+  [证据](../evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md)。
 - 新增 8 个专属测试文件 117 测试（r2 删除与既有 main.glm-n.test.ts 重复的 gallery/battle-preview/party 合同、删除 Reflect 私有 debug 口改 observation()/canvas dataset、删除 as never 强构造并登记 U21）（`*.c85-*.test.ts`，全部公开 caller：bootGame/BattleSession
   构造器+tick/createBattleState+stepBattle/decideEnemyAction/applyEnemyEffect/ScriptRunner/
   executeScriptHostEffect/planEntityMotion/ScriptProjectRuntime/RuntimeScriptRunner.runFlow/
@@ -101,7 +113,7 @@ Capability: test-quality / coverage branch closure
 
 ## 下一位 Agent 提示词（更新）
 
-Codex 独立验收：读本卡与 [证据](../../testing/coverage85-glm-reforge-r1-evidence.md)，复跑
+Codex 独立验收：读本卡与 [证据](../evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md)，复跑
 `node packages/reforge/scripts/c85-mutation-counterproof.mjs`（约 2 分钟，9 注入应全 PASS 且
 源恢复）、`pnpm --filter @type-pal/reforge run typecheck`、定向 8 文件与全量 fast、
 `pnpm lint`/`pnpm check:docs`。核对 identity/delta/family/不可达四账与源锚；重点抽查：

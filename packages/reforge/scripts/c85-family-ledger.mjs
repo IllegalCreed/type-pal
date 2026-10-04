@@ -3,7 +3,8 @@
 // 数据表 + vitest list 重建:node scripts/c85-family-ledger.mjs
 // 输出:src/__tests__/coverage85/c85-family-ledger.json
 import { spawnSync } from 'node:child_process'
-import { writeFile } from 'node:fs/promises'
+import { readFileSync } from 'node:fs'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const pkgRoot = path.resolve(import.meta.dirname, '..')
@@ -81,7 +82,7 @@ const ledger = [
           'ScriptRunner.exec playEntityAction catch',
           '非 abort 失败按复合引用 report;abort 静默;非 Error 按 String()',
         ),
-        match: ['后台失败臂', '后台失败上报臂'],
+        match: ['后台失败臂', '后台失败上报臂', '后台失败静默臂'],
       },
       {
         ...F(
@@ -117,7 +118,7 @@ const ledger = [
           'ScriptRunner.exec',
           'onTeleport/clearSceneScripts/onEnter 各自建 override 槽',
         ),
-        match: ['场景覆写残留臂'],
+        match: ['场景覆写残留臂', 'setSceneOnTeleport 内联段落到全新场景槽'],
       },
       {
         ...F(
@@ -727,6 +728,28 @@ const ledger = [
         match: ['实体臂'],
       },
       {
+        ...F(
+          '无行为安静臂',
+          [512],
+          'runEntityBehavior(公开)',
+          '实体未声明 trigger 行为时安静 false',
+        ),
+        match: ['实体无行为臂'],
+      },
+      {
+        ...F('无钩子安静臂', [582], 'runSceneHook(公开)', '场景无 onTeleport 钩子时安静 false'),
+        match: ['钩子无变体臂'],
+      },
+      {
+        ...F(
+          '完成游标复入臂',
+          [678],
+          'runSceneHook(公开)+resolveSceneHook',
+          '已 completed 游标不再取得租约',
+        ),
+        match: ['完成游标复入臂'],
+      },
+      {
         ...F('场景钩子臂', [481, 553], 'runSceneHook(公开)', '场景错位安静 false'),
         match: ['场景钩子臂'],
       },
@@ -788,6 +811,10 @@ const ledger = [
   },
 ]
 
+// 包内临时目录(子进程稳定可写);mkdtemp 唯一目录 + finally 清理,运行后零残留
+const tempDir = await mkdtemp(path.join(pkgRoot, '.c85-ledger-tmp-'))
+const identityJsonPath = path.join(tempDir, 'identity.json')
+
 const listArgs = [
   '--filter',
   '@type-pal/reforge',
@@ -798,16 +825,20 @@ const listArgs = [
   '--exclude',
   '**/*.pal.test.ts',
   ...testFiles,
-  '--json=/tmp/c85-ledger-identity.json',
+  `--json=${identityJsonPath}`,
 ]
-const listed = spawnSync('pnpm', listArgs, { cwd: repoRoot, encoding: 'utf8', timeout: 180_000 })
-if (listed.status !== 0) {
-  console.error(listed.stdout, listed.stderr)
-  process.exit(1)
+// 临时目录 mkdtemp + finally 清理:运行后零残留,不写固定 /tmp 路径
+let rows
+try {
+  const listed = spawnSync('pnpm', listArgs, { cwd: repoRoot, encoding: 'utf8', timeout: 180_000 })
+  if (listed.status !== 0) {
+    const out = listed.stdout + listed.stderr
+    throw new Error(`vitest list 失败(exit ${listed.status}): ${out.slice(-500)}`)
+  }
+  rows = JSON.parse(readFileSync(identityJsonPath, 'utf8'))
+} finally {
+  await rm(tempDir, { recursive: true, force: true })
 }
-const rows = JSON.parse(
-  spawnSync('cat', ['/tmp/c85-ledger-identity.json'], { encoding: 'utf8' }).stdout,
-)
 
 const entries = []
 const unmatched = []

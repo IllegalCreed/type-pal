@@ -78,9 +78,12 @@ for (const suffix of targets) {
 }
 
 const summary = {
-  note: '基线=dispatch 基点全量 fast(不含本卡新测试);终态=含本卡新测试。这是 +N 臂闭合账,不是 85% 达标声明。',
-  baselineLcov,
-  finalLcov,
+  note: '基线=排除本卡 *.c85-*.test.ts 的 fast 全量(精确复现 dispatch 测试集);终态=含本卡新测试。这是 +N 臂闭合账,不是 85% 达标声明。原始 lcov 拷贝:src/__tests__/coverage85/c85-baseline-lcov.info 与 c85-final-lcov.info。',
+  inputs: {
+    baselineLcov: 'coverage/c85-baseline/lcov.info(运行产物)',
+    finalLcov: 'coverage/c85-final/lcov.info(运行产物)',
+    argvOverride: 'node scripts/c85-branch-delta.mjs <baselineLcov> <finalLcov>',
+  },
   targets: closedByTarget,
   targetClosedTotal: Object.values(closedByTarget).reduce((a, b) => a + b, 0),
   perFile,

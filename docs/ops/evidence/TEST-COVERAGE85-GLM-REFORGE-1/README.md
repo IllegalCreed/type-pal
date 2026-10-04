@@ -1,28 +1,28 @@
-# TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r3）
+# TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r4）
 
 Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dispatch tip `76475c01c`）
-状态: 待 Codex 独立验收（不合 main、不标 done）。r1 `76f3c6bf2` → r2 `746f0c4f8` → r3 本版。
+状态: 待 Codex 独立验收（不合 main、不标 done）。r1 `76f3c6bf2` → r2 `746f0c4f8` → r3 `4cef72844` → r4 本版（本目录从 docs/testing 迁入，docs/testing/README.md 越界行已撤）。
 
 ## 度量（fast 口径，与官方 runner 同参数）
 
 | 指标 | 基线（baseline.fast.json） | 终态（r3） | Δ |
 |---|---|---|---|
-| branches | 9657/12166 (79.39%) | 9785/12166 (80.42%) | **+128** |
+| branches | 9657/12166 (79.39%) | 9787/12166 (80.44%) | **+130** |
 | statements | 15761/17939 | 15841 | +80 |
 | functions | 2561/2916 | 2566 | +5 |
 | lines | 14162/15662 | 14209 | +47 |
 
 基线复现：在候选分支上以 `--exclude '**/*.c85-*.test.ts'` 跑同参 fast 全量 = 317 文件/8569
 测试/9657 branches，与 `scripts/coverage/baseline.fast.json` 逐数一致（重建命令见
-[c85-branch-delta.mjs](../../packages/reforge/scripts/c85-branch-delta.mjs) 头注释；双 lcov
+`packages/reforge/scripts/c85-branch-delta.mjs`（见 `c85-branch-delta.mjs`） 头注释；双 lcov
 原始拷贝随账提交，可免跑复核臂级归属）。
 
-**80.42% ≠ 85%：距 85%（10341 臂）仍差约 557 臂，本卡不作为达标收口**（见「后续范围」）。
+**80.44% ≠ 85%：距 85%（10341 臂）仍差约 554 臂，本卡不作为达标收口**（见「后续范围」）。
 
 ## 交付物
 
-- 8 个新专属测试文件、**108 个测试**（identity 见
-  [c85-identity-status.json](../../packages/reforge/src/__tests__/coverage85/c85-identity-status.json)），
+- 8 个新专属测试文件、**113 个测试**（r4 追加 script-runner 后台 AbortError 静默臂/onTeleport stages 臂与 runtime 无行为/无钩子/完成游标复入安静臂）（identity 见
+  `packages/reforge/src/__tests__/coverage85/c85-identity-status.json`（见 `c85-identity-status.json`）），
   全部公开 caller（bootGame / BattleSession 构造器+tick / createBattleState+stepBattle /
   decideEnemyAction / applyEnemyEffect / ScriptRunner / evalCondition / executeScriptHostEffect /
   planEntityMotion / ScriptProjectRuntime / ProjectScriptRuntimeHost / RuntimeScriptRunner.runFlow /
@@ -30,18 +30,18 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
   零 timeout 扩大；不读 `window.__rf*` 私有 debug 口（观测面 = runtime-shell 公开
   `observation()` 与 canvas DEV dataset（DOM 面））。
 - 逐 fullName → family → 源行 → caller → oracle 映射账
-  [c85-family-ledger.json](../../packages/reforge/src/__tests__/coverage85/c85-family-ledger.json)
-  （由 [c85-family-ledger.mjs](../../packages/reforge/scripts/c85-family-ledger.mjs) 从 vitest
+  `packages/reforge/src/__tests__/coverage85/c85-family-ledger.json`（见 `c85-family-ledger.json`）
+  （由 `packages/reforge/scripts/c85-family-ledger.mjs`（见 `c85-family-ledger.mjs`） 从 vitest
   list + 表重建，未匹配即报错退出）。
-- 三态反控 9/9：[c85-mutation-counterproof.mjs](../../packages/reforge/scripts/c85-mutation-counterproof.mjs)
-  → [c85-mutation-counterproof.json](../../packages/reforge/src/__tests__/coverage85/c85-mutation-counterproof.json)。
-- 逐文件臂级闭合账 [c85-branch-delta.json](../../packages/reforge/src/__tests__/coverage85/c85-branch-delta.json)。
+- 三态反控 9/9：`packages/reforge/scripts/c85-mutation-counterproof.mjs`（见 `c85-mutation-counterproof.mjs`）
+  → `packages/reforge/src/__tests__/coverage85/c85-mutation-counterproof.json`（见 `c85-mutation-counterproof.json`）。
+- 逐文件臂级闭合账 `packages/reforge/src/__tests__/coverage85/c85-branch-delta.json`（见 `c85-branch-delta.json`）。
 
 ### 逐文件 branch 闭合（基线未覆盖 → 本卡闭合）
 
 | 文件 | 闭合臂数 |
 |---|---|
-| src/script-runner.ts | 41 |
+| src/script-runner.ts | 43 |
 | src/script-host-adapter.ts | 26 |
 | src/battle/battle-core.ts | 13 |
 | src/script-world.ts | 19 |
@@ -51,7 +51,7 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 | src/runtime-script-project.ts | 5 |
 | src/script-runner-core.ts | 2 |
 | src/script-project-core.ts | 0 |
-| **合计** | **128** |
+| **合计** | **130** |
 
 ### r3 重复合同撤销（覆盖信用回退）
 
@@ -66,7 +66,18 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
   即 battle-core.ts:651/654/663）。
 - battle-session：fleeBattle 演出臂与 `battle-session.test.ts:1405` 重复，已删。
 
-## 反控回执（r3 字段）
+## 反控回执（r4 字段与清洁生成流程）
+
+r4 起回执在**干净 checkout**上生成：先提交全部工作（工作树 clean），再运行驱动，回执作为
+独立提交入库——`workingTreeBefore/After` 快照在本版为空串（零 M/??），即当前 SHA 的有效
+证据。r3 及以前回执含 dirty-tree 快照，仅作历史保留，不作证据。
+
+每注入记录：`testFile`×`fullName` 执行身份；三次运行各自的 `command`/`cwd`/`env`（关键
+变量子集 + 全环境 sha256 digest）/`exitCode`/`signal`/`spawnError`/`timedOut`/
+`stdoutTail`/`stderrTail`；`originalSha256`/`mutantSha256`/`restoredSha256`/`rebuiltSha256`
+四 hash（rebuilt = 恢复运行结束后再读源文件）；变异写入在 try/finally 中恢复并逐字节复核；
+驱动零临时目录（变异原位进行），`workingTreeBefore/After` git status 快照证明零残留；
+vitest4 `-t` 零匹配 exit0 陷阱以 `vacuous` 标记硬防。
 
 每注入记录：`testFile`×`fullName` 执行身份；三次运行各自的 `command`/`cwd`/`env`（关键
 变量子集 + 全环境 sha256 digest）/`exitCode`/`signal`/`spawnError`/`timedOut`/
@@ -112,15 +123,18 @@ try/finally 中恢复并逐字节复核；驱动零临时目录，`workingTreeBe
 2. **battle-session.ts 表现层（~390 臂）**：render/timeline/结算屏/召唤染色。`state` 为
    private 且无公开观测口——需先落产品观测口（公开 snapshot/observer）或以
    `render(ctx)` + 录制 ctx 断言 draw 序列；观测口落地前无法合法断言，本卡未伪造。
-3. **script-runner-core.ts 续跑帧内部（~24 臂）**：需手工 `AutoCommandFrame` 续跑 fixture
+3. **script-runner-core.ts 续跑帧内部（~22 臂）**：需手工 `AutoCommandFrame` 续跑 fixture
    （resume frames 带 control phase），属 checkpoint/continuation 专项。
+3b. **entity-motion.ts 求解器臂（~41 臂）**：sideCandidate 符号臂/持杖候选/求解器让位与
+   预约臂——探针实证「party 正面撞静止 NPC 的首次规划被拒（reason=actor）」，侧踏接受需
+   按运行时 side-stick 重试纪律构造多拍场景，属运动专项续卡。
 4. **其余 reforge 文件（dither/audio/save codec/menu 等，~160 臂）**：不在本卡合同四域，
    归后续通用覆盖轮。
 
 ## 验证
 
-- 定向：8 个新文件 108/108 绿。
-- 全量：fast 全量 325 文件/8677 测试全绿（基线复现 317 文件/8569 全绿）。
+- 定向：8 个新文件 113/113 绿。
+- 全量：fast 全量 325 文件/8682 测试全绿（基线复现 317 文件/8569 全绿）。
 - typecheck：零错误。lint：全仓 3145 文件零诊断 PASS。docs：PASS。
 - 反控：9/9（含 vacuous 零匹配硬防）；四 hash 对账 + 工作树快照零残留。
 - diff：产品文件零改动（`git status` 仅本卡测试/脚本/证据/文档）。

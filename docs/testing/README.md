@@ -17,7 +17,6 @@
 上级：[文档总入口](../README.md)。
 
 - [九批收窄返工独立接收](glm-nine-final-review.md)、[机账](glm-nine-final-evidence.json)与[PNG宿主尺寸见证](import-codec-png-host-review.mjs)（八批256116ee三席齐、已done归档，check7709/严格fast7220为既有证据；TB03另排）
-- [coverage85 reforge 分支合同第一轮证据](coverage85-glm-reforge-r1-evidence.md)（TEST-COVERAGE85-GLM-REFORGE-1：121定向测试/+128分支闭合/9三态反控/20条不可达账；待Codex验收）
 
 ## 文档与附件
 

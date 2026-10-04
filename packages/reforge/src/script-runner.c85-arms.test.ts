@@ -617,3 +617,26 @@ test('脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自
   expect(log).toEqual([['setEntityAuto', ['e9', stages]]])
   expect(world.sceneScriptOverrides).toEqual({ 's-fresh': { onEnter: enterStages } })
 })
+
+test('后台失败静默臂:未取消 runner 收到 AbortError 型拒绝同样静默不上报', async () => {
+  const log: Call[] = []
+  const host = recordingHost(log, {
+    playEntityAction: () => Promise.reject(new DOMException('外部中止', 'AbortError')),
+  })
+  const r = newRunner(host)
+  await r.run([
+    { kind: 'playEntityAction', entity: 'npc-a', sprite: 'walker', action: 'spin', loop: true },
+  ])
+  await new Promise<void>((resolve) => {
+    setTimeout(resolve, 0)
+  })
+  expect(log.filter(([name]) => name === 'report')).toEqual([])
+})
+
+test('场景覆写 stages 臂:setSceneOnTeleport 内联段落到全新场景槽', async () => {
+  const world = emptyProjectedWorldScriptState()
+  const r = newRunner(recordingHost([]), world)
+  const stages: ScriptStage[] = [{ body: [{ kind: 'clearDialog' }] }]
+  await r.run([{ kind: 'setSceneOnTeleport', scene: 's-fresh-tp', stages }])
+  expect(world.sceneScriptOverrides).toEqual({ 's-fresh-tp': { onTeleport: stages } })
+})
