@@ -1,0 +1,41 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-asset-lifecycle/packages/editor
+
+ ❯ src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx (5 tests | 1 failed | 4 skipped) 272ms
+     ↓ 同 AssetId 替换：revision 变化令旧 URL 回收、新 URL 重建，卸载回收最终 URL
+     ↓ 在途 stale：读取未完成即切走，迟到的旧读取不建 URL、不串显
+     ↓ 失败后恢复：读取失败只显错误芯片；同 id 真实 upsert 后错误态恢复为图片
+     × 带色盘：真实重染为项目标准色像素；无色盘：透传原始索引字节 271ms
+     ↓ 索引违例与尺寸违例：精确拒绝文案且不产生 object URL
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  22:15:56
+   Duration  2.81s (transform 1.67s, setup 0ms, import 2.06s, tests 272ms, environment 388ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx > 战场背景缩略图项目标准色合同 > 带色盘：真实重染为项目标准色像素；无色盘：透传原始索引字节
+AssertionError: expected [ +0, +0, +0, 255 ] to deeply equal [ 255, +0, +0, 255 ]
+
+- Expected
++ Received
+
+  [
+-   255,
++   0,
+    0,
+    0,
+    255,
+  ]
+
+ ❯ src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx:501:22
+    499|       pixels[(y * 320 + x) * 4 + 3]!,
+    500|     ]
+    501|     expect(at(0, 0)).toEqual([255, 0, 0, 255])
+       |                      ^
+    502|     expect(at(0, 199)).toEqual([255, 0, 0, 255])
+    503|     expect(at(319, 0)).toEqual([0, 255, 0, 255])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

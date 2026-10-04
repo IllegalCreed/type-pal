@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-asset-lifecycle/packages/editor
+
+ ❯ src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx (2 tests | 1 failed | 1 skipped) 63ms
+     ↓ 音乐/音效检查器缺失焦点：缺失面板不跳资源，焦点恢复后选择重建，全程零命令
+     × 过场检查器异类焦点回落首项视频；焦点切到合法视频后选择跟随，零命令 62ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  22:16:11
+   Duration  2.69s (transform 1.67s, setup 0ms, import 2.04s, tests 63ms, environment 473ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx > 检查器 Tab 家族资源选择回落残余合同 > 过场检查器异类焦点回落首项视频；焦点切到合法视频后选择跟随，零命令
+AssertionError: expected undefined to be '测试视频' // Object.is equality
+
+- Expected:
+"测试视频"
+
++ Received:
+undefined
+
+ ❯ src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx:238:71
+    236|     // 异类焦点（存在但不是视频/帧动画）：回落到首个视频，不崩溃、不显示缺失 id。
+    237|     await renderCutscene('portrait.test')
+    238|     expect(host.querySelector('.ds-object-hero__title')?.textContent).…
+       |                                                                       ^
+    239|     expect(host.textContent).not.toContain('portrait.test')
+    240|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

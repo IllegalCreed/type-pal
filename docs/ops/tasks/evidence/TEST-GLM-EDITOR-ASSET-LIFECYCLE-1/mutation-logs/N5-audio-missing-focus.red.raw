@@ -1,0 +1,133 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-asset-lifecycle/packages/editor
+
+ ❯ src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx (2 tests | 1 failed | 1 skipped) 127ms
+     × 音乐/音效检查器缺失焦点：缺失面板不跳资源，焦点恢复后选择重建，全程零命令 126ms
+     ↓ 过场检查器异类焦点回落首项视频；焦点切到合法视频后选择跟随，零命令
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  22:16:03
+   Duration  2.87s (transform 1.83s, setup 0ms, import 2.24s, tests 127ms, environment 390ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx > 检查器 Tab 家族资源选择回落残余合同 > 音乐/音效检查器缺失焦点：缺失面板不跳资源，焦点恢复后选择重建，全程零命令
+AssertionError: expected <header …(2)>…(2)</header> to be null
+
+- Expected:
+null
+
++ Received:
+<header
+  class="ds-object-hero media-asset-hero audio-asset-hero"
+  data-has-media="false"
+>
+  <div
+    class="ds-object-hero__body"
+  >
+    <p
+      class="ds-object-hero__eyebrow"
+    >
+      音乐
+    </p>
+    <h1
+      class="ds-object-hero__title"
+    >
+      测试音乐
+    </h1>
+    <code
+      class="ds-object-hero__id"
+    >
+      music.test
+    </code>
+    <p
+      class="ds-object-hero__summary"
+    >
+      assets/authored/music/11111111.mid
+    </p>
+  </div>
+  <div
+    class="ds-object-hero__aside"
+  >
+    <div
+      class="ds-object-hero__meta"
+    >
+      <span
+        class="ds-tag ds-tag--neutral"
+      >
+        MIDI
+      </span>
+      <span
+        class="ds-tag ds-tag--neutral"
+      >
+        0
+         处引用
+      </span>
+    </div>
+    <div
+      class="ds-object-hero__actions"
+    >
+      <button
+        class="ds-button ds-button--secondary ds-button--compact"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="ds-icon"
+          focusable="false"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8 11V3"
+          />
+          <path
+            d="m4.5 6.5 3.5-3.5 3.5 3.5"
+          />
+          <path
+            d="M3 10v3h10v-3"
+          />
+        </svg>
+        <span>
+          替换
+        </span>
+      </button>
+      <button
+        class="ds-button ds-button--danger ds-button--compact"
+        title="删除当前音乐"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="ds-icon"
+          focusable="false"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M3 4h10"
+          />
+          <path
+            d="m6 2h4l1 2H5l1-2Z"
+          />
+          <path
+            d="m5 6 .5 7h5L11 6"
+          />
+        </svg>
+        <span>
+          删除
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+ ❯ src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx:173:51
+    171|     expect(missingPanel?.textContent).toContain('不会跳到其他资源')
+    172|     // 不跳到其他资源：缺失焦点下不渲染任何资源 hero。
+    173|     expect(host.querySelector('.ds-object-hero')).toBeNull()
+       |                                                   ^
+    174|
+    175|     // 焦点恢复：缺失面板消失、hero 重建。播放器自身的解码提示与本合同无关，不约束。
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
