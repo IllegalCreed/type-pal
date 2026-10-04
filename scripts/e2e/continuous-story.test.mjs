@@ -3,7 +3,10 @@ import test from 'node:test'
 import {
   CONTINUOUS_STORY_FRAGMENTS,
   DualTrackBarrier,
+  continuousFragmentContext,
+  continuousStoryActions,
   continuousStoryPlan,
+  runContinuousStory,
 } from './continuous-story.mjs'
 
 const report = (fragment) => ({ fragment, status: 'passed', case: 'story' })
@@ -49,4 +52,54 @@ test('dual-track barrier waits for both engines and detaches payloads', async ()
   assert.deepEqual(a, b)
   assert.notEqual(a.game, undefined)
   await assert.rejects(() => barrier.arrive('game', '002', 'trio-hidden', {}), /duplicate/)
+})
+
+test('continuous runner passes one in-memory boundary and disables fragment save/load', async () => {
+  const seen = { game: [], reforge: [] },
+    handlers = { game: {}, reforge: {} }
+  for (const fragment of CONTINUOUS_STORY_FRAGMENTS)
+    for (const engine of ['game', 'reforge'])
+      handlers[engine][fragment.id] = async (context) => {
+        assert.deepEqual(context.boundary, { load: false, save: false })
+        assert.equal(context.mode, 'continuous')
+        seen[engine].push(fragment.id)
+      }
+  const receipt = await runContinuousStory({
+    sessions: { game: {}, reforge: {} },
+    handlers,
+    report: { game: {}, reforge: {} },
+  })
+  assert.deepEqual(seen.game, ['001', '002', '003', '004', '005', '006'])
+  assert.equal(receipt.receipts.length, 6)
+  assert.equal(
+    continuousFragmentContext({
+      engine: 'game',
+      fragment: CONTINUOUS_STORY_FRAGMENTS[0],
+      barrier: new DualTrackBarrier(),
+    }).boundary.save,
+    false,
+  )
+})
+
+test('continuous action extraction removes every fragment boundary I/O', () => {
+  const actions = continuousStoryActions({
+    fragment: '002',
+    case: 'story',
+    actions: [
+      { key: 'Enter', reason: 'load actual slot1' },
+      { key: 'ArrowLeft', kind: 'down', reason: 'normal held route' },
+      { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary' },
+      { key: 'F5', reason: 'formal quick-save' },
+      { key: 'Enter', reason: 'normal full-dialogue confirmation' },
+    ],
+  })
+  assert.deepEqual(actions, [
+    { key: 'ArrowLeft', kind: 'down', reason: 'normal held route' },
+    { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary' },
+    { key: 'Enter', kind: 'press', reason: 'normal full-dialogue confirmation' },
+  ])
+  assert.throws(
+    () => continuousStoryActions({ fragment: '002', case: 'items', actions: [] }),
+    /story only/,
+  )
 })
