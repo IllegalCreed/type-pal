@@ -934,4 +934,19 @@ await writeFile(
   path.join(evidenceDir, 'c85-family-ledger.json'),
   `${JSON.stringify(doc, null, 2)}\n`,
 )
+// 以仓库格式化器(biome)为唯一定稿者:单元素数组折叠等格式由 biome 决定,
+// 保证再生成与提交 JSON 逐字节一致
+const formatted = spawnSync(
+  'node',
+  [
+    path.join(repoRoot, 'node_modules', '@biomejs', 'biome', 'bin', 'biome'),
+    'format',
+    '--write',
+    path.join(evidenceDir, 'c85-family-ledger.json'),
+  ],
+  { cwd: repoRoot, encoding: 'utf8', timeout: 60_000 },
+)
+if (formatted.status !== 0) {
+  throw new Error(`biome format 失败: ${(formatted.stderr ?? '').slice(-300)}`)
+}
 console.log(`family ledger: ${entries.length} entries across ${ledger.length} files`)
