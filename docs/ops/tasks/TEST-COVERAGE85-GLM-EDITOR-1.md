@@ -48,8 +48,8 @@ Capability: test-quality / coverage branch closure
 
 ## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
 
-**门禁状态如实申报（r2 返工后终测）：editor branch 23865→24167（82.13%→83.16%，+302
-edges），未达 85%，不以 85% 冒交。**
+**门禁状态如实申报（r3 终测，基点 ea1fddb8c=origin/main 最新）：editor branch
+23865→24175（82.13%→83.19%，+310 edges），未达 85%，不以 85% 冒交。**
 剩余缺口不构成不可达证明：其中 508 个是 v8 branchMap `locations` 为空的合成计数
 （无源码位置、无法定向触发；cov-base 与 cov-final 两次实测口径一致，见
 `branch-census.json` 的 locless 字段）——该数字只说明缺口构成，**不作为 unreachable
@@ -148,6 +148,34 @@ hash 满足 original==restored≠mutant、产品文件零残留：
    AssertionError/三态 sha256/逐文件 git-clean 齐备，五注入点复验全 OK。
 4. locless 只作缺口构成说明，不作 unreachable proof（census note 字段 + 卡面声明）。
 5. 未改产品/旧测试/baseline/共享配置；改动仅限本卡 7 个测试文件与证据目录。
+
+### r3 交付记录（GLM，2026-10-04，基点重置为 origin/main 最新 ea1fddb8c）
+
+r2 内容（87 测试/类型安全/act 修复/反控证据）已在 main，未重复。本轮新增：
+
+- **T1 MapMode**（`MapMode.cov85.test.tsx` 5 例，全真值装配：loadLegalUiProject 真实
+  maps/scene/assetBase/assetReader，scene-stage 仅隔离绘制层；pointer-capture/rect 均按
+  旧测同款端口补齐）：
+  - C1 单选格→Delete 恰好清空一格瓦片（floorSnapshot 差集=1）并 undo 恢复（session
+    序列化 oracle，MapMode.tsx:2765→1618-1626）。
+  - C2 Escape 清选区后 Delete 零提交零历史。
+  - C3 无选区时右键菜单 移动/重复 禁用（按钮级门禁；notice 守卫 1686-1688/1860-1862
+    为防御层登记 existing-proof）。
+  - C4 有选区右键菜单 ArrowDown/Home 键盘导航（2594-2622，焦点经 复制→剪切→回复制）。
+  - C5 工具状态行：平移↔选择切换（2777-2801 toolbarHint）。
+- **T3 PreviewCanvas**（`PreviewCanvas.cov85.test.tsx` 2 例，真实 node-canvas 像素）：
+  - P1 瓦片集字节被真实 reader 拒绝 → err 文本回显 + 失败态不排帧（画布 opaque=0）。
+  - P2 失败→健康 source 重挂 → 就绪 + rAF 后真实不透明像素>100（缺失/恢复完整翻转）。
+  去重 c06-g01（像素/空白）与 glm-next-wave F02a（mock status）；本文件差异轴=真实
+  reader 拒绝驱动 + 恢复路径。
+- **T2 ScriptEditor 插入菜单 / T4 中型页补合同**：本轮预算内未完成，未写半成品；列为
+  r4 首选（插入菜单 fallbackInsertionChoice 族 → ProjectWorkbenchTab/ActorMode/
+  CutsceneTab 表单残臂）。
+- **反控**：run-mutations.mjs 扩至 7 注入点（新增 INJ-6 MapMode Delete 选区门、INJ-7
+  scene-stage err 回显），raw stdout/stderr 全量落盘（不再截断），执行集合仍显式排除
+  skipped/pending；七点全部 原始绿→变异红→恢复绿 + 三态 hash + 清理证明。
+- **终测**：全套 4689/4689；新增 9 文件 89 例（86+r2 保留 +3：MapMode 5+Preview 2
+  − finishStep 已删计入 86 基数）；branch 24175/29058=83.19%（+310）。
 
 ### 下一棒建议（r2）
 

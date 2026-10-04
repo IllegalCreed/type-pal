@@ -1,12 +1,12 @@
 {
-  "suite": "editor fast (official coverage args, r2 rework run 2026-10-04)",
-  "totalTests": 4687,
-  "passed": 4687,
+  "suite": "editor fast (official coverage args, r3 run 2026-10-04, base ea1fddb8c)",
+  "totalTests": 4689,
+  "passed": 4689,
   "failed": 0,
-  "newFiles": 7,
-  "newTests": 87,
+  "newFiles": 9,
+  "newTests": 89,
   "allNewPassed": true,
-  "sha256": "acb83572a0259d56cd773d25aea654ed64c5e37ee0e2e2908919dbc09a206aab",
+  "sha256": "450a09a94d70b727d63e9cee90f6c47312b02b5503ad1bb85dce2248e11f04ef",
   "cases": [
     {
       "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
@@ -130,6 +130,11 @@
     },
     {
       "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+      "fullName": "cov85-sampler finishStep complete 终止整场：未截断的代表性路径",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
       "fullName": "cov85-sampler repeat 内 breakLoop 立即中断，只留首帧",
       "status": "passed"
     },
@@ -249,6 +254,41 @@
       "status": "passed"
     },
     {
+      "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
+      "fullName": "cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
+      "fullName": "cov85-map C2 Escape 清选区后 Delete 零提交",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
+      "fullName": "cov85-map C3 无选区时移动/重复菜单项禁用（按钮级门禁），地图零变化",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
+      "fullName": "cov85-map C4 有选区时右键菜单键盘 Home/End 导航",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
+      "fullName": "cov85-map C5 工具状态行：默认平移，切选择后活动层选择",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/PreviewCanvas.cov85.test.tsx",
+      "fullName": "cov85-preview P1 瓦片集字节被真实拒绝 → 资产读取失败回显资源路径",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/PreviewCanvas.cov85.test.tsx",
+      "fullName": "cov85-preview P2 失败后换健康 source 重挂 → 就绪且主画布真实不透明像素",
+      "status": "passed"
+    },
+    {
       "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
       "fullName": "cov85-script '当前场景' 条件切换提交缺省条件体且保留两臂",
       "status": "passed"
@@ -316,36 +356,6 @@
     {
       "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
       "fullName": "cov85-script 命令行呈现：'stepEntity 走一步' 渲染业务标签",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
-      "fullName": "cov85-script selectSceneHooks 行明细：use/禁用/恢复继承逐槽拼接",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
-      "fullName": "cov85-script 无目标变体呈现：releaseEntity 无 target、startBattle 裸命令、callScript 无自身",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
-      "fullName": "cov85-script 呈现变体：'startBattle 裸命令'",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
-      "fullName": "cov85-script 呈现变体：'callScript 无自身实体'",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
-      "fullName": "cov85-script 呈现变体：'setEntityTriggerActivation 继承'",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
-      "fullName": "cov85-script 呈现变体：'mountParty 无偏移'",
       "status": "passed"
     },
     {

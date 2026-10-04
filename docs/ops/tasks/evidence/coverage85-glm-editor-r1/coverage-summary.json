@@ -2,27 +2,27 @@
   "total": {
     "lines": {
       "total": 29284,
-      "covered": 26984,
+      "covered": 26992,
       "skipped": 0,
-      "pct": 92.14
+      "pct": 92.17
     },
     "statements": {
       "total": 33513,
-      "covered": 30146,
+      "covered": 30154,
       "skipped": 0,
-      "pct": 89.95
+      "pct": 89.97
     },
     "functions": {
       "total": 8543,
-      "covered": 7632,
+      "covered": 7633,
       "skipped": 0,
-      "pct": 89.33
+      "pct": 89.34
     },
     "branches": {
       "total": 29058,
-      "covered": 24167,
+      "covered": 24175,
       "skipped": 0,
-      "pct": 83.16
+      "pct": 83.19
     },
     "branchesTrue": {
       "total": 0,
@@ -3458,9 +3458,9 @@
     },
     "branches": {
       "total": 1212,
-      "covered": 869,
+      "covered": 870,
       "skipped": 0,
-      "pct": 71.69
+      "pct": 71.78
     }
   },
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AudioAssetWorkbench.tsx": {
@@ -4584,27 +4584,27 @@
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapMode.tsx": {
     "lines": {
       "total": 1290,
-      "covered": 1068,
+      "covered": 1076,
       "skipped": 0,
-      "pct": 82.79
+      "pct": 83.41
     },
     "functions": {
       "total": 223,
-      "covered": 186,
+      "covered": 187,
       "skipped": 0,
-      "pct": 83.4
+      "pct": 83.85
     },
     "statements": {
       "total": 1467,
-      "covered": 1152,
+      "covered": 1160,
       "skipped": 0,
-      "pct": 78.52
+      "pct": 79.07
     },
     "branches": {
       "total": 1411,
-      "covered": 1011,
+      "covered": 1021,
       "skipped": 0,
-      "pct": 71.65
+      "pct": 72.36
     }
   },
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapSelectionInspector.tsx": {
@@ -5122,9 +5122,9 @@
     },
     "branches": {
       "total": 1283,
-      "covered": 1015,
+      "covered": 1012,
       "skipped": 0,
-      "pct": 79.11
+      "pct": 78.87
     }
   },
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptSceneHookInspector.tsx": {

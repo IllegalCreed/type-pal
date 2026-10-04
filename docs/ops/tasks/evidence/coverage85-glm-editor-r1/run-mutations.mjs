@@ -76,6 +76,24 @@ const INJECTIONS = [
     businessClaim: '敌方分支效果类型选项数 = ENEMY_RUNTIME_SKILL_EFFECT_KINDS 白名单长度',
   },
   {
+    id: 'INJ-6',
+    file: 'src/ui/MapMode.tsx',
+    anchor: "if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind !== 'none') {",
+    mutant: "if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind === 'never-delete') {",
+    testFile: 'src/ui/MapMode.cov85.test.tsx',
+    testName: 'C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复',
+    businessClaim: 'select 工具单选产生 cells 选区，Delete 必须触发 deleteMapSelection 提交',
+  },
+  {
+    id: 'INJ-7',
+    file: 'src/ui/scene-stage.ts',
+    anchor: "setErr(e instanceof Error ? e.message : String(e))",
+    mutant: "setErr('')",
+    testFile: 'src/ui/PreviewCanvas.cov85.test.tsx',
+    testName: 'P1 瓦片集字节被真实拒绝 → 资产读取失败回显资源路径',
+    businessClaim: '资产读取异常必须以 err 文本回显（清空 err 将丢失失败可见性）',
+  },
+  {
     id: 'INJ-5',
     file: 'src/ui/App.tsx',
     anchor: '                              : 15,\n',
@@ -151,8 +169,8 @@ for (const injection of INJECTIONS) {
       skippedExcluded: skipped,
       passed,
       failures,
-      rawStdoutExcerpt: (result.stdout ?? '').slice(0, 4000),
-      rawStderrExcerpt: (result.stderr ?? '').slice(0, 2000),
+      rawStdout: result.stdout ?? '',
+      rawStderr: result.stderr ?? '',
     }
     return { exitCode: result.exitCode, failures, passed }
   }
