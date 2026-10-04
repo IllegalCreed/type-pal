@@ -114,17 +114,20 @@ function parseIdentity(proc) {
   } catch {
     throw new Error('vitest json 输出不可解析')
   }
+  // executedSet = passed ∪ failed(真实执行);skippedSet = skipped/todo(未执行)。
   const executed = []
+  const failed = []
   const skipped = []
   for (const suite of parsed.testResults ?? []) {
     for (const tc of suite.assertionResults ?? []) {
       const row = { file: suite.name, fullName: tc.fullName, status: tc.status }
       if (tc.status === 'passed') executed.push(row)
+      else if (tc.status === 'failed') failed.push(row)
       else skipped.push(row)
     }
   }
   if (!parsed.numTotalTests) throw new Error('vacuous 运行:零测试被收集/执行')
-  return { executed, skipped, parsed }
+  return { executed, failed, skipped, parsed }
 }
 
 let here = null
@@ -172,6 +175,7 @@ try {
         signal: proc.signal,
         hash: sha256(Buffer.from(source, 'utf8')),
         executed: identity.executed,
+        failed: identity.failed,
         skipped: identity.skipped,
         numTotalTests: identity.parsed.numTotalTests,
         stdoutPath: `${base}.stdout`,
@@ -260,6 +264,7 @@ try {
         signal: r.mutant.signal,
         hash: r.mutant.hash,
         executed: r.mutant.executed,
+        failed: r.mutant.failed,
         skipped: r.mutant.skipped,
         stdoutPath: r.mutant.stdoutPath,
         stderrPath: r.mutant.stderrPath,
