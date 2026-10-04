@@ -1,6 +1,6 @@
 # CODE-QUALITY-3l - game battle present 逐文件治理
 
-Status: build
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -46,7 +46,7 @@ Base: `c740b4a48`
 - 贡献者交付/自验：Codex；定向 14 files/179 tests、game 全包 3400、typecheck 通过；未改实现。
 - Codex 独立验收：accept（七个生产文件逐段读取、primary source/caller/测试证据完整；未发现直接缺陷；全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断通过）。
 - 用户产品裁决/体验验收：N/A（不改 UI 形态/玩法）。
-- done 准入：blocked，待提交推送和独立工作树核对；本卡只关闭七个 battle-present 文件，不代表 battle core/menu/dialog 或全仓治理完成。
+- done 准入：Codex done allowed；提交 `b0c171c28` 已推送，独立 diff/status 核对通过；本卡只关闭七个 battle-present 文件，不代表 battle core/menu/dialog 或全仓治理完成。
 
 ## 交接日志
 
