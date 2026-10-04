@@ -1,6 +1,8 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-own
 
+ ✓ packages/reforge/src/audio/midi-preview.test.ts (8 tests) 93ms
+ ✓ packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx (4 tests) 119ms
 stderr | packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx > ProjectAudioPreviewButton 三态剩余合同 > replays from idle after the transport reports a paused snapshot
 An update to ProjectAudioPreviewButton inside a test was not wrapped in act(...).
 
@@ -13,132 +15,8 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx (2 tests) 188ms
- ✓ packages/editor/src/ui/SoundTab.test.ts (3 tests) 204ms
-stderr | packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx > U3c AudioAssetWorkbench 残差 > WAV 导入真实提交：sound.authored id/record/blob/选择与 onObjectFocus
-An update to Harness inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetWorkbench inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to DsVirtualList inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to DsVirtualList inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to DsDraftTextInput inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx > U3c AudioAssetWorkbench 残差 > WAV 导入真实提交：sound.authored id/record/blob/选择与 onObjectFocus
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
+ ✓ packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx (2 tests) 93ms
+ ✓ packages/editor/src/ui/SoundTab.test.ts (3 tests) 124ms
 stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 空目录接线 + 真实 .mid 导入入库 + 真实解析时间轴 + undo/redo + 无硬件端口播放降级
 An update to Harness inside a test was not wrapped in act(...).
 
@@ -221,28 +99,6 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx > U3c AudioAssetWorkbench 残差 > WAV 导入真实提交：sound.authored id/record/blob/选择与 onObjectFocus
-An update to DsFloatingLayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to DsFloatingLayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
 stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 空目录接线 + 真实 .mid 导入入库 + 真实解析时间轴 + undo/redo + 无硬件端口播放降级
 An update to DsFloatingLayer inside a test was not wrapped in act(...).
 
@@ -265,18 +121,8 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/MusicTab.test.tsx > MusicTab catalog controls > filters music rows, updates the filtered count, and keeps the import action
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+stderr | packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx > U3c AudioAssetWorkbench 残差 > 替换：同 id 提交并保留旧 label，undo 还原旧字节
+An update to Harness inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
 
@@ -310,18 +156,6 @@ act(() => {
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
 stderr | packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx > U3c AudioAssetWorkbench 残差 > 替换：同 id 提交并保留旧 label，undo 还原旧字节
-An update to Harness inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx > U3c AudioAssetWorkbench 残差 > 替换：同 id 提交并保留旧 label，undo 还原旧字节
 An update to DsDraftTextInput inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -469,10 +303,125 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/MusicTab.test.tsx (1 test) 375ms
-     ✓ filters music rows, updates the filtered count, and keeps the import action  373ms
- ✓ packages/editor/src/ui/AudioAssetWorkbench.test.tsx (3 tests) 370ms
- ✓ packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx (2 tests) 434ms
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.test.tsx (3 tests) 255ms
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx (2 tests) 261ms
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-03 真实 WAV 导入后 catalog 含 sound.authored id
+An update to Shell inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetWorkbench inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-03 真实 WAV 导入后 catalog 含 sound.authored id
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-03 真实 WAV 导入后 catalog 含 sound.authored id
+An update to DsFloatingLayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsFloatingLayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ packages/editor/src/core/audio-preview.test.ts (7 tests) 28ms
 stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全
 An update to Harness inside a test was not wrapped in act(...).
 
@@ -609,8 +558,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/core/audio-preview.test.ts (7 tests) 17ms
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-04 WAV 导入后时间轴显示 PCM 波形标签
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
 An update to Shell inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -672,7 +620,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-04 WAV 导入后时间轴显示 PCM 波形标签
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
 An update to AudioAssetPlayer inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -704,7 +652,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-04 WAV 导入后时间轴显示 PCM 波形标签
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
 An update to DsFloatingLayer inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -726,8 +674,196 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/reforge/src/audio/midi-preview.test.ts (8 tests) 156ms
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-05 同字节 WAV 再导入覆盖稳定 sound.authored id
+stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetWorkbench inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsVirtualList inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsVirtualList inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftTextInput inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetWorkbench inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts (10 tests) 3ms
+stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 MusicTab 真实 wrapper 策略连接 > 同字节重复导入分配 -2 后缀 id；非法扩展名与坏魔数零提交且选择保全
+An update to DsFloatingLayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsFloatingLayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源
 An update to Shell inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -789,39 +925,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-05 同字节 WAV 再导入覆盖稳定 sound.authored id
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-05 同字节 WAV 再导入覆盖稳定 sound.authored id
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源
 An update to DsFloatingLayer inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -957,7 +1061,61 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to AudioAssetPlayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 SoundTab 真实 wrapper 与 WAV transport 所有权 > 真实 .wav 导入经硬件端口真实解码出 PCM 峰值；同字节再导入覆盖稳定 id
+An update to DsFloatingLayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsFloatingLayer inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-09 替换 WAV 走 Upsert 且保留同一 id
 An update to Shell inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -1019,7 +1177,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-09 替换 WAV 走 Upsert 且保留同一 id
 An update to AudioAssetPlayer inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -1051,29 +1209,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx > K07 SoundTab 真实 wrapper 与 WAV transport 所有权 > 真实 .wav 导入经硬件端口真实解码出 PCM 峰值；同字节再导入覆盖稳定 id
-An update to DsFloatingLayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to DsFloatingLayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
+stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-09 替换 WAV 走 Upsert 且保留同一 id
 An update to DsFloatingLayer inside a test was not wrapped in act(...).
 
 When testing, code that causes React state updates should be wrapped into act(...):
@@ -1127,144 +1263,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-06 播放按钮触发 AudioContext resume
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源
-An update to Shell inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetWorkbench inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源
-An update to DsFloatingLayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to DsFloatingLayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
-stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-08 MusicTab 导入真实 MIDI 增加 music 资源
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-An update to AudioAssetPlayer inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
-
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx (10 tests) 616ms
 stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-09 替换 WAV 走 Upsert 且保留同一 id
 An update to Shell inside a test was not wrapped in act(...).
 
@@ -1277,7 +1276,6 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx (10 tests) 1332ms
 stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-09 替换 WAV 走 Upsert 且保留同一 id
 An update to DsDraftTextInput inside a test was not wrapped in act(...).
 
@@ -1384,7 +1382,7 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx (10 tests) 1458ms
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx (10 tests) 692ms
 stderr | packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx > C09-G07 真实 wrapper 导入与试听 > C09-G07-10 导入两条音效后切选写入 onObjectFocus
 An update to Shell inside a test was not wrapped in act(...).
 
@@ -1531,13 +1529,8 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx (10 tests) 1457ms
- ✓ packages/editor/src/core/audio-preview-session.c09-g02.cursor-r1.test.ts (10 tests) 6ms
  ✓ packages/editor/src/core/audio-preview-session.test.ts (1 test) 3ms
- ✓ packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx (8 tests) 1944ms
-     ✓ 空目录接线 + 真实 .mid 导入入库 + 真实解析时间轴 + undo/redo + 无硬件端口播放降级  507ms
-     ✓ 真实 .wav 导入经硬件端口真实解码出 PCM 峰值；同字节再导入覆盖稳定 id  360ms
-     ✓ 播放中切选停止旧源但不销毁 transport；卸载 dispose 关闭硬件端口  336ms
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx (10 tests) 749ms
 stderr | packages/editor/src/ui/ProjectWorkbenchTab.test.tsx > 入口开局世界资源 > [add-picker:project/startup-party] 队伍确认添加、排序和移出各自保持单命令边界
 An update to DsTooltip inside a test was not wrapped in act(...).
 
@@ -1550,7 +1543,9 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/SoundPicker.test.ts (2 tests) 10ms
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx (8 tests) 1044ms
+     ✓ 空目录接线 + 真实 .mid 导入入库 + 真实解析时间轴 + undo/redo + 无硬件端口播放降级  423ms
+ ✓ packages/editor/src/ui/SoundPicker.test.ts (2 tests) 4ms
 stderr | packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx > 项目资源原位试听 > React 严格模式的 effect 演练不会提前销毁 transport
 An update to ProjectAudioPreviewButton inside a test was not wrapped in act(...).
 
@@ -1575,25 +1570,22 @@ act(() => {
 
 This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
 
- ✓ packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx (4 tests) 90ms
+stderr | packages/editor/src/ui/MusicPicker.test.tsx > 音乐选择器的全局试听 ownership > 音乐试听会接管现有 owner，并在资源工作台接管时停止
+The current testing environment is not configured to support act(...)
+
+ ✓ packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx (4 tests) 58ms
 stderr | packages/editor/src/ui/MusicPicker.test.tsx > 音乐选择器的全局试听 ownership > 音乐试听会接管现有 owner，并在资源工作台接管时停止
 The current testing environment is not configured to support act(...)
 
 stderr | packages/editor/src/ui/MusicPicker.test.tsx > 音乐选择器的全局试听 ownership > 音乐试听会接管现有 owner，并在资源工作台接管时停止
 The current testing environment is not configured to support act(...)
 
-stderr | packages/editor/src/ui/MusicPicker.test.tsx > 音乐选择器的全局试听 ownership > 音乐试听会接管现有 owner，并在资源工作台接管时停止
-The current testing environment is not configured to support act(...)
-
- ✓ packages/editor/src/ui/MusicPicker.test.tsx (1 test) 48ms
- ✓ packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx (4 tests) 147ms
- ✓ packages/editor/src/ui/ProjectWorkbenchTab.test.tsx (46 tests) 2977ms
-     ✓ 主面板可分批加载、显示全部和收起  381ms
-     ✓ 新增入口深拷当前入口，直接启动项与最后一项删除受不变式保护  326ms
+ ✓ packages/editor/src/ui/MusicPicker.test.tsx (1 test) 34ms
+ ✓ packages/editor/src/ui/ProjectWorkbenchTab.test.tsx (46 tests) 1567ms
  ✓ packages/editor/src/ui/MusicTab.c09-g03.cursor-r1.test.ts (10 tests) 5ms
- ✓ packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts (10 tests) 7ms
+ ✓ packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts (10 tests) 5ms
 
- Test Files  20 passed (20)
-      Tests  152 passed (152)
-   Start at  01:06:36
-   Duration  8.89s (transform 29.06s, setup 0ms, import 44.48s, tests 11.23s, environment 17.39s)
+ Test Files  19 passed (19)
+      Tests  151 passed (151)
+   Start at  01:35:50
+   Duration  5.06s (transform 16.03s, setup 0ms, import 23.75s, tests 5.75s, environment 9.64s)

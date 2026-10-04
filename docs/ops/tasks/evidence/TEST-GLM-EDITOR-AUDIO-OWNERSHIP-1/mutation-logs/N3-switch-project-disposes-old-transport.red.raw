@@ -1,16 +1,16 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
 
- ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 1 failed | 3 skipped) 114ms
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 1 failed | 3 skipped) 99ms
      ↓ W1 播放中点「停止」：真实源停止、时钟归零、释放所有权、不销毁，再播从 0 起
      ↓ W2 合法导入但深层非 PCM 的 WAV 真实解码失败：「读取失败」+ 错误信息可见
      ↓ W3 载入失败后切选健康资源恢复就绪：错误清除且重新真实解码
-     × W4 播放中换工程：旧源停止、旧 transport 即时销毁、同字节跨工程重新解码、零提交 114ms
+     × W4 播放中换工程：旧源停止、旧 transport 即时销毁、同字节跨工程重新解码、零提交 98ms
 
  Test Files  1 failed (1)
       Tests  1 failed | 3 skipped (4)
-   Start at  01:05:37
-   Duration  2.18s (transform 1.34s, setup 0ms, import 1.66s, tests 114ms, environment 332ms)
+   Start at  01:38:20
+   Duration  2.12s (transform 1.32s, setup 0ms, import 1.61s, tests 99ms, environment 336ms)
 
 
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯

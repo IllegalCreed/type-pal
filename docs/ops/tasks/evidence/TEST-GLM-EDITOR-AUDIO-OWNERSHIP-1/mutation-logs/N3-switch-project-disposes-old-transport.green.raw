@@ -1,9 +1,9 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
 
- ✓ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 3 skipped) 115ms
+ ✓ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 3 skipped) 106ms
 
  Test Files  1 passed (1)
       Tests  1 passed | 3 skipped (4)
-   Start at  01:05:40
-   Duration  2.09s (transform 1.27s, setup 0ms, import 1.56s, tests 115ms, environment 338ms)
+   Start at  01:38:23
+   Duration  1.98s (transform 1.20s, setup 0ms, import 1.47s, tests 106ms, environment 329ms)

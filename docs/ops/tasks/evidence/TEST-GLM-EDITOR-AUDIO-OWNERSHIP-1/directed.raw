@@ -1,10 +1,11 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-own
 
- ✓ packages/editor/src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx (5 tests) 152ms
- ✓ packages/editor/src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests) 219ms
+ ✓ packages/editor/src/ui/MusicTab.test.tsx (1 test) 139ms
+ ✓ packages/editor/src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx (5 tests) 161ms
+ ✓ packages/editor/src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests) 233ms
 
- Test Files  2 passed (2)
-      Tests  9 passed (9)
-   Start at  01:06:20
-   Duration  2.51s (transform 2.79s, setup 0ms, import 3.61s, tests 371ms, environment 798ms)
+ Test Files  3 passed (3)
+      Tests  10 passed (10)
+   Start at  01:39:03
+   Duration  2.43s (transform 3.55s, setup 0ms, import 4.67s, tests 533ms, environment 1.65s)

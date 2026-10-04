@@ -84,6 +84,28 @@ Visual Verification Timing: dev-functional
   未标 done，等待 Codex 独立验收。
   Next: Codex 独立复核排重账、9 例合同、反控证据与质量门后决定收口或返工。
 
+## Review: 返工记录
+
+- 2026-10-05 Codex 返工指令（两门禁）：
+  1. MusicTab.test.tsx 出现 AudioAssetPlayer state update 未包裹 act(...)。
+  2. content-review strict 报 board.md / tasks/index.md after SHA drift。
+- GLM 返工（r1 增量提交，基于 f83ed41e9 的最新 origin/main，无 rebase 需要——origin/main 未前进）：
+  - **MusicTab act 警告**：根因是旧测试用裸 `vi.waitFor` 等待 MIDI 载入链，StrictMode 下两次
+    setState 落在 act 外。修复 = beforeAll 经公开 `analyzeMidiBytes` 预热动态 import
+    （spessasynth_core），渲染 act 内 25 拍微任务冲刷后同步断言；实测「waitFor 包进 act」
+    会死等（与 P3 判例一致），不可用。MusicTab 单文件三连跑 1/1 零警告；定向三文件 10/10
+    零警告。产品代码与既有断言（readBytes 恰一次、过滤计数、导入入口）零改动。
+  - **SHA drift**：根因是 f83ed41e9 开卡提交改写了 board.md / tasks/index.md，而
+    20261004-semantic-current-batch.json 钉的是旧 afterSha256。按 8494b465c 外科判例仅刷
+    两个条目：afterSha256 / revision.implementationSha / evidence.afterSha256 三处同 pin
+    同步 + revision.history 各追加一条 content-review-sha-refresh（2026-10-05），最终 diff
+    18+/6-，未触碰任何其它任务文档（json.dumps 全量重排方案已否决——会重排数百行）。
+  - 全门禁重跑（最终树）：定向 10/10 零警告（directed.raw d689ee9a…）；反控 8 针三态重放
+    全过（counterproof.json 随最终树再生成）；相邻 19 文件 151/151（adjacent.raw 984f98c4…；
+    旧文件自身的 act 警告为 main 既有存量，不在本卡返工范围）；editor typecheck 0 错；
+    `pnpm lint` 0/0/0；`pnpm check:docs` PASS；`check-content-review.mjs --strict` PASS；
+    `git diff --check` PASS。未标 done。
+
 ## 下一位 Agent 提示词
 
 ```text

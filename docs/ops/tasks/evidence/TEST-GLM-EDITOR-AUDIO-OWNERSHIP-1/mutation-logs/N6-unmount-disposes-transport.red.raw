@@ -1,17 +1,17 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
 
- ❯ src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx (5 tests | 1 failed | 4 skipped) 48ms
+ ❯ src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx (5 tests | 1 failed | 4 skipped) 51ms
      ↓ P1 同页相邻按钮用默认真实工厂互相接管：旧真实源停止、旧按钮回 idle、transport 不销毁
      ↓ P2a 绑定值切换：stop 并回 idle、不 dispose、再试听 load 新 asset+cacheKey
      ↓ P2b loading 中换绑定值：旧请求作废（放行后不置 playing、不调 play），再试听新资源成功
-     × P4 播放中卸载：stop 真实源、释放所有权、microtask 后 dispose 硬件端口 47ms
+     × P4 播放中卸载：stop 真实源、释放所有权、microtask 后 dispose 硬件端口 50ms
      ↓ P3 MIDI play 被真实降级拒绝：释放 owner、transport.stop、可读错误、回 idle
 
  Test Files  1 failed (1)
       Tests  1 failed | 4 skipped (5)
-   Start at  01:05:57
-   Duration  2.28s (transform 1.47s, setup 0ms, import 1.80s, tests 48ms, environment 352ms)
+   Start at  01:38:37
+   Duration  2.03s (transform 1.26s, setup 0ms, import 1.55s, tests 51ms, environment 346ms)
 
 
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
