@@ -82,12 +82,12 @@ export function instrumentInnTrace(code, file) {
       try {
         if (!['s001','s003'].includes(activeScene.scene.id)) return;
         const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true}};
-        if (activeScene.scene.id==='s003') for(const id of ['e54','e55','e56','e59','e60','e61','e73','e74']) {
-          const e=activeScene.scene.entities.find(e=>e.id===id); if(!e)throw new Error('missing inn actor '+id);
-          actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden};
-          if (['e54','e55','e73','e74'].includes(id)) Object.assign(actors[id],{
-            state:host.getEntityState(id),frame:worldPresentation.entityFrame(id)??entityActions.frame(id)??0,sprite:Number(e.sprite.slice(7))
-          });
+        for(const e of activeScene.scene.entities) {
+          const id=e.id;
+          actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,
+            state:host.getEntityState(id),frame:worldPresentation.entityFrame(id)??
+              motion.gaitPhase(id)??motion.explicitAnimation(id)??entityActions.frame(id)??0,
+            sprite:e.sprite??e.actor??null};
         }
         globalThis.__innPoint?.(source,{scene:activeScene.scene.id,actors,money:world.money,
           control:!runner&&!dialogBox.active&&!presentation.busy(),

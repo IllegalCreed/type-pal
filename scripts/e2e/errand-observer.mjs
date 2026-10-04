@@ -15,7 +15,8 @@ export function installErrandObserver() {
     instance = 0,
     overflow = false,
     eventBytes = 0,
-    snapshotBytes = 0
+    snapshotBytes = 0,
+    control
   const encoder = new TextEncoder()
   const append = (list, value, limit = 16000) => {
     if (list.length >= limit) {
@@ -68,6 +69,16 @@ export function installErrandObserver() {
           })
           prior.set(key, structuredClone(actor))
         }
+      }
+      if (control !== state.control) {
+        append(events, {
+          kind: 'control',
+          scene: state.scene,
+          source,
+          before: control ?? null,
+          state: state.control,
+        })
+        control = state.control
       }
       const progress = { money: state.money, persistent: state.persistent, hooks: state.hooks }
       if (JSON.stringify(prior.get('progress')) !== JSON.stringify(progress)) {
@@ -139,11 +150,7 @@ export function installErrandObserver() {
             visible: true,
             walking: gs.walkingFrame.walking,
           },
-          ...Object.fromEntries(
-            gs.npcs
-              .filter((e) => [19, 62, 83, 84, 123, 124, 127].includes(e.id))
-              .map((e) => [`e${e.id}`, actor(e)]),
-          ),
+          ...Object.fromEntries(gs.npcs.map((e) => [`e${e.id}`, actor(e)])),
         },
         persistent: Object.fromEntries(
           gs.allEventObjects

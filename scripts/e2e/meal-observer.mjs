@@ -21,7 +21,8 @@ export function installMealObserver() {
     overflow = false,
     final = null,
     pageInstance = 0,
-    inputPhase = 'bootstrap'
+    inputPhase = 'bootstrap',
+    control
   const fail = (error) => {
     if (errors.length < 12) errors.push(String(error))
     else overflow = true
@@ -65,6 +66,20 @@ export function installMealObserver() {
           )
           prior.set(key, structuredClone(actor))
         }
+      }
+      if (control !== state.control) {
+        append(
+          events,
+          {
+            kind: 'control',
+            scene: state.scene,
+            source,
+            before: control ?? null,
+            state: state.control,
+          },
+          8000,
+        )
+        control = state.control
       }
       const progress = {
         money: state.money,
@@ -299,12 +314,7 @@ export function installMealObserver() {
             sprite: gs.PlayerRolesRuntime.rgwSpriteNum[gs.partyMembers[0]],
             ip: gs.eventCursor?.ip ?? null,
           },
-          ...Object.fromEntries(
-            (scene === 's003' ? [56, 59, 60, 61, 62] : [15, 16, 19, 20, 24, 25, 26]).map((id) => [
-              `e${id}`,
-              actor(id),
-            ]),
-          ),
+          ...Object.fromEntries(gs.npcs.map((e) => [`e${e.id}`, actor(e.id)])),
         },
         money: gs.dwCash,
         inventory: gs.inventory,

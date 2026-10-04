@@ -448,6 +448,7 @@ test('inn door observation reads persistent page base frames without hiding tran
         facing: 'down',
         host: { getEntityState: () => 1 },
         worldPresentation: { entityFrame: () => override },
+        motion: { gaitPhase: () => undefined, explicitAnimation: () => undefined },
         entityActions: { frame: () => action },
         world: { money: 500, script: {} },
         runner: null,

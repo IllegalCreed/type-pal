@@ -43,10 +43,12 @@ export function instrumentKitchenTrace(source, file) {
             behavior:world.script.behaviors?.entities?.[scene]?.[id]??null};
         const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true,walking,stepFrame,layer:partyLayer,
           sprite:world.party[0]?partySpriteDef(world.party[0]).id:null}};
-        for(const id of sid==='s003'?['e56','e59','e60','e61','e62']:['e19','e20']) {
-          const e=activeScene.scene.entities.find(e=>e.id===id); if(!e)throw new Error('missing kitchen actor '+id);
+        for(const e of activeScene.scene.entities) {
+          const id=e.id;
           actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,state:host.getEntityState(id),
-            behavior:world.script.behaviors?.entities?.[sid]?.[id]??null,sprite:e.sprite??e.actor??null};
+            behavior:world.script.behaviors?.entities?.[sid]?.[id]??null,sprite:e.sprite??e.actor??null,
+            frame:worldPresentation.entityFrame(id)??
+              motion.gaitPhase(id)??motion.explicitAnimation(id)??entityActions.frame(id)??0};
         }
         globalThis.__kitchenPoint?.(source,{scene:sid,actors,persistent,money:world.money,inventory:world.inventory,
           control:!runner&&!dialogBox.active&&!presentation.busy()});

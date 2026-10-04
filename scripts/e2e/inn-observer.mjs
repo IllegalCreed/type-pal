@@ -13,6 +13,7 @@ export function installInnObserver() {
     overflow = false,
     scene = null,
     money,
+    control,
     final = null,
     nextPageInstance = 1
   const fail = (value) => {
@@ -59,6 +60,20 @@ export function installInnObserver() {
           )
           previous.set(key, structuredClone(actor))
         }
+      }
+      if (control !== state.control) {
+        append(
+          events,
+          {
+            kind: 'control',
+            scene: state.scene,
+            source,
+            before: control ?? null,
+            state: state.control,
+          },
+          6000,
+        )
+        control = state.control
       }
       if (money !== state.money) {
         append(events, { kind: 'money', source, value: state.money }, 6000)
@@ -116,19 +131,21 @@ export function installInnObserver() {
       const actors = {
         party: { position: [gs.party.x, gs.party.y], facing: gs.party.facing, visible: true },
       }
-      if (gs.wNumScene === 4)
-        for (const id of [54, 55, 56, 59, 60, 61, 73, 74]) {
-          const e = gs.allEventObjects.find((e) => e.id === id)
-          if (!e) throw new Error(`missing inn actor ${id}`)
-          actors[`e${id}`] = {
-            position: [e.x, e.y],
-            facing: e.facing,
-            visible: e.sState > 0,
-            ...([54, 55, 73, 74].includes(id)
-              ? { state: e.sState, frame: e.scriptedFrame ?? 0, sprite: e.spriteNum }
-              : {}),
-          }
+      for (const e of gs.npcs) {
+        actors[`e${e.id}`] = {
+          position: [e.x, e.y],
+          facing: e.facing,
+          visible: e.sState > 0,
+          state: e.sState,
+          frame: e.scriptedFrame ?? 0,
+          sprite: e.spriteNum,
+          trigger: e.triggerLabel ?? null,
+          resume: e.triggerResume ?? null,
+          auto: e.autoLabel ?? null,
+          autoIp: e.autoCursor?.ip ?? null,
+          triggerMode: e.triggerMode,
         }
+      }
       record(source, {
         scene: gs.wNumScene === 2 ? 's001' : 's003',
         actors,
