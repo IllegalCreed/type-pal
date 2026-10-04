@@ -1,12 +1,12 @@
 {
-  "suite": "editor fast (official coverage args, r3 run 2026-10-04, base ea1fddb8c)",
-  "totalTests": 4689,
-  "passed": 4689,
+  "suite": "editor fast (official coverage args, r3 final run 2026-10-04, base ea1fddb8c)",
+  "totalTests": 4695,
+  "passed": 4695,
   "failed": 0,
   "newFiles": 9,
-  "newTests": 89,
+  "newTests": 95,
   "allNewPassed": true,
-  "sha256": "450a09a94d70b727d63e9cee90f6c47312b02b5503ad1bb85dce2248e11f04ef",
+  "sha256": "916cd5403a5cd5671c15e4fbf4f27abb60b046f654e6fdcdc70a6ff3a6b246ea",
   "cases": [
     {
       "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
@@ -356,6 +356,36 @@
     {
       "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
       "fullName": "cov85-script 命令行呈现：'stepEntity 走一步' 渲染业务标签",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+      "fullName": "cov85-insert 无实体时暂停实体禁用并给出原因，配实体后提交缺省体",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+      "fullName": "cov85-insert '暂停实体' 缺省体插入在既有指令之后",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+      "fullName": "cov85-insert '恢复实体' 缺省体插入在既有指令之后",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+      "fullName": "cov85-insert '移除实体' 缺省体插入在既有指令之后",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+      "fullName": "cov85-insert '实体页' 缺省体插入在既有指令之后",
+      "status": "passed"
+    },
+    {
+      "file": "packages/editor/src/ui/ScriptEditor.cov85.test.tsx",
+      "fullName": "cov85-insert 搜索无匹配回显空态",
       "status": "passed"
     },
     {

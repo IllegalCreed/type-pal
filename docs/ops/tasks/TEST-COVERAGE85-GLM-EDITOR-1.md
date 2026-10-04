@@ -48,8 +48,8 @@ Capability: test-quality / coverage branch closure
 
 ## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
 
-**门禁状态如实申报（r3 终测，基点 ea1fddb8c=origin/main 最新）：editor branch
-23865→24175（82.13%→83.19%，+310 edges），未达 85%，不以 85% 冒交。**
+**门禁状态如实申报（r3 终测含 T2 补充，基点 ea1fddb8c=origin/main 最新）：editor
+branch 23865→24177（82.13%→83.20%，+312 edges），未达 85%，不以 85% 冒交。**
 剩余缺口不构成不可达证明：其中 508 个是 v8 branchMap `locations` 为空的合成计数
 （无源码位置、无法定向触发；cov-base 与 cov-final 两次实测口径一致，见
 `branch-census.json` 的 locless 字段）——该数字只说明缺口构成，**不作为 unreachable
@@ -168,14 +168,23 @@ r2 内容（87 测试/类型安全/act 修复/反控证据）已在 main，未�
   - P2 失败→健康 source 重挂 → 就绪 + rAF 后真实不透明像素>100（缺失/恢复完整翻转）。
   去重 c06-g01（像素/空白）与 glm-next-wave F02a（mock status）；本文件差异轴=真实
   reader 拒绝驱动 + 恢复路径。
-- **T2 ScriptEditor 插入菜单 / T4 中型页补合同**：本轮预算内未完成，未写半成品；列为
-  r4 首选（插入菜单 fallbackInsertionChoice 族 → ProjectWorkbenchTab/ActorMode/
-  CutsceneTab 表单残臂）。
+- **T2 ScriptEditor 插入菜单**（`ScriptEditor.cov85.test.tsx` +6 例，文件累计 20）：
+  打开「添加指令」弹窗（先关 fixture 预开的编辑弹窗）→ 搜索 → 选择：
+  - 无实体时「暂停实体」禁用并回显 title「请先选择一个场景实体」（3080 不可用臂）。
+  - 暂停/恢复/移除/实体页四类缺省体插入在既有指令之后（onChange 全量数组断言
+    `[原命令, {kind, target, ticks/selection…}]`，3673 insertCommandsAfter 业务结果）。
+  - 搜索无匹配回显「没有匹配的指令。」空态（3712）。
+  - 反控说明：曾为 suspendEntity 缺省体（3079）设计 INJ-8 变异，手动验证变异后测试
+    仍绿——该插入路径未走 3079 fallback（examples/模板路径命中），按不冒充原则
+    **撤销 INJ-8**，反控维持 7 点；此判别缺口已登记，缺省体判别由测试的精确对象
+    断言承担。
+- **T4 中型页补合同**：本轮预算内未完成，未写半成品；列为 r4 首选
+  （ProjectWorkbenchTab/ActorMode/CutsceneTab 表单残臂）。
 - **反控**：run-mutations.mjs 扩至 7 注入点（新增 INJ-6 MapMode Delete 选区门、INJ-7
   scene-stage err 回显），raw stdout/stderr 全量落盘（不再截断），执行集合仍显式排除
   skipped/pending；七点全部 原始绿→变异红→恢复绿 + 三态 hash + 清理证明。
-- **终测**：全套 4689/4689；新增 9 文件 89 例（86+r2 保留 +3：MapMode 5+Preview 2
-  − finishStep 已删计入 86 基数）；branch 24175/29058=83.19%（+310）。
+- **终测（含 T2）**：全套 4695/4695；新增 9 文件 95 例（MapMode 5+Preview 2+插入
+  菜单 6 加入 r2 保留 82 基数）；branch 24177/29058=83.20%（+312）。
 
 ### 下一棒建议（r2）
 

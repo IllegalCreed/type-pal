@@ -78,8 +78,10 @@ const INJECTIONS = [
   {
     id: 'INJ-6',
     file: 'src/ui/MapMode.tsx',
-    anchor: "if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind !== 'none') {",
-    mutant: "if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind === 'never-delete') {",
+    anchor:
+      "if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind !== 'none') {",
+    mutant:
+      "if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind === 'never-delete') {",
     testFile: 'src/ui/MapMode.cov85.test.tsx',
     testName: 'C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复',
     businessClaim: 'select 工具单选产生 cells 选区，Delete 必须触发 deleteMapSelection 提交',
@@ -87,7 +89,7 @@ const INJECTIONS = [
   {
     id: 'INJ-7',
     file: 'src/ui/scene-stage.ts',
-    anchor: "setErr(e instanceof Error ? e.message : String(e))",
+    anchor: 'setErr(e instanceof Error ? e.message : String(e))',
     mutant: "setErr('')",
     testFile: 'src/ui/PreviewCanvas.cov85.test.tsx',
     testName: 'P1 瓦片集字节被真实拒绝 → 资产读取失败回显资源路径',

@@ -242,3 +242,120 @@ test.each([
   expect(form.onChange).not.toHaveBeenCalled()
   expect(document.body.textContent).toContain(rowText)
 })
+/**
+ * r3 T2：插入菜单合同（fallbackInsertionChoice 族，ScriptEditor.tsx:2994-3100/3644-3712）。
+ * commandForm 挂真实 CanonicalScriptBodyEditor：点「添加指令」→搜索→选指令→onChange
+ * 断言插入后的完整命令数组（insertCommandsAfter 的业务结果）。
+ */
+async function openInsertMenu(): Promise<void> {
+  // fixture 的 dblclick 已打开编辑弹窗；先关它，插入入口在正文编辑器头部。
+  const closeEditor = document.querySelector<HTMLButtonElement>('[aria-label="关闭"]')
+  if (closeEditor) {
+    await act(async () => {
+      closeEditor.click()
+    })
+  }
+  const add = [...document.querySelectorAll<HTMLButtonElement>('button')].find(
+    (candidate) => candidate.textContent?.trim() === '添加指令',
+  )
+  expect(add, '添加指令按钮').toBeDefined()
+  await act(async () => {
+    add!.click()
+  })
+  expect(document.querySelector('[role="dialog"]')?.textContent).toContain('添加指令')
+}
+
+async function closeInsertMenu(): Promise<void> {
+  const close = document.querySelector<HTMLButtonElement>('[aria-label="关闭"]')
+  expect(close, '插入弹窗关闭按钮').toBeDefined()
+  await act(async () => {
+    close!.click()
+  })
+}
+
+async function searchInsert(term: string): Promise<void> {
+  const search = document.querySelector<HTMLInputElement>(
+    'input[type="search"][aria-label="搜索可插入指令"]',
+  )
+  expect(search, '搜索框').toBeDefined()
+  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+  await act(async () => {
+    search!.focus()
+    setter.call(search, term)
+    search!.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+}
+
+function insertChoice(labelNeedle: string): HTMLButtonElement {
+  const choice = [...document.querySelectorAll<HTMLButtonElement>('[data-command-kinds]')].find(
+    (candidate) => candidate.textContent?.includes(labelNeedle),
+  )
+  if (!choice) throw new Error(`插入选项缺失: ${labelNeedle}`)
+  return choice
+}
+
+test('cov85-insert 无实体时暂停实体禁用并给出原因，配实体后提交缺省体', async () => {
+  const form = await commandForm({ kind: 'wait', ms: 5 } as AuthorCommand, {
+    requireLeafFormRow: false,
+  })
+  await openInsertMenu()
+  await searchInsert('暂停')
+  const noTarget = insertChoice('暂停实体')
+  expect(noTarget.disabled).toBe(true)
+  expect(noTarget.title).toBe('请先选择一个场景实体')
+  await closeInsertMenu()
+  expect(form.onChange).not.toHaveBeenCalled()
+})
+
+test.each([
+  {
+    term: '暂停',
+    label: '暂停实体',
+    command: { kind: 'suspendEntity', target: { scene: 'start', entity: 'npc' }, ticks: 1 },
+  },
+  {
+    term: '恢复',
+    label: '恢复实体',
+    command: { kind: 'restoreEntity', target: { scene: 'start', entity: 'npc' } },
+  },
+  {
+    term: '移除',
+    label: '移除实体',
+    command: { kind: 'removeEntity', target: { scene: 'start', entity: 'npc' } },
+  },
+  {
+    term: '页面',
+    label: '实体页',
+    command: {
+      kind: 'selectEntityPage',
+      target: { scene: 'start', entity: 'npc' },
+      selection: { kind: 'inherit' },
+    },
+  },
+])('cov85-insert $label 缺省体插入在既有指令之后', async ({ term, label, command }) => {
+  const form = await commandForm({ kind: 'wait', ms: 5 } as AuthorCommand, {
+    requireLeafFormRow: false,
+    includeEntity: true,
+  })
+  await openInsertMenu()
+  await searchInsert(term)
+  await act(async () => {
+    insertChoice(label).click()
+  })
+  expect(form.onChange).toHaveBeenCalledExactlyOnceWith([
+    { kind: 'wait', ms: 5 },
+    command as AuthorCommand,
+  ])
+  expect(document.querySelector('[role="dialog"]')).toBeNull()
+})
+
+test('cov85-insert 搜索无匹配回显空态', async () => {
+  const form = await commandForm({ kind: 'wait', ms: 5 } as AuthorCommand, {
+    requireLeafFormRow: false,
+  })
+  await openInsertMenu()
+  await searchInsert('不存在的指令xyz')
+  expect(document.querySelector('[role="dialog"]')?.textContent).toContain('没有匹配的指令。')
+  await closeInsertMenu()
+  expect(form.onChange).not.toHaveBeenCalled()
+})
