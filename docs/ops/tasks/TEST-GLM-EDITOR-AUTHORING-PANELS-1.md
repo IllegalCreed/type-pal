@@ -113,7 +113,6 @@ original==restored≠mutant、产品文件零残留：
 | INJ-1 | patchConditionSeed 整键 `: undefined`→`: {}` | expected {} to be undefined |
 | INJ-2 | entrypoint focus 清空重置臂→`if (false)` | expected '序章线' to be '新的故事' |
 | INJ-3 | 问题页 focus 同步 `setLocalSelectedId(focusObjectId)`→no-op | expected '未引用资源 · 音效' to be '未引用资源 · 视频' |
-| INJ-13 | `needsRepair = !same…`→`true` | dispatch to not be called at all |
 | INJ-4 | 新建空字段守卫→`if (false)` | 守卫文案被命令层错误顶替 |
 | INJ-5 | sounds 整键 `: undefined`→`: {}` | expected {} to be undefined |
 | INJ-6 | 仙术行选项去重 `existingIndex !== index`→`false` | 选项集长度 2≠1 |
@@ -123,6 +122,7 @@ original==restored≠mutant、产品文件零残留：
 | INJ-10 | stale selection 回落→`if (false)` | expected null to be '回落甲' |
 | INJ-11 | 脏确认 `if (!frameEditorDirty)`→取反 | 弹窗 放弃未保存修改 处于打开: false |
 | INJ-12 | 卸载 revoke→`if (false)` | revoked [] ≠ [blob:…] |
+| INJ-13 | `needsRepair = !same…`→`true` | dispatch to not be called at all |
 
 ### fresh identity
 
