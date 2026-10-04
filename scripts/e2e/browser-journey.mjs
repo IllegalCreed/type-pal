@@ -26,6 +26,7 @@ export async function runBrowserJourney({
   sources,
   journey,
   traceConfig,
+  browserArgs = [],
   arguments: journeyArguments = process.argv.slice(2),
   initScripts = [],
 }) {
@@ -151,7 +152,7 @@ export async function runBrowserJourney({
           channel: 'chrome',
           headless: args.has('--headless'),
           timeout: 30_000,
-          ...(args.has('--capture') ? { args: ['--mute-audio'] } : {}),
+          args: [...browserArgs, ...(args.has('--capture') ? ['--mute-audio'] : [])],
         }),
       40_000,
       { onLate: killOwnedBrowser },

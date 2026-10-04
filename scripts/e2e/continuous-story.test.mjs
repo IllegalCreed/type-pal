@@ -87,14 +87,14 @@ test('continuous action extraction removes every fragment boundary I/O', () => {
     case: 'story',
     actions: [
       { key: 'Enter', reason: 'load actual slot1' },
-      { key: 'ArrowLeft', kind: 'down', reason: 'normal held route' },
+      { key: 'ArrowLeft', kind: 'down', reason: 'normal held route', atMs: 10 },
       { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary' },
       { key: 'F5', reason: 'formal quick-save' },
       { key: 'Enter', reason: 'normal full-dialogue confirmation' },
     ],
   })
   assert.deepEqual(actions, [
-    { key: 'ArrowLeft', kind: 'down', reason: 'normal held route' },
+    { key: 'ArrowLeft', kind: 'down', reason: 'normal held route', atMs: 10 },
     { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary' },
     { key: 'Enter', kind: 'press', reason: 'normal full-dialogue confirmation' },
   ])

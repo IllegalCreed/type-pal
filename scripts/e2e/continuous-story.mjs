@@ -45,6 +45,7 @@ export function continuousStoryActions(report) {
       key: action.key,
       kind: action.kind ?? 'press',
       reason: action.reason ?? '',
+      ...(Number.isFinite(action.atMs) ? { atMs: action.atMs } : {}),
     }))
 }
 
