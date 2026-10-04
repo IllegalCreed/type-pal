@@ -6,73 +6,67 @@
     "argvOverride": "node scripts/c85-branch-delta.mjs <baselineLcov> <finalLcov>"
   },
   "targets": {
-    "src/main.ts": 7,
-    "src/battle/battle-session.ts": 8,
-    "src/battle/battle-core.ts": 13,
-    "src/script-runner.ts": 43,
-    "src/script-runner-core.ts": 2,
-    "src/script-host-adapter.ts": 26,
-    "src/entity-motion.ts": 7,
+    "src/main.ts": 2,
+    "src/battle/battle-session.ts": 0,
+    "src/battle/battle-core.ts": 0,
+    "src/script-runner.ts": 0,
+    "src/script-runner-core.ts": 0,
+    "src/script-host-adapter.ts": 0,
+    "src/entity-motion.ts": 4,
     "src/script-project-core.ts": 0,
-    "src/script-world.ts": 19,
-    "src/runtime-script-project.ts": 5
+    "src/script-world.ts": 0,
+    "src/runtime-script-project.ts": 0
   },
-  "targetClosedTotal": 130,
+  "targetClosedTotal": 6,
   "perFile": {
     "src/main.ts": {
-      "baselineMissedArms": 835,
-      "finalMissedArms": 828,
-      "closedByThisCard": 7,
-      "newlyMissedArms": 0,
-      "closedLines": [469, 814, 823, 826, 827]
-    },
-    "src/battle/battle-session.ts": {
-      "baselineMissedArms": 412,
-      "finalMissedArms": 404,
-      "closedByThisCard": 8,
-      "newlyMissedArms": 0,
-      "closedLines": [385, 699, 701, 706, 754, 845, 846, 870]
-    },
-    "src/battle/battle-core.ts": {
-      "baselineMissedArms": 200,
-      "finalMissedArms": 187,
-      "closedByThisCard": 13,
-      "newlyMissedArms": 0,
-      "closedLines": [499, 502, 508, 651, 663, 883, 897, 906, 907, 993, 1138, 1139]
-    },
-    "src/script-runner.ts": {
-      "baselineMissedArms": 60,
-      "finalMissedArms": 17,
-      "closedByThisCard": 43,
-      "newlyMissedArms": 0,
-      "closedLines": [
-        234, 236, 273, 372, 477, 483, 504, 510, 518, 521, 528, 616, 658, 661, 671, 681, 696, 744,
-        787, 801, 805, 811, 820
-      ]
-    },
-    "src/script-runner-core.ts": {
-      "baselineMissedArms": 26,
-      "finalMissedArms": 24,
+      "baselineMissedArms": 828,
+      "finalMissedArms": 826,
       "closedByThisCard": 2,
       "newlyMissedArms": 0,
-      "closedLines": [179, 638]
+      "closedLines": [488, 500]
+    },
+    "src/battle/battle-session.ts": {
+      "baselineMissedArms": 404,
+      "finalMissedArms": 404,
+      "closedByThisCard": 0,
+      "newlyMissedArms": 0,
+      "closedLines": []
+    },
+    "src/battle/battle-core.ts": {
+      "baselineMissedArms": 187,
+      "finalMissedArms": 187,
+      "closedByThisCard": 0,
+      "newlyMissedArms": 0,
+      "closedLines": []
+    },
+    "src/script-runner.ts": {
+      "baselineMissedArms": 17,
+      "finalMissedArms": 17,
+      "closedByThisCard": 0,
+      "newlyMissedArms": 0,
+      "closedLines": []
+    },
+    "src/script-runner-core.ts": {
+      "baselineMissedArms": 24,
+      "finalMissedArms": 24,
+      "closedByThisCard": 0,
+      "newlyMissedArms": 0,
+      "closedLines": []
     },
     "src/script-host-adapter.ts": {
-      "baselineMissedArms": 38,
+      "baselineMissedArms": 12,
       "finalMissedArms": 12,
-      "closedByThisCard": 26,
+      "closedByThisCard": 0,
       "newlyMissedArms": 0,
-      "closedLines": [
-        30, 43, 47, 50, 51, 119, 124, 141, 161, 179, 184, 191, 195, 198, 201, 209, 235, 242, 248,
-        256, 278, 283, 288, 328, 332
-      ]
+      "closedLines": []
     },
     "src/entity-motion.ts": {
-      "baselineMissedArms": 58,
-      "finalMissedArms": 51,
-      "closedByThisCard": 7,
+      "baselineMissedArms": 51,
+      "finalMissedArms": 47,
+      "closedByThisCard": 4,
       "newlyMissedArms": 0,
-      "closedLines": [322, 344, 390, 401, 637, 670]
+      "closedLines": [925, 1081, 1351, 1352]
     },
     "src/script-project-core.ts": {
       "baselineMissedArms": 35,
@@ -82,20 +76,18 @@
       "closedLines": []
     },
     "src/script-world.ts": {
-      "baselineMissedArms": 35,
+      "baselineMissedArms": 16,
       "finalMissedArms": 16,
-      "closedByThisCard": 19,
+      "closedByThisCard": 0,
       "newlyMissedArms": 0,
-      "closedLines": [
-        131, 162, 221, 288, 290, 291, 308, 364, 375, 378, 382, 404, 444, 597, 609, 617, 721
-      ]
+      "closedLines": []
     },
     "src/runtime-script-project.ts": {
-      "baselineMissedArms": 28,
+      "baselineMissedArms": 23,
       "finalMissedArms": 23,
-      "closedByThisCard": 5,
+      "closedByThisCard": 0,
       "newlyMissedArms": 0,
-      "closedLines": [329, 332, 481, 553, 663]
+      "closedLines": []
     }
   }
 }

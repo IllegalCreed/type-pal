@@ -9,7 +9,7 @@ import {
   type RuntimeSceneDef,
   type WorldState,
 } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { compileRuntimeScriptFlow, type RuntimeLeafCommand } from './runtime-script-compiler.js'
 import {
   type ProjectScriptHostOptions,
@@ -347,4 +347,97 @@ test('完成游标复入臂:行为游标已 completed 时不再取得租约', as
   await expect(
     runtime.runSceneHook(hooked, 'onEnter', { signal: new AbortController().signal }),
   ).resolves.toBe(false)
+})
+
+describe('C85 r6 断点续行臂（真实 continuation:stop 落游标→复跑续行不重放）', () => {
+  const entityScene = (): RuntimeSceneDef => ({
+    ...scene,
+    entities: [
+      {
+        id: 'e001',
+        pos: { col: 1, row: 1, height: 0 },
+        zone: true,
+        initialPage: 'p0',
+        pages: [{ id: 'p0', label: 'P0', auto: 'patroller' }],
+        behaviors: {
+          auto: {
+            patroller: {
+              label: 'Patroller',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'go',
+                stages: [
+                  {
+                    id: 'go',
+                    label: 'Go',
+                    body: [
+                      { kind: 'giveMoney', delta: 1 },
+                      { kind: 'playSound', asset: 'sfx.tick' },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    ],
+  })
+
+  test('auto 行为中止后保留断点续行,复跑从断点续行且不重放已完成叶', async () => {
+    const world = makeWorld()
+    const firstEffects: string[] = []
+    // 第二叶的 gameplay gate 挂住:首叶完成后稳定停在中断窗口
+    let releaseGate: (() => void) | undefined
+    const runtime = new ScriptProjectRuntime(
+      { sharedScripts: {} },
+      world,
+      digest,
+      hostOptions({
+        executeEffect: (command) => {
+          firstEffects.push(command.kind)
+        },
+        gate: (_signal, boundary) => {
+          if (boundary === undefined && firstEffects.length >= 1)
+            return new Promise<void>((resolve) => {
+              releaseGate = resolve
+            })
+          return undefined
+        },
+        currentSceneSessionId: () => 7,
+      }),
+    )
+    const controller = new AbortController()
+    const first = runtime.runEntityBehavior(entityScene(), 'e001', 'auto', {
+      signal: controller.signal,
+    })
+    await vi.waitFor(() => expect(firstEffects).toEqual(['giveMoney']))
+    controller.abort() // 中止在中断窗口:断点(含续行帧)按设计保留
+    releaseGate?.()
+    await expect(first).rejects.toMatchObject({ name: 'AbortError' })
+    // 公开世界态:断点游标 + 续行已保存
+    const saved = world.script?.behaviors.entities?.s001?.e001?.auto?.cursor
+    expect(saved?.behavior).toBe('patroller')
+    expect(saved?.resume).toBeDefined()
+
+    // 复跑:新 runtime 同世界,自动携带保存的 resume 续行,不重放 giveMoney
+    const secondEffects: string[] = []
+    const runtime2 = new ScriptProjectRuntime(
+      { sharedScripts: {} },
+      world,
+      digest,
+      hostOptions({
+        executeEffect: (command) => {
+          secondEffects.push(command.kind)
+        },
+        currentSceneSessionId: () => 7,
+      }),
+    )
+    const second = await runtime2.runEntityBehavior(entityScene(), 'e001', 'auto', {
+      signal: new AbortController().signal,
+    })
+    expect(second).toBe(true)
+    expect(secondEffects).toEqual(['playSound']) // 从断点续行,不重放 giveMoney
+  })
 })

@@ -1,6 +1,6 @@
 {
   "note": "逐 fullName → family → 源行 → caller → oracle;由 scripts/c85-family-ledger.mjs 从 vitest list + 表重建。",
-  "testCount": 113,
+  "testCount": 118,
   "entries": [
     {
       "file": "src/battle/battle-core.c85-branches.test.ts",
@@ -148,6 +148,33 @@
     },
     {
       "file": "src/entity-motion.c85-arms.test.ts",
+      "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖",
+      "family": "party 绕行回落臂",
+      "source": "src/entity-motion.ts",
+      "sourceLines": [349, 351, 353, 1131, 1135, 1147],
+      "caller": "planEntityMotion(公开)",
+      "oracle": "让位者无法侧踏让出时 party 自身 side-only 绕行并产生持杖(实体侧踏候选构造/强制让位/回落路径)"
+    },
+    {
+      "file": "src/entity-motion.c85-arms.test.ts",
+      "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数",
+      "family": "持杖多拍臂",
+      "source": "src/entity-motion.ts",
+      "sourceLines": [385, 388, 390, 1356, 1361, 1370],
+      "caller": "planEntityMotion 多拍回喂 nextSideSticks",
+      "oracle": "同侧持杖续行且剩余拍数递减(真实多拍输入:拍→结果→回喂)"
+    },
+    {
+      "file": "src/entity-motion.c85-arms.test.ts",
+      "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝",
+      "family": "持杖多拍臂",
+      "source": "src/entity-motion.ts",
+      "sourceLines": [385, 388, 390, 1356, 1361, 1370],
+      "caller": "planEntityMotion 多拍回喂 nextSideSticks",
+      "oracle": "同侧持杖续行且剩余拍数递减(真实多拍输入:拍→结果→回喂)"
+    },
+    {
+      "file": "src/entity-motion.c85-arms.test.ts",
       "fullName": "公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud",
       "family": "公平拍臂",
       "source": "src/entity-motion.ts",
@@ -229,6 +256,15 @@
     },
     {
       "file": "src/main.c85-boot.test.ts",
+      "fullName": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
+      "family": "标题启动序列臂",
+      "source": "src/main.ts",
+      "sourceLines": [500, 488],
+      "caller": "bootGame ?menu(公开)",
+      "oracle": "无 startup 视频角色→playVideoSequence 空臂直达菜单,选择第二入口开局"
+    },
+    {
+      "file": "src/main.c85-boot.test.ts",
       "fullName": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
       "family": "运动探针缺席臂",
       "source": "src/main.ts",
@@ -289,6 +325,15 @@
       "sourceLines": [166],
       "caller": "ProjectScriptRuntimeHost.execute",
       "oracle": "已中止 signal AbortError"
+    },
+    {
+      "file": "src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 r6 断点续行臂（真实 continuation:stop 落游标→复跑续行不重放） > auto 行为中止后保留断点续行,复跑从断点续行且不重放已完成叶",
+      "family": "断点续行臂",
+      "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
+      "sourceLines": [179, 181, 199, 227, 232, 321, 352, 387, 474, 494],
+      "caller": "runEntityBehavior(auto)+RuntimeScriptRunner.runFlow resume",
+      "oracle": "gate 挂住→abort 保留断点(含续行帧)→复跑从断点续行不重放已完成叶(真实 continuation,非手造)"
     },
     {
       "file": "src/runtime-host.c85-arms.test.ts",

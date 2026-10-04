@@ -1,4 +1,4 @@
-# TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r4）
+# TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r6）
 
 Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dispatch tip `76475c01c`）
 状态: 待 Codex 独立验收（不合 main、不标 done）。r1 `76f3c6bf2` → r2 `746f0c4f8` → r3 `4cef72844` → r4 `75a12d84b`+`3c19c45cb` → r5 本版。
@@ -7,21 +7,21 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 
 | 指标 | 基线（baseline.fast.json） | 终态（r3） | Δ |
 |---|---|---|---|
-| branches | 9657/12166 (79.39%) | 9787/12166 (80.44%) | **+130** |
-| statements | 15761/17939 | 15841 | +80 |
-| functions | 2561/2916 | 2566 | +5 |
-| lines | 14162/15662 | 14209 | +47 |
+| branches | 9787/12166 (80.44%, main=r5 合入后基线) | 9793/12166 (80.49%) | **r6 +6** |
+| statements | 15841(main) | 15843 | +2 |
+| functions | 2566(main) | 2566 | +0 |
+| lines | 14209(main) | 14212 | +3 |
 
 基线复现：在候选分支上以 `--exclude '**/*.c85-*.test.ts'` 跑同参 fast 全量 = 317 文件/8569
 测试/9657 branches，与 `scripts/coverage/baseline.fast.json` 逐数一致（重建命令见
 `packages/reforge/scripts/c85-branch-delta.mjs`（见 `c85-branch-delta.mjs`） 头注释；双 lcov
 原始拷贝随账提交，可免跑复核臂级归属）。
 
-**80.44% ≠ 85%：距 85%（10341 臂）仍差约 554 臂，本卡不作为达标收口**（见「后续范围」）。
+**80.49% ≠ 85%：距 85%（10341 臂）仍差约 548 臂，本卡不作为达标收口**（见「后续范围」）。
 
 ## 交付物
 
-- 8 个新专属测试文件、**113 个测试**（r4 追加 script-runner 后台 AbortError 静默臂/onTeleport stages 臂与 runtime 无行为/无钩子/完成游标复入安静臂）（identity 见
+- 8 个新专属测试文件、**118 个测试**（r6 新增：entity-motion 让位/持杖多拍/绕行受限 3 条真实多拍合同、runtime 断点续行 1 条真实 continuation 合同、main 标题启动空序列 1 条）（r4 追加 script-runner 后台 AbortError 静默臂/onTeleport stages 臂与 runtime 无行为/无钩子/完成游标复入安静臂）（identity 见
   `packages/reforge/src/__tests__/coverage85/c85-identity-status.json`（见 `c85-identity-status.json`）），
   全部公开 caller（bootGame / BattleSession 构造器+tick / createBattleState+stepBattle /
   decideEnemyAction / applyEnemyEffect / ScriptRunner / evalCondition / executeScriptHostEffect /
@@ -47,7 +47,7 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 | src/script-world.ts | 19 |
 | src/battle/battle-session.ts | 8 |
 | src/main.ts | 7 |
-| src/entity-motion.ts | 7 |
+| src/entity-motion.ts | 7+r6 |
 | src/runtime-script-project.ts | 5 |
 | src/script-runner-core.ts | 2 |
 | src/script-project-core.ts | 0 |
@@ -125,6 +125,12 @@ try/finally 中恢复并逐字节复核；驱动零临时目录，`workingTreeBe
 | U20 | battle-core.ts:1218-1232 | applyPlayerSkill 缺技能/限用/MP 守卫：源注『正常不可达:validatePlayerAction 已降级』。 | battle-core.ts:1928-1937 前置。 |
 | U21 | script-world.ts:306 | activation `on` 值域守卫：`TriggerActivation.on` 联合类型已排除非法值，类型化 caller 不可构造。 | content 类型定义；r1 曾 `as never` 强构造被 r2 删除。 |
 
+## r6 blocked 登记（battle-session 表现层）
+
+| # | 范围 | 判定 | 依据 |
+|---|---|---|---|
+| B1 | battle-session.ts render/timeline/settlement/召唤染色（~390 臂） | **blocked（缺产品观察口）**：`state`/`visual` 均 private 且无公开 snapshot/observer；`render(ctx)` 虽公开但断言 draw 调用序列属表现层而非业务 oracle，且无 cast 构造全量 `CanvasRenderingContext2D` 不合法。终局/演出动作类可经 `done`+opts 回调观测的部分（stopMusic 排程/终局登记/敌逃/cancel 守卫）已在 r1–r3 覆盖；其余臂待产品先落公开观测口（不属本卡授权）。 | battle-session.ts:211 `private readonly state`；卡面约束"不新增产品接口"。 |
+
 ## 后续范围（剩余可达分支，85% 需再闭 ~557 臂）
 
 按域列出剩余可达未覆盖臂的规模与所需 harness（非不可达，是后续轮工作面）：
@@ -145,8 +151,8 @@ try/finally 中恢复并逐字节复核；驱动零临时目录，`workingTreeBe
 
 ## 验证
 
-- 定向：8 个新文件 113/113 绿。
-- 全量：fast 全量 325 文件/8682 测试全绿（基线复现 317 文件/8569 全绿）。
+- 定向：8 个新文件 118/118 绿。
+- 全量：fast 全量 325 文件/8687 测试全绿（main 干净基线 8682 全绿复现）（基线复现 317 文件/8569 全绿）。
 - typecheck：零错误。lint：全仓 3145 文件零诊断 PASS。docs：PASS。
 - 反控：9/9（含 vacuous 零匹配硬防）；四 hash 对账 + 工作树快照零残留。
 - diff：产品文件零改动（`git status` 仅本卡测试/脚本/证据/文档）。

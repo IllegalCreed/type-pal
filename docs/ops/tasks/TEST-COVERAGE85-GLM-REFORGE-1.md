@@ -51,10 +51,19 @@ Capability: test-quality / coverage branch closure
 交付时在本卡登记每个合同的源锚、合法输入、oracle、fullName、三态反控和覆盖变化，并给出
 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
 
-## GLM 交付回执（r5 窄返工，2026-10-04，待 Codex 独立验收）
+## GLM 交付回执（r6，2026-10-04，待 Codex 独立验收）
 
 - 候选分支 `codex/coverage85-glm-reforge-r1`（dispatch tip `76475c01c` 起，产品文件零改动，
   `git status` 仅新增本卡测试/脚本/证据）。
+- **r6（基于 main=r5 合入后）**：rebase 对齐 main（r5 已被合入），干净基线复现 8682 测试/
+  9787 臂。本轮新增 5 条真实合同（118 测试全绿，**r6 +6 臂 → 9793/12166 = 80.49%**，未达
+  85% 不收口）：entity-motion 让位者强制 side-only 回落/party 绕行持杖/持杖多拍回喂（真实
+  多拍:拍→结果→回喂 nextSideSticks）/绕行地形受限；runtime 断点续行（gate 挂住→abort 按
+  设计保留含续行帧的断点→复跑不重放已完成叶，真实 continuation 非手造 fixture）；main
+  标题启动空序列臂（?menu 无 skip-startup、无 startup 视频角色）。battle-session 表现层
+  ~390 臂登记 **B1 blocked**（state private 无公开观测口，卡面禁新增产品接口；可观测部分
+  r1–r3 已覆盖）。ledger 118/118 逐 fullName 匹配；delta/identity 再生；反控维持 r5 格式。
+
 - **r5 窄返工（Codex 六项）**：① 删除误提交的字面量名文件 `packages/reforge/\$\{identityJsonPath\}`
   （r4 模板转义 bug 的产物）；② 反控回执 r5 重设计——clean 树前置强制、stdout/stderr 全量
   raw 文件入库（c85-counterproof-raw/，entry 只存路径）、executedSet/skippedSet 分账

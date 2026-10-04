@@ -1,7 +1,7 @@
 // TEST-COVERAGE85-GLM-REFORGE-1 — entity-motion.ts 输入验证与残留分支臂测试。
 // 公开 planEntityMotion 纯函数;非法输入按 fail-loud 合同逐条区分。
 import type { GridPos } from '@type-pal/content'
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { motionActorKey, motionFootprintsOverlap, planEntityMotion } from './entity-motion.js'
 
 const pos = (col: number, row: number, height = 0): GridPos => ({ col, row, height: height })
@@ -185,4 +185,143 @@ test('足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;�
   expect(motionFootprintsOverlap(pos(0, 0), pos(0.5, 0))).toBe(true)
   expect(motionFootprintsOverlap(pos(0, 0), pos(1, 1))).toBe(false)
   expect(motionFootprintsOverlap(pos(0, 0, 5), pos(0.5, 0, 0))).toBe(true)
+})
+
+describe('C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks）', () => {
+  const body = (id: string, at: GridPos) => ({
+    actor: { kind: 'entity' as const, id },
+    pos: at,
+    facing: 'down' as const,
+    footprints: [{ dcol: 0, drow: 0 }],
+    hasBody: true,
+    yieldable: true,
+  })
+  const party = (at: GridPos) => ({
+    actor: { kind: 'party' as const },
+    pos: at,
+    facing: 'down' as const,
+    footprints: [{ dcol: 0, drow: 0 }],
+    hasBody: true,
+    yieldable: true,
+  })
+  const standIntent = (id: string, at: GridPos) => ({
+    actor: { kind: 'entity' as const, id },
+    source: 'auto' as const,
+    collision: 'dynamic' as const,
+    from: at,
+    desired: at,
+    desiredFacing: 'down' as const,
+    floating: false,
+    epoch: 1,
+    quantum: 1,
+    allowSidestep: true,
+  })
+
+  test('party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖', () => {
+    // 让位者被强制 side-only,但其侧踏候选与 party 冲突未被采纳
+    // → everyBlockerYielded=false → 回落 party side-only(实体侧踏臂 + 持杖生成臂)
+    const plan = planEntityMotion({
+      tick: 0,
+      actors: [party(pos(1, 2)), body('npc-yield', pos(2, 2))],
+      intents: [
+        {
+          actor: { kind: 'party' as const },
+          source: 'script' as const,
+          collision: 'dynamic' as const,
+          from: pos(1, 2),
+          desired: pos(2, 2),
+          desiredFacing: 'right' as const,
+          floating: false,
+          epoch: 1,
+          quantum: 1,
+          allowSidestep: true,
+        },
+        standIntent('npc-yield', pos(2, 2)),
+      ],
+      terrainBlocked: openTerrain(),
+    })
+    const partyOutcome = plan.outcomes.find((o) => o.actor.kind === 'party')
+    expect(partyOutcome).toMatchObject({ kind: 'sidestepped' })
+    if (partyOutcome && 'to' in partyOutcome) {
+      expect(partyOutcome.to.col).toBe(1) // 不进 npc 格,侧向绕行
+      expect(Math.abs(partyOutcome.to.row - 2)).toBe(1)
+    }
+    // 让位者原地不动(主候选零位移被接受),不产生让位侧踏
+    const npcOutcome = plan.outcomes.find((o) => o.actor.kind === 'entity')
+    expect(npcOutcome).toMatchObject({ kind: 'moved' })
+    // party 的绕行持杖入下一拍
+    expect(plan.nextSideSticks).toHaveLength(1)
+    expect(plan.nextSideSticks[0]).toMatchObject({
+      actor: { kind: 'party' },
+      epoch: 1,
+      remainingEligibleTicks: 3,
+    })
+  })
+
+  test('持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数', () => {
+    const partyIntent = {
+      actor: { kind: 'party' as const },
+      source: 'script' as const,
+      collision: 'dynamic' as const,
+      from: pos(1, 2),
+      desired: pos(2, 2),
+      desiredFacing: 'right' as const,
+      floating: false,
+      epoch: 1,
+      quantum: 1,
+      allowSidestep: true,
+    }
+    const tick1 = planEntityMotion({
+      tick: 0,
+      actors: [party(pos(1, 2)), body('npc-yield', pos(2, 2))],
+      intents: [partyIntent, standIntent('npc-yield', pos(2, 2))],
+      terrainBlocked: openTerrain(),
+    })
+    const stick = tick1.nextSideSticks[0]
+    if (!stick) throw new Error('expected side stick after fallback sidestep')
+    const movedParty = tick1.outcomes.find((o) => o.actor.kind === 'party')
+    if (!movedParty || !('to' in movedParty)) throw new Error('party did not sidestep')
+    // 拍 2:party 已在侧格,目标仍是 npc 后方;回喂持杖(同 epoch 同侧)
+    const tick2 = planEntityMotion({
+      tick: 1,
+      actors: [
+        { ...party(movedParty.to), facing: movedParty.facing },
+        body('npc-yield', pos(2, 2)),
+      ],
+      intents: [{ ...partyIntent, from: movedParty.to }, standIntent('npc-yield', pos(2, 2))],
+      sideSticks: [stick],
+      terrainBlocked: openTerrain(),
+    })
+    const nextStick = tick2.nextSideSticks.find((st) => st.actor.kind === 'party')
+    expect(nextStick?.side).toBe(stick.side)
+    expect(nextStick?.remainingEligibleTicks).toBeLessThan(stick.remainingEligibleTicks)
+  })
+
+  test('绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝', () => {
+    const npcAt = pos(2, 2)
+    // party 目标格与侧踏去向(1,1)/(1,3) 全部地形封锁
+    const plan = planEntityMotion({
+      tick: 0,
+      actors: [party(pos(1, 2)), body('npc-boxed', npcAt)],
+      intents: [
+        {
+          actor: { kind: 'party' as const },
+          source: 'script' as const,
+          collision: 'dynamic' as const,
+          from: pos(1, 2),
+          desired: pos(2, 2),
+          desiredFacing: 'right' as const,
+          floating: false,
+          epoch: 1,
+          quantum: 1,
+          allowSidestep: true,
+        },
+        standIntent('npc-boxed', npcAt),
+      ],
+      terrainBlocked: (p) => p.row === 2 || p.col !== 1,
+    })
+    const partyOutcome = plan.outcomes.find((o) => o.actor.kind === 'party')
+    expect(partyOutcome).toMatchObject({ kind: 'blocked' })
+    expect(plan.nextSideSticks).toHaveLength(0)
+  })
 })
