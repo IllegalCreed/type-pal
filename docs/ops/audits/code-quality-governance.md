@@ -5,6 +5,7 @@
 [`scripts/quality/code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs)按基点生成，
 使用 `node scripts/quality/code-quality-inventory.mjs --out=/tmp/type-pal-code-quality-inventory.json` 获取完整 JSON，
 不把机器快照当作产品源文件提交。
+已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
 
 ## 边界与当前责任
 
@@ -81,7 +82,7 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 |---|---|---|---|
 | Q1 shared RLE safety | `packages/shared/src/rle.ts`、同域 RLE 回归 | generic framing 的截断/越界失败、strict sprite 零长 guard；合法像素/opaque 保真 | `done` |
 | Q2 shared codecs/types | `shared/src/{mkf,yj2,rng,resources,tables}` 及必要 callers | MKF/RNG offset、payload、surface 边界已收；YJ2/resources/tables 留下一窄批 | `done`（MKF/RNG 子批）；不得把剩余 shared 领域视作已审完 |
-| Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | Q3a 事件切分/标注类型边界已收；其它纯解析、CLI、game 资源/运行时仍待核 | `draft`，不得与覆盖率/E2E线程重叠 |
+| Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | Q3a 事件切分/标注类型边界已收；Q3b SSS/M.MSG 代码候选完成但受 CODE-QUALITY-3c editor coverage 单分支门阻塞；其它纯解析、CLI、game 资源/运行时仍待核 | `review/rework`，不得与覆盖率/E2E线程重叠 |
 | Q4 phase2 content/migrate | content validators/types、migrate pure/IO 薄壳 | canonical schema、迁移源、事务/幂等边界；不改生成物 | `draft`，不得开始实现 |
 | Q5 phase2 reforge/editor | reforge runtime、editor core/ui/tooling | 新架构 ownership、异步清理和公共出口；不重领13批 | `draft`，需要逐批准入 |
 | Q6 scripts tools | quality/docs/script-governance 等非 E2E 工具 | 子进程/临时树/失败语义/确定性；E2E 留给其 Owner | `draft`，按 caller 另卡 |

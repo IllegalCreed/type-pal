@@ -33,4 +33,11 @@ describe('P03 parseMessages 已知字节切片', () => {
     // 注：非递增/倒序 offset 的行为政策在 P03 设计中明确未定（工作包「收窄与待证」），
     // 本批不为其新增正确绿测；待政策裁决后另批补齐。
   })
+  test('offset 越界或倒序时显式失败', () => {
+    const bytes = gbk('甲乙')
+    expect(() => parseMessages(bytes, new Uint32Array([0, bytes.byteLength + 1]))).toThrow(
+      'offset[1]',
+    )
+    expect(() => parseMessages(bytes, new Uint32Array([1, 0]))).toThrow('precedes')
+  })
 })

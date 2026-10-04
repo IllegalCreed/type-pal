@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T11:33:39.645Z",
+  "generatedAt": "2026-10-04T13:02:04.766Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19262,
+  "testCount": 19264,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1214,7 +1214,7 @@
       ],
       "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
       "fastTests": {
-        "testCount": 264,
+        "testCount": 266,
         "testFileCount": 57,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
@@ -1408,8 +1408,8 @@
           },
           {
             "file": "packages/pal-extract/src/io/msg.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "eb7569e1e7a7ff53da48668c26788ad89c26f7bce14d510f90b30b0546763ae1"
+            "testCount": 3,
+            "identityDigest": "913668bd1d852cafa8077e9a0785e1ab41ad2c9da616b5f6ee7c510051d7e040"
           },
           {
             "file": "packages/pal-extract/src/io/rle.test.ts",
@@ -1418,8 +1418,8 @@
           },
           {
             "file": "packages/pal-extract/src/io/sss.boundaries.test.ts",
-            "testCount": 3,
-            "identityDigest": "34b55a517641771c02426537a170bd5c5719a42666a2b849548c04e8915d05ef"
+            "testCount": 4,
+            "identityDigest": "c890fca503a7675df19283d92c6839c707b15dc12a1b424926ed6cf26ee51b44"
           },
           {
             "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
@@ -1562,26 +1562,26 @@
             "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
           }
         ],
-        "identityDigest": "723eeae1acde34a6a19165d2abfa04beccc7d25455f961e5801a320ffa19b619",
+        "identityDigest": "7e59db4414c4cda6997f8e9950e37866317e53e14d2bd2d94e673cbfe69ea9cd",
         "duplicateIdentityCount": 0,
-        "executionDigest": "16bdeadd251aaf2c8d6fa1d677002ef1e235f17c4fe2431fb7e1eb5a02ff48d7"
+        "executionDigest": "fa5563aace0b094dfdb2a349d6ea82c8388e9fdfe54d4062464f0fbecd6983de"
       },
       "metrics": {
         "statements": {
-          "covered": 1024,
-          "total": 1487
+          "covered": 1037,
+          "total": 1500
         },
         "branches": {
-          "covered": 417,
-          "total": 539
+          "covered": 429,
+          "total": 551
         },
         "functions": {
           "covered": 109,
           "total": 137
         },
         "lines": {
-          "covered": 903,
-          "total": 1313
+          "covered": 915,
+          "total": 1325
         }
       }
     },
@@ -10085,20 +10085,20 @@
   },
   "total": {
     "statements": {
-      "covered": 68761,
-      "total": 77359
+      "covered": 68774,
+      "total": 77372
     },
     "branches": {
-      "covered": 49713,
-      "total": 60147
+      "covered": 49725,
+      "total": 60159
     },
     "functions": {
       "covered": 13030,
       "total": 14708
     },
     "lines": {
-      "covered": 61495,
-      "total": 67730
+      "covered": 61507,
+      "total": 67742
     }
   }
 }

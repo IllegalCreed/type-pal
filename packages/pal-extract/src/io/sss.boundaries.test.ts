@@ -90,4 +90,24 @@ describe('P01 parseSss 合成 5-chunk MKF', () => {
       'SSS chunk1: byte length 17 is not a multiple of 8',
     )
   })
+  test('chunk2/3/4 非结构对齐各自单轴拒绝', () => {
+    const good = sssChunks()
+    const bad2 = [...good]
+    bad2[2] = concatBytes([bad2[2]!, new Uint8Array(1)])
+    expect(() => parseSss(mkfContainer(bad2))).toThrow(
+      'SSS chunk2: byte length 13 is not a multiple of 2',
+    )
+
+    const bad3 = [...good]
+    bad3[3] = concatBytes([bad3[3]!, new Uint8Array(1)])
+    expect(() => parseSss(mkfContainer(bad3))).toThrow(
+      'SSS chunk3: byte length 21 is not a multiple of 4',
+    )
+
+    const bad4 = [...good]
+    bad4[4] = concatBytes([bad4[4]!, new Uint8Array(1)])
+    expect(() => parseSss(mkfContainer(bad4))).toThrow(
+      'SSS chunk4: byte length 25 is not a multiple of 8',
+    )
+  })
 })

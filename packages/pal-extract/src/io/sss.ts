@@ -163,6 +163,9 @@ function parseScenes(chunk: Uint8Array): Scene[] {
 }
 
 function parseObjects(chunk: Uint8Array): Uint16Array {
+  if (chunk.byteLength % 2 !== 0) {
+    throw new Error(`SSS chunk2: byte length ${chunk.byteLength} is not a multiple of 2`)
+  }
   const count = Math.floor(chunk.byteLength / 2)
   const view = new DataView(chunk.buffer, chunk.byteOffset, chunk.byteLength)
   const result = new Uint16Array(count)
@@ -173,6 +176,9 @@ function parseObjects(chunk: Uint8Array): Uint16Array {
 }
 
 function parseMessageOffsets(chunk: Uint8Array): Uint32Array {
+  if (chunk.byteLength % 4 !== 0) {
+    throw new Error(`SSS chunk3: byte length ${chunk.byteLength} is not a multiple of 4`)
+  }
   const count = Math.floor(chunk.byteLength / 4)
   const view = new DataView(chunk.buffer, chunk.byteOffset, chunk.byteLength)
   const result = new Uint32Array(count)
@@ -190,6 +196,10 @@ export function parseSss(buf: Uint8Array): Sss {
   const chunk2 = readChunk(mkf, 2)
   const chunk3 = readChunk(mkf, 3)
   const chunk4 = readChunk(mkf, 4)
+
+  if (chunk4.byteLength % 8 !== 0) {
+    throw new Error(`SSS chunk4: byte length ${chunk4.byteLength} is not a multiple of 8`)
+  }
 
   return {
     eventObjects: parseEventObjects(chunk0),
