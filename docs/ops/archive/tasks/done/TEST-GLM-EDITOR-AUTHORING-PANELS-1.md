@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts
 
-Status: review
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -57,6 +57,12 @@ docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md。
 交付时跑定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check，提交完整 SHA。
 输出 accept 或 counter；不得把覆盖率百分比或测试数量当完成条件，不得标 done，等待 Codex 独立验收。
 ```
+
+---
+
+## Codex quality closure (2026-10-04)
+
+候选 `2519b0900556e62d0a0c38cda1141fcfd6eec9bf` 已独立验收：15/15 合同、13/13 反控、typecheck、lint 0/0/0、docs、diff 全通过；重复反控表格已清理并按 injection id 排序。覆盖率只作为整体 main 记录，不作为本卡收口条件。本卡测试包已集成 main，原候选分支进入退休清理。
 
 ## 交付记录（GLM，2026-10-04，branch `codex/glm-editor-authoring-panels-r1`，base `12247f7e3` = origin/main）
 

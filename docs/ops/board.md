@@ -11,7 +11,6 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-EDITOR-AUTHORING-PANELS-1 | [Editor authoring panel state contracts](tasks/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | build | GLM / 作者面板合同 | ProjectWorkbench/Actor/Cutscene 真实交互，质量收口 |
 
 2026-10-04 GLM Game / Reforge / Editor 三张覆盖任务卡已由 Codex 按“少而精”的合同质量标准独立验收并归档：覆盖率仅保留为整体 main 并集结算数据，不再作为单卡准入、通过或 done 指标。详见历史卡内的 Codex quality closure。
 
