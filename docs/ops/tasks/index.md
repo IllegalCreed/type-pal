@@ -13,7 +13,6 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 — asset lifecycle and sprite action contracts](TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
@@ -248,6 +247,7 @@
 | [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 — asset lifecycle and sprite action contracts](../archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测](../archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | done | 完成证据、历史签字与交接见原卡。 |

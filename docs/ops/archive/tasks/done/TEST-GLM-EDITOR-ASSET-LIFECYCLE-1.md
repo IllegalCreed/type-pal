@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 — asset lifecycle and sprite action contracts
 
-Status: review
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -156,3 +156,9 @@ r1（c60efe6bb）被拒收的唯一问题：`ImageAssetPicker.glm-asset-lifecycl
 交付定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check 和完整 SHA。
 覆盖率与测试数量不是本卡完成条件；不得标 done，等待 Codex 独立验收。
 ```
+
+---
+
+## Codex quality closure (2026-10-04)
+
+候选 `b6306b0af54719bb0aac658b3cab3f3d91d6fc6d` 已独立验收：8/8 合同、7/7 反控、typecheck、lint 0/0/0、docs、diff 全通过；act 警告已清零。本卡测试包已集成 main，原候选分支进入退休清理。
