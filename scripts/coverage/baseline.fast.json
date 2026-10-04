@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T16:52:33.362Z",
+  "generatedAt": "2026-10-04T17:35:22.638Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19268,
+  "testCount": 19270,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1214,8 +1214,8 @@
       ],
       "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
       "fastTests": {
-        "testCount": 266,
-        "testFileCount": 57,
+        "testCount": 268,
+        "testFileCount": 58,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1272,6 +1272,7 @@
           "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/scene.test.ts",
+          "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
           "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/utils/gbk.test.ts"
         ],
@@ -1552,6 +1553,11 @@
             "identityDigest": "e38950e400c0826b63c6586c882c6b8ce3d73422e4c194dce86ffe9db5f2037d"
           },
           {
+            "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+            "testCount": 2,
+            "identityDigest": "3a2cf57e6bff9478d5fa55f512275611a481f3d72f1760f3236fce785e44827d"
+          },
+          {
             "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
             "testCount": 4,
             "identityDigest": "e4c4d3dcb8cc086f2825b866b2e8fe9c9177d3abfaf60278710b2a08d82cbc66"
@@ -1562,26 +1568,26 @@
             "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
           }
         ],
-        "identityDigest": "7e59db4414c4cda6997f8e9950e37866317e53e14d2bd2d94e673cbfe69ea9cd",
+        "identityDigest": "5bcf8791d19a053108687978d701ea0a7f60a297d47a490aa70b2ce39e8c5594",
         "duplicateIdentityCount": 0,
-        "executionDigest": "fa5563aace0b094dfdb2a349d6ea82c8388e9fdfe54d4062464f0fbecd6983de"
+        "executionDigest": "beac3fa107417a3c307f98dd59815cca8cf959432caf1c877038ec4fc42f2853"
       },
       "metrics": {
         "statements": {
-          "covered": 1037,
-          "total": 1500
+          "covered": 1044,
+          "total": 1507
         },
         "branches": {
-          "covered": 429,
-          "total": 551
+          "covered": 441,
+          "total": 563
         },
         "functions": {
           "covered": 109,
           "total": 137
         },
         "lines": {
-          "covered": 915,
-          "total": 1325
+          "covered": 922,
+          "total": 1332
         }
       }
     },
@@ -10085,20 +10091,20 @@
   },
   "total": {
     "statements": {
-      "covered": 68781,
-      "total": 77379
+      "covered": 68788,
+      "total": 77386
     },
     "branches": {
-      "covered": 49733,
-      "total": 60167
+      "covered": 49745,
+      "total": 60179
     },
     "functions": {
       "covered": 13030,
       "total": 14708
     },
     "lines": {
-      "covered": 61513,
-      "total": 67748
+      "covered": 61520,
+      "total": 67755
     }
   }
 }

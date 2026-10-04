@@ -16,6 +16,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 | TEST-COVERAGE85-GLM-EDITOR-1 | [editor workflow branch-contract closure](tasks/TEST-COVERAGE85-GLM-EDITOR-1.md) | build | GLM / UI状态合同与证据 | App/MapMode/ScriptEditor 等真实交互，目标为editor branches 85% |
 | TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 | [extract/migrate pipeline branch-contract closure](tasks/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | Kimi / CLI与事务合同 | pal-extract/migrate 公开入口与mkdtemp隔离，分别达85% |
 | CODE-QUALITY-3c | [editor coverage 分支确定性](tasks/CODE-QUALITY-3c-editor-coverage-determinism.md) | draft | Codex / 先做逐文件 coverage 对照 | 保护 fast 少1 branch，禁止放宽门槛或改 Q3b parser |
+| CODE-QUALITY-3d | [pal-extract indexed PNG 输入边界](tasks/CODE-QUALITY-3d-pal-extract-png-inputs.md) | review | Codex / 先闭合 runner coverage 门 | 代码/全仓 check 通过；editor branch 差额阻止 done |
 
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 

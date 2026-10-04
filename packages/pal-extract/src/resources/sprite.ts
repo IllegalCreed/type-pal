@@ -29,8 +29,18 @@ export function encodeIndexedPng(
   pixels: Uint8Array,
   opaque?: Uint8Array,
 ): Uint8Array {
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {
+    throw new Error(`encodeIndexedPng: invalid dimensions ${width}x${height}`)
+  }
+  const total = width * height
+  if (pixels.byteLength < total) {
+    throw new Error(`encodeIndexedPng: pixels length ${pixels.byteLength} < ${total}`)
+  }
+  if (opaque && opaque.byteLength < total) {
+    throw new Error(`encodeIndexedPng: opaque length ${opaque.byteLength} < ${total}`)
+  }
   const png = new PNG({ width, height })
-  for (let i = 0; i < width * height; i++) {
+  for (let i = 0; i < total; i++) {
     const v = pixels[i]!
     png.data[i * 4] = v
     png.data[i * 4 + 1] = v
