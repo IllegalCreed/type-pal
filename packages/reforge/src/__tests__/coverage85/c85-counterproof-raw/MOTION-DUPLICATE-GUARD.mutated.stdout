@@ -1,7 +1,7 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
 
- ❯ src/entity-motion.c85-arms.test.ts (8 tests | 1 failed | 7 skipped) 4ms
+ ❯ src/entity-motion.c85-arms.test.ts (11 tests | 1 failed | 10 skipped) 5ms
    × 非法快照臂:重复 actor 与空足迹各自 fail-loud 4ms
    ↓ 非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud
    ↓ 非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud
@@ -10,13 +10,16 @@
    ↓ 悬浮臂:floating 意图无视全图地形封锁照常移动
    ↓ 移动键臂:party 键恒为 0:party 且排序先于实体键
    ↓ 足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与
+     ↓ party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖
+     ↓ 持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数
+     ↓ 绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝
 
  Test Files  1 failed (1)
-      Tests  1 failed | 7 skipped (8)
-   Start at  14:06:25
-   Duration  119ms (transform 41ms, setup 0ms, import 49ms, tests 4ms, environment 0ms)
+      Tests  1 failed | 10 skipped (11)
+   Start at  15:28:31
+   Duration  139ms (transform 44ms, setup 0ms, import 53ms, tests 5ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-HysJNk/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-Ju9QOQ/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-HysJNk/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-Ju9QOQ/report.json

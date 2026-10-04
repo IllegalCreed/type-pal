@@ -4,12 +4,12 @@
 stdout | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
 [reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
 
- ✓ src/main.c85-boot.test.ts (3 tests | 2 skipped) 582ms
-   ✓ C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性  581ms
+ ✓ src/main.c85-boot.test.ts (4 tests | 3 skipped) 929ms
+   ✓ C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性  928ms
 
  Test Files  1 passed (1)
-      Tests  1 passed | 2 skipped (3)
-   Start at  14:06:34
-   Duration  1.19s (transform 654ms, setup 0ms, import 252ms, tests 582ms, environment 287ms)
+      Tests  1 passed | 3 skipped (4)
+   Start at  15:28:46
+   Duration  2.00s (transform 1.14s, setup 0ms, import 522ms, tests 929ms, environment 445ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-B2yfAk/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-OQJ1xu/report.json

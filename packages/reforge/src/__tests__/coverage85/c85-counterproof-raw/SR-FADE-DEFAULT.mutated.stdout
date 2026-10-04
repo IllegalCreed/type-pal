@@ -37,10 +37,10 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 31 skipped (32)
-   Start at  14:06:15
-   Duration  512ms (transform 305ms, setup 0ms, import 359ms, tests 7ms, environment 0ms)
+   Start at  15:28:19
+   Duration  333ms (transform 210ms, setup 0ms, import 252ms, tests 7ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-xDiTLp/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-tUlSQq/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-runner.c85-arms.test.ts -t 演出缺省臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-xDiTLp/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-runner.c85-arms.test.ts -t 演出缺省臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-tUlSQq/report.json

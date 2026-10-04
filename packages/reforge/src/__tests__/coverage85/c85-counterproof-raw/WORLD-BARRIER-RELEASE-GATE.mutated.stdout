@@ -1,7 +1,7 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
 
- ❯ src/script-world.c85-arms.test.ts (15 tests | 1 failed | 14 skipped) 4ms
+ ❯ src/script-world.c85-arms.test.ts (15 tests | 1 failed | 14 skipped) 5ms
    ↓ page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined
    ↓ page 缺席臂:initialPage 指向不存在页时 fail-loud
    ↓ behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud
@@ -20,10 +20,10 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 14 skipped (15)
-   Start at  14:06:24
-   Duration  300ms (transform 185ms, setup 0ms, import 226ms, tests 4ms, environment 0ms)
+   Start at  15:28:29
+   Duration  333ms (transform 207ms, setup 0ms, import 252ms, tests 5ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-B2aZlI/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-hu9mIY/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-B2aZlI/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-hu9mIY/report.json
