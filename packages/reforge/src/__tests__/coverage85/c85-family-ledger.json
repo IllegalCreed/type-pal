@@ -7,7 +7,9 @@
       "fullName": "C65 敌效果门 > 死亡宿主臂:applyEnemyEffect 对死者直接 failed",
       "family": "死亡宿主臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [993],
+      "sourceLines": [
+        993
+      ],
       "caller": "applyEnemyEffect(公开)",
       "oracle": "死者宿主直接 failed"
     },
@@ -16,7 +18,9 @@
       "fullName": "C85 AI 决策臂 > 无 enemyId 召唤臂:召唤动作回落召唤者自身定义",
       "family": "无 enemyId 召唤臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [906],
+      "sourceLines": [
+        906
+      ],
       "caller": "decideEnemyAction",
       "oracle": "召唤动作回落召唤者自身定义"
     },
@@ -25,7 +29,9 @@
       "fullName": "C85 AI 决策臂 > 沉默臂:技能在表的 cast fallback 被沉默拦回落普攻(规则路径由求值器先跳过)",
       "family": "沉默 fallback 臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [883],
+      "sourceLines": [
+        883
+      ],
       "caller": "decideEnemyAction(公开)",
       "oracle": "技能在表的 cast fallback 被沉默拦落普攻"
     },
@@ -34,7 +40,10 @@
       "fullName": "C85 AI 决策臂 > 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻",
       "family": "缺数据落普攻臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [897, 907],
+      "sourceLines": [
+        897,
+        907
+      ],
       "caller": "decideEnemyAction",
       "oracle": "transform/summon 引用缺失 log 提示落普攻"
     },
@@ -43,7 +52,11 @@
       "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷窃非重复臂:lastAction notice 文案、未知道具名回落 itemId、c=0 静默不弹提示",
       "family": "偷窃 notice/回落臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [651, 654, 663],
+      "sourceLines": [
+        651,
+        654,
+        663
+      ],
       "caller": "cast 效果链 performSteal",
       "oracle": "文钱/道具 notice;未知道具名回落 itemId;c=0 静默"
     },
@@ -52,7 +65,10 @@
       "fullName": "C85 回合末臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限",
       "family": "回合末回蓝臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [1138, 1139],
+      "sourceLines": [
+        1138,
+        1139
+      ],
       "caller": "stepBattle 回合末",
       "oracle": "regenMp 回蓝钳上限(regenHp 顺带)"
     },
@@ -61,7 +77,9 @@
       "fullName": "C85 毒系统臂 > mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩",
       "family": "毒 mpDelta 分侧臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [499],
+      "sourceLines": [
+        499
+      ],
       "caller": "stepBattle 回合末 tickPoisons",
       "oracle": "玩家扣蓝;敌无 mp 槽跳过只走 HP;发作日志分侧前缀"
     },
@@ -70,7 +88,10 @@
       "fullName": "C85 毒系统臂 > 毒名缺省与到期产物臂:无 name 按 id 合成名,grantItem 优先叠已有背包槽",
       "family": "毒名与到期产物臂",
       "source": "src/battle/battle-core.ts",
-      "sourceLines": [502, 508],
+      "sourceLines": [
+        502,
+        508
+      ],
       "caller": "stepBattle 回合末 tickPoisons",
       "oracle": "无 name 按 id 合成名;grantItem 叠已有槽/新开槽"
     },
@@ -79,7 +100,11 @@
       "fullName": "C85 会话生命周期臂 > cancel 双守卫臂:已取消会话 tick 不再驱动演出与回合准备",
       "family": "cancel 守卫臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [515, 522, 530],
+      "sourceLines": [
+        515,
+        522,
+        530
+      ],
       "caller": "BattleSession.cancel/tick",
       "oracle": "已取消会话 tick 不再驱动;终局后 cancel 安静"
     },
@@ -88,7 +113,11 @@
       "fullName": "C85 会话生命周期臂 > cancel 幂等臂:终局后再 cancel 安静返回不再 reject",
       "family": "cancel 守卫臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [515, 522, 530],
+      "sourceLines": [
+        515,
+        522,
+        530
+      ],
       "caller": "BattleSession.cancel/tick",
       "oracle": "已取消会话 tick 不再驱动;终局后 cancel 安静"
     },
@@ -97,7 +126,9 @@
       "fullName": "C85 会话生命周期臂 > 形象缺失臂:构造期形象复位即对未注册定义 fail-loud",
       "family": "形象缺定义臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [385],
+      "sourceLines": [
+        385
+      ],
       "caller": "BattleSession 构造器 resetVisual",
       "oracle": "未注册形象 fail-loud"
     },
@@ -106,7 +137,9 @@
       "fullName": "C85 战斗演出动作臂 > applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud",
       "family": "applyActorGrowth 身份臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [706],
+      "sourceLines": [
+        706
+      ],
       "caller": "BattleSession.tick 演出动作",
       "oracle": "队伍外角色 fail-loud"
     },
@@ -115,7 +148,9 @@
       "fullName": "C85 战斗演出动作臂 > endBattle 重复登记臂:同链两条终局命令第二条 fail-loud",
       "family": "终局重复登记臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [754],
+      "sourceLines": [
+        754
+      ],
       "caller": "BattleSession.tick 演出动作",
       "oracle": "同链第二条终局命令 fail-loud"
     },
@@ -124,7 +159,9 @@
       "fullName": "C85 战斗演出动作臂 > stopMusic 即时臂:fadeMs 缺省 0 当拍停曲",
       "family": "stopMusic 即时臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [846],
+      "sourceLines": [
+        846
+      ],
       "caller": "BattleSession.tick",
       "oracle": "fadeMs 缺省 0 当拍停曲"
     },
@@ -133,7 +170,11 @@
       "fullName": "C85 战斗演出动作臂 > stopMusic 定时臂:fadeMs>0 入排程,越时后原 serial 停曲",
       "family": "stopMusic 排程臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [845, 846, 850],
+      "sourceLines": [
+        845,
+        846,
+        850
+      ],
       "caller": "BattleSession 构造器+tick(公开)",
       "oracle": "fadeMs>0 只入排程,越时后原 serial 停曲"
     },
@@ -142,7 +183,10 @@
       "fullName": "C85 战斗演出动作臂 > 排程失效臂:排程后的 cancel 使 serial 失配,越时不再停曲",
       "family": "排程失效臂",
       "source": "src/battle/battle-session.ts",
-      "sourceLines": [699, 701],
+      "sourceLines": [
+        699,
+        701
+      ],
       "caller": "BattleSession.cancel/tick",
       "oracle": "排程后 cancel 使 serial 失配,越时不停曲"
     },
@@ -151,7 +195,14 @@
       "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖",
       "family": "party 绕行回落臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [349, 351, 353, 1131, 1135, 1147],
+      "sourceLines": [
+        349,
+        351,
+        353,
+        1131,
+        1135,
+        1147
+      ],
       "caller": "planEntityMotion(公开)",
       "oracle": "让位者无法侧踏让出时 party 自身 side-only 绕行并产生持杖(实体侧踏候选构造/强制让位/回落路径)"
     },
@@ -160,7 +211,14 @@
       "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数",
       "family": "持杖多拍臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [385, 388, 390, 1356, 1361, 1370],
+      "sourceLines": [
+        385,
+        388,
+        390,
+        1356,
+        1361,
+        1370
+      ],
       "caller": "planEntityMotion 多拍回喂 nextSideSticks",
       "oracle": "同侧持杖续行且剩余拍数递减(真实多拍输入:拍→结果→回喂)"
     },
@@ -169,7 +227,14 @@
       "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝",
       "family": "持杖多拍臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [385, 388, 390, 1356, 1361, 1370],
+      "sourceLines": [
+        385,
+        388,
+        390,
+        1356,
+        1361,
+        1370
+      ],
       "caller": "planEntityMotion 多拍回喂 nextSideSticks",
       "oracle": "同侧持杖续行且剩余拍数递减(真实多拍输入:拍→结果→回喂)"
     },
@@ -178,7 +243,9 @@
       "fullName": "公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud",
       "family": "公平拍臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [670],
+      "sourceLines": [
+        670
+      ],
       "caller": "planEntityMotion fairnessTickForGroup",
       "oracle": "非整数公平拍 fail-loud"
     },
@@ -187,7 +254,10 @@
       "fullName": "原地意图臂:desired 等于 from 的动态意图零位移成功且朝向回落 desiredFacing",
       "family": "原地意图臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [322, 344],
+      "sourceLines": [
+        322,
+        344
+      ],
       "caller": "planEntityMotion",
       "oracle": "desired==from 零位移成功且朝向回落 desiredFacing"
     },
@@ -196,7 +266,10 @@
       "fullName": "悬浮臂:floating 意图无视全图地形封锁照常移动",
       "family": "悬浮臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [521, 525],
+      "sourceLines": [
+        521,
+        525
+      ],
       "caller": "planEntityMotion",
       "oracle": "floating 无视全图地形封锁照常移动"
     },
@@ -205,7 +278,10 @@
       "fullName": "移动键臂:party 键恒为 0:party 且排序先于实体键",
       "family": "移动键臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [163, 164],
+      "sourceLines": [
+        163,
+        164
+      ],
       "caller": "motionActorKey(公开)",
       "oracle": "party 键恒 0:party 且排序在前"
     },
@@ -214,7 +290,10 @@
       "fullName": "足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与",
       "family": "足迹重叠臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [196, 197],
+      "sourceLines": [
+        196,
+        197
+      ],
       "caller": "motionFootprintsOverlap(公开)",
       "oracle": "精确相邻不重叠;分量靠近即重叠;高度不参与"
     },
@@ -223,7 +302,14 @@
       "fullName": "非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud",
       "family": "非法侧杖臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [441, 443, 445, 447, 449, 451],
+      "sourceLines": [
+        441,
+        443,
+        445,
+        447,
+        449,
+        451
+      ],
       "caller": "planEntityMotion",
       "oracle": "缺 actor/重复/epoch/时长越界 fail-loud"
     },
@@ -232,7 +318,10 @@
       "fullName": "非法快照臂:重复 actor 与空足迹各自 fail-loud",
       "family": "非法快照臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [400, 401],
+      "sourceLines": [
+        400,
+        401
+      ],
       "caller": "planEntityMotion(公开)",
       "oracle": "重复 actor/空足迹 fail-loud"
     },
@@ -241,7 +330,13 @@
       "fullName": "非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud",
       "family": "非法意图臂",
       "source": "src/entity-motion.ts",
-      "sourceLines": [417, 419, 421, 423, 425],
+      "sourceLines": [
+        417,
+        419,
+        421,
+        423,
+        425
+      ],
       "caller": "planEntityMotion",
       "oracle": "重复/缺 actor、过期原点、非法 quantum/epoch fail-loud"
     },
@@ -250,7 +345,10 @@
       "fullName": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
       "family": "存储回退臂",
       "source": "src/main.ts",
-      "sourceLines": [469, 471],
+      "sourceLines": [
+        469,
+        471
+      ],
       "caller": "bootGame",
       "oracle": "indexedDB 缺席回落 MemorySaveStore 正常开局"
     },
@@ -259,7 +357,10 @@
       "fullName": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
       "family": "标题启动序列臂",
       "source": "src/main.ts",
-      "sourceLines": [500, 488],
+      "sourceLines": [
+        500,
+        488
+      ],
       "caller": "bootGame ?menu(公开)",
       "oracle": "无 startup 视频角色→playVideoSequence 空臂直达菜单,选择第二入口开局"
     },
@@ -268,7 +369,10 @@
       "fullName": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
       "family": "运动探针缺席臂",
       "source": "src/main.ts",
-      "sourceLines": [823, 831],
+      "sourceLines": [
+        823,
+        831
+      ],
       "caller": "bootGame",
       "oracle": "探针实体不在场 present=false"
     },
@@ -277,7 +381,14 @@
       "fullName": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性",
       "family": "运动探针臂",
       "source": "src/main.ts",
-      "sourceLines": [300, 814, 823, 826, 827, 831],
+      "sourceLines": [
+        300,
+        814,
+        823,
+        826,
+        827,
+        831
+      ],
       "caller": "bootGame(公开启动入口)",
       "oracle": "?motion-entity 在场实体坐标/在场性(canvas DEV dataset=DOM 面+observation)"
     },
@@ -286,7 +397,11 @@
       "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > lifecycle 拒收臂:lifecycle 命令不得进入基础 host,worldChanged 仍被通知",
       "family": "lifecycle 提交臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [98, 176, 180],
+      "sourceLines": [
+        98,
+        176,
+        180
+      ],
       "caller": "ProjectScriptRuntimeHost.execute",
       "oracle": "lifecycle 命令提交世界态且 worldChanged 通知"
     },
@@ -295,7 +410,9 @@
       "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 时机臂:auto 时机直接 fail-loud",
       "family": "runEntityTrigger 时机臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [436],
+      "sourceLines": [
+        436
+      ],
       "caller": "ProjectScriptRuntimeHost.execute(公开)",
       "oracle": "auto 时机 fail-loud"
     },
@@ -304,7 +421,9 @@
       "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 桥臂:宿主未提供调用桥时 fail-loud",
       "family": "runEntityTrigger 桥臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [442],
+      "sourceLines": [
+        442
+      ],
       "caller": "ProjectScriptRuntimeHost.execute",
       "oracle": "缺调用桥 fail-loud"
     },
@@ -313,7 +432,9 @@
       "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > runEntityTrigger 派发臂:调用桥收到同 target 与 context",
       "family": "runEntityTrigger 派发臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [446],
+      "sourceLines": [
+        446
+      ],
       "caller": "ProjectScriptRuntimeHost.execute",
       "oracle": "调用桥收到同 target/context"
     },
@@ -322,7 +443,9 @@
       "fullName": "C85 ProjectScriptRuntimeHost 桥臂 > 守卫臂:已中止 signal 下的 execute 直接 AbortError",
       "family": "中止守卫臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [166],
+      "sourceLines": [
+        166
+      ],
       "caller": "ProjectScriptRuntimeHost.execute",
       "oracle": "已中止 signal AbortError"
     },
@@ -331,7 +454,18 @@
       "fullName": "C85 r6 断点续行臂（真实 continuation:stop 落游标→复跑续行不重放） > auto 行为中止后保留断点续行,复跑从断点续行且不重放已完成叶",
       "family": "断点续行臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [179, 181, 199, 227, 232, 321, 352, 387, 474, 494],
+      "sourceLines": [
+        179,
+        181,
+        199,
+        227,
+        232,
+        321,
+        352,
+        387,
+        474,
+        494
+      ],
       "caller": "runEntityBehavior(auto)+RuntimeScriptRunner.runFlow resume",
       "oracle": "gate 挂住→abort 保留断点(含续行帧)→复跑从断点续行不重放已完成叶(真实 continuation,非手造)"
     },
@@ -340,7 +474,10 @@
       "fullName": "C85 ScriptProjectRuntime 装配臂 > script 初始化臂:world 缺 script 时构造补空脚本态",
       "family": "script 初始化臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [120, 332],
+      "sourceLines": [
+        120,
+        332
+      ],
       "caller": "ScriptProjectRuntime 构造器",
       "oracle": "world 缺 script 补空脚本态"
     },
@@ -349,7 +486,10 @@
       "fullName": "C85 ScriptProjectRuntime 装配臂 > 场景钩子臂:runSceneHook 对场景错位安静 false",
       "family": "场景钩子臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [481, 553],
+      "sourceLines": [
+        481,
+        553
+      ],
       "caller": "runSceneHook(公开)",
       "oracle": "场景错位安静 false"
     },
@@ -358,7 +498,9 @@
       "fullName": "C85 ScriptProjectRuntime 装配臂 > 实体臂:runEntityBehavior 对缺席实体 fail-loud,对场景错位安静 false",
       "family": "实体臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [250],
+      "sourceLines": [
+        250
+      ],
       "caller": "runEntityBehavior(公开)",
       "oracle": "缺席实体 fail-loud;场景错位安静 false"
     },
@@ -367,7 +509,9 @@
       "fullName": "C85 ScriptProjectRuntime 装配臂 > 摘要臂:非 64 位 hex canonicalContentDigest 构造即拒",
       "family": "摘要臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [329],
+      "sourceLines": [
+        329
+      ],
       "caller": "ScriptProjectRuntime 构造器(公开)",
       "oracle": "非 64hex digest fail-loud"
     },
@@ -376,7 +520,9 @@
       "fullName": "C85 ScriptProjectRuntime 装配臂 > 私有脚本臂:物品私有脚本缺定义 fail-loud",
       "family": "私有脚本臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [663],
+      "sourceLines": [
+        663
+      ],
       "caller": "runItemPrivateScript(公开)",
       "oracle": "物品私有脚本缺定义 fail-loud"
     },
@@ -385,7 +531,9 @@
       "fullName": "C85 ScriptRunnerCore 流臂 > auto 恢复臂:resume 无游标或控制器未开 checkpoint 即拒",
       "family": "auto 恢复臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [179],
+      "sourceLines": [
+        179
+      ],
       "caller": "RuntimeScriptRunner.runFlow",
       "oracle": "resume 无 checkpoint 游标 fail-loud"
     },
@@ -394,7 +542,9 @@
       "fullName": "C85 ScriptRunnerCore 流臂 > gate 停止臂:宿主 gate 返回 stop 时本次运行干净收尾不再执行后续叶",
       "family": "gate 停止臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [638],
+      "sourceLines": [
+        638
+      ],
       "caller": "RuntimeScriptRunner.runFlow awaitGate",
       "oracle": "宿主 gate stop 干净收尾零叶执行"
     },
@@ -403,7 +553,11 @@
       "fullName": "C85 ScriptRunnerCore 流臂 > 完成游标臂:声明 complete 的 flow 使用 completed cursor 立即收尾零效果",
       "family": "完成游标臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [183, 184, 185],
+      "sourceLines": [
+        183,
+        184,
+        185
+      ],
       "caller": "RuntimeScriptRunner.runFlow(公开)",
       "oracle": "未声明 complete 拒;声明后立即收尾零效果"
     },
@@ -412,7 +566,11 @@
       "fullName": "C85 ScriptRunnerCore 流臂 > 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒",
       "family": "完成游标臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [183, 184, 185],
+      "sourceLines": [
+        183,
+        184,
+        185
+      ],
       "caller": "RuntimeScriptRunner.runFlow(公开)",
       "oracle": "未声明 complete 拒;声明后立即收尾零效果"
     },
@@ -421,7 +579,9 @@
       "fullName": "C85 ScriptRunnerCore 流臂 > 游标缺失臂:flow 指针指向不存在的 stage 即拒",
       "family": "游标缺失臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [274],
+      "sourceLines": [
+        274
+      ],
       "caller": "RuntimeScriptRunner.runFlow",
       "oracle": "stage 游标不存在 fail-loud"
     },
@@ -430,7 +590,9 @@
       "fullName": "完成游标复入臂:行为游标已 completed 时不再取得租约",
       "family": "完成游标复入臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [678],
+      "sourceLines": [
+        678
+      ],
       "caller": "runSceneHook(公开)+resolveSceneHook",
       "oracle": "已 completed 游标不再取得租约"
     },
@@ -439,7 +601,9 @@
       "fullName": "实体无行为臂:实体未声明 trigger 行为时 runEntityBehavior 安静 false",
       "family": "无行为安静臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [512],
+      "sourceLines": [
+        512
+      ],
       "caller": "runEntityBehavior(公开)",
       "oracle": "实体未声明 trigger 行为时安静 false"
     },
@@ -448,7 +612,9 @@
       "fullName": "钩子无变体臂:场景无 onTeleport 钩子时 runSceneHook 安静 false",
       "family": "无钩子安静臂",
       "source": "src/runtime-script-project.ts + src/script-runner-core.ts",
-      "sourceLines": [582],
+      "sourceLines": [
+        582
+      ],
       "caller": "runSceneHook(公开)",
       "oracle": "场景无 onTeleport 钩子时安静 false"
     },
@@ -457,7 +623,11 @@
       "fullName": "chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传",
       "family": "chasePlayer 臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [47, 50, 51],
+      "sourceLines": [
+        47,
+        50,
+        51
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "self 在场派发缺省参数;不在场零调用"
     },
@@ -466,7 +636,11 @@
       "fullName": "chasePlayer 跨场景臂:self 不在场时零调用",
       "family": "chasePlayer 臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [47, 50, 51],
+      "sourceLines": [
+        47,
+        50,
+        51
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "self 在场派发缺省参数;不在场零调用"
     },
@@ -475,7 +649,10 @@
       "fullName": "endBattle 拒绝臂:非战斗演出上下文直接 fail-loud",
       "family": "endBattle 拒绝臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [325, 326],
+      "sourceLines": [
+        325,
+        326
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "非战斗演出上下文 fail-loud"
     },
@@ -484,7 +661,13 @@
       "fullName": "loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主",
       "family": "loadScene 落点臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [77, 78, 79, 81, 82],
+      "sourceLines": [
+        77,
+        78,
+        79,
+        81,
+        82
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "三字段缺席空 spawn;pos+facing 与 source 过渡透传"
     },
@@ -493,7 +676,13 @@
       "fullName": "loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主",
       "family": "loadScene 落点臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [77, 78, 79, 81, 82],
+      "sourceLines": [
+        77,
+        78,
+        79,
+        81,
+        82
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "三字段缺席空 spawn;pos+facing 与 source 过渡透传"
     },
@@ -502,7 +691,9 @@
       "fullName": "mountParty 在场缺省臂:偏移缺席按 0 派发宿主",
       "family": "mountParty 缺省臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [248],
+      "sourceLines": [
+        248
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "偏移缺席按 0 派发"
     },
@@ -511,7 +702,9 @@
       "fullName": "playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主",
       "family": "后台取消臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [198],
+      "sourceLines": [
+        198
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "runner 取消后失败不再上报"
     },
@@ -520,7 +713,10 @@
       "fullName": "playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛",
       "family": "后台失败臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [198, 201],
+      "sourceLines": [
+        198,
+        201
+      ],
       "caller": "executeScriptHostEffect catch",
       "oracle": "循环失败经 report;非 Error 按 String()"
     },
@@ -529,7 +725,10 @@
       "fullName": "playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测",
       "family": "后台失败臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [198, 201],
+      "sourceLines": [
+        198,
+        201
+      ],
       "caller": "executeScriptHostEffect catch",
       "oracle": "循环失败经 report;非 Error 按 String()"
     },
@@ -538,7 +737,10 @@
       "fullName": "playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成",
       "family": "动作相位臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [191, 195],
+      "sourceLines": [
+        191,
+        195
+      ],
       "caller": "executeScriptHostEffect playEntityAction",
       "oracle": "startAtMs 透传;单次缺省阻塞"
     },
@@ -547,7 +749,10 @@
       "fullName": "releaseEntity 双臂:无 target 归还全部,target 在场只还该实体",
       "family": "releaseEntity 双臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [239, 242],
+      "sourceLines": [
+        239,
+        242
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "无 target 归还全部;点名只还该实体"
     },
@@ -556,7 +761,11 @@
       "fullName": "setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发",
       "family": "形象补丁臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [95, 96, 97],
+      "sourceLines": [
+        95,
+        96,
+        97
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "部分补丁缺席键;三维分别派发"
     },
@@ -565,7 +774,11 @@
       "fullName": "setActorAppearance 部分补丁臂:仅改单维度时其余键缺席",
       "family": "形象补丁臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [95, 96, 97],
+      "sourceLines": [
+        95,
+        96,
+        97
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "部分补丁缺席键;三维分别派发"
     },
@@ -574,7 +787,9 @@
       "fullName": "setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud",
       "family": "提交控制臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [161],
+      "sourceLines": [
+        161
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "缺同步提交控制 fail-loud"
     },
@@ -583,7 +798,10 @@
       "fullName": "setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载",
       "family": "提交/reload 臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [162, 164],
+      "sourceLines": [
+        162,
+        164
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "reloadMap 收提交控制;无 reloadMap 直合同拍提交"
     },
@@ -592,7 +810,10 @@
       "fullName": "setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override",
       "family": "提交/reload 臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [162, 164],
+      "sourceLines": [
+        162,
+        164
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "reloadMap 收提交控制;无 reloadMap 直合同拍提交"
     },
@@ -601,7 +822,18 @@
       "fullName": "世界持久类叶零派发臂:状态写入类命令不触碰画面宿主",
       "family": "世界持久零派发臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [130, 131, 132, 133, 134, 135, 136, 137, 138, 139],
+      "sourceLines": [
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "状态写入类叶不触碰画面宿主"
     },
@@ -610,7 +842,11 @@
       "fullName": "在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主",
       "family": "在场地址臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [119, 124, 179],
+      "sourceLines": [
+        119,
+        124,
+        179
+      ],
       "caller": "executeScriptHostEffect(公开)",
       "oracle": "setEntityPos/PosRelParty/Frame 逐参派发"
     },
@@ -619,7 +855,10 @@
       "fullName": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
       "family": "宿主能力缺席臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [328, 332],
+      "sourceLines": [
+        328,
+        332
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "holdScreen/revealScreen 未实现 fail-loud"
     },
@@ -628,7 +867,10 @@
       "fullName": "演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both",
       "family": "演出缺省臂",
       "source": "src/script-host-adapter.ts",
-      "sourceLines": [43, 141],
+      "sourceLines": [
+        43,
+        141
+      ],
       "caller": "executeScriptHostEffect",
       "oracle": "dither 720ms;increaseHpMp 缺省 both"
     },
@@ -638,7 +880,22 @@
       "family": "跨场景过滤臂",
       "source": "src/script-host-adapter.ts",
       "sourceLines": [
-        107, 119, 124, 173, 179, 184, 191, 209, 235, 242, 248, 256, 273, 278, 283, 288
+        107,
+        119,
+        124,
+        173,
+        179,
+        184,
+        191,
+        209,
+        235,
+        242,
+        248,
+        256,
+        273,
+        278,
+        283,
+        288
       ],
       "caller": "executeScriptHostEffect activeEntity",
       "oracle": "跨场景 EntityAddress 零派发不抛"
@@ -648,7 +905,9 @@
       "fullName": "0x13 缺省臂:setEntityPos 的 height 缺省落 0 并持久写 world.entityPos",
       "family": "0x13 高度缺省臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [579],
+      "sourceLines": [
+        579
+      ],
       "caller": "ScriptRunner.run",
       "oracle": "setEntityPos height 缺省 0 且持久写 entityPos"
     },
@@ -657,7 +916,11 @@
       "fullName": "0x2E/0x63/0x6E 缺省臂:loseItem count 缺省 1、mountParty 偏移缺省 0、addVar 缺省累加底数 0",
       "family": "缺省参数臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [671, 681, 696],
+      "sourceLines": [
+        671,
+        681,
+        696
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "loseItem count1/mountParty 偏移0/addVar 缺省底数0"
     },
@@ -666,7 +929,9 @@
       "fullName": "0x98 清空臂:setFollowers 空表把 world.followers 归 undefined",
       "family": "0x98 清空臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [616],
+      "sourceLines": [
+        616
+      ],
       "caller": "ScriptRunner.run",
       "oracle": "空 followers 表把 world.followers 归 undefined"
     },
@@ -675,7 +940,9 @@
       "fullName": "B8 缺省臂:vanishEntity 无 entity 时回落触发者自身,seconds 缺省 2",
       "family": "B8 vanish 双回落臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [528],
+      "sourceLines": [
+        528
+      ],
       "caller": "ScriptRunner.run",
       "oracle": "vanishEntity 回落 selfId 与缺省 seconds=2"
     },
@@ -684,7 +951,9 @@
       "fullName": "B8 缺省臂:无宿主实体的 chasePlayer 以空 self 派发缺省 range/speed/floating",
       "family": "B8 chase 缺省臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [521],
+      "sourceLines": [
+        521
+      ],
       "caller": "ScriptRunner.run",
       "oracle": "空 self 派发 chaseStep 缺省 range8/speed4/floating"
     },
@@ -693,7 +962,9 @@
       "fullName": "call 重抛臂:callee 内非 returnScript 错误穿透 callScript 原样上抛",
       "family": "call 重抛臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [459],
+      "sourceLines": [
+        459
+      ],
       "caller": "ScriptRunner.callScript catch",
       "oracle": "callee 非 returnScript 错误原样上抛"
     },
@@ -702,7 +973,9 @@
       "fullName": "endBattle 拒绝臂:大世界 runner 拒绝战斗演出专属命令",
       "family": "endBattle 拒绝臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [826],
+      "sourceLines": [
+        826
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "大世界 runner 拒绝战斗演出命令"
     },
@@ -711,7 +984,9 @@
       "fullName": "runStages 宿主臂:entry 段遇无 revealSceneEntry 宿主 fail-loud",
       "family": "entry 宿主臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [483],
+      "sourceLines": [
+        483
+      ],
       "caller": "ScriptRunner.runStages",
       "oracle": "无 revealSceneEntry 宿主 fail-loud"
     },
@@ -720,7 +995,9 @@
       "fullName": "runStages 空段臂:空 stages 绑定安静收尾,不建阶段不抛错",
       "family": "空段臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [477],
+      "sourceLines": [
+        477
+      ],
       "caller": "ScriptRunner.runStages",
       "oracle": "空 stages 安静收尾不建阶段"
     },
@@ -729,7 +1006,13 @@
       "fullName": "setSceneMapOverride 当前场景臂:宿主无 reloadMap 时只落持久 override",
       "family": "setSceneMapOverride 三臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [619, 621, 623, 627, 633],
+      "sourceLines": [
+        619,
+        621,
+        623,
+        627,
+        633
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "指定 scene 直写/当前场景无 reloadMap 落持久/无 sceneId 零写"
     },
@@ -738,7 +1021,13 @@
       "fullName": "setSceneMapOverride 当前场景臂:无 sceneId 查询的宿主保持零写入",
       "family": "setSceneMapOverride 三臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [619, 621, 623, 627, 633],
+      "sourceLines": [
+        619,
+        621,
+        623,
+        627,
+        633
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "指定 scene 直写/当前场景无 reloadMap 落持久/无 sceneId 零写"
     },
@@ -747,7 +1036,13 @@
       "fullName": "setSceneMapOverride 持久臂:指定 scene 直接写 world,不触碰当前场景",
       "family": "setSceneMapOverride 三臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [619, 621, 623, 627, 633],
+      "sourceLines": [
+        619,
+        621,
+        623,
+        627,
+        633
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "指定 scene 直写/当前场景无 reloadMap 落持久/无 sceneId 零写"
     },
@@ -756,7 +1051,9 @@
       "fullName": "vanish 双回落臂:无 entity 且无 selfId 时以空实体 id 派发宿主",
       "family": "B8 vanish 双回落臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [528],
+      "sourceLines": [
+        528
+      ],
       "caller": "ScriptRunner.run",
       "oracle": "vanishEntity 回落 selfId 与缺省 seconds=2"
     },
@@ -765,7 +1062,10 @@
       "fullName": "后台失败上报臂:非 Error 拒绝值按 String() 文本上报",
       "family": "后台失败上报臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [658, 661],
+      "sourceLines": [
+        658,
+        661
+      ],
       "caller": "ScriptRunner.exec playEntityAction catch",
       "oracle": "非 abort 失败按复合引用 report;abort 静默;非 Error 按 String()"
     },
@@ -774,7 +1074,10 @@
       "fullName": "后台失败静默臂:未取消 runner 收到 AbortError 型拒绝同样静默不上报",
       "family": "后台失败上报臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [658, 661],
+      "sourceLines": [
+        658,
+        661
+      ],
       "caller": "ScriptRunner.exec playEntityAction catch",
       "oracle": "非 abort 失败按复合引用 report;abort 静默;非 Error 按 String()"
     },
@@ -784,8 +1087,26 @@
       "family": "命令直通臂",
       "source": "src/script-runner.ts",
       "sourceLines": [
-        587, 590, 596, 598, 601, 604, 607, 610, 668, 672, 683, 687, 689, 713, 736, 748, 782, 785,
-        806, 820
+        587,
+        590,
+        596,
+        598,
+        601,
+        604,
+        607,
+        610,
+        668,
+        672,
+        683,
+        687,
+        689,
+        713,
+        736,
+        748,
+        782,
+        785,
+        806,
+        820
       ],
       "caller": "ScriptRunner.exec 各 case",
       "oracle": "flee/hold/reveal/shake/wave/layer/hpmp/revive/learn/unequip/daynight/giveitem/money/halve/sound/ambience/anim/nudge/step/nudgeparty 宿主派发与 world 写入"
@@ -795,7 +1116,11 @@
       "fullName": "场景覆写 stages 臂:setSceneOnTeleport 内联段落到全新场景槽",
       "family": "场景覆写残留臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [791, 801, 811],
+      "sourceLines": [
+        791,
+        801,
+        811
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "onTeleport/clearSceneScripts/onEnter 各自建 override 槽"
     },
@@ -804,7 +1129,11 @@
       "fullName": "场景覆写残留臂:onTeleport/clearSceneScripts 对全新场景各自建立 override 槽",
       "family": "场景覆写残留臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [791, 801, 811],
+      "sourceLines": [
+        791,
+        801,
+        811
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "onTeleport/clearSceneScripts/onEnter 各自建 override 槽"
     },
@@ -813,7 +1142,10 @@
       "fullName": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
       "family": "宿主能力缺席臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [512, 516],
+      "sourceLines": [
+        512,
+        516
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "holdScreen/revealScreen 未实现 fail-loud"
     },
@@ -822,7 +1154,10 @@
       "fullName": "循环动作后台失败臂:runner 已取消时不把 abort 上报为宿主错误",
       "family": "后台失败上报臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [658, 661],
+      "sourceLines": [
+        658,
+        661
+      ],
       "caller": "ScriptRunner.exec playEntityAction catch",
       "oracle": "非 abort 失败按复合引用 report;abort 静默;非 Error 按 String()"
     },
@@ -831,7 +1166,10 @@
       "fullName": "循环动作后台失败臂:非 abort 错误按复合引用上报宿主,不中断后续命令",
       "family": "后台失败上报臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [658, 661],
+      "sourceLines": [
+        658,
+        661
+      ],
       "caller": "ScriptRunner.exec playEntityAction catch",
       "oracle": "非 abort 失败按复合引用 report;abort 静默;非 Error 按 String()"
     },
@@ -840,7 +1178,9 @@
       "fullName": "战斗配置臂:startBattle 透传 choreography 且按字段缺席裁剪",
       "family": "战斗配置臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [744],
+      "sourceLines": [
+        744
+      ],
       "caller": "ScriptRunner.exec startBattle",
       "oracle": "choreography 透传且字段缺席裁剪"
     },
@@ -849,7 +1189,11 @@
       "fullName": "条件残留臂:currentScene 缺当前场景查询时 fail-loud",
       "family": "条件 currentScene 臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [256, 257, 258],
+      "sourceLines": [
+        256,
+        257,
+        258
+      ],
       "caller": "evalCondition",
       "oracle": "缺查询 fail-loud;命中/不命中"
     },
@@ -858,7 +1202,10 @@
       "fullName": "条件残留臂:entitiesNear 透传 range,chance 用注入 random 定率",
       "family": "条件透传臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [264, 269],
+      "sourceLines": [
+        264,
+        269
+      ],
       "caller": "evalCondition",
       "oracle": "entitiesNear 透传 range;chance 用注入 random 定率"
     },
@@ -867,7 +1214,13 @@
       "fullName": "条件残留臂:entityState 用 NaN 哨兵拒绝缺席实体,facingEntity/items 走宿主查询",
       "family": "条件实体臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [261, 266, 270, 275, 276],
+      "sourceLines": [
+        261,
+        266,
+        270,
+        275,
+        276
+      ],
       "caller": "evalCondition",
       "oracle": "NaN 哨兵拒缺席实体;facing/has/equipped 走查询"
     },
@@ -876,7 +1229,16 @@
       "fullName": "条件残留臂:var 六比较算子按数值语义求值",
       "family": "条件 var 六算子臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [239, 241, 243, 245, 247, 249, 251, 253],
+      "sourceLines": [
+        239,
+        241,
+        243,
+        245,
+        247,
+        249,
+        251,
+        253
+      ],
       "caller": "evalCondition",
       "oracle": "六比较算子按数值语义"
     },
@@ -885,7 +1247,10 @@
       "fullName": "条件残留臂:缺席 flag 按 false 求值,ownsItem 缺省 atLeast=1",
       "family": "条件 flag/ownsItem 臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [236, 273],
+      "sourceLines": [
+        236,
+        273
+      ],
       "caller": "evalCondition(公开导出)",
       "oracle": "缺席 flag 按 false;ownsItem 缺省 atLeast=1"
     },
@@ -894,7 +1259,11 @@
       "fullName": "条件残留臂:缺席 var 按默认 0 参与比较;not/all/any 组合臂齐走",
       "family": "条件组合臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [283, 285, 287],
+      "sourceLines": [
+        283,
+        285,
+        287
+      ],
       "caller": "evalCondition",
       "oracle": "缺席 var 默认 0;not/all/any 组合"
     },
@@ -903,7 +1272,10 @@
       "fullName": "演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主",
       "family": "演出缺省臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [510, 518],
+      "sourceLines": [
+        510,
+        518
+      ],
       "caller": "ScriptRunner.run(公开)",
       "oracle": "宿主收到的 fade/dither 逐参(缺省 300/720ms)"
     },
@@ -912,7 +1284,10 @@
       "fullName": "脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自落位",
       "family": "脚本绑定双臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [787, 820],
+      "sourceLines": [
+        787,
+        820
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "setEntityAuto/Trigger 以 script 引用与 stages 内联分别派发"
     },
@@ -921,7 +1296,10 @@
       "fullName": "脚本绑定双臂:setEntityAuto/setEntityTrigger 分别以 script 引用与 stages 内联派发",
       "family": "脚本绑定双臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [787, 820],
+      "sourceLines": [
+        787,
+        820
+      ],
       "caller": "ScriptRunner.exec",
       "oracle": "setEntityAuto/Trigger 以 script 引用与 stages 内联分别派发"
     },
@@ -930,7 +1308,9 @@
       "fullName": "节拍臂:paceMs>0 时每条命令后按拍等待宿主 wait",
       "family": "节拍臂",
       "source": "src/script-runner.ts",
-      "sourceLines": [372],
+      "sourceLines": [
+        372
+      ],
       "caller": "ScriptRunner.runBody paceMs",
       "oracle": "paceMs>0 每命令后按拍 wait"
     },
@@ -939,7 +1319,10 @@
       "fullName": "activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝",
       "family": "activation gate 中止臂",
       "source": "src/script-world.ts",
-      "sourceLines": [617, 634],
+      "sourceLines": [
+        617,
+        634
+      ],
       "caller": "waitForActivationGate",
       "oracle": "等待中/已中止 signal AbortError"
     },
@@ -948,7 +1331,9 @@
       "fullName": "auto bump 臂:页切换改变 auto 行为时 bump auto owner",
       "family": "auto bump 臂",
       "source": "src/script-world.ts",
-      "sourceLines": [288],
+      "sourceLines": [
+        288
+      ],
       "caller": "selectBaseEntityPage+coordinator",
       "oracle": "页切换改变 auto 行为时 bump auto owner"
     },
@@ -957,7 +1342,9 @@
       "fullName": "barrier cancel 臂:Error 原样透传,字符串原因包成 Error",
       "family": "barrier cancel 臂",
       "source": "src/script-world.ts",
-      "sourceLines": [609],
+      "sourceLines": [
+        609
+      ],
       "caller": "requestSaveBarrier cancel",
       "oracle": "Error 透传;字符串包 Error;无原因默认文案"
     },
@@ -966,7 +1353,10 @@
       "fullName": "barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理",
       "family": "barrier 句柄臂",
       "source": "src/script-world.ts",
-      "sourceLines": [597, 602],
+      "sourceLines": [
+        597,
+        602
+      ],
       "caller": "requestSaveBarrier",
       "oracle": "未 ready release throw;双 release 失效句柄"
     },
@@ -975,7 +1365,9 @@
       "fullName": "behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud",
       "family": "behavior 注册表臂",
       "source": "src/script-world.ts",
-      "sourceLines": [162],
+      "sourceLines": [
+        162
+      ],
       "caller": "selectEntityBehavior",
       "oracle": "页引用行为不在注册表 fail-loud"
     },
@@ -984,7 +1376,10 @@
       "fullName": "checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue",
       "family": "checkpoint 门臂",
       "source": "src/script-world.ts",
-      "sourceLines": [434, 435],
+      "sourceLines": [
+        434,
+        435
+      ],
       "caller": "FlowActivationLease.checkpoint",
       "oracle": "barrier 未就绪 wait;就绪 continue+commit"
     },
@@ -993,7 +1388,11 @@
       "fullName": "owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝",
       "family": "owner idle 臂",
       "source": "src/script-world.ts",
-      "sourceLines": [721, 726, 740],
+      "sourceLines": [
+        721,
+        726,
+        740
+      ],
       "caller": "waitForOwnerIdle",
       "oracle": "空闲即解析;活动等待被关闭唤醒;中止拒绝"
     },
@@ -1002,7 +1401,11 @@
       "fullName": "page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined",
       "family": "page 缺席臂",
       "source": "src/script-world.ts",
-      "sourceLines": [139, 290, 291],
+      "sourceLines": [
+        139,
+        290,
+        291
+      ],
       "caller": "resolveBaseEntityPage/selectBaseEntityPage(公开)",
       "oracle": "无 pages 安静 undefined;结果省略 previousPage/page 键"
     },
@@ -1011,7 +1414,9 @@
       "fullName": "page 缺席臂:initialPage 指向不存在页时 fail-loud",
       "family": "page 不存在臂",
       "source": "src/script-world.ts",
-      "sourceLines": [131],
+      "sourceLines": [
+        131
+      ],
       "caller": "resolveBaseEntityPage",
       "oracle": "initialPage 指向不存在页 fail-loud"
     },
@@ -1020,7 +1425,10 @@
       "fullName": "resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined",
       "family": "缺槽臂",
       "source": "src/script-world.ts",
-      "sourceLines": [344, 346],
+      "sourceLines": [
+        344,
+        346
+      ],
       "caller": "resolveSceneHook(公开)",
       "oracle": "场景无 onTeleport 槽返回 undefined"
     },
@@ -1029,7 +1437,10 @@
       "fullName": "scene hook inherit 臂:继承清空手动选择且同 id 游标保留",
       "family": "hook inherit 臂",
       "source": "src/script-world.ts",
-      "sourceLines": [378, 382],
+      "sourceLines": [
+        378,
+        382
+      ],
       "caller": "selectBaseSceneHooks",
       "oracle": "继承清手动选择且同 id 游标保留"
     },
@@ -1038,7 +1449,10 @@
       "fullName": "scene hook 校验臂:空 selection 与未知变体 fail-loud;undefined 槽位安静跳过",
       "family": "hook 校验臂",
       "source": "src/script-world.ts",
-      "sourceLines": [364, 367],
+      "sourceLines": [
+        364,
+        367
+      ],
       "caller": "selectBaseSceneHooks(公开)",
       "oracle": "空 selection fail-loud;未知变体 fail-loud;undefined 槽安静跳过"
     },
@@ -1047,7 +1461,9 @@
       "fullName": "selectEntityBehavior inherit 臂:显式继承清除该通道的手动选择",
       "family": "inherit 清除臂",
       "source": "src/script-world.ts",
-      "sourceLines": [221],
+      "sourceLines": [
+        221
+      ],
       "caller": "selectEntityBehavior",
       "oracle": "inherit 清除手动选择;重复 inherit 无变化"
     },
@@ -1056,7 +1472,9 @@
       "fullName": "trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态",
       "family": "activation 校验臂",
       "source": "src/script-world.ts",
-      "sourceLines": [308],
+      "sourceLines": [
+        308
+      ],
       "caller": "setEntityTriggerActivation(公开)",
       "oracle": "range 非法 fail-loud;合法值落世界态"
     },
@@ -1065,7 +1483,11 @@
       "fullName": "租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop",
       "family": "租约停机臂",
       "source": "src/script-world.ts",
-      "sourceLines": [404, 425, 433],
+      "sourceLines": [
+        404,
+        425,
+        433
+      ],
       "caller": "FlowActivationLease.setCheckpointReady/reachSafePoint",
       "oracle": "epoch 失效与 closed 租约返回 stop"
     }

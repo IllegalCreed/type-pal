@@ -932,6 +932,6 @@ const doc = {
 }
 await writeFile(
   path.join(evidenceDir, 'c85-family-ledger.json'),
-  `${JSON.stringify(doc, null, 1)}\n`,
+  `${JSON.stringify(doc, null, 2)}\n`,
 )
 console.log(`family ledger: ${entries.length} entries across ${ledger.length} files`)

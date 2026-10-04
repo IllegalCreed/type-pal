@@ -52,3 +52,11 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`
 - typecheck：零错误。lint：全仓 3145 文件零诊断 PASS。docs：PASS。
 - 反控：9/9（含 vacuous 零匹配硬防）；四 hash 对账 + 工作树快照零残留。
 - diff：产品文件零改动（`git status` 仅本卡测试/脚本/证据/文档）。
+
+## History（历史轮次，仅存档）
+
+- r1–r2（76f3c6bf2/746f0c4f8）：+128 臂/121→117 测试；去重、公开 observation、账目重建。
+- r3（4cef72844）：撤销重复合同 → 108 测试/+128；逐 fullName ledger；反控加固。
+- r4–r5（75a12d84b…515eeaf96）：证据迁移、可复现脚本、executed/skipped 分集回执（+130/113 测试）。
+- r6–r7（c835378e5/d0a14b337）：真实多拍/continuation 合同 → 118 测试/+6 → 9793/12166（80.49%）。
+- 历史基线 9657/12166（79.39%）对应 dispatch 起点;当前官方基线=main（9787）。
