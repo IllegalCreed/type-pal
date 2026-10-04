@@ -1,6 +1,6 @@
 # CODE-QUALITY-3i - game 对话资源与预缓存 UI 逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -48,7 +48,7 @@ Base: `9c9b4b973`
 - 贡献者交付/自验：Codex；定向 10 files/68 tests、game 全包 298/3398、game typecheck 通过。
 - Codex 独立验收：accept（五个生产文件逐个重读；NaN guard negative control 变红；过时 skipKeys 注释已纠正；全仓第二轮 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断均通过）。
 - 用户产品裁决/体验验收：N/A（不改变 UI 形态；只验证 DOM 状态合同）。
-- done 准入：blocked，待提交推送后核对工作树、台账计数和任务索引；本卡不代表 game 或全仓治理完成。
+- done 准入：Codex done allowed；提交 `17f2c6dab` 已推送，独立 diff/status 核对通过；本卡不代表 game 或全仓治理完成。
 
 ## 交接日志
 
