@@ -41,7 +41,7 @@ catalog，完整比较业务输出/非目标输入，已有旧测去重。先做
 官方ratchet与受保护76c6f5be的单次strict-fast 9,341项/728生产文件通过。
 产品缺口「队伍成员条件无角色选择」以独立业务红证实，按
 [修复卡](EDITOR-CONDITION-INPARTY-1-actor-picker.md)闭合；
-不将该产品修复的6个新增分母隐去。细账见[首批回执](../../../../testing/codex-plus2-ui.md)。
+不将该产品修复的6个新增分母隐去。细账见[首批回执](../../../../testing/archive/legacy/editor/editor-workflows/codex-plus2-ui.md)。
 母卡仍build，+2pp和原+5pp均未达，继续自主大批补测。
 
 同期 GLM 十六模块测试包经 Codex 独立复核、统一质量门后正式集成，贡献者单列 +157B
@@ -152,7 +152,7 @@ Codex明确采用**分支覆盖率绝对增加5个百分点**，已创建本会�
   十批纯补测合计+2107B；架构统一集成另列+261已覆盖分支/+110分母、701→728文件，不混作纯补测贡献。
   GLM16e647a1残两counter与帧编辑在途测试未计入。母目标仍build，详见持续队列。
 
-- 2026-09-27第十一批：[GLM同步守卫](../../../../testing/guard-wave3-integration.md)6a114727独立accept并收口。
+- 2026-09-27第十一批：[GLM同步守卫](../../../../testing/archive/legacy/quality/quality-gates/guard-wave3-integration.md)6a114727独立accept并收口。
   check9712→ratchet→保护efab10f3的单次strict9220/728首次通过；新增110项，实际+260B/+184L。
   当前46046/63288=72.7562887119201%，相对起点+4.033pp，当前目标46658，尚差612B。
   十一批纯补测合计+2367B，架构另列+261已覆盖分支/+110分母；母目标仍build，帧编辑WIP未计入。

@@ -46,7 +46,7 @@ Node矩阵证据在临时`codex-cache-review-J14hpe`；不是Node升级修好了
 - 首次ratchet发现3个AST链旧测试插桩后超时，未放行。只读源码解析/编译工厂按完整源+请求键缓存，每次执行仍用新env/闭包；lineage只读AST复用。新增3项隔离/源突变/缺失歧义回归，插桩23项通过；旧业务断言不变。此维护属于本卡负载根因处理，不扩产品修复范围。
 - Codex：accept（实施者自验，e17af240）；完整check8384、保护1b4cf055的ratchet7893/633及单次strict7893/633均exit0，编译环境污染注入下30工具自测通过，旧断言/超时/范围不弱化。
 - Kimi/GLM：用户本次明确批准独立完成的缺签豁免，非二席accept；补签不作为本次done前置，可后续异步抽查，不外推其它任务。
-- done准入：done allowed，Codex统一核定done（2026-09-24）。详见[实施记录](../../../../testing/check-environment-stability.md)/[统一机账](../../../../testing/stability-fire-closeout-evidence.json)。首次ratchet超时保留为失败记录，优化后才重跑整套，不择多数放行。
+- done准入：done allowed，Codex统一核定done（2026-09-24）。详见[实施记录](../../../../testing/archive/legacy/quality/quality-gates/check-environment-stability.md)/[统一机账](../../../../testing/archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json)。首次ratchet超时保留为失败记录，优化后才重跑整套，不择多数放行。
 
 ## 交接日志
 

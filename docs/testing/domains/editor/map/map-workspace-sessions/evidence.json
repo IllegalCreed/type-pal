@@ -72,7 +72,7 @@
   "dedupe": {
     "result": "source-review-no-new-test-credit",
     "against": [
-      "docs/testing/architecture-continuation-integration.md",
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
       "domains/editor/map/map-workspace-sessions/history/report.md"
     ],
     "notes": "B2 report/evidence covers owner separation; pointer/transform/view tools remain legacy until their UI runner/cwd and temporary tree lifecycle are separately audited."

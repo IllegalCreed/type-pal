@@ -21,7 +21,7 @@ Revision: r1，2026-09-19；生产冻结`e58834f6389a40ffe9f187e6a8051f552e964d7
 **保留边界**：frame在途invalidate的迟到回填政策仍待证，未由本卡选择或固化；该项不是剩余counter，也不是已确认的产品缺陷。无视觉/full/Q1/Q2声明，不借本卡开启R4/N6b。TB01另按其自身签字独立判定，不互相带过。
 无下一位Agent提示词，本卡已按用户授权收口；下方旧阶段描述与提示词仅作历史。
 用户要求“再给GLM一大批任务，Codex同步推进下一项”。本卡独立于[技能试放卡](EDITOR-SKILL-TRIAL-1-isolated-battle.md)，一次设计准入后六组连续完成。
-唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../../../testing/glm-runtime-state-boundaries.md)。
+唯一工作包/39族/文件白名单/执行纪律：[GLM六组补测](../../../../testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md)。
 
 ## 目标与范围
 
@@ -55,7 +55,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 ## 上下文锚点
 
 - AGENTS、CLAUDE、[READ-FIRST](../../../../phase2/READ-FIRST.md)，[harvest元层](../../../../phase2/reference/phase1-knowledge-harvest.md#x--元层) X7/X8只取通用教训。
-- [最新覆盖率](../../../../testing/coverage.md)、[前包接收教训](../../../../testing/reforge-runtime-contracts-review.md)：实际输入、真实交错、精确输出、判据鉴别力。
+- [最新覆盖率](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)、[前包接收教训](../../../../testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md)：实际输入、真实交错、精确输出、判据鉴别力。
 - 源码/既有测试/精确白名单以工作包为准。D-07私有引用歧义、frame在途invalidate、RewardGain微任务跨序列政策若遇到，隔离报告不擅修。
 - 禁止兼容旧模型/保活无caller接口；局部V1与legacy-script来源标签仍是当前合法数据，不按词删除。
 
@@ -126,7 +126,7 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ### done前（当前集成候选44b9b763）
 
-- Codex：**accept（实施者自验，2026-09-21）**。按用户要求接手350da702的唯一残项：sequence真实finally释放同一读取并消费原播放，无清理断言遮盖主失败；永久失败路径自证先红后绿。B7仅适配已done的451cbbb7当前私有身份。56项、8对照/8针业务detected/四fixture accepted、原22跑、两包tc及23新增文件Biome通过。统一check7988、官方ratchet与保护952a45bd的单次strict7497均exit0；产品/旧测试/范围分母零改。证据见[补正回执](../../../../testing/tb00-tb01-completion.md)及[机账](../../../../testing/tb00-tb01-completion-evidence.json)。原D6 counter已消除；本席是修复/集成实现者，GLM为原测试贡献者，均不冒充独立第三方终审。
+- Codex：**accept（实施者自验，2026-09-21）**。按用户要求接手350da702的唯一残项：sequence真实finally释放同一读取并消费原播放，无清理断言遮盖主失败；永久失败路径自证先红后绿。B7仅适配已done的451cbbb7当前私有身份。56项、8对照/8针业务detected/四fixture accepted、原22跑、两包tc及23新增文件Biome通过。统一check7988、官方ratchet与保护952a45bd的单次strict7497均exit0；产品/旧测试/范围分母零改。证据见[补正回执](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md)及[机账](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json)。原D6 counter已消除；本席是修复/集成实现者，GLM为原测试贡献者，均不冒充独立第三方终审。
 - Kimi：**accept（2026-09-21，TB00/r1，候选44b9b763对比952a45bd；锚点本人直读/主树复跑，未读 GLM 本轮结论）**。
   - **D6 真实 finally**：`frame-animation-player.boundaries.test.ts:225-280` 共享 helper 以真实
     entered 见证+可释放 readGate 驱动；finally（:267-278）再 abort、释放**同一** readGate 并
@@ -181,19 +181,19 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
     不代签、不标 done。
 - Codex：**收窄counter（2026-09-20，候选350da702）**。8对照/8针本席复跑均为候选自身业务红，fixture四检查accepted；原22跑及frame9项通过，取消业务鉴别力闭环。
   仅剩D6异常收尾：frame-animation-player.boundaries.test.ts:231–287没有try/finally，:267断言失败会跳过:269释放和:272消费。回执称finally仍不符。
-  修真实finally及失败路径自证，保留原断言/8针，不重开其它项。详见[最新定点证据](../../../../testing/runtime-state-review.md)。未改候选、未集成或抬基线，不转Kimi。
+  修真实finally及失败路径自证，保留原断言/8针，不重开其它项。详见[最新定点证据](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。未改候选、未集成或抬基线，不转Kimi。
 - Codex前轮记录（历史）：**收窄counter（2026-09-19，候选6d34ad5a）**。F1/E4真实闭环，原7针均为候选业务AssertionError、55定向/685+1235全测/两包tc/16文件Biome/原22跑通过。
   唯一剩D6 sequence：:238永不resolve gate，:252–255 finally仅改局部布尔，:265独立Promise与原链无关，:260另一个reader冒称同实例。新增同合同第8针sequence-late-frame-after-abort，8对照绿、7 detected/1 MISSED；候选9项漏掉取消后的迟到提交。任务卡自验56应为实测55，F1账旧ms/source标题需同步。
-  详见[本轮定点证据](../../../../testing/runtime-state-review.md)。未修改/集成GLM测试，不转Kimi；官方全仓门待接收后，设计不重签。
+  详见[本轮定点证据](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。未修改/集成GLM测试，不转Kimi；官方全仓门待接收后，设计不重签。
 - Codex前轮记录（历史）：**收窄counter（2026-09-19，返工候选3c7ae963）**。55定向、685/1235全包、两包tc、16文件Biome与原22跑通过；四fixture守卫全accepted，after/合法有声正控/换字节/LRU/一般world修改见证已闭环，不重开。
   仅剩R1-F1虚构held-source仍在:32（回执称已移除不符）；R2-D6 await outcome导致坏实现下候选超时，非业务断言红；R3-E4 unused预快照/自比较只保护末尾单体，allAllies误改world仍漏检。
   本席旧见证工具把候选failed都判detected，漏了Vitest的STACK_TRACE_ERROR，责任已勘误并补每条候选错误类型自测；最新7针为5 detected/1 invalid-candidate-failure/1 MISSED、7对照绿。
-  详见[本轮证据及三项定点返工](../../../../testing/runtime-state-review.md)。不改GLM测试、不合入正式测试、不更官方基线，不转Kimi；设计r1不重签。
+  详见[本轮证据及三项定点返工](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)。不改GLM测试、不合入正式测试、不更官方基线，不转Kimi；设计r1不重签。
 - Codex前轮记录（历史）：**counter（2026-09-19，候选23eb63d2；独立接收）**。范围/冻结核验通过，53定向、685/1233全包、两包tc、原22负控均复跑绿；但不满足验收。
   R1：实际legalScene/Items被当前正式guard拒绝，F1 held-source越出合法union；R2：frame读取取消/失效换字节/LRU的关键时序或正控未实际建立；
   R3：after完整输出、历史cue非空正控、菜单world保真等断言失效；R4：Biome实测4errors/9warnings及逐文件计数/覆盖小计与回执不符。
   本人六针隔离坏实现均被独立oracle业务红抓住，但对应候选新测试全部仍绿（MISSED）；合法原实现六对照全绿。
-  详见[完整counter/复现/返工要求](../../../../testing/runtime-state-review.md)与[可重建见证](../../../../testing/runtime-state-review-witnesses.mjs)。
+  详见[完整counter/复现/返工要求](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md)与[可重建见证](../../../../testing/runtime-state-review-witnesses.mjs)。
   未改GLM测试语义，未集成正式测试/更新官方基线，未跑接收后的全仓门，不转Kimi。r1测试目的不变，B5候选合法性按当前guard收窄，不需重签设计。
 - Kimi：pending（接收后独立终审）。
 - done准入：未开放，不代签、不标done。
@@ -257,17 +257,17 @@ frame在途invalidate政策未知；不以低覆盖证明bug。用户可见偏�
 
 ### 当前：Kimi / GLM并行复核44b9b763
 
-完整两席提示词见[共同回执](../../../../testing/tb00-tb01-completion.md#并行终审提示词)。本卡最小交接：
+完整两席提示词见[共同回执](../../../../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md#并行终审提示词)。本卡最小交接：
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-RUNTIME-STATE-BOUNDARIES-1，卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，review/r1，统一候选44b9b763，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/tb00-tb01-completion.md及机账；独立读代码，不复述另一席结论。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-RUNTIME-STATE-BOUNDARIES-1，卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，review/r1，统一候选44b9b763，原设计不重签。先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md及机账；独立读代码，不复述另一席结论。
 Codex已接手并修真实finally、失败自证及B7当前身份，56项/8针/22跑通过；完整check7988、ratchet、受保护单次strict7497已通过。重点核清理真实完成/原错误身份/断言鉴别力与生产零改。Kimi作独立终审；GLM需披露原测试贡献，对Codex补正和新候选复核。各自只写本人done前accept或带file:line反例counter及日志，提交推送前同步保留他席改动。不改产品/测试/基线/状态、不代签、不done；不做视觉或并发跑统一覆盖率。TB01单独裁决。
 ```
 
 ### 历史：GLM仅补350da702异常路径清理（Codex已接手完成）
 
 ```text
-按docs/testing/runtime-state-review.md顶部350da702收窄counter返工本卡，状态rework，r1不重签。先读AGENTS/CLAUDE/READ-FIRST及最新回执；8对照/8针业务鉴别力已闭环。
+按docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部350da702收窄counter返工本卡，状态rework，r1不重签。先读AGENTS/CLAUDE/READ-FIRST及最新回执；8对照/8针业务鉴别力已闭环。
 只让D6 sequence在主断言失败时也执行真实finally释放同一readGate并消费原pendingSlow，保留正常迟到零提交/同reader重播，不以清理断言覆盖主失败；补失败路径自证，回执对应最终树。D6九项、原8针/22跑复验后交Codex。
 不改产品/旧测试/他席工具/官方基线，不重开F1/E4等闭环项，不代签、不标done、不转Kimi。可与物品作者身份卡的只读审查分开工作树并行。
 ```
@@ -276,7 +276,7 @@ Codex已接手并修真实finally、失败自证及B7当前身份，56项/8针/2
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，rework/r1，候选6d34ad5a，生产冻结e58834f6，设计不重签。
-先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/runtime-state-review.md顶部。
+先同步本次Codex counter及更新的runtime-state-review-witnesses.mjs，保留他席与主线七批设计；读AGENTS/CLAUDE/READ-FIRST、docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部。
 F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readBytes真实entered、原onFrame可观察，abort后同步断言，finally释放同一底层并消费实际原Promise，再证明零迟到帧；不能用releasedSlow布尔/独立slowSettledPromise或另一个reader冒充收尾。同reader标题需真实重用。任务卡56改实际55，F1账同步ms/kind。
 重跑最新工具须8对照绿、8针候选自身AssertionError detected，尤其sequence-late-frame-after-abort；原22跑/定向/双包全测/tc/16文件Biome。只改原白名单，不改产品/旧测试/原探针/官方基线/他席工具语义，不代签、不标done、不转Kimi。交Codex独立接收；全仓质量门留接收后执行。
 ```
@@ -285,7 +285,7 @@ F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readB
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 仍rework；本轮候选3c7ae963，生产冻结e58834f6，设计不重签。
-先同步最新main的收窄counter和更新后的docs/testing/runtime-state-review-witnesses.mjs到你的独立分支，保留原文及前三批r2/模拟器设计；读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/runtime-state-review.md顶部本轮结论。
+先同步最新main的收窄counter和更新后的docs/testing/runtime-state-review-witnesses.mjs到你的独立分支，保留原文及前三批r2/模拟器设计；读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md顶部本轮结论。
 已闭环的fixture、after、非空cue、换字节/LRU、格式与主要计数不重开。只修三项：①scene-entry-session.boundaries.test.ts:32的held as never仍在，实际移除或按当前合同明确分类，回执不得再与树不符；②D6不能await可能永不settle的outcome而把释放写在后面，应观察独立结局变量并同步断言，finally释放/消费，负控必须AssertionError而非5000ms超时/STACK_TRACE_ERROR；③E4删unused预快照和自比较，分别在各确认分支调用前拍实际world快照，尤其castAll，保持菜单state可变合同。
 最新见证工具已修Codex自身判据漏洞，并新增同一E4合同的castAll针；重跑应7对照绿、7针都由候选自身业务断言detected，0 invalid/0 MISSED。原22跑、定向/相邻/两包全测/tc/16文件Biome与最终树回执需一致；未补的细轴如实引用已有/分类，不继续写标题式闭环。
 只改原白名单，不改产品/旧测试/官方基线/他席见证语义，不代签、不标done、不转Kimi。交Codex重新接收后再跑全仓check/ratchet/受保护strict-fast。
@@ -295,7 +295,7 @@ F1/E4和原7针已闭环不重开。只修D6 sequence：原gate可释放、readB
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-RUNTIME-STATE-BOUNDARIES-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md 已rework；本轮候选23eb63d2，生产冻结e58834f6，设计不重签。
-先同步main与本次Codex counter到codex/glm-runtime-state-boundaries-r1独立worktree，保留counter原文和主线模拟器设计/看板；读AGENTS/CLAUDE/READ-FIRST、任务卡、docs/testing/runtime-state-review.md及原工作包/机器账。
+先同步main与本次Codex counter到codex/glm-runtime-state-boundaries-r1独立worktree，保留counter原文和主线模拟器设计/看板；读AGENTS/CLAUDE/READ-FIRST、任务卡、docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md及原工作包/机器账。
 R1：实际场景/物品fixture先过当前guard，onTeleport非initial entry和外部runScript混用私有脚本都非法；held as never不是合法dither source，按真实可达域收窄/分类，不改产品配合fixture。
 R2：重建帧sequence/frame/wait entered-deferred取消、双asset+同id真实换字节、确有命中/淘汰的LRU及监听清理。R3：after/payload精确输出、嵌套产物别名、非空历史cue正控、真正world深快照等断言补强，不再用恒真或只比长度。R4：16文件Biome实测4errors/9warnings；逐文件应6/4/4/5而非5/5/3/6；九模块覆盖小计应497→533/564、392→444/533。按最终树改正39族账/回执与失败记录。
 重跑 node docs/testing/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照须绿、六针须由你新增断言变红而detected，不能只有Codex oracle红。原22跑、定向/相邻/两包全测/tc/Biome及私有同口径覆盖重算后交Codex独立接收。只改卡面白名单，不动生产/旧测试/官方基线/原探针，不删除他席见证、不代签、不标done、不转Kimi。GLM测试贡献须终审披露；全仓check/ratchet/strict-fast留Codex。
@@ -304,7 +304,7 @@ R2：重建帧sequence/frame/wait entered-deferred取消、双asset+同id真实�
 ### 历史交接 · Codex接收r1整包（本轮已counter）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；回执与 39 族账 docs/testing/glm-runtime-state-boundaries.md；机器账 docs/testing/glm-runtime-state-evidence.json。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），基点 1c8cad29；生产冻结 e58834f6389a40ffe9f187e6a8051f552e964d79。
+在 /Users/zhangxu/illegal/type-pal 接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；回执与 39 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），基点 1c8cad29；生产冻结 e58834f6389a40ffe9f187e6a8051f552e964d79。
 GLM 已交付六组 11 新测试文件 53 项（content 2 + reforge 9）、16 针负控+判据自测（6 对照+16 针 22/22，钉名 JSON 执行见证）、两包官方 testSelection 覆盖对照（11 模块 content +12 行/+18 臂、reforge +36 行/+52 臂，/tmp 输出）与实施者自验 accept。无新产品缺陷；frame 在途 invalidate 回填政策记待证。注意：你的技能试放卡若已改 main，与本包 reforge 目标面重叠时先核白名单零冲突。
 你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫；magicConfirmSpell 原地改 state 是合同、castOutdoorSkill 未被调用）、复跑两包定向/全包、tc/Biome；复跑 node docs/testing/glm-runtime-state-mutants.mjs 验 22/22；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。
 ```
@@ -312,7 +312,7 @@ GLM 已交付六组 11 新测试文件 53 项（content 2 + reforge 9）、16 �
 ### 历史：Codex重新接收前轮r1返工
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 返工。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（rework）；回执与 39 族账 docs/testing/glm-runtime-state-boundaries.md；机器账 docs/testing/glm-runtime-state-evidence.json（16 文件 Biome 干净）。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），在你的 counter e22041a0 之上 rebase 后追加返工提交（远端 tip 9d33dbe8）；生产冻结 e58834f6；设计不重签；模拟器设计/看板行原样保留。
+在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-RUNTIME-STATE-BOUNDARIES-1 r1 返工。任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md（rework）；回执与 39 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json（16 文件 Biome 干净）。候选分支 codex/glm-runtime-state-boundaries-r1（worktree /Users/zhangxu/illegal/type-pal-glm-runtime-state），在你的 counter e22041a0 之上 rebase 后追加返工提交（远端 tip 9d33dbe8）；生产冻结 e58834f6；设计不重签；模拟器设计/看板行原样保留。
 GLM 已按 R1～R4 返工：R1 fixture 合法化（onTeleport entry 收窄、items 拆 ext/priv/bare + 合法 throw 效果、守卫自证接入 B4/B7、dither source 虚构轴移除）；R2 D6 真实进入见证（entered + 同步结局观察器，底层未放行即外层 AbortError）、D4 双 asset + 同 id 真实换字节、D5 解码计数见证 LRU 命中/淘汰；R3 compiler after 逐组合精确、嵌套别名试验、once-sound 非空 cue 正控 + 越尾零重播、E4 实际 world 深快照复验、castAll 完整对象；R4 Biome rc=0（逐文件）、逐文件计数 55 从 Vitest JSON 重生、覆盖小计更正（reforge 九目标 L497→533/564、B392→444/533）。复跑 node docs/testing/runtime-state-review-witnesses.mjs <候选物理绝对路径>：六对照绿、六针全 detected 且 candidateFailures 为返工断言自身、fixture 四检查 accepted；原 22 跑 rc=0；定向 55/55、reforge 125/1235、content 57/685、两包 tc rc=0。
 请独立重新接收：复跑六见证与 22 跑、抽查 R1～R4 修复点真实性（fixture 守卫自证、取消时序的同步结局观察器、换字节/LRU 解码计数、E4 world 深快照）、复跑定向/双包全测/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；已闭环项不重开；不代签、不标 done。
 ```
@@ -321,7 +321,7 @@ GLM 已按 R1～R4 返工：R1 fixture 合法化（onTeleport entry 收窄、ite
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 推进 TEST-RUNTIME-STATE-BOUNDARIES-1，任务卡 docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md，r1；顶部draft待你同步切build，三席设计已齐且Codex已核定准入，不重签。
-先同步main、检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新Codex日志与docs/testing/glm-runtime-state-boundaries.md。核生产冻结e58834f6与白名单，保留正在准备的TB-01～03文档，不把未签新批次带入实施。
+先同步main、检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡最新Codex日志与docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md。核生产冻结e58834f6与白名单，保留正在准备的TB-01～03文档，不把未签新批次带入实施。
 按原委托同步本卡/看板/索引到build，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组11模块39族；只改工作包的新测试、薄fixture、诊断和本人回执，不在主worktree切分支。至少12个有效单点业务负控；合法fixture、实际输入深快照、entered/deferred、同口径/tmp覆盖及定向/相邻/两包全测/typecheck/Biome按工作包执行。
 产品/旧测试/官方基线/全局配置/原探针/资产零改，不碰main/boot/技能试放，无视觉/听音。未知合同和真实缺陷隔离登记，不能固化错误绿测。交付实际提交树证据后回Codex独立接收；全仓check/官方ratchet/strict-fast留Codex，不代签、不标done、不直接转Kimi终审。GLM测试贡献须披露。
 ```
@@ -331,7 +331,7 @@ GLM 已按 R1～R4 返工：R1 fixture 合法化（onTeleport entry 收窄、ite
 ### GLM · 两卡独立设计审查，准入后连续六组
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接新双线任务，生产冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md与你只审的docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，均r1/draft。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、两卡及docs/testing/glm-runtime-state-boundaries.md。独立核11模块真实caller、旧测试去重、39族合法性/负控与非视觉边界；试放卡只核隔离/矩阵，不实现Codex产品。不要读取或复述Kimi结论。
+在 /Users/zhangxu/illegal/type-pal 接新双线任务，生产冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md与你只审的docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，均r1/draft。先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、两卡及docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md。独立核11模块真实caller、旧测试去重、39族合法性/负控与非视觉边界；试放卡只核隔离/矩阵，不实现Codex产品。不要读取或复述Kimi结论。
 先分别在两卡本人席位写带一手锚点/可证伪观察的premise verified与design agree，或counter；更新本人日志、同步保留他席后提交推送，不改他席/任务状态。补测卡三席同r1齐无counter后由你核定build allowed，在codex/glm-runtime-state-boundaries-r1独立worktree连续完成六组，不逐组请示；另一卡未开门不阻止本卡。
 严格按工作包11新测试+两薄fixture+本人诊断/回执白名单。至少12有效单点负控、39族真实账；定向/相邻/两包全测/tc/新增文件Biome与同口径/tmp覆盖。产品/旧测试/官方基线/原探针/配置依赖/资产零改，不碰main/boot/SkillTab/试放接线；不做截图/浏览器/听感，不测试castOutdoorSkill或战斗公式，不复活旧分片入口。未知合同/新缺陷隔离报告，不能反向写绿。全仓check/ratchet/strict-fast留Codex。交付提交推送后回Codex独立接收；披露测试贡献，不代签、不标done、不直接转Kimi终审。
 ```
@@ -339,7 +339,7 @@ GLM 已按 R1～R4 返工：R1 fixture 合法化（onTeleport entry 收窄、ite
 ### Kimi · 与GLM并行审两卡
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 独立设计审查两张r1/draft卡，冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md。先读AGENTS/CLAUDE/READ-FIRST、两卡/上下文和docs/testing/glm-runtime-state-boundaries.md，直接读源码/真实caller，不读取或复述GLM结论。
+在 /Users/zhangxu/illegal/type-pal 独立设计审查两张r1/draft卡，冻结e58834f6：docs/ops/archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md；docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md。先读AGENTS/CLAUDE/READ-FIRST、两卡/上下文和docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md，直接读源码/真实caller，不读取或复述GLM结论。
 补测卡核六组11模块39族的去重/合法fixture/异步与实际输入鉴别力，排除试放/save/战斗公式和无caller旧接口。试放卡核用户已定的独立临时隔离、所有存读档入口零IO、真实BattleSession而非缺队桩胜、早分流/取消生命周期与最小共享准备抽取，不扩成重写main或Q2。可复跑node --import tsx docs/testing/skill-trial-premise.mjs，只读/内存前提探针，不是产品修复或浏览器E2E。
 分别在两卡本人席位签带一手证据/可证伪观察的premise verified与design agree，或counter，写本人日志并提交推送。两卡独立裁决，UI选择未决时不得假称build开放；不改产品/测试/他席/状态，不代签、不标build/done。同步并保留另一席改动；无需让用户搬运审查意见。
 ```

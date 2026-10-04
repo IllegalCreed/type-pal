@@ -3,10 +3,10 @@
 任务：[CURSOR-WAVE-2-1](../../ops/archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md)。
 贡献者：Cursor；候选分支 `codex/cursor-wave2-r1`，worktree `type-pal-cursor-wave2`。
 首轮候选 `7b4ec8fc`；本回执为窄返工后的最终树。
-返工基点：最新 `origin/main`（含 W2 `cbac3ca0` 与 [Codex 首轮复核](../cursor-wave2-review.md)）。
+返工基点：最新 `origin/main`（含 W2 `cbac3ca0` 与 [Codex 首轮复核](../archive/legacy/ops/testing-records/cursor-wave2-review.md)）。
 Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 
-> Codex 二轮接收界限：W1/W2/W5 已选择性接入 main。本文件现记三轮 W3/W4：去掉测试内仿写/`@ts-nocheck`，改由 Vite 隔离加载变异后的生产模块。详见[二轮复核](../cursor-wave2-r2-review.md)。
+> Codex 二轮接收界限：W1/W2/W5 已选择性接入 main。本文件现记三轮 W3/W4：去掉测试内仿写/`@ts-nocheck`，改由 Vite 隔离加载变异后的生产模块。详见[二轮复核](../archive/legacy/ops/testing-records/cursor-wave2-r2-review.md)。
 
 ## W1 作者指南七处已证误导
 
@@ -94,4 +94,4 @@ Codex 独立验收与集成；本回执不是接收证明，也不标 done。
 
 ## Codex 最终接收（不改 Cursor 原回执）
 
-上方“候选、不标 done、不跑统一门”是贡献者交付时点。Codex 后续已独立复算两针真实生产模块变异、把 W3/W4 接入 main，并串行完成 check、ratchet 与严格 fast；五包整卡 done。详情见[三轮独立接收](../cursor-wave2-r3-review.md)。
+上方“候选、不标 done、不跑统一门”是贡献者交付时点。Codex 后续已独立复算两针真实生产模块变异、把 W3/W4 接入 main，并串行完成 check、ratchet 与严格 fast；五包整卡 done。详情见[三轮独立接收](../archive/legacy/ops/testing-records/cursor-wave2-r3-review.md)。

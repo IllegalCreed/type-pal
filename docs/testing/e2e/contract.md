@@ -75,7 +75,7 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 > 全仓代码审计**A–E 首轮取证已完成**（见 `docs/ops/audits/pre-e2e/summary.md`），当前是按总收口
 > 修复影响数据安全、流程正确性和 E2E 可信度的阻断问题，再开始 R4；一般优化不要求在 E2E 前全部完成。
 
-历史准入核对见[前置欠账台账](../pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
+历史准入核对见[前置欠账台账](../archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
 2026-09-27已建[R4准备卡](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](route-proposal.md)，
 001～005作者边界及两阶段各自连续checkpoint链现已建设，见[001](stages/001-opening/report.md)、[002](stages/002-inn-guests-and-reward/report.md)、
 [003](stages/003-kitchen/report.md)、[004](stages/004-meal/report.md)、[005](stages/005-shrimp/report.md)；006以后作者边界待确认。正常输入、对话适配、正式存读档和
@@ -193,7 +193,7 @@ E2E用于代表性观感/端到端验证和发现新类型问题，不能成为�
 - 空/重复/冲突工作区参数、缺失/错身份句柄记录可见拒绝，不退回 HTTP 或创建错误存档库；独立试买
   允许新的身份参数但仍零存档读写。旧未分区库仅可用隔离 sentinel 验证“不读、不迁、不删”。
 - 断言 checkpoint 恢复后继续保存落在选定 scope；原导出钩子误接已由
-  [Q1-CHECKPOINT-EXPORT-1](../checkpoint-export.md)修复并三席收口，2026-09-21真实链17项复跑通过。
+  [Q1-CHECKPOINT-EXPORT-1](../archive/legacy/runtime/save-and-recovery/checkpoint-export.md)修复并三席收口，2026-09-21真实链17项复跑通过。
   R4仍须验证整页导出→文件恢复→下一段接续，不能以接口回归替代连续E2E。
 - 后续执行证据写到 `artifacts/e2e/save-isolation/<run-id>/`（计划目录，尚未生成），含候选 SHA、
   版本/身份元组、逐步快照与断言，失败保留错误栈；N6b 切版重建输入但保留业务断言。
@@ -208,7 +208,7 @@ E2E用于代表性观感/端到端验证和发现新类型问题，不能成为�
 ### 已登记的作者保存恢复回归（EDITOR-SAVE-RECOVERY-1）
 
 状态：**R4集中自动化链待跑，Owner Codex**。[保存恢复卡](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)已三席终审、用户免手动复审通过；
-[原生补证与限制](../editor-save-recovery-closeout.md)是开发期证据，不替代本条完整自动化链。
+[原生补证与限制](../archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)是开发期证据，不替代本条完整自动化链。
 
 - 入口/数据：隔离浏览器资料及测试目录，从空白当前工程创建新人物，体力上限237，场景实体引用该人物；禁止使用用户作者工程。
 - 主链：完整暂存后在人物表作者IO边界中断保存→关闭旧页/重启测试浏览器→选原目录并按需要重新授权→恢复为committed。
@@ -340,7 +340,7 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
   与普通保存共用安全快照队列，自动脚本按可恢复指令边界捕获，不等待全地图自动行为结束，
   不写用户槽/缩略图/计数。前台能否存档仍遵守菜单控制权，快速存档不绕过手动存档准入。
   超时/捕获失败reject，调用方须处理错误，不生成下一段检查点；取得快照不替代业务结束断言。
-  [接口实现与历史验证](../checkpoint-export.md)、[后台续跑快照](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
+  [接口实现与历史验证](../archive/legacy/runtime/save-and-recovery/checkpoint-export.md)、[后台续跑快照](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
   001→004各段当前版本保存/正式恢复链见各段回执。
   DEV控制台示例（正式runner还须完成结束断言和文件落盘）：
 

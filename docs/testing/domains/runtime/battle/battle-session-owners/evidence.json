@@ -73,7 +73,7 @@
   "dedupe": {
     "result": "source-review-no-new-test-credit",
     "against": [
-      "docs/testing/architecture-continuation-integration.md",
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
       "domains/runtime/battle/battle-session-owners/history/report.md"
     ],
     "notes": "四 owner 共35条历史回归；与 BattleHost 的 launch/world 写回合同区分。AST 接线计数是结构合同，不能独立证明胜敗演出。"

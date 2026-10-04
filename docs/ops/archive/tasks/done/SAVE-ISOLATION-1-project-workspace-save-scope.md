@@ -500,7 +500,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 新增用例净增 80（reforge 49、editor 31）。scope 分支 29/29、play-url 29/29、play-workspace 11/11，
 行/语句/函数均 100%；store 行/语句/函数 100%、分支 15/16；play.ts 行/语句/函数 100%、分支 11/14，
-不冒称余下错误展示分支已覆盖。完整 fast 精确计数见[覆盖率登记](../../../../testing/coverage.md#save-isolation-1-增量基线2026-09-07三席终审通过)。
+不冒称余下错误展示分支已覆盖。完整 fast 精确计数见[覆盖率登记](../../../../testing/archive/legacy/quality/quality-gates/coverage.md#save-isolation-1-增量基线2026-09-07三席终审通过)。
 普通 check 包含 PAL 测试，但本次未跑 full coverage；最小浏览器验证也不计入 fast 百分比。
 
 ### 最小功能 / 视觉验证
@@ -610,7 +610,7 @@ await abort 后与下一事件轮比较可证 Promise 不再 pending。用真实
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 SAVE-ISOLATION-1，任务卡 docs/ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md，状态 review，r2 不重签；候选 526eea00，对比 68d84d68。
-先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签 r2/用户裁决/实现回执与最新交接日志，以及 docs/testing/coverage.md。不要读取或复述 Kimi 本轮终审结论。Coding Owner Codex，本轮你只做独立数据/矩阵/范围终审。
+先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡已签 r2/用户裁决/实现回执与最新交接日志，以及 docs/testing/archive/legacy/quality/quality-gates/coverage.md。不要读取或复述 Kimi 本轮终审结论。Coding Owner Codex，本轮你只做独立数据/矩阵/范围终审。
 从候选树独立枚举生产 diff、六类 URL 与中间 props，逐项核矩阵：P/W/特殊字符/调用方突变、scope/项目错配副作用前拒绝、空重复互斥参数/错记录/错 manifest、HTTP→FSA 同 W、三块/列表/次数同域、30 槽/多 entry 保持、克隆失败/同步错误/真实 abort 回滚、Memory 非持久、旧库不读不迁不删、独立试买零存档。核 fake-indexeddb@6.2.5 仅 dev、lock 仅该依赖、配置/超时/排除/原探针/格式/UI 与非试玩缓存键不变。
 复跑 scope/store/入口定向与完整 check、单次严格 fast；重型检查不并跑，不取多数。核新增净 80（reforge 49/editor 31）、fast 610 文件/5842 项，scope 与 URL 分支 29/29、store 15/16；回执数字从实际候选树生成。负控制仅隔离加载基线 store.ts：最终 18 项 14 红/4 绿，完整实现 18 绿；核 abort 真正不发 request error、失败不半写，不能用测试注释代替红证据。临时 config/日志 /tmp/type-pal-save-isolation.4QCe6g/，可自行重建，不 stash 共享树。
 阅读 browser.mjs/browser-result.json/截图证据，核原生 IDB/F5/F9、多项目/工作区/独立壳、刷新与 HTTP→OPFS/FSA 绑定连续性的证明范围；不把测试 handle 当 OS 目录选择或全链 E2E。Q1 dumpSave 既有误接已另登，原调用未改，不因此代修范围外产品。

@@ -63,7 +63,7 @@ Revision: r1 / 2026-09-22
 已知风险：该collector也服务普通战斗，修复不得只修试打入口；无特效与资源丢失的区分必须按合同，不增加catch-and-skip。
 旧版本兼容审查：拟保持当前canonical数据语义，不新增版本分支、旧upgrader或缺资源fallback。
 遵守[第二阶段铁律](../../../../phase2/READ-FIRST.md)、[知识收获](../../../../phase2/reference/phase1-knowledge-harvest.md)与
-[模拟器原设计](../../../../testing/battle-simulator-r2-design.md)。不改已done卡签字。
+[模拟器原设计](../../../../testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md)。不改已done卡签字。
 
 ## 推进签字
 
@@ -71,7 +71,7 @@ Revision: r1 / 2026-09-22
 
 - Codex：accept（实施者自验，源码e17af240）；6新失败回归先4红后6绿、相邻29绿、单点去修复条件后候选AssertionError红；12预制回归、两包TC/Biome及原生七套开战通过，三人/巫后停止重开通过。0号/普通缺资源失败/双方execution保持，无schema或迁移改动。
 - Kimi/GLM：用户明确“glm你也不用管了先，你先独立完成工作吧”批准本批设计/终审缺签豁免，不代签；补签不作为本次done前置，不外推后续任务。
-- done准入：done allowed，Codex统一核定done。完整check8384、保护1b4cf055的ratchet与受保护单次strict7893/633均exit0；严格跑前后基线hash一致，5包完整基线对象不变，FIRE条件新增2个分支分母如实入账。详见[统一机账](../../../../testing/stability-fire-closeout-evidence.json)。full/Q1/Q2及所有技能平衡不在本卡内。
+- done准入：done allowed，Codex统一核定done。完整check8384、保护1b4cf055的ratchet与受保护单次strict7893/633均exit0；严格跑前后基线hash一致，5包完整基线对象不变，FIRE条件新增2个分支分母如实入账。详见[统一机账](../../../../testing/archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json)。full/Q1/Q2及所有技能平衡不在本卡内。
 
 下方r1历史pending和原分支证据按原文保留，以本节与顶部done状态为当前准入。
 
@@ -107,7 +107,7 @@ Revision: r1 / 2026-09-22
 
 - Codex按用户本次独立授权完成collector一处条件窄修（0xffff不请求，负值旧行为/0号/普通缺资源拒绝保持）；新合法guard矩阵和真实prepare资产正反对照6项，修前4红2绿、修后全绿，相邻29绿；单点移除条件，新player回归自身AssertionError红。
 - 七套JSON和原11回归按文件取回，追加实际玩家/合击/敌人FIRE闭包目录检查，12/12；Reforge/Editor TC通过；代码Biome通过。
-- 原生Chrome七套全部真实入战；三人及巫后双人截图检查和停止/重开通过。所有场次为临时试玩，不写正常存档或作者配置；视觉细节/工具时序披露见[预制记录](../../../../testing/pal-simulator-presets.md)。
+- 原生Chrome七套全部真实入战；三人及巫后双人截图检查和停止/重开通过。所有场次为临时试玩，不写正常存档或作者配置；视觉细节/工具时序披露见[预制记录](../../../../testing/archive/legacy/editor/testing-records/pal-simulator-presets.md)。
 - 本次不改schema、公式、脚本语义、迁移与资源二进制；统一check→ratchet→单次strict与最终收口待完成。
 
 > 2026-09-24回迁注：本节证据均出自分支ea80749a树；main上没有七预制数据与11项回归，不能在main复现。
@@ -141,7 +141,7 @@ Revision: r1 / 2026-09-22
 
 在 `/Users/zhangxu/illegal/type-pal` 审 BATTLE-FIRE-READINESS-1 r1，卡
 `docs/ops/archive/tasks/done/BATTLE-FIRE-READINESS-1-no-effect-marker.md`，draft，候选分支`codex/pal-simulator-presets`。
-先读AGENTS/CLAUDE/READ-FIRST、卡与`docs/testing/pal-simulator-presets.md`。独立核collector→双方execution→
+先读AGENTS/CLAUDE/READ-FIRST、卡与`docs/testing/archive/legacy/editor/testing-records/pal-simulator-presets.md`。独立核collector→双方execution→
 试打/普通战斗→专用trance/steal/flee演出，判断65535是否应从FIRE集合排除而保留0号及真正缺资源拒绝。
 不扩schema/迁移，不删预制技能，不伪造资产。核7预制作者旁车唯一真源/非托管保护策略。
 在本席签带file:line与可证伪观察的premise verified/design agree或counter；提交推送。不代签，不改状态或实现。
@@ -149,7 +149,7 @@ Revision: r1 / 2026-09-22
 ### GLM
 
 在 `/Users/zhangxu/illegal/type-pal` 审 BATTLE-FIRE-READINESS-1 r1，同卡draft/同候选分支。
-先读AGENTS/CLAUDE/READ-FIRST、卡、`docs/testing/pal-simulator-presets.md`及7预制JSON/11测试。
+先读AGENTS/CLAUDE/READ-FIRST、卡、`docs/testing/archive/legacy/editor/testing-records/pal-simulator-presets.md`及7预制JSON/11测试。
 独立核3套missing65535与4套无missing分组、当前特殊技能语义、集合侧别/0号/真缺资源的反例设计，
 确认新回归能钉住而不是只核guard通过；复核不覆盖作者配置/不向其他工程注入。你只做代码/文本，不做视觉。
 仅本席签带一手锚点的premise verified/design agree或counter并提交推送，不改状态/实现，不代签。

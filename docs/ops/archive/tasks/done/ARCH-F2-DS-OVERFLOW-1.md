@@ -17,7 +17,7 @@ Base / production freeze: `620a29dd`（开工先同步 main 并登记实际 SHA�
 
 - `packages/editor/src/ui/design-system/controls.tsx`：只移出 `DsOverflowTextProps` 与 `DsOverflowText`，保持从 `./controls.js` 旧入口 re-export 同一实现；不得动 `DsTooltip`、`DsHelpTip`、其它控件或公共样式。
 - 新建 `packages/editor/src/ui/design-system/overflow-text.tsx` 承接原实现。辅助 `classes` 可在新文件保真局部实现，**不能从新文件 runtime import 回 `controls`**；不得添加第二个状态源。
-- 仅必要时改 `overflow-text.test.tsx`、`controls.test.tsx`、`text-overflow-adoption.test.ts` 或明确受结构移动影响的 `boundary.test.ts`，但旧业务断言不删弱、不通过排除源文件过关。可交 `docs/testing/grok-arch-ds-overflow.md` 回执与测试索引一行，不改任务卡/看板。
+- 仅必要时改 `overflow-text.test.tsx`、`controls.test.tsx`、`text-overflow-adoption.test.ts` 或明确受结构移动影响的 `boundary.test.ts`，但旧业务断言不删弱、不通过排除源文件过关。可交 `docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow.md` 回执与测试索引一行，不改任务卡/看板。
 - 不改 CSS、`index.ts` 对外路径、其它 UI/产品模块、schema/save/资源、配置/覆盖率基线。发现旧实现缺陷须单列诊断，不夹带 UX 修复。
 
 ## 验收
@@ -32,7 +32,7 @@ Codex：**premise verified / build allowed**，仅此组件；用户新分工覆
 
 ## Codex 独立接收与 done 准入（2026-09-25）
 
-- **accept / done，仅本组件窄拆**。Grok 候选 `09dddce6` 经 Codex 源码、公开导出、定向 118/118、独立负控及隔离 6013↔6014 两状态逐字节画面对照；[完整接收记录](../../../../testing/grok-arch-ds-overflow-review.md)。Grok 是贡献者，不代作独立审查。
+- **accept / done，仅本组件窄拆**。Grok 候选 `09dddce6` 经 Codex 源码、公开导出、定向 118/118、独立负控及隔离 6013↔6014 两状态逐字节画面对照；[完整接收记录](../../../../testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md)。Grok 是贡献者，不代作独立审查。
 - main 接入 `fea0d9a0`；Codex 仅修诊断脚本临时文件独占与清理，不改产品语义。根 check、ratchet 与单次严格 fast 均 exit0，新增生产模块进入 642 文件范围，8110 测试且分支总分母未缩。
 - 原卡“done 未开放”是候选实施前历史状态；本段按当前 Codex 独立验收模式核准。整组 F2 与 Cursor 后续标签组件仍未完成；无下一位 Grok 提示词，本卡收口。
 

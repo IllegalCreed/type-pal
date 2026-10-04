@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "legacy-full-closeout-plan",
+  "generatedBy": "scripts/docs/build-legacy-closeout-plan.mjs",
+  "generatedFrom": "docs/testing/legacy-flat-classification.json",
+  "policy": "Every remaining legacy entry must reach migrated, archive-history, or retain-with-review with a source SHA and stop line; no silent deletion.",
+  "summary": {
+    "total": 331,
+    "byWave": {
+      "3": 209,
+      "4": 122
+    },
+    "byDecision": {
+      "tool-audit-first": 122,
+      "archive-history": 209
+    },
+    "sourceRefs": 194,
+    "publicCommands": 167,
+    "toolImports": 122
+  },
+  "entries": [],
+  "entryFiles": [
+    "archive/migrations/legacy-full-closeout-plan-01.json",
+    "archive/migrations/legacy-full-closeout-plan-02.json",
+    "archive/migrations/legacy-full-closeout-plan-03.json",
+    "archive/migrations/legacy-full-closeout-plan-04.json",
+    "archive/migrations/legacy-full-closeout-plan-05.json",
+    "archive/migrations/legacy-full-closeout-plan-06.json",
+    "archive/migrations/legacy-full-closeout-plan-07.json"
+  ]
+}

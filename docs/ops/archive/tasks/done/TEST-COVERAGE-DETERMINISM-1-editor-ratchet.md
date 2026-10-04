@@ -38,7 +38,7 @@ Codex 核定 done 并归档。纯测试维护的 Visual N/A 保持，不将此�
 | 维度 | 已知事实 / 未知项 | 证据 |
 |---|---|---|
 | Primary source | editor 全部生产 TS/TSX 纳入；受控 maxWorkers=2；汇总前逐文件对账，精确分数比较 | `scripts/coverage/config.mjs:96,175`；`scripts/coverage/run.mjs:234,262,502` |
-| 第一阶段 | N/A：不改变游戏行为，不从原版/一阶段机制推导 V8 覆盖率口径 | [覆盖率合同](../../../../testing/coverage.md)规定七包相同门禁 |
+| 第一阶段 | N/A：不改变游戏行为，不从原版/一阶段机制推导 V8 覆盖率口径 | [覆盖率合同](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)规定七包相同门禁 |
 | 当前二阶段 | `reorder.tsx:730` 的 `if (!selected) return` 只在有效拖动尚未取消且该帧执行时命中；现有 pointer 测试未显式推进，已有 auto-scroll 用例只覆盖有容器路径 | `packages/editor/src/ui/design-system/reorder.tsx:382,699,730,821`；`reorder.test.tsx:370,769`；[确定性调查回执](../../../audits/pre-e2e/coverage-determinism.md) |
 | 本任务目标 | 新增独立受控帧回归，证明没有容器时无滚动/无提前提交，有效 drop 仍一次提交；不改变用户行为 | [DS-C.4d](../../../../phase2/specs/editor-design-system.md)的 pointermove 零提交与一次 drop 合同（:573,591） |
 
@@ -98,7 +98,7 @@ Codex 负责复核真实提交树、负控制和精确基线；Kimi 终审核帧
 ## 上下文锚点与调查边界
 
 - [AGENTS](../../../../../AGENTS.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[共享工作树纪律](../../../agent-workflow.md#共享工作树与-stash)。
-- [E-06 回执](../../../audits/pre-e2e/quality-gate-remediation.md)、[覆盖率合同](../../../../testing/coverage.md)，
+- [E-06 回执](../../../audits/pre-e2e/quality-gate-remediation.md)、[覆盖率合同](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)，
   以及原存档卡两轮返工复核中的严格单次通过记录；不把之前已修的弹窗焦点竞态当作本卡根因。
 - `scripts/coverage/config.mjs`、`run.mjs`、`baseline.fast.json`；`packages/editor/vite.config.ts`。
 - 比较基线/候选用独立工作树或隔离进程，禁止在共享 main 中 stash/恢复他人内容来做先红。

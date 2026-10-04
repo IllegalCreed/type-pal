@@ -2,8 +2,8 @@
 
 2026-09-26，Owner：GLM；生产冻结 `51048353`，分支自含 `ef19ae7e` 的 origin/main 新建
 `codex/glm-content-guards-wave2`（worktree `type-pal-glm-content-guards-wave2`）。
-r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`，origin/main） counter（R1–R4）；
-r2 候选 `99113d22` 被 Codex r2 复核（`docs/testing/guard-leaf-r2-review.md`@`7cac1d72`，origin/main） counter（仅 C1/C2）。
+r1 候选 `b8e037cb` 被 Codex intake 审查（`docs/testing/archive/legacy/content/quality-gates/guard-leaf-intake-review.md`@`ca96d45a`，origin/main） counter（R1–R4）；
+r2 候选 `99113d22` 被 Codex r2 复核（`docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r2-review.md`@`7cac1d72`，origin/main） counter（仅 C1/C2）。
 本回执对应 C1/C2 窄返工后的最终树；只含三份白名单叶测试 + 一个 typed fixture + 本目录证据，
 产品、旧测试、scripts、配置/基线零 diff（含 Codex 反证工具不动）。
 

@@ -44,7 +44,7 @@ Visual Verification Timing: dev-functional
 ## 验证与锚点
 
 - 必须先读AGENTS/CLAUDE/phase2 READ-FIRST、phase1-knowledge-harvest C7/X节与既有菜单拍板。
-- 保留[宿主一批](../../../../testing/codex-runtime-shell.md)H3/H5、[宿主二批](../../../../testing/codex-runtime-shell-wave2.md)H7/H8业务断言。
+- 保留[宿主一批](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md)H3/H5、[宿主二批](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md)H7/H8业务断言。
 - 新控制器直接测试：面板开关/光标记忆、物品等待/成功/失败/取消、旧异步结束不借用新会话、两实例隔离。
 - AST调用链测试如涉及移动的UI接口，只适配依赖入口，不删除业务断言；历史只读取证探针不伪装为适配后新证据。
 - 定向/相邻/TC/Biome；最小浏览器菜单打开、装备/物品返回、系统取消；真实存储回归不使用用户游玩存档。

@@ -12,8 +12,8 @@
 
 2026-09-26最新执行：用户要求Codex连续完成剩余治理，并明确让Cursor承担大量并行任务。
 [连续收口卡](../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)维护本轮11项，现已全部完成；加此前A1/A2，原13批治理队列13/13完成；
-[Cursor24组卡](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)及[剩余九组验收](../../testing/cursor-commands-wave2-integration.md)已完成，F2委派所有权全部释放。
-最终[统一回执](../../testing/architecture-continuation-integration.md)：check9573、受保护ratchet/strict9081/728、三端build通过；不代表全仓无债或全面E2E完成。
+[Cursor24组卡](../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md)及[剩余九组验收](../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)已完成，F2委派所有权全部释放。
+最终[统一回执](../../testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)：check9573、受保护ratchet/strict9081/728、三端build通过；不代表全仓无债或全面E2E完成。
 
 不以行数单独判债。重点是：职责是否跨域、状态归谁、谁负责取消/释放、依赖是否反向、
 能否在不启动整个应用的情况下测试一个领域。禁止只搬文件后让每个模块继续接收完整RuntimeContext。
@@ -30,17 +30,17 @@
 |---|---|---|---|
 | A1 Reforge菜单/物品宿主（已done） | 09429基点main.ts:5293、:5368、:6384，菜单态/物品异步执行混入6696行bootGame | dbe55b55已移出15状态，main7153→6798；MenuSession/ItemUseSession拥有控制状态，窄端口接线 | 28新增、155序列3798步等价、10针、check8440/strict7949通过；A2已另行完成，A3分段推进 |
 | A2 Reforge战斗宿主（[r1 done](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)） | 7f3840e6 main.ts:2149–2505，资源准备、会话、结算、战后脚本由大闭包调度 | 46287966 BattleHost/准备单元已落；main6798→6486；独立所有权，不改核心 | 23新增/11针/check8463/strict7972/637与真实功能验证通过；自审两处时序补正已闭 |
-| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/domains/runtime/scene/active-scene/report.md)、[移动/绘制已完成](../../testing/domains/runtime/world/world-runtime/report.md)） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 7be10bf4已迁WorldMotionRuntime/WorldScenePresentation；main6486→6427→6260→6148→5698 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
-| B1 编辑器App（[会话所有权已完成](../../testing/editor-app-sessions-refactor.md)） | App.tsx原5170行，导航/保存/历史/试打/场景选择混在总壳 | 四个hook分别拥有导航、场景工作区、试玩和工程生命周期；App降至4688行，既有guard/history不复制 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
+| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/domains/runtime/scene/active-scene/report.md)、[移动/绘制已完成](../../testing/domains/runtime/world/world-runtime/report.md)） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 7be10bf4已迁WorldMotionRuntime/WorldScenePresentation；main6486→6427→6260→6148→5698 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
+| B1 编辑器App（[会话所有权已完成](../../testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md)） | App.tsx原5170行，导航/保存/历史/试打/场景选择混在总壳 | 四个hook分别拥有导航、场景工作区、试玩和工程生命周期；App降至4688行，既有guard/history不复制 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B2 地图工作区（[owner已完成](../../testing/domains/editor/map/map-workspace-sessions/report.md)） | 当前批MapMode 3819行，手势临时态/变换剪贴板/视图与结构确认混在宿主 | 3c3fccda..3a633ed7迁出四类session并保留既有selection reducer；MapMode降至3734行，只留坐标、权限、plan/command与同步提交 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B3 脚本/内容表单 | ScriptEditor.tsx:1710单表单913行；CommandForm.tsx:257单组件1842行 | 已拆四命令族表单、共享控件和作者桥合同，不传完整宿主context | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | C1 战斗会话 | BattleSession:217单类2806行/134成员，tick:1191为488行 | 已拆readiness、命令选择、动作演出和结算呈现四owner；tick保留业务协调顺序 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | D1 第一阶段依赖环（[已完成](../../testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md)） | 原7文件运行时SCC | d488f72e将脚本目录/背包/毒/装备状态/地图身份/菜单栈下沉，静态运行期环清零 | 161函数体/旧出口保持、8新增/三针、PAL全包与最小功能验证；check8678/strict8186/654 |
 | D2 第一阶段大主控 | event-system5784行/applyRawOpcode1459行；battle-system3749行；bootstrap1946行 | 已拆角色opcode、战斗资源/终态/成长/结算、启动资源owner；原公共入口保留 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | E1 迁移转换 | migrate-content3314行/mapScenesStatic808行；translate-events2472行/walkBody1184行 | 已拆移动族翻译和场景源规划纯内存owner；调用壳保留上下文与最终结果编排 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
-| E2 内容校验边界（[已完成](../../testing/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
-| F1 工具维护（[已完成](../../testing/design-system-audit-layering-refactor.md)） | 原design-system-audit.mjs6428行，AST/CSS/规则/报告及935行route遍历同文件 | 93b7211b已拆AST事实/静态流、CSS推导、纯规则与IO报告；facade降至4669行并保留route/adoption编排 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
-| F2 组织性整理（已完成） | 原盘点commands4475/controls2589，按战场/控件/领域命令分批落位 | commands最终179行、controls35行稳定barrel；剩余九组90声明与119出口/62绑定保持，无新运行期环 | [2022acc3最终验收](../../testing/cursor-commands-wave2-integration.md)：check8740/strict8248/701、五针和隔离UI通过；纯搬移无覆盖metrics增长 |
+| E2 内容校验边界（[已完成](../../testing/archive/legacy/content/authoring-and-runtime/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
+| F1 工具维护（[已完成](../../testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md)） | 原design-system-audit.mjs6428行，AST/CSS/规则/报告及935行route遍历同文件 | 93b7211b已拆AST事实/静态流、CSS推导、纯规则与IO报告；facade降至4669行并保留route/adoption编排 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
+| F2 组织性整理（已完成） | 原盘点commands4475/controls2589，按战场/控件/领域命令分批落位 | commands最终179行、controls35行稳定barrel；剩余九组90声明与119出口/62绑定保持，无新运行期环 | [2022acc3最终验收](../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)：check8740/strict8248/701、五针和隔离UI通过；纯搬移无覆盖metrics增长 |
 
 ### 并行所有权（2026-09-26 更新）
 

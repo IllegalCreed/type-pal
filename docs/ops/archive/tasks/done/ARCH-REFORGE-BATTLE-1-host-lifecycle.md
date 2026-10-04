@@ -57,8 +57,8 @@ Implementation candidate: 46287966（含57794d15拆分、348a50d1提交快照补
 - `main.ts:5115`：强停；`:6265`：主循环 tick/render 转发。不得新增第二帧调度器。
 - `main.battle-host-flows.test.ts:37/72/90/126/165/177`：H9 六条真实宿主链，
   已涵盖胜利/败北、作者续链、投掷库存、空敌队、迟到精灵与换场景；不能只用核心 mock 替代。
-- [战斗流程接收证据](../../../../testing/battle-workflows-integration.md)、
-  [真实宿主二批](../../../../testing/codex-runtime-shell-wave2.md)：接收结论保留，新模块须重验接线。
+- [战斗流程接收证据](../../../../testing/archive/legacy/runtime/battle/battle-workflows-integration.md)、
+  [真实宿主二批](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md)：接收结论保留，新模块须重验接线。
 - 不得重引 `sys:battleField`、完整 RuntimeContext、下标身份、旧 save/content fallback 或测试专用产品入口。
 
 ## Draft：边界设计

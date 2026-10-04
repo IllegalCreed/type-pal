@@ -27,7 +27,7 @@ requestfailed 和 pageerror。第一轮精确定位：8 条 error 来自
 `packages/reforge/src/project-save-state.ts:39–45` 将其解释为 `null`（无存档档位）。
 因此此宿主流程的 **console 已逐条归因，没有未预期错误**；并非声称字面
 零 error 行。新补验证据只改变隔离宿主 HTML/文档，不改产品源码、测试范围、
-正式资产或覆盖率基线。A–J 并集的[统一质量/覆盖率回执](../glm-wave-union-20260929.md)
+正式资产或覆盖率基线。A–J 并集的[统一质量/覆盖率回执](../archive/legacy/ops/testing-records/glm-wave-union-20260929.md)
 仍适用；本次证据改动后 docs/lint 另行复核。
 
 结论：Wave G 卡面的功能视觉与 console 项闭合，可由 Codex 收口 `done`。

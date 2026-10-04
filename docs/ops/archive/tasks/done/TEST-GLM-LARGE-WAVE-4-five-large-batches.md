@@ -159,7 +159,7 @@ selftest 对每种 INVALID 断言无遗留临时文件。修 receipt-batch-b 的
 ## 2026-09-29 Codex 集成终态
 
 本卡测试/证据已作为 A–J 并集进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
-见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+见[统一集成回执](../../../../testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md)。完整 `pnpm check`、
 官方 ratchet、受 `origin/main` 旧基线保护的单次 fast 均通过；完整 lint
 0 error / 0 warning / 0 info，生产源码与覆盖分母不变。本卡按测试-only
 验收条件由 Codex 标记 `done`。全仓 85% 目标未达（实测 78.12%），

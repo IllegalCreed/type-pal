@@ -9,4 +9,4 @@
 复跑默认只写唯一 `/tmp` 目录并打印路径，不回写已跟踪 JSON；原始 green/red JSON 与日志留在该临时目录。
 作者自验不是 Codex 独立验收；产品零改，作者交付时不自行合main/标done，集成由Codex负责。
 
-作者回执保留交付时点；Codex最终结论见[独立集成记录](../cursor-map-integration.md)。
+作者回执保留交付时点；Codex最终结论见[独立集成记录](../archive/legacy/content/authoring-and-runtime/cursor-map-integration.md)。

@@ -12,7 +12,7 @@ Branch: `codex/cursor-map-logic-r2`
 
 ### 2026-09-27 Codex接收be9a8636
 
-**代码复核accept，CM1–CM4全部闭合**；见[独立接收/集成回执](../../../../testing/cursor-map-integration.md)。
+**代码复核accept，CM1–CM4全部闭合**；见[独立接收/集成回执](../../../../testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration.md)。
 最后两plan污染针已候选自身AssertionError红，原三针保持；29新增/117定向相邻/TC/15文件零诊断通过。
 原实现正控绿，六作者针与17自测独立复跑通过；产品/旧测试零改，测试与候选字节保持。
 以70d0ae91为集成基点，完整check9741/官方ratchet/受保护单次strict9249均通过，七包TC与全仓lint零诊断。
@@ -22,7 +22,7 @@ Cursor是贡献者，独立接收与全仓门由Codex执行；无下一位Agent�
 
 ### 2026-09-27 Codex接收4dc8fb75
 
-**counter，仅剩CM1计划/patch实参保真**，见[窄复核及提示词](../../../../testing/cursor-map-logic-r2-review.md)。
+**counter，仅剩CM1计划/patch实参保真**，见[窄复核及提示词](../../../../testing/archive/legacy/content/authoring-and-runtime/cursor-map-logic-r2-review.md)。
 CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typed loader状态均accept，不重开。
 原三漏检针现都候选业务红；仍有两个Command偷偷改原plan.mapRevision的变异候选4/4绿，独立oracle抓住。
 只补原M3–M6应用前后实际plan/patch/权限数组快照，不新增矩阵，不强加返回map/EditSession不变。
@@ -30,7 +30,7 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 
 ### 2026-09-27 Codex接收070d3bf3
 
-**counter / CM1–CM4**，见[独立接收与可转交提示词](../../../../testing/cursor-map-logic-r1-review.md)。
+**counter / CM1–CM4**，见[独立接收与可转交提示词](../../../../testing/archive/legacy/content/authoring-and-runtime/cursor-map-logic-r1-review.md)。
 30新增/105定向相邻/全editor3049/TC/Biome/原六针独立通过，地图三工厂通过正式guard。
 但实际输入保真两针与组合高度丢失一针候选仍绿；judge接受缩进混错，EditorState为强转假状态，
 双组哨兵/精确结果与去重声明需修。已转rework，候选未合入、不计官方覆盖；产品/旧测试/配置不改。

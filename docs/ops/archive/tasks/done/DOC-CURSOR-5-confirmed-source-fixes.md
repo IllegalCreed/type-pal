@@ -10,7 +10,7 @@ Evidence freeze: `4594f0a5`（开卡前 main；实施起点以含本卡的提交
 
 ## 前提与准入
 
-DOC-CURSOR-2 的[已接收只读报告](../../../../testing/cursor-docs-wave2.md)有三处确定不符
+DOC-CURSOR-2 的[已接收只读报告](../../../../testing/archive/legacy/runtime/testing-records/cursor-docs-wave2.md)有三处确定不符
 （W2-C03-1、W2-C07-1、W2-C11-1），另有前批已修其它指南、但在 game README
 保留的旧 e2e 命令关联 H1。Codex 已独立读现行一手定义，准许 Cursor 在本卡白名单做
 **四处文字窄修**：同一事实不算四个新产品缺陷。修订只改描述，既有时点数字和历史记录不刷新。
@@ -47,7 +47,7 @@ DOC-CURSOR-2 的[已接收只读报告](../../../../testing/cursor-docs-wave2.md
 ```text
 从包含 DOC-CURSOR-5 卡的 origin/main 创建独立 worktree
 /Users/zhangxu/illegal/type-pal-cursor-confirmed-docs，分支 codex/cursor-confirmed-doc-fixes-r1。
-先读 AGENTS.md、CLAUDE.md、本卡和 docs/testing/cursor-docs-wave2-review.md 的最终 accept/NB1-NB2。
+先读 AGENTS.md、CLAUDE.md、本卡和 docs/testing/archive/legacy/runtime/testing-records/cursor-docs-wave2-review.md 的最终 accept/NB1-NB2。
 仅修 packages/game/README.md（架构治理政策与已退役 e2e/6001 命令）、
 packages/migrate/README.md:61（PAL 发布入口和 engine-chrome bake 不混称“资产烘焙细节”）、
 data/raw/README.md:43（保留 README/unifont-cn.bdf 两个 Git 例外）。

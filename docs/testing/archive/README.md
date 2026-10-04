@@ -8,3 +8,6 @@
 - [E2E 路径迁移记录](migrations/e2e-20261004.json)：源文件 SHA 与 canonical 迁移目标。
 - [Legacy runtime/editor 第二批迁移记录](migrations/testing-domains-20261004-wave2.json)：四组 report/evidence 的源 SHA、目标和退休关系。
 - [Legacy runtime/editor 第二批工具审计](migrations/testing-domains-20261004-wave2-tool-audit.json)：相对导入、cwd、runner、公开 caller 和保留 legacy 决策。
+- [Legacy 全量收口决策账](migrations/legacy-full-closeout-plan.json)：剩余 331 项逐项的 domain/module/capability、完整源 SHA、源码 inventory、caller/import/cwd、合法输入、业务 oracle、排重、版本、evidence、history、supersedes 与停止线。
+- [Legacy 全量归档迁移计划](migrations/legacy-full-closeout-relocation.json)：209 项非工具材料的 SHA 锁定归档目标；122 个工具保留原入口，直到各自停止线满足。
+- [按工程域划分的 legacy 历史归档](legacy/)：不作为当前 contract、runtime 或 coverage credit；当前结论回到 `catalog.json` 与 canonical report/evidence。

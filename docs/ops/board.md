@@ -11,7 +11,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TESTING-DOC-GOVERNANCE-1 | [测试文档深度治理](tasks/TESTING-DOC-GOVERNANCE-1-depth.md) | build | Codex / 独立验收后回执 | 359 项分类账、20 项真实迁移、runtime/E2E source audit、metadata/evidence/CI 门禁 |
+| TESTING-DOC-GOVERNANCE-1 | [测试文档深度治理](tasks/TESTING-DOC-GOVERNANCE-1-depth.md) | build | Codex / 全量归档与工具停止线验收 | 359 项分类账；237 项已迁移/归档，122 个工具逐项深审并保留稳定入口 |
 | TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 | [extract/migrate pipeline branch-contract closure](tasks/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | Kimi / CLI与事务合同 | pal-extract/migrate 公开入口与mkdtemp隔离，分别达85% |
 | TEST-GLM-GAME-EVENT-CONTRACTS-1 | [Game event script semantic contracts](tasks/TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | build | GLM / 公开事件脚本合同 | auto-script/runScript/raw opcode 合法输入与业务 oracle，质量收口 |
 | TEST-GLM-REFORGE-HOST-LIFECYCLE-1 | [Reforge startup and continuation lifecycle contracts](tasks/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | build | GLM / host lifecycle 合同 | startup/abort/replacement/continuation，质量收口 |
@@ -35,11 +35,11 @@ lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次
 第一阶段允许行为不漂移的结构优化，也检查实现bug；纯重构与行为修正分提交。首批A1已独立准入并收口，不扩张为整仓同时重写。
 **2026-09-25分工更新**：先前“全队列Codex独立”只保留为已完成批次的历史授权。新批次按[并行所有权](audits/architecture-debt.md#并行所有权2026-09-26-更新)由Codex保留高风险，GLM/Grok/Cursor只在各自窄卡白名单内实施；Codex独立验收/集成。仍不把结构治理授权解释为玩法、格式或界面变更授权。
 第二波整包已于2026-09-23三席收口；后续由Codex与GLM按最新覆盖基线选择不重叠、有现行消费者且合同明确的补测批次，新范围先走准入，不重领已完成项。
-2026-09-23已按[大业务域计划](../testing/coverage-large-domain-plan.md)启动战斗流程/运行时宿主两卡，r1三席齐并由Codex核build；各Owner连续完成六组，最终统一统计，不逐用例跑覆盖率。
+2026-09-23已按[大业务域计划](../testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md)启动战斗流程/运行时宿主两卡，r1三席齐并由Codex核build；各Owner连续完成六组，最终统一统计，不逐用例跑覆盖率。
 补测发现的产品缺陷单列，按当前“Codex核前提与独立验收、必要产品取舍交用户”的流程处理；七套预制及65535资源准备阻断已于2026-09-24按当时授权修复交付，见下方历史收口记录。
 后置不取消R4→N6b→完整Q1/Q2，也不新增“必须先达全仓90%/85%才允许E2E”的门槛。
 
-GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)（78模块、617文件历史路由台账）。这里只链接候选池，不把旧规划自动列成当前 build；新分派和验收按顶部当前模式，排期以上述用户裁决为准。
+GLM后续补测候选见[十批长队列](../testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.md)（78模块、617文件历史路由台账）。这里只链接候选池，不把旧规划自动列成当前 build；新分派和验收按顶部当前模式，排期以上述用户裁决为准。
 
 工作流: [`agent-workflow.md`](agent-workflow.md)
 任务卡模板: [`tasks/TASK-template.md`](templates/TASK-template.md)
@@ -49,27 +49,27 @@ GLM后续补测候选见[十批长队列](../testing/glm-coverage-work-queue.md)
 180 个失败遗留树（约80.6 GiB）逐文件核验后移除；158个独有blob已去重提交本机恢复仓库，
 正式Cursor候选与原分支保留，不将故意变异或旧测试稿并入产品。
 
-前两轮[九批返工复核](../testing/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01已由Codex补正、统一集成并分别核定done，见[收口记录](../testing/tb00-tb01-completion.md)。
+前两轮[九批返工复核](../testing/archive/legacy/ops/testing-records/glm-nine-rework-review.md)保留历史证据；最新结论以下方当前接收为准。Mimosa不参与；TB00/TB01已由Codex补正、统一集成并分别核定done，见[收口记录](../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md)。
 
-2026-09-25 [F2 溢出文本组件窄拆](../testing/grok-arch-ds-overflow-review.md)由 Grok 贡献、Codex 独立复核并 done：原/候选 Design Lab 两状态截图逐字节一致，根 check、ratchet、严格 fast 8110/642 通过。F2 整批仍未完成，Cursor 后续同文件切片尚未开放。
+2026-09-25 [F2 溢出文本组件窄拆](../testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md)由 Grok 贡献、Codex 独立复核并 done：原/候选 Design Lab 两状态截图逐字节一致，根 check、ratchet、严格 fast 8110/642 通过。F2 整批仍未完成，Cursor 后续同文件切片尚未开放。
 
-2026-09-26 [F2 标签/只读值窄拆](../testing/cursor-arch-ds-labels-review.md)由 Cursor 贡献、Codex 独立复核并 done：旧导出与 DOM/SSR 保真；Codex 同步修正两条 adoption owner 登记，check/ratchet/严格 fast 8122/643 通过。F2 整批仍未完成；首轮 ratchet 的 game 子进程内存 `SIGABRT` 与隔离/复跑证据已在回执披露。
+2026-09-26 [F2 标签/只读值窄拆](../testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md)由 Cursor 贡献、Codex 独立复核并 done：旧导出与 DOM/SSR 保真；Codex 同步修正两条 adoption owner 登记，check/ratchet/严格 fast 8122/643 通过。F2 整批仍未完成；首轮 ratchet 的 game 子进程内存 `SIGABRT` 与隔离/复跑证据已在回执披露。
 
-八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/glm-nine-final-review.md)。当时只核签字与既有证据、不重跑测试；TB03随后单独收口，见下。
+八批（TB02/TB04～TB10）候选256116ee已三席accept齐，2026-09-20用户授权后由Codex[核定done归档](../testing/archive/legacy/editor/testing-records/glm-nine-final-review.md)。当时只核签字与既有证据、不重跑测试；TB03随后单独收口，见下。
 
-2026-09-20 TB03候选4894719e三席accept齐，用户授权后由Codex[核定done归档](../testing/import-codec-acceptance.md)。本次无测试/基线改动；PNG编码失败close没有随补测关闭；用户后续授权后已由Codex[独立修复](../testing/image-import-cleanup.md)，18回归及check7766/严格fast7277通过。
+2026-09-20 TB03候选4894719e三席accept齐，用户授权后由Codex[核定done归档](../testing/archive/legacy/migration/supply-and-import/import-codec-acceptance.md)。本次无测试/基线改动；PNG编码失败close没有随补测关闭；用户后续授权后已由Codex[独立修复](../testing/archive/legacy/migration/supply-and-import/image-import-cleanup.md)，18回归及check7766/严格fast7277通过。
 
 2026-09-26：GLM守卫叶与Codex资源索引两卡已收口，156新增测试，
 check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%，见[并集回执](../testing/codex-content-resources/README.md)。
 
-2026-09-26 [剩余八项架构统一收口](../testing/architecture-continuation-integration.md)：A3/B1/B2/B3/C1/D2/E1/F1已accept，
+2026-09-26 [剩余八项架构统一收口](../testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)：A3/B1/B2/B3/C1/D2/E1/F1已accept，
 加此前A1/A2/D1/E2/F2，原13批治理队列全部完成。check9573、受保护ratchet/单次strict9081项/728生产文件、
 三端build通过。以下较早记录中的“候选/部分完成”仅为当时快照，当前状态以上述统一回执为准。
 
-2026-09-27 Cursor地图六组已[接收并收口](../testing/cursor-map-integration.md)：29新增、check9741/strict9249，实际+21B/+19L；
+2026-09-27 Cursor地图六组已[接收并收口](../testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration.md)：29新增、check9741/strict9249，实际+21B/+19L；
 产品/分母/其它六包对象不变。2026-09-27用户确认Cursor已退出后，孤立worker已结束，原worktree及本地/远端分支均已清理；代码保留main。
 
-2026-09-27 GLM物品六组已[独立接收并核done](../testing/item-logic-integration.md)：26e7a269全部counter闭合，
+2026-09-27 GLM物品六组已[独立接收并核done](../testing/archive/legacy/editor/editor-workflows/item-logic-integration.md)：26e7a269全部counter闭合，
 46新增、check9787/strict9295、零诊断，实际+85B/+43L；全仓分支72.93%，content92.52%。
 生产/分母/其它六包对象不变；不恢复Codex主动补覆盖，不替代E2E。
 
@@ -83,10 +83,10 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 静态零诊断；全仓分支75.18%，FrameAnimationEditor分支82.10%/行97.08%。详见
 [帧编辑最终回执](../testing/codex-frame-editor/README.md)，历史“暂停WIP”现已完成。
 
-2026-09-28脚本步骤卡与继续按钮已[修复收口](../testing/script-card-ui.md)：整卡状态/圆角/间距、
+2026-09-28脚本步骤卡与继续按钮已[修复收口](../testing/archive/legacy/editor/editor-workflows/script-card-ui.md)：整卡状态/圆角/间距、
 误导箭头与键盘焦点完成6010实际验证；check10,176/严格fast9,715通过、静态零诊断、基线不变。
 
-2026-09-28[预览连续播放与单步](../testing/preview-controls.md)已收口：普通对话自动/选项手选，
+2026-09-28[预览连续播放与单步](../testing/archive/legacy/editor/editor-workflows/preview-controls.md)已收口：普通对话自动/选项手选，
 首步空门修复；15新回归、11针、6010实际按钮闭环。check10,191/strict9,730，静态零诊断；
 运行时保存安全门不变，E2E001/002独立继续。
 
@@ -100,7 +100,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 
 ## 进行中
 
-2026-09-29 [GLM A–J 并集](../testing/glm-wave-union-20260929.md)已进入 main：
+2026-09-29 [GLM A–J 并集](../testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md)已进入 main：
 完整 check、ratchet、受保护 fast 通过，分支 49,529/63,398（78.12%，+448）；
 85% 未达，仍差 4,360 臂。A–E/F–J 六张纯测试卡均已由 Codex 归档 done；
 G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完成误写为 85% 达标。
@@ -121,32 +121,32 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 落实局部对白接管与持久open页，保留目标＋速度/独立auto，不新增parallel/join；
 check10655项、E2E工具57项与2704文件静态零诊断。母任务继续003以后/capture，不关闭完整Q1/Q2。
 
-2026-09-27 [GLM八组同步守卫](../testing/guard-wave3-integration.md)6a114727独立accept/done：
+2026-09-27 [GLM八组同步守卫](../testing/archive/legacy/quality/quality-gates/guard-wave3-integration.md)6a114727独立accept/done：
 最后R2实际输入保真反控闭合，110新增；check9712/ratchet/受保护单次strict9220通过。
 生产728文件与分母不变，净增260B/184L；content分支90.74%，全仓分支72.76%。
 
-2026-09-26 [Cursor八组命令残项](../testing/cursor-command-boundaries-r3-integration.md)a732f7d2独立accept/done：
+2026-09-26 [Cursor八组命令残项](../testing/archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-integration.md)a732f7d2独立accept/done：
 R1–R3清零，29新增/五作者针/五组独立见证；check9602、ratchet及保护449adb54的单次strict9110全过。
 生产728文件/各分母不变，净增48B/39L；GLM守卫返工仍不计入。
 
-2026-09-26 [Cursor九组剩余命令](../testing/cursor-commands-wave2-integration.md)2022acc3已独立accept/done：90声明/119出口/62绑定保持、反控与隔离UI通过，check8740/strict8248/701。F2组织性整理完成；新增16身份/顺序回归、13模块，覆盖metrics不变，未混算GLM或A3后续。
+2026-09-26 [Cursor九组剩余命令](../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)2022acc3已独立accept/done：90声明/119出口/62绑定保持、反控与隔离UI通过，check8740/strict8248/701。F2组织性整理完成；新增16身份/顺序回归、13模块，覆盖metrics不变，未混算GLM或A3后续。
 
-2026-09-26 [B1编辑器总壳会话候选](../testing/editor-app-sessions-refactor.md)四段已落：导航、场景工作区、试玩与工程生命周期各有owner，App5170→4688；18新增/二十针、Editor2847、TC/build与6054隔离功能通过。候选未合main、共享全仓门待原接收对话，未提前标done。
+2026-09-26 [B1编辑器总壳会话候选](../testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md)四段已落：导航、场景工作区、试玩与工程生命周期各有owner，App5170→4688；18新增/二十针、Editor2847、TC/build与6054隔离功能通过。候选未合main、共享全仓门待原接收对话，未提前标done。
 
-2026-09-26 [战场命令族窄拆](../testing/glm-arch-battle-field-commands.md)由GLM实施、Codex独立accept并done归档：7276字节搬移保真、119出口不变、156项与两针通过；完整check8657/受保护严格fast8165/644绿，隔离功能核验完成（原生confirm自动化限制单列）。F2整体仍未完成。
+2026-09-26 [战场命令族窄拆](../testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md)由GLM实施、Codex独立accept并done归档：7276字节搬移保真、119出口不变、156项与两针通过；完整check8657/受保护严格fast8165/644绿，隔离功能核验完成（原生confirm自动化限制单列）。F2整体仍未完成。
 
-2026-09-26 [Cursor24组](../testing/cursor-architecture-batch-integration.md)与[GLM十二组准备包](../testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md)已由Codex独立accept/收口：前者25新增/32模块、后者本批4新增（累计41），统一check8707/strict8215/686；功能UI已补验，用户无需手测。B1/E1/环境未证轴已归属，A3主线WIP不混算。
+2026-09-26 [Cursor24组](../testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md)与[GLM十二组准备包](../testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md)已由Codex独立accept/收口：前者25新增/32模块、后者本批4新增（累计41），统一check8707/strict8215/686；功能UI已补验，用户无需手测。B1/E1/环境未证轴已归属，A3主线WIP不混算。
 
-2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
+2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/archive/legacy/ops/testing-records/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
 
-2026-09-25 [一阶段有效属性与状态投影补测](../testing/gemini-phase1-stats-integration.md)已按当前委派模式由 Codex 独立验收收口：Gemini 贡献26项，额度耗尽后 Codex 修订 typed fixture/边界断言并正式接入；check、官方ratchet、受保护单次strict-fast均通过，fast8065项/641生产文件，全仓分支42910/63176。无产品源码或统计范围缩减，full/E2E仍另排。
+2026-09-25 [一阶段有效属性与状态投影补测](../testing/archive/legacy/phase1-runtime/engine-boundaries/gemini-phase1-stats-integration.md)已按当前委派模式由 Codex 独立验收收口：Gemini 贡献26项，额度耗尽后 Codex 修订 typed fixture/边界断言并正式接入；check、官方ratchet、受保护单次strict-fast均通过，fast8065项/641生产文件，全仓分支42910/63176。无产品源码或统计范围缩减，full/E2E仍另排。
 
-2026-09-25 [A3-b场景资源与预检](../testing/scene-preparation-refactor.md)fdad980f已独立核定done：
+2026-09-25 [A3-b场景资源与预检](../testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md)fdad980f已独立核定done：
 26新增/11针、16冻结对照、18函数+2切场宿主保真、check8525/strict8034/641与最小场景往返通过。
 main6427→6260；资源缓存与只读准备各有所有者，原同步提交不改。**A3整体仍未完成，总队列仍2/13**，
 后续继续活动场景/移动/绘制边界。cb1远端旧测试等待预算失败已由独立ad16修复、远端双门success。
 
-2026-09-25 [A3首段](../testing/runtime-frame-refactor.md)8eb93bb7已独立验证done：36新增/11针、
+2026-09-25 [A3首段](../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md)8eb93bb7已独立验证done：36新增/11针、
 384帧/896输入对照、check8499/strict8008/639通过；时钟/等待/单步/输入所有权迁出。
 **A3整体未完成**，场景/移动/绘制职责续段仍待推进，13批总队列仍为2批完成；GLM八包是后续既有批次的准备支持，不增加8个架构大批。
 
@@ -158,16 +158,16 @@ main6427→6260；资源缓存与只读准备各有所有者，原同步提交�
 菜单/物品15状态移出主壳，main7153→6798；28新增、155序列3798步等价、10针、最小功能视觉、
 check8440/ratchet与单次strict7949/635全过。A2/A3、编辑器与第一阶段仍按队列推进；demo旧地图/调试落点观察单列，不混修。
 
-2026-09-24 用户要求Codex本批独立推进后，[真实宿主二批](../testing/codex-runtime-shell-wave2.md)实现94b59a6f
+2026-09-24 用户要求Codex本批独立推进后，[真实宿主二批](../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md)实现94b59a6f
 新增28项/8业务负控，check8412、ratchet与受保护单次strict7921/633全部通过，已核done。
 新增715行/507分支、另六包完整基线不变；full校准8230是补测前快照，不混报。Kimi/GLM仅本批豁免，未代签，未跑E2E。
 
-2026-09-24 用户授权本批Codex独立完成后，[环境稳定性](../testing/check-environment-stability.md)与
-[FIRE准备/七预制交付](../testing/pal-simulator-presets.md)同源码e17af240通过check8384、ratchet与单次strict7893/633，
+2026-09-24 用户授权本批Codex独立完成后，[环境稳定性](../testing/archive/legacy/quality/quality-gates/check-environment-stability.md)与
+[FIRE准备/七预制交付](../testing/archive/legacy/editor/testing-records/pal-simulator-presets.md)同源码e17af240通过check8384、ratchet与单次strict7893/633，
 两卡核done归档。七套真实开战、三人/巫后停止重开通过；Kimi/GLM缺签按用户裁决登记，不代签、不外推后续任务。
 [工作树清理](archive/audits/worktree-retirement-2026-09-24.md)已将21个旧工作树可恢复地移入废纸篓，登记仅剩main，分支未删/恢复。
 
-2026-09-24 [战斗会话流程补测](../testing/battle-workflows-integration.md)源fd4efd76经Codex独立接收与统一集成，
+2026-09-24 [战斗会话流程补测](../testing/archive/legacy/runtime/battle/battle-workflows-integration.md)源fd4efd76经Codex独立接收与统一集成，
 GLM实施者自验accept、Kimi额度耗尽由用户明确豁免；check8363/ratchet7872/单次受保护strict7872（633生产文件）全过，
 Codex核定done归档。净增97行/82分支，另六包完整基线对象不变。下一批建议见报告（真实宿主二批与迁移主链去重），
 尚未开新卡/授权build；full/Q1/Q2与DEV-TOAST-1不借此关闭。
@@ -176,35 +176,35 @@ Codex核定done归档。净增97行/82分支，另六包完整基线对象不变
 用户确认后Codex分别核定done并归档。check8317/ratchet7826/单次受保护strict7826与525c40cd远端CI为既有证据；
 本次不跑统计并集。DEV-TOAST-1、其它统计盲点与视觉/full/Q1/Q2边界保持；GLM战斗r2另行接收，不借本次放行。
 
-2026-09-23 [第二波六领域非视觉补测](../testing/glm-coverage-wave2-receipt.md)候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），用户确认后Codex核零漂移并done归档。163项/17针、check8281/单次strict7790与集成f703e49c双CI为既有证据；未达whole-file目标、无caller旧入口、E-05/U-02/frame政策和full/Q1/Q2边界保持。本次只做文档收口，不重跑覆盖率。
+2026-09-23 [第二波六领域非视觉补测](../testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md)候选27bd8c00三席accept齐（Codex实施者自验、GLM贡献者复核d8b9dfa7、Kimi独立终审5b44c37d），用户确认后Codex核零漂移并done归档。163项/17针、check8281/单次strict7790与集成f703e49c双CI为既有证据；未达whole-file目标、无caller旧入口、E-05/U-02/frame政策和full/Q1/Q2边界保持。本次只做文档收口，不重跑覆盖率。
 
-2026-09-21 [迁移规划快照与二进制路径保护](../testing/migration-write-guard.md)候选57dda7ed三席accept齐（Codex实现者自验、GLM6ca25cf6、Kimiafb05943），用户授权后Codex核零漂移并done归档；A-08/A-09按r1关闭。check8029/strict7538、五负控、隔离发布双跑及远端#286为既有证据，本次仅文档收口；E-05/U-02/N6b/Q2与单writer等边界保持。
+2026-09-21 [迁移规划快照与二进制路径保护](../testing/archive/legacy/migration/supply-and-import/migration-write-guard.md)候选57dda7ed三席accept齐（Codex实现者自验、GLM6ca25cf6、Kimiafb05943），用户授权后Codex核零漂移并done归档；A-08/A-09按r1关闭。check8029/strict7538、五负控、隔离发布双跑及远端#286为既有证据，本次仅文档收口；E-05/U-02/N6b/Q2与单writer等边界保持。
 
-2026-09-21 [E2E前置欠账与准入核对](../testing/pre-e2e-admission.md)已更新：A-08/A-09已按r1收口，但不代表全部欠账清零；U-02保持待证，E-05/Q2/N6b与一阶段分流。R4尚无实施卡与连续检查点，003～010边界待起草确认；不改变R4→N6b→完整Q1/Q2顺序。
+2026-09-21 [E2E前置欠账与准入核对](../testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)已更新：A-08/A-09已按r1收口，但不代表全部欠账清零；U-02保持待证，E-05/Q2/N6b与一阶段分流。R4尚无实施卡与连续检查点，003～010边界待起草确认；不改变R4→N6b→完整Q1/Q2顺序。
 
-2026-09-21 [TB00/TB01窄返工](../testing/tb00-tb01-completion.md)候选44b9b763三席分别accept齐（Codex 430fba79、GLM f38c23dc、Kimi 2c042bf5），用户授权后Codex逐卡核零漂移并done归档；check7988/strict7497及13业务见证/37跑为既有证据，本次只做文档收口。frame在途invalidate回填政策仍待证（Codex后续合同核定，不固化为通过或已知bug）；A3跨包/rows无上限/levelUp owner warn与full/Q1/Q2边界保持。
+2026-09-21 [TB00/TB01窄返工](../testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md)候选44b9b763三席分别accept齐（Codex 430fba79、GLM f38c23dc、Kimi 2c042bf5），用户授权后Codex逐卡核零漂移并done归档；check7988/strict7497及13业务见证/37跑为既有证据，本次只做文档收口。frame在途invalidate回填政策仍待证（Codex后续合同核定，不固化为通过或已知bug）；A3跨包/rows无上限/levelUp owner warn与full/Q1/Q2边界保持。
 
-2026-09-21 [物品作者记录/脚本身份](../testing/item-authoring-implementation.md)候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户授权后Codex核零漂移并done归档。D-06/D-07关闭；check7909/strict7418、五组负控与原生保存重开为既有证据，本轮只做文档收口。TB00/TB01窄counter与full/Q1/Q2边界保持。
+2026-09-21 [物品作者记录/脚本身份](../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md)候选451cbbb7三席accept齐（Codex c86ad00f、GLM b895a367、Kimi 139c0b04），用户授权后Codex核零漂移并done归档。D-06/D-07关闭；check7909/strict7418、五组负控与原生保存重开为既有证据，本轮只做文档收口。TB00/TB01窄counter与full/Q1/Q2边界保持。
 
-2026-09-20 [共享战斗模拟器首批](../testing/battle-simulator-implementation.md)主体fe0fee84及列宽补丁d394eccc三席accept齐，用户明确「UI验收通过，可以收口」，Codex已done归档。D-04/D-05关闭；原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保持，未扩展所有评估入口或宣布完整E2E完成。
+2026-09-20 [共享战斗模拟器首批](../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)主体fe0fee84及列宽补丁d394eccc三席accept齐，用户明确「UI验收通过，可以收口」，Codex已done归档。D-04/D-05关闭；原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保持，未扩展所有评估入口或宣布完整E2E完成。
 
-2026-09-19 [运行时基础功能补测](../testing/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
+2026-09-19 [运行时基础功能补测](../testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md)候选62a18137三席accept齐、无返工，用户确认签字；Codex核零漂移后done归档。60项新增、check7538/严格fast7049通过；后续BGM initP政策与完整E2E仍按原归属推进。
 
-2026-09-19 Codex完成[E-01资源测试输入合同](../testing/phase1-resource-test-inputs.md)：20项无PAL依赖输入回归及真实资源对拍通过，check7478/严格fast6989绿；不改GLM目标面或游戏运行逻辑，不新增三签卡。D-04/D-05独立临时试玩已于2026-09-20共同收口，裁决与历史证据见[审计台账](audits/pre-e2e/editor-workflows.md#d-05--临时试放不改存档的告知与保存行为不一致)。
+2026-09-19 Codex完成[E-01资源测试输入合同](../testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md)：20项无PAL依赖输入回归及真实资源对拍通过，check7478/严格fast6989绿；不改GLM目标面或游戏运行逻辑，不新增三签卡。D-04/D-05独立临时试玩已于2026-09-20共同收口，裁决与历史证据见[审计台账](audits/pre-e2e/editor-workflows.md#d-05--临时试放不改存档的告知与保存行为不一致)。
 
-2026-09-19 Codex完成[E-03/E-04预览缓存常规修复](../testing/editor-preview-cache.md)：仅两个组件私有缓存，15项回归/7负控/原生绘制及check7457/严格fast6969通过；同Owner连续迭代不开新签字卡，不涉及资源格式或公共加载器。
+2026-09-19 Codex完成[E-03/E-04预览缓存常规修复](../testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md)：仅两个组件私有缓存，15项回归/7负控/原生绘制及check7457/严格fast6969通过；同Owner连续迭代不开新签字卡，不涉及资源格式或公共加载器。
 
-场景引用保护候选83598cc4已三席accept，用户要求本人继续，2026-09-19由Codex[核定done归档](../testing/scene-reference-guard.md)；22新回归、check7442/strict fast6954及功能验证通过，其它审计缺陷不借此关闭。
-内容合同补测候选adbabb84已三席accept、用户确认签字，2026-09-18由Codex[核定done归档](../testing/content-contracts-review.md)；新增118项，check7420/strict fast6932通过，43族剩余覆盖及其它审计修复保持原归属。
-D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
-精灵上传选图修复候选a88ab18d已三席accept、用户验收通过，2026-09-18由Codex[收口归档](../testing/sprite-selection.md)；check7302/strict fast6814通过，G-I04与R4后续边界保持。
-编辑器逻辑补测候选5ca9dad2已三席accept、用户授权收口，2026-09-18由Codex[核定done归档](../testing/editor-logic-coverage-review.md)；47项新增、check7282与strict fast6794通过，后续缺口按台账另推。
-四包基础测试候选48d3b8e3也已三席accept、用户确认，2026-09-17由Codex[收口归档](../testing/glm-foundation-coverage-review.md)；139项新增、check7218与strict fast6730通过。
+场景引用保护候选83598cc4已三席accept，用户要求本人继续，2026-09-19由Codex[核定done归档](../testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md)；22新回归、check7442/strict fast6954及功能验证通过，其它审计缺陷不借此关闭。
+内容合同补测候选adbabb84已三席accept、用户确认签字，2026-09-18由Codex[核定done归档](../testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md)；新增118项，check7420/strict fast6932通过，43族剩余覆盖及其它审计修复保持原归属。
+D-01已完成；B-06/B-07[保存子链修复](../testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md)已三席accept、用户要求收口，2026-09-17已done归档。
+精灵上传选图修复候选a88ab18d已三席accept、用户验收通过，2026-09-18由Codex[收口归档](../testing/archive/legacy/editor/editor-workflows/sprite-selection.md)；check7302/strict fast6814通过，G-I04与R4后续边界保持。
+编辑器逻辑补测候选5ca9dad2已三席accept、用户授权收口，2026-09-18由Codex[核定done归档](../testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md)；47项新增、check7282与strict fast6794通过，后续缺口按台账另推。
+四包基础测试候选48d3b8e3也已三席accept、用户确认，2026-09-17由Codex[收口归档](../testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-review.md)；139项新增、check7218与strict fast6730通过。
 世界异步提交候选e13216e7已三席accept、用户确认，2026-09-17由Codex核定done归档；WA-E1～3仍待R4集中执行，不互相借用签字。
-检查点导出候选27e605ef也已三席accept、无返工，2026-09-18由Codex核零漂移并done归档；[接口回执](../testing/checkpoint-export.md)的跨页/视觉闭环仍归R4。
+检查点导出候选27e605ef也已三席accept、无返工，2026-09-18由Codex核零漂移并done归档；[接口回执](../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)的跨页/视觉闭环仍归R4。
 
-准备工作：[六组72检查点工作包（二）](../testing/glm-pre-e2e-boundary-batch-2.md)已由Codex接手完成取证返工与集成（GLM额度耗尽）；[最终回执](../testing/glm-pre-e2e-boundary-batch-2-report.md)记录34覆盖/23复现/15待证及13项隔离鉴别力验证。
-这是卡前非视觉诊断准备，不是23个独立bug或已完成修复；该历史取证产品冻结70e3f627。B-05/08/09后续[实现与验证](../testing/world-async-commit.md)已三席accept收口，不代表其余诊断条目已修。
+准备工作：[六组72检查点工作包（二）](../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2.md)已由Codex接手完成取证返工与集成（GLM额度耗尽）；[最终回执](../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)记录34覆盖/23复现/15待证及13项隔离鉴别力验证。
+这是卡前非视觉诊断准备，不是23个独立bug或已完成修复；该历史取证产品冻结70e3f627。B-05/08/09后续[实现与验证](../testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md)已三席accept收口，不代表其余诊断条目已修。
 
 ## 阻塞
 
@@ -214,13 +214,13 @@ D-01已完成；B-06/B-07[保存子链修复](../testing/save-barrier-lineage.md
 商店生命周期已完成，全仓五批首轮审计亦已取证收口；不代表问题已修复或E2E验收。
 全仓文档纠错与结构整理均已收口，日常检查与 CI 已接入。[E-06 质量门禁](audits/pre-e2e/quality-gate-remediation.md)
 已修复，完整 `pnpm check` 通过；[B-04 存档预检修复](audits/pre-e2e/save-preflight-remediation.md)已三签收口。
-[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；D-01整卡实现时fast为6,493项，最新数量见[覆盖率记录](../testing/coverage.md)，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
+[编辑器覆盖率确定性修复](audits/pre-e2e/coverage-determinism.md)亦已三签收口；D-01整卡实现时fast为6,493项，最新数量见[覆盖率记录](../testing/archive/legacy/quality/quality-gates/coverage.md)，覆盖率未下调；废弃源码和旧模型测试退役/迁移已单列记录，计数不代表完整E2E已通过。
 A-01 存档隔离已三席 accept、用户免复验通过并收口；证据入口见下方总收口。
-A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [保存中断恢复](../testing/editor-save-recovery-closeout.md)候选cd3de679已三席accept，用户免手动复审通过，已归档。已测大克隆成本与完整E2E待办仍保留；A-07[离开保护](../testing/editor-leave-guard.md)三席终审通过，用户授权继续，已收口；D-01全局撤销顺序候选70e3f627已三席accept，用户明确验收通过，已done归档。
+A-02 作者保存冲突保护亦已三席及用户验收通过并收口；A-03 [保存中断恢复](../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)候选cd3de679已三席accept，用户免手动复审通过，已归档。已测大克隆成本与完整E2E待办仍保留；A-07[离开保护](../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)三席终审通过，用户授权继续，已收口；D-01全局撤销顺序候选70e3f627已三席accept，用户明确验收通过，已done归档。
 接下来按总收口处理其余审计缺陷并补回归/覆盖率，
 然后进入 R4 content20 薄基线 → N6b content21 → 完整 E2E。
 修复分组见[总收口](audits/pre-e2e/summary.md)；U-02 待证，第一阶段缺陷与可后置优化分别保留。
-GLM的[44项并行只读工作包](../testing/glm-pre-e2e-prep.md)收尾11fb8148已由Codex复核accept并接收（见[接收结论与转正节奏](../testing/glm-pre-e2e-prep-report.md)）：19复现/14覆盖/11待证，非缺陷修复数。先随D-01实施转正式回归，其余随对应卡；D-01设计不重签，本次未改产品/正式测试/覆盖率。
+GLM的[44项并行只读工作包](../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep.md)收尾11fb8148已由Codex复核accept并接收（见[接收结论与转正节奏](../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)）：19复现/14覆盖/11待证，非缺陷修复数。先随D-01实施转正式回归，其余随对应卡；D-01设计不重签，本次未改产品/正式测试/覆盖率。
 
 ## 看板规则
 

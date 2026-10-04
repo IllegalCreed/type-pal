@@ -1,6 +1,6 @@
 # B3 命令表单族所有权候选
 
-后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点 `b3eada17`；实现 `ec813052`、`83a8f7be`、`951131d8`、`a5744ee1`、

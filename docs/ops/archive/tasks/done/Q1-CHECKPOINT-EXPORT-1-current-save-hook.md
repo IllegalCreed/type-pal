@@ -74,8 +74,8 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 ## 上下文锚点
 
 - [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[READ-FIRST](../../../../phase2/READ-FIRST.md)、[协作流程](../../../agent-workflow.md)。
-- [Q1追加缺陷](../../../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)、[批二B11/B12](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)。GLM原始探针贡献须披露，Codex本轮独立复算不称GLM独立终审。
-- [保存子链已完成卡](SAVE-BARRIER-LINEAGE-1-nested-script-save.md)、[实现回执](../../../../testing/save-barrier-lineage.md)：不改coordinator/lineage准入，不重开其设计。
+- [Q1追加缺陷](../../../audits/pre-e2e/summary.md#审计后实现期追加2026-09-07)、[批二B11/B12](../../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)。GLM原始探针贡献须披露，Codex本轮独立复算不称GLM独立终审。
+- [保存子链已完成卡](SAVE-BARRIER-LINEAGE-1-nested-script-save.md)、[实现回执](../../../../testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md)：不改coordinator/lineage准入，不重开其设计。
 - [E2E顺序](../../../../phase2/roadmap.md#第二阶段后半程路线)：修前置缺陷→R4 content20薄基线→N6b content21→完整E2E，不把整仓覆盖率目标当本卡附加准入。
 - 现有`save/restore-preflight.chain.test.ts`、`save-lineage.chain.test.ts`、`runtime-save-lineage.test.ts`、`save/store*.test.ts`；正式新测试不得import审计探针代替生产链。
 
@@ -182,7 +182,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ### 进入done前
 
-- Codex：**accept（2026-09-17，实现者自验证）**。产品限main共用快照入口/DEV绑定；17项真实注册/运行时/codec/restore与快存回调回归，定向相邻177项、Reforge typecheck、新文件Biome通过；5项单点负控业务红且17项正常对照绿。完整check7235、ratchet及受保护单次严格fast6747/617通过，原探针/旧测试/统计范围零修改。首轮分母回退及真实quickSave补测已如实记录，不把AST执行算main覆盖；资源宿主替身、跨页/视觉延期边界见[回执](../../../../testing/checkpoint-export.md)。
+- Codex：**accept（2026-09-17，实现者自验证）**。产品限main共用快照入口/DEV绑定；17项真实注册/运行时/codec/restore与快存回调回归，定向相邻177项、Reforge typecheck、新文件Biome通过；5项单点负控业务红且17项正常对照绿。完整check7235、ratchet及受保护单次严格fast6747/617通过，原探针/旧测试/统计范围零修改。首轮分母回退及真实quickSave补测已如实记录，不把AST执行算main覆盖；资源宿主替身、跨页/视觉延期边界见[回执](../../../../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)。
 - Kimi：**accept（2026-09-17，r1 实现独立终审，候选 `27e605ef` 对比 `a5df9fbc`；设计不重签；未读 GLM 本轮结论）**。
   接手 HEAD `fc76f6be` 与 origin/main 一致、工作树干净；候选后产品/脚本/锁文件零漂移。
   - **真实 DEV 零参异步绑定**：`main.ts:6945-6952` `dumpSave: () => enqueueSaveSnapshot(captureCurrentSavePayload)`——
@@ -262,7 +262,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
   与 B12 正控（money=123 往返绿）。六条可证伪观察写入本席；不扩 SAVE8/content20。
   未改产品/他席/状态，未开始实现。Next：三签齐后 Codex 实现，终审按 CE-01～08。
 - 当前产品修复与17项正式回归已落地，177项定向/相邻与typecheck通过；5项单点反控业务红且原实现对照绿。
-  证据与准确边界见[实现回执](../../../../testing/checkpoint-export.md)；check7235与ratchet/严格fast6747全部exit0，三席终审accept并已技术收口；不代表完整E2E通过。
+  证据与准确边界见[实现回执](../../../../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)；check7235与ratchet/严格fast6747全部exit0，三席终审accept并已技术收口；不代表完整E2E通过。
 - 2026-09-17 Codex：完成r1实现与质量门，推进review。新增真实quickSave两项是CE-06同链验收补强，不改变产品范围/设计；首次ratchet被拒的精确计数与修正证据均落回执。下一步Kimi/GLM并行独立终审同候选，不重签设计；GLM编辑器整批仍单独build。
 - 2026-09-17 Codex：按用户“给他们提示词，你做你的工作”推进主线，完成上述只读取证与r1 draft；GLM/Kimi另有编辑器工作包，本卡不占其产品/测试面。下一步两席独立设计审查，准入齐后Codex实现。
 
@@ -274,7 +274,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
-先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡CE-01～08及docs/testing/checkpoint-export.md。独立核真实DEV零参异步绑定、与doSave共用快照队列/真实barrier、同步捕获/JSON恢复、异常不毒死队尾、零槽副作用；保存写队列/缩略图/计数块应原样，SAVE8/content20与原探针不变。
+先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡CE-01～08及docs/testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md。独立核真实DEV零参异步绑定、与doSave共用快照队列/真实barrier、同步捕获/JSON恢复、异常不毒死队尾、零槽副作用；保存写队列/缩略图/计数块应原样，SAVE8/content20与原探针不变。
 复跑回执定向177项、Reforge typecheck、node docs/testing/checkpoint-export-mutants.mjs（17项对照绿+5针业务红），核check7235、受保护单次strict fast6747/617及首次ratchet拒绝后补真实quickSave回调的证据；不把AST当main已插桩或内存宿主当浏览器。R4跨页/视觉集中延期，不重跑剧情。
 不读/复述GLM结论，只在本人实现席位签accept或带file:line的counter与交接日志，提交推送；不改产品/他席/状态，不代签、不标done。
 ```
@@ -283,7 +283,7 @@ node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=cont
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 Q1-CHECKPOINT-EXPORT-1，卡 docs/ops/archive/tasks/done/Q1-CHECKPOINT-EXPORT-1-current-save-hook.md，review/r1，候选27e605ef4cf2811f746afada30377093f15c50c8，对比a5df9fbc；设计不重签。
-先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及docs/testing/checkpoint-export.md。独立逐CE-01～08核17项测试的合法输入/业务断言/队列顺序/失败重试/零槽副作用和JSON→codec→真实restore；复跑定向177项、typecheck、node docs/testing/checkpoint-export-mutants.mjs（17绿+5业务红），核check7235及fast6747/617、旧105文件identity和其他六包基线不变。首次ratchet失败如实保留，不准只看最终绿；旧B11同步探针零改，不用其旧红因代证异步实现。
+先同步查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及docs/testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md。独立逐CE-01～08核17项测试的合法输入/业务断言/队列顺序/失败重试/零槽副作用和JSON→codec→真实restore；复跑定向177项、typecheck、node docs/testing/checkpoint-export-mutants.mjs（17绿+5业务红），核check7235及fast6747/617、旧105文件identity和其他六包基线不变。首次ratchet失败如实保留，不准只看最终绿；旧B11同步探针零改，不用其旧红因代证异步实现。
 你贡献过B11/B12原诊断，须披露；本卡产品/新回归由Codex实现。不读/复述Kimi结论、不做视觉，只写本人accept/counter及日志并提交推送，不改产品/他席/状态、不标done。
 审完继续TEST-EDITOR-LOGIC-COVERAGE-1四组白名单工作；它已build准入a5df9fbc，按编辑器卡末尾GLM实施提示连续A→D，不重签、不将检查点计数混入你的贡献。
 ```

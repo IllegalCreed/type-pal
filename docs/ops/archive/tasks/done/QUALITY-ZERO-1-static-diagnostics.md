@@ -20,7 +20,7 @@ Visual Verification Timing: dev-functional（若清理涉及CSS/JSX，保持用�
   其中5 warning来自已存在的未跟踪`docs/testing/gw3r3-witnesses.tmp.mjs`，其余85 warning+7 info为入库范围。
   不通过删除/排除该文件隐藏诊断；归属确认或保真修订另处理，未保存WIP保持。
 - 七包`env -u NODE_COMPILE_CACHE pnpm -r run typecheck`首次exit0、零诊断。
-- [扫描机账](../../../../testing/quality-zero-inventory.json)包含实际路径/行/规则；原始
+- [扫描机账](../../../../testing/archive/legacy/quality/quality-gates/quality-zero-inventory.json)包含实际路径/行/规则；原始
   `/tmp/codex-quality-zero-before.json`与`/tmp/codex-quality-zero-typecheck-before.log`。
 
 ## 保真清理范围

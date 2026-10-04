@@ -1,6 +1,6 @@
 # QUALITY-ZERO-1 实施与保真验证
 
-[任务卡](../../ops/archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) / [原始诊断账](../quality-zero-inventory.json)。
+[任务卡](../../ops/archive/tasks/done/QUALITY-ZERO-1-static-diagnostics.md) / [原始诊断账](../archive/legacy/quality/quality-gates/quality-zero-inventory.json)。
 用户要求静态硬质量门0error/0warning/0info；本包清存量并收紧CLI，不继续覆盖率目标、不改两贡献者候选。
 
 ## 实施范围

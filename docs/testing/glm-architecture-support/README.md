@@ -46,7 +46,7 @@
    不允许固定sleep等到红、不吞异常后宣称成功、不把ENOENT/TypeError/timeout当业务反证。
 4. 对已有测试：说明它“确实证明什么”和“本次差异是什么”。历史探针不改；新探针冻结旧锚点与当前锚点分列。
 5. 视觉先读`docs/phase2/specs/editor-design-system.md`、相关已done UI卡、
-   `docs/testing/battle-simulator-implementation.md`、`item-authoring-implementation.md`、`editor-functional-visual-2026-09-22.md`。
+   `docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md`、`item-authoring-implementation.md`、`editor-functional-visual-2026-09-22.md`。
    建议先1440/1024；768仅在规范支持范围内判定，360只记录既有边界。区分CSS px/设备像素、页面缩放与截图缩放。
 6. 视觉缺陷要给“进入路径→对象→操作→实际/预期→可重复截图”；正常邻近场景作对照。空白、截断、颜色问题先排加载失败/资源解码/浏览器缩放。
    标明实际用哪个浏览器工具，看到了什么；只执行JS/读源码而没看图，必须标非视觉证据。

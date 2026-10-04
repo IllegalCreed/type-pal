@@ -78,7 +78,7 @@ Evidence base: cb1cb26d
 ### done前
 
 - Codex：2026-09-25 对实现fdad980f签accept（实施者自验、自审；用户豁免另外两席）；
-  [回执](../../../../testing/scene-preparation-refactor.md)和[机账](../../../../testing/scene-preparation-refactor-evidence.json)：
+  [回执](../../../../testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md)和[机账](../../../../testing/archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json)：
   26新增/36正控11针/16冻结对照/18函数+2宿主AST保真；check8525、ratchet/单次strict8034/641、build与浏览器往返通过。
 - Kimi/GLM：用户豁免，未代签。
 - done准入：本段done；用户架构队列独立授权、Codexaccept与全部本地验证齐，旧兼容审查pass。

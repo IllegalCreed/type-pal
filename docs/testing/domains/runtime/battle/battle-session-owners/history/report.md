@@ -1,6 +1,6 @@
 # C1 BattleSession 状态所有权候选
 
-后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点 `099a615b`；实现 `aab78c82`、`450df20d`、`f68d4e89`、`afef3cd3`；所属

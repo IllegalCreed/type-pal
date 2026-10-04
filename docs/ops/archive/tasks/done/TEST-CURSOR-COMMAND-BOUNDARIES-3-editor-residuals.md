@@ -16,7 +16,7 @@ Branch: `codex/cursor-command-boundaries-r3`
 
 一手真值是下表八文件的公开Command构造/apply/invert及现行guard、既有业务测试；原版/一阶段N/A，
 不测玩法。最强替代解释为“缺口是不可达防御臂或已被旧用例证明”，必须先核而不是硬造内部状态。
-[冻结机账](../../../../testing/coverage-parallel-wave3-evidence.json)的cursor组给出hash/逐行逐臂，仅是缺口候选，
+[冻结机账](../../../../testing/archive/legacy/quality/quality-gates/coverage-parallel-wave3-evidence.json)的cursor组给出hash/逐行逐臂，仅是缺口候选，
 **212个零命中臂不是承诺新增212臂，更不是要求100%**。共享支路只记一次。
 
 ## 八组连续工作
@@ -62,7 +62,7 @@ Branch: `codex/cursor-command-boundaries-r3`
 
 ### 2026-09-26 Codex 返工接收 `a732f7d2`
 
-实现 **accept**，R1–R3全部闭合；[独立复验与集成记录](../../../../testing/cursor-command-boundaries-r3-integration.md)。
+实现 **accept**，R1–R3全部闭合；[独立复验与集成记录](../../../../testing/archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-integration.md)。
 52定向/相邻、TC、五作者针及五组本席合法态/污染反控通过。原反证保留作历史，不再阻断。
 Codex在449adb54主线串行全仓check9602→ratchet9110→单次受保护strict9110全部通过，
 严格summary按正式baselineView投影后与ratchet基线一致；728生产清单/分母与其它六包对象不变，净增48B/39L。
@@ -71,7 +71,7 @@ Codex在449adb54主线串行全仓check9602→ratchet9110→单次受保护stric
 
 ### 2026-09-26 Codex 独立接收 `b6bcc9b4`
 
-**counter**，详见[接收反证与下一位提示词](../../../../testing/cursor-command-boundaries-r3-review.md)。
+**counter**，详见[接收反证与下一位提示词](../../../../testing/archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-review.md)。
 本席定向29/29、TC与五针通过，但R1成功fixture引用非法、R2完整保真/共享字节哨兵不足、R3回执
 未覆盖/不可达混列阻断。两项正式保存门反证红，图层污染反控漏检。仅这三项返工，未合候选、未计覆盖。
 原作者回执在隔离分支保留，不代签；done未开放。以下为原准入提示词，返工以接收报告为准。

@@ -44,7 +44,7 @@
 - 迁移写入计划新增 8 项：越界/非法路径及缺指纹计划拒绝、写删冲突、manifest 缺前置条件拒绝、
   相同 baseline/manifest 不重复写入。仅临时目录 fixture；不改迁移行为或真实 PAL 工程。
 - `pnpm coverage:ratchet` 通过，608 个生产文件、486 个 fast 测试文件 / 5,690 项；
-  所有包和全仓四项指标不回退，12 个包/总计指标提高，详细整数计数见[覆盖率记录](../../../testing/coverage.md)。
+  所有包和全仓四项指标不回退，12 个包/总计指标提高，详细整数计数见[覆盖率记录](../../../testing/archive/legacy/quality/quality-gates/coverage.md)。
   没有改低基线、coverage ignore 或测试超时。full coverage 本批未重跑。
 - 开发期最小视觉验证：浏览器设计实验页 RF-14（1280×720）正常渲染，检查截图与无障碍树中的表单名称、
   数字输入与下拉控件。没有操作用户的 PAL 工程；此项不声称完成实机键盘/弹窗交互或工作流 E2E，
