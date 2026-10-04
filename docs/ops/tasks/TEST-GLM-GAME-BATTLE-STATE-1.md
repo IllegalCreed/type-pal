@@ -113,3 +113,6 @@ mutation-points/mutation-runner/mutation-results/mutation-logs），再核：
    check:docs 三 pin 刷新、git diff --check）。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+**r1 工作提交 SHA**：`d8707b85fc2a6fdc215aa5d845dd3008c12d340e`（单一 commit 含 10 合同测试 +
+证据目录 + 回执 + review JSON 三条目外科刷新；本行为 SHA 登记追加笔，base `5dcb4569b`）。
