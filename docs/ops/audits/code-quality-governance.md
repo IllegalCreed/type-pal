@@ -99,6 +99,12 @@ controller 的 NaN 输入有直接证据并按 0 修复，另纠正一条与 `pl
 game 全包 3,398、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
 game 其余 core/present/shell/analytics/tools 仍待逐文件治理。
 
+2026-10-05 Q3j 已闭合 game tools/speedrun 小批：`tools/{display-scale,fps-overlay,toast,map-names}.ts`
+与 `tools/speedrun/{time-format,countdown,checkpoints}.ts` 已逐文件核验；仅 display-scale 的 NaN
+百分比有直接证据并按默认 100% 修复，速通 checkpoint 坐标继续保留“需真实运行证据”的未知项。
+定向 47、game 全包 3,399、全仓 check、official ratchet、protected fast、Biome 零诊断均通过；
+不得把本小批写成 game 或全仓治理完成。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

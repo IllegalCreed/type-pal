@@ -35,6 +35,15 @@ function mkCanvas(): HTMLCanvasElement {
 }
 
 describe('L19 display-scale 剩余合同', () => {
+  it('NaN setPercent 回到默认 100%，不写入 NaN CSS 或 localStorage', () => {
+    const canvas = mkCanvas()
+    const ctl = createDisplayScaleController(canvas)
+    ctl.setPercent(Number.NaN)
+    expect(ctl.getPercent()).toBe(100)
+    expect(canvas.style.width).toBe('960px')
+    expect(localStorage.getItem(SCALE_KEY)).toBe('100')
+  })
+
   it('非整数 setPercent 四舍五入（clampPct round 分支）', () => {
     const canvas = mkCanvas()
     const ctl = createDisplayScaleController(canvas)

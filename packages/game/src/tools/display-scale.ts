@@ -14,6 +14,7 @@ export interface DisplayScaleController {
 }
 
 function clampPct(p: number): number {
+  if (Number.isNaN(p)) return 100
   return Math.max(MIN_PERCENT, Math.min(MAX_PERCENT, Math.round(p)))
 }
 
