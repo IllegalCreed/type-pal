@@ -22,12 +22,9 @@ const repoRoot = path.resolve(pkgRoot, '..', '..')
 const evidenceDir = path.join(pkgRoot, 'src', '__tests__', 'host-lifecycle-1')
 const rawDir = path.join(evidenceDir, 'counterproof-raw')
 
-// 派发时既存的外来未提交工作(2026-10-04 派发快照),不属于本卡树状态。
-const foreignDirty = [
-  'scripts/e2e/browser-journey.mjs',
-  'scripts/e2e/continuous-story-replay-both.mjs',
-  'scripts/e2e/continuous-story-replay-engine.mjs',
-]
+// r2 起(基于 origin/main)无已知外来脏路径;机制保留以备并行工作树事件再现时
+// 显式登记豁免路径(须在回执中披露)。r1 期间曾豁免 e2e 在途分支的三个脏路径。
+const foreignDirty = []
 
 const injections = [
   {
