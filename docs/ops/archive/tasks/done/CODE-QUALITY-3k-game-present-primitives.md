@@ -1,6 +1,6 @@
 # CODE-QUALITY-3k - game present 基础 primitive 逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -47,7 +47,7 @@ Base: `c1bce8b42`
 - 贡献者交付/自验：Codex；定向 13 files/77 tests、game typecheck、Biome 通过；修复 `screen-wave.ts` 负 progression 跨零关断缺陷。
 - Codex 独立验收：accept（完整读取六个生产文件与 `present.ts` 真实 caller；真实 raw opcode 0x71 `[255,65532,0]` 与 `global.h:379 WORD` 直接证明；mutant 4 total/3 passed/1 failed，恢复 4/4；全仓 check、official ratchet、protected fast、Biome 零诊断通过）。
 - 用户产品裁决/体验验收：N/A（不改 UI 形态；剧情视觉延后）。
-- done 准入：blocked，待提交推送和独立工作树核对；本卡只关闭六个 primitive，不代表 present/battle/menu 或全仓治理完成。
+- done 准入：Codex done allowed；提交 `03cc513df` 已推送，独立 diff/status 核对通过；本卡只关闭六个 primitive，不代表 present/battle/menu 或全仓治理完成。
 
 ## 交接日志
 
