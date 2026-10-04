@@ -5,7 +5,7 @@
   "targets": {
     "src/main.ts": 7,
     "src/battle/battle-session.ts": 8,
-    "src/battle/battle-core.ts": 12,
+    "src/battle/battle-core.ts": 13,
     "src/script-runner.ts": 41,
     "src/script-runner-core.ts": 2,
     "src/script-host-adapter.ts": 26,
@@ -14,7 +14,7 @@
     "src/script-world.ts": 19,
     "src/runtime-script-project.ts": 5
   },
-  "targetClosedTotal": 127,
+  "targetClosedTotal": 128,
   "perFile": {
     "src/main.ts": {
       "baselineMissedArms": 835,
@@ -32,10 +32,10 @@
     },
     "src/battle/battle-core.ts": {
       "baselineMissedArms": 200,
-      "finalMissedArms": 188,
-      "closedByThisCard": 12,
+      "finalMissedArms": 187,
+      "closedByThisCard": 13,
       "newlyMissedArms": 0,
-      "closedLines": [499, 502, 508, 663, 883, 897, 906, 907, 993, 1138, 1139]
+      "closedLines": [499, 502, 508, 651, 663, 883, 897, 906, 907, 993, 1138, 1139]
     },
     "src/script-runner.ts": {
       "baselineMissedArms": 60,

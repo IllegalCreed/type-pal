@@ -256,15 +256,6 @@ describe('C85 战斗演出动作臂', () => {
       'battle choreography 同一执行路径重复登记 terminal request',
     )
   })
-
-  test('fleeBattle 演出臂:敌逃登记 won 终局并驱动离场 timeline', async () => {
-    const session = makeSession([seed('li', 100)], mkEnemy('boss'), {
-      encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'fleeBattle' }] }],
-    })
-    session.tick(16, new Set())
-    idle(session, 8000)
-    await expect(session.done).resolves.toBe('enemyFled') // 离场 timeline 收尾后兑现敌逃终局
-  })
 })
 
 describe('C85 会话生命周期臂', () => {

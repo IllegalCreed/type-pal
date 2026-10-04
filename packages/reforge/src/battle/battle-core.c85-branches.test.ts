@@ -1,6 +1,9 @@
-// TEST-COVERAGE85-GLM-REFORGE-1 — battle-core.ts 残留分支臂合同测试。
+// TEST-COVERAGE85-GLM-REFORGE-1 — battle-core.ts 残留分支臂合同测试(r3 去重后)。
 // 全部走公开 createBattleState/stepBattle/decideEnemyAction/applyEnemyEffect 入口,
 // 定值 rng 驱动;断言业务状态/日志而非内部调用次数。
+// 与既有 battle-core.test.ts / battle-enemy-confused.test.ts / battle-casualty.test.ts
+// 重复的合同(divide 门与均分、transform 保 HP、summon 初始态、混乱派发、伤亡 sweep、
+// 偷窃入包/余量/耗尽/偷钱 moneyDelta)已在 r3 撤销,本文件只保留非重复臂。
 import type { EnemyDef, ItemData, PoisonDef, SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
@@ -78,43 +81,15 @@ const poison = (
 })
 
 /** 从 preBattle 起跑一整回合:防御过,回 selectAction 且 turn>1。 */
-function runOneTurn(
-  s: BattleState,
-  rng: () => number,
-  action: { kind: 'defend' } = { kind: 'defend' },
-): void {
+function runOneTurn(s: BattleState, rng: () => number): void {
   stepBattle(s, rng) // preBattle -> selectAction(turn 1)
-  s.pendingActions.set(0, action)
+  s.pendingActions.set(0, { kind: 'defend' })
   let guard = 0
   while (s.phase !== 'selectAction' || s.turn === 1) {
     stepBattle(s, rng)
     if (++guard > 60) throw new Error('battle did not settle within one turn')
   }
 }
-
-describe('C85 建态与槽位臂', () => {
-  test('deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵', () => {
-    const dense = createBattleState({ players: [player('li')], enemies: [mkEnemy('a')] })
-    const slotted = createBattleState({ players: [player('li')], enemySlots: [mkEnemy('a')] })
-    expect(dense.maxEnemyIndex).toBe(slotted.maxEnemyIndex)
-    expect(dense.enemies[0]?.def.id).toBe('a')
-    expect(createBattleState({ players: [player('li')], enemySlots: [] }).maxEnemyIndex).toBe(-1)
-  })
-
-  test('divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排', () => {
-    const s = createBattleState({
-      players: [player('li')],
-      enemies: [mkEnemy('lizard', { health: 90 })],
-    })
-    const before = s.enemies[0]?.basePos
-    const result = applyEnemyEffect(s, 0, { kind: 'divide', copies: 3 })
-    expect(result.outcome).toBe('succeeded')
-    expect(result.spawnedIdxs).toEqual([1, 2, 3])
-    expect(s.maxEnemyIndex).toBe(3)
-    expect(s.enemies.every((e, i) => i > 3 || e?.hp === 23)).toBe(true)
-    expect(s.enemies[0]?.basePos).not.toEqual(before)
-  })
-})
 
 describe('C85 毒系统臂', () => {
   test('mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩', () => {
@@ -172,12 +147,13 @@ describe('C85 偷窃臂(performSteal 经 cast 效果链驱动)', () => {
     sellPrice: 0,
     sellable: false,
   })
+
   const castStealTurn = (
-    steal: { itemId: string; count: number } | undefined,
+    steal: { itemId: string; count: number },
     items: Record<string, ItemData> = {},
   ): BattleState => {
+    // 敌 dex 50 先手、玩家 dex 1 后手:偷窃是本回合最后一步,lastAction.notice 存活到回合末
     const s = createBattleState({
-      // 敌 dex 50 先手、玩家 dex 1 后手:偷窃是本回合最后一步,lastAction.notice 存活到回合末
       players: [player('li', { skills: ['steal-hand'], attackStrength: 0, baseDexterity: 1 })],
       enemies: [
         mkEnemy('fat-boss', { health: 500, defense: 100, dexterity: 50, attackStrength: 5 }),
@@ -187,7 +163,7 @@ describe('C85 偷窃臂(performSteal 经 cast 效果链驱动)', () => {
     })
     const enemy = s.enemies[0]
     if (!enemy) throw new Error('enemy absent')
-    enemy.def = { ...enemy.def, ...(steal ? { steal } : {}) }
+    enemy.def = { ...enemy.def, steal }
     stepBattle(s, () => 0)
     s.pendingActions.set(0, { kind: 'cast', skillId: 'steal-hand', targetEnemyIdx: 0 })
     let guard = 0
@@ -198,28 +174,21 @@ describe('C85 偷窃臂(performSteal 经 cast 效果链驱动)', () => {
     return s
   }
 
-  test('偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice', () => {
-    const s = castStealTurn({ itemId: '0', count: 9 })
-    expect(s.moneyDelta).toBe(4) // floor(9 / (2 + 0)) = 4
-    expect(s.lastAction?.notice).toBe('获得 4 文钱')
-    expect(s.log).toContain('li 获得 4 文钱')
-    expect(s.enemies[0]?.stealLeft).toBe(5)
-  })
-
-  test('偷物臂:具名道具入背包;未知道具名回落 itemId', () => {
-    const s = castStealTurn({ itemId: 'relic', count: 2 }, { relic: itemOf('relic', '夜行衣') })
-    expect(s.inventory).toEqual([{ itemId: 'relic', count: 1 }])
-    expect(s.lastAction?.notice).toBe('获得 夜行衣')
-
-    const s2 = castStealTurn({ itemId: 'mystery', count: 1 })
-    expect(s2.lastAction?.notice).toBe('获得 mystery')
-  })
-
-  test('偷空臂:余量耗尽后命中也一无所获', () => {
-    const s = castStealTurn({ itemId: '0', count: 0 })
-    expect(s.moneyDelta).toBe(0)
-    expect(s.inventory).toEqual([])
-    expect(s.log).toContain('li 施展偷窃,一无所获')
+  test('偷窃非重复臂:lastAction notice 文案、未知道具名回落 itemId、c=0 静默不弹提示', () => {
+    // 既有 battle-core.test.ts:3074 已覆盖偷物入包/余量递减/偷光一无所获/偷钱 moneyDelta;
+    // 本测试只测它未覆盖的 notice 与回落臂(battle-core.ts:651,654,663)。
+    const s = castStealTurn({ itemId: '0', count: 9 }, { relic: itemOf('relic', '夜行衣') })
+    expect(s.lastAction?.notice).toBe('获得 4 文钱') // 651/654:获得文钱 notice
+    const named = castStealTurn({ itemId: 'relic', count: 1 }, { relic: itemOf('relic', '夜行衣') })
+    expect(named.lastAction?.notice).toBe('获得 夜行衣')
+    // 663:items 表缺名 → notice 回落 itemId
+    const mystery = castStealTurn({ itemId: 'mystery', count: 1 })
+    expect(mystery.lastAction?.notice).toBe('获得 mystery')
+    // 651 false 臂:余量 1 → c = trunc(1/2) = 0 → moneyDelta 不动且不弹文钱 notice
+    const zero = castStealTurn({ itemId: '0', count: 1 })
+    expect(zero.moneyDelta).toBe(0)
+    expect(zero.lastAction?.notice).toBeUndefined()
+    expect(zero.log).not.toContain('li 获得 0 文钱')
   })
 })
 
@@ -286,28 +255,6 @@ describe('C85 AI 决策臂', () => {
     expect(decision).toMatchObject({ kind: 'summon', count: 1 })
     if (decision.kind === 'summon') expect(decision.def.id).toBe('self-caller')
   })
-
-  test('混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴', () => {
-    const lone = mkEnemy('confused-lone')
-    const s = createBattleState({ players: [player('li')], enemies: [lone] })
-    const enemy = s.enemies[0]
-    if (!enemy) throw new Error('enemy absent')
-    enemy.status.confused = 2
-    expect(decideEnemyAction(s, enemy, () => 0)).toEqual({ kind: 'pass' })
-
-    const s2 = createBattleState({
-      players: [player('li')],
-      enemies: [mkEnemy('a'), mkEnemy('b')],
-    })
-    const b = s2.enemies[1]
-    if (!b) throw new Error('enemy absent')
-    b.status.confused = 2
-    const seq = [0, 0.4]
-    expect(decideEnemyAction(s2, b, () => seq.shift() ?? 0)).toEqual({
-      kind: 'attackMate',
-      targetEnemyIdx: 0,
-    })
-  })
 })
 
 describe('C65 敌效果门', () => {
@@ -321,37 +268,9 @@ describe('C65 敌效果门', () => {
       kind: 'summon',
     })
   })
-
-  test('召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback', () => {
-    const target = mkEnemy('minion', { health: 12 })
-    const s = createBattleState({
-      players: [player('li')],
-      enemySlots: [mkEnemy('caller'), null, null],
-    })
-    const result = applyEnemyEffect(s, 0, { kind: 'summon', enemyId: 'whatever', count: 1 }, target)
-    expect(result.outcome).toBe('succeeded')
-    expect(result.spawnedIdxs).toEqual([1])
-    expect(s.enemies[1]?.def.id).toBe('minion')
-    expect(s.enemies[1]?.fallback).toBeUndefined()
-    expect(s.enemies[1]?.hp).toBe(12)
-  })
-
-  test('transform 解析臂:enemiesById 命中即换定义并保留余量', () => {
-    const next = mkEnemy('adult', { health: 77 })
-    const s = createBattleState({
-      players: [player('li')],
-      enemies: [mkEnemy('larva', { health: 30 })],
-      enemiesById: { adult: next },
-    })
-    const result = applyEnemyEffect(s, 0, { kind: 'transform', enemyId: 'adult' })
-    expect(result.outcome).toBe('succeeded')
-    expect(result.beforeDef?.id).toBe('larva')
-    expect(s.enemies[0]?.def.id).toBe('adult')
-    expect(s.enemies[0]?.hp).toBe(30) // 换定义保当前 HP
-  })
 })
 
-describe('C85 回合末与伤亡臂', () => {
+describe('C85 回合末臂', () => {
   test('装备回蓝臂:regenMp 每回合回蓝并钳上限', () => {
     const s = createBattleState({
       players: [player('li', { mp: 26, maxMp: 30, regenHp: 3, regenMp: 5 })],
@@ -359,24 +278,5 @@ describe('C85 回合末与伤亡臂', () => {
     })
     runOneTurn(s, () => 0)
     expect(s.players[0]?.mp).toBe(30)
-  })
-
-  test('濒死伤亡臂:濒死队员睡着时不触发 dying 脚本', () => {
-    const guardActor = mkEnemy('e', { attackStrength: 0 })
-    const s = createBattleState({
-      players: [
-        player('li', { maxHp: 100, hp: 60 }),
-        player('yu-ru', { maxHp: 100, hp: 60, coveredBy: 'li' }),
-      ],
-      enemies: [guardActor],
-    })
-    // 手工构造濒死 + 睡眠态(prevHp 高位跌入濒死;睡眠挡 dying)
-    const yu = s.players[1]
-    if (!yu) throw new Error('player absent')
-    yu.prevHp = 90
-    yu.hp = 10
-    yu.status.sleep = 2
-    runOneTurn(s, () => 0)
-    expect(s.casualtyDialogue).toBeUndefined()
   })
 })

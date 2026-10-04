@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process'
-// TEST-COVERAGE85-GLM-REFORGE-1 — 真实注入点三态反控驱动(r2)。
+// TEST-COVERAGE85-GLM-REFORGE-1 — 真实注入点三态反控驱动(r3)。
 // 对每个注入点:原始(绿) → 变异产品源(指定 AssertionError 红) → 恢复(绿)。
 // 每次变异写入都在 try/finally 中恢复;回执逐注入记录:
-//   original/mutant/restored 三个 sha256、三次运行的 command/cwd/exitCode 与原始输出尾、
-//   执行身份(vitest -t 定位)与指定 AssertionError 全文。
+//   original/mutant/restored/rebuilt 四个 sha256、三次运行的 command/cwd/env(子集+digest)/
+//   exitCode/signal/spawnError/stdout 尾/stderr 尾、test file×fullName 执行身份、
+//   指定 AssertionError 全文,以及 before/after 工作树快照(零临时目录、零残留证明)。
 // 回执写入提交内证据目录 src/__tests__/coverage85/c85-mutation-counterproof.json。
 // 用法: node scripts/c85-mutation-counterproof.mjs
 import { createHash } from 'node:crypto'
@@ -16,6 +17,16 @@ const pkgRoot = path.resolve(import.meta.dirname, '..')
 const repoRoot = path.resolve(pkgRoot, '..', '..')
 const evidenceDir = path.join(pkgRoot, 'src', '__tests__', 'coverage85')
 const OUTPUT_TAIL = 6000
+
+// 工作树快照:驱动全程零临时文件/零残留证明(变异在源文件原位进行并在 finally 恢复)
+const gitStatus = () => {
+  const result = spawnSync('git', ['status', '--porcelain', 'packages/reforge'], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+    timeout: 30_000,
+  })
+  return (result.stdout ?? '').trim()
+}
 
 const sha256 = (text) => createHash('sha256').update(text, 'utf8').digest('hex')
 
@@ -32,17 +43,43 @@ const vitestArgs = (testFile, testName) => [
 
 const runVitest = (testFile, testName) => {
   const command = vitestArgs(testFile, testName)
+  const envSubset = {
+    TYPE_PAL_COVERAGE: process.env.TYPE_PAL_COVERAGE ?? null,
+    TYPE_PAL_COVERAGE_PROFILE: process.env.TYPE_PAL_COVERAGE_PROFILE ?? null,
+    NODE_ENV: process.env.NODE_ENV ?? null,
+    CI: process.env.CI ?? null,
+  }
+  const envDigest = createHash('sha256')
+    .update(JSON.stringify({ ...process.env, ...envSubset }))
+    .digest('hex')
   const result = spawnSync('pnpm', command, {
     cwd: repoRoot,
+    env: process.env,
     encoding: 'utf8',
     timeout: 180_000,
     maxBuffer: 16 * 1024 * 1024,
   })
-  const output = `${result.stdout ?? ''}\n${result.stderr ?? ''}`
+  const stdout = result.stdout ?? ''
+  const stderr = result.stderr ?? ''
+  const output = `${stdout}\n${stderr}`
+  // vitest4 -t 零匹配陷阱:全 skipped 也 exit0 —— 视为 vacuous,不得当作绿/红证据
+  const summaryMatch = output.match(/Tests\s+([^\n]*)\((\d+)\)/)
+  const vacuous =
+    summaryMatch?.[1].includes('skipped') === true &&
+    summaryMatch[1].includes('passed') === false &&
+    summaryMatch[1].includes('failed') === false
   return {
     command: ['pnpm', ...command],
     cwd: repoRoot,
+    env: envSubset,
+    envDigest,
     exitCode: result.status,
+    signal: result.signal ?? null,
+    spawnError: result.error ? result.error.message : null,
+    timedOut: result.signal === 'SIGTERM' || Boolean(result.error),
+    stdoutTail: stdout.length > OUTPUT_TAIL ? stdout.slice(-OUTPUT_TAIL) : stdout,
+    stderrTail: stderr.length > OUTPUT_TAIL ? stderr.slice(-OUTPUT_TAIL) : stderr,
+    vacuous,
     output,
     outputTail: output.length > OUTPUT_TAIL ? output.slice(-OUTPUT_TAIL) : output,
   }
@@ -81,8 +118,8 @@ const injections = [
     original: 'const c = Math.trunc(e.stealLeft / (2 + Math.floor(rng() * 2)))',
     mutated: 'const c = Math.trunc(e.stealLeft / (3 + Math.floor(rng() * 2)))',
     testFile: 'src/battle/battle-core.c85-branches.test.ts',
-    testName: '偷钱臂',
-    expectedErrorPart: 'expected 3 to be 4',
+    testName: '偷窃非重复臂',
+    expectedErrorPart: '获得 3 文钱',
   },
   {
     id: 'CORE-POISON-MP',
@@ -158,8 +195,11 @@ for (const injection of injections) {
   const entry = {
     id: injection.id,
     source: injection.source,
+    testFile: injection.testFile,
+    fullName: injection.testName,
     identity: `pnpm --filter @type-pal/reforge exec vitest run ${injection.testFile} -t ${injection.testName}`,
     expectedErrorPart: injection.expectedErrorPart,
+    workingTreeBefore: gitStatus(),
   }
   try {
     const originalText = await readFile(file, 'utf8')
@@ -176,10 +216,18 @@ for (const injection of injections) {
     entry.original = {
       command: originalRun.command,
       cwd: originalRun.cwd,
+      env: originalRun.env,
+      envDigest: originalRun.envDigest,
       exitCode: originalRun.exitCode,
+      signal: originalRun.signal,
+      spawnError: originalRun.spawnError,
+      timedOut: originalRun.timedOut,
+      stdoutTail: originalRun.stdoutTail,
+      stderrTail: originalRun.stderrTail,
       outputTail: originalRun.outputTail,
     }
-    entry.originalGreen = originalRun.exitCode === 0
+    entry.originalVacuous = originalRun.vacuous
+    entry.originalGreen = originalRun.exitCode === 0 && !originalRun.vacuous
     let mutatedRun = null
     try {
       const mutantText = originalText.replace(injection.original, injection.mutated)
@@ -190,10 +238,18 @@ for (const injection of injections) {
       entry.mutated = {
         command: mutatedRun.command,
         cwd: mutatedRun.cwd,
+        env: mutatedRun.env,
+        envDigest: mutatedRun.envDigest,
         exitCode: mutatedRun.exitCode,
+        signal: mutatedRun.signal,
+        spawnError: mutatedRun.spawnError,
+        timedOut: mutatedRun.timedOut,
+        stdoutTail: mutatedRun.stdoutTail,
+        stderrTail: mutatedRun.stderrTail,
         outputTail: mutatedRun.outputTail,
       }
-      entry.mutatedRed = mutatedRun.exitCode !== 0
+      entry.mutatedVacuous = mutatedRun.vacuous
+      entry.mutatedRed = mutatedRun.exitCode !== 0 && !mutatedRun.vacuous
       entry.assertionError = extractAssertionError(mutatedRun.output)
       entry.specifiedAssertionMatched =
         entry.mutatedRed && entry.assertionError?.includes(injection.expectedErrorPart) === true
@@ -207,22 +263,37 @@ for (const injection of injections) {
       entry.restored = {
         command: restoredRun.command,
         cwd: restoredRun.cwd,
+        env: restoredRun.env,
+        envDigest: restoredRun.envDigest,
         exitCode: restoredRun.exitCode,
+        signal: restoredRun.signal,
+        spawnError: restoredRun.spawnError,
+        timedOut: restoredRun.timedOut,
+        stdoutTail: restoredRun.stdoutTail,
+        stderrTail: restoredRun.stderrTail,
         outputTail: restoredRun.outputTail,
       }
-      entry.restoredGreen = restoredRun.exitCode === 0
+      entry.restoredVacuous = restoredRun.vacuous
+      entry.restoredGreen = restoredRun.exitCode === 0 && !restoredRun.vacuous
+      // rebuilt:恢复运行结束后再次读取源文件 —— 证明恢复运行本身未再改动源
+      entry.rebuiltSha256 = sha256(await readFile(file, 'utf8'))
+      entry.rebuiltEqualsOriginal = entry.rebuiltSha256 === entry.originalSha256
     }
+    entry.workingTreeAfter = gitStatus()
+    entry.workingTreeUnchanged = entry.workingTreeBefore === entry.workingTreeAfter
     const pass =
       entry.originalGreen &&
       entry.mutationApplied &&
       entry.mutatedRed &&
       entry.specifiedAssertionMatched &&
       entry.restoredGreen &&
-      entry.sourceRestoredByteIdentical
+      entry.sourceRestoredByteIdentical &&
+      entry.rebuiltEqualsOriginal &&
+      entry.workingTreeUnchanged
     entry.pass = pass
     if (!pass) failures++
     console.log(
-      `${pass ? 'PASS' : 'FAIL'} ${injection.id}: original=${entry.originalGreen} mutated=${entry.mutatedRed} restored=${entry.restoredGreen} matched=${entry.specifiedAssertionMatched} hashRestored=${entry.sourceRestoredByteIdentical}`,
+      `${pass ? 'PASS' : 'FAIL'} ${injection.id}: original=${entry.originalGreen} mutated=${entry.mutatedRed} restored=${entry.restoredGreen} matched=${entry.specifiedAssertionMatched} hashRestored=${entry.sourceRestoredByteIdentical} rebuilt=${entry.rebuiltEqualsOriginal} treeClean=${entry.workingTreeUnchanged}`,
     )
   } catch (error) {
     entry.error = error instanceof Error ? error.message : String(error)

@@ -1,19 +1,7 @@
 {
   "profile": "fast",
-  "testCount": 117,
+  "testCount": 108,
   "entries": [
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C65 敌效果门 > transform 解析臂:enemiesById 命中即换定义并保留余量",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C65 敌效果门 > transform 解析臂:enemiesById 命中即换定义并保留余量"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C65 敌效果门 > 召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C65 敌效果门 > 召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback"
-    },
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
       "fullName": "C65 敌效果门 > 死亡宿主臂:applyEnemyEffect 对死者直接 failed",
@@ -34,57 +22,21 @@
     },
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 AI 决策臂 > 混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 AI 决策臂 > 混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
       "fullName": "C85 AI 决策臂 > 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻",
       "status": "passed",
       "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 AI 决策臂 > 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻"
     },
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷物臂:具名道具入背包;未知道具名回落 itemId",
+      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷窃非重复臂:lastAction notice 文案、未知道具名回落 itemId、c=0 静默不弹提示",
       "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷物臂:具名道具入背包;未知道具名回落 itemId"
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷窃非重复臂:lastAction notice 文案、未知道具名回落 itemId、c=0 静默不弹提示"
     },
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷空臂:余量耗尽后命中也一无所获",
+      "fullName": "C85 回合末臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限",
       "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷空臂:余量耗尽后命中也一无所获"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 回合末与伤亡臂 > 濒死伤亡臂:濒死队员睡着时不触发 dying 脚本",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 回合末与伤亡臂 > 濒死伤亡臂:濒死队员睡着时不触发 dying 脚本"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 回合末与伤亡臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 回合末与伤亡臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 建态与槽位臂 > deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 建态与槽位臂 > deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
-      "fullName": "C85 建态与槽位臂 > divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 建态与槽位臂 > divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排"
+      "identity": "packages/reforge/src/battle/battle-core.c85-branches.test.ts :: project reforge :: C85 回合末臂 > 装备回蓝臂:regenMp 每回合回蓝并钳上限"
     },
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
@@ -127,12 +79,6 @@
       "fullName": "C85 战斗演出动作臂 > endBattle 重复登记臂:同链两条终局命令第二条 fail-loud",
       "status": "passed",
       "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > endBattle 重复登记臂:同链两条终局命令第二条 fail-loud"
-    },
-    {
-      "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
-      "fullName": "C85 战斗演出动作臂 > fleeBattle 演出臂:敌逃登记 won 终局并驱动离场 timeline",
-      "status": "passed",
-      "identity": "packages/reforge/src/battle/battle-session.c85-arms.test.ts :: project reforge :: C85 战斗演出动作臂 > fleeBattle 演出臂:敌逃登记 won 终局并驱动离场 timeline"
     },
     {
       "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",

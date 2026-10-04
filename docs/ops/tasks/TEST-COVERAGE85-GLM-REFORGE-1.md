@@ -51,10 +51,23 @@ Capability: test-quality / coverage branch closure
 交付时在本卡登记每个合同的源锚、合法输入、oracle、fullName、三态反控和覆盖变化，并给出
 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
 
-## GLM 交付回执（r2 返工，2026-10-04，待 Codex 独立验收）
+## GLM 交付回执（r3 返工，2026-10-04，待 Codex 独立验收）
 
 - 候选分支 `codex/coverage85-glm-reforge-r1`（dispatch tip `76475c01c` 起，产品文件零改动，
   `git status` 仅新增本卡测试/脚本/证据）。
+- **r3 返工（Codex 七项）**：① 反控回执补齐 command/cwd/env（子集+digest）、stdout/stderr
+  分轨尾、exit/signal/spawnError、testFile×fullName、original/mutant/restored/**rebuilt** 四
+  hash、工作树 before/after 快照（零临时目录零残留证明），并加 vitest4 `-t` 零匹配 exit0
+  的 vacuous 硬防（曾抓到旧名注入的假绿）；② family ledger 改为逐 fullName→family→源行→
+  caller→oracle（`scripts/c85-family-ledger.mjs` 表驱动可重建，108 条全匹配）；③ 撤销与
+  既有测试重复的 battle-core divide/transform/summon/混乱/重掷/濒死/enemies 别名与
+  battle-session fleeBattle 合同（均闭合 0 新臂），偷窃合并为 notice/回落/c=0 非重复臂；
+  ④ main.c85-boot 已无 __rf* 私有口（r2 完成，r3 复核零残留）；⑤ 本卡新增代码零 unsafe
+  cast/`as never`（复核）；⑥ 证据路径全部指向候选内真实文件、修一处乱码、docs 改动仅
+  卡内 3 文件；⑦ 重算 branch delta = **+128**（9785/12166 = 80.42%，距 85% 差 ~557 臂，
+  未达标不收口），剩余可达分支的后续范围（main 长尾/battle-session 表现层观测口前提/
+  runner-core 续跑帧/非合同域）已写入证据文档。
+
 - **r2 返工（Codex 七项）**：① `c85-branch-delta.mjs` 修复 total++ ReferenceError，参数化
   lcov 路径可从干净 checkout 按脚本头注释重建，且双 lcov 原始拷贝随账提交；② 证据链接全部
   改指候选内真实文件（原 `evidence/` 幻路径已清）；③ 删除与 main.glm-n.test.ts 重复的
