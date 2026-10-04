@@ -1,0 +1,85 @@
+{
+  "argv": [
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
+    "--reporter=json",
+    "--outputFile=/tmp/turn-mutations/SHARED-original.json"
+  ],
+  "cwd": "/private/tmp/type-pal-glm-turn-r1/packages/game",
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "summary": {
+    "numTotalTests": 15,
+    "success": true
+  },
+  "identitySet": [
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DL1 prevPlayerAutoAtk 粘性:围攻后手动防御被强制改普攻(防御经验 0/攻击经验 1)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DL3 fThisTurnCoop:合击后同回合后续玩家动作吞为 pass(无攻击伤害、无攻击隐藏经验)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DM12:毒改 HP → 回合末 8 tick 停顿后才开下轮菜单(fight.c:1664-1668)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 enemyEscapeAnim 死敌槽不位移:0x69 触发后仅活敌左移(battle.c:1408 死敌跳过)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 finalizeBattle forced(看门狗)归类 won:非终态 phase 强制收场也接回 wonIp",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 finalizeBattle lost 归类:resume 接回 lostIp + 战斗 MP 回写 runtime(战败不伪复活)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 flee 成功即中止剩余队列:后续队员的 flee 不再掷骰(逃跑音 45 恰一次)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 fleeAnim 逐步位移只挪活队员:战内阵亡者保持原位(battle.c:1469 只挪活人)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 战斗已分胜负的回合跳过回合末毒结算(普攻终结后毒不多扣一次,fight.c:1116-1150)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 濒死 ÷2(fight.c:1558):濒死队员行动序降到健康低 dex 队员之后",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 玩家毒 tick:回合末每毒槽跑 wPoisonScript 扣血 + 返回值回写推进毒链(fight.c:1624)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动倍率 flee ×0.5 floor(L10,fight.c:1547):奇数 dex 逃跑者降到攻击者与敌人之后",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动倍率 item ×3(fight.c:1549):物品动作压过基础 dex 更高的攻击者",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动项死亡敌人跳过:被先手击杀的敌人轮到时不行动(存活敌照常轮转)",
+      "status": "passed"
+    },
+    {
+      "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 隐身期(iHidingTime>0)敌整轮跳过包括 turnStart 脚本(不排嘲讽对话,fight.c:1680)",
+      "status": "passed"
+    }
+  ],
+  "sourceSha": {
+    "sys": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+    "fin": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c"
+  }
+}

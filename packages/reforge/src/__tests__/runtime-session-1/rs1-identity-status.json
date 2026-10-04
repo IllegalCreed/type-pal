@@ -1,0 +1,81 @@
+{
+  "generatedAt": "2026-10-04T14:16:14.663Z",
+  "total": 15,
+  "rows": [
+    {
+      "file": "src/runtime-frame-session.runtime-session-1.test.ts",
+      "fullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+      "status": "passed"
+    },
+    {
+      "file": "src/runtime-frame-session.runtime-session-1.test.ts",
+      "fullName": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+      "status": "passed"
+    },
+    {
+      "file": "src/runtime-input-router.runtime-session-1.test.ts",
+      "fullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+      "status": "passed"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+      "status": "passed"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+      "status": "passed"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+      "status": "passed"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+      "status": "passed"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+      "status": "passed"
+    }
+  ]
+}

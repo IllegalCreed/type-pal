@@ -1,0 +1,169 @@
+{
+  "card": "TEST-GLM-EDITOR-ASSET-LIFECYCLE-1",
+  "suite": "定向三文件（ImageAssetPicker/AssetInspectorTabs/SpriteActionEditor .glm-asset-lifecycle.test.tsx）",
+  "replay": "run-counterproof.mjs 以最终交付测试文件重放全部三态（基线绿 + 7 针红/绿 + 产品零残留）",
+  "baseline": {
+    "file": "mutation-logs/green-baseline.raw",
+    "sha256": "c585c884df6f2e120728d15b4c6d21e8d5389f70cb1362f9c8279131397a73eb",
+    "tests": "8 passed",
+    "actWarnings": 0
+  },
+  "needles": [
+    {
+      "id": "N1-revision-invalidation",
+      "mutation": "ImageAssetPicker.tsx effect 依赖数组移除 props.revision",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N1-revision-invalidation.red.raw",
+        "sha256": "89ae3b64a302d72378989d02eec447de7663d3a9fa6476f7e3e486d950a46695",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "Error: 缩略图链未创建第 2 个 object URL",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N1-revision-invalidation.green.raw",
+        "sha256": "d97abe69adf30e4496ba7c4743750bd3d51649b27feeca1d17f7b7e1d344c09e",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N2-stale-alive-guard",
+      "mutation": "ImageAssetPicker.tsx then 回调内两处 alive 守卫全部删除",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N2-stale-alive-guard.red.raw",
+        "sha256": "19cbcf20c0d8a2165757dbb5640a7b6915dce0aad40813536bde57d61611f08e",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: expected [ 'blob:glm-asset-lifecycle-1', …(1) ] to deeply equal [ 'blob:glm-asset-lifecycle-1' ]",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N2-stale-alive-guard.green.raw",
+        "sha256": "b212083d499bac4011c227715339a3359a4b37737405438bc15e47d3b3eab539",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N3-failure-surfacing",
+      "mutation": "ImageAssetPicker.tsx catch 分支不再 setError（读取失败被吞）",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N3-failure-surfacing.red.raw",
+        "sha256": "b3520176c00614d20000117cb53cd75e465542bb021f565c3dc65f113d843cde",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: 错误芯片应在失败链排空后同步可见: expected null not to be null",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N3-failure-surfacing.green.raw",
+        "sha256": "2232f81c918ad044d7f0cc4929c07a56d61d056560bfe383ace652f56c1bc1ff",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N4-palette-recolor",
+      "mutation": "ImageAssetPicker.tsx 重染循环不写色盘色（保留索引值）",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N4-palette-recolor.red.raw",
+        "sha256": "6f73d12aca1f6fd000d8d11895ba446efcf8a3ba43b4567ab735f59b7af126af",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: expected [ +0, +0, +0, 255 ] to deeply equal [ 255, +0, +0, 255 ]",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N4-palette-recolor.green.raw",
+        "sha256": "5841af9201644451f65b465606255eb804a8bad92a9d0660686cb6d84630ec00",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N5-audio-missing-focus",
+      "mutation": "AudioAssetWorkbench.tsx selected 回落与 hero 两处缺失焦点守卫删除",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N5-audio-missing-focus.red.raw",
+        "sha256": "6edb3560a3ac47ef0edbe54b851232343f41e5e518f9148d4542d8fecbe0aad4",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected <header …(2)>…(2)</header> to be null",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N5-audio-missing-focus.green.raw",
+        "sha256": "5cb042dc1f6bc7819299ab5084977f8f9d436fa9363274c4da79d5f8998856e2",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N6-cutscene-kind-fallback",
+      "mutation": "CutsceneTab.tsx 初始选择 kind 检查与无效选择兜底重置同时删除",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N6-cutscene-kind-fallback.red.raw",
+        "sha256": "5471e2eeaaf29ba2608436a4f2561736a32e0e5d40b02427e06ab5b754b99b74",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected undefined to be '测试视频' // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N6-cutscene-kind-fallback.green.raw",
+        "sha256": "41bbc21a87f72ae9d8a5ee1fe9d4255b4ee796e12dcb88b31481010b7a03b747",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N7-stale-frame-placeholder",
+      "mutation": "SpriteActionEditor.tsx 帧画布查表移除可选链守卫",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N7-stale-frame-placeholder.red.raw",
+        "sha256": "981370a23b0f4c4e2f6268c7654d8838bfbfe356c42f86d1fe6b419fb6a5bb26",
+        "tests": "1 failed (1)",
+        "firstFailure": "TypeError: Cannot read properties of undefined (reading 'canvas')",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N7-stale-frame-placeholder.green.raw",
+        "sha256": "2b38c0ac95b2970e20e34ae05fe07d867fb155edf119b863d7f905da499cce50",
+        "tests": "1 passed",
+        "actWarnings": 0
+      }
+    }
+  ],
+  "directedAdjacent": {
+    "file": "directed-adjacent.raw",
+    "sha256": "d6662397f71cfbad5de1d7feca28ed3f917a2919a7b69967be116fb409d02a6e",
+    "tests": "122 passed",
+    "actWarningsFromNewFiles": 0,
+    "actWarningsAllFromOldKimiCursorTests": 271
+  },
+  "editorFullSerial": {
+    "file": "editor-full-serial.raw",
+    "sha256": "0752024a65c36a7c17aef9f62e5e8895970f72d44d40964bc33958023215b14b",
+    "tests": "1 failed | 4878 passed (4879)",
+    "note": "唯一失败 src/core/project-reference.pal.test.ts 已在主仓 main 干净树复现同一断言（22666≠22663），属 main 既有问题，与本卡零关联；本卡不越界处理，仅申报"
+  },
+  "executionSet": {
+    "script": "run-counterproof.mjs",
+    "sha256": "8dda9584544055d308ff8c69ca688a078649956dfdab919fdc25c086bbea825f",
+    "protocol": "逐针：变异产品文件 → 定向测试（红, exit 1）→ git checkout 还原 → 同测试（绿, exit 0）→ 产品树 porcelain 零非新增项"
+  },
+  "r2": {
+    "date": "2026-10-04",
+    "change": "Codex 验收 r1 拒收（act 警告）后的返工：ImageAssetThumbnail 异步链改为端口观察点 + 两段式 act（渲染 act 启动链 → 信号 act 保持打开到链 settle），等待不再用 act 外轮询；AssetInspectorTabs 恢复阶段断言不再约束无关的播放器解码提示。三文件定向复跑 8/8、警告 0；定向+相邻 122/122，新文件贡献警告 0（271 个全部来自旧 kimi/cursor 测，main 既有基线）。",
+    "needleNote": "N1 红现为有界信号错误“缩略图链未创建第 2 个 object URL”（revision 依赖被删 → 替换不重建的直接业务证据）；N2–N7 红仍为原业务断言；7 针 raw 内 act 警告 0。"
+  }
+}
