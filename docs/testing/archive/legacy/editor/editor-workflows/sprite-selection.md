@@ -36,7 +36,7 @@ editor typecheck及改动文件Biome通过。
 
 ## 独立单点负控
 
-入口：[sprite-selection-mutants.mjs](../../../../sprite-selection-mutants.mjs)，运行`node docs/testing/sprite-selection-mutants.mjs`。
+入口：[sprite-selection-mutants.mjs](../../../../domains/editor/editor-workflows/tools/sprite-selection-mutants.mjs)，运行`node docs/testing/domains/editor/editor-workflows/tools/sprite-selection-mutants.mjs`。
 用Vite内存load替换，产品磁盘SHA不变；唯一替换点、执行日志、AssertionError业务红同时要求，拒绝TypeError/超时/零用例。
 
 | 负控 | 破坏 | 结果 |

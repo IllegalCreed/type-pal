@@ -59,7 +59,7 @@ Codex独立补测/复核双线推进，领取前核不重叠及现行caller；�
 - 生产核对点：`e58834f6389a40ffe9f187e6a8051f552e964d79`；规划起点`7fe6fa3c`。
 - 官方fast：7049项、617生产文件；基线生成时间`2026-09-18T17:25:47.519Z`。
 - 全仓行49332/69119（71.37%）、语句54693/78971（69.26%）、函数10321/14520（71.08%）、分支39138/62045（63.08%）。
-- [机器台账](glm-coverage-work-queue.json)列617个文件的四维分子/分母、批次或下一步归属；[生成器](../../../../glm-coverage-queue-census.mjs)校验基线、测试身份、报告分母、逐文件加总与生产零漂移。
+- [机器台账](glm-coverage-work-queue.json)列617个文件的四维分子/分母、批次或下一步归属；[生成器](../../../../domains/quality/quality-gates/tools/coverage-queue-census.mjs)校验基线、测试身份、报告分母、逐文件加总与生产零漂移。
 - 这次是覆盖报告盘点和候选源码/调用域抽核，**不是重新逐行审计617个文件**，没有新增正式测试或提升覆盖率。
 - `coverage/full`历史报告不与本次fast混算；PAL真实资源测试被fast排除的模块，零命中不表示没有已有回归。
 
@@ -80,7 +80,7 @@ Codex独立补测/复核双线推进，领取前核不重叠及现行caller；�
 复算（在本快照对应的官方报告仍在本地时执行）：
 
 ```bash
-node docs/testing/glm-coverage-queue-census.mjs --check
+node docs/testing/domains/quality/quality-gates/tools/coverage-queue-census.mjs --check
 ```
 
 省略`--check`只重建本文机器台账，不跑覆盖率、不写官方报告/基线。后续所列源文件、官方测试基线或报告范围变化时脚本会拒绝旧口径；

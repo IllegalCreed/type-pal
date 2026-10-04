@@ -72,8 +72,8 @@ packages/game/src/tools/speedrun/timer.boundaries.test.ts
 packages/game/src/tools/speedrun/detectors.boundaries.test.ts
 packages/game/src/tools/speedrun/time-format.boundaries.test.ts
 packages/game/src/__tests__/glm-tb09-fixtures.ts
-docs/testing/glm-game-host-boundaries-mutants.mjs
-docs/testing/glm-game-host-boundaries.config.mts
+docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs
+docs/testing/domains/ops/testing-records/tools/game-host-boundaries-config.mts
 docs/testing/archive/legacy/ops/testing-records/glm-game-host-boundaries-evidence.json
 ```
 
@@ -97,7 +97,7 @@ H06/H07 共用一个 timer.boundaries 文件、减 fixture 白名单项）；gam
 dev-panel 1 文件预存 ENOENT（stash 基线同样失败，TB-08 已核）；官方 fast 口径 2271→2296 双
 exit0；tc rc=0；8 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-game-host-boundaries-mutants.mjs` rc=0（test 块带 jsdom env +
+- 负控 `node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs` rc=0（test 块带 jsdom env +
   setupFiles 对齐官方配置）：判据自测 + 3 对照 + **8 变异针**全部钉名新增测试 failed 且目标
   自身 failureMessages 首行 AssertionError；产品 hash 不变。针点：网关重试门、fade 抑制过滤、
   静音 apply 0、consent detail 判别、deny 清 lastPath、timer live 门、enterAny prev 判别、

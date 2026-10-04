@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "id": "testing-layout-unresolved-tools-20261004",
+  "generatedBy": "scripts/docs/archive-unresolved-layout-tools.mjs",
+  "resolution": "archive-only; missing static imports are preserved as historical evidence and are not runtime proof",
+  "summary": {
+    "files": 10,
+    "missingImports": 10
+  },
+  "entries": [
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/scene-reference-guard-visual.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/scene-reference-guard-visual.mjs",
+      "sourceSha": "c9876584c0007b1464f2e3d334d2783f5a17108f65e2a40a38540835154ea753",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/scene-reference-guard-visual.mjs",
+          "specifier": "../../../../../src/core/__tests__/scene-reference-fixture.js",
+          "target": "docs/src/core/__tests__/scene-reference-fixture.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "c9876584c0007b1464f2e3d334d2783f5a17108f65e2a40a38540835154ea753"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs",
+      "sourceSha": "bcca8389ec55f653bf7275e827c4da72472f5d3a669eb992e978132c5ef7a7d3",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs",
+          "specifier": "../../../../../src/ui/__tests__/preview-cache-fixture.js",
+          "target": "docs/src/ui/__tests__/preview-cache-fixture.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "bcca8389ec55f653bf7275e827c4da72472f5d3a669eb992e978132c5ef7a7d3"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs",
+      "sourceSha": "c4df5acf565fb24c8df61d71e1c53a2eb82ce2e999c85ef3e5d87283cc131c20",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs",
+          "specifier": "../../../../../vite.config.ts",
+          "target": "docs/vite.config.ts"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "c4df5acf565fb24c8df61d71e1c53a2eb82ce2e999c85ef3e5d87283cc131c20"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs",
+      "sourceSha": "7a40792856b0ca06164db3018cf42b41acd72e850730df9d77d3e46b81107ece",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs",
+          "specifier": "../../../../../__tests__/battle-host-fixture.js",
+          "target": "docs/__tests__/battle-host-fixture.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "7a40792856b0ca06164db3018cf42b41acd72e850730df9d77d3e46b81107ece"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-r3-witnesses.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-r3-witnesses.mjs",
+      "sourceSha": "c52a506a9b8afbd0500cd00bff6829f2bbfe7d81f50bac337169dd61c2ab0b2a",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-r3-witnesses.mjs",
+          "specifier": "../../../../../__tests__/battle-workflows/catalog.js",
+          "target": "docs/__tests__/battle-workflows/catalog.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "c52a506a9b8afbd0500cd00bff6829f2bbfe7d81f50bac337169dd61c2ab0b2a"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs",
+      "sourceSha": "4c0b61309811032e2093313e299820dbe5d06c4aab885a0ac01f47598ae2c84a",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs",
+          "specifier": "../../../../../__tests__/battle-workflows/catalog.js",
+          "target": "docs/__tests__/battle-workflows/catalog.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "4c0b61309811032e2093313e299820dbe5d06c4aab885a0ac01f47598ae2c84a"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-review-witnesses.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-review-witnesses.mjs",
+      "sourceSha": "ebd3ae31aa7f6f9d6587f92c3075e96f51bfa11cf488fa87339ce8c9dd6857bd",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/battle-workflows-review-witnesses.mjs",
+          "specifier": "../../../../__tests__/battle-workflows/catalog.js",
+          "target": "docs/testing/__tests__/battle-workflows/catalog.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "ebd3ae31aa7f6f9d6587f92c3075e96f51bfa11cf488fa87339ce8c9dd6857bd"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/runtime-frame-parity.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/runtime-frame-parity.mjs",
+      "sourceSha": "035d90ac016efeffaa910fec6d9a3ca48318a5c9fd6bc96f341b2edc1acda601",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/runtime-frame-parity.mjs",
+          "specifier": "../../../../__tests__/runtime-frame-fixture.js",
+          "target": "docs/testing/__tests__/runtime-frame-fixture.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "035d90ac016efeffaa910fec6d9a3ca48318a5c9fd6bc96f341b2edc1acda601"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/active-scene-parity.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/active-scene-parity.mjs",
+      "sourceSha": "86bdf3c57a58104fe3b162e323e849699f95024b88cb74b7dac280b4463238a8",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/active-scene-parity.mjs",
+          "specifier": "../../../../async-intent.js",
+          "target": "docs/testing/async-intent.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "86bdf3c57a58104fe3b162e323e849699f95024b88cb74b7dac280b4463238a8"
+    },
+    {
+      "from": "docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs",
+      "to": "docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs",
+      "sourceSha": "de43b43c8871152ea317cae93989a31b46fdc1484ef057841a7a50f37e1ece8c",
+      "missingImports": [
+        {
+          "file": "docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs",
+          "specifier": "../../../../__tests__/world-async-fixture.js",
+          "target": "docs/testing/__tests__/world-async-fixture.js"
+        }
+      ],
+      "resolution": "archive-unresolved-static-import",
+      "stopLine": "do not restore as canonical tool until every static relative import resolves to a tracked input",
+      "governanceTask": "docs/ops/tasks/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "afterSha256": "de43b43c8871152ea317cae93989a31b46fdc1484ef057841a7a50f37e1ece8c"
+    }
+  ]
+}

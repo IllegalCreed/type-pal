@@ -12,8 +12,8 @@ Branch: `codex/glm-wave-n-reforge-host-r1`（独立工作树）
 ## 准入与前提
 
 2026-09-30 Codex 核 `build allowed`，**只准非剧情宿主测试**。
-[冻结表](../../../../testing/glm-next-triple/targets.json) N01–N05 为 **11 个互异生产源**，
-[只读校验](../../../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/M 目标零交集；
+[冻结表](../../../../testing/archive/legacy/batches/glm-next-triple/targets.json) N01–N05 为 **11 个互异生产源**，
+[只读校验](../../../../testing/archive/legacy/batches/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/M 目标零交集；
 基础提交 `f70db72236d9cac794d40a625a89fef8c29459ae`。
 本地 fast 逐文件 1473 个未命中臂中 `main.ts` 占 1217；许多可能属于剧情/E2E、
 不可达或已有异文件断言，不承诺收益，也不为刷臂启动剧情。
@@ -26,7 +26,7 @@ Branch: `codex/glm-wave-n-reforge-host-r1`（独立工作树）
 `main.*.test.ts` 已证；逐项读旧断言后无法证明新的当前非剧情合同，就标
 `existing-proof/out-of-scope`，不造私有状态或跳剧情快捷入口。
 
-先读 `AGENTS.md`、`READ-FIRST`、[共同协议](../../../../testing/glm-next-triple/README.md)、
+先读 `AGENTS.md`、`READ-FIRST`、[共同协议](../../../../testing/archive/legacy/batches/glm-next-triple/README.md)、
 冻结表、`packages/reforge/src/main.*.test.ts` 及相邻资源测试。
 不得改/重跑 Codex 当前 `E2E-R4-1` 的 001/002 路线、checkpoint、内容脚本、
 场景移动和剧情演出；若 Codex 后续改变 `main.ts`，立即停受影响组请 Codex
@@ -44,7 +44,7 @@ Branch: `codex/glm-wave-n-reforge-host-r1`（独立工作树）
 
 只写冻结源同目录 `*.glm-n.test.ts(x)` 新测试、
 `packages/reforge/src/__tests__/glm-n/**` typed fixture、
-`docs/testing/glm-next-triple/wave-N/**` 证据/反控；产品、旧测、共享配置和真实
+`docs/testing/archive/legacy/batches/glm-next-triple/wave-N/**` 证据/反控；产品、旧测、共享配置和真实
 PAL 资产只读。宿主替身仅封外部 browser/audio/IO，不 mock 被测 `bootGame`、
 资源调度或战斗准备核心；异步用 entered/deferred 并在 `finally` 释放。
 至少一条实际 browser 功能操作检查菜单或 battle trial 错误恢复，记 URL、视口、
@@ -75,7 +75,7 @@ ratchet、不标 done；纯测试用户验收 N/A，Codex 独立核定。
   正反控输出、执行数及恢复后 SHA256 值，无法独立核“恰一个业务断言红”。
   RC4 的高度 `-1 → -2` 两端都是非法输入，不符合“合法输入单轴变异”；
   因此当前**不足四枚有效反控**。换成合法输入轴，交可复核的原始结果和哈希。
-- 候选越过写入白名单，改了共享 `docs/testing/glm-next-triple/README.md`
+- 候选越过写入白名单，改了共享 `docs/testing/archive/legacy/batches/glm-next-triple/README.md`
   添加 N 导航。该行应从贡献者候选退出，由 Codex 集成时统一登记。
 - 真实浏览器取证的 `drive-n.mjs` 在标题菜单按 Enter 后等待 `__rfWorld`，
   `world-after-entry.png` 实际已是开场剧情画面；这越过卡面“非剧情菜单或 battle
@@ -154,7 +154,7 @@ typecheck、根 lint 0/0/0、docs、git diff --check 784fb098...HEAD；共享导
 你是 TEST-GLM-WAVE-N-1 的唯一测试 Coding Owner。请在独立工作树、分支
 codex/glm-wave-n-reforge-host-r1 从包含本卡的最新 main 派发提交起步；生产冻结 f70db722。
 先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡、
-docs/testing/glm-next-triple/README.md 与 targets.json，运行 verify-targets.mjs。
+docs/testing/archive/legacy/batches/glm-next-triple/README.md 与 targets.json，运行 verify-targets.mjs。
 完成 N01–N05 非剧情 runtime host/资源生命周期 11 源大包：逐组查真实 caller、
 旧测 fullName/断言，只为合法未重复合同新增 *.glm-n.test.ts(x)、专属 typed fixture
 和 wave-N 证据。至少一条真实浏览器菜单/trial 功能操作、四枚合法输入业务反控、

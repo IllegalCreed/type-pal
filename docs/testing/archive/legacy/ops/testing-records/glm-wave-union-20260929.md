@@ -3,12 +3,12 @@
 集成基点：`9863736420a48e9240ef85935e54d37cced6d9dd`（当时 main）。
 隔离集成分支：`codex/glm-union-intake-r1`；A–E 与 F–J 六条已独立接收候选
 依次合入，无文件冲突。各卡的代码接收结论见
-[A–E](../../../../glm-large-wave/codex-accept-r3-4e200099.md)、
-[F](../../../../glm-new-waves/codex-accept-F-r2-c5ecf694.md)、
-[G](../../../../glm-new-waves/codex-accept-G-r2-fd1189a3.md)、
-[H](../../../../glm-new-waves/codex-accept-H-r1-6a25727c.md)、
-[I](../../../../glm-new-waves/codex-accept-I-r2-044d3fa4.md)、
-[J](../../../../glm-new-waves/codex-accept-J-r2-acd67499.md)。
+[A–E](../../batches/glm-large-wave/codex-accept-r3-4e200099.md)、
+[F](../../batches/glm-new-waves/codex-accept-F-r2-c5ecf694.md)、
+[G](../../batches/glm-new-waves/codex-accept-G-r2-fd1189a3.md)、
+[H](../../batches/glm-new-waves/codex-accept-H-r1-6a25727c.md)、
+[I](../../batches/glm-new-waves/codex-accept-I-r2-044d3fa4.md)、
+[J](../../batches/glm-new-waves/codex-accept-J-r2-acd67499.md)。
 
 | 包 | 最终候选 HEAD |
 |---|---|
@@ -66,12 +66,12 @@
   未证产品疑点；本次仅集成测试，不自动授权产品修复。
 
 后续收口：G 的宿主 favicon 404 已由 Codex
-[URL 级补验](../../../../glm-new-waves/codex-G-console-closure-20260929.md)定位并消除；
+[URL 级补验](../../batches/glm-new-waves/codex-G-console-closure-20260929.md)定位并消除；
 试打 console 其余 8 条均是可解释的无存档探测，G 卡已 done。
 I 的菜单 console 历史在统一门当时仍未形成同场景逐条证据，因此曾留 review。
 
 后续补验：I 已由 Codex 在同一 OpeningMenu 场景从页面加载到 ArrowDown
-完成[console/光标补验](../../../../glm-new-waves/codex-I-console-closure-20260929.md)：
+完成[console/光标补验](../../batches/glm-new-waves/codex-I-console-closure-20260929.md)：
 console error、≥400 response、requestfailed、pageerror 全为 0，
 光标 0→1 与截图一致。I 卡现可 done；本次只补视觉证据，未改变上述
 覆盖率结果或 85% 未达结论。

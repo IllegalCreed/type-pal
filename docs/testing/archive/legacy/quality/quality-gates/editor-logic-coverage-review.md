@@ -75,8 +75,8 @@ packages/scripts/projects/data/lock零diff，保留既有check7282与strict fast
   辅助核对曾在strict清理并重建报告期间读取单包summary，得到ENOENT；不是测试失败/反例，完成后再读并逐文件核清上述1臂来源。
   fast-forward回主线后的辅助清单脚本初次误把工作区Sprite上传WIP算进提交diff（10≠9）；已明确比较5552b2a9→HEAD提交树，
   WIP另按接收前SHA-256核验，未删除或纳入本包。该辅助脚本口径错误不算正式质量门失败或产品反例。
-- 常驻重建：`node docs/testing/glm-editor-logic-coverage-mutants.mjs`；
-  `node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>`。
+- 常驻重建：`node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs`；
+  `node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>`。
   后者四针必须detected；closure为已分类防御臂，MISSED不是本轮新增counter。
 
 ## 历史：a3687b75返工复核（2026-09-18）
@@ -119,7 +119,7 @@ packages/scripts/projects/data/lock零diff，保留既有check7282与strict fast
 这是首轮R2明确要求的“apply/invert分别核输入不变”的剩余半边，不是新增功能范围。
 在invert前独立deepSnapshot(s1)，执行后核s1全状态不变，并核完整预期恢复结果；同型用例按原要求对账。
 
-已把该针加入[原独立见证工具](../../../../editor-logic-coverage-review-witnesses.mjs)，名为`restore-input-mutation`；
+已把该针加入[原独立见证工具](../../../../domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs)，名为`restore-input-mutation`；
 当前结果：原三针detected、restore针MISSED、closure防御针MISSED。返工后前四针应detected，closure不强测。
 最终见证目录`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/editor-review-witnesses-iAkITi/`，源码hash保持不变。
 
@@ -240,10 +240,10 @@ packages/scripts/projects/data/lock零diff，保留既有check7282与strict fast
 
 ## 可重建见证与记录
 
-入仓工具：[独立见证](../../../../editor-logic-coverage-review-witnesses.mjs)。必须给候选独立工作树，不把main上未集成测试当目标：
+入仓工具：[独立见证](../../../../domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs)。必须给候选独立工作树，不把main上未集成测试当目标：
 
 ```sh
-node docs/testing/editor-logic-coverage-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-ed1
+node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-ed1
 ```
 
 d531aa24结果：正常B对照6绿；输入污染B6绿/A9绿、错误目标asset B6绿、真正closure移除B6绿，标记MISSED而不是accept。

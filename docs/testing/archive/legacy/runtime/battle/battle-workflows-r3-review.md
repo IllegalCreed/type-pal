@@ -4,7 +4,7 @@
 设计r1保持，r2已关闭的原五反证/结构/路径/Biome不重开。
 
 入口：[任务卡](../../../../../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)、[r2反证](battle-workflows-r2-review.md)、
-[r3独立见证](../../../../battle-workflows-r3-witnesses.mjs)、[机账](battle-workflows-r3-evidence.json)。
+[r3独立见证](../../unresolved-tools/battle-workflows-r3-witnesses.mjs)、[机账](battle-workflows-r3-evidence.json)。
 本席复用已脱离旧分支的`/Users/zhangxu/illegal/type-pal-battle-review`，核干净后切到候选detached HEAD，
 没有恢复已清理分支；GLM原工作树未修改。
 
@@ -109,7 +109,7 @@ p2、money=77是真正非空正控，此部分保留；库存须补合法非空�
 ## 验证与复建
 
 ```bash
-node docs/testing/battle-workflows-r3-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
+node docs/testing/archive/legacy/unresolved-tools/battle-workflows-r3-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
 ```
 
 冻结r1/r2工具零改；r3新工具只通过Vite load替换，候选11个相关文件前后hash一致。

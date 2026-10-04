@@ -5,7 +5,7 @@
 initial污染不再重开；剩余敌转移污染/同型正控问题以新报告为准。
 
 [任务卡](../../../../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
-[见证工具](../../../../guard-wave3-review-witnesses.mjs) / [隔离配置](../../../../guard-wave3-review.config.mjs)
+[见证工具](../../../../domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs) / [隔离配置](../../../../domains/quality/quality-gates/tools/guard-wave3-review-config.mjs)
 
 2026-09-26，候选 `a00f12c224b58ef5a2cbc92f3eaab96cbaafe55e`，基点 `4c1c5038`。
 结论 **counter / 窄返工**。不修改候选语义，不合入、不计覆盖；不是产品缺陷裁决。
@@ -65,7 +65,7 @@ enemy-hook 的 badEnemyId/badOnce/badValue/badFlag、record-skills-poisons 的�
 ## 复现与下一位提示词
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/guard-wave3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2
+env -u NODE_COMPILE_CACHE node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2
 ```
 
 本轮原始结果 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-guard-wave3-review-V4aKMe/summary.json`。

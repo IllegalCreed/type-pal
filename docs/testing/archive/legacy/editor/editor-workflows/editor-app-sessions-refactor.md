@@ -42,7 +42,7 @@ Owner：Codex；原始切片基点 `ae989b9b`；实现 `4101926d`、`93e4a9c4`�
   保存冲突与 checkpoint 37 项通过。
 - 同步 `origin/main@7d64de13` 后，Editor 整包 328 文件/2847 项、TypeScript 与 production build 通过；
   build 只保留既有大 chunk 提示。候选文件 Biome 无 error，`App.tsx` 仍有 3 条既有无用 Fragment info。
-- [二十针反控](../../../../editor-app-sessions-mutants.mjs)在真实 Vite 模块上覆盖 URL 优先、scroll、popstate、rAF 释放、
+- [二十针反控](../../../../domains/editor/editor-workflows/tools/editor-app-sessions-mutants.mjs)在真实 Vite 模块上覆盖 URL 优先、scroll、popstate、rAF 释放、
   scene deep-link/切换/latest-location、试玩 unload/discard/单窗/dirty/revision/关闭、工程 leave/open/save-as/export
   lease。control 50/50；20 个坏实现各由指定候选测试单一 `AssertionError` 检出；判据 1 正 9 反，且产品文件
   hash 不变。最终临时机账：

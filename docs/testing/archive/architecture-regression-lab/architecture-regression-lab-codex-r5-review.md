@@ -5,7 +5,7 @@
 ## 独立复跑通过的窄事实
 
 - 工作树干净且 tip 等于远端。`86e928b5..a3ceaf05` 的 `packages/ scripts/` 原冻结 diff 为空；最近主线合入点 `8217c7ad..b403efd3` 的 GLM 增量只有实验目录四文件，`packages/ scripts/` 为空。原 `a2415868..HEAD` 的白名单命令含 Codex 授权主线变更，不能当 GLM 本轮越界，也不能报告为全空。
-- `npx vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts`：9 文件 32/32 绿；重新生成 `/tmp/codex-glm-r5-candidates.json` 后用 `tools/verify.mjs` 对账显示 `PASS`、32 passed、39 条。`tools/red-control.mjs` 显示 detected（exit1、一项执行/失败、业务 AssertionError、注入命中、产品 hash 不变）。
+- `npx vitest run --config docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates.vitest.mts`：9 文件 32/32 绿；重新生成 `/tmp/codex-glm-r5-candidates.json` 后用 `tools/verify.mjs` 对账显示 `PASS`、32 passed、39 条。`tools/red-control.mjs` 显示 detected（exit1、一项执行/失败、业务 AssertionError、注入命中、产品 hash 不变）。
 - 六张 `/tmp/type-pal-glm-regression-lab/` 截图存在，逐张重算完整 SHA-256 与 `results.json` 精确相等。本人目视抽查 V01-02/V02-01/V03-01/V04-01：角色姓名界面、720px 角色页、无效 object URL 后角色页及角色页上的“视图”菜单可见；图片本身不能证明六类表单、三工作区分隔条、异步恢复或精灵媒体矩阵。
 - 将本次 `red-control` 产生的 `.tmp-red-*` 从实验目录移至 `/tmp` 后，实验目录 Biome exit0（有两条非阻断 optional-chain warning）、`node scripts/docs/check.mjs` PASS、`git diff --check 8217c7ad..HEAD` PASS。**反控脚本仍在 `configs/` 下创建且不清理临时目录**（`red-control.mjs:32,73-89,127`），直接接着跑目录 Biome 会因生成文件失败；此前同类环境污染问题未收口。
 

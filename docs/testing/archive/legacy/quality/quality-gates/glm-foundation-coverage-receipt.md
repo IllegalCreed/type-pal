@@ -11,13 +11,13 @@ Codex集成核定：合入3b1cff4f时继承了主线dff3442d保存修复，因�
 
 - **实际文件清单**（`git diff --name-status 3b1cff4f HEAD -- packages docs/testing` 的独有增量）：
   **A×15 新测试 + A×3 fixture + A×1诊断脚本 + A×1诊断配置 + M×1回执 = 21文件**（Codex按639e9e4e提交树复算；交接所称20漏计本轮新增配置）。
-  新增配置为`docs/testing/glm-foundation-coverage.config.mts`，属于原白名单；产品/既有测试/官方基线零修改。
+  新增配置为`docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts`，属于原白名单；产品/既有测试/官方基线零修改。
 - **本人新增代码文件 Biome exit0**（全部新增 `.ts/.mjs` 经 `pnpm exec biome check` → rc0）。
 - **最终测试计数（现场生成）**：A **27**（mkf 9/rng 13/yj2 5）+ B **69**（start-world 20/actors 6/author-items 4/
   skills-poisons 21/author-script 9/enemy-script 9）+ C **19**（enemies 5/player-roles 4/spells 10）+ D **24**
   （merge 8/plan 8/baseline 8）= **139 项**，四包定向命令全绿；四包 `tsc --noEmit` rc0。
 - **相邻既有套件**：shared 106 绿；content 557 绿；pal-extract 149 绿+3 skip（同排 7 个缺资产文件）；
-  migrate unit（官方 fast 排除口径，经入仓[诊断配置](../../../../glm-foundation-coverage.config.mts)）338 绿。
+  migrate unit（官方 fast 排除口径，经入仓[诊断配置](../../../../domains/quality/quality-gates/tools/foundation-coverage-config.mts)）338 绿。
 
 ## GLM A组回执（返工后 27 项）
 
@@ -94,7 +94,7 @@ Codex集成核定：合入3b1cff4f时继承了主线dff3442d保存修复，因�
 
 ## 负控总账（可重建）
 
-入口：`node docs/testing/glm-foundation-coverage-mutants.mjs` → **4 对照 exit0 + 14 单点负控全部 exit1 且业务
+入口：`node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs` → **4 对照 exit0 + 14 单点负控全部 exit1 且业务
 AssertionError 红（MUTATION_HIT 见证+被替换产品文件前后 hash 一致）**。14 = 原 8（有效部分全保留）+
 R2/R3 新增 3（plan-deletes-escape-conflicts-gate / player-roles-equipment-truncated / player-roles-magic-truncated，
 即 Codex counter 三见证）+ **定点返工新增 3（plan-pollutes-base/ours/theirs，Codex immutability 三轴见证永久化：
@@ -127,12 +127,12 @@ pnpm --filter @type-pal/pal-extract exec vitest run --exclude src/io/msg.test.ts
 
 pnpm --filter @type-pal/pal-extract exec vitest run --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/tables.test.ts --exclude src/events/roundtrip.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/pal-after --coverage.include='**/src/resources/parsers/enemies.ts' --coverage.include='**/src/resources/parsers/player-roles.ts' --coverage.include='**/src/resources/parsers/spells.ts'
 
-GLM_FC_EXCLUDE_BOUNDARIES=1 pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/glm-foundation-coverage.config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --coverage.include='**/src/migration-merge.ts' --coverage.include='**/src/migration-plan.ts' --coverage.include='**/src/migration-baseline.ts'
+GLM_FC_EXCLUDE_BOUNDARIES=1 pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --coverage.include='**/src/migration-merge.ts' --coverage.include='**/src/migration-plan.ts' --coverage.include='**/src/migration-baseline.ts'
 
-pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/glm-foundation-coverage.config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-after --coverage.include='**/src/migration-merge.ts' --coverage.include='**/src/migration-plan.ts' --coverage.include='**/src/migration-baseline.ts'
+pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-after --coverage.include='**/src/migration-merge.ts' --coverage.include='**/src/migration-plan.ts' --coverage.include='**/src/migration-baseline.ts'
 ```
 
-migrate 两侧统一走[入仓诊断配置](../../../../glm-foundation-coverage.config.mts)（复刻官方 `migrateCoverageFastTestExcludes`，
+migrate 两侧统一走[入仓诊断配置](../../../../domains/quality/quality-gates/tools/foundation-coverage-config.mts)（复刻官方 `migrateCoverageFastTestExcludes`，
 `GLM_FC_EXCLUDE_BOUNDARIES=1` 为 before 形态）；pal-extract 两侧同排 7 个缺 gitignored 资产文件（属 fast/PAL
 组拆分，非本批排除）。历史过程失败如实记录（不计证据）：`--coverage.include=src/x.ts` 相对形态不匹配（0/0）、
 zsh 变量无分词参数粘连（CACError）、migrate CLI exclude 被项目配置忽略、.mts 注释中 `**/` 提前闭合 JSDoc——均已修正。

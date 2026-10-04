@@ -2,7 +2,7 @@
 
 2026-09-27，Codex独立复核`070d3bf3173024ea0dd79369cb34f02afb7484e5`，结论 **counter / CM1–CM4**。
 [任务卡](../../../../../ops/archive/tasks/done/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) /
-[独立见证](../../../../cursor-map-review-witnesses.mjs) / [本席机账](../../editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json)。
+[独立见证](../../../../domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs) / [本席机账](../../editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json)。
 不合候选、不改其测试语义、不跑全仓check/ratchet/strict，不恢复主动覆盖率扩展。
 
 ## 已核通过
@@ -78,7 +78,7 @@ AssertionError: wrong result\n\tError: broken          → 接受（错误）
 ## 证据
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2
+env -u NODE_COMPILE_CACHE node docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2
 ```
 
 三针×四跑=12次；候选原实现/变异都绿，独立oracle原实现绿、变异各恰一AssertionError。

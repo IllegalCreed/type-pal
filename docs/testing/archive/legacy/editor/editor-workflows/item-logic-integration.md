@@ -3,7 +3,7 @@
 2026-09-27，贡献者GLM，独立接收/Integration Owner Codex。
 候选`26e7a2692d6570b6703fdc283cc7b826c713c201`，基点6c66619e，生产冻结a95618fc。
 [任务卡](../../../../../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
-[作者回执](../../../../glm-item-logic/receipt.md) / [最后counter](../../content/editor-workflows/item-logic-r8-review.md)。
+[作者回执](../../batches/glm-item-logic/receipt.md) / [最后counter](../../content/editor-workflows/item-logic-r8-review.md)。
 
 ## 独立接受范围
 

@@ -44,6 +44,13 @@ const sourceRefs = [
     role: 'relocation plan',
     sha256: digest('docs/testing/archive/migrations/legacy-full-closeout-relocation.json'),
   },
+  {
+    path: 'docs/testing/archive/migrations/testing-layout-closeout-20261004.json',
+    lines: '1-16',
+    anchor: '"id": "testing-layout-closeout-20261004"',
+    role: 'root layout closeout plan',
+    sha256: digest('docs/testing/archive/migrations/testing-layout-closeout-20261004.json'),
+  },
 ]
 
 const canonicalPath = resolve(testingRoot, 'domains/ops/testing-governance/legacy-flat-audit.md')
@@ -60,6 +67,7 @@ metadata.dedupe = {
     'docs/testing/legacy-flat-classification.json',
     'docs/testing/archive/migrations/legacy-full-closeout-plan.json',
     'docs/testing/archive/migrations/legacy-full-closeout-relocation.json',
+    'docs/testing/archive/migrations/testing-layout-closeout-20261004.json',
     'docs/testing/catalog.json',
   ],
   notes:
@@ -105,11 +113,17 @@ evidence.claims = [
     result: 'source-backed',
     evidence: ['docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16'],
   },
+  {
+    id: 'layout-closeout',
+    result: 'source-backed',
+    evidence: ['docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16'],
+  },
 ]
 evidence.artifacts = [
   { path: 'legacy-flat-classification.json', kind: 'classification-ledger' },
   { path: 'archive/migrations/legacy-full-closeout-plan.json', kind: 'closeout-plan' },
   { path: 'archive/migrations/legacy-full-closeout-relocation.json', kind: 'relocation-plan' },
+  { path: 'archive/migrations/testing-layout-closeout-20261004.json', kind: 'layout-plan' },
 ]
 writeFileSync(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`)
 

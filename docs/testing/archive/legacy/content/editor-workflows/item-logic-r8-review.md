@@ -32,7 +32,7 @@ export function expectInputsUnchanged(run: () => void, inputs: readonly object[]
 }
 ```
 
-2. `docs/testing/glm-item-logic/receipt.md`整文件同样 **零diff**，仍留I2=7、净增45、
+2. `docs/testing/archive/legacy/batches/glm-item-logic/receipt.md`整文件同样 **零diff**，仍留I2=7、净增45、
    fullName省略号、旧external标题与错误targetIds针。机账虽改若干段，
    `oracle.needles`仍有前三针不完整fullName与`targetIds continue`错定位。
    应为I1/I2/I3/I4/I5/I6 = **8/8/6/8/10/6，总46**；停止针from为

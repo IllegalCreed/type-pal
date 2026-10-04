@@ -42,7 +42,7 @@ GLM战斗卡R1～R4返工；不因本卡关闭它们。不开上游issue/PR（�
 
 | 维度 | 真值 | 一手证据 |
 |---|---|---|
-| primary source | Node22.19原生inspector给两个initializer同range、计数1/0；合并器仅以range当key | [12组原生复现](../../../../testing/coverage-initializer-probe.mjs):59-76/:123-136；安装树merge.js:79-86/:125-127 |
+| primary source | Node22.19原生inspector给两个initializer同range、计数1/0；合并器仅以range当key | [12组原生复现](../../../../testing/domains/quality/quality-gates/tools/coverage-initializer-probe.mjs):59-76/:123-136；安装树merge.js:79-86/:125-127 |
 | 第一阶段 | N/A机制；此任务不判断原版游戏语义。game作为七包统计消费者仍需最终回归 | `scripts/coverage/config.mjs:105`七包清单；633文件AST盘点见机账 |
 | 当前二阶段 | 旧1378、官方范围不变时client仅导入造成core 195/195；同raw保留initializer身份变158/195 | [诊断](../../../../testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md)与[机账](../../../../testing/archive/legacy/quality/quality-gates/coverage-initializer-evidence.json)；core:104/:123；旧两个client套件 |
 | 目标 | 不调用的方法不得从静态初始化继承正计数，真实调用仍计数；合并前后源/测试范围不变 | 最小样本actual0/0→stock2/experiment0；真调用1/1→两者2；本卡验收矩阵 |
@@ -267,7 +267,7 @@ b6286df0的两卡r1：本卡TEST-COVERAGE-TRUTH-1与TEST-RUNTIME-SHELL-COVERAGE-
 codex-runtime-shell.md及两份机账；不读GLM本轮结论。核实际pnpm patch/lock/安装hash、10回归与撤patch
 三条业务红、旧1378/宿主1414四格/37L修正与收益分栏；宿主六组真实boot/loader/codec/store/runner、实际
 输入快照、异步finally同一Promise、白名单和8负控。必要复跑node --test scripts/coverage/merge-initializers.test.mjs
-与node docs/testing/codex-runtime-shell-mutants.mjs；官方check8317/ratchet7826/受保护strict7826已有证据，
+与node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs；官方check8317/ratchet7826/受保护strict7826已有证据，
 不并发重跑。633源不变、其它六包基线对象不变，原诊断probe只在未修7790冻结树重放，别在新基线上误判。
 分别签本人accept或counter与旧兼容审查/直接证据、日志，提交推送此分支；只改本人席位，不代签、不改
 状态/产品/基线、不标done。DEV-TOAST-1、真实视觉/full/Q1/Q2、GLM战斗返工都不随本次关闭。
@@ -287,7 +287,7 @@ READ-FIRST、两卡与诊断实施节/宿主回执及机账，不读Kimi本轮�
 在 /Users/zhangxu/illegal/type-pal 独立审 TEST-COVERAGE-TRUTH-1 r1 draft，卡
 docs/ops/archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md。先同步main/核工作树，读AGENTS/CLAUDE/
 READ-FIRST、卡与docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md/机账；不读GLM本轮结论。
-你先前e7c4b743不是这次修复设计签字。独立跑node docs/testing/coverage-initializer-probe.mjs，
+你先前e7c4b743不是这次修复设计签字。独立跑node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-probe.mjs，
 必要时capture（也可先复用raw离线重算）；直接读实际安装merge/provider/remapper，核同range双身份根因、
 仅initializer区分key是否足够、计数/输入顺序风险、正式patch的可重复安装与回归方案。
 写本人带锚点premise verified/design agree或counter与日志、提交推送main；只改本人块，不代签/改状态，

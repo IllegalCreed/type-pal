@@ -55,7 +55,7 @@ CI 可以拒绝缺证据、过期依赖、旧链接、未分类 legacy 新增和
 
 - 已拍板决策 / 铁律：`AGENTS.md` 测试质量验收与当前协作模式；`docs/phase2/READ-FIRST.md` 版本/内容边界；`docs/testing/governance.md` 生命周期与历史保全。
 - 代码锚点(`file:line`)：`scripts/docs/check-testing.mjs` catalog/legacy 检查；`scripts/docs/generate-testing-index.mjs` 四维索引；`packages/content/src/character.ts:168-170` 当前版本。
-- 已知坑 / 审计文档：`docs/testing/finite-test-intake-20261003/audit-report.md`；`docs/testing/e2e/stages/006-doctor-boat/report.md:20-26` 缺失两阶段日志；`docs/testing/archive/architecture-regression-lab-history.md` 历史 counter 合并边界。
+- 已知坑 / 审计文档：`docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md`；`docs/testing/e2e/stages/006-doctor-boat/report.md:20-26` 缺失两阶段日志；`docs/testing/archive/architecture-regression-lab-history.md` 历史 counter 合并边界。
 - 不得重新引入：Agent 名称进入 canonical 路径；内部 e56/s003 作为阶段名；把 receipt-only/source-read 当实跑；为保 coverage 堆重复文档；静默改写旧 hash/结论。
 - 相关测试：`scripts/docs/check-testing.test.mjs`、`scripts/docs/check.test.mjs`、`pnpm test:docs-tools`。
 
@@ -131,7 +131,7 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 ## 交接日志
 
 - 2026-10-04 Codex：从指定 `d02278dc` 建立隔离分支；完成机器清点、分类脚本/359 项 ledger、catalog v2、9 对 front matter + metadata/evidence、E2E-002 语义改名、架构历史合并索引。Evidence: `docs/testing/legacy-flat-classification.json`、`docs/testing/e2e/evidence/`、实现提交 `e5fe2b80f7b62f16a5fac4fc4747510996d6ad55`。验证：`pnpm check:docs`（41 docs-tool tests，docs/testing PASS 0 issues）、`pnpm lint`（3149 files，0/0/0）、`git diff --check` 通过。
-- 2026-10-04 Codex 深度批次：真实迁移 20 个 report/evidence：12 个架构实验原文迁入 `archive/architecture-regression-lab/`，8 个 runtime owner 文档迁入 `domains/runtime/`；`legacy-flat.json.retired`、迁移计划和分类账保留源 SHA。新增当前 caller/source line/oracle/排重审计；E2E evidence 改为明确 source-backed/document-audit，006 修正为 `boat-reforge.mjs` 且保留 rework。新增 `legacy-flat-audit.md/json` 全量总账，并扩展按工程域/模块/阶段/引擎/legacy 的索引。验证：`pnpm check:docs`（907 Markdown/5175 links，48 docs-tool tests，0 issues）、`pnpm check:testing-docs`（0 issues）、`pnpm lint`（3158 files，0/0/0）、`git diff --check` 通过。Evidence: `docs/testing/archive/migrations/testing-domains-20261004.json`、`docs/testing/domains/`、`docs/testing/domains/ops/testing-governance/`。
+- 2026-10-04 Codex 深度批次：真实迁移 20 个 report/evidence：12 个架构实验原文迁入 `archive/architecture-regression-lab/`，8 个 runtime owner 文档迁入 `domains/runtime/`；`legacy-flat.json.retired`、迁移计划和分类账保留源 SHA。新增当前 caller/source line/oracle/排重审计；E2E evidence 改为明确 source-backed/document-audit，006 修正为 `boat-reforge.mjs` 且保留 rework。新增 `legacy-flat-audit.md/json` 全量总账，并扩展按工程域/模块/阶段/引擎/legacy 的索引。验证：`pnpm check:docs`（907 Markdown/5175 links，48 docs-tool tests，0 issues）、`pnpm check:testing-docs`（0 issues）、`pnpm lint`（3158 files，0/0/0）、`git diff --check` 通过。Evidence: `docs/testing/archive/migrations/testing-domains-20261004.json`、`docs/testing/`、`docs/testing/archive/testing-governance/`。
 - Next: Codex 独立验收；保持 build，不合 main、不标 done。
 - 2026-10-04 final hardening：`3a4f970d3` 完成迁移/canonical/domain batch，`953d96272` 完成 evidence/source hash/claim、catalog schema、冻结 census、孤儿/依赖/循环和 48 项 docs-tool gate；当前候选以本卡所在分支最新提交为准。
 - 2026-10-04 migration wave 2：`command-form-families`、`menu-session`、`map-workspace-sessions`、`phase1-dependency` 四组 report/evidence 已在本隔离分支按 SHA 迁入 `domains/editor`、`domains/runtime`、`domains/phase1-runtime`；工具/反控脚本仍保留 legacy，逐组理由和公开 caller 写入 canonical report。迁移计划：`docs/testing/archive/migrations/testing-domains-20261004-wave2.json`。当前 full census 359 项，active 331、retired 28。

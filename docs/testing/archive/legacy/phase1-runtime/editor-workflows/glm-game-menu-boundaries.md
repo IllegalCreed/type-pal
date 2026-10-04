@@ -71,8 +71,8 @@ packages/game/src/core/menu/sell-menu.boundaries.test.ts
 packages/game/src/core/menu/equip-menu.boundaries.test.ts
 packages/game/src/core/menu/in-game-menu.boundaries.test.ts
 packages/game/src/core/menu/__tests__/glm-tb08-fixtures.ts
-docs/testing/glm-game-menu-boundaries-mutants.mjs
-docs/testing/glm-game-menu-boundaries.config.mts
+docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs
+docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-config.mts
 docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json
 ```
 
@@ -97,7 +97,7 @@ G02/G07/G08 真实 confirm 门覆盖）；game 全包 132 文件/2301 项中 dev
 ENOENT（data/extracted 未跟踪，stash 基线同样失败）；官方 fast 口径 2271→2288 双 exit0
 （诊断 config 补齐官方 jsdom env + setupFiles）；tc rc=0；9 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-game-menu-boundaries-mutants.mjs` rc=0：判据自测 + 3 对照 +
+- 负控 `node docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs` rc=0：判据自测 + 3 对照 +
   **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
   产品 hash 不变。针点：库存占用门、pageOffset 推进、MP 恰等门、买价门、卖占用门、
   equip roleId 误用 cursor、switch 默认高亮、单人队直进。

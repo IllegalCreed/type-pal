@@ -24,7 +24,7 @@ Production Base: `20544351`
 ## 白名单与验收
 
 - 六新测试 `packages/migrate/src/migrate-scenes.{entries,entities,encounters,bindings,sessions,defaults}.test.ts`。
-- typed fixture `src/__tests__/scene-migration-fixtures.ts`；证据 `docs/testing/codex-migrate-scenes/`。
+- typed fixture `src/__tests__/scene-migration-fixtures.ts`；证据 `docs/testing/archive/legacy/batches/codex-migrate-scenes/`。
 - 主输出先过当前正式结构守卫；中间态单列，不强造canonical合同。
 - 定向、相邻、TC/Biome、六代表单点内存反控；整批统一串行check→ratchet→受保护单次strict-fast。
 - 本席维护卡/导航/看板与最终基线；不重复每个小组跑覆盖率。
@@ -33,7 +33,7 @@ Production Base: `20544351`
 
 - 2026-09-26：已直读现行调用链与旧测试，开始实施。done未开放。
 - 2026-09-26：六文件53项、相邻13文件165项、TC/Biome/docs通过；六单点反控12跑业务鉴别通过，
-  产品hash不变。初次14测试红与TC误用字段已按真实源码修正，失败记录见[回执](../../../../testing/codex-migrate-scenes/README.md)。
+  产品hash不变。初次14测试红与TC误用字段已按真实源码修正，失败记录见[回执](../../../../testing/archive/legacy/batches/codex-migrate-scenes/README.md)。
 - 2026-09-26：完整check9,081、官方ratchet、保护20544351的单次strict8,589/701均通过；
   六个其它包baseline完整对象与所有生产分母不变。本批+327B/+250L/+297S/+39F，
   全仓44,441/63,178=70.3425242964323%。Codex核定 **accept / done**，已满足纯测试包收口条件。

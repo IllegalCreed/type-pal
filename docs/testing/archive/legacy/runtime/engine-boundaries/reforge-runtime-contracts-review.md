@@ -87,7 +87,7 @@ GLM测试贡献、自验及最新机器账仍保留候选树；主线官方fast�
 
 候选`packages/reforge/src/project-loader.current-boundaries.test.ts:75-87`只比较manifest/sceneIndex/authorContent，
 **没有比较实际传入project上的actorsById等纯数据**。actorsById是loader投影直接消费的输入，不是活resolver/cache。
-本席新增[独立输入污染见证](../../../../reforge-runtime-input-review-witness.mjs)：只在`loadAllScenes`批读完成后、返回前，
+本席新增[独立输入污染见证](../../../../domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs)：只在`loadAllScenes`批读完成后、返回前，
 把传入project第一个actor.name改为`polluted.name`，保留正确返回投影；marker打印修改后的实际值。
 正常对照6/6绿，污染实现也**6/6绿、exit0、MISSED**，无TypeError/超时，产品hash不变。
 这验证的是上一轮已要求的“实际project输入不被污染”，不是新增产品规则或发现现存产品bug。
@@ -102,8 +102,8 @@ fixture `glm-runtime-contract-fixtures.ts:383-388`每次readJson都structuredClo
 新污染针须detected，其余已闭环见证不变；用与该合同对应的业务断言拦截，不把生产函数改掉或用冻结导致TypeError充当证明。
 
 ```sh
-node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
-node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
+node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
+node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
 ```
 
 ### 剩余R4：候选回退了另一张卡的看板，文档门仍红
@@ -154,10 +154,10 @@ coverage-before/coverage-after/docs-candidate/input-witness。四见证明细`/v
 
 ## 四条独立见证
 
-工具：[reforge-runtime-contracts-review-witnesses.mjs](../../../../reforge-runtime-contracts-review-witnesses.mjs)。
+工具：[reforge-runtime-contracts-review-witnesses.mjs](../../../../domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs)。
 
 ```sh
-node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
+node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime
 ```
 
 只用Vite内存单点替换，不改候选文件；marker位于实际函数体并须来自Vitest stdout，非模块加载/错误源码片段。

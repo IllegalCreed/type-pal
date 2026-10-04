@@ -1903,10 +1903,10 @@
         }
       ],
       "publicCommands": [
-        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts\","
+        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts\","
       ],
       "publicCallers": [
-        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts\","
+        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts\","
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -2009,20 +2009,20 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-content-contracts-mutants.mjs",
-        "node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
-        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
+        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts",
         "pnpm --filter @type-pal/content exec vitest run            # 55 文件/675 项",
         "pnpm --filter @type-pal/content exec tsc --noEmit          # tc rc=0",
-        "pnpm exec biome check packages/content/src/*.contracts.test.ts packages/content/src/__tests__/glm-content-contract-fixtures.ts docs/testing/glm-content-contracts-mutants.mjs docs/testing/glm-content-contracts.config.mts  # rc=0"
+        "pnpm exec biome check packages/content/src/*.contracts.test.ts packages/content/src/__tests__/glm-content-contract-fixtures.ts docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts  # rc=0"
       ],
       "publicCallers": [
-        "node docs/testing/glm-content-contracts-mutants.mjs",
-        "node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
-        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
+        "pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts",
         "pnpm --filter @type-pal/content exec vitest run            # 55 文件/675 项",
         "pnpm --filter @type-pal/content exec tsc --noEmit          # tc rc=0",
-        "pnpm exec biome check packages/content/src/*.contracts.test.ts packages/content/src/__tests__/glm-content-contract-fixtures.ts docs/testing/glm-content-contracts-mutants.mjs docs/testing/glm-content-contracts.config.mts  # rc=0"
+        "pnpm exec biome check packages/content/src/*.contracts.test.ts packages/content/src/__tests__/glm-content-contract-fixtures.ts docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts  # rc=0"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -2238,8 +2238,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/glm-content-residual-mutants.mjs"],
-      "publicCallers": ["node docs/testing/glm-content-residual-mutants.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/content/src/asset.residual.test.ts:1-1",
@@ -2361,12 +2365,12 @@
       "bodyLines": 137,
       "sourceRefs": [],
       "publicCommands": [
-        "node --import tsx docs/testing/glm-coverage-queue-premise.mjs",
-        "node --import tsx docs/testing/glm-coverage-queue-premise.mjs；其证据是协议级，不是浏览器/视觉/听感。不要读取或复述Kimi结论。三卡分别在本人r2席位补充premise verified/design agree及直接锚点/可证伪条件，或counter；只改本人签字/日志并提交推送，不改他席/状态、不开始实施、不标done。"
+        "node --import tsx docs/testing/domains/quality/quality-gates/tools/coverage-queue-premise.mjs",
+        "node --import tsx docs/testing/domains/quality/quality-gates/tools/coverage-queue-premise.mjs；其证据是协议级，不是浏览器/视觉/听感。不要读取或复述Kimi结论。三卡分别在本人r2席位补充premise verified/design agree及直接锚点/可证伪条件，或counter；只改本人签字/日志并提交推送，不改他席/状态、不开始实施、不标done。"
       ],
       "publicCallers": [
-        "node --import tsx docs/testing/glm-coverage-queue-premise.mjs",
-        "node --import tsx docs/testing/glm-coverage-queue-premise.mjs；其证据是协议级，不是浏览器/视觉/听感。不要读取或复述Kimi结论。三卡分别在本人r2席位补充premise verified/design agree及直接锚点/可证伪条件，或counter；只改本人签字/日志并提交推送，不改他席/状态、不开始实施、不标done。"
+        "node --import tsx docs/testing/domains/quality/quality-gates/tools/coverage-queue-premise.mjs",
+        "node --import tsx docs/testing/domains/quality/quality-gates/tools/coverage-queue-premise.mjs；其证据是协议级，不是浏览器/视觉/听感。不要读取或复述Kimi结论。三卡分别在本人r2席位补充premise verified/design agree及直接锚点/可证伪条件，或counter；只改本人签字/日志并提交推送，不改他席/状态、不开始实施、不标done。"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -2441,7 +2445,7 @@
         "pnpm exec vitest run src/io/sss.test.ts src/io/word.test.ts src/io/msg.test.ts src/resources/tables.test.ts src/resources/parsers/__tests__/data-misc.test.ts src/events/disasm.test.ts src/events/recompile.test.ts src/events/annotate.test.ts",
         "pnpm exec vitest run src/rle.test.ts src/rle-encode.test.ts --reporter=dot | exit0，2文件/26项 |",
         "pnpm check:docs",
-        "node docs/testing/glm-coverage-queue-census.mjs --check",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-queue-census.mjs --check",
         "git diff --check",
         "git diff --cached --check"
       ],
@@ -2452,7 +2456,7 @@
         "pnpm exec vitest run src/io/sss.test.ts src/io/word.test.ts src/io/msg.test.ts src/resources/tables.test.ts src/resources/parsers/__tests__/data-misc.test.ts src/events/disasm.test.ts src/events/recompile.test.ts src/events/annotate.test.ts",
         "pnpm exec vitest run src/rle.test.ts src/rle-encode.test.ts --reporter=dot | exit0，2文件/26项 |",
         "pnpm check:docs",
-        "node docs/testing/glm-coverage-queue-census.mjs --check",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-queue-census.mjs --check",
         "git diff --check",
         "git diff --cached --check"
       ],
@@ -4055,15 +4059,15 @@
       "bodyLines": 226,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/glm-coverage-wave2-mutants.mjs",
-        "pnpm exec vitest run --config docs/testing/glm-coverage-wave2-coverage.config.mts",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs",
+        "pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
       ],
       "publicCallers": [
-        "node docs/testing/glm-coverage-wave2-mutants.mjs",
-        "pnpm exec vitest run --config docs/testing/glm-coverage-wave2-coverage.config.mts",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs",
+        "pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -5364,10 +5368,10 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-coverage-wave2-census.mjs --reports /Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal/coverage/fast --check"
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-census.mjs --reports /Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal/coverage/fast --check"
       ],
       "publicCallers": [
-        "node docs/testing/glm-coverage-wave2-census.mjs --reports /Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal/coverage/fast --check"
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-census.mjs --reports /Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal/coverage/fast --check"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -13363,12 +13367,12 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-coverage-queue-census.mjs --check",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-queue-census.mjs --check",
         "pnpm check:docs",
         "git diff --check"
       ],
       "publicCallers": [
-        "node docs/testing/glm-coverage-queue-census.mjs --check",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-queue-census.mjs --check",
         "pnpm check:docs",
         "git diff --check"
       ],
@@ -13766,15 +13770,15 @@
       ],
       "publicCommands": [
         "git diff e58834f6..HEAD -- packages/",
-        "node docs/testing/glm-import-codec-mutants.mjs",
-        "node docs/testing/import-codec-png-host-review.mjs <worktree>",
-        "node docs/testing/import-codec-preview-review.mjs <worktree>"
+        "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <worktree>",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs <worktree>"
       ],
       "publicCallers": [
         "git diff e58834f6..HEAD -- packages/",
-        "node docs/testing/glm-import-codec-mutants.mjs",
-        "node docs/testing/import-codec-png-host-review.mjs <worktree>",
-        "node docs/testing/import-codec-preview-review.mjs <worktree>"
+        "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <worktree>",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs <worktree>"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -13914,13 +13918,13 @@
       "bodyLines": 115,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/glm-editor-logic-coverage-mutants.mjs",
-        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/glm-editor-logic-coverage.config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/com",
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs",
+        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/com",
         "pnpm --filter @type-pal/editor exec vitest run src/core/world-variable-commands.test.ts src/core/actor-commands.test.ts src/core/item-commands.test.ts src/core/actor-dialogue-commands.test.ts src/core/stamp-commands.test.ts src/core/project"
       ],
       "publicCallers": [
-        "node docs/testing/glm-editor-logic-coverage-mutants.mjs",
-        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/glm-editor-logic-coverage.config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/com",
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs",
+        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/com",
         "pnpm --filter @type-pal/editor exec vitest run src/core/world-variable-commands.test.ts src/core/actor-commands.test.ts src/core/item-commands.test.ts src/core/actor-dialogue-commands.test.ts src/core/stamp-commands.test.ts src/core/project"
       ],
       "legalInputs": [
@@ -14178,8 +14182,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/glm-editor-map-data-mutants.mjs"],
-      "publicCallers": ["node docs/testing/glm-editor-map-data-mutants.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/editor/src/core/map-selection.ts:1-1",
@@ -14546,8 +14554,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/glm-editor-script-helpers-mutants.mjs"],
-      "publicCallers": ["node docs/testing/glm-editor-script-helpers-mutants.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/editor/src/core/author-command-edit.ts:1-1",
@@ -14727,11 +14739,11 @@
       "sourceRefs": [],
       "publicCommands": [
         "pnpm check:docs",
-        "node docs/testing/glm-editor-ui-wave/ui-wave-mutants.mjs wave"
+        "node docs/testing/archive/legacy/batches/glm-editor-ui-wave/ui-wave-mutants.mjs wave"
       ],
       "publicCallers": [
         "pnpm check:docs",
-        "node docs/testing/glm-editor-ui-wave/ui-wave-mutants.mjs wave"
+        "node docs/testing/archive/legacy/batches/glm-editor-ui-wave/ui-wave-mutants.mjs wave"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -14891,13 +14903,13 @@
         "pnpm --filter @type-pal/shared exec vitest run src/mkf.boundaries.test.ts src/rng.boundaries.test.ts src/yj2.boundaries.test.ts",
         "git show 01c149b5:docs/testing/glm-foundation-coverage-receipt.md",
         "pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --project unit src/migration-merge.boundaries.test.ts src/migration-plan.boundaries.test.ts src/migration-baseline-pure.boundaries.test.ts",
-        "node docs/testing/glm-foundation-coverage-mutants.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs",
         "pnpm --filter @type-pal/shared exec vitest run --exclude src/mkf.boundaries.test.ts --exclude src/rng.boundaries.test.ts --exclude src/yj2.boundaries.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary",
         "pnpm --filter @type-pal/shared exec vitest run --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/shared-after --coverage.include='**/src/mkf.ts' --coverage.include='",
         "pnpm --filter @type-pal/content exec vitest run --exclude src/validate-start-world.boundaries.test.ts --exclude src/validate-actors.boundaries.test.ts --exclude src/validate-author-items.boundaries.test.ts --exclude src/validate-skills-pois",
         "pnpm --filter @type-pal/content exec vitest run --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/content-after --coverage.include='**/src/validate.ts' --coverage.in",
         "pnpm --filter @type-pal/pal-extract exec vitest run --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/tables.test",
-        "pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/glm-foundation-coverage.config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --cov"
+        "pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --cov"
       ],
       "publicCallers": [
         "git diff --name-status 3b1cff4f HEAD -- packages docs/testing",
@@ -14905,13 +14917,13 @@
         "pnpm --filter @type-pal/shared exec vitest run src/mkf.boundaries.test.ts src/rng.boundaries.test.ts src/yj2.boundaries.test.ts",
         "git show 01c149b5:docs/testing/glm-foundation-coverage-receipt.md",
         "pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --project unit src/migration-merge.boundaries.test.ts src/migration-plan.boundaries.test.ts src/migration-baseline-pure.boundaries.test.ts",
-        "node docs/testing/glm-foundation-coverage-mutants.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs",
         "pnpm --filter @type-pal/shared exec vitest run --exclude src/mkf.boundaries.test.ts --exclude src/rng.boundaries.test.ts --exclude src/yj2.boundaries.test.ts --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary",
         "pnpm --filter @type-pal/shared exec vitest run --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/shared-after --coverage.include='**/src/mkf.ts' --coverage.include='",
         "pnpm --filter @type-pal/content exec vitest run --exclude src/validate-start-world.boundaries.test.ts --exclude src/validate-actors.boundaries.test.ts --exclude src/validate-author-items.boundaries.test.ts --exclude src/validate-skills-pois",
         "pnpm --filter @type-pal/content exec vitest run --exclude '**/node_modules/**' --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/content-after --coverage.include='**/src/validate.ts' --coverage.in",
         "pnpm --filter @type-pal/pal-extract exec vitest run --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/tables.test",
-        "pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/glm-foundation-coverage.config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --cov"
+        "pnpm --filter @type-pal/migrate exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts --project unit --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=/tmp/fc1-cov2/migrate-before --cov"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -15013,16 +15025,16 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-foundation-coverage-mutants.mjs",
-        "git diff --name-only --diff-filter=A 648b4086 01c149b5 -z -- packages docs/testing/glm-foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check",
+        "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs",
+        "git diff --name-only --diff-filter=A 648b4086 01c149b5 -z -- packages docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check",
         "pnpm exec vitest run --config /tmp/codex-foundation-review.G53t4a/witness.config.mjs --reporter=verbose",
         "node /tmp/codex-foundation-review.G53t4a/witness-oracle.mjs",
         "git diff --name-status 8126f5c0 <最终候选>",
         "pnpm --filter @type-pal/migrate exec vitest run --config /tmp/codex-foundation-r1-rework.KtFIPX/immutability.config.mjs"
       ],
       "publicCallers": [
-        "node docs/testing/glm-foundation-coverage-mutants.mjs",
-        "git diff --name-only --diff-filter=A 648b4086 01c149b5 -z -- packages docs/testing/glm-foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check",
+        "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs",
+        "git diff --name-only --diff-filter=A 648b4086 01c149b5 -z -- packages docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check",
         "pnpm exec vitest run --config /tmp/codex-foundation-review.G53t4a/witness.config.mjs --reporter=verbose",
         "node /tmp/codex-foundation-review.G53t4a/witness-oracle.mjs",
         "git diff --name-status 8126f5c0 <最终候选>",
@@ -15320,11 +15332,11 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-game-host-boundaries-mutants.mjs",
+        "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "publicCallers": [
-        "node docs/testing/glm-game-host-boundaries-mutants.mjs",
+        "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "legalInputs": [
@@ -15726,11 +15738,11 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-game-menu-boundaries-mutants.mjs",
+        "node docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "publicCallers": [
-        "node docs/testing/glm-game-menu-boundaries-mutants.mjs",
+        "node docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "legalInputs": [
@@ -16215,8 +16227,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/glm-migration-boundaries-mutants.mjs"],
-      "publicCallers": ["node docs/testing/glm-migration-boundaries-mutants.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/migrate/src/migration-project-io.ts:1-1",
@@ -17632,14 +17648,14 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
-        "node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸两行须由候选业务断言检出；若helper结构调整给出真实入口，Codex适配见证，不复制假宿主迁就工具。",
-        "node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。"
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸两行须由候选业务断言检出；若helper结构调整给出真实入口，Codex适配见证，不复制假宿主迁就工具。",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。"
       ],
       "publicCallers": [
-        "node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
-        "node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸两行须由候选业务断言检出；若helper结构调整给出真实入口，Codex适配见证，不复制假宿主迁就工具。",
-        "node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。"
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸两行须由候选业务断言检出；若helper结构调整给出真实入口，Codex适配见证，不复制假宿主迁就工具。",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -18897,14 +18913,14 @@
       "bodyLines": 254,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/glm-nine-intake-witnesses.mjs",
-        "node docs/testing/glm-nine-intake-witnesses.mjs --census-only",
-        "node docs/testing/glm-nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、"
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs",
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs --census-only",
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、"
       ],
       "publicCallers": [
-        "node docs/testing/glm-nine-intake-witnesses.mjs",
-        "node docs/testing/glm-nine-intake-witnesses.mjs --census-only",
-        "node docs/testing/glm-nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、"
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs",
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs --census-only",
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",

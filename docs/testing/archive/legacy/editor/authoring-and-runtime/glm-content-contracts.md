@@ -196,12 +196,12 @@ Codex集成裁定（2026-09-18）：下表C1/F3/F5/F8分类已按真实入口收
 
 ### 负控与覆盖（最终树复跑）
 
-- 负控：`node docs/testing/glm-content-contracts-mutants.mjs` rc=0——判据自测（good 通过/混合坏日志拒绝）+ 6 正控 exit0 + 12 变异针 exit1；每针 MUTATION_HIT + AssertionError + **钉名新增测试实际 failed**（JSON 执行见证）；9 个被触产品文件批前后 sha256 不变。
-- 六针接收见证：`node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts` rc=0——4 对照 control、6 针全 detected、执行检查全 passed、7 项 fixture 检查全 accepted、`mixedFailureAccepted:false`。
+- 负控：`node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs` rc=0——判据自测（good 通过/混合坏日志拒绝）+ 6 正控 exit0 + 12 变异针 exit1；每针 MUTATION_HIT + AssertionError + **钉名新增测试实际 failed**（JSON 执行见证）；9 个被触产品文件批前后 sha256 不变。
+- 六针接收见证：`node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts` rc=0——4 对照 control、6 针全 detected、执行检查全 passed、7 项 fixture 检查全 accepted、`mixedFailureAccepted:false`。
 - 覆盖对照（可复制；config 在候选 worktree，绝对路径）：
   ```bash
-  CC1_MODE=before CC1_OUT=/tmp/cc1-rw-coverage-before pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts
-  CC1_MODE=after  CC1_OUT=/tmp/cc1-rw-coverage-after  pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts
+  CC1_MODE=before CC1_OUT=/tmp/cc1-rw-coverage-before pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts
+  CC1_MODE=after  CC1_OUT=/tmp/cc1-rw-coverage-after  pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts
   ```
   before 42 文件/557 项、after 55 文件/675 项（两跑 50 个生产文件分母相同，/tmp 专属输出，不写官方目录）。
   局部 13 模块净增语句 +117（1743→1860/2089）、分支 +128（1275→1403/1743）；
@@ -224,7 +224,7 @@ Codex集成裁定（2026-09-18）：下表C1/F3/F5/F8分类已按真实入口收
 ```bash
 pnpm --filter @type-pal/content exec vitest run            # 55 文件/675 项
 pnpm --filter @type-pal/content exec tsc --noEmit          # tc rc=0
-pnpm exec biome check packages/content/src/*.contracts.test.ts packages/content/src/__tests__/glm-content-contract-fixtures.ts docs/testing/glm-content-contracts-mutants.mjs docs/testing/glm-content-contracts.config.mts  # rc=0
+pnpm exec biome check packages/content/src/*.contracts.test.ts packages/content/src/__tests__/glm-content-contract-fixtures.ts docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts  # rc=0
 ```
 
 机器账（命令/exit/日志 hash/每针钉名红因/覆盖数字）见 `docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json`（已过 Biome formatter）。

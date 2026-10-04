@@ -32,7 +32,7 @@
 | M5 `stamp-placement.background.test.ts:114` | `stamp-placement-command.ts`同一structuredClone入口前给原plan.mapRevision加1 | 4/4仍绿 | 原实现5绿；变异4绿/1 AssertionError |
 
 两针均不改成功地图，只暴露原计划被污染；原函数/候选/fixture字节hash不变。见
-[计划实参见证](../../../../cursor-map-r2-plan-witnesses.mjs)，不是新业务域、不是宣称生产现在有该缺陷。
+[计划实参见证](../../../../domains/content/authoring-and-runtime/tools/map-r2-plan-witnesses.mjs)，不是新业务域、不是宣称生产现在有该缺陷。
 M6 `stamp-ownership.background.test.ts:98`的同一命令入口亦应补同样保护。
 M3 `map-transform.background.test.ts:79/139`、M5 `stamp-placement.background.test.ts:86`实际交给
 `applyPlanPatch`的patch/requiredWritableLayerIds也未作应用前后的输入比较；应一并完成原CM1，不只迎合两针。
@@ -48,7 +48,7 @@ M3 `map-transform.background.test.ts:79/139`、M5 `stamp-placement.background.te
   stamp-placement-command7项与stamp-placement-mutation6项，不把该13项记为作者新增。
 - 全editor359文件3048/3048；editor TC零诊断；15文件Biome **0error/0warning/0info/0截断**；docs/diff通过。
 - 原三针×四跑全部正控绿、候选变异与oracle变异均业务红；新两针×四跑各候选变异仍绿、oracle各一业务红。
-  [原针适配器](../../../../cursor-map-r2-review-witnesses.mjs)只适配async工厂与oracle回调，不改原三处变异、判据或旧工具。
+  [原针适配器](../../../../domains/content/authoring-and-runtime/tools/map-r2-review-witnesses.mjs)只适配async工厂与oracle回调，不改原三处变异、判据或旧工具。
 - 原三针目录`codex-cursor-map-review-TCDffb`，judge/fixture目录`codex-cursor-map-runner-S5D0O2`；
   计划残项`codex-map-r2-plan-3nJpnj`；作者工具`cursor-map-logic-r2-mutants-VeVW52`，完整绝对路径见日志/机账。
 - `/tmp/codex-cursor-map-r2-{directed,editor,tc,mutants,witnesses,plan-witnesses}.log`；新鲜directed/editor JSON与

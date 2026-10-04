@@ -22,10 +22,10 @@
    透明观察真实store的write/read两种完成事件，先等任一IO再断言必须write，避免错接成read只能靠timeout变红。
    合法Actor/Item/Skill先过现行guard，纯效果使用真实content执行器。
    存档调用链20项只把环境中的`itemUseAbort:null`换为真实`new ItemUseSession()`并加import；其余断言逐字不变。
-3. [冻结源码等价工具](/docs/testing/menu-session-parity.mjs)读取Git中的09429b6c原菜单局部状态、input和dispatchItemUse函数，
+3. [冻结源码等价工具](/docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs)读取Git中的09429b6c原菜单局部状态、input和dispatchItemUse函数，
    与新控制器在相同合法数据/IO端口上执行155组确定性输入、3798步，逐步比较完整UI视图、世界、音频偏好及写槽/读槽/提示/音效/退出请求。
    不把旧实现复制回产品作fallback；只生成/tmp测试。破坏新光标记忆的单点反控被同一oracle检出。
-4. [隔离负控](/docs/testing/menu-session-refactor-mutants.mjs)：55项正控+10单点候选自身AssertionError。
+4. [隔离负控](/docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs)：55项正控+10单点候选自身AssertionError。
    覆盖main输入接线、装备写回、物品跨场景关闭、abort、互斥、读失败提示、关闭态吞键、迟到浏览刷新，
    另两针验证菜单write误接load、rejected误关菜单；不混入原save核心算法变异。
    精确file/fullName、exit1、实际加载marker、2正/12反例判据自测；635个生产文件hash前后不变。
@@ -90,8 +90,8 @@ Reforge167文件1525项；55正控/10针及等价工具的控制/漂移负控另
 
 ```bash
 pnpm --filter @type-pal/reforge exec vitest run src/menu/menu-session.test.ts src/menu/item-use-session.test.ts src/save/restore-preflight.chain.test.ts
-node docs/testing/menu-session-parity.mjs
-node docs/testing/menu-session-refactor-mutants.mjs
+node docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs
+node docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs
 ```
 
 冻结原源码要求本地Git中存在09429b6c；工具只读它，不checkout主树或创建旧产品兼容路径。

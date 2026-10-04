@@ -30,7 +30,7 @@ Codex 核准 **build allowed**：只补当前编辑器公开 UI/回调入口的�
 
 - 只允许各目标旁新增 `*.glm-ui-wave.test.tsx`（确实需要时可用 `.test.ts`），
   通用 fixture 仅放 `packages/editor/src/ui/__tests__/glm-ui-wave-*.ts(x)`；
-  回执/负控工具放 `docs/testing/glm-editor-ui-wave/**`；可在本卡末尾追加 GLM 交付块。
+  回执/负控工具放 `docs/testing/archive/legacy/batches/glm-editor-ui-wave/**`；可在本卡末尾追加 GLM 交付块。
   不修改旧测试、生产源码、脚本、测试选择、coverage baseline、任务索引或看板。
 - `TEST-CODEX-FRAME-EDITOR-1` 三个未跟踪 WIP 文件、Codex 的 `ScriptEditor/ScriptTree`、
   `MapMode/App`、Reforge battle host/main 和 E2E 001 均非本包。与 Cursor content 包零目标重叠。
@@ -70,8 +70,8 @@ Biome 0 error/warning/info、`check:docs` 通过。Node agent 进程清除 `NODE
 ## GLM 交付块（U1–U4 整包，2026-09-27）
 
 - 交付：12 个 `*.glm-ui-wave.test.tsx`（39 项）+ `ui/__tests__/glm-ui-wave-kit.ts` +
-  `docs/testing/glm-editor-ui-wave/{README,receipt.md,ui-wave-mutants.mjs}`（四组共用严判据）。
-  [回执](../../../../testing/glm-editor-ui-wave/receipt.md)含十二行去重/分类账。
+  `docs/testing/archive/legacy/batches/glm-editor-ui-wave/{README,receipt.md,ui-wave-mutants.mjs}`（四组共用严判据）。
+  [回执](../../../../testing/archive/legacy/batches/glm-editor-ui-wave/receipt.md)含十二行去重/分类账。
 - 门禁（最终树实测）：定向 39/39 exit 0（/tmp/ui-wave-directed.json）；相邻同名旧测 125/125；
   editor 全测 **3221/3221 exit 0**（串行；worktree 需复制 gitignored
   `projects/pal/assets/{migrated,runtime}` 生成内容后 PAL 解码测通过，未动 tracked 文件）；
@@ -97,7 +97,7 @@ GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
 
 ## GLM 交付块（G1–G3 返工收口，2026-09-27）
 
-- 已合入 origin/main 至 `3ce5f48f`；G1–G3 按反证逐条整改，[回执](../../../../testing/glm-editor-ui-wave/receipt.md)
+- 已合入 origin/main 至 `3ce5f48f`；G1–G3 按反证逐条整改，[回执](../../../../testing/archive/legacy/batches/glm-editor-ui-wave/receipt.md)
   已更新为返工版（十二行账标注各文件正控基座与守卫自证方式）。
 - G1：U1/U2/U3 正控项目全部改为正式 blank 项目链路（loadLegalUiProject = seed→loader→
   toEditorState→assertProjectSaveValid），资源记录/字节/哈希真实，reader 为正式
@@ -162,6 +162,6 @@ Codex 独立复跑 U4 **6/6**、十二文件 **39/39**、四针业务红、edito
 editor 21,229/28,416→21,445/28,416，全部分母及其它六包不变。
 GLM是测试贡献者，其自验不作为独立第三方证明；最终核验和集成由Codex承担。
 产品/旧测试/官方选择配置未改。完整Q1/Q2、音画录制与布局观感不随本卡关闭。
-详情见[集成回执](../../../../testing/glm-editor-ui-wave/codex-integration.md)。
+详情见[集成回执](../../../../testing/archive/legacy/batches/glm-editor-ui-wave/codex-integration.md)。
 按当前 Codex 独立验收模式核定 `done`，无下一位Agent提示词。
 rigin/main

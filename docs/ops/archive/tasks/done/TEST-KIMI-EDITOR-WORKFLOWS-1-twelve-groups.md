@@ -14,7 +14,7 @@ Kimi 在隔离分支实施新增测试，不先交一轮纯盘点等待批准。
 Codex 可逐批验收；不必等前批审完才开始下一批。固定三签暂休，作者自验不冒充独立证明。
 
 生产冻结 `29e76fe62070fb03bf2459cf95dc2a70ba0f2a0b`；起点可以包含本次派发文档的 main 后继，
-但开工时须核 20 个目标源文件 SHA 与[冻结表](../../../../testing/kimi-editor-workflows/targets.json)一致。
+但开工时须核 20 个目标源文件 SHA 与[冻结表](../../../../testing/archive/legacy/batches/kimi-editor-workflows/targets.json)一致。
 分支 `codex/kimi-editor-workflows-r1`，Codex 已备好隔离工作树
 `/Users/zhangxu/.codex/worktrees/kimi-editor-workflows/type-pal`；不得借用 main 或 Codex 的 E2E 树。
 
@@ -25,7 +25,7 @@ Codex 可逐批验收；不必等前批审完才开始下一批。固定三签�
 - 真值来源：冻结表记录正式 fast LCOV 的 SHA256、源文件 SHA256、逐文件 LH/LF/BRH/BRF 和旧测试入口。
   当前直接调用域包括 `DataMode.tsx:243/273/333/370/463/515/552/689/721`、
   `ConnectedEditorPages.tsx:121`、`SoundTab.tsx:80`、`MusicTab.tsx:83`、
-  `ActorMode.tsx:527`、`App.tsx:2182/2676`。逐组代码锚在[工作包](../../../../testing/kimi-editor-workflows/README.md)。
+  `ActorMode.tsx:527`、`App.tsx:2182/2676`。逐组代码锚在[工作包](../../../../testing/archive/legacy/batches/kimi-editor-workflows/README.md)。
 - 第一阶段/原版机制：N/A，本卡不改引擎机制、资源格式或用户行为，也不把旧引擎结构当二阶段合同。
   当前守卫、真实 EditorAssetReader/EditSession/命令与现有产品 UI 是本卡被测对象。
 - before → after：产品行为完全不变；新增可证伪的业务回归、局部覆盖证据及最小界面取证。
@@ -39,7 +39,7 @@ Codex 可逐批验收；不必等前批审完才开始下一批。固定三签�
 精确新增测试白名单为 `targets.json` 的 20 个 `newTest`；辅助仅限：
 
 - `packages/editor/src/ui/__tests__/kimi-editor-workflows/**`：本卡 typed fixture、浏览器硬件端口替身。
-- `docs/testing/kimi-editor-workflows/**`：工作包回执、判据/反控、局部覆盖配置、诊断和最小浏览器宿主。
+- `docs/testing/archive/legacy/batches/kimi-editor-workflows/**`：工作包回执、判据/反控、局部覆盖配置、诊断和最小浏览器宿主。
   `targets.json` 为 Codex 冻结证据，只读；Kimi 新增 delivery/receipt 文件，不改派发事实。
 
 产品、旧测试、官方测试配置、依赖/锁文件、基线、AGENTS、正式工程/资产、任务卡/看板/公共索引均不在
@@ -52,7 +52,7 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 
 ## 验证与交付
 
-完整要求在[工作包](../../../../testing/kimi-editor-workflows/README.md)，关键门：
+完整要求在[工作包](../../../../testing/archive/legacy/batches/kimi-editor-workflows/README.md)，关键门：
 
 1. 同一真实输入/当前合法 fixture、公开调用域与业务结果；异步进入/释放/迟到结果均有见证。
 2. 每组至少一个代表性业务单点反控；资源替换/异步归属/地图原子提交高风险组优先两个。
@@ -91,17 +91,17 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 ## Codex 独立审核返工项（候选 `186f046b`）
 
 1. **零诊断门未过**：在候选树运行 `pnpm lint`，Biome 对
-   `docs/testing/kimi-editor-workflows/evidence.json` 报 1 条 format error（约第 1178 行数组排版）。
+   `docs/testing/archive/legacy/batches/kimi-editor-workflows/evidence.json` 报 1 条 format error（约第 1178 行数组排版）。
    在白名单内格式化并复跑 `pnpm lint`，须 error/warning/info 全零。
 2. **反控命令与严判据不符**：按回执/工作包从仓库根运行
-   `node docs/testing/kimi-editor-workflows/counter-control/run.mjs injections.mjs --only k01-alive-guard`
+   `node docs/testing/archive/legacy/batches/kimi-editor-workflows/counter-control/run.mjs injections.mjs --only k01-alive-guard`
    立即 `ERR_MODULE_NOT_FOUND`，因为 `run.mjs:15` 从 `process.cwd()` 解析模块；给完整相对路径才通过。
    修为文档命令可复跑。`run.mjs:95–128` 目前只比较 fullName/执行数与消息前缀，未绑定失败记录的
    绝对测试文件，也未拒绝 pending/skip、无 failureMessages、AssertionError 前缀下的 timeout/混错；
    缺少调用同一个正式判据的自测。不能以现有 runner 的 `valid-red` 直接宣布卡面 46/47 针全 valid。
    补严判据和自测后按 A/B/C 三份模块全量复跑；记录实际有效数（当前证据为 47，不是交接消息的 46）。
 3. **视觉警告归因错误**：回执把 B2 的 React `Invalid DOM property 'class'` 记作“产品侧”；
-   一手来源是本卡宿主 `docs/testing/kimi-editor-workflows/browser-host/main.tsx:321` 的
+   一手来源是本卡宿主 `docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/main.tsx:321` 的
    `<div id="kimi-workbench" class="body">`。改为合法 JSX 后复核该告警消失，修正回执来源与截图元数据。
 4. **合法路径类型掩盖**：本卡要求合法 fixture 无强转，根协议禁止新增 ignore/强转掩盖问题。
    `EnemyTeamTab.kimi-workflows.test.tsx:579/625` 两处把事件树双重强转为 `EnemyDef['onDefeated']`；
@@ -119,7 +119,7 @@ ScriptEditor 连续播放、FrameAnimationEditor 已收口合同、角色换装�
 返工 TEST-KIMI-EDITOR-WORKFLOWS-1，以隔离分支当前实际候选 `186f046b` 为起点。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡
 docs/ops/tasks/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md，以及
-docs/testing/kimi-editor-workflows/README.md、receipt.md、evidence.json、targets.json，重点看卡内
+docs/testing/archive/legacy/batches/kimi-editor-workflows/README.md、receipt.md、evidence.json、targets.json，重点看卡内
 “Codex 独立审核返工项”。你仍是测试 Coding Owner，写入仅限本卡白名单。
 在 /Users/zhangxu/.codex/worktrees/kimi-editor-workflows/type-pal、
 codex/kimi-editor-workflows-r1 分支修四项返工：evidence.json 零格式诊断；反控模块解析、

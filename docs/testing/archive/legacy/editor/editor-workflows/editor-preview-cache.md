@@ -47,18 +47,18 @@ fixture在`packages/editor/src/ui/__tests__/preview-cache-fixture.ts`，catalog�
 
 ```sh
 pnpm --filter @type-pal/editor exec vitest run src/ui/preview-cache-boundaries.test.tsx src/ui/EnemyBattleSpriteThumbnail.test.tsx src/ui/SkillTab.test.tsx --no-file-parallelism
-node docs/testing/editor-preview-cache-mutants.mjs
+node docs/testing/domains/editor/editor-workflows/tools/editor-preview-cache-mutants.mjs
 pnpm --filter @type-pal/editor run typecheck
 ```
 
-[负控工具](../../../../editor-preview-cache-mutants.mjs)：1正控+7单点负控全通过期望；每针只在Vite隔离加载中改一个连续片段，
+[负控工具](../../../../domains/editor/editor-workflows/tools/editor-preview-cache-mutants.mjs)：1正控+7单点负控全通过期望；每针只在Vite隔离加载中改一个连续片段，
 原生产文件hash前后不变。三针独立破坏FIRE上下文/缩略base/缩略reader身份，两针保留失败null，两针忽略元数据修订。
 每针必须有函数运行态见证、15项实际执行、指定新测试AssertionError且无环境错误，拒绝混合失败；不只依赖模块加载标记或exit1。
 日志：`/tmp/type-pal-preview-cache.L3KoVm/`；负控明细：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/editor-preview-cache-mutants-uhN9Pn/`。
 
 ## 最小浏览器验证（Codex，2026-09-19）
 
-[可重建隔离入口](../../../../editor-preview-cache-visual.mjs)：运行`node docs/testing/editor-preview-cache-visual.mjs`，
+[可重建隔离入口](../../unresolved-tools/editor-preview-cache-visual.mjs)：运行`node docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs`，
 复用editor开发服务打开`http://localhost:6010/build/preview-cache-verify.html`。
 只生成gitignored build入口、内存fixture，不读写用户工程；测试按钮不是新增产品UI。
 

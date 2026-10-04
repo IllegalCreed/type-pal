@@ -73,8 +73,8 @@ packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test
 packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts
 packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts
 packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts
-docs/testing/glm-pal-tables-mutants.mjs
-docs/testing/glm-pal-tables.config.mts
+docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs
+docs/testing/domains/ops/testing-records/tools/pal-tables-config.mts
 docs/testing/archive/legacy/ops/testing-records/glm-pal-tables-evidence.json
 ```
 
@@ -99,7 +99,7 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
 
 - 全包 37 文件/177 项：4 项真实资产 ENOENT（fresh worktree 缺 `data/raw/*.MKF`，未跟踪）——
   stash 掉本批后基线同样失败（151→170 恰为 +19），与本批无关。
-- 负控 `node docs/testing/glm-pal-tables-mutants.mjs` rc=0：判据自测 + 3 对照 + **8 变异针**
+- 负控 `node docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs` rc=0：判据自测 + 3 对照 + **8 变异针**
   全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；产品 hash 不变。
   针点：SSS signed→unsigned、WORD 物品段界偏一、items 脚本偏移别名、items 装备位基号、
   teams 原身份覆盖、misc level/magic 错位、enemy-pos 转置、MSG 端点坍缩。

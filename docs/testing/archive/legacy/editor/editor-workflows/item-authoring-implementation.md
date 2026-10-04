@@ -23,13 +23,13 @@
 - 正式seed/loader→两会话→私有正文→serialize→真实授权/writer/journal→loader，正文与committed落盘均核。宿主替身仅内存目录及origin登记/凭据存储，**不声称真实浏览器FSA/IDB验收**。
 - 三种共享ID（普通/同owner前缀/他owner前缀）诊断、序列化重开与精确悬空ID；复制未保存字段/混合效果/正文；删除undo/redo/同ID重建；双侧失败保留历史/redo；真正缺正文拒绝。
 - ItemTab真实React点击新建→use→私有脚本→复制→独立编辑→undo/redo；缺协调器三写入口零写入。
-- [五组负控制](../../../../item-authoring-mutants.mjs)：2026-09-20，5正常对照exit0+5单点变异exit1，全部精确钉名候选AssertionError。每处替换点唯一、仅Vite load隔离变异、产品hash不变。输出`/tmp/type-pal-item-mutants6.log`，细账目录`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/item-authoring-mutants-vtohPZ/`。
+- [五组负控制](../../../../domains/editor/editor-workflows/tools/item-authoring-mutants.mjs)：2026-09-20，5正常对照exit0+5单点变异exit1，全部精确钉名候选AssertionError。每处替换点唯一、仅Vite load隔离变异、产品hash不变。输出`/tmp/type-pal-item-mutants6.log`，细账目录`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/item-authoring-mutants-vtohPZ/`。
 
 负控工具开发期未放行的失败：首版标题正则漏describe前缀导致零执行；随后创建用例先解引用产生TypeError，已补业务前置断言；Vitest异步resolves失败在JSON中写成Error，改为结局包后直接业务断言，不放宽判据；诊断测试最初读仅入口问题的projectIssues，已纠正为真正statusIssues并补缺ID反例。这些失败不冒充业务负控通过。
 
 ## 功能界面证据（Codex）
 
-[独立只读HTTP宿主](../../../../item-authoring-functional.mjs)在6013提供真实buildBlankProject生成的内存工程，使用正式Root/loader/session/表单，不改浏览器全局或真实工程。
+[独立只读HTTP宿主](../../../../domains/editor/editor-workflows/tools/item-authoring-functional.mjs)在6013提供真实buildBlankProject生成的内存工程，使用正式Root/loader/session/表单，不改浏览器全局或真实工程。
 2026-09-20浏览器工具实际点击：物品空态→新建item-001→启用use→添加当前物品脚本→添加等待200ms→复制item-001-copy→副本改350ms→切回源仍200ms；状态条无引用诊断，正文可见。截图已由工具回传，不虚构落盘截图路径。
 6012最初在内置浏览器到目录选择器后不可操作Codex原生选择框，未绕过该限制。随后改用受支持的Chrome+原生Chrome窗口：创建专用空目录`/tmp/type-pal-item-ui-AagRSx`，选择并仅授权此目录，真实新建空白工程→新建item-001→启用use→添加私有等待200ms→复制item-001-copy→副本改375ms→点击保存。
 原生文件`content/items.json`实读两份独立正文200/375ms，`.type-pal/save-state.json`为committed；浏览器显示已保存。**实际reload→最近项目重开**，副本375ms、源200ms均在正文显示，引用诊断无问题、保存按钮禁用。原生保存/重开最小功能验证已补齐，不是6013替身结果；未触用户PAL工程/普通存档，不将本例算full/Q1/Q2。

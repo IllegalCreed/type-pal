@@ -78,7 +78,7 @@
     "build": { "exit": 0, "modules": 589, "existingLargeChunkWarning": true }
   },
   "negativeControls": {
-    "tool": "docs/testing/command-form-families-mutants.mjs",
+    "tool": "docs/testing/domains/editor/editor-workflows/tools/command-form-families-mutants.mjs",
     "controls": 20,
     "detected": 12,
     "judge": { "positive": 1, "rejected": 9 },

@@ -5,7 +5,7 @@
 2026-09-26，Codex独立复核候选`6b371144e5a96a2996c73932d04f664ebbb8a8b7`。
 **counter，仅R2的一处匿名对象输入保真仍未闭合；不合候选，不跑全仓覆盖。**
 [任务卡](../../../../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
-[上一轮](../../quality/quality-gates/guard-wave3-r2-review.md) / [独立见证](../../../../guard-wave3-r3-review-witnesses.mjs) /
+[上一轮](../../quality/quality-gates/guard-wave3-r2-review.md) / [独立见证](../../../../domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs) /
 [本席机账](guard-wave3-r3-review-evidence.json)。本文替代上一轮的活动阻断清单，历史证据保留。
 
 ## 已通过，不再返工
@@ -36,7 +36,7 @@
 使用上一轮runner同一判据，在Vite隔离加载层复算，不改仓内实现或候选：
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/guard-wave3-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2
+env -u NODE_COMPILE_CACHE node docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2
 ```
 
 该脚本钉本候选的“漏检”事实；下轮Codex只需将该针期望从绿改为候选业务红、去掉额外oracle后重验。

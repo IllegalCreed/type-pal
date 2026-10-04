@@ -9,7 +9,7 @@ Codex **counter：八针已闭，但上一轮固定清单/旧断言/回执/零�
 ## 已关闭，禁止重做
 
 - derived:148-152现具名learned并比较同一learned/c/items；ownership:110-112现于空键调用前拍world、调用后比。
-- 本席新鲜运行[八针接收检查](../../../../item-logic-required-witnesses.mjs)：**exit0，candidateMutationGate=true，missed=[]**。
+- 本席新鲜运行[八针接收检查](../../../../domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs)：**exit0，candidateMutationGate=true，missed=[]**。
   所有原实现正控绿、8个candidate-mutant都exit1且为候选AssertionError；原独立oracle、源码/hash保护照常。
 - R1合法构造器、R2全部数值/完整world/RNG、毒表真实实参继续保持接受，不重开。
 - 本席content98文件1178/1178（新增46）、executor17/17、content TC0诊断；作者46对照+六针+10自测全过。

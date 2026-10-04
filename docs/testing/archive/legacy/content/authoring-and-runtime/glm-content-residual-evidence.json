@@ -34,8 +34,8 @@
     }
   },
   "mutants": {
-    "script": "docs/testing/glm-content-residual-mutants.mjs",
-    "command": "node docs/testing/glm-content-residual-mutants.mjs",
+    "script": "docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs",
+    "command": "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -173,7 +173,7 @@
     "productHashInvariant": "touched product files unchanged before/after batch"
   },
   "coverage": {
-    "config": "docs/testing/glm-content-residual.config.mts (official testSelection; fast)",
+    "config": "docs/testing/domains/content/authoring-and-runtime/tools/content-residual-config.mts (official testSelection; fast)",
     "commandTemplate": "CR1_MODE=<before|after> CR1_OUT=<tmpdir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config <abs config>",
     "beforeDir": "/tmp/cr1-cov-before2",
     "afterDir": "/tmp/cr1-cov-after2",

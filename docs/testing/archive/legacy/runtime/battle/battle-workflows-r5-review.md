@@ -15,7 +15,7 @@
 - `:194/:196/:198/:201` 分别钉一轮回 menu、合击恰一次、无 **p2** 普攻、敌真实行动，排除原一击致胜掩蔽。
 - `:122-162` 原用例明确改名为成本正控，仍断言 victory 与 `[91,91]`，不再宣称证明队友消费。
 
-复用冻结 [r4 见证](../../../../battle-workflows-r4-witnesses.mjs)，只在内存选择前4个消费门案例，不改历史工具：
+复用冻结 [r4 见证](../../unresolved-tools/battle-workflows-r4-witnesses.mjs)，只在内存选择前4个消费门案例，不改历史工具：
 
 | 实现 | 候选6文件 | 独立活敌 oracle |
 |---|---|---|
@@ -49,7 +49,7 @@
 node --input-type=module - /Users/zhangxu/illegal/type-pal-battle-review <<'JS'
 import fs from 'node:fs'
 import assert from 'node:assert/strict'
-let source = fs.readFileSync('docs/testing/battle-workflows-r4-witnesses.mjs', 'utf8')
+let source = fs.readFileSync('docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs', 'utf8')
 for (const [from, to] of [
   ['for (const item of cases) {', 'for (const item of cases.slice(0, 4)) {'],
   ['attackStrength:1,dexterity:1', 'attackStrength:1'],

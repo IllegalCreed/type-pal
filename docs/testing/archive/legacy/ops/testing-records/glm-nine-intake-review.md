@@ -140,7 +140,7 @@ GLM多数Biome回执未包括全部新增JSON/诊断文件；TB-07～10另有测
 
 ## 独立见证与合法性核验
 
-[可重建工具](../../../../glm-nine-intake-witnesses.mjs)不改候选；通过Vite加载钩子唯一源点替换，原实现与坏实现都跑候选+独立oracle，前后产品/候选测试hash相同。
+[可重建工具](../../../../domains/editor/testing-records/tools/nine-intake-witnesses.mjs)不改候选；通过Vite加载钩子唯一源点替换，原实现与坏实现都跑候选+独立oracle，前后产品/候选测试hash相同。
 七对照全绿；七个坏实现的独立oracle都是业务AssertionError，候选自身都仍绿：
 TB-02吞坏JSON、TB-03量化原地污染、TB-04 SSS原buffer污染、TB-06权限污染、TB-08 done状态污染、
 TB-09忽略init.method、TB-10baseline JSON污染。这些是**故意注入的反证，不是声称产品当前存在这些bug**。
@@ -150,9 +150,9 @@ TB-02 soundItem被validateItems拒；TB-07 body/canonical/gourd三个各被正�
 未来fixture组织变化时由Codex适配捕获边界，不要求为了工具保留错误数据结构。
 
 ```bash
-node docs/testing/glm-nine-intake-witnesses.mjs
+node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs
 # 仅复算实际判据与fixture：
-node docs/testing/glm-nine-intake-witnesses.mjs --census-only
+node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs --census-only
 ```
 
 工具退出0只表示诊断成功，须读MISSED/fixture/criterion结果，不把退出0当候选通过。
@@ -216,7 +216,7 @@ editor/game/pal环境探针与migrate环境对照也在此目录。
 | TB-09 | c9edd015 + 1620ab24 | method 优先级同条件失败对照（calls 精确）；GA 意外网络 fail-fast；取值结算保纯 AssertionError |
 | TB-10 | 76bafede | baseline 深快照；撤 chunks 发现；两操作 journal 精确错误+全文件保真；同 root 菱形 |
 
-本席见证复跑（`node docs/testing/glm-nine-intake-witnesses.mjs`，最终树）：
+本席见证复跑（`node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs`，最终树）：
 **9/9 判据拒绝普通 Error 内嵌 AssertionError、5/5 合法 factory accepted、
 7 对照全绿、7 针候选全部 detected（业务 AssertionError 首行）**。
 各批原负控（27 对照 + 75 针）复跑 rc=0；定向以最终树重算
@@ -241,7 +241,7 @@ editor/game/pal环境探针与migrate环境对照也在此目录。
   TB-10 codex/glm-migration-r1             76bafede
 
 返工要点与逐批证据见各工作包「GLM返工回执」节与机账 rework 节。复核建议：
-1. 复跑 node docs/testing/glm-nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、
+1. 复跑 node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs——期望 9/9 判据拒绝普通Error、
    5/5 factory accepted、7 对照绿、7 针候选业务 AssertionError detected；
 2. 逐批复跑各自 mutants 脚本与定向测试、抽查 evidence.json rework 数字与最终树一致；
 3. 重点核对本轮关键修复：TB-03/04/06/10 的"同一实参前后比较"、TB-05/07/08/10 撤回的

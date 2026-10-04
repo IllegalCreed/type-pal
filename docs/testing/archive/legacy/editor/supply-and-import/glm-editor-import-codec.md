@@ -80,7 +80,7 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，用户拍板在 
 audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行绿）——与本批无关；
 官方 fast 口径 before 2359 / after 2398 双 exit0；tc rc=0；10 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-import-codec-mutants.mjs` rc=0：判据自测（good/毒日志/逐目标四向）
+- 负控 `node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs` rc=0：判据自测（good/毒日志/逐目标四向）
   + 3 对照 + **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
   产品 hash 不变。针点：PNG 签名门、battle-background 尺寸门、player 10 帧门、unique id 递增、
   块缓存逐出（DecompressionStream 计数见证：无缓存=5/容量1=5/容量2=4）、sourceFrame 越界门、
@@ -156,11 +156,11 @@ audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行�
 - **离线 oracle**：AST 提取候选三 helper（与 Codex 见证同型）+ 真实 `prepareAuthoredImage`
   跑成功链；独立 sha256 直读实际 toBlob 产物=产品 crypto.subtle 摘要；另解 chunk+inflate
   IDAT 与交付像素扫描线逐字节比对（合法性独立核验，全绿）。
-- **Codex 见证复跑**：`node docs/testing/import-codec-png-host-review.mjs <worktree>` rc=0
+- **Codex 见证复跑**：`node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <worktree>` rc=0
   ——control 7/7（oracle 2 + 候选 5）；删除 canvas 尺寸设置被候选业务断言检出（5 项恰 1 项
   失败、首行 AssertionError `pngDims [0,0]≠[320,200]`），Codex 自带 oracle 同步
   AssertionError；产品/fixture/测试三文件 hash 前后不变。
-- **复跑（最终树）**：定向 39/39；`node docs/testing/glm-import-codec-mutants.mjs` rc=0
+- **复跑（最终树）**：定向 39/39；`node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs` rc=0
   （判据四向自测 + 3 对照 + 8 针全绿；battle-background 针 redTest 随测试更名同步，判据
   「全等+恰1+首行业务错误」不变）；tc rc=0；11 文件完整白名单 Biome rc=0。
 - 编码失败 close 问题仍归 Codex 修复卡，未写默认红、未固化。机器账 `rework3` 节。
@@ -191,9 +191,9 @@ audit-performance-adoption×1：全包并行负载下 15s 超时，隔离运行�
   副作用，但交付主图字节），钉名 battle-background 测试，判据（全等+恰1+首行业务错误）不变。
 - **像素勘误落账**：r4 回执最近色更正为 index 182、indexed`(182,182,182,255)`、
   preview`(34,5,73,255)`（上节已带勘误标注；不修改生产算法/调色板）。
-- **复跑（最终树）**：`node docs/testing/import-codec-preview-review.mjs <worktree>` rc=0
+- **复跑（最终树）**：`node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs <worktree>` rc=0
   （control 6/6 含候选 5；坏实现被候选自身 AssertionError 检出，oracle previewMatches=false
   同步红）；旧尺寸见证 `import-codec-png-host-review.mjs` rc=0（control 7/7、删 canvas 尺寸
-  detected）；`node docs/testing/glm-import-codec-mutants.mjs` rc=0（判据四向自测 + 3 对照 +
+  detected）；`node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs` rc=0（判据四向自测 + 3 对照 +
   **9 针**全绿，全程 11 秒）；定向 39/39；tc rc=0；11 文件完整白名单 Biome rc=0。
 - 编码失败 close 问题仍归 Codex 修复卡。机器账 `rework4` 节。

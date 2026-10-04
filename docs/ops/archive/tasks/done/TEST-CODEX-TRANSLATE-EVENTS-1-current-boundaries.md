@@ -25,7 +25,7 @@ foldStages / build 消费链；`translate-events.ts` 的现行公开入口。输
 
 - 六份新测试 `packages/migrate/src/translate-events.{motion,state,branches,bindings,registry,folds}.test.ts`。
 - 专属 typed fixture `packages/migrate/src/__tests__/translation-fixtures.ts`，复用已有只读输入见证。
-- [专属报告](../../../../testing/codex-translate-events/README.md)及同目录代表反控工具。
+- [专属报告](../../../../testing/archive/legacy/batches/codex-translate-events/README.md)及同目录代表反控工具。
 - 文档、统一门通过后官方生成 baseline；产品/旧测试/官方配置/资产零改。
 
 | 组 | 合同 | 去重边界 |

@@ -17,14 +17,14 @@
       "bodyLines": 166,
       "sourceRefs": [],
       "publicCommands": [
-        "node --import tsx docs/testing/glm-nine-rework-witnesses.mjs",
-        "node --import tsx docs/testing/glm-nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。",
-        "node --import tsx docs/testing/glm-nine-rework-witnesses.mjs——期望 9/9 判据双反例"
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs",
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。",
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs——期望 9/9 判据双反例"
       ],
       "publicCallers": [
-        "node --import tsx docs/testing/glm-nine-rework-witnesses.mjs",
-        "node --import tsx docs/testing/glm-nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。",
-        "node --import tsx docs/testing/glm-nine-rework-witnesses.mjs——期望 9/9 判据双反例"
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs",
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。",
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs——期望 9/9 判据双反例"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -315,12 +315,12 @@
       ],
       "publicCommands": [
         "git diff e58834f6..HEAD -- packages/",
-        "node docs/testing/glm-pal-tables-mutants.mjs",
+        "node docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "publicCallers": [
         "git diff e58834f6..HEAD -- packages/",
-        "node docs/testing/glm-pal-tables-mutants.mjs",
+        "node docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "legalInputs": [
@@ -2399,12 +2399,12 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-reforge-asset-io-mutants.mjs",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
         "git 新增清单对全部 10 个新文件（含 JSON/config）跑 Biome rc=0 无错误无警告；",
         "git 新增清单 10 文件完整白名单 Biome rc=0（含 JSON）。"
       ],
       "publicCallers": [
-        "node docs/testing/glm-reforge-asset-io-mutants.mjs",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
         "git 新增清单对全部 10 个新文件（含 JSON/config）跑 Biome rc=0 无错误无警告；",
         "git 新增清单 10 文件完整白名单 Biome rc=0（含 JSON）。"
       ],
@@ -2547,10 +2547,10 @@
         }
       ],
       "publicCommands": [
-        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts\","
+        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts\","
       ],
       "publicCallers": [
-        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts\","
+        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts\","
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -2638,20 +2638,20 @@
       ],
       "publicCommands": [
         "pnpm check:docs",
-        "node docs/testing/glm-reforge-runtime-contracts-mutants.mjs",
-        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts",
-        "node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
-        "node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs",
+        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
         "pnpm --filter @type-pal/reforge exec vitest run",
         "pnpm --filter @type-pal/reforge exec tsc --noEmit",
         "pnpm exec biome check <14 个新文件>"
       ],
       "publicCallers": [
         "pnpm check:docs",
-        "node docs/testing/glm-reforge-runtime-contracts-mutants.mjs",
-        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts",
-        "node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
-        "node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs",
+        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
         "pnpm --filter @type-pal/reforge exec vitest run",
         "pnpm --filter @type-pal/reforge exec tsc --noEmit",
         "pnpm exec biome check <14 个新文件>"
@@ -2937,11 +2937,11 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-resource-tools-mutants.mjs",
+        "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "publicCallers": [
-        "node docs/testing/glm-resource-tools-mutants.mjs",
+        "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
         "git 新增清单完整白名单 Biome rc=0（含 JSON）。"
       ],
       "legalInputs": [
@@ -3243,14 +3243,14 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/glm-runtime-state-mutants.mjs",
-        "node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state",
-        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts"
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state",
+        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts"
       ],
       "publicCallers": [
-        "node docs/testing/glm-runtime-state-mutants.mjs",
-        "node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state",
-        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts"
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state",
+        "pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -3414,10 +3414,10 @@
       "bodyLines": 344,
       "sourceRefs": [],
       "publicCommands": [
-        "pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts\","
+        "pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts\","
       ],
       "publicCallers": [
-        "pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts\","
+        "pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts\","
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -4087,10 +4087,10 @@
         }
       ],
       "publicCommands": [
-        "pnpm exec biome check docs/testing/glm-content-guards-wave2/evidence.json"
+        "pnpm exec biome check docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json"
       ],
       "publicCallers": [
-        "pnpm exec biome check docs/testing/glm-content-guards-wave2/evidence.json"
+        "pnpm exec biome check docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -4315,15 +4315,15 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/guard-leaf-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2",
-        "node docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2",
+        "node docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs",
         "pnpm --filter @type-pal/content check",
         "node scripts/docs/check.mjs",
         "git diff --check"
       ],
       "publicCallers": [
-        "node docs/testing/guard-leaf-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2",
-        "node docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2",
+        "node docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs",
         "pnpm --filter @type-pal/content check",
         "node scripts/docs/check.mjs",
         "git diff --check"
@@ -4540,11 +4540,11 @@
       "bodyLines": 55,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/guard-wave3-final-review-witness.mjs /Users/zhangxu/illegal/type-pal",
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs /Users/zhangxu/illegal/type-pal",
         "pnpm check"
       ],
       "publicCallers": [
-        "node docs/testing/guard-wave3-final-review-witness.mjs /Users/zhangxu/illegal/type-pal",
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs /Users/zhangxu/illegal/type-pal",
         "pnpm check"
       ],
       "legalInputs": [
@@ -4614,10 +4614,10 @@
       "bodyLines": 72,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/parallel-guard-command-r2-review-witnesses.mjs glm /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
+        "node docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs glm /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
       ],
       "publicCallers": [
-        "node docs/testing/parallel-guard-command-r2-review-witnesses.mjs glm /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
+        "node docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs glm /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -4899,10 +4899,10 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/guard-wave3-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
       ],
       "publicCallers": [
-        "node docs/testing/guard-wave3-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -4980,10 +4980,10 @@
       "bodyLines": 87,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/guard-wave3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
       ],
       "publicCallers": [
-        "node docs/testing/guard-wave3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -5605,12 +5605,12 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
-        "node docs/testing/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec"
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec"
       ],
       "publicCallers": [
-        "node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
-        "node docs/testing/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec"
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -6080,10 +6080,10 @@
       "bodyLines": 90,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/item-logic-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
+        "node docs/testing/domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
       ],
       "publicCallers": [
-        "node docs/testing/item-logic-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
+        "node docs/testing/domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -6879,10 +6879,10 @@
       "bodyLines": 88,
       "sourceRefs": [],
       "publicCommands": [
-        "node /Users/zhangxu/illegal/type-pal/docs/testing/item-logic-required-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
+        "node /Users/zhangxu/illegal/type-pal/docs/testing/domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
       ],
       "publicCallers": [
-        "node /Users/zhangxu/illegal/type-pal/docs/testing/item-logic-required-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
+        "node /Users/zhangxu/illegal/type-pal/docs/testing/domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",

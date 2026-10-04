@@ -8,7 +8,7 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 
-export const root = new URL('../../../../', import.meta.url)
+export const root = new URL('../../../..', import.meta.url)
 export const readSource = (path) => {
   const source = readFileSync(new URL(path, root), 'utf8')
   if (process.env.B2_WITNESS === 'drop-live-map' && path === 'packages/reforge/src/main.ts') {

@@ -47,7 +47,7 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
 
 - 新测试仅content/src下`enemy-validation-shapes.leaf.test.ts`、`enemy-ai-condition-guard.leaf.test.ts`、
   `battle-choreography.leaf.test.ts`。可新增`packages/content/src/__tests__/guard-leaf-fixtures.ts`，不需资源文件。
-- 证据仅`docs/testing/glm-content-guards-wave2/**`及本卡作者交付块。产品、旧测试、scripts、基线、配置零diff。
+- 证据仅`docs/testing/archive/legacy/batches/glm-content-guards-wave2/**`及本卡作者交付块。产品、旧测试、scripts、基线、配置零diff。
 - 使用真实入口；每个拒绝只改一个字段并先跑合法正控，完整精确Error路径或身份；实际传入对象前后深快照。
 - 交六行去重/新增表（精确title/file），同包全测、TC、改动Biome/docs/diff；可复用原判据制作4–6针代表反控，
   不为每个字段再造一套工具。判据必须钉恰exit1/目标fullName+file/唯一注入命中/AssertionError；混错与timeout不算红。
@@ -151,7 +151,7 @@ R4：修提交的evidence.json格式；最终树回执/计数/输入纪律如实
 
 2026-09-26统一收口：`d1e99a0d`集成，check8896/官方ratchet/保护7d64de13单次strict-fast8404全过，
 Codex核定**done**。三守卫行113/113、分支114/114；两批并集及贡献披露见
-[机账](../../../../testing/codex-content-resources/evidence.json)。所有历史counter仅作可追溯记录，当前无未闭阻断。
+[机账](../../../../testing/archive/legacy/batches/codex-content-resources/evidence.json)。所有历史counter仅作可追溯记录，当前无未闭阻断。
 
 ## 下一位 GLM 提示词
 

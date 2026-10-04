@@ -33,7 +33,7 @@ coverage 门；待原接收对话同步当前 main 后统一集成。结构化�
   merge/plan 幂等、transaction 恢复及 write guard；链接由 trap 全部解除，没有执行迁移 CLI 或发布写盘。
 - `origin/main` 后续前进到 `2838df42`，仅新增测试/文档与 coverage 基线、未改候选生产文件。候选临时展开其中
   6 组 `translate-events` 测试并通过 59 项，随后逐文件清理；不把远端测试提交复制进候选。
-- [十一针反控](../../../../migration-phase-owners-mutants.mjs)固定速度、角色槽、global trail、对象身份、0x6C 顺序、
+- [十一针反控](../../../../domains/migration/supply-and-import/tools/migration-phase-owners-mutants.mjs)固定速度、角色槽、global trail、对象身份、0x6C 顺序、
   chase 段终、事件源优先级、gap=4、load 后释放、indexed 隔离和 all label 地址门。control 10/10、十一针
   全检出；精确 absolute file/fullName、唯一 loader marker、恰一个 `AssertionError`、exit 1、无环境/timeout 异常，
   四个产品文件前后 hash 不变。临时摘要：

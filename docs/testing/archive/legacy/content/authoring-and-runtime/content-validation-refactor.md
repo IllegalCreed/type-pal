@@ -16,7 +16,7 @@
 - battle-choreography：演出动作类型/校验，只依赖上述下层及script基础规则。
 - enemy-script保留hook/onDefeated/rules政策，author-script-core直接依赖新的演出守卫，反向边消失。
 
-运行 `node docs/testing/content-validation-refactor-audit.mjs` 可复算：按TypeScript擦除类型后的content生产静态图，原author-script-core↔enemy-script二节点环→无环；旧入口导出集合52/19精确保持。以已修缺陷、未拆结构的`ebef3d5a`为基点，50个函数体逐token全等，11个迁入下层，结构提交没有夹带第二处行为修正。动态调用关系不由静态无环证明。
+运行 `node docs/testing/domains/content/authoring-and-runtime/tools/content-validation-refactor-audit.mjs` 可复算：按TypeScript擦除类型后的content生产静态图，原author-script-core↔enemy-script二节点环→无环；旧入口导出集合52/19精确保持。以已修缺陷、未拆结构的`ebef3d5a`为基点，50个函数体逐token全等，11个迁入下层，结构提交没有夹带第二处行为修正。动态调用关系不由静态无环证明。
 
 ## 接入边界
 

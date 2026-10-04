@@ -38,7 +38,7 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 2026-09-27用户授权Cursor继续补测、Codex转E2E讨论，Codex核本包build allowed。
 当前消费者MapMode.tsx:644/651实际调用planMapPaste/planStampGroupMove；组合草稿与放置均为现行core入口。
 六目标冻结分支命中共701/827，126未命中；只是选题池，不是必须新增126臂。
-[共同规则/冻结账](../../../../testing/background-tests-20260927/README.md)。
+[共同规则/冻结账](../../../../testing/archive/legacy/batches/background-tests-20260927/README.md)。
 第一阶段/原版N/A：本包仅当前编辑器模型；不改变地图坐标、碰撞或走位语义。
 最强替代解释为既有boundaries已经证明；必须先去重，不把不可能输入当真实用户路径。
 
@@ -64,7 +64,7 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 
 - `packages/editor/src/core/{stamp-draft,map-selection,map-transform,stamp-group-transform,stamp-placement,stamp-ownership}.background.test.ts`。
 - `packages/editor/src/core/__tests__/cursor-map-logic-fixtures.ts`（可选）。
-- `docs/testing/cursor-map-logic-r2/**`及本卡Cursor交付追加块。
+- `docs/testing/archive/legacy/batches/cursor-map-logic-r2/**`及本卡Cursor交付追加块。
 - 产品/旧测试/共享fixture/配置/排除/超时/资产/基线/索引全部不改；不改运行时、E2E与其他贡献者测试。
 
 构造走buildBlankProjectMap/实际绘制和组合公开函数，适用validateProjectMap/validateStampTemplates必须先过。
@@ -89,12 +89,12 @@ CM2完整多组搬移/非空哨兵/去重、CM3缩进混错判据、CM4真实typ
 - 6 份 background + 可选 fixture；产品六模块相对冻结空 diff
 - 背景 JSON 6 files / 30 tests；定向+相邻 17/105；editor 359/3049
 - 6 针 ok+hit、`redExit=1`、`hashUnchanged`
-- 回执 [receipt.md](../../../../testing/cursor-map-logic-r2/receipt.md)
+- 回执 [receipt.md](../../../../testing/archive/legacy/batches/cursor-map-logic-r2/receipt.md)
 
 ```bash
 cd /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-logic-r2/module-mutants.mjs --self-test
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-map-logic-r2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-map-logic-r2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-map-logic-r2/module-mutants.mjs
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run --passWithNoTests --maxWorkers=2
 ```

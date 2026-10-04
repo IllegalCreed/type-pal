@@ -70,7 +70,7 @@ GLM原始回执见候选`d531aa24:docs/testing/glm-editor-logic-coverage-receipt
 
 ## 负控总账（可重建）
 
-入口：`node docs/testing/glm-editor-logic-coverage-mutants.mjs` → **1 对照 exit0 + 10 针全部 exit1**
+入口：`node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs` → **1 对照 exit0 + 10 针全部 exit1**
 （判定收紧为 `AssertionError` 且排除 TypeError；MUTATION_HIT 见证+产品 hash 前后一致）。
 每组≥2：A4（world 守卫/actor 守卫/paint invert/资产 no-op）、B2（expression 守卫/wrong-target-asset）、
 C2（proof 移除/downgrade 放行）、D2（warn 误分类/scope 移除）。
@@ -78,9 +78,9 @@ Codex 三见证（rename/paint 输入污染+错误 asset）在返工树均 detec
 
 ## 覆盖对照（官方 fast 选择，输出 /tmp/ed1-cov2/）
 
-- 配置：[入仓诊断配置](../../../../glm-editor-logic-coverage.config.mts) 直接消费 `testSelection(editor,'fast')`
+- 配置：[入仓诊断配置](../../../../domains/quality/quality-gates/tools/editor-logic-coverage-config.mts) 直接消费 `testSelection(editor,'fast')`
   （R4 重建）；`vitest list` 与官方 fast 选择核对一致（pal 0 项/mjs 边界 1 项）；before/after 只差本批 8 文件。
-- before：`GLM_ED_EXCLUDE_BOUNDARIES=1 pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/glm-editor-logic-coverage.config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/commands.ts' --coverage.include='**/src/core/actor-dialogue-commands.ts' --coverage.include='**/src/core/stamp-commands.ts' --coverage.include='**/src/core/project-reference.ts' --coverage.include='**/src/core/project-reference-adapters.ts'`（2255 项 exit0）
+- before：`GLM_ED_EXCLUDE_BOUNDARIES=1 pnpm --filter @type-pal/editor exec vitest run --config ../../docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-config.mts --coverage.enabled --coverage.reporter=json-summary --coverage.reportsDirectory=<tmp>/before --coverage.include='**/src/core/commands.ts' --coverage.include='**/src/core/actor-dialogue-commands.ts' --coverage.include='**/src/core/stamp-commands.ts' --coverage.include='**/src/core/project-reference.ts' --coverage.include='**/src/core/project-reference-adapters.ts'`（2255 项 exit0）
 - after：同命令去环境变量（**最终树实测 2302 项** exit0；上轮 2301 为提交前树计数，按最终树更正）。
 - 结果（五目标文件，最终树 /tmp/ed1-cov3/ 重测）：**行 2572/2739 → 2594/2739（+22），分支 1730/2316 → 1776/2316（+46），
   语句 2871/3256 → 2919/3256（+48），函数 705/729 → 712/729（+7）**。旧正则口径 2256/2300 保留为历史实测，不再援引。

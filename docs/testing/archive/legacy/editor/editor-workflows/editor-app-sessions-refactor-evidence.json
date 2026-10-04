@@ -78,7 +78,7 @@
     "build": { "exit": 0, "modules": 579, "existingLargeChunkWarning": true }
   },
   "negativeControls": {
-    "tool": "docs/testing/editor-app-sessions-mutants.mjs",
+    "tool": "docs/testing/domains/editor/editor-workflows/tools/editor-app-sessions-mutants.mjs",
     "controls": 50,
     "detected": 20,
     "judge": { "positive": 1, "rejected": 9 },

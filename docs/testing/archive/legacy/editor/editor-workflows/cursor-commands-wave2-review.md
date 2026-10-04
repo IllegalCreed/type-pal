@@ -7,7 +7,7 @@
 ## 已闭合，不重新实施九组
 
 - `commands.ts`3163→179行，13个新模块，14个产品文件恰落白名单；其他产品、旧测试、配置、基线零diff。
-- [本席审计](../../../../cursor-commands-wave2-audit.mjs)逐项定位**90个声明**的唯一新归属，声明正文/类型相同。
+- [本席审计](../../../../domains/editor/editor-workflows/tools/commands-wave2-audit.mjs)逐项定位**90个声明**的唯一新归属，声明正文/类型相同。
   只忽略新增export修饰、注释/排版与formatter合法参数/调用尾逗号；不删除数组逗号，未把稀疏数组差异藏掉。
   首次探针因withEntities签名的尾逗号误报，本席修正审计归一化；不是候选代码缺陷。
 - **119旧出口**集合相同；**62运行期import绑定**逐项核原来源或搬移后唯一helper归属，没有别名串接。
@@ -24,7 +24,7 @@
 
 ## R1 — 负控判据仍会误收四种不合格失败；复跑回写仓库
 
-候选`docs/testing/cursor-commands-wave2/module-mutants.mjs:101–107/:132–148`：
+候选`docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs:101–107/:132–148`：
 isExactAssertionFailure只核首行和单词timeout，judgeRed只看筛选到的目标，不看其它执行项/套件错误。
 本席直接抽取**实际函数**并执行，合法红对照被接受，以下本该拒绝的四项也全被接受：
 

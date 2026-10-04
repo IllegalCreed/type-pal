@@ -58,10 +58,10 @@ TB01新增结构自证也执行了目标外守卫，所以局部与全包增量�
 独立工作树为`/Users/zhangxu/.codex/worktrees/tb00-tb01-finish/type-pal`，或后续同步主线的物理绝对路径：
 
 ```sh
-node docs/testing/runtime-state-review-witnesses.mjs /absolute/current-tree
-node docs/testing/content-residual-review-witnesses.mjs /absolute/current-tree
-node docs/testing/glm-runtime-state-mutants.mjs
-node docs/testing/glm-content-residual-mutants.mjs
+node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /absolute/current-tree
+node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /absolute/current-tree
+node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs
+node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs
 ```
 
 见证工具返回exit0不自动等于接收；必须核summary中的每个candidate verdict、fixture和判据结果。仅Codex统一跑全仓质量门，不让并行审查争用覆盖率输出。

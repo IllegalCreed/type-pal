@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const req = createRequire(new URL('packages/editor/package.json', root))
 const { createServer } = await import(req.resolve('vite'))
 const { JSDOM } = await import(req.resolve('jsdom'))

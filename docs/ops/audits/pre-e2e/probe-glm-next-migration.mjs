@@ -48,7 +48,7 @@ assert.ok(['observe', 'contract'].includes(MODE), 'mode必须是observe/contract
 assert.ok(CASE === 'all' || /^E(0[1-9]|1[0-2])$/.test(CASE), '未知case，不允许零用例成功')
 const want = (id) => CASE === 'all' || CASE === id
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 // census/内容装载用真实 fs(只读);必须在替换前捕获。
 const real = { readFileSync: fs.readFileSync, readdirSync: fs.readdirSync, statSync: fs.statSync }
 const readReal = (path) => real.readFileSync(new URL(path, root), 'utf8')

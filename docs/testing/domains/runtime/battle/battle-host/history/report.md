@@ -19,7 +19,7 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
   首次诊断脚本只选 FunctionDeclaration，漏识别 replaceWorld 箭头而报 drift；纳入实际 VariableDeclaration 后全等。
 - 两处现行 AST chain fixture 适配新接线：restore-preflight 的空战斗边界、save-lineage 的实际 runDefeated 端口。
   原业务断言保留；历史审计/反证工具未改写。
-- [主壳结构对照](/docs/testing/battle-host-shell-parity.mjs)：只剥离本批迁出的具名声明/新所有者接线与imports，
+- [主壳结构对照](/docs/testing/domains/runtime/battle/tools/battle-host-shell-parity.mjs)：只剥离本批迁出的具名声明/新所有者接线与imports，
   将新active/start/cancel访问映射回旧接线后，其余AST去注释打印241244字符全等；SHA256
   `c616edf3165268f57681afab7ebb152bc654ddfeb1ce605b6253a3d936c3a1d9`。
   这证明未旁改主壳其它职责，不冒充迁出战斗体的行为对照；后者由真实回归/负控验证。
@@ -28,7 +28,7 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 ## 回归与鉴别力
 
 新增23项：BattleHost16项 + 准备单元7项；与H9六项合计29项，
-负控工具：[battle-host-refactor-mutants.mjs](/docs/testing/battle-host-refactor-mutants.mjs)。
+负控工具：[battle-host-refactor-mutants.mjs](/docs/testing/domains/runtime/battle/tools/battle-host-refactor-mutants.mjs)。
 
 - 全部走现行正式 loader 合法 fixture、真实资产读取/准备、真实 BattleSession 与结算。
   外部浏览器/音频 IO 用替身；不 mock 核心、反射私有栈或增加产品测试入口。
@@ -64,7 +64,7 @@ Kimi/GLM 不参与、免补签；不宣称三席独立验收。
 
 独立提交3be0e273，只固定败北路由用例Math.random=0.5，不延长帧数/timeout、不改业务断言。
 当前物攻有7/17被动闪避，原测试没有固定随机输入，却要求100帧内败北。
-[冻结宿主见证](/docs/testing/battle-host-rng-witness.mjs)在7f3840e6与新实现上分别验证：
+[冻结宿主见证](/docs/testing/domains/runtime/battle/tools/battle-host-rng-witness.mjs)在7f3840e6与新实现上分别验证：
 0.99连续闪避均exit1/同一业务断言；0.5无闪避均exit0。是输入未确定，不是本次重构引入的已证产品故障。
 日志 `/tmp/type-pal-battle-host-rng.log`，机账临时目录 `battle-host-rng-AMfjkj/summary.json`。
 

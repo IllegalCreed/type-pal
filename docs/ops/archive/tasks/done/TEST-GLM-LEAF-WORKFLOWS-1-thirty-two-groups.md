@@ -14,7 +14,7 @@ Visual Verification Timing: dev-functional（明确步骤的隔离小闭环；G/
 Codex 独立接收，不恢复固定三签；作者自验不是独立第三方证明。
 
 生产冻结 `3925980cab8e1e62bb59cf560db756935fda7d05`（对 `29e76fe6` 仅派发文档变更）。
-[冻结表](../../../../testing/glm-leaf-workflows/targets.json)含 49 个实际目标源 hash、正式 fast 统计、
+[冻结表](../../../../testing/archive/legacy/batches/glm-leaf-workflows/targets.json)含 49 个实际目标源 hash、正式 fast 统计、
 公开入口行号、静态 import 线索及同名旧测试入口；工作包定义每组窄范围。
 分支 `codex/glm-leaf-workflows-r1`，已准备隔离工作树
 `/Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal`；不借 main、Kimi 或 Codex E2E 树。
@@ -41,7 +41,7 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 - 精确新测试路径：targets.json 的 49 个 `newTest`；没有新合同的模块可只登记 existing-proof，不能凑文件。
 - fixture 白名单：`packages/editor/src/ui/__tests__/glm-leaf-workflows/**`、
   `packages/content/src/__tests__/glm-leaf-workflows/**`，仅本包 typed fixture / 硬件端口替身。
-- 工具/回执/诊断/最小浏览器宿主：`docs/testing/glm-leaf-workflows/**`；冻结表只读。
+- 工具/回执/诊断/最小浏览器宿主：`docs/testing/archive/legacy/batches/glm-leaf-workflows/**`；冻结表只读。
 - 不能改产品、旧测试、官方配置、依赖/锁、基线、任务卡/看板/公共索引、其他贡献者文件、正式工程资产。
   如需产品修复交 Codex；本卡不因产品缺陷自动扩权。
 - Kimi 的 20 目标与本卡 49 目标集合已核零交集；公共依赖覆盖可能重叠，最终贡献按 main 并集去重。
@@ -51,7 +51,7 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 
 ## 验收
 
-完整分组、操作步骤、精简账与运行要求见[工作包](../../../../testing/glm-leaf-workflows/README.md)。
+完整分组、操作步骤、精简账与运行要求见[工作包](../../../../testing/archive/legacy/batches/glm-leaf-workflows/README.md)。
 
 1. 真实公开入口、有效 fixture 与业务结果；允许组件规定的 callback，不以 mock 核心函数冒充业务链。
 2. 每批优先 2 个最强代表单点反控（全包约 16–24 针），共用严判据，不逐组搭一套验证框架。
@@ -119,7 +119,7 @@ Codex 独立接收，不恢复固定三签；作者自验不是独立第三方�
 ```text
 返工 TEST-GLM-LEAF-WORKFLOWS-1。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
 docs/ops/tasks/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md、
-docs/testing/glm-leaf-workflows/README.md、targets.json 和卡内 Codex 独立审核反例。
+docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md、targets.json 和卡内 Codex 独立审核反例。
 你是测试 Coding Owner；以当前实际候选 HEAD 4b5aade7f 为返工起点，不要使用派发时冻结 SHA 当最新交付。
 在 /Users/zhangxu/.codex/worktrees/glm-leaf-workflows/type-pal、
 codex/glm-leaf-workflows-r1 分支修本卡白名单内的五项审核反例，提交推送新的固定候选 SHA。

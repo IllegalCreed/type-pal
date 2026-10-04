@@ -31,7 +31,7 @@
 
 ## 同口径整批统计
 
-[对照配置](../../../../codex-content-boundaries.config.mjs)：两侧官方content/fast的全生产include与排除相同；
+[对照配置](../../../../domains/content/authoring-and-runtime/tools/content-boundaries-config.mjs)：两侧官方content/fast的全生产include与排除相同；
 before仅额外排除本批六个新文件，after纳入。**721→798项**均绿，生产文件集合及所有维度分母完全相等。
 报告目录`/tmp/type-pal-content-boundaries-zCRLPP/{before,after}`；不覆盖官方coverage/fast。
 只在77项、相邻及反控全部完成后统计，没有逐模块反复跑覆盖率。
@@ -61,7 +61,7 @@ before仅额外排除本批六个新文件，after纳入。**721→798项**均�
 
 ## 鉴别力与复跑
 
-[负控工具](../../../../codex-content-boundaries-mutants.mjs)为**1个77项绿对照+13个单点变异**，均以精确测试名的
+[负控工具](../../../../domains/content/authoring-and-runtime/tools/content-boundaries-mutants.mjs)为**1个77项绿对照+13个单点变异**，均以精确测试名的
 候选自身AssertionError判红；套件错/未捕获异常/超时/普通Error内嵌AssertionError不采信。
 各针唯一替换点，零skip/todo，测试总数与完整标题唯一，六份产品hash每跑保持不变。
 
@@ -72,9 +72,9 @@ before仅额外排除本批六个新文件，after纳入。**721→798项**均�
 
 ```sh
 pnpm --filter @type-pal/content exec vitest run src/actor-condition.boundaries.test.ts src/project-map.boundaries.test.ts src/battle-sprite.boundaries.test.ts src/rewards.boundaries.test.ts src/runtime-script.boundaries.test.ts src/scene-index.boundaries.test.ts
-node docs/testing/codex-content-boundaries-mutants.mjs
-CONTENT_BOUNDARIES_PHASE=before CONTENT_BOUNDARIES_DIR=/tmp/type-pal-content-boundaries-zCRLPP pnpm exec vitest run --config docs/testing/codex-content-boundaries.config.mjs
-CONTENT_BOUNDARIES_PHASE=after CONTENT_BOUNDARIES_DIR=/tmp/type-pal-content-boundaries-zCRLPP pnpm exec vitest run --config docs/testing/codex-content-boundaries.config.mjs
+node docs/testing/domains/content/authoring-and-runtime/tools/content-boundaries-mutants.mjs
+CONTENT_BOUNDARIES_PHASE=before CONTENT_BOUNDARIES_DIR=/tmp/type-pal-content-boundaries-zCRLPP pnpm exec vitest run --config docs/testing/domains/content/authoring-and-runtime/tools/content-boundaries-config.mjs
+CONTENT_BOUNDARIES_PHASE=after CONTENT_BOUNDARIES_DIR=/tmp/type-pal-content-boundaries-zCRLPP pnpm exec vitest run --config docs/testing/domains/content/authoring-and-runtime/tools/content-boundaries-config.mjs
 ```
 
 重建可更换CONTENT_BOUNDARIES_DIR为自己的临时目录。定向77/77、含相邻123/123、content TC及8个新增代码文件Biome通过。

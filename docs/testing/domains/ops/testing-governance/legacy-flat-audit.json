@@ -21,7 +21,7 @@
       "lines": "1-20",
       "anchor": "\"schemaVersion\": 1",
       "role": "legacy manifest",
-      "sha256": "c20574a7c4aeafc8fb5ceec8beaf5ccd10ffcd8a05fb837343b30a4036fea2ae"
+      "sha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -43,6 +43,13 @@
       "anchor": "\"id\": \"legacy-full-closeout-relocation\"",
       "role": "relocation plan",
       "sha256": "bf6d5c9654aec5cecbdca8ea45e7cadee5f2af9bbf957aaacdf9b5d41c8e9daf"
+    },
+    {
+      "path": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+      "lines": "1-16",
+      "anchor": "\"id\": \"testing-layout-closeout-20261004\"",
+      "role": "root layout closeout plan",
+      "sha256": "01eb6b7156e958d68435f558cb35b4d2859f44f2b0c032500bd536cf28ba593f"
     }
   ],
   "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
@@ -66,6 +73,7 @@
       "docs/testing/legacy-flat-classification.json",
       "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
       "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
       "docs/testing/catalog.json"
     ],
     "notes": "The closeout plan is the complete 331-item decision ledger; archive moves preserve source SHA, while tools remain only with explicit stop lines."
@@ -85,6 +93,11 @@
       "id": "archive-moves",
       "result": "source-backed",
       "evidence": ["docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16"]
+    },
+    {
+      "id": "layout-closeout",
+      "result": "source-backed",
+      "evidence": ["docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"]
     }
   ],
   "runtimeExecution": {
@@ -103,6 +116,10 @@
     {
       "path": "archive/migrations/legacy-full-closeout-relocation.json",
       "kind": "relocation-plan"
+    },
+    {
+      "path": "archive/migrations/testing-layout-closeout-20261004.json",
+      "kind": "layout-plan"
     }
   ],
   "history": [

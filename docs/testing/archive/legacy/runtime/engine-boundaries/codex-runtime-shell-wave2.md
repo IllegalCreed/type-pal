@@ -26,7 +26,7 @@ Canvas/位图/最小字库仍是非视觉IO适配，提示只证renderer收到�
 
 ## 鉴别力
 
-[可重建工具](../../../../codex-runtime-shell-wave2-mutants.mjs)：完整28正控+8针业务AssertionError，
+[可重建工具](../../../../domains/runtime/engine-boundaries/tools/runtime-shell-wave2-mutants.mjs)：完整28正控+8针业务AssertionError，
 每针唯一源码替换、实际加载marker、确切文件/fullName、exit必须1；判据1正例+12反例自测，拒普通Error内嵌、
 混错、timeout、exit2/null、错标题/文件/未执行。每针前后633生产文件hash不变。
 
@@ -97,9 +97,9 @@ main仍缺1733行/1602分支，长期90%/85%目标未达到；未覆盖全部敌
 ```bash
 pnpm --filter @type-pal/reforge exec vitest run src/main.equipment-flows.test.ts src/main.item-flows.test.ts src/main.battle-host-flows.test.ts src/main.entity-host-flows.test.ts
 pnpm --filter @type-pal/reforge run typecheck
-node docs/testing/codex-runtime-shell-wave2-mutants.mjs
+node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-wave2-mutants.mjs
 # 可选单针：未知名必须失败
-SHELL_WAVE2_MUTANT=battle-intent node docs/testing/codex-runtime-shell-wave2-mutants.mjs
+SHELL_WAVE2_MUTANT=battle-intent node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-wave2-mutants.mjs
 ```
 
 Node22.23.2；负控子进程使用现行环境隔离helper。不开额外reviewer任务，无下一位Agent提示词；

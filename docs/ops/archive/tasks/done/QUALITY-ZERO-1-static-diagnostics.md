@@ -13,7 +13,7 @@ Visual Verification Timing: dev-functional（若清理涉及CSS/JSX，保持用�
 
 2026-09-27用户明确lint/typecheck等硬质量检查必须清零；本卡覆盖既有存量与机器门禁，不扩大到玩法或schema修订。
 以下为开工前的历史盘点，不把旧exit0追认为零诊断。实施过程见
-[保真回执](../../../../testing/quality-zero/README.md)；不允许无差别unsafe --write全仓修改。
+[保真回执](../../../../testing/archive/legacy/batches/quality-zero/README.md)；不允许无差别unsafe --write全仓修改。
 
 - 原根package.json的lint是`biome check .`，warning/info可能exit0，不能据此报告质量全过。
 - 开工前完整JSON扫描：**errors0 / warnings90 / infos7 / diagnosticsNotPrinted0**。

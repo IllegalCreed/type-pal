@@ -4,8 +4,8 @@
 [接收与集成](cursor-command-boundaries-r3-integration.md)。以下原候选反证保留为历史，不再阻断新候选。
 
 2026-09-26，候选 `b6bcc9b4`，基点 `7d64de13`。结论 **counter / 窄返工**，候选未合 main、未计官方覆盖。
-[任务卡](../../../../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) / [独立见证](../../../../cursor-command-boundaries-r3-review-witnesses.mjs)
-（使用 [隔离配置](../../../../cursor-command-boundaries-r3-review.config.mjs)，只改内存加载，不写候选源码）。
+[任务卡](../../../../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) / [独立见证](../../../../domains/editor/editor-workflows/tools/command-boundaries-r3-review-witnesses.mjs)
+（使用 [隔离配置](../../../../domains/editor/editor-workflows/tools/command-boundaries-r3-review-config.mjs)，只改内存加载，不写候选源码）。
 
 ## 已核与不重开
 
@@ -51,7 +51,7 @@ C4 负控记重叠保护；最终标题/计数与新鲜JSON对齐。无需重做
 ## 独立见证复跑
 
 ```sh
-node docs/testing/cursor-command-boundaries-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3
+node docs/testing/domains/editor/editor-workflows/tools/command-boundaries-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3
 ```
 
 本轮输出 `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-cursor-boundaries-r3-ptT6hD`：

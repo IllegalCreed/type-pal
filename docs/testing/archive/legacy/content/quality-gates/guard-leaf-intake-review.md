@@ -31,7 +31,7 @@
    本卡明确承诺精确路径；在新例中以实际Error.message全等或等价精确matcher落实，不改旧测试。
 
 三个反例均运行完整91项，无skip、超时或测试代码注入；实际生产load唯一命中，源hash不变。
-[复建工具](../../../../guard-leaf-review-witnesses.mjs)与[本席机账](../../quality/quality-gates/guard-leaf-review-evidence.json)记录MISSED。
+[复建工具](../../../../domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs)与[本席机账](../../quality/quality-gates/guard-leaf-review-evidence.json)记录MISSED。
 修后应分别由对应新断言检出；不得通过改标题撤掉卡面输入保真/精确路径要求。
 
 ## R2 — 同型合法对照/单轴构造与回执不一致
@@ -49,7 +49,7 @@
 
 ## R3 — 实际负控判据误收五类反例，缺运行态注入见证
 
-`docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs:79–84/:141–158`：
+`docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs:79–84/:141–158`：
 只查failureMessage以AssertionError开头；接受多个失败；失败按短title匹配而完整名只要求某个用例存在；
 文件只校验endsWith。工具还只验证源串唯一，没有把load实际命中写入运行态见证。
 
@@ -71,8 +71,8 @@
 
 ## R4 — 最终树格式门与回执校准
 
-`docs/testing/glm-content-guards-wave2/evidence.json:19`起多处格式不符合Biome。
-本席`pnpm exec biome check docs/testing/glm-content-guards-wave2/evidence.json`实际**exit1**，
+`docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json:19`起多处格式不符合Biome。
+本席`pnpm exec biome check docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json`实际**exit1**，
 与receipt.md:59的0 error矛盾；三测试/fixture/两工具以外不要漏掉提交的JSON。
 允许的四个模板针warning单列，不把本格式error混为warning。
 

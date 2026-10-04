@@ -26,7 +26,7 @@ assert.ok(['observe', 'contract'].includes(MODE), 'mode必须是observe/contract
 assert.ok(CASE === 'all' || /^D(0[1-9]|1[0-2])$/.test(CASE), '未知case，不允许零用例成功')
 const want = (id) => CASE === 'all' || CASE === id
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const read = (path) => readFileSync(new URL(path, root), 'utf8')
 const requireReforge = createRequire(new URL('packages/reforge/package.json', root))
 const { createServer } = await import(requireReforge.resolve('vite'))

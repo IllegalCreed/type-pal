@@ -39,7 +39,7 @@ SceneScriptWorkspace把现行locale交给Playback，不改schema、存档、资�
   旧“单步代选”断言按用户新合同改为明确提交；旧换源断言先暂停新对话时钟，再验证旧移动零写回。
 - 原六针维护resume锚点，另五针移除步进钩子/首步请求、暂停时偷走对话、单步代选、使用文本ID
   代替翻译文本计时。共11正控+11精确AssertionError业务红，正式源码hash不变。
-  复跑：`node docs/testing/codex-playback/mutants.mjs`。
+  复跑：`node docs/testing/archive/legacy/batches/codex-playback/mutants.mjs`。
   最终日志`/tmp/codex-preview-controls-mutants-final.log`，原始JSON与逐针命中见
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-playback-mutants-SpIQtV/summary.json`。
 

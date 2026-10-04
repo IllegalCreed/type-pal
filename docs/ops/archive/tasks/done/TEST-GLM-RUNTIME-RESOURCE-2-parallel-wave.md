@@ -17,7 +17,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 生产冻结 `f6878b3cd18d916d3cac8aba3e50dc8c70556a2c`（对 `29e76fe6` 产品/scripts 无变更）。
 分支 `codex/glm-runtime-resource-r1`，已备好工作树
 `/Users/zhangxu/.codex/worktrees/glm-runtime-resource/type-pal`；不得借 main、GLM 第一对话、Kimi 或 E2E 树。
-准确目标/newTest/hash 在[冻结表](../../../../testing/glm-runtime-resource-wave/targets.json)。
+准确目标/newTest/hash 在[冻结表](../../../../testing/archive/legacy/batches/glm-runtime-resource-wave/targets.json)。
 
 ## 前提真值门
 
@@ -44,7 +44,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 
 - 新测试：targets.json 的 62 个 `newTest`；无新合同无需凑文件。
 - 辅助：四包各自 `src/__tests__/glm-runtime-resource/**`，只放本卡 fixture/端口替身。
-- 本包工具、回执、诊断、最小浏览器宿主：`docs/testing/glm-runtime-resource-wave/**`。
+- 本包工具、回执、诊断、最小浏览器宿主：`docs/testing/archive/legacy/batches/glm-runtime-resource-wave/**`。
   Codex 冻结表只读；GLM 交 receipt/evidence，不改派发事实。
 - 禁改产品、旧测试、官方配置/基线/依赖/锁、AGENTS、任务卡/看板/公共索引、别的对话文件。
 - 禁止执行 extract、migrate、bake、publish/commitTransaction；不写正式 `projects/pal`、`data/raw`、
@@ -56,7 +56,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 
 ## 验证节奏
 
-详见[工作包](../../../../testing/glm-runtime-resource-wave/README.md)。
+详见[工作包](../../../../testing/archive/legacy/batches/glm-runtime-resource-wave/README.md)。
 
 1. 每批定向新增 + 相邻、涉及包 typecheck、精确新增文件 Biome error/warning/info 全零、docs/diff。
 2. 默认单 worker、单测试进程；只在自己的 checkout 操作，不能终止他人的测试/服务。
@@ -120,7 +120,7 @@ Visual Verification Timing: dev-functional（隔离固定输入绘制，不走�
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，编解码部分另读
 docs/phase1/engineering-notes.md 的 §1.2/§2.3，再读
 docs/ops/tasks/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md、
-docs/testing/glm-runtime-resource-wave/README.md 与 targets.json。
+docs/testing/archive/legacy/batches/glm-runtime-resource-wave/README.md 与 targets.json。
 本卡原 build allowed 范围不变；先读本卡“Codex 独立审核返工项”，以实际候选 fed0a7869 为起点。
 分支 codex/glm-runtime-resource-r1，生产冻结 f6878b3c。
 工作树 /Users/zhangxu/.codex/worktrees/glm-runtime-resource/type-pal 已备好。

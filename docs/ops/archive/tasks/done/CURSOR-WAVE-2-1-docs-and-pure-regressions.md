@@ -11,7 +11,7 @@ Branch: `codex/cursor-wave2-r1`；独立 worktree `type-pal-cursor-wave2`
 
 用户要求给 Cursor 连续分配更多工作。Codex 已独立核实五包互不修改同一文件；全部属于文档或测试候选，**不授权产品实现、schema、存档、迁移、生成资产或基线变更**。当前委派模式由 Cursor 实施、Codex 独立验收与集成；不等固定 AI 席位，也不把 Cursor 自测当独立证明。五包按 W1→W5 连续提交，不必每包等 Codex 回复；每包独立提交，便于 Codex 按包选择性接收。若主线同名目标变动，先 rebase 再核白名单，不覆写他人修改。
 
-既有锚点：`CLAUDE.md:22` 一阶段允许无行为漂移架构治理；`docs/phase2/READ-FIRST.md` 二阶段原则；[DOC-CURSOR-6 独立复核](../../../../testing/archive/legacy/editor/editor-workflows/cursor-author-guides-review.md)指出七处现行指南误导与 `callScript` 保存保护缺口；[文档工具正式接入记录](../../../../testing/cursor-tool-regressions/integration.md)已有相关用例，不能再造同义测试。仓库使用 Vitest 4.1.7 和 pnpm 10 工作区，按本仓配置而非外部旧版示例运行。
+既有锚点：`CLAUDE.md:22` 一阶段允许无行为漂移架构治理；`docs/phase2/READ-FIRST.md` 二阶段原则；[DOC-CURSOR-6 独立复核](../../../../testing/archive/legacy/editor/editor-workflows/cursor-author-guides-review.md)指出七处现行指南误导与 `callScript` 保存保护缺口；[文档工具正式接入记录](../../../../testing/archive/legacy/batches/cursor-tool-regressions/integration.md)已有相关用例，不能再造同义测试。仓库使用 Vitest 4.1.7 和 pnpm 10 工作区，按本仓配置而非外部旧版示例运行。
 
 ## W1 — 三份作者指南的已证文字窄修
 
@@ -35,7 +35,7 @@ Branch: `codex/cursor-wave2-r1`；独立 worktree `type-pal-cursor-wave2`
 
 ## 交付与门禁
 
-- 五包分别提交，最终在 `docs/testing/cursor-wave2/README.md` 写逐包文件白名单、真实新增测试标题、现有去重、执行命令/退出码、单点反控和待证/缺陷；允许给 `docs/testing/README.md` 增一条导航以满足文档门。除此之外不改 docs/ops 任务卡/看板。
+- 五包分别提交，最终在 `docs/testing/archive/legacy/batches/cursor-wave2/README.md` 写逐包文件白名单、真实新增测试标题、现有去重、执行命令/退出码、单点反控和待证/缺陷；允许给 `docs/testing/README.md` 增一条导航以满足文档门。除此之外不改 docs/ops 任务卡/看板。
 - 每包只跑相关定向和相邻套件；整批末跑 editor/game typecheck、`pnpm test:docs-tools`、改动文件 Biome、`pnpm check:docs`、`git diff --check`。新测试计数从运行结果生成，不凭记忆写。不运行迁移、资源提取、E2E、部署，不调 ratchet 或改 `baseline.fast.json`；**官方全仓 check、统一 ratchet、受保护 strict-fast 由 Codex 接收后串行执行一次**，不用每补几项就重复跑覆盖率。
 - 任何包没有可信增量时可以是 `existing-proof`；不得为消耗额度重复旧断言、降低门槛或修改旧测试预期。新增测试失败不能以 skip/test.fails/提高超时掩盖。候选只在隔离分支提交推送，不合 main、不标 done。Codex 独立逐包 accept/counter，合格包直接接入推送并及时清理候选工作树/分支。
 

@@ -24,8 +24,8 @@
 [统一机账](evidence.json)保存D1/E2静态核验、源hash、测试、反控与质量门结果。
 
 ```bash
-node docs/testing/phase1-dependency-refactor-audit.mjs
-node docs/testing/phase1-dependency-refactor-mutants.mjs
+node docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-audit.mjs
+node docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-mutants.mjs
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game exec vitest run src/core/dependency-ownership.test.ts src/core/cross-module-boundaries.test.ts
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game run typecheck
 ```

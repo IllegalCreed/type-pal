@@ -12,7 +12,7 @@ Visual Verification Timing: dev-functional（修复时做最小弹窗闭环）
 仅保持回调显式makeLoadScene，保留其它rebuild继承、三落点及过渡；Root与独立核验均premise verified/design agree，build allowed。
 下面初始draft描述和旧路径仅作历史取证，不再是未授权状态。
 
-来源[当前表单补测](../../../../testing/codex-command-forms/README.md)，基点7bd8f064。
+来源[当前表单补测](../../../../testing/archive/legacy/batches/codex-command-forms/README.md)，基点7bd8f064。
 真实公开CanonicalScriptBodyEditor→CommandForm→完成，合法loadScene已有facing:left，
 改坐标后在朝向选“(保持)”仍提交left。诊断exit1为完整输出多出facing字段，不是环境/timeout。
 `CommandForm.tsx:1162`的rebuild默认实参`facing = cmd.facing`将选择器`:1284`传入的undefined

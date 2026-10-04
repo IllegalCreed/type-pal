@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const root = fileURLToPath(new URL('../../../../', import.meta.url))
+const root = fileURLToPath(new URL('../../../..', import.meta.url))
 const dir = mkdtempSync(join(tmpdir(), 'type-pal-b2-oracles-'))
 const hash = (s: string) => createHash('sha256').update(s).digest('hex')
 const replaceOne = (source: string, from: string, to: string) => {
@@ -20,7 +20,7 @@ const read = (name: string) =>
 const standalone = (source: string) =>
   source
     .replace(
-      "const root = new URL('../../../../', import.meta.url)",
+      "const root = new URL('../../../..', import.meta.url)",
       `const root = new URL(${JSON.stringify(`file://${root}`)})`,
     )
     .replaceAll("from '../../../../packages/", `from '${root}packages/`)

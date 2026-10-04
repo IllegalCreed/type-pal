@@ -73,7 +73,7 @@ A08/A09/E05归现有迁移/版本纪律台账；map/脚本防御臂归本包分�
 本轮中几次只读查找路径猜错/输出截断已用rg定位和所需源码分段读取补齐，不属于产品测试失败，不影响上述实际退出码。
 
 规划一致性检查：59目标路径全部存在且互不重复、相对生产冻结零diff；59拟增测试与8薄fixture路径均未占用且不重复。
-`pnpm check:docs`（含20项文档工具测试）通过；`node docs/testing/glm-coverage-queue-census.mjs --check`通过，仍617文件/10批78候选；`git diff --check`通过。
+`pnpm check:docs`（含20项文档工具测试）通过；`node docs/testing/domains/quality/quality-gates/tools/coverage-queue-census.mjs --check`通过，仍617文件/10批78候选；`git diff --check`通过。
 首次暂存后`git diff --cached --check`检出六张新卡EOF多一空行，已去除后复跑；没有改动合同或测试。
 末轮只读勘误已核入：编辑路径的叶/父错误分域、projection只在承诺clone处验别名、奖励guard边界、一期system helper的phase归属、负时间格式分域、entry.prepare仅onEnter初始态。正式两席仍须独立审核，不以本轮内部勘误代签。
 

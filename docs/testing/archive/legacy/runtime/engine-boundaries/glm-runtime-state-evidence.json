@@ -36,7 +36,7 @@
     ]
   },
   "reviewWitnesses": {
-    "command": "node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state",
+    "command": "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state",
     "exit": 0,
     "fixtureChecks": "author-scene/runtime-scene/author-items/runtime-library all accepted",
     "verdicts": {
@@ -51,8 +51,8 @@
     "note": "7 probes all detected with candidate own AssertionError business red; 7 controls green; fixture checks accepted; 0 invalid / 0 MISSED"
   },
   "mutants": {
-    "script": "docs/testing/glm-runtime-state-mutants.mjs",
-    "command": "node docs/testing/glm-runtime-state-mutants.mjs",
+    "script": "docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+    "command": "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -257,8 +257,8 @@
     "productHashInvariant": "all touched product files sha256 unchanged before/after batch"
   },
   "coverage": {
-    "config": "docs/testing/glm-runtime-state.config.mts",
-    "commandTemplate": "SB1_PKG=<content|reforge> SB1_MODE=<before|after> SB1_OUT=<tmpdir> pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts",
+    "config": "docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts",
+    "commandTemplate": "SB1_PKG=<content|reforge> SB1_MODE=<before|after> SB1_OUT=<tmpdir> pnpm --filter @type-pal/<pkg> exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts",
     "dirs": "/tmp/sb1f-cov-<pkg>-<mode>",
     "perModule_before_after_lines_branches": {
       "world-variable.ts": {

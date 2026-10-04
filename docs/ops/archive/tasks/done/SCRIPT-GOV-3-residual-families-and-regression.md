@@ -189,8 +189,8 @@ commit/clean 状态，再将本卡与母卡收口。未开始 006。
 ## 上下文
 
 - [二阶段铁律](../../../../phase2/READ-FIRST.md)、[协作工作流](../../../agent-workflow.md)、[一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md)。
-- [七类共性回顾](../../../../testing/e2e/cross-stage/common-issues.md)、[治理证据目录](../../../../testing/script-governance/README.md)。
-- [安装边口径](../../../../testing/script-governance/install-census.md)、[当前检查点](../../../../testing/script-governance/current-checkpoints.md)。
+- [七类共性回顾](../../../../testing/e2e/cross-stage/common-issues.md)、[治理证据目录](../../../../testing/archive/legacy/batches/script-governance/README.md)。
+- [安装边口径](../../../../testing/archive/legacy/batches/script-governance/install-census.md)、[当前检查点](../../../../testing/archive/legacy/batches/script-governance/current-checkpoints.md)。
 
 ## 下一位Agent提示词
 

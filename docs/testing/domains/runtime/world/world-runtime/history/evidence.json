@@ -73,7 +73,7 @@
     "build": { "exit": 0, "existingLargeChunkWarning": true }
   },
   "negativeControls": {
-    "tool": "docs/testing/world-runtime-mutants.mjs",
+    "tool": "docs/testing/domains/content/authoring-and-runtime/tools/world-runtime-mutants.mjs",
     "controls": 15,
     "detected": 9,
     "judge": { "positive": 1, "rejected": 9 },

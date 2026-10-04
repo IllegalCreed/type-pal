@@ -6,7 +6,7 @@ import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
-const gameRoot = fileURLToPath(new URL('../../../../packages/game/', import.meta.url))
+const gameRoot = fileURLToPath(new URL('../../../../packages/game', import.meta.url))
 const runner = fileURLToPath(new URL('../../../../node_modules/vitest/vitest.mjs', import.meta.url))
 const config = fileURLToPath(new URL('./probe-test-gates.config.mjs', import.meta.url))
 function run(mode, filters) {

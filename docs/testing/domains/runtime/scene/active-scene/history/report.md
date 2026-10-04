@@ -23,12 +23,12 @@ Owner：Codex；冻结51048353；所属[连续治理卡](/docs/ops/archive/tasks
 projected SceneDef明确分开；原业务断言/内置负控不弱化。开发首跑暴露37个AST fixture绑定失败，适配后全闭合。
 新增单测开发中两处map builder误从content导入/漏tileset参数已修正，未改生产合同或放宽类型。
 
-[冻结对照](/docs/testing/active-scene-parity.mjs)直接从Git提取前一Reforge宿主（不是第一阶段对拍）：
+[冻结对照](/docs/testing/archive/legacy/unresolved-tools/active-scene-parity.mjs)直接从Git提取前一Reforge宿主（不是第一阶段对拍）：
 77函数仅反向归一化activeScene读属性后token全等；commitSceneSwitch/advanceMoves/stopAutoRunners
 展开明确迁移块后再对账，共80个受保护函数；镜头64组确定性序列/2560步比较位置、偏移和Promise结果。
 旧正文只在临时诊断执行，不进入产品/正式测试选择或官方新增计数。
 
-[七针反控](/docs/testing/active-scene-mutants.mjs)：baseline清空、wave失效、action播种、pan取整、相对偏移、reset采样、
+[七针反控](/docs/testing/domains/content/authoring-and-runtime/tools/active-scene-mutants.mjs)：baseline清空、wave失效、action播种、pan取整、相对偏移、reset采样、
 pre-abort保护均由候选自身AssertionError检出。17正控；精确绝对file/fullName/exit1/唯一load注入见证、
 全生产hash保持；真实判据2正/12反自测。源文件不改，不接受timeout或混合环境错。
 

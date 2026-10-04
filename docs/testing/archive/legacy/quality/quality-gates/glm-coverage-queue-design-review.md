@@ -25,10 +25,10 @@ Codex本人读三张卡、三个工作包及关键生产/旧测试；内部两�
 - TB-02六既有测试文件/39项绿，证实sfx实际12项、file-source实际8项等去重事实。
 - TB-03四既有直接文件/6项绿；没有把无同名worker测试推断为浏览器无法测试。
 - 日志：`/tmp/type-pal-queue-design.Lh7r5P/tb01-existing.log`、`tb02-existing.log`、`tb03-existing.log`。
-- [可重建只读前提探针](../../../../glm-coverage-queue-premise.mjs)：
+- [可重建只读前提探针](../../../../domains/quality/quality-gates/tools/coverage-queue-premise.mjs)：
 
 ```bash
-node --import tsx docs/testing/glm-coverage-queue-premise.mjs
+node --import tsx docs/testing/domains/quality/quality-gates/tools/coverage-queue-premise.mjs
 ```
 
 探针不写项目、资产、基线或正常存档；PNG生成/解析仅借用pal-extract已声明的pngjs工具依赖，不给content反向加依赖。
@@ -119,7 +119,7 @@ docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md
 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md
 均draft，Codex已签r2，未开build；原r1自签保留历史。先同步分支并读AGENTS/CLAUDE/READ-FIRST、三卡、对应glm-content-residual.md / glm-reforge-asset-io.md / glm-editor-import-codec.md，以及docs/testing/archive/legacy/quality/quality-gates/glm-coverage-queue-design-review.md。
 重点直接核r2差异：content无反向loader依赖/合法当前fixture/旧分片先分类；HTTP只透传与FSA主动取消分开；实际browserAdapter复制而非假adapter；声音当前页待证不固化；worker原handler零产品导出、真实transfer；PNG编码失败泄漏隔离归Codex。
-可复跑 node --import tsx docs/testing/glm-coverage-queue-premise.mjs；其证据是协议级，不是浏览器/视觉/听感。不要读取或复述Kimi结论。三卡分别在本人r2席位补充premise verified/design agree及直接锚点/可证伪条件，或counter；只改本人签字/日志并提交推送，不改他席/状态、不开始实施、不标done。
+可复跑 node --import tsx docs/testing/domains/quality/quality-gates/tools/coverage-queue-premise.mjs；其证据是协议级，不是浏览器/视觉/听感。不要读取或复述Kimi结论。三卡分别在本人r2席位补充premise verified/design agree及直接锚点/可证伪条件，或counter；只改本人签字/日志并提交推送，不改他席/状态、不开始实施、不标done。
 TB-00既有返工优先；新批只有同r2三签齐且Codex核定build才开，原测试目的不扩张，不要求重签历史done卡。后续按最多两批未接收的队列限制错峰。
 ```
 

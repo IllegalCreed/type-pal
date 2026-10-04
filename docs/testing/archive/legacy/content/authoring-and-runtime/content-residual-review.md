@@ -113,8 +113,8 @@ Codex只将decodeUtf8改为拒绝**所有合法非ASCII解码结果**，候选3/
 ## 重建与工具自证
 
 ```bash
-node docs/testing/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual
-node /Users/zhangxu/illegal/type-pal-glm-content-residual/docs/testing/glm-content-residual-mutants.mjs
+node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual
+node /Users/zhangxu/illegal/type-pal-glm-content-residual/docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs
 ```
 
 第一工具是只读诊断：正常实现必须绿，坏实现oracle必须业务红；输出MISSED仍可exit0，不能只看退出码。
@@ -135,7 +135,7 @@ TB-02仍保持已签设计待槽，不因想消耗额度跳过两批上限。GLM
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-RESIDUAL-1，任务卡 docs/ops/archive/tasks/done/TEST-CONTENT-RESIDUAL-1-registered-gaps.md，rework；实施候选0e49db91，已签设计r2不重签，生产冻结e58834f6。
-先同步本次Codex counter与docs/testing/content-residual-review-witnesses.mjs到独立分支，保留主线七批设计和他席；读AGENTS/CLAUDE/READ-FIRST、docs/testing/archive/legacy/content/authoring-and-runtime/content-residual-review.md及原工作包。
+先同步本次Codex counter与docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs到独立分支，保留主线七批设计和他席；读AGENTS/CLAUDE/READ-FIRST、docs/testing/archive/legacy/content/authoring-and-runtime/content-residual-review.md及原工作包。
 CR-R1：真实cue/world/shops/levelUp消费前后快照，world用content buildWorld、表面现行guard+零issue正控；不反向引Reforge，不把缺字段world/as unknown或未实际消费对象当保真证据。CR-R2：完整合法Unicode TPFS必须parse成功，UTF8/JSON/schema错误分开准确断言，header长度按u32。CR-R3：负控逐一核目标自身failureMessages，目标STACK_TRACE_ERROR+别例AssertionError必须拒绝，自测与执行见证都永久化。CR-R4：真实23=3/5/3/8/4、14针+1对照、9文件Biome一错误等勘误，修后从最终树重生，不以凑24为目标；族账精确去重。
 三独立见证须detected且mixedFailureAccepted=false，七fixture检查accepted；原工具、定向/相邻/content全包/tc/全部新增文件Biome/私有同口径覆盖复跑。只改原白名单，不改产品/旧测试/官方基线/他席工具语义，不代签、不标done、不转Kimi。与TB00返工独立提交；Codex接收后再跑统一全仓门，本轮未释放TB02实施槽。
 ```

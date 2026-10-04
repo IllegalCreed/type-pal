@@ -40,7 +40,7 @@ B05的工程与资源fixture留在reforge包内，使用现有dProjectFiles骨�
 
 ### 同口径覆盖（不是把整文件命中全算本批贡献）
 
-[配置](../../../../glm-coverage-wave2-coverage.config.mts)两侧都采用官方testSelection/全生产include。
+[配置](../../../../domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts)两侧都采用官方testSelection/全生产include。
 before仅排除本包25个新测试；四包before测试数与当前7627官方基线对应包逐一相等，
 生产集合及四维分母相等。报告`/tmp/type-pal-wave2-coverage-fivq93/<pkg>/{before,after}`，不覆盖官方目录。
 
@@ -69,7 +69,7 @@ Codex先前89项已在before侧，GLM准备7538的旧遗漏不能重复计入本
 
 ### 负控、合法性与失败记录
 
-[负控](../../../../glm-coverage-wave2-mutants.mjs)：**4个完整新套件正控+17针**通过，
+[负控](../../../../domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs)：**4个完整新套件正控+17针**通过，
 最终树证据`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-wave2-mutants-vxPYv4/summary.json`；日志`mutants-final-tree.log`。
 正控163项全执行、零skip/todo；每个负控以正控实测的精确文件/标题选中一个用例，恰1项执行且自身
 AssertionError红，字段`filteredByExactName`记录同文件其余名称过滤项，不计实际执行、不修改测试为skip。
@@ -90,9 +90,9 @@ AssertionError红，字段`filteredByExactName`记录同文件其余名称过滤
 复跑整包：
 
 ```sh
-node docs/testing/glm-coverage-wave2-mutants.mjs
-WAVE2_COVERAGE_PACKAGE=reforge WAVE2_COVERAGE_PHASE=before WAVE2_COVERAGE_DIR=/tmp/type-pal-wave2-coverage-fivq93 pnpm exec vitest run --config docs/testing/glm-coverage-wave2-coverage.config.mts
-WAVE2_COVERAGE_PACKAGE=reforge WAVE2_COVERAGE_PHASE=after WAVE2_COVERAGE_DIR=/tmp/type-pal-wave2-coverage-fivq93 pnpm exec vitest run --config docs/testing/glm-coverage-wave2-coverage.config.mts
+node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs
+WAVE2_COVERAGE_PACKAGE=reforge WAVE2_COVERAGE_PHASE=before WAVE2_COVERAGE_DIR=/tmp/type-pal-wave2-coverage-fivq93 pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts
+WAVE2_COVERAGE_PACKAGE=reforge WAVE2_COVERAGE_PHASE=after WAVE2_COVERAGE_DIR=/tmp/type-pal-wave2-coverage-fivq93 pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts
 ```
 
 PACKAGE可改editor/content/migrate；输出目录可换新mktemp。只重跑一针可设`WAVE2_MUTANT=<id>`。

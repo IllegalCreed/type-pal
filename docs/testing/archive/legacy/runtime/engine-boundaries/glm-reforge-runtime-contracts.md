@@ -49,7 +49,7 @@ GLM回执/30族/机器账按源候选保留；测试贡献者自验不是独立�
 
 - `packages/reforge/src/__tests__/glm-runtime-contract-fixtures.ts`薄fixture：小数据、typed host边界、deferred、保真快照；不抄产品算法/遍历器/整套旧测试。
 - 本文件GLM回执区；本人任务卡签字/日志、必要索引机械联动。
-- `docs/testing/glm-reforge-runtime-contracts-mutants.mjs`、`glm-reforge-runtime-contracts.config.mts`、`glm-reforge-runtime-contracts-evidence.json`。
+- `docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs`、`glm-reforge-runtime-contracts.config.mts`、`glm-reforge-runtime-contracts-evidence.json`。
 - 若确有新缺陷，可新增`docs/testing/probe-glm-reforge-runtime-contracts.mjs`作隔离只读诊断，不进默认红门。
 
 不得改其它卡、生产/旧测试/官方配置与基线/依赖锁/原探针、PAL工程或资产。诊断仅/tmp输出，不恢复stash，不追踪gitignored资产。
@@ -218,11 +218,11 @@ actorsById 条目；独立确定性例保留但改名为「读取确定性」不
 
 ### 负控与覆盖（最终树复跑）
 
-- 负控 `node docs/testing/glm-reforge-runtime-contracts-mutants.mjs` rc=0：判据 AST 自测（good 通过/混合坏日志拒绝）+ 5 对照 exit0 + 10 变异针 exit1（每组 2 针）；每针 MUTATION_HIT + AssertionError + 钉名新增测试实际 failed（Vitest JSON 执行见证）；被触产品文件批前后 sha256 不变。
+- 负控 `node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs` rc=0：判据 AST 自测（good 通过/混合坏日志拒绝）+ 5 对照 exit0 + 10 变异针 exit1（每组 2 针）；每针 MUTATION_HIT + AssertionError + 钉名新增测试实际 failed（Vitest JSON 执行见证）；被触产品文件批前后 sha256 不变。
 - 覆盖对照（可复制；config 物理绝对路径）：
   ```bash
-  RR1_MODE=before RR1_OUT=/tmp/rr1-coverage-before pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts
-  RR1_MODE=after  RR1_OUT=/tmp/rr1-coverage-after  pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts
+  RR1_MODE=before RR1_OUT=/tmp/rr1-coverage-before pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts
+  RR1_MODE=after  RR1_OUT=/tmp/rr1-coverage-after  pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts
   ```
   返工后局部十模块净增：行 +74、语句 +84、分支 +73；全 reforge 包：行 7853/14118(55.62%)→7927/14118(56.14%)、
   语句 8679/16188(53.61%)→8763/16188(54.13%)、分支 5256/11041(47.60%)→5329/11041(48.26%)。
@@ -230,10 +230,10 @@ actorsById 条目；独立确定性例保留但改名为「读取确定性」不
   equip 22/22→22/22·17/30→25/30；use 26/27→27/27·26/39→33/39；bgm 77/114→83/114·54/81→58/81；
   midi-preview 128/172→131/172·87/123→95/123；loader 112/141→121/141·45/84→47/84；
   resolver 31/33→33/33·10/14→11/14；cutscene 17/23→23/23·7/18→16/18；adapter 32/165→62/165·29/172→48/172。
-- 接收见证复跑：`node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime`
+- 接收见证复跑：`node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime`
   rc=0——4 对照绿；bgm-post-read-ownership / midi-stale-finally / loader-projection-bypassed /
   equip-input-pollution 四针全部 **detected**（函数体内 marker 执行见证 + AssertionError 业务红），产品 hash 不变。
-- 输入保真见证（收窄轮新增）：`node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime`
+- 输入保真见证（收窄轮新增）：`node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime`
   rc=0——正常对照 7/7 绿；loader-project-input-pollution 针 **detected**（exit1、marker 打印 polluted.name、
   AssertionError 业务红、无 TypeError/超时），产品 hash 不变。
 - 其余命令（exit 全 0）：`pnpm --filter @type-pal/reforge exec vitest run`（全包 116 文件/1190 项）、

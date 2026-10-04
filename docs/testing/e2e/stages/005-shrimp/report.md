@@ -23,7 +23,7 @@ evidence: e2e/evidence/e2e-005.json
 最终执行版本为`98a42d4e09470701a63fd3ca9d0b33e9d56a9926`，作者内容含厨房入口最后补名。
 技术复核与相应质量门通过，用户连续观感复验另列；没有推进006，也不宣称整个Q1/Q2已完成。
 后续脚本治理已改变二阶段内容指纹，当前可用的二阶段002至005检查点见
-[治理后的当前检查点](../../../script-governance/current-checkpoints.md)。下文原六case结论、hash和目录保留为当时证据；
+[治理后的当前检查点](../../../archive/legacy/batches/script-governance/current-checkpoints.md)。下文原六case结论、hash和目录保留为当时证据；
 不能再把其中旧二阶段终档当作治理后的当前前驱。第一阶段入口不变。
 
 ## 执行入口

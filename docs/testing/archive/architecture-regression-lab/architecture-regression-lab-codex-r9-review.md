@@ -4,7 +4,7 @@
 
 ## 范围与执行
 
-- `e1857e66..97e21f34` 仅改本卡与 `docs/testing/glm-architecture-regression-lab/**`；最终工作树干净，`packages/`、`scripts/` 零 diff。
+- `e1857e66..97e21f34` 仅改本卡与 `docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**`；最终工作树干净，`packages/`、`scripts/` 零 diff。
 - 新鲜 `/tmp/codex-glm-r9-candidates.json` 为 37/37；`tools/verify.mjs` PASS，45 条机账为 43 candidate-green / 1 existing-proof / 1 blocked-environment，测试 fullName 双向映射成立。
 - `tools/red-control.mjs` 五针均 detected：新 `g05-immediate-wait` 在候选 G05-02 业务断言红 `expected 'right' to be 'up'`；新 `g08-ignore-roots` 在 G08-06 红 `expected 1 to be 2`。两针各恰 exit1、目标套件实际执行、注入见证命中，均未改产品源文件；旧三针保持 detected。
 - 独立 tsc、目录 Biome（含已提交执行 JSON）、`node scripts/docs/check.mjs`、`git diff --check` 均 exit0。六张未变截图不重拍；V01–V04 未证矩阵分类不变。

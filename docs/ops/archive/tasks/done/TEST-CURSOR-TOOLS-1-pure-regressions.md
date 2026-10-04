@@ -16,7 +16,7 @@ Evidence freeze: 590037a6
 
 用户2026-09-25要求继续给Cursor任务。本包换为八组小型可执行回归，不再扩扫已接收文档。
 全部通过真实公开纯函数入口，数据用内存字符串/对象；不启动应用，不需要PAL原版素材，不涉及玩法/存档。
-只准在[独立实验目录](../../../../testing/cursor-tool-regressions/README.md)补候选用例；draft准备可执行，
+只准在[独立实验目录](../../../../testing/archive/legacy/batches/cursor-tool-regressions/README.md)补候选用例；draft准备可执行，
 **不是产品/正式测试build准入**。Codex独立接收后再决定哪些转正；不能宣称已经提升官方七包覆盖率。
 
 ### 开工与并行隔离
@@ -62,7 +62,7 @@ Evidence freeze: 590037a6
 
 ## 唯一写入白名单
 
-仅`docs/testing/cursor-tool-regressions/**`，最多下列形态：
+仅`docs/testing/archive/legacy/batches/cursor-tool-regressions/**`，最多下列形态：
 
 ```text
 README.md                    # 本人交付总账/短回执；原授权保留
@@ -77,7 +77,7 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 
 ## 验证与交付
 
-- 从工作树根显式跑`env -u NODE_COMPILE_CACHE node --test --test-concurrency=1 docs/testing/cursor-tool-regressions/tests/*.test.mjs`。
+- 从工作树根显式跑`env -u NODE_COMPILE_CACHE node --test --test-concurrency=1 docs/testing/archive/legacy/batches/cursor-tool-regressions/tests/*.test.mjs`。
   使用Node现有版本，记录版本与完整命令/cwd/exit/测试标题。无文件时不能跑空glob并报通过，写清全组复用既有证据。
 - T01～T05补例后允许一次相邻`node --test --test-concurrency=1 scripts/docs/*.test.mjs`。
   T06～T08的Vitest既有测试只需读断言去重，不必为此跑整个adoption/boundary重型套件。
@@ -106,7 +106,7 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
 /Users/zhangxu/illegal/type-pal-cursor-tools-tests，分支codex/cursor-tools-tests-r1；不合main，不在旧任务目录切分支。
 先读AGENTS/CLAUDE/READ-FIRST、docs/ops/tasks/TEST-CURSOR-TOOLS-1-pure-regressions.md，证据冻结590037a6。
 按T01～T08连续做工具纯函数候选回归：先逐组读旧断言去重，再补真实公开函数的输入/输出用例。
-统一node:test+assert，产物仅docs/testing/cursor-tool-regressions/**；不新增框架/config，不改产品/旧测试/基线。
+统一node:test+assert，产物仅docs/testing/archive/legacy/batches/cursor-tool-regressions/**；不新增框架/config，不改产品/旧测试/基线。
 正反输入同合同，比较完整输出及实际输入深快照；已有证据足够则记existing-proof，不凑测试数。
 工具只调用卡内纯函数，不执行CLI、applyRelocation、全仓审计门或迁移；没有浏览器/PAL素材需求。
 疑似bug保留显式隔离失败例，不改预期/skip，不顺手修产品。四组一提交，八组做完整包push。
@@ -123,7 +123,7 @@ diagnostics/tXX-*.test.mjs    # 可选，显式失败或待证，不加入默认
   四条import smoke不转正，T06沿用既有测试。贡献归Cursor，修复和集成归Codex。
 - `scripts/docs/relocate.mjs`：较长映射只命中文本前缀时，在正则阶段排除该候选，允许较短有效父目录映射匹配。
   正式回归先红（漏改`docs/old/deep-extra.md`）后绿；原诊断转为正式绿回归。
-- [实施与验证](../../../../testing/cursor-tool-regressions/integration.md)：定向文档工具34/34、编辑器新增5/5；
+- [实施与验证](../../../../testing/archive/legacy/batches/cursor-tool-regressions/integration.md)：定向文档工具34/34、编辑器新增5/5；
   editor typecheck、Biome、文档门及全仓`pnpm check`已通过。
   官方ratchet和严格fast依次exit0，fast8039项/641生产文件，行77.45%、分支67.84%，无覆盖率回退。
 - 本轮用户要求Codex验证后提交推送，连同其先前授权的架构治理由Codex独立实施，

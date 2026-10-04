@@ -12,8 +12,8 @@ Branch: `codex/glm-wave-m-editor-data-r1`（独立工作树）
 ## 准入与前提
 
 2026-09-30 Codex 核 `build allowed`，限纯测试。
-[冻结表](../../../../testing/glm-next-triple/targets.json) M01–M07 为 **27 个互异生产源**，
-[只读校验](../../../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/N 目标零交集；
+[冻结表](../../../../testing/archive/legacy/batches/glm-next-triple/targets.json) M01–M07 为 **27 个互异生产源**，
+[只读校验](../../../../testing/archive/legacy/batches/glm-next-triple/verify-targets.mjs)证与 A–K 及 L/N 目标零交集；
 基础提交 `f70db72236d9cac794d40a625a89fef8c29459ae`。
 本地 fast 的 1301 个未命中臂只作为排查线索，不是收益承诺。
 
@@ -25,7 +25,7 @@ Branch: `codex/glm-wave-m-editor-data-r1`（独立工作树）
 若观察到 schema/生成内容/产品缺陷，停对应组交 Codex，不改产品或测试 oracle 凑绿。
 
 先读 `AGENTS.md`、[`READ-FIRST`](../../../../phase2/READ-FIRST.md)、
-[共同协议](../../../../testing/glm-next-triple/README.md)、冻结表与现行旧测；
+[共同协议](../../../../testing/archive/legacy/batches/glm-next-triple/README.md)、冻结表与现行旧测；
 特别排重 A 的 DataMode/表单、F 的 sprite 上传与 B 的会话测试。
 不接真实资产导入/发布、PAL 内容改写、E2E 剧情或新 UX 形态裁决。
 
@@ -43,7 +43,7 @@ Branch: `codex/glm-wave-m-editor-data-r1`（独立工作树）
 
 写入白名单只含冻结源同目录 `*.glm-m.test.ts(x)` 新文件、
 `packages/editor/src/__tests__/glm-m/**` typed fixture、
-`docs/testing/glm-next-triple/wave-M/**` 证据/反控；L 的地图/印章文件也只读。
+`docs/testing/archive/legacy/batches/glm-next-triple/wave-M/**` 证据/反控；L 的地图/印章文件也只读。
 功能视觉至少两条：一条数据记录编辑/撤销，一条资源或控件键盘选择/失败恢复；
 保存实际浏览器操作、视口、截图 SHA256、console。任何用户可见行为选择只记录
 before→after 供 Codex/用户裁决，本测试包不预批产品修改。
@@ -79,7 +79,7 @@ Editor 定向/相邻及全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal
   `failureMessages`，未检查红色确为业务断言，目标 `TypeError` 也会被误判 valid
   （与 L 首轮 CC5 同类）。返工时增加非断言红拒绝及对应 self-test，再重跑四枚。
 - `node scripts/docs/check.mjs` 在**最终候选**因共享
-  `docs/testing/glm-next-triple/README.md` 缺 wave-M 导航行失败，非回执所写 PASS。
+  `docs/testing/archive/legacy/batches/glm-next-triple/README.md` 缺 wave-M 导航行失败，非回执所写 PASS。
   共享文件在 GLM 白名单外；仍由 Codex 集成时补行，不要求 GLM 越界修。
   V2 的“Enter 不激活、Space 激活”仅作观察，尚无足够一手证据定产品缺陷，
   不随本测试波改 UI。隔离覆盖未成功产出，不可主张本包覆盖增量。
@@ -123,7 +123,7 @@ check/官方 ratchet/protected fast；当前 review，未计正式收益、未�
 
 并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
 migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
-详见[统一记录](../../../../testing/glm-next-triple/codex-lm-union-review.md)。
+详见[统一记录](../../../../testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md)。
 保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM M。
 
 ### 历史首轮派发提示词（已执行，非本次返工指令）
@@ -132,7 +132,7 @@ migrate statements/branches/lines 比率回退；baseline 未改，protected fas
 你是 TEST-GLM-WAVE-M-1 的唯一测试 Coding Owner。请在独立工作树、分支
 codex/glm-wave-m-editor-data-r1 从包含本卡的最新 main 派发提交起步；生产冻结 f70db722。
 先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡、
-docs/testing/glm-next-triple/README.md 与 targets.json，运行 verify-targets.mjs。
+docs/testing/archive/legacy/batches/glm-next-triple/README.md 与 targets.json，运行 verify-targets.mjs。
 完成 M01–M07 数据页/资源/控件 27 源大包：逐组查真实 caller 与旧测 fullName/断言，
 只为合法未重复合同新增 *.glm-m.test.ts(x)、专属 typed fixture 和 wave-M 证据。
 两条真实浏览器功能视觉、至少四枚合法输入业务反控、鲜活 Vitest JSON、Editor 全包测试与

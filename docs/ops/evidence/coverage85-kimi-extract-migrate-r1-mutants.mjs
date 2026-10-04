@@ -1,7 +1,7 @@
 /**
  * TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 · 六针三态反控驱动。
  *
- * 架构同 docs/testing/phase1-main-owners-mutants.mjs：变异不经磁盘改产品——每个变异由
+ * 架构同 docs/testing/domains/phase1-runtime/engine-boundaries/tools/phase1-main-owners-mutants.mjs：变异不经磁盘改产品——每个变异由
  * 生成的 vitest config 内联插件在模块 load 钩子内替换源码（磁盘产品文件零写入，
  * marker 文件证明注入真实执行），testNamePattern 锁唯一指定 fullName，businessRed
  * 要求 exit 1 + 恰好一条 executed + 纯业务 AssertionError（无 timeout/unhandled/

@@ -12,7 +12,7 @@ Visual Verification Timing: N/A（纯测试接入；历史未证主张保留）
 
 用户2026-10-02冻结现有交付，2026-10-03要求通过后推送/关卡/清分支。700例/50组/50针/Q10视觉是历史计划，不是当前done门，不再无限续派。
 作者固定5dbf72d78f8df9939a76407c0f17ad10455bbbb5，30测试/fixture文件、175执行；[原完整卡与历史](https://github.com/IllegalCreed/type-pal/blob/9ae1116ec01308ef29f0b08c98f29ab1898ad034/docs/ops/tasks/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md)不重写。
-[共同冻结收口/证据](../../../../testing/glm-tenfold-triple/README.md)为现行范围：仅固定交付选择性接入；不修改第一阶段真值、生产源、旧测、数据或统计配置，不恢复旧兼容。
+[共同冻结收口/证据](../../../../testing/archive/legacy/batches/glm-tenfold-triple/README.md)为现行范围：仅固定交付选择性接入；不修改第一阶段真值、生产源、旧测、数据或统计配置，不恢复旧兼容。
 
 ## 独立裁决
 
@@ -24,7 +24,7 @@ D-Q01-1另属[标题读档IO错误产品draft](../../../tasks/REFORGE-OPENING-LO
 
 固定并集完整check11875绿、工具325绿、七包typecheck与lint零诊断；ratchet通过，最终受保护strict-fast在下列旧身份保护账阻塞。只有解决保护门后才main/done/可恢复退休。
 
-上述是先前16计数阻塞的历史，用户窄批准后已关闭；最新check11875+345/ratchet过，protected11461全绿且五登记通过，但旧I06随机少1 game臂而拒收，main CI另有缺ignored头像五旧红。[最新机账](../../../../testing/finite-test-intake-20261003/README.md)与[两旧输入待准入](QUALITY-TEST-INPUTS-1.md)。Q无作者返工，不能恢复旧机制或改保护参照；未main/done/删除。
+上述是先前16计数阻塞的历史，用户窄批准后已关闭；最新check11875+345/ratchet过，protected11461全绿且五登记通过，但旧I06随机少1 game臂而拒收，main CI另有缺ignored头像五旧红。[最新机账](../../../../testing/archive/legacy/batches/finite-test-intake-20261003/README.md)与[两旧输入待准入](QUALITY-TEST-INPUTS-1.md)。Q无作者返工，不能恢复旧机制或改保护参照；未main/done/删除。
 全仓85%尚未达，不是本卡继续工作的条件；不存在下一波无限补量。
 
 无下一位GLM提示词，固定175交付是本卡终点。产品draft另行窄准入，不夹修。

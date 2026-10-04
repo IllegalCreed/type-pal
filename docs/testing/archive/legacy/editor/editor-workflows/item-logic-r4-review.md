@@ -56,12 +56,12 @@ expect(outcome?.effectResults).toEqual([{ index: 0, kind: 'runScript', changed: 
 ## 为什么见证工具exit0不代表接收通过
 
 旧见证脚本是审计工具：允许候选绿、独立oracle红，exit0表示**完整记录了差异**，并非声明候选抓住全部变异。
-本席新增[八针接收检查](../../../../item-logic-required-witnesses.mjs)，每次重新运行原六针+两残项，
+本席新增[八针接收检查](../../../../domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs)，每次重新运行原六针+两残项，
 再要求八个candidate-mutant均exit1且至少一个候选断言红；不能拿追加oracle代替候选自身。
 它只判这八针，不替代输入清单、静态门或文档真实性验收。
 
 ```sh
-env -u NODE_COMPILE_CACHE node /Users/zhangxu/illegal/type-pal/docs/testing/item-logic-required-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic
+env -u NODE_COMPILE_CACHE node /Users/zhangxu/illegal/type-pal/docs/testing/domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic
 ```
 
 本候选实跑该检查 **exit1**，精确列出learned-input-mutation、throw-input-mutation两条missed。

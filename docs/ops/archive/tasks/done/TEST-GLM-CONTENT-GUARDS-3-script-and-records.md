@@ -52,7 +52,7 @@ before→after只有测试增量。最强替代解释是旧用例已覆盖或零
 ## 测试纪律与白名单
 
 - 最多上述八新测试；可新增`__tests__/glm-guard-residual-fixtures.ts`。
-- 专属`docs/testing/glm-content-guards-wave3/**`（README、回执、机账、负控工具），本卡只追加本人交付块。
+- 专属`docs/testing/archive/legacy/batches/glm-content-guards-wave3/**`（README、回执、机账、负控工具），本卡只追加本人交付块。
 - 禁止修改生产、旧测试、资产、配置/超时/排除、官方baseline、共享README/看板、其它任务文件。
 - 合法fixture须typed且先过正在测试的真实公开guard，拒绝从同型合法fixture只破一轴；不以as unknown as伪装合法态。
 - 快照必须调用前structuredClone，调用后立即比较**实际同一入参**；精确错误路径或完整结果。选项回调要有真实调用见证。
@@ -106,7 +106,7 @@ R1 gate过拒及R2原敌transition污染两针已由候选自身抓住，fade/wi
 
 ```text
 接手TEST-GLM-CONTENT-GUARDS-3，已build allowed。先读AGENTS/CLAUDE/READ-FIRST、本卡及
-docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的type-pal-glm-content-guards-wave2
+docs/testing/archive/legacy/batches/coverage-plus5/README.md。核clean并fetch；复用已合入的type-pal-glm-content-guards-wave2
 目录，从含本卡origin/main新建codex/glm-content-guards-wave3，不碰主工作树。
 按G1–G8连续补同步公开guard的真实剩余合同，先查旧标题去重，合法fixture先过正式guard，
 单轴负例+同输入正控、实际入参深快照、精确结果；仅八新测试/可选fixture/专属证据/本卡交付块。
@@ -123,14 +123,14 @@ docs/testing/coverage-plus5/README.md。核clean并fetch；复用已合入的typ
   validate.test E18-1/C0/C8、skills-poisons boundaries、wave2 叶守卫 91 行等逐组核对，相同输入不重报。
 - 纪律：合法 fixture 先过真实公开 guard；单轴负例配同入口同形状正控；`expectExactError` 完整 message
   全等；对象/数组实际入参 deepSnapshot 前后比较；正控意外抛出呈 AssertionError。
-- 负控：[guard-residual-mutants.mjs](../../../../testing/glm-content-guards-wave3/guard-residual-mutants.mjs)
+- 负控：[guard-residual-mutants.mjs](../../../../testing/archive/legacy/batches/glm-content-guards-wave3/guard-residual-mutants.mjs)
   复用 wave2 同一 judge + 判据自测 10 例 + 110 项绿对照 + 8 针（每组一针）各恰红目标 fullName。
 - 门禁：定向 110/110、全 content **92 文件 1132/1132**、TC exit0（新鲜 JSON）；本批改动 Biome 0 error
   （3 个故意针面 warning 单列；runtime-script.ts 既有 warning 属分支继承）；docs PASS；diff --check 干净。
   未跑全仓门/逐组 coverage/整包对照（冻结池即选题依据）。
 - 未发现产品疑似缺陷；不可达臂如实不测（详见
-  [回执](../../../../testing/glm-content-guards-wave3/receipt.md) 与
-  [机账](../../../../testing/glm-content-guards-wave3/evidence.json)）。
+  [回执](../../../../testing/archive/legacy/batches/glm-content-guards-wave3/receipt.md) 与
+  [机账](../../../../testing/archive/legacy/batches/glm-content-guards-wave3/evidence.json)）。
 - 窄返工（2026-09-26，仅 R1–R3，见 origin/main `docs/testing/archive/legacy/quality/quality-gates/guard-wave3-review.md`）：
   R1 loop 三行由同一合法 loop 工厂派生（全部含 cond）、场景效果四行挂 target:scene 同型载体、
   投掷行以完整合法 magicDamage 为同型正控且各坏行只改单字段；R2 新增薄助手

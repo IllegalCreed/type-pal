@@ -37,7 +37,7 @@ Branch: main
 
 ## 分包与推进门
 
-- Census Owner：独占新增`scripts/script-governance/**`及`docs/testing/script-governance/`专属机器台账。
+- Census Owner：独占新增`scripts/script-governance/**`及`docs/testing/archive/legacy/batches/script-governance/`专属机器台账。
   draft允许只读普查工具和其反控；没有工程写盘、转换或发布入口。不能靠恢复执行旧转换核补映射。
 - Motion reviewer：只读分类现有machine与外部handoff，直接核compiler/runner节拍；先交可批量转换类别和反例，
   不改schema、runtime、JSON或编辑器。候选分类不是删除165机器的build授权。
@@ -161,7 +161,7 @@ Root独立重算18后继前后/源段/首段hash，核14场景只20准入behavio
 原locale全保留；12确认结构逐对象对20a0ce2e9只flow变化，48状态→18步骤。
 支付8绑定逐一逆向核只有授权不足stop与s023确认前移，6场景其它内容保全；没有实现层改动。
 两批结构合计18机器/87状态→24普通步骤，当前147机器/5490状态；剩余能力设计见
-[统一步骤后续方案](../../../../testing/script-governance/unified-steps-plan.md)，不误报为全模型已退役。
+[统一步骤后续方案](../../../../testing/archive/legacy/batches/script-governance/unified-steps-plan.md)，不误报为全模型已退役。
 
 Root早次114项合跑有8个失败，为新增固定步骤名称尚未同步到结构对照期望；保留失败日志，
 后续按明确字面标签核准，没有忽略metadata或更改原历史SHA。最终114项由Root再跑后记整批质量门。
@@ -175,7 +175,7 @@ Root早次114项合跑有8个失败，为新增固定步骤名称尚未同步到
 ### 首批技术验收
 
 Root独立验收接受18套后继、18套结构、8个收费绑定及相邻医生修复。原始证据与未解决范围见
-[独立回执](../../../../testing/script-governance/independent-review.json)和[当前检查点](../../../../testing/script-governance/current-checkpoints.md)。
+[独立回执](../../../../testing/archive/legacy/batches/script-governance/independent-review.json)和[当前检查点](../../../../testing/archive/legacy/batches/script-governance/current-checkpoints.md)。
 全部实现/作者内容在e3586965e冻结，其后bb08d30ee仅补已核新增引用的测试断言；没有运行时、schema或版本改动。
 
 七包typecheck与11,116测试通过。首轮整仓门发现旧shop数量，实际逐项核出shop+1、portrait+4，

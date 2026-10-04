@@ -75,7 +75,7 @@ GLM为测试贡献者；其返工自验不是独立第三方证明，源测试/f
 
 - 薄数据fixture：packages/content/src/__tests__/glm-content-contract-fixtures.ts；只放数据/小构造/保真快照，不复制生产算法、walker或整包测试。
 - 本卡GLM自己的设计/自验签字与交接日志；docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md的GLM回执区。
-- docs/testing/glm-content-contracts-mutants.mjs、glm-content-contracts.config.mts、glm-content-contracts-evidence.json。
+- docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs、glm-content-contracts.config.mts、glm-content-contracts-evidence.json。
 - 必要隔离诊断docs/testing/probe-glm-content-contracts.mjs（已证产品缺陷，不进入默认Vitest，明确observe/contract预期与红因）。
 
 产品、旧测试、旧fixture、原审计探针、全局配置、依赖/锁、scripts/coverage、官方baseline、projects/data/reference均零修改。
@@ -293,7 +293,7 @@ GLM为测试贡献者；其返工自验不是独立第三方证明，源测试/f
 在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-CONTENT-CONTRACTS-1 r1。任务卡 docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，review；集成候选 adbabb84f3368385728c1f16df3815f97fffd0a2，对比31aa0e3b；GLM返工源428a7852，产品冻结7ab20689447150eec7ecb0678cbb6980a685eb49。设计不重签。
 先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与docs/testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md、glm-content-contracts.md/evidence.json。独立读源码和测试，不复述Codex/GLM结论；GLM是118项测试贡献者，其自验不是独立第三方证明。
 重点核R1主载荷先过当前守卫；R2实参深快照、地图单轴、非零offset完整像素、精确Issue多重集合；R3判据拒混合宿主错误且JSON钉名新增用例业务红（load标记本身不算）；R4的43族账及Owner对C1/F3/F5/F8的收窄。生产/旧测试/原见证零改，Codex未改GLM测试语义；只另改命令注释/文档和官方生成baseline。
-复跑 node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal（7 accepted、6 detected、执行检查passed、mixedFailureAccepted=false），node docs/testing/glm-content-contracts-mutants.mjs（6正控+12业务红），按需content全包675/tc/Biome。核串行check7420→ratchet→TYPE_PAL_COVERAGE_BASE_REF=31aa0e3b pnpm coverage:fast单次exit0的证据；fast6932/617，原42个content测试身份/计数、其它六包基线对象、全生产清单与分母不变。日志/tmp/codex-content-contracts-rework.CTD0rc/可重建。未跑full/E2E，不关闭其它修复/覆盖待办；本卡无视觉复验。
+复跑 node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal（7 accepted、6 detected、执行检查passed、mixedFailureAccepted=false），node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs（6正控+12业务红），按需content全包675/tc/Biome。核串行check7420→ratchet→TYPE_PAL_COVERAGE_BASE_REF=31aa0e3b pnpm coverage:fast单次exit0的证据；fast6932/617，原42个content测试身份/计数、其它六包基线对象、全生产清单与分母不变。日志/tmp/codex-content-contracts-rework.CTD0rc/可重建。未跑full/E2E，不关闭其它修复/覆盖待办；本卡无视觉复验。
 只在你自己的终审席位和交接日志写accept或counter（file:line、复现、返工项），提交前同步保留他席并自行提交推送；不要改产品/GLM测试语义/基线/他席/任务状态，不代签、不标done。有阻断交回Codex；通过则由Codex统一核定后续准入。
 ```
 
@@ -303,7 +303,7 @@ GLM为测试贡献者；其返工自验不是独立第三方证明，源测试/f
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-CONTENT-CONTRACTS-1 r1，卡 docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md，rework。原候选dbe579c5f7e8790d03d4ce1974449118537c021f，分支codex/glm-content-contracts-r1，产品冻结7ab20689；设计不重签。
 先同步合入并保留Codex counter，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md。只改原白名单测试/fixture/本人诊断与回执、必要任务index机械联动；不得改产品/旧测试/原探针/官方基线。
 R1修实际F bundle的旧onEnter/缺sprite.label及A4非法page.body，主载荷先过当前结构守卫，不另造正控替主例背书。R2快照并比较实际传入actor表；地图来源负例只坏一轴并核路径；C5完整解码非零offset视图；F钉确定severity、完整where与Issue多重集合。
-运行node docs/testing/content-contracts-review-witnesses.mjs <候选物理绝对路径>：当前六针均MISSED，返工应detected，执行检查本身必须passed；若fixture提取需适配，保留反例语义并告知Codex，不删见证或改产品规避。
+运行node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs <候选物理绝对路径>：当前六针均MISSED，返工应detected，执行检查本身必须passed；若fixture提取需适配，保留反例语义并告知Codex，不删见证或改产品规避。
 R3原12针此次业务红保留，但工具须运行态执行见证/明确新增断言红因，并拒绝TypeError、timeout、Unhandled Errors；混合坏日志判据自测必须拒绝。R4按43族逐项列新增/已有/待证/防御/缺陷与真锚点，撤回“仅B4未做其它全新增”；B4可留后续但补实际caller/已有正控；C8按实际源码分类，不造TextEncoder降级。修标题、可复制覆盖命令、JSON Biome与任务index；数字/hash/失败记录从最终树生成。
 保留有效用例与已核116运行/+116语句/+127分支，不为固定条数或100%凑数。复跑定向/全content/tc/全部新增文件Biome、原6+12与新见证、同口径/tmp覆盖；全仓check/官方ratchet/strict-fast仍留Codex。GLM为测试贡献者，不代签、不标done、不自行转Kimi终审。
 ```
@@ -313,7 +313,7 @@ R3原12针此次业务红保留，但工具须运行态执行见证/明确新增
 ```text
 在 /Users/zhangxu/illegal/type-pal 重新接收 TEST-CONTENT-CONTRACTS-1 r1 返工。任务卡 docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md（rework）；返工回执与 43 族账 docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md；机器账 docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json（已过 Biome）。候选分支 codex/glm-content-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-content-contracts），在你的 counter 31aa0e3b 之上追加返工提交；产品冻结 7ab20689447150eec7ecb0678cbb6980a685eb49；设计不重签。
 GLM 已按 R1～R4 返工：主 fixture 在测试内先过现行结构守卫（你的 witness 工具 7 项 fixture 检查应全 accepted）；六针应全 detected 且执行检查 passed；mutants 脚本带判据 AST 自测（你的 mixedFailureAccepted 应翻 false）与 JSON 运行态执行见证（每针钉本组新增测试精确标题 failed）；43 族逐项账、可复制覆盖命令、Biome-clean JSON 已落。最终树 13 新文件 118 项、全包 55 文件/675 项、tc rc=0、覆盖 +117 语句/+128 分支（/tmp 同口径）。
-请独立复核：重跑 node docs/testing/content-contracts-review-witnesses.mjs <候选物理绝对路径> 与 node docs/testing/glm-content-contracts-mutants.mjs；抽查 R1-R4 修复点与 43 族账锚点真实性；复跑定向/全包/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；不代签、不标 done。
+请独立复核：重跑 node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs <候选物理绝对路径> 与 node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs；抽查 R1-R4 修复点与 43 族账锚点真实性；复跑定向/全包/tc/Biome。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；不代签、不标 done。
 ```
 
 ### GLM · 原设计与实施提示（历史，按当前返工执行）
@@ -340,5 +340,5 @@ GLM 已按 R1～R4 返工：主 fixture 在测试内先过现行结构守卫（�
 ```text
 在 /Users/zhangxu/illegal/type-pal 接收 TEST-CONTENT-CONTRACTS-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-CONTENT-CONTRACTS-1-content-validation-boundaries.md（review）；回执与机器账 docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md + docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json。候选分支 codex/glm-content-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-content-contracts），基点 5fd655ec；产品冻结 7ab20689447150eec7ecb0678cbb6980a685eb49。
 先同步主线并核候选对冻结零漂移（除基线内 477cd0c6 的 docs/testing/README.md 一行外应只动白名单）。GLM 已交付六组 13 新测试文件 116 项、mutants 负控脚本（6 正控 + 12 变异针两轮 18/18）、官方 testSelection 覆盖对照（局部 13 模块与全包双口径，/tmp 输出）与实现者自验 accept；未发现新产品缺陷、无隔离登记项，B4 按工作包条款留待证。
-你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫）、复跑 13 文件定向与全 content 包、tc/Biome；复跑 node docs/testing/glm-content-contracts-mutants.mjs 验 18/18；按需重跑覆盖对照 config 验 /tmp 输出。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑，不得由其补跑）；全部通过后在本人席位签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试文件语义；不得代签他人或标 done。
+你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过现行守卫）、复跑 13 文件定向与全 content 包、tc/Biome；复跑 node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs 验 18/18；按需重跑覆盖对照 config 验 /tmp 输出。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑，不得由其补跑）；全部通过后在本人席位签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试文件语义；不得代签他人或标 done。
 ```

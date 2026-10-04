@@ -22,7 +22,7 @@ Production freeze: 86e928b5
 这是draft阶段可立即开展的回归准备，不是产品build或正式覆盖率准入；不借用户请求豁免新产品决策。
 生产重构及正式测试接入仍由Codex负责，GLM不是其贡献的独立第三方证明。
 
-完整范围、去重入口、文件白名单、执行和交付合同见[十二组工作包](../../../../testing/glm-architecture-regression-lab/README.md)。
+完整范围、去重入口、文件白名单、执行和交付合同见[十二组工作包](../../../../testing/archive/legacy/batches/glm-architecture-regression-lab/README.md)。
 上一包ARCH-SUPPORT-GLM-1已经接收accept，材料以b84c16be文档合并进入main供引用；原卡仍draft、未标done。
 Codex保留A3的main/场景/移动/绘制主线，GLM不修改或替其审签。
 
@@ -117,13 +117,13 @@ blocked-automation归因；继续其它五类表单及V02/V03/V04矩阵。旧e2e
 
 ## Codex 隔离材料集成（2026-09-26，用户明确授权）
 
-- 用户在 r9 候选通过后要求“合并推送”。Coding Owner 仅从 `97e21f34` 精确接入 `docs/testing/glm-architecture-regression-lab/**` 的最终隔离材料，保留本主线的审查记录及其它已完成变更；不做整分支 merge（该分支落后主线且含与本卡无关的历史差异）。来源与 GLM 测试贡献在本卡/回执保留。
+- 用户在 r9 候选通过后要求“合并推送”。Coding Owner 仅从 `97e21f34` 精确接入 `docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**` 的最终隔离材料，保留本主线的审查记录及其它已完成变更；不做整分支 merge（该分支落后主线且含与本卡无关的历史差异）。来源与 GLM 测试贡献在本卡/回执保留。
 - 接入前修正已登记的 receipt/README/results 命令注释旧“三针”与 G05 时序勘误；产品、正式 `packages/**` 测试、覆盖率配置和基线不随这批材料改变。**入仓的候选仍在 `docs/testing/`，不自动进入官方 fast 测试或覆盖率统计。** V01–V04 未证矩阵继续登记；正式测试转正须另核用例归属和统一质量门。
 - 本卡继续 `draft`，不把“隔离材料已合入”冒称十二组完整合同或任务 done；Kimi 豁免边界不变。
 
 ## 剩余项并行交接（2026-09-26，用户要求继续做到完工）
 
-- 当前已验收并入仓的是 `docs/testing/glm-architecture-regression-lab/**` 的 **37 项隔离候选**，不是正式测试/官方覆盖率。未完成项分工：GLM 补 G01/G06/G08 未证轴和 V01–V04 功能视觉矩阵；Codex 独立接收后负责正式测试选址/去重、全仓 check、官方 ratchet 与单次严格 fast，并对视觉取证作最终复核。两线互不改对方文件；现有任务仍 `draft`，不提前 done。
+- 当前已验收并入仓的是 `docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**` 的 **37 项隔离候选**，不是正式测试/官方覆盖率。未完成项分工：GLM 补 G01/G06/G08 未证轴和 V01–V04 功能视觉矩阵；Codex 独立接收后负责正式测试选址/去重、全仓 check、官方 ratchet 与单次严格 fast，并对视觉取证作最终复核。两线互不改对方文件；现有任务仍 `draft`，不提前 done。
 - 用户要求不等待另一 Agent 的空窗：Codex 可先对已接收的非视觉候选进行正式接入准备；GLM 一批连续完成剩余实验，不逐小项请求签收。Kimi 本队列豁免不变。
 - 用户本轮再次要求“不等待，未完即推进”；结合此前架构治理由 Codex 独立实施/验收的裁决，正式测试接入由 Codex 单 Owner 进入 `build`。这是**测试准入**，不授权 GLM 改产品；候选已验收的真实调用链先转正，仍未证的视觉/扩展轴不以降低验收范围消失。正式覆盖率只在测试入包并通过官方 ratchet/strict 后登记。
 - Codex 已把验收通过的 37 项代表合同机械适配进正式包目录：`packages/editor/src/__tests__/architecture-lab/` 21、`packages/content/src/validate-enemy-crosscalls.test.ts` 7、`packages/game/src/core/cross-module-boundaries.test.ts` 4、`packages/migrate/src/migrate-conversion-isolation.test.ts` 5。迁移没有改产品实现；一阶段测试的模块全局态清理由 `finally` 收口。editor 测试置于通用 `src/__tests__`，不改变设计系统生产文件 census。定向/类型检查已绿，统一全仓门与覆盖率待单次结算。隔离原候选保留为贡献历史，不作为第二份官方测试重复计数。
@@ -222,7 +222,7 @@ r12 为**纯浏览器取证批次**：候选/diagnostics 零改动；产品、�
 ```text
 接收 ARCH-REGRESSION-LAB-GLM-1 r12 批次，分支 codex/glm-architecture-regression-lab-r2
 （worktree /Users/zhangxu/illegal/type-pal-glm-lab-r2），任务 build。先读 origin/codex/arch-lab-r11-review
-的 r11 审查与本卡 Codex r11 块，再读本卡 GLM r12 交付块、docs/testing/glm-architecture-regression-lab/receipt.md。
+的 r11 审查与本卡 Codex r11 块，再读本卡 GLM r12 交付块、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/receipt.md。
 复跑（cwd=该 worktree 根）：candidates.vitest.mts 新鲜 JSON（42/42）、verify.mjs <JSON>（75 条
 72/1/1/1，含新图完整 SHA 硬校验，PASS）、red-control.mjs（六针 detected）、tsc（exit0）、目录 Biome、
 check:docs；diagnostics 应见 2 red/2 green（lab-startup 历史红 + G06-D1 冻结树红）。裁决重点：
@@ -296,7 +296,7 @@ GLM 不自审终审，不合 main、不标 done；Kimi 豁免，无 Kimi 提示�
 在 /Users/zhangxu/illegal/type-pal 继续 ARCH-REGRESSION-LAB-GLM-1，任务卡
 docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md 仍为 draft。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡、
-docs/testing/glm-architecture-regression-lab/README.md/receipt.md/results.json，
+docs/testing/archive/legacy/batches/glm-architecture-regression-lab/README.md/receipt.md/results.json，
 以及 Codex r7/r8/r9 接收报告。以 origin/main 当前提交为新工作起点，在独立
 codex/ 分支与独立 worktree 做一批连续交付；不要把旧 GLM 分支整枝合回 main。
 
@@ -319,7 +319,7 @@ codex/ 分支与独立 worktree 做一批连续交付；不要把旧 GLM 分支�
 每项给实际操作步骤、before/after 业务状态、截图完整 SHA256、CSS viewport/zoom/
 DPR、源锚点、同输入正控与可证伪反控。可达产品缺陷保留显式失败诊断，别改
 预期凑绿；工具/环境做不到就按精确阻断登记，不能用源码推断替代目视。
-只改 docs/testing/glm-architecture-regression-lab/** 与任务卡中你自己的交付块，
+只改 docs/testing/archive/legacy/batches/glm-architecture-regression-lab/** 与任务卡中你自己的交付块，
 不改 packages/scripts、正式测试、官方配置/基线或 Codex 审查原文；不合 main，
 不标 done，不自签独立验收。一次性提交完整回执、机账、可复跑命令和精确 SHA，
 由 Codex 独立复核；Kimi 本队列豁免。
@@ -372,11 +372,11 @@ verify 一对一映射/白名单硬判据。随后逐组补真实 entered+业务
 
 ```text
 接手ARCH-REGRESSION-LAB-GLM-1，先读AGENTS/CLAUDE/READ-FIRST、本卡和
-docs/testing/glm-architecture-regression-lab/README.md。
+docs/testing/archive/legacy/batches/glm-architecture-regression-lab/README.md。
 从Codex本次交付的主线文档提交创建独立worktree /Users/zhangxu/illegal/type-pal-glm-regression-lab、
 分支codex/glm-architecture-regression-lab-r1；生产冻结86e928b5，不在main目录切分支。
 立即执行draft实验目录内的8组候选回归与4组功能视觉准备，按工作包顺序连续做完，单组阻塞不拖住其它组。
-唯一写入白名单docs/testing/glm-architecture-regression-lab/**；不改packages/scripts、正式测试、
+唯一写入白名单docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**；不改packages/scripts、正式测试、
 配置/锁文件/基线/任务卡/共享看板。使用真实生产入口与合法fixture，先去重，再补有业务断言的候选测试。
 每组完成一提交；原用例和历史探针不改。实际产品缺陷保留显式失败复现，不偷偷改预期变绿、不顺手修产品。
 不跑全仓check/官方coverage或迁移写盘；正式测试接入、统一门禁与统计归Codex。
@@ -395,7 +395,7 @@ docs/testing/glm-architecture-regression-lab/README.md。
 
 ```text
 在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 494f9b5d，任务 draft。同步并核干净工作树后，读 origin/main:docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md 和本卡四轮接收块。
-只改 docs/testing/glm-architecture-regression-lab/**：先把 README/receipt/results 的 39条37/1/1、实际32项、G08三项、V04预期beforeunload/环境阻断对齐；清除旧 reproduced-defect、36/40 和过时 fullName。verify 必须只读且缺执行JSON fail-closed、实际读取JSON验候选 file/fullName/status/执行数与命令退出码、完整截图SHA；白名单按起点冻结与最近授权主线合入点分栏硬检查，不可降 INFO；加错标题/零执行/普通Error/超时自测，目录Biome0。
+只改 docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**：先把 README/receipt/results 的 39条37/1/1、实际32项、G08三项、V04预期beforeunload/环境阻断对齐；清除旧 reproduced-defect、36/40 和过时 fullName。verify 必须只读且缺执行JSON fail-closed、实际读取JSON验候选 file/fullName/status/执行数与命令退出码、完整截图SHA；白名单按起点冻结与最近授权主线合入点分栏硬检查，不可降 INFO；加错标题/零执行/普通Error/超时自测，目录Biome0。
 十二组按报告逐项决定：到不了目标 caller/时序/UI 的，主动降级为窄候选或待证；要称完整合同，就补真实进入/业务结果与可鉴别反控。候选测试自 bc8613d1 未改，旧业务counter不能靠改账消失。复跑候选JSON、red-control、verify负控、typecheck、Biome、docs/diff，提交推送精确SHA与去向。不要改产品、正式测试、基线或他席结论；不合main、不标done、不计官方覆盖率。Kimi豁免。
 ```
 
@@ -407,7 +407,7 @@ docs/testing/glm-architecture-regression-lab/README.md。
 ### 下一位 GLM 定点返工提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 bc8613d1，状态 draft。先同步分支、核干净工作树，读任务卡三轮 Codex 接收块与 origin/main:docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md。只改 docs/testing/glm-architecture-regression-lab/**，不改产品、正式测试、基线或他席结论。
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 bc8613d1，状态 draft。先同步分支、核干净工作树，读任务卡三轮 Codex 接收块与 origin/main:docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md。只改 docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**，不改产品、正式测试、基线或他席结论。
 先解决证据真值：实际 Vitest 32项，机账40条中11条旧 fullName（含已删除的G08-03）；README/receipt/commands/V04归因必须与最终树同口径。verify.mjs 保持只读，但须从实际 Vitest JSON 验 file/fullName/status/执行数、完整截图SHA、命令与退出码，并有错标题/零执行/普通Error/超时负向自测。六图原样可复用，不为数字重拍。
 逐组按 Codex 表只修真实剩余反证，做不到完整调用链就降级为窄候选/待证：G03真保存IO、G04旧草稿提交、G05真实tick迟到、G06合法caller、G07 event/battle实际消费者、G08回调/异常与已删03、V01-V04未测矩阵。不要靠注释或改标题冒充测试；保留已成立窄正控。补候选TS/TSX独立typecheck；红控临时目录放/tmp。复跑候选JSON、负控、目录Biome、docs/diff与verify，提交推送精确tip及逐组去向。候选不合main、不计官方覆盖率、不标done；Codex再独立接收。Kimi豁免，无Kimi提示词。
 ```
@@ -421,7 +421,7 @@ docs/testing/glm-architecture-regression-lab/README.md。
 ### 下一位 GLM 收窄返工提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 af43311a，状态 draft。先同步分支、确认干净工作树，读任务卡本轮 Codex 接收块及 origin/main:docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md。只改 docs/testing/glm-architecture-regression-lab/**，不改产品/正式测试/基线或他席结论，不标 done。
+在 /Users/zhangxu/illegal/type-pal-glm-regression-lab 的 codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选 af43311a，状态 draft。先同步分支、确认干净工作树，读任务卡本轮 Codex 接收块及 origin/main:docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md。只改 docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**，不改产品/正式测试/基线或他席结论，不标 done。
 先修 40 条机账与 README/receipt/交付数字不一致、原冻结命令因合入 main 失效、V04-01 旧标题/归属残留；results 保存截图完整 SHA，并让 verify 只读且实际核 Vitest JSON fullName/status/执行数。再逐组按 Codex 表处理：进不了真实跨调用/异步/视觉链的案例明确降为窄候选或待证，不用全绿标题冒充完整合同；G05/G06/G07/G08 的直接反证优先。V01-V04 不重拍已有可见事实，但未做的键盘/分隔条/失败恢复/合法媒体矩阵必须明确未证或用自有合法宿主补齐。给候选 TS/TSX 提供真实类型检查，红控临时文件放 /tmp 避免污染仓内 Biome。复跑 33 项候选、负控、全目录 Biome、文档门与新对账，提交推送精确 tip。候选只供 Codex 独立接收，不合 main、不计官方覆盖率。Kimi 本队列豁免，无下一位 Kimi 提示词。
 ```
 
@@ -439,5 +439,5 @@ docs/testing/glm-architecture-regression-lab/README.md。
 ```text
 在 /Users/zhangxu/illegal/type-pal-glm-regression-lab、codex/glm-architecture-regression-lab-r1 返工 ARCH-REGRESSION-LAB-GLM-1，候选30397b1d，状态draft。先同步分支并核工作树；读取 origin/main:AGENTS.md 当前委派模式、本卡，以及 Codex 报告 docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md（在 origin/main，先 git show 只读，不要为取报告合main）。
 按报告逐组处理 G01–G08/V01–V04 的具体反证；保留已成立的窄正控，不为保持39条而留 tautology、未进入目标链的用例或非法强转。V04-01 撤回“深链产品覆写”归因：干净深链正常，脏会话 ERR_ABORTED 是 beforeunload，站内导航可进；V04-02 正确登记缺合法精灵字节的环境阻断，提供自包含资源正控后再做媒体矩阵。修全目录 Biome、删除/完成无效 project-configs.mjs、为候选TS/TSX提供真实类型检查；verify.mjs 应从 Vitest JSON 核 test fullName/status/执行数、命令及完整截图SHA，而非只核文件存在/16位前缀。每组关键新合同交可鉴别单点反控或注明重叠/待证。
-只改自己的 docs/testing/glm-architecture-regression-lab/** 和自己的回执/账本；不改产品、旧测、官方配置或基线，不跑迁移写盘/全仓覆盖率。返工后复跑候选、相邻、类型/目录Biome、负控/verify及必要隔离视觉，提交推送 SHA 与逐组去向；Codex 独立复核，不自行合main/标done。不需 Kimi 固定签字。
+只改自己的 docs/testing/archive/legacy/batches/glm-architecture-regression-lab/** 和自己的回执/账本；不改产品、旧测、官方配置或基线，不跑迁移写盘/全仓覆盖率。返工后复跑候选、相邻、类型/目录Biome、负控/verify及必要隔离视觉，提交推送 SHA 与逐组去向；Codex 独立复核，不自行合main/标done。不需 Kimi 固定签字。
 ```

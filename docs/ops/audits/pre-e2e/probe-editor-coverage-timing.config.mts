@@ -9,7 +9,7 @@ const target = fileURLToPath(
 const flush = process.env.COV_DET_TIMING === 'flush'
 export default {
   ...config,
-  root: fileURLToPath(new URL('../../../../packages/editor/', import.meta.url)),
+  root: fileURLToPath(new URL('../../../../packages/editor', import.meta.url)),
   plugins: [
     {
       name: 'temporary-reorder-test-frame-boundary',

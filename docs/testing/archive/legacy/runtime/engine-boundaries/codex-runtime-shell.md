@@ -39,7 +39,7 @@ Canvas adapter只记录调用与提供像素缓冲；字库为有效的最小BDF
 
 ## 反控鉴别力
 
-[工具](../../../../codex-runtime-shell-mutants.mjs)默认跑36项完整正控及8针：scope先核、标题键盘所有权、施法派发、对话推进、
+[工具](../../../../domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs)默认跑36项完整正控及8针：scope先核、标题键盘所有权、施法派发、对话推进、
 保存次数、坏档短提示、场景路由、AsyncIntentController.assertCurrent公共原语。每针源码唯一替换、实际load标记、
 仅执行正控中确认过的精确新增标题，必须候选自身AssertionError；混合Error/嵌入AssertionError/timeout/未执行拒绝。
 同文件其余用例为名称过滤，不计执行，不在源码skip。
@@ -77,7 +77,7 @@ statementMap/fnMap/branchMap相同。不能只看总包增长就忽略逐文件�
 项目raw对照已定位合并器的同range双initializer身份冲突，37/42/2/37差额全部可由该冲突解释。
 详见上方统计修复卡证据，仍**不将此观察自动当成全量统计豁免**。
 
-历史可重建：`node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`，要求e7c4b743的未打补丁7790冻结树，
+历史可重建：`node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`，要求e7c4b743的未打补丁7790冻结树，
 顺序运行旧1378/旧+新1414的一文件局部覆盖和旧1378的真实分支见证；JSON输出到独立/tmp，不动官方报告。
 现有输出：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-runtime-shell-mutants-3Dr2qd/core-witness.json`。
 其它定位也保留：core-only/core+host/core+shop/core+shop+host都只149/195行，旧全集回到195；简单二分两个半集均不出现
@@ -101,10 +101,10 @@ statementMap/fnMap/branchMap相同。不能只看总包增长就忽略逐文件�
 pnpm --filter @type-pal/reforge exec vitest run src/main.boot-flows.test.ts src/opening-menu.flows.test.ts src/main.menu-flows.test.ts src/main.dialog-flows.test.ts src/main.save-flows.test.ts src/main.scene-flows.test.ts
 pnpm --filter @type-pal/reforge run typecheck
 pnpm --filter @type-pal/reforge test
-node docs/testing/codex-runtime-shell-mutants.mjs
+node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs
 # 用你自己新建的/tmp输出目录替换此路径；before/after只在整批末跑。
-SHELL_COVERAGE_DIR=/tmp/type-pal-shell-review SHELL_COVERAGE_PHASE=before pnpm exec vitest run --config docs/testing/codex-runtime-shell-coverage.config.mts
-SHELL_COVERAGE_DIR=/tmp/type-pal-shell-review SHELL_COVERAGE_PHASE=after pnpm exec vitest run --config docs/testing/codex-runtime-shell-coverage.config.mts
+SHELL_COVERAGE_DIR=/tmp/type-pal-shell-review SHELL_COVERAGE_PHASE=before pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/runtime-shell-coverage-config.mts
+SHELL_COVERAGE_DIR=/tmp/type-pal-shell-review SHELL_COVERAGE_PHASE=after pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/runtime-shell-coverage-config.mts
 ```
 
 开发失败不隐去（草稿阶段多数仅保留会话命令输出，不冒称每次都保存了文件日志）：

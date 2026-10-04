@@ -26,7 +26,7 @@
 Biome共38 errors/10 warnings/2 infos，九批均exit1，与“最终树全部rc0”矛盾。表中只计本批自身白名单；
 最初扩大清单包含继承诊断，已另按本批白名单逐一重跑，没有把别批问题算给本批。
 
-原[见证](../../../../glm-nine-intake-witnesses.mjs)实跑：9/9拒绝普通Error内嵌AssertionError，5/5 factory accepted，七对照绿、七针均由候选业务AssertionError检出。
+原[见证](../../../../domains/editor/testing-records/tools/nine-intake-witnesses.mjs)实跑：9/9拒绝普通Error内嵌AssertionError，5/5 factory accepted，七对照绿、七针均由候选业务AssertionError检出。
 工具内旧`batches.sha`只是首轮目录标签，本轮实际HEAD单独核实并落机账，不拿旧sha充当此次候选。
 
 ## 已关闭，不再要求重做
@@ -84,8 +84,8 @@ default和逐层清理结论保持通过。
 
 ## 证据与边界
 
-[机账](../../editor/testing-records/glm-nine-rework-evidence.json)、[新增可重建见证](../../../../glm-nine-rework-witnesses.mjs)。命令：
-`node --import tsx docs/testing/glm-nine-rework-witnesses.mjs`。exit0仅诊断成功，须读判据/PNG/MISSED，不等于接收通过。
+[机账](../../editor/testing-records/glm-nine-rework-evidence.json)、[新增可重建见证](../../../../domains/editor/testing-records/tools/nine-rework-witnesses.mjs)。命令：
+`node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs`。exit0仅诊断成功，须读判据/PNG/MISSED，不等于接收通过。
 原七针：`/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-review-RSH0BK/summary.json`。
 残项：`/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-nine-residual-2pCVM0/summary.json`。
 定向JSON/tc/mutants/Biome：`/tmp/codex-nine-rework.AzQ4HB/`。临时执行器首跑语法错误在任何测试前修正，不算候选失败。
@@ -98,7 +98,7 @@ Mimosa不归Codex、不作门禁。GLM为测试贡献者，正式接收与质量
 在 /Users/zhangxu/illegal/type-pal 按 docs/testing/archive/legacy/ops/testing-records/glm-nine-rework-review.md 收窄返工TB02～TB10。
 先读AGENTS/CLAUDE/READ-FIRST、各卡、glm-delivery-checklist、本轮报告与机账；同步本次Codex counter到各自原独立分支，生产保持e58834f6，设计不重签。
 原七针/五夹具及报告“已关闭”项保持。九批只补公共C0精确唯一目标：不用find+endsWith，实际运行/自测共用判据，补后缀冒名/重名反例；完成最终JSON/SHA回填后跑全白名单Biome。总账更正210/73，撤回audit-performance已豁免归因。
-另外只修TB03完整可解码PNG+真实摘要、TB06整个实际map/clipboard深比较、TB07非空redo在缺target拒绝后完整保留。参考 node --import tsx docs/testing/glm-nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。
+另外只修TB03完整可解码PNG+真实摘要、TB06整个实际map/clipboard深比较、TB07非空redo在缺target拒绝后完整保留。参考 node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs：原七针维持检出，新两个MISSED须由候选业务断言检出，PNG核验有合法正控。判据重构后告知真实函数入口，Codex适配捕获，不为兼容旧探针重复实现。
 保持各原独立分支和白名单（含已批S02）；不改产品/旧测试/官方基线/原探针，不代签、不标done、不转Kimi。真实命令/退出码/最终计数直接落各卡本人回执并提交推送；全仓check/ratchet/严格fast留Codex。Mimosa不参与，TB00/TB01另排。
 ```
 
@@ -125,7 +125,7 @@ Mimosa不归Codex、不作门禁。GLM为测试贡献者，正式接收与质量
 后缀冒名「other target」、重名双 target、未失败、空 messages、普通 Error 内嵌
 AssertionError 子串、纯超时，正控含 expect 形式与毒日志拒绝。
 
-本席复跑 `node --import tsx docs/testing/glm-nine-rework-witnesses.mjs`（最终树）：
+本席复跑 `node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs`（最终树）：
 **9/9 suffixOnlyRejected、9/9 duplicateTargetRejected、PNG source/main/preview 三态
 valid（IHDR/IDAT/IEND、CRC 与 IDAT inflate 全对）、rejected-session-state-alias 与
 rejected-session-clears-redo 与 paste-mutates-layer-metadata 两态全绿（3 针候选业务
@@ -151,7 +151,7 @@ check 仍须实跑。全仓 check/ratchet/strict-fast 留 Codex。
   TB10 codex/glm-migration-r1             3d798f7c
 
 复核建议：
-1. 复跑 node --import tsx docs/testing/glm-nine-rework-witnesses.mjs——期望 9/9 判据双反例
+1. 复跑 node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs——期望 9/9 判据双反例
    拒绝、PNG 三态 valid、3 针 detected / 3 对照绿；
 2. 判据真实入口（供你适配捕获）：运行态两块仍是 `item.expected === 1` 与
    `item.redTest !== undefined`，但精确唯一逻辑内联在第二块（filter + length===1），

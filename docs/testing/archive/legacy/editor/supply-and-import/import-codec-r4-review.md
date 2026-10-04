@@ -57,11 +57,11 @@ indexed=(182,182,182,255)，preview=(34,5,73,255)；独立解码、SHA与实际�
 ## 重建与证据
 
 ~~~sh
-node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec
-node docs/testing/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec
+node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec
+node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec
 ~~~
 
-[新返回值见证](../../../../import-codec-preview-review.mjs)、[机器账](import-codec-r4-evidence.json)。
+[新返回值见证](../../../../domains/editor/supply-and-import/tools/import-codec-preview-review.mjs)、[机器账](import-codec-r4-evidence.json)。
 定向/tc/Biome/原负控：/tmp/codex-tb03-r4.SbM0Qm/；
 返回值独立见证：/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-preview-return-oL6vw6/。
 新见证工具格式机械调整后复跑，结论一致；没有改GLM测试语义或原见证工具。
@@ -73,7 +73,7 @@ node docs/testing/import-codec-preview-review.mjs /Users/zhangxu/illegal/type-pa
 在 /Users/zhangxu/illegal/type-pal 只返工TB03，卡 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源9eecaaf3，生产e58834f6，设计不重签。
 先同步最新main到原独立分支并保留八批归档/模拟器状态，读AGENTS/CLAUDE/READ-FIRST、本卡及 docs/testing/archive/legacy/editor/supply-and-import/import-codec-r4-review.md、交付清单。本轮已接受尺寸、CRC/zlib、交付像素编码与主图摘要；不再重开这些项。
 唯一阻断：r4删掉了返回预览完整字节断言。让宿主记录实际两次toBlob产物，核返回main/preview对应完整字节，并对实际preview做SHA断言；仅删除对主hash的“不等于preview常量”不能代替验证。
-把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。
+把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。
 回执像素数字勘误为index182 / [182,182,182,255] / [34,5,73,255]，不修改生产算法。最终定向39、tc、完整白名单Biome、原负控+新增针从提交树复跑并如实回填。
 只改TB03白名单与本人回执，不改产品/旧测试/官方基线/原探针；编码失败close仍归Codex。不要回退另外八批done或模拟器build，不代签、不标done。本人落卡提交推送后交Codex；全仓门由Codex接收后运行，Mimosa不参与。
 ~~~

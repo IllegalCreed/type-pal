@@ -12,8 +12,8 @@ Visual Verification Timing: dev-functional（A 两条、B/C 各一条隔离小�
 2026-09-29 用户要求“再来至少 5 批任务给 GLM，每批都量大一些”。本卡给**一个 GLM 对话**
 顺序实施 A–E **五个大批**：每批 6 个工作组、12 个互不重复的生产源码目标，共 30 组/60 目标。
 每组须先旧测去重，有新合同才建测试；每批规划约 30–50 条有意义用例作为工作量参考，
-不以凑用例或命中率为门。完整窄合同在[工作包](../../../../testing/glm-large-wave/README.md)，
-路径与 source digest 在[冻结清单](../../../../testing/glm-large-wave/targets.json)。
+不以凑用例或命中率为门。完整窄合同在[工作包](../../../../testing/archive/legacy/batches/glm-large-wave/README.md)，
+路径与 source digest 在[冻结清单](../../../../testing/archive/legacy/batches/glm-large-wave/targets.json)。
 
 当前临时模式按 [`AGENTS.md`](../../../../../AGENTS.md) 顶部：Codex 定范围/单一 Owner，GLM 贡献并自验，
 Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schema、存档、资产或用户可见行为变化。
@@ -25,7 +25,7 @@ Codex 独立接收和集成；固定三签暂休。此卡不授权产品、schem
 | 原版/primary source | 本卡没有原版玩法变更，普通 UI/当前 schema 测试 N/A。D 批若以原版字节/脚本映射作预期，须从 `data/raw` 或 `reference/sdlpal` 等一手输入逐轴核，不把合成输入说成原版实测。 |
 | 第一阶段 | 不改 `packages/game` 或一阶段可见行为；一阶段机制对 A/B/C/E 为 N/A。D 批原始数据语义若有争议，先读 [`CLAUDE.md`](../../../../../CLAUDE.md) 与[工程经验](../../../../phase1/engineering-notes.md)，停止该轴交 Codex。 |
 | 当前二阶段 | 生产冻结 `9c35748a0e36d6b1e4368a6b427ed63ab6d6e700`、正式 fast 基线 SHA256 `a682d4e1b970df7c2f5a100ca6a1c8ed9cc23e7a612b7328998949db9fa75b41`。`CommandForm.tsx:28–34` 组合 A 表单，`editor/main.tsx:24/28` 接 B 会话，`reforge/main.ts:179/181` 用 C script host，`migrate/migrate-content.ts:199/211` 用 D translator，`reforge/main.ts:146/159` 用 E 当前 loader/save preflight；先读 [`READ-FIRST`](../../../../phase2/READ-FIRST.md)。 |
-| 本任务目标 | 产品 before → after 为**不变**；只新增可证伪回归及少量隔离功能画面。60 源目标及五个 digest 的只读验证命令：`node docs/testing/glm-large-wave/verify-targets.mjs`。 |
+| 本任务目标 | 产品 before → after 为**不变**；只新增可证伪回归及少量隔离功能画面。60 源目标及五个 digest 的只读验证命令：`node docs/testing/archive/legacy/batches/glm-large-wave/verify-targets.mjs`。 |
 
 五批整文件未命中分支选题空间依次为 A 639、B 515、C 368、D 650、E 328；数字不是
 可达性、新合同或保证增量。最强替代解释：旧测试跨文件/full-only 已证、空臂为合法守卫挡住的防御、
@@ -55,7 +55,7 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
 
 - `targets.json` 中每个源文件旁边仅允许一个同目录新测试：`stem.glm-large-wave.test.ts` 或
   `.tsx`（后缀与源扩展名相同）；没有新合同可不建。专属 typed fixture 仅各受影响包的
-  `src/__tests__/glm-large-wave/**`，工具/回执/诊断/隔离宿主仅 `docs/testing/glm-large-wave/**`。
+  `src/__tests__/glm-large-wave/**`，工具/回执/诊断/隔离宿主仅 `docs/testing/archive/legacy/batches/glm-large-wave/**`。
   冻结清单、生产、旧测试、共享配置、依赖/锁、官方覆盖基线、任务卡/看板由 GLM 只读。
 - 使用现行正式构造器/guard 和实际被消费的对象；合法路径不得 `any`、`as never`、双强转或
   `@ts-ignore/@ts-expect-error`。不 mock 被测函数/守卫；输入前深快照与完整非空业务结果要相互可证伪。
@@ -87,7 +87,7 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
 
 候选 `8cb0af0ad2e5952c01e8fa95144b495df4ceaecc` 独立审核结论为 **rework，
 未接收/未合 main**。完整一手命令、通过项和五条返工项见
-[Codex 审核回执](../../../../testing/glm-large-wave/codex-review-8cb0af0a.md)。
+[Codex 审核回执](../../../../testing/archive/legacy/batches/glm-large-wave/codex-review-8cb0af0a.md)。
 定向 66/66、三包 typecheck、冻结/文档检查通过；但完整 lint 有 15 error/2 warning/1 info，
 且 typed fixture、测试路径和反控判据不合卡面。GLM 只修原白名单内问题，
 复跑零诊断和反控并推送新完整 SHA；Codex 再审后才可能做全仓/官方覆盖门。
@@ -96,7 +96,7 @@ A→E 连续做；每完成 6 组固定提交并推送完整候选 SHA，可继�
 R2 候选 `031b3e479e18bf1add1d5b559716172cfb7c031f` 的 lint、三包 typecheck、
 66 项定向测试、强转/后缀/17:43 已核闭合，但严格反控的 INVALID 路径会遗留临时针文件，
 且部分回执锚仍陈旧；结论仍为 **rework**。见
-[Codex R2 审核回执](../../../../testing/glm-large-wave/codex-review-r2-031b3e47.md)。
+[Codex R2 审核回执](../../../../testing/archive/legacy/batches/glm-large-wave/codex-review-r2-031b3e47.md)。
 GLM 只修反控判据/自测与记录，不再扩大测试范围；官方覆盖门继续暂缓。
 
 ## 历史首轮派发提示词（已执行）
@@ -104,9 +104,9 @@ GLM 只修反控判据/自测与记录，不再扩大测试范围；官方覆盖
 ```text
 你是 GLM，本卡 TEST-GLM-LARGE-WAVE-4 的唯一测试 Coding Owner。先读 AGENTS.md、CLAUDE.md、
 docs/phase2/READ-FIRST.md、docs/ops/tasks/TEST-GLM-LARGE-WAVE-4-five-large-batches.md、
-docs/testing/glm-large-wave/README.md 和 targets.json；D 批遇原版数据语义再读
+docs/testing/archive/legacy/batches/glm-large-wave/README.md 和 targets.json；D 批遇原版数据语义再读
 docs/phase1/engineering-notes.md 与相应一手字节/reference。先运行
-node docs/testing/glm-large-wave/verify-targets.mjs。仅在
+node docs/testing/archive/legacy/batches/glm-large-wave/verify-targets.mjs。仅在
 /Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal 的 codex/glm-large-wave-r1 分支
 连续做 A→E 五批，每批 6 组/12 源；每批完成提交推送固定 SHA 后继续，不等固定席位签字。
 先核现行 caller 与精确旧断言，确有新合同才建同目录 .glm-large-wave.test.ts(x)；
@@ -124,7 +124,7 @@ GLM 贡献者不合 main/标 done；Codex 独立验收、统一覆盖率门、�
 你仍是 TEST-GLM-LARGE-WAVE-4 的测试 Coding Owner。只在原工作树
 /Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal、原分支 codex/glm-large-wave-r1
 返工候选 8cb0af0ad2e5952c01e8fa95144b495df4ceaecc。先读本卡和
-main 上 docs/testing/glm-large-wave/codex-review-8cb0af0a.md（必要时 git show origin/main:路径）；
+main 上 docs/testing/archive/legacy/batches/glm-large-wave/codex-review-8cb0af0a.md（必要时 git show origin/main:路径）；
 不拉取/合并 F–J 分支。逐项闭合完整 lint 15/2/1、24 处非法强转、两个测试扩展名、
 needle-judge 判据及自测、并集 17/43 计数和逐批完整 SHA。UI 子组件替身须按卡面端口
 边界改成真实消费链或收窄未证声明；恢复只读 README，别修改产品、旧测试、配置、
@@ -138,7 +138,7 @@ needle-judge 判据及自测、并集 17/43 计数和逐批完整 SHA。UI 子�
 你仍是 TEST-GLM-LARGE-WAVE-4 测试 Coding Owner。只在原工作树
 /Users/zhangxu/.codex/worktrees/glm-large-wave/type-pal、原分支 codex/glm-large-wave-r1
 返工 R2 候选 031b3e479e18bf1add1d5b559716172cfb7c031f。先读本卡和 main 上
-docs/testing/glm-large-wave/codex-review-r2-031b3e47.md。重点修 needle-judge.mjs：
+docs/testing/archive/legacy/batches/glm-large-wave/codex-review-r2-031b3e47.md。重点修 needle-judge.mjs：
 INVALID/异常也必须删临时针；精确核绝对失败文件、完整 fullName 和 failed=1，
 selftest 对每种 INVALID 断言无遗留临时文件。修 receipt-batch-b 的旧 .tsx 后缀；
 五批回执和 R2/R3 证据写完整候选 SHA，docs issue 按实际 7 条登记。
@@ -151,7 +151,7 @@ selftest 对每种 INVALID 断言无遗留临时文件。修 receipt-batch-b 的
 ## 2026-09-29 Codex R3 候选验收
 
 候选 `4e200099257ed5167b640eb5abadd7129859dfee` **代码/证据 accept**，
-见[独立验收回执](../../../../testing/glm-large-wave/codex-accept-r3-4e200099.md)。
+见[独立验收回执](../../../../testing/archive/legacy/batches/glm-large-wave/codex-accept-r3-4e200099.md)。
 状态为 `review`，尚未合 main；7 条只读 README 导航由 Codex 集成时补齐，
 统一 `pnpm check`、官方 ratchet、受保护 fast 和 main 并集收益均未运行/未确认。
 无下一位 GLM 提示词；等待 Codex 与其它已接收 wave 选择性集成及统一收口。

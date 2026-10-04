@@ -34,8 +34,8 @@
     }
   },
   "mutants": {
-    "script": "docs/testing/glm-import-codec-mutants.mjs",
-    "command": "node docs/testing/glm-import-codec-mutants.mjs",
+    "script": "docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
+    "command": "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -113,7 +113,7 @@
     "note": "临时日志在 mkdtemp，可用脚本原命令重建；产品文件前后 sha256 不变（脚本内置断言）"
   },
   "coverage": {
-    "config": "docs/testing/glm-import-codec.config.mts (official testSelection fast; before excludes 7 new files)",
+    "config": "docs/testing/domains/migration/supply-and-import/tools/import-codec-config.mts (official testSelection fast; before excludes 7 new files)",
     "perModule": {
       "battle-sprite-import.ts": {
         "before": "L5/27 B5/33",
@@ -191,7 +191,7 @@
       "typecheck": "rc=0"
     },
     "mutants": {
-      "command": "node docs/testing/glm-import-codec-mutants.mjs",
+      "command": "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
       "exit": 0,
       "controls": 3,
       "needles": 8
@@ -261,7 +261,7 @@
       "independentChecks": "productHashMatches=true、recordBytesMatches=true、两帧 framesDiffer=true、两态 dims=[320,200]、IDAT inflate 逐字节等于交付像素、toBlob 计数 2"
     },
     "witness": {
-      "command": "node docs/testing/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
+      "command": "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs /Users/zhangxu/illegal/type-pal-glm-import-codec",
       "exit": 0,
       "control": "7/7 绿（Codex oracle 2 项 + 候选 5 项）",
       "mutant": "删除 canvas 尺寸设置被候选业务断言检出（pngDims [0,0]≠[320,200] 首行 AssertionError，5 项中恰 1 项失败）；Codex oracle 'oracle actual output canvas dimensions' 同步 AssertionError（observed [[0,0],[0,0]]）；verdict=detected",
@@ -270,7 +270,7 @@
     },
     "reruns": {
       "targeted": "39/39（7 文件，最终树重跑）",
-      "mutants": "node docs/testing/glm-import-codec-mutants.mjs rc=0：判据四向自测绿 + 3 对照 exit0 + 8 针全部 expected=actual=1；battle-background 针 redTest 同步更名后判据（全等+恰1+首行业务错误）不变",
+      "mutants": "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs rc=0：判据四向自测绿 + 3 对照 exit0 + 8 针全部 expected=actual=1；battle-background 针 redTest 同步更名后判据（全等+恰1+首行业务错误）不变",
       "typecheck": "pnpm --filter @type-pal/editor typecheck rc=0",
       "biome": "11 文件完整白名单（含本 JSON 回填+format 后）提交前执行 rc=0"
     }
@@ -302,9 +302,9 @@
       "now": "index 182 / indexed(182,182,182,255) / preview(34,5,73,255)（Codex 独立解码勘误，回执 r4 节已带勘误标注；生产算法/调色板不动）"
     },
     "reruns": {
-      "previewWitness": "node docs/testing/import-codec-preview-review.mjs <worktree> rc=0：control 6/6（候选 5 + oracle 1）；坏实现被候选自身 AssertionError 检出（firstByteDiff 下标），oracle previewMatches=false 同步 AssertionError；verdict=detected；三文件 hash 不变",
-      "sizeWitness": "node docs/testing/import-codec-png-host-review.mjs <worktree> rc=0：control 7/7、删 canvas 尺寸 detected（保持 r4 结论）",
-      "mutants": "node docs/testing/glm-import-codec-mutants.mjs rc=0：判据四向自测绿 + 3 对照 exit0 + 9 针全部 expected=actual=1；全跑 11 秒（r5 前同一坏实现单针因巨型 diff 需 ~522 秒且超时被杀）",
+      "previewWitness": "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs <worktree> rc=0：control 6/6（候选 5 + oracle 1）；坏实现被候选自身 AssertionError 检出（firstByteDiff 下标），oracle previewMatches=false 同步 AssertionError；verdict=detected；三文件 hash 不变",
+      "sizeWitness": "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <worktree> rc=0：control 7/7、删 canvas 尺寸 detected（保持 r4 结论）",
+      "mutants": "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs rc=0：判据四向自测绿 + 3 对照 exit0 + 9 针全部 expected=actual=1；全跑 11 秒（r5 前同一坏实现单针因巨型 diff 需 ~522 秒且超时被杀）",
       "targeted": "39/39（7 文件，最终树重跑）",
       "typecheck": "pnpm --filter @type-pal/editor typecheck rc=0",
       "biome": "11 文件完整白名单（含本 JSON 回填+format 后）提交前执行 rc=0"

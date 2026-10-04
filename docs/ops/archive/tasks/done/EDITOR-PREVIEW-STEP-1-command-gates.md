@@ -48,7 +48,7 @@ entry呈现/状态转移/尾安全点不另吃空步。初次单步即放行首�
 [补测批](TEST-CODEX-PLAYBACK-1-canonical-controls.md)从正式 `SceneScriptWorkspace.tsx:245`
 调用域构造合法、单条setPartyFacing的current flow。`Playback.playCanonical(...,{paused:true})` 后，
 公开step一次仍down；预期left的AssertionError已复现，非timeout。源码起点82863cf2。
-复现命令/原始日志见[批回执](../../../../testing/codex-playback/README.md)。
+复现命令/原始日志见[批回执](../../../../testing/archive/legacy/batches/codex-playback/README.md)。
 
 根因锚：`script-runner-core.ts:165`阶段入口awaitGate、`:304`命令前awaitGate，
 而`playback.ts:493-505`只释放gateQueue首项；第一次step被无onStep事件的阶段门消费。

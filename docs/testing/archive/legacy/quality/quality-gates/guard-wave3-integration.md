@@ -3,8 +3,8 @@
 2026-09-27，候选`6a1147271fe18e760bf87d01400cb36fd8452a75`，Codex实现接收 **accept**。
 [任务卡](../../../../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) /
 [上轮唯一counter](../../content/quality-gates/guard-wave3-r3-review.md) /
-[贡献者回执](../../../../glm-content-guards-wave3/receipt.md) /
-[终轮独立反控](../../../../guard-wave3-final-review-witness.mjs)。
+[贡献者回执](../../batches/glm-content-guards-wave3/receipt.md) /
+[终轮独立反控](../../../../domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs)。
 
 ## 接收结论
 
@@ -24,7 +24,7 @@
 定向JSON`/tmp/codex-guard-final-directed.json`、TC日志`/tmp/codex-guard-final-tc.log`。
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/guard-wave3-final-review-witness.mjs /Users/zhangxu/illegal/type-pal
+env -u NODE_COMPILE_CACHE node docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs /Users/zhangxu/illegal/type-pal
 ```
 
 ## 统一质量门

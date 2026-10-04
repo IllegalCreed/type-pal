@@ -41,8 +41,8 @@ packages/reforge/src/file-source.cancel-windows.test.ts
 packages/reforge/src/fsa-source.cancel-windows.test.ts
 packages/reforge/src/engine-chrome/registry.lifecycle.test.ts
 packages/reforge/src/__tests__/glm-asset-io-fixtures.ts
-docs/testing/glm-reforge-asset-io-mutants.mjs
-docs/testing/glm-reforge-asset-io.config.mts
+docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs
+docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-config.mts
 docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io-evidence.json
 ```
 
@@ -68,7 +68,7 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，用户拍板在 
 最终树 **6 个新测试文件共 24 项**（Vitest 现场：5+5+6+3+3+2）；定向 24/24 绿；
 reforge 全包 122 文件/1214 项 exit0；tc rc=0；9 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-reforge-asset-io-mutants.mjs` rc=0：判据自测（good/毒日志/逐目标
+- 负控 `node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs` rc=0：判据自测（good/毒日志/逐目标
   四向）+ 3 对照 + **8 变异针**（每组 ≥1）全部钉名新增测试 failed 且目标自身 failureMessages
   首行为 AssertionError；产品 hash 不变。
 - 覆盖对照（官方 testSelection，/tmp）：sfx L+13/B+7、readiness L+1/B+1、

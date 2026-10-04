@@ -97,7 +97,7 @@ Codex[验证回执](../../../testing/archive/legacy/editor/editor-workflows/spri
 **修复状态（2026-09-20）：已完成。** [EDITOR-SKILL-TRIAL-1](../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)
 主体fe0fee84及列宽补丁d394eccc三席accept齐、用户最终UI验收通过，Codex已done归档。
 当前工程显式配置、真实BattleSession、缺敌人可操作拒绝及独立试玩已验证；详见[实施记录](../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)。
-原生选择器/360主壳/full-Q1-Q2边界保持，不扩成所有评估入口或完整E2E通过。下方与[前提探针](../../../testing/skill-trial-premise.mjs)保留修复前证据。
+原生选择器/360主壳/full-Q1-Q2边界保持，不扩成所有评估入口或完整E2E通过。下方与[前提探针](../../../testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs)保留修复前证据。
 
 - `SkillTab.tsx:1120`URL写死`scene=s001&battle=0`，只将project/workspace/skill做参数化。
   新空白工程真实种子只有start场景，未生成敌队0（`core/seed.ts:164-166,222-245`）。

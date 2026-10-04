@@ -2,7 +2,7 @@
 
 2026-09-27，Codex复核`705eb16151796f4baa8a44a5ed9206337e37a632`，结论 **counter / R1–R4**。
 [任务卡](../../../../../ops/archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) /
-[独立见证](../../../../item-logic-review-witnesses.mjs) / [本席机账](../../content/editor-workflows/item-logic-r1-review-evidence.json)。
+[独立见证](../../../../domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs) / [本席机账](../../content/editor-workflows/item-logic-r1-review-evidence.json)。
 不合候选，不修改贡献者测试语义，不运行全仓check/coverage；本轮不恢复主动覆盖率扩展。
 
 ## 已核通过及边界
@@ -67,7 +67,7 @@ instantiate/buildWorld构造可消费基线，并保留用例自己的合法覆�
 ## 独立证据与复跑
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/item-logic-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic
+env -u NODE_COMPILE_CACHE node docs/testing/domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-item-logic
 ```
 
 本席六组×四跑=24次：候选原实现全绿，六变异候选仍全绿；六独立oracle原实现全绿、变异各恰一业务红。

@@ -118,8 +118,8 @@ unknown/tag scanner的明确坏输入、纯Pick<layout|poses>计算的局部合�
 
 ## R2 · 六个坏实现仍被候选断言放行
 
-重建：[content-contracts-review-witnesses.mjs](../../../../content-contracts-review-witnesses.mjs)，运行：
-`node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts`。
+重建：[content-contracts-review-witnesses.mjs](../../../../domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs)，运行：
+`node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts`。
 
 仅Vite内存替换、不写候选文件。每针附加一条审查专用执行检查，由Vitest JSON验证status=passed；
 检查实际被污染对象、越界source或非零offset等，不只是load日志。此检查不计入GLM新增测试数。

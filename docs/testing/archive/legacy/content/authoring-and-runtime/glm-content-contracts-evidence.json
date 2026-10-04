@@ -35,7 +35,7 @@
     ]
   },
   "witnesses": {
-    "command": "node docs/testing/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
+    "command": "node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-contracts",
     "exit": 0,
     "verdicts": {
       "control-B": "control",
@@ -62,8 +62,8 @@
     "note": "six needles detected, four controls pass, execution witnesses passed; all seven fixture legality checks accepted"
   },
   "mutants": {
-    "script": "docs/testing/glm-content-contracts-mutants.mjs",
-    "command": "node docs/testing/glm-content-contracts-mutants.mjs",
+    "script": "docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs",
+    "command": "node docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -208,8 +208,8 @@
     "productHashInvariant": "all 9 touched product files sha256 unchanged before/after batch"
   },
   "coverage": {
-    "config": "docs/testing/glm-content-contracts.config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
-    "commandTemplate": "CC1_MODE=<before|after> CC1_OUT=<tmpdir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/glm-content-contracts.config.mts",
+    "config": "docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
+    "commandTemplate": "CC1_MODE=<before|after> CC1_OUT=<tmpdir> pnpm --filter @type-pal/content exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-content-contracts/docs/testing/domains/content/authoring-and-runtime/tools/content-contracts-config.mts",
     "beforeDir": "/tmp/cc1-rw-coverage-before",
     "afterDir": "/tmp/cc1-rw-coverage-after",
     "perModule_before_after": {

@@ -35,7 +35,7 @@ staging中途发现后位冲突时可留下本次staging而不发布journal，�
   `/tmp/type-pal-mwg-a09-valid-old.log`。只替换加载视图，不还原工作树产品文件。
 - 真实原生symlink只创建于自有mkdtemp根，包含同根outside哨兵；快照记录文件字节、目录、链接且不跟随链接。
   物化只验证opaque源字节/catalog合同，WAV/视频编码器不是这些微型fixture的被测对象。
-- [隔离配置](../../../../migration-write-guard.config.mjs)与[负控入口](../../../../migration-write-guard-mutants.mjs)：
+- [隔离配置](../../../../domains/migration/supply-and-import/tools/migration-write-guard-config.mjs)与[负控入口](../../../../domains/migration/supply-and-import/tools/migration-write-guard-mutants.mjs)：
   1对照+5单点针（重采样授权/去整批预检/去路径检查/漏读后mkdir前复核/清理外来inode）。
   钉唯一替换点、实际加载标记、精确测试名failed、JSON断言的AssertionError起始类型；混合Error自测拒绝，产品hash不变。
   初次全6跑通过；最终代码/格式化后再跑6/6通过，对照36项绿、五针各精确1项业务红。
@@ -43,8 +43,8 @@ staging中途发现后位冲突时可留下本次staging而不发布journal，�
 
 ```sh
 pnpm --filter @type-pal/migrate exec vitest run src/migration-path.test.ts src/migration-write-guard.test.ts src/pal-assets-paths.test.ts
-node docs/testing/migration-write-guard-mutants.mjs
-MWG_MUTANT=old-paths pnpm --filter @type-pal/migrate exec vitest run --config "$PWD/docs/testing/migration-write-guard.config.mjs"
+node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-mutants.mjs
+MWG_MUTANT=old-paths pnpm --filter @type-pal/migrate exec vitest run --config "$PWD/docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-config.mjs"
 ```
 
 第三条是修前对照，**预期exit1**，不是常规check入口；不能为使其绿而回退保护。
@@ -52,13 +52,13 @@ MWG_MUTANT=old-paths pnpm --filter @type-pal/migrate exec vitest run --config "$
 
 ## 隔离实际发布
 
-[可重建发布见证](../../../../migration-write-guard-publish.mjs)创建自有临时repo，物理复制current PAL和baseline、migrate源码/CLI；
+[可重建发布见证](../../../../domains/migration/supply-and-import/tools/migration-write-guard-publish.mjs)创建自有临时repo，物理复制current PAL和baseline、migrate源码/CLI；
 原始/extracted/宿主soundfont及依赖仅只读引用。只在副本构造一个合法的较旧WAV（改一个PCM数据位，headers/长度不动），
 同步旧catalog与baseline/_state哈希，迫使真实CLI实际写JSON和一个二进制，而非只跑无变化路径。
 第一遍必须恢复为冻结工程/baseline全部文件字节（含非托管文件）；第二个独立CLI进程必须零变更，来源工程也保持原样。
 
 ```sh
-node docs/testing/migration-write-guard-publish.mjs
+node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-publish.mjs
 ```
 
 第一次验证宿主漏提供`packages/reforge/public/soundfont.sf3`，CLI以ENOENT停止，无产品结论；

@@ -22,7 +22,7 @@ Codex实现，三席独立职责已完成accept、无返工；2026-09-18核候�
 
 - 首条真实注册JSON合同在旧产品上exit1：缺projectId/world/position（`/tmp/q1-checkpoint-before.log`）。
   扩展测试宿主后正式回归绿，未保留旧接口fallback、未修改原审计探针。
-- [隔离负控](../../../../checkpoint-export-mutants.mjs)：`node docs/testing/checkpoint-export-mutants.mjs`。
+- [隔离负控](../../../../domains/runtime/save-and-recovery/tools/checkpoint-export-mutants.mjs)：`node docs/testing/domains/runtime/save-and-recovery/tools/checkpoint-export-mutants.mjs`。
   实际main.ts?raw加载中唯一替换，校验源码hash不变；裸builder、绕barrier、独立export入口、吞异常、失败毒死队尾各自须业务红。
   无突变为同测试完整正控；拒绝环境/加载错误、零测试、超时和未处理异常作为证据。
 - 开发中第一次负控发现timeout测试在突变树过早reject的**断言Promise**延后await产生未处理拒绝。
@@ -44,8 +44,8 @@ Codex实现，三席独立职责已完成accept、无返工；2026-09-18核候�
 ```sh
 pnpm --filter @type-pal/reforge exec vitest run src/checkpoint-export.chain.test.ts src/save src/runtime-save-lineage.test.ts src/save-lineage.chain.test.ts
 pnpm --filter @type-pal/reforge run typecheck
-pnpm exec biome check packages/reforge/src/main.ts packages/reforge/src/checkpoint-export.chain.test.ts packages/reforge/src/__tests__/checkpoint-export-fixture.ts docs/testing/checkpoint-export-mutants.mjs
-node docs/testing/checkpoint-export-mutants.mjs
+pnpm exec biome check packages/reforge/src/main.ts packages/reforge/src/checkpoint-export.chain.test.ts packages/reforge/src/__tests__/checkpoint-export-fixture.ts docs/testing/domains/runtime/save-and-recovery/tools/checkpoint-export-mutants.mjs
+node docs/testing/domains/runtime/save-and-recovery/tools/checkpoint-export-mutants.mjs
 pnpm check
 pnpm coverage:ratchet
 TYPE_PAL_COVERAGE_BASE_REF=a5df9fbc pnpm coverage:fast

@@ -4,7 +4,7 @@
 
 ## 已核通过的事实
 
-- GLM 自身增量用**最近主线合入点** `82e7aab8..HEAD` 算，仅 `docs/testing/glm-architecture-regression-lab/**`，packages/scripts 零 diff；起点 `86e928b5..a3ceaf05` 的原始冻结亦零 diff。候选工作树和远端 tip 一致且干净。
+- GLM 自身增量用**最近主线合入点** `82e7aab8..HEAD` 算，仅 `docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**`，packages/scripts 零 diff；起点 `86e928b5..a3ceaf05` 的原始冻结亦零 diff。候选工作树和远端 tip 一致且干净。
 - 本席候选 Vitest JSON `/tmp/codex-glm-r4-vitest.json`：9 文件 **32/32 passed**；`node tools/red-control.mjs` detected，exit1/1执行/1失败/业务 AssertionError/注入见证1、磁盘产品 hash 不变。负控生成的本席临时目录已移到 `/tmp/type-pal-arch-lab-red-YJuqqE`，不污染候选。
 - 六张截图都存在；本席从实物重算完整 SHA-256，六项均与 `results.json` 的新增 `sha256_full` 精确相等。`results.json` 现有 **39 条，37 candidate-green / 1 existing-proof / 1 blocked-environment**，小计相加正确；V04-01 主条目已撤回产品缺陷误归因。`node scripts/docs/check.mjs` PASS，diff 检查 PASS。
 
@@ -12,7 +12,7 @@
 
 1. **白名单与冻结命令的宣称仍不实。** 按交付要求直接跑 `git diff a2415868..HEAD --name-only`，有 20 个实验目录外文件（来自授权的 main 合入）；`git diff a3ceaf05..HEAD -- packages/ scripts/` 也非空。可以如上按起点冻结和最新合入点**分两栏**归因，不能把错误命令的失败在 `verify.mjs:26-34` 降成 INFO 后继续宣称“白名单 PASS”。
 2. **verify 的 PASS 不证明执行。** `tools/verify.mjs:73` 读取 `process.argv[3]`，但用法只写 `[vitest-json-path]`；默认 `configs/candidates-exec.json` 缺席时不报错，`vitestJsonChecked:false` 且仍 `verdict:PASS`。本席以实际 JSON 作**第二**个参数重跑后 exit1，报告 16 条 fullName 失败（含视觉案不应比 Vitest 标题）；独立正规化账本 ` > ` 分隔符后，31 个候选引用中仍有 **10 个过时标题**。并未核执行数、命令/cwd/退出码，也没给错标题、零执行、普通 Error、超时的判据自测。
-3. **最终回执和格式门未闭。** `receipt.md:12-37` 仍写 G04 三项、G08 四项、V04 reproduced-defect、总数“40=38/1/1”及已撤回深链归因；`results.json:807,828` 仍写“36 项”与 V04 reproduced-defect。实际候选是 32 项，G08 只有三项。全目录 `pnpm exec biome check docs/testing/glm-architecture-regression-lab` exit1：`tools/verify.mjs:34` 格式错误。格式化 JSON 不能替代整个目录门。
+3. **最终回执和格式门未闭。** `receipt.md:12-37` 仍写 G04 三项、G08 四项、V04 reproduced-defect、总数“40=38/1/1”及已撤回深链归因；`results.json:807,828` 仍写“36 项”与 V04 reproduced-defect。实际候选是 32 项，G08 只有三项。全目录 `pnpm exec biome check docs/testing/archive/legacy/batches/glm-architecture-regression-lab` exit1：`tools/verify.mjs:34` 格式错误。格式化 JSON 不能替代整个目录门。
 
 ## 十二组裁决（相对三轮无候选测试变更）
 

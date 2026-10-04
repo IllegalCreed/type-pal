@@ -34,11 +34,11 @@
 
 ## 单点反控（可重建）
 
-入口：[隔离反控脚本](../../../../world-async-commit-mutants.mjs)。临时配置/日志只进mkdtemp；Vite只替换唯一源点，产品前后hash必须一致。
+入口：[隔离反控脚本](../../../../domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs)。临时配置/日志只进mkdtemp；Vite只替换唯一源点，产品前后hash必须一致。
 main.ts?raw保持原TS字符串进入AST；不把环境/模块加载错误记成业务红。
 
 ```sh
-node docs/testing/world-async-commit-mutants.mjs
+node docs/testing/domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs
 pnpm --filter @type-pal/reforge exec vitest run src/world-async-commit.test.ts src/scene-preflight.chain.test.ts src/scene-switch-transaction.test.ts src/runtime-script-project.test.ts src/script-host-adapter.test.ts src/save/restore-preflight.chain.test.ts
 ```
 

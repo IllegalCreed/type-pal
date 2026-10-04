@@ -18,7 +18,7 @@ Visual Verification Timing: N/A（磁盘与 Git 运维，不启动游戏或录�
 - 180 个 `.git` 指针全部归属本仓库，HEAD 均为 `0704d3de6d3d2a2099475a42f601b654bba08579`。
 - 只看 Git dirty 不足以判定独有开发成果；这些目录涉及 68 个反控编号，部分重复四次。
 - Cursor 候选 `fefab931c4174f0755e0d7766a8757490194a067` 中
-  `docs/testing/grok-cursor-large/cursor/counter.mjs:230` 创建隔离树，
+  `docs/testing/archive/legacy/batches/grok-cursor-large/cursor/counter.mjs:230` 创建隔离树，
   `:235` 复制未提交测试，`:236` 复制依赖，`:280` 写入故意变异。
 - 修复提交 `2e1f7228d` 的父版本通过 `die()/process.exit(2)` 退出，跳过 finally；
   该提交已改为 throw/catch/finally。历史残留不会被此修复自动删除。
@@ -80,7 +80,7 @@ Visual Verification Timing: N/A（磁盘与 Git 运维，不启动游戏或录�
 
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md 和
 docs/ops/archive/tasks/done/OPS-CURSOR-TEMP-CLEANUP-1.md，
-再在你当前独立候选工作树中检查 docs/testing/grok-cursor-large/cursor/counter.mjs 及批量调用方。
+再在你当前独立候选工作树中检查 docs/testing/archive/legacy/batches/grok-cursor-large/cursor/counter.mjs 及批量调用方。
 已有退出路径修复不要盲目重做；补齐尚未满足的防复发约束：
 1. 所有可捕获的失败、异常、超时、SIGINT/SIGTERM 都必须结束子进程并清理本次创建的树；
    清理之前不得 process.exit。不可捕获终止须留下精确登记，供下一次启动核验后恢复清理。

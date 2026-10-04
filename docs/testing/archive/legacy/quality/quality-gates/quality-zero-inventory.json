@@ -29,7 +29,7 @@
       "severity": "info",
       "category": "lint/style/useTemplate",
       "message": "Template literals are preferred over string concatenation.",
-      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "path": "docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs",
       "line": 215,
       "tracked": true
     },
@@ -85,7 +85,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/codex-content-resources/mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/codex-content-resources/mutants.mjs",
       "line": 44,
       "tracked": true
     },
@@ -93,7 +93,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
       "line": 17,
       "tracked": true
     },
@@ -101,7 +101,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
       "line": 18,
       "tracked": true
     },
@@ -109,7 +109,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
       "line": 147,
       "tracked": true
     },
@@ -117,7 +117,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
       "line": 148,
       "tracked": true
     },
@@ -125,7 +125,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-architecture-batch/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
       "line": 208,
       "tracked": true
     },
@@ -133,7 +133,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-command-boundaries-r3/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/module-mutants.mjs",
       "line": 31,
       "tracked": true
     },
@@ -141,7 +141,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-command-boundaries-r3/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/module-mutants.mjs",
       "line": 49,
       "tracked": true
     },
@@ -149,7 +149,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-command-boundaries-r3/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/module-mutants.mjs",
       "line": 58,
       "tracked": true
     },
@@ -157,7 +157,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-commands-wave2/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs",
       "line": 17,
       "tracked": true
     },
@@ -165,7 +165,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-commands-wave2/module-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs",
       "line": 46,
       "tracked": true
     },
@@ -173,7 +173,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs",
       "line": 60,
       "tracked": true
     },
@@ -181,7 +181,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs",
       "line": 61,
       "tracked": true
     },
@@ -189,7 +189,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs",
       "line": 69,
       "tracked": true
     },
@@ -197,7 +197,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs",
       "line": 70,
       "tracked": true
     },
@@ -205,7 +205,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/cursor-map-review-witnesses.mjs",
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs",
       "line": 57,
       "tracked": true
     },
@@ -213,7 +213,7 @@
       "severity": "warning",
       "category": "lint/correctness/noUnusedVariables",
       "message": "This variable mapModeAbs is unused.",
-      "path": "docs/testing/glm-architecture-regression-lab/tools/g01-pan-cancel-needle.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/g01-pan-cancel-needle.mjs",
       "line": 26,
       "tracked": true
     },
@@ -221,7 +221,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs",
       "line": 38,
       "tracked": true
     },
@@ -229,7 +229,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs",
       "line": 39,
       "tracked": true
     },
@@ -237,7 +237,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs",
       "line": 47,
       "tracked": true
     },
@@ -245,7 +245,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs",
       "line": 65,
       "tracked": true
     },
@@ -253,7 +253,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/guard-residual-mutants.mjs",
       "line": 44,
       "tracked": true
     },
@@ -261,7 +261,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/guard-residual-mutants.mjs",
       "line": 71,
       "tracked": true
     },
@@ -269,7 +269,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-content-guards-wave3/guard-residual-mutants.mjs",
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/guard-residual-mutants.mjs",
       "line": 98,
       "tracked": true
     },
@@ -277,7 +277,7 @@
       "severity": "warning",
       "category": "suppressions/unused",
       "message": "Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.",
-      "path": "docs/testing/glm-migration-boundaries-mutants.mjs",
+      "path": "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
       "line": 72,
       "tracked": true
     },
@@ -285,7 +285,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-migration-boundaries-mutants.mjs",
+      "path": "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
       "line": 72,
       "tracked": true
     },
@@ -293,7 +293,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/glm-resource-tools-mutants.mjs",
+      "path": "docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
       "line": 53,
       "tracked": true
     },
@@ -301,7 +301,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-final-review-witness.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs",
       "line": 25,
       "tracked": true
     },
@@ -309,7 +309,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-final-review-witness.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs",
       "line": 26,
       "tracked": true
     },
@@ -317,7 +317,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs",
       "line": 40,
       "tracked": true
     },
@@ -325,7 +325,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs",
       "line": 21,
       "tracked": true
     },
@@ -333,7 +333,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs",
       "line": 22,
       "tracked": true
     },
@@ -341,7 +341,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs",
       "line": 24,
       "tracked": true
     },
@@ -349,7 +349,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-r3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs",
       "line": 26,
       "tracked": true
     },
@@ -357,7 +357,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs",
       "line": 10,
       "tracked": true
     },
@@ -365,7 +365,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/guard-wave3-review-witnesses.mjs",
+      "path": "docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs",
       "line": 14,
       "tracked": true
     },
@@ -413,7 +413,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "path": "docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs",
       "line": 16,
       "tracked": true
     },
@@ -421,7 +421,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "path": "docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs",
       "line": 17,
       "tracked": true
     },
@@ -429,7 +429,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "path": "docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs",
       "line": 116,
       "tracked": true
     },
@@ -437,7 +437,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "path": "docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs",
       "line": 117,
       "tracked": true
     },
@@ -445,7 +445,7 @@
       "severity": "warning",
       "category": "lint/suspicious/noTemplateCurlyInString",
       "message": "Unexpected template string placeholder.",
-      "path": "docs/testing/parallel-guard-command-r2-review-witnesses.mjs",
+      "path": "docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs",
       "line": 134,
       "tracked": true
     },

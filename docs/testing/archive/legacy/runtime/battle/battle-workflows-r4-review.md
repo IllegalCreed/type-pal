@@ -7,8 +7,8 @@
 N1/N2/N4 的业务反证已闭；N3 其余新增合同及去重层级更正接受。另有两处回执数字须更正，
 不把它们说成运行时缺陷。不集成、不跑统计并集、不代签、不标 done、不转 Kimi。
 
-证据：[机账](battle-workflows-r4-evidence.json)、[本轮隔离见证](../../../../battle-workflows-r4-witnesses.mjs)。
-原 [r3 见证](../../../../battle-workflows-r3-witnesses.mjs) 的入口未漂移，可直接复跑；r1/r2/r3 文件均零改动。
+证据：[机账](battle-workflows-r4-evidence.json)、[本轮隔离见证](../../unresolved-tools/battle-workflows-r4-witnesses.mjs)。
+原 [r3 见证](../../unresolved-tools/battle-workflows-r3-witnesses.mjs) 的入口未漂移，可直接复跑；r1/r2/r3 文件均零改动。
 
 ## 已关闭，后续不重开
 
@@ -81,8 +81,8 @@ if (s.coopThisTurn && queued.kind !== 'coop') {
 - 四目标相对 `57dda7ed` 零 diff；旧测试/历史反证/官方基线和配置未改。只消费源码与既有本地工具，无网络资料依赖。
 
 ```bash
-node docs/testing/battle-workflows-r3-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
-node docs/testing/battle-workflows-r4-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
+node docs/testing/archive/legacy/unresolved-tools/battle-workflows-r3-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
+node docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
 ```
 
 工具0退出表示取证完成，不表示 accept；独立 oracle 不计候选45项。

@@ -53,7 +53,7 @@ globalThis.indexedDB = {
   },
 }
 
-const root = fileURLToPath(new URL('../../../../packages/editor/', import.meta.url))
+const root = fileURLToPath(new URL('../../../../packages/editor', import.meta.url))
 const requireEditor = createRequire(
   new URL('../../../../packages/editor/package.json', import.meta.url),
 )

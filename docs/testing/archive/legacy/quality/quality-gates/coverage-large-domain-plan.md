@@ -9,9 +9,9 @@
 ## 基线与选择依据
 
 - 基点 `f2592597`；官方 fast **7790 项 / 633 生产文件**，全仓 L 51967/70420、B 41307/63149。
-- [冻结盘点](coverage-large-domain-evidence.json)和[只读复算器](../../../../coverage-large-domain-census.mjs)覆盖全部七包：逐层核官方持久字段（含测试身份摘要）、生产路径集合、四维计数及逐文件加总。
+- [冻结盘点](coverage-large-domain-evidence.json)和[只读复算器](../../../../domains/quality/quality-gates/tools/coverage-large-domain-census.mjs)覆盖全部七包：逐层核官方持久字段（含测试身份摘要）、生产路径集合、四维计数及逐文件加总。
 - 主树 `coverage/fast` 是 **7627 旧报告，不采用**；有效报告在 `/Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast`，已与7790基线逐字段一致。
-- 复算命令：`node docs/testing/coverage-large-domain-census.mjs /Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast`。工具只读、JSON输出，不生成报告或写基线。旧7627输入实际exit1，新7790输入exit0。
+- 复算命令：`node docs/testing/domains/quality/quality-gates/tools/coverage-large-domain-census.mjs /Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast`。工具只读、JSON输出，不生成报告或写基线。旧7627输入实际exit1，新7790输入exit0。
 - 初版临时核验曾对报告额外的嵌套 identities 做整对象比较而误拒；已改为逐层官方持久字段投影，仍比较全部身份摘要/执行计数/源路径/分母。不是忽略不一致。
 - 所列十个目标源码对生产冻结 `57dda7ed` 不变；覆盖统计描述执行，不独立证明所有遗漏臂合法可达。
 

@@ -42,7 +42,7 @@ Owner：Codex；基点`be5218bb`；实现`7be10bf4`；所属[连续治理卡](/d
 - 新增20项：WorldMotionRuntime 10、WorldScenePresentation 5、main所有权/顺序AST 5。
 - 定向/相邻13文件167项通过；Reforge全包177测试文件/1642项通过；TypeScript、候选文件Biome、production build通过。
   build仅保留既有大chunk提示。
-- [九针反控](/docs/testing/world-runtime-mutants.mjs)：冻结世界拍、party abort释放、slot registry、gait owner、帧优先级、当前帧锚、
+- [九针反控](/docs/testing/domains/content/authoring-and-runtime/tools/world-runtime-mutants.mjs)：冻结世界拍、party abort释放、slot registry、gait owner、帧优先级、当前帧锚、
   follower深度、shake相位、wave静态叠层均由指定候选测试单一`AssertionError`检出；control 15/15，判据1正9反，
   精确file/fullName/exit1/唯一load注入与全生产hash不变。最终临时机账：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-world-runtime-mutants-mcFlrN/summary.json`。

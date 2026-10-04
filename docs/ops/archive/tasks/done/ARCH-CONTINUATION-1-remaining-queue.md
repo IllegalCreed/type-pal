@@ -322,7 +322,7 @@ docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md，状态build
 用户已授权Codex独立推进，固定三贤人签字暂停。本对话是实现Owner，原对话继续贡献者验收/统一集成。
 
 先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、主卡、docs/ops/audits/architecture-debt.md、
-docs/testing/domains/runtime/scene/active-scene/report.md及机账、scene-preparation-refactor.md和phase1-knowledge-harvest对应领域。
+docs/testing/archive/legacy/active-scene/report.md及机账、scene-preparation-refactor.md和phase1-knowledge-harvest对应领域。
 第一阶段任务还须读engineering-notes/game-mechanics相关条目；不得把二阶段改回旧引擎架构。
 
 复用 /Users/zhangxu/illegal/type-pal-codex-active-scene，分支codex/architecture-active-scene。

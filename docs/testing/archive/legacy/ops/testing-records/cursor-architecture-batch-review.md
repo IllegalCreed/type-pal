@@ -49,10 +49,10 @@
 
 ## 复现与后续
 
-[本席见证工具](../../../../cursor-architecture-review-witnesses.mjs)及[机账](../../editor/testing-records/cursor-architecture-batch-review-evidence.json)：
+[本席见证工具](../../../../domains/content/testing-records/tools/architecture-review-witnesses.mjs)及[机账](../../editor/testing-records/cursor-architecture-batch-review-evidence.json)：
 
 ```bash
-node --import tsx docs/testing/cursor-architecture-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-codex-cursor-review
+node --import tsx docs/testing/domains/content/testing-records/tools/architecture-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-codex-cursor-review
 ```
 
 工具只读候选源码，产品变异在隔离Vite load视图；临时JSON/日志路径随输出。fixture提取和判据锚冻结于r1，候选重构其工厂/判据后由Codex适配，不要求Cursor为了旧探针保留错误结构。

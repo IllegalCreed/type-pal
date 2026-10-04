@@ -17,13 +17,13 @@
 本席见证原始JSON目录`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/codex-guard-leaf-review-y2ehtI`，
 作者反控独立复跑输出`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-guard-leaf-mutants-qd3Far`。
 
-接收后与[Codex资源补测](../../../../codex-content-resources/README.md)合并跑一次统一门，不重复争用coverage。
+接收后与[Codex资源补测](../../batches/codex-content-resources/README.md)合并跑一次统一门，不重复争用coverage。
 GLM为测试贡献者，独立验收由Codex完成；视觉N/A，未把full/Q1/Q2或远端CI计入本卡。
 
 ## 集成收口
 
 `d1e99a0d`合并候选；保留GLM三测试/fixture/专属回执语义原样（收口只机械适配任务卡归档链接），合并任务卡冲突时保留双方历史全文。
 本席串行全仓check8896、官方ratchet、保护7d64de13单次strict-fast8404均exit0；
-详见[并集机账](../../../../codex-content-resources/evidence.json)。三守卫直接行/分支达到113/113与114/114；
+详见[并集机账](../../batches/codex-content-resources/evidence.json)。三守卫直接行/分支达到113/113与114/114；
 不把直模块增量19L/29B和作者包级20L/30B混写。正式基线为两批并集，不复跑两份官方统计。
 Codex核定本卡done；无需GLM再返工或固定席位签字。

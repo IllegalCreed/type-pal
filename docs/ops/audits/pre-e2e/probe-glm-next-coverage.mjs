@@ -21,7 +21,7 @@ const CASE = caseArg
 assert.ok(CASE === 'all' || /^F(0[1-9]|1[0-2])$/.test(CASE), '未知case，不允许零用例成功')
 const want = (id) => CASE === 'all' || CASE === id
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const repoRoot = fileURLToPath(root)
 const mainTree = '/Users/zhangxu/illegal/type-pal'
 const PKGS = ['shared', 'content', 'pal-extract', 'migrate', 'reforge', 'game', 'editor']

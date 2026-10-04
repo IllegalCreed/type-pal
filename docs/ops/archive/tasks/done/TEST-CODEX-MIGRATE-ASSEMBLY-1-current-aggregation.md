@@ -26,7 +26,7 @@ canonical，不借测试保留/新增旧版本入口。最强替代解释是原�
 
 - 六新测试：`packages/migrate/src/migrate-all.{records,equipment,use,throw,enemies,diagnostics}.test.ts`。
 - 新fixture：`src/__tests__/migration-assembly-fixtures.ts`；复用上一批typed源工厂，不改旧测试。
-- 专属证据`docs/testing/codex-migrate-assembly/`，本席维护导航/看板及最终官方基线。
+- 专属证据`docs/testing/archive/legacy/batches/codex-migrate-assembly/`，本席维护导航/看板及最终官方基线。
 - 同一实际输入深快照；返回值/诊断/非空哨兵；六代表单点反控（仅内存变异）。
 - 定向+相邻/TC/Biome后统一串行完整check→ratchet→受保护单次strict-fast。
 - 与GLM content guard、Cursor editor命令及其它Codex架构写入面隔离。
@@ -41,7 +41,7 @@ canonical，不借测试保留/新增旧版本入口。最强替代解释是原�
   当前review，开始统一质量门；不提前声明覆盖增量。
 - 2026-09-26：完整check9,028、官方ratchet、保护f81d365f的单次strict8,536/701均exit0；
   生产分母不变，其它六包baseline对象不变；全仓净增169B/134L/148S/21F。
-  实际全仓44,114/63,178=69.82493906106556%。[回执](../../../../testing/codex-migrate-assembly/README.md)
+  实际全仓44,114/63,178=69.82493906106556%。[回执](../../../../testing/archive/legacy/batches/codex-migrate-assembly/README.md)
   已列失败历史、六针业务红、完整质量门与范围。本席核定 **accept / done**，不需其它AI补签。
 
 无下一位Agent提示词；本席连续实施与验证。

@@ -1,0 +1,189 @@
+{
+  "criteria": "隔离副本 + loader 注入(vite resolveId)：生产源复制到 packages/game/node_modules/.glm-counter-H/<id>/ 后唯一注入(find/replace 恰 1 次)，副本相对 import 重写为真实树绝对路径；临时 vitest config 把「解析结果==生产源」的模块替换为副本。判据：基线(无注入)恰 exit0 → 针(注入)恰 exit1；红集合==预期(绝对 file + fullName)；实际执行数=红+绿、无 skip/todo/timeout/exit2/混错；注入命中仅目标模块；前后生产源 SHA256 一致、git 对生产源及全仓零改动。",
+  "runner": "docs/testing/archive/legacy/batches/glm-new-waves/wave-H/counter-run.mjs（node 直跑，可复跑）",
+  "counters": [
+    {
+      "id": "A",
+      "group": "H01",
+      "mutation": "packages/game/src/core/battle/battle-opcodes.ts: 唯一注入 \"state.battleDialogPendingClear = true\"…",
+      "injectionHits": {
+        "count": 2,
+        "allTargetModule": true
+      },
+      "production": {
+        "sha256Before": "ee75e465d011daff012dbc852402016c465dd9913b417d903aead08828917419",
+        "sha256After": "ee75e465d011daff012dbc852402016c465dd9913b417d903aead08828917419",
+        "unchanged": true,
+        "gitStatusClean": true
+      },
+      "baseline": {
+        "injected": false,
+        "exit": 0,
+        "executed": 5,
+        "red": 0
+      },
+      "needle": {
+        "injected": true,
+        "exit": 1,
+        "executed": 5,
+        "redFullNames": [
+          "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)",
+          "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 0x8E → battleDialogPendingClear = true(与 0x05 同一战斗侧语义)",
+          "0x0005 / 0x008E ClearDialog(script.c:3267-3269 / 3428-3430) 战斗脚本内 0x05 → 下一个 showDialog 带 clearBefore 且只清一次;后续行不受影响"
+        ],
+        "greenCount": 2,
+        "invalidStatuses": [],
+        "timedOut": false,
+        "fileStatus": "failed"
+      },
+      "checks": {
+        "baselineExit0": true,
+        "needleExit1": true,
+        "redSetMatchesExpected": true,
+        "greenSetMatchesExpected": true,
+        "executedEqualsRedPlusGreen": true,
+        "noSkipNoTimeoutNoExit2": true,
+        "productionHashUnchanged": true,
+        "gitTreeClean": true,
+        "passed": true
+      }
+    },
+    {
+      "id": "B",
+      "group": "H06",
+      "mutation": "packages/game/src/core/battle/anim-timeline.ts: 唯一注入 \"for (let i = 0; i < 5; i++) {\"…",
+      "injectionHits": {
+        "count": 1,
+        "allTargetModule": true
+      },
+      "production": {
+        "sha256Before": "9e6fbf7bc6b2aac42847d81665bf42db502675278c613fe680835ecf69aa5ec7",
+        "sha256After": "9e6fbf7bc6b2aac42847d81665bf42db502675278c613fe680835ecf69aa5ec7",
+        "unchanged": true,
+        "gitStatusClean": true
+      },
+      "baseline": {
+        "injected": false,
+        "exit": 0,
+        "executed": 5,
+        "red": 0
+      },
+      "needle": {
+        "injected": true,
+        "exit": 1,
+        "executed": 5,
+        "redFullNames": [
+          "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) frame10 偷窃姿 + offset=(target-player)*8 冲到敌前 + 5 步逼近(i==4 敌闪白) + 收尾 x-- 敌复色",
+          "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) 目标在玩家左(target<player)→ 负 offset 反向落点(同一公式,不分支)"
+        ],
+        "greenCount": 3,
+        "invalidStatuses": [],
+        "timedOut": false,
+        "fileStatus": "failed"
+      },
+      "checks": {
+        "baselineExit0": true,
+        "needleExit1": true,
+        "redSetMatchesExpected": true,
+        "greenSetMatchesExpected": true,
+        "executedEqualsRedPlusGreen": true,
+        "noSkipNoTimeoutNoExit2": true,
+        "productionHashUnchanged": true,
+        "gitTreeClean": true,
+        "passed": true
+      }
+    },
+    {
+      "id": "C",
+      "group": "H02",
+      "mutation": "packages/game/src/core/battle/battle-progression.ts: 唯一注入 \"let dwExp = Math.trunc((expGained * wCount) / iTotalCount) * 2 + entry.wExp\"…",
+      "injectionHits": {
+        "count": 1,
+        "allTargetModule": true
+      },
+      "production": {
+        "sha256Before": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+        "sha256After": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+        "unchanged": true,
+        "gitStatusClean": true
+      },
+      "baseline": {
+        "injected": false,
+        "exit": 0,
+        "executed": 5,
+        "red": 0
+      },
+      "needle": {
+        "injected": true,
+        "exit": 1,
+        "executed": 5,
+        "redFullNames": [
+          "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++"
+        ],
+        "greenCount": 4,
+        "invalidStatuses": [],
+        "timedOut": false,
+        "fileStatus": "failed"
+      },
+      "checks": {
+        "baselineExit0": true,
+        "needleExit1": true,
+        "redSetMatchesExpected": true,
+        "greenSetMatchesExpected": true,
+        "executedEqualsRedPlusGreen": true,
+        "noSkipNoTimeoutNoExit2": true,
+        "productionHashUnchanged": true,
+        "gitTreeClean": true,
+        "passed": true
+      }
+    },
+    {
+      "id": "D",
+      "group": "H06",
+      "mutation": "packages/game/src/core/battle/battle-settlement.ts: 唯一注入 \"if (screen.kind === 'exp-cash') return screen.isBoss ? 5500 : 3000\"…",
+      "injectionHits": {
+        "count": 1,
+        "allTargetModule": true
+      },
+      "production": {
+        "sha256Before": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+        "sha256After": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+        "unchanged": true,
+        "gitStatusClean": true
+      },
+      "baseline": {
+        "injected": false,
+        "exit": 0,
+        "executed": 5,
+        "red": 0
+      },
+      "needle": {
+        "injected": true,
+        "exit": 1,
+        "executed": 5,
+        "redFullNames": [
+          "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms"
+        ],
+        "greenCount": 4,
+        "invalidStatuses": [],
+        "timedOut": false,
+        "fileStatus": "failed"
+      },
+      "checks": {
+        "baselineExit0": true,
+        "needleExit1": true,
+        "redSetMatchesExpected": true,
+        "greenSetMatchesExpected": true,
+        "executedEqualsRedPlusGreen": true,
+        "noSkipNoTimeoutNoExit2": true,
+        "productionHashUnchanged": true,
+        "gitTreeClean": true,
+        "passed": true
+      }
+    }
+  ],
+  "summary": {
+    "counters": 4,
+    "allPassed": true
+  }
+}

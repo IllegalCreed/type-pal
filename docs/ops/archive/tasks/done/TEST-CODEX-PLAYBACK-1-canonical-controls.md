@@ -18,7 +18,7 @@ Visual Verification Timing: N/A（控制器数据与时序合同；不冒称视�
 ## 六组与验收
 
 新增 `packages/editor/src/core/playback.{controls,motion,entities,presentation,effects,queries}.test.ts`，
-专属 `core/__tests__/playback-canonical-fixtures.ts` 与 `docs/testing/codex-playback/**`。
+专属 `core/__tests__/playback-canonical-fixtures.ts` 与 `docs/testing/archive/legacy/batches/codex-playback/**`。
 每例使用真实当前flow guard、真实compiler/runner/host，经公开view/tick观察；输入消费前深快照，消费后比实际实参。
 闭环分为暂停/单步与对话、移动时钟、实体overlay、场景入场计时、日志桩结果、query/scratch隔离。
 不把“预览战斗按胜利继续”等桩日志称为真实战斗，也不声明Canvas像素已测。
@@ -37,7 +37,7 @@ Codex连续实施；无下一位Agent提示词，不等待他席。
 
 六组54项（7/10/9/7/9/12）与旧12+lab4+Canvas2合计72/72；editor TC exit0。
 六正控/六单点反控真实AssertionError通过，源码hash不变。单步首次阶段门问题保留
-[独立红诊断](../../../../testing/codex-playback/README.md)，归[后续修复卡](EDITOR-PREVIEW-STEP-1-command-gates.md)，
+[独立红诊断](../../../../testing/archive/legacy/batches/codex-playback/README.md)，归[后续修复卡](EDITOR-PREVIEW-STEP-1-command-gates.md)，
 不改绿预期掩盖。
 
 ## 2026-09-26 统一验收与收口

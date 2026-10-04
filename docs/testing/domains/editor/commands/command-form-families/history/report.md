@@ -39,7 +39,7 @@ field-layout census 的生产 owner 路径全部迁到真实族文件，旧 `Com
 - 表单族定向 5 文件 51/51；设计所有权轻量相邻 7 文件 53/53；Editor 整包 334 文件/2879 项；TypeScript、
   production build 与设计门通过。build 仅保留既有大 chunk 提示。候选 24 个 Biome 文件零 error；
   `boundary.test.ts` 的 5 条 warning 在基点已存在，本批未扩大。
-- [十二针](/docs/testing/command-form-families-mutants.mjs)覆盖对话身份/单行删除/删除选择、队伍删除、角色条件默认值、
+- [十二针](/docs/testing/domains/editor/editor-workflows/tools/command-form-families-mutants.mjs)覆盖对话身份/单行删除/删除选择、队伍删除、角色条件默认值、
   wait/fade/entity state/world variable 提交、loadScene 目标、bridge kind 与作者 identity。control 20/20；
   12 个坏实现全部由指定候选测试的单一 `AssertionError` 检出。最终临时机账：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-command-form-families-mutants-sDJzxA/summary.json`。

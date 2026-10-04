@@ -40,12 +40,12 @@ fixture只在`__tests__`，没有生产导入；未改既有测试或放宽断�
 ```sh
 pnpm --filter @type-pal/reforge exec vitest run src/script-activity-lineage.test.ts src/runtime-save-lineage.test.ts src/save-lineage.chain.test.ts src/runtime-script-project.test.ts src/script-world.test.ts src/script-runner-core.test.ts src/world-async-commit.test.ts src/scene-preflight.chain.test.ts
 pnpm --filter @type-pal/reforge typecheck
-node docs/testing/save-lineage-mutants.mjs
+node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs
 ```
 
 ## 单点反控
 
-[可重建入口](../../../../save-lineage-mutants.mjs)：1个完整43项正常对照绿，8针全部唯一源码替换、load命中且业务AssertionError红，
+[可重建入口](../../../../domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs)：1个完整43项正常对照绿，8针全部唯一源码替换、load命中且业务AssertionError红，
 拒绝把无用例/模块错误/超时/unhandled rejection作为负控证据；磁盘源文件前后hash不变。
 
 | 反控 | 拦截的错误 |

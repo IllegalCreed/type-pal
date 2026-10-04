@@ -306,7 +306,7 @@
   ],
   "sourceCensusSha256": "268342690f08919c80af7a350ddf17ae108e6e08f670dd2e7602291aedbd0597",
   "minimal": {
-    "command": "node docs/testing/coverage-initializer-probe.mjs",
+    "command": "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-probe.mjs",
     "exitCode": 0,
     "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-initializer-probe-Ugwsq6/summary.json",
     "rows": [
@@ -399,7 +399,7 @@
     ]
   },
   "package": {
-    "command": "node docs/testing/coverage-initializer-capture.mjs",
+    "command": "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs",
     "exitCode": 0,
     "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-initializer-capture-QghVLq/replay-summary.json",
     "tests": 1378,

@@ -287,7 +287,7 @@ owner变化误当lease失活又造成互等；子方finally/失败漏释放导�
     runDetachedScriptChain，`expect(signal).toBe(f.signal)` 逐点，快照含 defeated+parentEnd，runner 槽保持；
     :144-159 无父 host 开战仍等 gate）。基础 host 三入口家族成员保持（runtime-save-lineage:334-384）。
   - **本人复跑（2026-09-17，工作树 a652d5c6，产品=候选零漂移）**：定向 8 文件 **127/127** exit0；
-    `tsc --noEmit` rc0；`node docs/testing/save-lineage-mutants.mjs` **1 对照 exit0 + 8 针全 exit1 业务红**
+    `tsc --noEmit` rc0；`node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs` **1 对照 exit0 + 8 针全 exit1 业务红**
     （wrapper-key/wide-admission/premature-child-stop/stale-registration/exception-lease-leak/
     stale-epoch-write/forged-parent/key-not-identity）。质量门重跑：`pnpm check` rc0（1334 文件 0 errors/
     48 warnings/11 infos）；`TYPE_PAL_COVERAGE_BASE_REF=11ad25fa pnpm coverage:fast` rc0——**6591 项/617
@@ -369,7 +369,7 @@ SL-E1～E3视觉/磁盘保存读回继续由Codex在R4/Q1集中执行，延期�
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 SAVE-BARRIER-LINEAGE-1 r1，任务卡 docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md，状态review；候选dff3442daf3b2e43837e67e6944827b928eeb1f4，对比11ad25fa。设计不重签。
 先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md。按候选冻结树独立核四文件：wrapper开战身份、真实lease/active对象身份、嵌套to完整执行、独立root等待/安全点、同owner busy、epoch与lease存活分离、错误/取消清理；无公共token、版本/F5/10秒行为扩张。WORLD依赖e13216e7的实现块不得回退，本卡不代其终审。
-复跑3个新测试文件43项及相邻；node docs/testing/save-lineage-mutants.mjs应为43项正常对照绿+8针业务红。核check7079、受保护strict fast6591/617及旧identity/六包零漂移；主壳AST执行边界和未跑浏览器/磁盘E2E如实保留，不复跑剧情观感。
+复跑3个新测试文件43项及相邻；node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs应为43项正常对照绿+8针业务红。核check7079、受保护strict fast6591/617及旧identity/六包零漂移；主壳AST执行边界和未跑浏览器/磁盘E2E如实保留，不复跑剧情观感。
 只在自己的实现席位签accept或带file:line和反例的counter，独立证据/可证伪观察、旧版本兼容审查和本人日志直接落卡提交推送。不得代签、改他席/产品/状态或标done；不读/复述GLM结论，交Codex统一核准入。
 ```
 
@@ -378,7 +378,7 @@ SL-E1～E3视觉/磁盘保存读回继续由Codex在R4/Q1集中执行，延期�
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 SAVE-BARRIER-LINEAGE-1 r1实现，任务卡 docs/ops/archive/tasks/done/SAVE-BARRIER-LINEAGE-1-nested-script-save.md，状态review；候选dff3442daf3b2e43837e67e6944827b928eeb1f4，对比11ad25fa。设计不重签，与四包测试返工分开提交。
 先同步并查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡和docs/testing/archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md。独立按SL-01～08核43项（18/22/3）的实际断言、snapshot不是optional空真、三类身份/过期lease、busy/多层/epoch/取消/失败/超时/重复保存、真实main接线。你参与过批二原始材料须披露；新43项及实现由Codex完成，不用历史探针自证。
-复跑定向及node docs/testing/save-lineage-mutants.mjs（1正常对照+8针业务红）；核check7079、官方ratchet和TYPE_PAL_COVERAGE_BASE_REF=11ad25fa的单次严格fast6591/617、全部旧identity保留及六包基线不变。不混入你的四包返工分支、不动官方基线/统计范围，不做浏览器或视觉；SL-E1～3按集中E2E未执行登记。
+复跑定向及node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs（1正常对照+8针业务红）；核check7079、官方ratchet和TYPE_PAL_COVERAGE_BASE_REF=11ad25fa的单次严格fast6591/617、全部旧identity保留及六包基线不变。不混入你的四包返工分支、不动官方基线/统计范围，不做浏览器或视觉；SL-E1～3按集中E2E未执行登记。
 只在自己的实现席位签accept或带file:line的counter，直接写独立证据、旧版本兼容检查与本人日志并提交推送。不读/复述Kimi结论、不代签/改状态/标done；Codex统一集成与收口。
 ```
 

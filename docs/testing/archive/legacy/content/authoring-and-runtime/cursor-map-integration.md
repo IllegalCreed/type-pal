@@ -1,7 +1,7 @@
 # Cursor地图六组独立接收与集成
 
 [任务卡](../../../../../ops/archive/tasks/done/TEST-CURSOR-MAP-LOGIC-2-selection-stamps.md) /
-[作者回执](../../../../cursor-map-logic-r2/receipt.md) / [前轮残项](cursor-map-logic-r2-review.md) /
+[作者回执](../../batches/cursor-map-logic-r2/receipt.md) / [前轮残项](cursor-map-logic-r2-review.md) /
 [接收机账](cursor-map-integration-evidence.json)。
 
 2026-09-27，Codex独立接收候选`be9a86366ae94d4dc74cca3ba5d9770ec1332b2e`，

@@ -70,8 +70,8 @@ packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts
 packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts
 packages/shared/src/__tests__/glm-tb05-fixtures.ts
 packages/pal-extract/src/__tests__/glm-tb05-fixtures.ts
-docs/testing/glm-resource-tools-mutants.mjs
-docs/testing/glm-resource-tools.config.mts
+docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs
+docs/testing/domains/migration/supply-and-import/tools/resource-tools-config.mts
 docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json
 ```
 
@@ -94,7 +94,7 @@ R05 annotate 按工作包允许整模块记已有、减 1 文件与 2 个 fixtur
 shared 全包 14 文件/115 项 exit0；pal-extract 34 文件/173 项中 4 项真实资产 ENOENT 与基线相同
 （fresh worktree 缺 data/raw）；双包 tc rc=0；9 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-resource-tools-mutants.mjs` rc=0（跨 shared+pal-extract 双包单点替换）：
+- 负控 `node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs` rc=0（跨 shared+pal-extract 双包单点替换）：
   判据自测 + 3 对照 + **9 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行
   AssertionError；产品 hash 不变。针点：严格 RLE 零长指令、编码透明 run 封顶、写入奇对齐 pad、
   disasm o1 signed 化、recompile label 丢失、slice globalEntries 强制、palette 夜半偏移、

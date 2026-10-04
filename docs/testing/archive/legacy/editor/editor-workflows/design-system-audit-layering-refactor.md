@@ -33,7 +33,7 @@ coverage 门；待原接收对话同步当前 main 后统一集成。结构化�
   report ports/exit；正式 design-system gate 仍为 100 个生产文件、2 个 evidence-bound exceptions。
 - Editor `check` 通过：TypeScript 无错，335 文件/2885 项全绿（`maxWorkers=2`）。候选实现、测试与反控文件
   Biome 通过。
-- [六针反控](../../../../design-system-audit-layering-mutants.mjs)覆盖 AST 条件 class、switch 去重、终端空 case、CSS
+- [六针反控](../../../../domains/editor/editor-workflows/tools/design-system-audit-layering-mutants.mjs)覆盖 AST 条件 class、switch 去重、终端空 case、CSS
   `scroll`、allowlist 三轴身份和报告 adoption exit。control 10/10、六针全检出；精确 absolute file/fullName、
   唯一 loader marker、恰一个 `AssertionError`、exit 1、无环境/timeout 异常，五个产品文件前后 hash 不变。
   临时摘要：

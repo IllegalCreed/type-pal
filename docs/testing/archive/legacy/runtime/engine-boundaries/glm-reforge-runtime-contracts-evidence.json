@@ -37,7 +37,7 @@
     ]
   },
   "reviewWitnesses": {
-    "command": "node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+    "command": "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
     "exit": 0,
     "verdicts": {
       "bgm-post-read-ownership": "detected",
@@ -49,8 +49,8 @@
     "note": "four needles flipped from MISSED to detected with in-function execution markers preserved"
   },
   "mutants": {
-    "script": "docs/testing/glm-reforge-runtime-contracts-mutants.mjs",
-    "command": "node docs/testing/glm-reforge-runtime-contracts-mutants.mjs",
+    "script": "docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs",
+    "command": "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -173,8 +173,8 @@
     "productHashInvariant": "all touched product files sha256 unchanged before/after batch"
   },
   "coverage": {
-    "config": "docs/testing/glm-reforge-runtime-contracts.config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
-    "commandTemplate": "RR1_MODE=<before|after> RR1_OUT=<tmpdir> pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/glm-reforge-runtime-contracts.config.mts",
+    "config": "docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts (imports scripts/coverage/config.mjs coveragePackages/testSelection/coverageExcludes; fast profile)",
+    "commandTemplate": "RR1_MODE=<before|after> RR1_OUT=<tmpdir> pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-reforge-runtime/docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts",
     "beforeDir": "/tmp/rr1-rw-coverage-before",
     "afterDir": "/tmp/rr1-rw-coverage-after",
     "perModule_before_after_lines_branches_statements": {
@@ -252,7 +252,7 @@
   ],
   "base": "4678650a (latest main incl. guard archive and preview-cache fixes)",
   "inputWitness": {
-    "command": "node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+    "command": "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
     "exit": 0,
     "verdicts": {
       "control": "control (7 tests, exit 0)",

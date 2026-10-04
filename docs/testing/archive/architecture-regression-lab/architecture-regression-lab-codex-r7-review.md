@@ -6,7 +6,7 @@
 
 - `33df9378..fb251df8` 的 candidates/fixtures 有 11 文件、`+597/-191`，本轮确有真实测试改动。候选工作树干净，HEAD 与远端一致。
 - 新鲜 JSON 写入 `/tmp/codex-glm-r7-candidates.json`：32/32；`tools/verify.mjs` 对该 JSON PASS，40 条账为 38 candidate-green / 1 existing-proof / 1 blocked-environment；`tools/red-control.mjs` 为 `detected`，exit1、1 执行、AssertionError、产品 hash 未变。`tsc --project configs/tsconfig.json --noEmit`、`node scripts/docs/check.mjs`、`git diff --check` 均 exit0。
-- **目录 Biome exit1**：最终提交树中的 `configs/candidates-exec.json` 是未格式化的一行 JSON；独立运行 `pnpm exec biome check docs/testing/glm-architecture-regression-lab` 报该文件 formatter 错。GLM 回执声称目录 Biome exit0 与最终树不符。新鲜执行 JSON 应放临时目录，或在提交前格式化并重新核验。
+- **目录 Biome exit1**：最终提交树中的 `configs/candidates-exec.json` 是未格式化的一行 JSON；独立运行 `pnpm exec biome check docs/testing/archive/legacy/batches/glm-architecture-regression-lab` 报该文件 formatter 错。GLM 回执声称目录 Biome exit0 与最终树不符。新鲜执行 JSON 应放临时目录，或在提交前格式化并重新核验。
 - 六张旧视觉截图由 verify 核完整 SHA；本轮未重拍，也不能据此将 V01–V04 未执行矩阵视作已证。
 
 ## 逐组裁决

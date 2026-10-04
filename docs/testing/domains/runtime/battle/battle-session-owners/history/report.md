@@ -29,7 +29,7 @@ coverage 门；待原接收对话统一集成并执行 check/ratchet/strict。�
 
 - 四 owner 新增 35 项；C1 定向/相邻 11 文件 124 项、Reforge 182 文件 1682 项、TypeScript、候选 Biome 与
   production build 均通过。build 仅保留既有大 chunk 提示。
-- [十一针反控](/docs/testing/battle-session-owners-mutants.mjs)覆盖同步进入、迟到失效、fatal 分类、300ms、terminated 同拍、
+- [十一针反控](/docs/testing/domains/runtime/battle/tools/battle-session-owners-mutants.mjs)覆盖同步进入、迟到失效、fatal 分类、300ms、terminated 同拍、
   LIFO、跨轮快捷键、重复动作修复、240ms、首帧采样和 script 清理。control 35/35；11 个坏实现全部由指定
   候选测试的单一 `AssertionError` 检出。工具要求精确 absolute test/fullName、唯一 loader marker、exit 1、
   无 timeout/环境异常且产品 hash 不变；判据 1 正/9 反自测。最终临时机账：

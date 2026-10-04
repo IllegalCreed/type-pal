@@ -12,7 +12,7 @@
   这只证测试使用的会话状态，不证明每个下层 UI asset prop 都是真实例。
 - 独立复跑候选十二文件 **39/39**、editor typecheck exit0、14 代码文件 Biome
   零诊断、`pnpm check:docs` PASS、diff check 干净；
-  `node docs/testing/glm-editor-ui-wave/ui-wave-mutants.mjs wave` 的判据自测10类、
+  `node docs/testing/archive/legacy/batches/glm-editor-ui-wave/ui-wave-mutants.mjs wave` 的判据自测10类、
   绿对照及四针钉名业务红全部通过。机械门不替代下述业务输入核验。
 - 直看 `/tmp/ui-wave-u2-sprite-library.png`：12 帧网格及活体预览可见；
   `/tmp/ui-wave-u4-scene-canvas.png`：场景素材可见。两图均不再出现首轮资源

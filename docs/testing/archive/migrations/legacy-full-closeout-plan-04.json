@@ -34,12 +34,12 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual",
-        "node /Users/zhangxu/illegal/type-pal-glm-content-residual/docs/testing/glm-content-residual-mutants.mjs"
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual",
+        "node /Users/zhangxu/illegal/type-pal-glm-content-residual/docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
       ],
       "publicCallers": [
-        "node docs/testing/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual",
-        "node /Users/zhangxu/illegal/type-pal-glm-content-residual/docs/testing/glm-content-residual-mutants.mjs"
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-residual",
+        "node /Users/zhangxu/illegal/type-pal-glm-content-residual/docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -125,8 +125,12 @@
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 26,
       "sourceRefs": [],
-      "publicCommands": ["node docs/testing/content-validation-refactor-audit.mjs"],
-      "publicCallers": ["node docs/testing/content-validation-refactor-audit.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-validation-refactor-audit.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-validation-refactor-audit.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -204,10 +208,10 @@
       ],
       "publicCommands": [
         "node --test scripts/coverage/merge-initializers.test.mjs",
-        "node docs/testing/coverage-initializer-capture.mjs --installed",
-        "node docs/testing/coverage-initializer-probe.mjs",
-        "node docs/testing/coverage-initializer-capture.mjs",
-        "node docs/testing/coverage-initializer-capture.mjs --replay <原始输出目录>",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs --installed",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-probe.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs --replay <原始输出目录>",
         "pnpm install --frozen-lockfile --offline",
         "git archive c5569d1a",
         "node --test --test-name-pattern='native import:|same-range static|real Vitest ssr/client import-only' scripts/coverage/merge-initializers.test.mjs",
@@ -218,10 +222,10 @@
       ],
       "publicCallers": [
         "node --test scripts/coverage/merge-initializers.test.mjs",
-        "node docs/testing/coverage-initializer-capture.mjs --installed",
-        "node docs/testing/coverage-initializer-probe.mjs",
-        "node docs/testing/coverage-initializer-capture.mjs",
-        "node docs/testing/coverage-initializer-capture.mjs --replay <原始输出目录>",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs --installed",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-probe.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs --replay <原始输出目录>",
         "pnpm install --frozen-lockfile --offline",
         "git archive c5569d1a",
         "node --test --test-name-pattern='native import:|same-range static|real Vitest ssr/client import-only' scripts/coverage/merge-initializers.test.mjs",
@@ -757,10 +761,10 @@
       "bodyLines": 54,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/coverage-large-domain-census.mjs /Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast"
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-large-domain-census.mjs /Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast"
       ],
       "publicCallers": [
-        "node docs/testing/coverage-large-domain-census.mjs /Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast"
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-large-domain-census.mjs /Users/zhangxu/illegal/type-pal-glm-wave2/coverage/fast"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -1537,10 +1541,10 @@
       "bodyLines": 61,
       "sourceRefs": [],
       "publicCommands": [
-        "node --import tsx docs/testing/cursor-architecture-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-codex-cursor-review"
+        "node --import tsx docs/testing/domains/content/testing-records/tools/architecture-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-codex-cursor-review"
       ],
       "publicCallers": [
-        "node --import tsx docs/testing/cursor-architecture-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-codex-cursor-review"
+        "node --import tsx docs/testing/domains/content/testing-records/tools/architecture-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-codex-cursor-review"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -1615,9 +1619,9 @@
         "pnpm install --frozen-lockfile",
         "git fetch origin",
         "git rev-parse origin/main HEAD",
-        "node docs/testing/cursor-architecture-batch/module-mutants.mjs --self-test",
+        "node docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs --self-test",
         "pnpm --filter @type-pal/editor exec vitest run \\",
-        "node docs/testing/cursor-architecture-batch/module-mutants.mjs",
+        "node docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
         "pnpm check:docs",
         "git diff --check origin/main -- packages/editor/src/core packages/editor/src/ui/design-system"
       ],
@@ -1628,9 +1632,9 @@
         "pnpm install --frozen-lockfile",
         "git fetch origin",
         "git rev-parse origin/main HEAD",
-        "node docs/testing/cursor-architecture-batch/module-mutants.mjs --self-test",
+        "node docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs --self-test",
         "pnpm --filter @type-pal/editor exec vitest run \\",
-        "node docs/testing/cursor-architecture-batch/module-mutants.mjs",
+        "node docs/testing/archive/legacy/batches/cursor-architecture-batch/module-mutants.mjs",
         "pnpm check:docs",
         "git diff --check origin/main -- packages/editor/src/core packages/editor/src/ui/design-system"
       ],
@@ -1873,11 +1877,11 @@
       "bodyLines": 59,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/parallel-guard-command-r2-review-witnesses.mjs cursor /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3",
+        "node docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs cursor /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3",
         "pnpm check"
       ],
       "publicCallers": [
-        "node docs/testing/parallel-guard-command-r2-review-witnesses.mjs cursor /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3",
+        "node docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs cursor /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3",
         "pnpm check"
       ],
       "legalInputs": [
@@ -1947,10 +1951,10 @@
       "bodyLines": 73,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/cursor-command-boundaries-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3"
+        "node docs/testing/domains/editor/editor-workflows/tools/command-boundaries-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3"
       ],
       "publicCallers": [
-        "node docs/testing/cursor-command-boundaries-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3"
+        "node docs/testing/domains/editor/editor-workflows/tools/command-boundaries-r3-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -4224,10 +4228,10 @@
       "bodyLines": 101,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/cursor-map-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2"
+        "node docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2"
       ],
       "publicCallers": [
-        "node docs/testing/cursor-map-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2"
+        "node docs/testing/domains/content/authoring-and-runtime/tools/map-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-cursor-map-logic-r2"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -5322,13 +5326,13 @@
       "bodyLines": 71,
       "sourceRefs": [],
       "publicCommands": [
-        "node docs/testing/battle-simulator-functional.mjs",
+        "node docs/testing/domains/runtime/battle/tools/battle-simulator-functional.mjs",
         "pnpm check:docs",
         "git diff --check",
         "git diff 57dda7ed -- packages/ scripts/"
       ],
       "publicCallers": [
-        "node docs/testing/battle-simulator-functional.mjs",
+        "node docs/testing/domains/runtime/battle/tools/battle-simulator-functional.mjs",
         "pnpm check:docs",
         "git diff --check",
         "git diff 57dda7ed -- packages/ scripts/"
@@ -5495,18 +5499,18 @@
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast",
-        "node docs/testing/glm-editor-logic-coverage-mutants.mjs",
-        "node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>",
-        "node docs/testing/editor-logic-coverage-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-ed1"
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>",
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-ed1"
       ],
       "publicCallers": [
         "pnpm install --offline --frozen-lockfile",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast",
-        "node docs/testing/glm-editor-logic-coverage-mutants.mjs",
-        "node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>",
-        "node docs/testing/editor-logic-coverage-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-ed1"
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs",
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs <候选工作树物理绝对路径>",
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-ed1"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -5603,18 +5607,18 @@
       ],
       "publicCommands": [
         "pnpm --filter @type-pal/editor exec vitest run src/ui/preview-cache-boundaries.test.tsx src/ui/EnemyBattleSpriteThumbnail.test.tsx src/ui/SkillTab.test.tsx --no-file-parallelism",
-        "node docs/testing/editor-preview-cache-mutants.mjs",
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-preview-cache-mutants.mjs",
         "pnpm --filter @type-pal/editor run typecheck",
-        "node docs/testing/editor-preview-cache-visual.mjs",
+        "node docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
       ],
       "publicCallers": [
         "pnpm --filter @type-pal/editor exec vitest run src/ui/preview-cache-boundaries.test.tsx src/ui/EnemyBattleSpriteThumbnail.test.tsx src/ui/SkillTab.test.tsx --no-file-parallelism",
-        "node docs/testing/editor-preview-cache-mutants.mjs",
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-preview-cache-mutants.mjs",
         "pnpm --filter @type-pal/editor run typecheck",
-        "node docs/testing/editor-preview-cache-visual.mjs",
+        "node docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"

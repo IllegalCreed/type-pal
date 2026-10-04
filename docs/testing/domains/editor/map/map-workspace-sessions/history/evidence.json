@@ -86,14 +86,14 @@
   },
   "negativeControls": {
     "pointer": {
-      "tool": "docs/testing/map-pointer-gesture-mutants.mjs",
+      "tool": "docs/testing/domains/editor/authoring-and-runtime/tools/map-pointer-gesture-mutants.mjs",
       "controls": 6,
       "detected": 9,
       "judge": { "positive": 1, "rejected": 9 },
       "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-map-pointer-gesture-mutants-NiFnKl/summary.json"
     },
     "sessions": {
-      "tool": "docs/testing/map-workspace-sessions-mutants.mjs",
+      "tool": "docs/testing/domains/editor/authoring-and-runtime/tools/map-workspace-sessions-mutants.mjs",
       "controls": 15,
       "detected": 16,
       "judge": { "positive": 1, "rejected": 9 },

@@ -4,7 +4,7 @@
 
 ## 范围与机械复跑
 
-- `9a197825..e1857e66` 仅改本卡和 `docs/testing/glm-architecture-regression-lab/**`；工作树干净，`packages/`、`scripts/` 零 diff。
+- `9a197825..e1857e66` 仅改本卡和 `docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**`；工作树干净，`packages/`、`scripts/` 零 diff。
 - 新鲜执行 JSON `/tmp/codex-glm-r8-candidates.json`：37/37，通过 `tools/verify.mjs` 的 45 条双向对账（43 candidate-green / 1 existing-proof / 1 blocked-environment）。`tools/red-control.mjs` 三针均 detected，含 G03 的 `data-complete` 与 G05 卸载的 `2 > 2` 业务 AssertionError；产品源文件未改。
 - 独立 `tsc --project configs/tsconfig.json --noEmit`、目录 Biome（含已提交的 exec JSON）、`node scripts/docs/check.mjs`、`git diff --check` 均 exit0。本轮不重拍六张未变截图；V01–V04 完整操作矩阵仍按回执记未证。
 

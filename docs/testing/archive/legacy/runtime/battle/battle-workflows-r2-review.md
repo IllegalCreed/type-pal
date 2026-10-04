@@ -4,7 +4,7 @@
 结论：**counter，保持rework，不集成、不跑统计并集，不转Kimi**。原r1设计不重签。
 
 [任务卡](../../../../../ops/archive/tasks/done/TEST-BATTLE-WORKFLOWS-1-session-flows.md)、[r1原反证](battle-workflows-review.md)、
-[r2复建见证](../../../../battle-workflows-r2-witnesses.mjs)、[机账](battle-workflows-r2-evidence.json)。
+[r2复建见证](../../../../domains/runtime/battle/tools/battle-workflows-r2-witnesses.mjs)、[机账](battle-workflows-r2-evidence.json)。
 GLM回执和实现者自签仍属于贡献者声明，不能代独立审查。
 
 ## 本轮已实证修复，不重开
@@ -104,7 +104,7 @@ prepareTurnSounds返回的pending，与文件头第5行“放行并消费”不�
 ## 复建与验证记录
 
 ```bash
-node docs/testing/battle-workflows-r2-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
+node docs/testing/domains/runtime/battle/tools/battle-workflows-r2-witnesses.mjs /Users/zhangxu/illegal/type-pal-battle-review
 ```
 
 本席隔离工作树锚b7ba48bb，GLM原树仍bf158a63且干净。旧r1见证文件零diff，r2新增独立工具，候选文件

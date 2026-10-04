@@ -75,8 +75,8 @@ packages/migrate/src/pal-authored-overlays.boundaries.test.ts
 packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts
 packages/migrate/src/pal-store-boundary.boundaries.test.ts
 packages/migrate/src/__tests__/glm-tb10-fixtures.ts
-docs/testing/glm-migration-boundaries-mutants.mjs
-docs/testing/glm-migration-boundaries.config.mts
+docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs
+docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-config.mts
 docs/testing/archive/legacy/migration/supply-and-import/glm-migration-boundaries-evidence.json
 ```
 
@@ -100,7 +100,7 @@ T04/T05 共用 converter 文件、减 fixture 白名单项）；|unit| 57 文件
 data/extracted ENOENT（stash 基线同样失败，361→383 恰为 +22）；官方 fast 口径 338→360 双
 exit0；tc rc=0；9 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-migration-boundaries-mutants.mjs` rc=0：判据自测 + 3 对照 +
+- 负控 `node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs` rc=0：判据自测 + 3 对照 +
   **9 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
   产品 hash 不变。针点：越界路径门、journal staged 配对校验、SceneIndex 提升丢失、
   tilemap 行守卫、上层第 9 位解码、名字 WORD 指针对调、overlay kind 过滤、labels channel

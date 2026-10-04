@@ -62,7 +62,7 @@ GLM报告只提供静态源码证据，**不将其reproduced-static算动态复�
 
 ### 当前树动态证据
 
-[只读前提探针](../../../../testing/item-authoring-premise.mjs)：真实buildBlankProject→正式loader→实际ItemTab创建/添加/复制回调（AST原样执行）→真实两Session/Coordinator→merge/serialize；全文件在内存，不写作者目录。
+[只读前提探针](../../../../testing/domains/editor/editor-workflows/tools/item-authoring-premise.mjs)：真实buildBlankProject→正式loader→实际ItemTab创建/添加/复制回调（AST原样执行）→真实两Session/Coordinator→merge/serialize；全文件在内存，不写作者目录。
 
 1. **D-06**：创建item-001后主会话1项、脚本会话0项；立即添加私有脚本报`物品不存在 item-001`；失败两会话快照不变。
    同一文件集经真实serialize→loader重开后再添加成功，再序列化/重开成功。不是脚本体非法、资源缺失或存储权限问题。
@@ -267,7 +267,7 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 EDITOR-ITEM-AUTHORING-1，任务卡 docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md，review/r1，统一候选451cbbb7（对比1e0388b0），设计不重签。先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md及最新交接。
 独立读实现，不复述Kimi结论：核14新增测试、原断言保留与ref适配；重点新建/复制/删除两会话、未保存混合效果/正文、失败保留redo、共享普通/同前缀/他前缀ID、实际executor→runtime、诊断与真实writer/loader。你的旧“完整6站点”已被Codex补查（含content validate.ts），按最终树重核，不沿用旧计数。真实fixture/被消费对象/原子观察者断言在回调外/负控鉴别力都要查。
-复跑 node docs/testing/item-authoring-mutants.mjs（5对照绿+5精确候选AssertionError红）及相关定向；统一check7909、ratchet、受保护单次strict7418由Codex已跑，不并发重跑全仓覆盖率。只做代码/文本，不操作浏览器；原生保存视觉证据见实施记录。
+复跑 node docs/testing/domains/editor/editor-workflows/tools/item-authoring-mutants.mjs（5对照绿+5精确候选AssertionError红）及相关定向；统一check7909、ratchet、受保护单次strict7418由Codex已跑，不并发重跑全仓覆盖率。只做代码/文本，不操作浏览器；原生保存视觉证据见实施记录。
 只在卡内本人done前席位与本人交接日志写accept或带file:line/反例的counter，提交推送；落盘前同步保留并行他席改动。不得改产品/正式测试/基线/他席/状态，不代签、不标done；TB00/TB01仍按各自窄counter另行返工，不在本卡偷偷集成。
 ```
 
@@ -276,7 +276,7 @@ R4登记：空白工程创建物品及私有/共享脚本→保存→重开→�
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立审 EDITOR-ITEM-AUTHORING-1，任务卡 docs/ops/archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md，review/r1，统一候选451cbbb7（对比1e0388b0），设计不重签。先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md及最新交接，不读或复述GLM本轮结论。
 重点压力测试：成对创建/复制/删除的通知/失败/undo/redo；复制从当前字段+未保存正文取值；共享和私有用显式tag，不解析用户ID；错误owner/未知tag/缺正文fail-closed；ContentBundle与EditorState的不同内存表面；迁移sprite collector真实中间态caller未被误删；main仍走原detached/取消协议。核作者JSON/content20/SAVE8/投掷边界不变，真实executor→runtime业务旗标与原生目录保存重开证据。
-可复跑 node docs/testing/item-authoring-mutants.mjs（5对照+5业务红）与定向测试；原item-authoring-premise.mjs只证修复前现状、零改，不应在新树期待通过。Codex统一check7909/ratchet/受保护单次strict7418已过，不并发争用全仓覆盖率；不重复已有视觉流程。
+可复跑 node docs/testing/domains/editor/editor-workflows/tools/item-authoring-mutants.mjs（5对照+5业务红）与定向测试；原item-authoring-premise.mjs只证修复前现状、零改，不应在新树期待通过。Codex统一check7909/ratchet/受保护单次strict7418已过，不并发争用全仓覆盖率；不重复已有视觉流程。
 在本人done前席位与本人交接日志签accept或带file:line/最小反例counter并提交推送；落盘前同步保留GLM并行改动。不得改产品/正式测试/基线/他席/状态，不代签、不标done；两席齐后由Codex核阶段门。
 ```
 

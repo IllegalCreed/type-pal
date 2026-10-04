@@ -33,7 +33,7 @@
 先红后绿：未修复adapter下最终合法fixture为**14业务红/3正控绿**；修复后最初17全绿，补真实worker与自引用矩阵后共22项。
 定向连相邻8文件**108/108**，editor typecheck通过；初始fixture/断言订正过程见下方失败记录，不把它们算产品红。
 
-可重建隔离工具：[scene-reference-guard-mutants.mjs](../../../../scene-reference-guard-mutants.mjs)。
+可重建隔离工具：[scene-reference-guard-mutants.mjs](../../../../domains/editor/authoring-and-runtime/tools/scene-reference-guard-mutants.mjs)。
 一正常对照+三条单点变异：漏selectSceneHooks准入、漏transition接线、重复use-hook边。
 每次22项实际执行；正常全绿、变异须exit1且指定新测试AssertionError红。marker在函数执行体，不是模块load日志；
 JSON核精确测试标题，拒TypeError/超时/未处理异常，判据含混合错误自测；产品sha256前后不变。
@@ -41,14 +41,14 @@ JSON核精确测试标题，拒TypeError/超时/未处理异常，判据含混�
 ```sh
 pnpm --filter @type-pal/editor exec vitest run src/core/project-reference-scene-guards.test.ts src/core/scene-reference-deletion-workflow.test.ts src/core/project-reference.test.ts src/core/project-reference-adapters.test.ts src/core/project-reference-adapters.boundaries.test.ts src/core/scene-lifecycle.test.ts src/core/project-diagnostics.test.ts src/core/editor-derived-store.test.ts --no-file-parallelism
 pnpm --filter @type-pal/editor run typecheck
-node docs/testing/scene-reference-guard-mutants.mjs
+node docs/testing/domains/editor/authoring-and-runtime/tools/scene-reference-guard-mutants.mjs
 ```
 
 原审计probe未修改；它们断言“缺陷存在”，不能再用修复后旧probe绿作为准入条件。
 
 ## Codex最小功能验证（dev-functional）
 
-运行[准备脚本](../../../../scene-reference-guard-visual.mjs)，复用既有6010 dev服务，打开
+运行[准备脚本](../../unresolved-tools/scene-reference-guard-visual.mjs)，复用既有6010 dev服务，打开
 `http://localhost:6010/build/scene-ref-verify.html`。脚本仅生成gitignored的packages/editor/build两个验证入口文件。
 真实App、真实derived worker、真实命令/历史、当前合法seed；使用内存测试工程及sandbox身份，未改用户/PAL工程，未注入引用结果。
 不是Root/原生文件夹打开端到端测试；不是视觉美术验收。生成器可重建本次入口，不需修改生产文件。

@@ -16,7 +16,7 @@ Evidence freeze: 1763ac58
 
 用户2026-09-25说明Grok有大量额度，可承担中等复杂工作。首包给十组真实绘制调用的非视觉候选回归，
 按顺序连续完成；不需要截图、浏览器或PAL原版输入。Grok不是三贤人签字席位，不代签Kimi/GLM。
-只在[隔离实验目录](../../../../testing/grok-present-regressions/README.md)产出测试/证据，draft准备可执行；
+只在[隔离实验目录](../../../../testing/archive/legacy/batches/grok-present-regressions/README.md)产出测试/证据，draft准备可执行；
 **不开放产品build或正式测试接入**，不直接修改一阶段/二阶段代码、资源与格式。
 
 从本次Codex交付提交新建worktree `/Users/zhangxu/illegal/type-pal-grok-present`，
@@ -93,7 +93,7 @@ Codex只读现有`coverage/fast/summary.json`及game coverage-summary：快照�
 
 ## 白名单、环境与交付
 
-唯一写入`docs/testing/grok-present-regressions/**`：
+唯一写入`docs/testing/archive/legacy/batches/grok-present-regressions/**`：
 
 ```text
 README.md                    # 唯一交付摘要/证据索引
@@ -154,9 +154,9 @@ C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不�
 ## 首轮返工提示词（历史，已被上方 C1a 提示词替代）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/grok-present-regressions/README.md；fetch 后用 git show archive/doc-cursor-review-r1:docs/testing/archive/legacy/ops/testing-records/grok-present-review.md 与该归档标签上的任务卡读取 Codex C1-C3 原反证（原工作分支已归档；只读，不把复核材料合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
+在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/archive/legacy/batches/grok-present-regressions/README.md；fetch 后用 git show archive/doc-cursor-review-r1:docs/testing/archive/legacy/ops/testing-records/grok-present-review.md 与该归档标签上的任务卡读取 Codex C1-C3 原反证（原工作分支已归档；只读，不把复核材料合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
 只修 C1-C3：C1 为每次真实 draw 的 gs/menu/catalog/bitmap 等可变实参取完整独立快照，IndexedImage 连 width/height 都算，P06 spells/magics、P07 portrait/levelUpExp/bg、P05 bg/poisons、P08/P09 实际输入别漏；保留 toSpriteImages 同引用合同。C2 把 P05/P07 首轮绘制的快照移到该次调用之前，并在之后立即比较，不把 create/confirm/导航当绘制污染。C3 P06 施法者构造按正式 runtime→roles 投影或等效同步当前 MP，用能区分 8 与 10 的费用边界验证 disabled，同时保留屏幕现行 MP=8 像素断言。Codex 已补录 P10 png-rgba fixture 白名单，不需改产品或卡面他席。
-已核过像素坐标/去重方向/23项及 P02/P05/P10 三针，别重开已通过项目。返工后复跑候选 JSON、相邻定向、tsc、Biome、三针；给实际输入污染的单点反控或其他可复建见证，证明原盲区已堵。只改 docs/testing/grok-present-regressions/**，README 如实更新候选/命令/计数与缺口。提交推送返工候选，交确切 SHA 与结果；不合 main、不代签、不标 done，不跑官方覆盖率或改基线。Codex再独立接收，Grok自己的绿结果不算独立第三方证明。
+已核过像素坐标/去重方向/23项及 P02/P05/P10 三针，别重开已通过项目。返工后复跑候选 JSON、相邻定向、tsc、Biome、三针；给实际输入污染的单点反控或其他可复建见证，证明原盲区已堵。只改 docs/testing/archive/legacy/batches/grok-present-regressions/**，README 如实更新候选/命令/计数与缺口。提交推送返工候选，交确切 SHA 与结果；不合 main、不代签、不标 done，不跑官方覆盖率或改基线。Codex再独立接收，Grok自己的绿结果不算独立第三方证明。
 ```
 
 ## 原开工提示词（历史，已被上方返工提示词替代）
@@ -168,7 +168,7 @@ C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不�
 卡内第一阶段工程笔记/机制与SDL参考锚点。证据冻结1763ac58。
 按P01～P10连续完成一阶段菜单与索引渲染候选回归。先交P01非空像素/P02实时量两个自验小样，再做余组，
 不用逐组等签字。真实draw/Framebuffer，typed可达菜单状态，去重后补例，不mock核心渲染，不造原版规则。
-唯一写入docs/testing/grok-present-regressions/**；只用自包含像素/字形/角色数据，不需浏览器/PAL输入。
+唯一写入docs/testing/archive/legacy/batches/grok-present-regressions/**；只用自包含像素/字形/角色数据，不需浏览器/PAL输入。
 业务正反控及输入深快照齐全；最多三组单点变异在隔离副本，源hash不变，必须候选业务AssertionError红。
 发现bug留显式诊断，不改产品/旧测试/资产/官方配置或基线；不skip/test.fails，不增timeout/retry。
 每两组提交，十组连续完成；只跑本包/必要相邻/候选tsc/本人Biome/docs，不跑全仓check或官方覆盖率。

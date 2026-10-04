@@ -35,7 +35,7 @@
 ## 全包质量与机账门
 
 - `git diff 86e928b5..a3ceaf05 -- packages/ scripts/` 为空；候选 `a3ceaf05..30397b1d` 仅在实验目录白名单。`verify.mjs a3ceaf05` 输出 39 条、36/1/1/1、12 组、`PASS`；候选 Vitest JSON **32/32**（九文件）；启动小样单针 `red-control.mjs` 输出 `detected`、exit1/1执行/AssertionError/产品 hash 不变。上述机械事实接收，不推出每组业务断言有效。
-- **目录 Biome 阻断**：`pnpm exec biome check docs/testing/glm-architecture-regression-lab` exit1，23 errors/7 warnings/1 info，涉及候选测试、config、fixture、tools。`configs/project-configs.mjs:1` 是字面 `placeholder — real config next`，`node --check` SyntaxError；`candidates.vitest.mjs` 仍 import 它。仅对 `results.json` 运行 Biome 的回执不能替代工作包要求的整个候选目录格式/语法门。
+- **目录 Biome 阻断**：`pnpm exec biome check docs/testing/archive/legacy/batches/glm-architecture-regression-lab` exit1，23 errors/7 warnings/1 info，涉及候选测试、config、fixture、tools。`configs/project-configs.mjs:1` 是字面 `placeholder — real config next`，`node --check` SyntaxError；`candidates.vitest.mjs` 仍 import 它。仅对 `results.json` 运行 Biome 的回执不能替代工作包要求的整个候选目录格式/语法门。
 - `tools/verify.mjs:51-68` 只核 ID 小计、test **文件存在**和截图 **16 位 hash 前缀**；没有读取候选 Vitest JSON 来核 fullName/status，也未验证 commands/cwd 或诊断判据，和工具头注释及工作包 §4 的“从运行 JSON 机械核对”不符。账本即使写错某条测试标题也可 `PASS`。截图账本要求完整 SHA-256，现仅存 `sha256_16`。启动小样只有 1 针；其它 G01–G08 关键组未交有效单点反控，也未逐组解释为何重叠或不适用。候选 TS/TSX 没有独立 typecheck 配置/结果，不能用生产包 tsc 间接冒充。
 - `configs/candidates.vitest.mts` 同时设置 Oxc/Esbuild JSX 时发兼容提示；不是单独业务 counter，但返工时顺手简化。产品、旧测试、官方覆盖率/阈值/超时未改，官方统计保持原值。
 

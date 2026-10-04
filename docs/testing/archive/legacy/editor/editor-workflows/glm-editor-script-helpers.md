@@ -64,8 +64,8 @@ packages/editor/src/core/item-authoring.boundaries.test.ts
 packages/editor/src/core/item-alchemy.boundaries.test.ts
 packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts
 packages/editor/src/core/__tests__/glm-tb07-fixtures.ts
-docs/testing/glm-editor-script-helpers-mutants.mjs
-docs/testing/glm-editor-script-helpers.config.mts
+docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs
+docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-config.mts
 docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json
 ```
 
@@ -89,7 +89,7 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
 显式留待补批，不伪装成去重减项）；editor 全包 247 文件/2535 项中 2 项预存 world-sprite PAL ENOENT
 与基线相同；官方 fast 口径 2359→2376 双 exit0；tc rc=0；7 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-editor-script-helpers-mutants.mjs` rc=0：判据自测 + 3 对照 +
+- 负控 `node docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs` rc=0：判据自测 + 3 对照 +
   **7 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
   产品 hash 不变。针点：子键 then/else 串读、initial 动画 shell 覆盖丢失、hostile.onLose
   canonical 丢失、authorScripts 空数组退 library、copy 序号 -3 起、alchemy kind 门、奖励区间不含对白。

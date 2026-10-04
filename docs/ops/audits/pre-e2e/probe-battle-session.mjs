@@ -8,7 +8,7 @@ import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const read = (path) => readFileSync(new URL(path, root), 'utf8')
 const requireReforge = createRequire(new URL('packages/reforge/package.json', root))
 const { createServer } = await import(requireReforge.resolve('vite'))

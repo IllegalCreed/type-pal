@@ -65,7 +65,7 @@ GLM原席位作为候选自验原文保留，以上以本席独立结果为准�
 ### 可重建证据
 
 ```bash
-node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state
+node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state
 ```
 
 工具保留原7针，仅加sequence-late-frame-after-abort；原审计探针零改。
@@ -131,7 +131,7 @@ Vitest JSON把候选超时表现为STACK_TRACE_ERROR，绕过了只查`Test time
 自测包含纯业务红、STACK_TRACE_ERROR、二者混合以及含runWithTimeout正常栈帧的合法AssertionError。
 修订过程中曾误扫普通栈帧runWithTimeout，已纠正为只判错误首行；最终全套重跑才计入结论。
 
-当前[见证工具](../../../../runtime-state-review-witnesses.mjs)共7针：原6针保留，新增同一E4合同的castAll分支针。
+当前[见证工具](../../../../domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs)共7针：原6针保留，新增同一E4合同的castAll分支针。
 
 | 针 | 本轮严格结果 |
 |---|---|
@@ -235,8 +235,8 @@ invalidate用至少两asset且同id真实换字节；LRU明确见证命中与淘
 ## R4 · 最终树卫生与回执不能对应
 
 - 对候选实际16个新增TS/MJS/MTS/JSON跑Biome：**exit1，4errors/9warnings**。涉及
-  `docs/testing/glm-runtime-state-mutants.mjs`导入排序/格式及无效整文件suppression、
-  `docs/testing/glm-runtime-state.config.mts`格式、`menu/reward-gain-queue.boundaries.test.ts`格式。
+  `docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs`导入排序/格式及无效整文件suppression、
+  `docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts`格式、`menu/reward-gain-queue.boundaries.test.ts`格式。
   “16文件Biome干净/rc0”不是本候选的可复算事实。
 - Vitest JSON独立逐文件计数：world-variable **6**、migration-diagnostic **4**、compiler **4**、project-view **5**；
   候选机账却写5/5/3/6。总数53恰好相等不代表逐文件账正确。
@@ -250,10 +250,10 @@ invalidate用至少两asset且同id真实换字节；LRU明确见证命中与淘
 
 ## 可重建独立反证
 
-[Codex见证工具](../../../../runtime-state-review-witnesses.mjs)：
+[Codex见证工具](../../../../domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs)：
 
 ```bash
-node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state
+node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state
 ```
 
 它先直接校验候选fixture，再对六个单点坏实现各跑原树与突变对照。同一隔离加载里同时运行候选测试与独立oracle，

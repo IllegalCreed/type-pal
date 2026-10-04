@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const mode = process.argv.find((arg) => arg.startsWith('--mode='))?.slice(7) ?? 'original'
 assert.ok(['original', 'admission-only'].includes(mode))
 const path = new URL('packages/reforge/src/script-world.ts', root)

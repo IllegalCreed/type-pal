@@ -245,12 +245,12 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
 
 ### 历史给Kimi：STAT-1统计异常窄复核（e7c4b743已完成）
 
-在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
+在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
 ### 历史窄审完整提示词（已完成）
 
 在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
 
-独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
+独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
 
 只在本卡追加本人“统计专项复核”与日志、给带锚点的结论/反证，提交推送本分支，保留全部签字；不要签整卡done前accept、不改Status/实现/官方基线、不代签。若需要改统计框架/依赖/旧测试，明确列为超出当前白名单的待准入事项，由Codex处理。
 

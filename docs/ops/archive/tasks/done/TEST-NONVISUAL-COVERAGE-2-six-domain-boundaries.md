@@ -533,7 +533,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 核25新测试+9薄fixture+2工具白名单、163项及四包增量、产品/旧测试/官方scope零改。重点抽查合法guard、实际同一输入深快照、A05真实取消/漂移链、B05正式资源准备与失败释放、C多实例/非空redo、D真实proof generation、E父guard、F独立36键与fast解耦归属。对账剩余可达/无caller/防御/未决项，不把旧已证合同重复计新增；有必须本卡补齐的有效缺口给真实caller与file:line反证，不发明政策或修改生产。
 
-复跑四包定向163及相关TC/Biome；`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确目标AssertionError负控及PNG CRC/源字节一致，检查判据自测和真实运行入口同源。完整check8281/ratchet/单次strict7790及远端CI已有证据，不跑官方ratchet/strict、不与Kimi争用同一/tmp报告目录；不操作浏览器、不做视觉。仅修改本人done前席位与本人日志，签accept或带锚点与复现的counter，单列旧兼容审查；不改实现/他席/共享状态、不代签、不标done。提交前同步保留Kimi改动，自行处理push竞态；由Codex统一核门。
+复跑四包定向163及相关TC/Biome；`node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs`应4完整正控+17精确目标AssertionError负控及PNG CRC/源字节一致，检查判据自测和真实运行入口同源。完整check8281/ratchet/单次strict7790及远端CI已有证据，不跑官方ratchet/strict、不与Kimi争用同一/tmp报告目录；不操作浏览器、不做视觉。仅修改本人done前席位与本人日志，签accept或带锚点与复现的counter，单列旧兼容审查；不改实现/他席/共享状态、不代签、不标done。提交前同步保留Kimi改动，自行处理push竞态；由Codex统一核门。
 
 ## 历史下一位Agent提示词（给Kimi，候选27bd8c00独立终审，已完成）
 
@@ -541,7 +541,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 核范围25测试+9薄fixture+2工具，产品/旧测试/官方scope/排除/超时零改；baseline只增163至7790/633，另三包不变。重点核A05真实current compiler→host/runner的提交前/后取消与漂移，B05正式loader/RLE/gzip/hash/重新读取工程及失败释放，C同资源多实例/非空redo分叉，D真实session/proof generation和canonical会话换代，E父guard先行，F四入口独立36键与fast输入解耦不二次报功。B05的图像宿主只核合法PNG尺寸/close、无视觉验收；无当前caller的旧扫描器/BaseScriptProjectRuntime及未达whole-file95/90如实留账，是否仍有必须本卡补齐的有效缺口请独立裁定。
 
-复跑四包`.wave2.test.ts`定向163、相关TC/白名单Biome，`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确标题单针业务红、两PNG CRC/原字节一致。负控每针只执行控制组确认的目标（其它同文件项为显式名称过滤，不计执行）；目标Error/混合错误/超时/未执行不得采信。覆盖对照config已入仓，输出/tmp；全仓check8281/ratchet/保护967b35fb单次strict7790日志已落，不并发重跑官方覆盖。所有失败记录不得省略。
+复跑四包`.wave2.test.ts`定向163、相关TC/白名单Biome，`node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs`应4完整正控+17精确标题单针业务红、两PNG CRC/原字节一致。负控每针只执行控制组确认的目标（其它同文件项为显式名称过滤，不计执行）；目标Error/混合错误/超时/未执行不得采信。覆盖对照config已入仓，输出/tmp；全仓check8281/ratchet/保护967b35fb单次strict7790日志已落，不并发重跑官方覆盖。所有失败记录不得省略。
 
 仅在本人done前席位签accept或带file:line及复现的counter，单列旧兼容审查，写本人日志并提交推送；保留他席/历史原文，不改产品、不代签、不标done。GLM已恢复额度并行复核，但其原贡献不算独立第三方证明；不读取或复述其本轮结论。最终仍由Codex核门。
 

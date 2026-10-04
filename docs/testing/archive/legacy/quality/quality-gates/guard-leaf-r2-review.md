@@ -4,7 +4,7 @@
 **counter，仅 C1/C2；不合候选、不改 GLM 测试语义、不跑全仓统计。**
 [任务卡](../../../../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) ·
 [上一轮](../../content/quality-gates/guard-leaf-intake-review.md) · [本轮机账](../../content/quality-gates/guard-leaf-r2-evidence.json) ·
-[可复建见证](../../../../guard-leaf-review-witnesses.mjs)。以下行号均指候选。
+[可复建见证](../../../../domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs)。以下行号均指候选。
 
 ## 已闭合，不重开
 
@@ -58,10 +58,10 @@ G6 参数表用各行明确的同形状 good/bad，不再用通用三 hook 对�
 ## 命令与停止线
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/guard-leaf-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2
+env -u NODE_COMPILE_CACHE node docs/testing/domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2
 # 正对照91绿；旧三针 detected；新增三针 MISSED（故工具 exit0 不等于候选通过）
 # 在候选工作树：
-env -u NODE_COMPILE_CACHE node docs/testing/glm-content-guards-wave2/guard-leaf-mutants.mjs
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/glm-content-guards-wave2/guard-leaf-mutants.mjs
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/content check
 node scripts/docs/check.mjs
 git diff --check

@@ -8,7 +8,7 @@ Owner：Codex；生产树 `f828b9fc`（相对 `57dda7ed` 的产品零改动）�
 ## 环境与隔离
 
 - 先核main干净、与origin/main同步。6010/6011/6012当时均无监听；仅启动已有
-  `node docs/testing/battle-simulator-functional.mjs`，6011为正式编辑器配合法自有工程。
+  `node docs/testing/domains/runtime/battle/tools/battle-simulator-functional.mjs`，6011为正式编辑器配合法自有工程。
   该宿主用正式loader校验fixture，HTTP源只读，不改PAL、作者工程或普通存档。
 - Chrome新建两个自有标签，真实鼠标/键盘操作；浏览器viewport分别360×800与720×480。
   新标签不自动继承旧标签的viewport，第二个对照标签单独重设720×480后取证。

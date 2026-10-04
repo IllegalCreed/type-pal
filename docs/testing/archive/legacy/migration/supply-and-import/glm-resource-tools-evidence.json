@@ -37,8 +37,8 @@
     "biome": "9 新文件 rc=0（1 warning 为既有 useIterableCallbackReturn 已修）"
   },
   "mutants": {
-    "script": "docs/testing/glm-resource-tools-mutants.mjs",
-    "command": "node docs/testing/glm-resource-tools-mutants.mjs",
+    "script": "docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
+    "command": "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -124,7 +124,7 @@
     "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
   },
   "coverage": {
-    "config": "docs/testing/glm-resource-tools.config.mts (RT1_PKG=shared|pal-extract; official testSelection fast)",
+    "config": "docs/testing/domains/migration/supply-and-import/tools/resource-tools-config.mts (RT1_PKG=shared|pal-extract; official testSelection fast)",
     "perModule": {
       "shared/rle-encode.ts": {
         "before": "L43/44 B21/24",
@@ -220,7 +220,7 @@
       "typecheck": "shared rc=0；pal-extract rc=0"
     },
     "mutants": {
-      "command": "node docs/testing/glm-resource-tools-mutants.mjs",
+      "command": "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
       "exit": 0,
       "controls": 3,
       "needles": 9

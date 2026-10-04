@@ -26,7 +26,7 @@ palette/portrait/items/background固定数量不放宽；不可达/重叠防御�
 ## 范围与验收
 
 - 八份新 `packages/migrate/src/pal-assets.{sound-metadata,sound-closure,palette,portraits,items,backgrounds,ownership,retirements}.test.ts`。
-- 专属 `src/__tests__/pal-asset-fixtures.ts` 与[证据目录](../../../../testing/codex-pal-assets/README.md)。
+- 专属 `src/__tests__/pal-asset-fixtures.ts` 与[证据目录](../../../../testing/archive/legacy/batches/codex-pal-assets/README.md)。
 - 只使用自己mktemp根；不调用迁移CLI、不写实际projects/data、不改旧测试/产品/配置。
 - 成功完整记录/像素或字节、失败精确错误/同输入快照；物化拒绝核零写IO，运行真实公开函数。
 - 代表单点负控、定向/相邻/TC/Biome，整批串行check→ratchet→保护基点单次strict-fast。

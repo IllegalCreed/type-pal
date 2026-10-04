@@ -3,7 +3,7 @@
 import { fileURLToPath } from 'node:url'
 import gameConfig from '../../../../packages/game/vitest.config.ts'
 
-const gameRoot = fileURLToPath(new URL('../../../../packages/game/', import.meta.url))
+const gameRoot = fileURLToPath(new URL('../../../../packages/game', import.meta.url))
 export default {
   ...gameConfig,
   root: gameRoot,

@@ -39,7 +39,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-reforge-asset-io-mutants.mjs",
+        "tool": "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-02-mutants.log",
         "controls": 3,
@@ -48,8 +48,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io-evidence.json",
-          "docs/testing/glm-reforge-asset-io-mutants.mjs",
-          "docs/testing/glm-reforge-asset-io.config.mts",
+          "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
+          "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-config.mts",
           "packages/reforge/src/__tests__/glm-asset-io-fixtures.ts",
           "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
           "packages/reforge/src/audio/sfx.staged-failures.test.ts",
@@ -101,7 +101,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-import-codec-mutants.mjs",
+        "tool": "docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-03-mutants.log",
         "controls": 3,
@@ -110,8 +110,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/migration/supply-and-import/glm-import-codec-evidence.json",
-          "docs/testing/glm-import-codec-mutants.mjs",
-          "docs/testing/glm-import-codec.config.mts",
+          "docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
+          "docs/testing/domains/migration/supply-and-import/tools/import-codec-config.mts",
           "packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts",
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
@@ -167,7 +167,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-pal-tables-mutants.mjs",
+        "tool": "docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-04-mutants.log",
         "controls": 3,
@@ -176,8 +176,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/ops/testing-records/glm-pal-tables-evidence.json",
-          "docs/testing/glm-pal-tables-mutants.mjs",
-          "docs/testing/glm-pal-tables.config.mts",
+          "docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs",
+          "docs/testing/domains/ops/testing-records/tools/pal-tables-config.mts",
           "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
           "packages/pal-extract/src/io/msg.boundaries.test.ts",
           "packages/pal-extract/src/io/sss.boundaries.test.ts",
@@ -246,7 +246,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-resource-tools-mutants.mjs",
+        "tool": "docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-05-mutants.log",
         "controls": 3,
@@ -255,8 +255,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json",
-          "docs/testing/glm-resource-tools-mutants.mjs",
-          "docs/testing/glm-resource-tools.config.mts",
+          "docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs",
+          "docs/testing/domains/migration/supply-and-import/tools/resource-tools-config.mts",
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/events/disasm.boundaries.test.ts",
           "packages/pal-extract/src/events/recompile.boundaries.test.ts",
@@ -310,7 +310,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-editor-map-data-mutants.mjs",
+        "tool": "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-06-mutants.log",
         "controls": 3,
@@ -319,8 +319,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-          "docs/testing/glm-editor-map-data-mutants.mjs",
-          "docs/testing/glm-editor-map-data.config.mts",
+          "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs",
+          "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-config.mts",
           "packages/editor/src/core/map-patch.boundaries.test.ts",
           "packages/editor/src/core/map-selection.boundaries.test.ts",
           "packages/editor/src/core/map-transform.boundaries.test.ts",
@@ -372,7 +372,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-editor-script-helpers-mutants.mjs",
+        "tool": "docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-07-mutants.log",
         "controls": 3,
@@ -381,8 +381,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
-          "docs/testing/glm-editor-script-helpers-mutants.mjs",
-          "docs/testing/glm-editor-script-helpers.config.mts",
+          "docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs",
+          "docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-config.mts",
           "packages/editor/src/core/author-command-edit.boundaries.test.ts",
           "packages/editor/src/core/item-alchemy.boundaries.test.ts",
           "packages/editor/src/core/item-authoring.boundaries.test.ts",
@@ -436,7 +436,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-game-menu-boundaries-mutants.mjs",
+        "tool": "docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-08-mutants.log",
         "controls": 3,
@@ -445,8 +445,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json",
-          "docs/testing/glm-game-menu-boundaries-mutants.mjs",
-          "docs/testing/glm-game-menu-boundaries.config.mts",
+          "docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs",
+          "docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-config.mts",
           "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
           "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
           "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
@@ -499,7 +499,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-game-host-boundaries-mutants.mjs",
+        "tool": "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-09-mutants.log",
         "controls": 3,
@@ -508,8 +508,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/ops/testing-records/glm-game-host-boundaries-evidence.json",
-          "docs/testing/glm-game-host-boundaries-mutants.mjs",
-          "docs/testing/glm-game-host-boundaries.config.mts",
+          "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
+          "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-config.mts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
           "packages/game/src/analytics/google-analytics.boundaries.test.ts",
           "packages/game/src/shell/audio-volume.boundaries.test.ts",
@@ -564,7 +564,7 @@
         }
       ],
       "mutants": {
-        "tool": "docs/testing/glm-migration-boundaries-mutants.mjs",
+        "tool": "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-nine-rework.AzQ4HB/TB-10-mutants.log",
         "controls": 3,
@@ -573,8 +573,8 @@
       "biome": {
         "files": [
           "docs/testing/archive/legacy/migration/supply-and-import/glm-migration-boundaries-evidence.json",
-          "docs/testing/glm-migration-boundaries-mutants.mjs",
-          "docs/testing/glm-migration-boundaries.config.mts",
+          "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
+          "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-config.mts",
           "packages/migrate/src/migration-project-io.boundaries.test.ts",
           "packages/migrate/src/migration-transaction.boundaries.test.ts",
           "packages/migrate/src/migration-write-plan.boundaries.test.ts",
@@ -609,47 +609,47 @@
       {
         "batch": "02",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-asset-io/docs/testing/glm-reforge-asset-io-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-asset-io/docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs"
       },
       {
         "batch": "03",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-import-codec/docs/testing/glm-import-codec-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-import-codec/docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs"
       },
       {
         "batch": "04",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/docs/testing/glm-pal-tables-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-pal-tables/docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs"
       },
       {
         "batch": "05",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/docs/testing/glm-resource-tools-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-resource-tools/docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs"
       },
       {
         "batch": "06",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/docs/testing/glm-editor-map-data-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-editor-map-data/docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs"
       },
       {
         "batch": "07",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/docs/testing/glm-editor-script-helpers-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-script-helpers/docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs"
       },
       {
         "batch": "08",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-game-menu/docs/testing/glm-game-menu-boundaries-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-game-menu/docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs"
       },
       {
         "batch": "09",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-game-host/docs/testing/glm-game-host-boundaries-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-game-host/docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs"
       },
       {
         "batch": "10",
         "ordinaryErrorWithNestedAssertionAccepted": false,
-        "tool": "/Users/zhangxu/illegal/type-pal-glm-migration/docs/testing/glm-migration-boundaries-mutants.mjs"
+        "tool": "/Users/zhangxu/illegal/type-pal-glm-migration/docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs"
       }
     ],
     "fixtures": [

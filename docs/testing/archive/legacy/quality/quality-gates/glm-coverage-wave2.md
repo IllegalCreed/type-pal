@@ -11,7 +11,7 @@
 官方fast **7538项/633生产文件**；全仓行72.74%/分支64.28%。
 主工作树的旧报告仍是7502项，不能拿它冒充新基线；本次使用已验证同口径的独立工作树7538报告，逐包四维计数、生产范围、测试身份与官方baseline对齐。
 [机器清单](glm-coverage-wave2-evidence.json)列25模块源码hash、四维计数、LCOV未命中行/分支定位及旧测试检索线索；
-[生成器](../../../../glm-coverage-wave2-census.mjs)只读正式报告，不跑覆盖率、不改正式基线。
+[生成器](../../../../domains/quality/quality-gates/tools/coverage-wave2-census.mjs)只读正式报告，不跑覆盖率、不改正式基线。
 
 | 组 | 方向 | 模块数 | 整文件未命中行 | 整文件未命中分支臂 |
 |---|---|---:|---:|---:|
@@ -128,7 +128,7 @@
 - 同一父卡、同一独立分支，A→F各一组提交，最后统一整包候选。可报告中期进度，但不把未验收切片合main；这算一个待接收包，不制造六个并行未审大分支。
 - Coding Owner=GLM；Codex做产品缺陷/其它独立工作，Kimi做审查。若主线改变目标/调用域，只暂停受影响组，请Codex裁定适配，不把未审产品合进GLM分支。
 - 生产/旧测试/公共fixture/全局配置/lockfile/资产/官方baseline全部零改。仅新增本清单模块相邻的`<stem>.wave2.test.ts`（具体25个上限见机账目标）与按组隔离的`packages/<pkg>/src/__tests__/coverage-wave2/<group>-*.ts`薄fixture。
-- 诊断白名单：`docs/testing/glm-coverage-wave2-mutants.mjs`、`glm-coverage-wave2-coverage.config.mts`、准备阶段冻结的必要组内工具；所有输出在各自`/tmp`，不覆盖`coverage/fast`。
+- 诊断白名单：`docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs`、`glm-coverage-wave2-coverage.config.mts`、准备阶段冻结的必要组内工具；所有输出在各自`/tmp`，不覆盖`coverage/fast`。
 - 文档仅本卡GLM席位/日志、receipt/results。Codex维护共用状态/看板/索引；不代签、不标done。
 - 不预设用例数来凑规模；已证可达且合同明确的目标族尽可能100%分支，整文件95%行/函数、90%分支是方向而非放宽合同的理由；无法达到逐族交账。
 - 发现真实产品缺陷：保留隔离反例与合法对照，交Codex；其它组继续。不往正式套件塞默认红/skip来宣称完成，不擅改产品使测试绿。
@@ -153,7 +153,7 @@ GLM是测试贡献者，不作为自身测试的独立第三方；Codex独立复
 ## 冻结清单复算
 
 ```sh
-node docs/testing/glm-coverage-wave2-census.mjs --reports /Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal/coverage/fast --check
+node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-census.mjs --reports /Users/zhangxu/.codex/worktrees/migration-write-guard/type-pal/coverage/fast --check
 ```
 
 也可提供该报告的原样副本路径；`--check`同时核登记的原报告摘要。不同工作树重新运行产生的绝对路径会改变摘要，须由Codex另核语义并登记新快照，不能把不同报告冒充本次原报告；工具拒绝旧7502报告。

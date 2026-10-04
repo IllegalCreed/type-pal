@@ -616,15 +616,15 @@
       "sourceRefs": [],
       "publicCommands": [
         "pnpm --filter @type-pal/migrate exec vitest run src/migration-path.test.ts src/migration-write-guard.test.ts src/pal-assets-paths.test.ts",
-        "node docs/testing/migration-write-guard-mutants.mjs",
-        "pnpm --filter @type-pal/migrate exec vitest run --config \"$PWD/docs/testing/migration-write-guard.config.mjs\"",
-        "node docs/testing/migration-write-guard-publish.mjs"
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-mutants.mjs",
+        "pnpm --filter @type-pal/migrate exec vitest run --config \"$PWD/docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-config.mjs\"",
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-publish.mjs"
       ],
       "publicCallers": [
         "pnpm --filter @type-pal/migrate exec vitest run src/migration-path.test.ts src/migration-write-guard.test.ts src/pal-assets-paths.test.ts",
-        "node docs/testing/migration-write-guard-mutants.mjs",
-        "pnpm --filter @type-pal/migrate exec vitest run --config \"$PWD/docs/testing/migration-write-guard.config.mjs\"",
-        "node docs/testing/migration-write-guard-publish.mjs"
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-mutants.mjs",
+        "pnpm --filter @type-pal/migrate exec vitest run --config \"$PWD/docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-config.mjs\"",
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-publish.mjs"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -1389,8 +1389,8 @@
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 69,
       "sourceRefs": [],
-      "publicCommands": ["node docs/testing/codex-playback/mutants.mjs"],
-      "publicCallers": ["node docs/testing/codex-playback/mutants.mjs"],
+      "publicCommands": ["node docs/testing/archive/legacy/batches/codex-playback/mutants.mjs"],
+      "publicCallers": ["node docs/testing/archive/legacy/batches/codex-playback/mutants.mjs"],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -1689,15 +1689,15 @@
       "publicCommands": [
         "pnpm check",
         "pnpm coverage:fast",
-        "node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
-        "node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
         "pnpm check:docs"
       ],
       "publicCallers": [
         "pnpm check",
         "pnpm coverage:fast",
-        "node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
-        "node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
         "pnpm check:docs"
       ],
       "legalInputs": [
@@ -1980,10 +1980,10 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state"
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state"
       ],
       "publicCallers": [
-        "node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state"
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -2090,7 +2090,7 @@
       "publicCommands": [
         "pnpm --filter @type-pal/reforge exec vitest run src/script-activity-lineage.test.ts src/runtime-save-lineage.test.ts src/save-lineage.chain.test.ts src/runtime-script-project.test.ts src/script-world.test.ts src/script-runner-core.test.ts s",
         "pnpm --filter @type-pal/reforge typecheck",
-        "node docs/testing/save-lineage-mutants.mjs",
+        "node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -2098,7 +2098,7 @@
       "publicCallers": [
         "pnpm --filter @type-pal/reforge exec vitest run src/script-activity-lineage.test.ts src/runtime-save-lineage.test.ts src/save-lineage.chain.test.ts src/runtime-script-project.test.ts src/script-world.test.ts src/script-runner-core.test.ts s",
         "pnpm --filter @type-pal/reforge typecheck",
-        "node docs/testing/save-lineage-mutants.mjs",
+        "node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -2352,7 +2352,7 @@
       "publicCommands": [
         "pnpm --filter @type-pal/editor exec vitest run src/core/project-reference-scene-guards.test.ts src/core/scene-reference-deletion-workflow.test.ts src/core/project-reference.test.ts src/core/project-reference-adapters.test.ts src/core/projec",
         "pnpm --filter @type-pal/editor run typecheck",
-        "node docs/testing/scene-reference-guard-mutants.mjs",
+        "node docs/testing/domains/editor/authoring-and-runtime/tools/scene-reference-guard-mutants.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -2360,7 +2360,7 @@
       "publicCallers": [
         "pnpm --filter @type-pal/editor exec vitest run src/core/project-reference-scene-guards.test.ts src/core/scene-reference-deletion-workflow.test.ts src/core/project-reference.test.ts src/core/project-reference-adapters.test.ts src/core/projec",
         "pnpm --filter @type-pal/editor run typecheck",
-        "node docs/testing/scene-reference-guard-mutants.mjs",
+        "node docs/testing/domains/editor/authoring-and-runtime/tools/scene-reference-guard-mutants.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -2511,7 +2511,7 @@
       "publicCommands": [
         "pnpm --filter @type-pal/editor exec vitest run src/ui/SpriteUploadWizard.selection.test.tsx src/ui/SpriteUploadWizard.test.tsx",
         "pnpm --filter @type-pal/editor exec vitest run src/ui/WorldSpriteLibrary.test.tsx src/ui/SpriteResourceViewer.test.tsx src/core/sprite-reference-commands.test.ts",
-        "node docs/testing/sprite-selection-mutants.mjs",
+        "node docs/testing/domains/editor/editor-workflows/tools/sprite-selection-mutants.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -2519,7 +2519,7 @@
       "publicCallers": [
         "pnpm --filter @type-pal/editor exec vitest run src/ui/SpriteUploadWizard.selection.test.tsx src/ui/SpriteUploadWizard.test.tsx",
         "pnpm --filter @type-pal/editor exec vitest run src/ui/WorldSpriteLibrary.test.tsx src/ui/SpriteResourceViewer.test.tsx src/core/sprite-reference-commands.test.ts",
-        "node docs/testing/sprite-selection-mutants.mjs",
+        "node docs/testing/domains/editor/editor-workflows/tools/sprite-selection-mutants.mjs",
         "pnpm check",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
@@ -2747,18 +2747,18 @@
       "publicCommands": [
         "pnpm check",
         "pnpm coverage:fast",
-        "node docs/testing/runtime-state-review-witnesses.mjs /absolute/current-tree",
-        "node docs/testing/content-residual-review-witnesses.mjs /absolute/current-tree",
-        "node docs/testing/glm-runtime-state-mutants.mjs",
-        "node docs/testing/glm-content-residual-mutants.mjs"
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
       ],
       "publicCallers": [
         "pnpm check",
         "pnpm coverage:fast",
-        "node docs/testing/runtime-state-review-witnesses.mjs /absolute/current-tree",
-        "node docs/testing/content-residual-review-witnesses.mjs /absolute/current-tree",
-        "node docs/testing/glm-runtime-state-mutants.mjs",
-        "node docs/testing/glm-content-residual-mutants.mjs"
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -2876,13 +2876,13 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/world-async-commit-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs",
         "pnpm --filter @type-pal/reforge exec vitest run src/world-async-commit.test.ts src/scene-preflight.chain.test.ts src/scene-switch-transaction.test.ts src/runtime-script-project.test.ts src/script-host-adapter.test.ts src/save/restore-prefli",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"
       ],
       "publicCallers": [
-        "node docs/testing/world-async-commit-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs",
         "pnpm --filter @type-pal/reforge exec vitest run src/world-async-commit.test.ts src/scene-preflight.chain.test.ts src/scene-switch-transaction.test.ts src/runtime-script-project.test.ts src/script-host-adapter.test.ts src/save/restore-prefli",
         "pnpm coverage:ratchet",
         "pnpm coverage:fast"

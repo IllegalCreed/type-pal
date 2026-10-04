@@ -24,8 +24,8 @@
       "fixtureFiles": ["packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts"],
       "added": [
         "docs/testing/archive/legacy/migration/supply-and-import/glm-import-codec-evidence.json",
-        "docs/testing/glm-import-codec-mutants.mjs",
-        "docs/testing/glm-import-codec.config.mts",
+        "docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
+        "docs/testing/domains/migration/supply-and-import/tools/import-codec-config.mts",
         "packages/editor/src/core/__tests__/glm-import-codec-fixtures.ts",
         "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
         "packages/editor/src/core/frame-animation-codec.tpfs.test.ts",
@@ -97,7 +97,7 @@
         "log": "/tmp/codex-tb03-r5.Bxspbm/TB-03-biome.log"
       },
       "mutants": {
-        "tool": "docs/testing/glm-import-codec-mutants.mjs",
+        "tool": "docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs",
         "code": 0,
         "log": "/tmp/codex-tb03-r5.Bxspbm/TB-03-mutants.log"
       },

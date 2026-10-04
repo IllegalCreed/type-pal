@@ -33,8 +33,8 @@
     }
   },
   "mutants": {
-    "script": "docs/testing/glm-reforge-asset-io-mutants.mjs",
-    "command": "node docs/testing/glm-reforge-asset-io-mutants.mjs",
+    "script": "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
+    "command": "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -120,7 +120,7 @@
     "productHashInvariant": "touched product files unchanged before/after batch"
   },
   "coverage": {
-    "config": "docs/testing/glm-reforge-asset-io.config.mts (official testSelection; fast)",
+    "config": "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-config.mts (official testSelection; fast)",
     "commandTemplate": "AIO1_MODE=<before|after> AIO1_OUT=<tmpdir> pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config <abs config>",
     "beforeDir": "/tmp/aio1-cov-before",
     "afterDir": "/tmp/aio1-cov-after",
@@ -182,7 +182,7 @@
       "typecheck": "rc=0"
     },
     "mutants": {
-      "command": "node docs/testing/glm-reforge-asset-io-mutants.mjs",
+      "command": "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs",
       "exit": 0,
       "controls": 3,
       "needles": 8

@@ -32,8 +32,8 @@
     "biome": "8 新文件 rc=0"
   },
   "mutants": {
-    "script": "docs/testing/glm-game-host-boundaries-mutants.mjs",
-    "command": "node docs/testing/glm-game-host-boundaries-mutants.mjs",
+    "script": "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
+    "command": "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -111,7 +111,7 @@
     "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
   },
   "coverage": {
-    "config": "docs/testing/glm-game-host-boundaries.config.mts (official testSelection fast + jsdom env/setupFiles；before excludes 7 new files)",
+    "config": "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-config.mts (official testSelection fast + jsdom env/setupFiles；before excludes 7 new files)",
     "perModule": {
       "analytics-consent.ts": {
         "before": "L28/29 B21/33",
@@ -192,7 +192,7 @@
       "typecheck": "rc=0"
     },
     "mutants": {
-      "command": "node docs/testing/glm-game-host-boundaries-mutants.mjs",
+      "command": "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs",
       "exit": 0,
       "controls": 3,
       "needles": 8

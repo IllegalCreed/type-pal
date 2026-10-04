@@ -323,7 +323,7 @@ r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细
 在 /Users/zhangxu/illegal/type-pal 独立复核 EDITOR-SKILL-TRIAL-1，卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
 先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a、docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md 与 battle-simulator-implementation.md。
 统一候选cb44c378，对比1bae48e4；设计不重签。按V1～V10核对声明/最终树/用例：四目录真实保存链、删空/坏文件/悬空引用、数值继承/覆写/装备只加一次、MP0/静音、三人上限、隔离存档、真实行动/奖励与取消重开。
-复跑 node docs/testing/battle-simulator-s1-mutants.mjs（4对照+4针）及 battle-simulator-runtime-mutants.mjs（6对照+6针）；抽查定向test与fixture先经正式loader、同一实参保真。运行时4文件位于packages/reforge/scripts；UI/握手/入口在packages/editor/scripts。
+复跑 node docs/testing/domains/editor/battle/tools/battle-simulator-s1-mutants.mjs（4对照+4针）及 battle-simulator-runtime-mutants.mjs（6对照+6针）；抽查定向test与fixture先经正式loader、同一实参保真。运行时4文件位于packages/reforge/scripts；UI/握手/入口在packages/editor/scripts。
 完整check7891、官方ratchet/保护strict7400、build由Codex统一完成，不补跑全仓覆盖率、不改基线。核4新目录组件采用清单与两处断言更新确为精确扩容，没有新豁免。原生选择器取消和360窄屏限制已披露，不能写成浏览器保存重开/移动端通过。
 不操作浏览器或做截图/视觉，不使用Mimosa，不读取或复述Kimi结论。只写本卡当前GLM席位accept或带直接证据的counter与本人日志，提交推送；不改实现/他席/状态、不标done。两席均由Codex统一核门禁。
 ```
@@ -499,7 +499,7 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
     S1 面内必要工作，实施时须证明不改变内容校验对外合同；草图非产品视觉验收，dev-functional
     视觉归 Codex。
 - GLM：**premise verified / design agree（2026-09-19，r2 冻结设计，生产 e58834f6；证据全部本人直读/复跑，未读 Kimi 结论；本席审数据/配置/持久化/失败矩阵，不做视觉）**。
-  - **前提探针本人复跑**（`node --import tsx docs/testing/skill-trial-premise.mjs`，exit 0）：
+  - **前提探针本人复跑**（`node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs`，exit 0）：
     SSR 链接仍 `scene=s001&battle=0&skill=`、实际场景回退 start、battleResult=victory 且
     **sessions=0**；同一 world 真实 quickSave 链 savedAfterMaxMP=999、savedTrialSkill=true、
     authorInputUnchanged=true —— D-04 桩胜与 D-05 同 scope 污染动态复现，作者输入不变，
@@ -638,8 +638,8 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
 | 当前可复用边界 | shop-trial.ts:17/38及main.ts:355-359在普通世界/SaveStore之前分流；BattleSession.done/cancel/tick/render提供独立会话生命周期（battle-session.ts:341/:636/:644/:1191/:2543） |
 | 目标 | 独立试放在普通boot之前早分流；不进入标题读档/SaveStore初始化/元数据预读/探索循环/自动存档，真实BattleSession承担施法，不另写战斗核 |
 
-可重建前提：[skill-trial-premise.mjs](../../../../testing/skill-trial-premise.mjs)，
-`node --import tsx docs/testing/skill-trial-premise.mjs`。
+可重建前提：[skill-trial-premise.mjs](../../../../testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs)，
+`node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs`。
 Codex本树实测：空白seed补入所选合法技能后通过正式loadCurrentProjectFrom，敌队表为空；真实SkillTab SSR链接仍s001/0，
 实际场景回退start、startBattleBody返回victory且session构造次数0。
 同一world真实quickSave→临时授技→真实quickSave，隔离MemorySaveStore的maxMP从0变999且含所选技能；原作者角色数据不变。
@@ -759,7 +759,7 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
     main.ts:2220-2253 敌队缺席走 victory 桩、:2473 真实 `new BattleSession`、:590 正常 SaveStore 构造、
     :5612/:5817 doSave/quickSave、:355-359 shop-trial 早分流先例、shop-trial.ts:17/38、
     battle/battle-session.ts:341/:636/:644 构造/done-cancel/tick——卡片前提全部一手核实。
-  - **前提探针本人复跑**：`node --import tsx docs/testing/skill-trial-premise.mjs` exit0——
+  - **前提探针本人复跑**：`node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs` exit0——
     SSR 链接仍 s001/0、实际场景回退 start、battleResult=victory、sessions=0（无真实战斗）；
     同一 world 真实 quickSave 链把临时授技/MP999 写入同 scope 内存槽（savedAfterMaxMP=999、
     trialSkill=true）而作者输入不变——D-04 桩胜与 D-05 存档污染两个前提都动态复现。
@@ -942,7 +942,7 @@ docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md 的r2区及
 docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md；全域评估仅作背景。
 同一候选：r2 / 2026-09-19保存裁决后冻结，生产e58834f6389a40ffe9f187e6a8051f552e964d79。
 用户已确认四目录草图大方向、预设随工程保存、首版先保存工程再试打；临时调整不必另存，战斗结果不落盘。
-独立直读入口/保存/战斗一手链，必要时复跑 node --import tsx docs/testing/skill-trial-premise.mjs。
+独立直读入口/保存/战斗一手链，必要时复跑 node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs。
 重点压力测试：编辑器附属文件的版本/基线/准备写集/恢复/另存闭环、共享派生与隔离结算、
 一次性内存握手的身份与取消所有权、普通boot前分流且SaveStore零IO、首批与高级敌方初始化分界。
 核1～5人支持不能只拿站位表作证、资源惰性读取与工程换代边界、缺条件不得桩胜；不另改战斗公式。
@@ -958,7 +958,7 @@ docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md 的r2区及
 docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md；全域评估仅作背景。
 同一候选：r2 / 2026-09-19保存裁决后冻结，生产e58834f6389a40ffe9f187e6a8051f552e964d79。
 用户已确认四目录草图大方向、预设随工程保存、首版先保存工程再试打；临时调整不必另存，战斗结果不落盘。
-独立直读真实类型/守卫/保存/运行入口，可复跑 node --import tsx docs/testing/skill-trial-premise.mjs。
+独立直读真实类型/守卫/保存/运行入口，可复跑 node --import tsx docs/testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs。
 重点核四类配置的引用/继承/覆写/零值/空槽/静音、合法装备和物品用途、等级与属性不能混同；
 附属文件真正缺席与坏文件区分、基线/事务/恢复/另存/ZIP与悬空引用策略；V1～V10是否能用合法fixture及
 真实调用链形成有鉴别力的业务断言，取消用entered/deferred，不靠固定超时或只测URL。

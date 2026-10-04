@@ -2287,8 +2287,8 @@
       "packages/migrate/src/__tests__/coverage-wave2/f-script-library.ts"
     ],
     "tools": [
-      "docs/testing/glm-coverage-wave2-mutants.mjs",
-      "docs/testing/glm-coverage-wave2-coverage.config.mts"
+      "docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs",
+      "docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts"
     ],
     "docs": [
       "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md",

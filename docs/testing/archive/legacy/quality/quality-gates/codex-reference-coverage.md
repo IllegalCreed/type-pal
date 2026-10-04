@@ -25,7 +25,7 @@ editor的`actor-dialogue-commands.test.ts`已有跨作者面重命名集成；�
 
 ## 同口径覆盖对照
 
-[对照config](../../../../codex-reference-coverage.config.mjs)两侧采用官方content全生产范围及fast testSelection；
+[对照config](../../../../domains/quality/quality-gates/tools/reference-coverage-config.mjs)两侧采用官方content全生产范围及fast testSelection；
 before只额外排除本批两个新文件，after纳入。709→721项均绿；生产集合/各维分母不变。
 报告：`/tmp/type-pal-reference-coverage-B0tFkX/{before,after}`，不占用coverage/fast。
 
@@ -40,16 +40,16 @@ command-target剩两臂保留在分母：`:119`在exact EntityAddress已保证�
 `:198`是退役scene-script绑定缺scene防御，归E-05，不为100%复活测试。
 
 ```sh
-REFERENCE_COVERAGE_PHASE=before REFERENCE_COVERAGE_DIR=/tmp/type-pal-reference-coverage-B0tFkX pnpm exec vitest run --config docs/testing/codex-reference-coverage.config.mjs
-REFERENCE_COVERAGE_PHASE=after REFERENCE_COVERAGE_DIR=/tmp/type-pal-reference-coverage-B0tFkX pnpm exec vitest run --config docs/testing/codex-reference-coverage.config.mjs
-node docs/testing/codex-reference-mutants.mjs
+REFERENCE_COVERAGE_PHASE=before REFERENCE_COVERAGE_DIR=/tmp/type-pal-reference-coverage-B0tFkX pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/reference-coverage-config.mjs
+REFERENCE_COVERAGE_PHASE=after REFERENCE_COVERAGE_DIR=/tmp/type-pal-reference-coverage-B0tFkX pnpm exec vitest run --config docs/testing/domains/quality/quality-gates/tools/reference-coverage-config.mjs
+node docs/testing/domains/content/testing-records/tools/reference-mutants.mjs
 ```
 
 重跑时可将REFERENCE_COVERAGE_DIR换成本人mktemp目录。统计用分子/分母，不混用Vitest截断百分比与官方四舍五入。
 
 ## 鉴别力与验证
 
-[负控工具](../../../../codex-reference-mutants.mjs)：1个12项全绿对照＋6个单点变异全部钉名自身AssertionError红。
+[负控工具](../../../../domains/content/testing-records/tools/reference-mutants.mjs)：1个12项全绿对照＋6个单点变异全部钉名自身AssertionError红。
 变异分别去掉actor身份比较、直接污染输入portrait、不累计改写数、漏choreography、visitor缓存不清空、copy返回原值。
 每针唯一源码点、实际测试数与标题唯一、零skip/todo、产品hash前后不变；判据自测拒普通Error夹带AssertionError、
 混合错误、超时与未执行。只在Vite load隔离变异，不改磁盘生产文件。

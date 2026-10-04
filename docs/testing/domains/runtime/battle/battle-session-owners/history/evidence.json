@@ -107,7 +107,7 @@
     }
   },
   "negativeControls": {
-    "tool": "docs/testing/battle-session-owners-mutants.mjs",
+    "tool": "docs/testing/domains/runtime/battle/tools/battle-session-owners-mutants.mjs",
     "controls": 35,
     "detected": 11,
     "judge": {

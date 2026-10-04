@@ -92,13 +92,13 @@
   },
   "negativeControls": {
     "playerOpcode": {
-      "tool": "docs/testing/phase1-player-opcode-mutants.mjs",
+      "tool": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/phase1-player-opcode-mutants.mjs",
       "controls": 6,
       "detected": 6,
       "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-phase1-player-opcode-mutants-Tir7ID/summary.json"
     },
     "mainOwners": {
-      "tool": "docs/testing/phase1-main-owners-mutants.mjs",
+      "tool": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/phase1-main-owners-mutants.mjs",
       "controls": 19,
       "detected": 9,
       "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-phase1-main-owners-mutants-h3Ek4a/summary.json"

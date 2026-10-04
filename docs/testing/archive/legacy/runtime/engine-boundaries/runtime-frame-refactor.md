@@ -24,11 +24,11 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
 
 新增36项：frame会话15项、input路由21项；其中一项内部穷举128种活跃层组合，不把内部枚举另算测试条数。
 直接回归与H4真实宿主共44项正控、11针业务反例：
-[runtime-frame-mutants.mjs](../../../../runtime-frame-mutants.mjs)。
+[runtime-frame-mutants.mjs](../../../../domains/runtime/engine-boundaries/tools/runtime-frame-mutants.mjs)。
 判据精确file/title、恰exit1、候选自身AssertionError、加载见证和产品hash不变；2正控/12反例判据自测。
 取消/监听/清理/冻结/单步/顺序/battle独占/商店优先级/动态DEV门/main真实wait接线分别有针。
 
-[冻结对照工具](../../../../runtime-frame-parity.mjs)直接从Git b11d4bc9 AST选出原tick：
+[冻结对照工具](../../unresolved-tools/runtime-frame-parity.mjs)直接从Git b11d4bc9 AST选出原tick：
 
 - 帧前缀（直到battle分支），在明确外部端口记录事件；64门组合×6时间点=384逐帧对照。
 - 原输入分支：128层组合×7键集合=896对照。

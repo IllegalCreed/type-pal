@@ -18,7 +18,7 @@ SpriteResourceViewer已不消费旧测试mock的automaticBehaviors。预算截�
 当前公开 `describeSpriteReferenceBehavior` 对合法 15/16 层 `callScript` 链显示
 真实帧 `#1 → #2`，17 层却显示脚本不存在的「检测到 #0」及 `cycle [#0]`。
 GLM 隔离候选 `e2b3f43770c9968d72b16a34f3d0173a271cc4ca` 的
-`docs/testing/glm-next-triple/wave-L/defect-report.md` 有完整复现夹具和初次证据；
+`docs/testing/archive/legacy/batches/glm-next-triple/wave-L/defect-report.md` 有完整复现夹具和初次证据；
 Codex 另用临时 Vitest 探针在该候选复现 15/16/17 层结果，探针已删除、未入库。
 当前 main 的冻结产品源 hash 与候选一致，不是测试候选改出的行为。
 

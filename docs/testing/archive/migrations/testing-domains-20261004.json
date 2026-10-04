@@ -65,42 +65,42 @@
     },
     {
       "from": "docs/testing/active-scene-refactor.md",
-      "to": "docs/testing/domains/runtime/scene/active-scene/report.md",
+      "to": "docs/testing/archive/legacy/active-scene/report.md",
       "sha256": "e4da4319341a937909cb2dd3e56c7b31241aade9a433e24feb5a66c8e1a4d8b3"
     },
     {
       "from": "docs/testing/active-scene-evidence.json",
-      "to": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+      "to": "docs/testing/archive/legacy/active-scene/evidence.json",
       "sha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f"
     },
     {
       "from": "docs/testing/battle-host-refactor.md",
-      "to": "docs/testing/domains/runtime/battle/battle-host/report.md",
+      "to": "docs/testing/archive/legacy/battle-host/report.md",
       "sha256": "c76672db557313b2acfec425a93c6ae1fc37abd28dfadbb2ded435d7d627bc3f"
     },
     {
       "from": "docs/testing/battle-host-refactor-evidence.json",
-      "to": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+      "to": "docs/testing/archive/legacy/battle-host/evidence.json",
       "sha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203"
     },
     {
       "from": "docs/testing/battle-session-owners-refactor.md",
-      "to": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+      "to": "docs/testing/archive/legacy/battle-session-owners/report.md",
       "sha256": "1804e58d57b7ca119e2960fb1bff67418671ed4a6a0837e11700093d20518ace"
     },
     {
       "from": "docs/testing/battle-session-owners-refactor-evidence.json",
-      "to": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+      "to": "docs/testing/archive/legacy/battle-session-owners/evidence.json",
       "sha256": "6228678bc6f135f4de12bf580b9b0fbec0125d2c50075228a369a84b20b63fd9"
     },
     {
       "from": "docs/testing/world-runtime-refactor.md",
-      "to": "docs/testing/domains/runtime/world/world-runtime/report.md",
+      "to": "docs/testing/archive/world/world-runtime/report.md",
       "sha256": "0670c52dbb799cb1be524fb6bab285ec2dc51f92f5ae44e5aa1e9b36bda25cc3"
     },
     {
       "from": "docs/testing/world-runtime-refactor-evidence.json",
-      "to": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+      "to": "docs/testing/archive/world/world-runtime/evidence.json",
       "sha256": "ceddedc5cf0544af69991d478c6b7253d57fccc43d8591d8433b60bca8ea3ce1"
     }
   ]

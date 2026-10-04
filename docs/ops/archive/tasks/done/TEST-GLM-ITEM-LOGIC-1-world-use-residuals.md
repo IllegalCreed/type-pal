@@ -89,7 +89,7 @@ R1typed/生产构造器、R2装备独有、反控格式问题已闭；46/1178/TC
 只测试当前content物品合同，不能修改产品政策/公式或以当前行为替代未知设计。
 一手入口`packages/content/src/item.ts`的公开函数；消费链`reforge/src/item-use-executor.ts:98/135/163/186/246`。
 官方fast冻结item.ts为221/326分支（105未命中），只是选题池，不承诺全部可达。
-[共同交付规则与冻结账](../../../../testing/background-tests-20260927/README.md)。
+[共同交付规则与冻结账](../../../../testing/archive/legacy/batches/background-tests-20260927/README.md)。
 一阶段/原版实现对齐N/A：不改第二阶段机制。若触及概率/毒/装备规则争议，列待证，不自行修产品。
 最强替代解释：旧item.test或上层executor已覆盖；先查精确标题，重复合同登记existing-proof。
 
@@ -114,7 +114,7 @@ R1typed/生产构造器、R2装备独有、反控格式问题已闭；46/1178/TC
 
 - `packages/content/src/item.{derived,inventory,preflight,ownership,effects,external}.background.test.ts`（六个可选新文件）。
 - `packages/content/src/__tests__/glm-item-logic-fixtures.ts`（可选，薄数据/断言，不复制算法）。
-- `docs/testing/glm-item-logic/**`（README/receipt/evidence/mutants及必要只读诊断）；本卡仅追加GLM交付块。
+- `docs/testing/archive/legacy/batches/glm-item-logic/**`（README/receipt/evidence/mutants及必要只读诊断）；本卡仅追加GLM交付块。
 - 不改产品/旧测试/资产/共享索引/配置/超时/排除/基线；不触碰Codex帧编辑WIP和E2E入口。
 
 合法物品先过validateItems，人物/世界来自当前合法构造器及适用结构守卫；不要使用旧fixture中的强转坏数据。
@@ -140,13 +140,13 @@ R1typed/生产构造器、R2装备独有、反控格式问题已闭；46/1178/TC
 - 纪律：合法物品构造即过 validateItems；单轴负例配同入口同型正控；纯函数 expectAcceptsUnchanged
   独立快照前后比较；**removeOwnedItems 按原地合同断言精确差值**（计数/键集/数组长度/返回值），
   不施加不可变断言；I5 混链行用 rawItem 刻意非法载体只测 resolve 防御合同。
-- 负控：[item-logic-mutants.mjs](../../../../testing/glm-item-logic/item-logic-mutants.mjs) 复用已验收
+- 负控：[item-logic-mutants.mjs](../../../../testing/archive/legacy/batches/glm-item-logic/item-logic-mutants.mjs) 复用已验收
   judge——自测 10 例 + 45 项对照 + 6 针（错误消费/错目标/丢外部变化/输入污染·派生累加/过滤放行/
   输入语义 floor）各恰红目标 fullName。
 - 门禁：定向 45/45；相邻 item.test 96 + reforge executor 17 绿；全 content **98 文件 1177/1177**；
   TC exit0；改动九文件 Biome 0 error 0 warning（全 src runtime-script.ts:146 既有问题属分支继承）；
   docs PASS；diff --check 干净。未发现产品疑似缺陷；池内不可达臂如实不测（详见
-  [回执](../../../../testing/glm-item-logic/receipt.md) / [机账](../../../../testing/glm-item-logic/evidence.json)）。
+  [回执](../../../../testing/archive/legacy/batches/glm-item-logic/receipt.md) / [机账](../../../../testing/archive/legacy/batches/glm-item-logic/evidence.json)）。
 - r2 窄返工（2026-09-27，仅 R1–R4，见 origin/main `docs/testing/archive/legacy/editor/editor-workflows/item-logic-r1-review.md`）：
   R1 heroActor 用 `satisfies ActorDef` + **当前 player 侧 baseStats**（hp/maxHP/mp/maxMP/attack 等）
   构造并经 validateActors 验证；hero/world 改用生产 instantiate/buildWorld 可消费基线；

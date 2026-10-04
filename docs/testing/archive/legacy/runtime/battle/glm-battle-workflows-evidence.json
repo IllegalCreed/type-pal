@@ -63,8 +63,8 @@
   ],
   "codeFilesCount": 9,
   "tools": [
-    "docs/testing/glm-battle-workflows-mutants.mjs",
-    "docs/testing/glm-battle-workflows-coverage.config.mts"
+    "docs/testing/domains/runtime/battle/tools/battle-workflows-mutants.mjs",
+    "docs/testing/domains/quality/quality-gates/tools/battle-workflows-coverage-config.mts"
   ],
   "closure": {
     "teammateConsumption": "新用例：敌 health 5000 存活；p1 发起全体合击（p2 被填占位动作）；一轮回菜单后断言 合体技 行恰1、无 p2 开头普攻行（非施法队友行动被消费）、无 p1 普攻行、survivor 敌行动行存在；自检：battle-core.ts:1888 消费门改 false && 后本用例以 p2 多余普攻行业务红（与 Codex 活敌 oracle 同向）；[91,91] 成本正控保留于一击杀用例"
@@ -91,7 +91,7 @@
     "mutantsTool": "6 controls + 10 needles rc=0"
   },
   "coverage": {
-    "config": "docs/testing/glm-battle-workflows-coverage.config.mts（官方 fast 选择/生产 include；before 仅排本批 6 文件）",
+    "config": "docs/testing/domains/quality/quality-gates/tools/battle-workflows-coverage-config.mts（官方 fast 选择/生产 include；before 仅排本批 6 文件）",
     "output": "/tmp/bw1-r5-coverage/{before,after}",
     "beforeTests": 1414,
     "afterTests": 1460,
@@ -120,7 +120,7 @@
     "netDelta": "+97 lines/+82 branches/+13 functions（session +48L/+54B/+8F——消费分支新入账，anim +49L/+27B/+5F 保持，core +1B；逐文件分开列示）",
     "honesty": "session 剩余 403L/642B 含 render 入口后 ~189 行（视觉侧另卡）与未覆盖组合；hook 8L/13B 保留分母，不虚报"
   },
-  "codexWitnessNote": "r1/r2/r3/r4 冻结见证工具零改动；r4 见证（docs/testing/battle-workflows-r4-witnesses.mjs）对 r5 由 Codex 自行复跑",
+  "codexWitnessNote": "r1/r2/r3/r4 冻结见证工具零改动；r4 见证（docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs）对 r5 由 Codex 自行复跑",
   "planningConstraints": {
     "noProductChanges": true,
     "noOfficialBaselineOrConfigChanges": true,

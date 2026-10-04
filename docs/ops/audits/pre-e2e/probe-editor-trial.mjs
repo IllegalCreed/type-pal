@@ -13,7 +13,7 @@ import { buildCurrentSavePayload, buildMeta } from '../../../../packages/reforge
 import { MemorySaveStore } from '../../../../packages/reforge/src/save/store.ts'
 import { resolveInitialSceneId } from '../../../../packages/reforge/src/startup-entry.ts'
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const req = createRequire(new URL('packages/editor/package.json', root))
 const { createServer } = await import(req.resolve('vite'))
 const { default: react } = await import(req.resolve('@vitejs/plugin-react'))

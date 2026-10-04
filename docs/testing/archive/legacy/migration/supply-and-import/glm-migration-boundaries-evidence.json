@@ -34,8 +34,8 @@
     "biome": "9 新文件 rc=0"
   },
   "mutants": {
-    "script": "docs/testing/glm-migration-boundaries-mutants.mjs",
-    "command": "node docs/testing/glm-migration-boundaries-mutants.mjs",
+    "script": "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
+    "command": "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -121,7 +121,7 @@
     "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
   },
   "coverage": {
-    "config": "docs/testing/glm-migration-boundaries.config.mts (官方 testSelection fast；before excludes 8 new files)",
+    "config": "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-config.mts (官方 testSelection fast；before excludes 8 new files)",
     "perModule": {
       "migration-project-io.ts": {
         "before": "L55/63 B35/46",
@@ -208,7 +208,7 @@
       "typecheck": "rc=0"
     },
     "mutants": {
-      "command": "node docs/testing/glm-migration-boundaries-mutants.mjs",
+      "command": "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs",
       "exit": 0,
       "controls": 3,
       "needles": 9

@@ -4,7 +4,7 @@
 
 ## 机械事实与当前阻断
 
-- `git diff a2415868..HEAD --name-only` 仅在 `docs/testing/glm-architecture-regression-lab/**`；该合入点后 GLM 自身 packages/scripts 零 diff。**但** `git diff a3ceaf05..HEAD -- packages/ scripts/` 非空，含中途合入的 Codex/Gemini/Grok 主线修改；只能说起点 `86e928b5..a3ceaf05` 冻结零漂及 GLM 自身增量零产品改动，不能说最终树相对 `a3ceaf05` 零 diff。
+- `git diff a2415868..HEAD --name-only` 仅在 `docs/testing/archive/legacy/batches/glm-architecture-regression-lab/**`；该合入点后 GLM 自身 packages/scripts 零 diff。**但** `git diff a3ceaf05..HEAD -- packages/ scripts/` 非空，含中途合入的 Codex/Gemini/Grok 主线修改；只能说起点 `86e928b5..a3ceaf05` 冻结零漂及 GLM 自身增量零产品改动，不能说最终树相对 `a3ceaf05` 零 diff。
 - 本席 `env -u NODE_COMPILE_CACHE pnpm exec vitest run --config .../candidates.vitest.mts`：**9 文件、32/32**，不是交付文字的 33 项。独立 JSON 报告 `/tmp/codex-glm-r3-vitest.json` 同为 32/32；机账仍为 **40 条（38 candidate-green / 1 existing-proof / 1 blocked）**，其中候选测试引用 32 条，但 **11 条 fullName 与本次真实执行名不符**（把旧 ` > ` 分隔符正规化后仍不符），G08-03 已从测试文件删除却仍在机账作执行证据。`results.json:832-862` 的命令仍写“36 项”、旧 537 文档数与过期 V04 reproduced-defect；README/receipt 也仍报旧 39 条 36/1/1/1。故 `verify.mjs` PASS 不能代表最终树证据闭环。
 - `tools/verify.mjs` 现在确为**只读**，重算 40 条小计；但 `:64-91` 只查测试文件存在与截图 `sha256_16` 前缀，没有读取 Vitest JSON 验 `fullName`/status/执行数，也不核命令退出码。六张截图均存在，本席重算完整 SHA-256，其前缀均与机账一致；机账仍只存 16 位，未满足工作包的完整 SHA 登记。
 - `node tools/red-control.mjs`：detected，exit1/1执行/1失败/业务 AssertionError、注入见证1、产品 hash 不变；本席产生的唯一 `.tmp-red-HOXY97` 已移至 `/tmp/type-pal-arch-lab-red-HOXY97`，候选树干净。其后全目录 Biome 20 文件 exit0，`node scripts/docs/check.mjs` PASS，diff 检查 PASS。负控仍只覆盖启动小样，不证明各组的新合同。候选目录也未交独立 TS/TSX typecheck 配置/结果。

@@ -310,7 +310,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 先读AGENTS/CLAUDE/READ-FIRST及 docs/testing/archive/legacy/editor/testing-records/glm-nine-final-review.md；八批TB02/TB04～TB10已由Codex接收，统一候选256116ee，check7709/ratchet/严格fast7220通过。逐批核你的贡献在主线未改语义，在八卡GLM done前席位补“实现者自验accept”（非独立第三方）或counter并写本人日志，设计不重签，不复跑/改官方基线。
 只返工TB03（docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework，源001dc9e1）：原独立分支同步最新main并保留另八批既有成果，不计入自己贡献。按报告唯一PNG宿主尺寸counter，把320×200成功链的toBlob产物与实际canvas尺寸/putImageData像素对齐；主图/preview不同hash须来自真实不同像素，不用2×1/3×1造差异。保留真实SHA与完整字节断言，不改产品或编码失败close缺陷。
-复跑 node docs/testing/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。
+复跑 node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <候选worktree>，删canvas尺寸须被候选业务断言检出；helper重构给真实入口由Codex适配见证。定向39/原3+8/tc/最终白名单Biome与回执从最终树复跑，其余关闭项不重开；仅TB03白名单与本人回执。Mimosa不参与。
 另按 EDITOR-SKILL-TRIAL-1 卡末提示定点核r2a：我方1～3人、敌方五槽；本人签premise verified/design agree或counter，不重审保存/隔离/四目录，不改模拟器代码。
 各卡裁决独立；不读/复述Kimi结论，不代签、不改状态、不标done。本人席位/日志直接提交推送，保留他席并自行处理push竞态。
 ~~~
@@ -321,7 +321,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 在 /Users/zhangxu/illegal/type-pal 接收 TB-03 r4 返工（docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md，rework）。候选分支 codex/glm-editor-import-codec-r1（worktree /Users/zhangxu/illegal/type-pal-glm-import-codec），已同步 main（含 256116ee 八批集成与 1a44c3c6），源 001dc9e1，生产对 e58834f6 零漂移，设计不重签。
 先读 AGENTS/CLAUDE/READ-FIRST、本卡当前接收复核与交接日志、docs/testing/archive/legacy/editor/testing-records/glm-nine-final-review.md 的 TB-03 章节、工作包 docs/testing/archive/legacy/editor/supply-and-import/glm-editor-import-codec.md r4 回执与机账 docs/testing/archive/legacy/migration/supply-and-import/glm-import-codec-evidence.json rework3 节。
 唯一返工项为你上轮 counter：320×200 成功链 toBlob 产物对齐实际 canvas 尺寸与 putImageData 像素。实现：installCanvasHost 由产品赋 canvas 宽高、快照 putImageData 实际交付像素、toBlob 按调用时实际尺寸+最近交付像素编码；pngPayload(width,height,rgba?) 实际像素扫描线（IHDR 4 字节大端）；palette 非同色映射使索引帧/预览帧真实像素不同（b=109：(109,109,109,255) vs (71,6,146,255)）；摘要常量为实际产物离线 SHA-256。注意：helper 签名/结构有重构，你的 png-host 见证按 AST 提取三 helper 适配真实入口后复跑（本人已按现有见证脚本复跑 rc=0：control 7/7、删 canvas 尺寸 detected 候选业务断言、三文件 hash 不变；actualHost summary 的 main/preview [0,0] 为 mutated 末次覆写记录）。
-请独立复核后在本卡 done 前席位签 accept 或 counter：定向 39/39、node docs/testing/glm-import-codec-mutants.mjs（3+8，battle-background 针 redTest 已随测试更名同步、判据未变）、包 tc、11 文件白名单 Biome 均已从最终树复跑（见机账 reruns 节）。只审 TB-03 白名单与 GLM 回执；其余八批已接收不重开；编码失败 close 缺陷仍归你修复卡；不代签、不混入他批。若接收，按你的统一集成流程合入并更新卡状态；全仓门由你执行。
+请独立复核后在本卡 done 前席位签 accept 或 counter：定向 39/39、node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs（3+8，battle-background 针 redTest 已随测试更名同步、判据未变）、包 tc、11 文件白名单 Biome 均已从最终树复跑（见机账 reruns 节）。只审 TB-03 白名单与 GLM 回执；其余八批已接收不重开；编码失败 close 缺陷仍归你修复卡；不代签、不混入他批。若接收，按你的统一集成流程合入并更新卡状态；全仓门由你执行。
 ~~~
 
 ## 历史下一位Agent提示词：GLM（仅补返回预览保真；r5已执行）
@@ -330,7 +330,7 @@ Codex已签r2。GLM负责对本卡r2差异补充确认，Kimi负责独立设计�
 在 /Users/zhangxu/illegal/type-pal 只返工TB03，卡 docs/ops/archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md 为rework，源9eecaaf3，生产e58834f6，设计不重签。
 先同步最新main到原独立分支并保留八批归档/模拟器状态，读AGENTS/CLAUDE/READ-FIRST、本卡及 docs/testing/archive/legacy/editor/supply-and-import/import-codec-r4-review.md、交付清单。本轮已接受尺寸、CRC/zlib、交付像素编码与主图摘要；不再重开这些项。
 唯一阻断：r4删掉了返回预览完整字节断言。让宿主记录实际两次toBlob产物，核返回main/preview对应完整字节，并对实际preview做SHA断言；仅删除对主hash的“不等于preview常量”不能代替验证。
-把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。
+把报告的“仍调用第二次canvasPng但effectPreviewBytes改交主图”单点坏实现纳入负控，node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs <worktree>须由候选自己的AssertionError检出，控制绿。旧尺寸见证和原3+8保持通过。helper改签时告知真实入口，Codex适配，不复制假helper。
 回执像素数字勘误为index182 / [182,182,182,255] / [34,5,73,255]，不修改生产算法。最终定向39、tc、完整白名单Biome、原负控+新增针从提交树复跑并如实回填。
 只改TB03白名单与本人回执，不改产品/旧测试/官方基线/原探针；编码失败close仍归Codex。不要回退另外八批done或模拟器build，不代签、不标done。本人落卡提交推送后交Codex；全仓门由Codex接收后运行，Mimosa不参与。
 ~~~

@@ -21,7 +21,7 @@
   测试3+6+3+3；fixture为shared/content/pal-extract各1。pal-extract fixture路径另见R1。
 - 通过四包正式定向命令：shared 28、content 69、pal-extract 15、migrate 21，共133项。
   migrate使用原`vitest.config.ts --project unit`；四包`tsc --noEmit`均exit0。
-- 直接复跑`node docs/testing/glm-foundation-coverage-mutants.mjs`：4正常对照exit0、8单点负控exit1；
+- 直接复跑`node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs`：4正常对照exit0、8单点负控exit1；
   独立读各日志确认实际业务红因，全部有load命中且8个被替换源码文件hash前后一致。
   YJ2改字面输出的反控有效，未把溢出输出缓冲导致无差异的长度突变算红；plan增加独立净改文件后**写入**反控有效，删除侧仍缺，见R2。
 - 旧版本兼容审查：本批产品零修改，无新升级器/版本分支/旧输入支持；`legacyThing`与旧battleSprite字段用例是拒绝测试，地图v4是当前地图格式，不是内容旧版本。pass。
@@ -44,7 +44,7 @@ pal局部7排除**不是官方fast的11排除**；report已限定局部，不能
 ## R1 · 最终树质量门与交付账不符
 
 - `docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-receipt.md:89`写“改动文件Biome 0 error”；本人对候选19个新增代码文件运行：
-  `git diff --name-only --diff-filter=A 648b4086 01c149b5 -z -- packages docs/testing/glm-foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check`，
+  `git diff --name-only --diff-filter=A 648b4086 01c149b5 -z -- packages docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs | xargs -0 pnpm exec biome check`，
   实际**exit1，27 errors、1 info**，包括格式与import整理；未执行`--write`替GLM修文件。
 - 同回执:30-31的B逐文件数字20/8/6/30/12/8相加为84，却写69。实际是：
   StartWorld20、Actors6、AuthorItems4、SkillsPoisons21、AuthorScript9、EnemyScript9=69。总133正确，逐文件回执需更正。

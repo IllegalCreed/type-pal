@@ -49,7 +49,7 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 - 产品：`packages/editor/src/core/commands.ts`及上表明确命名的13个新模块。其他既有命令/生产模块零diff。
 - 测试：最多每目标域一个新`packages/editor/src/core/commands-wave2.<域>.test.ts`；共享fixture仅
   `packages/editor/src/core/__tests__/commands-wave2/`。既有测试仅源码路径绑定确受移动影响时机械适配，逐处说明，旧断言零改。
-- 证据：`docs/testing/cursor-commands-wave2/**`与本卡作者交付块。不改看板/索引/其它卡，由Codex维护。
+- 证据：`docs/testing/archive/legacy/batches/cursor-commands-wave2/**`与本卡作者交付块。不改看板/索引/其它卡，由Codex维护。
 - 禁止修改App/MapMode/UI/CSS、content/reforge产品、保存/迁移/项目资产、package配置、超时、coverage基线与范围。
 
 ## 验收与交付
@@ -69,7 +69,7 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../../../testing/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
+- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../../../testing/archive/legacy/batches/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
 - Codex验收：**accept / done allowed**（2026-09-26，2022acc3，集成96e9d3c1）。R1–R3、最小UI与统一质量门全部通过；[最终验收](../../../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)与[机账](../../../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json)。首轮反证保留历史事实，不代签他席。
 
 ## Codex统一收口
@@ -122,8 +122,8 @@ Codex负责后续独立复验、必要UI、统一全仓门与集成；不用重�
 
 ```bash
 cd /Users/zhangxu/illegal/type-pal-cursor-commands-wave2
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs --self-test
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
 ```

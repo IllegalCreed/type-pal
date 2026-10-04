@@ -33,8 +33,8 @@
     "biome": "8 新文件 rc=0"
   },
   "mutants": {
-    "script": "docs/testing/glm-editor-map-data-mutants.mjs",
-    "command": "node docs/testing/glm-editor-map-data-mutants.mjs",
+    "script": "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs",
+    "command": "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs",
     "exit": 0,
     "criterionSelfTest": {
       "goodAccepted": true,
@@ -112,7 +112,7 @@
     "note": "临时日志在 mkdtemp 可重建；产品文件前后 sha256 不变（脚本内置断言）"
   },
   "coverage": {
-    "config": "docs/testing/glm-editor-map-data.config.mts (official testSelection fast; before excludes 7 new files)",
+    "config": "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-config.mts (official testSelection fast; before excludes 7 new files)",
     "perModule": {
       "map-patch.ts": {
         "before": "L138/147 B145/161",
@@ -193,7 +193,7 @@
       "typecheck": "rc=0"
     },
     "mutants": {
-      "command": "node docs/testing/glm-editor-map-data-mutants.mjs",
+      "command": "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs",
       "exit": 0,
       "controls": 3,
       "needles": 8

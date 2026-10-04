@@ -122,7 +122,7 @@ Kimi独立终审及GLM本人实现者确认均已accept，无生效counter；202
 - `packages/editor/src/core/project-reference-adapters.boundaries.test.ts`
 - 必要薄fixture：`packages/editor/src/core/__tests__/glm-editor-logic-fixtures.ts`；不得复制产品算法/遍历，不能由产品import。
 - 文档：[GLM回执](../../../../testing/archive/legacy/quality/quality-gates/glm-editor-logic-coverage-receipt.md)的GLM区域、本卡自己的签字/日志。
-- 可选诊断：`docs/testing/glm-editor-logic-coverage-mutants.mjs`、`glm-editor-logic-coverage.config.mts`、`glm-editor-logic-coverage-evidence.json`、`glm-editor-logic-known-gaps.mjs`。
+- 可选诊断：`docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs`、`glm-editor-logic-coverage.config.mts`、`glm-editor-logic-coverage-evidence.json`、`glm-editor-logic-known-gaps.mjs`。
   配置只服务tmp诊断，不改正式统计；有新附件在回执链接，无需要不创建。
 
 产品/旧测试/配置/基线/lock/projects/data/reference/原审计探针一律零修改；不格式化其他人的文件。
@@ -290,7 +290,7 @@ Kimi独立终审及GLM本人实现者确认均已accept，无生效counter；202
 在 /Users/zhangxu/illegal/type-pal 终审 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，review。集成候选5ca9dad20fd8deb32bf4c3bacd76c69546f99be6，对比5552b2a96a07c6a7a4f65ab7c90b2ab6b83c0e10；GLM来源8e8ae831，设计不重签。
 先同步并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md及GLM实现回执。主工作区可能有Sprite上传WIP，须隔离候选，不stash/覆盖/混入该改动。
 独立核R1实际shared cue与统一legalL3、R2 invert全状态深快照、R4唯一enemy ID+undo/locale/逐族锚点；R3已闭环不重开，closure防御臂不强测。GLM是47项测试贡献者，不采信其自验作独立证明；Q1的17项不计本包。
-复跑定向47/明确相邻76、tsc/Biome、node docs/testing/glm-editor-logic-coverage-mutants.mjs（1对照绿+10业务红）及node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选物理绝对路径>（四针detected、closure MISSED属已分类防御）。核Codex仅改新测试标题/注释、产品/旧测试/原探针零diff；check7282→ratchet→受保护单次strict fast6794/617证据与基线一致，210旧editor测试与其它六包不变，官方全包+23行/+47臂与五文件局部+22/+46分清。
+复跑定向47/明确相邻76、tsc/Biome、node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs（1对照绿+10业务红）及node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs <候选物理绝对路径>（四针detected、closure MISSED属已分类防御）。核Codex仅改新测试标题/注释、产品/旧测试/原探针零diff；check7282→ratchet→受保护单次strict fast6794/617证据与基线一致，210旧editor测试与其它六包不变，官方全包+23行/+47臂与五文件局部+22/+46分清。
 只在本人终审席位/本人日志写独立accept或带file:line的counter，提交推送；不得改实现/状态/他席结论，不标done。提交前同步保留并行GLM本人签字，勿复述其结论；回Codex统一收口。
 ```
 
@@ -307,7 +307,7 @@ Kimi独立终审及GLM本人实现者确认均已accept，无生效counter；202
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点返工 TEST-EDITOR-LOGIC-COVERAGE-1 r1，卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md，rework；候选a3687b75ff72e7adb1bdb73b2116e0bdfb0cab3f。先同步并保留Codex最新counter，读AGENTS/CLAUDE/READ-FIRST及docs/testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md顶部返工复核。设计不重签，R3和已修项不重开。
 只修剩余：R1 shared手写cue缺side、原AddLayer实际L3仍tile/source不匹配（不要只另造合法正控）；R2 invert前后完整输入深快照，restore-input-mutation必须业务红；R4把仍在默认测试中的重复enemy-x断言实际改成唯一ID新增/undo，locale标题/断言一致，逐族既有锚点正确、after最终数2302按新树重算，Q1 merge来源单列。
-运行更新的node docs/testing/editor-logic-coverage-review-witnesses.mjs <候选工作树绝对路径>：原三针保持detected、restore针转detected；closure防御针不强测。定向/明确相邻76/tsc/Biome、10负控、同官方口径覆盖复跑，数字从最终树生成。
+运行更新的node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs <候选工作树绝对路径>：原三针保持detected、restore针转detected；closure防御针不强测。定向/明确相邻76/tsc/Biome、10负控、同官方口径覆盖复跑，数字从最终树生成。
 只改原白名单测试/fixture/诊断与本人回执；不改产品/旧测试/原探针/官方配置基线，不代签不标done、不转Kimi。保留已通过内容，交Codex接收后才统一全仓门禁。
 ```
 
@@ -317,7 +317,7 @@ Kimi独立终审及GLM本人实现者确认均已accept，无生效counter；202
 在 /Users/zhangxu/illegal/type-pal 返工 TEST-EDITOR-LOGIC-COVERAGE-1 r1，任务卡 docs/ops/archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md 已rework；原候选d531aa2473d1081fb201248fae3694731fe2cae2，原分支codex/glm-editor-logic-coverage-r1。r1三签不重签。
 先同步并保留本轮counter，读AGENTS/CLAUDE/READ-FIRST、本卡及docs/testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md。只改原白名单新测试/fixture/诊断和本人回执，不改产品/旧测试/原探针/官方配置基线，不做视觉。
 逐项修R1合法cue/map/shared/item输入与真实旧proof；R2输入深快照及actor重命名真实key/asset结果（输入污染和错误asset三见证必须被抓）；R3纠正+99负控的真实含义，补真正错误改写结果的业务反控，不伪造不可达闭合场景；R4直接消费官方fast selection、重建inventory/覆盖，逐族分类、标题/断言和24/6/7/7计数、相邻76命令/哈希与失败记录对齐。
-可运行 node docs/testing/editor-logic-coverage-review-witnesses.mjs <你的候选工作树绝对路径> 重建本席见证；该工具报MISSED表示漏检，不是通过。保留已有效用例，不以固定新增条数或覆盖率凑数。完整定向/相邻/tsc/Biome/负控及同口径覆盖通过后交Codex复核；不代签、不标done、不转Kimi，Q1贡献不混入。
+可运行 node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-review-witnesses.mjs <你的候选工作树绝对路径> 重建本席见证；该工具报MISSED表示漏检，不是通过。保留已有效用例，不以固定新增条数或覆盖率凑数。完整定向/相邻/tsc/Biome/负控及同口径覆盖通过后交Codex复核；不代签、不标done、不转Kimi，Q1贡献不混入。
 ```
 
 ### 原GLM实施交接（历史，现以R1～R4返工为准）

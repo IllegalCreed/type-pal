@@ -2,11 +2,11 @@
 
 这张看板只记录当前进行中和阻塞任务。候选任务看 `docs/phase2/capability-map.md`（任务卡 `Capability` 字段对应地图格号；议题型卡 D6/D12/D13/D14/D15 落点见地图 §3.1「议题→格映射」），完成记录看 git log 和任务卡。
 
-2026-10-03 [O/P/Q冻结交付收口](../testing/glm-tenfold-triple/README.md)：用户取消旧700/组数/反控/视觉数量门，保留759回归、剔除2过时显示名断言；不再作者续派。正式门与main/可恢复退休由Codex执行，状态按三卡顶部。
+2026-10-03 [O/P/Q冻结交付收口](../testing/archive/legacy/batches/glm-tenfold-triple/README.md)：用户取消旧700/组数/反控/视觉数量门，保留759回归、剔除2过时显示名断言；不再作者续派。正式门与main/可恢复退休由Codex执行，状态按三卡顶部。
 Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独立保留，无build/实现授权，不随测试卡关闭。
 
 2026-09-30 GLM 三条可并行测试大包已准入；各自独立分支/工作树、只写新测试与专属证据，
-[62 源冻结与 A–K 去重](../testing/glm-next-triple/README.md)。Codex 负责独立验收及正式并集结算，
+[62 源冻结与 A–K 去重](../testing/archive/legacy/batches/glm-next-triple/README.md)。Codex 负责独立验收及正式并集结算，
 三包不接进行中的 E2E-R4-1；1155/1301/1473 未覆盖臂仅是候选缺口，并非增量承诺。
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
@@ -23,7 +23,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 额度按接手时实际状态确认；历史额度快照不作为当前准入依据。
 
 **硬质量门（用户2026-09-27）**：lint/格式/typecheck的error/warning/info清零才算通过，exit0不等于零诊断。
-既有存量不豁免；[QUALITY-ZERO-1收口记录](../testing/quality-zero/README.md)已done：
+既有存量不豁免；[QUALITY-ZERO-1收口记录](../testing/archive/legacy/batches/quality-zero/README.md)已done：
 lint/格式/七包typecheck零诊断，完整check9712、ratchet/受保护单次strict9220通过；warning/info/截断均硬失败。
 
 **当前优先级（用户2026-09-27最新裁决）**：GLM/Cursor继续隔离补测，Codex独立验收；
@@ -59,7 +59,7 @@ GLM后续补测候选见[十批长队列](../testing/archive/legacy/quality/qual
 2026-09-20 TB03候选4894719e三席accept齐，用户授权后由Codex[核定done归档](../testing/archive/legacy/migration/supply-and-import/import-codec-acceptance.md)。本次无测试/基线改动；PNG编码失败close没有随补测关闭；用户后续授权后已由Codex[独立修复](../testing/archive/legacy/migration/supply-and-import/image-import-cleanup.md)，18回归及check7766/严格fast7277通过。
 
 2026-09-26：GLM守卫叶与Codex资源索引两卡已收口，156新增测试，
-check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%，见[并集回执](../testing/codex-content-resources/README.md)。
+check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%，见[并集回执](../testing/archive/legacy/batches/codex-content-resources/README.md)。
 
 2026-09-26 [剩余八项架构统一收口](../testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)：A3/B1/B2/B3/C1/D2/E1/F1已accept，
 加此前A1/A2/D1/E2/F2，原13批治理队列全部完成。check9573、受保护ratchet/单次strict9081项/728生产文件、
@@ -80,7 +80,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 2026-09-28帧编辑测试分支已由Codex补齐并收口：33新回归/十针，修复旧异步操作跨源写回、
 忙时草稿丢失、保存覆盖新名称和坏帧错误处理。check10,176/ratchet/受保护单次strict9,715全过，
 静态零诊断；全仓分支75.18%，FrameAnimationEditor分支82.10%/行97.08%。详见
-[帧编辑最终回执](../testing/codex-frame-editor/README.md)，历史“暂停WIP”现已完成。
+[帧编辑最终回执](../testing/archive/legacy/batches/codex-frame-editor/README.md)，历史“暂停WIP”现已完成。
 
 2026-09-28脚本步骤卡与继续按钮已[修复收口](../testing/archive/legacy/editor/editor-workflows/script-card-ui.md)：整卡状态/圆角/间距、
 误导箭头与键盘焦点完成6010实际验证；check10,176/严格fast9,715通过、静态零诊断、基线不变。
@@ -104,7 +104,7 @@ check8896/单次strict8404全过；实际+134分支/+73行，content分支85.55%
 85% 未达，仍差 4,360 臂。A–E/F–J 六张纯测试卡均已由 Codex 归档 done；
 G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完成误写为 85% 达标。
 
-2026-09-29 [GLM Wave K](../testing/glm-event-wave-k/codex-accept-r2-1f26d421.md)
+2026-09-29 [GLM Wave K](../testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md)
 已独立验收、串行质量门通过并归档 done；官方 fast 基线净增 55 分支，
 全仓 49584/63398（78.21%），距 85% 仍差 4305 臂。
 

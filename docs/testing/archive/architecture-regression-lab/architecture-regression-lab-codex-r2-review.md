@@ -21,7 +21,7 @@
 
 ## 机械核验与门禁
 
-- 候选 `pnpm exec vitest run --config docs/testing/glm-architecture-regression-lab/configs/candidates.vitest.mts --reporter=dot`：9 文件 **33/33**，exit0（G03 React `act` 警告未作为业务通过证据）。`node tools/red-control.mjs`：`detected`、exit1/1执行/1失败/AssertionError/见证1/产品 hash 不变；runner 生成的本席临时目录已移至 `/tmp/type-pal-arch-lab-red-hWsiwj`，候选树恢复干净。随后全目录 Biome 20 文件通过。
+- 候选 `pnpm exec vitest run --config docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates.vitest.mts --reporter=dot`：9 文件 **33/33**，exit0（G03 React `act` 警告未作为业务通过证据）。`node tools/red-control.mjs`：`detected`、exit1/1执行/1失败/AssertionError/见证1/产品 hash 不变；runner 生成的本席临时目录已移至 `/tmp/type-pal-arch-lab-red-hWsiwj`，候选树恢复干净。随后全目录 Biome 20 文件通过。
 - `results.json` 实有 **40 条：candidate-green 38 / existing-proof 1 / blocked-environment 1**；README 与 receipt 仍报历史 **39 条：36/1/1 reproduced/1 blocked**，与交付说明的 **39 条：37/1/2** 又不一致。G04 新增第 40 条未同步人类回执。此项不是舍入差，不能签整包 accept。
 - `git diff a3ceaf05..HEAD --name-only` **不在白名单内**：中途合入主线 `99f1fd08` 带入其它文档/工具。`git diff 86e928b5..HEAD -- packages/ scripts/` 亦非空（10 文件、477 增/9 删）；可归因于主线合入而非 GLM 实施，但不能继续声称最终候选树对原冻结零 diff。按合入点 `99f1fd08..HEAD` 算，GLM 自身增量仅实验目录且 packages/scripts 零 diff；后续回执须写明两个口径。
 - 六张截图都存在，本席逐张目视，当前完整 SHA-256 的前 16 位分别与 `results.json` 中 `sha256_16` 相符；机账**未保存完整 hash**，不能声称“完整 SHA 与机账一致”。`tools/verify.mjs:55-74` 会回写并格式化 `results.json`，且只验文件存在及 16 位前缀，不核 Vitest JSON fullName/status/执行数；因此本席未拿它作为只读独立见证。候选目录无独立 TS/TSX 类型检查配置/结果。

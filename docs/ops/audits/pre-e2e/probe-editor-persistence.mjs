@@ -5,7 +5,7 @@ import assert from 'node:assert/strict'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
-const rootPath = fileURLToPath(new URL('../../../../packages/editor/', import.meta.url))
+const rootPath = fileURLToPath(new URL('../../../../packages/editor', import.meta.url))
 const requireEditor = createRequire(
   new URL('../../../../packages/editor/package.json', import.meta.url),
 )

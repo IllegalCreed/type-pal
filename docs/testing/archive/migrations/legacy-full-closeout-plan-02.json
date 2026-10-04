@@ -26,7 +26,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-coverage-wave2-coverage.config.mts"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/config.mjs:1-1"
@@ -78,11 +80,15 @@
         "bodyLines": 69,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-coverage-wave2-coverage.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:fs", "node:os", "node:path", "vitest/config"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-coverage-wave2-coverage.config.mts"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-coverage-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -119,7 +125,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-coverage-wave2-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/reforge/src/__tests__/coverage-wave2/b-trial-catalog.ts:1-1"
@@ -171,7 +179,7 @@
         "bodyLines": 372,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-coverage-wave2-mutants.mjs"],
+      "supersedes": ["docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs"],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -185,7 +193,9 @@
           "node:util"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-coverage-wave2-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -223,7 +233,9 @@
       "bodyLines": 189,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-editor-logic-coverage-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -266,7 +278,9 @@
         "bodyLines": 189,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-editor-logic-coverage-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -278,7 +292,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-editor-logic-coverage-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -323,7 +339,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-editor-logic-coverage.config.mts"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-config.mts"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/config.mjs:1-1"
@@ -375,11 +393,15 @@
         "bodyLines": 39,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-editor-logic-coverage.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:url", "../../scripts/coverage/config.mjs"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-editor-logic-coverage.config.mts"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/editor-logic-coverage-config.mts"
+        ],
         "temporaryTrees": "none observed in source text",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -407,7 +429,9 @@
       "bodyLines": 395,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-editor-map-data-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -450,7 +474,9 @@
         "bodyLines": 395,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-editor-map-data-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -463,7 +489,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-editor-map-data-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -561,11 +589,15 @@
         "bodyLines": 46,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-editor-map-data.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/editor-map-data-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-editor-map-data.config.mts"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -593,7 +625,9 @@
       "bodyLines": 385,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-editor-script-helpers-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -636,7 +670,9 @@
         "bodyLines": 385,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-editor-script-helpers-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -649,7 +685,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-editor-script-helpers-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -747,11 +785,15 @@
         "bodyLines": 46,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-editor-script-helpers.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-editor-script-helpers.config.mts"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/editor-script-helpers-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -779,7 +821,9 @@
       "bodyLines": 260,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-foundation-coverage-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -822,7 +866,9 @@
         "bodyLines": 260,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-foundation-coverage-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -834,7 +880,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-foundation-coverage-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -879,7 +927,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-foundation-coverage.config.mts"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/config.mjs:1-1"
@@ -931,11 +981,15 @@
         "bodyLines": 44,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-foundation-coverage.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:url", "../../scripts/coverage/config.mjs"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-foundation-coverage.config.mts"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-config.mts"
+        ],
         "temporaryTrees": "none observed in source text",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -963,7 +1017,9 @@
       "bodyLines": 397,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-game-host-boundaries-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -1006,7 +1062,9 @@
         "bodyLines": 397,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-game-host-boundaries-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -1019,7 +1077,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-game-host-boundaries-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1117,11 +1177,15 @@
         "bodyLines": 48,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-game-host-boundaries.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/ops/testing-records/tools/game-host-boundaries-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-game-host-boundaries.config.mts"],
+        "runner": [
+          "node docs/testing/domains/ops/testing-records/tools/game-host-boundaries-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1149,7 +1213,9 @@
       "bodyLines": 395,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-game-menu-boundaries-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -1192,7 +1258,9 @@
         "bodyLines": 395,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-game-menu-boundaries-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -1205,7 +1273,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-game-menu-boundaries-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1303,11 +1373,15 @@
         "bodyLines": 49,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-game-menu-boundaries.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-game-menu-boundaries.config.mts"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/game-menu-boundaries-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1335,7 +1409,9 @@
       "bodyLines": 371,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-import-codec-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -1378,7 +1454,9 @@
         "bodyLines": 371,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-import-codec-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -1391,7 +1469,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-import-codec-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/import-codec-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1489,11 +1569,15 @@
         "bodyLines": 46,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-import-codec.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/import-codec-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-import-codec.config.mts"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/import-codec-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1521,7 +1605,9 @@
       "bodyLines": 402,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-migration-boundaries-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -1564,7 +1650,9 @@
         "bodyLines": 402,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-migration-boundaries-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -1577,7 +1665,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-migration-boundaries-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -1675,11 +1765,15 @@
         "bodyLines": 47,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-migration-boundaries.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-migration-boundaries.config.mts"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/migration-boundaries-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -2267,8 +2361,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/glm-nine-intake-witnesses.mjs [--census-only]"],
-      "publicCallers": ["node docs/testing/glm-nine-intake-witnesses.mjs [--census-only]"],
+      "publicCommands": [
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs [--census-only]"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs [--census-only]"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/reforge/src/audio/sfx-readiness.collections.test.ts:1-1",
@@ -2878,7 +2976,7 @@
         "bodyLines": 533,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-nine-intake-witnesses.mjs"],
+      "supersedes": ["docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs"],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -2890,7 +2988,9 @@
           "node:path"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-nine-intake-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/testing-records/tools/nine-intake-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp", "finally{"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -2982,8 +3082,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node --import tsx docs/testing/glm-nine-rework-witnesses.mjs"],
-      "publicCallers": ["node --import tsx docs/testing/glm-nine-rework-witnesses.mjs"],
+      "publicCommands": [
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs"
+      ],
+      "publicCallers": [
+        "node --import tsx docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/editor/src/core/image-import.stages.test.ts:1-1",
@@ -3089,7 +3193,7 @@
         "bodyLines": 300,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-nine-rework-witnesses.mjs"],
+      "supersedes": ["docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs"],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -3103,7 +3207,9 @@
           "node:zlib"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-nine-rework-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/testing-records/tools/nine-rework-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3141,7 +3247,9 @@
       "bodyLines": 364,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-pal-tables-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -3184,7 +3292,7 @@
         "bodyLines": 364,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-pal-tables-mutants.mjs"],
+      "supersedes": ["docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs"],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -3197,7 +3305,7 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-pal-tables-mutants.mjs"],
+        "runner": ["node docs/testing/domains/ops/testing-records/tools/pal-tables-mutants.mjs"],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3295,11 +3403,11 @@
         "bodyLines": 48,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-pal-tables.config.mts"],
+      "supersedes": ["docs/testing/domains/ops/testing-records/tools/pal-tables-config.mts"],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-pal-tables.config.mts"],
+        "runner": ["node docs/testing/domains/ops/testing-records/tools/pal-tables-config.mts"],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3327,7 +3435,9 @@
       "bodyLines": 380,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-reforge-asset-io-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -3370,7 +3480,9 @@
         "bodyLines": 380,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-reforge-asset-io-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -3383,7 +3495,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-reforge-asset-io-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3481,11 +3595,15 @@
         "bodyLines": 45,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-reforge-asset-io.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-reforge-asset-io.config.mts"],
+        "runner": [
+          "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-asset-io-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3513,7 +3631,9 @@
       "bodyLines": 342,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-reforge-runtime-contracts-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -3556,7 +3676,9 @@
         "bodyLines": 342,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-reforge-runtime-contracts-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -3569,7 +3691,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-reforge-runtime-contracts-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp", "dispose"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3667,11 +3791,15 @@
         "bodyLines": 59,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-reforge-runtime-contracts.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-reforge-runtime-contracts.config.mts"],
+        "runner": [
+          "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3699,7 +3827,9 @@
       "bodyLines": 392,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-resource-tools-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -3742,7 +3872,9 @@
         "bodyLines": 392,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-resource-tools-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -3755,7 +3887,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-resource-tools-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3853,11 +3987,15 @@
         "bodyLines": 52,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-resource-tools.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/resource-tools-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-resource-tools.config.mts"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/resource-tools-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3885,7 +4023,9 @@
       "bodyLines": 389,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-runtime-state-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -3928,7 +4068,9 @@
         "bodyLines": 389,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-runtime-state-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -3941,7 +4083,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-runtime-state-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -3987,7 +4131,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/glm-runtime-state.config.mts"],
+      "publicCallers": [
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/config.mjs:1-1"
@@ -4039,11 +4185,15 @@
         "bodyLines": 57,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/glm-runtime-state.config.mts"],
+      "supersedes": [
+        "docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts"
+      ],
       "toolAudit": {
         "imports": ["node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/glm-runtime-state.config.mts"],
+        "runner": [
+          "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4071,7 +4221,9 @@
       "bodyLines": 132,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/grok-arch-ds-overflow-mutant.mjs"],
+      "publicCallers": [
+        "node docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -4114,7 +4266,7 @@
         "bodyLines": 132,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/grok-arch-ds-overflow-mutant.mjs"],
+      "supersedes": ["docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs"],
       "toolAudit": {
         "imports": [
           "node:child_process",
@@ -4125,7 +4277,7 @@
           "../vite.config.ts"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/grok-arch-ds-overflow-mutant.mjs"],
+        "runner": ["node docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs"],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp", "finally {", "rmSync"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4169,7 +4321,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/guard-leaf-review-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/environment.mjs:1-1"
@@ -4221,7 +4375,9 @@
         "bodyLines": 273,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/guard-leaf-review-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4235,7 +4391,9 @@
           "../../scripts/coverage/environment.mjs"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/guard-leaf-review-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/guard-leaf-review-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4273,7 +4431,9 @@
       "bodyLines": 41,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/guard-wave3-final-review-witness.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -4316,7 +4476,9 @@
         "bodyLines": 41,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/guard-wave3-final-review-witness.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4327,7 +4489,9 @@
           "node:url"
         ],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/guard-wave3-final-review-witness.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-final-review-witness.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4362,7 +4526,9 @@
       "bodyLines": 78,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/guard-wave3-r3-review-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -4405,7 +4571,9 @@
         "bodyLines": 78,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/guard-wave3-r3-review-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4416,7 +4584,9 @@
           "node:url"
         ],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/guard-wave3-r3-review-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-r3-review-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4451,7 +4621,9 @@
       "bodyLines": 151,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/guard-wave3-review-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -4494,7 +4666,9 @@
         "bodyLines": 151,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/guard-wave3-review-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4506,7 +4680,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/guard-wave3-review-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4542,7 +4718,9 @@
       "bodyLines": 40,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/guard-wave3-review.config.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-config.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -4585,7 +4763,9 @@
         "bodyLines": 40,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/guard-wave3-review.config.mjs"],
+      "supersedes": [
+        "docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-config.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4594,7 +4774,9 @@
           "./guard-wave3-review-witnesses.mjs"
         ],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/guard-wave3-review.config.mjs"],
+        "runner": [
+          "node docs/testing/domains/quality/quality-gates/tools/guard-wave3-review-config.mjs"
+        ],
         "temporaryTrees": "none observed in source text",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4652,10 +4834,10 @@
         }
       ],
       "publicCommands": [
-        "node docs/testing/import-codec-png-host-review.mjs <candidate absolute worktree>"
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <candidate absolute worktree>"
       ],
       "publicCallers": [
-        "node docs/testing/import-codec-png-host-review.mjs <candidate absolute worktree>"
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs <candidate absolute worktree>"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
@@ -4726,7 +4908,9 @@
         "bodyLines": 122,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/import-codec-png-host-review.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4738,7 +4922,9 @@
           "node:path"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/import-codec-png-host-review.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/supply-and-import/tools/import-codec-png-host-review.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4799,7 +4985,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/import-codec-preview-review.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/editor/src/core/image-import.stages.test.ts:1-1",
@@ -4869,7 +5057,9 @@
         "bodyLines": 181,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/import-codec-preview-review.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -4881,7 +5071,9 @@
           "node:path"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/import-codec-preview-review.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/supply-and-import/tools/import-codec-preview-review.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -4925,8 +5117,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/item-authoring-functional.mjs → http://localhost:6013"],
-      "publicCallers": ["node docs/testing/item-authoring-functional.mjs → http://localhost:6013"],
+      "publicCommands": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-functional.mjs → http://localhost:6013"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-functional.mjs → http://localhost:6013"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/editor/vite.config.ts:1-1"
@@ -4978,11 +5174,15 @@
         "bodyLines": 83,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-authoring-functional.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/item-authoring-functional.mjs"
+      ],
       "toolAudit": {
         "imports": ["node:module", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-authoring-functional.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-functional.mjs"
+        ],
         "temporaryTrees": "none observed in source text",
         "cleanup": ["finally {"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5009,8 +5209,12 @@
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 137,
       "sourceRefs": [],
-      "publicCommands": ["node docs/testing/item-authoring-mutants.mjs"],
-      "publicCallers": ["node docs/testing/item-authoring-mutants.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-mutants.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -5053,7 +5257,9 @@
         "bodyLines": 137,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-authoring-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/item-authoring-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5065,7 +5271,9 @@
           "node:url"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-authoring-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp", "finally {"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5109,8 +5317,12 @@
           "role": "source-inventory"
         }
       ],
-      "publicCommands": ["node docs/testing/item-authoring-premise.mjs"],
-      "publicCallers": ["node docs/testing/item-authoring-premise.mjs"],
+      "publicCommands": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-premise.mjs"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-premise.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/reforge/src/main.ts:1-1"
@@ -5162,7 +5374,9 @@
         "bodyLines": 286,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-authoring-premise.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/item-authoring-premise.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5173,7 +5387,9 @@
           "typescript"
         ],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-authoring-premise.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/item-authoring-premise.mjs"
+        ],
         "temporaryTrees": "none observed in source text",
         "cleanup": ["finally {"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5208,7 +5424,9 @@
       "bodyLines": 25,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/item-logic-r2-review-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-logic-r2-review-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -5251,7 +5469,9 @@
         "bodyLines": 25,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-logic-r2-review-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/item-logic-r2-review-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5262,7 +5482,9 @@
           "node:url"
         ],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-logic-r2-review-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/item-logic-r2-review-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5297,7 +5519,9 @@
       "bodyLines": 55,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/item-logic-r3-residual-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-logic-r3-residual-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -5340,7 +5564,9 @@
         "bodyLines": 55,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-logic-r3-residual-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/item-logic-r3-residual-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5351,7 +5577,9 @@
           "node:url"
         ],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-logic-r3-residual-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/item-logic-r3-residual-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5386,7 +5614,9 @@
       "bodyLines": 52,
       "sourceRefs": [],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/item-logic-required-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "the archived source record itself"
@@ -5429,11 +5659,15 @@
         "bodyLines": 52,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-logic-required-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": ["node:assert/strict", "node:child_process", "node:fs", "node:path", "node:url"],
         "cwd": ["runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-logic-required-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/item-logic-required-witnesses.mjs"
+        ],
         "temporaryTrees": "none observed in source text",
         "cleanup": ["no cleanup signal observed; retain until manually verified"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5484,7 +5718,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/item-logic-review-witnesses.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "packages/content/src/item.ts:1-1",
@@ -5545,7 +5781,9 @@
         "bodyLines": 178,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/item-logic-review-witnesses.mjs"],
+      "supersedes": [
+        "docs/testing/domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5556,7 +5794,9 @@
           "node:path"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/item-logic-review-witnesses.mjs"],
+        "runner": [
+          "node docs/testing/domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5608,7 +5848,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/map-pointer-gesture-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/authoring-and-runtime/tools/map-pointer-gesture-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/environment.mjs:1-1",
@@ -5669,7 +5911,9 @@
         "bodyLines": 232,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/map-pointer-gesture-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/authoring-and-runtime/tools/map-pointer-gesture-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5683,7 +5927,9 @@
           "../../scripts/coverage/environment.mjs"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/map-pointer-gesture-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/authoring-and-runtime/tools/map-pointer-gesture-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5754,7 +6000,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/map-workspace-sessions-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/authoring-and-runtime/tools/map-workspace-sessions-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/environment.mjs:1-1",
@@ -5833,7 +6081,9 @@
         "bodyLines": 309,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/map-workspace-sessions-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/authoring-and-runtime/tools/map-workspace-sessions-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -5847,7 +6097,9 @@
           "../../scripts/coverage/environment.mjs"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/map-workspace-sessions-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/authoring-and-runtime/tools/map-workspace-sessions-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp", "cleanup"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -5926,7 +6178,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/menu-session-parity.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/environment.mjs:1-1",
@@ -6014,7 +6268,7 @@
         "bodyLines": 194,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/menu-session-parity.mjs"],
+      "supersedes": ["docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs"],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -6029,7 +6283,9 @@
           "../../scripts/coverage/environment.mjs"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/menu-session-parity.mjs"],
+        "runner": [
+          "node docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -6085,7 +6341,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/menu-session-refactor-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/environment.mjs:1-1",
@@ -6146,7 +6404,9 @@
         "bodyLines": 271,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/menu-session-refactor-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -6160,7 +6420,9 @@
           "../../scripts/coverage/environment.mjs"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/menu-session-refactor-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"
@@ -6207,7 +6469,9 @@
         }
       ],
       "publicCommands": [],
-      "publicCallers": ["node docs/testing/migration-phase-owners-mutants.mjs"],
+      "publicCallers": [
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-phase-owners-mutants.mjs"
+      ],
       "legalInputs": [
         "current repository checkout at the recorded revision",
         "scripts/coverage/environment.mjs:1-1"
@@ -6259,7 +6523,9 @@
         "bodyLines": 255,
         "claims": ["historical source inventory and disposition only"]
       },
-      "supersedes": ["docs/testing/migration-phase-owners-mutants.mjs"],
+      "supersedes": [
+        "docs/testing/domains/migration/supply-and-import/tools/migration-phase-owners-mutants.mjs"
+      ],
       "toolAudit": {
         "imports": [
           "node:assert/strict",
@@ -6273,7 +6539,9 @@
           "../../scripts/coverage/environment.mjs"
         ],
         "cwd": ["child-process cwd option observed", "runner cwd must be repository root"],
-        "runner": ["node docs/testing/migration-phase-owners-mutants.mjs"],
+        "runner": [
+          "node docs/testing/domains/migration/supply-and-import/tools/migration-phase-owners-mutants.mjs"
+        ],
         "temporaryTrees": "temporary tree signal observed; verify isolation before moving",
         "cleanup": ["mkdtemp"],
         "stopLine": "do not move until cwd, imports, temporary tree, cleanup, and public runner are independently verified"

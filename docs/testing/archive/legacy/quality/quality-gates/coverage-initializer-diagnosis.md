@@ -6,7 +6,7 @@
 2026-09-23实施附注：r1三席已准入build；旧最小probe和默认capture/`--replay`针对**未装patch**的
 准备树2fcf57d7，不应在已安装修复的依赖树上冒充修复验收。实际安装回归是
 `node --test scripts/coverage/merge-initializers.test.mjs`；修后旧1378正式范围捕获用
-`node docs/testing/coverage-initializer-capture.mjs --installed`（在bb0e3c3e的7790冻结树运行；最终7826树会
+`node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs --installed`（在bb0e3c3e的7790冻结树运行；最终7826树会
 按冻结检查拒绝，不能把新增宿主混进“旧1378”）。本节原始诊断数字保持历史。
 
 ## 结论
@@ -29,10 +29,10 @@ Node22.19.0的V8会给同一个类的`<static_initializer>`和`<instance_members
 ## 最小复现与源码锚点
 
 ```bash
-node docs/testing/coverage-initializer-probe.mjs
+node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-probe.mjs
 ```
 
-[工具](../../../../coverage-initializer-probe.mjs)直接开启`Profiler.startPreciseCoverage`，运行临时ES module，
+[工具](../../../../domains/quality/quality-gates/tools/coverage-initializer-probe.mjs)直接开启`Profiler.startPreciseCoverage`，运行临时ES module，
 读取原生副作用计数与原始函数range。三种类（静态+实例/仅静态/仅实例）×四种操作
 （仅导入/仅构造/合法调用/抛错调用）共12组，各用两个独立进程采样，12组全部通过诊断断言。
 `reported`数组依次为原始样本1、原始样本2、正式合并器、内存单点修订。
@@ -57,12 +57,12 @@ node docs/testing/coverage-initializer-probe.mjs
 
 ```bash
 # 约一次Reforge旧fast；报告只到新临时目录，不占官方coverage目录。
-node docs/testing/coverage-initializer-capture.mjs
+node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs
 # 之后可用上一命令打印的输出目录反复离线复算，无需重跑测试。
-node docs/testing/coverage-initializer-capture.mjs --replay <原始输出目录>
+node docs/testing/domains/quality/quality-gates/tools/coverage-initializer-capture.mjs --replay <原始输出目录>
 ```
 
-[捕获工具](../../../../coverage-initializer-capture.mjs)使用7790基线记录的Reforge旧1378精确文件集合、官方生产范围/排除，
+[捕获工具](../../../../domains/quality/quality-gates/tools/coverage-initializer-capture.mjs)使用7790基线记录的Reforge旧1378精确文件集合、官方生产范围/排除，
 包装provider仅旁存raw及remap输入，原方法仍被调用。全1378通过；未修正式报告四维分母/分子逐项等于
 现有官方Reforge基线。分别保存ssr/client两套输入，不把不同transform数据错拼。
 

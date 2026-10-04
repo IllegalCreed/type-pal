@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import ts from 'typescript'
 
-const root = new URL('../../../../', import.meta.url)
+const root = new URL('../../../..', import.meta.url)
 const req = createRequire(new URL('packages/editor/package.json', root))
 const { createServer } = await import(req.resolve('vite'))
 assert.equal(typeof globalThis.indexedDB, 'undefined')

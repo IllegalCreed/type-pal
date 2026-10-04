@@ -4,8 +4,8 @@
 2026-09-26 Codex 独立实现接收 **accept**；统一质量门全部通过，核定 **done**。
 [任务卡](../../../../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) /
 [原counter](cursor-command-boundaries-r3-review.md) /
-[作者回执](../../../../cursor-command-boundaries-r3/receipt.md) /
-[独立隔离见证](../../../../parallel-guard-command-r2-review-witnesses.mjs)。
+[作者回执](../../batches/cursor-command-boundaries-r3/receipt.md) /
+[独立隔离见证](../../../../domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs)。
 
 ## 逐项裁决
 
@@ -25,7 +25,7 @@
 全套独立复跑命令（只改内存加载，不修改候选）：
 
 ```sh
-env -u NODE_COMPILE_CACHE node docs/testing/parallel-guard-command-r2-review-witnesses.mjs cursor /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3
+env -u NODE_COMPILE_CACHE node docs/testing/domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs cursor /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3
 ```
 
 ## 集成边界

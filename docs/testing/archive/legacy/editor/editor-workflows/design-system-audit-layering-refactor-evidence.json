@@ -99,7 +99,7 @@
     }
   },
   "negativeControls": {
-    "tool": "docs/testing/design-system-audit-layering-mutants.mjs",
+    "tool": "docs/testing/domains/editor/editor-workflows/tools/design-system-audit-layering-mutants.mjs",
     "controls": 10,
     "detected": 6,
     "evidence": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-design-audit-layering-mutants-3vS4vw/summary.json",

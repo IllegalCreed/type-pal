@@ -17,7 +17,7 @@ const require = createRequire(runtime)
 const { chromium } = require('playwright')
 const out = mkdtempSync(join(tmpdir(), 'type-pal-save-measure-'))
 console.log('EVIDENCE_DIRECTORY', out)
-const repoRoot = fileURLToPath(new URL('../../../../', import.meta.url))
+const repoRoot = fileURLToPath(new URL('../../../..', import.meta.url))
 const mode = process.argv[2] ?? 'current'
 if (!/^[a-z0-9-]+$/.test(mode))
   throw new Error('Measurement label must contain only lowercase letters, digits, hyphens')

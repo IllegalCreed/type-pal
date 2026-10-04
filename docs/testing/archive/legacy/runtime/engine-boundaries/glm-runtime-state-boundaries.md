@@ -46,7 +46,7 @@ packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts
 ```
 
 另允许两包各一个薄fixture：`src/__tests__/glm-state-boundary-fixtures.ts`；
-`docs/testing/glm-runtime-state-mutants.mjs`、`glm-runtime-state.config.mts`、`glm-runtime-state-evidence.json`；
+`docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs`、`glm-runtime-state.config.mts`、`glm-runtime-state-evidence.json`；
 本工作包GLM回执、本人卡签字/日志及必要索引登记。开始前确认路径未占用，不覆盖同名成果。
 独立worktree建议`/Users/zhangxu/illegal/type-pal-glm-runtime-state`，分支`codex/glm-runtime-state-boundaries-r1`。
 不在主worktree切分支，不恢复stash，不提交gitignored资产。
@@ -234,16 +234,16 @@ Biome 逐行 suppression/导入修复，全部计数从最终树 Vitest JSON 重
 
 ### 负控与覆盖（最终树复跑）
 
-- 负控 `node docs/testing/glm-runtime-state-mutants.mjs` rc=0：判据 AST 自测（good 通过/混合坏日志拒绝）+ 6 对照 exit0 + **16 变异针** exit1（六组各 ≥2，A4/C2/E2/F2）；每针 MUTATION_HIT + AssertionError + 钉名新增测试实际 failed（Vitest JSON 执行见证）；被触产品文件批前后 sha256 不变。
-- Codex 六见证复跑：`node docs/testing/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state`
+- 负控 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs` rc=0：判据 AST 自测（good 通过/混合坏日志拒绝）+ 6 对照 exit0 + **16 变异针** exit1（六组各 ≥2，A4/C2/E2/F2）；每针 MUTATION_HIT + AssertionError + 钉名新增测试实际 failed（Vitest JSON 执行见证）；被触产品文件批前后 sha256 不变。
+- Codex 六见证复跑：`node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state`
   rc=0——六对照绿；compiler-after-loss / frame-await-cancel-bypass / invalidate-keeps-old-container /
   lru-hit-does-not-touch / expired-action-replays-cues / magic-confirm-mutates-world 六针全部
   **detected**，且 candidateFailures 列出的是返工后新增断言的精确标题（候选自己的业务红，非仅 oracle 红）；
   fixture 四检查（author-scene/runtime-scene/author-items/runtime-library）全 accepted。
 - 覆盖对照（可复制；config 物理绝对路径；SB1_PKG 分包）：
   ```bash
-  SB1_PKG=reforge SB1_MODE=before SB1_OUT=/tmp/sb1-cov-reforge-before pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts
-  SB1_PKG=reforge SB1_MODE=after  SB1_OUT=/tmp/sb1-cov-reforge-after  pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/glm-runtime-state.config.mts
+  SB1_PKG=reforge SB1_MODE=before SB1_OUT=/tmp/sb1-cov-reforge-before pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts
+  SB1_PKG=reforge SB1_MODE=after  SB1_OUT=/tmp/sb1-cov-reforge-after  pnpm --filter @type-pal/reforge exec vitest run --coverage --maxWorkers 1 --passWithNoTests --config /Users/zhangxu/illegal/type-pal-glm-runtime-state/docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-config.mts
   # content 同法（SB1_PKG=content）
   ```
   11 模块局部（最终树）：content 行 79→91/93、分支 83→101/106；reforge 行 497→533/564、分支 392→444/533。

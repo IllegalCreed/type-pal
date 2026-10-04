@@ -6,7 +6,7 @@
 
 - 候选分支/远端 tip 一致、工作树干净；`b403efd3..33df9378` 仅改实验目录内 README、typecheck 配置、receipt、results、verify，产品/scripts 零 diff。
 - 新鲜执行 `/tmp/codex-glm-r6-candidates.json`：9 文件 32/32 绿；`verify.mjs` 对该 JSON 报 39 条、32 passed、PASS；`red-control.mjs` detected（exit1、一项执行/失败、AssertionError、产品 hash 不变）；六张既有截图重新计算完整 SHA 6/6 精确匹配。`node scripts/docs/check.mjs`、实验目录 Biome、diff 检查通过。本席将 red-control 产生的 `.tmp-red-*` 移出工作树至 `/tmp`，未改候选文件。
-- **独立类型门失败**：`pnpm exec tsc --project docs/testing/glm-architecture-regression-lab/configs/tsconfig.json --noEmit` exit2，`tsconfig.json:15` 的 `baseUrl` 在仓库 TypeScript 6 下报 TS5101（须消除或按本仓政策处理弃用，不靠跳过类型门）。故“所有门通过”不成立。
+- **独立类型门失败**：`pnpm exec tsc --project docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/tsconfig.json --noEmit` exit2，`tsconfig.json:15` 的 `baseUrl` 在仓库 TypeScript 6 下报 TS5101（须消除或按本仓政策处理弃用，不靠跳过类型门）。故“所有门通过”不成立。
 - `results.json` 的 G04-04 `fullName` 现指向真实同名测试，消除了五轮的标题重复；但该测试 `g04-script-draft.test.tsx:113-125` 仍只数两行，没有提交旧草稿验证“不写回新对象”。`receipt.md:16,20,37,45,53` 仍写 G04 三项、G08 四项、V04 因已撤回的故障受阻及旧 verify SHA 命令；`results.json:808` 仍写“36 项”。`verify.mjs` 仍把主线合入后的白名单差异降成 INFO，不核命令/cwd/exit及候选执行总数的硬一致性；机械 PASS 仅为当前有限核验器的结果。
 
 ## 十二组裁决（相对三轮/五轮没有测试变更）

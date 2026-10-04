@@ -15,7 +15,7 @@ Cursor是实现贡献者，其自验不是独立审查；以下为Codex实跑/�
 - R2：C1正式seed→loader→toEditorState，实际输入独立快照、顺序/返回状态断言通过；2/2及TC0。
 - R3：回执归入专属receipt.md，内部及任务链接正确，docs/diff通过；旧紧凑摘要是历史实跑，不冒称本轮新输出。
 
-首轮反证与事实见[审查](cursor-commands-wave2-review.md)；[独立工具](../../../../cursor-commands-wave2-audit.mjs)
+首轮反证与事实见[审查](cursor-commands-wave2-review.md)；[独立工具](../../../../domains/editor/editor-workflows/tools/commands-wave2-audit.mjs)
 补加载r2新增的实际判据helper，没有另写一个更强谓词代替作者函数。已过产品搬移不重做。
 
 ## 验证

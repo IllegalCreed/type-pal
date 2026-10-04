@@ -48,8 +48,8 @@ packages/content/src/author-dialogue.field-guards.test.ts
 packages/content/src/map-index.residual.test.ts
 packages/content/src/validate-refs.data-refs.test.ts
 packages/content/src/__tests__/glm-content-residual-fixtures.ts
-docs/testing/glm-content-residual-mutants.mjs
-docs/testing/glm-content-residual.config.mts
+docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs
+docs/testing/domains/content/authoring-and-runtime/tools/content-residual-config.mts
 docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual-evidence.json
 ```
 
@@ -100,7 +100,7 @@ fixture复用上包薄数据风格，但独立新文件，不改共享fixture。
 
 ### 负控与覆盖（最终树复跑）
 
-- 负控 `node docs/testing/glm-content-residual-mutants.mjs` rc=0：判据 AST 自测 + 1 对照 +
+- 负控 `node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs` rc=0：判据 AST 自测 + 1 对照 +
   **13 变异针**（每族 ≥1）全部钉名新增测试 failed 的 AssertionError 业务红；产品 hash 不变。
 - 覆盖对照（官方 testSelection，/tmp 专属）：asset L+8/B+19、frame-sequence L+16/B+24、
   author-dialogue L+5/B+13、map-index L+1/B+5、validate-refs L+3/B+3、actor-reference 不变（A3 已有）；

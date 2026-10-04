@@ -43,7 +43,7 @@ Branch: `codex/cursor-command-boundaries-r3`
 ## 白名单与交付
 
 - 最多八份上述新`.residual.test.ts`；可新增`src/core/__tests__/cursor-command-boundary-fixtures.ts`。
-- 专属证据`docs/testing/cursor-command-boundaries-r3/**`：README、receipt、evidence、4–6针代表单点负控工具。
+- 专属证据`docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/**`：README、receipt、evidence、4–6针代表单点负控工具。
   可以按组连续提交，但整包交付；预计数十项，不保底/不追数量，已有证明可减少文件/用例。
 - 不动产品、旧测试、全局配置、官方baseline、其它任务卡/看板/共享README；本卡只追加本人交付块。
   目录链接已预注册。发现现行产品缺陷：单列最小红诊断，由Codex决定修复，不把错误改成绿预期。
@@ -93,12 +93,12 @@ Codex在449adb54主线串行全仓check9602→ratchet9110→单次受保护stric
 - 生产冻结 `7cac1d72ac0b8a44521a353cc87dbe1d18d65fa5`；准入 `7d64de139643a7aa890b3a9434b8bfb720050f44`
 - 7 份 residual + fixture；C8 无新文件，登记既有 asset-label 三证明
 - 残项 JSON 7 files / 29 tests；5 针 ok+hit、`redExit=1`、`hashUnchanged`
-- 回执 [receipt.md](../../../../testing/cursor-command-boundaries-r3/receipt.md)
+- 回执 [receipt.md](../../../../testing/archive/legacy/batches/cursor-command-boundaries-r3/receipt.md)
 
 ```bash
 cd /Users/zhangxu/illegal/type-pal-cursor-command-boundaries-r3
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-command-boundaries-r3/module-mutants.mjs --self-test
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-command-boundaries-r3/module-mutants.mjs
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/module-mutants.mjs
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
 ```

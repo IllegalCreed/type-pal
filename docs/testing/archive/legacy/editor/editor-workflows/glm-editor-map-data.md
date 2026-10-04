@@ -69,8 +69,8 @@ packages/editor/src/core/stamp-placement-mutation.boundaries.test.ts
 packages/editor/src/core/stamp-group-transform.boundaries.test.ts
 packages/editor/src/core/stamp-template.boundaries.test.ts
 packages/editor/src/core/__tests__/glm-tb06-fixtures.ts
-docs/testing/glm-editor-map-data-mutants.mjs
-docs/testing/glm-editor-map-data.config.mts
+docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs
+docs/testing/domains/editor/editor-workflows/tools/editor-map-data-config.mts
 docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json
 ```
 
@@ -94,7 +94,7 @@ r1 完成（2026-09-19，GLM，Coding Owner；基点 41cc7cd9，三席 r1 签字
 定向 18/18 绿；editor 全包 248 文件/2536 项中 2 项预存 world-sprite PAL ENOENT 与基线相同；
 官方 fast 口径 2359→2377 双 exit0；tc rc=0；8 新文件 Biome rc=0。
 
-- 负控 `node docs/testing/glm-editor-map-data-mutants.mjs` rc=0：判据自测 + 3 对照 +
+- 负控 `node docs/testing/domains/editor/editor-workflows/tools/editor-map-data-mutants.mjs` rc=0：判据自测 + 3 对照 +
   **8 变异针**全部钉名新增测试 failed 且目标自身 failureMessages 首行 AssertionError；
   产品 hash 不变。针点：全选隐藏层门、paste collision 冲突判定、patch collision 重复门、
   draft 层空值门、模板 id 归一、placement 锁层门、group capture 去重、模板 category。

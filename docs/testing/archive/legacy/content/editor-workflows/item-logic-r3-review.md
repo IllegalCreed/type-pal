@@ -25,7 +25,7 @@
 | external:66-85只比三个新增字段/库存，没比完整world | item:1187消费前把clone的party[0].hp改为0 | 6/6仍绿 | 原实现7绿；变异6绿/1 AssertionError，83被清成0 |
 
 现行`rewards.ts:51-60`一层成长恰调用6次rng；这是读取当前实现/原要求的回归，不新增概率政策。
-见[残项见证](../../../../item-logic-r3-residual-witnesses.mjs)：复用原工具的唯一加载锚、hash守卫、正控和业务红判据。
+见[残项见证](../../../../domains/editor/editor-workflows/tools/item-logic-r3-residual-witnesses.mjs)：复用原工具的唯一加载锚、hash守卫、正控和业务红判据。
 修订只需在现有用例记录实际rng计数，并用输入的独立深克隆只改预期库存后比较**完整**outcome.world。
 不重写已正确的八项数值、不新加业务矩阵。
 
@@ -40,7 +40,7 @@
 - 原R3要求的其它items/actor/world等真实数据实参仍应逐次核对，不可用“六文件全保护”概括部分调用。
   本轮没有要求扩测试业务域；removeOwnedItems的原地合同继续保持。
 
-两原反证复用[原六针工具](../../../../item-logic-r2-review-witnesses.mjs)，未改变异/判据；共24跑，所有正控绿。
+两原反证复用[原六针工具](../../../../domains/editor/editor-workflows/tools/item-logic-r2-review-witnesses.mjs)，未改变异/判据；共24跑，所有正控绿。
 本轮四条漏检（两原针+两R2残项针）均有原实现绿/变异业务红的独立oracle，非超时/环境红。
 
 ## R4：本批2条硬质量错误，正文/机账仍有已点名的不符

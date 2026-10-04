@@ -125,7 +125,7 @@ r2a三席已齐，人数阻塞已解除：我方1～3人，第四人拒绝，敌
 - 配置守卫与界面共用3人上限；定向配置30项、库/保存24项通过。
 - 合法自有工程经正式loader校验；实际BattleSession工厂供浏览器宿主与集成测试共用。
   工作流14项、真实施法/投掷/使用与正式结算3项、资源快照/取消5项、内存握手5项通过。
-- 6011端口运行实际编辑器+内存自有工程（`node docs/testing/battle-simulator-functional.mjs`），
+- 6011端口运行实际编辑器+内存自有工程（`node docs/testing/domains/runtime/battle/tools/battle-simulator-functional.mjs`），
   不写PAL、不影响主线6010。Codex已目视验证四目录入口/方案页、真实战斗、投掷药品胜利与经验4/金钱3结算，
   重新试打恢复MP20/背包3，停止/关闭可操作；编辑器保存按钮保持disabled。
   F5被拒绝且提示不存档；这仅是功能验证，不代替尚待补齐的所有SaveStore零IO回归。
@@ -256,7 +256,7 @@ r2a三席已齐，人数阻塞已解除：我方1～3人，第四人拒绝，敌
 完整fast测试选择（复用 `scripts/coverage/config.mjs` 的 `testSelection`，**不启用覆盖率/不写基线**）：
 editor 225文件/2397项，reforge 117文件/1219项，全绿。两包typecheck另跑；仅本卡改动文件执行Biome。
 
-负控制：[可重建脚本](../../../../battle-simulator-s1-mutants.mjs)，运行 `node docs/testing/battle-simulator-s1-mutants.mjs`。
+负控制：[可重建脚本](../../../../domains/editor/battle/tools/battle-simulator-s1-mutants.mjs)，运行 `node docs/testing/domains/editor/battle/tools/battle-simulator-s1-mutants.mjs`。
 四正控全绿、四个单点坏实现由精确新测试标题产生AssertionError；原产品文件SHA-256前后相同。
 
 | 控制点 | 唯一变更 | 真正被钉的业务失败 |

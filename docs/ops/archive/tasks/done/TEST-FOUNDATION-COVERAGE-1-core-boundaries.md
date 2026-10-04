@@ -227,7 +227,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
     实际选例不变；适配后在集成树上实测 before 314 / after 338 与原口径一致。该调整只动诊断配置，
     不动测试与产品，本人接受。
   - **集成树复跑（2026-09-17，main=2f0bc61b）**：定向 A27/B69/C19/D24=**139 全绿**；
-    `node docs/testing/glm-foundation-coverage-mutants.mjs` 在集成树上 **4 对照 exit0 + 14 针全部 exit1
+    `node docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs` 在集成树上 **4 对照 exit0 + 14 针全部 exit1
     业务红**（含 immutability 三轴）。Codex 统一门禁（check 7218、ratchet、BASE_REF=862733ba 单次严格
     fast 6730/617）由其席位记录，本人不重复整仓检查、不以自验替代其复核或 Kimi 终审。
   - 贡献披露：四组 139 项测试/3 fixture/负控脚本/诊断配置为 GLM 工作（Codex 三轮 counter 与集成/适配除外）；
@@ -250,7 +250,7 @@ pnpm --filter @type-pal/migrate exec vitest run --config vitest.config.ts --proj
     migration-plan 深快照三轴（`structuredClone` 逐值入新 Map + isDeepStrictEqual 三向比较）与
     删除门（可删除文件正控 deletes=['content/old.json']、冲突清空对照）；spells 两视图非空映射+
     截断拒绝。无类型-only/非空-only 断言。
-  - **14 负控本人复跑**：`docs/testing/glm-foundation-coverage-mutants.mjs` exit 0——
+  - **14 负控本人复跑**：`docs/testing/domains/quality/quality-gates/tools/foundation-coverage-mutants.mjs` exit 0——
     4 正常对照绿、14 针均 exit 1 业务红（含 plan-pollutes 三轴命中深快照断言、
     player-roles 装备/仙术截断、merge 同值、plan 删除门逃逸）；每针日志独立 SHA、源文件
     hash 前后不变；磁盘产品零改（运行后 git status 干净）。

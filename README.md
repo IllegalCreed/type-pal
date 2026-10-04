@@ -48,7 +48,7 @@ PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、�
 
 第一、第二阶段首轮代码审计见[审计总报告](docs/ops/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
 不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)
-和[零诊断质量门](docs/testing/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
+和[零诊断质量门](docs/testing/archive/legacy/batches/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
 双引擎 [001 开场 E2E](docs/testing/e2e/stages/001-opening/report.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
 这**不是**完整剧情通关、完整视觉/音轨验收或可直接用于宣传的录像链。
 

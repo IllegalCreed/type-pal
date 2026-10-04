@@ -1,0 +1,52 @@
+{
+  "id": "G09-D20",
+  "kind": "host",
+  "png": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D20.png",
+  "sha256": "5f1d538d4d0589b693641027249f62060a5b64e6e9483bebd46f735dcfc08d19",
+  "bytes": 309,
+  "width": 201,
+  "height": 3,
+  "dom": [
+    {
+      "label": "done",
+      "text": "后台缓存中…",
+      "width": "",
+      "flags": ["opacity:0"]
+    },
+    {
+      "label": "599ms",
+      "text": "后台缓存中…",
+      "width": "",
+      "flags": ["opacity:0"]
+    },
+    {
+      "label": "600ms",
+      "text": "",
+      "width": "",
+      "flags": ["absent"]
+    }
+  ],
+  "readback": [
+    {
+      "label": "done",
+      "text": "后台缓存中…",
+      "width": "",
+      "flags": ["opacity:0"],
+      "widthPercent": 0
+    },
+    {
+      "label": "599ms",
+      "text": "后台缓存中…",
+      "width": "",
+      "flags": ["opacity:0"],
+      "widthPercent": 0
+    },
+    {
+      "label": "600ms",
+      "text": "",
+      "width": "",
+      "flags": ["absent"],
+      "widthPercent": 0
+    }
+  ]
+}

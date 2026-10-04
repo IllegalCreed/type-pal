@@ -35,10 +35,10 @@ coverage 门；待原接收对话统一集成并执行 check/ratchet/strict。�
   2459 项通过，2 文件/7 项按既有条件 skip。第一次只连接 extracted 时，唯一五红均为 raw MKF 不存在的
   `ENOENT`；补齐五个明确 raw 链接后全绿。所有临时链接由 trap 解除，没有生成、修改或提交资产。
 - production build 157 modules 通过，只保留既有大 chunk 提示。
-- [玩家 opcode 六针](../../../../phase1-player-opcode-mutants.mjs)固定 HP 增量、单件装备原位换物、毒抗、升级成长、
+- [玩家 opcode 六针](../../../../domains/phase1-runtime/engine-boundaries/tools/phase1-player-opcode-mutants.mjs)固定 HP 增量、单件装备原位换物、毒抗、升级成长、
   battle-only 消费与法术去重；control 6/6，六针全检出。最终临时摘要：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-phase1-player-opcode-mutants-Tir7ID/summary.json`。
-- [主控九针](../../../../phase1-main-owners-mutants.mjs)固定资源引用、runner 优先/释放、999 状态阈值、战后分支、升级成长、
+- [主控九针](../../../../domains/phase1-runtime/engine-boundaries/tools/phase1-main-owners-mutants.mjs)固定资源引用、runner 优先/释放、999 状态阈值、战后分支、升级成长、
   启动 scene 采样、glyph 降级与 soundfont rejection；control 19/19，九针全检出。最终临时摘要：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-phase1-main-owners-mutants-h3Ek4a/summary.json`。
   两个 runner 均要求精确 absolute file/fullName、唯一 loader marker、恰一个 `AssertionError`、exit 1、无环境/

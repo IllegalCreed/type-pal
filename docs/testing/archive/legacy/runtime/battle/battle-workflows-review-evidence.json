@@ -221,7 +221,7 @@
     "sourceSetsAndDenominatorsEqual": true
   },
   "criterionUnknownSelector": {
-    "command": "node docs/testing/glm-battle-workflows-mutants.mjs does-not-exist",
+    "command": "node docs/testing/domains/runtime/battle/tools/battle-workflows-mutants.mjs does-not-exist",
     "exit": 0,
     "output": "BW1: 6 controls + 0 mutations passed",
     "directory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/bw1-mutants-o6iVRM"

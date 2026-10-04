@@ -6,23 +6,22 @@
 
 | 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
 |---|---|---|---|---|
-| [active-scene-mutants.mjs](../active-scene-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [codex-content-boundaries-mutants.mjs](../codex-content-boundaries-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [codex-content-boundaries.config.mjs](../codex-content-boundaries.config.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [content-contracts-review-witnesses.mjs](../content-contracts-review-witnesses.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [content-residual-review-witnesses.mjs](../content-residual-review-witnesses.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [content-validation-refactor-audit.mjs](../content-validation-refactor-audit.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-map-r2-plan-witnesses.mjs](../cursor-map-r2-plan-witnesses.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-map-r2-review-witnesses.mjs](../cursor-map-r2-review-witnesses.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-map-review-witnesses.mjs](../cursor-map-review-witnesses.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-content-contracts-mutants.mjs](../glm-content-contracts-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-content-contracts.config.mts](../glm-content-contracts.config.mts) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-content-residual-mutants.mjs](../glm-content-residual-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-content-residual.config.mts](../glm-content-residual.config.mts) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [scene-preparation-mutants.mjs](../scene-preparation-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [scene-reference-guard-visual.mjs](../scene-reference-guard-visual.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [world-async-commit-mutants.mjs](../world-async-commit-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [world-runtime-mutants.mjs](../world-runtime-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
+| [active-scene-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [codex-content-boundaries-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [codex-content-boundaries.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [content-contracts-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [content-residual-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [content-validation-refactor-audit.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [cursor-map-r2-plan-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [cursor-map-r2-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [cursor-map-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [glm-content-contracts-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [glm-content-contracts.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [glm-content-residual-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [glm-content-residual.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [scene-preparation-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [world-async-commit-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [world-runtime-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
 | [codex-content-boundaries.md](../archive/legacy/content/authoring-and-runtime/codex-content-boundaries.md) | content | migrated | reviewed | reviewed-migration-batch |
 | [content-residual-review.md](../archive/legacy/content/authoring-and-runtime/content-residual-review.md) | content | migrated | reviewed | reviewed-migration-batch |
 | [content-validation-refactor.md](../archive/legacy/content/authoring-and-runtime/content-validation-refactor.md) | content | migrated | reviewed | reviewed-migration-batch |
@@ -51,10 +50,11 @@
 | [item-logic-r8-review.md](../archive/legacy/content/editor-workflows/item-logic-r8-review.md) | content | migrated | reviewed | reviewed-migration-batch |
 | [parallel-guard-command-r2-review-evidence.json](../archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json) | content | migrated | reviewed | reviewed-migration-batch |
 | [scene-preparation-refactor.md](../archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md) | content | migrated | reviewed | reviewed-migration-batch |
-| [item-logic-review-witnesses.mjs](../item-logic-review-witnesses.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [runtime-state-review-witnesses.mjs](../runtime-state-review-witnesses.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [codex-reference-mutants.mjs](../codex-reference-mutants.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-architecture-review-witnesses.mjs](../cursor-architecture-review-witnesses.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
+| [item-logic-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [runtime-state-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [codex-reference-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [cursor-architecture-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [scene-reference-guard-visual.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 
 ## cross-domain
 
@@ -88,35 +88,34 @@
 
 | 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
 |---|---|---|---|---|
-| [map-pointer-gesture-mutants.mjs](../map-pointer-gesture-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [map-workspace-sessions-mutants.mjs](../map-workspace-sessions-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [scene-reference-guard-mutants.mjs](../scene-reference-guard-mutants.mjs) | authoring-and-runtime | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-simulator-s1-mutants.mjs](../battle-simulator-s1-mutants.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
+| [map-pointer-gesture-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [map-workspace-sessions-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [scene-reference-guard-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | authoring-and-runtime | migrated | reviewed | reviewed-migration-batch |
+| [battle-simulator-s1-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
 | [command-form-families-refactor-evidence.json](../domains/editor/commands/command-form-families/evidence.json) | commands | migrated | reviewed | reviewed-migration-batch |
 | [command-form-families-refactor.md](../domains/editor/commands/command-form-families/report.md) | commands | migrated | reviewed | reviewed-migration-batch |
-| [command-form-families-mutants.mjs](../command-form-families-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-command-boundaries-r3-review-witnesses.mjs](../cursor-command-boundaries-r3-review-witnesses.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-command-boundaries-r3-review.config.mjs](../cursor-command-boundaries-r3-review.config.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [cursor-commands-wave2-audit.mjs](../cursor-commands-wave2-audit.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [design-system-audit-layering-mutants.mjs](../design-system-audit-layering-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [editor-app-sessions-mutants.mjs](../editor-app-sessions-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [editor-preview-cache-mutants.mjs](../editor-preview-cache-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [editor-preview-cache-visual.mjs](../editor-preview-cache-visual.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-editor-map-data-mutants.mjs](../glm-editor-map-data-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-editor-map-data.config.mts](../glm-editor-map-data.config.mts) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-editor-script-helpers-mutants.mjs](../glm-editor-script-helpers-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-editor-script-helpers.config.mts](../glm-editor-script-helpers.config.mts) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-game-menu-boundaries-mutants.mjs](../glm-game-menu-boundaries-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-game-menu-boundaries.config.mts](../glm-game-menu-boundaries.config.mts) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [item-authoring-functional.mjs](../item-authoring-functional.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [item-authoring-mutants.mjs](../item-authoring-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [item-authoring-premise.mjs](../item-authoring-premise.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [item-logic-r2-review-witnesses.mjs](../item-logic-r2-review-witnesses.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [item-logic-r3-residual-witnesses.mjs](../item-logic-r3-residual-witnesses.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [item-logic-required-witnesses.mjs](../item-logic-required-witnesses.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [menu-session-refactor-mutants.mjs](../menu-session-refactor-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [parallel-guard-command-r2-review-witnesses.mjs](../parallel-guard-command-r2-review-witnesses.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [sprite-selection-mutants.mjs](../sprite-selection-mutants.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
+| [command-form-families-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [cursor-command-boundaries-r3-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [cursor-command-boundaries-r3-review.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [cursor-commands-wave2-audit.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [design-system-audit-layering-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [editor-app-sessions-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [editor-preview-cache-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [glm-editor-map-data-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [glm-editor-map-data.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [glm-editor-script-helpers-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [glm-editor-script-helpers.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [glm-game-menu-boundaries-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [glm-game-menu-boundaries.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [item-authoring-functional.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [item-authoring-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [item-authoring-premise.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [item-logic-r2-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [item-logic-r3-residual-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [item-logic-required-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [menu-session-refactor-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [parallel-guard-command-r2-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [sprite-selection-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
 | [architecture-continuation-integration-evidence.json](../archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json) | editor | migrated | reviewed | reviewed-migration-batch |
 | [architecture-intake-completion-evidence.json](../archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json) | editor | migrated | reviewed | reviewed-migration-batch |
 | [battle-simulator-assessment.md](../archive/legacy/editor/battle/battle-simulator-assessment.md) | editor | migrated | reviewed | reviewed-migration-batch |
@@ -183,10 +182,11 @@
 | [sprite-selection.md](../archive/legacy/editor/editor-workflows/sprite-selection.md) | editor | migrated | reviewed | reviewed-migration-batch |
 | [map-workspace-sessions-refactor-evidence.json](../domains/editor/map/map-workspace-sessions/evidence.json) | map | migrated | reviewed | reviewed-migration-batch |
 | [map-workspace-sessions-refactor.md](../domains/editor/map/map-workspace-sessions/report.md) | map | migrated | reviewed | reviewed-migration-batch |
-| [import-codec-png-host-review.mjs](../import-codec-png-host-review.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [import-codec-preview-review.mjs](../import-codec-preview-review.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-nine-intake-witnesses.mjs](../glm-nine-intake-witnesses.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-nine-rework-witnesses.mjs](../glm-nine-rework-witnesses.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
+| [import-codec-png-host-review.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [import-codec-preview-review.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [glm-nine-intake-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [glm-nine-rework-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [editor-preview-cache-visual.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 
 ## extraction
 
@@ -210,16 +210,16 @@
 | [migration-phase-owners-refactor.md](../archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md) | migration | migrated | reviewed | reviewed-migration-batch |
 | [migration-write-guard.md](../archive/legacy/migration/supply-and-import/migration-write-guard.md) | migration | migrated | reviewed | reviewed-migration-batch |
 | [phase1-resource-test-inputs.md](../archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md) | migration | migrated | reviewed | reviewed-migration-batch |
-| [glm-import-codec-mutants.mjs](../glm-import-codec-mutants.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-import-codec.config.mts](../glm-import-codec.config.mts) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-migration-boundaries-mutants.mjs](../glm-migration-boundaries-mutants.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-migration-boundaries.config.mts](../glm-migration-boundaries.config.mts) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-resource-tools-mutants.mjs](../glm-resource-tools-mutants.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-resource-tools.config.mts](../glm-resource-tools.config.mts) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [migration-phase-owners-mutants.mjs](../migration-phase-owners-mutants.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [migration-write-guard-mutants.mjs](../migration-write-guard-mutants.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [migration-write-guard-publish.mjs](../migration-write-guard-publish.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
-| [migration-write-guard.config.mjs](../migration-write-guard.config.mjs) | supply-and-import | retain-legacy | reviewed | legacy-full-closeout-review |
+| [glm-import-codec-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [glm-import-codec.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [glm-migration-boundaries-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [glm-migration-boundaries.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [glm-resource-tools-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [glm-resource-tools.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [migration-phase-owners-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [migration-write-guard-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [migration-write-guard-publish.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
+| [migration-write-guard.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | supply-and-import | migrated | reviewed | reviewed-migration-batch |
 
 ## ops
 
@@ -247,11 +247,11 @@
 | [grok-present-review.md](../archive/legacy/ops/testing-records/grok-present-review.md) | ops | migrated | reviewed | reviewed-migration-batch |
 | [tb00-tb01-completion-evidence.json](../archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json) | ops | migrated | reviewed | reviewed-migration-batch |
 | [tb00-tb01-completion.md](../archive/legacy/ops/testing-records/tb00-tb01-completion.md) | ops | migrated | reviewed | reviewed-migration-batch |
-| [glm-game-host-boundaries-mutants.mjs](../glm-game-host-boundaries-mutants.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-game-host-boundaries.config.mts](../glm-game-host-boundaries.config.mts) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-pal-tables-mutants.mjs](../glm-pal-tables-mutants.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-pal-tables.config.mts](../glm-pal-tables.config.mts) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
-| [grok-arch-ds-overflow-mutant.mjs](../grok-arch-ds-overflow-mutant.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
+| [glm-game-host-boundaries-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [glm-game-host-boundaries.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [glm-pal-tables-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [glm-pal-tables.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [grok-arch-ds-overflow-mutant.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 
 ## persistence
 
@@ -259,7 +259,7 @@
 |---|---|---|---|---|
 | [editor-save-recovery-glm-batch-report.md](../archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md) | persistence | migrated | reviewed | reviewed-migration-batch |
 | [save-barrier-lineage.md](../archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md) | persistence | migrated | reviewed | reviewed-migration-batch |
-| [save-lineage-mutants.mjs](../save-lineage-mutants.mjs) | save-and-recovery | retain-legacy | reviewed | legacy-full-closeout-review |
+| [save-lineage-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | save-and-recovery | migrated | reviewed | reviewed-migration-batch |
 
 ## phase1-runtime
 
@@ -267,8 +267,8 @@
 |---|---|---|---|---|
 | [phase1-dependency-refactor-evidence.json](../domains/phase1-runtime/dependencies/dependency-ownership/evidence.json) | dependencies | migrated | reviewed | reviewed-migration-batch |
 | [phase1-dependency-refactor.md](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | dependencies | migrated | reviewed | reviewed-migration-batch |
-| [phase1-main-owners-mutants.mjs](../phase1-main-owners-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [phase1-player-opcode-mutants.mjs](../phase1-player-opcode-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
+| [phase1-main-owners-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [phase1-player-opcode-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
 | [cursor-guide-revision-review.md](../archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md) | phase1-runtime | migrated | reviewed | reviewed-migration-batch |
 | [gemini-phase1-stats-integration.md](../archive/legacy/phase1-runtime/engine-boundaries/gemini-phase1-stats-integration.md) | phase1-runtime | migrated | reviewed | reviewed-migration-batch |
 | [glm-game-host-boundaries.md](../archive/legacy/phase1-runtime/testing-records/glm-game-host-boundaries.md) | phase1-runtime | migrated | reviewed | reviewed-migration-batch |
@@ -279,27 +279,27 @@
 
 | 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
 |---|---|---|---|---|
-| [codex-reference-coverage.config.mjs](../codex-reference-coverage.config.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [codex-runtime-shell-coverage.config.mts](../codex-runtime-shell-coverage.config.mts) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [coverage-initializer-capture.mjs](../coverage-initializer-capture.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [coverage-initializer-probe.mjs](../coverage-initializer-probe.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [coverage-large-domain-census.mjs](../coverage-large-domain-census.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [editor-logic-coverage-review-witnesses.mjs](../editor-logic-coverage-review-witnesses.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-battle-workflows-coverage.config.mts](../glm-battle-workflows-coverage.config.mts) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-coverage-queue-census.mjs](../glm-coverage-queue-census.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-coverage-queue-premise.mjs](../glm-coverage-queue-premise.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-coverage-wave2-census.mjs](../glm-coverage-wave2-census.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-coverage-wave2-coverage.config.mts](../glm-coverage-wave2-coverage.config.mts) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-coverage-wave2-mutants.mjs](../glm-coverage-wave2-mutants.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-editor-logic-coverage-mutants.mjs](../glm-editor-logic-coverage-mutants.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-editor-logic-coverage.config.mts](../glm-editor-logic-coverage.config.mts) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-foundation-coverage-mutants.mjs](../glm-foundation-coverage-mutants.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-foundation-coverage.config.mts](../glm-foundation-coverage.config.mts) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [guard-leaf-review-witnesses.mjs](../guard-leaf-review-witnesses.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [guard-wave3-final-review-witness.mjs](../guard-wave3-final-review-witness.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [guard-wave3-r3-review-witnesses.mjs](../guard-wave3-r3-review-witnesses.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [guard-wave3-review-witnesses.mjs](../guard-wave3-review-witnesses.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
-| [guard-wave3-review.config.mjs](../guard-wave3-review.config.mjs) | quality-gates | retain-legacy | reviewed | legacy-full-closeout-review |
+| [codex-reference-coverage.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [codex-runtime-shell-coverage.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [coverage-initializer-capture.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [coverage-initializer-probe.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [coverage-large-domain-census.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [editor-logic-coverage-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-battle-workflows-coverage.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-coverage-queue-census.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-coverage-queue-premise.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-coverage-wave2-census.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-coverage-wave2-coverage.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-coverage-wave2-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-editor-logic-coverage-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-editor-logic-coverage.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-foundation-coverage-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [glm-foundation-coverage.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [guard-leaf-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [guard-wave3-final-review-witness.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [guard-wave3-r3-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [guard-wave3-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
+| [guard-wave3-review.config.mjs](../archive/migrations/legacy-full-closeout-plan.json) | quality-gates | migrated | reviewed | reviewed-migration-batch |
 | [check-environment-stability.md](../archive/legacy/quality/quality-gates/check-environment-stability.md) | quality | migrated | reviewed | reviewed-migration-batch |
 | [codex-reference-coverage.md](../archive/legacy/quality/quality-gates/codex-reference-coverage.md) | quality | migrated | reviewed | reviewed-migration-batch |
 | [coverage-initializer-diagnosis.md](../archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md) | quality | migrated | reviewed | reviewed-migration-batch |
@@ -336,37 +336,32 @@
 
 | 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
 |---|---|---|---|---|
-| [battle-host-readiness-scheduling.mjs](../battle-host-readiness-scheduling.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
 | [battle-host-refactor-evidence.json](../domains/runtime/battle/battle-host/evidence.json) | battle | migrated | reviewed | reviewed-migration-batch |
-| [battle-host-refactor-mutants.mjs](../battle-host-refactor-mutants.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
+| [battle-host-refactor-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
 | [battle-host-refactor.md](../domains/runtime/battle/battle-host/report.md) | battle | migrated | reviewed | reviewed-migration-batch |
-| [battle-host-rng-witness.mjs](../battle-host-rng-witness.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-host-shell-parity.mjs](../battle-host-shell-parity.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-session-owners-mutants.mjs](../battle-session-owners-mutants.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
+| [battle-host-rng-witness.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
+| [battle-host-shell-parity.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
+| [battle-session-owners-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
 | [battle-session-owners-refactor-evidence.json](../domains/runtime/battle/battle-session-owners/evidence.json) | battle | migrated | reviewed | reviewed-migration-batch |
 | [battle-session-owners-refactor.md](../domains/runtime/battle/battle-session-owners/report.md) | battle | migrated | reviewed | reviewed-migration-batch |
-| [battle-simulator-functional.mjs](../battle-simulator-functional.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-simulator-runtime-mutants.mjs](../battle-simulator-runtime-mutants.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-workflows-r2-witnesses.mjs](../battle-workflows-r2-witnesses.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-workflows-r3-witnesses.mjs](../battle-workflows-r3-witnesses.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-workflows-r4-witnesses.mjs](../battle-workflows-r4-witnesses.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [battle-workflows-review-witnesses.mjs](../battle-workflows-review-witnesses.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-battle-workflows-mutants.mjs](../glm-battle-workflows-mutants.mjs) | battle | retain-legacy | reviewed | legacy-full-closeout-review |
-| [menu-session-parity.mjs](../menu-session-parity.mjs) | editor-workflows | retain-legacy | reviewed | legacy-full-closeout-review |
-| [codex-runtime-shell-mutants.mjs](../codex-runtime-shell-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [codex-runtime-shell-wave2-mutants.mjs](../codex-runtime-shell-wave2-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-reforge-asset-io-mutants.mjs](../glm-reforge-asset-io-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-reforge-asset-io.config.mts](../glm-reforge-asset-io.config.mts) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-reforge-runtime-contracts-mutants.mjs](../glm-reforge-runtime-contracts-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-reforge-runtime-contracts.config.mts](../glm-reforge-runtime-contracts.config.mts) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-runtime-state-mutants.mjs](../glm-runtime-state-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [glm-runtime-state.config.mts](../glm-runtime-state.config.mts) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [phase1-dependency-refactor-audit.mjs](../phase1-dependency-refactor-audit.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [phase1-dependency-refactor-mutants.mjs](../phase1-dependency-refactor-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [reforge-runtime-contracts-review-witnesses.mjs](../reforge-runtime-contracts-review-witnesses.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [reforge-runtime-input-review-witness.mjs](../reforge-runtime-input-review-witness.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [runtime-frame-mutants.mjs](../runtime-frame-mutants.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
-| [runtime-frame-parity.mjs](../runtime-frame-parity.mjs) | engine-boundaries | retain-legacy | reviewed | legacy-full-closeout-review |
+| [battle-simulator-functional.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
+| [battle-simulator-runtime-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
+| [battle-workflows-r2-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
+| [glm-battle-workflows-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | battle | migrated | reviewed | reviewed-migration-batch |
+| [menu-session-parity.mjs](../archive/migrations/legacy-full-closeout-plan.json) | editor-workflows | migrated | reviewed | reviewed-migration-batch |
+| [codex-runtime-shell-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [codex-runtime-shell-wave2-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [glm-reforge-asset-io-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [glm-reforge-asset-io.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [glm-reforge-runtime-contracts-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [glm-reforge-runtime-contracts.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [glm-runtime-state-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [glm-runtime-state.config.mts](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [phase1-dependency-refactor-audit.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [phase1-dependency-refactor-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [reforge-runtime-contracts-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [reforge-runtime-input-review-witness.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
+| [runtime-frame-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | engine-boundaries | migrated | reviewed | reviewed-migration-batch |
 | [menu-session-refactor-evidence.json](../domains/runtime/menu/menu-session/evidence.json) | menu | migrated | reviewed | reviewed-migration-batch |
 | [menu-session-refactor.md](../domains/runtime/menu/menu-session/report.md) | menu | migrated | reviewed | reviewed-migration-batch |
 | [battle-simulator-implementation.md](../archive/legacy/runtime/battle/battle-simulator-implementation.md) | runtime | migrated | reviewed | reviewed-migration-batch |
@@ -407,11 +402,16 @@
 | [runtime-state-review.md](../archive/legacy/runtime/engine-boundaries/runtime-state-review.md) | runtime | migrated | reviewed | reviewed-migration-batch |
 | [scene-preparation-refactor-evidence.json](../archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json) | runtime | migrated | reviewed | reviewed-migration-batch |
 | [world-async-commit.md](../archive/legacy/runtime/authoring-and-runtime/world-async-commit.md) | runtime | migrated | reviewed | reviewed-migration-batch |
-| [checkpoint-export-mutants.mjs](../checkpoint-export-mutants.mjs) | save-and-recovery | retain-legacy | reviewed | legacy-full-closeout-review |
+| [checkpoint-export-mutants.mjs](../archive/migrations/legacy-full-closeout-plan.json) | save-and-recovery | migrated | reviewed | reviewed-migration-batch |
 | [active-scene-evidence.json](../domains/runtime/scene/active-scene/evidence.json) | scene | migrated | reviewed | reviewed-migration-batch |
-| [active-scene-parity.mjs](../active-scene-parity.mjs) | scene | retain-legacy | reviewed | legacy-full-closeout-review |
 | [active-scene-refactor.md](../domains/runtime/scene/active-scene/report.md) | scene | migrated | reviewed | reviewed-migration-batch |
-| [scene-preparation-parity.mjs](../scene-preparation-parity.mjs) | scene | retain-legacy | reviewed | legacy-full-closeout-review |
-| [skill-trial-premise.mjs](../skill-trial-premise.mjs) | testing-records | retain-legacy | reviewed | legacy-full-closeout-review |
+| [skill-trial-premise.mjs](../archive/migrations/legacy-full-closeout-plan.json) | testing-records | migrated | reviewed | reviewed-migration-batch |
+| [active-scene-parity.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
+| [battle-host-readiness-scheduling.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
+| [battle-workflows-r3-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
+| [battle-workflows-r4-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
+| [battle-workflows-review-witnesses.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
+| [runtime-frame-parity.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
+| [scene-preparation-parity.mjs](../archive/migrations/legacy-full-closeout-plan.json) | unresolved-tools | migrated | reviewed | reviewed-migration-batch |
 | [world-runtime-refactor-evidence.json](../domains/runtime/world/world-runtime/evidence.json) | world | migrated | reviewed | reviewed-migration-batch |
 | [world-runtime-refactor.md](../domains/runtime/world/world-runtime/report.md) | world | migrated | reviewed | reviewed-migration-batch |

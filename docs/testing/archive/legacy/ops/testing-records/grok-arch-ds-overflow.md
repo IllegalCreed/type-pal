@@ -36,7 +36,7 @@
 - `text-overflow-adoption.test.ts` 9/9，exit 0。
 - `controls.test.tsx` 与 `boundary.test.ts` 合计 102/102，exit 0。
 - `pnpm --filter @type-pal/editor typecheck` exit 0。
-- 隔离反控 [grok-arch-ds-overflow-mutant.mjs](../../../../grok-arch-ds-overflow-mutant.mjs)，结果 [grok-arch-ds-overflow-mutant.json](../../editor/testing-records/grok-arch-ds-overflow-mutant.json)。绿对照 7/7 exit 0；只去掉 `clientWidth + 1` 容差后 exit 1，恰失败 `uses a zero-width guard and one-pixel tolerance before adding a Tab stop`，`AssertionError: expected '0' to be null`。源文件 SHA-256 `32af1ddfa349930766b71a140ae27afa0a0c2464c07d2260dbc22173baa057e4` 前后相同。
+- 隔离反控 [grok-arch-ds-overflow-mutant.mjs](../../unresolved-tools/arch-ds-overflow-mutant.mjs)，结果 [grok-arch-ds-overflow-mutant.json](../../editor/testing-records/grok-arch-ds-overflow-mutant.json)。绿对照 7/7 exit 0；只去掉 `clientWidth + 1` 容差后 exit 1，恰失败 `uses a zero-width guard and one-pixel tolerance before adding a Tab stop`，`AssertionError: expected '0' to be null`。源文件 SHA-256 `32af1ddfa349930766b71a140ae27afa0a0c2464c07d2260dbc22173baa057e4` 前后相同。
 - 本机没有另开浏览器。编辑器 6010 没有动。视觉由 Codex 接收时补。
 
 Biome 检查迁出文件时，`controls.tsx` 原有两处 `void | boolean` warning 仍在，这次没有改那些签名。
