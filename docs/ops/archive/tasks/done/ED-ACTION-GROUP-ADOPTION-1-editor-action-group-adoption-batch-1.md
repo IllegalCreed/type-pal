@@ -59,7 +59,7 @@ owner，不改变任何排序、删除、命令、identity 或数据语义。
 | 原版 / primary source | N/A：纯二阶段作者工具动作布局，不涉及原版游戏行为。 | `docs/phase2/READ-FIRST.md:8-10,20` |
 | 第一阶段 | N/A：第一阶段没有当前编辑器设计系统动作组。 | `CLAUDE.md:5-12` |
 | 当前二阶段 | `DsActionGroup` v2.22.0 已冻结 compact 32×32 / 4px / nowrap；两处仍登记 deferred；入口旧同排在真实约235px目录下正文仅53px，已推翻wrapper-only前提。 | `docs/phase2/specs/editor-design-system.md:429-453`；`packages/editor/src/ui/design-system/action-group-adoption.json:3-8,166-175,215-224`；本卡 build 反证记录 |
-| 本任务目标 | 两处转 adopted；毒保持机械采用；入口由真实 `.project-entry-list` 在 `>=280px` 同排、`<280px` 第二层；其余13个candidate原样保留。 | 本卡设计/验收条件；`docs/ops/board.md:27`；用户2026-09-01分批授权 |
+| 本任务目标 | 两处转 adopted；毒保持机械采用；入口由真实 `.project-entry-list` 在 `>=280px` 同排、`<280px` 第二层；其余13个candidate原样保留。 | 本卡设计/验收条件；`docs/ops/archive/board-history/board-20261004.md:27`；用户2026-09-01分批授权 |
 
 ### 两处直接证据
 

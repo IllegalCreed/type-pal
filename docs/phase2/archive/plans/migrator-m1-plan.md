@@ -1,7 +1,7 @@
 # M1 · 数据表批量迁移器 实现计划
 
 > **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
-> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/board.md) 进入。
+> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。
 
 > 依据 [roadmap §8 硬验收](../../roadmap.md)(M1 = 迁移器首战:数据表全量)+ 2026-07-02 投查(全量核过 spells/items/player-roles 源数据与三处运行时 opcode 语义)。
 > 执行:Claude(延续 C0 直做模式)。状态:M1a 实施中。

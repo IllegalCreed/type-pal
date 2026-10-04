@@ -1,0 +1,3170 @@
+{
+  "schemaVersion": 1,
+  "id": "ops-governance-layout-20261004",
+  "generatedBy": "scripts/docs/build-ops-governance-plan.mjs",
+  "sourceRevision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+  "rootWhitelist": [
+    "README.md",
+    "agent-workflow.md",
+    "archive",
+    "audits",
+    "board.md",
+    "evidence",
+    "guides",
+    "tasks",
+    "templates"
+  ],
+  "summary": {
+    "files": 43,
+    "boardHistory": 1,
+    "auditTools": 39,
+    "taskEvidence": 3
+  },
+  "entries": [
+    {
+      "from": "docs/ops/archive/board-history/board-20261004.md",
+      "to": "docs/ops/archive/board-history/board-20261004.md",
+      "kind": "board-history",
+      "reason": "old board snapshots and closed-task narratives are historical, not current responsibility",
+      "sourceSha256": "b6f38aee77968f5fa7c05a22e4d16e04c6498d7a7b4353eacbf1313fcde70f16",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+      "domain": "ops",
+      "module": "collaboration-governance",
+      "capability": "board-20261004",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/archive/board-history/board-20261004.md",
+          "lines": "1-1",
+          "anchor": "board-20261004.md"
+        }
+      ],
+      "publicCallers": ["docs/ops/board.md", "docs/ops/archive/board-history/board-20261004.md"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "b6f38aee77968f5fa7c05a22e4d16e04c6498d7a7b4353eacbf1313fcde70f16",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/archive/board-history/board-20261004.md",
+          "target": "docs/ops/archive/board-history/board-20261004.md"
+        }
+      ],
+      "supersedes": ["docs/ops/archive/board-history/board-20261004.md"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "b6f38aee77968f5fa7c05a22e4d16e04c6498d7a7b4353eacbf1313fcde70f16",
+        "afterSha256": "1c64a698ee5fa1d696ff49f0274730492eeda68d1f02f38b61a160431c533c8f"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "archive-history"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "6871be8f5540c3473bfe9f5450132618b73a3a32cd3891fb5f8989de3e41c022",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "f5b3c651c9eb7e9d4bdd9d15c6f921a8f3f2a7be034ffb70a387f3e3e8e90841",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "measure-pal-save-recovery",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs",
+          "lines": "1-1",
+          "anchor": "measure-pal-save-recovery.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "6871be8f5540c3473bfe9f5450132618b73a3a32cd3891fb5f8989de3e41c022",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "6871be8f5540c3473bfe9f5450132618b73a3a32cd3891fb5f8989de3e41c022",
+        "afterSha256": "f5b3c651c9eb7e9d4bdd9d15c6f921a8f3f2a7be034ffb70a387f3e3e8e90841"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts",
+      "to": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "e4b84e920644e57eb3166b5a56731682efb2040140cb23c4a70e48fa0ed36428",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "920afb52b970877bc87cfa385cfb1cc19a10a3ecd951f0f93af54dda3530badc",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "open-identity-probe.config",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts",
+          "lines": "1-1",
+          "anchor": "open-identity-probe.config.mts"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "e4b84e920644e57eb3166b5a56731682efb2040140cb23c4a70e48fa0ed36428",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts",
+          "target": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "e4b84e920644e57eb3166b5a56731682efb2040140cb23c4a70e48fa0ed36428",
+        "afterSha256": "920afb52b970877bc87cfa385cfb1cc19a10a3ecd951f0f93af54dda3530badc"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "1a223f7478a39bd5c5041428d99654d1d418bfb69d33763df38bd41bcef45e58",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-battle-core",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+          "lines": "1-1",
+          "anchor": "probe-battle-core.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a",
+        "afterSha256": "1a223f7478a39bd5c5041428d99654d1d418bfb69d33763df38bd41bcef45e58"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "3d756cd694e53bc1874da799f2712a354d05d650096771ba571795087bc7b225",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "e979375dfc1feb5730f2060eae0c7856413671374a777d78554114e85339c211",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-battle-session",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+          "lines": "1-1",
+          "anchor": "probe-battle-session.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "3d756cd694e53bc1874da799f2712a354d05d650096771ba571795087bc7b225",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "3d756cd694e53bc1874da799f2712a354d05d650096771ba571795087bc7b225",
+        "afterSha256": "e979375dfc1feb5730f2060eae0c7856413671374a777d78554114e85339c211"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "d9d1ec96f06ce7887fcec593f634c54b1e4481d1c6f4f8e80fb45e9a6474a4e6",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-canonical-async",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+          "lines": "1-1",
+          "anchor": "probe-canonical-async.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb",
+        "afterSha256": "d9d1ec96f06ce7887fcec593f634c54b1e4481d1c6f4f8e80fb45e9a6474a4e6"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "2939dba3070159b3dd49620207c6c29bd63b248407f930cd4b9834d871672693",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "941cb1e27cc1b0155e0be22dc9bd73a1c273ca2d943d00e54e64f91e5e764c19",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-coverage-timing.config",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+          "lines": "1-1",
+          "anchor": "probe-editor-coverage-timing.config.mts"
+        }
+      ],
+      "publicCallers": [
+        "node docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+      ],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "2939dba3070159b3dd49620207c6c29bd63b248407f930cd4b9834d871672693",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "2939dba3070159b3dd49620207c6c29bd63b248407f930cd4b9834d871672693",
+        "afterSha256": "941cb1e27cc1b0155e0be22dc9bd73a1c273ca2d943d00e54e64f91e5e764c19"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "3163a898a0cd5d0597eca50fb04e2f2296dcab218e0cb5722172673f0e577fcf",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "d45def810d3c4c60fc6c378e781b6230f01df33b1799731d43d4adf6f2bd34a6",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-coverage-timing",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-coverage-timing.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "3163a898a0cd5d0597eca50fb04e2f2296dcab218e0cb5722172673f0e577fcf",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "3163a898a0cd5d0597eca50fb04e2f2296dcab218e0cb5722172673f0e577fcf",
+        "afterSha256": "d45def810d3c4c60fc6c378e781b6230f01df33b1799731d43d4adf6f2bd34a6"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "64b5b494e1bc4548395c80e1622e06f4324353a081c60c177090171410b45feb",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "080c912ee712b58618cb561cde0cfcaefbe16a17bdaaa0beaa0d79de4c766ed5",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-history",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-history.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "64b5b494e1bc4548395c80e1622e06f4324353a081c60c177090171410b45feb",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "64b5b494e1bc4548395c80e1622e06f4324353a081c60c177090171410b45feb",
+        "afterSha256": "080c912ee712b58618cb561cde0cfcaefbe16a17bdaaa0beaa0d79de4c766ed5"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "9584582499edd51b80eb6dbfa209d03e5f9d453e834c721ff93c24376ae16252",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "c762a93f6c729c73612c56b2c1b83d6eb6504f0a328650bf5d8a4c08e0c8e140",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-persistence",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-persistence.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "9584582499edd51b80eb6dbfa209d03e5f9d453e834c721ff93c24376ae16252",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "9584582499edd51b80eb6dbfa209d03e5f9d453e834c721ff93c24376ae16252",
+        "afterSha256": "c762a93f6c729c73612c56b2c1b83d6eb6504f0a328650bf5d8a4c08e0c8e140"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "9e39bd2a48d5eaa8771978d4b169cd1774565849bb13f749d579bff98bad32c6",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "7099266fd8bffa78593e4e4746ac1df82e37f65db0cc2c5ff9ac6da6a1142c3c",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-reference-delete",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-reference-delete.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "9e39bd2a48d5eaa8771978d4b169cd1774565849bb13f749d579bff98bad32c6",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "9e39bd2a48d5eaa8771978d4b169cd1774565849bb13f749d579bff98bad32c6",
+        "afterSha256": "7099266fd8bffa78593e4e4746ac1df82e37f65db0cc2c5ff9ac6da6a1142c3c"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "8f22fe939cc10d12b154b2678e7ca6bce31a3b5217aeede13b080ff488eff777",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "a61bc9f779aa5e38319911415433de7dfa7df86cb6cc44e855f6b58d53a8399a",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-save-recovery",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-save-recovery.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "8f22fe939cc10d12b154b2678e7ca6bce31a3b5217aeede13b080ff488eff777",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "8f22fe939cc10d12b154b2678e7ca6bce31a3b5217aeede13b080ff488eff777",
+        "afterSha256": "a61bc9f779aa5e38319911415433de7dfa7df86cb6cc44e855f6b58d53a8399a"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "8ecfe851892648964e6baf6eb06b1b64df616cf5285c0dba305a5cbc10e4ea3a",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "f74a4cd2ba592b8c7f7232b21944b9e0bd132c09c7c1e697c26303a10e2b9cc1",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-sprite-upload",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-sprite-upload.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "8ecfe851892648964e6baf6eb06b1b64df616cf5285c0dba305a5cbc10e4ea3a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "8ecfe851892648964e6baf6eb06b1b64df616cf5285c0dba305a5cbc10e4ea3a",
+        "afterSha256": "f74a4cd2ba592b8c7f7232b21944b9e0bd132c09c7c1e697c26303a10e2b9cc1"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "9fdc2e53af01fdedd6518a900241050868dd4d27b616eb8e20487ccde9c1d89b",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "2f7957946e41bf52852780d1a791dcf5baba8470d7af8210043dae2f90486c43",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-editor-trial",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+          "lines": "1-1",
+          "anchor": "probe-editor-trial.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "9fdc2e53af01fdedd6518a900241050868dd4d27b616eb8e20487ccde9c1d89b",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "9fdc2e53af01fdedd6518a900241050868dd4d27b616eb8e20487ccde9c1d89b",
+        "afterSha256": "f994df5156c2659eaef957a7055ab83f00294552099dbfccb743fa30fa5b87dd"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "f51fd9de243654e0d57925bd4e8a6c1838fdbfc5352197926dbfdb515b64c736",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "561ca6e386f95da3e7d3b5c20daf49111ed8fc6f3e75344456735a0b91d2d0bc",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-cache-prep",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-cache-prep.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "f51fd9de243654e0d57925bd4e8a6c1838fdbfc5352197926dbfdb515b64c736",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "f51fd9de243654e0d57925bd4e8a6c1838fdbfc5352197926dbfdb515b64c736",
+        "afterSha256": "561ca6e386f95da3e7d3b5c20daf49111ed8fc6f3e75344456735a0b91d2d0bc"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "636efcaee2f660c4ef12daefaf617915e84bc832461fae350e88b36c133777f7",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "bb95c7b39a1ab4afc4fe14a7c0f146e87f8aa68f01366f07d55dd70769e8f570",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-history-prep",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-history-prep.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "636efcaee2f660c4ef12daefaf617915e84bc832461fae350e88b36c133777f7",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "636efcaee2f660c4ef12daefaf617915e84bc832461fae350e88b36c133777f7",
+        "afterSha256": "bb95c7b39a1ab4afc4fe14a7c0f146e87f8aa68f01366f07d55dd70769e8f570"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "47df0255d8db7d94609b7aeab94214a164cdd93d4588d7a727d87395a76254b2",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "ea2b757c2b235021f04c08a930e7c9e5e3dcc3fc4c115384db7a02fd10420f05",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-async",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-async.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "47df0255d8db7d94609b7aeab94214a164cdd93d4588d7a727d87395a76254b2",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "47df0255d8db7d94609b7aeab94214a164cdd93d4588d7a727d87395a76254b2",
+        "afterSha256": "ea2b757c2b235021f04c08a930e7c9e5e3dcc3fc4c115384db7a02fd10420f05"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "61a1d9be48fb7ea2a0056bce87193103bfc24272ff0801fcff98f532d0e7fd89",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "f8a9fd8c6222f15cbcfdcc7273abcac8dc7f36f6a7a72f652eb3b7e0b7673dfa",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-barrier",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-barrier.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "61a1d9be48fb7ea2a0056bce87193103bfc24272ff0801fcff98f532d0e7fd89",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "61a1d9be48fb7ea2a0056bce87193103bfc24272ff0801fcff98f532d0e7fd89",
+        "afterSha256": "f8a9fd8c6222f15cbcfdcc7273abcac8dc7f36f6a7a72f652eb3b7e0b7673dfa"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "30af29676c037988e1d724b1a8cc0c85ffc144f8df53aef1ea6f8002639cdade",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "46e106184baee016325e4183277eae9811ed0af748e690ede9e122ef207aafad",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-battle-actions",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-battle-actions.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "30af29676c037988e1d724b1a8cc0c85ffc144f8df53aef1ea6f8002639cdade",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "30af29676c037988e1d724b1a8cc0c85ffc144f8df53aef1ea6f8002639cdade",
+        "afterSha256": "46e106184baee016325e4183277eae9811ed0af748e690ede9e122ef207aafad"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "0b0e28694bdd474b94e272149219a55f64a9532ba59fffb9dc19753ca3b386a1",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "4b7d7de02cf87b498b1009fb8c1ef64fef86f26f32a120313b613e5ce1e7d0ec",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-battle-result",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-battle-result.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "0b0e28694bdd474b94e272149219a55f64a9532ba59fffb9dc19753ca3b386a1",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "0b0e28694bdd474b94e272149219a55f64a9532ba59fffb9dc19753ca3b386a1",
+        "afterSha256": "4b7d7de02cf87b498b1009fb8c1ef64fef86f26f32a120313b613e5ce1e7d0ec"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "c32d0e2e93bf780435705d1ddc198f24eb67e498779ee4ed3bdcfcb27b922838",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "2f715017aa4a9cbd61852d3bfabbe324767e795207b20a1f49ff6645473c973b",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-coverage",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-coverage.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "c32d0e2e93bf780435705d1ddc198f24eb67e498779ee4ed3bdcfcb27b922838",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "c32d0e2e93bf780435705d1ddc198f24eb67e498779ee4ed3bdcfcb27b922838",
+        "afterSha256": "2f715017aa4a9cbd61852d3bfabbe324767e795207b20a1f49ff6645473c973b"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "83626fcfc397bd63441f2185455a5a9e1f5bdd21a64274e3fc9ba324863918fc",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "a9bcb0f0b2fe4685ce019955163ea4a6112f0c35e435a7995cf046bc5bddaa60",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-migration",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-migration.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "83626fcfc397bd63441f2185455a5a9e1f5bdd21a64274e3fc9ba324863918fc",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "83626fcfc397bd63441f2185455a5a9e1f5bdd21a64274e3fc9ba324863918fc",
+        "afterSha256": "8fb98e92b79c6b8ff898d637dc18f544ac9de8262e509ed93c31974d7964f196"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "605779e24b708778decff766be299a7cb853c3b13c3f22b5744782812ffc9dd0",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "83f977dc3af031ff69dc3fb760155e92c10cb419050d510152250d3d8986d470",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next-support",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-next-support.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "605779e24b708778decff766be299a7cb853c3b13c3f22b5744782812ffc9dd0",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "605779e24b708778decff766be299a7cb853c3b13c3f22b5744782812ffc9dd0",
+        "afterSha256": "bad75175a76c20e2adc303b949e71eb0226fcdbe6828c2c27dafe89e94bfe429"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "52557eecf8d8f421f4e73d656c85de3b967acff18e36f9e7e005e7e90e3be4f4",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "f0cf0450353e6de3acd61a927765d272c5802cfb70f30fd74fb64fe2e9b3dd31",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-next.config",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+          "lines": "1-1",
+          "anchor": "probe-glm-next.config.mts"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "52557eecf8d8f421f4e73d656c85de3b967acff18e36f9e7e005e7e90e3be4f4",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "52557eecf8d8f421f4e73d656c85de3b967acff18e36f9e7e005e7e90e3be4f4",
+        "afterSha256": "f0cf0450353e6de3acd61a927765d272c5802cfb70f30fd74fb64fe2e9b3dd31"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "7eb838986fe2d1c6b36fe5517dbfd397137111078fd2a706a3709bad7875a036",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "a084887f8928d26f576e4799059cec7aebe07a1034a7ee5389dcaaa812b3253d",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-reference-prep",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-reference-prep.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "7eb838986fe2d1c6b36fe5517dbfd397137111078fd2a706a3709bad7875a036",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "7eb838986fe2d1c6b36fe5517dbfd397137111078fd2a706a3709bad7875a036",
+        "afterSha256": "a084887f8928d26f576e4799059cec7aebe07a1034a7ee5389dcaaa812b3253d"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "0b38d56b5732377b66248d56452e8311fea9772ceed18cc4a6ebd601a78e6061",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "e1ab0dc564f2515a281b78986f9cbd069d8da5b1bc4b6942c9a8c2b7e096e7f7",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-glm-upload-prep",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs",
+          "lines": "1-1",
+          "anchor": "probe-glm-upload-prep.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "0b38d56b5732377b66248d56452e8311fea9772ceed18cc4a6ebd601a78e6061",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "0b38d56b5732377b66248d56452e8311fea9772ceed18cc4a6ebd601a78e6061",
+        "afterSha256": "e1ab0dc564f2515a281b78986f9cbd069d8da5b1bc4b6942c9a8c2b7e096e7f7"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "4a2e7c67fae622e74f6d8845a91d4d37f56b40858c1c01dd0d6aaff964197921",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-migration-boundaries",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+          "lines": "1-1",
+          "anchor": "probe-migration-boundaries.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a",
+        "afterSha256": "e410c18ac4ce4dda865a392f57b999bcc26af338bbb377c05ee0059738b9fea6"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "706a7fb6d14580e66f67f2fc8f5fc7a5594eb30677ee1584aa88a0fa29799ac6",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "acfe43dc648494e15cd78af2ad9b08dde9ef4ef654cefb24191dbb484b8a35ac",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-open-identity-boundaries.test",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs",
+          "lines": "1-1",
+          "anchor": "probe-open-identity-boundaries.test.mjs"
+        }
+      ],
+      "publicCallers": [
+        "node docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs"
+      ],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "706a7fb6d14580e66f67f2fc8f5fc7a5594eb30677ee1584aa88a0fa29799ac6",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "706a7fb6d14580e66f67f2fc8f5fc7a5594eb30677ee1584aa88a0fa29799ac6",
+        "afterSha256": "acfe43dc648494e15cd78af2ad9b08dde9ef4ef654cefb24191dbb484b8a35ac"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "966a111af25ef388f9d1f7e052eb3ec7d13c42587c34f5a2ebe6fd451f85bc03",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-phase1-battle",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+          "lines": "1-1",
+          "anchor": "probe-phase1-battle.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68",
+        "afterSha256": "44d92b83915bff1b490d2941cafc334dbf5fa5d4a1e3a18667a820d55bf0d668"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "b59a40c5b6874fad502ef0bd011142c94b51a714c119476e6c3c431a2e679f13",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-phase1-world-lifecycle",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+          "lines": "1-1",
+          "anchor": "probe-phase1-world-lifecycle.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677",
+        "afterSha256": "5b6383605b43cf63e58dd34dec6d32df27f39149b4a2db87f31cdc529a899529"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "1218454a701f1f67625b7b478de61bd4ea9b483d72e50c396a371b1452edf250",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-precache-progress",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+          "lines": "1-1",
+          "anchor": "probe-precache-progress.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766",
+        "afterSha256": "1218454a701f1f67625b7b478de61bd4ea9b483d72e50c396a371b1452edf250"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "b651829cb0ed3ba3cd89b1ffd876bc3fe53af832351f5014b3a7a2831085270e",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "4cfbb0f4c84d8ebd2f24fc99ef98a53be44b755de79a6f709e832f0ebd3318da",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-preview-cache",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+          "lines": "1-1",
+          "anchor": "probe-preview-cache.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "b651829cb0ed3ba3cd89b1ffd876bc3fe53af832351f5014b3a7a2831085270e",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "b651829cb0ed3ba3cd89b1ffd876bc3fe53af832351f5014b3a7a2831085270e",
+        "afterSha256": "4cfbb0f4c84d8ebd2f24fc99ef98a53be44b755de79a6f709e832f0ebd3318da"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "9742ca9e2c91d151c92f7ced1c7cdf49b41f6fc6406b805ed93b16418934f601",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-reforge-restore",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+          "lines": "1-1",
+          "anchor": "probe-reforge-restore.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8",
+        "afterSha256": "9742ca9e2c91d151c92f7ced1c7cdf49b41f6fc6406b805ed93b16418934f601"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "dc9351e6b4031b1eb29e981d5197253b84c4490f15614a66b73f89ff3e66a5c6",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "7c083ff3b0114abc0a62eca41708d541798017e2e083d3869588c493f6773164",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-save-barrier-family",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs",
+          "lines": "1-1",
+          "anchor": "probe-save-barrier-family.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "dc9351e6b4031b1eb29e981d5197253b84c4490f15614a66b73f89ff3e66a5c6",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "dc9351e6b4031b1eb29e981d5197253b84c4490f15614a66b73f89ff3e66a5c6",
+        "afterSha256": "7c083ff3b0114abc0a62eca41708d541798017e2e083d3869588c493f6773164"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "5703d141b66d1b81507242c6ea456e67066d9a82c04f936abcd6f3b3ae715e85",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-save-boundaries",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+          "lines": "1-1",
+          "anchor": "probe-save-boundaries.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5",
+        "afterSha256": "ae6a40a0c5e4716cd003bc2c1ca48954c1b5209dfe53c73d020cc221d1840f00"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "7526fd127538242dd77c18bd5dd482de401d81940384a3b76665d2d137a7e05a",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-scene-preflight",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+          "lines": "1-1",
+          "anchor": "probe-scene-preflight.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9",
+        "afterSha256": "7526fd127538242dd77c18bd5dd482de401d81940384a3b76665d2d137a7e05a"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "9f90a9b9fb893466ccfff02d99dc86bd3833108c108f49bd1a450dbaf0e34dfa",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "c6e36e06d2b8723ec76a5f94638b7931af5a9d229d380063b4acb180375e47d1",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-test-gates.config",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+          "lines": "1-1",
+          "anchor": "probe-test-gates.config.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "9f90a9b9fb893466ccfff02d99dc86bd3833108c108f49bd1a450dbaf0e34dfa",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "9f90a9b9fb893466ccfff02d99dc86bd3833108c108f49bd1a450dbaf0e34dfa",
+        "afterSha256": "c6e36e06d2b8723ec76a5f94638b7931af5a9d229d380063b4acb180375e47d1"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "9404582dd2f4f241108e3114b7ca4994ae9a63d063186a49a66ce1922bff6973",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "676c2a0475899284ab4d70e90231856e6cf685a464a0fa029893afe04729b6d7",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-test-gates",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+          "lines": "1-1",
+          "anchor": "probe-test-gates.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "9404582dd2f4f241108e3114b7ca4994ae9a63d063186a49a66ce1922bff6973",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "9404582dd2f4f241108e3114b7ca4994ae9a63d063186a49a66ce1922bff6973",
+        "afterSha256": "54a94babdc34ec876f46c224f31751e026e43bb279a1f2cc0ea03cc62bd4b600"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "probe-test-gates.setup",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+          "lines": "1-1",
+          "anchor": "probe-test-gates.setup.ts"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+          "target": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+        "afterSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs",
+      "kind": "audit-tool",
+      "reason": "pre-e2e probe/tool is separated from current audit reports; relative imports must be rebased by the executor",
+      "sourceSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+      "domain": "ops",
+      "module": "pre-e2e-audits",
+      "capability": "verify-pal-save-recovery",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs",
+          "lines": "1-1",
+          "anchor": "verify-pal-save-recovery.mjs"
+        }
+      ],
+      "publicCallers": ["node docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs",
+          "target": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+        "afterSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-audit-tool"
+    },
+    {
+      "from": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+      "to": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+      "kind": "task-evidence",
+      "reason": "task evidence must live under its task directory; receipt and driver remain historical and are not runtime proof",
+      "sourceSha256": "a98af3e02d40e990a2361b499197b2191de9406753fb5b98b4fd0c55bb3e6348",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "d1d4f04edc42db69d8a7a7f753db77876dc3a42338e2a25c3214ba84e2a84d1c",
+      "domain": "ops",
+      "module": "task-evidence",
+      "capability": "README",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+          "lines": "1-1",
+          "anchor": "README.md"
+        }
+      ],
+      "publicCallers": ["task-specific evidence runner; see evidence README"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "a98af3e02d40e990a2361b499197b2191de9406753fb5b98b4fd0c55bb3e6348",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+          "target": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md"
+        }
+      ],
+      "supersedes": ["docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "a98af3e02d40e990a2361b499197b2191de9406753fb5b98b4fd0c55bb3e6348",
+        "afterSha256": "b27a3473cd64ac3ef008ff01a3ad03d0ada4c5f8cc4a4de7548b0702d1160c8e"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-task-evidence"
+    },
+    {
+      "from": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs",
+      "to": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs",
+      "kind": "task-evidence",
+      "reason": "task evidence must live under its task directory; receipt and driver remain historical and are not runtime proof",
+      "sourceSha256": "9222b427eb2c0ee53129141d8549f679a13da7fb86f91e9d9e7c3b51d5488523",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "e8da773dcbfe3f331d4443dbaf0863d22758087d2e92312327fa29544d93f9d3",
+      "domain": "ops",
+      "module": "task-evidence",
+      "capability": "mutants",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs",
+          "lines": "1-1",
+          "anchor": "mutants.mjs"
+        }
+      ],
+      "publicCallers": ["task-specific evidence runner; see evidence README"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "9222b427eb2c0ee53129141d8549f679a13da7fb86f91e9d9e7c3b51d5488523",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs",
+          "target": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "9222b427eb2c0ee53129141d8549f679a13da7fb86f91e9d9e7c3b51d5488523",
+        "afterSha256": "e8da773dcbfe3f331d4443dbaf0863d22758087d2e92312327fa29544d93f9d3"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-task-evidence"
+    },
+    {
+      "from": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs",
+      "to": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs",
+      "kind": "task-evidence",
+      "reason": "task evidence must live under its task directory; receipt and driver remain historical and are not runtime proof",
+      "sourceSha256": "66eca8bd205d26b0d1f8c653e007fdfb7fe4f3cbb218671df42a979775cf8a95",
+      "stopLine": "preserve historical payload; verify rewritten links/imports and after SHA before integration",
+      "governanceTask": "docs/ops/tasks/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "afterSha256": "2ad877a41bbcacd67021d4084d67bbad8b9ef693d9cc82994082b3c89db9cff3",
+      "domain": "ops",
+      "module": "task-evidence",
+      "capability": "gen-ledger",
+      "provenance": ["Codex", "historical-collaboration-record"],
+      "sourceRefs": [
+        {
+          "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs",
+          "lines": "1-1",
+          "anchor": "gen-ledger.mjs"
+        }
+      ],
+      "publicCallers": ["task-specific evidence runner; see evidence README"],
+      "legalInputs": [
+        "current repository checkout",
+        "the task/audit/evidence record identified by this path"
+      ],
+      "businessOracle": {
+        "type": "ops-document-governance",
+        "assertions": [
+          "the document remains reachable from the correct current or historical index",
+          "historical execution claims retain their original scope and are not promoted by relocation"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/board.md",
+          "docs/ops/tasks/index.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md"
+        ],
+        "notes": "Layout relocation only; no new runtime/test/coverage credit."
+      },
+      "revision": {
+        "currentSha": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+        "implementationSha": "66eca8bd205d26b0d1f8c653e007fdfb7fe4f3cbb218671df42a979775cf8a95",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+            "date": "2026-10-04",
+            "action": "ops-governance-layout-closeout",
+            "notRun": ["product runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "history": [
+        {
+          "revision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "action": "relocated",
+          "source": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs",
+          "target": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs"
+        }
+      ],
+      "supersedes": ["docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs"],
+      "evidence": {
+        "kind": "layout-record",
+        "sourceSha256": "66eca8bd205d26b0d1f8c653e007fdfb7fe4f3cbb218671df42a979775cf8a95",
+        "afterSha256": "2ad877a41bbcacd67021d4084d67bbad8b9ef693d9cc82994082b3c89db9cff3"
+      },
+      "retentionDeadline": "2026-11-01",
+      "resolution": "migrate-task-evidence"
+    }
+  ],
+  "appliedRevision": "working-tree-finalized",
+  "policy": "Every moved ops record keeps source/after SHA, domain/module/capability, provenance, caller, inputs, oracle, dedupe, revision, evidence, history, supersedes, deadline and stopline. Relocation does not certify runtime, E2E or coverage."
+}

@@ -6,14 +6,14 @@ GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../tes
 
 ## 本次新增证据
 
-[probe-save-barrier-family.mjs](probe-save-barrier-family.mjs)加载真实ScriptProjectRuntime、FlowRuntimeCoordinator及compiler/runner，
+[probe-save-barrier-family.mjs](tools/probe-save-barrier-family.mjs)加载真实ScriptProjectRuntime、FlowRuntimeCoordinator及compiler/runner，
 宿主边界仅用内存confirm/teleportOut。confirm以entered/deferred精确控制，不依靠固定sleep猜执行点。
 场景出口使用两个状态：first写标志后以`to/macroTask`到last，last写childEnd；父command列表随后写parentEnd。
 没有把stages.next错误当成同次调用自动续跑，也没有运行真实战斗/地图画面。
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-save-barrier-family.mjs --mode=original
-node --import tsx docs/ops/audits/pre-e2e/probe-save-barrier-family.mjs --mode=admission-only
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs --mode=original
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs --mode=admission-only
 ```
 
 两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确：
@@ -39,15 +39,15 @@ original模式另外构造：持久lease已在barrier安全点close，但人为�
 
 ## 旧证据复跑与限制
 
-旧[probe-glm-next-barrier.mjs](probe-glm-next-barrier.mjs)保持零diff，当前树分别执行：
+旧[probe-glm-next-barrier.mjs](tools/probe-glm-next-barrier.mjs)保持零diff，当前树分别执行：
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B01
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B02
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B03
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B04
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B05
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B06
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B01
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B02
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B03
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B04
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B05
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B06
 ```
 
 - B01/B03各exit1，红因分别为“confirm继续后的自身子链不得使原保存超时”和“内联onTeleport不得与原保存互等至超时”，不是模块/fixture错。

@@ -422,7 +422,7 @@ terrain sweep」显性矛盾 → 停线规则触发 blocked；33/88 红项归因
   - `docs/ops/templates/TASK-template.md`
   - `docs/ops/templates/TASK-lite-template.md`
   - `docs/ops/tasks/README.md`
-  - `docs/ops/board.md`
+  - `docs/ops/archive/board-history/board-20261004.md`
   - `docs/ops/archive/tasks/done/OPS-TRUTH-1-premise-gate.md`
 - 实现摘要:
   - 根协议新增前提真值门、四向矩阵、三签拆义、独立反证、红项四类替代归因、用户质疑停线与签字失效；

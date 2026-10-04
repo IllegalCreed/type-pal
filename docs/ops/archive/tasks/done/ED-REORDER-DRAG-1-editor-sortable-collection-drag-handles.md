@@ -656,7 +656,7 @@ Branch: `codex/ed-project-startup-ia-1`（按用户要求在当前串行工作�
 你是独立实现 reviewer：只读实现、测试、截图与任务卡，把自己的 `accept` 或 `counter + 返工项` 写回
 “进入 done 前:审查签字”及 Review 段。不得修改实现文件、不得代签另一席、不得自行标记 done。
 
-先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/board.md、本任务卡、
+先读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/archive/board-history/board-20261004.md、本任务卡、
 docs/phase2/specs/editor-design-system.md 的 DS-C.4d、reorder.tsx/reorder.css、reorder-adoption.json、
 reorder-allowlist.json、reorder.test.tsx、reorder-adoption.test.ts，以及三张 evidence 截图（含 2026-08-27
 live-reflow）。不要重开已完成旧卡，

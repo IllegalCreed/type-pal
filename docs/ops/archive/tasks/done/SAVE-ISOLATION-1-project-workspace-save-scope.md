@@ -74,7 +74,7 @@ Kimi 的 `55dfcbd0` 与 GLM 的 `cc438c60` 分别落有独立证据，未改实�
 
 ### 直接复现（2026-09-06）
 
-运行 `node --import tsx docs/ops/audits/pre-e2e/probe-save-boundaries.mjs`：
+运行 `node --import tsx docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs`：
 A 先写 quick，B 后写 quick；两个真实 IndexedDbSaveStore 都打开 `type-pal-saves@1`，
 meta/payload/thumb 都写 `quick`；A 读出的 projectId 从 A 变为 B，随后 A 的 preflight 拒绝 B。
 探针只替换 IndexedDB 外围为内存边界，并在启动时拒绝既有真实 IndexedDB；没有写用户数据库。

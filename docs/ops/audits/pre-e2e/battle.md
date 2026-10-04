@@ -162,9 +162,9 @@ BattleSession→动画/音效就绪→完成/取消接线。没有穷举全部�
 修复时应转成正确行为测试并退役旧假设，不保留旧产品行为来满足审计脚本。
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-battle-core.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-battle-session.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-phase1-battle.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs
 ```
 
 core/session读取当前PAL JSON；phase1读取可再生成的`data/extracted`，缺本地数据则不能执行，

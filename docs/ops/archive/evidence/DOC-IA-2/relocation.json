@@ -230,116 +230,116 @@
       "sha256": "aebaf1dd5a86487f6f3c99014b6aa9273ab94c83c86d82649b667019ffeb3020"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-battle-core.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-battle-core.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
       "kind": "attachment",
       "sha256": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-battle-session.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-battle-session.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
       "kind": "attachment",
       "sha256": "d1f3d808509d1ea82a89ff64cf79832da828f477ed3237cb5c2735688d344264"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-canonical-async.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-canonical-async.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
       "kind": "attachment",
       "sha256": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-editor-history.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-editor-history.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
       "kind": "attachment",
       "sha256": "52ff80a1023aaf420cc5790965ec1e49a84c9f1e34ca123648105082f9f8a727"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-editor-persistence.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-editor-persistence.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
       "kind": "attachment",
       "sha256": "0d4619c6c62336f84fa6151a419c0c43fb8a2435e1032ca7700ed804888baedd"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
       "kind": "attachment",
       "sha256": "35b969f9822ce497c6112a41bbaaa2bfe87bfdbab29b6db153309ee877e807f5"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-editor-sprite-upload.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-editor-sprite-upload.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
       "kind": "attachment",
       "sha256": "799a7ec715b1e296483923af5377416f2b5d410022237f7e2cf920fb247ff257"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-editor-trial.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-editor-trial.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
       "kind": "attachment",
       "sha256": "84500afebaafc30ed5767b41c416be549d785c79151420c2658d584799684761"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-migration-boundaries.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-migration-boundaries.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
       "kind": "attachment",
       "sha256": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-phase1-battle.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-phase1-battle.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
       "kind": "attachment",
       "sha256": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-phase1-world-lifecycle.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-phase1-world-lifecycle.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
       "kind": "attachment",
       "sha256": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-precache-progress.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-precache-progress.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
       "kind": "attachment",
       "sha256": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-preview-cache.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-preview-cache.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
       "kind": "attachment",
       "sha256": "4c6a967b8b68c20f0ab2ee320e5d23ea9307e6daafd722d3b196861b81f9fd5b"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-reforge-restore.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-reforge-restore.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
       "kind": "attachment",
       "sha256": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-save-boundaries.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-save-boundaries.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
       "kind": "attachment",
       "sha256": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-scene-preflight.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-scene-preflight.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
       "kind": "attachment",
       "sha256": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-test-gates.config.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-test-gates.config.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
       "kind": "attachment",
       "sha256": "0eeab101e91a7b851ad8f00ec1d26a26488d105f8f0a3499868c5900f0520824"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-test-gates.mjs",
-      "to": "docs/ops/audits/pre-e2e/probe-test-gates.mjs",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
       "kind": "attachment",
       "sha256": "1da9489d71c5ee17eeb89bf08d0cbbd4f68f28fa3fc980da1f1266c7a2be1456"
     },
     {
-      "from": "docs/ops/audits/pre-e2e/probe-test-gates.setup.ts",
-      "to": "docs/ops/audits/pre-e2e/probe-test-gates.setup.ts",
+      "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+      "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
       "kind": "attachment",
       "sha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae"
     },
@@ -356,8 +356,8 @@
       "sha256": "032d612c3bcda71ab30cff9cca46d93027df9ae3e9499fe16186004894e13018"
     },
     {
-      "from": "docs/ops/board.md",
-      "to": "docs/ops/board.md",
+      "from": "docs/ops/archive/board-history/board-20261004.md",
+      "to": "docs/ops/archive/board-history/board-20261004.md",
       "kind": "in-place",
       "sha256": "4b04ef0740b5eaa37a90adc400feefec7c803d1ade6ab91adcbee187a47d8598"
     },

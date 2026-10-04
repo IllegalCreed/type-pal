@@ -21,7 +21,7 @@ Branch: codex/d15-movement-premise-gate
 - 范围内:
   - 对账 `docs/phase2/capability-map.md` 中 W9、E18、C8、N3、B11 注记、议题 18 与 §4/§5 选择器；
   - 核对任务卡头部 `Status`、done 前三签、用户验收节与对应 git 提交是否一致；
-  - 修正 `docs/ops/board.md` 中违反“只保留进行中/阻塞任务”的 done 行；
+  - 修正 `docs/ops/archive/board-history/board-20261004.md` 中违反“只保留进行中/阻塞任务”的 done 行；
   - 按修正后的半 done/缺失格重新运行选择器，给出下一产品任务候选及直接依据。
 - 范围外:
   - 不修改任何产品代码、schema、save、migration 或 generated content；
@@ -83,7 +83,7 @@ Branch: codex/d15-movement-premise-gate
 - 已拍板决策 / 铁律:
   - `AGENTS.md` 前提真值门：关键 unknown 必须 blocked；capability-map 状态变化必须三方介入；
   - `docs/phase2/capability-map.md:203-224`：下一步选择器与“一轮一承诺”；
-  - `docs/ops/board.md`：看板只保留进行中和阻塞任务。
+  - `docs/ops/archive/board-history/board-20261004.md`：看板只保留进行中和阻塞任务。
 - 代码 / 文档锚点:
   - `docs/phase2/capability-map.md:52-174,180-224`；
   - 本卡真值矩阵中列出的五张任务卡；
@@ -126,7 +126,7 @@ Branch: codex/d15-movement-premise-gate
     与三份提交 diff，四证逐项对账见下方「Kimi 独立四证对账」。地图 W9 ❌/draft
     （`docs/phase2/capability-map.md:62`）、E18 ❌/draft（:77）、C8 ⚠️ 等待 N3-1（:90）、
     N3 备注「不得把 N3-1 标 done」（:98）、§4 W1/E6 陈旧推荐（:183-199）、board D15-1 done 行
-    （`docs/ops/board.md:19`）均与源卡/git 更晚证据冲突；`b9de09d0`/`9952aa53`/`e70987d6`
+    （`docs/ops/archive/board-history/board-20261004.md:19`）均与源卡/git 更晚证据冲突；`b9de09d0`/`9952aa53`/`e70987d6`
     均经 `git merge-base --is-ancestor` 确认在 HEAD 内。前提成立。
   - design: **agree（2026-08-13，附必改项 K1-K6，见「Kimi 独立四证对账」）**。四证
     fail-closed、先修源卡再改地图、不代签 E18 用户验收的方向正确；K1-K6 为 build 必落钉。
@@ -370,7 +370,7 @@ Evidence: W9 卡 :3,730+ / E18 卡 :3,83,407 / C8 卡 :3,966+ / ED-5I 卡 :3,552
 - Coding Owner: Codex
 - 修改文件:
   - `docs/phase2/capability-map.md`
-  - `docs/ops/board.md`
+  - `docs/ops/archive/board-history/board-20261004.md`
   - `docs/ops/archive/tasks/done/W9-entity-lifecycle-respawn.md`
   - `docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md`
   - `docs/ops/archive/tasks/done/C8-item-use-mechanisms.md`

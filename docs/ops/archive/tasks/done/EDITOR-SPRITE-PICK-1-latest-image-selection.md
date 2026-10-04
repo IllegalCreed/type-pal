@@ -61,7 +61,7 @@ Codex已完成实现、20项新回归/2项旧回归、36相邻、6负控、最�
 ### 本轮只读复算
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs
 pnpm --filter @type-pal/editor exec vitest run src/ui/SpriteUploadWizard.test.tsx
 ```
 

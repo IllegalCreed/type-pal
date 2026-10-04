@@ -23,7 +23,7 @@
 - [001–005 共性问题族](cross-stage/common-issues.md)
 - [横向材料索引](cross-stage/README.md)
 - [检查点目录](../../../projects/pal/e2e-checkpoints/README.md)
-- [E2E 任务卡看板](../../ops/board.md)
+- [E2E 任务卡看板](../../ops/archive/board-history/board-20261004.md)
 
 ## Agent 快速检索
 

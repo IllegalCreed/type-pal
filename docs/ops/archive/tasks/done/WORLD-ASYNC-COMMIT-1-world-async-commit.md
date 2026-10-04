@@ -54,7 +54,7 @@ SAVE8/content20不变，不做旧档修复/兼容fallback；不新增“所有�
   GLM原材料+Codex修正自验，不充当本卡Kimi独立签字。相同产品、源码哈希已核；不重复72项全量盘点。
 - 本轮最小复跑：A01 contract exit0；A02/A03/A05/A09分别在正确业务断言exit1，无环境失败。
   日志：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-world-async-draft-KIe6PD/`。
-  命令：`node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case <ID>`。
+  命令：`node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=contract --case <ID>`。
 - 最强替代解释：这些改变可能已合法提交，或审计替身跳过了主壳/使用不存在的旧字段，误把正常取消报成缺陷。
   排除依据：A02/A03跑实际main.reloadMap；失败时现场旧而canonical新；A09取消前快照无选择，成功resolver返回后才出现残留。
   A05通过真实selector和main.prepare/assert/reveal，不手工把缺失字段塞回scratch。已提交后的microtask取消另设正控，不能混同。

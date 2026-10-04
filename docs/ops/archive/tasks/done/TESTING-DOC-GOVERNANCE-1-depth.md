@@ -110,7 +110,7 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 ## Build: 实现与自测
 
 - Coding Owner：Codex
-- 修改文件：`docs/testing/**`、`docs/ops/board.md`、相关旧链接与本卡、`scripts/docs/check-testing.mjs` 及测试。
+- 修改文件：`docs/testing/**`、`docs/ops/archive/board-history/board-20261004.md`、相关旧链接与本卡、`scripts/docs/check-testing.mjs` 及测试。
 - 实现摘要：待最终收口填写。
 - 运行命令：`node scripts/docs/classify-testing-legacy.mjs`、`node scripts/docs/generate-testing-index.mjs`、`pnpm check:testing-docs`、`pnpm test:docs-tools`、`pnpm check:docs`、`pnpm lint`。
 - 浏览器 / 手工检查：N/A。

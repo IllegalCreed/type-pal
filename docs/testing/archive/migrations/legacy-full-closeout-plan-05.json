@@ -692,11 +692,11 @@
       ],
       "publicCommands": [
         "pnpm check",
-        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/open-identity-probe.config.mts"
+        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts"
       ],
       "publicCallers": [
         "pnpm check",
-        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/open-identity-probe.config.mts"
+        "pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts"
       ],
       "legalInputs": [
         "current repository checkout at the recorded revision",

@@ -78,7 +78,7 @@ Closed: 2026-09-07（用户明确回复“通过”）
 
 ### 当前树复现（Codex，2026-09-07）
 
-原样运行 `node --import tsx docs/ops/audits/pre-e2e/probe-editor-persistence.mjs`，exit 0：
+原样运行 `node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs`，exit 0：
 
 - A-02：A 用真实 UpdateLocaleCommand 保存 `Saved by A`；B 从旧态用 RenameProjectCommand 保存，
   磁盘 locale 变回 `主角`，manifest.name=`Edited by B`。不是两个同时写才触发，A 完全结束后 B 再写也成立。

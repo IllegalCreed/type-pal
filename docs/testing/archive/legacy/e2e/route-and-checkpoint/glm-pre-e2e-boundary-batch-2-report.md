@@ -205,7 +205,7 @@ GLM返工回执位于该候选本文件末尾，机器账位于该候选evidence
   独立单点加入同一敌攻链silence处理后，D02在“不得落status”断言exit1，证明方向仍反。
 - **battle-actions:259–290（D05）**以PAL无全队复活为由，改成两次oneAlly还魂香物品；
   原D05明确要求正式validateSkills接受的自定义allAllies复活技能及混合生死队伍。两次单体物品不是等价调用域。
-  Codex复跑原[战斗core探针](../../../../../ops/audits/pre-e2e/probe-battle-core.mjs)：自定义allAllies通过验证、仍HP0/扣MP，单体正控HP99。
+  Codex复跑原[战斗core探针](../../../../../ops/audits/pre-e2e/tools/probe-battle-core.mjs)：自定义allAllies通过验证、仍HP0/扣MP，单体正控HP99。
   “数据前提非缺陷”不成立，必须补原作者能力组合，不改原PAL文件、不换验收目标。
 - **battle-actions:397–431（D09）**仍assert投掷-only不得进入miscSub，固化了审计C-05。
   独立只把生产父入口条件改为use或throw并集，D09反而因miscSub≠misc失败；W快捷成功不能代替修正父入口合同。
@@ -214,7 +214,7 @@ GLM返工回执位于该候选本文件末尾，机器账位于该候选evidence
 
 - **async:288–329（A05）**调用另一条ScriptRunner.setSceneOnEnter路径，再手工把sceneScriptOverrides拼入scratch。
   生产scratch没有这个字段，原B-08恰是canonical hook选择未进入签名；这等于在测试输入里填上所缺依赖，不能证明当前entry计划安全。
-  独立复跑原[主壳preflight探针](../../../../../ops/audits/pre-e2e/probe-scene-preflight.mjs)仍得到：旧hook计划被接受、fade/cut不一致、reveal拒绝。
+  独立复跑原[主壳preflight探针](../../../../../ops/audits/pre-e2e/tools/probe-scene-preflight.mjs)仍得到：旧hook计划被接受、fade/cut不一致、reveal拒绝。
   需要真实canonical selector→main.prepareSceneSwitch等待点→assertCurrent/reveal链，不把旧投影字段补丁当业务正控。
   A06签名基础正反控制可复用，A08允许具名复用同证据，不为重复ID机械另造测试。
 - A07已正确调用resolveSceneHook，但消费结果只打印未assert，补use/disabled/inherit三态实际消费结果。
@@ -349,20 +349,20 @@ D02/D03/D05/D08/D09、E02/E06/E07/E08。**不是23个独立根因、不是134条
 
 ### 可重建入口与13项鉴别力
 
-探针：[A异步](../../../../../ops/audits/pre-e2e/probe-glm-next-async.mjs)、[B保存屏障](../../../../../ops/audits/pre-e2e/probe-glm-next-barrier.mjs)、
-[C战果](../../../../../ops/audits/pre-e2e/probe-glm-next-battle-result.mjs)、[D动作](../../../../../ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs)、
-[E迁移](../../../../../ops/audits/pre-e2e/probe-glm-next-migration.mjs)、[F覆盖候选](../../../../../ops/audits/pre-e2e/probe-glm-next-coverage.mjs)。
-[宿主隔离与台账生成器](../../../../../ops/audits/pre-e2e/probe-glm-next-support.mjs)仅直接CLI模式生成临时日志；
-[隔离反控回放配置](../../../../../ops/audits/pre-e2e/probe-glm-next.config.mts)是诊断入口，不是正式测试配置。
+探针：[A异步](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-async.mjs)、[B保存屏障](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs)、
+[C战果](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs)、[D动作](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs)、
+[E迁移](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs)、[F覆盖候选](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs)。
+[宿主隔离与台账生成器](../../../../../ops/audits/pre-e2e/tools/probe-glm-next-support.mjs)仅直接CLI模式生成临时日志；
+[隔离反控回放配置](../../../../../ops/audits/pre-e2e/tools/probe-glm-next.config.mts)是诊断入口，不是正式测试配置。
 
 ```sh
 # A～E用具体ID独立运行；all在contract首红即停，不能拿all替代逐case账
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A03
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A03
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=observe --case A03
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=contract --case A03
 # 13项独立见证；输出源码/变换/日志哈希
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next.config.mts
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts
 # 重建72行账：60×2 + F一次 + 13见证，最终JSON到stdout、进度到stderr
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-support.mjs --collect
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs --collect
 ```
 
 | 隔离见证 | 预期/实测 |

@@ -191,14 +191,14 @@ Codex后续新增/修正部分为本人实现自验证，不能冒称GLM独立�
 
 - `docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md`：本席报告/证据目录/六组回执，Codex接收区不得代填。
 - `docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json`：72行机器账，每行唯一ID、分类、源锚点、命令/观察、正控、反控/待证、后续归属。
-- `docs/ops/audits/pre-e2e/probe-glm-next-async.mjs`（A）
-- `docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs`（B）
-- `docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs`（C）
-- `docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs`（D）
-- `docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs`（E）
-- `docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs`（F，可选）
-- `docs/ops/audits/pre-e2e/probe-glm-next-support.mjs`（必要时共用的宿主隔离，不放业务算法）
-- `docs/ops/audits/pre-e2e/probe-glm-next.config.mts`（必要时定向Vitest/Vite诊断；不是正式配置）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs`（A）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs`（B）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs`（C）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs`（D）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs`（E）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs`（F，可选）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs`（必要时共用的宿主隔离，不放业务算法）
+- `docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts`（必要时定向Vitest/Vite诊断；不是正式配置）
 
 packages/、scripts/、projects/、data/、reference/、锁文件与全部旧探针相对冻结产品必须零diff。本包/README/任务卡/看板不得由GLM改动。
 报告文件已在主线创建并索引，无需另改README；新增证据文件由报告正文链接，不为制造“整洁目录”迁移现有文档。

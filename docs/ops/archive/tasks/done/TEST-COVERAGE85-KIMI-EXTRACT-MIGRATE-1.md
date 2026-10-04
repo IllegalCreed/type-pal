@@ -70,7 +70,7 @@ Capability: test-quality / coverage branch closure
   ledger L01/L02）。**可及边已 100% 闭合**：539 − 126（cli 93 + videos 12 + 类型防御/
   无生产者/政策 21）= 413 = 实达数，剩余 126 边全部有一手不可达证明（L01-L03）。
 - 新测试 **91 例全绿、0 pending/skip、0 额外 collection/runtime 错**（pal-extract 38 +
-  migrate 53；本分支实跑记录见 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1-evidence.md`
+  migrate 53；本分支实跑记录见 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md`
   验证节与同目 `evidence.json`）。
 
 ### 质量门（fresh，2026-10-04 干净 worktree（git worktree add，HEAD=r3 候选）实跑）
@@ -84,17 +84,17 @@ Capability: test-quality / coverage branch closure
 - fast 覆盖实跑（`scripts/coverage/run.mjs` 同参数、同环境变量，仅换输出目录）：
   pal-extract 264/264 exit 0、migrate 654/654 exit 0（数值见上方总结论；同目
   `evidence.json` 记录四指标前后对照）。
-- 反控：`node docs/ops/evidence/coverage85-kimi-extract-migrate-r1-mutants.mjs` 6/6 detected。
+- 反控：`node docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs` 6/6 detected。
 - mkdtemp 清理：本卡全部前缀（`kimi-r1-cli-/mgtx-/palassets-/palmat-/mutants-`）
   残留 0；`finally/afterEach` 只清本次目录，无全局 prune。`glm-q-cli-ge-*` 残留为
   2026-10-02 glm-q 套件既有遗留（stat 时间戳），与本卡无关，不代清。
 - 证据（全部 tracked，非 ignored 路径）：
-  `docs/ops/evidence/coverage85-kimi-extract-migrate-r1-evidence.md`（主证据）、
+  `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md`（主证据）、
   `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/evidence.json`（机账）、
   `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutation-receipt.json`（反控机账）、
   `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/*.txt`（反控原始 stdout/stderr）、
-  `docs/ops/evidence/coverage85-kimi-extract-migrate-r1-mutants.mjs`（反控驱动）、
-  `docs/ops/evidence/gen-kimi-r1-ledger.mjs`（126 边逐条账生成器，幂等可复跑）。
+  `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs`（反控驱动）、
+  `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs`（126 边逐条账生成器，幂等可复跑）。
 
 ### Branch delta（fast lcov 一手测量，base=本分支开工点）
 
@@ -202,7 +202,7 @@ Capability: test-quality / coverage branch closure
 
 ### 反控（真实变异点三态；原始/变异/恢复 sha256 + 执行身份 + exit code）
 
-驱动 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1-mutants.mjs`（vitest load 钩注入，
+驱动 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs`（vitest load 钩注入，
 产品磁盘零写入；marker 文件证明注入执行；testNamePattern 锁唯一 fullName；
 businessRed 要求 exit 1 + 恰好一条 executed + 纯业务 AssertionError，拒绝 timeout/
 unhandled/额外错误类型）。机账 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/
@@ -227,7 +227,7 @@ spawnError 见机账与 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/*.
 ### Unreachable ledger（一手不可达证明；均附源码条件与公开入口调查）
 
 > pal-extract 剩余 **126 边已逐条列账**（source:file:line、公开入口、不可构造条件、
-> 反例，非总数）：见 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1-evidence.md`
+> 反例，非总数）：见 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md`
 > 的 U1（cli.ts 93）/ U2（extract-videos.ts 12）/ U3（类型防御等 21）三节。
 > 下方 L01-L03 为其组级摘要；migrate 侧 L04-L07 与证据文档 U4-U15 同构。
 
@@ -343,7 +343,7 @@ migration-baseline(1)、pal-content-supply(1) —— 不在本卡合同点清单
 
 - 新增 12 个测试文件（hash 见 `docs/ops/evidence/coverage85-kimi-extract-migrate-r1/evidence.json`
   testFileHashes），共 91 例；改动 2 个文档（本任务卡、`docs/testing/README.md` 索引行）；
-  新增证据 1 套（`docs/ops/evidence/coverage85-kimi-extract-migrate-r1-evidence.md` +
+  新增证据 1 套（`docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md` +
   `coverage85-kimi-extract-migrate-r1/` 目录 + `-mutants.mjs` 驱动）。
 - 产品代码、旧测试、共享配置、baseline、projects/pal、data/* 零改动；
   r1 污染内容（lore/timeline、testing e2e 文档、E2E-006 卡归档与 board、content/
@@ -352,7 +352,7 @@ migration-baseline(1)、pal-content-supply(1) —— 不在本卡合同点清单
 ### 下一位 Agent 提示词（Codex 独立验收）
 
 你是 Codex，负责本卡独立验收。先读 `AGENTS.md`、本卡、
-`docs/ops/evidence/coverage85-kimi-extract-migrate-r1-evidence.md` 与
+`docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md` 与
 `docs/ops/agent-workflow.md` 的测试质量验收节，然后：
 
 1. 核对 branch delta 与全量 fast 实跑记录（migrate 1594/1787=89.20% 过门、

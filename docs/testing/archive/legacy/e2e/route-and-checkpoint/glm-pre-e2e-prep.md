@@ -37,7 +37,7 @@ Codex同时负责D-01方案/实现/集成、原生功能与视觉、全仓check/
 - G-I：`ui/SpriteUploadWizard.tsx`、`core/sprite-assets.ts`、`editor-asset-reader.ts`、上传/量化/编码/Command实际调用链。
 - G-C：`ui/FireEffectPreview.tsx`、`SpriteThumb.tsx`、`StampPreviewCanvas.tsx`、
   `core/sprite-assets.ts`、`editor-asset-reader.ts` 与reforge资产加载/AssetResolver（按真实import定位，勿凭文件名臆造）。
-- 已有诊断：`docs/ops/audits/pre-e2e/probe-editor-history.mjs`、`probe-editor-reference-delete.mjs`、
+- 已有诊断：`docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs`、`probe-editor-reference-delete.mjs`、
   `probe-editor-sprite-upload.mjs`、`probe-preview-cache.mjs`，只读，不能改原探针来证明原结论。
 
 ### 已知环境陷阱
@@ -142,10 +142,10 @@ G-H为D-01设计阶段输入，不直接约定新实现的私有API；其他组�
 第二节点分支仅允许：
 
 - `docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md`（只写GLM报告，不改本工作包范围）
-- `docs/ops/audits/pre-e2e/probe-glm-history-prep.mjs`
-- `docs/ops/audits/pre-e2e/probe-glm-reference-prep.mjs`
-- `docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs`
-- `docs/ops/audits/pre-e2e/probe-glm-cache-prep.mjs`
+- `docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs`
+- `docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs`
+- `docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs`
+- `docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs`
 - 必要时一个共用 `docs/ops/audits/pre-e2e/probe-glm-prep.config.mts`；无必要不创建占位脚本。
 
 只git add精确白名单；packages/、scripts/、projects/、data/、reference/、锁文件/正式配置/既有探针必须零diff。

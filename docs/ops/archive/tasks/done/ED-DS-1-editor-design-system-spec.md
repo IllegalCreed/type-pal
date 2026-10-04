@@ -332,7 +332,7 @@ git diff --check。只读终审，未改实现/规范文件，未代签 Kimi/用
   - `docs/phase2/specs/editor-design-system.md`（新增并冻结为 normative v1.0.0）
   - `docs/phase2/archive/audits/editor-modernization-follow-up-2026-08-14.md`（登记规范入口）
   - `docs/phase2/archive/designs/editor-design.md`（划清产品架构与界面合同边界）
-  - 本任务卡与 `docs/ops/board.md`
+  - 本任务卡与 `docs/ops/archive/board-history/board-20261004.md`
 - 实现摘要:
   - 完成带稳定条款编号的 11 章规范：产品原则、Foundations、应用壳、Patterns、四类 Recipes、交互、
     Media、Accessibility、实现合同、Reference fixtures、Rollout/Governance。

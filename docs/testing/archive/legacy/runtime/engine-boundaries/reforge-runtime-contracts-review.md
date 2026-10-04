@@ -108,7 +108,7 @@ node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-
 
 ### 剩余R4：候选回退了另一张卡的看板，文档门仍红
 
-候选`docs/ops/board.md:15`相对ced4f2b9把EDITOR-SCENE-REF-GUARD-1的review行改回**build**，
+候选`docs/ops/archive/board-history/board-20261004.md:15`相对ced4f2b9把EDITOR-SCENE-REF-GUARD-1的review行改回**build**，
 不属于本人任务登记；候选`pnpm check:docs` **exit1**：看板build与该卡review不一致。
 主线随后已把该卡done归档，集成更不能带回这个旧行。候选其他卡正文/实现未见回退，本席不夸大为代码被回退。
 请同步本次counter及最新main，保留guard归档与预览缓存修复，只改本人状态/日志；修正过时链接与提示词中的旧tip，

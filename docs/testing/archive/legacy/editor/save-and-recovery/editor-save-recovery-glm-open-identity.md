@@ -221,11 +221,11 @@ GLM 测试贡献者，终审须披露。测试候选 `e1c0d67e`（amend 回填�
 
 - 候选94项、tc、biome及独立AST负控：`/tmp/codex-open-identity-review.8WVTS5/`，candidate-*、negative-*、
   review-negative.config.mts；漏dir的绿反证：leak.config.mts/leak.log。
-- [独立接口见证](../../../../../ops/audits/pre-e2e/probe-open-identity-boundaries.test.mjs)与
-  [专用配置](../../../../../ops/audits/pre-e2e/open-identity-probe.config.mts)已入库并实跑3项：
+- [独立接口见证](../../../../../ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs)与
+  [专用配置](../../../../../ops/audits/pre-e2e/tools/open-identity-probe.config.mts)已入库并实跑3项：
   同source正控、错误source导致坏登记的见证、真实过期token可达见证。只用内存目录/IDB，无浏览器、无真实作者数据。
 - **这不是产品接受测试**：其中一项故意见证当前缺陷；修复后该见证应失败，不接入常规check/coverage，不把3绿当产品通过。
-  执行：`pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/open-identity-probe.config.mts`。
+  执行：`pnpm --filter @type-pal/editor exec vitest run --config ../../docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts`。
 - 入库入口的运行结果：persistent-oracles.log、persistent-source-axis.json。
   初次临时oracle因非标准vitest导入导致mock解析失败（0项执行），已修正重跑；该加载失败未计作反证。
 - 本包尚未接收，因此没有运行/更新官方ratchet和严格fast，也不合入不完整用例抬高基线。主树check6,783/fast6,295保持。
@@ -245,7 +245,7 @@ GLM 测试贡献者，终审须披露。测试候选 `e1c0d67e`（amend 回填�
   负例未先 finishOpen 写正确最近记录（每用例 beforeEach 清空 IDB 记录）。
 - 正控「OI-S 正控: hint 与 marker 全轴一致（含 source）」：同构造 hint source=ui-samples → 打开、
   真实登记（记录 source=ui-samples）、不带 hint 重开一致。与 Codex 入库探针
-  `docs/ops/audits/pre-e2e/probe-open-identity-boundaries.test.mjs` 的正例同构。
+  `docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs` 的正例同构。
 - **产品缺陷 counter（交 Codex，本席不改生产）**：`workspace-persistence.ts:955-958` 只核 hint 的
   mode/workspaceId 未核 source；随后 `open-actions.ts:194-199` 以 hint 来源登记。影响/替代解释与
   「未证明正常 UI 链会产生不一致 hint」的限定均按 Codex 复核原文，不夸大。

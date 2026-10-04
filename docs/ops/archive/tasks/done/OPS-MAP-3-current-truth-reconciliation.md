@@ -14,7 +14,7 @@ Risk: 小型纯文档对账
 
 ## 范围与证据
 
-- 只修改：`docs/phase2/capability-map.md`、`docs/phase2/design-backlog.md`、`docs/ops/board.md`，
+- 只修改：`docs/phase2/capability-map.md`、`docs/phase2/design-backlog.md`、`docs/ops/archive/board-history/board-20261004.md`，
   并新增本卡作为本次对账回执。
 - 直接证据：对应任务卡首行 `Status` 与 Git 收口记录，包括 D6-1、D12-1、D13-1、D14-2、D14-3、
   D15-1、W9、B2-1、E18-1、ARCH-CURRENT-ONLY-1、ARCH-ACTOR-CONDITION-SEED-1、W4-1。

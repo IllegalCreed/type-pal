@@ -1,8 +1,9 @@
 # PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账
 
 后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。
+审计脚本统一位于 [tools/](tools/README.md)；本页与同目录 Markdown 只保存审计结论和范围，不把探针源码当作当前通过。
 下一组设计准备：[B-06/B-07保存子链前提与不完整修法反例](save-barrier-lineage-premise.md)（2026-09-16，只读取证，尚未实现）。
-以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../board.md)为准，不改原探针和历史结论。
+以下“未修复/修复尚未开始”均为原审计时点；当前修复状态以回执与[看板](../../archive/board-history/board-20261004.md)为准，不改原探针和历史结论。
 
 后续修复：[编辑器覆盖率确定性](coverage-determinism.md)已用独立受控帧回归闭环并三签收口，未降低门禁或修改生产行为。
 后续修复：[A-01 存档隔离](../../archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)r2 三席终审已通过，
@@ -100,9 +101,9 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 当前跟进：[EDITOR-SAVE-RECOVERY-1](../../archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，2026-09-07 用户批准
 完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。
 只读状态门与目录暂存/重放内核已实现，并完成原生浏览器重启的API验证；普通保存/打开等顶层入口尚未接入，A-03仍未标修复。
-新增[当前 API 探针](probe-editor-save-recovery.mjs)传入真实打开得到的 authorBaseline，
+新增[当前 API 探针](tools/probe-editor-save-recovery.mjs)传入真实打开得到的 authorBaseline，
 在 A-02 已修复的树上仍复现新人物/场景半写；原页面有完整目标时重试成功。运行
-`node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs`；仅内存 FSA/IDB，不改真实工程。
+`node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs`；仅内存 FSA/IDB，不改真实工程。
 以下原审计锚点保留；旧 probe-editor-persistence 仍为修前接口，不能用它的缺参数异常作为新的 A-03 证明。
 
 - 证据：`editor/src/core/project-io.ts:175-187,245-248`先产出场景后产出人物表；`:496-504`逐文件原地close；
@@ -204,9 +205,9 @@ E2E门槛另列。没有证据表明用户现有项目或存档已经遭到损�
 放入正式测试并退役旧假设探针；不为维持它们引入旧版本兼容。仅在独立Node进程运行：
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-save-boundaries.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-persistence.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-migration-boundaries.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs
 ```
 
 Codex主Agent已独立运行上述最终落盘版（含防护），全部证实相应结果。editor脚本用Vite middleware模块加载、

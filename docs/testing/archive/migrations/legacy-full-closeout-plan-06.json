@@ -1882,19 +1882,19 @@
         }
       ],
       "publicCommands": [
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A03",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A03",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next.config.mts",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-support.mjs --collect",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=observe --case A03",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=contract --case A03",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs --collect",
         "node scripts/docs/check.mjs",
         "node --test scripts/docs/*.test.mjs",
         "git diff --check"
       ],
       "publicCallers": [
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=observe --case A03",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case A03",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next.config.mts",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-support.mjs --collect",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=observe --case A03",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=contract --case A03",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs --collect",
         "node scripts/docs/check.mjs",
         "node --test scripts/docs/*.test.mjs",
         "git diff --check"
@@ -2078,20 +2078,20 @@
         }
       ],
       "publicCommands": [
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-history-prep.mjs    # exit 0",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-reference-prep.mjs  # exit 0",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs     # exit 0",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-cache-prep.mjs      # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs    # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs  # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs     # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs      # exit 0",
         "pnpm exec biome check docs/ops/audits/pre-e2e/probe-glm-*.mjs           # 0 error / 0 warning",
         "git 复核）。",
         "node --import tsx /tmp/type-pal-glm-prep-round2.vTUvvG/cache-witness.mjs thumb-fixed|fire-control|fire-no-alive",
         "node --import tsx /tmp/type-pal-glm-prep-rereview.nr2T5k/witness.mjs upload"
       ],
       "publicCallers": [
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-history-prep.mjs    # exit 0",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-reference-prep.mjs  # exit 0",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs     # exit 0",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-cache-prep.mjs      # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs    # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs  # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs     # exit 0",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs      # exit 0",
         "pnpm exec biome check docs/ops/audits/pre-e2e/probe-glm-*.mjs           # 0 error / 0 warning",
         "git 复核）。",
         "node --import tsx /tmp/type-pal-glm-prep-round2.vTUvvG/cache-witness.mjs thumb-fixed|fire-control|fire-no-alive",

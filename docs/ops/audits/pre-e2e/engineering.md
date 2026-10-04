@@ -149,9 +149,9 @@ legacy-migrated来源标签、被批准的源精灵坏尾解码；IndexedDB onup
 三组最终探针由主Agent独立复跑；测试门禁探针再调用原测试文件，setup只模拟只读资源边界：
 
 ```sh
-node docs/ops/audits/pre-e2e/probe-test-gates.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-precache-progress.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-preview-cache.mjs
+node docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs
 ```
 
 probe-test-gates成功表示复现了“缺raw两suite失败／缺effect零断言passed／正常effect五断言passed”，

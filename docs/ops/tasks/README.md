@@ -11,7 +11,7 @@
 2. 中等任务复制 [`TASK-lite-template.md`](../templates/TASK-lite-template.md)。
 3. 先完成“前提真值门”,再写详细方案。高风险/用户可见行为任务必须对照原版/primary source、第一阶段、
    当前二阶段和目标,逐项附 `file:line` 或一手证据;关键前提未知时保持 `blocked`。
-4. 如任务正在进行或阻塞,在 [`../board.md`](../board.md) 增加一行。
+4. 如任务正在进行或阻塞,在 [`../board.md`](../archive/board-history/board-20261004.md) 增加一行。
 5. 记录 Codex 对前提、范围、单一 Coding Owner 和验收方式的准入判断；高风险任务仍要一手证据、可证伪观察与必要的用户产品裁决。贡献者自验后由 Codex 独立复核并决定返工/集成，不再等待固定三方签字。
 6. 跨 Agent 交接时,当前 Agent 必须在任务卡和最终回复中给出“下一位 Agent 提示词”,方便用户直接复制给下一位。
 7. 按 `draft -> build -> review -> done` 推进，必要时记录 `blocked` 或 `rework`。`Status` 不替代前提证据、质量门或用户裁决；旧卡 `pending` 的 Kimi/GLM 席位本身不再阻止 Codex 按当前模式推进。
@@ -47,7 +47,7 @@
 
 ## 目录状态与阅读须知（2026-09-06 增）
 
-- **活动任务只以 [`../board.md`](../board.md) 为准**——本目录不做活动/终态的手工二次索引。
+- **活动任务只以 [`../board.md`](../archive/board-history/board-20261004.md) 为准**——本目录不做活动/终态的手工二次索引。
 - `done` / `cancelled` 卡已移入历史任务目录：它们是**历史交接记录**，
   卡内的「当前状态 build/review」「下一位 Agent 提示词」「pending 签字」等文字是**写作当时
   的快照**，顶部 `Status:` 行覆盖正文局部状态——局部搜索命中旧状态时以顶部终态为准。

@@ -15,14 +15,14 @@
       "risk": 15
     },
     "codeHashes": {
-      "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs": "87a11b0dc4a32a65bf93f1a761718f5688e2405438df949575e894626d1cdd6d",
-      "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs": "c8ec4881fe89a4e59348735a7b90d879d2b05f7bad8684b6ba3e55ab5466122c",
-      "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs": "53be075b98aabfe8a695304a2ab5b52c83082271ff9a8f789afae4fffd145139",
-      "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs": "6fdc6196fdace1851bab4ef08a33be6618e29babe3eb620b378ccdcc403c3810",
-      "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs": "4570f7d66045b11ddc45df6e49876da2f20def14300330cc141524032d305024",
-      "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs": "eedea1b6de80d5367dffcac718f81a0ccdec172ed1cafd79991288e0a7173c63",
-      "docs/ops/audits/pre-e2e/probe-glm-next-support.mjs": "92742aee37aa18522168c872e2c71e05e7f0e2ab5d3121e43ceb2794485848d5",
-      "docs/ops/audits/pre-e2e/probe-glm-next.config.mts": "01d0583640f68f33c7ee2e9e79f46c74e98f19e591a2da8c90f05720a56bd825"
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs": "87a11b0dc4a32a65bf93f1a761718f5688e2405438df949575e894626d1cdd6d",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs": "c8ec4881fe89a4e59348735a7b90d879d2b05f7bad8684b6ba3e55ab5466122c",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs": "53be075b98aabfe8a695304a2ab5b52c83082271ff9a8f789afae4fffd145139",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs": "6fdc6196fdace1851bab4ef08a33be6618e29babe3eb620b378ccdcc403c3810",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs": "4570f7d66045b11ddc45df6e49876da2f20def14300330cc141524032d305024",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs": "eedea1b6de80d5367dffcac718f81a0ccdec172ed1cafd79991288e0a7173c63",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs": "92742aee37aa18522168c872e2c71e05e7f0e2ab5d3121e43ceb2794485848d5",
+      "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts": "01d0583640f68f33c7ee2e9e79f46c74e98f19e591a2da8c90f05720a56bd825"
     },
     "oracles": {
       "frozenProduct": "70e3f627",
@@ -160,7 +160,12 @@
         }
       ],
       "scope": "13 isolated assertions/results; no production files changed, not an implementation approval",
-      "command": ["node", "--import", "tsx", "docs/ops/audits/pre-e2e/probe-glm-next.config.mts"],
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts"
+      ],
       "log": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-b2-evidence-ZHQHvs/oracles.log",
       "logSha256": "1e5bbff2b95baf36c3dde43ad05a138288b3d756924b102ec496baba5507e121"
     }
@@ -172,7 +177,7 @@
       "classification": "covered",
       "requirement": "当前场景换图成功：现场可观测状态、canonical覆写、保存快照一致",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:111",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:111",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -183,7 +188,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A01"
@@ -193,7 +198,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A01"
@@ -244,7 +249,7 @@
       "classification": "reproduced",
       "requirement": "同输入只将资源预载改失败：失败之后三者状态、通知次数和可重试性",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:111",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:111",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -255,7 +260,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A02"
@@ -265,7 +270,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A02"
@@ -305,7 +310,7 @@
       "classification": "reproduced",
       "requirement": "当前场景换图预载entered后取消：取消前后覆写/现场/快照，不把已提交撤销当未提交取消",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:111",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:111",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -316,7 +321,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A03"
@@ -326,7 +331,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A03"
@@ -366,7 +371,7 @@
       "classification": "covered",
       "requirement": "显式其它scene覆写正控：与当前场景预载路径区分，不误要求所有覆写都加载现场",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:209",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:209",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -377,7 +382,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A04"
@@ -387,7 +392,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A04"
@@ -425,7 +430,7 @@
       "classification": "reproduced",
       "requirement": "entry准备等待期间通过真实selector改变目标onEnter选择，追到真实preflight/reveal契约",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:241",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:241",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -436,7 +441,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A05"
@@ -446,7 +451,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A05"
@@ -486,7 +491,7 @@
       "classification": "covered",
       "requirement": "同一时序但选择/entry不变正控，不能把全部并发变化一律拒绝",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:27",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:27",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -497,7 +502,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A06"
@@ -507,7 +512,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A06"
@@ -547,7 +552,7 @@
       "classification": "covered",
       "requirement": "目标hook选择的use/disabled/inherit实际消费域，签名/entry变化分别分类",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:356",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:356",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -558,7 +563,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A07"
@@ -568,7 +573,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A07"
@@ -608,7 +613,7 @@
       "classification": "covered",
       "requirement": "无关money/flag变化与真正依赖变化对照：不能通过扩大任意变更失效来掩盖遗漏",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:27",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:27",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -619,7 +624,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A08"
@@ -629,7 +634,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A08"
@@ -669,7 +674,7 @@
       "classification": "reproduced",
       "requirement": "selectSceneHooks真实await resolver后、提交前abort，比较canonical和通知而非只看AbortError",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:418",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:418",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -680,7 +685,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A09"
@@ -690,7 +695,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A09"
@@ -728,7 +733,7 @@
       "classification": "reproduced",
       "requirement": "selectEntityBehavior同类异步边界，合法entity/behavior输入及不取消正控",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:550",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:550",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -739,7 +744,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A10"
@@ -749,7 +754,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A10"
@@ -795,7 +800,7 @@
       "classification": "reproduced",
       "requirement": "selectEntityPage同类边界，页面选择与既有cursor/lease的影响分栏",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:561",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:561",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -806,7 +811,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A11"
@@ -816,7 +821,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A11"
@@ -862,7 +867,7 @@
       "classification": "reproduced",
       "requirement": "setEntityTriggerActivation同类边界；取消已生效/提交后取消两种时点不可混称",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs:567",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs:567",
         "packages/reforge/src/script-project-core.ts:199",
         "packages/reforge/src/scene-switch-transaction.ts:31",
         "packages/reforge/src/main.ts:1000"
@@ -873,7 +878,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=observe",
         "--case",
         "A12"
@@ -883,7 +888,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-async.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
         "--mode=contract",
         "--case",
         "A12"
@@ -929,7 +934,7 @@
       "classification": "reproduced",
       "requirement": "confirm未回答→真实允许的保存请求→yes后开战，核父子lineage、snapshot调用及谁等待谁",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:113",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:113",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -941,7 +946,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B01"
@@ -951,7 +956,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B01"
@@ -991,7 +996,7 @@
       "classification": "covered",
       "requirement": "同流程不请求保存的合法正控；同runtime/exact-signal已保护的子链对照",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:183",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:183",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1003,7 +1008,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B02"
@@ -1013,7 +1018,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B02"
@@ -1053,7 +1058,7 @@
       "classification": "reproduced",
       "requirement": "confirm→保存→内联onTeleport，核新hook lease与父活动关系，不拿B01代证此分支",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:233",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:233",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1065,7 +1070,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B03"
@@ -1075,7 +1080,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B03"
@@ -1115,7 +1120,7 @@
       "classification": "covered",
       "requirement": "confirm回答no/流程结束时的保存完成正控；不把所有确认框列为死锁",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:294",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:294",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1127,7 +1132,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B04"
@@ -1137,7 +1142,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B04"
@@ -1175,7 +1180,7 @@
       "classification": "covered",
       "requirement": "有界超时的错误、gate释放及后续重试；明确生产10000ms与诊断虚拟时间的区别",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:322",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:322",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1187,7 +1192,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B05"
@@ -1197,7 +1202,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B05"
@@ -1237,7 +1242,7 @@
       "classification": "covered",
       "requirement": "取消父/子活动时barrier收尾：快照次数、活动数、错误归属和后续合法保存",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:381",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:381",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1249,7 +1254,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B06"
@@ -1259,7 +1264,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B06"
@@ -1299,7 +1304,7 @@
       "classification": "covered",
       "requirement": "U-02所有真实detached入口census，哪些能在取消旧链后启动新活动，静态和动态分栏",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:453",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:453",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1311,7 +1316,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B07"
@@ -1321,7 +1326,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B07"
@@ -1361,7 +1366,7 @@
       "classification": "risk",
       "requirement": "合法旧链取消→旧Promise未finally→新交互取得权威的可达反例；不允许忽略signal的fake invoke",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:462",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:462",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1373,7 +1378,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B08"
@@ -1383,7 +1388,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B08"
@@ -1423,7 +1428,7 @@
       "classification": "risk",
       "requirement": "旧finally执行后的新权威、挂载、游标和auto-save/drain；未拿到B08前只可risk",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:462",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:462",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1435,7 +1440,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B09"
@@ -1445,7 +1450,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B09"
@@ -1485,7 +1490,7 @@
       "classification": "covered",
       "requirement": "ownsRunnerSlot=false、autoHost限制与startScript完整身份guard等反向控制，不能只看可疑finally",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:462",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:462",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1497,7 +1502,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B10"
@@ -1507,7 +1512,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B10"
@@ -1547,7 +1552,7 @@
       "classification": "reproduced",
       "requirement": "真debug注册对象零参dumpSave调用，正式codec校验导出内容；不能直接测builder来证明接线",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:573",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:573",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1559,7 +1564,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B11"
@@ -1569,7 +1574,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B11"
@@ -1620,7 +1625,7 @@
       "classification": "covered",
       "requirement": "正常capture/F5保存对照与导出→codec→隔离恢复草案；不把错误导出用作合法checkpoint fixture",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs:573",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs:573",
         "packages/reforge/src/runtime-script-project.ts:447",
         "packages/reforge/src/main.ts:5145",
         "packages/reforge/src/main.ts:5580",
@@ -1632,7 +1637,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=observe",
         "--case",
         "B12"
@@ -1642,7 +1647,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
         "--mode=contract",
         "--case",
         "B12"
@@ -1682,7 +1687,7 @@
       "classification": "reproduced",
       "requirement": "初始没有该物品，真实偷取成功→胜利→真实写回，检查战内/世界两份库存",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:134",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:134",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -1692,7 +1697,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C01"
@@ -1702,7 +1707,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C01"
@@ -1753,7 +1758,7 @@
       "classification": "reproduced",
       "requirement": "同输入偷取→逃跑写回，保留当前“逃跑留偷物”合同",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:153",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:153",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -1763,7 +1768,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C02"
@@ -1773,7 +1778,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C02"
@@ -1824,7 +1829,7 @@
       "classification": "covered",
       "requirement": "初始已有该物品，胜/逃的数量正控，与C01/C02共用同一判定入口",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:175",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:175",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -1834,7 +1839,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C03"
@@ -1844,7 +1849,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C03"
@@ -1890,7 +1895,7 @@
       "classification": "covered",
       "requirement": "消耗已有物品到零，真实写回去零项且无重复ID",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:190",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:190",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -1900,7 +1905,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C04"
@@ -1910,7 +1915,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C04"
@@ -1950,7 +1955,7 @@
       "classification": "covered",
       "requirement": "战内新增后又消耗的最终库存，区分净结果与简单追加",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:300",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:300",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -1960,7 +1965,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C05"
@@ -1970,7 +1975,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C05"
@@ -2010,7 +2015,7 @@
       "classification": "covered",
       "requirement": "连续两次偷取同ID/不同ID，明确合并数量和来源，不能仅断言数组非空",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:333",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:333",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2020,7 +2025,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C06"
@@ -2030,7 +2035,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C06"
@@ -2070,7 +2075,7 @@
       "classification": "reproduced",
       "requirement": "真实养蛊到期产生新物品，检查原样写回；未完成真实回合链不得冒称九回合E2E",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:373",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:373",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2080,7 +2085,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C07"
@@ -2090,7 +2095,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C07"
@@ -2141,7 +2146,7 @@
       "classification": "risk",
       "requirement": "战败/terminated和main旧战斗取消后的写回域；合法可达性与业务合同不明时risk",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:414",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:414",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2151,7 +2156,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C08"
@@ -2161,7 +2166,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C08"
@@ -2201,7 +2206,7 @@
       "classification": "reproduced",
       "requirement": "毒杀最后敌人：无需新玩家输入就应结算的正确性草案；原树观察与普通攻击正控",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:448",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:448",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2211,7 +2216,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C09"
@@ -2221,7 +2226,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C09"
@@ -2261,7 +2266,7 @@
       "classification": "covered",
       "requirement": "回合末玩家死亡的终态边界及后续空步，不能只测敌HP=0",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:448",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:448",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2271,7 +2276,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C10"
@@ -2281,7 +2286,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C10"
@@ -2321,7 +2326,7 @@
       "classification": "covered",
       "requirement": "同轮双方死亡/毒后恢复的执行顺序和当前明确合同；有歧义只登记待裁决，不发明优先规则",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:448",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:448",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2331,7 +2336,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C11"
@@ -2341,7 +2346,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C11"
@@ -2381,7 +2386,7 @@
       "classification": "covered",
       "requirement": "重复step/结果读取不会重复累计奖励，敌逃无奖励对照；库存保存重开所需的R4/Q2断言",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs:512",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs:512",
         "packages/reforge/src/battle/battle-core.ts:1068",
         "packages/reforge/src/battle/battle-session.ts:2450"
       ],
@@ -2391,7 +2396,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=observe",
         "--case",
         "C12"
@@ -2401,7 +2406,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-result.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
         "--mode=contract",
         "--case",
         "C12"
@@ -2441,7 +2446,7 @@
       "classification": "covered",
       "requirement": "两道概率门确实通过的敌附带applyPoison正控，见证分支进入",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:142",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:142",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2452,7 +2457,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D01"
@@ -2462,7 +2467,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D01"
@@ -2513,7 +2518,7 @@
       "classification": "reproduced",
       "requirement": "同入口合法附带sleep/封技效果，各看实际状态而非日志或方法被调用",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:166",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:166",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2524,7 +2529,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D02"
@@ -2534,7 +2539,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D02"
@@ -2585,7 +2590,7 @@
       "classification": "reproduced",
       "requirement": "同物品复合效果（例如healHp负值）逐效果观测；允许效果域不明时给证据与待裁决问题",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:199",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:199",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2596,7 +2601,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D03"
@@ -2606,7 +2611,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D03"
@@ -2646,7 +2651,7 @@
       "classification": "covered",
       "requirement": "概率失败、毒抗/格挡等当前门禁对照，不能为“覆盖”移除原来正确的保护",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:232",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:232",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2657,7 +2662,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D04"
@@ -2667,7 +2672,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D04"
@@ -2707,7 +2712,7 @@
       "classification": "reproduced",
       "requirement": "正式validateSkills接受的普通全队复活，混合生死队伍，核死者HP/MP及实际目标集合",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:267",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:267",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2718,7 +2723,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D05"
@@ -2728,7 +2733,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D05"
@@ -2766,7 +2771,7 @@
       "classification": "covered",
       "requirement": "同技能单体复活成功对照；不能把PAL现有单体还魂咒写成失效",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:294",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:294",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2777,7 +2782,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D06"
@@ -2787,7 +2792,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D06"
@@ -2827,7 +2832,7 @@
       "classification": "covered",
       "requirement": "普通全队治疗/无人死亡的对照，不能通过让所有效果忽略死亡状态来掩盖复活遗漏",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:328",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:328",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2838,7 +2843,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D07"
@@ -2848,7 +2853,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D07"
@@ -2888,7 +2893,7 @@
       "classification": "reproduced",
       "requirement": "MP不足、复合效果目标需求及合体技边界分类；不把普通技能证据外推合体技",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:362",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:362",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2899,7 +2904,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D08"
@@ -2909,7 +2914,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D08"
@@ -2949,7 +2954,7 @@
       "classification": "reproduced",
       "requirement": "仅可投掷物品，实际道具菜单父→子按键路由与W快捷键正控",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:434",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:434",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -2960,7 +2965,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D09"
@@ -2970,7 +2975,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D09"
@@ -3021,7 +3026,7 @@
       "classification": "covered",
       "requirement": "仅可使用物品的同键序正控，不比较不同输入序列后猜根因",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:471",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:471",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -3032,7 +3037,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D10"
@@ -3042,7 +3047,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D10"
@@ -3082,7 +3087,7 @@
       "classification": "covered",
       "requirement": "使用/投掷都有及两者都无，父能力并集与子能力各自门控",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:496",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:496",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -3093,7 +3098,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D11"
@@ -3103,7 +3108,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D11"
@@ -3143,7 +3148,7 @@
       "classification": "covered",
       "requirement": "前一队员预占最后一件后的真实菜单状态/取消预占恢复，不只读静态库存",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs:564",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs:564",
         "packages/reforge/src/battle/battle-core.ts:1198",
         "packages/reforge/src/battle/battle-core.ts:2709",
         "packages/reforge/src/battle/battle-session.ts:1408"
@@ -3154,7 +3159,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=observe",
         "--case",
         "D12"
@@ -3164,7 +3169,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-battle-actions.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
         "--mode=contract",
         "--case",
         "D12"
@@ -3204,7 +3209,7 @@
       "classification": "covered",
       "requirement": "无并发修改的真实planner→snapshot→changes→commit正控，输入/输出/hash对应",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:313",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:313",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3215,7 +3220,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E01"
@@ -3225,7 +3230,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E01"
@@ -3265,7 +3270,7 @@
       "classification": "reproduced",
       "requirement": "快照复核之后、journal采样之前作者修改：同输入单点时序，保留外部新字节见证",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:369",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:369",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3276,7 +3281,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E02"
@@ -3286,7 +3291,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E02"
@@ -3337,7 +3342,7 @@
       "classification": "covered",
       "requirement": "journal已建立后的修改已有守卫正控，区分保护阶段，不能笼统宣布“无并发保护”",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:407",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:407",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3348,7 +3353,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E03"
@@ -3358,7 +3363,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E03"
@@ -3398,7 +3403,7 @@
       "classification": "covered",
       "requirement": "新建/修改/删除计划各自precondition来源，以及失败后的恢复数据/零额外写入边界",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:459",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:459",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3409,7 +3414,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E04"
@@ -3419,7 +3424,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E04"
@@ -3459,7 +3464,7 @@
       "classification": "covered",
       "requirement": "无symlink的物化正控、authored资源跳过和hash校验边界",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:573",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:573",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3470,7 +3475,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E05"
@@ -3480,7 +3485,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E05"
@@ -3520,7 +3525,7 @@
       "classification": "reproduced",
       "requirement": "目标父目录symlink：在内存或本人临时根内部构造“项目外”目标，核所有实际写入路径",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:695",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:695",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3531,7 +3536,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E06"
@@ -3541,7 +3546,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E06"
@@ -3592,7 +3597,7 @@
       "classification": "reproduced",
       "requirement": "多层父链、目标文件自身链接/链接变化的可达域；不把字符串resolve当真实路径验证",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:745",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:745",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3603,7 +3608,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E07"
@@ -3613,7 +3618,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E07"
@@ -3664,7 +3669,7 @@
       "classification": "reproduced",
       "requirement": "symlink失败是否发生在第一笔二进制写入前，以及后续JSON事务是否可能兜底；无主仓写入",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:695",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:695",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3675,7 +3680,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E08"
@@ -3685,7 +3690,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E08"
@@ -3736,7 +3741,7 @@
       "classification": "covered",
       "requirement": "dense enemies旧入口全caller census：生产/测试/脚本分别列，保留enemySlots当前语义的迁移草案",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:794",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:794",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3747,7 +3752,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E09"
@@ -3757,7 +3762,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E09"
@@ -3797,7 +3802,7 @@
       "classification": "covered",
       "requirement": "battle-anim旧targetIdx/damage入口全caller与hits正控，保留所有原业务断言的替换计划",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:852",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:852",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3808,7 +3813,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E10"
@@ -3818,7 +3823,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E10"
@@ -3829,7 +3834,7 @@
       "positiveControl": {
         "cases": ["E10"],
         "evidence": [
-          "census:调用点 7 处;旧 targetIdx=4 处全部非生产[packages/reforge/src/battle/battle-anim.test.ts:360 packages/reforge/src/battle/battle-anim.test.ts:372 packages/reforge/src/battle/battle-anim.test.ts:391 docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:879];hits 使用 3 处;真实等价(单目标逐帧 deepEqual)=true,hits 多目标=3 帧（定义 battle-anim.ts:517-538;替换计划=原断言全部保留,仅入口换 hits 同值）"
+          "census:调用点 7 处;旧 targetIdx=4 处全部非生产[packages/reforge/src/battle/battle-anim.test.ts:360 packages/reforge/src/battle/battle-anim.test.ts:372 packages/reforge/src/battle/battle-anim.test.ts:391 docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:879];hits 使用 3 处;真实等价(单目标逐帧 deepEqual)=true,hits 多目标=3 帧（定义 battle-anim.ts:517-538;替换计划=原断言全部保留,仅入口换 hits 同值）"
         ]
       },
       "followUp": "E-05/N6b前旧接口退役候选，未批准删除",
@@ -3843,7 +3848,7 @@
         {
           "id": "E10",
           "verdict": "covered",
-          "detail": "census:调用点 7 处;旧 targetIdx=4 处全部非生产[packages/reforge/src/battle/battle-anim.test.ts:360 packages/reforge/src/battle/battle-anim.test.ts:372 packages/reforge/src/battle/battle-anim.test.ts:391 docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:879];hits 使用 3 处;真实等价(单目标逐帧 deepEqual)=true,hits 多目标=3 帧（定义 battle-anim.ts:517-538;替换计划=原断言全部保留,仅入口换 hits 同值）"
+          "detail": "census:调用点 7 处;旧 targetIdx=4 处全部非生产[packages/reforge/src/battle/battle-anim.test.ts:360 packages/reforge/src/battle/battle-anim.test.ts:372 packages/reforge/src/battle/battle-anim.test.ts:391 docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:879];hits 使用 3 处;真实等价(单目标逐帧 deepEqual)=true,hits 多目标=3 帧（定义 battle-anim.ts:517-538;替换计划=原断言全部保留,仅入口换 hits 同值）"
         }
       ],
       "negativeControl": {
@@ -3858,7 +3863,7 @@
       "classification": "covered",
       "requirement": "translate-events历史输出选项与当前PAL producer输入/输出分栏，是否存在获准真实调用方",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:907",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:907",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3869,7 +3874,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E11"
@@ -3879,7 +3884,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E11"
@@ -3919,7 +3924,7 @@
       "classification": "covered",
       "requirement": "明确不得删的当前局部格式/ScriptRef/来源标签/平台升级合同；给删除候选最小白名单与验证计划，不实际删除",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs:966",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs:966",
         "packages/migrate/src/migration-transaction.ts:290",
         "packages/migrate/src/migration-write-plan.ts:25",
         "packages/migrate/src/pal-assets.ts:1235"
@@ -3930,7 +3935,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=observe",
         "--case",
         "E12"
@@ -3940,7 +3945,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
         "--mode=contract",
         "--case",
         "E12"
@@ -3980,7 +3985,7 @@
       "classification": "risk",
       "requirement": "shared：解码器/解析器测试的缺失输入、边界值和零断言风险，选最值得补的候选",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:123",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:123",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -3990,7 +3995,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4040,7 +4045,7 @@
       "classification": "risk",
       "requirement": "content：验证器/纯规则未覆盖分支与真实合法/非法输入，避免把类型外不可能值全算优先用例",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:132",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:132",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4050,7 +4055,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4089,7 +4094,7 @@
       "classification": "risk",
       "requirement": "pal-extract：fast与PAL真实资产组的覆盖差异，低fast不等于无测试；缺输入合同单列",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:145",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:145",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4099,7 +4104,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4138,7 +4143,7 @@
       "classification": "risk",
       "requirement": "migrate：unit与PAL组差异、计划/发布/物化的高风险未命中候选，不重跑官方全套或写盘CLI",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:154",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:154",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4148,7 +4153,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4187,7 +4192,7 @@
       "classification": "risk",
       "requirement": "reforge：脚本/恢复/战斗边界最值得补的测试，与A～D去重，不重复计算同一缺口",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:163",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:163",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4197,7 +4202,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4236,7 +4241,7 @@
       "classification": "risk",
       "requirement": "editor：D-01之后未覆盖的命令/身份/加载边界，排除已done任务重复矩阵；D-06/D-07列后续归属不修",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:173",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:173",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4246,7 +4251,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4285,7 +4290,7 @@
       "classification": "risk",
       "requirement": "game：普通unit、headless集成、PAL资源组的差异，列非视觉高价值测试；不把一阶段缺口阻断全部R4",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:181",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:181",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4295,7 +4300,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4334,7 +4339,7 @@
       "classification": "risk",
       "requirement": "对F01～F07各选最多5个高价值文件、至少说明最高优先的真实调用点；不只按百分比排序",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:272",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:272",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4344,7 +4349,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4383,7 +4388,7 @@
       "classification": "risk",
       "requirement": "对每包最有价值的最多3个候选给可实施用例：fixture、操作、业务断言、故障/反控、运行命令与预期归属",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:286",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:286",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4393,7 +4398,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4432,7 +4437,7 @@
       "classification": "risk",
       "requirement": "定向抽查早return/空样本/条件断言/整文件ts-nocheck等风险；必须动态举证或标静态候选，不按grep命中计bug",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:311",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:311",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4442,7 +4447,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4481,7 +4486,7 @@
       "classification": "risk",
       "requirement": "分支classified表区分可达待测、重叠守卫、结构约束和待证；“很难构造”不等于不可达，全部仍在分母",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:352",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:352",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4491,7 +4496,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,
@@ -4530,7 +4535,7 @@
       "classification": "risk",
       "requirement": "统一去重和顺序：本包结果按近期修复、Q2、N6b、第一阶段独立批分流，不发明“先补到90%才准跑任何E2E”门槛",
       "sourceAnchors": [
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs:397",
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs:397",
         "scripts/coverage/config.mjs:1",
         "scripts/coverage/baseline.fast.json:1"
       ],
@@ -4540,7 +4545,7 @@
         "node",
         "--import",
         "tsx",
-        "docs/ops/audits/pre-e2e/probe-glm-next-coverage.mjs"
+        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
       ],
       "observeExit": 0,
       "contractCommand": null,

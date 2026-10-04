@@ -1312,14 +1312,14 @@
       "bodyLines": 81,
       "sourceRefs": [],
       "publicCommands": [
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B08",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs --mode=observe --case all",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=observe --case B08",
         "pnpm --filter @type-pal/migrate exec vitest run src/migration-project-io.test.ts src/migration-project-io.boundaries.test.ts src/migration-write-plan.test.ts src/migration-write-plan.boundaries.test.ts src/migration-transaction.test.ts src/",
         "pnpm --filter @type-pal/reforge exec vitest run src/checkpoint-export.chain.test.ts"
       ],
       "publicCallers": [
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all",
-        "node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B08",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs --mode=observe --case all",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=observe --case B08",
         "pnpm --filter @type-pal/migrate exec vitest run src/migration-project-io.test.ts src/migration-project-io.boundaries.test.ts src/migration-write-plan.test.ts src/migration-write-plan.boundaries.test.ts src/migration-transaction.test.ts src/",
         "pnpm --filter @type-pal/reforge exec vitest run src/checkpoint-export.chain.test.ts"
       ],

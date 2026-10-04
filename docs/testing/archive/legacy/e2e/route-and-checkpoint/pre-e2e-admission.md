@@ -2,7 +2,7 @@
 
 **历史快照，不作当前待办表（2026-10-02）**：本页主体记录2026-09-21基线，保留当时问题、失败计数与排期。
 当前content21/SAVE10，001～004两阶段各自runner、断言与检查点已建；见[现行E2E合同](../../../../e2e/contract.md)、
-[任务看板](../../../../../ops/board.md)及[005前清账](../../../../../ops/archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md)。
+[任务看板](../../../../../ops/archive/board-history/board-20261004.md)及[005前清账](../../../../../ops/archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md)。
 下文“当前/尚无/尚未”仅指其标明日期，不表示已完成工程需要重做，也不替代其余审计项的逐项验收。
 
 **2026-09-27排期更新**：用户要求Codex转E2E路线方案讨论，GLM/Cursor继续后台补测，
@@ -53,10 +53,10 @@ check8029/strict7538、五负控、隔离发布双跑及远端#286成功为既�
 
 | 命令 | 结果 | 证据 |
 |---|---|---|
-| `node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all` | exit0，12记录：8 covered/4 reproduced（E02/E06/E07/E08） | `/tmp/type-pal-r4-migration-current.log` |
+| `node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs --mode=observe --case all` | exit0，12记录：8 covered/4 reproduced（E02/E06/E07/E08） | `/tmp/type-pal-r4-migration-current.log` |
 | 上述命令改`--mode=contract --case E02` | exit1，作者值未保留/项目已写的AssertionError，不是环境失败 | `/tmp/type-pal-r4-migration-E02-red.log` |
 | 上述命令改`--mode=contract --case E06` | exit1，路径拒绝/原字节保全的AssertionError | `/tmp/type-pal-r4-migration-E06-red.log` |
-| `node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B08` | exit0，1项risk；不是covered | `/tmp/type-pal-r4-u02-current.log` |
+| `node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=observe --case B08` | exit0，1项risk；不是covered | `/tmp/type-pal-r4-u02-current.log` |
 | `pnpm --filter @type-pal/migrate exec vitest run src/migration-project-io.test.ts src/migration-project-io.boundaries.test.ts src/migration-write-plan.test.ts src/migration-write-plan.boundaries.test.ts src/migration-transaction.test.ts src/migration-transaction.boundaries.test.ts src/pal-assets.test.ts` | 7文件49项exit0 | `/tmp/type-pal-r4-migration-adjacent.log` |
 | `pnpm --filter @type-pal/reforge exec vitest run src/checkpoint-export.chain.test.ts` | 17项exit0，当前导出接口有效 | `/tmp/type-pal-r4-checkpoint-current.log` |
 

@@ -41,7 +41,7 @@ Evidence Baseline: 9fd32674（设计前提历史，产品同10c84238）；整卡
 ### 当前复核与可证伪观察
 
 - 已直接重读[原审计](../../../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)及其全部
-  [原探针](../../../audits/pre-e2e/probe-editor-history.mjs)，本轮原文件与产品零改动。
+  [原探针](../../../audits/pre-e2e/tools/probe-editor-history.mjs)，本轮原文件与产品零改动。
 - 原探针直接跑先在 `.type-pal/save-state.json` 缺席处失败：旧内存 FileSource 抛通用 assertion，
   不符合当前 loader 的 NotFoundError 合同。该失败不是“D-01已修”的证据。
 - `/tmp/type-pal-history-draft.zKSHBp/reprobe.mjs` 仅将导入/root改为可从临时入口解析的绝对URL，并令

@@ -64,9 +64,9 @@ Codex于2026-09-13核定done：Kimi终审提交e36aadc8、GLM终审提交855c676
 ### 当前 API 的独立复现
 
 旧 `probe-editor-persistence.mjs` 已不匹配 A-02 新增的必填 authorBaseline，不能把其参数错误当 A-03 证据。
-原文件保留未改，新增[当前保存恢复探针](../../../audits/pre-e2e/probe-editor-save-recovery.mjs)。
+原文件保留未改，新增[当前保存恢复探针](../../../audits/pre-e2e/tools/probe-editor-save-recovery.mjs)。
 
-运行：`node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs`，exit 0，最终观察：
+运行：`node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs`，exit 0，最终观察：
 
 - 以真实 buildBlankProject → 首存授权/writeProject → openLocalProject → toEditorState 构造 current 项目。
   新人物 `a03-new-npc` 的合法字段 `battler.baseStats.maxHP=237`，场景用真实 createCanonicalPlacedEntity 引用它；
@@ -1797,13 +1797,13 @@ HTTP可信源在专用6011验证页镜像隔离目录，模拟开发服务器读
 
 上述是原生后端/跨上下文**API**验证，**不是OS文件夹选择器、实际编辑器点击/UI提示或完整试玩/剧情E2E**；
 UI可达性、权限手势与全量PAL内容/性能仍按整卡后续验证，不用这份小fixture替代。
-等价临时探针首次通过后，本席将其参数化为[可重建原生探针](../../../audits/pre-e2e/verify-pal-save-recovery.mjs)，
+等价临时探针首次通过后，本席将其参数化为[可重建原生探针](../../../audits/pre-e2e/tools/verify-pal-save-recovery.mjs)，
 每次运行mktemp新资料目录，不复用用户Chrome资料，不自动安装依赖；语法/biome检查后再用入库入口实跑通过。
 
 重跑前按dev-servers指南准备专用6011实例；Playwright由外部开发运行时提供：
 
 ```sh
-TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/verify-pal-save-recovery.mjs
+TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs
 ```
 
 可用TYPE_PAL_CHROME_EXECUTABLE指定浏览器二进制；默认本机Google Chrome。脚本打印EVIDENCE_DIRECTORY并保留native-pal.json及隔离profile，
@@ -1868,11 +1868,11 @@ transaction/execute/journal/保存协议/项目版本/公共接口、原审计�
 不得擅自减少strict事务、身份检查或先写后备份。若进一步拆分持久凭据/游标或改变协议，须先另行设计审查，
 不能拿本次纯解析优化授权替代。小增量无可辨改善，不归因为加速。
 
-上述计量已整理为[可重跑的PAL保存计量](../../../audits/pre-e2e/measure-pal-save-recovery.mjs)，无历史实现分支、
+上述计量已整理为[可重跑的PAL保存计量](../../../audits/pre-e2e/tools/measure-pal-save-recovery.mjs)，无历史实现分支、
 不复用用户资料、不安装依赖，仅向本次隔离OPFS写；复跑前准备专用6011，命令：
 
 ```sh
-TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/measure-pal-save-recovery.mjs current
+TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs current
 ```
 
 入库入口另实跑得到81.18s/增量2.95s，字节和close数一致；该次是脚本可重建性复验，不拿多次最好值替代主对照。
@@ -2706,7 +2706,7 @@ content/SAVE版本或旧探针。自建6011验证实例均已停止，用户6010
 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态 draft，产品源码基线135d065a。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、现行 project-lifecycle 规范及卡内锚点。
 用户已批准“完整暂存后，中断则继续完成这次保存；外部冲突停止”，不要再问前滚/回滚产品选择。
-请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs，
+请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs，
 不要读取或复述GLM席结论。重点压力测试目录内目标字节+原浏览器handle凭据、ready/issued/committed跨FSA与IDB间隙、
 PAL/sandbox权限、原页retry与另一旧窗口、锁序、所有写入口及HTTP读门范围；HTTP缺失JSON目前会200HTML，不能吞错。
 分别签有直接证据和可证伪观察的 premise verified/counter、design agree/counter，列阻断及可实施修订；
@@ -2719,7 +2719,7 @@ PAL/sandbox权限、原页retry与另一旧窗口、锁序、所有写入口及H
 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态 draft，产品源码基线135d065a。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、现行 project-lifecycle 规范及卡内锚点。
 用户已批准“完整暂存后，中断则继续完成这次保存；外部冲突停止”，不要再问前滚/回滚产品选择。
-请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs，
+请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs，
 不要读取或复述Kimi席结论。重点核SR-01～12逐项能否发现真实故障：每步close/IDB abort、空占位/删除/catalog超集、
 完整封存前零作者IO、首次/clone/Save As整笔计划、各读入口和HTTP200HTML、dirty归属、清理/版本边界及证据数字口径。
 分别签有直接证据和可证伪观察的 premise verified/counter、design agree/counter；不能把单测框架设想或多数通过当证据。

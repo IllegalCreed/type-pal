@@ -52,7 +52,7 @@ E-05/U-02/N6b/Q2、full/完整E2E和第一阶段欠账均不随本卡关闭。
 
 ### 动态证据与反证
 
-2026-09-21在冻结树复跑未改动的`docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs`：
+2026-09-21在冻结树复跑未改动的`docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs`：
 
 - observe全12项exit0。E02 `rejected=false/authorPreserved=false`，目标rename已发生；E06/E08外部虚拟字节从`OUTSIDE_ORIGINAL`变`NEW`，E07 deep/race同族成立。
 - contract E02与E06分别exit1，错误为候选自身AssertionError（作者保全/路径拒绝），不是缺资产/导入/超时。
@@ -312,7 +312,7 @@ E-05/U-02/N6b/Q2、full/完整E2E和第一阶段欠账均不随本卡关闭。
 
 ### 给GLM（与Kimi并行）
 
-在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 前提与验收矩阵，卡 docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md。独立读实际代码与探针，不读取或复述Kimi结论。复跑 node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-migration.mjs --mode=observe --case all，再分别contract E02/E06核红因；核49相邻用例现有覆盖与AC01～10缺口、实际原始字节hash/缺席/晚位冲突/零副作用、叶链接与父链不同结果、静态全量拒绝与途中停止边界、负控鉴别力和隔离发布幂等方案。GLM原探针贡献要披露，不能仅以自己的旧回执代替独立当前源码证据。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留Kimi并行改动，不改共享状态、不开始实现、不标done。无浏览器/视觉任务。
+在 /Users/zhangxu/illegal/type-pal 审 MIGRATION-WRITE-GUARD-1 r1 前提与验收矩阵，卡 docs/ops/archive/tasks/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md，状态draft，生产冻结14257da75f4c3c91dd9aae5f37de13a5f1040f8c。先同步main、检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md。独立读实际代码与探针，不读取或复述Kimi结论。复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs --mode=observe --case all，再分别contract E02/E06核红因；核49相邻用例现有覆盖与AC01～10缺口、实际原始字节hash/缺席/晚位冲突/零副作用、叶链接与父链不同结果、静态全量拒绝与途中停止边界、负控鉴别力和隔离发布幂等方案。GLM原探针贡献要披露，不能仅以自己的旧回执代替独立当前源码证据。输出有file:line和可证伪观察的premise verified/counter、design agree/counter及旧版本兼容审查；只写本人签字/证据/日志并提交推送，保留Kimi并行改动，不改共享状态、不开始实现、不标done。无浏览器/视觉任务。
 
 ## 实现终审历史提示词（已完成，不重复领取）
 

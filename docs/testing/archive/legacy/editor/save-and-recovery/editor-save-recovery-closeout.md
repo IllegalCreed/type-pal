@@ -71,7 +71,7 @@ GLM此前所有测试贡献仍按父卡和各工作包披露；不能将贡献�
 
 ## 性能结论与不纳入项
 
-复用[入库计量入口](../../../../../ops/audits/pre-e2e/measure-pal-save-recovery.mjs)，专用6011、独立新OPFS，未与check/coverage/子代理测试并跑。
+复用[入库计量入口](../../../../../ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs)，专用6011、独立新OPFS，未与check/coverage/子代理测试并跑。
 本次完整克隆84.480s，含打开85.683s，小增量2.947s；1,934资源/69,092,169字节，最大单资源8,091,135字节。
 作者输出146,895,754字节、暂存147,348,008字节、4,945次close，与前批相同；首次作者close约29.572s。
 CDP分别采样usedSize峰393,355,652、backingStorageSize峰384,465,506字节，不相加、不当作RSS。

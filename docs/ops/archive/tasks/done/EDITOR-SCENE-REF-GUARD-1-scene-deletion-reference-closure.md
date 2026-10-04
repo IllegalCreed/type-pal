@@ -42,8 +42,8 @@ Revision: r1，2026-09-18。前提冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d
 原探针零修改，独立复跑均exit0（它们断言未修复现象，不是正确行为门禁）：
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-reference-prep.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs
 ```
 
 disabled/inherit/transition均blockers=0、真实成对删除成功、随后保存拒“场景target不在scenes”；undo恢复。

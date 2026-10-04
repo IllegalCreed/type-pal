@@ -187,10 +187,10 @@ Codex只读补审对比：dded6f27的Root主态保留字符串引用，merge把�
 修复后应转为正确行为测试并退役旧假设；不为保持审计脚本通过而保留旧产品行为。
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-history.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-sprite-upload.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-trial.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs
 ```
 
 Vite只用于实际模块转换，最终D批脚本不启HTTP服务，hmr=false且ws=false；拒绝fetch及已有IndexedDB。

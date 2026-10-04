@@ -47,9 +47,9 @@ R4 runner以`await window.__tpE2e.dumpSave()`取得一个独立、当前SAVE8/co
 旧探针保持零修改，执行：
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=observe --case B11
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B11
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-barrier.mjs --mode=contract --case B12
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=observe --case B11
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B11
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=contract --case B12
 ```
 
 - B11 observe exit0/reproduced；contract exit1业务断言：`存档工程 "undefined" 与当前工程 "b2-save" 不匹配`。

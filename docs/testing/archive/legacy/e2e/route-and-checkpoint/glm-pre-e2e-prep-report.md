@@ -25,10 +25,10 @@ D-01设计签字已按节点一另交 main（623c592f，premise verified + desig
 ## 复算入口与命令回执
 
 ```bash
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-history-prep.mjs    # exit 0
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-reference-prep.mjs  # exit 0
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-upload-prep.mjs     # exit 0
-node --import tsx docs/ops/audits/pre-e2e/probe-glm-cache-prep.mjs      # exit 0
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs    # exit 0
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs  # exit 0
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs     # exit 0
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs      # exit 0
 pnpm exec biome check docs/ops/audits/pre-e2e/probe-glm-*.mjs           # 0 error / 0 warning
 ```
 

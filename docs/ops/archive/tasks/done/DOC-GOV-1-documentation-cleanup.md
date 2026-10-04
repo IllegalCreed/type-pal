@@ -45,7 +45,7 @@ GLM 可修改：
 Codex 独占：
 
 - 所有非 Markdown 实现/配置，尤其 `scripts/docs/`、`package.json`、`.github/workflows/`。
-- `docs/ops/guides/documentation.md`（检查规则）、`docs/ops/tasks/index.md`（生成索引）、`docs/ops/board.md`。
+- `docs/ops/guides/documentation.md`（检查规则）、`docs/ops/tasks/index.md`（生成索引）、`docs/ops/archive/board-history/board-20261004.md`。
 - 本卡共享范围、状态、Codex 验证与收口。
 
 只读保留：`AGENTS.md` 协议；`docs/ops/archive/audits/documentation-2026-09-06.md` 和
@@ -152,7 +152,7 @@ tasks/README 扩展维护说明并链接生成的 `index.md`。
 
 ### 留待 Codex
 
-1. `docs/ops/board.md` DOC-06 两项（审计 review 语义、旧额度快照）——Codex 独占。
+1. `docs/ops/archive/board-history/board-20261004.md` DOC-06 两项（审计 review 语义、旧额度快照）——Codex 独占。
 2. vendored/可再生白名单口径的最终确认（本轮按检查器现状全部通过，未见需新增例外的项目文档目录）。
 3. 根 check/CI 接入与反例测试（批次 C 收口）。
 
@@ -225,6 +225,6 @@ tasks/README 扩展维护说明并链接生成的 `index.md`。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/archive/tasks/done/DOC-GOV-1-documentation-cleanup.md、docs/ops/archive/audits/documentation-2026-09-06.md。
 用户本轮明确指定你并行整改、Codex 做完后终审；请直接执行卡中 GLM 范围，不再索取三签。
 落实 DOC-01 至 DOC-09 的文档部分：逐段核源码纠正现行版本/状态/入口；修断链；给主题目录和历史计划补索引与边界；补决策 outcome/superseded-by 导航。保持历史任务签字、终态和审计原文，不机械替换历史版本，不移动文件，不改产品代码和能力状态。
-严格遵守卡中的文件所有权；scripts/docs、package.json、工作流配置、docs/ops/guides/documentation.md、docs/ops/board.md、docs/ops/tasks/index.md 由 Codex 处理，勿碰。
+严格遵守卡中的文件所有权；scripts/docs、package.json、工作流配置、docs/ops/guides/documentation.md、docs/ops/archive/board-history/board-20261004.md、docs/ops/tasks/index.md 由 Codex 处理，勿碰。
 在本卡“GLM 整改回执”和自己的交接日志写处置与验证，直接提交推送，只提交你负责的文件，保留其他人的未提交改动。不得标 done，交 Codex 复核；不要让用户复制审查正文。发现真实冲突记录具体文件/证据，不擅改产品决定。
 ```

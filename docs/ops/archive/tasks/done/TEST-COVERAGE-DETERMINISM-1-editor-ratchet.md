@@ -444,7 +444,7 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ```text
 在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/ops/audits/pre-e2e/coverage-determinism.md。你是拟定的 Coding Owner，本轮只做独立前提/设计审查，不开始实现。
-直接核 reorder.tsx:730 无滚动容器的返回、既有 pointer 测试与 auto-scroll 测试；独立运行 node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs 并查看 hold/flush 原报告，核产品未改、23 项都绿但只差该返回；不要读取或复述 Kimi 的签字。按需跑 --full（仅 editor fast 范围，不是全仓 full coverage）。
+直接核 reorder.tsx:730 无滚动容器的返回、既有 pointer 测试与 auto-scroll 测试；独立运行 node docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs 并查看 hold/flush 原报告，核产品未改、23 项都绿但只差该返回；不要读取或复述 Kimi 的签字。按需跑 --full（仅 editor fast 范围，不是全仓 full coverage）。
 审 r1 的单条受控帧回归、清理、单点负控制和生成基线白名单，给出可证伪观察；签 premise verified + design agree，或带 file:line 的 counter。只写你席位和你日志，提交推送，其他席结论/任务状态不改。三方签字齐后由 Codex 放行，禁止提前修改正式测试、基线或标记 done。
 ```
 
@@ -453,6 +453,6 @@ scrolling or committing, then drop commits once`；`scripts/coverage/baseline.fa
 ```text
 在 /Users/zhangxu/illegal/type-pal 审查 TEST-COVERAGE-DETERMINISM-1，任务卡 docs/ops/archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md，r1，draft，产品基线 2ac4a9de。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/ops/audits/pre-e2e/coverage-determinism.md。你负责独立前提/设计审查；不要读取或复述 GLM 的签字。
-直接核 reorder.tsx:382/699/730 与既有测试 :370/:769，独立复算受控帧是否唯一改变 no-selected 返回的覆盖、没有替换生产实现或缩范围。运行 node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs；全 editor hold/flush 回执可复核，必要时 --full（非全仓 full coverage）。审单条新回归是否能以移除该 guard 的单点负控制证伪，是否保留无滚动/无提前提交/有效 drop 一次的业务断言。
+直接核 reorder.tsx:382/699/730 与既有测试 :370/:769，独立复算受控帧是否唯一改变 no-selected 返回的覆盖、没有替换生产实现或缩范围。运行 node docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs；全 editor hold/flush 回执可复核，必要时 --full（非全仓 full coverage）。审单条新回归是否能以移除该 guard 的单点负控制证伪，是否保留无滚动/无提前提交/有效 drop 一次的业务断言。
 签带独立证据的 premise verified + design agree，或 file:line counter；只写你席位和你日志，提交推送，保留另一席并自行处理 push 竞态。不改实现、正式测试、基线、任务状态，不代签、不标记 build/done。无产品行为变更，不要求用户重新验 UI。
 ```
