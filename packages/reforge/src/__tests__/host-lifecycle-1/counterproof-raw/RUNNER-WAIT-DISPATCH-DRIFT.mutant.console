@@ -1,8 +1,8 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
 
- ❯ src/script-runner.host-lifecycle-1.test.ts (7 tests | 1 failed | 6 skipped) 8ms
-     × 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主 7ms
+ ❯ src/script-runner.host-lifecycle-1.test.ts (7 tests | 1 failed | 6 skipped) 7ms
+     × 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主 6ms
      ↓ 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal
      ↓ 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发
      ↓ setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界
@@ -12,8 +12,8 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 6 skipped (7)
-   Start at  19:23:04
-   Duration  520ms (transform 319ms, setup 0ms, import 392ms, tests 8ms, environment 0ms)
+   Start at  19:55:00
+   Duration  365ms (transform 209ms, setup 0ms, import 254ms, tests 7ms, environment 0ms)
 
 
 
@@ -41,4 +41,3 @@ AssertionError: expected [ Array(3) ] to deeply equal [ Array(3) ]
     155|       expect(signals.get(method)).toBe(ac.signal)
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-
