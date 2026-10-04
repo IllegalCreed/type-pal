@@ -16,4 +16,3 @@ Received: "获得 3 文钱"
     183|     expect(named.lastAction?.notice).toBe('获得 夜行衣')
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

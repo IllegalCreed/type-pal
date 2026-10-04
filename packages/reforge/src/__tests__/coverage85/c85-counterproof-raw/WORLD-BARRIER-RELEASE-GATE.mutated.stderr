@@ -19,4 +19,3 @@ undefined
     208|   await expect(lease.reachSafePoint({ kind: 'stage', stage: 's0' })).r…
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

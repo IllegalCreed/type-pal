@@ -241,11 +241,11 @@ describe('C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果�
       terrainBlocked: openTerrain(),
     })
     const partyOutcome = plan.outcomes.find((o) => o.actor.kind === 'party')
-    expect(partyOutcome).toMatchObject({ kind: 'sidestepped' })
-    if (partyOutcome && 'to' in partyOutcome) {
-      expect(partyOutcome.to.col).toBe(1) // 不进 npc 格,侧向绕行
-      expect(Math.abs(partyOutcome.to.row - 2)).toBe(1)
-    }
+    if (!partyOutcome || partyOutcome.kind !== 'sidestepped' || !('to' in partyOutcome))
+      throw new Error(`party 应 sidestepped 并带终点,实际 ${JSON.stringify(partyOutcome)}`)
+    expect(partyOutcome.kind).toBe('sidestepped')
+    // 不进 npc 格,侧向绕行:col 保持 1,row 偏移 ±1,高度不变 —— 逐字段显式匹配
+    expect(partyOutcome.to).toEqual({ col: 1, row: 3, height: 0 })
     // 让位者原地不动(主候选零位移被接受),不产生让位侧踏
     const npcOutcome = plan.outcomes.find((o) => o.actor.kind === 'entity')
     expect(npcOutcome).toMatchObject({ kind: 'moved' })
