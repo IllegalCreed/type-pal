@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-ASSET-RESOLVER-1 — asset resolver and cache lifecycle contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -30,7 +30,7 @@ Visual Verification Timing: dev-functional
   mediaType+字节保真 / C5 四支持 kind 正面枚举）、`project-image-cache.inflight-dispose.test.ts`
   （C6 在途 dispose 不取消+窗口内真重解码 / C7 回填命中零新 IO+二次 dispose 关闭）、
   `project-loader.image-cache-binding.test.ts`（C8 loader 绑定 cache→同 catalog/source）。
-- 排重账/身份集/反控证据：[docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/](../evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/)
+- 排重账/身份集/反控证据：[docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/](../../../evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/)
   （dedup-ledger 8 合同+登记未测项+判例；identity.json 执行集 43/43；mutation-results 7/7 VALID）。
 - 反控口径：每针 = 产品源码单点变异（find 恰命中 1）→ 执行集（4 新+6 旧模块测，43 测试）全量跑；
   红相位 exit≠0 且 failed-total 恰 1 且首条失败为业务 AssertionError；恢复相位字节恢复
@@ -83,3 +83,9 @@ mutation-results + mutation-logs），在 codex/glm-reforge-asset-resolver-r1 �
   `node scripts/docs/check-content-review.mjs --strict` PASS（570 documents）；
   `git diff f83ed41e9..HEAD --check` 干净。产品零 diff 不变。
 - 不标 done，等待 Codex 独立验收。
+
+---
+
+## Codex quality closure (2026-10-05)
+
+候选 `42ccd8760be0ca0088a0eb019f43e7c824f053c3` 已独立验收：14/14 测试、typecheck、lint 0/0/0、docs、phase/lore、content review、diff 全通过。本卡已集成 main，原候选分支进入退休清理。

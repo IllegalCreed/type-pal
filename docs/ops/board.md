@@ -4,9 +4,6 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-GLM-GAME-DIALOGUE-PAGINATION-1 | [Game dialogue pagination contracts](tasks/TEST-GLM-GAME-DIALOGUE-PAGINATION-1.md) | build | GLM / dialogue pagination 合同 | 空页、末页、等待输入与恢复 |
-| TEST-GLM-REFORGE-ASSET-RESOLVER-1 | [Reforge asset resolver lifecycle contracts](tasks/TEST-GLM-REFORGE-ASSET-RESOLVER-1.md) | build | GLM / asset resolver 合同 | 缺失、失败、重试、取消、缓存失效 |
-| TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1 | [Editor audio preview ownership contracts](tasks/TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1.md) | build | GLM / audio ownership 合同 | 试听接管、停止、切换与清理 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |

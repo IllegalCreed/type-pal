@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-DIALOGUE-PAGINATION-1 — dialogue pagination contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -40,7 +40,7 @@ Visual Verification Timing: e2e-deferred
 **结论：6 条未证明对话分页/等待输入/边界合同全绿（1 个新测试文件），反控 6/6 VALID
 （每针红相位 failed-total 恰 1，只杀目标合同），全门通过；不请求 done，等待 Codex 独立验收。**
 逐合同排重账见
-[evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md)。
+[evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md)。
 
 ### 范围澄清
 
@@ -69,7 +69,7 @@ tickEventSystem + 真 createCommandBus；合法 typed Command fixture，无 mock
 消歧）→ 定向文件全量跑：红相位 exit≠0 + 目标合同业务 AssertionError + **failed-total 恰 1**；
 恢复 sha 与原始一致（cleanupRestored 全 true），恢复绿 6/6。变异批与全量测试串行。
 变异点/首条业务断言/identitySha 逐针落
-[evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/](../evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/)
+[evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/](../../../evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/)
 （mutation-logs 受 .gitignore `*.log` 约束，已 `git add -f`）。
 
 ### 排重登记要点（REG，不新增包装测试）
@@ -130,3 +130,9 @@ mutation-results/mutation-logs/identity），再核：
    外科 refresh 处置（导航↔SHA pin 互锁、board/index 存量重钉披露是否随本卡走）。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+---
+
+## Codex quality closure (2026-10-05)
+
+候选 `3feddccf7587a24cfc099406543d528127208bcf` 已独立验收：6/6 合同、typecheck、lint 0/0/0、docs、phase/lore、content review、diff 全通过。本卡已集成 main，原候选分支进入退休清理。

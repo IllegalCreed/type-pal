@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1 — audio preview ownership contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -111,3 +111,9 @@ Visual Verification Timing: dev-functional
 ```text
 你是 TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1 的 Coding Owner（GLM）。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡和已归档 Editor 卡；只在 codex/glm-editor-audio-ownership-r1 工作。先对 AudioAssetWorkbench、MusicTab、SoundTab、ProjectAudioPreviewButton 的旧 fullName/caller/input/oracle 排重，再补 owner 接管、重复试听、停止、切换、失败和清理合同。所有 React 更新在 act 内，严格清理 audio owner/object URL/listener/session；禁止产品/旧测/配置/baseline/真实数据、强转、skip、ignore、扩大 timeout、私有 debug state、业务核心 mock。反控须三态绿红绿并保存完整证据。交付定向/相邻测试、typecheck、lint 0/0/0、docs、diff 和完整 SHA；不得把覆盖率或例数当完成条件，不得标 done。
 ```
+
+---
+
+## Codex quality closure (2026-10-05)
+
+候选 `1ff99d10ad059c2ad4db33c521e1e8f98b919c6b` 已独立验收：13/13 测试、8/8 反控、act 警告已清零、typecheck、lint 0/0/0、docs、phase/lore、content review、diff 全通过。本卡已集成 main，原候选分支进入退休清理。
