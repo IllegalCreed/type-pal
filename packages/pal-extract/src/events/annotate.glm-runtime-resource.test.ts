@@ -9,7 +9,7 @@
  */
 import { describe, expect, test } from 'vitest'
 import type { Words } from '../io/word.js'
-import { annotate, ITEM_OBJ_START, type Symbols } from './annotate.js'
+import { annotate, ITEM_OBJ_START, parseSymbols, type Symbols } from './annotate.js'
 
 const words: Words = {
   items: ['', '止血草'], // [0]=wObjectID 61（空词）、[1]=62
@@ -99,5 +99,23 @@ describe('R06 annotate 输入零突变', () => {
       count: 2,
       _item: '止血草',
     })
+  })
+})
+
+describe('symbols sidecar 输入合同', () => {
+  test('合法映射保留；空对象合法', () => {
+    expect(parseSymbols({ item: { '62': '止血草' }, scene: { '17': '客栈' } })).toEqual({
+      item: { '62': '止血草' },
+      scene: { '17': '客栈' },
+    })
+    expect(parseSymbols({})).toEqual({})
+  })
+
+  test('null/数组/未知字段/非字符串值显式失败', () => {
+    expect(() => parseSymbols(null)).toThrow('symbols: 期望对象')
+    expect(() => parseSymbols([])).toThrow('symbols: 期望对象')
+    expect(() => parseSymbols({ nope: {} })).toThrow('symbols.nope: 未知字段')
+    expect(() => parseSymbols({ item: [] })).toThrow('symbols.item: 期望对象')
+    expect(() => parseSymbols({ item: { '62': 7 } })).toThrow('symbols.item.62: 期望字符串')
   })
 })

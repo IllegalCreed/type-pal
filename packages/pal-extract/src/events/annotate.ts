@@ -14,6 +14,26 @@ export interface Symbols {
   scene?: Record<string, string>
 }
 
+const SYMBOL_KEYS = ['item', 'spell', 'person', 'enemy', 'scene'] as const
+
+/** Validate the optional human-readable symbols sidecar at its IO boundary. */
+export function parseSymbols(value: unknown): Symbols {
+  if (!value || typeof value !== 'object' || Array.isArray(value))
+    throw new Error('symbols: 期望对象')
+  const input = value as Record<string, unknown>
+  for (const key of Object.keys(input)) {
+    if (!(SYMBOL_KEYS as readonly string[]).includes(key))
+      throw new Error(`symbols.${key}: 未知字段`)
+    const table = input[key]
+    if (!table || typeof table !== 'object' || Array.isArray(table))
+      throw new Error(`symbols.${key}: 期望对象`)
+    for (const [id, label] of Object.entries(table as Record<string, unknown>)) {
+      if (typeof label !== 'string') throw new Error(`symbols.${key}.${id}: 期望字符串`)
+    }
+  }
+  return structuredClone(value) as Symbols
+}
+
 // WORD.DAT 各类名表在【全局 wObjectID 命名空间】里的起始偏移(io/word.ts readBlock offsets)。
 // `words.items` 等是 0-based 切片(index 0 = 对应 OBJ_START 的 wObjectID),故用 wObjectID 查名要减偏移。
 // **2026-06-02 审计修**:此前直接 `w.items[id]` 用 wObjectID(61+)索引 0-based 数组 → off-by-61

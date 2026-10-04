@@ -69,6 +69,7 @@
 | [CODE-QUALITY-3b - pal-extract 原始表与消息边界](../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3c - editor coverage 分支确定性](../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3d - pal-extract indexed PNG 输入边界](../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-3f - pal-extract symbols 输入合同](../archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |

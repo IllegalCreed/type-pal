@@ -29,7 +29,7 @@ import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { decodeRngFrames } from '@type-pal/shared'
 import type { Symbols } from './events/annotate.js'
-import { annotate } from './events/annotate.js'
+import { annotate, parseSymbols } from './events/annotate.js'
 import { disasm } from './events/disasm.js'
 import { recompile } from './events/recompile.js'
 import { sliceByScene } from './events/slice.js'
@@ -202,7 +202,7 @@ async function main(): Promise<void> {
   const messages = parseMessages(loadFile('M.MSG'), sss.messageOffsets)
   const words = parseWordDat(loadFile('WORD.DAT'))
   const symbols: Symbols = existsSync(SYMBOLS_PATH)
-    ? (JSON.parse(readFileSync(SYMBOLS_PATH, 'utf-8')) as Symbols)
+    ? parseSymbols(JSON.parse(readFileSync(SYMBOLS_PATH, 'utf-8')))
     : {}
 
   console.log(
