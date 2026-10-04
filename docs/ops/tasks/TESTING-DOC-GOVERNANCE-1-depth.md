@@ -132,6 +132,7 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 - 2026-10-04 Codex：从指定 `d02278dc` 建立隔离分支；完成机器清点、分类脚本/359 项 ledger、catalog v2、9 对 front matter + metadata/evidence、E2E-002 语义改名、架构历史合并索引。Evidence: `docs/testing/legacy-flat-classification.json`、`docs/testing/e2e/evidence/`、实现提交 `e5fe2b80f7b62f16a5fac4fc4747510996d6ad55`。验证：`pnpm check:docs`（41 docs-tool tests，docs/testing PASS 0 issues）、`pnpm lint`（3149 files，0/0/0）、`git diff --check` 通过。
 - 2026-10-04 Codex 深度批次：真实迁移 20 个 report/evidence：12 个架构实验原文迁入 `archive/architecture-regression-lab/`，8 个 runtime owner 文档迁入 `domains/runtime/`；`legacy-flat.json.retired`、迁移计划和分类账保留源 SHA。新增当前 caller/source line/oracle/排重审计；E2E evidence 改为明确 source-backed/document-audit，006 修正为 `boat-reforge.mjs` 且保留 rework。新增 `legacy-flat-audit.md/json` 全量总账，并扩展按工程域/模块/阶段/引擎/legacy 的索引。验证：`pnpm check:docs`（907 Markdown/5175 links，48 docs-tool tests，0 issues）、`pnpm check:testing-docs`（0 issues）、`pnpm lint`（3158 files，0/0/0）、`git diff --check` 通过。Evidence: `docs/testing/archive/migrations/testing-domains-20261004.json`、`docs/testing/domains/`、`docs/testing/domains/ops/testing-governance/`。
 - Next: Codex 独立验收；保持 build，不合 main、不标 done。
+- 2026-10-04 final hardening：`3a4f970d3` 完成迁移/canonical/domain batch，`953d96272` 完成 evidence/source hash/claim、catalog schema、冻结 census、孤儿/依赖/循环和 48 项 docs-tool gate；当前候选以本卡所在分支最新提交为准。
 
 ## 下一位 Agent 提示词
 
