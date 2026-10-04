@@ -139,3 +139,6 @@ docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/（README/dedup-ledger/mutatio
 3) 门禁复算（定向/相邻/typecheck/lint 0-0-0/docs/diff --check）。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+**r1 提交 SHA**：`5a8df6d25a94708a8ae605cfc22bb68b98d3e0d5`（工作提交，单一 commit 含 22 合同 +
+证据目录 + 回执；本行为 SHA 登记追加笔）。
