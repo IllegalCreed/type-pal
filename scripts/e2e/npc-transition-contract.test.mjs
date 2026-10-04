@@ -34,6 +34,28 @@ test('contact inference uses observed adjacency and dwell, not a command name', 
   assert.equal(tracePartyContactEvents(trace)[0].npc, 'e60')
 })
 
+test('a contact cluster retains every repeated push, even inside the first dwell window', () => {
+  const trace = {
+    events: [
+      actor(1, 'party', [126, 45, 0], null),
+      actor(2, 'e60', [124.5, 45, 0], null),
+      actor(30, 'party', [126, 46, 0], { position: [126, 45, 0] }),
+      actor(31, 'e60', [125.5, 45, 0], { position: [124.5, 45, 0] }),
+      actor(32, 'party', [125, 46, 0], { position: [126, 46, 0] }),
+      actor(33, 'e61', [124.5, 45, 0], null),
+      actor(34, 'party', [124, 46, 0], { position: [125, 46, 0] }),
+    ],
+  }
+  assert.deepEqual(
+    tracePartyContactEvents(trace).map(({ delta }) => delta),
+    [
+      [0, 1],
+      [-1, 0],
+      [-1, 0],
+    ],
+  )
+})
+
 test('cadence exposes a compressed same-batch movement', () => {
   const trace = {
     events: [

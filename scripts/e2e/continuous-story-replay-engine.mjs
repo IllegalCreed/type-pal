@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { runBrowserJourney } from './browser-journey.mjs'
-import { CONTINUOUS_STORY_FRAGMENTS } from './continuous-story.mjs'
+import { assertContinuousCheckpoint, CONTINUOUS_STORY_FRAGMENTS } from './continuous-story.mjs'
 import { readGame } from './game-observer.mjs'
 
 const args = process.argv.slice(2),
@@ -25,12 +25,136 @@ const read =
     ? () => page.evaluate(readGame)
     : () =>
         page.evaluate(() => ({
+          boot: window.__tpObserve?.readBoot?.() ?? null,
           runtime: window.__tpObserve?.readRuntime?.(),
           scene: window.__tpObserve?.readRuntime?.()?.sceneId,
         }))
 let page
 let previousAtMs = null
 const report = { engine, mode: 'continuous', storyOnly: true, fragments: [], actions: [] }
+const stateKey = (state) =>
+  JSON.stringify(
+    engine === 'game'
+      ? {
+          scene: state.scene,
+          mode: state.mode,
+          frame: state.frame,
+          dialog: state.dialog,
+          menu: state.menu,
+          event: state.event,
+          loading: state.loading,
+          fading: state.fading,
+        }
+      : {
+          scene: state.scene,
+          position: state.runtime?.position,
+          facing: state.runtime?.facing,
+          dialogue: state.runtime?.dialogue,
+          scriptRunning: state.runtime?.scriptRunning,
+          presentationBusy: state.runtime?.presentationBusy,
+          menuActive: state.runtime?.menuActive,
+        },
+  )
+const isDialogueWaiting = (state) =>
+  engine === 'game'
+    ? ['waiting-page-key', 'waiting-end-key'].includes(state.dialog?.phase)
+    : state.runtime?.dialogue?.phase === 'waiting-input'
+const isDialogueAction = (action) =>
+  /dialogue|confirmation|interact|dialog|full-dialogue|rendered/iu.test(String(action.reason ?? ''))
+const isContinuousBoundaryReady = (state) =>
+  engine === 'game'
+    ? state.ready &&
+      state.mode === 'explore' &&
+      !state.event &&
+      !state.dialog &&
+      !state.menu &&
+      !state.loading &&
+      !state.fading &&
+      !state.video
+    : !!state.runtime &&
+      !state.runtime.scriptRunning &&
+      !state.runtime.dialogue &&
+      !state.runtime.presentationBusy &&
+      !state.runtime.menuActive &&
+      !state.runtime.battleActive &&
+      state.runtime.fadeBlack === 0 &&
+      !state.runtime.ditherActive
+const routeTargetReached = (state, target) => {
+  if (!target) return true
+  const expectedScene = engine === 'game' ? Number(target.scene.slice(1)) + 1 : target.scene
+  const actualScene = engine === 'game' ? state.scene : state.scene
+  const acceptedScenes = (target.acceptScenes ?? [target.scene]).map((scene) =>
+    engine === 'game' ? Number(scene.slice(1)) + 1 : scene,
+  )
+  if (!acceptedScenes.includes(actualScene)) return false
+  if (actualScene !== expectedScene && !target.position) return true
+  if (actualScene !== expectedScene && target.acceptScenes?.length > 1) return true
+  if (!target.position) return true
+  const actual =
+    engine === 'game'
+      ? state.position
+      : state.runtime?.position
+        ? [state.runtime.position.col, state.runtime.position.row, state.runtime.position.height]
+        : null
+  if (!Array.isArray(actual) || actual.length < target.position.length) return false
+  const tolerance = engine === 'game' ? 24 : 0.2
+  return (
+    Math.hypot(
+      ...target.position.slice(0, 2).map((value, index) => Number(actual[index]) - Number(value)),
+    ) <= tolerance
+  )
+}
+const hasDialogue = (state) => (engine === 'game' ? !!state.dialog : !!state.runtime?.dialogue)
+const driveRouteTarget = async (action, entry, until, health) => {
+  const target = action.routeTarget
+  if (!target) return
+  const started = Date.now()
+  while (Date.now() - started < 1000) {
+    health()
+    if (routeTargetReached(await read(), target)) return
+    await delay(50)
+  }
+  await page.keyboard.down(action.key)
+  try {
+    await until(
+      read,
+      (next) => routeTargetReached(next, target),
+      `continuous route commit ${entry.fragment}/${action.key}`,
+      15000,
+    )
+  } finally {
+    await page.keyboard.up(action.key)
+  }
+}
+const waitForActionReady = async (action, until) => {
+  if (action.key !== 'Enter' || !isDialogueAction(action)) return
+  const state = await until(
+    read,
+    (next) =>
+      isDialogueWaiting(next) ||
+      (engine === 'game' &&
+        !next.dialog &&
+        next.lastLine?.text &&
+        String(action.reason).endsWith(String(next.lastLine.text))),
+    `continuous dialogue ready: ${action.reason}`,
+    90000,
+  )
+  return !(
+    engine === 'game' &&
+    !isDialogueWaiting(state) &&
+    state.lastLine?.text &&
+    String(action.reason).endsWith(String(state.lastLine.text))
+  )
+}
+const waitForActionProgress = async (before, action, until) => {
+  if (!isDialogueAction(action)) return
+  await until(
+    read,
+    (next) => stateKey(next) !== before,
+    `continuous dialogue consumed: ${action.reason}`,
+    30000,
+  )
+}
 const waitRelease = (fragment) =>
   new Promise((resolveRelease, reject) => {
     const timer = setTimeout(
@@ -45,6 +169,10 @@ const waitRelease = (fragment) =>
     })
   })
 
+const LAYOUT_STYLE =
+  'html,body{margin:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;background:#111!important;display:grid!important;place-items:center!important}' +
+  '#screen{display:block!important;width:100vw!important;height:auto!important;max-width:100vw!important;max-height:100vh!important;aspect-ratio:8/5!important;object-fit:contain!important;image-rendering:pixelated!important}'
+
 await runBrowserJourney({
   name: `continuous-${engine}`,
   packageName: `@type-pal/${engine}`,
@@ -58,27 +186,62 @@ await runBrowserJourney({
   sources: ['scripts/e2e/continuous-story.mjs', 'scripts/e2e/continuous-story-replay-engine.mjs'],
   journey: async ({ newPage, baseURL, out, until, health }) => {
     page = await newPage(`continuous-${engine}`)
+    // Install before navigation so the title menu, boot overlay, video handoff and scene all
+    // share the same half-window geometry; a post-load style briefly exposes the 1280×800 RF
+    // default (and the 960×600 game default) on the main menu.
+    await page.addInitScript((css) => {
+      const install = () => {
+        if (!document.documentElement) return
+        if (document.getElementById('continuous-layout')) return
+        const style = document.createElement('style')
+        style.id = 'continuous-layout'
+        style.textContent = css
+        document.head?.appendChild(style)
+      }
+      install()
+      if (document.documentElement)
+        new MutationObserver(install).observe(document.documentElement, { childList: true })
+      else document.addEventListener('DOMContentLoaded', install, { once: true })
+    }, LAYOUT_STYLE)
     await page.goto(engine === 'reforge' ? `${baseURL}/?menu` : baseURL)
     await page.addStyleTag({
-      content:
-        'html,body{margin:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;background:#111!important;display:grid!important;place-items:center!important}#screen{width:100vw!important;height:auto!important;max-width:100vw!important;max-height:100vh!important;aspect-ratio:8/5!important;object-fit:contain!important;image-rendering:pixelated!important}',
+      content: LAYOUT_STYLE,
     })
     await until(
       async () => {
+        const optOut = page.getByRole('button', { name: '拒绝', exact: true })
+        if (await optOut.isVisible()) await optOut.click()
         const overlay = page.getByText('点击屏幕开始 / Click to start', { exact: true })
         if (await overlay.isVisible()) await overlay.click()
-        return read()
+        const video = await page.evaluate(() => document.querySelector('video')?.currentSrc ?? null)
+        if (video) {
+          await page.keyboard.press('Enter')
+          await until(
+            () => page.evaluate(() => document.querySelector('video')?.currentSrc ?? null),
+            (next) => next !== video,
+            'continuous title prelude closes',
+            60000,
+          )
+          return null
+        }
+        const state = await read()
+        return engine === 'game'
+          ? state.ready && state.menu?.kind === 'opening'
+          : state.boot?.opening?.phase === 'menu' || !!state.runtime
       },
-      () => true,
+      Boolean,
       'continuous browser boot',
       60000,
     )
+    await page.screenshot({ path: resolve(out, 'continuous-title.png') })
     for (const entry of entries) {
       const fragmentReport = {
         fragment: entry.fragment,
         actions: entry.actions.length,
         startedAt: Date.now(),
+        startState: await read(),
       }
+      report.fragments.push(fragmentReport)
       for (const action of entry.actions) {
         health()
         if (Number.isFinite(action.atMs) && previousAtMs !== null) {
@@ -86,6 +249,12 @@ await runBrowserJourney({
           if (gap) await delay(gap)
         }
         previousAtMs = Number.isFinite(action.atMs) ? action.atMs : previousAtMs
+        const shouldRun = await waitForActionReady(action, until)
+        if (shouldRun === false) {
+          report.actions.push({ fragment: entry.fragment, ...action, skipped: 'already-consumed' })
+          continue
+        }
+        const before = stateKey(await read())
         if (action.kind === 'down') await page.keyboard.down(action.key)
         else if (action.kind === 'up') await page.keyboard.up(action.key)
         else {
@@ -93,12 +262,41 @@ await runBrowserJourney({
           await page.keyboard.up(action.key)
         }
         report.actions.push({ fragment: entry.fragment, ...action })
+        fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
+        if (action.kind === 'up' && action.routeTarget)
+          await driveRouteTarget(action, entry, until, health)
+        if (
+          action.kind === 'up' &&
+          action.routeTarget?.expectDialogue &&
+          !hasDialogue(await read())
+        ) {
+          await page.keyboard.down(action.key)
+          try {
+            await until(read, hasDialogue, `continuous route dialogue ${entry.fragment}`, 15000)
+          } finally {
+            await page.keyboard.up(action.key)
+          }
+        }
+        await waitForActionProgress(before, action, until)
         await delay(action.key === 'Enter' ? 80 : 20)
       }
-      const state = await read()
+      const state = await until(
+        read,
+        (next) => {
+          try {
+            assertContinuousCheckpoint(entry.fragment, engine, next)
+            return isContinuousBoundaryReady(next)
+          } catch {
+            return false
+          }
+        },
+        `continuous ${entry.fragment} semantic boundary`,
+        90000,
+      )
+      const checkpoint = assertContinuousCheckpoint(entry.fragment, engine, state)
       fragmentReport.state = state
+      fragmentReport.checkpoint = checkpoint
       fragmentReport.finishedAt = Date.now()
-      report.fragments.push(fragmentReport)
       await page.screenshot({ path: resolve(out, `continuous-${entry.fragment}-checkpoint.png`) })
       if (process.send) process.send({ checkpoint: entry.fragment, engine, state })
       if (entry.fragment !== '006') await waitRelease(entry.fragment)

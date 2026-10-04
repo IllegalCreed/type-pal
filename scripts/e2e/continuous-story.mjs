@@ -31,12 +31,72 @@ export const CONTINUOUS_STORY_FRAGMENTS = Object.freeze([
 
 export const STORY_ONLY_CASES = Object.freeze(['story'])
 
+// A replay is only a valid continuous fragment when it reaches the same scene
+// boundary as the standalone story receipt.  The action tape is an input aid,
+// never the oracle: a browser that merely consumes every key must fail here.
+export const CONTINUOUS_SCENE_CHECKPOINTS = Object.freeze({
+  '001': Object.freeze({ game: 2, reforge: 's001' }),
+  '002': Object.freeze({ game: 4, reforge: 's003' }),
+  '003': Object.freeze({ game: 2, reforge: 's001' }),
+  '004': Object.freeze({ game: 4, reforge: 's003' }),
+  '005': Object.freeze({ game: 5, reforge: 's004' }),
+  '006': Object.freeze({ game: 15, reforge: 's014' }),
+})
+
+export function assertContinuousCheckpoint(fragment, engine, state) {
+  assert(CONTINUOUS_SCENE_CHECKPOINTS[fragment], `unknown continuous fragment ${fragment}`)
+  assert(['game', 'reforge'].includes(engine), `unknown continuous engine ${engine}`)
+  const actual = engine === 'game' ? state?.scene : (state?.scene ?? state?.runtime?.sceneId),
+    expected = CONTINUOUS_SCENE_CHECKPOINTS[fragment][engine]
+  assert.equal(
+    actual,
+    expected,
+    `continuous ${engine} ${fragment} stopped at scene ${String(actual)}; expected ${expected}`,
+  )
+  return { fragment, engine, scene: actual }
+}
+
 const BOUNDARY_REASONS =
-  /(?:prelude|slot|save|restore|checkpoint|formal|quick-save|menu control|normal menu|load|select 旧的回忆|open .*menu|return to restored)/iu
+  /(?:prelude|slot|save|restore|checkpoint|formal|quick-save|menu|load|旧的回忆|选择.*回忆|打开.*菜单|返回.*菜单|return to restored|return to room|return from restored|restored normal|normal menu|证明.*控制|close actual in-game menu)/iu
 
 /** Extract only gameplay inputs from an existing story receipt. Boundary I/O is deliberately omitted. */
 export function continuousStoryActions(report) {
   assert.equal(report?.case ?? 'story', 'story', 'continuous tape accepts story only')
+  const routeTargets = new Map()
+  const routeInputs = report.route?.inputs ?? []
+  const routeLegs = report.route?.legs ?? []
+  let legCursor = 0
+  for (let index = 0; index < routeInputs.length; index++) {
+    const input = routeInputs[index]
+    if (input.kind !== 'down') continue
+    const up = routeInputs
+      .slice(index + 1)
+      .find((candidate) => candidate.kind === 'up' && candidate.key === input.key)
+    if (!up) continue
+    const steps = (report.route?.steps ?? []).filter(
+      (step) =>
+        step.scene === input.scene &&
+        Number.isFinite(step.atMs) &&
+        step.atMs >= input.atMs &&
+        step.atMs <= up.atMs,
+    )
+    while (legCursor < routeLegs.length && routeLegs[legCursor].scene !== input.scene)
+      legCursor += 1
+    const currentLeg = legCursor
+    const followingLeg = routeLegs[currentLeg + 1]
+    const target = {
+      scene: up.reason?.includes('touch/scene boundary')
+        ? (followingLeg?.scene ?? input.scene)
+        : input.scene,
+      acceptScenes: [input.scene, followingLeg?.scene].filter(Boolean),
+      position: up.reason?.includes('touch/scene boundary') ? null : (steps.at(-1)?.to ?? null),
+      committedSteps: steps.length,
+      expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
+    }
+    routeTargets.set(`${input.kind}:${input.key}:${input.atMs}`, target)
+    routeTargets.set(`${up.kind}:${up.key}:${up.atMs}`, target)
+    legCursor = currentLeg + 1
+  }
   return (report.actions ?? [])
     .filter((action) => action.kind === undefined || ['down', 'up'].includes(action.kind))
     .filter((action) => !BOUNDARY_REASONS.test(String(action.reason ?? '')))
@@ -46,6 +106,11 @@ export function continuousStoryActions(report) {
       kind: action.kind ?? 'press',
       reason: action.reason ?? '',
       ...(Number.isFinite(action.atMs) ? { atMs: action.atMs } : {}),
+      ...(Number.isFinite(action.atMs) &&
+      action.kind &&
+      routeTargets.has(`${action.kind}:${action.key}:${action.atMs}`)
+        ? { routeTarget: routeTargets.get(`${action.kind}:${action.key}:${action.atMs}`) }
+        : {}),
     }))
 }
 

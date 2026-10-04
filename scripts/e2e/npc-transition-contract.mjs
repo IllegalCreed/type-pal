@@ -190,8 +190,12 @@ function snapshotsBefore(trace, targetOrder) {
 
 /** Infer contact from observed party displacement and an adjacent visible NPC. */
 export function tracePartyContactEvents(trace) {
+  let clusterScene = null,
+    clusterAtMs = -Infinity
   return (trace.events ?? [])
     .filter((event) => event.kind === 'actor' && event.id === 'party' && event.state?.position)
+    .slice()
+    .sort((a, b) => a.order - b.order)
     .flatMap((event) => {
       const from = canonicalPosition(event.before?.position),
         to = canonicalPosition(event.state.position)
@@ -211,7 +215,8 @@ export function tracePartyContactEvents(trace) {
         // Walking past an NPC produces the same small displacement. A contact
         // response is the displacement after a stable dwell at the spot.
         dwellMs = previousPartyMove ? event.atMs - previousPartyMove.atMs : Infinity
-      if (dwellMs < 1000) return []
+      const continuesCluster = clusterScene === event.scene && event.atMs - clusterAtMs <= 1000
+      if (dwellMs < 1000 && !continuesCluster) return []
       const candidates = [...snapshotsBefore(trace, event.order).entries()]
         .filter(
           ([id, state]) =>
@@ -229,6 +234,8 @@ export function tracePartyContactEvents(trace) {
         .sort((a, b) => a.distance - b.distance)
       const nearest = candidates[0]
       if (!nearest || nearest.distance > 1.75) return []
+      clusterScene = event.scene
+      clusterAtMs = event.atMs
       return [
         {
           order: event.order,

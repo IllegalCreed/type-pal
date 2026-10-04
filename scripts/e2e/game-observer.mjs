@@ -38,6 +38,8 @@ export function readGame() {
     ready: !!gs,
     frame: gs?.frameNum ?? 0,
     scene: gs?.wNumScene ?? null,
+    position: gs?.party ? [gs.party.x, gs.party.y] : null,
+    facing: gs?.party?.facing ?? null,
     mode: gs?.mode ?? null,
     menu: menu ? { kind: menu.kind, cursor: menu.state?.selection?.cursor } : null,
     dialog: dialog

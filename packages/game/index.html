@@ -8,7 +8,13 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <style>
       body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; }
-      canvas { image-rendering: pixelated; width: 960px; height: 600px; }
+      canvas {
+        image-rendering: pixelated;
+        width: min(960px, 100vw);
+        height: auto;
+        max-height: 100vh;
+        aspect-ratio: 8 / 5;
+      }
 
       /* ── 启动 loading 覆盖层(boot-loading.ts 驱动进度;静态内联保证 JS 未就绪时已可见)── */
       #boot-loading {

@@ -16,6 +16,23 @@ export function runtimeMotionCollision(
   return kind === 'move' || kind === 'step' ? 'scriptedBypass' : 'dynamic'
 }
 
+/** First-stage blocker push uses a weighted isometric pixel footprint, not a square tile radius. */
+export function partyBodyContactDistance(
+  first: { col: number; row: number },
+  second: { col: number; row: number },
+): number {
+  const dc = Math.abs(first.col - second.col)
+  const dr = Math.abs(first.row - second.row)
+  return 16 * Math.abs(dc - dr) + 16 * Math.abs(dc + dr)
+}
+
+export function partyBodyOverlaps(
+  first: { col: number; row: number },
+  second: { col: number; row: number },
+): boolean {
+  return partyBodyContactDistance(first, second) <= 12
+}
+
 export interface DurableEndpointSlot extends CoordinatedMotionSlot {
   commitControl?: { commitMoveEntityEndpoint(): void }
   commitSettlement(): void

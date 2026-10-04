@@ -6,8 +6,15 @@
     <title>reforge</title>
     <style>
       body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; }
-      /* 物理 1280×800(逻辑 320×200 的 4x);整数倍放大 + pixelated 保点阵锐利(D16) */
-      canvas { image-rendering: pixelated; display: block; width: 1280px; height: 800px; }
+      /* 物理 1280×800(逻辑 320×200 的 4x);窗口变窄时等比缩小，绝不裁剪主菜单/场景。 */
+      canvas {
+        image-rendering: pixelated;
+        display: block;
+        width: min(1280px, 100vw);
+        height: auto;
+        max-height: 100vh;
+        aspect-ratio: 8 / 5;
+      }
     </style>
   </head>
   <body>

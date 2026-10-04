@@ -134,6 +134,7 @@ import {
   autoActivationSafePointOpen,
   commitDurableMotionEndpoint,
   finishDurableMotionContinuation,
+  partyBodyOverlaps,
   runtimeMotionCollision,
   settleDeferredOneShotMotion,
   terminateLifecycleMotion,
@@ -4015,13 +4016,7 @@ export async function bootGame(
             .map(({ meta }) => meta.entity)
           const contact = movedAutoEntities.find((entity) => {
             const gates = entityLifecycleGates(entity)
-            return (
-              gates.visible &&
-              gates.collidable &&
-              Math.abs(entity.pos.col - player.pos.col) +
-                Math.abs(entity.pos.row - player.pos.row) <=
-                1.5
-            )
+            return gates.visible && gates.collidable && partyBodyOverlaps(entity.pos, player.pos)
           })
           if (contact) {
             for (const facing of directionOrder[contact.facing ?? 'down']) {

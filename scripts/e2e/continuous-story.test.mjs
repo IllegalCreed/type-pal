@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
+  assertContinuousCheckpoint,
+  CONTINUOUS_SCENE_CHECKPOINTS,
   CONTINUOUS_STORY_FRAGMENTS,
   continuousFragmentContext,
   continuousStoryActions,
@@ -17,6 +19,19 @@ test('continuous story registry is six ordered story fragments with no specialis
     ['001', '002', '003', '004', '005', '006'],
   )
   assert(CONTINUOUS_STORY_FRAGMENTS.every((fragment) => fragment.checkpoints.length > 0))
+})
+
+test('continuous checkpoints are scene-boundary oracles, not action-count labels', () => {
+  assert.equal(CONTINUOUS_SCENE_CHECKPOINTS['002'].game, 4)
+  assert.deepEqual(assertContinuousCheckpoint('005', 'reforge', { scene: 's004' }), {
+    fragment: '005',
+    engine: 'reforge',
+    scene: 's004',
+  })
+  assert.throws(
+    () => assertContinuousCheckpoint('002', 'reforge', { scene: 's001' }),
+    /stopped at scene s001; expected s003/,
+  )
 })
 
 test('plan rejects missing, reordered, failed and specialist reports', () => {
@@ -102,4 +117,28 @@ test('continuous action extraction removes every fragment boundary I/O', () => {
     () => continuousStoryActions({ fragment: '002', case: 'items', actions: [] }),
     /story only/,
   )
+})
+
+test('continuous route actions retain committed-step targets instead of only key presses', () => {
+  const actions = continuousStoryActions({
+    fragment: '002',
+    case: 'story',
+    route: {
+      inputs: [
+        { scene: 's001', kind: 'down', key: 'ArrowDown', atMs: 10 },
+        { scene: 's001', kind: 'up', key: 'ArrowDown', atMs: 30, reason: 'route effect' },
+      ],
+      steps: [
+        { scene: 's001', atMs: 12, to: [60, -23, 0] },
+        { scene: 's001', atMs: 28, to: [60, -13, 0] },
+      ],
+      legs: [{ scene: 's001' }],
+    },
+    actions: [
+      { key: 'ArrowDown', kind: 'down', reason: 'normal held route', atMs: 10 },
+      { key: 'ArrowDown', kind: 'up', reason: 'route effect', atMs: 30 },
+    ],
+  })
+  assert.equal(actions[1].routeTarget.committedSteps, 2)
+  assert.deepEqual(actions[1].routeTarget.position, [60, -13, 0])
 })

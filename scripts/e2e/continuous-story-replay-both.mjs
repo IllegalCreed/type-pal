@@ -43,6 +43,17 @@ const start = (engine) => {
     }
   })
   child.on('error', () => {})
+  child.on('exit', (code) => {
+    if (code === 0) return
+    for (const [otherEngine, participant] of children) {
+      if (
+        otherEngine !== engine &&
+        participant.exitCode === null &&
+        participant.signalCode === null
+      )
+        participant.kill('SIGTERM')
+    }
+  })
   return new Promise((resolveChild) =>
     child.once('exit', (code, signal) => resolveChild({ engine, code, signal })),
   )

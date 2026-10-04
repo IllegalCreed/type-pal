@@ -1,6 +1,6 @@
 # E2E-CONTINUOUS-001-006 — 双轨连续主线演示与演出差异治理
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: C1 / E2E
 Coding Owner: Codex
@@ -49,3 +49,8 @@ Reviewer: Codex（独立验收）
 - 2026-10-04 Codex：当前 canonical 独立重跑证据：001、002、003、004 story、005 story 均可独立走通；002 状态门禁已抓到 e56 朝向差异，004 在加入 e26 nudge 间隔后移动节奏收敛，005 张四朝向门禁收敛。新增 `continuous-story.mjs`：六段 story registry、`load:false/save:false` 连续边界上下文、双轨 barrier、story-only action 提取；纯合同测试通过。连续 runner 尚未完成真实浏览器串行演示，任务保持 build。
 - 2026-10-04 Codex：连续 replay runner 已实跑通过：`build/e2e/continuous-both-2026-10-04T08-01-44-889Z/continuous-both.json`，两引擎均 code 0，001–006 六个 barrier 均收到 game/reforge；每段各有 checkpoint PNG 与 `continuous-report.json`。headed 演示窗口使用半屏全高外框与完整 8:5 画布，用户可见验证仍待确认；当前 runner 已支持 `--hold` 停在 006。
 - 2026-10-04 Codex：E2E 工作已迁入独立 worktree/分支 `codex/e2e-continuous-20261004`，避免共享 checkout 抢分支；worktree `pnpm test:e2e-tools` 229/229、严格 lint 3221 文件零诊断通过。该分支 headless 连续 replay 再次通过：`build/e2e/continuous-both-2026-10-04T09-08-08-203Z/continuous-both.json`；headed runner 已支持 756×982 左右窗口、756×900 viewport、完整 8:5 画布与 `--hold`。
+- 2026-10-04 Codex 独立复核纠正：上述连续 replay 的 PASS **无效，不得作为本卡或001–006连续覆盖证据**。`continuous-report.json` 的第一阶段006仍在scene2，RF006仍在s001；002截图仍是开场房间。旧 runner 只验按键消费/进程code0，没有真实语义终点。现已加场景边界及控制权前置失败门；真实重跑进入002/003后仍失败，本卡转 rework，不以放宽坐标误差代替完成。
+- 2026-10-04 002新红样本：`build/e2e/game-002-2026-10-04T10-06-57-076Z/inn-trace.json` 对照 RF `reforge-002-2026-10-04T10-06-57-075Z/inn-trace.json`：第一阶段仅一格推离，RF连续三格推离。根因是作者auto走位后接触半径误用L1格距<=1.5，涵盖并未接触的两侧格。比较器的1000ms dwell过滤也漏掉同次接触后两次推离；新增真实三次接触序列反控已先红后绿。
+- 2026-10-04 002局部修复实跑：接触按资产坐标加权像素足迹<=12判断，保留authored bypass。`game-002-2026-10-04T10-17-10-115Z` / `reforge-002-2026-10-04T10-17-10-120Z`均仅e60导致 `[126,45]→[126,46]` 一次位移；整段仍为red（e56首次转身缺right）。不宣布002全面验收通过。
+- 2026-10-04 连续执行缺口：统计许可层吞键、菜单证明动作过滤不成对、001正文尚未真正结束就进入002、route只依赖录制时长且缺005/006方向输入。已验证独立第一阶段002正常持续按住：房间11次、走廊17次实际位置提交。下一步须让连续模式复用现有实时片段执行体，禁用边界load/save；不继续堆坐标容差/补按键的replay特例。
+- 2026-10-04 主菜单适配：启动前注入同一画布fit规则；双轨 `continuous-title.png`（`continuous-game-2026-10-04T11-36-46-474Z` / `continuous-reforge-2026-10-04T11-36-46-433Z`）已目视确认完整且同尺寸。原生半屏窗口位置/首帧仍需整体headed复核，截图不冒充窗口布置证明。6012编辑器未关闭。
