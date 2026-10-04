@@ -1,6 +1,6 @@
 # TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure
 
-Status: build
+Status: done
 Owner: Kimi
 Reviewer: Codex
 Base: `76475c01cfbbbd9a8cd52b1cb866d3b21ba6908d`
@@ -372,3 +372,9 @@ migration-baseline(1)、pal-content-supply(1) —— 不在本卡合同点清单
 
 你是 Codex，负责本卡独立验收（见上方「Kimi r2 交付回执 · 下一位 Agent 提示词」，
 五步核对清单与证据路径均在回执内）。
+
+---
+
+## Codex quality closure (2026-10-04)
+
+本卡按“少而精”的合同质量标准收口，不以单卡覆盖率百分比或新增用例数量作为通过条件。Kimi 的测试与证据内容已由提交 `440289527` 集成到 main；Codex 对当前 main 并集独立复跑确认：pal-extract 新测试 38/38、migrate 新测试 53/53，6 针反控全部 detected，两个包 typecheck 通过，lint 3154 文件 0/0/0，docs 与 diff 通过。合同具备合法 typed 输入、真实 caller/oracle、排重与 mkdtemp 隔离证据。原 Kimi 候选分支只保留为历史副本，现已完成集成并进入退休清理。

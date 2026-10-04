@@ -11,7 +11,6 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 | [extract/migrate pipeline branch-contract closure](tasks/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | Kimi / CLI与事务合同 | pal-extract/migrate 公开入口与mkdtemp隔离，分别达85% |
 | TEST-GLM-GAME-EVENT-CONTRACTS-1 | [Game event script semantic contracts](tasks/TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | build | GLM / 公开事件脚本合同 | auto-script/runScript/raw opcode 合法输入与业务 oracle，质量收口 |
 | TEST-GLM-REFORGE-HOST-LIFECYCLE-1 | [Reforge startup and continuation lifecycle contracts](tasks/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | build | GLM / host lifecycle 合同 | startup/abort/replacement/continuation，质量收口 |
 | TEST-GLM-EDITOR-AUTHORING-PANELS-1 | [Editor authoring panel state contracts](tasks/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | build | GLM / 作者面板合同 | ProjectWorkbench/Actor/Cutscene 真实交互，质量收口 |
