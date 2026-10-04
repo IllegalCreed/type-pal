@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T21:55:51.677Z",
+  "generatedAt": "2026-10-04T22:48:39.251Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19281,
+  "testCount": 19282,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4447,7 +4447,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3371,
+        "testCount": 3372,
         "testFileCount": 293,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5862,8 +5862,8 @@
           },
           {
             "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
-            "testCount": 3,
-            "identityDigest": "dd4fdfc0f6ca62181e778d42e34c9c298b2fd46c5f731ee8def0ca57a113ef01"
+            "testCount": 4,
+            "identityDigest": "70528b5a0ff7aacfe8af752c9e5975b539ca626577e262eb5642300af647c418"
           },
           {
             "file": "packages/game/src/present/screen-wave.test.ts",
@@ -6211,9 +6211,9 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "47753e31bda28ee3fc18010211811056df104f372c4dde08115fca94a0ac8368",
+        "identityDigest": "5c0e4ba0f5ba1bb04508ef60a8685d264b1cd3cbd9d9300501ddcabd10e3f8cf",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b305fe4165688e4d1667d95e5927bccbfb8b0e53e7099a1c368f47a3b0abc254"
+        "executionDigest": "f229ad8e0d3f366b3aabfef09d7a835317eb4aca3012d4d43733336b695ca366"
       },
       "metrics": {
         "statements": {

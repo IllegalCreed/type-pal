@@ -33,7 +33,9 @@ export function applyScreenWave(
 ): void {
   // scene.c:389 每帧波幅累加;==0 或 >=256 → 关闭并清零(scene.c:391-398)。
   if (advance) gs.wScreenWave += gs.sWaveProgression
-  if (gs.wScreenWave === 0 || gs.wScreenWave >= 256) {
+  // C 的 wScreenWave 是 unsigned WORD：正波幅减到 0 以下时赋值会回绕成大数，
+  // 随即命中 >=256 的关断分支；JS number 不会自动回绕，必须把 <=0 一并视为已结束。
+  if (gs.wScreenWave <= 0 || gs.wScreenWave >= 256) {
     if (advance) {
       gs.wScreenWave = 0
       gs.sWaveProgression = 0

@@ -19,6 +19,17 @@ function rowPattern(): Uint8Array {
 }
 
 describe('L16 applyScreenWave 剩余合同', () => {
+  it('真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动', () => {
+    resetScreenWavePhase()
+    const indices = rowPattern()
+    const before = indices.slice()
+    const gs = waveGs(3, -4) // data/extracted/events/all.json raw operands [255,65532,0] 的收尾形态
+    applyScreenWave(indices, gs, true)
+    expect(indices).toEqual(before)
+    expect(gs.wScreenWave).toBe(0)
+    expect(gs.sWaveProgression).toBe(0)
+  })
+
   it('advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进', () => {
     resetScreenWavePhase()
     const indices = rowPattern()

@@ -105,6 +105,15 @@ game 其余 core/present/shell/analytics/tools 仍待逐文件治理。
 定向 47、game 全包 3,399、全仓 check、official ratchet、protected fast、Biome 零诊断均通过；
 不得把本小批写成 game 或全仓治理完成。
 
+Q3k 审计发现并修复一个真实 present 缺陷：sdlpal `wScreenWave` 是 unsigned WORD，而 TS
+`number` 在真实 raw opcode 0x71 `[255,65532,0]` 的负 progression 收尾时会越过 0；现以
+`<=0` 关断，避免负波幅继续参与扫描线位移。mutant `4 total / 3 passed / 1 failed`，恢复后
+`4/4`；完整质量门尚待本卡收口。
+
+Q3k 已完成全仓质量门：game 全包 3,400、全仓 `pnpm check`、official ratchet、protected fast、
+Biome 零诊断均通过；coverage baseline 只升不降更新至 total 19,282 tests。六个 present primitive
+已直接核验，但 present/battle/menu/dialog 其余生产文件仍未逐文件清点。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

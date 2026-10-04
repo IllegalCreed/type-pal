@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（`5f13c3010`，含后来新增的两份测试）：2,964。
-当前已闭合核验：127；已读但待审：5；尚未逐文件核验：2,832；合计未闭合：2,837。
+当前已闭合核验：146；已读但待审：5；尚未逐文件核验：2,813；合计未闭合：2,818。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
@@ -142,5 +142,24 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除；未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store/detectors caller、21-id/monotonic/BANANA tests 与 PalTimer 注释 | 只读核对坐标/物品/检测器；不擅改速通数据 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |
+| `packages/game/src/present/framebuffer.ts` | product | 已验证 | CODE-QUALITY-3k；present.ts/scene thumbnails/shell callers、framebuffer + leaves tests | fixed-size/default 与离屏尺寸、边界静默写、palette 缺色 fallback 合同完整；未发现直接缺陷 |
+| `packages/game/src/present/screen-shake.ts` | product | 已验证 | CODE-QUALITY-3k；present.ts:707-715 caller、sdlpal video.c anchor、shake/bounds tests | 奇偶垂直搬移、level 越界、advance=false 补帧和 shakeTime 递减合同完整 |
+| `packages/game/src/present/screen-wave.ts` | product | 已验证 | CODE-QUALITY-3k；present.ts:313-317 caller、sdlpal scene.c:389-399、global.h:379 WORD、real raw opcode 0x71 `[255,65532,0]`、wave/leaves/mirror tests | 修复 JS number 负 progression 跨过 0 未关断；`<=0` 对齐 C WORD 回绕后 `>=256` 收尾，既有相位/循环行为不变 |
+| `packages/game/src/present/dither-fade.ts` | product | 已验证 | CODE-QUALITY-3k；present.ts:658-673 caller、battle fade caller、dither/nibble tests | 72-step RG_INDEX/低位逼近合同完整；不改 fade 公式 |
+| `packages/game/src/present/draw-number.ts` | product | 已验证 | CODE-QUALITY-3k；battle/menu/dialog callers、sdlpal ui.c:640-732、draw-number/slots tests | color base/alignment/R-to-L/truncate/opaque mask/缺帧合同完整 |
+| `packages/game/src/present/follower-pos.ts` | product | 已验证 | CODE-QUALITY-3k；present.ts:393-417 caller、sdlpal scene.c:658/745、follower tests | walking/静止冻结/障碍回退/朝向源/trail fallback 合同完整；坐标保持原版 |
+| `packages/game/src/present/framebuffer.test.ts` | test | 已验证 | CODE-QUALITY-3k；默认尺寸/write-clear/toImageData RGBA 合同 | 直接 framebuffer oracle |
+| `packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3k；越界、自定义尺寸、缺色 fallback 反例 | 高判别力边界合同 |
+| `packages/game/src/present/screen-shake.test.ts` | test | 已验证 | CODE-QUALITY-3k；奇偶搬移/递减/level 0/连续帧合同 | 公式 oracle |
+| `packages/game/src/present/screen-shake-bounds.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；level 199/200/256、advance=false 边界合同 | 不重复主干 |
+| `packages/game/src/present/screen-wave.test.ts` | test | 已验证 | CODE-QUALITY-3k；渐弱/清零/循环守恒合同 | 相位 reset 隔离 |
+| `packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3k；advance=false/循环/跨帧相位/真实 raw 负 progression 收尾合同；mutant 4 total/3 fail→恢复 4/4 | typed indices + raw oracle |
+| `packages/game/src/present/screen-wave-mirror.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；镜像 wave 表/关断/累加边界合同 | 独立行 shift oracle |
+| `packages/game/src/present/dither-fade.test.ts` | test | 已验证 | CODE-QUALITY-3k；step0/outer1/72-step 收敛合同 | 原版 nibble oracle |
+| `packages/game/src/present/dither-fade-nibble.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；RG_INDEX 顺序/低位回退/邻接不动合同 | 相位合同 |
+| `packages/game/src/present/draw-number.test.ts` | test | 已验证 | CODE-QUALITY-3k；align/color/truncate/缺帧合同 | sdlpal UI oracle |
+| `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；opaque mask/末行/缺位/nLength=0 合同 | 直接 framebuffer oracle |
+| `packages/game/src/present/follower-pos.test.ts` | test | 已验证 | CODE-QUALITY-3k；walking/frozenOffset/0x46/船/隐龙窟回归合同 | 一阶段行为回归 |
+| `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；方向轴/障碍/短 trail/静止不调用 caller 合同 | 轴向反例 |
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
