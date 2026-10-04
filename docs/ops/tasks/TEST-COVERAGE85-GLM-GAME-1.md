@@ -364,3 +364,13 @@ Codex 复核确认项(193/193、fresh 3389/3389、12/12 VALID+恢复 hash、type
    `pnpm lint` 0/0/0;docs PASS。覆盖率口径不变(canonical 8757/11278=77.64%,±4 v8 波动已声明),
    本修复零测试改动,不重出覆盖率证据。
 4. 提交后 `git diff --check origin/main...HEAD` 复验 0(见推送提交)。
+
+---
+
+## GLM r7 窄返工回执（Codex 最后一项:runner JSON 落盘缺末尾换行,2026-10-04,仍不请求 done）
+
+修复面仅 `mutation-runner.mjs` 一处:`mutation-results.json` 落盘从裸 `JSON.stringify(...)` 改为
+模板串补**恰好一个**末尾换行(与 r6 日志 trimEof 同一落盘纪律)。复跑 runner 后五项确认:
+12/12 VALID;36 份 stdout/stderr 的 bytes/sha256 与实际文件 0 mismatch 且恢复 hash 全真;
+`pnpm lint` 0/0/0(重生成后的 JSON 直接过门,无需再手工 format);`git diff --check
+origin/main...HEAD` 0 输出;工作树仅证据/runner 变更。零测试/产品/旧测/baseline/覆盖率口径改动。

@@ -236,9 +236,10 @@ for (const m of MUTATIONS) {
     reason: problems.join(';'),
   })
 }
+// JSON.stringify 无末尾换行 —— 补恰好一个,保证 Biome/lint 接受(与日志 trimEof 同一落盘纪律)。
 writeFileSync(
   resolve(HERE, 'mutation-results.json'),
-  JSON.stringify(
+  `${JSON.stringify(
     {
       note: '每次执行(原始/变异/恢复)含完整 command/cwd/env引用/stdout/stderr(hash+路径)/JSON 摘要/exit/signal/spawn 与全量 file×fullName×status 身份集合(identitySet)',
       envSnapshot: ENV_SNAPSHOT,
@@ -246,7 +247,7 @@ writeFileSync(
     },
     null,
     2,
-  ),
+  )}\n`,
 )
 console.log(
   results.map((r) => `${r.id}: ${r.status}${r.reason ? ` (${r.reason})` : ''}`).join('\n'),

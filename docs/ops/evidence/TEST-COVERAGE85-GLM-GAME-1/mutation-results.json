@@ -75,8 +75,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stdout.txt",
-            "bytes": 18537,
-            "sha256": "91de2cc7981474fd4da69ca0c7aebe206b51104a980b063c3b45f9faaeac785b"
+            "bytes": 18530,
+            "sha256": "604524452966b2332e2dda2062af2356ecf7c8d425f1439ae2970ca5676928c7"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stderr.txt",
@@ -406,8 +406,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stdout.txt",
-            "bytes": 23349,
-            "sha256": "b6e9775851f272f0bba0cc5af465cfcbeb017d58ed79a5b03357d32aae6a8943"
+            "bytes": 23348,
+            "sha256": "99f5ca02005bec7f9d55133242dee3edd8e63ec50c08c8dfda4239cf04f10a74"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stderr.txt",
@@ -743,8 +743,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stdout.txt",
-            "bytes": 18547,
-            "sha256": "feaac8c5d90acd6b9786ec628ce9e0a5a47888e8742f2be8cd6bbb028e9ae07d"
+            "bytes": 18538,
+            "sha256": "e5c14cb82a0b33e7821b4b9179202abd639d37f9170f70238906dff71590f0b5"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stderr.txt",
@@ -1096,8 +1096,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stdout.txt",
-            "bytes": 5461,
-            "sha256": "df2b109d132f805680606a46c2f89a8ae7f922c5753991f0a4f2d5b8f5df494c"
+            "bytes": 5458,
+            "sha256": "447046324c2e04f80fa1a46f863a65dcd7d0d2624b1e4cf98c4c9821a7ebd965"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stderr.txt",
@@ -1217,8 +1217,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stdout.txt",
-            "bytes": 7775,
-            "sha256": "0808bf3532a7483799b77d3d22a7fd18921ff0c9bb3edb8b04a9fac96f183a06"
+            "bytes": 7774,
+            "sha256": "0fabb18aa097068455470e644333f6865492f85145fda89bccacc71c9072ab77"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stderr.txt",
@@ -1345,7 +1345,7 @@
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stdout.txt",
             "bytes": 5459,
-            "sha256": "1e3c8a431d12fd49fea81c369303361930f2f0445aee241d06c8af5ffe32472d"
+            "sha256": "9379fcb42ca953e79ef99295092d9c7a46125e9e4d4ce5cd67b43baf882ab955"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stderr.txt",
@@ -1487,8 +1487,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stdout.txt",
-            "bytes": 12396,
-            "sha256": "4a02b079dc0e9852e9a44924d54ea22bad4c84ae91d078d7585ec6774df1937b"
+            "bytes": 12398,
+            "sha256": "35b043e2064230dc4044b068225098efb655abd465f989673131545b2c3bb867"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stderr.txt",
@@ -1743,8 +1743,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stdout.txt",
-            "bytes": 15903,
-            "sha256": "960c656920c59863be8c10990613b7bbc12d9c74f54030ac381dad2f399155f1"
+            "bytes": 15898,
+            "sha256": "969a6f6554ed8cb1e142dfe299aa65f92d70e0b97c02b808a8f9d4c45e723382"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stderr.txt",
@@ -2005,8 +2005,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stdout.txt",
-            "bytes": 12395,
-            "sha256": "f8f0979b0823ce432bc23ef7767ef56bc84266199412bc8b176804d1443962f1"
+            "bytes": 12391,
+            "sha256": "4d5171cfbb7f8d4066d4919b6b824b55a9e9c1469c9e840398d04c4c316f3477"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stderr.txt",
@@ -2283,8 +2283,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stdout.txt",
-            "bytes": 11363,
-            "sha256": "41014c833a8fc2e38fa5162415b0581479c1d4e9f33435eaa2c1bfe0774073de"
+            "bytes": 11373,
+            "sha256": "5faa46704112829619f7a6d53a54c845f478e98a94d27aeedbb870cdec038625"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stderr.txt",
@@ -2509,8 +2509,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stdout.txt",
-            "bytes": 15069,
-            "sha256": "1ec05f1a14ff0650273487f72e58ad816cd0150afbcc4b2348348e862924a01b"
+            "bytes": 15068,
+            "sha256": "e0486f739ee747bc4c3773a25770bdb80a67876737727ef7571d91ea8fb697c2"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stderr.txt",
@@ -2741,8 +2741,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stdout.txt",
-            "bytes": 11376,
-            "sha256": "d70872f17170bb17ecbd9871c4808e3b1f5abe154cffbe4f299a47e3372c5a91"
+            "bytes": 11374,
+            "sha256": "21a34583c9a58db1e7e46221f1de386f2d73ddbfb2b34a22ae669aa7467cbe59"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stderr.txt",
@@ -2989,8 +2989,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stdout.txt",
-            "bytes": 10437,
-            "sha256": "f56000d8d5d443b1fd6427ab079e5a24031c01d9dc1b87b4f87364d0769177b4"
+            "bytes": 10439,
+            "sha256": "2393f8730c75b0068ffd7a5a84fce31849129aa53b8792fd146235c6e9ece8b0"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stderr.txt",
@@ -3170,8 +3170,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stdout.txt",
-            "bytes": 13662,
-            "sha256": "594f1d245c47fae1d3542a4ca98203b2ce02db88284375b16ecd0c1802fecf3a"
+            "bytes": 13661,
+            "sha256": "fa7bc40f584531a781706328724de45afce9a9a58478bbc062835417e9d80cbe"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stderr.txt",
@@ -3357,8 +3357,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stdout.txt",
-            "bytes": 10440,
-            "sha256": "5992e76aa54777339dd1b166885b8f39a6fa29270ad4a3fbfd790350184e4527"
+            "bytes": 10423,
+            "sha256": "7c9a8579b9d41b5724264a2db8723edc987211c47b2889ef9c5e595159ef0c10"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stderr.txt",
@@ -3561,7 +3561,7 @@
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stdout.txt",
             "bytes": 8459,
-            "sha256": "053cf1bf5aa904bded56ad5fe2d867aa91418d67b1ca7cd13a7717722a39089b"
+            "sha256": "ce5bac71f7b2c25fec4355f21fca92656275c535e98a55fa5b8e6119b8eaf3a0"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stderr.txt",
@@ -3716,8 +3716,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stdout.txt",
-            "bytes": 11355,
-            "sha256": "a9a561c111b58a9bee411d2314765e10a20b2190065b534d960a0b2e67597e2c"
+            "bytes": 11352,
+            "sha256": "7e4dbe4ed6a36d4778ff461919a07adcf5d4f6748c8c8e91de88ce35f3864578"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stderr.txt",
@@ -3878,8 +3878,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stdout.txt",
-            "bytes": 8461,
-            "sha256": "70f54eba1de3c7d0603afc1b4bcdceb83a4394dbfd7712dd27b52464b21ae525"
+            "bytes": 8464,
+            "sha256": "2ce90d1f63229dbdb31f2fb1ef9fcfd2f1ad8df20eb24428f76cc4e9078067e0"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stderr.txt",
@@ -4056,8 +4056,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stdout.txt",
-            "bytes": 10424,
-            "sha256": "a6479f7b7fa6b7d6c024356e6f32c1c58cd03a1ec5e78bd7ac2b116d09bf8ecd"
+            "bytes": 10434,
+            "sha256": "40f0f5421c5301ff613721df6df22a97e89060343bd863fac83249b1e99026b2"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stderr.txt",
@@ -4237,8 +4237,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stdout.txt",
-            "bytes": 13654,
-            "sha256": "65a33252de12242e20be810e03d9d2f1461177fcf8f886ae36799a8271afa53b"
+            "bytes": 13669,
+            "sha256": "df735f2646d208bd13e29f8fa21f46e41062994613559d7e6f1e268535d09baa"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stderr.txt",
@@ -4425,7 +4425,7 @@
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stdout.txt",
             "bytes": 10439,
-            "sha256": "2ed504d8167f8a21243c48d970ef285026dedaa702b6156df5941717dfd374e3"
+            "sha256": "fc9ff544267a28e3879fa6901717f3cdfd2b5f1667355f33e59c89631a9139e9"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stderr.txt",
@@ -4627,8 +4627,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stdout.txt",
-            "bytes": 10439,
-            "sha256": "71dcf07b834065836a19f5474df81212a9eb84f0873880db2a2fc9738837d227"
+            "bytes": 10419,
+            "sha256": "f1eb09eb852f243bad547937103605bb6b50e392791eedf9c2cec1ef2347c2d2"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stderr.txt",
@@ -4808,8 +4808,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stdout.txt",
-            "bytes": 13660,
-            "sha256": "9a306072ac380354ba6e0afeb619c84cdc96c690413ff9a838941b615536d6a7"
+            "bytes": 13666,
+            "sha256": "cf16feda4449378df778a9cb1c56b72a6a591a67723a13b3573e2e8a5829a018"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stderr.txt",
@@ -4995,8 +4995,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stdout.txt",
-            "bytes": 10437,
-            "sha256": "cb4a68e11bf6b2c879c8293c281dc3e0980b3aae6bff1d9c3a7afd08cc8366f3"
+            "bytes": 10426,
+            "sha256": "7aae8e3556b6ece34e692ea882c4e3ee6d5cd336595f5cf18da0d4974db79ae1"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stderr.txt",
@@ -5198,8 +5198,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt",
-            "bytes": 118026,
-            "sha256": "65ba26277e624e2f1ba07549789a6ca7648110e1de320da7f1727965c168ce01"
+            "bytes": 118006,
+            "sha256": "43fdc3c8c05d86a0f712e9d15b3c3b261b813e56a4247c6dc055a595b79ff753"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stderr.txt",
@@ -6879,8 +6879,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt",
-            "bytes": 142594,
-            "sha256": "b28308cc6767de22714846fb9eb582ba63626bd246b3b1c915b8e829f685c285"
+            "bytes": 142588,
+            "sha256": "eb1330fac7af05557ec2b3836b6c9d598f78e548656aa62dfd6893b6adffb2ac"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stderr.txt",
@@ -8566,8 +8566,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt",
-            "bytes": 118029,
-            "sha256": "64b84ac5f4bed6504d4d29fc75d012bd82e2159ca383574a9a0347ae7dfec57e"
+            "bytes": 118022,
+            "sha256": "391d0ec69a741c2cd903f99a32d1e2b6f7694ca01af829f72adb8e414a77d3a7"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stderr.txt",
@@ -10269,8 +10269,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stdout.txt",
-            "bytes": 11368,
-            "sha256": "7314825d547f70d728ccb18e96d2d8f2b37a97a3e48744f9e37744a83d7bad33"
+            "bytes": 11372,
+            "sha256": "03feabbbcaa40de3ae334b3612aa3081adeeed7d1d653d0c572dfc8b25428682"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stderr.txt",
@@ -10495,8 +10495,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stdout.txt",
-            "bytes": 15087,
-            "sha256": "8e1cc0b9f796b6f12c986807a60a110bbc644382ed193f299a5eb241b3c9c5ea"
+            "bytes": 15085,
+            "sha256": "2b6c0725fc661362507ce8395c2c6d36d43f9b0456a565cd7a906deedc620f84"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stderr.txt",
@@ -10727,8 +10727,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stdout.txt",
-            "bytes": 11374,
-            "sha256": "117e72a17ba7c1773e31af1f54f0d8b45af0edee83f88c95abcd1cd994137221"
+            "bytes": 11367,
+            "sha256": "048b87f18d9f6afb5b34e413fecca74884b974c6bbcd5098295997e271853e48"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stderr.txt",
@@ -10975,8 +10975,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stdout.txt",
-            "bytes": 56949,
-            "sha256": "434d3011a28f4fa933e843b33c1252c378815aaf99cf28f2ca3333ae4a1b4cf6"
+            "bytes": 56948,
+            "sha256": "09de90c7ca91ae9204fa68714ec3f757a1beafe01dbf32a71d46a1b6b3f1f9ce"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stderr.txt",
@@ -11946,8 +11946,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stdout.txt",
-            "bytes": 70677,
-            "sha256": "af112a420c7141d9d39f64551c7082f9de9523fccfa49bfc71af27be48a00d78"
+            "bytes": 70685,
+            "sha256": "502a32ec9298103efce46e5d431a5795646faa717fe56c27cd3de27aec3ddf20"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stderr.txt",
@@ -12928,8 +12928,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stdout.txt",
-            "bytes": 56962,
-            "sha256": "5b6a85929857a98f78384dbe60491121de96f24b2175e6ca633e424debc7ea85"
+            "bytes": 56949,
+            "sha256": "7e4fb6cc57849bc048b1e6525388a41fe0da5a9370c00920c8f69952d0a27248"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stderr.txt",
@@ -13923,8 +13923,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stdout.txt",
-            "bytes": 12398,
-            "sha256": "aef328b0d623df154b1fca303a6a72036d869020dc76f49da2729fb4d30a1aa7"
+            "bytes": 12397,
+            "sha256": "6dade667f5864c739b612a5ab46be51cb6fcced471a590583b5c1d4fd24e0650"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stderr.txt",
@@ -14179,8 +14179,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stdout.txt",
-            "bytes": 15960,
-            "sha256": "ce7a6e9133d1bdd7f50d5e1d6665968e428abc2d1e76348453a2e913c84406ec"
+            "bytes": 15938,
+            "sha256": "cf8d2b97c5d022aec949e3c831ace2a903fe252d9f59c8b7e42c0dd52ba7e457"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stderr.txt",
@@ -14441,8 +14441,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stdout.txt",
-            "bytes": 12388,
-            "sha256": "831fbceb9c20a355678e11c777578459527880e0d2fd0caecd89f1b7f816a12d"
+            "bytes": 12399,
+            "sha256": "bbe0dbb98514c4c1b052e75bf93dc0f8c2569792131e8f88f249fba3b9a09056"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stderr.txt",
