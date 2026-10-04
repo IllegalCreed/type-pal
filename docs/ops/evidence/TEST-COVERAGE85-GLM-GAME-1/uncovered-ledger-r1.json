@@ -1,6 +1,6 @@
 {
   "src/core/event-system.ts": {
-    "missEdges": 440,
+    "missEdges": 446,
     "arms": [
       { "line": 654, "type": "if", "arm": 1 },
       { "line": 679, "type": "binary-expr", "arm": 1 },
@@ -42,6 +42,11 @@
       { "line": 1502, "type": "binary-expr", "arm": 1 },
       { "line": 1539, "type": "if", "arm": 0 },
       { "line": 1555, "type": "if", "arm": 1 },
+      { "line": 1574, "type": "if", "arm": 0 },
+      { "line": 1580, "type": "if", "arm": 0 },
+      { "line": 1585, "type": "if", "arm": 0 },
+      { "line": 1590, "type": "if", "arm": 0 },
+      { "line": 1595, "type": "if", "arm": 0 },
       { "line": 1637, "type": "if", "arm": 0 },
       { "line": 1646, "type": "if", "arm": 0 },
       { "line": 1665, "type": "binary-expr", "arm": 1 },
@@ -182,6 +187,7 @@
       { "line": 3417, "type": "if", "arm": 0 },
       { "line": 3440, "type": "binary-expr", "arm": 1 },
       { "line": 3440, "type": "cond-expr", "arm": 1 },
+      { "line": 3441, "type": "cond-expr", "arm": 1 },
       { "line": 3442, "type": "if", "arm": 0 },
       { "line": 3459, "type": "if", "arm": 1 },
       { "line": 3493, "type": "switch", "arm": 55 },

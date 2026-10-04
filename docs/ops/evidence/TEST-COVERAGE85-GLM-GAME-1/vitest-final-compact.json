@@ -1,7 +1,7 @@
 {
-  "generatedNote": "r3 fresh full fast-profile vitest run on codex/coverage85-glm-game-r1 (rebased on main ea1fddb8c, +40 r3 contracts, 207 cov85 tests)",
-  "numTotalTests": 3403,
-  "numPassedTests": 3403,
+  "generatedNote": "r4-dedup fresh full fast-profile run (9 duplicate r3 contracts removed, real-bus drain proofs added, 198 cov85 tests)",
+  "numTotalTests": 3394,
+  "numPassedTests": 3394,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "success": true,
@@ -2103,87 +2103,57 @@
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) 无 cursor → 直接切 explore(1473-1475)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) frame-wait:逐帧递减 → 归零清 waiting + ip++ 续跑;waitGestureReset 复位行走帧(1480-1495)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) camera-pan:每帧 camera += (dx,dy) 递减 → 归零清字段 + ip++ 续跑(1499-1512)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) palette-fade 完成路径:finalize + ip++;未到阻塞(1537-1560)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) palette-fade + 0x4E reloadSlotAfterFade:淡完停脚本并调 handler(1551-1556)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) 六个 modal waiting → 阻塞不步进(1574-1597)",
+      "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+      "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) wait-key:无新按键/方向键阻塞;Confirm → 清 + ip++(1604-1611)",
+      "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+      "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
       "status": "passed"
     },
     {
       "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) confirm(0x0A):方向 toggle;默认否 Confirm → goto op0;Cancel=否;是 → ip++(1620-1652)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 tickEventSystem waiting 家族(1480-1672) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 trigger/onEnter end 写回(1877-1960) end + triggerOwnerId + advance → triggerResume={ip+1};plain → 不动;清场复位(1910-1944+)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 trigger/onEnter end 写回(1877-1960) end + reset:resetTo 在表 → triggerResume 落 label;idleFrames 未满 → 计数 + 续跑(1917-1937)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 trigger/onEnter end 写回(1877-1960) end + onEnterSceneId:advance/reset/plain 三臂写 sceneOnEnterIp + 清 sceneLoading(1896-1908)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 trigger/onEnter end 写回(1877-1960) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/event-system.cov85.test.ts",
-      "fullName": "cov85r3 trigger/onEnter end 写回(1877-1960) narration dialog:任意键立即关 + ip++;typingFrames 满 1.4s 自动关(1685-1703)",
+      "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
       "status": "passed"
     },
     {
@@ -5022,1581 +4992,6 @@
       "status": "passed"
     },
     {
-      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
-      "fullName": "L19 display-scale 剩余合同 非整数 setPercent 四舍五入（clampPct round 分支）",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
-      "fullName": "L19 display-scale 剩余合同 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
-      "fullName": "L19 display-scale 剩余合同 toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
-      "fullName": "L19 fps-overlay 剩余合同 hideFpsOverlay 从未创建 → no-op 不抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
-      "fullName": "L19 fps-overlay 剩余合同 启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 默认 100% = 960×600(index.html 现状)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale setPercent 改 canvas + 持久;clamp [10,1000]",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 1000% = 9600×6000",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 启动读回 localStorage",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 损坏或非正存储 foo 回落到 100%，不得沿用脏值",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 损坏或非正存储 0 回落到 100%，不得沿用脏值",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 损坏或非正存储 -12 回落到 100%，不得沿用脏值",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/display-scale.test.ts",
-      "fullName": "display-scale 损坏或非正存储 NaN 回落到 100%，不得沿用脏值",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay isFpsEnabled / setFpsEnabled 持久化 localStorage",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay 未启用 → tickFps 纯 no-op,不建 overlay",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay 启用 → 25fps(逻辑 tick 量化)如实显示 ~25",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay setFpsEnabled(false) → 立即隐藏 overlay",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/fps-overlay.test.ts",
-      "fullName": "fps-overlay 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/map-names.test.ts",
-      "fullName": "map-names 已知地图返回考据地名",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/map-names.test.ts",
-      "fullName": "map-names 未知地图回退 地图N",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/map-names.test.ts",
-      "fullName": "map-names hasMapName 区分已知/未知",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
-      "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
-      "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
-      "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
-      "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger item 优先于 teleport",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger count<0(扣道具) → other",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/minimap.test.ts",
-      "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/quick-save.test.ts",
-      "fullName": "quick-save canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/quick-save.test.ts",
-      "fullName": "quick-save F5 可存态 → saveSlot(1, gs)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/quick-save.test.ts",
-      "fullName": "quick-save F5 不可存态(战斗) → 不调 saveSlot",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/quick-save.test.ts",
-      "fullName": "quick-save F9 → loadSlotIntoGame(1)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/save-io.test.ts",
-      "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/save-io.test.ts",
-      "fullName": "save-io parseImportedSave:合法 → 返回 gs;格式错 → 抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/save-io.test.ts",
-      "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/toast.glm-phase1-leaves.test.ts",
-      "fullName": "L19 showToast 堆叠合同 两条共存；到期只移除自己，容器保留",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/toast.glm-phase1-leaves.test.ts",
-      "fullName": "L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/toast.test.ts",
-      "fullName": "toast 挂出含消息的 toast",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/toast.test.ts",
-      "fullName": "toast success / error 不同类型 class",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/toast.test.ts",
-      "fullName": "toast duration 后淡出并移除(容器也清掉)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/toast.test.ts",
-      "fullName": "toast 未到 duration 不得移除，负控证明计时器不是一挂就清",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.glm-phase1-leaves.test.ts",
-      "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.glm-phase1-leaves.test.ts",
-      "fullName": "L17 tools-panel 显示区委托 全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 反引号 toggle 显隐",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 场景 tab:显示场景名 + 主角坐标",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/tools-panel.test.ts",
-      "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio-volume.boundaries.test.ts",
-      "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio-volume.boundaries.test.ts",
-      "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio-volume.test.ts",
-      "fullName": "audio-volume setVolume 钳制 0..1,调 applyVolume,写 localStorage",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio-volume.test.ts",
-      "fullName": "audio-volume 静音:applyVolume 收 0,取消静音恢复音量值;持久 tp-muted",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio-volume.test.ts",
-      "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.glm-phase1-leaves.test.ts",
-      "fullName": "L24 setOggVolumeScale 即时刷新 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.glm-phase1-leaves.test.ts",
-      "fullName": "L24 audio-midi 无 Web Audio 端口 setBgmVolume 在合成器未就绪（masterGain 未建）时只暂存不抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.glm-phase1-leaves.test.ts",
-      "fullName": "L24 audio-midi 无 Web Audio 端口 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 audio url 映射(纯) sfxUrl → {base}/sounds/{id}.wav",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 audio url 映射(纯) musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 audio url 映射(纯) pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 audio url 映射(纯) battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 AudioManager.sync drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 AudioManager.sync BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 AudioManager.sync setMusicEnabled(false) → stop;(true) → 重播当前 track",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 AudioManager.sync setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌死 → enemy.deathSound(fight.c:756)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌攻 → enemy.attackSound",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) lastSFX 只压制紧邻同号,异号放行",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/audio.test.ts",
-      "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) stop:释放当前元素 src",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.glm-next-wave.test.ts",
-      "fullName": "playAvi autoplay 拒绝 → click-to-start 降级边界 play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.glm-next-wave.test.ts",
-      "fullName": "warmUpVideoAutoplay(main.ts onEnter click 同步栈调用) play() 成功 → 同一 muted 元素被 pause(解锁后丢弃),全程不抛错",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.glm-next-wave.test.ts",
-      "fullName": "warmUpVideoAutoplay(main.ts onEnter click 同步栈调用) play() 拒绝 → 静默不抛、不 pause(最坏退回 playAvi overlay 兜底)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 返回 Promise + 创 <video> 元素 + src 正确",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Space 键跳过 → Promise resolve + element 移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Enter 键跳过",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Escape 键跳过",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 非跳过键不触发(其他键 keydown 忽略)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 自定义 skipKeys 覆盖默认",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) video error 事件触发 → Promise 仍 resolve(不抛)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 多次 cleanup 调用 idempotent(settled flag 防双重 resolve)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) playAvi 建 <video> 时套用当前 videoVolume",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 实时刷新正在播放的 video.volume",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 钳制到 0..1",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/avi-player.test.ts",
-      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
-      "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并移除 overlay(过渡后)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点(单测/SSR)时全部 no-op 不抛错",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/boot-loading.test.ts",
-      "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-audio.test.ts",
-      "fullName": "syncShellAudio suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-load.test.ts",
-      "fullName": "load palette transition helpers 读档黑屏 palette 不会污染存档恢复用的原 palette",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
-      "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.test.ts",
-      "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.test.ts",
-      "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap-resources.test.ts",
-      "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap.glm-next-wave.test.ts",
-      "fullName": "showError 启动失败显示(bootstrap.ts) 绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/bootstrap.glm-next-wave.test.ts",
-      "fullName": "showError 启动失败显示(bootstrap.ts) 无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
-      "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
-      "fullName": "G10-D 结局截断与请求归属 G10-D02 女孩纵坐标停在 80",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
-      "fullName": "G10-D 结局截断与请求归属 G10-D03 下半背景长度不足时整屏为 0",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
-      "fullName": "G10-D 结局截断与请求归属 G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
-      "fullName": "G10-D 结局截断与请求归属 G10-D05 POST Request 不重试",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
-      "fullName": "G10-D 结局截断与请求归属 G10-D06 场景资源拒绝不会升级成字形警告",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.glm-next-wave.test.ts",
-      "fullName": "waitForKey(PAL_WaitForKey(0) port — bootstrap 结局演职员表前等键) 默认键表:非命中键不拦截不 resolve;Enter 命中 resolve 并释放监听(再次 Enter 不再拦截)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.glm-next-wave.test.ts",
-      "fullName": "waitForKey(PAL_WaitForKey(0) port — bootstrap 结局演职员表前等键) 自定义键表覆盖默认:Space 不再命中,KeyQ 命中",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.glm-next-wave.test.ts",
-      "fullName": "playEndingAnimation 取消释放与背景回退 skipKeys:播中 Space 被拦截并提前退出(刷帧数远小于 frameCount),finally 释放监听",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.glm-next-wave.test.ts",
-      "fullName": "playEndingAnimation 取消释放与背景回退 upperIndices 长度非 64000 → 回退全黑背景(帧值集合 = {黑, lower});合法 upper 对照组无黑",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.test.ts",
-      "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) 跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.test.ts",
-      "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) beastFrames 不足 2 帧 → 跳过妖兽不崩",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/ending-player.test.ts",
-      "fullName": "结局 阻塞 fade 助手(suspendRaf 期间不走 present 驱动) fadeOut / fadeIn / colorFade 跑完不崩并刷 canvas(fake timers)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-player.test.ts",
-      "fullName": "特效 B FBP effectSprite 叠加(g_wCurEffectSprite) fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
-      "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
-      "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
-      "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
-      "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
-      "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
-      "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.boundaries.test.ts",
-      "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.boundaries.test.ts",
-      "fullName": "H01 installFetchRetry 边界 502/504 与 503 同样重试；耗尽抛最后一次 Error 身份",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.boundaries.test.ts",
-      "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.boundaries.test.ts",
-      "fullName": "H01 installFetchRetry 边界 backoff 末值复用与空数组 fallback（1000ms）",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.glm-phase1-leaves.test.ts",
-      "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.glm-phase1-leaves.test.ts",
-      "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.test.ts",
-      "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.test.ts",
-      "fullName": "fetch-retry(GET 网络层重试兜底) 重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.test.ts",
-      "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试;404 → 原样返回不重试(资源性错误)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.test.ts",
-      "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/fetch-retry.test.ts",
-      "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input-replay.grok-r1.test.ts",
-      "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.boundaries.test.ts",
-      "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.boundaries.test.ts",
-      "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.boundaries.test.ts",
-      "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey 方向键映射",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "codeToAbstractKey 未知键 → null",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "ReplayInputSource 按帧顺序回放",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "ReplayInputSource 超出序列 → 空快照",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/input.test.ts",
-      "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
-      "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/main-loop.test.ts",
-      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.glm-phase1-leaves.test.ts",
-      "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.glm-phase1-leaves.test.ts",
-      "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache PROD=false(dev/e2e)→ 不注册",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache PROD=true → 以 updateViaCache:none 注册 /sw.js",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache 无 serviceWorker 能力 → 安全 no-op",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache 无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache register 抛错 → onUnavailable 触发,不向上抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-client.test.ts",
-      "fullName": "registerPrecache startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
-      "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/precache-ui.test.ts",
-      "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.glm-next-wave.test.ts",
-      "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.glm-next-wave.test.ts",
-      "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 全部帧播完 → fb.indices = 末帧填充",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) Space 按键跳过 → 不到末帧停",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest 缺该 chunk → 警告 + return,不抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) startFrame > endFrame → 立即 return 不播",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) endFrame=-1 → 默认播到 frameCount-1",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest fetch throw → 警告 + return,不抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单帧 fetch throw → warn + skip 该帧 + 继续",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 随每显示帧递减(3 帧视频:65→62)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 不传 shakeState → 行为不变",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-player.test.ts",
-      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A01 省略跳过键时 Space 仍播到末帧",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A03 startFrame 等于 endFrame 只取该帧",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A04 淡入时长 0 把索引 3 写成调色板 RGB",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A06 manifest 418 的错误文本带状态码",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/rng-window.grok-r1.test.ts",
-      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A07 默认块地址是 rng-07.rle",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.glm-next-wave.test.ts",
-      "fullName": "playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行) 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.test.ts",
-      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Space 跳过 → 补完渐变 + 0.5s delay + resolve",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.test.ts",
-      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Enter / Escape 也跳过",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.test.ts",
-      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 自定义 skipKeys 覆盖默认",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.test.ts",
-      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.test.ts",
-      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L44:早跳过时标题补满完整高度(底部行也被画上)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/splash-fallback.test.ts",
-      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-fallback.test.ts",
-      "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-fallback.test.ts",
-      "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path Space 中途跳过 → 缩短流程仍 resolve",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-splash.grok-r1.test.ts",
-      "fullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-splash.grok-r1.test.ts",
-      "fullName": "G10-B 商标淡出与卷轴停点 G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-splash.grok-r1.test.ts",
-      "fullName": "G10-B 商标淡出与卷轴停点 G10-B03 默认淡出前等待 1000 毫秒",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-splash.grok-r1.test.ts",
-      "fullName": "G10-B 商标淡出与卷轴停点 G10-B04 playRng 固定 chunk 6",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-splash.grok-r1.test.ts",
-      "fullName": "G10-B 商标淡出与卷轴停点 G10-B05 窄图只拷贝自身宽度",
-      "status": "passed"
-    },
-    {
-      "file": "src/shell/trademark-splash.grok-r1.test.ts",
-      "fullName": "G10-B 商标淡出与卷轴停点 G10-B06 卷轴停在 iImgPos 1，底行仍是下图",
-      "status": "passed"
-    },
-    {
       "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
       "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
       "status": "passed"
@@ -8227,6 +6622,1581 @@
       "status": "passed"
     },
     {
+      "file": "src/shell/audio-volume.boundaries.test.ts",
+      "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio-volume.boundaries.test.ts",
+      "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio-volume.test.ts",
+      "fullName": "audio-volume setVolume 钳制 0..1,调 applyVolume,写 localStorage",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio-volume.test.ts",
+      "fullName": "audio-volume 静音:applyVolume 收 0,取消静音恢复音量值;持久 tp-muted",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio-volume.test.ts",
+      "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.glm-phase1-leaves.test.ts",
+      "fullName": "L24 setOggVolumeScale 即时刷新 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.glm-phase1-leaves.test.ts",
+      "fullName": "L24 audio-midi 无 Web Audio 端口 setBgmVolume 在合成器未就绪（masterGain 未建）时只暂存不抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.glm-phase1-leaves.test.ts",
+      "fullName": "L24 audio-midi 无 Web Audio 端口 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 audio url 映射(纯) sfxUrl → {base}/sounds/{id}.wav",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 audio url 映射(纯) musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 audio url 映射(纯) pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 audio url 映射(纯) battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 AudioManager.sync drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 AudioManager.sync BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 AudioManager.sync setMusicEnabled(false) → stop;(true) → 重播当前 track",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 AudioManager.sync setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌死 → enemy.deathSound(fight.c:756)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌攻 → enemy.attackSound",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) lastSFX 只压制紧邻同号,异号放行",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/audio.test.ts",
+      "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) stop:释放当前元素 src",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.glm-next-wave.test.ts",
+      "fullName": "playAvi autoplay 拒绝 → click-to-start 降级边界 play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.glm-next-wave.test.ts",
+      "fullName": "warmUpVideoAutoplay(main.ts onEnter click 同步栈调用) play() 成功 → 同一 muted 元素被 pause(解锁后丢弃),全程不抛错",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.glm-next-wave.test.ts",
+      "fullName": "warmUpVideoAutoplay(main.ts onEnter click 同步栈调用) play() 拒绝 → 静默不抛、不 pause(最坏退回 playAvi overlay 兜底)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 返回 Promise + 创 <video> 元素 + src 正确",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Space 键跳过 → Promise resolve + element 移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Enter 键跳过",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) Escape 键跳过",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 非跳过键不触发(其他键 keydown 忽略)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 自定义 skipKeys 覆盖默认",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) video error 事件触发 → Promise 仍 resolve(不抛)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) 多次 cleanup 调用 idempotent(settled flag 防双重 resolve)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) playAvi 建 <video> 时套用当前 videoVolume",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 实时刷新正在播放的 video.volume",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) setVideoVolume 钳制到 0..1",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/avi-player.test.ts",
+      "fullName": "playAvi — 视频音量(工具面板「视频」滑块 / 主静音) cleanup 后解除 curVideoEl 跟踪:后续 setVideoVolume 不再改已移除元素",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading-host.grok-r1.test.ts",
+      "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并移除 overlay(过渡后)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) fail 显示错误文本、还原 fetch、overlay 保留",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点(单测/SSR)时全部 no-op 不抛错",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/boot-loading.test.ts",
+      "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-audio.test.ts",
+      "fullName": "syncShellAudio suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-load.test.ts",
+      "fullName": "load palette transition helpers 读档黑屏 palette 不会污染存档恢复用的原 palette",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.test.ts",
+      "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.test.ts",
+      "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap-resources.test.ts",
+      "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap.glm-next-wave.test.ts",
+      "fullName": "showError 启动失败显示(bootstrap.ts) 绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/bootstrap.glm-next-wave.test.ts",
+      "fullName": "showError 启动失败显示(bootstrap.ts) 无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D01 省略跳过键时 Space 不截断结局",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D02 女孩纵坐标停在 80",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D03 下半背景长度不足时整屏为 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D04 跳过 AVI 后 499 毫秒仍在，500 毫秒移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D05 POST Request 不重试",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-avi-host.grok-r1.test.ts",
+      "fullName": "G10-D 结局截断与请求归属 G10-D06 场景资源拒绝不会升级成字形警告",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.glm-next-wave.test.ts",
+      "fullName": "waitForKey(PAL_WaitForKey(0) port — bootstrap 结局演职员表前等键) 默认键表:非命中键不拦截不 resolve;Enter 命中 resolve 并释放监听(再次 Enter 不再拦截)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.glm-next-wave.test.ts",
+      "fullName": "waitForKey(PAL_WaitForKey(0) port — bootstrap 结局演职员表前等键) 自定义键表覆盖默认:Space 不再命中,KeyQ 命中",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.glm-next-wave.test.ts",
+      "fullName": "playEndingAnimation 取消释放与背景回退 skipKeys:播中 Space 被拦截并提前退出(刷帧数远小于 frameCount),finally 释放监听",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.glm-next-wave.test.ts",
+      "fullName": "playEndingAnimation 取消释放与背景回退 upperIndices 长度非 64000 → 回退全黑背景(帧值集合 = {黑, lower});合法 upper 对照组无黑",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.test.ts",
+      "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) 跑完 N 帧不崩;背景(lower)+ 女孩精灵写入 fb",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.test.ts",
+      "fullName": "结局 ending-player playEndingAnimation(PAL_EndingAnimation port) beastFrames 不足 2 帧 → 跳过妖兽不崩",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/ending-player.test.ts",
+      "fullName": "结局 阻塞 fade 助手(suspendRaf 期间不走 present 驱动) fadeOut / fadeIn / colorFade 跑完不崩并刷 canvas(fake timers)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade=0 → 整屏 = target FBP indices(瞬时 blit)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) 无图(indices 长度不符)→ 全黑(sdlpal memset 0 / WIN95 SDL_FillRect)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) HACKHACK chunk(win95=68)fade=0 → 跳过最终 blit,fb 保持原样",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B fbp-player showFbp(PAL_ShowFBP port) fade>0 + HACKHACK chunk → dither 自身收敛到 target(高 nibble 跳 + 低 nibble migrate 满)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 下滑卷入完成 → 整屏 = 新图(末帧 CopyEntireSurface)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B fbp-player scrollFbp(PAL_ScrollFBP port) 滚动中间帧 = 旧屏下移 + 新图自顶推入(下滑方向)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-player.test.ts",
+      "fullName": "特效 B FBP effectSprite 叠加(g_wCurEffectSprite) fade>0 + HACKHACK chunk + effectSprite → 渐变期叠 MGO 精灵帧(末帧无 final blit 故精灵保留)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C01 DOS 块 49 跳过最终 blit",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C02 WIN95 下块 49 仍整屏写入",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C03 speed 0 的步进等待是 800 毫秒",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C04 上滚中途顶行是旧屏底行是新图",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C05 长度不足的滚动不改 framebuffer",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fbp-scroll.grok-r1.test.ts",
+      "fullName": "G10-C FBP 块号滚动与步进 G10-C06 fade 1 的每步等待是 20 毫秒",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.boundaries.test.ts",
+      "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：非幂等覆盖不重试（503 也只调一次）；GET 对照重试",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.boundaries.test.ts",
+      "fullName": "H01 installFetchRetry 边界 502/504 与 503 同样重试；耗尽抛最后一次 Error 身份",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.boundaries.test.ts",
+      "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.boundaries.test.ts",
+      "fullName": "H01 installFetchRetry 边界 backoff 末值复用与空数组 fallback（1000ms）",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.test.ts",
+      "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.test.ts",
+      "fullName": "fetch-retry(GET 网络层重试兜底) 重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.test.ts",
+      "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试;404 → 原样返回不重试(资源性错误)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.test.ts",
+      "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/fetch-retry.test.ts",
+      "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input-replay.grok-r1.test.ts",
+      "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.boundaries.test.ts",
+      "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.boundaries.test.ts",
+      "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.boundaries.test.ts",
+      "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey 方向键映射",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "codeToAbstractKey 未知键 → null",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "ReplayInputSource 按帧顺序回放",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "ReplayInputSource 超出序列 → 空快照",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/input.test.ts",
+      "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop-gates.grok-r1.test.ts",
+      "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/main-loop.test.ts",
+      "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache PROD=false(dev/e2e)→ 不注册",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache PROD=true → 以 updateViaCache:none 注册 /sw.js",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache 无 serviceWorker 能力 → 安全 no-op",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache 无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache register 抛错 → onUnavailable 触发,不向上抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-client.test.ts",
+      "fullName": "registerPrecache startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui-host.grok-r1.test.ts",
+      "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/precache-ui.test.ts",
+      "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.glm-next-wave.test.ts",
+      "fullName": "playRng 帧窗口(startFrame/endFrame 决定实际请求与显示集合) 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.glm-next-wave.test.ts",
+      "fullName": "playRng chunk 加载失败不长期缓存失败 Promise(允许重试) 首次加载失败 → 0 帧静默 resolve;再次播放重新加载成功并显帧(加载器恰 2 次调用)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 全部帧播完 → fb.indices = 末帧填充",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) Space 按键跳过 → 不到末帧停",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest 缺该 chunk → 警告 + return,不抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) startFrame > endFrame → 立即 return 不播",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) endFrame=-1 → 默认播到 frameCount-1",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) manifest fetch throw → 警告 + return,不抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单帧 fetch throw → warn + skip 该帧 + 继续",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 随每显示帧递减(3 帧视频:65→62)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 视频帧本身被震:偶 shakeTime 帧整幅下移 shakeLevel 行,顶部填黑",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) shakeTime 中途耗尽 → 剩余帧不震不再递减(不下穿 0)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) shakeState 透传(VIDEO_UpdateScreen shake 分支) 不传 shakeState → 行为不变",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-player.test.ts",
+      "fullName": "playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4) 单次 playRng:同一 chunk 的 N 帧并发只触发一次底层加载(防 O(N²) stampede)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A01 省略跳过键时 Space 仍播到末帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A02 endFrame -2 播到 frameCount-1",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A03 startFrame 等于 endFrame 只取该帧",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A04 淡入时长 0 把索引 3 写成调色板 RGB",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A05 shakeTime 为 0 时首帧不填黑且计数保持 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A06 manifest 418 的错误文本带状态码",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/rng-window.grok-r1.test.ts",
+      "fullName": "G10-A RNG 默认跳过与帧窗 G10-A07 默认块地址是 rng-07.rle",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.glm-next-wave.test.ts",
+      "fullName": "playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行) 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.test.ts",
+      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Space 跳过 → 补完渐变 + 0.5s delay + resolve",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.test.ts",
+      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port Enter / Escape 也跳过",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.test.ts",
+      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 自定义 skipKeys 覆盖默认",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.test.ts",
+      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.test.ts",
+      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L44:早跳过时标题补满完整高度(底部行也被画上)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/splash-fallback.test.ts",
+      "fullName": "playSplashFallback — sdlpal main.c:206-456 PAL_SplashScreen 1:1 port L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-fallback.test.ts",
+      "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path 完整流程:playRng → delay → fadeOut → resolve",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-fallback.test.ts",
+      "fullName": "playTrademarkFallback — sdlpal main.c:197-203 PAL_TrademarkScreen DOS path Space 中途跳过 → 缩短流程仍 resolve",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B03 默认淡出前等待 1000 毫秒",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B04 playRng 固定 chunk 6",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B05 窄图只拷贝自身宽度",
+      "status": "passed"
+    },
+    {
+      "file": "src/shell/trademark-splash.grok-r1.test.ts",
+      "fullName": "G10-B 商标淡出与卷轴停点 G10-B06 卷轴停在 iImgPos 1，底行仍是下图",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "fullName": "L19 display-scale 剩余合同 非整数 setPercent 四舍五入（clampPct round 分支）",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "fullName": "L19 display-scale 剩余合同 画布居中锚定样式（fixed/50%/translate -50%），常量边界 10/1000 可达",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "fullName": "L19 display-scale 剩余合同 toggleFullscreen：无全屏元素 → canvas.requestFullscreen；有 → exitFullscreen",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "fullName": "L19 fps-overlay 剩余合同 hideFpsOverlay 从未创建 → no-op 不抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "fullName": "L19 fps-overlay 剩余合同 启用建框后 hide 清根节点；样式留存（幂等注入不重复）；非法持久值视为关",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 默认 100% = 960×600(index.html 现状)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale setPercent 改 canvas + 持久;clamp [10,1000]",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 1000% = 9600×6000",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 启动读回 localStorage",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 损坏或非正存储 foo 回落到 100%，不得沿用脏值",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 损坏或非正存储 0 回落到 100%，不得沿用脏值",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 损坏或非正存储 -12 回落到 100%，不得沿用脏值",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/display-scale.test.ts",
+      "fullName": "display-scale 损坏或非正存储 NaN 回落到 100%，不得沿用脏值",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay isFpsEnabled / setFpsEnabled 持久化 localStorage",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay 未启用 → tickFps 纯 no-op,不建 overlay",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay 启用 → 首帧立即建框,采样窗满后显示正确 FPS(120fps 模拟)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay 启用 → 25fps(逻辑 tick 量化)如实显示 ~25",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay setFpsEnabled(false) → 立即隐藏 overlay",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay 启用中途关闭(localStorage 改 0)→ tickFps 自清 overlay",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay 采样满窗后 ≥50 为绿、<50 为红；49 不得误标绿",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/fps-overlay.test.ts",
+      "fullName": "fps-overlay 连续启停丢弃未满窗的脏帧计数，下一窗按新节奏采样",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/map-names.test.ts",
+      "fullName": "map-names 已知地图返回考据地名",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/map-names.test.ts",
+      "fullName": "map-names 未知地图回退 地图N",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/map-names.test.ts",
+      "fullName": "map-names hasMapName 区分已知/未知",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
+      "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
+      "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
+      "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.glm-phase1-leaves.test.ts",
+      "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger item 优先于 teleport",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger count<0(扣道具) → other",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/minimap.test.ts",
+      "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/quick-save.test.ts",
+      "fullName": "quick-save canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/quick-save.test.ts",
+      "fullName": "quick-save F5 可存态 → saveSlot(1, gs)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/quick-save.test.ts",
+      "fullName": "quick-save F5 不可存态(战斗) → 不调 saveSlot",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/quick-save.test.ts",
+      "fullName": "quick-save F9 → loadSlotIntoGame(1)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/save-io.test.ts",
+      "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/save-io.test.ts",
+      "fullName": "save-io parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/save-io.test.ts",
+      "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/toast.glm-phase1-leaves.test.ts",
+      "fullName": "L19 showToast 堆叠合同 两条共存；到期只移除自己，容器保留",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/toast.glm-phase1-leaves.test.ts",
+      "fullName": "L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/toast.test.ts",
+      "fullName": "toast 挂出含消息的 toast",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/toast.test.ts",
+      "fullName": "toast success / error 不同类型 class",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/toast.test.ts",
+      "fullName": "toast duration 后淡出并移除(容器也清掉)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/toast.test.ts",
+      "fullName": "toast 未到 duration 不得移除，负控证明计时器不是一挂就清",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "fullName": "L17 tools-panel 显示区委托 全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 反引号 toggle 显隐",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 场景 tab:显示场景名 + 主角坐标",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/tools-panel.test.ts",
+      "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+      "status": "passed"
+    },
+    {
       "file": "src/core/battle/anim-timeline.glm-next-wave.test.ts",
       "fullName": "buildStealTimeline(fight.c:5218-5246 PAL_BattleStealFromEnemy 动画段) frame10 偷窃姿 + offset=(target-player)*8 冲到敌前 + 5 步逼近(i==4 敌闪白) + 收尾 x-- 敌复色",
       "status": "passed"
@@ -8713,32 +8683,17 @@
     },
     {
       "file": "src/core/battle/battle-system.cov85.test.ts",
-      "fullName": "cov85r3 selectAction 主菜单与目标选择 方向选图标 + 无法术时 Right 拒绝回攻击;Confirm 攻击 → 单活敌同 tick 落账(1272-1286,1240-1243)",
+      "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
       "status": "passed"
     },
     {
       "file": "src/core/battle/battle-system.cov85.test.ts",
-      "fullName": "cov85r3 selectAction 主菜单与目标选择 多敌:Confirm 攻击 → 留 selectTargetEnemy 等选;再 Confirm 落账目标(1213,1234-1243 多敌分支)",
+      "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 法术菜单 MP 不足禁用项:Confirm no-op 不落账(2608 建表 disabled 已证,此为 no-op 臂)",
       "status": "passed"
     },
     {
       "file": "src/core/battle/battle-system.cov85.test.ts",
-      "fullName": "cov85r3 selectAction 主菜单与目标选择 法术菜单:MP 不足禁用项 Confirm no-op(990-1025 disabled 臂)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/battle/battle-system.cov85.test.ts",
-      "fullName": "cov85r3 action queue 与 flee 拒绝路径 dex 排序:defend(×5)先于 attack(×1)进 actionQueue(602-624,712-716)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/battle/battle-system.cov85.test.ts",
-      "fullName": "cov85r3 action queue 与 flee 拒绝路径 flee 拒绝:roll > fleeRate → 失败演出,不入 fleed,战斗继续(flee.ts 失败臂)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/battle/battle-system.cov85.test.ts",
-      "fullName": "cov85r3 action queue 与 flee 拒绝路径 flee 成功:str >= roll → fleeAnim 起 + 音 45(flee.ts 成功臂)",
+      "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
       "status": "passed"
     },
     {
@@ -10442,411 +10397,6 @@
       "status": "passed"
     },
     {
-      "file": "src/tools/speedrun/checkpoints.test.ts",
-      "fullName": "checkpoints 正好 21 个,id 唯一,时间单调递增",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/checkpoints.test.ts",
-      "fullName": "checkpoints 首尾节点正确",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/checkpoints.test.ts",
-      "fullName": "checkpoints 香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
-      "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
-      "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/countdown.test.ts",
-      "fullName": "showCountdown 传字符串挂出、更新文本",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/countdown.test.ts",
-      "fullName": "showCountdown 传 null 移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
-      "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
-      "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
-      "fullName": "L08 detectors 剩余边界 leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
-      "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors enterScene 仅在进入那一帧触发",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors leaveScene 仅在离开那一帧触发",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors enterAnyScene 任一进入即触发",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors atSpot 容差矩形",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors bossWon 需 boss 在场且全场血≤0",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors hasItem / bgmIs",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors caiyi 两段:先见 71 入场,再等其消失/血≤0",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/detectors.test.ts",
-      "fullName": "detectors caiyi 第二段:战斗结束(battle=null)也触发",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.glm-phase1-leaves.test.ts",
-      "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 弹重置 toast；解绑后 F4 无新 toast",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.glm-phase1-leaves.test.ts",
-      "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast、无覆盖层）；解绑函数幂等可重复调",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/index.test.ts",
-      "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
-      "fullName": "L21 overlay 原位更新与幂等 render 两次 → 单根节点、文本随数据更新",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
-      "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 幂等；hideOverlay 二次调用不抛",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/overlay.test.ts",
-      "fullName": "overlay 渲染 21 行 + 主计时",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/overlay.test.ts",
-      "fullName": "overlay 暂停加 * 前缀",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/overlay.test.ts",
-      "fullName": "overlay hideOverlay 移除",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/snapshot.test.ts",
-      "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/store.glm-phase1-leaves.test.ts",
-      "fullName": "L21 store 坏数据与往返 bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/store.glm-phase1-leaves.test.ts",
-      "fullName": "L21 store 坏数据与往返 saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/store.test.ts",
-      "fullName": "speedrun store settings 默认:enabled=false, show=true, banana=false",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/store.test.ts",
-      "fullName": "speedrun store saveSetting 往返",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/store.test.ts",
-      "fullName": "speedrun store bests 无记录时返回 defaults 副本",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/store.test.ts",
-      "fullName": "speedrun store bests 往返,缺失 key 用 default 补",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.boundaries.test.ts",
-      "fullName": "H08 进位与符号边界 59.995s 进位到 60 秒；负数归 0；formatHms 同步",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.boundaries.test.ts",
-      "fullName": "H08 进位与符号边界 formatDiff：正/负号、0 无符号、绝对值截断到整秒",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.boundaries.test.ts",
-      "fullName": "H08 进位与符号边界 parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
-      "fullName": "L20 time-format 小时位 formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
-      "fullName": "L20 time-format 小时位 formatHms 小时进位与负数归 0",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.test.ts",
-      "fullName": "time-format formatClock 到厘秒",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.test.ts",
-      "fullName": "time-format formatHms 到秒",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.test.ts",
-      "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/time-format.test.ts",
-      "fullName": "time-format formatDiff 带符号",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.boundaries.test.ts",
-      "fullName": "H06 SpeedrunTimer 边界 同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.boundaries.test.ts",
-      "fullName": "H06 SpeedrunTimer 边界 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.boundaries.test.ts",
-      "fullName": "H06 SpeedrunTimer 边界 setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.boundaries.test.ts",
-      "fullName": "H07 detector 边界 enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.boundaries.test.ts",
-      "fullName": "H07 detector 边界 atSpot：tol 相等命中、+1 越界；leaveScene prev=null 恒 false；enterScene prev=null 立即真",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.boundaries.test.ts",
-      "fullName": "H07 detector 边界 caiyi：未见 boss 前不误报（含战斗结束态）；独立 mem 互不影响",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
-      "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
-      "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running、清手动暂停",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 手动操作 reset 清空本局",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停",
-      "status": "passed"
-    },
-    {
-      "file": "src/tools/speedrun/timer.test.ts",
-      "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效",
-      "status": "passed"
-    },
-    {
       "file": "src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
       "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
       "status": "passed"
@@ -11874,6 +11424,411 @@
     {
       "file": "src/present/menu/status-vitals-pixels.grok-r1.test.ts",
       "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/checkpoints.test.ts",
+      "fullName": "checkpoints 正好 21 个,id 唯一,时间单调递增",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/checkpoints.test.ts",
+      "fullName": "checkpoints 首尾节点正确",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/checkpoints.test.ts",
+      "fullName": "checkpoints 香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/countdown.test.ts",
+      "fullName": "showCountdown 传字符串挂出、更新文本",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/countdown.test.ts",
+      "fullName": "showCountdown 传 null 移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "fullName": "L08 detectors 剩余边界 leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors enterScene 仅在进入那一帧触发",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors leaveScene 仅在离开那一帧触发",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors enterAnyScene 任一进入即触发",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors atSpot 容差矩形",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors bossWon 需 boss 在场且全场血≤0",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors hasItem / bgmIs",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors caiyi 两段:先见 71 入场,再等其消失/血≤0",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/detectors.test.ts",
+      "fullName": "detectors caiyi 第二段:战斗结束(battle=null)也触发",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 弹重置 toast；解绑后 F4 无新 toast",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast、无覆盖层）；解绑函数幂等可重复调",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/index.test.ts",
+      "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "fullName": "L21 overlay 原位更新与幂等 render 两次 → 单根节点、文本随数据更新",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 幂等；hideOverlay 二次调用不抛",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/overlay.test.ts",
+      "fullName": "overlay 渲染 21 行 + 主计时",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/overlay.test.ts",
+      "fullName": "overlay 暂停加 * 前缀",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/overlay.test.ts",
+      "fullName": "overlay hideOverlay 移除",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/snapshot.test.ts",
+      "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "fullName": "L21 store 坏数据与往返 bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "fullName": "L21 store 坏数据与往返 saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/store.test.ts",
+      "fullName": "speedrun store settings 默认:enabled=false, show=true, banana=false",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/store.test.ts",
+      "fullName": "speedrun store saveSetting 往返",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/store.test.ts",
+      "fullName": "speedrun store bests 无记录时返回 defaults 副本",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/store.test.ts",
+      "fullName": "speedrun store bests 往返,缺失 key 用 default 补",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.boundaries.test.ts",
+      "fullName": "H08 进位与符号边界 59.995s 进位到 60 秒；负数归 0；formatHms 同步",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.boundaries.test.ts",
+      "fullName": "H08 进位与符号边界 formatDiff：正/负号、0 无符号、绝对值截断到整秒",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.boundaries.test.ts",
+      "fullName": "H08 进位与符号边界 parseHms：2/3 段合法；负号/空白段/非数字/分秒 60/单段全拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "fullName": "L20 time-format 小时位 formatClock 1h01m01s.23：3661234ms → \"1:01:01.23\"（手算 3600s+60s+1s+230ms）",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "fullName": "L20 time-format 小时位 formatHms 小时进位与负数归 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.test.ts",
+      "fullName": "time-format formatClock 到厘秒",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.test.ts",
+      "fullName": "time-format formatHms 到秒",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.test.ts",
+      "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/time-format.test.ts",
+      "fullName": "time-format formatDiff 带符号",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.boundaries.test.ts",
+      "fullName": "H06 SpeedrunTimer 边界 同 now 双 tick 不累计；finished 后不累计；一次性 flag 二次消费 false",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.boundaries.test.ts",
+      "fullName": "H06 SpeedrunTimer 边界 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.boundaries.test.ts",
+      "fullName": "H06 SpeedrunTimer 边界 setStep 合法 idx 重置检测记忆与暂停；实例间 mem/bests 不串",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.boundaries.test.ts",
+      "fullName": "H07 detector 边界 enterAny：集合内转场不触发；从集合外进入触发；prev=null 视为进入",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.boundaries.test.ts",
+      "fullName": "H07 detector 边界 atSpot：tol 相等命中、+1 越界；leaveScene prev=null 恒 false；enterScene prev=null 立即真",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.boundaries.test.ts",
+      "fullName": "H07 detector 边界 caiyi：未见 boss 前不误报（含战斗结束态）；独立 mem 互不影响",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running、清手动暂停",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 手动操作 reset 清空本局",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停",
+      "status": "passed"
+    },
+    {
+      "file": "src/tools/speedrun/timer.test.ts",
+      "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效",
       "status": "passed"
     },
     {
@@ -15992,191 +15947,6 @@
       "status": "passed"
     },
     {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu createInventoryMenu:list 阶段 + 含全部 inventory items",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu confirmInventoryItem usable 物品 → 进 use-target + 构 targetMenu",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu confirmInventoryItem 不可用物品 → 无 transition",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu confirmInventoryTarget → 返回 { itemId, roleId } + phase done",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu cancelInventoryMenu use-target → 回 list;list → done",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu inventoryMoveDown 按 sdlpal 真值跨行(±iItemsPerLine=3)— 2 个 item 时 +3 clamp 到 last=1",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu L40:确认目标后重建 targetMenu 光标记忆上次 slot(uigame.c:1311)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
-      "fullName": "M-w1.a InventoryMenu L40:记忆 slot 越界(队伍变小)时归 0(uigame.c:1320-1323)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 ItemSelectMenu filter=equip:只显装备类",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 ItemSelectMenu filter=potion:只显 usable 且非装备 / 投掷",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 ItemSelectMenu filter=battle:throwable 类",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 ItemSelectMenu mode=buy:rightText 显价格",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 ItemSelectMenu mode=sell:rightText 显数量 + 卖价 (price/2)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 ItemSelectMenu inventory 数量 inline 显示",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 MagicSelectionMenu MP 足够 → 列出全部 + 显 MP cost,光标在第一个",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 MagicSelectionMenu MP 不够 → disabled(灰色),初始 cursor 仍按默认项",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 MagicSelectionMenu L38:第一个法术 MP 不足时 cursor 仍可落在灰项",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 MagicSelectionMenu role 未学法术槽位 = 0 → 不显示",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
-      "fullName": "M-w0.2 MagicSelectionMenu L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu createSelectionMenu:defaultCursor 越界时 clamp",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu moveSelectionDown:循环越界回首",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu moveSelectionUp:循环越界回尾",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu cursor 超出 pageSize 自动翻页 pageOffset",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SelectionMenu getSelected 返回当前 cursor 对应 item",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 ConfirmMenu defaultYes 控制初始 selection",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 ConfirmMenu toggleConfirm yes ↔ no",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 TripleMenu moveTripleDown 0→1→2→0(循环)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 TripleMenu moveTripleUp 0→2→1→0(反向循环)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SwitchMenu switchRight 循环",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SwitchMenu switchLeft 反向循环",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M-w0.1 SwitchMenu 空 options 不抛错",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageDown 从 cursor 0 → cursor 8(下一页)",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageDown 末页 clamp 到末项 19",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageUp 从 cursor 16 → 8",
-      "status": "passed"
-    },
-    {
-      "file": "src/core/menu/__tests__/primitives.test.ts",
-      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageUp 第一页 clamp 到 0",
-      "status": "passed"
-    },
-    {
       "file": "src/present/__tests__/grok-composition/p11-world-layers.test.ts",
       "fullName": "P11 大世界分层 P11 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层",
       "status": "passed"
@@ -16394,6 +16164,191 @@
     {
       "file": "src/present/__tests__/grok-present/p10-indexed-png.test.ts",
       "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu createInventoryMenu:list 阶段 + 含全部 inventory items",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu confirmInventoryItem usable 物品 → 进 use-target + 构 targetMenu",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu confirmInventoryItem 不可用物品 → 无 transition",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu confirmInventoryTarget → 返回 { itemId, roleId } + phase done",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu cancelInventoryMenu use-target → 回 list;list → done",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu inventoryMoveDown 按 sdlpal 真值跨行(±iItemsPerLine=3)— 2 个 item 时 +3 clamp 到 last=1",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu L40:确认目标后重建 targetMenu 光标记忆上次 slot(uigame.c:1311)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/inventory-menu.test.ts",
+      "fullName": "M-w1.a InventoryMenu L40:记忆 slot 越界(队伍变小)时归 0(uigame.c:1320-1323)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 ItemSelectMenu filter=equip:只显装备类",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 ItemSelectMenu filter=potion:只显 usable 且非装备 / 投掷",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 ItemSelectMenu filter=battle:throwable 类",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 ItemSelectMenu mode=buy:rightText 显价格",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 ItemSelectMenu mode=sell:rightText 显数量 + 卖价 (price/2)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 ItemSelectMenu inventory 数量 inline 显示",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu MP 足够 → 列出全部 + 显 MP cost,光标在第一个",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu MP 不够 → disabled(灰色),初始 cursor 仍按默认项",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu L38:第一个法术 MP 不足时 cursor 仍可落在灰项",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu role 未学法术槽位 = 0 → 不显示",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu L38:createSelectionMenu 初始 cursor 不跳 disabled(对齐 PAL_ReadMenu default item)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu createSelectionMenu:defaultCursor 越界时 clamp",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu moveSelectionDown:循环越界回首",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu moveSelectionUp:循环越界回尾",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu L38:移动逐项停在 disabled 上(不跳过,对齐 sdlpal PAL_ReadMenu ui.c:510-572)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu cursor 超出 pageSize 自动翻页 pageOffset",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SelectionMenu getSelected 返回当前 cursor 对应 item",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 ConfirmMenu defaultYes 控制初始 selection",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 ConfirmMenu toggleConfirm yes ↔ no",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 TripleMenu moveTripleDown 0→1→2→0(循环)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 TripleMenu moveTripleUp 0→2→1→0(反向循环)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SwitchMenu switchRight 循环",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SwitchMenu switchLeft 反向循环",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M-w0.1 SwitchMenu 空 options 不抛错",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageDown 从 cursor 0 → cursor 8(下一页)",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageDown 末页 clamp 到末项 19",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageUp 从 cursor 16 → 8",
+      "status": "passed"
+    },
+    {
+      "file": "src/core/menu/__tests__/primitives.test.ts",
+      "fullName": "M5.6 T6 pageUp / pageDown(SelectionMenu 翻页) pageUp 第一页 clamp 到 0",
       "status": "passed"
     },
     {

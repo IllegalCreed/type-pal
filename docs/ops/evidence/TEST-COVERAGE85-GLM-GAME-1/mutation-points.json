@@ -69,7 +69,8 @@
     "line": 1555,
     "find": "if (_loadLastSaveHandler) _loadLastSaveHandler(slot)",
     "replace": "if (_loadLastSaveHandler) _loadLastSaveHandler(slot + 1)",
-    "testFile": "src/core/event-system.cov85.test.ts"
+    "testFile": "src/core/event-system.test.ts",
+    "note": "dedup: 0x4E reload 合同由旧 event-system.test.ts(4820-4845)承载,针随合同走"
   },
   {
     "id": "MUT-10",
@@ -85,7 +86,8 @@
     "line": 59,
     "find": "const roll = state.rng.rangeInclusive(0, def)",
     "replace": "const roll = state.rng.rangeInclusive(0, def) + 9999",
-    "testFile": "src/core/battle/battle-system.cov85.test.ts"
+    "testFile": "src/core/battle/__tests__/battle-system.test.ts",
+    "note": "dedup: flee 成功合同由旧 battle-system.test.ts(1495-1575)承载,针随合同走"
   },
   {
     "id": "MUT-12",

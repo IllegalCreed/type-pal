@@ -1,15 +1,35 @@
 
-⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
 
- FAIL  src/core/battle/battle-system.cov85.test.ts > cov85r3 action queue 与 flee 拒绝路径 > flee 成功:str >= roll → fleeAnim 起 + 音 45(flee.ts 成功臂)
-AssertionError: expected -1 to be greater than 0
- ❯ src/core/battle/battle-system.cov85.test.ts:425:19
-    423|       tickBattle(fx.gs, emptyInput(), fx.bus) // 敌行动动画 hold 先放完,flee 轮…
-    424|     }
-    425|     expect(guard).toBeGreaterThan(0) // 确实到达 flee 执行(非循环耗尽)
-       |                   ^
-    426|     expect(fx.gs.pendingSounds).toContain(45)
-    427|   })
+ FAIL  src/core/battle/__tests__/battle-system.test.ts > tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)
+AssertionError: expected 'battle' to be 'explore' // Object.is equality
 
-⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+Expected: "explore"
+Received: "battle"
+
+ ❯ src/core/battle/__tests__/battle-system.test.ts:1510:21
+    1508|     while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyI…
+    1509|
+    1510|     expect(gs.mode).toBe('explore')
+       |                     ^
+    1511|     expect(role.hp).toBe(150) // 无 hp 改动
+    1512|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/core/battle/__tests__/battle-system.test.ts > B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-3853) > 逃跑动画:flee 成功 → 播逃跑动画(队员右移)→ fleed → explore(sdlpal PAL_BattlePlayerEscape)
+AssertionError: expected 'battle' to be 'explore' // Object.is equality
+
+Expected: "explore"
+Received: "battle"
+
+ ❯ src/core/battle/__tests__/battle-system.test.ts:1574:21
+    1572|       }
+    1573|     }
+    1574|     expect(gs.mode).toBe('explore') // 逃离成功
+       |                     ^
+    1575|     expect(sawFleeAnim).toBe(true) // 播了逃跑动画(非直接 fleed)
+    1576|     expect(maxX).toBeGreaterThan(startX!) // 队员逐帧右移
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
 

@@ -269,3 +269,43 @@ r1 的 167 测试与 6 针反控**原样保留**（已由 Codex 合入 main 为 
 - 战斗 selectAction 单活敌/单人队目标态**同 tick 短路 commit**(draft 即清);多敌才停留选择。
 - battle 法术菜单读 `playerRoles.roles[i].magic`(startBattle 传入的投影),rgwMagic seed 须先投影。
 - flee 执行轮到前敌行动 hold 先放完——断言用 guard 循环 tick 至 fleeAnim 出现。
+
+---
+
+## GLM r4 返工回执（Codex 五项排重指令，2026-10-04，仍不请求 done）
+
+**逐合同排重结论(r3 的 40 it → 31 it,删 9;全程零产品/旧测/配置/baseline 改动)**
+
+1. **event-system r3 17 it → 11 it**(对照 event-system.test.ts 点名行段,同 caller tickEventSystem +
+   同状态 oracle 即删):
+   - **删 6**:camera-pan(5751-5811 逐帧/负值/完成续跑已证)、wait-key(1552-1594 四 it 全证)、
+     confirm 0x0A(1600-1685 进入/阻塞/toggle/是/否/Cancel 全证)、六 modal waiting(1750-1770 quit +
+     5258-5524 rng/fbp/scroll/ending 各自 waiting+不步进已证)、narration(3637-3675 自动消/任意键/推进
+     已证)、0x4E reload(4820-4845 handler+停脚本已证)。
+   - **合并 3**:frame-wait 只留新轴(waitGestureReset 行走帧复位 + 归零 fall-through 现金 oracle;
+     递减本体 1518-1548 已证);trigger end 只留 reset/idleFrames 三拍 + 1946+ 清场复位段(advance/plain
+     本体 2765-2850 已证);onEnter 只留 reset 臂(advance/plain/幂等清 4219-4265 已证)。
+   - **保留新 lifecycle 轴**:无 cursor→explore、fade-screen 三态、palette-fade 无 reload 完成路径、
+     scene-load callback 替换、delay、dialog 无 box 防御。
+   - **busStub 全部移除**:改真实 createCommandBus,每个保留合同断言 `bus.drain()` 空 —— 该路径
+     无 PresentCommand emit 的一手证明落在测试内(而非 stub 遮蔽)。
+2. **battle-system r3 6 it → 3 it**(对照 battle-system.test.ts 1032/1495-1575/1867-1874/2118-2154/
+   2359-2385/2608-2695):删 主菜单方向+Right 拒绝+单敌短路落账(方向/拒绝/draft 2118-2154+2359 已证;
+   同 tick 即 commit 型 2608 已证)、actionQueue defend 排队首(1867-1874 同 oracle)、flee 成功+动画
+   (1495-1575 同 oracle)。保留:多敌目标选择 Confirm 落账(2359 停留之后的增量)、法术 MP 禁用
+   Confirm no-op(2608 只证建表)、flee 拒绝(1495 只证成功臂)。"换数字/换敌人/换包装不算新合同"
+   ——删除项均属此类。
+3. **反控针随合同走**:MUT-09(0x4E reload 槽位)与 MUT-11(flee roll)的钉住合同在排重后由旧
+   event-system.test.ts(4820)/battle-system.test.ts(1495)承载 → testFile 改指旧文件,针不失效;
+   其余 10 针不受影响。**12/12 VALID 复验**,identity/raw/hash 证据链完整保留(runner 未改)。
+4. **证据重出**:fresh `vitest-final-compact.json` 3394 条(198 cov85 + 旧套件)全 passed;
+   ledger 重生 —— **branch 8764→8758/11278(77.65%,累计 +350)**,删 9 重复合同的净代价 6 边,
+   如实报告不粉饰;event-system miss 440→446、battle-system 维持 228。
+5. **门禁**:定向 6 文件 198/198;旧承载文件 5 个 646/646(event-system/battle-system/actions/
+   menu-driver/mode);全量 3394/3394;typecheck 0 error;lint 0/0/0;docs PASS。
+   diff 仅两个 cov85 测试文件 + 证据目录;产品/旧测/baseline/其它卡零改动。
+
+**当前总量**:167(r1)+ 31(r3 排重后)= 198 cov85 合同;12 针反控全 VALID;77.65%(+350)。
+剩余可达臂:event-system 446(opcode switch 长尾/对话分页主循环)、battle-system 228
+(performAction/postAction 深段)、menu-driver 52、event-opcode-player 67;bootstrap 266+main 18
+维持宿主不可达 existing-proof。不宣称 done,等 Codex 验收。

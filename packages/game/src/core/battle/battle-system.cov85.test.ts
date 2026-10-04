@@ -321,39 +321,25 @@ function mkR3Magic(id: number, costMP: number): Magic {
   }
 }
 
-describe('cov85r3 selectAction 主菜单与目标选择', () => {
-  it('方向选图标 + 无法术时 Right 拒绝回攻击;Confirm 攻击 → 单活敌同 tick 落账(1272-1286,1240-1243)', () => {
-    const fx = boot()
-    toSelectAction(fx)
-    const st = fx.gs.battleState!
-    expect(st.uiState).toBe('selectMove')
-    expect(st.menuState).toBe('main')
-    tickBattle(fx.gs, snapB(['Down']), fx.bus)
-    expect(st.selectedAction).toBe(3)
-    tickBattle(fx.gs, snapB(['Up']), fx.bus)
-    expect(st.selectedAction).toBe(0)
-    tickBattle(fx.gs, snapB(['Right']), fx.bus) // 无 spells → isActionValid(2) false → 保持 0
-    expect(st.selectedAction).toBe(0)
-    tickBattle(fx.gs, snapB(['Confirm']), fx.bus)
-    expect(st.pendingActions.has(0)).toBe(true) // 单活敌 → 同 tick commit(draft 已清)
-    expect(st.pendingActionDraft).toBeUndefined()
-    expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
-  })
+describe('cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂)', () => {
+  // r4 排重:删 主菜单方向+Right 拒绝+单敌短路落账(2118-2154/2359/2608 同型已证)、
+  // actionQueue defend 排队首(1867-1874 同 oracle)、flee 成功+动画(1495-1575 同 oracle);
+  // 2360 段 draft+停留本体与 2359 重复,只留 Confirm 目标落账增量。
 
-  it('多敌:Confirm 攻击 → 留 selectTargetEnemy 等选;再 Confirm 落账目标(1213,1234-1243 多敌分支)', () => {
+  it('多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)', () => {
     const fx = boot({
       enemies: [makeEnemy(), makeEnemy({ id: 101 })],
       teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
     })
     toSelectAction(fx)
     const st = fx.gs.battleState!
-    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // main Confirm(attack)
-    expect(st.uiState).toBe('selectTargetEnemy') // 多敌不短路
-    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 选定当前光标目标
-    expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack' })
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // main → attack → 停留 selectTargetEnemy(多敌)
+    expect(st.uiState).toBe('selectTargetEnemy')
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 选定光标目标 → 落账
+    expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
   })
 
-  it('法术菜单:MP 不足禁用项 Confirm no-op(990-1025 disabled 臂)', () => {
+  it('法术菜单 MP 不足禁用项:Confirm no-op 不落账(2608 建表 disabled 已证,此为 no-op 臂)', () => {
     const spells: Spell[] = [
       {
         id: 50,
@@ -371,36 +357,19 @@ describe('cov85r3 selectAction 主菜单与目标选择', () => {
     ]
     const magics: Magic[] = [mkR3Magic(1, 99)]
     const fx = boot({ spells, magics, roles: [makeRole(0, { magic: [50] })] })
-    fx.gs.PlayerRolesRuntime.rgwMagic[0]![0] = 50
     fx.gs.PlayerRolesRuntime.rgwMP[0] = 10
     fx.gs.PlayerRolesRuntime.rgwMaxMP[0] = 40
     toSelectAction(fx)
     const st = fx.gs.battleState!
     tickBattle(fx.gs, snapB(['Left']), fx.bus) // 有已学法术 → 1(法术)
-    expect(st.selectedAction).toBe(1)
     tickBattle(fx.gs, snapB(['Confirm']), fx.bus)
     expect(st.menuState).toBe('magicSelect')
-    expect(st.magicSelect?.items[0]?.disabled).toBe(true) // MP 10 < 99
-    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 禁用项 no-op
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 禁用项 Confirm → no-op
     expect(st.menuState).toBe('magicSelect')
-    expect(st.pendingActions.has(0)).toBe(false)
-  })
-})
-
-describe('cov85r3 action queue 与 flee 拒绝路径', () => {
-  it('dex 排序:defend(×5)先于 attack(×1)进 actionQueue(602-624,712-716)', () => {
-    const fx = boot({ roles: [makeRole(0), makeRole(1)], partyMembers: [0, 1] })
-    toSelectAction(fx)
-    const st = fx.gs.battleState!
-    st.pendingActions.set(0, { type: 'attack', actionId: 0, target: 0, targetSide: 'enemy' })
-    st.pendingActions.set(1, { type: 'defend', target: -1, targetSide: 'enemy' })
-    tickBattle(fx.gs, emptyInput(), fx.bus)
-    expect(st.phase).toBe('performAction')
-    const playerOrder = st.actionQueue.filter((q) => !q.isEnemy).map((q) => q.idx)
-    expect(playerOrder.indexOf(1)).toBeLessThan(playerOrder.indexOf(0)) // defend 先
+    expect(st.pendingActions.has(0)).toBe(false) // 不落账、不推进
   })
 
-  it('flee 拒绝:roll > fleeRate → 失败演出,不入 fleed,战斗继续(flee.ts 失败臂)', () => {
+  it('flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)', () => {
     const fx = boot({ enemies: [makeEnemy({ fleeRate: 50, level: 10 })] })
     toSelectAction(fx)
     const st = fx.gs.battleState!
@@ -410,19 +379,5 @@ describe('cov85r3 action queue 与 flee 拒绝路径', () => {
     expect(st.fleeAnim).toBeUndefined()
     expect(st.phase).not.toBe('fleed')
     expect(fx.gs.battleState).toBeDefined()
-  })
-
-  it('flee 成功:str >= roll → fleeAnim 起 + 音 45(flee.ts 成功臂)', () => {
-    const fx = boot()
-    toSelectAction(fx)
-    const st = fx.gs.battleState!
-    st.pendingActions.set(0, { type: 'flee', target: -1, targetSide: 'enemy' })
-    st.rng = seqRng([0, 0, 0, 0, 0, 0]) // 敌先行消耗若干掷后 flee roll=0 < str=5 → 成功
-    let guard = 120
-    while (!st.fleeAnim && fx.gs.battleState && guard-- > 0) {
-      tickBattle(fx.gs, emptyInput(), fx.bus) // 敌行动动画 hold 先放完,flee 轮到才执行
-    }
-    expect(guard).toBeGreaterThan(0) // 确实到达 flee 执行(非循环耗尽)
-    expect(fx.gs.pendingSounds).toContain(45)
   })
 })

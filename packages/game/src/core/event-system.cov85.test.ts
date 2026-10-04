@@ -9,6 +9,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { createCommandBus } from './command-bus.js'
 import {
   setLoadLastSaveHandler,
   tickAutoScripts,
@@ -434,11 +435,8 @@ function snapR3(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
 }
 
-const busStub = (): { emit: () => number; drain: () => []; complete: () => void } => ({
-  emit: () => 0,
-  drain: () => [],
-  complete: () => {},
-})
+/** r4:一律真实 bus(不得用 stub 遮蔽 PresentCommand);各 it 用 drain() 断言该路径无 emit。 */
+const realBus = (): { bus: ReturnType<typeof createCommandBus> } => ({ bus: createCommandBus() })
 
 /** 全局脚本:waitingIp 处挂起,waitingIp+1 = 0x1E 现金 +111(fall-through oracle)。 */
 function installWaitScript(waitingIp: number): GameState {
@@ -458,15 +456,21 @@ function cursorAt(ip: number, extra: Partial<EventCursor> = {}): EventCursor {
   return { ip, ...extra }
 }
 
-describe('cov85r3 tickEventSystem waiting 家族(1480-1672)', () => {
+describe('cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明)', () => {
+  // r4 排重:删 camera-pan/wait-key/confirm(0x0A)/六 modal/narration/0x4E reload 六组
+  // ——event-system.test.ts 1518-1685/1750-1770/3637-3675/4820-4845/5258-5524/5751-5811 已证
+  // (同 caller tickEventSystem + 同状态 oracle);frame-wait 递减本体(1518-1548)亦同,只留新轴。
+
   it('无 cursor → 直接切 explore(1473-1475)', () => {
     const gs = freshGs()
     gs.mode = 'event'
-    tickEventSystem(gs, snapR3(), busStub())
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.mode).toBe('explore')
+    expect(bus.drain()).toEqual([]) // 该路径无 Present emit(一手证明)
   })
 
-  it('frame-wait:逐帧递减 → 归零清 waiting + ip++ 续跑;waitGestureReset 复位行走帧(1480-1495)', () => {
+  it('frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)', () => {
     const gs = installWaitScript(0)
     gs.eventCursor = cursorAt(0, {
       waiting: 'frame-wait',
@@ -474,32 +478,13 @@ describe('cov85r3 tickEventSystem waiting 家族(1480-1672)', () => {
       waitGestureReset: true,
     })
     gs.walkingFrame.walking = true
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.eventCursor?.waiting).toBe('frame-wait')
-    expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
-    expect(gs.walkingFrame.walking).toBe(false)
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.dwCash).toBe(111)
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
+    expect(gs.walkingFrame.walking).toBe(false) // 旧测未证:DL16 站立帧复位
+    tickEventSystem(gs, snapR3(), bus) // 归零 → ip++ → fall-through 0x1E
+    expect(gs.dwCash).toBe(111) // 旧测未证:完成后续跑现金 oracle
     expect(gs.eventCursor).toBeUndefined()
-  })
-
-  it('camera-pan:每帧 camera += (dx,dy) 递减 → 归零清字段 + ip++ 续跑(1499-1512)', () => {
-    const gs = installWaitScript(1)
-    gs.eventCursor = cursorAt(1, {
-      waiting: 'camera-pan',
-      cameraPanFramesRemaining: 2,
-      cameraPanDx: 4,
-      cameraPanDy: 2,
-    })
-    const camX0 = gs.camera.x
-    const camY0 = gs.camera.y
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.camera.x).toBe(camX0 + 4)
-    expect(gs.camera.y).toBe(camY0 + 2)
-    expect(gs.eventCursor?.cameraPanFramesRemaining).toBe(1)
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.dwCash).toBe(111)
-    expect(gs.eventCursor?.cameraPanDx).toBeUndefined()
+    expect(bus.drain()).toEqual([])
   })
 
   it('fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)', () => {
@@ -507,19 +492,23 @@ describe('cov85r3 tickEventSystem waiting 家族(1480-1672)', () => {
     const now = vi.spyOn(performance, 'now').mockReturnValue(5000)
     gs.eventCursor = cursorAt(0, { waiting: 'fade-screen' })
     gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 4000, appliedSteps: 0 }
-    tickEventSystem(gs, snapR3(), busStub())
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(0) // elapsed 1000 < 2160 → 阻塞
     now.mockReturnValue(6200)
-    tickEventSystem(gs, snapR3(), busStub())
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.fadeState).toBeUndefined()
     expect(gs.dwCash).toBe(111)
     const gs2 = installWaitScript(0)
     gs2.eventCursor = cursorAt(1, { waiting: 'fade-screen' }) // 防御臂不推 ip → 直落 0x1E
-    tickEventSystem(gs2, snapR3(), busStub())
+    const { bus: bus2 } = realBus()
+    tickEventSystem(gs2, snapR3(), bus2)
     expect(gs2.dwCash).toBe(111)
+    expect(bus.drain()).toEqual([])
+    expect(bus2.drain()).toEqual([])
   })
 
-  it('palette-fade 完成路径:finalize + ip++;未到阻塞(1537-1560)', () => {
+  it('palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)', () => {
     const gs = installWaitScript(0)
     vi.spyOn(performance, 'now').mockReturnValue(5000)
     gs.eventCursor = cursorAt(0, { waiting: 'palette-fade' })
@@ -532,135 +521,54 @@ describe('cov85r3 tickEventSystem waiting 家族(1480-1672)', () => {
       steps: 6,
       increment: 4,
     }
-    tickEventSystem(gs, snapR3(), busStub())
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(0) // elapsed 100 < 600 → 阻塞
     vi.spyOn(performance, 'now').mockReturnValue(5600)
-    tickEventSystem(gs, snapR3(), busStub())
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.paletteFadeState).toBeUndefined()
-    expect(gs.dwCash).toBe(111)
-  })
-
-  it('palette-fade + 0x4E reloadSlotAfterFade:淡完停脚本并调 handler(1551-1556)', () => {
-    const gs = installWaitScript(0)
-    vi.spyOn(performance, 'now').mockReturnValue(5000)
-    const reloaded: number[] = []
-    setLoadLastSaveHandler((slot) => {
-      reloaded.push(slot)
-    })
-    gs.eventCursor = cursorAt(0, { waiting: 'palette-fade', reloadSlotAfterFade: 3 })
-    gs.paletteFadeState = {
-      startColors: [],
-      targetColors: [],
-      startTimeMs: 4900,
-      totalMs: 600,
-      mode: 'lerp',
-      steps: 6,
-      increment: 4,
-    }
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(reloaded).toEqual([])
-    vi.spyOn(performance, 'now').mockReturnValue(5600)
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(reloaded).toEqual([3])
-    expect(gs.eventCursor).toBeUndefined()
-    expect(gs.dwCash).toBe(0)
-  })
-
-  it('六个 modal waiting → 阻塞不步进(1574-1597)', () => {
-    for (const w of [
-      'shop',
-      'rng-play',
-      'show-fbp',
-      'scroll-fbp',
-      'ending-anim',
-      'quit',
-    ] as const) {
-      const gs = installWaitScript(0)
-      gs.eventCursor = cursorAt(0, { waiting: w })
-      tickEventSystem(gs, snapR3(['Confirm']), busStub())
-      expect(gs.dwCash).toBe(0)
-      expect(gs.eventCursor?.waiting).toBe(w)
-    }
+    expect(gs.dwCash).toBe(111) // 旧 0x4E 用例只证 reload;无 reload 的完成续跑是本合同
+    expect(bus.drain()).toEqual([])
   })
 
   it('scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)', () => {
     const gs = installWaitScript(0)
     gs.eventCursor = cursorAt(0, { waiting: 'scene-load' })
-    tickEventSystem(gs, snapR3(), busStub())
-    tickEventSystem(gs, snapR3(), busStub())
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(0)
     gs.eventCursor = cursorAt(1)
-    tickEventSystem(gs, snapR3(), busStub())
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(111)
-  })
-
-  it('wait-key:无新按键/方向键阻塞;Confirm → 清 + ip++(1604-1611)', () => {
-    const gs = installWaitScript(0)
-    gs.eventCursor = cursorAt(0, { waiting: 'wait-key' })
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.dwCash).toBe(0)
-    tickEventSystem(gs, snapR3(['Down']), busStub())
-    expect(gs.dwCash).toBe(0)
-    tickEventSystem(gs, snapR3(['Confirm']), busStub())
-    expect(gs.dwCash).toBe(111)
+    expect(bus.drain()).toEqual([])
   })
 
   it('delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)', () => {
     const gs = installWaitScript(0)
     const now = vi.spyOn(performance, 'now').mockReturnValue(1000)
     gs.eventCursor = cursorAt(0, { waiting: 'delay', delayUntilMs: 2000 })
-    tickEventSystem(gs, snapR3(), busStub())
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(0)
     now.mockReturnValue(2000)
-    tickEventSystem(gs, snapR3(), busStub())
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(111)
     expect(gs.eventCursor?.delayUntilMs).toBeUndefined()
-  })
-
-  it('confirm(0x0A):方向 toggle;默认否 Confirm → goto op0;Cancel=否;是 → ip++(1620-1652)', () => {
-    const commands: Command[] = [
-      { op: 'raw', opcode: 0x0a, operands: [9, 0, 0], label: 'L_0' },
-      { op: 'raw', opcode: 0x1e, operands: [111, 0, 0] },
-      { op: 'end', label: 'L_2' },
-      { op: 'end', label: 'L_3' },
-      { op: 'end', label: 'L_4' },
-      { op: 'end', label: 'L_5' },
-      { op: 'end', label: 'L_6' },
-      { op: 'end', label: 'L_7' },
-      { op: 'end', label: 'L_8' },
-      { op: 'raw', opcode: 0x1e, operands: [222, 0, 0], label: 'L_9' },
-      { op: 'end', label: 'L_10' },
-    ]
-    const mk = (): GameState => {
-      setGlobalEvents([...commands])
-      const gs = freshGs()
-      gs.mode = 'event'
-      gs.dwCash = 0
-      gs.eventCursor = cursorAt(0, { waiting: 'confirm', confirmYes: false })
-      return gs
-    }
-    const no = mk()
-    tickEventSystem(no, snapR3(['Confirm']), busStub())
-    expect(no.dwCash).toBe(222)
-    const cancel = mk()
-    tickEventSystem(cancel, snapR3(['Cancel']), busStub())
-    expect(cancel.dwCash).toBe(222)
-    const yes = mk()
-    tickEventSystem(yes, snapR3(['Down']), busStub())
-    expect(yes.eventCursor?.confirmYes).toBe(true)
-    tickEventSystem(yes, snapR3(['Confirm']), busStub())
-    expect(yes.dwCash).toBe(111)
+    expect(bus.drain()).toEqual([])
   })
 
   it('waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)', () => {
     const gs = installWaitScript(0)
     gs.eventCursor = cursorAt(1, { waiting: 'dialog' }) // 防御臂不推 ip → 直落 0x1E
-    tickEventSystem(gs, snapR3(), busStub())
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.dwCash).toBe(111)
+    expect(bus.drain()).toEqual([])
   })
 })
 
-describe('cov85r3 trigger/onEnter end 写回(1877-1960)', () => {
+describe('cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus)', () => {
   function dialogBox(over: Partial<DialogBoxState> = {}): DialogBoxState {
     return {
       shownLines: [],
@@ -677,28 +585,8 @@ describe('cov85r3 trigger/onEnter end 写回(1877-1960)', () => {
     }
   }
 
-  it('end + triggerOwnerId + advance → triggerResume={ip+1};plain → 不动;清场复位(1910-1944+)', () => {
-    const commands: Command[] = [
-      { op: 'end', label: 'L_0', advance: true },
-      { op: 'end', label: 'L_1', advance: true },
-      { op: 'end', label: 'L_2' },
-    ]
-    setGlobalEvents([...commands])
-    const gs = freshGs()
-    gs.mode = 'event'
-    gs.npcs = [npc(0)]
-    gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
-    expect(gs.eventCursor).toBeUndefined()
-    expect(gs.currentDialogPortraitLayout).toBe(false)
-    gs.npcs = [npc(0, { triggerResume: { ip: 2 } })]
-    gs.eventCursor = cursorAt(2, { triggerOwnerId: 0 })
-    tickEventSystem(gs, snapR3(), busStub())
-    expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 2 })
-  })
-
-  it('end + reset:resetTo 在表 → triggerResume 落 label;idleFrames 未满 → 计数 + 续跑(1917-1937)', () => {
+  it('end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)', () => {
+    const { bus } = realBus()
     {
       const commands: Command[] = [
         { op: 'end', label: 'L_0', reset: true, resetTo: 0 },
@@ -711,11 +599,11 @@ describe('cov85r3 trigger/onEnter end 写回(1877-1960)', () => {
       gs.dwCash = 0
       gs.npcs = [npc(0)]
       gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-      tickEventSystem(gs, snapR3(), busStub())
-      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 })
+      tickEventSystem(gs, snapR3(), bus)
+      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 }) // reset 臂 → 落 resetTo(旧测仅 advance/plain)
     }
     {
-      // idleFrames=3:第 1/2 次 → 计数保留 + 跳 resetTo 结束(0x1E 未跑)
+      // idleFrames=3:第 1 次 → 计数保留 + 跳 resetTo 收尾(0x1E 未跑)
       const withIdle: Command[] = [
         { op: 'end', label: 'L_0', reset: true, resetTo: 0, idleFrames: 3 },
         { op: 'raw', opcode: 0x1e, operands: [55, 0, 0] },
@@ -727,9 +615,9 @@ describe('cov85r3 trigger/onEnter end 写回(1877-1960)', () => {
       gs.dwCash = 0
       gs.npcs = [npc(0)]
       gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-      tickEventSystem(gs, snapR3(), busStub())
+      tickEventSystem(gs, snapR3(), bus)
       expect(gs.npcs[0]!.triggerEndIdleCount).toBe(1)
-      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 }) // 未满 → 跳 resetTo 收尾
+      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 })
       expect(gs.dwCash).toBe(0)
       // 第 3 次(预置 count=2)→ 计数清 0 + cursor.ip++ 续跑本次(0x1E 执行)
       const gs3 = freshGs()
@@ -737,87 +625,69 @@ describe('cov85r3 trigger/onEnter end 写回(1877-1960)', () => {
       gs3.dwCash = 0
       gs3.npcs = [npc(0, { triggerEndIdleCount: 2 })]
       gs3.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-      tickEventSystem(gs3, snapR3(), busStub())
+      tickEventSystem(gs3, snapR3(), bus)
       expect(gs3.npcs[0]!.triggerEndIdleCount).toBe(0)
       expect(gs3.dwCash).toBe(55)
     }
+    expect(bus.drain()).toEqual([])
   })
 
-  it('end + onEnterSceneId:advance/reset/plain 三臂写 sceneOnEnterIp + 清 sceneLoading(1896-1908)', () => {
+  it('end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)', () => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0', advance: true },
+      { op: 'end', label: 'L_1' },
+    ]
+    setGlobalEvents([...commands])
+    const gs = freshGs()
+    gs.mode = 'event'
+    gs.currentDialogPortraitLayout = true // 脏位
+    gs.currentDialogPortraitIcon = 5
+    gs.npcs = [npc(0)]
+    gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
+    expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
+    expect(gs.currentDialogPortraitLayout).toBe(false) // 旧测未证:PAL_EndDialog 复位段
+    expect(gs.currentDialogPortraitIcon).toBeUndefined()
+    expect(bus.drain()).toEqual([])
+  })
+
+  it('end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)', () => {
     const commands: Command[] = [
       { op: 'end', label: 'L_0', advance: true },
       { op: 'end', label: 'L_1', reset: true, resetTo: 0 },
       { op: 'end', label: 'L_2' },
     ]
-    const run = (ip: number, sceneId: number, startIp: number): GameState => {
-      setGlobalEvents([...commands])
-      const gs = freshGs()
-      gs.mode = 'event'
-      gs.sceneLoading = true
-      gs.eventCursor = cursorAt(ip, { onEnterSceneId: sceneId, onEnterStartIp: startIp })
-      tickEventSystem(gs, snapR3(), busStub())
-      return gs
-    }
-    expect(run(0, 7, 0).sceneOnEnterIp[7]).toBe(1)
-    expect(run(1, 7, 0).sceneOnEnterIp[7]).toBe(0)
-    expect(run(2, 7, 5).sceneOnEnterIp[7]).toBe(5)
+    setGlobalEvents([...commands])
+    const gs = freshGs()
+    gs.mode = 'event'
+    gs.sceneLoading = true
+    gs.eventCursor = cursorAt(1, { onEnterSceneId: 7, onEnterStartIp: 5 })
+    const { bus } = realBus()
+    tickEventSystem(gs, snapR3(), bus)
+    expect(gs.sceneOnEnterIp[7]).toBe(0) // reset → resetTo label ip(旧测仅 advance=2/plain=起始)
+    expect(gs.sceneLoading).toBe(false)
+    expect(bus.drain()).toEqual([])
   })
 
   it('end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)', () => {
     const commands: Command[] = [{ op: 'end', label: 'L_0' }]
     setGlobalEvents([...commands])
+    const { bus } = realBus()
     const gs = freshGs()
     gs.mode = 'event'
     gs.dialogBox = dialogBox({ dialogLineCount: 2, phase: 'typing' })
     gs.eventCursor = cursorAt(0)
-    tickEventSystem(gs, snapR3(), busStub())
+    tickEventSystem(gs, snapR3(), bus)
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.dialogBox?.phase).toBe('waiting-end-key')
     const gs2 = freshGs()
     gs2.mode = 'event'
     gs2.dialogBox = dialogBox({ dialogLineCount: 0 })
     gs2.eventCursor = cursorAt(0)
-    tickEventSystem(gs2, snapR3(), busStub())
+    tickEventSystem(gs2, snapR3(), bus)
     expect(gs2.dialogBox).toBeUndefined()
     expect(gs2.eventCursor).toBeUndefined()
-  })
-
-  it('narration dialog:任意键立即关 + ip++;typingFrames 满 1.4s 自动关(1685-1703)', () => {
-    const commands: Command[] = [
-      { op: 'showDialog', messageIndex: 0, text: '得到物品', label: 'L_0' },
-      { op: 'raw', opcode: 0x1e, operands: [111, 0, 0] },
-      { op: 'end', label: 'L_2' },
-    ]
-    {
-      setGlobalEvents([...commands])
-      const gs = freshGs()
-      gs.mode = 'event'
-      gs.dwCash = 0
-      gs.eventCursor = cursorAt(0, { waiting: 'dialog' })
-      gs.dialogBox = dialogBox({
-        style: 'narration',
-        currentLineText: '得到物品',
-        dialogLineCount: 1,
-      })
-      tickEventSystem(gs, snapR3(['Down']), busStub())
-      expect(gs.dialogBox).toBeUndefined()
-      expect(gs.dwCash).toBe(111)
-    }
-    {
-      setGlobalEvents([...commands])
-      const gs = freshGs()
-      gs.mode = 'event'
-      gs.dwCash = 0
-      gs.eventCursor = cursorAt(0, { waiting: 'dialog' })
-      gs.dialogBox = dialogBox({
-        style: 'narration',
-        currentLineText: '得到物品',
-        dialogLineCount: 1,
-        typingFrames: 84,
-      })
-      tickEventSystem(gs, snapR3(), busStub())
-      expect(gs.dialogBox).toBeUndefined()
-      expect(gs.dwCash).toBe(111)
-    }
+    expect(bus.drain()).toEqual([])
   })
 })
