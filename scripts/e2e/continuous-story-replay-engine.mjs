@@ -190,7 +190,8 @@ const driveRouteTarget = async (action, _entry, until, health) => {
             position[0] - kitchenGrid(boundaryPosition, engine)[0],
             position[1] - kitchenGrid(boundaryPosition, engine)[1],
           ) <= (engine === 'game' ? 1.5 : 1),
-        finished: (state) => routeTargetReached(state, { ...target, position: null }),
+        finished: (state) =>
+          routeTargetReached(state, { ...target, position: null }) || hasDialogue(state),
         onInput: () => {},
         onProgress: () => {},
       })
@@ -228,7 +229,7 @@ const driveRouteTarget = async (action, _entry, until, health) => {
         ),
       ready: (state) => kitchenReady(state, engine),
       destination: (col, row) => Math.hypot(col - targetGrid[0], row - targetGrid[1]) <= tolerance,
-      finished: (state) => routeTargetReached(state, target),
+      finished: (state) => routeTargetReached(state, target) || hasDialogue(state),
       onInput: () => {},
       onProgress: () => {},
     })
