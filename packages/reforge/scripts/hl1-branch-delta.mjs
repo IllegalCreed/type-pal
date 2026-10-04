@@ -13,6 +13,7 @@
 //     --coverage.exclude '**/*.d.ts'
 //   # 终态:同命令去掉 --exclude '**/*.host-lifecycle-1.test.ts',reportsDirectory=coverage/hl1-final
 //   node scripts/hl1-branch-delta.mjs <baseline lcov> <final lcov>
+import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -77,8 +78,9 @@ for (const target of targets) {
   }
 }
 await mkdir(evidenceDir, { recursive: true })
+const outPath = path.join(evidenceDir, 'hl1-branch-delta.json')
 await writeFile(
-  path.join(evidenceDir, 'hl1-branch-delta.json'),
+  outPath,
   `${JSON.stringify(
     {
       baselineLcov: 'coverage/hl1-baseline/lcov.info(运行产物)',
@@ -91,3 +93,10 @@ await writeFile(
   )}\n`,
 )
 console.log(`hl1 delta: closed=${closedTotal} lost=${lostTotal} → hl1-branch-delta.json`)
+
+// 以仓库 biome 为唯一定稿者,保证再生成零 diff。
+const fmt = spawnSync('pnpm', ['exec', 'biome', 'format', '--write', outPath], {
+  cwd: pkgRoot,
+  encoding: 'utf8',
+})
+if (fmt.status !== 0) throw new Error(`biome format 失败: ${fmt.stderr}`)
