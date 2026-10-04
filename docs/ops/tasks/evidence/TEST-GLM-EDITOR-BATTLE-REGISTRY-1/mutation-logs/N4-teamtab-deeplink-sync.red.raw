@@ -1,0 +1,86 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-registry/packages/editor
+
+ ❯ src/ui/EnemyTeamTab.glm-battle-registry.test.tsx (1 test | 1 failed) 90ms
+     × 创建卡打开时深链跳转既有敌队：卡关闭、选择跟随、零提交；陈旧深链不偷换选择 89ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  02:47:50
+   Duration  2.16s (transform 1.29s, setup 0ms, import 1.59s, tests 90ms, environment 399ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/EnemyTeamTab.glm-battle-registry.test.tsx > BR-05 EnemyTeamTab 宿主深链同步 > 创建卡打开时深链跳转既有敌队：卡关闭、选择跟随、零提交；陈旧深链不偷换选择
+AssertionError: expected <section …(1)>…(5)</section> to be null
+
+- Expected:
+null
+
++ Received:
+<section
+  class="enemy-team-create-card"
+>
+  <p
+    class="eyebrow"
+  >
+    新建敌队
+  </p>
+  <h2>
+    先确定稳定 ID
+  </h2>
+  <p>
+    ID 会被场景与剧情脚本持久引用；创建后保持稳定，显示顺序和成员可随时修改。
+  </p>
+  <div
+    class="ds-field"
+    data-field-id="_r_11_"
+  >
+    <label
+      class="ds-field__label"
+      for="_r_11_"
+    >
+      稳定 ID
+    </label>
+    <div
+      data-ds-control-id="_r_11_"
+    >
+      <input
+        class="ds-input ds-control--monospace"
+        id="_r_11_"
+        value="team-c2"
+      />
+    </div>
+  </div>
+  <div
+    class="enemy-team-create-actions"
+  >
+    <button
+      class="ds-button ds-button--primary"
+      type="button"
+    >
+      <span>
+        创建敌队
+      </span>
+    </button>
+    <button
+      class="ds-button ds-button--secondary"
+      type="button"
+    >
+      <span>
+        取消
+      </span>
+    </button>
+  </div>
+</section>
+
+ ❯ src/ui/EnemyTeamTab.glm-battle-registry.test.tsx:116:59
+    114|       await Promise.resolve()
+    115|     })
+    116|     expect(host.querySelector('.enemy-team-create-card')).toBeNull()
+       |                                                           ^
+    117|     expect(host.querySelector('h1')?.textContent).toBe('team-c3')
+    118|     expect(session.getHistoryVersion()).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

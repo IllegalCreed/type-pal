@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-registry/packages/editor
+
+ ❯ src/ui/SpriteFrameDeletion.glm-battle-registry.test.ts (1 test | 1 failed) 4ms
+     × 越界或非整数帧号、末帧清空一律拒绝；合法边界 0 与 frameCount-1 不抛 3ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  02:47:46
+   Duration  1.72s (transform 1.38s, setup 0ms, import 1.64s, tests 4ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/SpriteFrameDeletion.glm-battle-registry.test.ts > BR-04 战斗精灵删帧规划守卫 > 越界或非整数帧号、末帧清空一律拒绝；合法边界 0 与 frameCount-1 不抛
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/ui/SpriteFrameDeletion.glm-battle-registry.test.ts:35:65
+     33|     const enemy = enemyDefinition()
+     34|     // 越界（负数 / 等于帧数 / 超出）与非整数都命中同一个守卫。
+     35|     expect(() => planBattleSpriteFrameDeletion([enemy], -1, 4)).toThro…
+       |                                                                 ^
+     36|     expect(() => planBattleSpriteFrameDeletion([enemy], 4, 4)).toThrow…
+     37|     expect(() => planBattleSpriteFrameDeletion([enemy], 9, 4)).toThrow…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

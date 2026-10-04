@@ -1,0 +1,98 @@
+{
+  "card": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1",
+  "suite": "定向三文件（BattleSpriteLibrary / SpriteFrameDeletion / EnemyTeamTab .glm-battle-registry）",
+  "replay": "run-counterproof.mjs 以最终交付测试文件重放全部三态（基线绿 + 4 针红/绿 + 产品零残留）",
+  "command": "pnpm exec vitest run <files> [-t <fullName 子串>]（cwd=packages/editor）",
+  "cwd": "/private/tmp/type-pal-battle-registry/packages/editor",
+  "node": "v22.23.2",
+  "pnpm": "10.29.2",
+  "baseline": {
+    "file": "mutation-logs/green-baseline.raw",
+    "sha256": "3921c41606472d42a46407187d1f5b48d64deb9db41a5c4a199273dcf3097cfa",
+    "tests": "4 passed (4)",
+    "actWarnings": 0
+  },
+  "needles": [
+    {
+      "id": "N1-beginusage-proof-gate",
+      "mutation": "BattleSpriteLibrary.tsx beginUsage 移除解码证明门（!proofReady/!actualFrameCount），扣留期不再拒绝",
+      "execution": "src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx -t BR-01",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N1-beginusage-proof-gate.red.raw",
+        "sha256": "0fbe9c1e881457d800f8d01fa3eeab6a0d151ef96bb6e4a8fd17e299e458be01",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected '上传的战斗精灵至少需要 1 帧' to be '帧源尚未完成解码校验，请稍后再新增用途。' // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N1-beginusage-proof-gate.green.raw",
+        "sha256": "1a06f2fa5ecc0983099a5aa6354051b698dea4ce2e5a838bc41ddc9b933efcd2",
+        "tests": "1 passed | 1 skipped (2)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N2-delete-fail-closed-on-missing-bytes",
+      "mutation": "BattleSpriteLibrary.tsx deleteAsset 跳过删除前真实读取与解码校验（伪造空字节直接提交删除）",
+      "execution": "src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx -t BR-02",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N2-delete-fail-closed-on-missing-bytes.red.raw",
+        "sha256": "4bfb6630ff8129780140dce3d5a58a667df35557d56a537bb916d668a7090fbb",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected undefined to be defined",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N2-delete-fail-closed-on-missing-bytes.green.raw",
+        "sha256": "e2140a5a8205730720db79660908bbdd8f9b3c75fa736006c9cff2e1cb79a604",
+        "tests": "1 passed | 1 skipped (2)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N3-frame-deletion-plan-guard",
+      "mutation": "BattleSpriteLibrary.tsx planBattleSpriteFrameDeletion 移除越界/非整数帧号守卫",
+      "execution": "src/ui/SpriteFrameDeletion.glm-battle-registry.test.ts -t BR-04",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N3-frame-deletion-plan-guard.red.raw",
+        "sha256": "bf8147cc8567e4baa27effbf3fedeca72f5d5d5182c7cce1126ad839eee108e3",
+        "tests": "1 failed (1)",
+        "firstFailure": "AssertionError: expected [Function] to throw an error",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N3-frame-deletion-plan-guard.green.raw",
+        "sha256": "fa774ca720c58d206e9995dd37e44073b7db5be522ab9584904c92f09359021f",
+        "tests": "1 passed (1)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N4-teamtab-deeplink-sync",
+      "mutation": "EnemyTeamTab.tsx focusObjectId 受控效果改为空体（深链不再同步选择/收起创建卡）",
+      "execution": "src/ui/EnemyTeamTab.glm-battle-registry.test.tsx -t BR-05",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N4-teamtab-deeplink-sync.red.raw",
+        "sha256": "15a13ac33532c386fe60fecf29fe6dbde93610e48c3f64ec9b2b5f2ec879f36f",
+        "tests": "1 failed (1)",
+        "firstFailure": "AssertionError: expected <section …(1)>…(5)</section> to be null",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N4-teamtab-deeplink-sync.green.raw",
+        "sha256": "0eacaa0815e525a095305630dab6fae44cbe5fee338c814611a81ea3f92e1f6a",
+        "tests": "1 passed (1)",
+        "actWarnings": 0
+      }
+    }
+  ],
+  "productResidue": "clean (git status --porcelain packages/ 无 M/D 残留；?? 仅本卡新增测试)"
+}

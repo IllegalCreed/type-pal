@@ -1,0 +1,26 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-registry/packages/editor
+
+ ❯ src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx (2 tests | 1 failed | 1 skipped) 134ms
+   ↓ BR-01 注册门：解码证明未就绪时新增用途被拒且零提交；证明绑定后同入口入库并过保存门
+   × BR-02 缺失回落：源字节读取失败时预览报错、用途门拒绝、删除 fail-closed，目录与历史保持 133ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  02:47:41
+   Duration  2.17s (transform 1.30s, setup 0ms, import 1.62s, tests 134ms, environment 336ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx > BR-02 缺失回落：源字节读取失败时预览报错、用途门拒绝、删除 fail-closed，目录与历史保持
+AssertionError: expected undefined to be defined
+ ❯ src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx:260:60
+    258|     '删除闭环落定（fail-closed 通知或提交）',
+    259|   )
+    260|   expect(m.session.getState().assetCatalog.assets[A_IDLE]).toBeDefined…
+       |                                                            ^
+    261|   expect(m.session.getHistoryVersion()).toBe(historyAtMount)
+    262|   expect(noticeErrors(m.notices).at(-1)).toContain(GATE_MISSING)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

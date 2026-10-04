@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-registry/packages/editor
+
+ ❯ src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx (2 tests | 1 failed | 1 skipped) 118ms
+   × BR-01 注册门：解码证明未就绪时新增用途被拒且零提交；证明绑定后同入口入库并过保存门 118ms
+   ↓ BR-02 缺失回落：源字节读取失败时预览报错、用途门拒绝、删除 fail-closed，目录与历史保持
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  02:47:36
+   Duration  2.13s (transform 1.31s, setup 0ms, import 1.60s, tests 118ms, environment 328ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx > BR-01 注册门：解码证明未就绪时新增用途被拒且零提交；证明绑定后同入口入库并过保存门
+AssertionError: expected '上传的战斗精灵至少需要 1 帧' to be '帧源尚未完成解码校验，请稍后再新增用途。' // Object.is equality
+
+Expected: "帧源尚未完成解码校验，请稍后再新增用途。"
+Received: "上传的战斗精灵至少需要 1 帧"
+
+ ❯ src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx:184:42
+    182|   await waitProofText(m, 0, 1)
+    183|   await openEnemyUsageDraft(m.host)
+    184|   expect(noticeErrors(m.notices).at(-1)).toBe('帧源尚未完成解码校验，请稍后再新增用途。')
+       |                                          ^
+    185|   expect(m.host.textContent).not.toContain('新用途尚未写入项目')
+    186|   expect(m.session.getHistoryVersion()).toBe(historyAtMount)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
