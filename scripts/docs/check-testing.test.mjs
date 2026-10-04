@@ -7,8 +7,8 @@ import { test } from 'node:test'
 import {
   parseTestingFrontMatter,
   parseTestingMeta,
-  validateCatalog,
   validateCanonicalEvidence,
+  validateCatalog,
   validateTestingOrphans,
 } from './check-testing.mjs'
 import { renderIndexes } from './generate-testing-index.mjs'
