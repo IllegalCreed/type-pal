@@ -1,6 +1,6 @@
 # CODE-QUALITY-3j - game tools 与速通纯函数逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -46,7 +46,7 @@ Base: `fe189dc4d`
 - 贡献者交付/自验：Codex；定向 12 files/47 tests、game 全包 298/3399、typecheck 通过。
 - Codex 独立验收：accept（七个生产文件逐个重读；display-scale NaN guard 负控 6 tests=5 pass/1 fail，恢复后 6/6；速通 checkpoints 坐标只读核验并保留实跑未知；全仓 `pnpm check`、support ratchet、protected fast、Biome 零诊断通过）。
 - 用户产品裁决/体验验收：N/A（不改形态/节点）。
-- done 准入：blocked，待提交推送后核对工作树、账本计数和任务索引；本卡只关闭七个文件，不代表 game 或全仓治理完成。
+- done 准入：Codex done allowed；提交 `96710de55` 已推送，独立 diff/status 核对通过；本卡只关闭七个文件，不代表 game 或全仓治理完成。
 
 ## 交接日志
 
