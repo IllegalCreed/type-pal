@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-001
+evidence: e2e/evidence/e2e-001.json
+---
+
 # 001 开场执行器：双引擎完整验证
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"1-84"},{"path":"scripts/e2e/game-opening.mjs","lines":"1-471"},{"path":"scripts/e2e/reforge-opening.mjs","lines":"1-253"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55 dialogue rows","stationary intervals have movement witnesses","fresh-context restore"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"]},"revision":{"currentSha":"0a8c998f","contentVersion":21,"minimumSaveVersion":10,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-09-28 verify","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-001.json"}
+-->
 
 [任务卡](../../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
 [跨阶段合同](../../contract.md) / [剧情边界](../../../../../projects/pal/e2e-checkpoints/README.md)。

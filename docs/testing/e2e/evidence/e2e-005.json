@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-005",
+  "kind": "runtime-execution",
+  "status": "verified",
+  "candidateSha": "98a42d4e",
+  "versions": {
+    "executedContent": 22,
+    "executedMinimumSave": 11,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
+  "sourceRefs": [
+    { "path": "scripts/e2e/errand-both.mjs", "lines": "1-96" },
+    { "path": "projects/pal/content/scenes/s004.json", "lines": "1-1200" },
+    { "path": "projects/pal/content/scenes/s005.json", "lines": "1-1200" }
+  ],
+  "publicCallers": ["pnpm e2e:005", "pnpm e2e:005:reforge", "pnpm e2e:005:both"],
+  "legalInputs": [
+    "same-engine current 004 saves report",
+    "normal route/dialogue",
+    "fresh browser restore context"
+  ],
+  "businessOracle": {
+    "type": "errand-news-and-return",
+    "assertions": [
+      "story/guards/saves cases remain separate",
+      "unique 50 coin reward and report ordering",
+      "background return does not remove player control"
+    ]
+  },
+  "dedupe": {
+    "result": "reviewed",
+    "against": ["e2e-004", "e2e-006", "historical failed wrapper"],
+    "notes": "failed startup retained as history; current cases are not old predecessors"
+  },
+  "claims": [
+    {
+      "id": "errand-news",
+      "result": "runtime-backed",
+      "evidence": ["e2e/stages/005-shrimp/report.md:29-52"]
+    }
+  ],
+  "artifacts": [
+    { "path": "e2e/stages/005-shrimp/report.md", "kind": "canonical" },
+    { "path": "projects/pal/e2e-checkpoints/README.md", "kind": "checkpoint-index" }
+  ],
+  "history": [
+    { "revision": "2026-10-02", "change": "six-case verification" },
+    { "revision": "2026-10-04", "change": "metadata audit" }
+  ]
+}

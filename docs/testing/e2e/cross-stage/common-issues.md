@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-common-issues
+evidence: e2e/evidence/e2e-common-issues.json
+---
+
 # 001 至 005 共性问题回顾
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-common-issues","sourceRefs":[{"path":"scripts/e2e/inn-both.mjs","lines":"1-85"},{"path":"scripts/e2e/kitchen-both.mjs","lines":"1-90"},{"path":"scripts/e2e/errand-both.mjs","lines":"1-96"}],"publicCallers":["pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current same-engine predecessor","normal input/navigation","isolated browser storage"],"businessOracle":{"type":"issue-family-closure","assertions":["root-cause family","separate route/presentation/save","no source-read-as-run"]},"dedupe":{"result":"reviewed","against":["e2e/stages/001-opening/report.md","e2e/stages/002-inn-guests-and-reward/report.md","e2e/stages/003-kitchen/report.md","e2e/stages/004-meal/report.md","e2e/stages/005-shrimp/report.md"]},"revision":{"currentSha":"d02278dc","contentVersion":22,"minimumSaveVersion":11,"history":["2026-10-02 cross-stage review","2026-10-04 dependency correction"]},"evidence":"e2e/evidence/e2e-common-issues.json"}
+-->
 
 核对日期：2026-10-02。结构计数来自005本轮最终作者内容；后期站点仅作源码核查，不冒称实跑。
 后续治理已启动，当前批次的修复与剩余数量见[剧本共性治理证据](../../script-governance/README.md)；
@@ -7,7 +17,7 @@
 001–005暴露的问题不能统称迁移bug，也不能逐NPC修完就销账。这里按公共根因整理，区分已经在公共层解决、
 已经批量处理，以及仅修代表场景、仍需问题族治理的部分。目标是早期集中暴露，修复后后续E2E明显收敛。
 
-依据为各段[001](../stages/001-opening/report.md)、[002](../stages/002-inn-e56/report.md)、[003](../stages/003-kitchen/report.md)、[004](../stages/004-meal/report.md)、
+依据为各段[001](../stages/001-opening/report.md)、[002](../stages/002-inn-guests-and-reward/report.md)、[003](../stages/003-kitchen/report.md)、[004](../stages/004-meal/report.md)、
 [005](../stages/005-shrimp/report.md)回执和当前源码；历史数字标明范围，不当作当前缺陷总数。
 
 ## 剧情脚本的七类共性问题

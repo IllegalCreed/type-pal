@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-001",
+  "kind": "runtime-execution",
+  "status": "verified",
+  "candidateSha": "0a8c998f",
+  "versions": {
+    "executedContent": 21,
+    "executedMinimumSave": 10,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
+  "sourceRefs": [
+    { "path": "scripts/e2e/opening-both.mjs", "lines": "1-84" },
+    { "path": "scripts/e2e/game-opening.mjs", "lines": "1-471" },
+    { "path": "scripts/e2e/reforge-opening.mjs", "lines": "1-253" }
+  ],
+  "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
+  "legalInputs": ["fresh new story", "normal Enter/Escape/F5 flow", "same-engine save/load"],
+  "businessOracle": {
+    "type": "opening-dialogue-and-restore",
+    "assertions": [
+      "55 dialogue rows",
+      "stationary intervals have movement witnesses",
+      "fresh-context restore"
+    ]
+  },
+  "dedupe": {
+    "result": "reviewed",
+    "against": ["e2e-contract", "e2e-route", "e2e-002"],
+    "notes": "historical SAVE/content receipts are not current predecessors"
+  },
+  "claims": [
+    {
+      "id": "opening-verify",
+      "result": "runtime-backed",
+      "evidence": ["e2e/stages/001-opening/report.md:42-52"]
+    }
+  ],
+  "artifacts": [
+    { "path": "e2e/stages/001-opening/report.md", "kind": "canonical" },
+    { "path": "projects/pal/e2e-checkpoints/README.md", "kind": "checkpoint-index" }
+  ],
+  "history": [
+    { "revision": "2026-09-28", "change": "verify closeout" },
+    {
+      "revision": "2026-10-04",
+      "change": "metadata audit; current version differs from executed historical run"
+    }
+  ]
+}

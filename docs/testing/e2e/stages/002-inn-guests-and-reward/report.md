@@ -1,4 +1,14 @@
-# 002 — 客栈路线、e56 核心与脚本编排
+---
+testingSchema: 2
+id: e2e-002
+evidence: e2e/evidence/e2e-002.json
+---
+
+# 002 — 客栈路线、住客与赏银核心
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-002","sourceRefs":[{"path":"scripts/e2e/inn-both.mjs","lines":"1-85"},{"path":"projects/pal/content/scenes/s001.json","lines":"299-332"},{"path":"projects/pal/content/scenes/s003.json","lines":"835-1242"}],"publicCallers":["pnpm e2e:002","pnpm e2e:002:reforge","pnpm e2e:002:both"],"legalInputs":["same-engine current 001 end save","normal movement into s003/e56","isolated fresh restore context"],"businessOracle":{"type":"inn-guest-reward-and-restore","assertions":["20 dialogue rows","cash 0→500","three guests enter and restore"]},"dedupe":{"result":"renamed-and-reviewed","against":["e2e-001","e2e-003","legacy path docs/testing/e2e/stages/002-inn-guests-and-reward"],"notes":"e56/s003 remain sourceRefs only"},"revision":{"currentSha":"9d15218b","contentVersion":21,"minimumSaveVersion":10,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 verify","2026-10-04 semantic rename and metadata audit"]},"evidence":"e2e/evidence/e2e-002.json"}
+-->
 
 002 双引擎 verify 已收口：正常路线、核心编排、真实存读档与恢复画面通过，全仓质量门零诊断。实现准入与完整前提见
 [子卡](../../../../ops/archive/tasks/done/E2E-002-1-inn-route-and-trio.md)，后续全局范围见

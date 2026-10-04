@@ -6,9 +6,11 @@
 
 - [E2E 专项总览](e2e/README.md)：001–006 阶段报告、依赖链和当前状态。
 - [多维索引](indexes/README.md)：按阶段、状态、标签、Owner 检索。
+- [历史归档](archive/README.md)：迁移记录与已合并的历史审查导航。
 - [机器 catalog](catalog.json)：稳定 ID、canonical 路径、证据、依赖和 reviewBy 的唯一索引源。
 - [新文档模板](_templates/README.md)：报告、阶段页、evidence JSON 的固定格式。
 - [legacy 平面文件登记](legacy-flat.json)：迁移期间的兼容清单；未登记的新平面文件会被 CI 拒绝。
+- [legacy 分类账](legacy-flat-classification.json)：按真实工程域/模块/功能登记 359 个存量文件；Agent 仅作为 provenance，不能污染 canonical 路径。
 
 旧平面列表保留在下方仅为兼容入口；新报告不得继续直接放在 `docs/testing/` 根目录。
 
@@ -66,7 +68,7 @@
 - [GLM物品六组独立接收](item-logic-r1-review.md)（705eb161，六漏检反证/夹具与回执R1–R4）。
 
 - [001双引擎独立执行器](e2e/stages/001-opening/report.md)（正常新局、各自真实结束档/新上下文读回；同时运行并核李大娘两段对话静止/移动偏序，全角色与录制矩阵未完成）。
-- [002客栈路线与e56编排审查](e2e/stages/002-inn-e56/report.md)（双引擎真实001→002链、20正文/500文/实际进房及新上下文World/Canvas通过；check10655项与静态零诊断，verify已收口，编排改进与历史失败留证）。
+- [002客栈住客与赏银编排审查](e2e/stages/002-inn-guests-and-reward/report.md)（双引擎真实001→002链、20正文/500文/实际进房及新上下文World/Canvas通过；check10655项与静态零诊断，verify已收口，编排改进与历史失败留证）。
 - [003下楼、道士交谈与厨房交代](e2e/stages/003-kitchen/report.md)（真实002交接、14正文、实际楼梯步频与生产存读档；不取菜，004朝向反例单列）。
 - [004端菜与桂花酒赠道士](e2e/stages/004-meal/report.md)（两阶段story/items/saves六case已验，正常演示与专项分离；正文归醉道士）。
 - [005买虾出门与香兰报信](e2e/stages/005-shrimp/report.md)（两阶段六份同版case独立核验通过，NPC报信与后台返程；包门及最终工具零诊断，保留一次浏览器启动失败）。
@@ -181,7 +183,8 @@
 
 - [Cursor场景入场当前 UI 事实表](cursor-scene-entry-truth.md)、[Codex独立复核](cursor-scene-entry-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)（31618c0d已接入；现行指南已窄修，prepare安全产品缺口另排）
 
-- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)、[Codex首轮接收](architecture-regression-lab-codex-review.md)、[二轮接收](architecture-regression-lab-codex-r2-review.md)、[三轮接收](architecture-regression-lab-codex-r3-review.md)、[四轮接收](architecture-regression-lab-codex-r4-review.md)、[五轮接收](architecture-regression-lab-codex-r5-review.md)、[六轮接收](architecture-regression-lab-codex-r6-review.md)、[七轮接收](architecture-regression-lab-codex-r7-review.md)、[八轮接收](architecture-regression-lab-codex-r8-review.md)、[九轮接收](architecture-regression-lab-codex-r9-review.md)与[十轮接收](architecture-regression-lab-codex-r10-review.md)（[r10机账](architecture-regression-lab-codex-r10-evidence.json)；首批37项已转正，fast8159/643；r10整批counter，G01平移与人物名操作补验通过，剩余视觉未闭）
+- [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)与[历次复核合并索引](archive/architecture-regression-lab-history.md)（原始 r2–r10 counter/窄证据保留；首批37项已转正，r10 的 G01 平移与人物名操作补验通过，剩余视觉未闭）
+- 原始历次回执仍可追溯：[首轮](architecture-regression-lab-codex-review.md)、[r2](architecture-regression-lab-codex-r2-review.md)、[r3](architecture-regression-lab-codex-r3-review.md)、[r4](architecture-regression-lab-codex-r4-review.md)、[r5](architecture-regression-lab-codex-r5-review.md)、[r6](architecture-regression-lab-codex-r6-review.md)、[r7](architecture-regression-lab-codex-r7-review.md)、[r8](architecture-regression-lab-codex-r8-review.md)、[r9](architecture-regression-lab-codex-r9-review.md)、[r10](architecture-regression-lab-codex-r10-review.md)。
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 

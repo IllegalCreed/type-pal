@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-contract",
+  "kind": "source-audit",
+  "status": "current",
+  "candidateSha": "d02278dc",
+  "versions": { "content": 22, "minimumSave": 11 },
+  "sourceRefs": [
+    { "path": "scripts/e2e/opening-both.mjs", "lines": "1-84" },
+    { "path": "scripts/e2e/inn-both.mjs", "lines": "1-85" }
+  ],
+  "publicCallers": [
+    "pnpm e2e:001:both",
+    "pnpm e2e:002:both",
+    "pnpm e2e:003:both",
+    "pnpm e2e:004:both",
+    "pnpm e2e:005:both"
+  ],
+  "legalInputs": [
+    "current canonical project",
+    "engine-owned checkpoint",
+    "verify or capture profile"
+  ],
+  "businessOracle": {
+    "type": "observable-business-contract",
+    "assertions": ["real caller", "same-engine restore", "verify/capture separation"]
+  },
+  "dedupe": { "result": "reviewed", "against": ["e2e/stages/*/report.md"] },
+  "claims": [
+    { "id": "contract-boundary", "result": "source-backed", "evidence": ["e2e/contract.md:1-220"] }
+  ],
+  "artifacts": [{ "path": "e2e/contract.md", "kind": "canonical" }],
+  "history": [{ "revision": "2026-10-04", "change": "added machine metadata and evidence pairing" }]
+}

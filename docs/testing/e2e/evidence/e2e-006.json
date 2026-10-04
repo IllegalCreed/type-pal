@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-006",
+  "kind": "runtime-execution",
+  "status": "rework",
+  "candidateSha": null,
+  "shaStatus": "missing-in-report",
+  "versions": {
+    "executedContent": 22,
+    "executedMinimumSave": 11,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
+  "sourceRefs": [
+    { "path": "scripts/e2e/errand-reforge.mjs", "lines": "1-3" },
+    { "path": "projects/pal/content/scenes/s005.json", "lines": "1-1200" },
+    { "path": "projects/pal/content/scenes/s014.json", "lines": "1-780" }
+  ],
+  "publicCallers": ["no accepted current phase1+reforge 006 wrapper"],
+  "legalInputs": [
+    "current SAVE11/content22 001→005 chain",
+    "normal movement to boat",
+    "current two-stage key-NPC logs"
+  ],
+  "businessOracle": {
+    "type": "rework-gated-boat-entry",
+    "assertions": [
+      "Reforge reaches s014",
+      "phase1 and Reforge key NPC logs",
+      "boat anchor/action/landing visual evidence"
+    ]
+  },
+  "dedupe": {
+    "result": "reviewed",
+    "against": ["e2e-005", "historical 001–005 reports"],
+    "notes": "missing evidence remains explicit"
+  },
+  "claims": [
+    {
+      "id": "reforge-route",
+      "result": "runtime-backed-but-incomplete",
+      "evidence": ["e2e/stages/006-doctor-boat/report.md:14-26"]
+    },
+    { "id": "two-stage-visual-close", "result": "unverified", "evidence": [] }
+  ],
+  "artifacts": [{ "path": "e2e/stages/006-doctor-boat/report.md", "kind": "canonical" }],
+  "history": [
+    { "revision": "2026-10-03", "change": "Reforge route report; rework retained" },
+    { "revision": "2026-10-04", "change": "metadata audit exposes missing SHA and phase1 log" }
+  ]
+}

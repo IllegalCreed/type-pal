@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-route",
+  "kind": "source-audit",
+  "status": "proposal",
+  "candidateSha": "d02278dc",
+  "versions": { "content": 22, "minimumSave": 11 },
+  "sourceRefs": [
+    { "path": "scripts/e2e/opening-both.mjs", "lines": "1-84" },
+    { "path": "scripts/e2e/inn-both.mjs", "lines": "1-85" },
+    { "path": "projects/pal/content/scenes/index.json", "lines": "1-20" }
+  ],
+  "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+  "legalInputs": ["fresh current project", "current-version checkpoint only"],
+  "businessOracle": {
+    "type": "route-admission",
+    "assertions": ["explicit predecessor", "explicit stop condition", "no skipped-stage claim"]
+  },
+  "dedupe": { "result": "reviewed", "against": ["e2e/stages/*/README.md"] },
+  "claims": [
+    { "id": "route-plan", "result": "proposal-only", "evidence": ["e2e/route-proposal.md:1-120"] }
+  ],
+  "artifacts": [{ "path": "e2e/route-proposal.md", "kind": "canonical" }],
+  "history": [{ "revision": "2026-10-04", "change": "added source and version audit" }]
+}

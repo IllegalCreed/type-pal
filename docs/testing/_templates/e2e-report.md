@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-NNN
+evidence: e2e/evidence/e2e-NNN.json
+---
+
 # E2E-NNN · <正式报告标题>
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-NNN","sourceRefs":[{"path":"packages/...","lines":"1-10","role":"caller/source"}],"publicCallers":["pnpm ..."],"legalInputs":["..."],"businessOracle":{"type":"...","assertions":["..."]},"dedupe":{"result":"reviewed","against":["..."]},"revision":{"currentSha":"...","contentVersion":22,"minimumSaveVersion":11,"history":["..."]},"evidence":"evidence.json"}
+-->
 
 > `id`: e2e-NNN · `status`: draft/active/verified/rework/superseded
 
@@ -25,6 +35,7 @@
 
 - `evidence.json`：逐步状态、fullName、exit code、hash、artifact 路径。
 - 截图/trace/video 只写稳定路径和 SHA256，不把截图存在当成通过。
+- `testing-meta` 与 `evidence.json` 必须逐字段配对；sourceRefs 要落到真实 file:line，缺 SHA 或未跑阶段要显式标记。
 
 ## Revision history
 

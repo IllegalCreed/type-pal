@@ -11,6 +11,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TESTING-DOC-GOVERNANCE-1 | [测试文档深度治理](tasks/TESTING-DOC-GOVERNANCE-1-depth.md) | build | Codex / 独立验收后回执 | catalog v2、359 项分类账、E2E 语义命名、metadata/evidence/历史治理与 CI 门禁 |
 
 **当前协作模式（用户 2026-09-25）**：三贤人固定签字暂休。Codex 分派、贡献者实施、Codex 独立验收并负责集成/清理；旧签字和历史批次照原记录保留，活动任务不再因 Kimi/GLM 缺签自动停线。高风险产品取舍仍由用户裁决，见 [`AGENTS.md`](../../AGENTS.md)。
 
@@ -109,7 +110,7 @@ G/I 的功能视觉与 console 后续补验也已闭合，不把这些卡的完�
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 006剧情链可达但视觉与关键NPC日志未验收；截图显示船体锚点/张四动作/人物落船异常 |
 | SCRIPT-AUTHOR-2 | [客栈语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存counter闭合；e56单步骤技术验收通过；剩4587模板名，不标done |
 
-2026-10-01 [002最终回执](../testing/e2e/stages/002-inn-e56/report.md)已独立accept，四张002子卡done归档：
+2026-10-01 [002最终回执](../testing/e2e/stages/002-inn-guests-and-reward/report.md)已独立accept，四张002子卡done归档：
 正常出房至e56、20正文/500文/三人实际进房、真实002新上下文全量World与Canvas恢复均通过。
 落实局部对白接管与持久open页，保留目标＋速度/独立auto，不新增parallel/join；
 check10655项、E2E工具57项与2704文件静态零诊断。母任务继续003以后/capture，不关闭完整Q1/Q2。

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-002",
+  "kind": "runtime-execution",
+  "status": "verified",
+  "candidateSha": "9d15218b",
+  "versions": {
+    "executedContent": 21,
+    "executedMinimumSave": 10,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
+  "sourceRefs": [
+    { "path": "scripts/e2e/inn-both.mjs", "lines": "1-85" },
+    { "path": "projects/pal/content/scenes/s001.json", "lines": "299-332" },
+    { "path": "projects/pal/content/scenes/s003.json", "lines": "835-1242" }
+  ],
+  "publicCallers": ["pnpm e2e:002", "pnpm e2e:002:reforge", "pnpm e2e:002:both"],
+  "legalInputs": [
+    "same-engine current 001 end save",
+    "normal movement into s003/e56",
+    "isolated fresh restore context"
+  ],
+  "businessOracle": {
+    "type": "inn-guest-reward-and-restore",
+    "assertions": ["20 dialogue rows", "cash 0→500", "three guests enter and restore"]
+  },
+  "dedupe": {
+    "result": "renamed-and-reviewed",
+    "against": [
+      "e2e-001",
+      "e2e-003",
+      "legacy path docs/testing/e2e/stages/002-inn-guests-and-reward"
+    ],
+    "notes": "e56/s003 remain sourceRefs only"
+  },
+  "claims": [
+    {
+      "id": "inn-reward",
+      "result": "runtime-backed",
+      "evidence": ["e2e/stages/002-inn-guests-and-reward/report.md:23-38"]
+    }
+  ],
+  "artifacts": [
+    { "path": "e2e/stages/002-inn-guests-and-reward/report.md", "kind": "canonical" },
+    { "path": "projects/pal/e2e-checkpoints/README.md", "kind": "checkpoint-index" }
+  ],
+  "history": [
+    { "revision": "2026-10-02", "change": "verify closeout" },
+    { "revision": "2026-10-04", "change": "human semantic rename; no history deletion" }
+  ]
+}

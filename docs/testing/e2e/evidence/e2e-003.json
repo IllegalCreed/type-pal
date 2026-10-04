@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-003",
+  "kind": "runtime-execution",
+  "status": "verified",
+  "candidateShas": ["0defc136", "edca85df"],
+  "versions": {
+    "executedContent": 21,
+    "executedMinimumSave": 10,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
+  "sourceRefs": [
+    { "path": "scripts/e2e/kitchen-both.mjs", "lines": "1-90" },
+    { "path": "projects/pal/content/scenes/s003.json", "lines": "1242-1509" }
+  ],
+  "publicCallers": ["pnpm e2e:003", "pnpm e2e:003:reforge", "pnpm e2e:003:both"],
+  "legalInputs": [
+    "same-engine current 002 report.json",
+    "held normal movement",
+    "no take-dish shortcut"
+  ],
+  "businessOracle": {
+    "type": "stairs-dialogue-kitchen-handoff",
+    "assertions": ["12 stair commits", "14 dialogue rows", "stop at 126/127"]
+  },
+  "dedupe": {
+    "result": "reviewed",
+    "against": ["e2e-002", "e2e-004"],
+    "notes": "004 entrance is registered but not claimed as executed"
+  },
+  "claims": [
+    {
+      "id": "kitchen-handoff",
+      "result": "runtime-backed",
+      "evidence": ["e2e/stages/003-kitchen/report.md:18-41"]
+    }
+  ],
+  "artifacts": [{ "path": "e2e/stages/003-kitchen/report.md", "kind": "canonical" }],
+  "history": [
+    { "revision": "2026-10-02", "change": "independent game/reforge runs" },
+    { "revision": "2026-10-04", "change": "metadata audit" }
+  ]
+}

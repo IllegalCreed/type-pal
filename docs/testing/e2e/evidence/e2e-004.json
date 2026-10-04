@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-004",
+  "kind": "runtime-execution",
+  "status": "verified",
+  "candidateShas": ["9a488c02", "e5b43268"],
+  "versions": {
+    "executedContent": 22,
+    "executedMinimumSave": 11,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
+  "sourceRefs": [
+    { "path": "scripts/e2e/meal-both.mjs", "lines": "1-104" },
+    { "path": "projects/pal/content/scenes/s003.json", "lines": "6000-7800" }
+  ],
+  "publicCallers": ["pnpm e2e:004", "pnpm e2e:004:reforge", "pnpm e2e:004:both"],
+  "legalInputs": [
+    "same-engine current 003 kitchen save",
+    "normal menu use",
+    "isolated save/restore case"
+  ],
+  "businessOracle": {
+    "type": "meal-gift-continuity",
+    "assertions": [
+      "story/items/saves cases remain separate",
+      "cancel/error use does not consume wine",
+      "gift and recovery are observed"
+    ]
+  },
+  "dedupe": {
+    "result": "reviewed",
+    "against": ["e2e-003", "e2e-005", "historical receipt-only revalidation"],
+    "notes": "old failures retained, not rewritten"
+  },
+  "claims": [
+    {
+      "id": "meal-gift",
+      "result": "runtime-backed",
+      "evidence": ["e2e/stages/004-meal/report.md:40-117"]
+    }
+  ],
+  "artifacts": [{ "path": "e2e/stages/004-meal/report.md", "kind": "canonical" }],
+  "history": [
+    { "revision": "2026-10-02", "change": "six-case verification" },
+    { "revision": "2026-10-04", "change": "metadata audit" }
+  ]
+}

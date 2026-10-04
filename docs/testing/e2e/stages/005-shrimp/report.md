@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-005
+evidence: e2e/evidence/e2e-005.json
+---
+
 # 005 买虾出门与香兰报信
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-005","sourceRefs":[{"path":"scripts/e2e/errand-both.mjs","lines":"1-96"},{"path":"projects/pal/content/scenes/s004.json","lines":"1-1200"},{"path":"projects/pal/content/scenes/s005.json","lines":"1-1200"}],"publicCallers":["pnpm e2e:005","pnpm e2e:005:reforge","pnpm e2e:005:both"],"legalInputs":["same-engine current 004 saves report","normal route/dialogue","fresh browser restore context"],"businessOracle":{"type":"errand-news-and-return","assertions":["story/guards/saves cases remain separate","unique 50 coin reward and report ordering","background return does not remove player control"]},"dedupe":{"result":"reviewed","against":["e2e-004","e2e-006","historical failed wrapper"]},"revision":{"currentSha":"98a42d4e","contentVersion":22,"minimumSaveVersion":11,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 six-case verification","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-005.json"}
+-->
 
 用户确认的范围：004赠酒结束后回厨房受托买虾，领50文；到码头问鱼嫂、听水生叔和张四谈仙灵岛，
 回盛渔村遇丁香兰报信，止于对话结束并恢复正常行走。不进客栈探病，不接求药或出海。

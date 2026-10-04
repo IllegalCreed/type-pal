@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-route
+evidence: e2e/evidence/e2e-route.json
+---
+
 # 双阶段快速通关E2E：路线驱动方案（讨论稿）
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-route","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"1-84"},{"path":"scripts/e2e/inn-both.mjs","lines":"1-85"},{"path":"projects/pal/content/scenes/index.json","lines":"1-20"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both"],"legalInputs":["fresh current project","current-version checkpoint only"],"businessOracle":{"type":"route-admission","assertions":["explicit predecessor","explicit stop condition","no skipped-stage claim"]},"dedupe":{"result":"reviewed","against":["e2e/stages/*/README.md"]},"revision":{"currentSha":"d02278dc","contentVersion":22,"minimumSaveVersion":11,"history":["2026-09-27 route proposal","2026-10-04 source/evidence audit"]},"evidence":"e2e/evidence/e2e-route.json"}
+-->
 
 2026-09-27用户改优先级：GLM/Cursor继续隔离补测，Codex暂停主动覆盖率推进，先讨论E2E怎么跑。
 [R4准备卡](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /

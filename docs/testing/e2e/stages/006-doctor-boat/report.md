@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-006
+evidence: e2e/evidence/e2e-006.json
+---
+
 # 006 · 回客栈求药与张四出海上仙灵岛
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-006","sourceRefs":[{"path":"scripts/e2e/errand-reforge.mjs","lines":"1-3"},{"path":"projects/pal/content/scenes/s005.json","lines":"1-1200"},{"path":"projects/pal/content/scenes/s014.json","lines":"1-780"}],"publicCallers":["no accepted current phase1+reforge 006 wrapper"],"legalInputs":["current SAVE11/content22 001→005 chain","normal movement to boat","current two-stage key-NPC logs"],"businessOracle":{"type":"rework-gated-boat-entry","assertions":["Reforge reaches s014","phase1 and Reforge key NPC logs","boat anchor/action/landing visual evidence"]},"dedupe":{"result":"reviewed","against":["e2e-005","historical 001–005 reports"]},"revision":{"currentSha":null,"shaStatus":"missing-in-report","contentVersion":22,"minimumSaveVersion":11,"history":["2026-10-03 rework report","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-006.json"}
+-->
 
 状态：`rework`。当前 Reforge 剧情链已跑通，但第一阶段关键 NPC 日志/演出对照和船段视觉修正尚未闭合，不能标记 done。
 

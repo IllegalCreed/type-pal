@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-004
+evidence: e2e/evidence/e2e-004.json
+---
+
 # 004 · 端菜、送菜与使用桂花酒赠道士
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-004","sourceRefs":[{"path":"scripts/e2e/meal-both.mjs","lines":"1-104"},{"path":"projects/pal/content/scenes/s003.json","lines":"6000-7800"},{"path":"packages/content/src/character.ts","lines":"168-170"}],"publicCallers":["pnpm e2e:004","pnpm e2e:004:reforge","pnpm e2e:004:both"],"legalInputs":["same-engine current 003 kitchen save","normal menu use","isolated save/restore case"],"businessOracle":{"type":"meal-gift-continuity","assertions":["story/items/saves cases remain separate","cancel/error use does not consume wine","gift and recovery are observed"]},"dedupe":{"result":"reviewed","against":["e2e-003","e2e-005","historical receipt-only revalidation"]},"revision":{"currentShas":["9a488c02","e5b43268"],"contentVersion":22,"minimumSaveVersion":11,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 six-case verification","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-004.json"}
+-->
 
 用户2026-10-02指定：从003厨房交代结束、尚未取菜开始，取菜→送苗族随从→取得桂花酒→
 正常菜单赠醉道士→完整喝酒/约剑/消失/大娘喊话及逍遥应答→真实恢复移动；不进入买虾任务或005。

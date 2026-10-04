@@ -1,4 +1,14 @@
+---
+testingSchema: 2
+id: e2e-003
+evidence: e2e/evidence/e2e-003.json
+---
+
 # 003 · 下楼、道士交谈与厨房交代
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-003","sourceRefs":[{"path":"scripts/e2e/kitchen-both.mjs","lines":"1-90"},{"path":"projects/pal/content/scenes/s003.json","lines":"1242-1509"},{"path":"packages/content/src/character.ts","lines":"168-170"}],"publicCallers":["pnpm e2e:003","pnpm e2e:003:reforge","pnpm e2e:003:both"],"legalInputs":["same-engine current 002 report.json","held normal movement","no take-dish shortcut"],"businessOracle":{"type":"stairs-dialogue-kitchen-handoff","assertions":["12 stair commits","14 dialogue rows","stop at 126/127"]},"dedupe":{"result":"reviewed","against":["e2e-002","e2e-004"]},"revision":{"currentShas":["0defc136","edca85df"],"contentVersion":21,"minimumSaveVersion":10,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 independent runs","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-003.json"}
+-->
 
 现行边界由用户2026-10-01指定：三苗人全部进房后，正常下楼找李大娘、与醉酒道士交谈、
 再正常进厨房，止于李大娘交代把桌上酒菜端上楼（126/127）及恢复控制；不开始拿菜。
