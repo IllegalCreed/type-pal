@@ -384,7 +384,7 @@
                         ],
                         "slot": "center"
                       },
-                      "kind": "dialog"
+                        "kind": "dialog"
                     },
                     {
                       "kind": "clearDialog"
@@ -2975,13 +2975,6 @@
                       }
                     },
                     {
-                      "kind": "takeEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
                       "kind": "setEntityTriggerActivation",
                       "target": {
                         "scene": "s003",
@@ -3397,13 +3390,6 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
-                    },
-                    {
-                      "kind": "releaseEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
                     }
                   ]
                 }

@@ -129,6 +129,7 @@ const driveRouteTarget = async (action, _entry, until, health) => {
   if (target.phaseStart) {
     const phaseTarget = { ...target, position: target.phaseStart, phaseStart: undefined }
     await driveRouteTarget({ ...action, routeTarget: phaseTarget }, _entry, until, health)
+    if (hasDialogue(await read())) return
     if (routeTargetReached(await read(), target)) return
   }
   const actualScene =
