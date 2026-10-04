@@ -127,7 +127,7 @@
 李逍遥收下破天锤并服下丹丸（`dlg.366–419`）。这段在两轨当前 005 存档链中都实际出现，不能因为它位于003使用过的场景地图就省略。
 
 本段停止在 `s014` 仙灵岛场景已经载入、首段落地对白开始（当前实跑为 `dlg.1886`），不继续水月宫、破阵或岛上后续。
-实跑证据：第一阶段 `build/e2e/game-006-2026-10-04T17-47-07-230Z`、Reforge `build/e2e/reforge-006-2026-10-04T17-48-57-042Z`、对比 `build/e2e/both-006-2026-10-04T17-50-53-627Z`；[006回执](../testing/e2e/stages/006-doctor-boat/report.md)。
+实跑证据：第一阶段 `build/e2e/game-006-2026-10-04T18-28-08-774Z`、Reforge `build/e2e/reforge-006-2026-10-04T18-26-15-748Z`、对比 `build/e2e/both-006-2026-10-04T18-29-53-394Z`；[006回执](../testing/e2e/stages/006-doctor-boat/report.md)。
 脚本证据：[客栈 e35/e36](../../projects/pal/content/scenes/s002.json)、[张四与船只](../../projects/pal/content/scenes/s005.json)。
 
 第一阶段对照：原始 `L_1509` 的队伍走位、0x15 朝向、0x3F 骑乘和 scene15 切换，当前 Reforge 分别由 `moveParty`、`setPartyFacing`、`ride(e116)` 和 `loadScene(s014)` 表达。

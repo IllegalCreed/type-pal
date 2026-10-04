@@ -64,21 +64,21 @@
   "runtimeExecution": {
     "performed": true,
     "rawArtifacts": [
-      "build/e2e/game-006-2026-10-04T17-47-07-230Z",
-      "build/e2e/reforge-006-2026-10-04T17-48-57-042Z",
-      "build/e2e/both-006-2026-10-04T17-50-53-627Z"
+      "build/e2e/game-006-2026-10-04T18-28-08-774Z",
+      "build/e2e/reforge-006-2026-10-04T18-26-15-748Z",
+      "build/e2e/both-006-2026-10-04T18-29-53-394Z"
     ],
     "claimScope": "current isolated worktree independent dual-track execution and comparison"
   },
   "findings": [
-    "两轨独立正文、到达 s014 和完整 actor state trace 均通过；比较仍有主角船体相对锚点、骑乘朝向、Reforge e117 船夫漂移三项 fix。"
+    "两轨独立正文、到达 s014 和 actor state trace 均通过；Reforge 帧遥测仍为 evidence-gap，比较仍有主角船体相对锚点、骑乘朝向、Reforge e117 船夫漂移三项 fix。"
   ],
   "artifacts": [
-    "build/e2e/game-006-2026-10-04T17-47-07-230Z/report.json",
-    "build/e2e/game-006-2026-10-04T17-47-07-230Z/006-state-trace.json",
-    "build/e2e/reforge-006-2026-10-04T17-48-57-042Z/report.json",
-    "build/e2e/reforge-006-2026-10-04T17-48-57-042Z/006-state-trace.json",
-    "build/e2e/both-006-2026-10-04T17-50-53-627Z/comparison.json"
+    "build/e2e/game-006-2026-10-04T18-28-08-774Z/report.json",
+    "build/e2e/game-006-2026-10-04T18-28-08-774Z/006-state-trace.json",
+    "build/e2e/reforge-006-2026-10-04T18-26-15-748Z/report.json",
+    "build/e2e/reforge-006-2026-10-04T18-26-15-748Z/006-state-trace.json",
+    "build/e2e/both-006-2026-10-04T18-29-53-394Z/comparison.json"
   ],
   "history": [
     {

@@ -41,20 +41,27 @@ const comparison = compareBoatObservations(
   await observed(gamePath, game),
   await observed(reforgePath, reforge),
 )
-const actorIds = ['e35', 'e36', 'e59', 'e60', 'e61', 'e116', 'e117', 'e123', 'e203', 'party']
+const actorIds = ['e35', 'e36', 'e59', 'e60', 'e61', 'e116', 'e117', 'e123', 'e203']
 const traceFindings = []
 for (const id of actorIds) {
-  if (id === 'party') continue
   for (const [engine, trace] of [
     ['game', comparison.observations.game.stateTrace],
     ['reforge', comparison.observations.reforge.stateTrace],
   ]) {
-    if (!trace?.some((entry) => entry.state.actors?.[id]))
+    const actors = trace?.map((entry) => entry.state.actors?.[id]).filter(Boolean) ?? []
+    if (!actors.length)
       traceFindings.push({
         type: 'evidence-gap',
         field: `actor.${id}`,
         engine,
         rationale: '006 state trace did not observe this actor.',
+      })
+    else if (actors.every((actor) => actor.frame === null || actor.frame === undefined))
+      traceFindings.push({
+        type: 'evidence-gap',
+        field: `actor.${id}.frame`,
+        engine,
+        rationale: '006 trace has no committed frame telemetry for this actor.',
       })
   }
 }
@@ -71,14 +78,14 @@ await writeFile(
   `${JSON.stringify(
     {
       fragment: '006',
-      status:
-        comparison.findings.length || npcTransitions.findings.length ? 'needs-review' : 'passed',
       scope: 'current canonical first-stage and Reforge 006, independent real 005 saves',
       engines: {
         game: { report: gamePath, boatMotion: game.boatMotion },
         reforge: { report: reforgePath, boatMotion: reforge.boatMotion },
       },
       ...comparison,
+      status:
+        comparison.findings.length || npcTransitions.findings.length ? 'needs-review' : 'passed',
       npcTransitions,
       differences: {
         facing: { game: game.boatMotion.rideFacings, reforge: reforge.boatMotion.rideFacing },

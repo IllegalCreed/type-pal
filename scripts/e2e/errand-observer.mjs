@@ -162,7 +162,11 @@ export function installErrandObserver() {
         },
         persistent: Object.fromEntries(
           gs.allEventObjects
-            .filter((e) => [19, 62, 83, 84, 123, 124, 127].includes(e.id))
+            .filter((e) =>
+              [
+                19, 35, 36, 44, 59, 60, 61, 62, 83, 84, 94, 95, 115, 116, 117, 123, 124, 127, 203,
+              ].includes(e.id),
+            )
             .map((e) => [`e${e.id}`, actor(e)]),
         ),
         hooks: gs.sceneOnEnterOverride ?? {},

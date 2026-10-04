@@ -24,8 +24,8 @@ evidence: e2e/evidence/e2e-006.json
 
 两轨前置均为当前 SAVE11/content22 的真实 001→005 saves 链。
 
-- 第一阶段：`build/e2e/game-006-2026-10-04T17-47-07-230Z/`，`status: passed`。
-- Reforge：`build/e2e/reforge-006-2026-10-04T17-48-57-042Z/`，`status: passed`。
+- 第一阶段：`build/e2e/game-006-2026-10-04T18-28-08-774Z/`，`status: passed`。
+- Reforge：`build/e2e/reforge-006-2026-10-04T18-26-15-748Z/`，`status: passed`。
 
 已通过的语义检查：
 
@@ -38,12 +38,12 @@ evidence: e2e/evidence/e2e-006.json
 
 ## 独立轨迹对比
 
-比较产物：`build/e2e/both-006-2026-10-04T17-50-53-627Z/comparison.json`，状态为 `needs-review`。
+比较产物：`build/e2e/both-006-2026-10-04T18-29-53-394Z/comparison.json`，状态为 `needs-review`。
 
 - `fix`：乘船主角承载锚点不一致；第一阶段的 `[-2,-4]` 说明当前 Reforge 的 `[0,0]` 不能直接视为观感正确。
 - `fix`：骑乘朝向第一阶段为 `up`、Reforge 为 `down`，应先核定资产朝向再统一。
 - `fix`：Reforge 的 e117 船夫相对偏移持续漂移，第一阶段保持 `[-2,2.25]`；这正对应用户观察的“张四抖动/跑得比船快”。
-- 完整 actor state trace 已分别落盘为 `006-state-trace.json`；本轮 trace 覆盖状态、位置、显隐、朝向、精灵/帧与控制态，未再产生 evidence-gap。剩余红项集中在船体锚点、船夫节奏和骑乘朝向。
+- 完整 actor state trace 已分别落盘为 `006-state-trace.json`；位置、显隐、状态和朝向已可比对，但 Reforge 当前没有提交级帧遥测，帧项仍为 evidence-gap。剩余红项集中在船体锚点、船夫节奏和骑乘朝向。
 
 ## 当前未闭合项
 
