@@ -56,10 +56,14 @@ mkdtemp 清理交付。不标 done，等 Codex 独立验收。
   L478 入口臂（派发前 await 窗口各自带 abort 检查）、L2092 ?? 臂（host.wait 调用方全部显式传
   signal）。
 
-## GLM 交付回执（r1，2026-10-04，待 Codex 独立验收）
+## GLM 交付回执（r2 返工，2026-10-04，待 Codex 独立验收）
 
-- 候选分支 `codex/glm-reforge-host-lifecycle-r1`（base `70a56f6bc`，tip `96b04fb0e`），
-  产品文件零改动（`git diff 70a56f6bc..HEAD --stat` 仅本卡测试/脚本/证据/卡）。
+- **r2（当前候选）**：按 Codex 返工令基于 `origin/main` `12247f7e3` 重建
+  `codex/glm-reforge-host-lifecycle-r2`，剔除 r1 基线（`70a56f6bc`，属 e2e 在途分支）
+  混入的 `scripts/e2e/*` 外来改动（四文件均不存在于 origin/main）。r1 的 12 提交经
+  cherry-pick 重放，任务卡合并保留派发骨架字段（Phase/Visual），看板/索引沿用 main
+  既有行。r1 分支（tip `371b40810`）保留不动，验收以 r2 为准。
+- 产品文件零改动（`git diff origin/main..HEAD --stat` 仅本卡测试/脚本/证据/卡/证据索引）。
 - **交付 29 条合同 / 4 个专属测试文件**（`*.host-lifecycle-1.test.ts`）：
   - `main.host-lifecycle-1.test.ts`(8)：标题**读档**入口全链（bootLoadSlot 此前零测试）、
     入口 intro 视频、启动视频序列（?menu 无 skip-startup 两段按角色顺序）、播放中/解析中
@@ -76,11 +80,13 @@ mkdtemp 清理交付。不标 done，等 Codex 独立验收。
     wait/stop 空帧门（对照基线判别）、帧深 256 精确熔断。
   - `script-host-adapter.host-lifecycle-1.test.ts`(6)：adapter 生存周期/全队增益/队伍镜头
     命令逐参 + signal、runEntityTrigger 直派 fail-loud、vanishEntity 目标三态。
-- **四账**：identity（29 条 file×fullName×status）、family ledger（name→源行→caller→
-  oracle，与身份账双向唯一匹配，仓库 biome 定稿）、mutation counterproof（**4/4 PASS**：
-  original/mutant/restored/rebuilt 四 sha256、console+json 原文全量、executed/failed/skipped
-  分账、clean-tree 前置、mkdtemp+finally、-t vacuous 硬防）、branch delta（全量 fast
-  基线 vs 终态，见证据 README）。全部可由 `packages/reforge/scripts/hl1-*.mjs` 重建。
+- **四账**（均在 r2 基线重新生成，可由 `packages/reforge/scripts/hl1-*.mjs` 重建）：
+  identity（29 条 file×fullName×status）、family ledger（name→源行→caller→oracle，与
+  身份账双向唯一匹配，仓库 biome 定稿）、mutation counterproof（**4/4 PASS**：
+  original/mutant/restored/rebuilt 四 sha256、console+json 原文全量、executed/failed/
+  skipped 分账、clean-tree 前置、mkdtemp+finally、-t vacuous 硬防）、branch delta
+  （全量 fast 基线 325/8687 vs 终态 329/8716，**净闭合 +49 臂、0 丢失**；r1 口径 +51 中
+  的 L488/L500 已被 main 侧演进自行闭合）。
 - **U 账 19 条**不可达臂（author 校验前置/literal 类型/validateScriptContinuation/const
   world 原地替换/环境恒真/调用方枚举/防御不变量），逐条一手锚点见
   [证据 README](../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)。
@@ -91,15 +97,13 @@ mkdtemp 清理交付。不标 done，等 Codex 独立验收。
 - **验证**：定向 29/29 绿；相邻 unit 12 文件 181 绿 + main/menu 邻域 13 文件 87 绿；
   typecheck 0 错误；全仓 lint 零诊断；`pnpm check:docs` PASS；`git diff --check` 干净；
   全量 fast 双跑见 delta 账。
-- **基线既有失败（非本卡）**：`src/pal-meal-author.test.ts`『the carried meal uses
-  existing persistent appearance…』在 base `70a56f6bc` 即红（期望缺 wait 命令），含/不含
-  本卡测试均同一失败；本卡不改旧测，留 Codex 裁决归属。
-- **工作树事故与修复（如实披露）**：派发后同工作树有并行 Agent 活动，其 `adaf3b51e`/
-  `281094adc` 两提交与本卡 6 提交先后叠上 `codex/e2e-clean-20261004`。已用临时 worktree
-  cherry-pick 重建：本卡分支 = `70a56f6bc` + 本卡 6 提交（`5b362471c..96b04fb0e`），
-  `codex/e2e-clean-20261004` 已归位其自有 tip `281094adc`。外来两提交只碰
-  `scripts/e2e/*` 与 `packages/editor`，本卡 4 个目标源文件字节不变，反控四 hash 证据
-  仍然有效；全量双跑已在正确拓扑重跑。
+- **基线既有失败**：`src/pal-meal-author.test.ts` 在 r1 基线即红；origin/main 已修复
+  （r2 双跑全绿 325/8687 与 329/8716，无需排除）。
+- **r1 工作树事故与修复（历史披露）**：r1 期间同工作树有并行 Agent 活动，其
+  `adaf3b51e`/`281094adc` 两提交与本卡提交先后叠上 `codex/e2e-clean-20261004`。当时已
+  用临时 worktree cherry-pick 重建并归位对方分支。r1 候选 tip `371b40810`、测试交付
+  `96b04fb0e`；独立复核确认 29/29、4/4 反控、typecheck 通过，根 lint 失败项全部来自
+  r1 基线（e2e 在途分支）混入的 `scripts/e2e/*` 外来改动，即 r2 换基返工的动因。
 
 ## 下一位 Agent 提示词
 

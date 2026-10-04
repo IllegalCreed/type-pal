@@ -2,14 +2,14 @@
   "baselineLcov": "coverage/hl1-baseline/lcov.info(运行产物)",
   "finalLcov": "coverage/hl1-final/lcov.info(运行产物)",
   "totals": {
-    "closedArms": 51,
+    "closedArms": 49,
     "lostArms": 0
   },
   "perFile": {
     "src/main.ts": {
-      "baselineArmsHit": 1095,
-      "finalArmsHit": 1110,
-      "closedLines": [477, 478, 480, 482, 488, 500, 530, 2078, 2730, 4157, 4850, 5150, 5874, 5885],
+      "baselineArmsHit": 1087,
+      "finalArmsHit": 1100,
+      "closedLines": [477, 478, 480, 482, 530, 2078, 2730, 4101, 4794, 5094, 5818, 5829],
       "lostLines": []
     },
     "src/script-runner.ts": {

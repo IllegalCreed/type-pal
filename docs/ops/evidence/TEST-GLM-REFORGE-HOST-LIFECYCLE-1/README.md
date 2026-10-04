@@ -1,6 +1,8 @@
 # TEST-GLM-REFORGE-HOST-LIFECYCLE-1 证据
 
-分支 `codex/glm-reforge-host-lifecycle-r1`;base `70a56f6bc`。范围:reforge host lifecycle
+分支 `codex/glm-reforge-host-lifecycle-r2`(r2 返工);base `origin/main` `12247f7e3`
+(r1 曾基于 e2e 在途分支 `70a56f6bc`,按 Codex 返工令换基剔除混入的 `scripts/e2e/*`
+外来改动)。范围:reforge host lifecycle
 六轴合同(启动/取消、promise 单次结算面、场景替换、存档入口、continuation cursor、signal、
 host capability 缺席、后台错误恢复),不做覆盖率百分比承诺。
 
@@ -73,18 +75,17 @@ host capability 缺席、后台错误恢复),不做覆盖率百分比承诺。
 
 ## 分支账(全量 fast 双跑,正确拓扑)
 
-- 基线(排除本卡 `*.host-lifecycle-1.test.ts`):324 文件 / 8677 绿。
-- 终态(含本卡):328 文件 / 8706 绿。
-- **净闭合 +51 臂,0 丢失**:`main.ts` +14(L477/478/480/482 视频三窗、L488 序列、
-  L500 skip-startup、L530 菜单读档、L2078/5874/5885 读档链、L2730 playVideo host 等)、
-  `script-runner.ts` +4(L392/459/504/791)、`script-runner-core.ts` +9(L227/229/320/
-  382/387/396/474/508/520)、`script-host-adapter.ts` +3(L30/58/59)。
-- 既有失败排除说明:`src/pal-meal-author.test.ts` 在 base `70a56f6bc` 即红(期望缺
-  wait 命令),vitest 失败态不落 lcov;两侧对称 `--exclude '**/pal-meal-author.test.ts'`
-  后双跑(delta 口径一致,不影响臂差)。该失败与本卡无关,留 Codex 裁决归属。
-- 工作树事故:派发后并行 Agent 提交与本卡提交串线,已重建拓扑(本卡分支 = base + 本卡
-  6 提交;对方分支归位)。外来提交只碰 `scripts/e2e/*` 与 `packages/editor`,本卡目标源
-  字节不变。双跑与全部账目均在重建后拓扑生成。
+- 基线(排除本卡 `*.host-lifecycle-1.test.ts`):325 文件 / 8687 绿。
+- 终态(含本卡):329 文件 / 8716 绿。
+- **净闭合 +49 臂,0 丢失**:`main.ts` +12(L477/478/480/482 视频三窗、L530 菜单读档、
+  L2078/5818/5829 读档链、L2730 playVideo host、L4101/4794/5094)、`script-runner.ts`
+  +4(L392/459/504/791)、`script-runner-core.ts` +9(L227/229/320/382/387/396/474/508/
+  520)、`script-host-adapter.ts` +3(L30/58/59)。r1 口径 +51 中的 L488/L500 两臂已被
+  main 侧演进自行闭合,故 r2 为 +49。
+- r1 的 `pal-meal-author` 基线红与对称排除在 origin/main 已不存在(该测试已修),
+  r2 双跑全绿无需排除。
+- 工作树事故(r1 期间并行 Agent 提交串线)详见任务卡 r2 回执;r2 换基后外来
+  `scripts/e2e/*` 不存在,根 lint 的 e2E 诊断随基线消失。
 
 ## 验证
 
