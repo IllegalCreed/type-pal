@@ -5,7 +5,7 @@
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 | [Game player opcode residual contracts](tasks/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1.md) | build | GLM / player opcode 合同 | role/equipment/magic/status/level-up 合法输入 |
-| TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 | [Reforge runtime audio lifecycle contracts](tasks/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md) | build | GLM / audio lifecycle 合同 | bgm/midi/sfx 接管、取消、失败与 dispose |
+| TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 | [Reforge runtime audio lifecycle contracts](tasks/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md) | build | GLM r1 已推 / 待 Codex 验收 | 6 合同+6 针四态反控；L5 duration 产品真值按源码修正 |
 | TEST-GLM-EDITOR-BATTLE-REGISTRY-1 | [Editor battle sprite registry contracts](tasks/TEST-GLM-EDITOR-BATTLE-REGISTRY-1.md) | build | GLM / battle registry 合同 | 战斗精灵注册、敌队引用与 undo |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |

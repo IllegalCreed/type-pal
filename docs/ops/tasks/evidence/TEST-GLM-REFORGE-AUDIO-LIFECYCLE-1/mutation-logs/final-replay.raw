@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ✓ src/audio/midi-preview.glm-audio-lifecycle.test.ts (2 tests) 6ms
+ ✓ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts (3 tests) 3ms
+ ✓ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests) 440ms
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  02:36:16
+   Duration  1.56s (transform 1.59s, setup 0ms, import 1.89s, tests 448ms, environment 0ms)

@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ❯ src/audio/midi-preview.glm-audio-lifecycle.test.ts (2 tests | 1 failed | 1 skipped) 20ms
+     ↓ 旧曲播放中 load 新曲：旧曲被停、新曲字节真入 sequencer、快照归零换时长，play 从头开播
+     × 替换读取失败：精确拒绝、新曲未入 sequencer、旧曲已停且旧字节不得顶替新选择；修复后重载开播 18ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  02:36:10
+   Duration  388ms (transform 123ms, setup 0ms, import 149ms, tests 20ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio/midi-preview.glm-audio-lifecycle.test.ts > L5 播放中替换读取失败（失败轴） > 替换读取失败：精确拒绝、新曲未入 sequencer、旧曲已停且旧字节不得顶替新选择；修复后重载开播
+AssertionError: expected { asset: 'music.b', …(3) } to match object { Object (asset, duration, ...) }
+
+- Expected
++ Received
+
+  {
+    "asset": "music.b",
+    "currentTime": 0,
+-   "duration": 99,
++   "duration": 10,
+    "paused": true,
+  }
+
+ ❯ src/audio/midi-preview.glm-audio-lifecycle.test.ts:163:26
+    161|     expect(h.loads).toHaveLength(1) // 新曲从未进入 sequencer
+    162|     expect(h.adapter.paused).toBe(true) // 旧曲不残留出声
+    163|     expect(t.snapshot()).toMatchObject({
+       |                          ^
+    164|       asset: 'music.b',
+    165|       duration: 99, // activity 已清空 → 回退 sequencer 兜底，旧 activity 不冒充新选择
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
