@@ -1,6 +1,6 @@
 # CODE-QUALITY-3h - game 资产与启动边界逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -51,7 +51,7 @@ Base: `5f13c3010`
 - 贡献者交付/自验：Codex；candidate 为当前工作树；定向 12 files/77 tests、game 全包 298/3397、typecheck 通过。
 - Codex 独立验收：accept（直接重读六个生产文件与真实 caller；negative control 删除 fetch-retry guard 后新合同变红；全仓 `pnpm check` 第二轮通过；support-mode ratchet 与 protected fast 均通过；lint 3198 文件零诊断）。
 - 用户产品裁决/体验验收：N/A（纯资源/启动边界审计）。
-- done 准入：blocked，待提交推送后再确认工作树、账本计数和任务索引一致；本卡只关闭白名单，不代表 game 或全仓治理完成。
+- done 准入：Codex done allowed；提交 `22840ef03` 已推送，独立 diff/status 核对通过；本卡只关闭白名单，不代表 game 或全仓治理完成。
 
 ## 交接日志
 
