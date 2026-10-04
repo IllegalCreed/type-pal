@@ -42,6 +42,11 @@ describe('decodeRle', () => {
     expect(Array.from(frame.pixels)).toEqual([0, 0])
     expect(Array.from(frame.opaque)).toEqual([1, 1])
   })
+
+  it('畸形零长度/截断指令显式失败，不进入无进度循环', () => {
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x80]))).toThrow(/zero-length/)
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x01]))).toThrow(/truncated|exceeds/)
+  })
 })
 
 describe('parseSpriteChunk', () => {
@@ -142,6 +147,30 @@ describe('parseSpriteChunk', () => {
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1) // 病态尾帧被 guard 跳过
     expect(frames[0]!.width).toBe(1)
+  })
+
+  it('宽容入口跳过无进度坏帧并保留后续合法帧', () => {
+    const buf = new Uint8Array([
+      0x02,
+      0x00, // imagecount = 2
+      0x05,
+      0x00, // frame 1 at byte 10
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x80, // frame 0: 0x80 skips zero pixels -> malformed
+      0x00, // alignment padding
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x01,
+      0x55, // frame 1: valid 1×1
+    ])
+    const frames = parseSpriteChunk(buf)
+    expect(frames).toHaveLength(1)
+    expect(Array.from(frames[0]!.pixels)).toEqual([0x55])
   })
 })
 

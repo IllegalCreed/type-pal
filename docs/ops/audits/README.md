@@ -7,4 +7,5 @@
 ## 分类入口
 
 - [全仓架构债与分批治理](architecture-debt.md)（2026-09-24首轮盘点；第一阶段同样治理，重构与缺陷修复分开）
+- [全仓代码质量治理总纲](code-quality-governance.md)（CODE-QUALITY-1；逐文件清单、批次边界与首批 RLE 安全）
 - [pre-e2e](pre-e2e/README.md)

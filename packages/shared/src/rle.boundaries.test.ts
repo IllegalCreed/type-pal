@@ -73,6 +73,12 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
     const good = frameBytes(2, 1, [0x02, 0xaa, 0xbb]) // 实心 2 满
     expect(parseSpriteChunkStrict(strictChunk([good]))[0]!.opaque).toEqual(new Uint8Array([1, 1]))
   })
+  test('零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser', () => {
+    const bad = frameBytes(1, 1, [0x80])
+    expect(() => parseSpriteChunkStrict(strictChunk([bad]))).toThrow(
+      'sprite chunk frame 0 含零长度指令',
+    )
+  })
   test('像素段越界 / 透明段越界 / 指令流截断 / 帧头越界各单轴', () => {
     expect(
       () => parseSpriteChunkStrict(strictChunk([frameBytes(2, 2, [0x04, 0x01, 0x02])])), // 声明 4 字节只给 3

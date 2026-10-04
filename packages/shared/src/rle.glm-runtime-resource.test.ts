@@ -21,12 +21,9 @@ describe('R01 decodeRle skipFilePrefix 选项矩阵', () => {
     expect(frame.pixels[1]).toBe(0) // opaque palette-0 保真
   })
 
-  test('同缓冲不传选项：不跳前缀，头从 byte 0 读（w=2,h=0 空帧）', () => {
+  test('同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧', () => {
     const buf = new Uint8Array([0x02, 0x00, 0x00, 0x00, ...FRAME_1X2])
-    const frame = decodeRle(buf)
-    expect(frame.width).toBe(2)
-    expect(frame.height).toBe(0)
-    expect(frame.pixels).toHaveLength(0)
+    expect(() => decodeRle(buf)).toThrow(/invalid frame dimensions/)
   })
 
   test('传选项但首 4 字节非该前缀：不跳，正常解码', () => {
@@ -38,10 +35,10 @@ describe('R01 decodeRle skipFilePrefix 选项矩阵', () => {
     expect(frame.opaque[0]).toBe(1)
   })
 
-  test('缓冲 <4 字节 + 选项：长度守卫不跳、不挂起，解出零尺寸帧', () => {
-    const frame = decodeRle(new Uint8Array([0x02, 0x00, 0x00]), { skipFilePrefix: true })
-    expect(frame.width).toBe(2)
-    expect(frame.height).toBe(0)
+  test('缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起', () => {
+    expect(() => decodeRle(new Uint8Array([0x02, 0x00, 0x00]), { skipFilePrefix: true })).toThrow(
+      /frame header truncated/,
+    )
   })
 })
 

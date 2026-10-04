@@ -46,6 +46,10 @@ export interface IndexedRleChunkResult {
 /** @deprecated 使用 IndexedRleChunkResult；保留给 A7-3W 调用方源码兼容。 */
 export type WorldSpriteChunkResult = IndexedRleChunkResult
 
+// 原版资源的有效精灵尺寸都小于屏幕；同一上限也用于 strict chunk parser，
+// 先拒绝伪造的超大宽高，避免畸形输入在分配像素面前耗尽内存。
+const SPRITE_DIM_MAX = 400
+
 /**
  * 解码一帧 RLE 精灵数据。
  * 帧头 = 宽 u16 LE + 高 u16 LE;后接指令流。
@@ -73,8 +77,11 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
     offset = 4
   }
 
+  if (offset + 4 > buf.byteLength) throw new Error('RLE: frame header truncated')
   const width = buf[offset]! | (buf[offset + 1]! << 8)
   const height = buf[offset + 2]! | (buf[offset + 3]! << 8)
+  if (width <= 0 || height <= 0 || width > SPRITE_DIM_MAX || height > SPRITE_DIM_MAX)
+    throw new Error(`RLE: invalid frame dimensions ${width}x${height}`)
   offset += 4
 
   const total = width * height
@@ -83,12 +90,19 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
 
   let dst = 0
   while (dst < total) {
+    if (offset >= buf.byteLength) throw new Error('RLE: command stream truncated')
     const b = buf[offset++]!
+    // 0 / 0x80 consume no pixels. Treat them as malformed instead of looping forever.
+    if (b === 0 || b === 0x80) throw new Error('RLE: zero-length command')
     if (b >= 0x80) {
       // 跳过 b-0x80 个像素(opaque 保持 0,pixels 保持 0)
-      dst += b - 0x80
+      const skip = b - 0x80
+      if (dst + skip > total) throw new Error('RLE: transparent run exceeds frame')
+      dst += skip
     } else {
       // 接下来 b 个字节是直接像素值(opaque = 1)
+      if (offset + b > buf.byteLength || dst + b > total)
+        throw new Error('RLE: pixel run exceeds frame')
       for (let k = 0; k < b; k++) {
         pixels[dst] = buf[offset++]!
         opaque[dst] = 1
@@ -123,8 +137,6 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
  * **键一致性铁律**:返回数组的下标 i 就是 tile 索引(地图 cells 引用它)。
  * runtime 与 extractor 必须用同一份本函数,保证下标对齐。
  */
-const SPRITE_DIM_MAX = 400
-
 function decodeStrictSpriteFrame(
   buf: Uint8Array,
   view: DataView,
@@ -146,7 +158,8 @@ function decodeStrictSpriteFrame(
   while (target < total) {
     if (source >= end) throw new Error(`sprite chunk frame ${index} 指令流截断`)
     const command = buf[source++]!
-    if (command === 0) throw new Error(`sprite chunk frame ${index} 含零长度指令`)
+    if (command === 0 || command === 0x80)
+      throw new Error(`sprite chunk frame ${index} 含零长度指令`)
     if (command >= 0x80) {
       target += command - 0x80
       if (target > total) throw new Error(`sprite chunk frame ${index} 透明段越界`)
@@ -177,7 +190,12 @@ export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
     const w = view.getUint16(offset, true)
     const h = view.getUint16(offset + 2, true)
     if (w === 0 || h === 0 || w > SPRITE_DIM_MAX || h > SPRITE_DIM_MAX) continue
-    frames.push(decodeRle(buf.subarray(offset)))
+    try {
+      frames.push(decodeRle(buf.subarray(offset)))
+    } catch {
+      // PAL 的宽容入口已经会跳过 broken-sprite 尾帧；保持该降级策略，
+      // 但让 decoder 自身先以有限边界失败，而不是把坏帧拖成死循环。
+    }
   }
   return frames
 }
