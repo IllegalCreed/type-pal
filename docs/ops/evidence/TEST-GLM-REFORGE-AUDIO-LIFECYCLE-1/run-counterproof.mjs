@@ -10,9 +10,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 
-const root = path.resolve(import.meta.dirname, '../../../../..')
+const root = path.resolve(import.meta.dirname, '../../../..')
 const reforge = path.join(root, 'packages/reforge')
-const ev = path.join(root, 'docs/ops/tasks/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1')
+const ev = path.join(root, 'docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1')
 const logs = path.join(ev, 'mutation-logs')
 
 const FILES = [

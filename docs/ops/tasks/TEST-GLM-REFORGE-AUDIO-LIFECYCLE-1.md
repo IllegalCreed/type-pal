@@ -36,7 +36,7 @@ identity/family ledger（source/caller/input/oracle/fullName）：
 
 产品真值修正记录：L5 初版预期“失败后 duration=0”，实测红 → 核源码 `duration() = activity?.duration ?? sequencer?.duration ?? 0`，产品真值为回退 sequencer 兜底；按真值改断言（harness 兜底时长取 99 与旧 activity 10 区分，使残留可判别），非放宽测试。
 
-反控（evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json，run-counterproof.mjs 可再生）：
+反控（docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json，run-counterproof.mjs 可再生）：
 - 基线绿（第一态）sha256 b89b30f4…：定向 3 文件 9/9。
 - 六针红（第二态，每针恰 1 指定业务 AssertionError）/还原绿（第三态）：N1 resume 补播移除（ad3746e2/ffda7749）、N2 同曲守卫失效（2aa2e93b/4d0b6d24）、N3 setEnabled 幂等早退移除（4a29c806/316c87b0）、N4 替换路径两处旧曲停止一并移除（6dfe1981/42baaf3e，单删一处会被互补吸收）、N5 替换不清旧 bytes/activity（3566f560/2b0b2e51）、N6 visit 移除 throwIfAborted（c90a805e/1ef54bc1）。
 - 末次全套重放（第四态）sha256 573d0be2…：9/9。
@@ -46,4 +46,4 @@ identity/family ledger（source/caller/input/oracle/fullName）：
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，等待 Codex 独立验收 r1（候选提交见 branch codex/glm-reforge-audio-lifecycle-r1；验收入口：evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json 与 run-counterproof.mjs 重放）。
+无下一位 Agent 提示词，等待 Codex 独立验收 r1（候选提交见 branch codex/glm-reforge-audio-lifecycle-r1；验收入口：docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json 与 run-counterproof.mjs 重放）。

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ✓ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests | 3 skipped) 156ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 3 skipped (4)
+   Start at  02:42:39
+   Duration  518ms (transform 236ms, setup 0ms, import 286ms, tests 156ms, environment 0ms)

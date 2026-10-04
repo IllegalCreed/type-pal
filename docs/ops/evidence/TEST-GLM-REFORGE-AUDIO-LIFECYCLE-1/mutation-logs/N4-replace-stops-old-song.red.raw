@@ -1,14 +1,14 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
 
- ❯ src/audio/midi-preview.glm-audio-lifecycle.test.ts (2 tests | 1 failed | 1 skipped) 7ms
+ ❯ src/audio/midi-preview.glm-audio-lifecycle.test.ts (2 tests | 1 failed | 1 skipped) 5ms
      × 旧曲播放中 load 新曲：旧曲被停、新曲字节真入 sequencer、快照归零换时长，play 从头开播 5ms
      ↓ 替换读取失败：精确拒绝、新曲未入 sequencer、旧曲已停且旧字节不得顶替新选择；修复后重载开播
 
  Test Files  1 failed (1)
       Tests  1 failed | 1 skipped (2)
-   Start at  02:36:09
-   Duration  229ms (transform 72ms, setup 0ms, import 111ms, tests 7ms, environment 0ms)
+   Start at  02:42:43
+   Duration  126ms (transform 29ms, setup 0ms, import 38ms, tests 5ms, environment 0ms)
 
 
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
