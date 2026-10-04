@@ -4,18 +4,18 @@
 stdout | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
 [reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
 
- ❯ src/main.c85-boot.test.ts (4 tests | 1 failed | 3 skipped) 2115ms
-   × C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性 2115ms
+ ❯ src/main.c85-boot.test.ts (4 tests | 1 failed | 3 skipped) 918ms
+   × C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性 917ms
    ↓ C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测
    ↓ C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局
    ↓ C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单
 
  Test Files  1 failed (1)
       Tests  1 failed | 3 skipped (4)
-   Start at  15:28:42
-   Duration  3.95s (transform 2.89s, setup 0ms, import 1.36s, tests 2.12s, environment 381ms)
+   Start at  16:03:39
+   Duration  1.83s (transform 1.01s, setup 0ms, import 390ms, tests 918ms, environment 419ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-CEpfb7/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-MAASc2/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/main.c85-boot.test.ts -t 运动探针臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-CEpfb7/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/main.c85-boot.test.ts -t 运动探针臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-MAASc2/report.json

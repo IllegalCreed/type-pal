@@ -1,7 +1,7 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
 
- ❯ src/runtime-host.c85-arms.test.ts (19 tests | 1 failed | 18 skipped) 6ms
+ ❯ src/runtime-host.c85-arms.test.ts (19 tests | 1 failed | 18 skipped) 7ms
      ↓ runEntityTrigger 时机臂:auto 时机直接 fail-loud
      ↓ runEntityTrigger 桥臂:宿主未提供调用桥时 fail-loud
      ↓ runEntityTrigger 派发臂:调用桥收到同 target 与 context
@@ -12,7 +12,7 @@
      ↓ 私有脚本臂:物品私有脚本缺定义 fail-loud
      ↓ 实体臂:runEntityBehavior 对缺席实体 fail-loud,对场景错位安静 false
      ↓ 场景钩子臂:runSceneHook 对场景错位安静 false
-     × 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒 5ms
+     × 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒 7ms
      ↓ 完成游标臂:声明 complete 的 flow 使用 completed cursor 立即收尾零效果
      ↓ auto 恢复臂:resume 无游标或控制器未开 checkpoint 即拒
      ↓ 游标缺失臂:flow 指针指向不存在的 stage 即拒
@@ -24,10 +24,10 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 18 skipped (19)
-   Start at  15:28:37
-   Duration  523ms (transform 343ms, setup 0ms, import 415ms, tests 6ms, environment 0ms)
+   Start at  16:03:34
+   Duration  585ms (transform 386ms, setup 0ms, import 473ms, tests 7ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-KHZmxP/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-p9FQgG/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-KHZmxP/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-p9FQgG/report.json

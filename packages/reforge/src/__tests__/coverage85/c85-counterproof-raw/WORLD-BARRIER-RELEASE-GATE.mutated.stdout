@@ -1,7 +1,7 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
 
- ❯ src/script-world.c85-arms.test.ts (15 tests | 1 failed | 14 skipped) 5ms
+ ❯ src/script-world.c85-arms.test.ts (15 tests | 1 failed | 14 skipped) 6ms
    ↓ page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined
    ↓ page 缺席臂:initialPage 指向不存在页时 fail-loud
    ↓ behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud
@@ -13,17 +13,17 @@
    ↓ resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined
    ↓ 租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop
    ↓ checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue
-   × barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理 4ms
+   × barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理 5ms
    ↓ barrier cancel 臂:Error 原样透传,字符串原因包成 Error
    ↓ activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝
    ↓ owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝
 
  Test Files  1 failed (1)
       Tests  1 failed | 14 skipped (15)
-   Start at  15:28:29
-   Duration  333ms (transform 207ms, setup 0ms, import 252ms, tests 5ms, environment 0ms)
+   Start at  16:03:25
+   Duration  477ms (transform 301ms, setup 0ms, import 369ms, tests 6ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-hu9mIY/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-l0laUT/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-hu9mIY/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-l0laUT/report.json

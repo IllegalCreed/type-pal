@@ -1,8 +1,8 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
 
- ❯ src/entity-motion.c85-arms.test.ts (11 tests | 1 failed | 10 skipped) 5ms
-   × 非法快照臂:重复 actor 与空足迹各自 fail-loud 4ms
+ ❯ src/entity-motion.c85-arms.test.ts (11 tests | 1 failed | 10 skipped) 7ms
+   × 非法快照臂:重复 actor 与空足迹各自 fail-loud 7ms
    ↓ 非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud
    ↓ 非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud
    ↓ 公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud
@@ -16,10 +16,10 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 10 skipped (11)
-   Start at  15:28:31
-   Duration  139ms (transform 44ms, setup 0ms, import 53ms, tests 5ms, environment 0ms)
+   Start at  16:03:28
+   Duration  182ms (transform 58ms, setup 0ms, import 70ms, tests 7ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-Ju9QOQ/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-8C0PrX/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-Ju9QOQ/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-8C0PrX/report.json

@@ -24,10 +24,7 @@
       "finalMissedArms": 826,
       "closedByThisCard": 2,
       "newlyMissedArms": 0,
-      "closedLines": [
-        488,
-        500
-      ]
+      "closedLines": [488, 500]
     },
     "src/battle/battle-session.ts": {
       "baselineMissedArms": 404,
@@ -69,12 +66,7 @@
       "finalMissedArms": 47,
       "closedByThisCard": 4,
       "newlyMissedArms": 0,
-      "closedLines": [
-        925,
-        1081,
-        1351,
-        1352
-      ]
+      "closedLines": [925, 1081, 1351, 1352]
     },
     "src/script-project-core.ts": {
       "baselineMissedArms": 35,
