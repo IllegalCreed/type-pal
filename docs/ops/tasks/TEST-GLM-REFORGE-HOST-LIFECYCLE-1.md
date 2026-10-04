@@ -11,7 +11,7 @@ Branch: `codex/glm-reforge-host-lifecycle-r2`
 
 ## Codex build allowed（dispatch 2026-10-04）
 
-前卡 [TEST-COVERAGE85-GLM-REFORGE-1](TEST-COVERAGE85-GLM-REFORGE-1.md) 诚实收口于 80.49%，本卡为
+前卡 [TEST-COVERAGE85-GLM-REFORGE-1](../archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md) 诚实收口于 80.49%，本卡为
 后续专项窄波：只攻 host lifecycle 六轴，不做覆盖率百分比承诺。
 
 独占范围（dispatch 指定重点核验）：

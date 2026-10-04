@@ -15,7 +15,7 @@
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts](TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-EVENT-CONTRACTS-1 — event script semantic contracts](TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — startup and continuation lifecycle contracts](TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
