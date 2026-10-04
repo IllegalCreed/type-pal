@@ -48,9 +48,10 @@ Capability: test-quality / coverage branch closure
 
 ## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
 
-**门禁状态如实申报（r4 二轮返工终测）：editor branch 23865→24177（82.13%→83.20%，
-+312 edges），未达 85%，不以 85% 冒交；全套 4694/4694，新增 9 文件 94 例。**
-剩余缺口不构成不可达证明：其中 508 个是 v8 branchMap `locations` 为空的合成计数
+**门禁状态如实申报（r5 终测）：editor branch 23865→24176（82.13%→83.19%，+311
+edges），未达 85%，不以 85% 冒交；全套 4695/4695，新增 9 文件 95 例；locless 实测
+504（r5 核实口径，已替换卡面历史 508 表述）。**
+剩余缺口不构成不可达证明：其中 504 个是 v8 branchMap（r5 核实口径） `locations` 为空的合成计数
 （无源码位置、无法定向触发；cov-base 与 cov-final 两次实测口径一致，见
 `branch-census.json` 的 locless 字段）——该数字只说明缺口构成，**不作为 unreachable
 proof**；其余为 App/MapMode/ScriptEditor/PreviewCanvas 等文件中**仍可达**的交互臂。
@@ -109,7 +110,7 @@ hash 满足 original==restored≠mutant、产品文件零残留：
   `disabled={!referenceReady || blockers}`（SkillTab.tsx:1121、ItemTab.tsx:1412）先行拦截。
 - `script-editor.ts` getAffectedRecordsSince 无记录臂（1173）：所有 history 提交路径都写入
   affectedRecordsByVersion，合法 caller 无法制造版本空洞。
-- App/MapMode/ScriptEditor/PreviewCanvas 共 508 个 v8 无源位分支（locations 空）。
+- App/MapMode/ScriptEditor/PreviewCanvas 共 504 个 v8 无源位分支（r5 核实）（locations 空）。
 
 ### r1 返工记录（GLM，2026-10-04，Codex 六项返工）
 
@@ -213,7 +214,7 @@ ItemTab 37 / App 351）。
 **未完范围（不标 done）**：83.20% 未达 85%。r5 候选：T4 中型页表单族
 （ProjectWorkbenchTab 毒物/状态/资源角色、ActorMode 创建对话框与 battler 守卫、
 CutsceneTab 格式化与 stale 回显）、MapMode 变换条/候选菜单/图章族、ScriptEditor
-插入模板组与 fallback 判别补反控、App 放置面板/实体页检查器臂；locless 508 仅作
+插入模板组与 fallback 判别补反控、App 放置面板/实体页检查器臂；locless 504（r5 核实）仅作
 缺口构成说明。
 
 ### r4 二轮返工记录（GLM，2026-10-04，Codex 七项指令，基于 40dd02547 审）
@@ -244,6 +245,22 @@ CutsceneTab 格式化与 stale 回显）、MapMode 变换条/候选菜单/图章
    守卫；CutsceneTab 格式化与 stale 回显。
 7. **门**：定向 9 文件合并 94/94 绿、0 act/console.error/环境警告；typecheck 0、
    Biome 0（src+证据）、docs PASS、diff 仅本卡测试与证据；不标 done。
+
+### r5 续跑记录（GLM，2026-10-04）
+
+- 基于 1ab2dbbdb（已过 94/94 定向+全门+6 针反控）继续，未整支合并；分支与最新 main
+  （ac21cb863）核对无冲突。
+- **新增**：MapMode C6 碰撞层绘制合同——⛔ 工具单击提交 `dispatchMapPatch` 碰撞
+  编辑（MapMode.tsx:985/2220-2231），session 序列化断言恰一格 collision 0→1 且
+  undo 清零；等距坐标下选区格与碰撞格不可对齐，原 C7（含碰撞删除）因判别力不足
+  **未提交**，登记为 r6 需画布坐标推导支撑。
+- ItemTab battleSprite byActor 覆写合同调试后**撤回未提交**（DsCheckbox 受控点击链
+  在该卡片上未触发 patch，未定位到根因前不交半成品），登记 r6。
+- **证据**：全套 4695/4695、95 新例、24176/29058=83.19%（+311）；locless 504 为
+  实测口径；四份证据以本轮复跑重建，卡面历史 508 表述已全部更正。
+- **门**：定向 0 act/console.error 警告、typecheck 0、Biome 0、docs PASS、产品
+  零改动；**不标 done**（83.19% 未达 85%，r6 范围同卡面 r5 清单 + C7 坐标推导 +
+  ItemTab byActor 根因）。
 
 ### 下一棒建议（r2）
 
