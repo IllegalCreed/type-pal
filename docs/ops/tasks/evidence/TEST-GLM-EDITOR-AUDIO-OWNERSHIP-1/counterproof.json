@@ -1,0 +1,178 @@
+{
+  "card": "TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1",
+  "suite": "定向两文件（AudioAssetWorkbench/ProjectAudioPreviewButton .glm-audio-own.test.tsx）",
+  "replay": "run-counterproof.mjs 以最终交付测试文件重放全部三态（基线绿 + 8 针红/绿 + 产品零残留）",
+  "command": "pnpm exec vitest run <file> [-t <fullName 子串>]（cwd=packages/editor）",
+  "cwd": "/private/tmp/type-pal-audio-own/packages/editor",
+  "node": "v22.23.2",
+  "pnpm": "10.29.2",
+  "baseline": {
+    "file": "mutation-logs/green-baseline.raw",
+    "sha256": "f3ef6bfbe6e416faed1134dcc73478279a47e9d1e3898f03b6608cdfd85b090e",
+    "tests": "9 passed (9)",
+    "actWarnings": 0
+  },
+  "needles": [
+    {
+      "id": "N1-stop-releases-owner",
+      "mutation": "AudioAssetWorkbench.tsx 停止按钮 handler 移除 transport.stop（真实源不停、位置不归零）",
+      "execution": "src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx -t W1 播放中点「停止」",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N1-stop-releases-owner.red.raw",
+        "sha256": "5e2f6c964cc071a8bd2f055c679e6838445672a8b9be2c07495f4e63c81b5452",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected +0 to be 1 // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N1-stop-releases-owner.green.raw",
+        "sha256": "66abcbb33b293c94592e502dc9d1c34f4485e792bb474c9901ddd64924b891db",
+        "tests": "1 passed | 3 skipped (4)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N2-load-failure-surfacing",
+      "mutation": "AudioAssetWorkbench.tsx 载入 catch 吞掉 setStatus(error)/setError（失败被静默）",
+      "execution": "src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx -t W2 合法导入但深层非 PCM",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N2-load-failure-surfacing.red.raw",
+        "sha256": "dc6a08813647e133d1db3f3937897b8420977e76a6054f7a0faecd5903973902",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected '正在读取…' to be '读取失败' // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N2-load-failure-surfacing.green.raw",
+        "sha256": "c6205d2b2201d59134c2f2aecb30e881bc085406a5a677c808241c9c3d6b1836",
+        "tests": "1 passed | 3 skipped (4)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N3-switch-project-disposes-old-transport",
+      "mutation": "AudioAssetWorkbench.tsx transport 更换时不再即时 dispose 旧 transport",
+      "execution": "src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx -t W4 播放中换工程",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N3-switch-project-disposes-old-transport.red.raw",
+        "sha256": "663a237a5772c695c8352a59a90ef67e3c5351bf0ecd5257b3459cd548f0ef70",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected +0 to be 1 // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N3-switch-project-disposes-old-transport.green.raw",
+        "sha256": "fd54f02ba9e22f96e900f182733b9bacdca693341a361d9e62655e8ba976da19",
+        "tests": "1 passed | 3 skipped (4)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N4-play-claims-ownership",
+      "mutation": "ProjectAudioPreviewButton.tsx play() 移除 claimEditorAudioPreview（不接管）",
+      "execution": "src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx -t P1 同页相邻按钮",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N4-play-claims-ownership.red.raw",
+        "sha256": "b4c33163302f5002d0152d26042c181271a77fb9b3c7d24d5c8b4a00e9c18583",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: expected [] to have a length of 1 but got +0",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N4-play-claims-ownership.green.raw",
+        "sha256": "d7739f3fd1e4f854a8e4718e70b6d8d9100bc11e8d5d2b4622afd7e436008325",
+        "tests": "1 passed | 4 skipped (5)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N5-switch-during-loading-invalidates",
+      "mutation": "ProjectAudioPreviewButton.tsx 绑定值切换 effect 同时移除 requestRef++ 与 release 双守卫（单删其一会被另一守卫互补吸收，不红）",
+      "execution": "src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx -t P2b loading 中换绑定值",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N5-switch-during-loading-invalidates.red.raw",
+        "sha256": "9fad41919a987e44597fb2a26faedc18c8742aa46632d55fb744b40452efd882",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: expected 1 to be +0 // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N5-switch-during-loading-invalidates.green.raw",
+        "sha256": "c024eb3cb51f441477418e20c1b89516a6a902cf3f6769c1482d196969007c6c",
+        "tests": "1 passed | 4 skipped (5)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N6-unmount-disposes-transport",
+      "mutation": "ProjectAudioPreviewButton.tsx 卸载 microtask 不再 dispose transport",
+      "execution": "src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx -t P4 播放中卸载",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N6-unmount-disposes-transport.red.raw",
+        "sha256": "5a40c52fd754f3ad6f490ab543c079edd62e7e52ae95e1e67ab051b67ef54a15",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: expected +0 to be 1 // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N6-unmount-disposes-transport.green.raw",
+        "sha256": "289e70d57a5a036004eb06d2787b51971924eb6e9a0572c87390e0e8aefb91d7",
+        "tests": "1 passed | 4 skipped (5)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N7-play-failure-releases-owner",
+      "mutation": "ProjectAudioPreviewButton.tsx play 失败 catch 移除 releaseEditorAudioPreview",
+      "execution": "src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx -t P3 MIDI play 被真实降级拒绝",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N7-play-failure-releases-owner.red.raw",
+        "sha256": "dda6e0be1b7352885b352087354c50afc7fda6ce264b34dd744ebfcf45065a22",
+        "tests": "1 failed | 4 skipped (5)",
+        "firstFailure": "AssertionError: expected 3 to be 2 // Object.is equality",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N7-play-failure-releases-owner.green.raw",
+        "sha256": "68d0e6d29504b3a9ed263bf1a52e69d75ce0c2a6a3f71968c99941c52f82ca4d",
+        "tests": "1 passed | 4 skipped (5)",
+        "actWarnings": 0
+      }
+    },
+    {
+      "id": "N8-reselection-clears-error",
+      "mutation": "AudioAssetWorkbench.tsx 换选载入不再清空旧错误信息",
+      "execution": "src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx -t W3 载入失败后切选",
+      "red": {
+        "exit": 1,
+        "file": "mutation-logs/N8-reselection-clears-error.red.raw",
+        "sha256": "488f487c1657c40f4cb74d71e3d30abfb36ef16ba51db0b3b526c63c7607efd2",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected '音效2 项导入 WAV损坏音效sound.broken治疗音效sound.…' not to contain '仅支持 PCM 编码的 WAV'",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "file": "mutation-logs/N8-reselection-clears-error.green.raw",
+        "sha256": "c469de3744158fe840e1978b242dcccf092d7c763b44d6ff8562ef6230b7aaa3",
+        "tests": "1 passed | 3 skipped (4)",
+        "actWarnings": 0
+      }
+    }
+  ],
+  "productResidue": "clean (git status --porcelain packages/ 无 M/D 残留；?? 仅本卡新增测试)"
+}

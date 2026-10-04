@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
+
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 1 failed | 3 skipped) 101ms
+     × W1 播放中点「停止」：真实源停止、时钟归零、释放所有权、不销毁，再播从 0 起 100ms
+     ↓ W2 合法导入但深层非 PCM 的 WAV 真实解码失败：「读取失败」+ 错误信息可见
+     ↓ W3 载入失败后切选健康资源恢复就绪：错误清除且重新真实解码
+     ↓ W4 播放中换工程：旧源停止、旧 transport 即时销毁、同字节跨工程重新解码、零提交
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  01:05:27
+   Duration  2.63s (transform 1.65s, setup 0ms, import 2.03s, tests 101ms, environment 398ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx > W 组：AudioAssetWorkbench 停止 / 失败 / 换工程清理 > W1 播放中点「停止」：真实源停止、时钟归零、释放所有权、不销毁，再播从 0 起
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx:184:30
+    182|     })
+    183|     const source = context.sources[0]!
+    184|     expect(source.stopCalls).toBe(1)
+       |                              ^
+    185|     expect(source.disconnectCalls).toBe(1)
+    186|     await waitPlayerState('就绪')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

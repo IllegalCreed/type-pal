@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
+
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 1 failed | 3 skipped) 86ms
+     ↓ W1 播放中点「停止」：真实源停止、时钟归零、释放所有权、不销毁，再播从 0 起
+     ↓ W2 合法导入但深层非 PCM 的 WAV 真实解码失败：「读取失败」+ 错误信息可见
+     × W3 载入失败后切选健康资源恢复就绪：错误清除且重新真实解码 85ms
+     ↓ W4 播放中换工程：旧源停止、旧 transport 即时销毁、同字节跨工程重新解码、零提交
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  01:06:07
+   Duration  2.11s (transform 1.28s, setup 0ms, import 1.58s, tests 86ms, environment 362ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx > W 组：AudioAssetWorkbench 停止 / 失败 / 换工程清理 > W3 载入失败后切选健康资源恢复就绪：错误清除且重新真实解码
+AssertionError: expected '音效2 项导入 WAV损坏音效sound.broken治疗音效sound.…' not to contain '仅支持 PCM 编码的 WAV'
+
+Expected: "仅支持 PCM 编码的 WAV"
+Received: "音效2 项导入 WAV损坏音效sound.broken治疗音效sound.heal音效治疗音效sound.healassets/authored/990b91561f6eb5c5af7376cacbb6b5466edd748be65fc79be991400b876012a7.wavWAV0 处引用替换删除基本信息名称可修改；稳定 ID 与文件信息保持只读。名称AssetIdsound.heal格式audio/wav文件assets/authored/990b91561f6eb5c5af7376cacbb6b5466edd748be65fc79be991400b876012a7.wav来源项目创作大小3.9 KB试听时间轴来自当前 WAV 解码后的真实 PCM 峰值。PCM 波形播放停止0:00.00 / 0:00.25就绪仅支持 PCM 编码的 WAV引用 0诊断 0引用阻断删除0 处未发现引用当前项目没有引用这个音效。诊断正常0 个错误 · 0 个警告资源类型与引用闭包正常删除音效关闭请核对目标与影响后再继续。资源影响移除资源记录和项目内文件；可通过全局撤销恢复。引用0 处取消删除音效"
+
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx:243:34
+    241|     expect(host.querySelector('.audio-player__state')?.textContent).to…
+    242|     expect(playerTime()).toContain('0:00.00 / 0:00.25')
+    243|     expect(host.textContent).not.toContain('仅支持 PCM 编码的 WAV')
+       |                                  ^
+    244|     expect(audio.contexts[0]!.decodeCalls).toBe(2)
+    245|     expect(audio.contexts[0]!.closeCalls).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

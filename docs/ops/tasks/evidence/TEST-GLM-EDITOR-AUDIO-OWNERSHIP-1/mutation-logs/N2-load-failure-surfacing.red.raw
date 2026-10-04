@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
+
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx (4 tests | 1 failed | 3 skipped) 63ms
+     ↓ W1 播放中点「停止」：真实源停止、时钟归零、释放所有权、不销毁，再播从 0 起
+     × W2 合法导入但深层非 PCM 的 WAV 真实解码失败：「读取失败」+ 错误信息可见 62ms
+     ↓ W3 载入失败后切选健康资源恢复就绪：错误清除且重新真实解码
+     ↓ W4 播放中换工程：旧源停止、旧 transport 即时销毁、同字节跨工程重新解码、零提交
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  01:05:33
+   Duration  2.02s (transform 1.24s, setup 0ms, import 1.54s, tests 63ms, environment 334ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx > W 组：AudioAssetWorkbench 停止 / 失败 / 换工程清理 > W2 合法导入但深层非 PCM 的 WAV 真实解码失败：「读取失败」+ 错误信息可见
+AssertionError: expected '正在读取…' to be '读取失败' // Object.is equality
+
+Expected: "读取失败"
+Received: "正在读取…"
+
+ ❯ src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx:217:69
+    215|     })
+    216|     await flushAct()
+    217|     expect(host.querySelector('.audio-player__state')?.textContent).to…
+       |                                                                     ^
+    218|     expect(host.textContent).toContain('仅支持 PCM 编码的 WAV')
+    219|     expect(audio.contexts[0]!.decodeCalls).toBe(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
