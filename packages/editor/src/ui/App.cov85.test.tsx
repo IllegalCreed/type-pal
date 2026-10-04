@@ -377,3 +377,68 @@ test('cov85-app 命名落点：label 清空删除键、坐标单轴提交', asyn
     height: 1,
   })
 })
+
+test('cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体', async () => {
+  world = await createAppWorld(true)
+  await world.mount()
+  await selectEntity(world.host, 'e-hostile')
+  await switchInspectorTab(world.host, '行为')
+  const hostileOf = () => {
+    const current = world
+    if (!current) throw new Error('app world missing')
+    return current.main.getState().scenes[0]!.entities[0]!.hostile as
+      | RuntimeHostileBehavior
+      | undefined
+  }
+  // ghost-team 不在敌队表：选项首位是「缺数据」回显。
+  const teamRow = [...world.host.querySelectorAll<HTMLElement>('[class*="property-row"]')].find(
+    (element) => (element.textContent ?? '').trim().startsWith('敌队'),
+  )
+  if (!teamRow) throw new Error('敌队 property row missing after tab switch')
+  expect(teamRow, '敌队 property row').toBeDefined()
+  const teamTrigger = teamRow!.querySelector<HTMLButtonElement>('button[role="combobox"]')
+  expect(teamTrigger, '敌队 combobox').toBeDefined()
+  await act(async () => {
+    teamTrigger!.click()
+  })
+  const options = [...document.querySelectorAll<HTMLElement>('[role="option"]')].map((option) =>
+    option.textContent?.trim(),
+  )
+  expect(options.some((text) => text?.includes('ghost-team（缺数据）'))).toBe(true)
+  // 切到真实敌队 practice。
+  const practiceOption = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+    (option) => option.textContent?.includes('practice'),
+  )
+  expect(practiceOption).toBeDefined()
+  await act(async () => {
+    practiceOption!.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+  })
+  expect(hostileOf()?.enemyTeamId).toBe('practice')
+
+  // 追逐：默认未开；勾选落 {range:6,speed:2}，改 range/speed 精确提交，取消清键。
+  const chaseToggle = [...world.host.querySelectorAll<HTMLLabelElement>('label')].find((label) =>
+    label.textContent?.includes('见人就追'),
+  )
+  expect(chaseToggle).toBeDefined()
+  const chaseInput = chaseToggle!.querySelector<HTMLInputElement>('input[type="checkbox"]')!
+  await act(async () => {
+    chaseInput.click()
+  })
+  expect(hostileOf()?.chase).toEqual({ range: 6, speed: 2 })
+  const chaseRange = world.host.querySelector<HTMLInputElement>('input[id$="chase-range"]')
+  expect(chaseRange).toBeDefined()
+  await fillAndBlur(chaseRange!, '9')
+  expect(hostileOf()?.chase).toEqual({ range: 9, speed: 2 })
+  const chaseSpeed = world.host.querySelector<HTMLInputElement>('input[id$="chase-speed"]')
+  expect(chaseSpeed).toBeDefined()
+  await fillAndBlur(chaseSpeed!, '3')
+  expect(hostileOf()?.chase).toEqual({ range: 9, speed: 3 })
+  await act(async () => {
+    chaseInput.click()
+  })
+  expect(hostileOf()?.chase).toBeUndefined()
+  await act(async () => {
+    expect(world!.main.undo()).toBe(true)
+  })
+  expect(hostileOf()?.chase).toEqual({ range: 9, speed: 3 })
+})

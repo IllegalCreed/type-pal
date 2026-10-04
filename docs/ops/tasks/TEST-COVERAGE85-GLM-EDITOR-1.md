@@ -3,7 +3,7 @@
 Status: build
 Owner: GLM
 Reviewer: Codex
-Base: `b95a6947369bf5d32db5746df0c82acae27b3663`
+Base: `76475c01cfbbbd9a8cd52b1cb866d3b21ba6908d`（codex/coverage-85-dispatch-r1 实际派生基点；卡首版误写 b95a6947，r1 返工更正）
 Branch: `codex/coverage85-glm-editor-r1`
 Capability: test-quality / coverage branch closure
 
@@ -48,34 +48,46 @@ Capability: test-quality / coverage branch closure
 
 ## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
 
-**门禁状态如实申报：editor branch 23865→24156（82.13%→83.13%，+291 edges），未达 85%。**
-剩余 544 中 508 为 v8 无源位合成分支（branchMap locations 为空、无代码位置，见
-`branch-census.json` 的 locless 统计——cov-base 与 cov-final 两次实测一致），其余为
-App/MapMode/ScriptEditor/PreviewCanvas 等文件中**仍可达**的交互臂，本人在单会话预算内未
-全部闭合。不冒充不可达、不降门；请 Codex 裁定 r2 续跑或改判。85% 数学上仍可达
-（locatable 缺口 4504）。
+**门禁状态如实申报（r2 返工后终测）：editor branch 23865→24167（82.13%→83.16%，+302
+edges），未达 85%，不以 85% 冒交。**
+剩余缺口不构成不可达证明：其中 508 个是 v8 branchMap `locations` 为空的合成计数
+（无源码位置、无法定向触发；cov-base 与 cov-final 两次实测口径一致，见
+`branch-census.json` 的 locless 字段）——该数字只说明缺口构成，**不作为 unreachable
+proof**；其余为 App/MapMode/ScriptEditor/PreviewCanvas 等文件中**仍可达**的交互臂。
+85% 数学上可达（locatable 缺口约 4500），r1 未闭合属本人单会话预算限制，交 Codex
+裁定 r2 续跑或改判。
 
-### 新增测试（7 文件 81 例，全绿；全套 4681/4681）
+### 新增测试（7 文件 87 例，全绿；r2 终测全套 4687/4687，定向与全量计数一致，见 vitest-fresh.json）
 
 | 文件 | 例 | 主要合同 |
 | --- | --- | --- |
 | `src/core/world-sprite-behavior.cov85-lowering.test.ts` | 9 | startBattle onLose/onFlee、teleportOut onFail、setEntityTriggerActivation inherit/use(range±)、select* 丢弃、超预算/空 repeat、可选参透传、entitiesNear/all 条件、entry prepare/reveal 投影 |
-| `src/core/world-sprite-behavior.cov85-sampler.test.ts` | 15 | canonical 采样器 chance 0/100、not/all/any、finishStep complete、break/continue(标号)、loop while 进入/跳过、until、animEntity 覆盖帧、facing 跳过、wait 累计(4920ms=41×120)、共享脚本 return、自/互递归、异己 self、缺脚本、错靶、confirm/startBattle/teleportOut 容器路由 |
+| `src/core/world-sprite-behavior.cov85-sampler.test.ts` | 14 | canonical 采样器 chance 0/100、not/all/any、finishStep complete、break/continue(标号)、loop while 进入/跳过、until、animEntity 覆盖帧、facing 跳过、wait 累计(4920ms=41×120)、共享脚本 return、自/互递归、异己 self、缺脚本、错靶、confirm/startBattle/teleportOut 容器路由 |
 | `src/core/script-editor.cov85-residual.test.ts` | 11 | BehaviorId/HookId/ScriptId 空/路径字符精确错误、registry 缺失族、Hook 撞 id/缺 hook、物品守卫族、战败脚本 delete 臂、共享脚本缺体/未 apply invert、onLose/onFlee/onFail/else 嵌套遍历+改名重写、describe 标签、discardRedo/空 redo/未绑定发布/历史失效 |
 | `src/ui/SkillTab.cov85.test.tsx` | 19 | 13 类效果缺省矩阵+undo、变身/召唤成功体、五行/量/资源/增减/毒 id/成功率参数、敌方施法分支白名单长度判别、玩家分支 remainingResourceDamage、stale 删除禁用 |
 | `src/ui/ItemTab.cov85.test.tsx` | 9 | 装备效果 7 类缺省矩阵+undo、使用摘要八类效果行精确文本（runSceneHook/craftRecipe/permanentStatBoost/modifyHostileAwareness/scaleCurrentHp/levelUp/placeEntityInFront）、stale 删除按钮级门禁 |
 | `src/ui/App.cov85.test.tsx` | 4 | 敌对开关成对默认体/清除/undo、hide ticks=9 与 suspend ticks=12 合法提交+remain→suspend 走缺省 15、默认入场点 col/height 部分补丁、命名落点 label 清空删键+坐标单轴 |
-| `src/ui/ScriptEditor.cov85.test.tsx` | 14 | 五类条件缺省体提交、循环名称自动 loop-N id、selectSceneHooks 三态+omit 零派发、6 类命令行呈现标签 |
+| `src/ui/ScriptEditor.cov85.test.tsx` | 20 | 五类条件缺省体提交、循环名称自动 loop-N id、selectSceneHooks 三态+omit 零派发、6 类命令行呈现标签 |
 
-### 三态反控（原始绿→变异红→恢复绿；变异只动产品源，恢复后 git diff 为空）
+### 三态反控（真实证据见 `evidence/coverage85-glm-editor-r1/mutation-evidence.json`）
 
-| 注入点 | 变异 | 定向红 |
+由 `evidence/coverage85-glm-editor-r1/run-mutations.mjs` 自动执行并落盘：每个注入点含
+command/cwd、JSON reporter 原始输出摘录、exit code/signal、失败用例 file×fullName、
+唯一业务 AssertionError、original/mutant/restored 三态 sha256、以及仅针对被变异产品文件的
+`git status --porcelain` 清理证明。五注入点全部「原始绿→变异红→恢复绿」通过、
+hash 满足 original==restored≠mutant、产品文件零残留：
+
+| 注入点 | 变异 | 定向红的唯一业务断言 |
 | --- | --- | --- |
-| `world-sprite-behavior.ts:844` chooseVisualChance | `percent >= 100` → `> 100` | chance-100 test RED ✓ |
-| `script-editor.ts:176` checkScriptId | 去掉 `startsWith('/')` 臂 | id 卫 test RED ✓ |
-| `ItemTab.tsx:182` defaultEquipEffect | maxPool delta 50→25 | 上限加成 test RED ✓ |
-| `SkillTab.tsx:733` 敌方白名单 | 去掉 ENEMY 过滤 | 敌方施法分支 test RED ✓（首轮存活后改为白名单长度判别，复验通过） |
-| `App.tsx:4170` hide ticks 守卫 `ticks > 0` | → `>= 0` | **存活**：DsDraftNumberInput `min=1` 在 onCommit 前已拒绝 0/-3，该守卫臂经 UI 不可达（防御层），测试已改为只断言合法提交并在此登记 |
+| `world-sprite-behavior.ts` chooseVisualChance | `percent >= 100` → `> 100` | chance-100 走 else → preview 变 variants 而非 cycle |
+| `script-editor.ts` checkScriptId | 去掉 `startsWith('/')` 臂 | `/lead` 前导斜杠 ScriptId 未被拒绝 |
+| `ItemTab.tsx` defaultEquipEffect | maxPool delta 50→25 | 缺省体 `{maxPool, hp, delta}` 不再是 50 |
+| `SkillTab.tsx` 敌方白名单 | 去掉 ENEMY 过滤 | 选项数 18≠7（白名单长度判别） |
+| `App.tsx` suspend 缺省 ticks | `: 15` → `: 16` | remain→suspend 落 16 而非 15 |
+
+另：`App.tsx` hide ticks 守卫 `ticks > 0` 变异（→`>=0`）**存活**——DsDraftNumberInput
+`min=1` 在 onCommit 前已拒绝 0/-3，该守卫臂经 UI 不可达（防御层），测试只断言合法提交，
+此处登记为 existing-proof 而非反控信用。
 
 ### 质量门
 
@@ -98,6 +110,44 @@ App/MapMode/ScriptEditor/PreviewCanvas 等文件中**仍可达**的交互臂，�
 - `script-editor.ts` getAffectedRecordsSince 无记录臂（1173）：所有 history 提交路径都写入
   affectedRecordsByVersion，合法 caller 无法制造版本空洞。
 - App/MapMode/ScriptEditor/PreviewCanvas 共 508 个 v8 无源位分支（locations 空）。
+
+### r1 返工记录（GLM，2026-10-04，Codex 六项返工）
+
+1. **违禁模式清零**：SkillTab 改用 `stubNodeTestHost`（去 @ts-expect-error node 桥）+
+   `loadLegalUiProject` 真实 `assetBase`/`createEditorAssetReader(source, getState)`；
+   ItemTab `dualAttack` 直用合法 `StatusId`；script-editor residual 的
+   `DeleteSharedScriptCommand` 改传真实 provider（守卫先于引用检查触发）。全卡 7 文件
+   无 `@ts-expect-error`/`as never`/`as unknown as`。
+2. **act 警告清零**：根因是裸调 `session.undo()`（EditorHistoryCoordinator.commit →
+   notifyEditorObservers → forceStoreRerender 在 act 外）与 App root 未 unmount；
+   全部 undo/redo 包 act、afterEach 补 unmount、App 补 `IS_REACT_ACT_ENVIRONMENT`。
+   定向 7 文件：`not wrapped in act`/`not configured` 计数 0、console.error 0、87/87 绿。
+3. **反控证据重建**：见上表与 `mutation-evidence.json`（含 run-mutations.mjs 取证脚本）。
+4. **finishStep 重复合同已删除合并**：旧测 `world-sprite-behavior.test.ts`「a canonical
+   completion edge previews once, never as a loop or extra empty stage」已证 finishStep
+   complete 完成即止主干；本卡原 `finish-complete` 用例与之重复，r1 返工已**删除**
+   （sampler 现 14 例），dedup 头同步声明该主干由旧测持有，不主张任何覆盖信用。
+5. **Base 更正**：`76475c01c`（见卡头）。
+6. **证据 JSON** 已 `biome format`。
+7. **覆盖推进**：ScriptEditor +6 presentation 合同（selectSceneHooks 槽位明细、
+   releaseEntity 无 target、startBattle 裸命令/callScript 无自身/trigger 继承/mountParty
+   无偏移变体）、App +1 敌队缺数据回显/真实敌队切换/chase 成对默认体与 range/speed
+   精确提交合同；删除 finishStep 重复例后 r2 终测 24167/29058（83.16%，+302）；未以
+   85% 冒交，剩余 locatable 缺口按 r2 清单继续推进或逐臂一手证明。
+
+### r2 返工记录（GLM，2026-10-04，Codex 六项）
+
+1. mutation-evidence.json 由取证脚本以「JSON + 尾换行」落盘，四个证据 JSON 全部通过
+   `biome check` 格式门（脚本可重复产出同形文件）。
+2. 计数漂移修复：r1 终测 JSON 在删除 finishStep 重复例**之前**生成导致 87 虚报；r2 以
+   删除后的代码全量复跑重建，新增计数 86（删后）+1（App 敌队/chase 新例）=87，与定向
+   逐文件计数一致；卡面同步 24167/29058=83.16%（+302）。
+3. 反控执行集合修正：run-mutations.mjs 现按 status 排除 skipped/pending，
+   executedSet/executedCount/skippedExcluded 逐相落盘（如 INJ-1 original：executed 1、
+   skipped excluded 13）；spawn argv/cwd/rawStdout/rawStderr/exit/signal/唯一业务
+   AssertionError/三态 sha256/逐文件 git-clean 齐备，五注入点复验全 OK。
+4. locless 只作缺口构成说明，不作 unreachable proof（census note 字段 + 卡面声明）。
+5. 未改产品/旧测试/baseline/共享配置；改动仅限本卡 7 个测试文件与证据目录。
 
 ### 下一棒建议（r2）
 

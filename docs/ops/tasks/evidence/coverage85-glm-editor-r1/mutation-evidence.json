@@ -1,0 +1,662 @@
+[
+  {
+    "id": "INJ-1",
+    "file": "src/core/world-sprite-behavior.ts",
+    "anchor": "if (percent >= 100) return true",
+    "mutant": "if (percent > 100) return true",
+    "testFile": "src/core/world-sprite-behavior.cov85-sampler.test.ts",
+    "testName": "chance 100% 恒命中：then 臂定格帧",
+    "businessClaim": "chance>=100 必走 then 臂：命中帧 #5 而非 else 帧 #6",
+    "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor",
+    "commandTemplate": "pnpm exec vitest run <testFile> -t <testName> --reporter=json",
+    "phases": {
+      "original": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "-t",
+            "chance 100% 恒命中：then 臂定格帧",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "fullName": "cov85-sampler chance 100% 恒命中：then 臂定格帧",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 13,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":14,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":13,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089241696,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler chance 100% 恒命中：then 臂定格帧\",\"status\":\"passed\",\"title\":\"cov85-sampler chance 100% 恒命中：then 臂定格帧\",\"duration\":23.74608400000011,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序\",\"status\":\"skipped\",\"title\":\"cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证\",\"status\":\"skipped\",\"title\":\"cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler repeat 内 breakLoop 立即中断，只留首帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler repeat 内 breakLoop 立即中断，只留首帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定\",\"status\":\"skipped\",\"title\":\"cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler animEntity 在显式定帧后不推进可见帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler animEntity 在显式定帧后不推进可见帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝\",\"status\":\"skipped\",\"title\":\"cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令\",\"status\":\"skipped\",\"title\":\"cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守\",\"status\":\"skipped\",\"title\":\"cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089242803,\"endTime\":1791089242826.746,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "mutant": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "-t",
+            "chance 100% 恒命中：then 臂定格帧",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "fullName": "cov85-sampler chance 100% 恒命中：then 臂定格帧",
+            "status": "failed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 13,
+        "passed": 0,
+        "failures": [
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "fullName": "cov85-sampler chance 100% 恒命中：then 臂定格帧",
+            "messages": [
+              "AssertionError: expected { kind: 'variants', …(2) } to deeply equal { kind: 'cycle', …(3) }\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts:174:31\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":14,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":13,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089243139,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler chance 100% 恒命中：then 臂定格帧\",\"status\":\"failed\",\"title\":\"cov85-sampler chance 100% 恒命中：then 臂定格帧\",\"duration\":25.763124999999945,\"failureMessages\":[\"AssertionError: expected { kind: 'variants', …(2) } to deeply equal { kind: 'cycle', …(3) }\\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts:174:31\\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序\",\"status\":\"skipped\",\"title\":\"cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证\",\"status\":\"skipped\",\"title\":\"cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler repeat 内 breakLoop 立即中断，只留首帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler repeat 内 breakLoop 立即中断，只留首帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定\",\"status\":\"skipped\",\"title\":\"cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler animEntity 在显式定帧后不推进可见帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler animEntity 在显式定帧后不推进可见帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝\",\"status\":\"skipped\",\"title\":\"cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令\",\"status\":\"skipped\",\"title\":\"cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守\",\"status\":\"skipped\",\"title\":\"cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089244284,\"endTime\":1791089244309.7632,\"status\":\"failed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.cov85-s",
+        "rawStderrExcerpt": ""
+      },
+      "restored": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "-t",
+            "chance 100% 恒命中：then 臂定格帧",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
+            "fullName": "cov85-sampler chance 100% 恒命中：then 臂定格帧",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 13,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":14,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":13,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089244625,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler chance 100% 恒命中：then 臂定格帧\",\"status\":\"passed\",\"title\":\"cov85-sampler chance 100% 恒命中：then 臂定格帧\",\"duration\":25.502416999999923,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序\",\"status\":\"skipped\",\"title\":\"cov85-sampler not(chance) 由 canonical 采样器按分支模式给出代表性帧序\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证\",\"status\":\"skipped\",\"title\":\"cov85-sampler any(0%,100%) 命中；all(100%,0%) 全空臂被拒为不可证\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler repeat 内 breakLoop 立即中断，只留首帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler repeat 内 breakLoop 立即中断，只留首帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定\",\"status\":\"skipped\",\"title\":\"cov85-sampler 带标号 continueLoop 只回本轮循环，帧序稳定\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop while 0% 条件整段跳过，循环后命令仍执行\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop while 100% 进入后 breakLoop：#5/#6 交替到 tick 上限\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断\",\"status\":\"skipped\",\"title\":\"cov85-sampler loop until 0% 永不满足：首轮帧重复披露截断\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler setEntityFacing 跳过、animEntity 逐帧推进、wait 累计到尾帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler animEntity 在显式定帧后不推进可见帧\",\"status\":\"skipped\",\"title\":\"cov85-sampler animEntity 在显式定帧后不推进可见帧\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝\",\"status\":\"skipped\",\"title\":\"cov85-sampler 帧靶不是 self、共享脚本自递归/互递归/异己 self/缺失一律拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令\",\"status\":\"skipped\",\"title\":\"cov85-sampler 共享脚本 returnScript 只结束被调方，调用方继续后续命令\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守\",\"status\":\"skipped\",\"title\":\"cov85-sampler confirm/startBattle(onLose)/teleportOut(onFail) 容器路由进 canonical 采样后整体保守\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089245728,\"endTime\":1791089245753.5024,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts\"}]}\n",
+        "rawStderrExcerpt": ""
+      }
+    },
+    "cleanup": {
+      "command": "git status --porcelain -- packages/editor/src/core/world-sprite-behavior.ts",
+      "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor",
+      "gitStatusPorcelainMutatedFile": "",
+      "restoredEqualsOriginal": true,
+      "mutatedFileRestored": true
+    },
+    "verdict": {
+      "originalGreen": true,
+      "mutantRed": true,
+      "restoredGreen": true,
+      "hashTriple": {
+        "original": "a34712c042db6459bb13c8e5ef423b103d2ad0f8da121ed69bd7b2da99bfddab",
+        "mutant": "d78cb1cb9b81cc98ef45e427b90d3131c2b2c333d18474abb6ce1117afff3d99",
+        "restored": "a34712c042db6459bb13c8e5ef423b103d2ad0f8da121ed69bd7b2da99bfddab"
+      },
+      "uniqueAssertion": "AssertionError: expected { kind: 'variants', …(2) } to deeply equal { kind: 'cycle', …(3) }"
+    }
+  },
+  {
+    "id": "INJ-2",
+    "file": "src/core/script-editor.ts",
+    "anchor": "id.startsWith('/') || id.endsWith('/')",
+    "mutant": "id.endsWith('/')",
+    "testFile": "src/core/script-editor.cov85-residual.test.ts",
+    "testName": "id 卫",
+    "businessClaim": "前导斜杠 ScriptId 必须被精确拒绝（ScriptId 非法 /lead）",
+    "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor",
+    "commandTemplate": "pnpm exec vitest run <testFile> -t <testName> --reporter=json",
+    "phases": {
+      "original": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/core/script-editor.cov85-residual.test.ts",
+            "-t",
+            "id 卫",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+            "fullName": "cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 10,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":11,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":10,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089246076,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝\",\"status\":\"passed\",\"title\":\"cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝\",\"duration\":6.6939160000000015,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry\",\"status\":\"skipped\",\"title\":\"cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects\",\"status\":\"skipped\",\"title\":\"cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂\",\"status\":\"skipped\",\"title\":\"cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply\",\"status\":\"skipped\",\"title\":\"cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写\",\"status\":\"skipped\",\"title\":\"cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual branch else 臂内的选择器遍历\",\"status\":\"skipped\",\"title\":\"cov85-residual branch else 臂内的选择器遍历\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支\",\"status\":\"skipped\",\"title\":\"cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 会话守卫：discardRedo 非栈顶命令拒false、空 redo/undo false、未绑定发布拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual 会话守卫：discardRedo 非栈顶命令拒false、空 redo/undo false、未绑定发布拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 历史准备失效：prepare 后版本推进，validate 精确拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual 历史准备失效：prepare 后版本推进，validate 精确拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089246437,\"endTime\":1791089246443.6938,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.cov85-residual.test.ts\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "mutant": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/core/script-editor.cov85-residual.test.ts",
+            "-t",
+            "id 卫",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+            "fullName": "cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝",
+            "status": "failed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 10,
+        "passed": 0,
+        "failures": [
+          {
+            "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+            "fullName": "cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝",
+            "messages": [
+              "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.cov85-residual.test.ts:167:43)\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.cov85-residual.test.ts:211:3\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+            ]
+          }
+        ],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":11,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":10,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089246792,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝\",\"status\":\"failed\",\"title\":\"cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝\",\"duration\":9.387958999999967,\"failureMessages\":[\"AssertionError: expected [Function] to throw an error\\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\\n    at expectRejected (/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.cov85-residual.test.ts:167:43)\\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.cov85-residual.test.ts:211:3\\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry\",\"status\":\"skipped\",\"title\":\"cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects\",\"status\":\"skipped\",\"title\":\"cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂\",\"status\":\"skipped\",\"title\":\"cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply\",\"status\":\"skipped\",\"title\":\"cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写\",\"status\":\"skipped\",\"title\":\"cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual branch else 臂内的选择器遍历\",\"status\":\"skipped\",\"title\":\"cov85-residual branch else 臂内的选择器遍历\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支\",\"status\":\"skipped\",\"title\":\"cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fu",
+        "rawStderrExcerpt": ""
+      },
+      "restored": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/core/script-editor.cov85-residual.test.ts",
+            "-t",
+            "id 卫",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
+            "fullName": "cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 10,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":11,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":10,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089247502,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝\",\"status\":\"passed\",\"title\":\"cov85-residual id 卫：BehaviorId/HookId/ScriptId 空白与路径字符精确拒绝\",\"duration\":6.556916000000001,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual registry 缺失族：auto 通道复制/改名与改名撞 id 精确拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry\",\"status\":\"skipped\",\"title\":\"cov85-residual Hook 命令守卫：改名撞 id、initial 指向缺失、删除缺 registry\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects\",\"status\":\"skipped\",\"title\":\"cov85-residual 物品命令守卫：重复/缺物品/非私有脚本槽/缺 effects\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂\",\"status\":\"skipped\",\"title\":\"cov85-residual 战败脚本：非敌对实体拒绝，onLose=undefined 走删除臂\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply\",\"status\":\"skipped\",\"title\":\"cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 invert 未 apply\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写\",\"status\":\"skipped\",\"title\":\"cov85-residual startBattle onLose/onFlee 与 teleportOut onFail 内命令被遍历且选择器随改名重写\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual branch else 臂内的选择器遍历\",\"status\":\"skipped\",\"title\":\"cov85-residual branch else 臂内的选择器遍历\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支\",\"status\":\"skipped\",\"title\":\"cov85-residual describe 系列标签：hostile/hook/item/shared/page/hook-initial 各分支\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 会话守卫：discardRedo 非栈顶命令拒false、空 redo/undo false、未绑定发布拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual 会话守卫：discardRedo 非栈顶命令拒false、空 redo/undo false、未绑定发布拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-residual 历史准备失效：prepare 后版本推进，validate 精确拒绝\",\"status\":\"skipped\",\"title\":\"cov85-residual 历史准备失效：prepare 后版本推进，validate 精确拒绝\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089247835,\"endTime\":1791089247841.557,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.cov85-residual.test.ts\"}]}\n",
+        "rawStderrExcerpt": ""
+      }
+    },
+    "cleanup": {
+      "command": "git status --porcelain -- packages/editor/src/core/script-editor.ts",
+      "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor",
+      "gitStatusPorcelainMutatedFile": "",
+      "restoredEqualsOriginal": true,
+      "mutatedFileRestored": true
+    },
+    "verdict": {
+      "originalGreen": true,
+      "mutantRed": true,
+      "restoredGreen": true,
+      "hashTriple": {
+        "original": "d4b84725b36cdd75ad0d0d0dc4122a02453a6c4c756c763e4aa742c8e04b2a84",
+        "mutant": "5b2dc508226619db0d3a0fab445902a5476924f26280b66a4ba00b81e6c4b231",
+        "restored": "d4b84725b36cdd75ad0d0d0dc4122a02453a6c4c756c763e4aa742c8e04b2a84"
+      },
+      "uniqueAssertion": "AssertionError: expected [Function] to throw an error"
+    }
+  },
+  {
+    "id": "INJ-3",
+    "file": "src/ui/ItemTab.tsx",
+    "anchor": "case 'maxPool':\n      return { kind, pool: 'hp', delta: 50 }",
+    "mutant": "case 'maxPool':\n      return { kind, pool: 'hp', delta: 25 }",
+    "testFile": "src/ui/ItemTab.cov85.test.tsx",
+    "testName": "上限加成",
+    "businessClaim": "装备效果切到 maxPool 的缺省体是 delta 50（pool hp）",
+    "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor",
+    "commandTemplate": "pnpm exec vitest run <testFile> -t <testName> --reporter=json",
+    "phases": {
+      "original": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/ItemTab.cov85.test.tsx",
+            "-t",
+            "上限加成",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+            "fullName": "cov85-item 装备效果切到 '上限加成' 提交精确缺省体",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 8,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":9,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":8,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089248186,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '上限加成' 提交精确缺省体\",\"status\":\"passed\",\"title\":\"cov85-item 装备效果切到 '上限加成' 提交精确缺省体\",\"duration\":84.13270799999987,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '抗性' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '抗性' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '常驻状态' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '常驻状态' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '授予技能' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '授予技能' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '攻击全体' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '攻击全体' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '回合回体力' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '回合回体力' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '回合回真气' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '回合回真气' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 使用能力摘要：八类效果行文本精确\",\"status\":\"skipped\",\"title\":\"cov85-item 使用能力摘要：八类效果行文本精确\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）\",\"status\":\"skipped\",\"title\":\"cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089249835,\"endTime\":1791089249919.1328,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "mutant": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/ItemTab.cov85.test.tsx",
+            "-t",
+            "上限加成",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+            "fullName": "cov85-item 装备效果切到 '上限加成' 提交精确缺省体",
+            "status": "failed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 8,
+        "passed": 0,
+        "failures": [
+          {
+            "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+            "fullName": "cov85-item 装备效果切到 '上限加成' 提交精确缺省体",
+            "messages": [
+              "AssertionError: expected { kind: 'maxPool', pool: 'hp', …(1) } to deeply equal { kind: 'maxPool', pool: 'hp', …(1) }\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.cov85.test.tsx:161:58\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":9,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":8,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089250243,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '上限加成' 提交精确缺省体\",\"status\":\"failed\",\"title\":\"cov85-item 装备效果切到 '上限加成' 提交精确缺省体\",\"duration\":83.14800000000014,\"failureMessages\":[\"AssertionError: expected { kind: 'maxPool', pool: 'hp', …(1) } to deeply equal { kind: 'maxPool', pool: 'hp', …(1) }\\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.cov85.test.tsx:161:58\\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '抗性' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '抗性' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '常驻状态' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '常驻状态' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '授予技能' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '授予技能' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '攻击全体' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '攻击全体' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '回合回体力' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '回合回体力' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '回合回真气' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '回合回真气' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 使用能力摘要：八类效果行文本精确\",\"status\":\"skipped\",\"title\":\"cov85-item 使用能力摘要：八类效果行文本精确\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）\",\"status\":\"skipped\",\"title\":\"cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089251979,\"endTime\":1791089252062.148,\"status\":\"failed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "restored": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/ItemTab.cov85.test.tsx",
+            "-t",
+            "上限加成",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/ItemTab.cov85.test.tsx",
+            "fullName": "cov85-item 装备效果切到 '上限加成' 提交精确缺省体",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 8,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":9,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":8,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089252372,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '上限加成' 提交精确缺省体\",\"status\":\"passed\",\"title\":\"cov85-item 装备效果切到 '上限加成' 提交精确缺省体\",\"duration\":96.20220799999993,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '抗性' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '抗性' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '常驻状态' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '常驻状态' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '授予技能' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '授予技能' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '攻击全体' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '攻击全体' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '回合回体力' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '回合回体力' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 装备效果切到 '回合回真气' 提交精确缺省体\",\"status\":\"skipped\",\"title\":\"cov85-item 装备效果切到 '回合回真气' 提交精确缺省体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 使用能力摘要：八类效果行文本精确\",\"status\":\"skipped\",\"title\":\"cov85-item 使用能力摘要：八类效果行文本精确\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）\",\"status\":\"skipped\",\"title\":\"cov85-item 引用未就绪时删除按钮禁用并披露原因（按钮级门禁）\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089254181,\"endTime\":1791089254277.2021,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      }
+    },
+    "cleanup": {
+      "command": "git status --porcelain -- packages/editor/src/ui/ItemTab.tsx",
+      "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor",
+      "gitStatusPorcelainMutatedFile": "",
+      "restoredEqualsOriginal": true,
+      "mutatedFileRestored": true
+    },
+    "verdict": {
+      "originalGreen": true,
+      "mutantRed": true,
+      "restoredGreen": true,
+      "hashTriple": {
+        "original": "ec918ae20f67f90ff45253c13468d83e50a427e291ddd235fa74a7b1109af3dd",
+        "mutant": "e4dc935c99ac68a0d425c09bbd0ae604e0b7be7e89c1047d48e8723eeda71e0f",
+        "restored": "ec918ae20f67f90ff45253c13468d83e50a427e291ddd235fa74a7b1109af3dd"
+      },
+      "uniqueAssertion": "AssertionError: expected { kind: 'maxPool', pool: 'hp', …(1) } to deeply equal { kind: 'maxPool', pool: 'hp', …(1) }"
+    }
+  },
+  {
+    "id": "INJ-4",
+    "file": "src/ui/SkillTab.tsx",
+    "anchor": "? EFFECT_KINDS.filter((kind) => ENEMY_RUNTIME_SKILL_EFFECT_KINDS.includes(kind.v as never))\n      : EFFECT_KINDS",
+    "mutant": "? EFFECT_KINDS\n      : EFFECT_KINDS",
+    "testFile": "src/ui/SkillTab.cov85.test.tsx",
+    "testName": "敌方施法分支",
+    "businessClaim": "敌方分支效果类型选项数 = ENEMY_RUNTIME_SKILL_EFFECT_KINDS 白名单长度",
+    "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor",
+    "commandTemplate": "pnpm exec vitest run <testFile> -t <testName> --reporter=json",
+    "phases": {
+      "original": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/SkillTab.cov85.test.tsx",
+            "-t",
+            "敌方施法分支",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+            "fullName": "cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 18,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":19,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":18,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089254615,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"'回体力' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'回体力' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'回真气' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'回真气' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'复活' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'复活' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'解状态' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'解状态' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'下毒' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'下毒' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'解毒' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'解毒' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'属性增益' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'属性增益' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'即死' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'即死' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'直接增减资源' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'直接增减资源' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'偷窃' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'偷窃' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'收宝' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'收宝' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'脱离战斗' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'脱离战斗' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'金钱伤害' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'金钱伤害' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用\",\"status\":\"skipped\",\"title\":\"cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id\",\"status\":\"skipped\",\"title\":\"cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交\",\"status\":\"skipped\",\"title\":\"cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写\",\"status\":\"passed\",\"title\":\"cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写\",\"duration\":122.86899999999991,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 玩家分支入场预备：勾选提交 remainingResourceDamage，取消清空\",\"status\":\"skipped\",\"title\":\"cov85-skill 玩家分支入场预备：勾选提交 remainingResourceDamage，取消清空\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 引用索引未就绪（stale）：删除按钮同样禁用\",\"status\":\"skipped\",\"title\":\"cov85-skill 引用索引未就绪（stale）：删除按钮同样禁用\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089256245,\"endTime\":1791089256367.869,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillTab.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "mutant": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/SkillTab.cov85.test.tsx",
+            "-t",
+            "敌方施法分支",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+            "fullName": "cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写",
+            "status": "failed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 18,
+        "passed": 0,
+        "failures": [
+          {
+            "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+            "fullName": "cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写",
+            "messages": [
+              "AssertionError: expected [ '伤害', '回体力', '回真气', '复活', …(14) ] to have a length of 7 but got 18\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillTab.cov85.test.tsx:326:23\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":19,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":18,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089256666,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"'回体力' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'回体力' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'回真气' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'回真气' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'复活' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'复活' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'解状态' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'解状态' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'下毒' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'下毒' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'解毒' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'解毒' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'属性增益' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'属性增益' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'即死' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'即死' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'直接增减资源' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'直接增减资源' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'偷窃' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'偷窃' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'收宝' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'收宝' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'脱离战斗' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'脱离战斗' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'金钱伤害' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'金钱伤害' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用\",\"status\":\"skipped\",\"title\":\"cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id\",\"status\":\"skipped\",\"title\":\"cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交\",\"status\":\"skipped\",\"title\":\"cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写\",\"status\":\"failed\",\"title\":\"cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写\",\"duration\":104.74225000000001,\"failureMessages\":[\"AssertionError: expected [ '伤害', '回体力', '回真气', '复活', …(14) ] to have a length of 7 but got 18\\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/sr",
+        "rawStderrExcerpt": ""
+      },
+      "restored": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/SkillTab.cov85.test.tsx",
+            "-t",
+            "敌方施法分支",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
+            "fullName": "cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 18,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":19,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":18,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089258614,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"'回体力' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'回体力' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'回真气' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'回真气' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'复活' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'复活' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'解状态' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'解状态' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'下毒' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'下毒' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'解毒' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'解毒' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'属性增益' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'属性增益' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'即死' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'即死' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'直接增减资源' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'直接增减资源' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'偷窃' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'偷窃' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'收宝' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'收宝' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'脱离战斗' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'脱离战斗' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"'金钱伤害' 类型切换提交精确缺省效果体并可 undo\",\"status\":\"skipped\",\"title\":\"'金钱伤害' 类型切换提交精确缺省效果体并可 undo\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用\",\"status\":\"skipped\",\"title\":\"cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id\",\"status\":\"skipped\",\"title\":\"cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交\",\"status\":\"skipped\",\"title\":\"cov85-skill 效果参数字段：五行/数量/资源/增减/毒物/比例逐一提交\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写\",\"status\":\"passed\",\"title\":\"cov85-skill 敌方施法分支：类型选项被运行时白名单过滤且效果进入 enemy 覆写\",\"duration\":124.73350000000005,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 玩家分支入场预备：勾选提交 remainingResourceDamage，取消清空\",\"status\":\"skipped\",\"title\":\"cov85-skill 玩家分支入场预备：勾选提交 remainingResourceDamage，取消清空\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-skill 引用索引未就绪（stale）：删除按钮同样禁用\",\"status\":\"skipped\",\"title\":\"cov85-skill 引用索引未就绪（stale）：删除按钮同样禁用\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089260207,\"endTime\":1791089260331.7334,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillTab.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      }
+    },
+    "cleanup": {
+      "command": "git status --porcelain -- packages/editor/src/ui/SkillTab.tsx",
+      "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor",
+      "gitStatusPorcelainMutatedFile": "",
+      "restoredEqualsOriginal": true,
+      "mutatedFileRestored": true
+    },
+    "verdict": {
+      "originalGreen": true,
+      "mutantRed": true,
+      "restoredGreen": true,
+      "hashTriple": {
+        "original": "f97c9ed8c4bc2334a4d79ce5fe4bd4947454accc50bbc6ed96638fa6265bdfe0",
+        "mutant": "895a05294de16bfdaab54e7d472775c9cfbc63b4e23c1461f5701bc9ac813a06",
+        "restored": "f97c9ed8c4bc2334a4d79ce5fe4bd4947454accc50bbc6ed96638fa6265bdfe0"
+      },
+      "uniqueAssertion": "AssertionError: expected [ '伤害', '回体力', '回真气', '复活', …(14) ] to have a length of 7 but got 18"
+    }
+  },
+  {
+    "id": "INJ-5",
+    "file": "src/ui/App.tsx",
+    "anchor": "                              : 15,\n",
+    "mutant": "                              : 16,\n",
+    "testFile": "src/ui/App.cov85.test.tsx",
+    "testName": "hide/suspend",
+    "businessClaim": "逃跑后从 remain 切回 suspend 落缺省 ticks 15（非 suspend 现值不存在时）",
+    "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor",
+    "commandTemplate": "pnpm exec vitest run <testFile> -t <testName> --reporter=json",
+    "phases": {
+      "original": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/App.cov85.test.tsx",
+            "-t",
+            "hide/suspend",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/App.cov85.test.tsx",
+            "fullName": "cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 4,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089260642,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销\",\"status\":\"skipped\",\"title\":\"cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承\",\"status\":\"passed\",\"title\":\"cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承\",\"duration\":279.038,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 场景默认入场点 col/height 部分补丁互不覆盖\",\"status\":\"skipped\",\"title\":\"cov85-app 场景默认入场点 col/height 部分补丁互不覆盖\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 命名落点：label 清空删除键、坐标单轴提交\",\"status\":\"skipped\",\"title\":\"cov85-app 命名落点：label 清空删除键、坐标单轴提交\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体\",\"status\":\"skipped\",\"title\":\"cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089263112,\"endTime\":1791089263391.038,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "mutant": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/App.cov85.test.tsx",
+            "-t",
+            "hide/suspend",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/App.cov85.test.tsx",
+            "fullName": "cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承",
+            "status": "failed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 4,
+        "passed": 0,
+        "failures": [
+          {
+            "file": "packages/editor/src/ui/App.cov85.test.tsx",
+            "fullName": "cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承",
+            "messages": [
+              "AssertionError: expected { kind: 'suspend', ticks: 16 } to deeply equal { kind: 'suspend', ticks: 15 }\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.cov85.test.tsx:330:37\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089263710,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销\",\"status\":\"skipped\",\"title\":\"cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承\",\"status\":\"failed\",\"title\":\"cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承\",\"duration\":246.0154580000003,\"failureMessages\":[\"AssertionError: expected { kind: 'suspend', ticks: 16 } to deeply equal { kind: 'suspend', ticks: 15 }\\n    at /Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.cov85.test.tsx:330:37\\n    at file:///Users/zhangxu/illegal/type-pal-cov85-editor/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 场景默认入场点 col/height 部分补丁互不覆盖\",\"status\":\"skipped\",\"title\":\"cov85-app 场景默认入场点 col/height 部分补丁互不覆盖\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 命名落点：label 清空删除键、坐标单轴提交\",\"status\":\"skipped\",\"title\":\"cov85-app 命名落点：label 清空删除键、坐标单轴提交\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体\",\"status\":\"skipped\",\"title\":\"cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089266221,\"endTime\":1791089266467.0154,\"status\":\"failed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      },
+      "restored": {
+        "spawn": {
+          "command": "pnpm",
+          "args": [
+            "exec",
+            "vitest",
+            "run",
+            "src/ui/App.cov85.test.tsx",
+            "-t",
+            "hide/suspend",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor"
+        },
+        "exitCode": 0,
+        "signal": null,
+        "reportParsed": true,
+        "executedSet": [
+          {
+            "file": "packages/editor/src/ui/App.cov85.test.tsx",
+            "fullName": "cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承",
+            "status": "passed"
+          }
+        ],
+        "executedCount": 1,
+        "skippedExcluded": 4,
+        "passed": 1,
+        "failures": [],
+        "rawStdoutExcerpt": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":1,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":1,\"numFailedTests\":0,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791089266780,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[],\"fullName\":\"cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销\",\"status\":\"skipped\",\"title\":\"cov85-app 敌对开战开关：成对默认体落账、关闭清空并可撤销\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承\",\"status\":\"passed\",\"title\":\"cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承\",\"duration\":260.6864169999999,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 场景默认入场点 col/height 部分补丁互不覆盖\",\"status\":\"skipped\",\"title\":\"cov85-app 场景默认入场点 col/height 部分补丁互不覆盖\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 命名落点：label 清空删除键、坐标单轴提交\",\"status\":\"skipped\",\"title\":\"cov85-app 命名落点：label 清空删除键、坐标单轴提交\",\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[],\"fullName\":\"cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体\",\"status\":\"skipped\",\"title\":\"cov85-app 敌队缺数据回显与真实敌队切换、追逐参数成对默认体\",\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791089269319,\"endTime\":1791089269579.6865,\"status\":\"passed\",\"message\":\"\",\"name\":\"/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.cov85.test.tsx\"}]}\n",
+        "rawStderrExcerpt": ""
+      }
+    },
+    "cleanup": {
+      "command": "git status --porcelain -- packages/editor/src/ui/App.tsx",
+      "cwd": "/Users/zhangxu/illegal/type-pal-cov85-editor",
+      "gitStatusPorcelainMutatedFile": "",
+      "restoredEqualsOriginal": true,
+      "mutatedFileRestored": true
+    },
+    "verdict": {
+      "originalGreen": true,
+      "mutantRed": true,
+      "restoredGreen": true,
+      "hashTriple": {
+        "original": "ba265c29f39080485c745beb2d933f29e2bd35e8697ac8cd193ecd3acce6ff36",
+        "mutant": "e1c22fb9efe1f594b2bb01848e8f48030ccd2213f0fe447d07ef6fe819eba524",
+        "restored": "ba265c29f39080485c745beb2d933f29e2bd35e8697ac8cd193ecd3acce6ff36"
+      },
+      "uniqueAssertion": "AssertionError: expected { kind: 'suspend', ticks: 16 } to deeply equal { kind: 'suspend', ticks: 15 }"
+    }
+  }
+]
