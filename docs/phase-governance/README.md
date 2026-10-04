@@ -7,6 +7,7 @@
 - [按阶段索引](by-phase.md)
 - [按状态索引](by-status.md)
 - [机器治理账](catalog.json)
+- [内容深审记录](reviews/README.md)
 - [Lore](../lore/README.md)
 - [Phase 1](../phase1/README.md)
 - [Phase 2](../phase2/README.md)

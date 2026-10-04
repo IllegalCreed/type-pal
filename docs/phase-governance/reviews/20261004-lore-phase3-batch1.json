@@ -1,0 +1,1099 @@
+{
+  "schemaVersion": 1,
+  "id": "lore-phase3-content-review-20261004-batch1",
+  "reviewer": "Codex",
+  "reviewDate": "2026-10-04",
+  "policy": "These are content-reading conclusions, not runtime/E2E/visual/coverage claims. Unread or conflicting documents remain explicit unknown/blocked.",
+  "entries": [
+    {
+      "path": "docs/lore/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines lore as an author-controlled, source-labelled reference library; AI memory is explicitly non-authoritative. It separates canon reference from ideas and requires version/conflict logging.",
+      "truthAnchors": [
+        "author is final arbiter",
+        "official/multi-source/source-questioned reliability tiers",
+        "current mainline is phase2"
+      ],
+      "unresolved": [
+        "the index still labels several canon files as draft/partially pending",
+        "no single machine-readable canon decision registry existed before this review"
+      ],
+      "nextStep": "Use the phase/lore catalog plus content review records; do not promote draft or source-questioned claims without author decision.",
+      "phase": "lore",
+      "module": "README.md",
+      "capability": "lore-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
+      "afterSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/README.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/README.md",
+        "sourceSha256": "03bb38e6443e71ee5b90ccae38895f6f1921284c7d7c644725ecf1890e3e6442"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-63"
+    },
+    {
+      "path": "docs/lore/characters.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "coreConclusion": "The document establishes character facts and redlines, especially Li Xiaoyao/ling'er/Yueru/Anu and the Li Sansi–Huangfu Ying–Han Zhongxi chain.",
+      "truthAnchors": [
+        "official/multi-source versus fan interpretation is labelled",
+        "Yueru outcome and resurrection source conflict are explicitly separated",
+        "Li Sansi death chain contains an author-selected Water Orb interpretation"
+      ],
+      "unresolved": [
+        "full file still needs line-by-line verification of every later character entry and every external source",
+        "several ⚠/❓ claims must not be used as canonical without author adjudication"
+      ],
+      "nextStep": "Keep status partial/unknown; complete full-character review before using the file as an expansion contract.",
+      "phase": "lore",
+      "module": "characters.md",
+      "capability": "lore-characters",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+      "afterSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/characters.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/characters.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/characters.md",
+        "sourceSha256": "a33870ecb1bc2a5cff3259953c38d86e0cf33d8ab97b77a1a1ae44d1b5e4a6b6"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "partial-review-unknown"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-322"
+    },
+    {
+      "path": "docs/lore/factions.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Provides a broad four-system faction map: Central Plains martial world, court versus outlaws, cultivation schools, and Black/White Miao. It intentionally records large creative gaps rather than pretending they are canon.",
+      "truthAnchors": [
+        "South Lin/North Shen is a sparse official skeleton",
+        "Li Sansi is South Thief among Four Evils",
+        "Miao faction relationships are tied to the lore character/world rules files"
+      ],
+      "unresolved": [
+        "the document calls itself broad/initial; detailed source verification remains required before a faction becomes a plot constraint"
+      ],
+      "nextStep": "Use gaps as creative candidates only; cross-link any new canon claim to a primary/multi-source review.",
+      "phase": "lore",
+      "module": "factions.md",
+      "capability": "lore-factions",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+      "afterSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/factions.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/factions.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/factions.md",
+        "sourceSha256": "cc7852a574ccf99897c4143b76cf977157300e256db03fe1a9c45a601157dbf8"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-136"
+    },
+    {
+      "path": "docs/lore/world-rules.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines Five Orb, six realms, Nuwa succession, Shu Mountain, and Black/White Miao rules while explicitly distinguishing strong sources from fan interpretation and unresolved details.",
+      "truthAnchors": [
+        "Pal 1 Five Orb origin is preferred for this project",
+        "Shu Mountain generation numbers are hard constraints",
+        "Nuwa birth/death and reincarnation claims remain ⚠/❓"
+      ],
+      "unresolved": [
+        "six-realm details, Orb acquisition sequence, lock tower mechanics, geographic detail, and Nuwa death wording remain to verify"
+      ],
+      "nextStep": "Do not use ⚠/❓ claims as plot causality until versions/source review is complete.",
+      "phase": "lore",
+      "module": "world-rules.md",
+      "capability": "lore-world-rules",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+      "afterSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/world-rules.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/world-rules.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/world-rules.md",
+        "sourceSha256": "b5074aa3a20bbc69446dbfb43cb3b3e3b61a278a148a71c18e48c37d364c5339"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-107"
+    },
+    {
+      "path": "docs/lore/world-rules-ghost-realm.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Constrains DLC-01 ghost realm: multiple entry types can coexist, the realm is institutional rather than a free-form underworld, and Tian Gui/Fire Gui chronology imposes hard exclusions.",
+      "truthAnchors": [
+        "entry-not-unique is an author synthesis from cross-game examples",
+        "judgment/轮回 process limits long-term ghost presence",
+        "Tian Gui Emperor lock-tower chronology blocks Tian Gui NPCs in DLC-01"
+      ],
+      "unresolved": [
+        "entrance choice, exact timing, whether the Ten Halls appear, and third-party source reliability remain author decisions"
+      ],
+      "nextStep": "Cross-check every DLC-01 beat against versions, taboos, and timeline before implementation.",
+      "phase": "lore",
+      "module": "world-rules-ghost-realm.md",
+      "capability": "lore-world-rules-ghost-realm",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+      "afterSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/world-rules-ghost-realm.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/world-rules-ghost-realm.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/world-rules-ghost-realm.md",
+        "sourceSha256": "32b45f7fe6a79a07f5817aa6b4fdb62694b6772ffc63e2aa7371e7f447d0c438"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-94"
+    },
+    {
+      "path": "docs/lore/taboos.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Acts as the expansion redline list: Nuwa deaths, Li Xiaoyao/Anu/Yueru chains, Baiyue finality, Shu generations, and the YiRu–Han–Xiaoman tragedy. It separates hard redlines from version-dependent or fan-derived rules.",
+      "truthAnchors": [
+        "T1–T6 are treated as hard expansion constraints",
+        "T7–T9 require version/author decisions",
+        "creative safe zones are explicitly listed"
+      ],
+      "unresolved": [
+        "some hard labels rely on non-primary/fan sources and need source-quality review before being called official"
+      ],
+      "nextStep": "Use as a gate, but keep source confidence and author decisions visible; do not silently harden ⚠/❓ items.",
+      "phase": "lore",
+      "module": "taboos.md",
+      "capability": "lore-taboos",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
+      "afterSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/taboos.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/taboos.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/taboos.md",
+        "sourceSha256": "8ee557a990d936dbb13b36613313e5cc573732eb08b9a8347df03ce2a10dcd42"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-106"
+    },
+    {
+      "path": "docs/lore/versions.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Registers cross-version conflicts and correctly blocks expansion choices until Yueru resurrection user choice, Five Orb handling, TV exclusion, and Nuwa death interpretation are decided.",
+      "truthAnchors": [
+        "Yueru main chain is treated as settled but resurrection actor/presentation remains open",
+        "Pal 1 is the preferred expansion frame",
+        "author—not AI memory—makes canon choices"
+      ],
+      "unresolved": [
+        "four explicit decision checkboxes remain open",
+        "Steam/remaster and NPC dialogue differences are not catalogued"
+      ],
+      "nextStep": "Keep dependent expansion docs blocked on the open choices; create author decision records before canonizing.",
+      "phase": "lore",
+      "module": "versions.md",
+      "capability": "lore-versions",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+      "afterSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/versions.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/versions.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/versions.md",
+        "sourceSha256": "18fe47ad182fdcf5fe50231bb7800e9572f1190bcdbee9232e68a995561996f2"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-107"
+    },
+    {
+      "path": "docs/lore/narrative-workflow.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines a six-step narrative production method from concept to playable implementation and explicitly separates paper design from engine/editor work. It is methodology, not canon.",
+      "truthAnchors": [
+        "D19 supplies the parallel-workflow decision",
+        "beat/flow/level/script outputs are distinct artifacts",
+        "vertical slices replace waterfall completion"
+      ],
+      "unresolved": ["no current content feature is shown as having completed all six steps"],
+      "nextStep": "Use as workflow guidance only; each actual story slice needs its own governed design record.",
+      "phase": "lore",
+      "module": "narrative-workflow.md",
+      "capability": "lore-narrative-workflow",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
+      "afterSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/narrative-workflow.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/narrative-workflow.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/narrative-workflow.md",
+        "sourceSha256": "08f1acfa6febb66ab0b9c2af6368a9c3be99594c1683219300845ac072bf334d"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-58"
+    },
+    {
+      "path": "docs/lore/dlc-ideas.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Stores DLC-01–05 as ideas, explicitly not a task list. DLC-01 has a detailed ghost-realm/father-search/puzzle narrative and redline checks, but remains blocked on canon/version and engine readiness.",
+      "truthAnchors": [
+        "idea pool is non-commitment",
+        "DLC-01 avoids direct parent reunion and treats ghost testimony as fragmentary",
+        "redline self-check is required"
+      ],
+      "unresolved": [
+        "entry timing, canon choices, NPC details, and implementation are not approved"
+      ],
+      "nextStep": "Keep draft status; any move toward build requires a new content task with author decisions and current phase capability.",
+      "phase": "lore",
+      "module": "dlc-ideas.md",
+      "capability": "lore-dlc-ideas",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+      "afterSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/dlc-ideas.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/dlc-ideas.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/dlc-ideas.md",
+        "sourceSha256": "66f955cfcc6446aaf02b3bc1ebd23ac5d596ace93649b9af12bbfd57d8e1a72a"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-98"
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Combines an early rolling route for 001–005 with a 21-chapter historical overview and explicit warnings that later chapters are not fully reverified for current E2E routing.",
+      "truthAnchors": [
+        "early route is the current detailed slice",
+        "later chapter overview preserves historical source and confidence labels",
+        "阿奴 join/leave and scene order corrections are recorded"
+      ],
+      "unresolved": [
+        "absolute dating, later chapter step-by-step verification, and cross-version differences remain open"
+      ],
+      "nextStep": "Do not use the historical 21-chapter table as a current E2E route without a new source-backed review.",
+      "phase": "lore",
+      "module": "timeline.md",
+      "capability": "lore-timeline",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+      "afterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/timeline.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/timeline.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/timeline.md",
+        "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-461"
+    },
+    {
+      "path": "docs/lore/ideas/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Separates speculative creation space from the lore canon directory.",
+      "truthAnchors": ["ideas are not canon", "idea documents require separate redline review"],
+      "unresolved": [],
+      "nextStep": "Keep speculative documents out of current canon indexes.",
+      "phase": "lore",
+      "module": "ideas",
+      "capability": "lore-ideas-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+      "afterSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/ideas/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/ideas/README.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/ideas/README.md",
+        "sourceSha256": "548ad48e8d7b14aa736c1addabbe8a3672dfa84fe0062041332aa17a99f5e708"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "future edits must update this review record and governance catalog",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-10"
+    },
+    {
+      "path": "docs/lore/ideas/guijie/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines the Guijie idea folder as a draft workspace rather than a committed feature.",
+      "truthAnchors": ["draft workspace", "DLC-01 content must obey lore redlines"],
+      "unresolved": [],
+      "nextStep": "Do not promote beat-sheet/brainstorm material to current content without a decision record.",
+      "phase": "lore",
+      "module": "ideas",
+      "capability": "lore-ideas-guijie-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+      "afterSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/lore/ideas/guijie/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/lore/ideas/guijie/README.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/ideas/guijie/README.md",
+        "sourceSha256": "ae2b7c08382d0ab44dea86c2b90eede667f14f8a654918947d5db2afa0e8ae3c"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "future edits must update this review record and governance catalog",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-10"
+    },
+    {
+      "path": "docs/phase3/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Phase3 is explicitly future content reconstruction/productization after phase2; it separates release/IP, map reconstruction, website, offline app, user/cloud systems, localization, and MMO ideas from current phase2 work.",
+      "truthAnchors": [
+        "phase2 remains the current mainline",
+        "phase3 items have no build authority",
+        "copyright/IP replacement is a release gate, not a phase2 gate"
+      ],
+      "unresolved": [
+        "priority/order is roadmap guidance, not committed schedule",
+        "future product/IP decisions require user review"
+      ],
+      "nextStep": "Keep all phase3 items draft/backlog until a scoped phase3 task receives current evidence and user approval.",
+      "phase": "phase3",
+      "module": "README.md",
+      "capability": "phase3-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+      "afterSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase3/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase3/README.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase3/README.md",
+        "sourceSha256": "e64bd5b8ecb92b6a2585d2eefed5da3307991024dbd1b80ba8415923e1548267"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-115"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Preserves phase3 wish-list material moved from phase2: copyright replacement, map reconstruction, MMO/RPG systems, world/lore expansion. It explicitly states non-commitment and no phase2 build.",
+      "truthAnchors": [
+        "items are backlog/wish-list",
+        "phase2 must not pre-build MMO hooks",
+        "map reconstruction has a separate technical plan"
+      ],
+      "unresolved": [
+        "all D5–D24 mechanics remain unapproved designs",
+        "copyright and release scope require later legal/product decisions"
+      ],
+      "nextStep": "Use as historical product intent and candidate pool, not as current engineering contract.",
+      "phase": "phase3",
+      "module": "backlog.md",
+      "capability": "phase3-backlog",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+      "afterSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase3/backlog.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase3/backlog.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase3/backlog.md",
+        "sourceSha256": "6d1a5fb8efa2792bb8c4802cabc8870b07f4bdc97d9a5fbeb14892f09689bf6d"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-100"
+    },
+    {
+      "path": "docs/phase3/map-reconstruction.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Provides a high-risk future migration plan: source/instance single truth, deterministic local composition, explicit room/script mapping, dry-run/transaction/rollback, and M0–M4 milestones. It repeatedly says no build is authorized.",
+      "truthAnchors": [
+        "ProjectMap/GridPos/entity addresses are directly anchored to source lines",
+        "one room per author map does not imply one logical scene",
+        "collision and visual height are orthogonal"
+      ],
+      "unresolved": [
+        "logic scene boundary, max-height exceptions, collision semantics, migration mappings and performance budgets require a future pilot"
+      ],
+      "nextStep": "No implementation until a phase3 M0 task verifies current source and user-visible before→after.",
+      "phase": "phase3",
+      "module": "map-reconstruction.md",
+      "capability": "phase3-map-reconstruction",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+      "afterSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase3/map-reconstruction.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase3/map-reconstruction.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase3/map-reconstruction.md",
+        "sourceSha256": "c4a745018aedc3146004a52d3a9a039909714b39f55c9b089a4c8c6c74ecb5f3"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-141"
+    },
+    {
+      "path": "docs/phase3/reference/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Marks reference inputs as directional phase3 material, not phase2 tasks or approved release work.",
+      "truthAnchors": ["reference input only", "art pipeline is the linked input"],
+      "unresolved": [],
+      "nextStep": "Keep reference material separate from current specs and tasks.",
+      "phase": "phase3",
+      "module": "reference",
+      "capability": "phase3-reference-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+      "afterSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase3/reference/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase3/reference/README.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase3/reference/README.md",
+        "sourceSha256": "78b7f79ed55a64955ceaeb78bfea867d5276c99ee8b5753aa596db7229c78d57"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "future edits must update this review record and governance catalog",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-10"
+    },
+    {
+      "path": "docs/phase3/reference/art-pipeline.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Separates development-time original assets from future commercial/IP replacement and documents a tentative image pipeline. It corrects earlier optimism about sprite-sheet consistency and flags 45-degree view/LoRA/ControlNet as unknowns.",
+      "truthAnchors": [
+        "commercial release requires IP/legal review beyond art replacement",
+        "editor consumes assets; generation is decoupled",
+        "gpt-image/ControlNet/LoRA choices remain experiments"
+      ],
+      "unresolved": [
+        "45-degree consistency, animation stability, LoRA choice, and full replacement scope are not validated"
+      ],
+      "nextStep": "Do not build or generate assets under this document alone; create a phase3 asset pilot with source/license and visual acceptance evidence.",
+      "phase": "phase3",
+      "module": "reference",
+      "capability": "phase3-reference-art-pipeline",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+      "afterSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase3/reference/art-pipeline.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase3/reference/art-pipeline.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "content-deep-review-batch-1",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase3/reference/art-pipeline.md",
+        "sourceSha256": "aaf7fb0da0734b98dbb4745f3a11c07ceec1a351aa7406cf83c61cdb76f765d4"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-273"
+    }
+  ]
+}
