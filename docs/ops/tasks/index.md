@@ -11,7 +11,6 @@
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [OPS-CONTENT-DOC-REVIEW-1 - Lore / 三阶段 / Ops 内容深审](OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 — asset lifecycle and sprite action contracts](TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -181,6 +180,7 @@
 | [N6 - 共享脚本/子程序创作闭环](../archive/tasks/done/N6-shared-script-authoring.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](../archive/tasks/done/OPENING-HANDOFF-1-no-stale-title-frame.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-0001 - 建立三贤人系统协作工作流](../archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [OPS-CONTENT-DOC-REVIEW-1 - Lore / 三阶段 / Ops 内容深审](../archive/tasks/done/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-CURSOR-TEMP-CLEANUP-1 - Cursor 反控临时工作树去重清理](../archive/tasks/done/OPS-CURSOR-TEMP-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-DOC-GOVERNANCE-1 - 协作文档深度治理与入口收口](../archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-GA4 - 同意后启用独立 GA4 页面浏览](../archive/tasks/done/OPS-GA4-consent-pageviews.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -314,4 +314,3 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
-

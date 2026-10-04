@@ -69,22 +69,29 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-63"
+      "reviewedLines": "1-63",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/characters.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "coreConclusion": "The document establishes character facts and redlines, especially Li Xiaoyao/ling'er/Yueru/Anu and the Li Sansi–Huangfu Ying–Han Zhongxi chain.",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "The document establishes source-labelled character facts, hard redlines, version-dependent outcomes, and explicit creative opportunities across the main party, Miao court, Li Sansi/Huangfu Ying, and the Yi Ru–Han Zhongxi–Xiao Man succession chain. It records unresolved later-series details instead of collapsing them into one canon.",
       "truthAnchors": [
         "official/multi-source versus fan interpretation is labelled",
         "Yueru outcome and resurrection source conflict are explicitly separated",
         "Li Sansi death chain contains an author-selected Water Orb interpretation"
       ],
       "unresolved": [
-        "full file still needs line-by-line verification of every later character entry and every external source",
+        "external source authority and later-series details remain author-review items",
+        "the actor who uses the Nine-Turn Resurrection Pearl, Yi Ru's exact death wording, and Han Zhongxi's death mechanism remain pending",
         "several ⚠/❓ claims must not be used as canonical without author adjudication"
       ],
-      "nextStep": "Keep status partial/unknown; complete full-character review before using the file as an expansion contract.",
+      "nextStep": "Use the ✅ entries and explicit redlines as guarded reference; keep ⚠/❓ entries blocked until a primary source or author decision resolves them.",
       "phase": "lore",
       "module": "characters.md",
       "capability": "lore-characters",
@@ -129,13 +136,19 @@
         {
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
-          "contentReviewStatus": "partial-review-unknown"
+          "contentReviewStatus": "content-reviewed"
         }
       ],
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-322"
+      "reviewedLines": "1-360",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/factions.md",
@@ -200,7 +213,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-136"
+      "reviewedLines": "1-136",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/world-rules.md",
@@ -265,7 +284,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-107"
+      "reviewedLines": "1-107",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/world-rules-ghost-realm.md",
@@ -330,7 +355,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-94"
+      "reviewedLines": "1-94",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/taboos.md",
@@ -395,7 +426,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-106"
+      "reviewedLines": "1-106",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/versions.md",
@@ -461,7 +498,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-107"
+      "reviewedLines": "1-107",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/narrative-workflow.md",
@@ -524,7 +567,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-58"
+      "reviewedLines": "1-58",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/dlc-ideas.md",
@@ -589,7 +638,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-98"
+      "reviewedLines": "1-98",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/timeline.md",
@@ -654,7 +709,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-461"
+      "reviewedLines": "1-461",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/ideas/README.md",
@@ -713,7 +774,13 @@
       "supersedes": [],
       "stopLine": "future edits must update this review record and governance catalog",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-10"
+      "reviewedLines": "1-10",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/lore/ideas/guijie/README.md",
@@ -772,7 +839,13 @@
       "supersedes": [],
       "stopLine": "future edits must update this review record and governance catalog",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-10"
+      "reviewedLines": "1-10",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase3/README.md",
@@ -838,7 +911,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-115"
+      "reviewedLines": "1-115",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase3/backlog.md",
@@ -904,7 +983,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-100"
+      "reviewedLines": "1-100",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase3/map-reconstruction.md",
@@ -969,7 +1054,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-141"
+      "reviewedLines": "1-141",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase3/reference/README.md",
@@ -1028,7 +1119,13 @@
       "supersedes": [],
       "stopLine": "future edits must update this review record and governance catalog",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-10"
+      "reviewedLines": "1-10",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase3/reference/art-pipeline.md",
@@ -1093,7 +1190,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-273"
+      "reviewedLines": "1-273",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     }
   ]
 }

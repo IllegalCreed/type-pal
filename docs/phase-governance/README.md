@@ -8,6 +8,8 @@
 - [按状态索引](by-status.md)
 - [机器治理账](catalog.json)
 - [内容深审记录](reviews/README.md)
+- [统一文档类型与模板](templates/README.md)
+- [跨阶段真值矩阵](cross-phase-matrix.md)
 - [Lore](../lore/README.md)
 - [Phase 1](../phase1/README.md)
 - [Phase 2](../phase2/README.md)

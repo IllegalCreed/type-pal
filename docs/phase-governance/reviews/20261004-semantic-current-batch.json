@@ -1,0 +1,2675 @@
+{
+  "schemaVersion": 1,
+  "id": "semantic-current-document-review-20261004",
+  "reviewer": "Codex",
+  "reviewDate": "2026-10-04",
+  "policy": "Full-text semantic review for current governance and author-facing documents; historical/large ledger documents remain structured-content review and are not silently promoted.",
+  "entries": [
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "多 Agent 工作流：这是 guide-runbook，当前文档状态为 draft。全文 475 行、32 个标题；摘要/首段为「> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制度前，不因旧卡的 Kimi/GLM `pending` 阻止 Codex 按已核前提推进。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/agent-workflow.md:1",
+        "1:多 Agent 工作流",
+        "7:测试质量验收（用户 2026-10-03 固化）",
+        "19:历史三贤人流程（以下供查旧任务）",
+        "25:文件分工",
+        "37:角色分工"
+      ],
+      "unresolved": [
+        "正文信号 3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
+        "正文信号 13:- 输入必须来自当前公开 typed/caller 入口；业务核心不得用 `as unknown as`/`as never`、私有状态、核心 mock、放宽 timeout 或 ignore 掩盖问题。验证未知/IO 域可以合成坏输入，但必须标清其边界，不能冒充业务覆盖。",
+        "正文信号 14:- 反控必须保留完整 command/cwd/执行身份、JSON/raw、exit/signal/spawn、file×fullName 执行集合、恰一指定业务 AssertionError、恢复全绿、源/测试/重建 mutant hash 和精确临时树清理；普通 Error、runtime/collection/pending/skip/todo、重复红或",
+        "正文信号 17:任务卡应记录保留/合并/补强/删除/blocked 的精确 `file:line` 和证据，静态筛选器的弱断言或重复候选只能作为人工复核清单，不能自动删业务轴。",
+        "正文信号 23:席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。",
+        "正文信号 34:| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |",
+        "正文信号 56:- `blocked`: 缺用户拍板或外部输入,无法继续。",
+        "正文信号 71:3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,",
+        "正文信号 72:任务直接 `blocked`,不得边实现边猜。",
+        "正文信号 88:`premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。",
+        "正文信号 92:- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为",
+        "正文信号 93:`blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "agent-workflow.md",
+      "capability": "ops-agent-workflow",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+      "afterSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+      "publicCallers": [
+        "docs/ops/agent-workflow.md → ../../AGENTS.md",
+        "docs/ops/agent-workflow.md → ../../AGENTS.md",
+        "docs/ops/agent-workflow.md → archive/board-history/board-20261004.md",
+        "docs/ops/agent-workflow.md → tasks",
+        "docs/ops/agent-workflow.md → tasks/README.md",
+        "docs/ops/agent-workflow.md → templates/TASK-template.md",
+        "docs/ops/agent-workflow.md → templates/TASK-lite-template.md",
+        "docs/ops/agent-workflow.md → archive/acceptance/2026-07-checklist.md",
+        "docs/ops/agent-workflow.md → guides/browser-verification.md",
+        "docs/ops/agent-workflow.md → archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
+        "docs/ops/agent-workflow.md → templates/TASK-lite-template.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/agent-workflow.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/agent-workflow.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/agent-workflow.md",
+        "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+        "lineCount": 475,
+        "headings": [
+          {
+            "line": 1,
+            "text": "多 Agent 工作流"
+          },
+          {
+            "line": 7,
+            "text": "测试质量验收（用户 2026-10-03 固化）"
+          },
+          {
+            "line": 19,
+            "text": "历史三贤人流程（以下供查旧任务）"
+          },
+          {
+            "line": 25,
+            "text": "文件分工"
+          },
+          {
+            "line": 37,
+            "text": "角色分工"
+          },
+          {
+            "line": 48,
+            "text": "状态机"
+          },
+          {
+            "line": 60,
+            "text": "Step 0:前提真值门"
+          },
+          {
+            "line": 66,
+            "text": "Coding Owner 先交付什么"
+          },
+          {
+            "line": 81,
+            "text": "审查方如何独立反证"
+          },
+          {
+            "line": 90,
+            "text": "停线与签字失效"
+          },
+          {
+            "line": 102,
+            "text": "推进签字"
+          },
+          {
+            "line": 106,
+            "text": "进入 build 前:设计签字"
+          },
+          {
+            "line": 122,
+            "text": "进入 done 前:审查签字"
+          },
+          {
+            "line": 132,
+            "text": "向用户发起复验"
+          },
+          {
+            "line": 145,
+            "text": "缺签豁免"
+          },
+          {
+            "line": 154,
+            "text": "交接提示词"
+          },
+          {
+            "line": 158,
+            "text": "Kimi / GLM 并行审查（2026-09-04 用户拍板）"
+          },
+          {
+            "line": 206,
+            "text": "任务分级"
+          },
+          {
+            "line": 216,
+            "text": "迁移缺陷优先级"
+          },
+          {
+            "line": 229,
+            "text": "审查规则"
+          },
+          {
+            "line": 258,
+            "text": "开发期旧版本兼容审查门"
+          },
+          {
+            "line": 274,
+            "text": "上下文锚点"
+          },
+          {
+            "line": 315,
+            "text": "额度耗尽与代班规则"
+          },
+          {
+            "line": 333,
+            "text": "Coding Owner 规则"
+          },
+          {
+            "line": 346,
+            "text": "共享工作树与 stash"
+          },
+          {
+            "line": 379,
+            "text": "资源生成规则"
+          },
+          {
+            "line": 394,
+            "text": "视觉验证能力"
+          },
+          {
+            "line": 403,
+            "text": "验证时机分层（用户拍板，2026-08-08）"
+          },
+          {
+            "line": 424,
+            "text": "看板规则"
+          },
+          {
+            "line": 436,
+            "text": "任务卡规则"
+          },
+          {
+            "line": 457,
+            "text": "阶段纪律"
+          },
+          {
+            "line": 466,
+            "text": "Done 标准"
+          }
+        ],
+        "unresolvedSignals": [
+          "3:> **当前模式（用户 2026-09-25 决定）**：Codex 分派任务，其他 Agent 在隔离范围执行，Codex 独立验收、集成与收口；不再要求 Codex/Kimi/GLM 固定三席签字。下文保留三贤人时期流程作历史参考，与当前模式冲突时以 [`AGENTS.md`](../../AGENTS.md) 顶部「当前临时模式」为准。用户恢复三贤人制",
+          "13:- 输入必须来自当前公开 typed/caller 入口；业务核心不得用 `as unknown as`/`as never`、私有状态、核心 mock、放宽 timeout 或 ignore 掩盖问题。验证未知/IO 域可以合成坏输入，但必须标清其边界，不能冒充业务覆盖。",
+          "14:- 反控必须保留完整 command/cwd/执行身份、JSON/raw、exit/signal/spawn、file×fullName 执行集合、恰一指定业务 AssertionError、恢复全绿、源/测试/重建 mutant hash 和精确临时树清理；普通 Error、runtime/collection/pending/skip/todo、重复红或",
+          "17:任务卡应记录保留/合并/补强/删除/blocked 的精确 `file:line` 和证据，静态筛选器的弱断言或重复候选只能作为人工复核清单，不能自动删业务轴。",
+          "23:席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。",
+          "34:| [`acceptance-checklist.md`](archive/acceptance/2026-07-checklist.md) | 历史验收批次记录（2026-07 前后；不作当前待办）。 |",
+          "56:- `blocked`: 缺用户拍板或外部输入,无法继续。",
+          "71:3. 写出最强替代解释和“什么观察会推翻当前前提”。决定修复层或用户行为的关键项为 `unknown` 时,",
+          "72:任务直接 `blocked`,不得边实现边猜。",
+          "88:`premise verified` 没有直接证据锚点时无效;前提未通过时不审“怎么实现得更完整”。",
+          "92:- 证据与目标矛盾、替代根因未排除、或用户指出与原版/第一阶段/产品意图冲突时,立即停止实现并把任务置为",
+          "93:`blocked/rework`。先核一手证据和端到端调用域,不得从一个相邻猜测跳到另一个猜测。",
+          "119:才能写 `build allowed`。只要存在 `pending`、无证据 `verified`、无理由 `N/A` 或 `counter`,Coding Owner",
+          "120:不得修改实现文件,任务留在 `draft` 或转 `blocked`。",
+          "130:三方均为 `accept` 时,`done 准入结论` 才能写 `done allowed`。只要存在 `pending` 或 `counter`,不得提交最终收口或标记 `done`。",
+          "134:当任务进入“仅待用户复验”时,不得只回复“请验收”或罗列测试命令。Coding Owner 必须同时在最终回复与任务卡",
+          "188:- 签字门禁未满足时,明确写“不得开始实现”或“不得标记 done”。",
+          "195:当前状态: <draft/build/review/blocked>",
+          "204:如果没有下一位 Agent,当前 Agent 必须明确说明“无下一位 Agent 提示词,等待用户验收/收口”。",
+          "225:- 迁移缺陷未修复会覆盖已有手工修正时,相关下游任务暂停或转 `blocked`,不得继续积累必然丢失的修改。",
+          "231:小改和未开卡的常规迭代默认两方参与:",
+          "256:三方无法收敛时,任务转 `blocked`,由用户拍板。拍板结果必须写回任务卡。",
+          "272:`旧版本兼容审查: pass | counter`,列出命中位置和“删除/临时保留”的判定；未检查不得签 `accept`。",
+          "321:| Codex | Kimi 可代班编码/代码级验证/git 收口;GLM 可代写方案或代码草案,由 Kimi 或用户安排落地 | AI 生图、批量替代资源生成和视觉验证暂停等待 Codex,或由用户另行裁决；不自动转派视觉任务。 |"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-475",
+      "reviewNotes": "当前临时模式以 Codex 分派、贡献者执行、Codex 独立验收为准；旧三贤人流程只保留历史。测试必须按真实 caller/oracle、排重、反控和隔离验收，不能由绿灯/数量/覆盖率单独证明。"
+    },
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "全仓架构债与分批治理：这是 audit-report，当前文档状态为 current。全文 88 行、7 个标题；摘要/首段为「基点：09429b6c，2026-09-24。首轮静态盘点，不是全仓语义审计完成证明。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/audits/architecture-debt.md:1",
+        "1:全仓架构债与分批治理",
+        "11:判断依据",
+        "25:治理队列",
+        "45:并行所有权（2026-09-26 更新）",
+        "59:A1验证中新发现的独立待办"
+      ],
+      "unresolved": [
+        "正文信号 22:不含type-only；另盘点scripts/MTS/MJS。未发现可解析静态跨包环或editor/core→ui反向边；",
+        "正文信号 23:动态import、运行期回调互引和包exports全部变体未据此获证。",
+        "正文信号 50:| GLM | 前批已done；[六组同步守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)窄返工R1–R4 | 只改content白名单新测试，生产零改，不接视觉/时序混合包；未接收不计官方统计 |",
+        "正文信号 59:### A1验证中新发现的独立待办",
+        "正文信号 63:尚未归因为迁移器缺陷，不借A1关闭。",
+        "正文信号 64:- s135的调试直达落点在黑区：本轮仅观察到`?scene=s135`，尚未与正常门/脚本入口对照，",
+        "正文信号 75:不能靠减少分母或新模块未纳入统计提高百分比；不要求为一个机械移动重复执行整仓coverage。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-architecture-debt",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+      "afterSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+      "publicCallers": [
+        "docs/ops/audits/architecture-debt.md → ../archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/ops/audits/architecture-debt.md → ../archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "docs/ops/audits/architecture-debt.md → ../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+        "docs/ops/audits/architecture-debt.md → ../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/domains/runtime/scene/active-scene/report.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/domains/runtime/world/world-runtime/report.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/domains/editor/map/map-workspace-sessions/report.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/content/authoring-and-runtime/content-validation-refactor.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
+        "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+        "docs/ops/audits/architecture-debt.md → ../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/architecture-debt.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/audits/architecture-debt.md",
+          "docs/phase-governance/templates/audit-report.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/audits/architecture-debt.md",
+        "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+        "lineCount": 88,
+        "headings": [
+          {
+            "line": 1,
+            "text": "全仓架构债与分批治理"
+          },
+          {
+            "line": 11,
+            "text": "判断依据"
+          },
+          {
+            "line": 25,
+            "text": "治理队列"
+          },
+          {
+            "line": 45,
+            "text": "并行所有权（2026-09-26 更新）"
+          },
+          {
+            "line": 59,
+            "text": "A1验证中新发现的独立待办"
+          },
+          {
+            "line": 67,
+            "text": "批次与风险纪律"
+          },
+          {
+            "line": 82,
+            "text": "成功标准"
+          }
+        ],
+        "unresolvedSignals": [
+          "22:不含type-only；另盘点scripts/MTS/MJS。未发现可解析静态跨包环或editor/core→ui反向边；",
+          "23:动态import、运行期回调互引和包exports全部变体未据此获证。",
+          "50:| GLM | 前批已done；[六组同步守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md)窄返工R1–R4 | 只改content白名单新测试，生产零改，不接视觉/时序混合包；未接收不计官方统计 |",
+          "59:### A1验证中新发现的独立待办",
+          "63:尚未归因为迁移器缺陷，不借A1关闭。",
+          "64:- s135的调试直达落点在黑区：本轮仅观察到`?scene=s135`，尚未与正常门/脚本入口对照，",
+          "75:不能靠减少分母或新模块未纳入统计提高百分比；不要求为一个机械移动重复执行整仓coverage。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-88",
+      "reviewNotes": "架构债台账明确首轮是静态盘点，不是语义审计完成证明；队列按所有权/生命周期/取消与依赖拆分，未测项和已完成回执保持边界。"
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "当前审计与修复依据：这是 audit-report，当前文档状态为 current。全文 11 行、2 个标题；摘要/首段为「这里只放仍在被当前工作消费的审计台账。已归档报告见 archive/audits；文档治理的结果见任务总索引。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/audits/README.md:1", "1:当前审计与修复依据", "7:分类入口"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "audits",
+      "capability": "ops-audits-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
+      "afterSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
+      "publicCallers": [
+        "docs/ops/audits/README.md → ../README.md",
+        "docs/ops/audits/README.md → architecture-debt.md",
+        "docs/ops/audits/README.md → pre-e2e/README.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/ops/audits/README.md", "docs/phase-governance/templates/audit-report.md"],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/audits/README.md",
+        "sourceSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
+        "lineCount": 11,
+        "headings": [
+          {
+            "line": 1,
+            "text": "当前审计与修复依据"
+          },
+          {
+            "line": 7,
+            "text": "分类入口"
+          }
+        ],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-11",
+      "reviewNotes": "当前审计入口只消费未归档台账；历史审计必须留在 archive，不因整理升级为当前缺陷结论。"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "多 Agent 任务看板：这是 governance-index，当前文档状态为 draft。全文 23 行、2 个标题；摘要/首段为「当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
+      "unresolved": [
+        "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
+        "正文信号 7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
+        "正文信号 8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
+        "正文信号 9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
+        "正文信号 10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
+        "正文信号 11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
+        "正文信号 12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
+        "正文信号 19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "board.md",
+      "capability": "ops-board",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
+      "afterSha256": "0d49eaa78f70fcf663eb94238e608be3600abb215d47f70a31d48e7b184de4e8",
+      "publicCallers": [
+        "docs/ops/board.md → archive/board-history/board-20261004.md",
+        "docs/ops/board.md → README.md",
+        "docs/ops/board.md → tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md",
+        "docs/ops/board.md → tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/board.md → tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+        "docs/ops/board.md → tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "docs/ops/board.md → tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+        "docs/ops/board.md → tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+        "docs/ops/board.md → tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+        "docs/ops/board.md → tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
+        "docs/ops/board.md → tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/board.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/ops/board.md", "docs/phase-governance/templates/governance-index.md"],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "0d49eaa78f70fcf663eb94238e608be3600abb215d47f70a31d48e7b184de4e8",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/board.md",
+        "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
+        "lineCount": 23,
+        "headings": [
+          {
+            "line": 1,
+            "text": "多 Agent 任务看板"
+          },
+          {
+            "line": 17,
+            "text": "看板规则"
+          }
+        ],
+        "unresolvedSignals": [
+          "3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
+          "7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
+          "8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
+          "9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
+          "10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
+          "11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
+          "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
+          "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
+        ],
+        "afterSha256": "0d49eaa78f70fcf663eb94238e608be3600abb215d47f70a31d48e7b184de4e8"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-22",
+      "reviewNotes": "当前看板只保留非终态任务，状态必须与任务卡和索引一致；本次文档治理卡仍是 build，不能因机器清单而提前关闭。"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "任务专属证据：这是 evidence-receipt，当前文档状态为 current。全文 14 行、2 个标题；摘要/首段为「进行中任务的 tracked 证据按卡分目录存放；关闭后随任务卡一并归档或按验收结论处理。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/evidence/README.md:1", "1:任务专属证据", "8:当前证据"],
+      "unresolved": [
+        "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
+      "afterSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
+      "publicCallers": [
+        "docs/ops/evidence/README.md → ../archive/README.md",
+        "docs/ops/evidence/README.md → ../README.md",
+        "docs/ops/evidence/README.md → coverage85-kimi-extract-migrate-r1/README.md",
+        "docs/ops/evidence/README.md → coverage85-kimi-extract-migrate-r1",
+        "docs/ops/evidence/README.md → TEST-COVERAGE85-GLM-REFORGE-1/README.md",
+        "docs/ops/evidence/README.md → TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
+        "docs/ops/evidence/README.md → TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/evidence/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/README.md",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/README.md",
+        "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
+        "lineCount": 14,
+        "headings": [
+          {
+            "line": 1,
+            "text": "任务专属证据"
+          },
+          {
+            "line": 8,
+            "text": "当前证据"
+          }
+        ],
+        "unresolvedSignals": [
+          "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-14",
+      "reviewNotes": "活动任务证据按卡分目录，已关闭证据归档；证据材料服务于当前任务但不自动证明运行时或覆盖率结果。"
+    },
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Kimi 浏览器实测操作手册：这是 guide-runbook，当前文档状态为 current。全文 60 行、7 个标题；摘要/首段为「> 给 Kimi（视觉验收 / 浏览器实测）的操作手册。**最重要的提醒：reforge 游戏本体是纯键盘」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/guides/browser-verification.md:1",
+        "1:Kimi 浏览器实测操作手册",
+        "7:1. 环境与入口",
+        "16:2. 游戏键位速查（reforge 运行时）",
+        "29:3. 浏览器实测手法（给 Kimi）",
+        "40:4. 调试面板 `?debug`（D13-1）"
+      ],
+      "unresolved": [
+        "正文信号 52:- **对话翻页**：连按 Space 到底，最后一页关闭；`~NN` 尾停顿不可加速（等待自动推进）。",
+        "正文信号 53:- **战斗胜利结算**：结算屏自动播放，Space 可跳过等待。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-browser-verification",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+      "afterSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/guides/browser-verification.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/guides/browser-verification.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/guides/browser-verification.md",
+        "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+        "lineCount": 60,
+        "headings": [
+          {
+            "line": 1,
+            "text": "Kimi 浏览器实测操作手册"
+          },
+          {
+            "line": 7,
+            "text": "1. 环境与入口"
+          },
+          {
+            "line": 16,
+            "text": "2. 游戏键位速查（reforge 运行时）"
+          },
+          {
+            "line": 29,
+            "text": "3. 浏览器实测手法（给 Kimi）"
+          },
+          {
+            "line": 40,
+            "text": "4. 调试面板 `?debug`（D13-1）"
+          },
+          {
+            "line": 48,
+            "text": "5. 常见键盘流程样例"
+          },
+          {
+            "line": 55,
+            "text": "6. 关键纪律"
+          }
+        ],
+        "unresolvedSignals": [
+          "52:- **对话翻页**：连按 Space 到底，最后一页关闭；`~NN` 尾停顿不可加速（等待自动推进）。",
+          "53:- **战斗胜利结算**：结算屏自动播放，Space 可跳过等待。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-60",
+      "reviewNotes": "浏览器手册区分游戏键盘、编辑器鼠标和 debug DOM，要求真实入口、机读观察点和集中 E2E 证据，禁止把点画布无反应当作产品缺陷。"
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "本地开发服务器 · 端口与启动命令：这是 guide-runbook，当前文档状态为 current。全文 104 行、8 个标题；摘要/首段为「> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/guides/dev-servers.md:1",
+        "1:本地开发服务器 · 端口与启动命令",
+        "8:新人前置(clone 后必做)",
+        "15:原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)",
+        "20:可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+        "30:一阶段 · 仙剑本体(game)"
+      ],
+      "unresolved": [
+        "正文信号 4:> game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+        "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+        "正文信号 99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-dev-servers",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+      "afterSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/dev-servers.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/guides/dev-servers.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/guides/dev-servers.md",
+        "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+        "lineCount": 104,
+        "headings": [
+          {
+            "line": 1,
+            "text": "本地开发服务器 · 端口与启动命令"
+          },
+          {
+            "line": 8,
+            "text": "新人前置(clone 后必做)"
+          },
+          {
+            "line": 15,
+            "text": "原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)"
+          },
+          {
+            "line": 20,
+            "text": "可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+          },
+          {
+            "line": 30,
+            "text": "一阶段 · 仙剑本体(game)"
+          },
+          {
+            "line": 50,
+            "text": "二阶段 · 编辑器(editor)"
+          },
+          {
+            "line": 79,
+            "text": "二阶段 · 新引擎(reforge)"
+          },
+          {
+            "line": 96,
+            "text": "常见坑"
+          }
+        ],
+        "unresolvedSignals": [
+          "4:> game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+          "20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+          "99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-104",
+      "reviewNotes": "开发服务器手册固定端口、PAL 资源物化、current-only 迁移和 demo/pal 入口；明确 bake 不会物化 PAL 工程资源，避免错误修复路径。"
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "文档维护与自动检查：这是 guide-runbook，当前文档状态为 draft。全文 82 行、6 个标题；摘要/首段为「维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/guides/documentation.md:1",
+        "1:文档维护与自动检查",
+        "8:文档的有效范围",
+        "25:索引与文件存放",
+        "37:检查命令",
+        "48:目录职责"
+      ],
+      "unresolved": [
+        "正文信号 15:| superseded | 已被新决定取代的方案 | 指向替代决定或任务，不复活旧方案中的升级器/兼容层 |",
+        "正文信号 54:- `docs/lore/`：已登记的世界观资料；未承诺制作的故事设想放 `ideas/`。第三阶段保留 backlog 和参考输入。",
+        "正文信号 59:检查范围：Git 跟踪及未忽略的新 Markdown（含 vendored 隐藏模板），使用工作树中的实际内容；检查普通",
+        "正文信号 63:链接目标必须属于 Git 跟踪或未忽略的新文件，以及这些文件的父目录；本机存在的 `.DS_Store`、忽略产物或",
+        "正文信号 68:并由 reviewer 核实。历史旧版本、未来 N6b 的版本规划、地图/catalog 的局部格式轴不作为当前产品版本。",
+        "正文信号 70:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。",
+        "正文信号 79:允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。",
+        "正文信号 80:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-documentation",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+      "afterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+      "publicCallers": [
+        "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md",
+        "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md",
+        "docs/ops/guides/documentation.md → ../archive/audits/documentation-2026-09-06.md",
+        "docs/ops/guides/documentation.md → ../audits/pre-e2e/summary.md",
+        "docs/ops/guides/documentation.md → ../tasks/index.md",
+        "docs/ops/guides/documentation.md → ../archive/board-history/board-20261004.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/documentation.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/guides/documentation.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/guides/documentation.md",
+        "sourceSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+        "lineCount": 82,
+        "headings": [
+          {
+            "line": 1,
+            "text": "文档维护与自动检查"
+          },
+          {
+            "line": 8,
+            "text": "文档的有效范围"
+          },
+          {
+            "line": 25,
+            "text": "索引与文件存放"
+          },
+          {
+            "line": 37,
+            "text": "检查命令"
+          },
+          {
+            "line": 48,
+            "text": "目录职责"
+          },
+          {
+            "line": 73,
+            "text": "例外与准入"
+          }
+        ],
+        "unresolvedSignals": [
+          "15:| superseded | 已被新决定取代的方案 | 指向替代决定或任务，不复活旧方案中的升级器/兼容层 |",
+          "54:- `docs/lore/`：已登记的世界观资料；未承诺制作的故事设想放 `ideas/`。第三阶段保留 backlog 和参考输入。",
+          "59:检查范围：Git 跟踪及未忽略的新 Markdown（含 vendored 隐藏模板），使用工作树中的实际内容；检查普通",
+          "63:链接目标必须属于 Git 跟踪或未忽略的新文件，以及这些文件的父目录；本机存在的 `.DS_Store`、忽略产物或",
+          "68:并由 reviewer 核实。历史旧版本、未来 N6b 的版本规划、地图/catalog 的局部格式轴不作为当前产品版本。",
+          "70:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。",
+          "79:允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。",
+          "80:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-82",
+      "reviewNotes": "把 current/historical/evidence/superseded 四类有效范围、归档与索引规则、链接和版本检查边界写清；工具检查不能替代语义判断。"
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "工程维护指南：这是 guide-runbook，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「开发服务、浏览器验证和文档维护的操作方法。覆盖率及 E2E 的跨阶段合同统一放 docs/testing。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/guides/README.md:1", "1:工程维护指南", "7:文档与附件"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "guides",
+      "capability": "ops-guides-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+      "afterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+      "publicCallers": [
+        "docs/ops/guides/README.md → ../README.md",
+        "docs/ops/guides/README.md → browser-verification.md",
+        "docs/ops/guides/README.md → dev-servers.md",
+        "docs/ops/guides/README.md → documentation.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/guides/README.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/guides/README.md",
+        "sourceSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+        "lineCount": 12,
+        "headings": [
+          {
+            "line": 1,
+            "text": "工程维护指南"
+          },
+          {
+            "line": 7,
+            "text": "文档与附件"
+          }
+        ],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-12",
+      "reviewNotes": "指南入口只负责操作方法，覆盖率和 E2E 合同统一放 testing，避免同类流程另造模型。"
+    },
+    {
+      "path": "docs/ops/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "协作与工程维护：这是 governance-index，当前文档状态为 current。全文 21 行、3 个标题；摘要/首段为「活动看板、协作规则、任务与模板构成当前工作入口。操作方法放 guides，尚在消费的审计放 audits，关闭任务与时点证据放 archive。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/README.md:1", "1:协作与工程维护", "7:分类入口", "16:文档与附件"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "README.md",
+      "capability": "ops-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
+      "afterSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
+      "publicCallers": [
+        "docs/ops/README.md → ../README.md",
+        "docs/ops/README.md → archive/README.md",
+        "docs/ops/README.md → audits/README.md",
+        "docs/ops/README.md → evidence/README.md",
+        "docs/ops/README.md → guides/README.md",
+        "docs/ops/README.md → tasks/README.md",
+        "docs/ops/README.md → templates/README.md",
+        "docs/ops/README.md → agent-workflow.md",
+        "docs/ops/README.md → board.md",
+        "docs/ops/README.md → archive/board-history/README.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/ops/README.md", "docs/phase-governance/templates/governance-index.md"],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/README.md",
+        "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
+        "lineCount": 21,
+        "headings": [
+          {
+            "line": 1,
+            "text": "协作与工程维护"
+          },
+          {
+            "line": 7,
+            "text": "分类入口"
+          },
+          {
+            "line": 16,
+            "text": "文档与附件"
+          }
+        ],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-21",
+      "reviewNotes": "现行 Ops 总入口：看板、任务、指南、审计和证据分层；历史归档不再承担当前责任。"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "任务卡索引：这是 task-card，当前文档状态为 draft。全文 318 行、4 个标题；摘要/首段为「由 `node scripts/docs/check.mjs --print-task-index` 生成；只读取每张卡顶部状态。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/tasks/index.md:1",
+        "1:任务卡索引",
+        "7:活动任务",
+        "21:已完成（historical）",
+        "307:已取消（superseded / historical）"
+      ],
+      "unresolved": [
+        "正文信号 154:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
+        "正文信号 157:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
+        "正文信号 307:## 已取消（superseded / historical）",
+        "正文信号 316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "ops-tasks-index",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
+      "afterSha256": "79772d7a764ce4f060b6f2d37686455e889121e1e858b19ece8e30211bc358f5",
+      "publicCallers": [
+        "docs/ops/tasks/index.md → ../board.md",
+        "docs/ops/tasks/index.md → README.md",
+        "docs/ops/tasks/index.md → E2E-005-1-shrimp-errand-and-xianglan-news.md",
+        "docs/ops/tasks/index.md → E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "docs/ops/tasks/index.md → E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/tasks/index.md → OPS-CONTENT-DOC-REVIEW-1-deep-reading.md",
+        "docs/ops/tasks/index.md → REFORGE-OPENING-LOAD-ERROR-1.md",
+        "docs/ops/tasks/index.md → SCRIPT-AUTHOR-2-readable-inn-choreography.md",
+        "docs/ops/tasks/index.md → TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
+        "docs/ops/tasks/index.md → TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+        "docs/ops/tasks/index.md → TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
+        "docs/ops/tasks/index.md → ../archive/tasks/done/A4-own-sprite-upload.md",
+        "docs/ops/tasks/index.md → ../archive/tasks/done/A5-project-export-zip.md",
+        "docs/ops/tasks/index.md → ../archive/tasks/done/A7-0-resource-closure-registry.md",
+        "docs/ops/tasks/index.md → ../archive/tasks/done/A7-0A-opening-menu-music-role.md",
+        "docs/ops/tasks/index.md → ../archive/tasks/done/A7-1-sfx-asset-closure.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/tasks/index.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/ops/tasks/index.md", "docs/phase-governance/templates/task-card.md"],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "79772d7a764ce4f060b6f2d37686455e889121e1e858b19ece8e30211bc358f5",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/tasks/index.md",
+        "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
+        "lineCount": 318,
+        "headings": [
+          {
+            "line": 1,
+            "text": "任务卡索引"
+          },
+          {
+            "line": 7,
+            "text": "活动任务"
+          },
+          {
+            "line": 21,
+            "text": "已完成（historical）"
+          },
+          {
+            "line": 307,
+            "text": "已取消（superseded / historical）"
+          }
+        ],
+        "unresolvedSignals": [
+          "154:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
+          "157:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
+          "307:## 已取消（superseded / historical）",
+          "316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
+        ],
+        "afterSha256": "79772d7a764ce4f060b6f2d37686455e889121e1e858b19ece8e30211bc358f5"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-317",
+      "reviewNotes": "任务索引由检查器按卡片顶部状态生成，历史终态说明不改变当前责任；索引本身不是完成证据。"
+    },
+    {
+      "path": "docs/ops/tasks/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "多 Agent 任务卡：这是 task-card，当前文档状态为 draft。全文 59 行、3 个标题；摘要/首段为「任务卡是多 Agent 工作的持久交接记录。当前按 [`AGENTS.md`](../../../AGENTS.md) 的临时委派模式执行：Codex 分派、贡献者实施、Codex 独立验收；历史三贤人签字保留，但不是新任务的固定门禁。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/tasks/README.md:1",
+        "1:多 Agent 任务卡",
+        "19:前提真值门与模板升级",
+        "48:目录状态与阅读须知（2026-09-06 增）"
+      ],
+      "unresolved": [
+        "正文信号 13:当前二阶段和目标,逐项附 `file:line` 或一手证据;关键前提未知时保持 `blocked`。",
+        "正文信号 15:5. 记录 Codex 对前提、范围、单一 Coding Owner 和验收方式的准入判断；高风险任务仍要一手证据、可证伪观察与必要的用户产品裁决。贡献者自验后由 Codex 独立复核并决定返工/集成，不再等待固定三方签字。",
+        "正文信号 17:7. 按 `draft -> build -> review -> done` 推进，必要时记录 `blocked` 或 `rework`。`Status` 不替代前提证据、质量门或用户裁决；旧卡 `pending` 的 Kimi/GLM 席位本身不再阻止 Codex 按当前模式推进。",
+        "正文信号 29:- 用户指出前提冲突时立即停线;核心前提改变后旧签字失效,更新矩阵并重新签字。只有主动偏离已核真值时才用",
+        "正文信号 52:卡内的「当前状态 build/review」「下一位 Agent 提示词」「pending 签字」等文字是**写作当时"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "ops-tasks-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
+      "afterSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
+      "publicCallers": [
+        "docs/ops/tasks/README.md → ../../../AGENTS.md",
+        "docs/ops/tasks/README.md → ../archive/tasks/README.md",
+        "docs/ops/tasks/README.md → ../templates/README.md",
+        "docs/ops/tasks/README.md → ../templates/TASK-template.md",
+        "docs/ops/tasks/README.md → ../templates/TASK-lite-template.md",
+        "docs/ops/tasks/README.md → ../archive/board-history/board-20261004.md",
+        "docs/ops/tasks/README.md → ../archive/board-history/board-20261004.md",
+        "docs/ops/tasks/README.md → index.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/tasks/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/ops/tasks/README.md", "docs/phase-governance/templates/task-card.md"],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/tasks/README.md",
+        "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
+        "lineCount": 59,
+        "headings": [
+          {
+            "line": 1,
+            "text": "多 Agent 任务卡"
+          },
+          {
+            "line": 19,
+            "text": "前提真值门与模板升级"
+          },
+          {
+            "line": 48,
+            "text": "目录状态与阅读须知（2026-09-06 增）"
+          }
+        ],
+        "unresolvedSignals": [
+          "13:当前二阶段和目标,逐项附 `file:line` 或一手证据;关键前提未知时保持 `blocked`。",
+          "15:5. 记录 Codex 对前提、范围、单一 Coding Owner 和验收方式的准入判断；高风险任务仍要一手证据、可证伪观察与必要的用户产品裁决。贡献者自验后由 Codex 独立复核并决定返工/集成，不再等待固定三方签字。",
+          "17:7. 按 `draft -> build -> review -> done` 推进，必要时记录 `blocked` 或 `rework`。`Status` 不替代前提证据、质量门或用户裁决；旧卡 `pending` 的 Kimi/GLM 席位本身不再阻止 Codex 按当前模式推进。",
+          "29:- 用户指出前提冲突时立即停线;核心前提改变后旧签字失效,更新矩阵并重新签字。只有主动偏离已核真值时才用",
+          "52:卡内的「当前状态 build/review」「下一位 Agent 提示词」「pending 签字」等文字是**写作当时"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-59",
+      "reviewNotes": "活动任务按风险选择完整/轻量模板，前提真值门先于 build，当前看板只承载非终态卡；历史三贤人门禁不覆盖当前临时模式。"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "任务模板：这是 governance-index，当前文档状态为 current。全文 11 行、2 个标题；摘要/首段为「完整和轻量任务模板；创建时填写单一初始状态并按 AGENTS 的准入规则推进。用户已授权的普通维护不因目录整理被要求重复签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/templates/README.md:1", "1:任务模板", "7:文档与附件"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "templates",
+      "capability": "ops-templates-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
+      "afterSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
+      "publicCallers": [
+        "docs/ops/templates/README.md → ../README.md",
+        "docs/ops/templates/README.md → TASK-lite-template.md",
+        "docs/ops/templates/README.md → TASK-template.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/templates/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/templates/README.md",
+          "docs/phase-governance/templates/governance-index.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/templates/README.md",
+        "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
+        "lineCount": 11,
+        "headings": [
+          {
+            "line": 1,
+            "text": "任务模板"
+          },
+          {
+            "line": 7,
+            "text": "文档与附件"
+          }
+        ],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-11",
+      "reviewNotes": "Ops 任务模板提供完整/轻量两种合同；当前新增文档应绑定统一治理模板，历史卡按记录保留。"
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TASK-ID - 任务标题：这是 governance-index，当前文档状态为 draft。全文 62 行、9 个标题；摘要/首段为「Status: draft」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/templates/TASK-lite-template.md:1",
+        "1:TASK-ID - 任务标题",
+        "12:目标",
+        "15:范围",
+        "18:前提真值门",
+        "30:上下文锚点"
+      ],
+      "unresolved": [
+        "正文信号 10:状态取值：draft / build / review / done / blocked / rework / cancelled；按 [`AGENTS.md`](../../../AGENTS.md) 当前临时模式，Codex 核准入与独立验收，不要求固定三贤人签字。",
+        "正文信号 40:- Codex 范围/前提核验: pending（直接证据与反证） | verified | counter",
+        "正文信号 41:- 受委派 Coding Owner / 隔离分支: pending",
+        "正文信号 42:- build 准入: blocked | Codex build allowed（附范围和验收条件）",
+        "正文信号 43:- 贡献者交付/自验: pending（候选 SHA、命令、结果）",
+        "正文信号 44:- Codex 独立验收: pending | accept（证据） | counter（返工锚点）",
+        "正文信号 45:- 用户产品裁决/体验验收: N/A（原因） | pending | 结论与日期",
+        "正文信号 46:- done 准入: blocked | Codex done allowed；历史三方签字如适用只按历史记录，不是当前门禁"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "templates",
+      "capability": "ops-templates-TASK-lite-template",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "publicCallers": [
+        "docs/ops/templates/TASK-lite-template.md → ../../../AGENTS.md",
+        "docs/ops/templates/TASK-lite-template.md → ../agent-workflow.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/templates/TASK-lite-template.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/templates/TASK-lite-template.md",
+          "docs/phase-governance/templates/governance-index.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/templates/TASK-lite-template.md",
+        "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "lineCount": 62,
+        "headings": [
+          {
+            "line": 1,
+            "text": "TASK-ID - 任务标题"
+          },
+          {
+            "line": 12,
+            "text": "目标"
+          },
+          {
+            "line": 15,
+            "text": "范围"
+          },
+          {
+            "line": 18,
+            "text": "前提真值门"
+          },
+          {
+            "line": 30,
+            "text": "上下文锚点"
+          },
+          {
+            "line": 33,
+            "text": "验证"
+          },
+          {
+            "line": 39,
+            "text": "当前模式推进记录"
+          },
+          {
+            "line": 48,
+            "text": "交接"
+          },
+          {
+            "line": 51,
+            "text": "下一位 Agent 提示词"
+          }
+        ],
+        "unresolvedSignals": [
+          "10:状态取值：draft / build / review / done / blocked / rework / cancelled；按 [`AGENTS.md`](../../../AGENTS.md) 当前临时模式，Codex 核准入与独立验收，不要求固定三贤人签字。",
+          "40:- Codex 范围/前提核验: pending（直接证据与反证） | verified | counter",
+          "41:- 受委派 Coding Owner / 隔离分支: pending",
+          "42:- build 准入: blocked | Codex build allowed（附范围和验收条件）",
+          "43:- 贡献者交付/自验: pending（候选 SHA、命令、结果）",
+          "44:- Codex 独立验收: pending | accept（证据） | counter（返工锚点）",
+          "45:- 用户产品裁决/体验验收: N/A（原因） | pending | 结论与日期",
+          "46:- done 准入: blocked | Codex done allowed；历史三方签字如适用只按历史记录，不是当前门禁"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-62",
+      "reviewNotes": "轻量卡明确适用范围、前提证据、验证和 Codex 独立验收；遇到 schema/save/migration/真值等高风险必须升级完整卡。"
+    },
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "TASK-ID - 任务标题：这是 governance-index，当前文档状态为 draft。全文 199 行、26 个标题；摘要/首段为「Status: draft」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/templates/TASK-template.md:1",
+        "1:TASK-ID - 任务标题",
+        "16:目标",
+        "20:范围",
+        "26:前提真值门",
+        "31:一句话行为 / 工程前提"
+      ],
+      "unresolved": [
+        "正文信号 29:再写详细方案。决定修复层或用户行为的关键项为 `unknown` 时,任务保持 `blocked`,不得用推断补齐。",
+        "正文信号 62:- 用户裁决: N/A | pending | YYYY-MM-DD 用户已批准/否决",
+        "正文信号 89:- 前提核验: pending | verified（附 `file:line` / reference 与可证伪观察） | counter | N/A（说明）",
+        "正文信号 90:- 范围、设计和验收条件: pending | agree（证据与风险） | counter",
+        "正文信号 91:- 高风险用户产品裁决: N/A（理由） | pending | 日期与原话",
+        "正文信号 92:- build 准入结论: blocked | Codex build allowed",
+        "正文信号 96:- 贡献者交付与自验: pending（SHA、命令、结果；不算独立验收）",
+        "正文信号 97:- Codex 独立复核: pending | accept（直接证据与质量门） | counter（返工项）",
+        "正文信号 98:- 用户体验/产品验收: N/A（理由） | pending | 日期与结论",
+        "正文信号 99:- done 准入结论: blocked | Codex done allowed；固定三贤人签字不再是当前门禁",
+        "正文信号 119:- 是否建议进入 build: pending",
+        "正文信号 123:当一手证据冲突、触及不可逆/高风险决策、审查 counter 或用户要求时填写；不要求凑三方意见。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "templates",
+      "capability": "ops-templates-TASK-template",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "publicCallers": [
+        "docs/ops/templates/TASK-template.md → ../../../AGENTS.md",
+        "docs/ops/templates/TASK-template.md → ../agent-workflow.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/ops/templates/TASK-template.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/templates/TASK-template.md",
+          "docs/phase-governance/templates/governance-index.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/templates/TASK-template.md",
+        "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "lineCount": 199,
+        "headings": [
+          {
+            "line": 1,
+            "text": "TASK-ID - 任务标题"
+          },
+          {
+            "line": 16,
+            "text": "目标"
+          },
+          {
+            "line": 20,
+            "text": "范围"
+          },
+          {
+            "line": 26,
+            "text": "前提真值门"
+          },
+          {
+            "line": 31,
+            "text": "一句话行为 / 工程前提"
+          },
+          {
+            "line": 35,
+            "text": "真值矩阵"
+          },
+          {
+            "line": 47,
+            "text": "反证与替代解释"
+          },
+          {
+            "line": 57,
+            "text": "用户可见偏离"
+          },
+          {
+            "line": 64,
+            "text": "上下文锚点"
+          },
+          {
+            "line": 74,
+            "text": "验收条件"
+          },
+          {
+            "line": 84,
+            "text": "当前模式推进记录"
+          },
+          {
+            "line": 86,
+            "text": "进入 build 前：Codex 核定"
+          },
+          {
+            "line": 94,
+            "text": "进入 done 前：独立验收"
+          },
+          {
+            "line": 101,
+            "text": "Draft: 设计与风险"
+          },
+          {
+            "line": 103,
+            "text": "设计结论"
+          },
+          {
+            "line": 107,
+            "text": "已知风险"
+          },
+          {
+            "line": 112,
+            "text": "专项审查安排（按需）"
+          },
+          {
+            "line": 121,
+            "text": "证据分歧与用户裁决（按需）"
+          },
+          {
+            "line": 129,
+            "text": "分派与容量记录（如适用）"
+          },
+          {
+            "line": 135,
+            "text": "Build: 实现与自测"
+          },
+          {
+            "line": 144,
+            "text": "资源生成记录(如适用)"
+          },
+          {
+            "line": 156,
+            "text": "视觉验证记录(如适用)"
+          },
+          {
+            "line": 166,
+            "text": "Review: 审查与返工"
+          },
+          {
+            "line": 173,
+            "text": "用户验收"
+          },
+          {
+            "line": 178,
+            "text": "交接日志"
+          },
+          {
+            "line": 184,
+            "text": "下一位 Agent 提示词"
+          }
+        ],
+        "unresolvedSignals": [
+          "29:再写详细方案。决定修复层或用户行为的关键项为 `unknown` 时,任务保持 `blocked`,不得用推断补齐。",
+          "62:- 用户裁决: N/A | pending | YYYY-MM-DD 用户已批准/否决",
+          "89:- 前提核验: pending | verified（附 `file:line` / reference 与可证伪观察） | counter | N/A（说明）",
+          "90:- 范围、设计和验收条件: pending | agree（证据与风险） | counter",
+          "91:- 高风险用户产品裁决: N/A（理由） | pending | 日期与原话",
+          "92:- build 准入结论: blocked | Codex build allowed",
+          "96:- 贡献者交付与自验: pending（SHA、命令、结果；不算独立验收）",
+          "97:- Codex 独立复核: pending | accept（直接证据与质量门） | counter（返工项）",
+          "98:- 用户体验/产品验收: N/A（理由） | pending | 日期与结论",
+          "99:- done 准入结论: blocked | Codex done allowed；固定三贤人签字不再是当前门禁",
+          "119:- 是否建议进入 build: pending",
+          "123:当一手证据冲突、触及不可逆/高风险决策、审查 counter 或用户要求时填写；不要求凑三方意见。",
+          "164:- 未完成项:",
+          "171:- Accept / rework: pending",
+          "186:每次需要用户转交给下一位 Agent 时,由当前 Agent 更新本节,并在最终回复中给出同一段可复制文本。若暂无下一位,写“无,等待用户验收/收口”。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-199",
+      "reviewNotes": "完整卡覆盖四向真值矩阵、可证伪替代解释、上下文锚点、验收、分派、视觉/E2E、复核和交接；模板本身不授予 build/done。"
+    },
+    {
+      "path": "docs/phase2/guides/actor-presets.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "人物预制与场景实体创作说明：这是 guide-runbook，当前文档状态为 current。全文 65 行、6 个标题；摘要/首段为「> 对应能力：C1-1。人物预制只复用身份与资源，不是带行为继承的完整 NPC prefab。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/phase2/guides/actor-presets.md:1",
+        "1:人物预制与场景实体创作说明",
+        "5:三种放置方式",
+        "16:什么会共享，什么不会共享",
+        "34:解除人物关联",
+        "46:创建、复制和删除"
+      ],
+      "unresolved": [
+        "正文信号 39:1. 解除后，人物未来改名、换立绘或换默认精灵不再影响该实例；",
+        "正文信号 58:## 尚未包含的能力",
+        "正文信号 64:- “把当前自定义实体保存为人物”尚未实现，避免在没有跨文件原子事务设计时生成半人物。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "phase2",
+      "module": "guides",
+      "capability": "phase2-guides-actor-presets",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
+      "afterSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": ["current repository documentation", "docs/phase2/guides/actor-presets.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase2/guides/actor-presets.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase2/guides/actor-presets.md",
+        "sourceSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
+        "lineCount": 65,
+        "headings": [
+          {
+            "line": 1,
+            "text": "人物预制与场景实体创作说明"
+          },
+          {
+            "line": 5,
+            "text": "三种放置方式"
+          },
+          {
+            "line": 16,
+            "text": "什么会共享，什么不会共享"
+          },
+          {
+            "line": 34,
+            "text": "解除人物关联"
+          },
+          {
+            "line": 46,
+            "text": "创建、复制和删除"
+          },
+          {
+            "line": 58,
+            "text": "尚未包含的能力"
+          }
+        ],
+        "unresolvedSignals": [
+          "39:1. 解除后，人物未来改名、换立绘或换默认精灵不再影响该实例；",
+          "58:## 尚未包含的能力",
+          "64:- “把当前自定义实体保存为人物”尚未实现，避免在没有跨文件原子事务设计时生成半人物。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-65",
+      "reviewNotes": "人物定义与场景实例分离，稳定 actor id 与资源引用可共享；解除关联、复制、删除必须保持引用安全和可撤销，不能把人物预制误当行为 prefab。"
+    },
+    {
+      "path": "docs/phase2/guides/battlefield-authoring.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "战场作者工作台：这是 guide-runbook，当前文档状态为 current。全文 57 行、6 个标题；摘要/首段为「战场是战斗画面环境对象，不是阵型或角色站位。每条 `BattleFieldDef` 用稳定数字 `id` 标识，只保存：」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/phase2/guides/battlefield-authoring.md:1",
+        "1:战场作者工作台",
+        "12:PAL 旧数据的领域分离",
+        "20:创建、复制与删除",
+        "29:三层战场选择",
+        "42:背景资产"
+      ],
+      "unresolved": [
+        "正文信号 36:4. 都未设置时使用项目隐式默认 `#24`。",
+        "正文信号 40:当前 `#24` 是运行时合同，不是可配置 manifest 字段。工程未提供 `#24` 时，编辑器会明确警告战斗将回落为黑底；不会把运行时兜底当作引用安全。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "phase2",
+      "module": "guides",
+      "capability": "phase2-guides-battlefield-authoring",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
+      "afterSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/guides/battlefield-authoring.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase2/guides/battlefield-authoring.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase2/guides/battlefield-authoring.md",
+        "sourceSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
+        "lineCount": 57,
+        "headings": [
+          {
+            "line": 1,
+            "text": "战场作者工作台"
+          },
+          {
+            "line": 12,
+            "text": "PAL 旧数据的领域分离"
+          },
+          {
+            "line": 20,
+            "text": "创建、复制与删除"
+          },
+          {
+            "line": 29,
+            "text": "三层战场选择"
+          },
+          {
+            "line": 42,
+            "text": "背景资产"
+          },
+          {
+            "line": 50,
+            "text": "验收示例"
+          }
+        ],
+        "unresolvedSignals": [
+          "36:4. 都未设置时使用项目隐式默认 `#24`。",
+          "40:当前 `#24` 是运行时合同，不是可配置 manifest 字段。工程未提供 `#24` 时，编辑器会明确警告战斗将回落为黑底；不会把运行时兜底当作引用安全。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-57",
+      "reviewNotes": "战场是环境定义，不是阵型；场景/明雷/startBattle按显式优先级选择 fieldId，PAL raw 0..5 的迁移事实不应污染通用 schema。"
+    },
+    {
+      "path": "docs/phase2/guides/content-publication.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "PAL 内容导入与发布：这是 guide-runbook，当前文档状态为 current。全文 27 行、1 个标题；摘要/首段为「类型：使用指南。日常作者维护与PAL原始源重导分开：作者内容以当前工程为真源，通过编辑器」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/phase2/guides/content-publication.md:1", "1:PAL 内容导入与发布"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "phase2",
+      "module": "guides",
+      "capability": "phase2-guides-content-publication",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+      "afterSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+      "publicCallers": [
+        "docs/phase2/guides/content-publication.md → ../../../packages/editor/README.md",
+        "docs/phase2/guides/content-publication.md → ../../../packages/migrate/README.md",
+        "docs/phase2/guides/content-publication.md → ../../../packages/pal-extract/README.md",
+        "docs/phase2/guides/content-publication.md → ../specs/content-schema.md",
+        "docs/phase2/guides/content-publication.md → ../specs/project-lifecycle.md",
+        "docs/phase2/guides/content-publication.md → ../READ-FIRST.md",
+        "docs/phase2/guides/content-publication.md → ../archive/designs/asset-pipeline.md"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/guides/content-publication.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase2/guides/content-publication.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase2/guides/content-publication.md",
+        "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
+        "lineCount": 27,
+        "headings": [
+          {
+            "line": 1,
+            "text": "PAL 内容导入与发布"
+          }
+        ],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-27",
+      "reviewNotes": "作者正文以当前工程为真源，PAL 供应分区才经 migrate 重导；check:content 只读，migrate --write 会写盘，禁止直接改生成 JSON 代替上游修复。"
+    },
+    {
+      "path": "docs/phase2/guides/debug-tools.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "reforge 调试工具（D13-1 首刀）：这是 guide-runbook，当前文档状态为 draft。全文 82 行、8 个标题；摘要/首段为「> 议题 13 backlog 的首刀落地。入口：`?debug`（仅 DEV 构建；生产构建不含本模块，见」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/phase2/guides/debug-tools.md:1",
+        "1:reforge 调试工具（D13-1 首刀）",
+        "10:打开方式",
+        "23:状态页",
+        "32:cheat console 命令（G4 覆盖矩阵）",
+        "52:脚本 / 触发器触发（K3）"
+      ],
+      "unresolved": [
+        "正文信号 29:- “刷新状态”同时刷新以上两区。motion slot 是已注册/待执行信息，不等同于当前控制权；例如实体被"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "phase2",
+      "module": "guides",
+      "capability": "phase2-guides-debug-tools",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
+      "afterSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
+      "publicCallers": [
+        "docs/phase2/guides/debug-tools.md → ../../ops/archive/tasks/done/D13-1-debug-tools-first-batch.md"
+      ],
+      "legalInputs": ["current repository documentation", "docs/phase2/guides/debug-tools.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase2/guides/debug-tools.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase2/guides/debug-tools.md",
+        "sourceSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
+        "lineCount": 82,
+        "headings": [
+          {
+            "line": 1,
+            "text": "reforge 调试工具（D13-1 首刀）"
+          },
+          {
+            "line": 10,
+            "text": "打开方式"
+          },
+          {
+            "line": 23,
+            "text": "状态页"
+          },
+          {
+            "line": 32,
+            "text": "cheat console 命令（G4 覆盖矩阵）"
+          },
+          {
+            "line": 52,
+            "text": "脚本 / 触发器触发（K3）"
+          },
+          {
+            "line": 59,
+            "text": "战斗态构建器（K2）"
+          },
+          {
+            "line": 68,
+            "text": "帧步进（K5）"
+          },
+          {
+            "line": 75,
+            "text": "DEV guard（K4/G1）"
+          }
+        ],
+        "unresolvedSignals": [
+          "29:- “刷新状态”同时刷新以上两区。motion slot 是已注册/待执行信息，不等同于当前控制权；例如实体被"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-82",
+      "reviewNotes": "debug 面板仅 DEV，通过公开 runCommands/runner caller 提供场景、战斗、脚本和帧步进；内存态动作不落档，生产构建必须无 debug chunk。"
+    },
+    {
+      "path": "docs/phase2/guides/scene-entry-authoring.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "场景入场呈现编辑说明：这是 guide-runbook，当前文档状态为 current。全文 35 行、4 个标题；摘要/首段为「> 对应能力:X3-1。数据真值见」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/phase2/guides/scene-entry-authoring.md:1",
+        "1:场景入场呈现编辑说明",
+        "6:当前编辑器入口",
+        "14:作者规则",
+        "25:开场样例"
+      ],
+      "unresolved": [
+        "正文信号 21:`SCENE_ENTRY_PREPARE_SAFETY`（例如音乐、队伍瞬移为 safe；对话、fade、切场、队伍走位为 blocked）。",
+        "正文信号 22:**当前编辑器插入菜单和作者保存校验尚未按这份目录过滤/拒绝**；菜单中能选到或保存成功，",
+        "正文信号 23:不代表命令适合放在 `prepare`。此缺口待产品层单独修复。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "phase2",
+      "module": "guides",
+      "capability": "phase2-guides-scene-entry-authoring",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
+      "afterSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
+      "publicCallers": [
+        "docs/phase2/guides/scene-entry-authoring.md → ../specs/script-system.md#场景入场呈现"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/guides/scene-entry-authoring.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase2/guides/scene-entry-authoring.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase2/guides/scene-entry-authoring.md",
+        "sourceSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
+        "lineCount": 35,
+        "headings": [
+          {
+            "line": 1,
+            "text": "场景入场呈现编辑说明"
+          },
+          {
+            "line": 6,
+            "text": "当前编辑器入口"
+          },
+          {
+            "line": 14,
+            "text": "作者规则"
+          },
+          {
+            "line": 25,
+            "text": "开场样例"
+          }
+        ],
+        "unresolvedSignals": [
+          "21:`SCENE_ENTRY_PREPARE_SAFETY`（例如音乐、队伍瞬移为 safe；对话、fade、切场、队伍走位为 blocked）。",
+          "22:**当前编辑器插入菜单和作者保存校验尚未按这份目录过滤/拒绝**；菜单中能选到或保存成功，",
+          "23:不代表命令适合放在 `prepare`。此缺口待产品层单独修复。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-35",
+      "reviewNotes": "现行入口只编辑 prepare/body，reveal 合同存在但暂无独立控件；prepare 安全目录尚未在插入/保存门真正拒绝，文档明确不把数据字段误报成 UI 能力。"
+    },
+    {
+      "path": "docs/phase2/guides/shared-script-author-guide.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "脚本库与可复用脚本作者手册：这是 guide-runbook，当前文档状态为 draft。全文 141 行、10 个标题；摘要/首段为「> 适用版本：contentVersion 22 / SAVE11。脚本模型不带产品版本后缀；作者内容直接使用」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/phase2/guides/shared-script-author-guide.md:1",
+        "1:脚本库与可复用脚本作者手册",
+        "14:什么时候用哪一种",
+        "28:创建与编辑",
+        "57:统一编辑器与场景工作台",
+        "75:`self` 契约"
+      ],
+      "unresolved": [
+        "正文信号 7:> **已拍板、尚未实现**：第二阶段将在薄 E2E 基线后，为四种取物流程实现窄版",
+        "正文信号 68:已开始的移动/淡幕/等待先完成当前动作，再停在下一条之前；倍速同时影响动作和对话阅读时间。",
+        "正文信号 78:- `可选`：调用点可显式给 `EntityAddress`；未给时继承 caller self，也允许最终为空。",
+        "正文信号 80:调用实体而 fail-loud 目前待证，不得写成已实现的保存门。",
+        "正文信号 123:- 目标必须已经实例化；若尚未入队，应先 `setParty`。世界中这些状态不会自行倒计时，进入战斗后才按",
+        "正文信号 133:fail-loud。`self: required` 缺调用实体由运行时拒绝；保存/发布是否同样 fail-loud 待证。",
+        "正文信号 137:当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId 作为作者冲突键，不以生成块",
+        "正文信号 138:或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "phase2",
+      "module": "guides",
+      "capability": "phase2-guides-shared-script-author-guide",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+      "afterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+      "publicCallers": [
+        "docs/phase2/guides/shared-script-author-guide.md → ../design-backlog.md#n6b-强类型脚本模式库"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase2/guides/shared-script-author-guide.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase2/guides/shared-script-author-guide.md",
+          "docs/phase-governance/templates/guide-runbook.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase2/guides/shared-script-author-guide.md",
+        "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+        "lineCount": 141,
+        "headings": [
+          {
+            "line": 1,
+            "text": "脚本库与可复用脚本作者手册"
+          },
+          {
+            "line": 14,
+            "text": "什么时候用哪一种"
+          },
+          {
+            "line": 28,
+            "text": "创建与编辑"
+          },
+          {
+            "line": 57,
+            "text": "统一编辑器与场景工作台"
+          },
+          {
+            "line": 75,
+            "text": "`self` 契约"
+          },
+          {
+            "line": 85,
+            "text": "调用与跳转"
+          },
+          {
+            "line": 104,
+            "text": "物品私有脚本"
+          },
+          {
+            "line": 115,
+            "text": "剧情入队角色的当前状态"
+          },
+          {
+            "line": 126,
+            "text": "删除与错误"
+          },
+          {
+            "line": 135,
+            "text": "重迁与当前发布"
+          }
+        ],
+        "unresolvedSignals": [
+          "7:> **已拍板、尚未实现**：第二阶段将在薄 E2E 基线后，为四种取物流程实现窄版",
+          "68:已开始的移动/淡幕/等待先完成当前动作，再停在下一条之前；倍速同时影响动作和对话阅读时间。",
+          "78:- `可选`：调用点可显式给 `EntityAddress`；未给时继承 caller self，也允许最终为空。",
+          "80:调用实体而 fail-loud 目前待证，不得写成已实现的保存门。",
+          "123:- 目标必须已经实例化；若尚未入队，应先 `setParty`。世界中这些状态不会自行倒计时，进入战斗后才按",
+          "133:fail-loud。`self: required` 缺调用实体由运行时拒绝；保存/发布是否同样 fail-loud 待证。",
+          "137:当前发布以稳定 ScriptId、PageId、BehaviorId、HookId、StageId 作为作者冲突键，不以生成块",
+          "138:或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-141",
+      "reviewNotes": "共享脚本只承载稳定业务语义的多调用逻辑；实体行为、hook、物品私有脚本和模板各有边界，N6b 参数化仍是未实现的未来工作。"
+    }
+  ]
+}

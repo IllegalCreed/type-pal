@@ -35,7 +35,7 @@
     "test:coverage-tools": "node --test scripts/coverage/*.test.mjs",
     "test:docs-tools": "node --test scripts/docs/*.test.mjs",
     "test:quality-tools": "node --test scripts/quality/*.test.mjs",
-    "check:docs": "pnpm test:docs-tools && node scripts/docs/check.mjs && pnpm check:testing-docs && node scripts/docs/check-phase-lore-governance.mjs",
+    "check:docs": "pnpm test:docs-tools && node scripts/docs/check.mjs && pnpm check:testing-docs && node scripts/docs/check-phase-lore-governance.mjs && node scripts/docs/check-content-review.mjs --strict",
     "check:testing-docs": "node scripts/docs/check-testing.mjs",
     "check:content": "tsx packages/editor/scripts/check-project.mts",
     "coverage:fast": "pnpm test:coverage-tools && node scripts/coverage/run.mjs fast",

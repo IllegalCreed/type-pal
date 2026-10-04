@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "id": "content-document-template-registry-20261004",
+  "owner": "Codex",
+  "policy": "One stable type and one template contract per governed document; historical documents retain truth scope and are not promoted by formatting migration.",
+  "types": [
+    {
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "governance-index.md",
+      "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"]
+    },
+    {
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "task-card.md",
+      "requiredSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"]
+    },
+    {
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "guide-runbook.md",
+      "requiredSections": ["目的", "前置条件", "步骤", "失败处理", "完成定义"]
+    },
+    {
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "audit-report.md",
+      "requiredSections": ["审计问题", "范围与证据", "发现", "结论", "整改与复核"]
+    },
+    {
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "evidence-receipt.md",
+      "requiredSections": ["证据身份", "来源与输入", "断言与业务 oracle", "结果", "限制与复核"]
+    },
+    {
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "design-spec.md",
+      "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"]
+    },
+    {
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "plan-status.md",
+      "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"]
+    },
+    {
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "reference-canon.md",
+      "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"]
+    },
+    {
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "template": "narrative-idea.md",
+      "requiredSections": ["创意目的", "已知约束", "候选内容", "未决选择", "升级为 canon 的门槛"]
+    },
+    {
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "archive-record.md",
+      "requiredSections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"]
+    }
+  ]
+}

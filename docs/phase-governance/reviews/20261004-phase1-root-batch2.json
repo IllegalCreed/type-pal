@@ -66,7 +66,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-56"
+      "reviewedLines": "1-56",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/01-feasibility.md",
@@ -131,7 +137,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-54"
+      "reviewedLines": "1-54",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/02-architecture.md",
@@ -197,7 +209,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-137"
+      "reviewedLines": "1-137",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/03-development-plan.md",
@@ -263,7 +281,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-192"
+      "reviewedLines": "1-192",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/04-decisions.md",
@@ -328,7 +352,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-86"
+      "reviewedLines": "1-86",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/05-events-schema.md",
@@ -393,7 +423,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-158"
+      "reviewedLines": "1-158",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/06-testing.md",
@@ -458,7 +494,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-84"
+      "reviewedLines": "1-84",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/engineering-notes.md",
@@ -523,7 +565,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-205"
+      "reviewedLines": "1-205",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/game-mechanics.md",
@@ -588,7 +636,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-1582"
+      "reviewedLines": "1-1582",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     },
     {
       "path": "docs/phase1/sdlpal-runbook.md",
@@ -653,7 +707,13 @@
       "supersedes": [],
       "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-253"
+      "reviewedLines": "1-253",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
     }
   ]
 }

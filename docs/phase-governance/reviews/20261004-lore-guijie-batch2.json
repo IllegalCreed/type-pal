@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "id": "lore-guijie-content-review-20261004-batch2",
+  "reviewer": "Codex",
+  "reviewDate": "2026-10-04",
+  "policy": "Full-text reading of the two remaining DLC-01 working documents; this is a content conclusion, not runtime/E2E/visual/coverage evidence.",
+  "entries": [
+    {
+      "path": "docs/lore/ideas/guijie/beat-sheet.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "coreConclusion": "The beat sheet turns the DLC-01 concept into a three-act sequence: a Shengyu village prejudice prelude, a Ghost Realm entry and three-route puzzle, then a return to the human world. Its current dramatic spine is the false father silhouette, parents already reincarnated, the child ghost/Blue Dragon Jade sacrifice loop, and Li Xiaoyao's release rather than reunion. It deliberately preserves many scene-level placeholders and marks the document as draft.",
+      "truthAnchors": [
+        "B1-B3 entry chain and the permanent room closure are explicitly author-set decisions",
+        "the Ghost Realm routes are A rescue, B trap/sacrifice, C boss reveal; route C is intentionally compact",
+        "the child ghost is an ordinary ghost, not Tian Gui, and the jade remains intact for the later Yue Ru foreshadow",
+        "the seventh-chapter time window forbids early exposition of Water Orb, Witch Queen, or Moon Cult facts"
+      ],
+      "unresolved": [
+        "some B1.6, A.7, D.4 wording is still waiting for author polish",
+        "the child ghost name and several route beats remain placeholders",
+        "the document contains superseded ideas inline; the final beat sheet must preserve history while making the current decision block unambiguous",
+        "the proposed Yue Ru soul-residue mechanism is a narrative hypothesis, not a runtime or canon contract"
+      ],
+      "nextStep": "Keep as narrative-idea draft. When promoted, split the accepted beat contract from the historical proposal log, attach primary-source/timeline references for every time-sensitive claim, and hand the route/entrance content to a scoped content task.",
+      "phase": "lore",
+      "module": "ideas/guijie",
+      "capability": "lore-ideas-guijie-beat-sheet",
+      "owner": "Codex",
+      "provenance": ["source-document", "author-decision-log", "repository-history"],
+      "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+      "afterSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+      "publicCallers": ["lore navigation", "DLC-01 content planning"],
+      "legalInputs": [
+        "docs/lore/ideas/guijie/beat-sheet.md",
+        "docs/lore/world-rules-ghost-realm.md",
+        "docs/lore/timeline.md",
+        "docs/lore/taboos.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "all 390 lines were read",
+          "draft and superseded claims remain explicitly bounded",
+          "no runtime/E2E/coverage credit is implied"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/lore/ideas/guijie/brainstorm.md",
+          "docs/lore/dlc-ideas.md",
+          "docs/lore/world-rules-ghost-realm.md"
+        ],
+        "notes": "Beat-level elaboration is not a second canon source; brainstorm history remains separate."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/ideas/guijie/beat-sheet.md",
+        "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
+        "readLines": "1-390"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat draft beats or narrative hypotheses as current canon, implementation requirements, or proof that the described scene exists in the engine",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-390",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/lore/ideas/guijie/brainstorm.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "coreConclusion": "The brainstorm is the discussion ledger behind DLC-01. It records the accepted emotional arc, the shift from parents waiting in the Ghost Realm to parents already reincarnated, the false-silhouette trap, the ordinary-ghost guide, the water-disaster victim boss proposal, and the later author decision list. It is useful for decision history but is not itself a clean canon specification.",
+      "truthAnchors": [
+        "the document explicitly labels early concepts as superseded and preserves later author decisions",
+        "the accepted boss proposal is the person who escorted Li Sansi from Miao territory, not a Four Evils member or Moon Cult loyalist",
+        "the time-line redline prohibits Water Orb/Witch Queen/Moon Cult exposition at the seventh-chapter insertion point",
+        "the author decision list is the current local authority for the narrative proposal, subject to later canon review"
+      ],
+      "unresolved": [
+        "the proposed boss identity and soul mechanics still require primary-source/product adjudication before canon promotion",
+        "the document contains contradictory historical paragraphs that must not be quoted without the decision-list context",
+        "remaining beat-sheet follow-ups are not all closed"
+      ],
+      "nextStep": "Keep as a historical narrative workshop record. Link future canonical decisions to the decision list and migrate only accepted content into the beat-sheet/template; never use an early brainstorm paragraph as a standalone canon citation.",
+      "phase": "lore",
+      "module": "ideas/guijie",
+      "capability": "lore-ideas-guijie-brainstorm",
+      "owner": "Codex",
+      "provenance": ["source-document", "author-decision-log", "repository-history"],
+      "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+      "afterSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+      "publicCallers": ["lore navigation", "DLC-01 design history"],
+      "legalInputs": [
+        "docs/lore/ideas/guijie/brainstorm.md",
+        "docs/lore/ideas/guijie/beat-sheet.md",
+        "docs/lore/characters.md",
+        "docs/lore/timeline.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "all 386 lines were read",
+          "historical and accepted decisions are distinguished",
+          "no runtime/E2E/coverage credit is implied"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/lore/ideas/guijie/beat-sheet.md", "docs/lore/dlc-ideas.md"],
+        "notes": "This is a discussion ledger; it must not duplicate the canonical reference layer."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/lore/ideas/guijie/brainstorm.md",
+        "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
+        "readLines": "1-386"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not cite superseded brainstorm text as current author intent; use the explicit decision list and a later canonical document",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-386",
+      "reviewDepth": "deep-semantic"
+    }
+  ]
+}
