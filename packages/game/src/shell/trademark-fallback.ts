@@ -31,7 +31,7 @@ export interface PlayTrademarkFallbackOptions {
   /** sdlpal `PAL_SetPalette(3, FALSE)` — palette chunk 3(caller fetch 后传入)。 */
   palette: Palette
 
-  /** 跳过键,默认 Space/Enter/Escape;透传到 playRng。 */
+  /** 显式传入才允许跳过键;默认不允许跳过(对齐 playRng 的 PAL 真值)。 */
   skipKeys?: string[]
 
   /** 测试 only override fetch(透传到 playRng)。 */

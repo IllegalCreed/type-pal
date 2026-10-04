@@ -93,6 +93,12 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 protected fast、Biome 零诊断均通过；game 其余 core/present/shell/analytics/tools 仍待账本逐文件核验，
 不可把本窄批写成 Q3 或全仓完成。
 
+2026-10-05 Q3i 已闭合 game 对话资源/预缓存 UI 窄批：`assets/dialog-assets.ts` 与
+`shell/{precache-client,precache-ui,audio-volume,trademark-fallback}.ts` 已逐文件核验；仅音量
+controller 的 NaN 输入有直接证据并按 0 修复，另纠正一条与 `playRng` 真值冲突的过时注释。定向 68、
+game 全包 3,398、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
+game 其余 core/present/shell/analytics/tools 仍待逐文件治理。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

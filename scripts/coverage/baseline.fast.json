@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T20:38:29.774Z",
+  "generatedAt": "2026-10-04T21:19:26.185Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19279,
+  "testCount": 19280,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4447,7 +4447,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3369,
+        "testCount": 3370,
         "testFileCount": 293,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5872,8 +5872,8 @@
           },
           {
             "file": "packages/game/src/shell/audio-volume.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "10783cc47dc3b1f08e24f01caab948ef85f8a11755e52d14a0cf5382b2b2fc61"
+            "testCount": 3,
+            "identityDigest": "35268c5c6a4e07481fff6d6e5afbde4e9abcf8d752bfd8d5f22e68a56cccb6e6"
           },
           {
             "file": "packages/game/src/shell/audio-volume.test.ts",
@@ -6211,26 +6211,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "143b034fbbc2a7fb510be06d40961fd7c32f7975b4c963bffa8465e03d77525e",
+        "identityDigest": "64f685abd246057f46f6b92bc87ce58fcd1ca2d683c88ab1f1c10ba78b24acdb",
         "duplicateIdentityCount": 0,
-        "executionDigest": "15768e0a7fcc688f5fd45a2a40279ab82a2a61bd2845c6bbd92a67ca6941e86e"
+        "executionDigest": "3039a1beae8b6613486c4349e3b80176c7decc9ca323fd52d13689dbc3c6669a"
       },
       "metrics": {
         "statements": {
-          "covered": 13378,
-          "total": 15518
+          "covered": 13380,
+          "total": 15520
         },
         "branches": {
-          "covered": 8754,
-          "total": 11286
+          "covered": 8756,
+          "total": 11288
         },
         "functions": {
           "covered": 1512,
           "total": 1853
         },
         "lines": {
-          "covered": 11960,
-          "total": 13623
+          "covered": 11961,
+          "total": 13624
         }
       }
     },
@@ -10097,20 +10097,20 @@
   },
   "total": {
     "statements": {
-      "covered": 68807,
-      "total": 77405
+      "covered": 68809,
+      "total": 77407
     },
     "branches": {
-      "covered": 49769,
-      "total": 60201
+      "covered": 49771,
+      "total": 60203
     },
     "functions": {
       "covered": 13032,
       "total": 14710
     },
     "lines": {
-      "covered": 61537,
-      "total": 67772
+      "covered": 61538,
+      "total": 67773
     }
   }
 }

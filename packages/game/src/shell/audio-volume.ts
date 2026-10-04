@@ -15,6 +15,7 @@ export interface AudioVolumeController {
 }
 
 function clamp01(v: number): number {
+  if (Number.isNaN(v)) return 0
   return v < 0 ? 0 : v > 1 ? 1 : v
 }
 

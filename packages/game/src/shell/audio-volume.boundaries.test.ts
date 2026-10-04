@@ -12,6 +12,15 @@ afterEach(() => {
 })
 
 describe('H03 createAudioVolumeController 显式 0 与键位', () => {
+  it('NaN 音量不进入 sink 或 localStorage，按 0 处理', () => {
+    const applied: number[] = []
+    const controller = createAudioVolumeController({ applyVolume: (v) => applied.push(v) })
+    controller.setVolume(Number.NaN)
+    expect(controller.getVolume()).toBe(0)
+    expect(applied).toEqual([0.8, 0])
+    expect(localStorage.getItem('tp-master-volume')).toBe('0')
+  })
+
   it("stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效", () => {
     localStorage.setItem('tp-master-volume', '0')
     const applied: number[] = []
