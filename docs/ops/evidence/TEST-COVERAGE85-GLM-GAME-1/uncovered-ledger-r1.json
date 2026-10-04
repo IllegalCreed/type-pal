@@ -451,7 +451,7 @@
     ]
   },
   "src/core/battle/battle-system.ts": {
-    "missEdges": 228,
+    "missEdges": 229,
     "arms": [
       { "line": 276, "type": "if", "arm": 1 },
       { "line": 305, "type": "binary-expr", "arm": 1 },
@@ -504,6 +504,7 @@
       { "line": 1100, "type": "if", "arm": 0 },
       { "line": 1105, "type": "if", "arm": 0 },
       { "line": 1107, "type": "binary-expr", "arm": 1 },
+      { "line": 1110, "type": "binary-expr", "arm": 2 },
       { "line": 1132, "type": "if", "arm": 0 },
       { "line": 1148, "type": "binary-expr", "arm": 1 },
       { "line": 1169, "type": "if", "arm": 0 },

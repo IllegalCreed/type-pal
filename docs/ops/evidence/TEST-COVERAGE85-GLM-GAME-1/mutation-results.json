@@ -75,8 +75,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stdout.txt",
-            "bytes": 18530,
-            "sha256": "c6caa29d2b9c2ebb30d9ad6cfdf2a4eb67953f91c052365025d232e069b3ec2f"
+            "bytes": 18540,
+            "sha256": "43acc1553619ffca2b0d1ecced2e18000096f20d80da8b983bf7d3b715c23418"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stderr.txt",
@@ -406,8 +406,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stdout.txt",
-            "bytes": 23354,
-            "sha256": "aa01fe1b5585a4582f417809868d923c799202c6428d28e5b6fccda7f7a10692"
+            "bytes": 23337,
+            "sha256": "cebbf3127b383a0977b22a1b184a92b9d938a39093147b9f9a9beab4940623d8"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stderr.txt",
@@ -743,8 +743,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stdout.txt",
-            "bytes": 18543,
-            "sha256": "6f98927175b27fd4a24e70e242e49d1602501bb43d554e5cccaea5db679f6b4d"
+            "bytes": 18541,
+            "sha256": "b8f569168f6d4235824a7e0370e6a361e5c99330c8d4388d34cec6d15d85e4d5"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stderr.txt",
@@ -1096,8 +1096,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stdout.txt",
-            "bytes": 5851,
-            "sha256": "88a83cd3f360500eef8f7dd68d11b41a13193c5336c87579fdc1a955ab9d409b"
+            "bytes": 5460,
+            "sha256": "7e731d07e336c96630c129beb95726bd5e935fd10ba9173e26e2fc44ab786fcb"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stderr.txt",
@@ -1108,8 +1108,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 15,
-              "numPassedTests": 15,
+              "numTotalTests": 14,
+              "numPassedTests": 14,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -1123,7 +1123,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 15
+                "assertionCount": 14
               }
             ],
             "identitySet": [
@@ -1189,17 +1189,12 @@
               },
               {
                 "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
+                "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
                 "status": "passed"
               },
               {
                 "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 法术菜单 MP 不足禁用项:Confirm no-op 不落账(2608 建表 disabled 已证,此为 no-op 臂)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
+                "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
                 "status": "passed"
               }
             ],
@@ -1222,8 +1217,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stdout.txt",
-            "bytes": 8258,
-            "sha256": "c11c41daa222f49acbdb67e5da65bc2264c4eff96bba906f83140519a122cb36"
+            "bytes": 7762,
+            "sha256": "531eefa8c19b9c1da7c27e810ab0010a758602c58d5207f253544987c801bf81"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stderr.txt",
@@ -1234,8 +1229,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 15,
-              "numPassedTests": 14,
+              "numTotalTests": 14,
+              "numPassedTests": 13,
               "numFailedTests": 1,
               "numPendingTests": 0,
               "success": false,
@@ -1249,7 +1244,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
                 "status": "failed",
-                "assertionCount": 15
+                "assertionCount": 14
               }
             ],
             "identitySet": [
@@ -1315,17 +1310,12 @@
               },
               {
                 "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
+                "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
                 "status": "passed"
               },
               {
                 "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 法术菜单 MP 不足禁用项:Confirm no-op 不落账(2608 建表 disabled 已证,此为 no-op 臂)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
+                "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
                 "status": "passed"
               }
             ],
@@ -1354,8 +1344,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stdout.txt",
-            "bytes": 5873,
-            "sha256": "e4234b0313efa313be9f4fc44330351aae320d7e963c798e4d61249fdf6f672f"
+            "bytes": 5459,
+            "sha256": "aa871b25ab437c5969dcd16b18c77cd4fc8a85c98c949e37b1430c23af7b8319"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stderr.txt",
@@ -1366,8 +1356,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 15,
-              "numPassedTests": 15,
+              "numTotalTests": 14,
+              "numPassedTests": 14,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -1381,7 +1371,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/battle/battle-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 15
+                "assertionCount": 14
               }
             ],
             "identitySet": [
@@ -1447,17 +1437,12 @@
               },
               {
                 "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
+                "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
                 "status": "passed"
               },
               {
                 "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) 法术菜单 MP 不足禁用项:Confirm no-op 不落账(2608 建表 disabled 已证,此为 no-op 臂)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/battle/battle-system.cov85.test.ts",
-                "fullName": "cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
+                "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
                 "status": "passed"
               }
             ],
@@ -1502,8 +1487,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stdout.txt",
-            "bytes": 12391,
-            "sha256": "9781a23dc629fcb3074dd9dd23a899c8f32d784daef518b26d36450ae292413c"
+            "bytes": 12398,
+            "sha256": "6b9ac01f74de1efce5de60b475cb235167fc26777ad5b4b9acab788d0602432f"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stderr.txt",
@@ -1759,7 +1744,7 @@
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stdout.txt",
             "bytes": 15907,
-            "sha256": "f99f0c96114ad41d2793e4b900f8d9d9b298d03adddd8d1c52dc34aa32da00ce"
+            "sha256": "feb6ecfd8a829905631bbbe8a623df1238635210f0199228a41a87c1bcbff6d8"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stderr.txt",
@@ -2020,8 +2005,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stdout.txt",
-            "bytes": 12401,
-            "sha256": "8fa171be70857e7b8ec0b8306562f666eec0b061caa7672e15b1cbc0fd2f6c0f"
+            "bytes": 12400,
+            "sha256": "29b6e99ee2d0dc22c5c58e4f50896a1ac0e81fa04dffb0f9a4c382dc4f190422"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stderr.txt",
@@ -2298,8 +2283,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stdout.txt",
-            "bytes": 11363,
-            "sha256": "595d9288ba71e9dd83c1be6576e65b8cb737ba36fa1d151f0c0d3737d76d5c2d"
+            "bytes": 11372,
+            "sha256": "2325745bf48597ada852a5c74c4751ba03f9c3ece39b100bf73800f9c2980c98"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stderr.txt",
@@ -2524,8 +2509,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stdout.txt",
-            "bytes": 15074,
-            "sha256": "78b7ecbcc29359e50e6adecb3112ea76de98df96f34ad122456391b0758104f0"
+            "bytes": 15061,
+            "sha256": "3994ab5ebfecfe86f0d12137ca7b3a703168bdf58c43c1f9ff342606f2d5065a"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stderr.txt",
@@ -2757,7 +2742,7 @@
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stdout.txt",
             "bytes": 11374,
-            "sha256": "2c3caebc7897b56bf0a694e52af159f551e818aa82aa466bf12b8f5f7ad2ba6e"
+            "sha256": "0db8231db39802b384f778217a817005fc5c431cac719d1c4795859187b46719"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stderr.txt",
@@ -3004,8 +2989,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stdout.txt",
-            "bytes": 11955,
-            "sha256": "34790b31acc231b66240a0dfa198d0c19acd1510a193f8d03f819dd38c7143d1"
+            "bytes": 10434,
+            "sha256": "aae820134b9f74780189398e463f539e25ad64f001aa13f1a50f35a7cc27f446"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stderr.txt",
@@ -3016,8 +3001,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 30,
+              "numTotalTests": 26,
+              "numPassedTests": 26,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -3031,7 +3016,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -3132,57 +3117,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -3205,8 +3170,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stdout.txt",
-            "bytes": 15496,
-            "sha256": "1892640ac1738ad06091e97e164ab0ab59b5a5158a437fee560b4abb7e713a89"
+            "bytes": 13661,
+            "sha256": "8d360d8b225ce2223da1f1310d8fe5d3a9dd4054f275f88b19a076f17603df77"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stderr.txt",
@@ -3217,8 +3182,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 29,
+              "numTotalTests": 26,
+              "numPassedTests": 25,
               "numFailedTests": 1,
               "numPendingTests": 0,
               "success": false,
@@ -3232,7 +3197,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "failed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -3333,57 +3298,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -3412,8 +3357,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stdout.txt",
-            "bytes": 11955,
-            "sha256": "7b9d52bc6bb56ab92b170b191f01c4c3df64ad64d52caf0e4d68fa45a1b47440"
+            "bytes": 10440,
+            "sha256": "e39d0254719484f00c660175ab016d8ccebccb1fb65c747bd6f33deac9ae1bc8"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stderr.txt",
@@ -3424,8 +3369,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 30,
+              "numTotalTests": 26,
+              "numPassedTests": 26,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -3439,7 +3384,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -3540,57 +3485,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -3636,7 +3561,7 @@
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stdout.txt",
             "bytes": 8462,
-            "sha256": "691e1e712dde714e6df3b7912f69bfe55a3385d02876a3520072bfece55b74b3"
+            "sha256": "10e0cdcecc9fb780af86852dfd959c1eba5a5658fd201871f8f0081756f5726c"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stderr.txt",
@@ -3791,8 +3716,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stdout.txt",
-            "bytes": 11352,
-            "sha256": "4ee8cd2d74d6f0c027a8d60920a69555088d36595b3f5198adf3a8f788631f10"
+            "bytes": 11339,
+            "sha256": "0bb42332a823b1e15b974d2dfcdcc9cf70415219aba90504f8845d7c6b36a91e"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stderr.txt",
@@ -3953,8 +3878,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stdout.txt",
-            "bytes": 8463,
-            "sha256": "8652c9f747ea8d15470a5ef0038288084304e0df60cecae70f5e546344b7d457"
+            "bytes": 8461,
+            "sha256": "9969a955dc526c37cccf881d2859b085e0d58fd11dfb1a5f463a3e5c7e5202ed"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stderr.txt",
@@ -4108,10 +4033,10 @@
     {
       "id": "MUT-07",
       "file": "src/core/event-system.ts",
-      "line": 1491,
-      "mutation": "    cursor.waitFramesRemaining = undefined\n    cursor.waiting = undefined\n    cursor.ip++ =>     cursor.waitFramesRemaining = undefined\n    cursor.waiting = undefined\n    cursor.ip += 2",
+      "line": 1528,
+      "mutation": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip++ =>       gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip += 2",
       "shaOriginal": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
-      "shaMutated": "0fe3c85f2650d1477fcd2f425af678a390e8c2f31508e3732a69bdd03fd14ffd",
+      "shaMutated": "72f01f2f5a3cef23cc1e60835c3bb1f87d2d52b22727cca44319d9ac9e5b5770",
       "shaRestored": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
       "restoredEqualsOriginal": true,
       "execution": {
@@ -4131,8 +4056,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stdout.txt",
-            "bytes": 11942,
-            "sha256": "8a31b5ca6116a4fc2659a1a14d73f6811b9471b0902ca40be6cdfc321df9398f"
+            "bytes": 10435,
+            "sha256": "e6883627fa105f0e6bed90492ed029149b63bb8302185bf6da179dd014a94945"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stderr.txt",
@@ -4143,8 +4068,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 30,
+              "numTotalTests": 26,
+              "numPassedTests": 26,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -4158,7 +4083,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -4259,57 +4184,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -4332,20 +4237,20 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stdout.txt",
-            "bytes": 15503,
-            "sha256": "2dfde789c4448ed08be2647723c8bd1bbfbaaee02465654cccf194e93d0363c7"
+            "bytes": 13646,
+            "sha256": "a7be111a7906a2cf1ee2b4e1c57cdf87e1d405af428bb0640d1342bde011b60a"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stderr.txt",
-            "bytes": 761,
-            "sha256": "77761fc1da5140e525aafe433ea0031099be3d5ebaae9e788dc4f2ae64413ce3"
+            "bytes": 709,
+            "sha256": "9b0275e77ac3c5fa58db75e0178e07597b61a1b261f80c68c3970a480a5fa706"
           },
           "vitestJson": {
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 29,
+              "numTotalTests": 26,
+              "numPassedTests": 25,
               "numFailedTests": 1,
               "numPendingTests": 0,
               "success": false,
@@ -4359,7 +4264,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "failed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -4460,65 +4365,45 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "failed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
             "failedTests": [
               {
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
-                "message": "AssertionError: expected +0 to be 111 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:485:23\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                "message": "AssertionError: expected +0 to be 111 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:484:23\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
               }
             ]
           }
@@ -4539,8 +4424,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stdout.txt",
-            "bytes": 11951,
-            "sha256": "613e2c77f092e68bd4785d3b72c8e7527d19099b8fdcc473babf3795f13037f3"
+            "bytes": 10445,
+            "sha256": "872322e33af998e1b672987ef24a0835074fea668aac1bb13c62f5b36a96f28e"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stderr.txt",
@@ -4551,8 +4436,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 30,
+              "numTotalTests": 26,
+              "numPassedTests": 26,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -4566,7 +4451,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -4667,57 +4552,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -4727,10 +4592,10 @@
       },
       "red": {
         "failedFullNames": [
-          "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)"
+          "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)"
         ],
         "assertionErrors": [
-          "AssertionError: expected +0 to be 111 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:485:23 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+          "AssertionError: expected +0 to be 111 // Object.is equality |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:484:23 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
         ]
       },
       "status": "VALID",
@@ -4762,8 +4627,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stdout.txt",
-            "bytes": 11949,
-            "sha256": "ef700d2e7a0de26a4b50c5bffe9042ae154b1f7596a09327a403b848f00988e2"
+            "bytes": 10435,
+            "sha256": "4151ec823798e84f2cbf0dd1d977ec3bcd8baddef7ff2cfef2d8cb60d6438083"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stderr.txt",
@@ -4774,8 +4639,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 30,
+              "numTotalTests": 26,
+              "numPassedTests": 26,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -4789,7 +4654,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -4890,57 +4755,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -4963,20 +4808,20 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stdout.txt",
-            "bytes": 15499,
-            "sha256": "f5ad6ccb0677d8a0340cca5e842c4424cfa45b03c63d26b41cd11c972554ef02"
+            "bytes": 13664,
+            "sha256": "b177450dc4c1dacbcaae4d819cd9e9c5ead6c2836e06dd957cbf0e7024ed12cb"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stderr.txt",
-            "bytes": 739,
-            "sha256": "1d0825ace053b86fb2bfed7f053c1a4a38e63b4b2ebadc5f3c0d9a3b0e142a67"
+            "bytes": 745,
+            "sha256": "8cb4a61de5549987dedb3ca609b8849a4e2c1a6d05ed85b30774008df33388e0"
           },
           "vitestJson": {
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 29,
+              "numTotalTests": 26,
+              "numPassedTests": 25,
               "numFailedTests": 1,
               "numPendingTests": 0,
               "success": false,
@@ -4990,7 +4835,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "failed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -5091,65 +4936,45 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "failed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
             "failedTests": [
               {
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
-                "message": "AssertionError: expected { ip: 2 } to deeply equal { ip: 1 }\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:649:39\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                "message": "AssertionError: expected { ip: 2 } to deeply equal { ip: 1 }\n    at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:571:39\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
               }
             ]
           }
@@ -5170,8 +4995,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stdout.txt",
-            "bytes": 11938,
-            "sha256": "9e6686c101ace550ca5ad017785c608f58c7a6c7519e4a7d645af39769e003fe"
+            "bytes": 10446,
+            "sha256": "c0f751db2f1b6120526ea1c141244e61ac493eb25265295de9997992e4c3f412"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stderr.txt",
@@ -5182,8 +5007,8 @@
             "parsed": true,
             "missingFields": [],
             "summary": {
-              "numTotalTests": 30,
-              "numPassedTests": 30,
+              "numTotalTests": 26,
+              "numPassedTests": 26,
               "numFailedTests": 0,
               "numPendingTests": 0,
               "success": true,
@@ -5197,7 +5022,7 @@
               {
                 "file": "/Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts",
                 "status": "passed",
-                "assertionCount": 30
+                "assertionCount": 26
               }
             ],
             "identitySet": [
@@ -5298,57 +5123,37 @@
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) 无 cursor → 直接切 explore(1473-1475)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) palette-fade 完成路径:finalize 清 + ip++ 续跑(未到阻塞)(1537-1560,无 reload 段)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)",
+                "fullName": "cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
                 "status": "passed"
               },
               {
                 "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)",
-                "status": "passed"
-              },
-              {
-                "file": "src/core/event-system.cov85.test.ts",
-                "fullName": "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
+                "fullName": "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)",
                 "status": "passed"
               }
             ],
@@ -5358,10 +5163,10 @@
       },
       "red": {
         "failedFullNames": [
-          "cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)"
+          "cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)"
         ],
         "assertionErrors": [
-          "AssertionError: expected { ip: 2 } to deeply equal { ip: 1 } |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:649:39 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+          "AssertionError: expected { ip: 2 } to deeply equal { ip: 1 } |     at /Users/zhangxu/illegal/type-pal-cov85-game/packages/game/src/core/event-system.cov85.test.ts:571:39 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///Users/zhangxu/illegal/type-pal-cov85-game/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
         ]
       },
       "status": "VALID",
@@ -5393,8 +5198,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt",
-            "bytes": 118015,
-            "sha256": "8e889d48baaaa31c1f2728913ca03c7c940383aa2ef0f1a78986da1d51b9b823"
+            "bytes": 117974,
+            "sha256": "541ecda1529cd755e1925b935901c36070165be79178dcf4973712a0bec3591d"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stderr.txt",
@@ -7074,8 +6879,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt",
-            "bytes": 142566,
-            "sha256": "ddbd551df18b0869cf03dba3b029e873e630db21f84043b4060835e52f15ffab"
+            "bytes": 142513,
+            "sha256": "ab59349b7290aa71b501ba451de7475f41ca29441895f49e5f7c593567736070"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stderr.txt",
@@ -8761,8 +8566,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt",
-            "bytes": 117986,
-            "sha256": "c68849a99dda3cd810cc4adbc87e8151daa0b255eb9ff66ba4d8f1fffc2be42f"
+            "bytes": 117912,
+            "sha256": "e2ad4814271564c84a04ed643e93b8bce74ac2739aaeb463aebcd3c6039e434d"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stderr.txt",
@@ -10464,8 +10269,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stdout.txt",
-            "bytes": 11366,
-            "sha256": "e70743d2f1040a391ee69e20e58f48063127a61fb8eb8930fea96f95e8c97ec1"
+            "bytes": 11376,
+            "sha256": "ba1221a1ecd25551e7eb308394646c75832a897683ef57ea7a0f1a4e450d6d1b"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stderr.txt",
@@ -10690,8 +10495,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stdout.txt",
-            "bytes": 15086,
-            "sha256": "ccc15a0de38b54bcd1be38a9175496b3982ac60036f598af4fbe13b41c03e424"
+            "bytes": 15090,
+            "sha256": "dd011d85c14a5a139616564d80c7ad7624495b7bd650d9eb01da5f3e81530343"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stderr.txt",
@@ -10922,8 +10727,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stdout.txt",
-            "bytes": 11376,
-            "sha256": "ad17af6b133f58ac8291c4333c7e4675e548067a890d206a1552090779d52205"
+            "bytes": 11365,
+            "sha256": "a217e3aadf0bea754e3ad3573a21c7c8b1549e9355bd0b9ef6dafc1e2eaf2ec4"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stderr.txt",
@@ -11170,8 +10975,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stdout.txt",
-            "bytes": 56925,
-            "sha256": "72ace88aeac9d4bf4f412137110ad592ac3f1f090304b6eda8fbf934ab028764"
+            "bytes": 56943,
+            "sha256": "2500678b2eb34e62f382f1208be8b45c23aabf6560b20a06bc712fc3739d6abc"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stderr.txt",
@@ -12141,8 +11946,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stdout.txt",
-            "bytes": 70665,
-            "sha256": "a9c727cbe5ddc5a63c8064aa6d2bb1c4c8a22f0bd5fb103d621ea59831198e11"
+            "bytes": 70678,
+            "sha256": "6eee6a7f1c235be9247c424636a892058ceb4e0c590b6b793232fe71880b090c"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stderr.txt",
@@ -13123,8 +12928,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stdout.txt",
-            "bytes": 56953,
-            "sha256": "472fb5f0c9e6070dfee4c1a278ffd12b24378ebb591c701076b6dd350ad607c3"
+            "bytes": 56924,
+            "sha256": "6541e01558c00c3c7e220616a507c28929fdcc57632ece77456f64f307878c4d"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stderr.txt",
@@ -14118,8 +13923,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stdout.txt",
-            "bytes": 12400,
-            "sha256": "b825551fe63201edd7e4529e7d30a1ddbdd941ec9f1dddb96f87ca46dfb96b4a"
+            "bytes": 12395,
+            "sha256": "7ab08017dfc788f29d0c9303e8958088e169ac9057f0626a2efc304a474f68ab"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stderr.txt",
@@ -14374,8 +14179,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stdout.txt",
-            "bytes": 15956,
-            "sha256": "84018f24bfac36b2098b5922be7db7f3aa79780ec1db193e641ef95f3407d452"
+            "bytes": 15948,
+            "sha256": "ccaa433c6de759c80a9b62cee23a2c7956c1e2a86a5a0796b6c6765598a740f3"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stderr.txt",
@@ -14636,8 +14441,8 @@
           "spawnTimedOut": false,
           "stdout": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stdout.txt",
-            "bytes": 12398,
-            "sha256": "bd6d3ac9f5a50e044eb1e30120f0dd2ec8b369720763dd4760dfdb0a3f223227"
+            "bytes": 12397,
+            "sha256": "2653fbb35732546644fb534d13e3c6bb42c5485bf6d4542081e81bc51e323602"
           },
           "stderr": {
             "file": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stderr.txt",

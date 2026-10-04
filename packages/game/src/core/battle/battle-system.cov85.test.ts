@@ -299,32 +299,9 @@ function toSelectAction(fx: Boot): void {
   tickBattle(fx.gs, emptyInput(), fx.bus) // turnStart(无脚本)+ 起菜单
 }
 
-function mkR3Magic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 1,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 5,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 1,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
-
-describe('cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧测未证臂)', () => {
-  // r4 排重:删 主菜单方向+Right 拒绝+单敌短路落账(2118-2154/2359/2608 同型已证)、
-  // actionQueue defend 排队首(1867-1874 同 oracle)、flee 成功+动画(1495-1575 同 oracle);
-  // 2360 段 draft+停留本体与 2359 重复,只留 Confirm 目标落账增量。
+describe('cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂)', () => {
+  // r4+r5 排重:主菜单方向/单敌短路/queue/flee 成功(r4);MP 禁用 no-op(2689-2692)(r5)。
+  // 保留:多敌目标 Confirm 落账(2359 停留之后的增量)、flee 拒绝(1495 只证成功臂)。
 
   it('多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)', () => {
     const fx = boot({
@@ -337,36 +314,6 @@ describe('cov85r3 selectAction 目标落账 / MP 禁用 no-op / flee 拒绝(旧�
     expect(st.uiState).toBe('selectTargetEnemy')
     tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 选定光标目标 → 落账
     expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
-  })
-
-  it('法术菜单 MP 不足禁用项:Confirm no-op 不落账(2608 建表 disabled 已证,此为 no-op 臂)', () => {
-    const spells: Spell[] = [
-      {
-        id: 50,
-        magicNumber: 1,
-        scriptOnSuccess: 0,
-        scriptOnUse: 0,
-        scriptDesc: 0,
-        flags: {
-          usableOutsideBattle: false,
-          usableInBattle: true,
-          usableToEnemy: true,
-          applyToAll: false,
-        },
-      },
-    ]
-    const magics: Magic[] = [mkR3Magic(1, 99)]
-    const fx = boot({ spells, magics, roles: [makeRole(0, { magic: [50] })] })
-    fx.gs.PlayerRolesRuntime.rgwMP[0] = 10
-    fx.gs.PlayerRolesRuntime.rgwMaxMP[0] = 40
-    toSelectAction(fx)
-    const st = fx.gs.battleState!
-    tickBattle(fx.gs, snapB(['Left']), fx.bus) // 有已学法术 → 1(法术)
-    tickBattle(fx.gs, snapB(['Confirm']), fx.bus)
-    expect(st.menuState).toBe('magicSelect')
-    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 禁用项 Confirm → no-op
-    expect(st.menuState).toBe('magicSelect')
-    expect(st.pendingActions.has(0)).toBe(false) // 不落账、不推进
   })
 
   it('flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)', () => {

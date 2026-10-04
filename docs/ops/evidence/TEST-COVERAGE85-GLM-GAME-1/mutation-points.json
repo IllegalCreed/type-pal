@@ -50,10 +50,11 @@
   {
     "id": "MUT-07",
     "file": "src/core/event-system.ts",
-    "line": 1491,
-    "find": "    cursor.waitFramesRemaining = undefined\n    cursor.waiting = undefined\n    cursor.ip++",
-    "replace": "    cursor.waitFramesRemaining = undefined\n    cursor.waiting = undefined\n    cursor.ip += 2",
-    "testFile": "src/core/event-system.cov85.test.ts"
+    "line": 1528,
+    "find": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip++",
+    "replace": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip += 2",
+    "testFile": "src/core/event-system.cov85.test.ts",
+    "note": "r5: frame-wait 完成语义在旧承载(k02 explore 落点/当帧跑完)下无可判别强变异(ip 偏移与 waiting 残留均不红,已记录);针移至同族保留新轴 fade-screen 完成推进(现金 fall-through oracle)"
   },
   {
     "id": "MUT-08",

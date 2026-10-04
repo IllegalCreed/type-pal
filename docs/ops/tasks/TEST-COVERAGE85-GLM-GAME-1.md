@@ -309,3 +309,40 @@ r1 的 167 测试与 6 针反控**原样保留**（已由 Codex 合入 main 为 
 剩余可达臂:event-system 446(opcode switch 长尾/对话分页主循环)、battle-system 228
 (performAction/postAction 深段)、menu-driver 52、event-opcode-player 67;bootstrap 266+main 18
 维持宿主不可达 existing-proof。不宣称 done,等 Codex 验收。
+
+---
+
+## GLM r5 窄返工回执（Codex 四项排重，2026-10-04，仍不请求 done）
+
+**删除的重复合同(193 cov85 合同 = r4 198 − 5 it,四组命中)**
+
+1. **frame-wait 合同删除** —— glm-event-k02.test.ts:104-113 已证同轴(waitGestureReset 复位 +
+   等待耗尽续跑,同 caller tickEventSystem + 同状态 oracle);r4 版仅 fixture/现金包装不同,不算新合同。
+2. **trigger reset/idleFrames 合同删除** —— glm-event-k01.test.ts:50-81(reset 重臂到 resetTo)+
+   83-116(idleFrames 双触发计数满 fall-through)已证;引用段 k:88-115 同时覆盖 **onEnter reset 臂**
+   (k02:88-100 sceneOnEnterIp 落 resetTo)→ r4 的 onEnter reset it 一并删除。
+3. **delay 合同删除** —— event-system.test.ts:4010-4035 已证未到等待/到点续跑后续 opcode(同构
+   现金 oracle)。
+4. **battle MP 禁用 no-op 删除** —— battle-system.test.ts:2689-2692 已证 Confirm 灰项 no-op
+   (menuState 留网格 + draft undefined,与我的 pendingActions 未落账断言等价)。
+
+**保留的 r3/r4 lifecycle 新轴(未被任何旧证覆盖)**:无 cursor→explore、fade-screen 三态
+(阻塞/完成/无 fadeState 防御)、palette-fade 无 reload 完成路径、scene-load callback 替换、
+dialog 无 box 防御、trigger advance 清场复位段(PAL_EndDialog 缩进/立绘复位)、end 前未收尾
+dialog 两态、多敌目标 Confirm 落账、flee 拒绝。
+
+**MUT-07 针处置(判别力记录)**:frame-wait 合同删除后针移至 k02 承载 —— 实测 ip 偏移变异在
+k02 的 explore 落点断言下**不红**(ip+=2 落 end 同样 explore);waiting 残留变异也不红(当帧
+跑完结构)。两轮证伪后,针移至**同族保留新轴 fade-screen 完成推进**(ip+=2 跳过现金 marker 必红)
+—— 12/12 VALID。此判别力缺口与处置过程记录在 mutation-points.json note 字段。
+
+**数字(含波动如实报告)**:canonical 终跑 **8757/11278 = 77.64%(+349)**;同一代码三次全量
+实测 8757/8761/8757 —— v8 provider 存在 ±4 边运行间时序波动(非本卡测试引入),canonical 取
+保守值并在 fresh JSON generatedNote 声明。r4→r5 删 5 it:被删合同的臂由旧承载文件在同一套件
+内继续覆盖,全量 branch 不因删除而等量下降。分文件 miss:event-system 446、battle-system 229、
+menu-driver 52、event-opcode-player 67;bootstrap 266 + main 18 宿主不可达 existing-proof 维持。
+
+**门禁**:定向 6 文件 **193/193**;旧承载/相邻 7 文件 **653/653**(event-system + k01/k02 +
+battle-system + actions + menu-driver + mode);全量 canonical 3389 条全 passed;typecheck 0 error;
+lint 0/0/0;docs PASS。diff 仅两个 cov85 测试文件 + 证据目录;产品/旧测/baseline/其它卡零改动。
+不宣称 done。

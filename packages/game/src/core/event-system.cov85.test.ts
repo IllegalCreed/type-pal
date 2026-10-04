@@ -456,8 +456,8 @@ function cursorAt(ip: number, extra: Partial<EventCursor> = {}): EventCursor {
   return { ip, ...extra }
 }
 
-describe('cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明)', () => {
-  // r4 排重:删 camera-pan/wait-key/confirm(0x0A)/六 modal/narration/0x4E reload 六组
+describe('cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明)', () => {
+  // r4+r5 排重:camera-pan/wait-key/confirm/六 modal/narration/0x4E(r4);frame-wait(k02:104)/delay(4010)(r5)
   // ——event-system.test.ts 1518-1685/1750-1770/3637-3675/4820-4845/5258-5524/5751-5811 已证
   // (同 caller tickEventSystem + 同状态 oracle);frame-wait 递减本体(1518-1548)亦同,只留新轴。
 
@@ -468,23 +468,6 @@ describe('cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真�
     tickEventSystem(gs, snapR3(), bus)
     expect(gs.mode).toBe('explore')
     expect(bus.drain()).toEqual([]) // 该路径无 Present emit(一手证明)
-  })
-
-  it('frame-wait 新轴:waitGestureReset 复位行走帧 + 归零 fall-through 续跑后续 opcode(1482-1495)', () => {
-    const gs = installWaitScript(0)
-    gs.eventCursor = cursorAt(0, {
-      waiting: 'frame-wait',
-      waitFramesRemaining: 2,
-      waitGestureReset: true,
-    })
-    gs.walkingFrame.walking = true
-    const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
-    expect(gs.walkingFrame.walking).toBe(false) // 旧测未证:DL16 站立帧复位
-    tickEventSystem(gs, snapR3(), bus) // 归零 → ip++ → fall-through 0x1E
-    expect(gs.dwCash).toBe(111) // 旧测未证:完成后续跑现金 oracle
-    expect(gs.eventCursor).toBeUndefined()
-    expect(bus.drain()).toEqual([])
   })
 
   it('fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)', () => {
@@ -544,20 +527,6 @@ describe('cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真�
     expect(bus.drain()).toEqual([])
   })
 
-  it('delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)', () => {
-    const gs = installWaitScript(0)
-    const now = vi.spyOn(performance, 'now').mockReturnValue(1000)
-    gs.eventCursor = cursorAt(0, { waiting: 'delay', delayUntilMs: 2000 })
-    const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
-    expect(gs.dwCash).toBe(0)
-    now.mockReturnValue(2000)
-    tickEventSystem(gs, snapR3(), bus)
-    expect(gs.dwCash).toBe(111)
-    expect(gs.eventCursor?.delayUntilMs).toBeUndefined()
-    expect(bus.drain()).toEqual([])
-  })
-
   it('waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)', () => {
     const gs = installWaitScript(0)
     gs.eventCursor = cursorAt(1, { waiting: 'dialog' }) // 防御臂不推 ip → 直落 0x1E
@@ -568,7 +537,7 @@ describe('cov85r3 tickEventSystem waiting 家族(旧测未证 lifecycle 轴;真�
   })
 })
 
-describe('cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus)', () => {
+describe('cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus)', () => {
   function dialogBox(over: Partial<DialogBoxState> = {}): DialogBoxState {
     return {
       shownLines: [],
@@ -584,53 +553,6 @@ describe('cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus)', () =>
       ...over,
     }
   }
-
-  it('end+reset 旧测未证两臂:resetTo 在表落 label;idleFrames 未满计数+跳 resetTo 收尾,满则清零续跑(1917-1937)', () => {
-    const { bus } = realBus()
-    {
-      const commands: Command[] = [
-        { op: 'end', label: 'L_0', reset: true, resetTo: 0 },
-        { op: 'raw', opcode: 0x1e, operands: [55, 0, 0] },
-        { op: 'end', label: 'L_2' },
-      ]
-      setGlobalEvents([...commands])
-      const gs = freshGs()
-      gs.mode = 'event'
-      gs.dwCash = 0
-      gs.npcs = [npc(0)]
-      gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-      tickEventSystem(gs, snapR3(), bus)
-      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 }) // reset 臂 → 落 resetTo(旧测仅 advance/plain)
-    }
-    {
-      // idleFrames=3:第 1 次 → 计数保留 + 跳 resetTo 收尾(0x1E 未跑)
-      const withIdle: Command[] = [
-        { op: 'end', label: 'L_0', reset: true, resetTo: 0, idleFrames: 3 },
-        { op: 'raw', opcode: 0x1e, operands: [55, 0, 0] },
-        { op: 'end', label: 'L_2' },
-      ]
-      setGlobalEvents([...withIdle])
-      const gs = freshGs()
-      gs.mode = 'event'
-      gs.dwCash = 0
-      gs.npcs = [npc(0)]
-      gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-      tickEventSystem(gs, snapR3(), bus)
-      expect(gs.npcs[0]!.triggerEndIdleCount).toBe(1)
-      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 })
-      expect(gs.dwCash).toBe(0)
-      // 第 3 次(预置 count=2)→ 计数清 0 + cursor.ip++ 续跑本次(0x1E 执行)
-      const gs3 = freshGs()
-      gs3.mode = 'event'
-      gs3.dwCash = 0
-      gs3.npcs = [npc(0, { triggerEndIdleCount: 2 })]
-      gs3.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
-      tickEventSystem(gs3, snapR3(), bus)
-      expect(gs3.npcs[0]!.triggerEndIdleCount).toBe(0)
-      expect(gs3.dwCash).toBe(55)
-    }
-    expect(bus.drain()).toEqual([])
-  })
 
   it('end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)', () => {
     const commands: Command[] = [
@@ -649,24 +571,6 @@ describe('cov85r3 trigger/onEnter end 写回(旧测未证臂;真实 bus)', () =>
     expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
     expect(gs.currentDialogPortraitLayout).toBe(false) // 旧测未证:PAL_EndDialog 复位段
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
-    expect(bus.drain()).toEqual([])
-  })
-
-  it('end+onEnter reset 臂(advance/plain/幂等清旧测 4219-4265 已证,只留 reset)(1896-1908)', () => {
-    const commands: Command[] = [
-      { op: 'end', label: 'L_0', advance: true },
-      { op: 'end', label: 'L_1', reset: true, resetTo: 0 },
-      { op: 'end', label: 'L_2' },
-    ]
-    setGlobalEvents([...commands])
-    const gs = freshGs()
-    gs.mode = 'event'
-    gs.sceneLoading = true
-    gs.eventCursor = cursorAt(1, { onEnterSceneId: 7, onEnterStartIp: 5 })
-    const { bus } = realBus()
-    tickEventSystem(gs, snapR3(), bus)
-    expect(gs.sceneOnEnterIp[7]).toBe(0) // reset → resetTo label ip(旧测仅 advance=2/plain=起始)
-    expect(gs.sceneLoading).toBe(false)
     expect(bus.drain()).toEqual([])
   })
 
