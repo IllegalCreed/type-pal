@@ -11,8 +11,8 @@ Owner：Codex；用户于 2026-09-26 追加要求完成剩余步骤并合并推�
 |---|---|---|
 | A3 | 世界移动/绘制 owner，沿用此前时钟/输入、准备、活动场景/镜头 owner | [回执](domains/runtime/world/world-runtime/report.md) |
 | B1 | 编辑器总壳的导航、场景、试玩、工程四个会话 owner | [回执](editor-app-sessions-refactor.md) |
-| B2 | 地图手势、变换/剪贴板、视图、结构操作 owner | [回执](map-workspace-sessions-refactor.md) |
-| B3 | 四类命令表单、共享控件、作者桥接合同 | [回执](command-form-families-refactor.md) |
+| B2 | 地图手势、变换/剪贴板、视图、结构操作 owner | [回执](domains/editor/map/map-workspace-sessions/report.md) |
+| B3 | 四类命令表单、共享控件、作者桥接合同 | [回执](domains/editor/commands/command-form-families/report.md) |
 | C1 | 战斗选择、readiness、动作演出、结算 owner | [回执](domains/runtime/battle/battle-session-owners/report.md) |
 | D2 | 一阶段角色 opcode、战斗资源/终态/成长/结算、启动资源 owner | [回执](phase1-main-owners-refactor.md) |
 | E1 | 移动族 opcode 翻译与场景源规划纯内存 owner | [回执](migration-phase-owners-refactor.md) |

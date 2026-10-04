@@ -20,6 +20,6 @@
 
 ## 接入边界
 
-与[D1](phase1-dependency-refactor.md)统一执行本轮完整check、ratchet、单次受保护strict，不复用r11复核分支含四项GLM测试副本的统计；本次E2只计13项Codex回归。r11原冻结诊断作为历史红保留，GLM报告和候选不被改写或合入。
+与[D1](domains/phase1-runtime/dependencies/dependency-ownership/report.md)统一执行本轮完整check、ratchet、单次受保护strict，不复用r11复核分支含四项GLM测试副本的统计；本次E2只计13项Codex回归。r11原冻结诊断作为历史红保留，GLM报告和候选不被改写或合入。
 
 最终门禁与指标见D1回执；full/Q1/Q2/剧情E2E不借此关闭。

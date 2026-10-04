@@ -1,6 +1,6 @@
 # D1 第一阶段依赖环拆分
 
-2026-09-26，基点 `4cdefcf1`，属于 [ARCH-CONTINUATION-1](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。Coding Owner/验证者均为Codex，按用户架构治理授权执行；不冒充其它Agent独立审查。
+2026-09-26，基点 `4cdefcf1`，属于 [ARCH-CONTINUATION-1](/docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。Coding Owner/验证者均为Codex，按用户架构治理授权执行；不冒充其它Agent独立审查。
 
 ## 边界与前提
 
@@ -21,7 +21,7 @@
 
 ## 可重建验证
 
-[统一机账](phase1-dependency-refactor-evidence.json)保存D1/E2静态核验、源hash、测试、反控与质量门结果。
+[统一机账](evidence.json)保存D1/E2静态核验、源hash、测试、反控与质量门结果。
 
 ```bash
 node docs/testing/phase1-dependency-refactor-audit.mjs

@@ -1,6 +1,6 @@
 # Reforge菜单/物品宿主拆分 · A1
 
-2026-09-24，基点09429b6c，实现dbe55b55。[任务卡](../ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md)已done，
+2026-09-24，基点09429b6c，实现dbe55b55。[任务卡](/docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md)已done，
 用户明确批准本批由Codex独立实施、自验收口，Kimi/GLM缺签豁免仅本卡，不冒充第三方审查。
 
 ## 改变与不变
@@ -22,16 +22,16 @@
    透明观察真实store的write/read两种完成事件，先等任一IO再断言必须write，避免错接成read只能靠timeout变红。
    合法Actor/Item/Skill先过现行guard，纯效果使用真实content执行器。
    存档调用链20项只把环境中的`itemUseAbort:null`换为真实`new ItemUseSession()`并加import；其余断言逐字不变。
-3. [冻结源码等价工具](menu-session-parity.mjs)读取Git中的09429b6c原菜单局部状态、input和dispatchItemUse函数，
+3. [冻结源码等价工具](/docs/testing/menu-session-parity.mjs)读取Git中的09429b6c原菜单局部状态、input和dispatchItemUse函数，
    与新控制器在相同合法数据/IO端口上执行155组确定性输入、3798步，逐步比较完整UI视图、世界、音频偏好及写槽/读槽/提示/音效/退出请求。
    不把旧实现复制回产品作fallback；只生成/tmp测试。破坏新光标记忆的单点反控被同一oracle检出。
-4. [隔离负控](menu-session-refactor-mutants.mjs)：55项正控+10单点候选自身AssertionError。
+4. [隔离负控](/docs/testing/menu-session-refactor-mutants.mjs)：55项正控+10单点候选自身AssertionError。
    覆盖main输入接线、装备写回、物品跨场景关闭、abort、互斥、读失败提示、关闭态吞键、迟到浏览刷新，
    另两针验证菜单write误接load、rejected误关菜单；不混入原save核心算法变异。
    精确file/fullName、exit1、实际加载marker、2正/12反例判据自测；635个生产文件hash前后不变。
 5. 控制器直接测试不需要DOM、canvas、项目启动或存储实例；真实宿主回归仍保留，不用小单测替换业务闭环。
 6. 对doLoad/doSave/restorePayload/normalizeStoredPayload/prepareSceneSwitch等17个敏感函数提取原函数源码并比较hash，
-   与09429b6c全部逐字节相同；具体列表和hash见[机账](menu-session-refactor-evidence.json)。
+   与09429b6c全部逐字节相同；具体列表和hash见[机账](evidence.json)。
 
 历史`codex-runtime-shell*-mutants.mjs`的main定位针保留原文，可在各自冻结提交复建；本次搬动部分目标后，
 不能直接拿历史针跑新main再误判为产品退化。新工具覆盖迁移后的入口，不改旧审计探针或其结论。
@@ -48,7 +48,7 @@ Chrome原生页，6051当前PAL工程，`?scene=s135&skip-startup=1&give=267`；
 
 遇到的既有输入问题单列：6050 demo地图`projects/demo/content/maps/map-056.json`仍为version2，
 正式guard只收当前version4，初次验证在启动期明确拒绝；该文件相对09429b6c零diff。
-已归[架构/输入后续](../ops/audits/architecture-debt.md)，未为验收加兼容fallback或直接手改地图。
+已归[架构/输入后续](/docs/ops/audits/architecture-debt.md)，未为验收加兼容fallback或直接手改地图。
 当前仅证明demo数据版本不匹配，尚未归因为迁移器缺陷。
 另外，s135调试直达画面的人物位于黑区；本卡不改场景落点，不把菜单验证当作默认落点已修或全场景可玩证明。
 

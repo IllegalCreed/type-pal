@@ -5,26 +5,26 @@
   "policy": "Agent names are provenance only; canonical targets are domain/module/function names.",
   "summary": {
     "total": 359,
-    "active": 339,
-    "retired": 20,
-    "reviewed": 20,
-    "pendingDepthReview": 339,
+    "active": 331,
+    "retired": 28,
+    "reviewed": 28,
+    "pendingDepthReview": 331,
     "byDomain": {
-      "content": 50,
+      "content": 49,
       "runtime": 79,
       "editor": 99,
       "ops": 27,
       "quality": 52,
       "migration": 21,
-      "phase1-runtime": 8,
+      "phase1-runtime": 9,
       "persistence": 3,
       "extraction": 2,
       "e2e": 6,
       "cross-domain": 12
     },
     "byDisposition": {
-      "retain-legacy": 339,
-      "migrated": 20
+      "retain-legacy": 331,
+      "migrated": 28
     }
   },
   "entries": [
@@ -148,7 +148,7 @@
       "module": "testing-records",
       "capability": "architecture-continuation-integration",
       "provenance": "unattributed",
-      "sourceSha": "1b15e67ad5496e4f14322af44b9f69d6d0308de0931afad48e786d6ce595a24b",
+      "sourceSha": "657ff23caa6d8b43af1ab1566334eaab7bb390f98cfa391008b2a9cd0dd4f019",
       "classificationBasis": "filename-hint-only",
       "reviewStatus": "candidate-needs-depth-review",
       "inventory": {
@@ -1647,66 +1647,6 @@
       "agentInCanonicalPath": false
     },
     {
-      "path": "command-form-families-refactor-evidence.json",
-      "kind": "evidence",
-      "domain": "editor",
-      "module": "editor-workflows",
-      "capability": "command-form-families-refactor-evidence",
-      "provenance": "unattributed",
-      "sourceSha": "4aefc6e3ee4c7359a570e90882af91a36ecc802220031d598c41d5445e64a827",
-      "classificationBasis": "body-source-paths",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [
-          "packages/editor/src/ui/CommandForm.ts",
-          "packages/editor/src/ui/command-form-actor.ts",
-          "packages/editor/src/ui/command-form-contract.ts",
-          "packages/editor/src/ui/command-form-control.ts",
-          "packages/editor/src/ui/command-form-controls.ts",
-          "packages/editor/src/ui/command-form-dialogue.ts",
-          "packages/editor/src/ui/command-form-world.ts"
-        ],
-        "sourceDomains": {
-          "editor": 7
-        },
-        "dominant": "editor",
-        "title": null,
-        "lineCount": 127,
-        "containsExecutionClaims": true,
-        "containsHistoricalCounter": false
-      },
-      "canonicalTarget": "domains/editor/editor-workflows/command-form-families-refactor-evidence.json",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
-      "path": "command-form-families-refactor.md",
-      "kind": "document",
-      "domain": "editor",
-      "module": "editor-workflows",
-      "capability": "command-form-families-refactor",
-      "provenance": "unattributed",
-      "sourceSha": "195ce7472c6bc901cc54828281fa025bade84e8f597b82415345710ab6958240",
-      "classificationBasis": "filename-hint-only",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [],
-        "sourceDomains": {},
-        "dominant": null,
-        "title": "B3 命令表单族所有权候选",
-        "lineCount": 57,
-        "containsExecutionClaims": false,
-        "containsHistoricalCounter": true
-      },
-      "canonicalTarget": "domains/editor/editor-workflows/command-form-families-refactor.md",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
       "path": "content-contracts-review-witnesses.mjs",
       "kind": "tool",
       "domain": "content",
@@ -1845,7 +1785,7 @@
       "module": "authoring-and-runtime",
       "capability": "content-validation-refactor",
       "provenance": "unattributed",
-      "sourceSha": "42d3cec6bb9243ac7b04f1bb6497e740edfc5ed6c939b77e098f9231c3712845",
+      "sourceSha": "af9a54fa123ddb14f751a4a5b4ad3d242697c31faad508cd8be26a6b5785462c",
       "classificationBasis": "filename-hint-only",
       "reviewStatus": "candidate-needs-depth-review",
       "inventory": {
@@ -2126,7 +2066,7 @@
       "module": "quality-gates",
       "capability": "coverage",
       "provenance": "unattributed",
-      "sourceSha": "a8d0e05135064c1c9a0a588e8e81cac96b9bfe4219d10ec38fd12fbcc568f76b",
+      "sourceSha": "97321d8f414a47e6a8382c217cd6a91d65423637d2ab3db942e8cd2153893e32",
       "classificationBasis": "filename-hint-only",
       "reviewStatus": "candidate-needs-depth-review",
       "inventory": {
@@ -9433,64 +9373,6 @@
       "agentInCanonicalPath": false
     },
     {
-      "path": "map-workspace-sessions-refactor-evidence.json",
-      "kind": "evidence",
-      "domain": "editor",
-      "module": "authoring-and-runtime",
-      "capability": "map-workspace-sessions-refactor-evidence",
-      "provenance": "unattributed",
-      "sourceSha": "8f07878ac5bdbf836be254d2ada7c3315ff023e6929363f3cf5676d48300e629",
-      "classificationBasis": "body-source-paths",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [
-          "packages/editor/src/core/map-selection.ts",
-          "packages/editor/src/ui/map-pointer-gesture-session.ts",
-          "packages/editor/src/ui/map-stamp-structure-session.ts",
-          "packages/editor/src/ui/map-transform-session.ts",
-          "packages/editor/src/ui/map-workspace-view-session.ts"
-        ],
-        "sourceDomains": {
-          "editor": 5
-        },
-        "dominant": "editor",
-        "title": null,
-        "lineCount": 145,
-        "containsExecutionClaims": true,
-        "containsHistoricalCounter": false
-      },
-      "canonicalTarget": "domains/editor/authoring-and-runtime/map-workspace-sessions-refactor-evidence.json",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
-      "path": "map-workspace-sessions-refactor.md",
-      "kind": "document",
-      "domain": "content",
-      "module": "authoring-and-runtime",
-      "capability": "map-workspace-sessions-refactor",
-      "provenance": "unattributed",
-      "sourceSha": "d56dd9600f46e018a24a15f6eca30f29d111fad191a39155779bb3b482fa36fd",
-      "classificationBasis": "filename-hint-only",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [],
-        "sourceDomains": {},
-        "dominant": null,
-        "title": "B2 地图工作区会话所有权候选",
-        "lineCount": 67,
-        "containsExecutionClaims": false,
-        "containsHistoricalCounter": true
-      },
-      "canonicalTarget": "domains/content/authoring-and-runtime/map-workspace-sessions-refactor.md",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
       "path": "menu-session-parity.mjs",
       "kind": "tool",
       "domain": "runtime",
@@ -9523,42 +9405,6 @@
       "agentInCanonicalPath": false
     },
     {
-      "path": "menu-session-refactor-evidence.json",
-      "kind": "evidence",
-      "domain": "runtime",
-      "module": "editor-workflows",
-      "capability": "menu-session-refactor-evidence",
-      "provenance": "unattributed",
-      "sourceSha": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
-      "classificationBasis": "body-source-paths",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [
-          "packages/reforge/src/main.equipment-flows.test.ts",
-          "packages/reforge/src/main.menu-storage-flows.test.ts",
-          "packages/reforge/src/menu/item-use-session.test.ts",
-          "packages/reforge/src/menu/item-use-session.ts",
-          "packages/reforge/src/menu/menu-session.test.ts",
-          "packages/reforge/src/menu/menu-session.ts",
-          "packages/reforge/src/menu/save-browser-box.ts",
-          "packages/reforge/src/save/browser-state.ts"
-        ],
-        "sourceDomains": {
-          "runtime": 8
-        },
-        "dominant": "runtime",
-        "title": null,
-        "lineCount": 504,
-        "containsExecutionClaims": true,
-        "containsHistoricalCounter": true
-      },
-      "canonicalTarget": "domains/runtime/editor-workflows/menu-session-refactor-evidence.json",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
       "path": "menu-session-refactor-mutants.mjs",
       "kind": "tool",
       "domain": "editor",
@@ -9578,31 +9424,6 @@
         "containsHistoricalCounter": true
       },
       "canonicalTarget": "domains/editor/editor-workflows/menu-session-refactor-mutants.mjs",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
-      "path": "menu-session-refactor.md",
-      "kind": "document",
-      "domain": "editor",
-      "module": "editor-workflows",
-      "capability": "menu-session-refactor",
-      "provenance": "unattributed",
-      "sourceSha": "85ce0a06d7efc6cfbb55ddd9113da53ce4f2bc602985d6ec12af4fc61853756b",
-      "classificationBasis": "filename-hint-only",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [],
-        "sourceDomains": {},
-        "dominant": null,
-        "title": "Reforge菜单/物品宿主拆分 · A1",
-        "lineCount": 100,
-        "containsExecutionClaims": true,
-        "containsHistoricalCounter": true
-      },
-      "canonicalTarget": "domains/editor/editor-workflows/menu-session-refactor.md",
       "disposition": "retain-legacy",
       "supersededBy": null,
       "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
@@ -9919,51 +9740,6 @@
       "agentInCanonicalPath": false
     },
     {
-      "path": "phase1-dependency-refactor-evidence.json",
-      "kind": "evidence",
-      "domain": "phase1-runtime",
-      "module": "engine-boundaries",
-      "capability": "phase1-dependency-refactor-evidence",
-      "provenance": "unattributed",
-      "sourceSha": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
-      "classificationBasis": "body-source-paths",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [
-          "packages/content/src/author-script-core.ts",
-          "packages/content/src/enemy-script.ts",
-          "packages/game/src/core/battle/battle-opcodes.ts",
-          "packages/game/src/core/dependency-ownership.test.ts",
-          "packages/game/src/core/equip-effect.ts",
-          "packages/game/src/core/equipment-state.ts",
-          "packages/game/src/core/event-system.ts",
-          "packages/game/src/core/inventory-state.ts",
-          "packages/game/src/core/menu/magic-script.ts",
-          "packages/game/src/core/menu/menu-driver.ts",
-          "packages/game/src/core/menu/menu-mode.ts",
-          "packages/game/src/core/menu/menu-stack.ts",
-          "packages/game/src/core/player-poison-state.ts",
-          "packages/game/src/core/scene-identity.ts",
-          "packages/game/src/core/scene-system.ts",
-          "packages/game/src/core/script-catalog.ts"
-        ],
-        "sourceDomains": {
-          "phase1-runtime": 14,
-          "content": 2
-        },
-        "dominant": "phase1-runtime",
-        "title": null,
-        "lineCount": 370,
-        "containsExecutionClaims": true,
-        "containsHistoricalCounter": false
-      },
-      "canonicalTarget": "domains/phase1-runtime/engine-boundaries/phase1-dependency-refactor-evidence.json",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
       "path": "phase1-dependency-refactor-mutants.mjs",
       "kind": "tool",
       "domain": "runtime",
@@ -9983,31 +9759,6 @@
         "containsHistoricalCounter": false
       },
       "canonicalTarget": "domains/runtime/engine-boundaries/phase1-dependency-refactor-mutants.mjs",
-      "disposition": "retain-legacy",
-      "supersededBy": null,
-      "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
-      "agentInCanonicalPath": false
-    },
-    {
-      "path": "phase1-dependency-refactor.md",
-      "kind": "document",
-      "domain": "runtime",
-      "module": "engine-boundaries",
-      "capability": "phase1-dependency-refactor",
-      "provenance": "unattributed",
-      "sourceSha": "ea5a4b6392477d1c510c1a534260b27531daef05af020bf4e6337012ba270139",
-      "classificationBasis": "filename-hint-only",
-      "reviewStatus": "candidate-needs-depth-review",
-      "inventory": {
-        "sourceFiles": [],
-        "sourceDomains": {},
-        "dominant": null,
-        "title": "D1 第一阶段依赖环拆分",
-        "lineCount": 50,
-        "containsExecutionClaims": true,
-        "containsHistoricalCounter": false
-      },
-      "canonicalTarget": "domains/runtime/engine-boundaries/phase1-dependency-refactor.md",
       "disposition": "retain-legacy",
       "supersededBy": null,
       "reason": "尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。",
@@ -11590,6 +11341,288 @@
         "containsHistoricalCounter": true
       },
       "canonicalTarget": "domains/runtime/world/world-runtime/evidence.json",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "command-form-families-refactor.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "commands",
+      "capability": "command-form-families-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "195ce7472c6bc901cc54828281fa025bade84e8f597b82415345710ab6958240",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/editor/src/ui/CommandForm.ts",
+          "packages/editor/src/ui/command-form-contract.test.ts",
+          "packages/editor/src/ui/command-form-contract.ts",
+          "packages/editor/src/ui/command-form-family-ownership.test.ts"
+        ],
+        "sourceDomains": {
+          "editor": 4,
+          "content": 1
+        },
+        "dominant": "editor",
+        "title": "编辑器命令表单族所有权",
+        "lineCount": 41,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": true
+      },
+      "canonicalTarget": "domains/editor/commands/command-form-families/report.md",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "command-form-families-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "editor",
+      "module": "commands",
+      "capability": "command-form-families-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "4aefc6e3ee4c7359a570e90882af91a36ecc802220031d598c41d5445e64a827",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/editor/src/ui/CommandForm.ts",
+          "packages/editor/src/ui/command-form-contract.test.ts",
+          "packages/editor/src/ui/command-form-contract.ts",
+          "packages/editor/src/ui/command-form-family-ownership.test.ts"
+        ],
+        "sourceDomains": {
+          "editor": 4,
+          "content": 1
+        },
+        "dominant": "editor",
+        "title": null,
+        "lineCount": 108,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": true
+      },
+      "canonicalTarget": "domains/editor/commands/command-form-families/evidence.json",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "menu-session-refactor.md",
+      "kind": "document",
+      "domain": "runtime",
+      "module": "menu",
+      "capability": "menu-session-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "85ce0a06d7efc6cfbb55ddd9113da53ce4f2bc602985d6ec12af4fc61853756b",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/reforge/src/menu/item-use-session.test.ts",
+          "packages/reforge/src/menu/item-use-session.ts",
+          "packages/reforge/src/menu/menu-session.test.ts",
+          "packages/reforge/src/menu/menu-session.ts"
+        ],
+        "sourceDomains": {
+          "runtime": 4,
+          "content": 1
+        },
+        "dominant": "runtime",
+        "title": "Reforge 菜单与物品会话所有权",
+        "lineCount": 41,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": true
+      },
+      "canonicalTarget": "domains/runtime/menu/menu-session/report.md",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "menu-session-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "runtime",
+      "module": "menu",
+      "capability": "menu-session-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/reforge/src/menu/item-use-session.test.ts",
+          "packages/reforge/src/menu/item-use-session.ts",
+          "packages/reforge/src/menu/menu-session.test.ts",
+          "packages/reforge/src/menu/menu-session.ts"
+        ],
+        "sourceDomains": {
+          "runtime": 4,
+          "content": 1
+        },
+        "dominant": "runtime",
+        "title": null,
+        "lineCount": 108,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": false
+      },
+      "canonicalTarget": "domains/runtime/menu/menu-session/evidence.json",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "map-workspace-sessions-refactor.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "map",
+      "capability": "map-workspace-sessions-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "d56dd9600f46e018a24a15f6eca30f29d111fad191a39155779bb3b482fa36fd",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/editor/src/ui/MapMode.ts",
+          "packages/editor/src/ui/map-pointer-gesture-session.test.ts",
+          "packages/editor/src/ui/map-pointer-gesture-session.ts",
+          "packages/editor/src/ui/map-transform-session.test.ts",
+          "packages/editor/src/ui/map-workspace-view-session.test.ts"
+        ],
+        "sourceDomains": {
+          "editor": 5,
+          "content": 1
+        },
+        "dominant": "editor",
+        "title": "编辑器地图工作区会话所有权",
+        "lineCount": 42,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": true
+      },
+      "canonicalTarget": "domains/editor/map/map-workspace-sessions/report.md",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "map-workspace-sessions-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "editor",
+      "module": "map",
+      "capability": "map-workspace-sessions-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "8f07878ac5bdbf836be254d2ada7c3315ff023e6929363f3cf5676d48300e629",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/editor/src/ui/MapMode.ts",
+          "packages/editor/src/ui/map-pointer-gesture-session.test.ts",
+          "packages/editor/src/ui/map-pointer-gesture-session.ts",
+          "packages/editor/src/ui/map-transform-session.test.ts",
+          "packages/editor/src/ui/map-workspace-view-session.test.ts"
+        ],
+        "sourceDomains": {
+          "editor": 5,
+          "content": 1
+        },
+        "dominant": "editor",
+        "title": null,
+        "lineCount": 116,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": false
+      },
+      "canonicalTarget": "domains/editor/map/map-workspace-sessions/evidence.json",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "phase1-dependency-refactor.md",
+      "kind": "document",
+      "domain": "phase1-runtime",
+      "module": "dependencies",
+      "capability": "phase1-dependency-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "ea5a4b6392477d1c510c1a534260b27531daef05af020bf4e6337012ba270139",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/game/src/core/cross-module-boundaries.test.ts",
+          "packages/game/src/core/dependency-ownership.test.ts",
+          "packages/game/src/core/equipment-state.ts",
+          "packages/game/src/core/inventory-state.ts",
+          "packages/game/src/core/menu/menu-stack.ts",
+          "packages/game/src/core/player-poison-state.ts",
+          "packages/game/src/core/scene-identity.ts",
+          "packages/game/src/core/script-catalog.ts"
+        ],
+        "sourceDomains": {
+          "phase1-runtime": 8,
+          "content": 1
+        },
+        "dominant": "phase1-runtime",
+        "title": "第一阶段依赖所有权拆分",
+        "lineCount": 45,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": true
+      },
+      "canonicalTarget": "domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "disposition": "migrated",
+      "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",
+      "agentInCanonicalPath": false
+    },
+    {
+      "path": "phase1-dependency-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "phase1-runtime",
+      "module": "dependencies",
+      "capability": "phase1-dependency-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+      "classificationBasis": "reviewed-migration-batch",
+      "reviewStatus": "reviewed",
+      "inventory": {
+        "sourceFiles": [
+          "packages/content/src/character.ts",
+          "packages/game/src/core/cross-module-boundaries.test.ts",
+          "packages/game/src/core/dependency-ownership.test.ts",
+          "packages/game/src/core/equipment-state.ts",
+          "packages/game/src/core/inventory-state.ts",
+          "packages/game/src/core/menu/menu-stack.ts",
+          "packages/game/src/core/player-poison-state.ts",
+          "packages/game/src/core/scene-identity.ts",
+          "packages/game/src/core/script-catalog.ts"
+        ],
+        "sourceDomains": {
+          "phase1-runtime": 8,
+          "content": 1
+        },
+        "dominant": "phase1-runtime",
+        "title": null,
+        "lineCount": 140,
+        "containsExecutionClaims": false,
+        "containsHistoricalCounter": false
+      },
+      "canonicalTarget": "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
       "disposition": "migrated",
       "supersededBy": "docs/testing/archive/migrations/testing-domains-20261004.json",
       "reason": "已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。",

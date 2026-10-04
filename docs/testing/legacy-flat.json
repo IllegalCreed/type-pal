@@ -308,18 +308,6 @@
       "migrateBy": "2026-11-01"
     },
     {
-      "path": "command-form-families-refactor-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "command-form-families-refactor.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
       "path": "content-contracts-review-witnesses.mjs",
       "kind": "tool",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
@@ -1706,38 +1694,14 @@
       "migrateBy": "2026-11-01"
     },
     {
-      "path": "map-workspace-sessions-refactor-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "map-workspace-sessions-refactor.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
       "path": "menu-session-parity.mjs",
       "kind": "tool",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
     {
-      "path": "menu-session-refactor-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
       "path": "menu-session-refactor-mutants.mjs",
       "kind": "tool",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "menu-session-refactor.md",
-      "kind": "document",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
@@ -1808,20 +1772,8 @@
       "migrateBy": "2026-11-01"
     },
     {
-      "path": "phase1-dependency-refactor-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
       "path": "phase1-dependency-refactor-mutants.mjs",
       "kind": "tool",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "phase1-dependency-refactor.md",
-      "kind": "document",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
@@ -2222,6 +2174,78 @@
       "movedTo": "domains/runtime/world/world-runtime/evidence.json",
       "sourceSha256": "ceddedc5cf0544af69991d478c6b7253d57fccc43d8591d8433b60bca8ea3ce1",
       "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "command-form-families-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/editor/commands/command-form-families/report.md",
+      "sourceSha256": "195ce7472c6bc901cc54828281fa025bade84e8f597b82415345710ab6958240",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "command-form-families-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/editor/commands/command-form-families/evidence.json",
+      "sourceSha256": "4aefc6e3ee4c7359a570e90882af91a36ecc802220031d598c41d5445e64a827",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "menu-session-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/menu/menu-session/report.md",
+      "sourceSha256": "85ce0a06d7efc6cfbb55ddd9113da53ce4f2bc602985d6ec12af4fc61853756b",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "menu-session-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/menu/menu-session/evidence.json",
+      "sourceSha256": "3535838716bff40e22b4ae6ffe618ef4f173dab9dd3a258796cc26119546bcf6",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "map-workspace-sessions-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/editor/map/map-workspace-sessions/report.md",
+      "sourceSha256": "d56dd9600f46e018a24a15f6eca30f29d111fad191a39155779bb3b482fa36fd",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "map-workspace-sessions-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/editor/map/map-workspace-sessions/evidence.json",
+      "sourceSha256": "8f07878ac5bdbf836be254d2ada7c3315ff023e6929363f3cf5676d48300e629",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "phase1-dependency-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "sourceSha256": "ea5a4b6392477d1c510c1a534260b27531daef05af020bf4e6337012ba270139",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
+    },
+    {
+      "path": "phase1-dependency-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "sourceSha256": "59100fb500262b7c242428150a5719501a0743e94167e6c7f428823a87e4205a",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json"
     }
   ]
 }
