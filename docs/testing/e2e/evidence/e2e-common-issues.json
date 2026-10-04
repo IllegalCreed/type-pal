@@ -1,14 +1,28 @@
 {
   "schemaVersion": 2,
   "id": "e2e-common-issues",
-  "kind": "source-audit",
+  "kind": "document-audit",
   "status": "current",
-  "candidateSha": "d02278dc",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
-    { "path": "scripts/e2e/inn-both.mjs", "lines": "1-85" },
-    { "path": "scripts/e2e/kitchen-both.mjs", "lines": "1-90" },
-    { "path": "scripts/e2e/errand-both.mjs", "lines": "1-96" }
+    {
+      "path": "scripts/e2e/errand-contract.mjs",
+      "lines": "295-308",
+      "anchor": "export function assertErrandBackground(",
+      "role": "oracle",
+      "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+    },
+    {
+      "path": "scripts/e2e/kitchen-contract.mjs",
+      "lines": "482-499",
+      "anchor": "export function assertKitchenTrace(",
+      "role": "oracle",
+      "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+    }
   ],
   "publicCallers": [
     "pnpm e2e:002:both",
@@ -17,13 +31,13 @@
     "pnpm e2e:005:both"
   ],
   "legalInputs": [
-    "current same-engine predecessor",
+    "each stage's current same-engine predecessor",
     "normal input/navigation",
     "isolated browser storage"
   ],
   "businessOracle": {
     "type": "issue-family-closure",
-    "assertions": ["root-cause family", "separate route/presentation/save", "no source-read-as-run"]
+    "assertions": ["公共根因按族收敛", "路线/演出/存档失败分开归因", "源码核读不计作实跑"]
   },
   "dedupe": {
     "result": "reviewed",
@@ -33,17 +47,32 @@
       "e2e/stages/003-kitchen/report.md",
       "e2e/stages/004-meal/report.md",
       "e2e/stages/005-shrimp/report.md"
-    ]
+    ],
+    "notes": "只汇总问题族，不复制各阶段通过数字。"
   },
   "claims": [
     {
-      "id": "shared-families",
+      "id": "e2e-common-issues-source-contract",
       "result": "source-backed",
-      "evidence": ["e2e/cross-stage/common-issues.md:1-90"]
+      "evidence": [
+        "scripts/e2e/errand-contract.mjs:295-308",
+        "scripts/e2e/kitchen-contract.mjs:482-499"
+      ]
     }
   ],
-  "artifacts": [{ "path": "e2e/cross-stage/common-issues.md", "kind": "canonical" }],
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": ["共性问题族只汇总已报告问题，不为后期站点或 006 追加实跑信用。"],
+  "artifacts": [],
   "history": [
-    { "revision": "2026-10-04", "change": "removed rework stage from dependency closure" }
+    {
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
   ]
 }

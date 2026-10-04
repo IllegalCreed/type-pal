@@ -1,18 +1,49 @@
 {
   "schemaVersion": 2,
   "id": "e2e-003",
-  "kind": "runtime-execution",
+  "kind": "document-audit",
   "status": "verified",
-  "candidateShas": ["0defc136", "edca85df"],
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
   "versions": {
-    "executedContent": 21,
-    "executedMinimumSave": 10,
-    "currentContent": 22,
-    "currentMinimumSave": 11
+    "content": 22,
+    "minimumSave": 11
   },
   "sourceRefs": [
-    { "path": "scripts/e2e/kitchen-both.mjs", "lines": "1-90" },
-    { "path": "projects/pal/content/scenes/s003.json", "lines": "1242-1509" }
+    {
+      "path": "scripts/e2e/kitchen-game.mjs",
+      "lines": "3-3",
+      "anchor": "await runKitchenJourney",
+      "role": "caller",
+      "sha256": "9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142"
+    },
+    {
+      "path": "scripts/e2e/kitchen-contract.mjs",
+      "lines": "117-134",
+      "anchor": "export function validateKitchenPredecessor(",
+      "role": "input",
+      "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+    },
+    {
+      "path": "scripts/e2e/kitchen-contract.mjs",
+      "lines": "518-532",
+      "anchor": "'stairs must commit all twelve authored fragments'",
+      "role": "oracle",
+      "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+    },
+    {
+      "path": "scripts/e2e/kitchen-contract.mjs",
+      "lines": "386-403",
+      "anchor": "export function assertKitchenStoryEnd(",
+      "role": "oracle",
+      "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
   ],
   "publicCallers": ["pnpm e2e:003", "pnpm e2e:003:reforge", "pnpm e2e:003:both"],
   "legalInputs": [
@@ -22,23 +53,41 @@
   ],
   "businessOracle": {
     "type": "stairs-dialogue-kitchen-handoff",
-    "assertions": ["12 stair commits", "14 dialogue rows", "stop at 126/127"]
+    "assertions": ["楼梯真实12次提交", "14行正文完整", "停止于126/127并恢复控制"]
   },
   "dedupe": {
     "result": "reviewed",
     "against": ["e2e-002", "e2e-004"],
-    "notes": "004 entrance is registered but not claimed as executed"
+    "notes": "004取菜入口只登记，不把源码核读冒充003实跑。"
   },
   "claims": [
     {
-      "id": "kitchen-handoff",
-      "result": "runtime-backed",
-      "evidence": ["e2e/stages/003-kitchen/report.md:18-41"]
+      "id": "e2e-003-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "scripts/e2e/kitchen-game.mjs:3-3",
+        "scripts/e2e/kitchen-contract.mjs:117-134",
+        "scripts/e2e/kitchen-contract.mjs:518-532",
+        "scripts/e2e/kitchen-contract.mjs:386-403",
+        "packages/content/src/character.ts:168-170"
+      ]
     }
   ],
-  "artifacts": [{ "path": "e2e/stages/003-kitchen/report.md", "kind": "canonical" }],
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "两份旧实跑使用不同 revision，不能据此写成同 SHA both 汇总；004 取菜/姿态相邻核读不计 003 运行覆盖。"
+  ],
+  "artifacts": [],
   "history": [
-    { "revision": "2026-10-02", "change": "independent game/reforge runs" },
-    { "revision": "2026-10-04", "change": "metadata audit" }
+    {
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
   ]
 }

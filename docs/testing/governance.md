@@ -63,7 +63,11 @@ docs/testing/
 2. 运行 `node scripts/docs/generate-testing-index.mjs`，生成四维索引。
 3. 运行 `pnpm check:testing-docs` 和 `pnpm check:docs`。
 4. 报告、证据、工具、任务卡互相链接；只提交持久证据，临时截图/trace 放 `artifacts/` 不入 Git。
-5. 旧文档迁移使用 `scripts/docs/relocate.mjs`，必须提交带源 SHA 的迁移计划；删除前先确认没有 catalog、任务卡、
-   脚本或 README 引用。过期 legacy 条目只能迁移、归档或明确续期，不能无限新增平面文件。
+5. 旧文档迁移使用 `scripts/docs/relocate.mjs`，必须提交带源 SHA 的迁移计划；完成移动后用
+   `scripts/docs/finalize-testing-migration.mjs` 重写 Markdown 引用，并在 `legacy-flat.json.retired` 与分类账登记源路径、
+   目标和 SHA。删除前先确认没有 catalog、任务卡、脚本或 README 引用。过期 legacy 条目只能迁移、归档或明确续期，
+   不能无限新增平面文件。
 6. 代表性深审先落分类账与迁移理由，再按批次迁移；重复/低信息材料通过 `archive/` 与 `supersedes` 导航，保留
    原始正文和历史 hash。未完成独立核验的条目保持 `retain-legacy`/`rework`，不能静默删除或标 verified。
+7. 已迁移条目不再从 active `entries` 计数，但必须在 `retired` 和分类账中保留；canonical 只能用工程域、模块和功能
+   语义命名，Agent 名称只能作为 provenance 或历史原始文件的来源说明。

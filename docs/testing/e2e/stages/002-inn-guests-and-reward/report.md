@@ -4,18 +4,18 @@ id: e2e-002
 evidence: e2e/evidence/e2e-002.json
 ---
 
-# 002 — 客栈路线、住客与赏银核心
-
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-002","sourceRefs":[{"path":"scripts/e2e/inn-both.mjs","lines":"1-85"},{"path":"projects/pal/content/scenes/s001.json","lines":"299-332"},{"path":"projects/pal/content/scenes/s003.json","lines":"835-1242"}],"publicCallers":["pnpm e2e:002","pnpm e2e:002:reforge","pnpm e2e:002:both"],"legalInputs":["same-engine current 001 end save","normal movement into s003/e56","isolated fresh restore context"],"businessOracle":{"type":"inn-guest-reward-and-restore","assertions":["20 dialogue rows","cash 0→500","three guests enter and restore"]},"dedupe":{"result":"renamed-and-reviewed","against":["e2e-001","e2e-003","legacy path docs/testing/e2e/stages/002-inn-guests-and-reward"],"notes":"e56/s003 remain sourceRefs only"},"revision":{"currentSha":"9d15218b","contentVersion":21,"minimumSaveVersion":10,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 verify","2026-10-04 semantic rename and metadata audit"]},"evidence":"e2e/evidence/e2e-002.json"}
+{"schemaVersion":2,"id":"e2e-002","sourceRefs":[{"path":"scripts/e2e/game-inn.mjs","lines":"3-3","anchor":"await runInnJourney","role":"caller","sha256":"aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"},{"path":"scripts/e2e/inn-contract.mjs","lines":"67-84","anchor":"export function validatePredecessor(","role":"input","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"scripts/e2e/inn-contract.mjs","lines":"337-354","anchor":"export function assertInnEvidence(","role":"oracle","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"scripts/e2e/inn-contract.mjs","lines":"453-464","anchor":"'money not committed between thanks and reward display'","role":"oracle","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:002","pnpm e2e:002:reforge","pnpm e2e:002:both"],"legalInputs":["same-engine current 001 end save","normal movement into s003/e56","isolated fresh restore context"],"businessOracle":{"type":"inn-guest-reward-and-restore","assertions":["20行正文/说话人完整","cash 0→500且三苗人真实进房","结束档在新上下文恢复并保留房内状态"]},"dedupe":{"result":"reviewed","against":["e2e-001","e2e-003","docs/testing/e2e/stages/002-inn-guests-and-reward"],"notes":"e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-002.json"}
 -->
 
-002 双引擎 verify 已收口：正常路线、核心编排、真实存读档与恢复画面通过，全仓质量门零诊断。实现准入与完整前提见
-[子卡](../../../../ops/archive/tasks/done/E2E-002-1-inn-route-and-trio.md)，后续全局范围见
-[母卡](../../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)。
+# 002 — 客栈路线、住客与赏银核心
 
-2026-10-02脚本治理后，当前二阶段检查点使用[本轮重建链](../../../script-governance/current-checkpoints.md)。
-下文各轮目录、版本与数字仍是历史原始证据，不自动成为新内容的可加载前驱。
+## 2026-10-04 文档深审
+
+旧段落混写 content21/SAVE9 与后续 SAVE10，须按每轮历史回执理解。内部实体编号只用于源定位，当前业务名为客栈住客与赏银。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 用户边界与两块验证
 

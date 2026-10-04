@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 2,
+  "id": "runtime-world-owners",
+  "kind": "document-audit",
+  "status": "current",
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
+  "sourceRefs": [
+    {
+      "path": "packages/reforge/src/main.ts",
+      "lines": "413-424",
+      "anchor": "const motion = new WorldMotionRuntime",
+      "role": "caller",
+      "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+    },
+    {
+      "path": "packages/reforge/src/world-motion-runtime.ts",
+      "lines": "145-168",
+      "anchor": "export class WorldMotionRuntime",
+      "role": "contract",
+      "sha256": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+    },
+    {
+      "path": "packages/reforge/src/world-scene-presentation.ts",
+      "lines": "71-88",
+      "anchor": "export class WorldScenePresentation",
+      "role": "contract",
+      "sha256": "708a17ca1c63fc18f636f2a5911b436c70d68df5b35af93c994f1599b090f205"
+    },
+    {
+      "path": "packages/reforge/src/world-motion-runtime.test.ts",
+      "lines": "7-30",
+      "anchor": "describe('WorldMotionRuntime ownership'",
+      "role": "oracle",
+      "sha256": "51076a037f665a57d472ada1af68e91eb8dc08fef3a6619222e507f5d534bbe1"
+    },
+    {
+      "path": "packages/reforge/src/world-scene-presentation.test.ts",
+      "lines": "82-105",
+      "anchor": "describe('WorldScenePresentation sprite ownership'",
+      "role": "oracle",
+      "sha256": "f2130f0547be77347d41e8d0548b8a6e62c956dbdae80e8fe168f424e6568a9e"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
+  ],
+  "publicCallers": [
+    "bootGame → WorldMotionRuntime + WorldScenePresentation",
+    "advanceMoves → canonical endpoint/live position/touch",
+    "render → scene presentation snapshot"
+  ],
+  "legalInputs": [
+    "当前 scene session/authority/runner lineage",
+    "production MotionRuntimeCoordinator 与合法 GridPos",
+    "typed scene/renderer draw snapshot"
+  ],
+  "businessOracle": {
+    "type": "runtime-world-owners",
+    "assertions": [
+      "endpoint 先落 canonical，live 提交后 touch，再唤醒 continuation",
+      "party/实体取消释放监听器与 waiter",
+      "每帧自身锚点与 frame priority/shake/wave 保留"
+    ]
+  },
+  "dedupe": {
+    "result": "source-review-no-new-test-credit",
+    "against": [
+      "docs/testing/architecture-continuation-integration.md",
+      "domains/runtime/world/world-runtime/history/report.md"
+    ],
+    "notes": "MotionRuntimeCoordinator 仍拥有 authority/slot；WorldMotionRuntime 管外围节拍和生命周期。ActiveScene 拥有资源、presentation 拥有绘制状态，不能把两份报告重复算整场景 E2E。"
+  },
+  "claims": [
+    {
+      "id": "runtime-world-owners-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "packages/reforge/src/main.ts:413-424",
+        "packages/reforge/src/world-motion-runtime.ts:145-168",
+        "packages/reforge/src/world-scene-presentation.ts:71-88",
+        "packages/reforge/src/world-motion-runtime.test.ts:7-30",
+        "packages/reforge/src/world-scene-presentation.test.ts:82-105",
+        "packages/content/src/character.ts:168-170"
+      ]
+    }
+  ],
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "旧正文中的不合 main/未统一门仅为候选时点；当前由 unified integration 收口。未读取 console 的原最小功能过程保持未证，不倒填 console 零错误；完整剧情观感仍另归 E2E。"
+  ],
+  "artifacts": [],
+  "history": [
+    {
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
+  ]
+}

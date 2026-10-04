@@ -4,18 +4,18 @@ id: e2e-004
 evidence: e2e/evidence/e2e-004.json
 ---
 
-# 004 · 端菜、送菜与使用桂花酒赠道士
-
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-004","sourceRefs":[{"path":"scripts/e2e/meal-both.mjs","lines":"1-104"},{"path":"projects/pal/content/scenes/s003.json","lines":"6000-7800"},{"path":"packages/content/src/character.ts","lines":"168-170"}],"publicCallers":["pnpm e2e:004","pnpm e2e:004:reforge","pnpm e2e:004:both"],"legalInputs":["same-engine current 003 kitchen save","normal menu use","isolated save/restore case"],"businessOracle":{"type":"meal-gift-continuity","assertions":["story/items/saves cases remain separate","cancel/error use does not consume wine","gift and recovery are observed"]},"dedupe":{"result":"reviewed","against":["e2e-003","e2e-005","historical receipt-only revalidation"]},"revision":{"currentShas":["9a488c02","e5b43268"],"contentVersion":22,"minimumSaveVersion":11,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 six-case verification","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-004.json"}
+{"schemaVersion":2,"id":"e2e-004","sourceRefs":[{"path":"scripts/e2e/meal-game.mjs","lines":"3-3","anchor":"await runMealJourney","role":"caller","sha256":"a922f13f014cb4923e0f3ede5d7ddcacc030d892a75a8aeb86cf202d478aad8f"},{"path":"scripts/e2e/meal-contract.mjs","lines":"261-278","anchor":"export function validateMealPredecessor(","role":"input","sha256":"1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"},{"path":"scripts/e2e/meal-contract.mjs","lines":"182-197","anchor":"export function assertMealSuite(","role":"oracle","sha256":"1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"},{"path":"scripts/e2e/meal-contract.mjs","lines":"596-613","anchor":"export function assertMealGameSaveInput(","role":"oracle","sha256":"1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:004","pnpm e2e:004:reforge","pnpm e2e:004:both"],"legalInputs":["same-engine current 003 kitchen save","normal menu use","isolated save/restore case"],"businessOracle":{"type":"meal-gift-continuity","assertions":["story/items/saves 六 case 分开","取消/错误 use 不扣酒","赠酒正文、消失、喊话后恢复移动"]},"dedupe":{"result":"reviewed","against":["e2e-003","e2e-005","e2e/stages/004-meal/report.md#历史"],"notes":"旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-004.json"}
 -->
 
-用户2026-10-02指定：从003厨房交代结束、尚未取菜开始，取菜→送苗族随从→取得桂花酒→
-正常菜单赠醉道士→完整喝酒/约剑/消失/大娘喊话及逍遥应答→真实恢复移动；不进入买虾任务或005。
-任务卡：[E2E-004-1](../../../../ops/archive/tasks/done/E2E-004-1-meal-and-beggar-wine.md)。
+# 004 · 端菜、送菜与使用桂花酒赠道士
 
-2026-10-02脚本治理改变了二阶段内容指纹，当前003前驱与004 saves结束档见
-[重建链](../../../script-governance/current-checkpoints.md)。下文原六case仍为当时验收证据，不将旧二阶段档继续当当前前驱。
+## 2026-10-04 文档深审
+
+9a488c02 六 case 是旧版本历史执行；不能把当前 canonical 22/11 倒填到旧回执。receipt-model-only 复核不等于新增实跑。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 当前状态
 

@@ -19,7 +19,7 @@ Branch: codex/testing-doc-governance
 
 ## 范围
 
-- 范围内：`docs/testing` catalog、索引、模板、E2E canonical 元数据/evidence、legacy 分类账、代表性迁移/历史合并、`scripts/docs/check-testing.mjs` 及其测试、本治理卡与看板。
+- 范围内：`docs/testing` catalog、索引、模板、E2E canonical 元数据/evidence、legacy 分类账、代表性迁移/历史合并、runtime owner canonical 深审、`scripts/docs/check-testing.mjs` 及其测试、本治理卡与看板。
 - 范围外：`packages/**`、`scripts/e2e/**`、现有旧测试、coverage/ratchet/baseline、用户作者内容、完整 Q1/Q2 视觉验收。
 - 明确不做：一次性盲搬 359 个历史文件；删除仍被任务卡/审计引用的原始报告；把源码核读写成实跑；把 E2E 治理转成 coverage 门槛。
 
@@ -71,8 +71,10 @@ CI 可以拒绝缺证据、过期依赖、旧链接、未分类 legacy 新增和
 
 1. 机器清点：记录 363 根文件、359 legacy entries、9 catalog entries，并生成域/模块/功能分类账。
 2. 代表性 canonical：补 9 个 metadata/evidence 对，修正 E2E-002 业务语义目录，更新迁移 SHA 与旧链接。
-3. 历史合并：将架构实验 r2–r10 仅合并导航到 archive summary，原始文件保留；不把局部窄证据升级为整包 verified。
-4. CI 约束：扩展 checker、索引、模板、测试，跑 docs 工具和 `pnpm check:docs`。
+3. 历史合并：将架构实验 r2–r10 物理迁入 `archive/architecture-regression-lab/`，原始文件 SHA 与 retired manifest 保留；不把局部窄证据升级为整包 verified。
+4. runtime 深审：将 ActiveScene、BattleHost、BattleSession owners、World runtime 四组 report/evidence 迁入 `domains/runtime/`，逐组核当前 caller、合法输入、oracle、排重、实现 SHA 与未执行边界。
+5. 全量治理账：新增 `legacy-flat-audit.md/json`，把 359 项的 domain/module/capability/sourceSha/inventory、20 项迁移和 339 项保留理由纳入 canonical 索引。
+6. CI 约束：扩展 checker、索引、模板、测试和迁移脚本，跑 docs 工具和 `pnpm check:docs`。
 
 停止线：发现当前 caller 未登记、sourceRef 无法核实、删除会丢失唯一历史 SHA、产品/旧测试/coverage diff、或 E2E-006 缺失证据被误标 verified 时，停止迁移并保持 legacy/rework，写入未决问题。
 
@@ -127,7 +129,9 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 
 ## 交接日志
 
-- 2026-10-04 Codex：从指定 `d02278dc` 建立隔离分支；完成机器清点、分类脚本/359 项 ledger、catalog v2、9 对 front matter + metadata/evidence、E2E-002 语义改名、架构历史合并索引。Evidence: `docs/testing/legacy-flat-classification.json`、`docs/testing/e2e/evidence/`、实现提交 `e5fe2b80f7b62f16a5fac4fc4747510996d6ad55`。验证：`pnpm check:docs`（41 docs-tool tests，docs/testing PASS 0 issues）、`pnpm lint`（3149 files，0/0/0）、`git diff --check` 通过。Next: Codex 独立验收；保持 build，不合 main、不标 done。
+- 2026-10-04 Codex：从指定 `d02278dc` 建立隔离分支；完成机器清点、分类脚本/359 项 ledger、catalog v2、9 对 front matter + metadata/evidence、E2E-002 语义改名、架构历史合并索引。Evidence: `docs/testing/legacy-flat-classification.json`、`docs/testing/e2e/evidence/`、实现提交 `e5fe2b80f7b62f16a5fac4fc4747510996d6ad55`。验证：`pnpm check:docs`（41 docs-tool tests，docs/testing PASS 0 issues）、`pnpm lint`（3149 files，0/0/0）、`git diff --check` 通过。
+- 2026-10-04 Codex 深度批次：真实迁移 20 个 report/evidence：12 个架构实验原文迁入 `archive/architecture-regression-lab/`，8 个 runtime owner 文档迁入 `domains/runtime/`；`legacy-flat.json.retired`、迁移计划和分类账保留源 SHA。新增当前 caller/source line/oracle/排重审计；E2E evidence 改为明确 source-backed/document-audit，006 修正为 `boat-reforge.mjs` 且保留 rework。新增 `legacy-flat-audit.md/json` 全量总账，并扩展按工程域/模块/阶段/引擎/legacy 的索引。验证：`pnpm check:docs`（907 Markdown/5175 links，48 docs-tool tests，0 issues）、`pnpm check:testing-docs`（0 issues）、`pnpm lint`（3157 files，0/0/0）、`git diff --check` 通过。Evidence: `docs/testing/archive/migrations/testing-domains-20261004.json`、`docs/testing/domains/`、`docs/testing/domains/ops/testing-governance/`。
+- Next: Codex 独立验收；保持 build，不合 main、不标 done。
 
 ## 下一位 Agent 提示词
 

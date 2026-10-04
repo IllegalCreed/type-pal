@@ -1,12 +1,12 @@
 # C1 BattleSession 状态所有权候选
 
-后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点 `099a615b`；实现 `aab78c82`、`450df20d`、`f68d4e89`、`afef3cd3`；所属
-[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](/docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话统一集成并执行 check/ratchet/strict。完整命令、计数和未证项见
-[机账](battle-session-owners-refactor-evidence.json)。
+[机账](evidence.json)。
 
 ## 所有权边界
 
@@ -29,7 +29,7 @@ coverage 门；待原接收对话统一集成并执行 check/ratchet/strict。�
 
 - 四 owner 新增 35 项；C1 定向/相邻 11 文件 124 项、Reforge 182 文件 1682 项、TypeScript、候选 Biome 与
   production build 均通过。build 仅保留既有大 chunk 提示。
-- [十一针反控](battle-session-owners-mutants.mjs)覆盖同步进入、迟到失效、fatal 分类、300ms、terminated 同拍、
+- [十一针反控](/docs/testing/battle-session-owners-mutants.mjs)覆盖同步进入、迟到失效、fatal 分类、300ms、terminated 同拍、
   LIFO、跨轮快捷键、重复动作修复、240ms、首帧采样和 script 清理。control 35/35；11 个坏实现全部由指定
   候选测试的单一 `AssertionError` 检出。工具要求精确 absolute test/fullName、唯一 loader marker、exit 1、
   无 timeout/环境异常且产品 hash 不变；判据 1 正/9 反自测。最终临时机账：

@@ -129,7 +129,7 @@ R1–R3清零，29新增/五作者针/五组独立见证；check9602、ratchet�
 
 2026-09-26 [战场命令族窄拆](../testing/glm-arch-battle-field-commands.md)由GLM实施、Codex独立accept并done归档：7276字节搬移保真、119出口不变、156项与两针通过；完整check8657/受保护严格fast8165/644绿，隔离功能核验完成（原生confirm自动化限制单列）。F2整体仍未完成。
 
-2026-09-26 [Cursor24组](../testing/cursor-architecture-batch-integration.md)与[GLM十二组准备包](../testing/architecture-regression-lab-completion.md)已由Codex独立accept/收口：前者25新增/32模块、后者本批4新增（累计41），统一check8707/strict8215/686；功能UI已补验，用户无需手测。B1/E1/环境未证轴已归属，A3主线WIP不混算。
+2026-09-26 [Cursor24组](../testing/cursor-architecture-batch-integration.md)与[GLM十二组准备包](../testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md)已由Codex独立accept/收口：前者25新增/32模块、后者本批4新增（累计41），统一check8707/strict8215/686；功能UI已补验，用户无需手测。B1/E1/环境未证轴已归属，A3主线WIP不混算。
 
 2026-09-25 [一阶段菜单与索引渲染十组补测](../testing/grok-present-integration.md)由Grok贡献隔离候选、Codex三轮独立复核后选择性接入正式game测试：25项（23生产绘制/解码+2快照自测）、check/受保护ratchet/单次严格fast均通过；fast8090项/641生产文件，全仓分支43067/63176、同分母净增157。旧候选分支未直接merge以免回退主线；full/E2E/视觉观感另排。
 
@@ -144,7 +144,7 @@ main6427→6260；资源缓存与只读准备各有所有者，原同步提交�
 384帧/896输入对照、check8499/strict8008/639通过；时钟/等待/单步/输入所有权迁出。
 **A3整体未完成**，场景/移动/绘制职责续段仍待推进，13批总队列仍为2批完成；GLM八包是后续既有批次的准备支持，不增加8个架构大批。
 
-2026-09-24 [架构治理A2](../testing/battle-host-refactor.md)最终46287966已按用户全队列独立授权done：
+2026-09-24 [架构治理A2](../testing/domains/runtime/battle/battle-host/report.md)最终46287966已按用户全队列独立授权done：
 战斗启动/准备/会话所有权移出主壳，main6798→6486；23新增/11针、check8463/单次strict7972/637通过，
 旧败北随机输入及自审发现的两处时序边界已单列修正。A1+A2共2/13完成；后续从A3继续，不等待Kimi/GLM。
 

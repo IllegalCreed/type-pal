@@ -2,7 +2,7 @@
 
 ## 目的与边界
 
-`architecture-regression-lab-codex-review.md`、`r2`–`r10` 是同一 GLM 实验包的逐轮独立复核，不是九个独立
+`architecture-regression-lab/architecture-regression-lab-codex-review.md`、`r2`–`r10` 是同一 GLM 实验包的逐轮独立复核，不是九个独立
 产品合同。它们保留原始候选 SHA、counter、反例和审查时点；本页只合并导航与不变结论，不改写旧正文或旧 hash。
 当前正式接收范围以 `architecture-regression-lab-completion.md` 及任务卡历史收口为准。
 
@@ -13,7 +13,7 @@
 | 首轮、r2–r6 | `archive-history`，由本页汇总导航 | 结论均为 counter/窄证据，逐轮账本有历史价值；复制为 canonical 会制造平行真相。 |
 | r7–r9 | `archive-history`，保留各自反控边界 | 局部 G02/G04/G05/G06/G08 逐轮收窄，不能合并成“整包通过”。 |
 | r10 + r10 evidence | `archive-history`，由最终接收材料 supersede 导航 | G01-07 与 V01 是可保留窄事实，V02–V04 仍未闭；完整实验包不因单轴通过而变 verified。 |
-| `architecture-regression-lab-completion.md` | 仍为 legacy 平面材料，待独立 canonical 化 | 它是准备包收口，不属于当前 catalog 的 E2E contract/report；本批不盲搬。 |
+| `architecture-regression-lab-completion.md` | 已迁入 `archive/architecture-regression-lab/`，由本页导航 | 它是准备包收口，不属于当前 catalog 的 E2E contract/report；保留原文但不作为当前合同。 |
 
 ## 不变事实与证据锚点
 
@@ -32,5 +32,6 @@
 
 ## 删除与保留
 
-本批没有物理删除原始材料：它们仍被任务卡与审计正文引用，删除会丢失可追溯 SHA。确认无引用且已有完整 canonical/evidence
-配对后，后续批次才可按 `scripts/docs/relocate.mjs` 迁移或删除，并把原文件 SHA 写入迁移记录。
+本批已物理迁移 20 个代表性 report/evidence：12 个架构实验原文进入 `archive/architecture-regression-lab/`，
+8 个 runtime owner report/evidence 进入 `domains/runtime/`，源 SHA 和目标写入迁移计划；legacy manifest 的 `retired`
+块和分类账保留来源审计。对应 mutants/parity/tool 文件仍留 legacy，直到相对导入、公开 caller 和独立 canonical 工具包另批核验。

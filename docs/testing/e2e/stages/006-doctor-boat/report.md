@@ -4,15 +4,18 @@ id: e2e-006
 evidence: e2e/evidence/e2e-006.json
 ---
 
-# 006 · 回客栈求药与张四出海上仙灵岛
-
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-006","sourceRefs":[{"path":"scripts/e2e/errand-reforge.mjs","lines":"1-3"},{"path":"projects/pal/content/scenes/s005.json","lines":"1-1200"},{"path":"projects/pal/content/scenes/s014.json","lines":"1-780"}],"publicCallers":["no accepted current phase1+reforge 006 wrapper"],"legalInputs":["current SAVE11/content22 001→005 chain","normal movement to boat","current two-stage key-NPC logs"],"businessOracle":{"type":"rework-gated-boat-entry","assertions":["Reforge reaches s014","phase1 and Reforge key NPC logs","boat anchor/action/landing visual evidence"]},"dedupe":{"result":"reviewed","against":["e2e-005","historical 001–005 reports"]},"revision":{"currentSha":null,"shaStatus":"missing-in-report","contentVersion":22,"minimumSaveVersion":11,"history":["2026-10-03 rework report","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-006.json"}
+{"schemaVersion":2,"id":"e2e-006","sourceRefs":[{"path":"scripts/e2e/boat-reforge.mjs","lines":"3-3","anchor":"await runBoatJourney","role":"caller","sha256":"d5c648a90e22617c1d16b97964f3539c22625cc68836e5194c23802c0dd14b43"},{"path":"scripts/e2e/boat-journey.mjs","lines":"12-31","anchor":"export async function runBoatJourney(","role":"caller","sha256":"3737d0004aa6107654c9604b37748840d2c0055b9c90f1a86fe814cb96e5d675"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["node scripts/e2e/boat-reforge.mjs"],"legalInputs":["current SAVE11/content22 001→005 chain","normal movement to boat","current phase1 and reforge NPC logs"],"businessOracle":{"type":"rework-gated-boat-entry","assertions":["Reforge route reaches s014","two-stage key NPC logs exist","boat anchor/action/landing visual evidence closes rework"]},"dedupe":{"result":"reviewed","against":["e2e-005","historical 001–005 reports"],"notes":"历史链不能替代当前 006 两阶段证据；缺失项显式保留。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-006.json"}
 -->
 
-状态：`rework`。当前 Reforge 剧情链已跑通，但第一阶段关键 NPC 日志/演出对照和船段视觉修正尚未闭合，不能标记 done。
+# 006 · 回客栈求药与张四出海上仙灵岛
 
-任务卡：[E2E-006-1](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)
+## 2026-10-04 文档深审
+
+真实入口是 node scripts/e2e/boat-reforge.mjs，上一版误引了 005 runner。报告没有完整执行 SHA，缺当前第一阶段 NPC 和船段视觉复验，rework 继续保留。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 已确认范围
 

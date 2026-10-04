@@ -4,20 +4,18 @@ id: e2e-contract
 evidence: e2e/evidence/e2e-contract.json
 ---
 
-# 两阶段 E2E 与录像验证合同
-
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"1-84"},{"path":"scripts/e2e/inn-both.mjs","lines":"1-85"},{"path":"packages/content/src/character.ts","lines":"168-170"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["real caller","same-engine restore","verify/capture separation"]},"dedupe":{"result":"reviewed","against":["e2e/stages/*/report.md"]},"revision":{"currentSha":"d02278dc","contentVersion":22,"minimumSaveVersion":11,"history":["2026-09-28 initial contract","2026-10-04 deep-governance revision"]},"evidence":"e2e/evidence/e2e-contract.json"}
+{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"2-9","anchor":"import { spawn }","role":"caller","sha256":"2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["正文/说话人/状态变化来自真实 caller","结束 checkpoint 可被同引擎正式恢复","capture 不冒充 verify"]},"dedupe":{"result":"reviewed","against":["docs/testing/e2e/stages/*/report.md","docs/testing/legacy-flat-classification.json"],"notes":"合同只定义共用门，不重复阶段报告的执行结论。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-contract.json"}
 -->
 
-> **目的**:把整个游戏切成几百个小碎片,每个碎片小到足够独立验证、独立重跑和独立录像。每个碎片 =
-> **一个起始检查点**(`NNN-名.save.json`,秒进该状态)+ **一份剧情与执行说明**(碎片目录中的每节 + 可选单独 md)
-> + **可机器复核的结束条件**。**碎片 N 的结束检查点 = 碎片 N+1 的起始检查点**。这样重复 E2E
-> 或重录某个镜头时可从任意碎片直接进入,不必从头通关,也不要求作者手动玩一遍再录屏。
->
-> 碎片边界由作者(仙剑专家)最终确认。Agent 可以根据
-> [`docs/lore/timeline.md`](../../lore/timeline.md)、场景/脚本数据和既有验证证据起草候选边界,
-> 但**不得把猜测直接登记成剧情真值**。作者只需审核边界和内容语义,不承担手动通关、录屏或给无标签录像补剧情说明。
+# 两阶段 E2E 与录像验证合同
+
+## 2026-10-04 文档深审
+
+合同硬门中的旧平面报告名应由 catalog canonical 解析。capture、路线、存读与 NPC 演出门分别保留。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 1. 产品定位与前置关系
 

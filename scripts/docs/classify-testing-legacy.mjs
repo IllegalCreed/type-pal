@@ -17,6 +17,13 @@ const provenancePrefixes = new Map([
 ])
 
 const domainRules = [
+  ['coverage|quality|stability', 'quality', 'quality-gates'],
+  ['save|checkpoint-export', 'persistence', 'save-and-recovery'],
+  [
+    'migration|migrate|translate-events|pal-assets|import|resource',
+    'migration',
+    'supply-and-import',
+  ],
   ['e2e|checkpoint|pre-e2e', 'e2e', 'route-and-checkpoint'],
   ['battle', 'runtime', 'battle'],
   ['editor|menu|command|item|preview|sprite|design-system|ui', 'editor', 'editor-workflows'],
@@ -26,6 +33,43 @@ const domainRules = [
   ['coverage|quality|guard|stability', 'quality', 'quality-gates'],
   ['phase1|reforge|runtime', 'runtime', 'engine-boundaries'],
 ]
+
+const sourceDomains = {
+  game: 'phase1-runtime',
+  reforge: 'runtime',
+  editor: 'editor',
+  content: 'content',
+  migrate: 'migration',
+  'pal-extract': 'extraction',
+  shared: 'shared',
+}
+
+function contentInventory(text) {
+  const sources = new Map()
+  for (const match of text.matchAll(
+    /packages\/(game|reforge|editor|content|migrate|pal-extract|shared)\/(?:src|scripts)\/[\w./-]+\.(?:ts|tsx|mts|mjs)(?::\d+(?:[-–]\d+)?)?/g,
+  )) {
+    const path = match[0].replace(/:\d+(?:[-–]\d+)?$/, '')
+    if (!sources.has(path)) sources.set(path, { path, domain: sourceDomains[match[1]] })
+  }
+  const totals = Object.groupBy([...sources.values()], (source) => source.domain)
+  const sorted = Object.entries(totals).sort(
+    (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]),
+  )
+  const dominant =
+    sorted.length && (sorted.length === 1 || sorted[0][1].length > sorted[1][1].length)
+      ? sorted[0][0]
+      : null
+  return {
+    sourceFiles: [...sources.values()].map((source) => source.path).sort(),
+    sourceDomains: Object.fromEntries(sorted.map(([domain, values]) => [domain, values.length])),
+    dominant,
+    title: /^# (.+)$/m.exec(text)?.[1] ?? null,
+    lineCount: text.split('\n').length,
+    containsExecutionClaims: /实跑|实测|passed|exit\s*0|独立复跑|detected/i.test(text),
+    containsHistoricalCounter: /counter|失败|未证|未运行/.test(text),
+  }
+}
 
 const agentPattern = /(?:^|[-_])(codex|cursor|glm|grok|kimi|gemini)(?=$|[-_])/i
 
@@ -38,13 +82,26 @@ function slugify(value) {
     .replace(/-{2,}/g, '-')
 }
 
-export function classifyPath(path, kind, sourceSha) {
+export function classifyPath(path, kind, sourceSha, options = {}) {
   const stem = path.replace(/\.[^.]+$/, '').toLowerCase()
-  const prefix = stem.match(/^(codex|cursor|glm|grok|kimi|gemini)(?:[-_]|$)/i)?.[1]?.toLowerCase()
+  const prefix = stem
+    .match(/(?:^|[-_])(codex|cursor|glm|grok|kimi|gemini)(?:[-_]|$)/i)?.[1]
+    ?.toLowerCase()
   const provenance = prefix ? provenancePrefixes.get(prefix) : 'unattributed'
   const rule = domainRules.find(([pattern]) => new RegExp(pattern).test(stem))
-  const domain = rule?.[1] ?? 'ops'
-  const module = rule?.[2] ?? 'testing-records'
+  const inventory = contentInventory(options.text ?? '')
+  const domain =
+    options.reviewedDomain ??
+    (/coverage|quality|stability|pre-e2e/.test(stem) ? rule?.[1] : inventory.dominant) ??
+    rule?.[1] ??
+    'ops'
+  const module =
+    options.reviewedModule ??
+    (domain === 'runtime' && /active-scene|scene-preparation/.test(stem)
+      ? 'scene'
+      : domain === 'runtime' && /world-runtime/.test(stem)
+        ? 'world'
+        : (rule?.[2] ?? 'testing-records'))
   const slug = slugify(stem) || 'legacy-record'
   const archiveHistory = stem.startsWith('architecture-regression-lab-codex-')
   return {
@@ -55,24 +112,66 @@ export function classifyPath(path, kind, sourceSha) {
     capability: slug,
     provenance,
     sourceSha,
-    canonicalTarget: `domains/${domain}/${module}/${slug}${path.slice(stem.length)}`,
-    disposition: archiveHistory ? 'archive-history' : 'retain-legacy',
-    supersededBy: archiveHistory ? 'archive/architecture-regression-lab-history.md' : null,
-    reason: archiveHistory
-      ? '逐轮反证属于同一实验包；保留原始结论，由历史汇总承接当前导航。'
-      : '尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。',
+    classificationBasis: options.movedTo
+      ? 'reviewed-migration-batch'
+      : inventory.dominant
+        ? 'body-source-paths'
+        : 'filename-hint-only',
+    reviewStatus: options.movedTo ? 'reviewed' : 'candidate-needs-depth-review',
+    inventory,
+    canonicalTarget:
+      options.canonicalTarget ??
+      options.movedTo ??
+      `domains/${domain}/${module}/${slug}${path.slice(stem.length)}`,
+    disposition: options.movedTo
+      ? 'migrated'
+      : archiveHistory
+        ? 'archive-history'
+        : 'retain-legacy',
+    supersededBy: options.movedTo
+      ? 'docs/testing/archive/migrations/testing-domains-20261004.json'
+      : archiveHistory
+        ? 'archive/architecture-regression-lab-history.md'
+        : null,
+    reason: options.movedTo
+      ? '已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。'
+      : archiveHistory
+        ? '逐轮反证属于同一实验包；保留原始结论，由历史汇总承接当前导航。'
+        : '尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。',
     agentInCanonicalPath: agentPattern.test(`domains/${domain}/${module}/${slug}`),
   }
 }
 
 export function buildClassification(root = testingRoot) {
   const legacy = JSON.parse(readFileSync(resolve(root, 'legacy-flat.json'), 'utf8'))
-  const entries = legacy.entries.map((entry) => {
-    const absolute = resolve(root, entry.path)
-    const sourceSha = existsSync(absolute)
-      ? createHash('sha256').update(readFileSync(absolute)).digest('hex')
-      : null
-    return classifyPath(entry.path, entry.kind, sourceSha)
+  const active = legacy.entries
+  const retired = (legacy.retired ?? []).map((entry) => ({
+    ...entry,
+    path: entry.path,
+    movedTo: entry.movedTo,
+  }))
+  const entries = [...active, ...retired].map((entry) => {
+    const absolute = resolve(root, entry.historicalTarget ?? entry.movedTo ?? entry.path)
+    const sourceSha =
+      entry.sourceSha256 ??
+      (existsSync(absolute)
+        ? createHash('sha256').update(readFileSync(absolute)).digest('hex')
+        : null)
+    return classifyPath(entry.path, entry.kind, sourceSha, {
+      movedTo: entry.movedTo,
+      text: existsSync(absolute) ? readFileSync(absolute, 'utf8') : '',
+      reviewedDomain: entry.movedTo?.startsWith('domains/runtime/')
+        ? 'runtime'
+        : entry.movedTo?.startsWith('archive/architecture-regression-lab/')
+          ? 'cross-domain'
+          : undefined,
+      reviewedModule: entry.movedTo?.startsWith('archive/architecture-regression-lab/')
+        ? 'architecture-regression'
+        : entry.movedTo?.split('/')[2],
+      canonicalTarget: entry.movedTo?.startsWith('archive/architecture-regression-lab/')
+        ? 'archive/architecture-regression-lab-history.md'
+        : entry.movedTo,
+    })
   })
   const byDomain = Object.groupBy(entries, (entry) => entry.domain)
   return {
@@ -82,6 +181,10 @@ export function buildClassification(root = testingRoot) {
     policy: 'Agent names are provenance only; canonical targets are domain/module/function names.',
     summary: {
       total: entries.length,
+      active: active.length,
+      retired: retired.length,
+      reviewed: entries.filter((entry) => entry.reviewStatus === 'reviewed').length,
+      pendingDepthReview: entries.filter((entry) => entry.reviewStatus !== 'reviewed').length,
       byDomain: Object.fromEntries(
         Object.entries(byDomain).map(([domain, values]) => [domain, values.length]),
       ),

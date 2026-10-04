@@ -30,7 +30,7 @@
 |---|---|---|---|
 | A1 Reforge菜单/物品宿主（已done） | 09429基点main.ts:5293、:5368、:6384，菜单态/物品异步执行混入6696行bootGame | dbe55b55已移出15状态，main7153→6798；MenuSession/ItemUseSession拥有控制状态，窄端口接线 | 28新增、155序列3798步等价、10针、check8440/strict7949通过；A2已另行完成，A3分段推进 |
 | A2 Reforge战斗宿主（[r1 done](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)） | 7f3840e6 main.ts:2149–2505，资源准备、会话、结算、战后脚本由大闭包调度 | 46287966 BattleHost/准备单元已落；main6798→6486；独立所有权，不改核心 | 23新增/11针/check8463/strict7972/637与真实功能验证通过；自审两处时序补正已闭 |
-| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/active-scene-refactor.md)、[移动/绘制已完成](../../testing/world-runtime-refactor.md)） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 7be10bf4已迁WorldMotionRuntime/WorldScenePresentation；main6486→6427→6260→6148→5698 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
+| A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/domains/runtime/scene/active-scene/report.md)、[移动/绘制已完成](../../testing/domains/runtime/world/world-runtime/report.md)） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 7be10bf4已迁WorldMotionRuntime/WorldScenePresentation；main6486→6427→6260→6148→5698 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B1 编辑器App（[会话所有权已完成](../../testing/editor-app-sessions-refactor.md)） | App.tsx原5170行，导航/保存/历史/试打/场景选择混在总壳 | 四个hook分别拥有导航、场景工作区、试玩和工程生命周期；App降至4688行，既有guard/history不复制 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B2 地图工作区（[owner已完成](../../testing/map-workspace-sessions-refactor.md)） | 当前批MapMode 3819行，手势临时态/变换剪贴板/视图与结构确认混在宿主 | 3c3fccda..3a633ed7迁出四类session并保留既有selection reducer；MapMode降至3734行，只留坐标、权限、plan/command与同步提交 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B3 脚本/内容表单 | ScriptEditor.tsx:1710单表单913行；CommandForm.tsx:257单组件1842行 | 已拆四命令族表单、共享控件和作者桥合同，不传完整宿主context | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
@@ -76,7 +76,7 @@
 6. 第一阶段确认本项目bug须有原版数据/参考实现/调用域证据；不能拿“功能不漂移”作为不修bug的理由。
 7. 功能界面按需做最小浏览器验收；剧情视觉仍集中E2E，既有R4/N6b/Q1/Q2与其它缺陷台账不借此关闭。
 8. 纯拆分新增的`await`也是可观察时序边界：不得提前冻结可变world输入，或把释放会话和写回拆到不同微任务。
-   A2曾据此自审返工（见[回执](../../testing/battle-host-refactor.md)）；后续批次先列出同步提交区与采样时点，
+   A2曾据此自审返工（见[回执](../../testing/domains/runtime/battle/battle-host/report.md)）；后续批次先列出同步提交区与采样时点，
    再跑整批门禁，不等统计通过后才补原子性审查。模块间传递“准备产物”不等于已经提交世界快照。
 
 ## 成功标准

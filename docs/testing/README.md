@@ -6,6 +6,7 @@
 
 - [E2E 专项总览](e2e/README.md)：001–006 阶段报告、依赖链和当前状态。
 - [多维索引](indexes/README.md)：按阶段、状态、标签、Owner 检索。
+- [工程域 canonical 记录](domains/README.md)：运行时/编辑器/内容等模块的深审报告与历史 evidence。
 - [历史归档](archive/README.md)：迁移记录与已合并的历史审查导航。
 - [机器 catalog](catalog.json)：稳定 ID、canonical 路径、证据、依赖和 reviewBy 的唯一索引源。
 - [新文档模板](_templates/README.md)：报告、阶段页、evidence JSON 的固定格式。
@@ -128,7 +129,7 @@
 - [Codex当前脚本翻译回归](codex-translate-events/README.md)（六组现行消费链，排除未消费历史入口）。
 - [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
 - [B3命令表单族所有权候选](command-form-families-refactor.md)、[机账](command-form-families-refactor-evidence.json)与[十二针反控](command-form-families-mutants.mjs)（四命令族/共享控件/作者桥边界齐；定向51、Editor2879、设计门与6056只读隔离功能通过；全仓统一门/集成待原接收对话）。
-- [C1 BattleSession状态所有权候选](battle-session-owners-refactor.md)、[机账](battle-session-owners-refactor-evidence.json)与[十一针反控](battle-session-owners-mutants.mjs)（readiness/结算/命令选择/动作演出四owner边界齐；35新增、Reforge1682、TC/build与6057独立试打通过；全仓统一门/集成待原接收对话）。
+- [C1 BattleSession状态所有权候选](domains/runtime/battle/battle-session-owners/report.md)、[机账](domains/runtime/battle/battle-session-owners/evidence.json)与[十一针反控](battle-session-owners-mutants.mjs)（readiness/结算/命令选择/动作演出四owner边界齐；35新增、Reforge1682、TC/build与6057独立试打通过；全仓统一门/集成待原接收对话）。
 - [D2第一阶段大主控所有权候选](phase1-main-owners-refactor.md)、[机账](phase1-main-owners-refactor-evidence.json)、[opcode六针](phase1-player-opcode-mutants.mjs)与[主控九针](phase1-main-owners-mutants.mjs)（角色opcode族、战斗资源/终态/升级/结算、启动并发资源边界齐；Game2459、真实PAL数据/MKF、TC/build通过；全仓统一门/集成待原接收对话）。
 - [B2地图工作区会话所有权候选](map-workspace-sessions-refactor.md)、[机账](map-workspace-sessions-refactor-evidence.json)、[pointer九针](map-pointer-gesture-mutants.mjs)与[会话十六针](map-workspace-sessions-mutants.mjs)（手势/既有选择/变换剪贴板/视图/组合结构边界齐；21新增、Editor2868、TC/build与6055隔离功能通过；全仓统一门/集成待原接收对话）。
 - [B1编辑器总壳会话所有权候选](editor-app-sessions-refactor.md)、[机账](editor-app-sessions-refactor-evidence.json)与[二十针反控](editor-app-sessions-mutants.mjs)（导航/场景/试玩/工程四owner；18新增、Editor2847、TC/build与6054隔离功能通过；全仓统一门/集成待原接收对话）。
@@ -136,12 +137,12 @@
 - [Cursor九组命令最终验收](cursor-commands-wave2-integration.md)与[统一机账](cursor-commands-wave2-integration-evidence.json)（R1–R3闭合，check8740/strict8248/701）。
 - [Cursor九组命令独立复核](cursor-commands-wave2-review.md)、[审计工具](cursor-commands-wave2-audit.mjs)与[机账](cursor-commands-wave2-review-evidence.json)（产品核验通过，整包窄收尾）。
 - [守卫叶补测独立接收](guard-leaf-intake-review.md)、[反例工具](guard-leaf-review-witnesses.mjs)与[机账](guard-leaf-review-evidence.json)（b8e037cb窄返工）。
-- [A3移动与绘制owner候选](world-runtime-refactor.md)、[机账](world-runtime-refactor-evidence.json)与[九针反控](world-runtime-mutants.mjs)（7be10bf4；20新增、Reforge1642、TC/build与6053隔离功能通过；全仓统一门/集成待原接收对话）。
+- [A3移动与绘制owner候选](domains/runtime/world/world-runtime/report.md)、[机账](domains/runtime/world/world-runtime/evidence.json)与[九针反控](world-runtime-mutants.mjs)（7be10bf4；20新增、Reforge1642、TC/build与6053隔离功能通过；全仓统一门/集成待原接收对话）。
 - [守卫叶 r2 窄复核](guard-leaf-r2-review.md)与[机账](guard-leaf-r2-evidence.json)（99113d22：旧三反例/判据/格式已闭，仅实际输入快照与嵌套turn正控残项）。
 - [守卫叶 r3 接收](guard-leaf-r3-review.md)（09c8ccba：C1/C2已闭，六反例检出，与Codex资源批统一门）。
-- [A3活动场景与镜头归属](active-scene-refactor.md)、[冻结对照](active-scene-parity.mjs)、[七针反控](active-scene-mutants.mjs)。
+- [A3活动场景与镜头归属](domains/runtime/scene/active-scene/report.md)、[冻结对照](active-scene-parity.mjs)、[七针反控](active-scene-mutants.mjs)。
 - [Cursor命令第二批](cursor-commands-wave2/README.md)与[GLM守卫叶补测](glm-content-guards-wave2/README.md)（互斥委派中，尚未接收）。
-- [Cursor24组最终验收](cursor-architecture-batch-integration.md)、[GLM十二组准备包收口](architecture-regression-lab-completion.md)与[统一机账](architecture-intake-completion-evidence.json)（两包独立裁决、统一check8707/strict8215/686；剩余环境/深层组合明确归属，不混入A3 WIP）
+- [Cursor24组最终验收](cursor-architecture-batch-integration.md)、[GLM十二组准备包收口](archive/architecture-regression-lab/architecture-regression-lab-completion.md)与[统一机账](architecture-intake-completion-evidence.json)（两包独立裁决、统一check8707/strict8215/686；剩余环境/深层组合明确归属，不混入A3 WIP）
 
 - [Cursor24组架构拆分首轮接收](cursor-architecture-batch-review.md)、[独立见证](cursor-architecture-review-witnesses.mjs)与[机账](cursor-architecture-batch-review-evidence.json)（正文搬移保持、editor2813绿；R1–R3窄返工，未合候选）
 
@@ -184,7 +185,7 @@
 - [Cursor场景入场当前 UI 事实表](cursor-scene-entry-truth.md)、[Codex独立复核](cursor-scene-entry-review.md)及[done任务卡](../ops/archive/tasks/done/DOC-CURSOR-4-scene-entry-current-ui.md)（31618c0d已接入；现行指南已窄修，prepare安全产品缺口另排）
 
 - [GLM十二组可执行架构回归实验包](glm-architecture-regression-lab/README.md)与[历次复核合并索引](archive/architecture-regression-lab-history.md)（原始 r2–r10 counter/窄证据保留；首批37项已转正，r10 的 G01 平移与人物名操作补验通过，剩余视觉未闭）
-- 原始历次回执仍可追溯：[首轮](architecture-regression-lab-codex-review.md)、[r2](architecture-regression-lab-codex-r2-review.md)、[r3](architecture-regression-lab-codex-r3-review.md)、[r4](architecture-regression-lab-codex-r4-review.md)、[r5](architecture-regression-lab-codex-r5-review.md)、[r6](architecture-regression-lab-codex-r6-review.md)、[r7](architecture-regression-lab-codex-r7-review.md)、[r8](architecture-regression-lab-codex-r8-review.md)、[r9](architecture-regression-lab-codex-r9-review.md)、[r10](architecture-regression-lab-codex-r10-review.md)。
+- 原始历次回执仍可追溯：[首轮](archive/architecture-regression-lab/architecture-regression-lab-codex-review.md)、[r2](archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md)、[r3](archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md)、[r4](archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md)、[r5](archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md)、[r6](archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md)、[r7](archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md)、[r8](archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md)、[r9](archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md)、[r10](archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md)。
 
 - [A3-b：场景资源与预检拆分](scene-preparation-refactor.md)、[机账](scene-preparation-refactor-evidence.json)、[冻结对照](scene-preparation-parity.mjs)与[11针反例](scene-preparation-mutants.mjs)（fdad980f/done；26新增/check8525/strict8034/641，缓存政策/同步提交保持；A3整体未完成）
 
@@ -194,7 +195,7 @@
 
 - [GLM架构治理八组并行支持包](glm-architecture-support/README.md)（冻结b11d4bc9；6组源码/回归边界+2组实际视觉初审，只读取证；Codex接收，不授权改产品）
 
-- [战斗宿主生命周期拆分](battle-host-refactor.md)、[机账](battle-host-refactor-evidence.json)、[11针隔离负控](battle-host-refactor-mutants.mjs)与[未改主壳结构对照](battle-host-shell-parity.mjs)（A2/done/46287966；23新增，check8463/单次strict7972/637，用户全架构队列独立推进授权）
+- [战斗宿主生命周期拆分](domains/runtime/battle/battle-host/report.md)、[机账](domains/runtime/battle/battle-host/evidence.json)、[11针隔离负控](battle-host-refactor-mutants.mjs)与[未改主壳结构对照](battle-host-shell-parity.mjs)（A2/done/46287966；23新增，check8463/单次strict7972/637，用户全架构队列独立推进授权）
 
 - [战斗宿主旧败北测试随机性见证](battle-host-rng-witness.mjs)（7f3840e6 与 A2 拆分树：0.99 持续闪避同红、0.5 无闪避同绿；只固定该路由测试输入，不改变帧数/断言/产品 RNG）
 

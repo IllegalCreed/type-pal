@@ -1,25 +1,65 @@
 {
   "schemaVersion": 2,
   "id": "e2e-route",
-  "kind": "source-audit",
+  "kind": "document-audit",
   "status": "proposal",
-  "candidateSha": "d02278dc",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
-    { "path": "scripts/e2e/opening-both.mjs", "lines": "1-84" },
-    { "path": "scripts/e2e/inn-both.mjs", "lines": "1-85" },
-    { "path": "projects/pal/content/scenes/index.json", "lines": "1-20" }
+    {
+      "path": "scripts/e2e/inn-contract.mjs",
+      "lines": "67-84",
+      "anchor": "export function validatePredecessor(",
+      "role": "input",
+      "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
   ],
   "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
   "legalInputs": ["fresh current project", "current-version checkpoint only"],
   "businessOracle": {
     "type": "route-admission",
-    "assertions": ["explicit predecessor", "explicit stop condition", "no skipped-stage claim"]
+    "assertions": ["每段有明确前驱/终止条件", "路线失败不能被跳场景隐藏"]
   },
-  "dedupe": { "result": "reviewed", "against": ["e2e/stages/*/README.md"] },
+  "dedupe": {
+    "result": "reviewed",
+    "against": ["e2e/stages/*/README.md"],
+    "notes": "方案不宣称任何阶段已运行通过。"
+  },
   "claims": [
-    { "id": "route-plan", "result": "proposal-only", "evidence": ["e2e/route-proposal.md:1-120"] }
+    {
+      "id": "e2e-route-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "scripts/e2e/inn-contract.mjs:67-84",
+        "packages/content/src/character.ts:168-170"
+      ]
+    }
   ],
-  "artifacts": [{ "path": "e2e/route-proposal.md", "kind": "canonical" }],
-  "history": [{ "revision": "2026-10-04", "change": "added source and version audit" }]
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "方案在 2026-09-27 写作时尚无 runner，现已存在 root package E2E 命令；该段保留为历史前提，不能当当前能力缺口。"
+  ],
+  "artifacts": [],
+  "history": [
+    {
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
+  ]
 }

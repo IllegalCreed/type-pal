@@ -1,6 +1,8 @@
+import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { isDeepStrictEqual } from 'node:util'
 import { loadCatalog, renderIndexes } from './generate-testing-index.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
@@ -27,12 +29,31 @@ const agentPathPattern = /(?:^|[-_/])(codex|cursor|glm|grok|kimi|gemini)(?:[-_/]
 
 const fail = (issues, message) => issues.push(message)
 const read = (path) => JSON.parse(readFileSync(path, 'utf8'))
+const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
+const strings = (value) =>
+  Array.isArray(value) &&
+  value.length > 0 &&
+  value.every((item) => typeof item === 'string' && item.trim())
+const safePath = (path) =>
+  typeof path === 'string' &&
+  path.length > 0 &&
+  !path.startsWith('/') &&
+  !path.includes('\\') &&
+  !path.split('/').some((part) => ['', '.', '..'].includes(part))
+const validDate = (value) =>
+  typeof value === 'string' &&
+  /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+  !Number.isNaN(Date.parse(value)) &&
+  new Date(value).toISOString().slice(0, 10) === value
 
 export function parseTestingMeta(text) {
   const match = /<!-- testing-meta\s*\n([\s\S]*?)\n-->/m.exec(text)
   if (!match) return null
   try {
-    return JSON.parse(match[1])
+    const parsed = JSON.parse(match[1])
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? parsed
+      : { __parseError: true }
   } catch {
     return { __parseError: true }
   }
@@ -44,12 +65,13 @@ export function parseTestingFrontMatter(text) {
   const fields = {}
   for (const line of match[1].split('\n')) {
     const separator = line.indexOf(':')
-    if (separator < 0) continue
+    if (separator < 0) return { __parseError: true }
     const key = line.slice(0, separator).trim()
     const value = line
       .slice(separator + 1)
       .trim()
       .replace(/^['"]|['"]$/g, '')
+    if (!key || fields[key] !== undefined) return { __parseError: true }
     fields[key] = /^\d+$/.test(value) ? Number(value) : value
   }
   return fields
@@ -62,13 +84,13 @@ function parseLineRange(value) {
   return { start: Number(match[1]), end: Number(match[2] ?? match[1]) }
 }
 
-function sourceRefIssues(refs, prefix) {
+function sourceRefIssues(refs, prefix, sourceRoot = repoRoot) {
   const issues = []
   if (!Array.isArray(refs) || refs.length === 0) return [`${prefix}: sourceRefs must be non-empty`]
   for (const ref of refs) {
-    if (!ref || typeof ref.path !== 'string' || !ref.path || !ref.lines)
+    if (!ref || !safePath(ref.path) || !ref.lines)
       return [`${prefix}: every sourceRef needs path and lines`]
-    const absolute = resolve(repoRoot, ref.path)
+    const absolute = resolve(sourceRoot, ref.path)
     if (!existsSync(absolute)) {
       issues.push(`${prefix}: sourceRef path missing ${ref.path}`)
       continue
@@ -78,9 +100,22 @@ function sourceRefIssues(refs, prefix) {
       issues.push(`${prefix}: invalid sourceRef lines ${ref.path}:${ref.lines}`)
       continue
     }
-    const lineCount = readFileSync(absolute, 'utf8').split('\n').length
+    const bytes = readFileSync(absolute)
+    const lines = bytes.toString('utf8').trimEnd().split('\n')
+    const lineCount = lines.length
     if (range.end > lineCount)
       issues.push(`${prefix}: sourceRef line out of range ${ref.path}:${ref.lines}`)
+    if (!/^[a-f\d]{64}$/.test(ref.sha256 ?? '') || digest(bytes) !== ref.sha256)
+      issues.push(`${prefix}: sourceRef hash mismatch ${ref.path}`)
+    if (
+      typeof ref.anchor !== 'string' ||
+      !ref.anchor ||
+      !lines
+        .slice(range.start - 1, range.end)
+        .join('\n')
+        .includes(ref.anchor)
+    )
+      issues.push(`${prefix}: sourceRef anchor not in declared range ${ref.path}:${ref.lines}`)
   }
   return issues
 }
@@ -127,8 +162,21 @@ export function validateTestingOrphans(catalog, root = testingRoot) {
         issues.push(`orphan evidence is not paired with catalog: ${relativePath}`)
     }
   }
+  const historical = new Set(
+    entries
+      .flatMap((entry) => [entry.historical?.report, entry.historical?.evidence])
+      .filter(Boolean),
+  )
+  for (const file of walkFiles(resolve(root, 'domains'))) {
+    const path = relative(root, file)
+    if (!/\.(md|json)$/.test(path) || path.endsWith('/README.md') || historical.has(path)) continue
+    if (!canonical.has(path) && !evidence.has(path))
+      issues.push(`orphan managed domain document: ${path}`)
+  }
   for (const file of walkFiles(root)) {
     if (!/\.(?:md|json)$/i.test(file)) continue
+    if (relative(root, file).startsWith('archive/') || relative(root, file).includes('/history/'))
+      continue
     const text = readFileSync(file, 'utf8')
     if (text.includes('002-inn-e56'))
       issues.push(`stale E2E-002 path remains: ${relative(root, file)}`)
@@ -136,8 +184,10 @@ export function validateTestingOrphans(catalog, root = testingRoot) {
   return issues
 }
 
-function validateCanonicalEvidence(entry, root) {
+export function validateCanonicalEvidence(entry, root = testingRoot, sourceRoot = repoRoot) {
   const issues = []
+  if (!safePath(entry.canonical) || !safePath(entry.evidence))
+    return [`${entry.id}: unsafe canonical/evidence path`]
   const canonicalPath = resolve(root, entry.canonical)
   if (!existsSync(canonicalPath)) return issues
   const canonicalText = readFileSync(canonicalPath, 'utf8')
@@ -157,8 +207,7 @@ function validateCanonicalEvidence(entry, root) {
     issues.push(`${entry.id}: canonical metadata schemaVersion must be 2`)
   if (metadata.id !== entry.id) issues.push(`${entry.id}: canonical metadata id mismatch`)
   for (const field of ['publicCallers', 'legalInputs'])
-    if (!Array.isArray(metadata[field]) || metadata[field].length === 0)
-      issues.push(`${entry.id}: canonical metadata missing ${field}`)
+    if (!strings(metadata[field])) issues.push(`${entry.id}: canonical metadata missing ${field}`)
   const history = metadata.history ?? metadata.revision?.history ?? []
   if (!Array.isArray(history) || history.length === 0)
     issues.push(`${entry.id}: canonical metadata missing history`)
@@ -184,7 +233,17 @@ function validateCanonicalEvidence(entry, root) {
     !Number.isInteger(revision.minimumSaveVersion)
   )
     issues.push(`${entry.id}: canonical metadata missing content/save version`)
-  issues.push(...sourceRefIssues(metadata.sourceRefs, entry.id))
+  issues.push(...sourceRefIssues(metadata.sourceRefs, entry.id, sourceRoot))
+  for (const field of [
+    'sourceRefs',
+    'publicCallers',
+    'legalInputs',
+    'businessOracle',
+    'dedupe',
+    'revision',
+  ])
+    if (!isDeepStrictEqual(metadata[field], entry[field]))
+      issues.push(`${entry.id}: metadata/catalog mismatch ${field}`)
   if (metadata.evidence !== entry.evidence)
     issues.push(`${entry.id}: canonical evidence path does not match catalog`)
   const evidencePath = resolve(root, entry.evidence ?? '')
@@ -202,7 +261,19 @@ function validateCanonicalEvidence(entry, root) {
   if (evidence.schemaVersion !== 2) issues.push(`${entry.id}: evidence schemaVersion must be 2`)
   if (evidence.id !== entry.id) issues.push(`${entry.id}: evidence id mismatch`)
   if (evidence.status !== entry.status) issues.push(`${entry.id}: evidence status mismatch`)
-  issues.push(...sourceRefIssues(evidence.sourceRefs, `${entry.id} evidence`))
+  for (const field of ['sourceRefs', 'publicCallers', 'legalInputs', 'businessOracle', 'dedupe'])
+    if (!isDeepStrictEqual(evidence[field], entry[field]))
+      issues.push(`${entry.id}: evidence/catalog mismatch ${field}`)
+  if (evidence.candidateSha !== entry.revision?.currentSha)
+    issues.push(`${entry.id}: evidence/catalog candidate SHA mismatch`)
+  if (
+    evidence.versions?.content !== entry.revision?.contentVersion ||
+    evidence.versions?.minimumSave !== entry.revision?.minimumSaveVersion
+  )
+    issues.push(`${entry.id}: evidence/catalog version mismatch`)
+  if (!isDeepStrictEqual(evidence.history, entry.revision?.history))
+    issues.push(`${entry.id}: evidence/catalog history mismatch`)
+  issues.push(...sourceRefIssues(evidence.sourceRefs, `${entry.id} evidence`, sourceRoot))
   for (const field of ['publicCallers', 'legalInputs'])
     if (!Array.isArray(evidence[field]) || evidence[field].length === 0)
       issues.push(`${entry.id} evidence: missing ${field}`)
@@ -214,11 +285,51 @@ function validateCanonicalEvidence(entry, root) {
     issues.push(`${entry.id} evidence: missing businessOracle.assertions`)
   if (!evidence.dedupe || typeof evidence.dedupe.result !== 'string')
     issues.push(`${entry.id} evidence: missing dedupe result`)
-  for (const claim of evidence.claims ?? []) {
-    if (!claim.id || !claim.result || !Array.isArray(claim.evidence))
+  if (!Array.isArray(evidence.claims) || !evidence.claims.length)
+    issues.push(`${entry.id} evidence: claims must be non-empty`)
+  const claimIds = new Set()
+  for (const claim of Array.isArray(evidence.claims) ? evidence.claims : []) {
+    if (!claim?.id || !claim.result || !Array.isArray(claim.evidence)) {
       issues.push(`${entry.id} evidence: malformed claim`)
-    if (/runtime-backed|source-backed/.test(claim.result) && claim.evidence.length === 0)
+      continue
+    }
+    if (claimIds.has(claim.id)) issues.push(`${entry.id} evidence: duplicate claim ${claim.id}`)
+    claimIds.add(claim.id)
+    if (['runtime-backed', 'source-backed'].includes(claim.result) && claim.evidence.length === 0)
       issues.push(`${entry.id} evidence: positive claim ${claim.id} has no evidence`)
+    if (claim.result === 'source-backed')
+      for (const reference of claim.evidence)
+        if (
+          !(evidence.sourceRefs ?? []).some(
+            (source) => reference === `${source.path}:${source.lines}`,
+          )
+        )
+          issues.push(
+            `${entry.id} evidence: claim ${claim.id} references undeclared source ${reference}`,
+          )
+    if (
+      claim.result === 'runtime-backed' &&
+      (evidence.kind !== 'runtime-execution' ||
+        evidence.runtimeExecution?.performed !== true ||
+        !(evidence.artifacts ?? []).length)
+    )
+      issues.push(
+        `${entry.id} evidence: runtime claim lacks actual execution/artifacts ${claim.id}`,
+      )
+  }
+  if (evidence.kind === 'runtime-execution') {
+    for (const artifact of Array.isArray(evidence.artifacts) ? evidence.artifacts : []) {
+      if (
+        !safePath(artifact.path) ||
+        !existsSync(resolve(sourceRoot, artifact.path)) ||
+        !/^[a-f\d]{64}$/.test(artifact.sha256 ?? '')
+      ) {
+        issues.push(`${entry.id}: runtime artifact lacks file/hash ${artifact.path}`)
+        continue
+      }
+      if (digest(readFileSync(resolve(sourceRoot, artifact.path))) !== artifact.sha256)
+        issues.push(`${entry.id}: runtime artifact hash mismatch ${artifact.path}`)
+    }
   }
   return issues
 }
@@ -236,7 +347,9 @@ export function validateLegacyClassification(root = testingRoot) {
   } catch {
     return ['legacy-flat or classification ledger is invalid JSON']
   }
-  const legacyPaths = new Set((manifest.entries ?? []).map((entry) => entry.path))
+  const activePaths = new Set((manifest.entries ?? []).map((entry) => entry.path))
+  const retiredPaths = new Set((manifest.retired ?? []).map((entry) => entry.path))
+  const legacyPaths = new Set([...activePaths, ...retiredPaths])
   const entries = classification.entries ?? []
   if (classification.schemaVersion !== 1)
     issues.push('legacy classification schemaVersion must be 1')
@@ -257,13 +370,34 @@ export function validateLegacyClassification(root = testingRoot) {
       'canonicalTarget',
       'disposition',
       'reason',
+      'classificationBasis',
+      'reviewStatus',
+      'inventory',
     ])
       if (entry[field] === undefined || entry[field] === null || entry[field] === '')
         issues.push(`classification ${entry.path}: missing ${field}`)
     if (entry.agentInCanonicalPath || agentPathPattern.test(entry.canonicalTarget))
       issues.push(`classification ${entry.path}: agent name leaked into canonicalTarget`)
+    if (!/^[a-f\d]{64}$/.test(entry.sourceSha ?? ''))
+      issues.push(`classification ${entry.path}: sourceSha must be full SHA-256`)
+    if (
+      !Array.isArray(entry.inventory?.sourceFiles) ||
+      typeof entry.inventory.lineCount !== 'number'
+    )
+      issues.push(`classification ${entry.path}: inventory must include sourceFiles and lineCount`)
     const absolute = resolve(root, entry.path)
-    if (!existsSync(absolute)) issues.push(`classification points to missing file: ${entry.path}`)
+    if (entry.disposition === 'migrated') {
+      if (!entry.supersededBy?.includes('testing-domains-20261004.json'))
+        issues.push(`classification ${entry.path}: migrated entry missing migration plan`)
+      if (
+        !entry.canonicalTarget ||
+        !existsSync(resolve(root, entry.canonicalTarget.replace(/^docs\/testing\//, '')))
+      )
+        issues.push(
+          `classification ${entry.path}: migrated target missing ${entry.canonicalTarget}`,
+        )
+    } else if (!existsSync(absolute))
+      issues.push(`classification points to missing file: ${entry.path}`)
   }
   for (const path of legacyPaths)
     if (!seen.has(path)) issues.push(`legacy file lacks classification: ${path}`)
@@ -276,9 +410,16 @@ export function validateCatalog(
   today = new Date().toISOString().slice(0, 10),
 ) {
   const issues = []
+  if (!catalog || typeof catalog !== 'object' || !Array.isArray(catalog.entries))
+    return ['catalog.entries must be an array']
   if (catalog.schemaVersion !== 2) fail(issues, 'catalog.schemaVersion must be 2')
   const seen = new Set()
+  const pathsSeen = new Set()
   for (const entry of catalog.entries ?? []) {
+    if (!entry || typeof entry !== 'object') {
+      issues.push('catalog entry must be an object')
+      continue
+    }
     if (!entry.id || seen.has(entry.id))
       fail(issues, `duplicate or missing id: ${entry.id ?? '<missing>'}`)
     seen.add(entry.id)
@@ -308,9 +449,22 @@ export function validateCatalog(
     ])
       if (entry[field] === undefined) fail(issues, `${entry.id}: missing ${field}`)
     if (!statuses.has(entry.status)) fail(issues, `${entry.id}: invalid status ${entry.status}`)
-    for (const path of [entry.canonical, entry.index])
-      if (!path || !existsSync(resolve(root, path)))
+    for (const path of [entry.canonical, entry.index, entry.evidence])
+      if (!safePath(path) || !existsSync(resolve(root, path)))
         fail(issues, `${entry.id}: missing path ${path}`)
+    if (pathsSeen.has(entry.canonical))
+      issues.push(`${entry.id}: duplicate canonical path ${entry.canonical}`)
+    pathsSeen.add(entry.canonical)
+    for (const field of ['phase', 'engines', 'provenance', 'tags', 'publicCallers', 'legalInputs'])
+      if (!strings(entry[field]))
+        issues.push(`${entry.id}: ${field} must contain non-empty strings`)
+    if (
+      !Array.isArray(entry.dependsOn) ||
+      !entry.dependsOn.every((dep) => typeof dep === 'string' && dep)
+    )
+      issues.push(`${entry.id}: dependsOn must be an array of IDs`)
+    for (const field of ['lastVerified', 'reviewBy'])
+      if (!validDate(entry[field])) issues.push(`${entry.id}: invalid date ${field}`)
     if (entry.reviewBy < today && !['archived', 'superseded'].includes(entry.status))
       fail(issues, `${entry.id}: reviewBy ${entry.reviewBy} is before ${today}`)
     for (const path of [entry.canonical, entry.index, entry.evidence])
@@ -345,27 +499,54 @@ export function validateCatalog(
       !Number.isInteger(entry.revision?.minimumSaveVersion)
     )
       fail(issues, `${entry.id}: revision must include contentVersion and minimumSaveVersion`)
+    if (entry.revision?.currentSha && !/^[a-f\d]{40}$/.test(entry.revision.currentSha))
+      issues.push(`${entry.id}: currentSha must be a full Git SHA`)
     const stageReadme = resolve(root, entry.index ?? '')
     if (
       entry.kind === 'e2e-stage' &&
-      (!existsSync(stageReadme) || !readFileSync(stageReadme, 'utf8').includes(`id: ${entry.id}`))
+      (!safePath(entry.index) ||
+        !existsSync(stageReadme) ||
+        !readFileSync(stageReadme, 'utf8').includes(`id: ${entry.id}`))
     )
       fail(issues, `${entry.id}: stage README metadata does not match catalog`)
+    if (entry.kind === 'e2e-stage' && safePath(entry.index) && existsSync(stageReadme)) {
+      const text = readFileSync(stageReadme, 'utf8')
+      for (const field of ['status', 'lastVerified', 'reviewBy'])
+        if (!text.includes(`${field}: ${entry[field]}\n`))
+          issues.push(`${entry.id}: stage README ${field} mismatch`)
+    }
   }
-  const ids = new Set(catalog.entries.map((entry) => entry.id))
-  for (const entry of catalog.entries)
-    for (const dep of entry.dependsOn ?? [])
+  const entries = catalog.entries.filter((entry) => entry && typeof entry === 'object')
+  const ids = new Set(entries.map((entry) => entry.id))
+  for (const entry of entries)
+    for (const dep of Array.isArray(entry.dependsOn) ? entry.dependsOn : [])
       if (!ids.has(dep)) fail(issues, `${entry.id}: unknown dependency ${dep}`)
-      else if (
-        !dependencyStatuses.has(catalog.entries.find((candidate) => candidate.id === dep).status)
-      )
+      else if (!dependencyStatuses.has(entries.find((candidate) => candidate.id === dep).status))
         fail(issues, `${entry.id}: dependency ${dep} is not current/verified`)
+  const visiting = new Set()
+  const visited = new Set()
+  function visit(id) {
+    if (visiting.has(id)) {
+      issues.push(`dependency cycle involving ${id}`)
+      return
+    }
+    if (visited.has(id)) return
+    visiting.add(id)
+    const entry = entries.find((candidate) => candidate.id === id)
+    for (const dep of Array.isArray(entry?.dependsOn) ? entry.dependsOn : [])
+      if (ids.has(dep)) visit(dep)
+    visiting.delete(id)
+    visited.add(id)
+  }
+  for (const id of ids) visit(id)
   return issues
 }
 
 export function validateIndexes(catalog, root = testingRoot) {
   const issues = []
-  for (const [name, expected] of Object.entries(renderIndexes(catalog))) {
+  const classificationPath = resolve(root, 'legacy-flat-classification.json')
+  const classification = existsSync(classificationPath) ? read(classificationPath) : { entries: [] }
+  for (const [name, expected] of Object.entries(renderIndexes(catalog, classification))) {
     const path = resolve(root, 'indexes', name)
     if (!existsSync(path)) issues.push(`missing generated index ${relative(repoRoot, path)}`)
     else if (readFileSync(path, 'utf8') !== expected)
@@ -382,6 +563,17 @@ export function validateLegacyFlat(
   const manifestPath = resolve(root, 'legacy-flat.json')
   if (!existsSync(manifestPath)) return ['missing docs/testing/legacy-flat.json']
   const manifest = read(manifestPath)
+  const frozenPaths = [...(manifest.entries ?? []), ...(manifest.retired ?? [])]
+    .map((entry) => entry.path)
+    .sort()
+  if (
+    !manifest.frozenCensus ||
+    manifest.frozenCensus.count !== frozenPaths.length ||
+    digest(frozenPaths.join('\n')) !== manifest.frozenCensus.sha256
+  )
+    issues.push(
+      'legacy frozen census changed: new entries cannot be authorized by appending to the manifest',
+    )
   const listed = new Map((manifest.entries ?? []).map((entry) => [entry.path, entry]))
   for (const name of readdirSync(root, { withFileTypes: true })) {
     if (!name.isFile() || allowedRootFiles.has(name.name)) continue
@@ -398,8 +590,9 @@ export function validateLegacyFlat(
 
 export function auditTestingDocs({ root = testingRoot, today } = {}) {
   const catalog = loadCatalog(root)
+  const catalogIssues = validateCatalog(catalog, root, today)
+  if (catalogIssues.length) return catalogIssues
   return [
-    ...validateCatalog(catalog, root, today),
     ...catalog.entries.flatMap((entry) => validateCanonicalEvidence(entry, root)),
     ...validateTestingOrphans(catalog, root),
     ...validateIndexes(catalog, root),

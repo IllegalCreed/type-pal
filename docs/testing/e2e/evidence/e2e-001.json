@@ -1,51 +1,85 @@
 {
   "schemaVersion": 2,
   "id": "e2e-001",
-  "kind": "runtime-execution",
+  "kind": "document-audit",
   "status": "verified",
-  "candidateSha": "0a8c998f",
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
   "versions": {
-    "executedContent": 21,
-    "executedMinimumSave": 10,
-    "currentContent": 22,
-    "currentMinimumSave": 11
+    "content": 22,
+    "minimumSave": 11
   },
   "sourceRefs": [
-    { "path": "scripts/e2e/opening-both.mjs", "lines": "1-84" },
-    { "path": "scripts/e2e/game-opening.mjs", "lines": "1-471" },
-    { "path": "scripts/e2e/reforge-opening.mjs", "lines": "1-253" }
+    {
+      "path": "scripts/e2e/game-opening.mjs",
+      "lines": "28-32",
+      "anchor": "const openingContract = await readOpeningContract",
+      "role": "caller",
+      "sha256": "fab7df7504b750e0554884470e6814cf46f716f667aa0fcf2ebff53a844d2585"
+    },
+    {
+      "path": "scripts/e2e/opening-matrix.mjs",
+      "lines": "76-93",
+      "anchor": "export function assertOpeningMatrix(",
+      "role": "oracle",
+      "sha256": "a2c9116df25e1e8d96e097fdf340540645bcdedb3db876c229515e68636ffb10"
+    },
+    {
+      "path": "scripts/e2e/opening-handoff.mjs",
+      "lines": "52-67",
+      "anchor": "export function assertOpeningHandoff(",
+      "role": "oracle",
+      "sha256": "e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
   ],
   "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
   "legalInputs": ["fresh new story", "normal Enter/Escape/F5 flow", "same-engine save/load"],
   "businessOracle": {
     "type": "opening-dialogue-and-restore",
     "assertions": [
-      "55 dialogue rows",
-      "stationary intervals have movement witnesses",
-      "fresh-context restore"
+      "55正文/说话人与分页完整",
+      "指定站定区间零位移且前后有真实移动",
+      "结束档在新上下文正式恢复"
     ]
   },
   "dedupe": {
     "result": "reviewed",
     "against": ["e2e-contract", "e2e-route", "e2e-002"],
-    "notes": "historical SAVE/content receipts are not current predecessors"
+    "notes": "旧 SAVE/content 回执保留为历史，不升级为当前前驱。"
   },
   "claims": [
     {
-      "id": "opening-verify",
-      "result": "runtime-backed",
-      "evidence": ["e2e/stages/001-opening/report.md:42-52"]
+      "id": "e2e-001-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "scripts/e2e/game-opening.mjs:28-32",
+        "scripts/e2e/opening-matrix.mjs:76-93",
+        "scripts/e2e/opening-handoff.mjs:52-67",
+        "packages/content/src/character.ts:168-170"
+      ]
     }
   ],
-  "artifacts": [
-    { "path": "e2e/stages/001-opening/report.md", "kind": "canonical" },
-    { "path": "projects/pal/e2e-checkpoints/README.md", "kind": "checkpoint-index" }
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "历史 2026-09-28 二阶段回执是 content20/SAVE8；原文后加的 content21/SAVE10 不是该次执行版本。当前 22/11 链由 current-checkpoints 单独登记。"
   ],
+  "artifacts": [],
   "history": [
-    { "revision": "2026-09-28", "change": "verify closeout" },
     {
-      "revision": "2026-10-04",
-      "change": "metadata audit; current version differs from executed historical run"
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
     }
   ]
 }

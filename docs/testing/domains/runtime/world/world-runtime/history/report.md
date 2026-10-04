@@ -1,11 +1,11 @@
 # A3-d/e 世界移动与绘制状态归属候选
 
-后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
-Owner：Codex；基点`be5218bb`；实现`7be10bf4`；所属[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。
+Owner：Codex；基点`be5218bb`；实现`7be10bf4`；所属[连续治理卡](/docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。
 本候选不合main、不运行共享全仓coverage门；待原接收对话统一集成和执行check/ratchet/strict。
-完整命令、计数与未证项见[机账](world-runtime-refactor-evidence.json)。
+完整命令、计数与未证项见[机账](evidence.json)。
 
 ## 所有权边界
 
@@ -42,7 +42,7 @@ Owner：Codex；基点`be5218bb`；实现`7be10bf4`；所属[连续治理卡](..
 - 新增20项：WorldMotionRuntime 10、WorldScenePresentation 5、main所有权/顺序AST 5。
 - 定向/相邻13文件167项通过；Reforge全包177测试文件/1642项通过；TypeScript、候选文件Biome、production build通过。
   build仅保留既有大chunk提示。
-- [九针反控](world-runtime-mutants.mjs)：冻结世界拍、party abort释放、slot registry、gait owner、帧优先级、当前帧锚、
+- [九针反控](/docs/testing/world-runtime-mutants.mjs)：冻结世界拍、party abort释放、slot registry、gait owner、帧优先级、当前帧锚、
   follower深度、shake相位、wave静态叠层均由指定候选测试单一`AssertionError`检出；control 15/15，判据1正9反，
   精确file/fullName/exit1/唯一load注入与全生产hash不变。最终临时机账：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-world-runtime-mutants-mcFlrN/summary.json`。

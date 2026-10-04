@@ -4,16 +4,18 @@ id: e2e-005
 evidence: e2e/evidence/e2e-005.json
 ---
 
-# 005 买虾出门与香兰报信
-
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-005","sourceRefs":[{"path":"scripts/e2e/errand-both.mjs","lines":"1-96"},{"path":"projects/pal/content/scenes/s004.json","lines":"1-1200"},{"path":"projects/pal/content/scenes/s005.json","lines":"1-1200"}],"publicCallers":["pnpm e2e:005","pnpm e2e:005:reforge","pnpm e2e:005:both"],"legalInputs":["same-engine current 004 saves report","normal route/dialogue","fresh browser restore context"],"businessOracle":{"type":"errand-news-and-return","assertions":["story/guards/saves cases remain separate","unique 50 coin reward and report ordering","background return does not remove player control"]},"dedupe":{"result":"reviewed","against":["e2e-004","e2e-006","historical failed wrapper"]},"revision":{"currentSha":"98a42d4e","contentVersion":22,"minimumSaveVersion":11,"currentVersion":{"content":22,"minimumSave":11},"history":["2026-10-02 six-case verification","2026-10-04 metadata audit"]},"evidence":"e2e/evidence/e2e-005.json"}
+{"schemaVersion":2,"id":"e2e-005","sourceRefs":[{"path":"scripts/e2e/errand-game.mjs","lines":"3-3","anchor":"await runErrandJourney","role":"caller","sha256":"177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7"},{"path":"scripts/e2e/errand-contract.mjs","lines":"376-393","anchor":"export function validateErrandPredecessor(","role":"input","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"scripts/e2e/errand-contract.mjs","lines":"253-272","anchor":"export function assertErrandStory(","role":"oracle","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"scripts/e2e/errand-contract.mjs","lines":"295-314","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:005","pnpm e2e:005:reforge","pnpm e2e:005:both"],"legalInputs":["same-engine current 004 saves report","normal route and dialogue","fresh browser restore context"],"businessOracle":{"type":"errand-news-and-return","assertions":["story/guards/saves 六 case 分开","唯一50文与报信偏序","读回后后台返程与前台控制并存"]},"dedupe":{"result":"reviewed","against":["e2e-004","e2e-006","e2e/stages/005-shrimp/report.md#历史"],"notes":"早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-005.json"}
 -->
 
-用户确认的范围：004赠酒结束后回厨房受托买虾，领50文；到码头问鱼嫂、听水生叔和张四谈仙灵岛，
-回盛渔村遇丁香兰报信，止于对话结束并恢复正常行走。不进客栈探病，不接求药或出海。
-剧情前因、人物称呼及必需/推荐对话见[滚动攻略](../../../../lore/timeline.md#005-买虾出门与香兰报信)。
-任务与一手审查见[E2E-005-1](../../../../ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md)。
+# 005 买虾出门与香兰报信
+
+## 2026-10-04 文档深审
+
+98a42d4e 六 case 与其后 22/11 重建链分开；wrapper 启动失败保留，后补 case 不冒称同一次 wrapper 全程成功。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 验证状态
 

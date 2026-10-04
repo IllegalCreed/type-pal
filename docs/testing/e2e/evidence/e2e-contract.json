@@ -1,13 +1,28 @@
 {
   "schemaVersion": 2,
   "id": "e2e-contract",
-  "kind": "source-audit",
+  "kind": "document-audit",
   "status": "current",
-  "candidateSha": "d02278dc",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
-    { "path": "scripts/e2e/opening-both.mjs", "lines": "1-84" },
-    { "path": "scripts/e2e/inn-both.mjs", "lines": "1-85" }
+    {
+      "path": "scripts/e2e/opening-both.mjs",
+      "lines": "2-9",
+      "anchor": "import { spawn }",
+      "role": "caller",
+      "sha256": "2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
   ],
   "publicCallers": [
     "pnpm e2e:001:both",
@@ -23,12 +38,42 @@
   ],
   "businessOracle": {
     "type": "observable-business-contract",
-    "assertions": ["real caller", "same-engine restore", "verify/capture separation"]
+    "assertions": [
+      "正文/说话人/状态变化来自真实 caller",
+      "结束 checkpoint 可被同引擎正式恢复",
+      "capture 不冒充 verify"
+    ]
   },
-  "dedupe": { "result": "reviewed", "against": ["e2e/stages/*/report.md"] },
+  "dedupe": {
+    "result": "reviewed",
+    "against": [
+      "docs/testing/e2e/stages/*/report.md",
+      "docs/testing/legacy-flat-classification.json"
+    ],
+    "notes": "合同只定义共用门，不重复阶段报告的执行结论。"
+  },
   "claims": [
-    { "id": "contract-boundary", "result": "source-backed", "evidence": ["e2e/contract.md:1-220"] }
+    {
+      "id": "e2e-contract-source-contract",
+      "result": "source-backed",
+      "evidence": ["scripts/e2e/opening-both.mjs:2-9", "packages/content/src/character.ts:168-170"]
+    }
   ],
-  "artifacts": [{ "path": "e2e/contract.md", "kind": "canonical" }],
-  "history": [{ "revision": "2026-10-04", "change": "added machine metadata and evidence pairing" }]
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "合同硬门中的旧平面报告名应由 catalog canonical 解析。capture、路线、存读与 NPC 演出门分别保留。"
+  ],
+  "artifacts": [],
+  "history": [
+    {
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
+  ]
 }

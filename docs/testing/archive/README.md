@@ -4,4 +4,5 @@
 前驱、业务合同或覆盖率信用；需要当前结论时回到 `catalog.json` 与对应 canonical 条目。
 
 - [架构回归实验历次复核合并索引](architecture-regression-lab-history.md)：r2–r10 原始 counter 与可保留窄证据的 supersedes 关系。
+- [架构实验历史原文目录](architecture-regression-lab/README.md)：源文件 SHA、原始回执与当前汇总的关系。
 - [E2E 路径迁移记录](migrations/e2e-20261004.json)：源文件 SHA 与 canonical 迁移目标。
