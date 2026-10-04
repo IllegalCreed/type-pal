@@ -95,7 +95,7 @@ describe('ED-3 PAL project reference index', () => {
 
     // SCRIPT-GOV-2 folds repeated author targets into structural loops. Pin the current census
     // while retaining every deletion blocker and independent collector/index parity gate below.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_666)
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_663)
     expect(
       diagnostics.entityAddressReferences.filter(
         (reference) =>
@@ -150,7 +150,7 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_356)
+    expect(actualEntityBlockers).toHaveLength(4_353)
 
     expect(
       edges.filter(
@@ -767,7 +767,7 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_450)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_448)
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -885,8 +885,8 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_201)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_104)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_196)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_092)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

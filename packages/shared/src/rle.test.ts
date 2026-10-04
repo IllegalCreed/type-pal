@@ -47,6 +47,15 @@ describe('decodeRle', () => {
     expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x80]))).toThrow(/zero-length/)
     expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x01]))).toThrow(/truncated|exceeds/)
   })
+
+  it('尺寸与游程边界显式失败', () => {
+    expect(() => decodeRle(new Uint8Array([0x91, 0x01, 1, 0]))).toThrow(/invalid frame dimensions/)
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x82]))).toThrow(/transparent run exceeds/)
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x02, 0xaa, 0xbb]))).toThrow(
+      /pixel run exceeds/,
+    )
+    expect(() => decodeRle(new Uint8Array([1, 0, 2, 0, 0x81]))).toThrow(/command stream truncated/)
+  })
 })
 
 describe('parseSpriteChunk', () => {

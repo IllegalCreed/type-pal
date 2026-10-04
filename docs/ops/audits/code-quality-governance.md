@@ -12,7 +12,7 @@
 `TEST-COVERAGE85-*`、`E2E-*` 或测试文档线程，不重领 `architecture-debt.md` 已完成的 13 批架构拆分。
 生产行为、公共 API、schema/save、生成物和用户可见形态默认保持不变；若一手证据证明必须改变，另开产品/高风险卡。
 
-`docs/ops/tasks/CODE-QUALITY-1-governance.md` 记录本轮范围、前提真值门、首批白名单和验收；本文件只写已经
+`docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md` 记录本轮范围、前提真值门、首批白名单和验收；本文件只写已经
 核实的治理路线，未知职责与候选问题保留为“待核”，不从行数、`any`、重复片段或静态图直接推出缺陷。
 
 ## 工程 / 模块 / 功能地图
@@ -90,12 +90,18 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
 
-## 首批结论（Q1）
+## 首批结论（Q1 / Q1b）
 
 `packages/shared/src/rle.ts:61-100` 在 `b === 0`、`b === 0x80` 或 payload/header 截断时没有进度/边界保护；
 `parseSpriteChunkStrict` 的 `command === 0x80` 也会无限保持 `target`。真实 callers 为 game tileset/dialog 资源、
 pal-extract 资产导出和 reforge 资产加载（见任务卡真值矩阵）。首批仅添加共享 decoder 的有限检查，并让宽容
 `parseSpriteChunk` 跳过不可解帧；严格入口保留 fail-loud。若真实资源反例证明零长度命令是合法方言，首批立即 blocked，
 不改 raw 数据、不恢复兼容 fallback。
+
+Q1b 复核了 editor PAL project-reference census：`379304503` 将历史总数更新为 22,666，随后
+`66676dc9f` 增加 `projects/pal` 场景状态字段后，当前 collector 的直接结果变为 22,663；同一漂移同步影响
+blockers、behavior-reference edges、compact rows/target edges（4,353 / 4,448 / 25,196 / 28,092）。本批只更新
+过期测试 oracle，不改 collector、项目内容或 UI。Q1/Q1b 的完整 check、官方 ratchet 和 protected fast 已通过；
+这只关闭首批问题，不关闭 Q2–Q6，也不代表全仓逐文件治理完成。
 
 验证完成前本节不标“已验证”；完整质量门与全仓逐文件治理仍未完成。

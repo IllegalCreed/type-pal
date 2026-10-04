@@ -1,6 +1,6 @@
 # CODE-QUALITY-1 - 全仓代码质量治理与首批 RLE 解码边界
 
-Status: review
+Status: done
 Phase: cross-phase code quality
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -15,7 +15,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 
 > 本卡覆盖代码质量专项的总纲、机器清单和首个有限实现批。它不重领
 > `docs/ops/audits/architecture-debt.md` 中已完成的 13 批架构拆分，也不接管覆盖率、E2E、测试文档线程。
-> 当前模式按 [`AGENTS.md`](../../../AGENTS.md) 执行：Codex 负责范围、实现和独立验收；固定三签不是当前门禁。
+> 当前模式按 [`AGENTS.md`](../../../../../AGENTS.md) 执行：Codex 负责范围、实现和独立验收；固定三签不是当前门禁。
 
 ## 目标
 
@@ -26,8 +26,8 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 ## 范围
 
 - 范围内：`packages/shared`、`packages/content`、`packages/pal-extract`、`packages/migrate`、`packages/game`、
-  `packages/reforge`、`packages/editor` 与 `scripts` 的生产源码逐文件清点；首批只修改
-  `packages/shared/src/rle.ts` 及其同域回归测试（含既有 RLE runtime-resource 合同的精确失败语义修正）。
+  `packages/reforge`、`packages/editor` 与 `scripts` 的生产源码逐文件清点；Q1 收 shared RLE 解码边界，Q1b 收
+  editor PAL project-reference census 合同与官方覆盖基线更新。
 - 范围外：覆盖率目标/候选测试批，E2E/剧情脚本，`docs/testing/**`，并行线程正在修改的实现文件，
   `projects/**`、`data/raw/**`、生成输出、vendor/reference、schema/save、UI 形态和产品玩法。
 - 明确不做：按行数、静态计数或重复片段直接判债；只改名、搬文件、补表面注释；恢复旧版本 upgrader/fallback；
@@ -76,7 +76,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 
 ## 验收条件
 
-测试按[统一质量标准](../agent-workflow.md)核对原子合同、合法 typed 输入、真实 decoder caller、排重和有效反控；不以例数或覆盖率单独 accept。
+测试按[统一质量标准](../../../agent-workflow.md)核对原子合同、合法 typed 输入、真实 decoder caller、排重和有效反控；不以例数或覆盖率单独 accept。
 
 - 功能：`decodeRle`/严格帧解析对 `0x00`、`0x80`、截断头、截断 payload、目标越界均有限失败；合法实心、透明、palette-0、混合帧结果与改动前逐字节一致；宽容 `parseSpriteChunk` 对不可解帧保持跳过，不压缩其它可解帧之外的新索引政策。
 - 测试：shared RLE 定向测试、相邻 `rle-encode` 往返、shared typecheck/test；不要修改其它包测试来“守覆盖率数字”。
@@ -99,7 +99,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 - 贡献者交付与自验：Codex（本批无外部贡献者；候选 SHA `7fde00ce302250e823fe53edd7c705560e698acf`；定向证据已记录）
 - Codex 独立复核：accept（RLE 合法路径/畸形失败语义/宽容 caller/机器清单生成器均已直接复核；全仓统一门保持 blocked，见下）
 - 用户体验/产品验收：N/A（无用户可见形态变化）
-- done 准入结论：blocked（全仓 `pnpm check` 的 editor 存量 `project-reference` 合同 22,666→22,663 未归因于本批；不改其 oracle，不宣布统一质量门）
+- done 准入结论：Codex done allowed（完整 `pnpm check`、官方 `coverage:ratchet`、受保护 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 均通过；本卡首批完成，不等于全仓逐文件治理完成）
 
 ## Draft: 设计与风险
 
@@ -137,11 +137,11 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 ## Build: 实现与自测
 
 - Coding Owner：Codex
-- 修改文件：`packages/shared/src/rle.ts`、`packages/shared/src/rle.test.ts`、`packages/shared/src/rle.boundaries.test.ts`、`packages/shared/src/rle.glm-runtime-resource.test.ts`；治理清单/总纲/看板/索引
+- 修改文件：`packages/shared/src/rle.ts`、`packages/shared/src/rle.test.ts`、`packages/shared/src/rle.boundaries.test.ts`、`packages/shared/src/rle.glm-runtime-resource.test.ts`、`packages/editor/src/core/project-reference.pal.test.ts`、`scripts/coverage/baseline.fast.json`；治理清单/总纲/看板/索引
 - 实现摘要：decoder 对 zero-progress、header/command/pixel/transparent 越界显式失败；strict parser 同步拒绝 `0x80`；宽容 sprite parser 捕获不可解帧并保留后续合法帧；合法路径逐字节回归保持。
-- 运行命令：shared 全包 `vitest` 116/116、shared typecheck；game 资产相邻 39/39；reforge 资产/对话相邻 11/11；pal-extract RLE/sprite 相邻 10/10；质量清单工具 28/28；content 149/1490、game 298/3391、pal-extract 68/415、reforge 325/8682、migrate 95/723；Biome 定向与全仓 `pnpm lint`（3196 文件）零诊断。
+- 运行命令：shared 全包 `vitest` 117/117、shared typecheck；game 资产相邻 39/39；reforge 资产/对话相邻 11/11；pal-extract RLE/sprite 相邻 10/10；质量清单工具 28/28；完整 `pnpm check` 通过（editor 605/4844、migrate 95/723）；`pnpm coverage:ratchet` 通过，shared 语句/分支 401/420、184/199；`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 通过；全仓 `pnpm lint`（3196 文件）零诊断。
 - 浏览器 / 手工检查：N/A
-- 跳过的检查及原因：官方 ratchet/strict 未运行（本批不改变覆盖统计）；完整 `pnpm check` 已实际尝试，docs/coverage/quality/E2E/script-governance、content/shared/game/pal-extract/reforge/migrate 均通过，editor 全包唯一存量失败为 `src/core/project-reference.pal.test.ts:98` 期望 22666、实际 22663，另首次依赖缺失已补齐并复验设计系统 8 文件 55/55。无浏览器验证（非 UI）。
+- 跳过的检查及原因：无必须检查跳过项；无浏览器验证（非 UI）。
 
 ## 资源生成记录(如适用)
 
@@ -156,14 +156,14 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 ## Review: 审查与返工
 
 - Reviewer：Codex
-- 审查结论：首批实现 accept；当前直接证据支持实现只影响畸形 RLE，合法 callers 已定向通过。全仓统一门被 editor 存量合同阻塞，未借本批修复或改 oracle；并行覆盖/E2E/文档线程未接管。
-- 必须返工项：pending
-- Accept / rework：pending
+- 审查结论：accept。RLE 失败语义、合法 callers、editor 当前 census、官方 ratchet 和受保护 fast 均已直接复核；未修改 editor collector 或产品数据。
+- 必须返工项：无
+- Accept / rework：accept
 
 ## 用户验收
 
-- 用户结论：pending（首批无用户可见选择；专项路线/后续范围如有产品取舍再请示）
-- 后续任务：待首批证据收口后按本卡治理路线开不重叠窄批。
+- 用户结论：N/A（本批无用户可见选择）
+- 后续任务：按 [`code-quality-governance.md`](../../../audits/code-quality-governance.md) 开 Q2–Q6 不重叠窄批；不把本卡 done 解释为全仓治理完成。
 
 ## 交接日志
 
@@ -171,7 +171,9 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 - 2026-10-04 Codex：前提真值门完成，直接读取 `reference/sdlpal/palcommon.c`、shared decoder 和全部生产 callers；清单生成器与治理路线已落盘。首批白名单只含 `shared/src/rle.ts` 及同域回归，合法输入不变、畸形输入显式失败/宽容跳过。Next: 实现并跑定向/相邻回归。
 - 2026-10-04 Codex：Q1 实现完成。`decodeRle`/strict parser 增加 header、尺寸、游标、零进度和段越界失败语义；宽容入口保留坏帧跳过；历史 runtime-resource 回执中的截断死循环登记转为可反证回归。影响包定向/全包测试与 typecheck 通过，`pnpm lint` 3196 文件零诊断。Evidence: `packages/shared/src/rle*.test.ts`、`docs/testing/glm-runtime-resource-wave/receipt.md:73-81`。Next: review/选择性集成。
 - 2026-10-04 Codex：全仓 `pnpm check` 已串行尝试；主树 ignored raw/extracted 输入以只读 symlink 补齐后，除 editor 全包一个既有 `project-reference` 计数合同（22666→22663）外均通过；不修改该存量 oracle。候选已提交并推送 `7fde00ce302250e823fe53edd7c705560e698acf`（`codex/code-quality-governance`）。专项留在 review，统一质量门不宣称 done。Next: 用户/后续 Codex 处理存量合同后再重跑全仓门。
+- 2026-10-04 Codex：继续核实 `379304503` 与后续 `66676dc9f` 的内容/测试历史，确认 22666、4356、4450、25201/28104 是旧 census；当前 collector 与精确关系断言在 22663、4353、4448、25196/28092 下全绿。完整 check、ratchet 与 protected fast 均通过。Next: 归档本卡，保留 Q2–Q6 路线。
+- 2026-10-04 Codex：为 RLE 新增尺寸/透明段/像素段/命令流四个原子反例，shared 117/117；`pnpm coverage:ratchet` 只升不降（shared 401/420 statements、184/199 branches），`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 受保护门通过；全仓 `pnpm check` 与 lint 已通过。Next: 本卡完成，后续按 Q2–Q6 另开窄批。
 
 ## 下一位 Agent 提示词
 
-无，等待 Codex 首批实现与独立验收；若未来需要贡献者，先提供本卡 revision、白名单和直接证据，不得开始未准入实现。
+无，等待后续 Q2–Q6 窄批；本卡已完成，不得把历史归档卡当作新的实现授权。
