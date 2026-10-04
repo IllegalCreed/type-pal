@@ -103,10 +103,10 @@ const runVitestConsole = (testFile, testName, outFile) => {
 
 function assertTreeClean(tag) {
   const out = execFileSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' })
+  // porcelain 行格式 'XY path':不 trim,固定 slice(3) 取路径(避免位移)。
   const rows = out
     .split('\n')
-    .map((row) => row.trim())
-    .filter(Boolean)
+    .filter((row) => row.trim().length > 3)
     .filter((row) => {
       const p = row.slice(3).split(' -> ')[0]
       if (p.startsWith('packages/reforge/src/__tests__/host-lifecycle-1')) return false
