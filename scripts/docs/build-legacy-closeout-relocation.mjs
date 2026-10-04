@@ -21,6 +21,7 @@ const moves = entries
     from: `docs/testing/${entry.path}`,
     to: `docs/testing/${entry.canonicalTarget}`,
     sha256: entry.sourceSha,
+    afterSha256: entry.storedSha256,
     decision: entry.decision,
     sourceSha: entry.sourceSha,
   }))
