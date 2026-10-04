@@ -13,6 +13,9 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 |---|---|---|---|---|
 | TESTING-DOC-GOVERNANCE-1 | [测试文档深度治理](tasks/TESTING-DOC-GOVERNANCE-1-depth.md) | build | Codex / 独立验收后回执 | 359 项分类账、20 项真实迁移、runtime/E2E source audit、metadata/evidence/CI 门禁 |
 | TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 | [extract/migrate pipeline branch-contract closure](tasks/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | Kimi / CLI与事务合同 | pal-extract/migrate 公开入口与mkdtemp隔离，分别达85% |
+| TEST-GLM-GAME-EVENT-CONTRACTS-1 | [Game event script semantic contracts](tasks/TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | build | GLM / 公开事件脚本合同 | auto-script/runScript/raw opcode 合法输入与业务 oracle，质量收口 |
+| TEST-GLM-REFORGE-HOST-LIFECYCLE-1 | [Reforge startup and continuation lifecycle contracts](tasks/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | build | GLM / host lifecycle 合同 | startup/abort/replacement/continuation，质量收口 |
+| TEST-GLM-EDITOR-AUTHORING-PANELS-1 | [Editor authoring panel state contracts](tasks/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | build | GLM / 作者面板合同 | ProjectWorkbench/Actor/Cutscene 真实交互，质量收口 |
 
 2026-10-04 GLM Game / Reforge / Editor 三张覆盖任务卡已由 Codex 按“少而精”的合同质量标准独立验收并归档：覆盖率仅保留为整体 main 并集结算数据，不再作为单卡准入、通过或 done 指标。详见历史卡内的 Codex quality closure。
 
