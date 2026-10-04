@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 — runtime audio lifecycle contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -47,3 +47,8 @@ identity/family ledger（source/caller/input/oracle/fullName）：
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词，等待 Codex 独立验收 r1（候选提交见 branch codex/glm-reforge-audio-lifecycle-r1；验收入口：docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json 与 run-counterproof.mjs 重放）。
+---
+
+## Codex quality closure (2026-10-05)
+
+候选 `6f6b5ceab6933dec82b57ce3c2fb657f618e0f96` 已独立验收：9/9 测试、6/6 反控、typecheck、lint 0/0/0、docs、phase/lore、content review、diff 全通过。本卡已集成 main，原候选分支进入退休清理。

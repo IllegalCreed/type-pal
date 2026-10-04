@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-BATTLE-REGISTRY-1 — battle sprite registry authoring contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -23,3 +23,8 @@ Visual Verification Timing: dev-functional
 ```text
 你是 TEST-GLM-EDITOR-BATTLE-REGISTRY-1 的 Coding Owner（GLM）。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及已归档 Editor 卡；只在 codex/glm-editor-battle-registry-r1 工作。先对 BattleSpriteLibrary、BattleSpriteUploader、EnemyTeamTab、EnemyBattleSpriteThumbnail 的旧 fullName/caller/input/oracle 排重，再补注册/替换/删除、缺失回落、重复 id/坏元数据拒绝、敌队引用同步和 undo 合同。所有更新在 act 内并严格清理资源/session；禁止改产品、旧测、配置、baseline、真实数据、强转、skip、ignore、扩大 timeout、私有 debug state、业务核心 mock。反控须三态绿红绿并保存完整证据。交付定向/相邻测试、typecheck、lint 0/0/0、docs、diff 和完整 SHA；不得把覆盖率或例数当完成条件，不得标 done。
 ```
+---
+
+## Codex quality closure (2026-10-05)
+
+候选 `02b2e04493028db3868d42eb3debd1ebd66f21ec` 已独立验收：4/4 定向测试、4/4 反控、typecheck、lint 0/0/0、docs、phase/lore 通过；content review 已同步最新 main，diff 干净。本卡已集成 main，原候选分支进入退休清理。

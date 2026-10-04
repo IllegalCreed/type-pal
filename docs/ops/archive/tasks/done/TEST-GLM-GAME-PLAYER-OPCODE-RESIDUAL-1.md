@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — player opcode residual contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -30,7 +30,7 @@ Visual Verification Timing: e2e-deferred
 
 **结论：6 条未重复语义合同全绿（1 个新测试文件），反控 7/7 VALID，全门通过；不请求 done，
 等待 Codex 独立验收。** 逐 opcode 排重账（REG/NEW/防御守卫）见
-[evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md)。
+[evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md)。
 
 ### 交付物（全部本卡白名单新增，零产品/旧测/配置/baseline/真实 PAL 数据改动）
 
@@ -113,3 +113,8 @@ mutation-points/mutation-results/mutation-logs），再核：
 
 **r1 工作提交 SHA**：`6172c0df4a8e7ee5e7763c4a1dee837a270de703`（单一 commit 含 6 合同测试 +
 证据目录 + 回执 + review JSON 三条目外科刷新；本行为 SHA 登记追加笔，base `053ae5bb4`）。
+---
+
+## Codex quality closure (2026-10-05)
+
+候选 `9b184a01b388b849d8c1e5bca2ee36d7bfacbb12` 已独立验收：6/6 定向合同、7/7 反控、typecheck、lint 0/0/0、docs、phase/lore、content review、diff 全通过。本卡已集成 main，原候选分支进入退休清理。
