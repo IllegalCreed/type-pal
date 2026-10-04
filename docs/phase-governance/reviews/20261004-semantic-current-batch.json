@@ -523,7 +523,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0d49eaa78f70fcf663eb94238e608be3600abb215d47f70a31d48e7b184de4e8",
+      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -554,7 +554,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "0d49eaa78f70fcf663eb94238e608be3600abb215d47f70a31d48e7b184de4e8",
+        "implementationSha": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -562,6 +562,12 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
@@ -603,7 +609,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "0d49eaa78f70fcf663eb94238e608be3600abb215d47f70a31d48e7b184de4e8"
+        "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1"
       },
       "history": [
         {
@@ -616,7 +622,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-22",
+      "reviewedLines": "1-20",
       "reviewNotes": "当前看板只保留非终态任务，状态必须与任务卡和索引一致；本次文档治理卡仍是 build，不能因机器清单而提前关闭。"
     },
     {
@@ -640,7 +646,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
+      "afterSha256": "cf3e2e4dc857e9e3b0ab6292a6c57e31ff084df3152e8328dafd6efe8cc3cb89",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -670,7 +676,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
+        "implementationSha": "cf3e2e4dc857e9e3b0ab6292a6c57e31ff084df3152e8328dafd6efe8cc3cb89",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -678,6 +684,12 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -699,7 +711,8 @@
         ],
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
-        ]
+        ],
+        "afterSha256": "cf3e2e4dc857e9e3b0ab6292a6c57e31ff084df3152e8328dafd6efe8cc3cb89"
       },
       "history": [
         {
@@ -712,7 +725,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-14",
+      "reviewedLines": "1-16",
       "reviewNotes": "活动任务证据按卡分目录，已关闭证据归档；证据材料服务于当前任务但不自动证明运行时或覆盖率结果。"
     },
     {
@@ -1305,7 +1318,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "79772d7a764ce4f060b6f2d37686455e889121e1e858b19ece8e30211bc358f5",
+      "afterSha256": "682f1744b2b72b3b2d7df3a512da0d2c4c8502acf1ab5b81fb9f3bde28af82d6",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1341,7 +1354,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "79772d7a764ce4f060b6f2d37686455e889121e1e858b19ece8e30211bc358f5",
+        "implementationSha": "682f1744b2b72b3b2d7df3a512da0d2c4c8502acf1ab5b81fb9f3bde28af82d6",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1349,6 +1362,12 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
@@ -1394,7 +1413,7 @@
           "307:## 已取消（superseded / historical）",
           "316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "79772d7a764ce4f060b6f2d37686455e889121e1e858b19ece8e30211bc358f5"
+        "afterSha256": "682f1744b2b72b3b2d7df3a512da0d2c4c8502acf1ab5b81fb9f3bde28af82d6"
       },
       "history": [
         {

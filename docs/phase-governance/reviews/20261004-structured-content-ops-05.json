@@ -4255,7 +4255,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "2c62439598c33eea56c29ebdd3a9108e34b7701526df10f10a95532dbf255fa6",
-      "afterSha256": "5cc5064e2f35ea4eadc768229399d2ef93ccb4ca6a8861a4a51e767d5f850043",
+      "afterSha256": "3321382bb7bf1bfcbb460b2e838709215fc93af75b8dbc2791fc835f52dffa18",
       "publicCallers": [
         "docs/ops/archive/tasks/done/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md → ../../../../phase-governance/templates/README.md"
       ],
@@ -4281,7 +4281,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "5cc5064e2f35ea4eadc768229399d2ef93ccb4ca6a8861a4a51e767d5f850043",
+        "implementationSha": "3321382bb7bf1bfcbb460b2e838709215fc93af75b8dbc2791fc835f52dffa18",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -4289,6 +4289,12 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
@@ -4359,7 +4365,7 @@
           "42:- review：pending。",
           "43:- 用户验收：pending。"
         ],
-        "afterSha256": "5cc5064e2f35ea4eadc768229399d2ef93ccb4ca6a8861a4a51e767d5f850043"
+        "afterSha256": "3321382bb7bf1bfcbb460b2e838709215fc93af75b8dbc2791fc835f52dffa18"
       },
       "history": [
         {
@@ -4666,7 +4672,7 @@
       "reviewedLines": "1-226"
     },
     {
-      "path": "docs/ops/tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -4692,16 +4698,16 @@
       ],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
-      "module": "tasks",
-      "capability": "ops-tasks-TEST-GLM-EDITOR-ASSET-LIFECYCLE-1",
+      "module": "archive",
+      "capability": "ops-archive-tasks-done-TEST-GLM-EDITOR-ASSET-LIFECYCLE-1",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "aec199fe00e6f58c1eb473d5aec68deeba728f15414915397789a1e03c83b205",
-      "afterSha256": "aec199fe00e6f58c1eb473d5aec68deeba728f15414915397789a1e03c83b205",
+      "afterSha256": "afa8a85e536a77099ee1c861c5550e44f0319557da7a3766ed984175ece47376",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
-        "docs/ops/tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md"
+        "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md"
       ],
       "businessOracle": {
         "type": "content-review",
@@ -4721,7 +4727,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "aec199fe00e6f58c1eb473d5aec68deeba728f15414915397789a1e03c83b205",
+        "implementationSha": "afa8a85e536a77099ee1c861c5550e44f0319557da7a3766ed984175ece47376",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -4730,12 +4736,18 @@
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
-        "path": "docs/ops/tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
         "sourceSha256": "aec199fe00e6f58c1eb473d5aec68deeba728f15414915397789a1e03c83b205",
         "lineCount": 54,
         "headings": [
@@ -4770,7 +4782,8 @@
           "40:- done 准入: blocked",
           "47:在 codex/glm-editor-asset-lifecycle-r1 隔离工作树中，对 MediaAssetLifecycle、AssetInspectorTabs、ImageAssetPicker、SpriteActionEditor、SpriteActionEditorDialog、BattleSpriteUploader 的旧 fullName、",
           "52:覆盖率与测试数量不是本卡完成条件；不得标 done，等待 Codex 独立验收。"
-        ]
+        ],
+        "afterSha256": "afa8a85e536a77099ee1c861c5550e44f0319557da7a3766ed984175ece47376"
       },
       "history": [
         {
@@ -4783,7 +4796,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-54"
+      "reviewedLines": "1-165"
     },
     {
       "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
@@ -4817,7 +4830,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "a65b0499d8bd22e65f45b4ac3a7cd2db5925582e1241f240ce571b84dc0d1c2d",
-      "afterSha256": "a65b0499d8bd22e65f45b4ac3a7cd2db5925582e1241f240ce571b84dc0d1c2d",
+      "afterSha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -4841,7 +4854,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "a65b0499d8bd22e65f45b4ac3a7cd2db5925582e1241f240ce571b84dc0d1c2d",
+        "implementationSha": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -4849,6 +4862,12 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -4890,7 +4909,8 @@
           "38:- done 准入: blocked",
           "45:在 codex/glm-game-turn-boundaries-r1 隔离工作树中，先对 turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 的旧 fullName、caller、输入和 oracle 排重，再实现尚未证明的回合/结算合同。",
           "49:覆盖率和测试数量只做整体记录，不是本卡完成条件；不得标 done，等待 Codex 独立验收。"
-        ]
+        ],
+        "afterSha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0"
       },
       "history": [
         {
@@ -4903,10 +4923,10 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-51"
+      "reviewedLines": "1-125"
     },
     {
-      "path": "docs/ops/tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "task-card",
       "templateId": "task-card-v1",
@@ -4932,16 +4952,16 @@
       ],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
-      "module": "tasks",
-      "capability": "ops-tasks-TEST-GLM-REFORGE-RUNTIME-SESSION-1",
+      "module": "archive",
+      "capability": "ops-archive-tasks-done-TEST-GLM-REFORGE-RUNTIME-SESSION-1",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "5a7cc32ed68d1fa80f9650a6c60689d3bc72e0f8fc4b9b6747db615f84445433",
-      "afterSha256": "5a7cc32ed68d1fa80f9650a6c60689d3bc72e0f8fc4b9b6747db615f84445433",
+      "afterSha256": "998314e454522dca9896c5dd17d3f110505b4f052e1e69dd57429c1816b4a7d2",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
-        "docs/ops/tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md"
+        "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md"
       ],
       "businessOracle": {
         "type": "content-review",
@@ -4961,7 +4981,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "5a7cc32ed68d1fa80f9650a6c60689d3bc72e0f8fc4b9b6747db615f84445433",
+        "implementationSha": "998314e454522dca9896c5dd17d3f110505b4f052e1e69dd57429c1816b4a7d2",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -4970,12 +4990,18 @@
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
         "kind": "content-reading",
-        "path": "docs/ops/tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
+        "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
         "sourceSha256": "5a7cc32ed68d1fa80f9650a6c60689d3bc72e0f8fc4b9b6747db615f84445433",
         "lineCount": 52,
         "headings": [
@@ -5010,7 +5036,8 @@
           "39:- done 准入: blocked",
           "46:在 codex/glm-reforge-runtime-session-r1 隔离工作树中，对 runtime-input-router.ts、runtime-frame-session.ts、runtime-project-view.ts、world-motion-runtime.ts 逐合同排重旧测试和 caller，再实现未证明的输入/帧/取消/替换合",
           "50:覆盖率与测试数量不是本卡完成条件；不得标 done，等待 Codex 独立验收。"
-        ]
+        ],
+        "afterSha256": "998314e454522dca9896c5dd17d3f110505b4f052e1e69dd57429c1816b4a7d2"
       },
       "history": [
         {
@@ -5023,7 +5050,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-52"
+      "reviewedLines": "1-166"
     }
   ]
 }

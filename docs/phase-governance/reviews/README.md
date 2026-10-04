@@ -12,3 +12,4 @@
 - [其余历史/证据全文结构深审（ops 批次 01–05）](20261004-structured-content-ops-01.json)
 - [其余历史/证据全文结构深审（phase1 批次 01）](20261004-structured-content-phase1-01.json)
 - [其余历史/证据全文结构深审（phase2 批次 01–02）](20261004-structured-content-phase2-01.json)
+- [合并最新 main 后新增材料全文结构深审](20261004-structured-content-new-01.json)

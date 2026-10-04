@@ -38,14 +38,14 @@ Branch: codex/content-governance-deep-review
 
 ## 进度
 
-- build：当前注册 563/563 份可读文档，内容 review coverage=100%；50 份当前入口/作者-facing材料为 `deep-semantic`，513 份历史计划/归档任务/机器证据为 `structured-content`（全文读取并记录标题、状态信号、链接、未决标记与 SHA）。统一模板已注册，现有正文绑定为 `governed-legacy`，新增文档必须 `template-compliant`。
+- build：合并最新 main 后重新核定并注册 570/570 份可读文档，内容 review coverage=100%；50 份当前入口/作者-facing材料为 `deep-semantic`，520 份历史计划/归档任务/机器证据为 `structured-content`（全文读取并记录标题、状态信号、链接、未决标记与 SHA）。统一模板已注册，现有正文绑定为 `governed-legacy`，新增文档必须 `template-compliant`。
 - review：Codex accept；`pnpm check:docs`、`pnpm lint`（0/0/0）和 `git diff --check` 已通过；无产品源码、旧测试或 coverage 变更。
 - 用户验收：N/A（纯文档治理；用户要求按最高标准治理并已补充统一模板要求）。
 
 ## Review: Codex 独立验收
 
-- 内容覆盖：563/563（100%），唯一记录/当前 after SHA 校验通过。
-- 类型/模板：10 个稳定 `docType`，全部有模板；563 份旧正文均为 `governed-legacy`，新增材料门禁要求 `template-compliant`。
+- 内容覆盖：570/570（100%），唯一记录/当前 after SHA 校验通过。
+- 类型/模板：10 个稳定 `docType`，全部有模板；570 份旧正文均为 `governed-legacy`，新增材料门禁要求 `template-compliant`。
 - 交叉一致性：跨 `ops ↔ lore ↔ phase1 ↔ phase2 ↔ phase3` 矩阵已落盘；resolved/guarded 边界和未决理由均显式记录。
 - 质量门：`pnpm check:docs` PASS；`pnpm lint` PASS（3301 files, 0 errors / 0 warnings / 0 infos）；`git diff --check` PASS。
 - 独立结论：accept；不宣称 runtime/E2E/视觉/coverage 通过。

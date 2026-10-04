@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 563,
+    "total": 570,
     "byPhase": {
-      "ops": 376,
+      "ops": 383,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -18,18 +18,18 @@
       "archive-record": 15,
       "audit-report": 58,
       "design-spec": 41,
-      "evidence-receipt": 31,
+      "evidence-receipt": 37,
       "governance-index": 16,
       "guide-runbook": 14,
       "plan-status": 64,
       "reference-canon": 18,
-      "task-card": 306
+      "task-card": 307
     },
     "reviewStatus": {
-      "content-reviewed": 563
+      "content-reviewed": 570
     },
     "templateCompliance": {
-      "governed-legacy": 563
+      "governed-legacy": 570
     }
   },
   "entries": [
@@ -2982,6 +2982,17 @@
       "reviewRecord": "20261004-structured-content-ops-04.json"
     },
     {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-ops-05.json"
+    },
+    {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md",
       "phase": "ops",
       "docType": "task-card",
@@ -3134,6 +3145,17 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
       "reviewRecord": "20261004-structured-content-ops-04.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md",
@@ -3906,6 +3928,61 @@
       "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
+    },
+    {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
       "phase": "ops",
       "docType": "evidence-receipt",
@@ -3915,6 +3992,17 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "structured-content",
       "reviewRecord": "20261004-structured-content-ops-05.json"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -4049,6 +4137,17 @@
       "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "governed-legacy",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "structured-content",
+      "reviewRecord": "20261004-structured-content-new-01.json"
+    },
+    {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
       "phase": "ops",
       "docType": "task-card",
@@ -4104,29 +4203,7 @@
       "reviewRecord": "20261004-structured-content-ops-05.json"
     },
     {
-      "path": "docs/ops/tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
-    },
-    {
       "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
-      "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
-      "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-05.json"
-    },
-    {
-      "path": "docs/ops/tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
       "phase": "ops",
       "docType": "task-card",
       "templateId": "task-card-v1",

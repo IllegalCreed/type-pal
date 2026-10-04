@@ -164,12 +164,13 @@ for (const entry of entries) {
   group.push(entry)
   groups.set(entry.phase, group)
 }
+let batchNumber = 1
 for (const [phase, group] of groups) {
   for (let index = 0; index < group.length; index += 80) {
     const chunk = group.slice(index, index + 80)
-    const suffix = String(Math.floor(index / 80) + 1).padStart(2, '0')
+    const suffix = String(batchNumber++).padStart(2, '0')
     writeFileSync(
-      resolve(reviewDir, `20261004-structured-content-${phase}-${suffix}.json`),
+      resolve(reviewDir, `20261004-structured-content-new-${suffix}.json`),
       `${JSON.stringify({ ...header, id: `governed-document-structured-content-${phase}-${suffix}-20261004`, entries: chunk }, null, 2)}\n`,
     )
   }

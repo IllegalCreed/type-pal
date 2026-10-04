@@ -1,0 +1,675 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "Codex",
+  "reviewDate": "2026-10-04",
+  "policy": "Full file bytes and text were read by this structured pass. It records headings, state signals, links, unresolved markers and hashes; it is not runtime/E2E/visual/coverage evidence. Current canonical docs still need semantic follow-up before strict closeout.",
+  "id": "governed-document-structured-content-ops-01-20261004",
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账(GLM r1)：这是 evidence-receipt，当前文档状态为 current。全文 62 行、4 个标题；摘要/首段为「排重域:`packages/game/src/core/battle/` 下 `turn-queue.ts`、`battle-finalization.ts`、」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:1",
+        "1:TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账(GLM r1)",
+        "11:新增合同(15,全部未证轴;源锚 / caller / oracle)",
+        "31:登记未证但不新增(同 caller/同 oracle 或换数字,按「少而精」登记)",
+        "54:判例"
+      ],
+      "unresolved": [
+        "正文信号 11:## 新增合同(15,全部未证轴;源锚 / caller / oracle)",
+        "正文信号 15:| C1 | finalizeBattle lost 归类 | battle-finalization.ts:14-34 | tickBattle lost case | resume ip=lostIp + rgwMP 回写 | 旧测仅 fled→fledIp(battle-finalization.test.ts:65-79)、terminated→wo",
+        "正文信号 16:| C2 | finalizeBattle forced 归类 won | battle-finalization.ts:26-27 | tickBattle stall 兜底 | resume ip=wonIp | cov85(battle-system.cov85.test.ts:198)只证 explore+console.error,无 postBa",
+        "正文信号 18:| C4 | item ×3 | battle-system.ts:617-618 | 同上 | [item24, attack20, 敌18] | 同上,item 臂无证;support-magic ×3 / coop ×10 同函数未测臂见「登记未测」 |",
+        "正文信号 24:| C10 | 玩家毒 tick + 回写 | battle-system.ts:3029-3049 | tickPostAction(tickBattle) | hp 100→90、wPoisonScript 1→3 | 敌侧毒 tick已证(battle-system.test.ts:3549/3576);玩家侧 rgPoisonStatus 槽循环旧测",
+        "正文信号 26:| C12 | 已分胜负跳过回合末毒 | battle-system.ts:3010-3032 | tickPostAction | won 转换时毒未扣血、入口未消费 | 回合末毒正常臂已证(:3549);combat-decided 门控无证 |",
+        "正文信号 31:## 登记未证但不新增(同 caller/同 oracle 或换数字,按「少而精」登记)",
+        "正文信号 36:- **battle-state.ts createBattleState 全部**:>3 抛错/未知 roleId 抛错/prevHp/prevMp 快照/",
+        "正文信号 59:教训:以副作用计数(pendingSounds)为 oracle 时,必须先确认计数来源是预期主体。"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-TEST-GLM-GAME-TURN-BOUNDARIES-1-dedup-ledger",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "afterSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+        "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+        "lineCount": 62,
+        "headings": [
+          {
+            "line": 1,
+            "text": "TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账(GLM r1)"
+          },
+          {
+            "line": 11,
+            "text": "新增合同(15,全部未证轴;源锚 / caller / oracle)"
+          },
+          {
+            "line": 31,
+            "text": "登记未证但不新增(同 caller/同 oracle 或换数字,按「少而精」登记)"
+          },
+          {
+            "line": 54,
+            "text": "判例"
+          }
+        ],
+        "unresolvedSignals": [
+          "11:## 新增合同(15,全部未证轴;源锚 / caller / oracle)",
+          "15:| C1 | finalizeBattle lost 归类 | battle-finalization.ts:14-34 | tickBattle lost case | resume ip=lostIp + rgwMP 回写 | 旧测仅 fled→fledIp(battle-finalization.test.ts:65-79)、terminated→wo",
+          "16:| C2 | finalizeBattle forced 归类 won | battle-finalization.ts:26-27 | tickBattle stall 兜底 | resume ip=wonIp | cov85(battle-system.cov85.test.ts:198)只证 explore+console.error,无 postBa",
+          "18:| C4 | item ×3 | battle-system.ts:617-618 | 同上 | [item24, attack20, 敌18] | 同上,item 臂无证;support-magic ×3 / coop ×10 同函数未测臂见「登记未测」 |",
+          "24:| C10 | 玩家毒 tick + 回写 | battle-system.ts:3029-3049 | tickPostAction(tickBattle) | hp 100→90、wPoisonScript 1→3 | 敌侧毒 tick已证(battle-system.test.ts:3549/3576);玩家侧 rgPoisonStatus 槽循环旧测",
+          "26:| C12 | 已分胜负跳过回合末毒 | battle-system.ts:3010-3032 | tickPostAction | won 转换时毒未扣血、入口未消费 | 回合末毒正常臂已证(:3549);combat-decided 门控无证 |",
+          "31:## 登记未证但不新增(同 caller/同 oracle 或换数字,按「少而精」登记)",
+          "36:- **battle-state.ts createBattleState 全部**:>3 抛错/未知 roleId 抛错/prevHp/prevMp 快照/",
+          "59:教训:以副作用计数(pendingSounds)为 oracle 时,必须先确认计数来源是预期主体。"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-62"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "identity.json：这是 evidence-receipt，当前文档状态为 current。全文 68 行、0 个标题；摘要/首段为「{」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json:1"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-TEST-GLM-GAME-TURN-BOUNDARIES-1-identity",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "f6645d225fc6fb8870d697cde3d4899b7ddc540b3307a1563547f963e17a767c",
+      "afterSha256": "f6645d225fc6fb8870d697cde3d4899b7ddc540b3307a1563547f963e17a767c",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "f6645d225fc6fb8870d697cde3d4899b7ddc540b3307a1563547f963e17a767c",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json",
+        "sourceSha256": "f6645d225fc6fb8870d697cde3d4899b7ddc540b3307a1563547f963e17a767c",
+        "lineCount": 68,
+        "headings": [],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-68"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "SHARED-original.json：这是 evidence-receipt，当前文档状态为 current。全文 86 行、0 个标题；摘要/首段为「{」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json:1"
+      ],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-TEST-GLM-GAME-TURN-BOUNDARIES-1-mutation-logs-SHARED-original",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+      "afterSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
+        "sourceSha256": "64941a9c66adf30e604196b61af73d628ef61fa3335b06637be95d4e10d36eb3",
+        "lineCount": 86,
+        "headings": [],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-86"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "mutation-results.json：这是 evidence-receipt，当前文档状态为 current。全文 474 行、0 个标题；摘要/首段为「{」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": ["docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json:1"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-TEST-GLM-GAME-TURN-BOUNDARIES-1-mutation-results",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "ef7e89e65f4fee4ebdb58641b46f4d9293f2ce5b0b4260f3c4cd7c42027bc611",
+      "afterSha256": "ef7e89e65f4fee4ebdb58641b46f4d9293f2ce5b0b4260f3c4cd7c42027bc611",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "ef7e89e65f4fee4ebdb58641b46f4d9293f2ce5b0b4260f3c4cd7c42027bc611",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
+        "sourceSha256": "ef7e89e65f4fee4ebdb58641b46f4d9293f2ce5b0b4260f3c4cd7c42027bc611",
+        "lineCount": 474,
+        "headings": [],
+        "unresolvedSignals": []
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-474"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)：这是 evidence-receipt，当前文档状态为 current。全文 41 行、3 个标题；摘要/首段为「- 交付物:`packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts`(15 合同,单文件)」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md:1",
+        "1:TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)",
+        "10:反控口径",
+        "37:质量门(见卡回执)"
+      ],
+      "unresolved": [
+        "正文信号 4:- 排重账:[dedup-ledger.md](dedup-ledger.md)(15 新增轴 + 登记未测项 + 判例)"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-TEST-GLM-GAME-TURN-BOUNDARIES-1-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438",
+      "afterSha256": "845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → dedup-ledger.md",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → identity.json",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → mutation-results.json",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → mutation-logs/"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+        "sourceSha256": "845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438",
+        "lineCount": 41,
+        "headings": [
+          {
+            "line": 1,
+            "text": "TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)"
+          },
+          {
+            "line": 10,
+            "text": "反控口径"
+          },
+          {
+            "line": 37,
+            "text": "质量门(见卡回执)"
+          }
+        ],
+        "unresolvedSignals": [
+          "4:- 排重账:[dedup-ledger.md](dedup-ledger.md)(15 新增轴 + 登记未测项 + 判例)"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-41"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据：这是 evidence-receipt，当前文档状态为 current。全文 103 行、7 个标题；摘要/首段为「分支 `codex/glm-reforge-runtime-session-r1`;base `origin/main` `0eb936cf3`」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md:1",
+        "1:TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据",
+        "11:交付物",
+        "30:三账(包内 `packages/reforge/src/__tests__/runtime-session-1/`)",
+        "49:既有证明账(排重,未重复建设)",
+        "68:非合同与受阻账(blocked/non-contract)"
+      ],
+      "unresolved": [
+        "正文信号 8:view 四文件的未证明公开合同(输入仲裁、帧推进、暂停/恢复、取消、迟到回执、",
+        "正文信号 18:时间等待的到期子集逆向结算(含 0ms 与 `>=` 边界、未到期不连带);恢复后淡入从",
+        "正文信号 49:## 既有证明账(排重,未重复建设)",
+        "正文信号 57:一次/复位/冻结组合、同截止时间等待逆序、abort/pre-abort/clear、错误同步传播、",
+        "正文信号 68:## 非合同与受阻账(blocked/non-contract)",
+        "正文信号 70:- `completePartyMove(旧槽)` 身份守卫:替换即结算旧等待者,旧槽 `settled` 幂等墙使",
+        "正文信号 84:`379304503` 当年旧路径下逐字节一致)未同步"
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "evidence",
+      "capability": "ops-evidence-TEST-GLM-REFORGE-RUNTIME-SESSION-1-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7",
+      "afterSha256": "7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+          "docs/phase-governance/templates/evidence-receipt.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md",
+        "sourceSha256": "7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7",
+        "lineCount": 103,
+        "headings": [
+          {
+            "line": 1,
+            "text": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据"
+          },
+          {
+            "line": 11,
+            "text": "交付物"
+          },
+          {
+            "line": 30,
+            "text": "三账(包内 `packages/reforge/src/__tests__/runtime-session-1/`)"
+          },
+          {
+            "line": 49,
+            "text": "既有证明账(排重,未重复建设)"
+          },
+          {
+            "line": 68,
+            "text": "非合同与受阻账(blocked/non-contract)"
+          },
+          {
+            "line": 79,
+            "text": "基线缺陷沿革(已按 Codex r3 裁决授权闭合)"
+          },
+          {
+            "line": 93,
+            "text": "验证"
+          }
+        ],
+        "unresolvedSignals": [
+          "8:view 四文件的未证明公开合同(输入仲裁、帧推进、暂停/恢复、取消、迟到回执、",
+          "18:时间等待的到期子集逆向结算(含 0ms 与 `>=` 边界、未到期不连带);恢复后淡入从",
+          "49:## 既有证明账(排重,未重复建设)",
+          "57:一次/复位/冻结组合、同截止时间等待逆序、abort/pre-abort/clear、错误同步传播、",
+          "68:## 非合同与受阻账(blocked/non-contract)",
+          "70:- `completePartyMove(旧槽)` 身份守卫:替换即结算旧等待者,旧槽 `settled` 幂等墙使",
+          "84:`379304503` 当年旧路径下逐字节一致)未同步"
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-103"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-structured-review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "counterproof.json：这是 task-card，当前文档状态为 current。全文 170 行、0 个标题；摘要/首段为「{」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "truthAnchors": [
+        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json:1"
+      ],
+      "unresolved": [
+        "正文信号 20:\"firstFailure\": \"Error: 缩略图链未创建第 2 个 object URL\",",
+        "正文信号 166:\"change\": \"Codex 验收 r1 拒收（act 警告）后的返工：ImageAssetThumbnail 异步链改为端口观察点 + 两段式 act（渲染 act 启动链 → 信号 act 保持打开到链 settle），等待不再用 act 外轮询；AssetInspectorTabs 恢复阶段断言不再约束无关的播放器解码提示。三文件定向复跑 8/8、",
+        "正文信号 167:\"needleNote\": \"N1 红现为有界信号错误“缩略图链未创建第 2 个 object URL”（revision 依赖被删 → 替换不重建的直接业务证据）；N2–N7 红仍为原业务断言；7 针 raw 内 act 警告 0。\""
+      ],
+      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "phase": "ops",
+      "module": "tasks",
+      "capability": "ops-tasks-evidence-TEST-GLM-EDITOR-ASSET-LIFECYCLE-1-counterproof",
+      "owner": "Codex",
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+      "sourceSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
+      "afterSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json"
+      ],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "full file bytes and text were read and hashed",
+          "title, sections, state signals and unresolved markers were recorded",
+          "structured review is not runtime/E2E/visual/coverage proof"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+          "docs/phase-governance/templates/task-card.md"
+        ],
+        "notes": "Type/template and content review are distinct from product verification."
+      },
+      "revision": {
+        "currentSha": "working-tree",
+        "implementationSha": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-04",
+            "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+        "sourceSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
+        "lineCount": 170,
+        "headings": [],
+        "unresolvedSignals": [
+          "20:\"firstFailure\": \"Error: 缩略图链未创建第 2 个 object URL\",",
+          "166:\"change\": \"Codex 验收 r1 拒收（act 警告）后的返工：ImageAssetThumbnail 异步链改为端口观察点 + 两段式 act（渲染 act 启动链 → 信号 act 保持打开到链 settle），等待不再用 act 外轮询；AssetInspectorTabs 恢复阶段断言不再约束无关的播放器解码提示。三文件定向复跑 8/8、",
+          "167:\"needleNote\": \"N1 红现为有界信号错误“缩略图链未创建第 2 个 object URL”（revision 依赖被删 → 替换不重建的直接业务证据）；N2–N7 红仍为原业务断言；7 针 raw 内 act 警告 0。\""
+        ]
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-170"
+    }
+  ]
+}
