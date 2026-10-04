@@ -16,6 +16,17 @@ describe('decompressYj2 已定义头错误', () => {
   it('源 <4 字节拒绝', () => {
     expect(() => decompressYj2(Uint8Array.from([1, 2, 3]))).toThrow(/too small/)
   })
+
+  it('非空输出没有任何 Huffman 位流时显式失败', () => {
+    expect(() => decompressYj2(Uint8Array.from([1, 0, 0, 0]))).toThrow('YJ2: bitstream truncated')
+  })
+
+  it('完整回引 symbol 后缺少位置参数时显式失败', () => {
+    // 初始树的 symbol 0x100 路径是 01111110（低位先：0x7e）；位置位流缺失。
+    expect(() => decompressYj2(Uint8Array.from([3, 0, 0, 0, 0x7e]))).toThrow(
+      'YJ2: bitstream truncated at bit 8',
+    )
+  })
 })
 
 describe('decompressYj2 非空字面向量', () => {
@@ -41,5 +52,18 @@ describe('decompressYj2 回引向量', () => {
     // 语义推导：字面 0x41 后 EOS，uncompLen=5 → [0x41,0,0,0,0]
     const out = decompressYj2(YJ2_EARLY_EOS)
     expect(Array.from(out)).toEqual([0x41, 0, 0, 0, 0])
+  })
+
+  it('回引长度超过目标输出剩余空间时显式失败', () => {
+    const malformed = YJ2_BACKREF_OVERLAP.slice()
+    malformed[0] = 4 // 保留 ABC + 回引的位流，只让目标长度不足以容纳完整回引
+    expect(() => decompressYj2(malformed)).toThrow('YJ2: back-reference exceeds output')
+  })
+
+  it('第一条指令回引尚未产生的输出时显式失败', () => {
+    // symbol 0x100（长度3）+ pos=0 的位置位流 111000000：窗口起点为 -1。
+    expect(() => decompressYj2(Uint8Array.from([3, 0, 0, 0, 0x7e, 0x07, 0]))).toThrow(
+      'YJ2: back-reference starts before output (-1)',
+    )
   })
 })

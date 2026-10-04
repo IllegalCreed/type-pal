@@ -86,7 +86,11 @@ function buildTree(): Tree {
  * 读 1 bit。pos 是从 src 起始算的位偏移(低位先)。
  */
 function bt(src: Uint8Array, srcOffset: number, pos: number): number {
-  return (src[srcOffset + (pos >> 3)]! & (1 << (pos & 7))) >> (pos & 7)
+  const byteOffset = srcOffset + (pos >> 3)
+  if (byteOffset < srcOffset || byteOffset >= src.byteLength) {
+    throw new Error(`YJ2: bitstream truncated at bit ${pos}`)
+  }
+  return (src[byteOffset]! & (1 << (pos & 7))) >> (pos & 7)
 }
 
 /**
@@ -189,6 +193,10 @@ export function decompressYj2(src: Uint8Array): Uint8Array {
 
       const preStart = dst - pos - 1
       const len = val - 0xfd
+      if (preStart < 0) throw new Error(`YJ2: back-reference starts before output (${preStart})`)
+      if (len > uncompLen - dst) {
+        throw new Error(`YJ2: back-reference exceeds output (${dst}+${len}>${uncompLen})`)
+      }
       for (let j = 0; j < len; j++) {
         out[dst] = out[preStart + j]!
         dst++
