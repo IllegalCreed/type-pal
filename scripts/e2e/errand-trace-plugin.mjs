@@ -46,14 +46,14 @@ export function instrumentErrandTrace(source, file) {
     const hook = hooks[0]
     const body = `function __openingPoint(source) {
       try {
-        const sid=activeScene.scene.id;if(!['s001','s003','s004','s005'].includes(sid))return;
+        const sid=activeScene.scene.id;if(!['s001','s002','s003','s004','s005','s014'].includes(sid))return;
         const slot=value=>value?{selection:value.selection,cursor:value.cursor}:null;
         const binding=(scene,id)=>{const value=world.script.behaviors?.entities?.[scene]?.[id];return value?{trigger:slot(value.trigger),auto:slot(value.auto),triggerActivation:value.triggerActivation,page:value.page}:null;};
         const persistent={};
         for(const [scene,ids] of [['s001',['e19']],['s003',['e62']],['s004',['e83','e84']],['s005',['e123','e124','e127']]])
           persistent[scene]=Object.fromEntries(ids.map(id=>[id,binding(scene,id)]));
         const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true,walking}};
-        for(const e of activeScene.scene.entities.filter(e=>['e19','e62','e83','e84','e123','e124','e127'].includes(e.id)))
+        for(const e of activeScene.scene.entities.filter(e=>['e19','e35','e36','e59','e60','e61','e62','e83','e84','e116','e117','e123','e124','e127','e203'].includes(e.id)))
           actors[e.id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,
             state:host.getEntityState(e.id),behavior:binding(sid,e.id),
             sprite:typeof e.sprite==='string'&&e.sprite.startsWith('sprite-')?Number(e.sprite.slice(7)):e.sprite??e.actor??null,

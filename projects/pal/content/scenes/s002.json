@@ -1499,7 +1499,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "探病：说明仙灵岛求药",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1508,6 +1508,64 @@
                 {
                   "id": "initial",
                   "body": [
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      },
+                      "state": 2
+                    },
+                    {
+                      "kind": "setEntityPos",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      },
+                      "pos": {
+                        "col": 137,
+                        "row": 76,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
+                      }
+                    },
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "touch",
+                          "range": 2
+                        }
+                      }
+                    },
                     {
                       "cue": {
                         "identity": {
@@ -1739,7 +1797,8 @@
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次说明仙灵岛，安排头领在出口等候"
                 },
                 {
                   "id": "legacy-002",
@@ -1800,7 +1859,8 @@
             }
           }
         }
-      }
+      },
+      "label": "王小虎"
     },
     {
       "id": "e37",

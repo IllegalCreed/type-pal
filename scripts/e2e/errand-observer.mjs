@@ -46,7 +46,7 @@ export function installErrandObserver() {
   }
   const point = (source, state) => {
     try {
-      if (!['s001', 's003', 's004', 's005'].includes(state.scene)) return
+      if (!['s001', 's002', 's003', 's004', 's005', 's014'].includes(state.scene)) return
       if (final?.scene !== state.scene)
         append(events, { kind: 'scene', source, scene: state.scene })
       for (const [id, actor] of Object.entries(state.actors)) {
@@ -56,7 +56,8 @@ export function installErrandObserver() {
           before &&
           JSON.stringify(before.position) !== JSON.stringify(actor.position) &&
           !source.startsWith('commit:') &&
-          !source.startsWith('tick:')
+          !source.startsWith('tick:') &&
+          !source.startsWith('before:')
         )
           fail(`unobserved committed move ${key} at ${source}`)
         if (JSON.stringify(before) !== JSON.stringify(actor)) {
@@ -127,7 +128,7 @@ export function installErrandObserver() {
   globalThis.__errandRendered = (page) =>
     rendered('reforge', page && page.phase !== 'typing' ? page : null)
   globalThis.__errandGame = (gs, source) => {
-    if (!gs || ![2, 4, 5, 6].includes(gs.wNumScene)) return
+    if (!gs || ![2, 3, 4, 5, 6, 15].includes(gs.wNumScene)) return
     try {
       const actor = (e) => ({
         position: [e.x, e.y],
@@ -153,7 +154,9 @@ export function installErrandObserver() {
           },
           ...Object.fromEntries(
             gs.npcs
-              .filter((e) => [19, 62, 83, 84, 123, 124, 127].includes(e.id))
+              .filter((e) =>
+                [19, 35, 36, 59, 60, 61, 62, 83, 84, 116, 117, 123, 124, 127, 203].includes(e.id),
+              )
               .map((e) => [`e${e.id}`, actor(e)]),
           ),
         },
@@ -172,7 +175,7 @@ export function installErrandObserver() {
   }
   globalThis.__errandGameRendered = (gs) => {
     try {
-      if (!gs || ![2, 4, 5, 6].includes(gs.wNumScene)) return
+      if (!gs || ![2, 3, 4, 5, 6, 15].includes(gs.wNumScene)) return
       const d = gs.dialogBox
       if (!d) {
         rendered('game', null)
@@ -260,8 +263,11 @@ export function readErrandGame() {
           `e${e.id}`,
           {
             position: [e.x, e.y],
+            facing: e.facing,
             visible: e.sState > 0,
             state: e.sState,
+            sprite: e.spriteNum,
+            frame: e.scriptedFrame ?? 0,
             triggerMode: e.triggerMode,
             anchor: [e.autoTriggerAnchorX ?? e.x, e.autoTriggerAnchorY ?? e.y],
             trigger: e.triggerLabel,
@@ -297,7 +303,10 @@ export function readErrandReforge() {
         e.id,
         {
           position: [e.pos.col, e.pos.row, e.pos.height],
+          facing: e.facing ?? 'down',
           visible: !e.hidden,
+          sprite: e.sprite ?? e.actor ?? null,
+          frame: null,
           // __rfScene is the live projection: this single page already resolves canonical
           // behavior/page/activation overrides in refreshSceneViewBindings.
           activation: e.pages?.[0]?.trigger
@@ -310,5 +319,60 @@ export function readErrandReforge() {
       scene?.entities
         .filter((e) => !e.hidden && e.collide)
         .map((e) => ({ col: e.pos.col, row: e.pos.row, collide: true })) ?? [],
+  }
+}
+
+/** 006-only first-stage projection; keep the 005 observer shape stable. */
+export function readBoatGame() {
+  const gs = window.__tpgs,
+    menu = gs?.menuStack?.at(-1),
+    ids = [
+      18, 19, 32, 35, 36, 44, 49, 53, 59, 60, 61, 62, 83, 84, 94, 95, 115, 116, 117, 123, 124, 127,
+      203,
+    ]
+  return {
+    scene: gs?.wNumScene,
+    position: gs ? [gs.party.x, gs.party.y] : null,
+    facing: gs?.party.facing,
+    cash: gs?.dwCash,
+    mode: gs?.mode,
+    event: !!gs?.eventCursor,
+    loading: !!gs?.sceneLoading,
+    fading: !!(gs?.needToFadeIn || gs?.paletteFadeState || gs?.fadeState || gs?.blackScreenHold),
+    dialog: gs?.dialogBox
+      ? {
+          phase: gs.dialogBox.phase,
+          text: gs.dialogBox.currentLineText,
+          title: gs.dialogBox.titleText,
+        }
+      : null,
+    menu: menu ? { kind: menu.kind, cursor: menu.state?.selection?.cursor } : null,
+    actors: Object.fromEntries(
+      (gs?.allEventObjects ?? [])
+        .filter((e) => ids.includes(e.id))
+        .map((e) => [
+          `e${e.id}`,
+          {
+            position: [e.x, e.y],
+            facing: e.facing,
+            visible: e.sState > 0,
+            state: e.sState,
+            sprite: e.spriteNum,
+            frame: e.scriptedFrame ?? 0,
+            triggerMode: e.triggerMode,
+            anchor: [e.autoTriggerAnchorX ?? e.x, e.autoTriggerAnchorY ?? e.y],
+            trigger: e.triggerLabel,
+            resume: e.triggerResume,
+          },
+        ]),
+    ),
+    routeActors:
+      gs?.npcs
+        .filter((e) => e.sState >= 2)
+        .map((e) => ({
+          col: (e.x / 16 + e.y / 8) / 2,
+          row: (e.y / 8 - e.x / 16) / 2,
+          collide: true,
+        })) ?? [],
   }
 }

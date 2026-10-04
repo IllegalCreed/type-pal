@@ -675,7 +675,7 @@
           "lines": "12-31",
           "anchor": "export async function runBoatJourney(",
           "role": "caller",
-          "sha256": "3737d0004aa6107654c9604b37748840d2c0055b9c90f1a86fe814cb96e5d675"
+          "sha256": "374315aa2a6c40a411429dd76aee0f32f8fa2be8d8f863078a46186ea3193f35"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -776,14 +776,14 @@
           "lines": "386-393",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "8470d3bad27fca3c4d116fc309dc021690d441e8f776982c2a9000e6e71b6374"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "425-432",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "8470d3bad27fca3c4d116fc309dc021690d441e8f776982c2a9000e6e71b6374"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -886,7 +886,7 @@
           "lines": "1162-1181",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "8470d3bad27fca3c4d116fc309dc021690d441e8f776982c2a9000e6e71b6374"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -1101,7 +1101,7 @@
           "lines": "413-424",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "8470d3bad27fca3c4d116fc309dc021690d441e8f776982c2a9000e6e71b6374"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",

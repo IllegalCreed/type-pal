@@ -21,7 +21,7 @@
       "lines": "12-31",
       "anchor": "export async function runBoatJourney(",
       "role": "caller",
-      "sha256": "3737d0004aa6107654c9604b37748840d2c0055b9c90f1a86fe814cb96e5d675"
+      "sha256": "374315aa2a6c40a411429dd76aee0f32f8fa2be8d8f863078a46186ea3193f35"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -62,14 +62,24 @@
     }
   ],
   "runtimeExecution": {
-    "performed": false,
-    "rawArtifacts": "not-present-in-isolated-checkout",
-    "claimScope": "historical-publication-only"
+    "performed": true,
+    "rawArtifacts": [
+      "build/e2e/game-006-2026-10-04T17-47-07-230Z",
+      "build/e2e/reforge-006-2026-10-04T17-48-57-042Z",
+      "build/e2e/both-006-2026-10-04T17-50-53-627Z"
+    ],
+    "claimScope": "current isolated worktree independent dual-track execution and comparison"
   },
   "findings": [
-    "真实入口是 node scripts/e2e/boat-reforge.mjs，上一版误引了 005 runner。报告没有完整执行 SHA，缺当前第一阶段 NPC 和船段视觉复验，rework 继续保留。"
+    "两轨独立正文、到达 s014 和完整 actor state trace 均通过；比较仍有主角船体相对锚点、骑乘朝向、Reforge e117 船夫漂移三项 fix。"
   ],
-  "artifacts": [],
+  "artifacts": [
+    "build/e2e/game-006-2026-10-04T17-47-07-230Z/report.json",
+    "build/e2e/game-006-2026-10-04T17-47-07-230Z/006-state-trace.json",
+    "build/e2e/reforge-006-2026-10-04T17-48-57-042Z/report.json",
+    "build/e2e/reforge-006-2026-10-04T17-48-57-042Z/006-state-trace.json",
+    "build/e2e/both-006-2026-10-04T17-50-53-627Z/comparison.json"
+  ],
   "history": [
     {
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",

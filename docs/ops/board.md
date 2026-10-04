@@ -11,6 +11,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| E2E-CONTINUOUS-001-006 | [双轨连续主线演示与演出差异治理](tasks/E2E-CONTINUOUS-001-006.md) | rework | Codex / 先收口独立对比红项，再允许串联 | 001–006 独立证据已分轨；006 对比仍有对白、船体锚点、朝向和实体证据待裁决 |
 | TESTING-DOC-GOVERNANCE-1 | [测试文档深度治理](tasks/TESTING-DOC-GOVERNANCE-1-depth.md) | build | Codex / 独立验收后回执 | 359 项分类账、20 项真实迁移、runtime/E2E source audit、metadata/evidence/CI 门禁 |
 | TEST-COVERAGE85-GLM-GAME-1 | [game runtime branch-contract closure](tasks/TEST-COVERAGE85-GLM-GAME-1.md) | build | GLM / branch合同与反控 | 只收现行公开caller，目标为game branches 85%，不设例数配额 |
 | TEST-COVERAGE85-GLM-REFORGE-1 | [Reforge runtime branch-contract closure](tasks/TEST-COVERAGE85-GLM-REFORGE-1.md) | build | GLM / branch合同与反控 | main/battle/script/motion 分域，目标为reforge branches 85% |

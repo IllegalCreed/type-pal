@@ -7,7 +7,13 @@ import { installErrandObserver, readErrandReforge } from './errand-observer.mjs'
 import { committedInnMoves, navigateInnRoute } from './inn-navigation.mjs'
 import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
 
-const sceneMaps = { s002: 'map-012', s003: 'map-010', s004: 'map-001', s005: 'map-002' }
+const sceneMaps = {
+  s001: 'map-012',
+  s002: 'map-012',
+  s003: 'map-010',
+  s004: 'map-001',
+  s005: 'map-002',
+}
 
 export async function runBoatJourney() {
   const args = process.argv.slice(2)
@@ -57,7 +63,17 @@ export async function runBoatJourney() {
       let phaseOrder = -1
       const shown = new Set()
       const boatMotion = []
-      const snapshot = () => page.evaluate(readErrandReforge)
+      const stateTrace = []
+      const stateKeys = new Set()
+      const snapshot = async () => {
+        const state = await page.evaluate(readErrandReforge)
+        const key = JSON.stringify(state)
+        if (!stateKeys.has(key)) {
+          stateKeys.add(key)
+          stateTrace.push({ atMs: Date.now(), phase, state })
+        }
+        return state
+      }
       const drive = () => page.evaluate((after) => window.__readErrandDrive(after), phaseOrder)
       const ready = (s) => kitchenReady(s, 'reforge')
       const inScene = (s, sid) => s.scene === sid
@@ -71,12 +87,12 @@ export async function runBoatJourney() {
         phase = next
         phaseOrder = (await drive()).order
       }
-      const navigate = async (sid, destination, finished, sample) => {
+      const navigate = async (sid, destination, finished, sample, ignoreActors = false) => {
         const startOrder = (await drive()).order
         const readWithSample = async () => {
           const state = await snapshot()
           sample?.(state)
-          return state
+          return ignoreActors ? { ...state, routeActors: [] } : state
         }
         await navigateInnRoute({
           engine: 'reforge',
@@ -100,6 +116,13 @@ export async function runBoatJourney() {
       }
       const touch = async (sid, id, finished, sample) => {
         const actor = (await snapshot()).actors[id]
+        if (!actor)
+          console.log(
+            '[reforge-006] missing touch actor',
+            sid,
+            id,
+            JSON.stringify(await snapshot()),
+          )
         assert(actor?.visible, `missing target ${sid}/${id}`)
         const [tc, tr] = actor.position
         const range = actor.activation?.range ?? 1
@@ -108,6 +131,7 @@ export async function runBoatJourney() {
           (c, r) => Math.max(Math.abs(c - tc), Math.abs(r - tr)) <= range,
           finished,
           sample,
+          id === 'e59' || id === 'e44',
         )
       }
       const interact = async (sid, id) => {
@@ -121,6 +145,8 @@ export async function runBoatJourney() {
             inScene(s, sid) &&
             ready(s) &&
             Math.abs(grid(s)[0] - tc) + Math.abs(grid(s)[1] - tr) === 1,
+          undefined,
+          id === 'e59',
         )
         const [c, r] = grid(await snapshot())
         const key = tc > c ? 'ArrowRight' : tc < c ? 'ArrowLeft' : tr > r ? 'ArrowDown' : 'ArrowUp'
@@ -141,6 +167,7 @@ export async function runBoatJourney() {
         for (;;) {
           health()
           const s = await snapshot()
+          if (!inScene(s, sid)) console.log(`[reforge-006] ${label} left ${sid}`, JSON.stringify(s))
           assert(inScene(s, sid), `${label} left ${sid}`)
           for (const id of s.runtime?.dialogue?.pageTextIds ?? []) shown.add(id)
           if (ready(s)) break
@@ -202,7 +229,23 @@ export async function runBoatJourney() {
         await interact('s002', 'e36')
         await dialogue('room-repeat-2', 's002', [339, 340])
         report.checks.room = 'passed'
-        await touch('s002', 'e32', (s) => inScene(s, 's003') && ready(s))
+        await touch('s002', 'e32', (s) => inScene(s, 's003'))
+        await until(snapshot, (s) => inScene(s, 's003') && ready(s), 'miao leader auto settles')
+        await touch('s003', 'e59', (s) => inScene(s, 's003') && !ready(s))
+        await until(
+          snapshot,
+          (s) => inScene(s, 's003') && !!s.runtime?.dialogue,
+          'miao leader counsel starts',
+        )
+        await dialogue(
+          'miao-leader',
+          's003',
+          [
+            366, 367, 368, 369, 371, 372, 374, 375, 376, 378, 380, 381, 382, 384, 386, 387, 388,
+            389, 390, 391, 392, 394, 396, 397, 398, 399, 400, 401, 403, 405, 406, 408, 409, 410,
+            412, 414, 415, 417, 418, 419,
+          ],
+        )
         await touch('s003', 'e44', (s) => inScene(s, 's004') && ready(s))
         await touch('s004', 'e95', (s) => inScene(s, 's005') && ready(s))
         await interact('s005', 'e123')
@@ -229,6 +272,11 @@ export async function runBoatJourney() {
           resolve(out, '006-boat-motion.json'),
           `${JSON.stringify(boatMotion, null, 2)}\n`,
         )
+        await writeFile(
+          resolve(out, '006-state-trace.json'),
+          `${JSON.stringify(stateTrace, null, 2)}\n`,
+        )
+        report.stateTrace = { path: '006-state-trace.json', samples: stateTrace.length }
         report.checks.island = 'passed'
         const islandState = await snapshot()
         report.endWorld = {

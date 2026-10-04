@@ -3214,13 +3214,17 @@ export async function bootGame(
 
   {
     const lifecycleReferences = await getLifecycleReferences()
+    // Continuation identity must cover the complete canonical scene set, not the
+    // subset that happened to be lazy-loaded in this page before saving. Otherwise
+    // the same save gets a different digest after a fresh boot or a different route.
+    const canonicalScenes = await loadAllScenes(canonicalProject)
     const runtimeDigest = await sha256Bytes(
       new TextEncoder().encode(
         JSON.stringify({
           manifest: canonicalProject.manifest,
           items: canonicalProject.items,
           sharedScripts: canonicalProject.sharedScripts,
-          scenes: canonicalProject.sceneIds.map((id) => sceneResources.peek(id)),
+          scenes: canonicalScenes,
         }),
       ),
     )
