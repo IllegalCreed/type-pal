@@ -2,10 +2,10 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
   CONTINUOUS_STORY_FRAGMENTS,
-  DualTrackBarrier,
   continuousFragmentContext,
   continuousStoryActions,
   continuousStoryPlan,
+  DualTrackBarrier,
   runContinuousStory,
 } from './continuous-story.mjs'
 

@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
-import { setTimeout as delay } from 'node:timers/promises'
 import { resolve } from 'node:path'
-import { runBrowserJourney, repoRoot } from './browser-journey.mjs'
-import { continuousStoryActions, CONTINUOUS_STORY_FRAGMENTS } from './continuous-story.mjs'
+import { setTimeout as delay } from 'node:timers/promises'
+import { runBrowserJourney } from './browser-journey.mjs'
+import { CONTINUOUS_STORY_FRAGMENTS } from './continuous-story.mjs'
 import { readGame } from './game-observer.mjs'
 
 const args = process.argv.slice(2),

@@ -1,10 +1,9 @@
 import assert from 'node:assert/strict'
 import { fork } from 'node:child_process'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
-import { continuousStoryPlan } from './continuous-story.mjs'
 
 const args = process.argv.slice(2),
   hold = args.includes('--hold'),
