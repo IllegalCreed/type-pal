@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-core.c85-branches.test.ts > C85 毒系统臂 > mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩
+AssertionError: expected 34 to be 26 // Object.is equality
+
+- Expected
++ Received
+
+- 26
++ 34
+
+ ❯ src/battle/battle-core.c85-branches.test.ts:111:30
+    109|     enemy.poisons = [{ poisonId: 1, tickIndex: 0 }]
+    110|     runOneTurn(s, () => 0)
+    111|     expect(s.players[0]?.mp).toBe(26)
+       |                              ^
+    112|     expect(enemy.hp).toBe(49)
+    113|     expect(s.log).toContain('li 赤毒 发作')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

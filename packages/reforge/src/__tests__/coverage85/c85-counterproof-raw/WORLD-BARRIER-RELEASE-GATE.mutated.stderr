@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-world.c85-arms.test.ts > barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/script-world.c85-arms.test.ts:206:35
+    204|   if (!lease) throw new Error('expected lease')
+    205|   const barrier = coordinator.requestSaveBarrier()
+    206|   expect(() => barrier.release()).toThrow('save barrier 尚未 ready，不能 re…
+       |                                   ^
+    207|   // 非嵌套租约在 gate 关闭时到达安全点 = 'stop' 并结束租约 → barrier 就绪
+    208|   await expect(lease.reachSafePoint({ kind: 'stage', stage: 's0' })).r…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

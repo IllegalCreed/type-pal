@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
+
+ ❯ src/script-host-adapter.c85-arms.test.ts (21 tests | 1 failed | 20 skipped) 7ms
+   ↓ 在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主
+   × 跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛 7ms
+   ↓ chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传
+   ↓ chasePlayer 跨场景臂:self 不在场时零调用
+   ↓ 演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both
+   ↓ playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成
+   ↓ playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛
+   ↓ playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测
+   ↓ releaseEntity 双臂:无 target 归还全部,target 在场只还该实体
+   ↓ setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud
+   ↓ setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载
+   ↓ 宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud
+   ↓ 世界持久类叶零派发臂:状态写入类命令不触碰画面宿主
+   ↓ loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主
+   ↓ setActorAppearance 部分补丁臂:仅改单维度时其余键缺席
+   ↓ setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override
+   ↓ playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主
+   ↓ mountParty 在场缺省臂:偏移缺席按 0 派发宿主
+   ↓ endBattle 拒绝臂:非战斗演出上下文直接 fail-loud
+   ↓ loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主
+   ↓ setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 skipped (21)
+   Start at  14:06:17
+   Duration  282ms (transform 173ms, setup 0ms, import 210ms, tests 7ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-ZAfQbv/report.json
+undefined
+/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-host-adapter.c85-arms.test.ts -t 跨场景过滤臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-ZAfQbv/report.json

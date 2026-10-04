@@ -1,0 +1,33 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-runner.c85-arms.test.ts > 演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主
+AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]
+
+- Expected
++ Received
+
+@@ -1,11 +1,11 @@
+  [
+    [
+      "fade",
+      [
+        "out",
+-       300,
++       301,
+        undefined,
+        AbortSignal {
+          Symbol(kEvents): Map {},
+          Symbol(events.maxEventTargetListeners): 0,
+          Symbol(events.maxEventTargetListenersWarned): false,
+
+ ❯ src/script-runner.c85-arms.test.ts:119:15
+    117|   const r = newRunner(recordingHost(log))
+    118|   await r.run([{ kind: 'fade', dir: 'out' }, { kind: 'ditherScreen' }])
+    119|   expect(log).toEqual([
+       |               ^
+    120|     ['fade', ['out', 300, undefined, expect.any(AbortSignal)]],
+    121|     ['ditherScreen', [720, expect.any(AbortSignal)]],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

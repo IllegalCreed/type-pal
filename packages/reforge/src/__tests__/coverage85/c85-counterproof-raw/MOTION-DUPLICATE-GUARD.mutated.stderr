@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/entity-motion.c85-arms.test.ts > 非法快照臂:重复 actor 与空足迹各自 fail-loud
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/entity-motion.c85-arms.test.ts:47:5
+     45|       terrainBlocked: openTerrain(),
+     46|     }),
+     47|   ).toThrow('entity-motion: duplicate snapshot actor 1:e1')
+       |     ^
+     48|   expect(() =>
+     49|     planEntityMotion({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

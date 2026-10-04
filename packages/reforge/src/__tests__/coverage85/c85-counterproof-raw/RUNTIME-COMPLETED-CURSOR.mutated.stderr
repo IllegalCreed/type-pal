@@ -1,0 +1,24 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime-host.c85-arms.test.ts > C85 ScriptRunnerCore 流臂 > 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/runtime-host.c85-arms.test.ts:249:5
+    247|         executable: flowOf([]),
+    248|       }),
+    249|     ).rejects.toThrow('flow 未声明 complete，不能使用 completed cursor')
+       |     ^
+    250|   })
+    251|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

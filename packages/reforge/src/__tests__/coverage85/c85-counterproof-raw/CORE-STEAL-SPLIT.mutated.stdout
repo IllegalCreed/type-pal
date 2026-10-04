@@ -1,0 +1,22 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
+
+ ❯ src/battle/battle-core.c85-branches.test.ts (8 tests | 1 failed | 7 skipped) 6ms
+     ↓ mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩
+     ↓ 毒名缺省与到期产物臂:无 name 按 id 合成名,grantItem 优先叠已有背包槽
+     × 偷窃非重复臂:lastAction notice 文案、未知道具名回落 itemId、c=0 静默不弹提示 5ms
+     ↓ 沉默臂:技能在表的 cast fallback 被沉默拦回落普攻(规则路径由求值器先跳过)
+     ↓ 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻
+     ↓ 无 enemyId 召唤臂:召唤动作回落召唤者自身定义
+     ↓ 死亡宿主臂:applyEnemyEffect 对死者直接 failed
+     ↓ 装备回蓝臂:regenMp 每回合回蓝并钳上限
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  14:06:19
+   Duration  325ms (transform 206ms, setup 0ms, import 249ms, tests 6ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-4mBx5A/report.json
+undefined
+/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/battle-core.c85-branches.test.ts -t 偷窃非重复臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-4mBx5A/report.json

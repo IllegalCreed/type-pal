@@ -1,0 +1,33 @@
+stderr | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
+AssertionError: expected { scene: 'a', worldTick: +0, …(5) } to match object { id: 'npc-1', present: true, …(1) }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -2,7 +2,7 @@
+    "id": "npc-1",
+    "pos": {
+      "col": 4,
+      "row": 4,
+    },
+-   "present": true,
++   "present": false,
+  }
+
+ ❯ src/main.c85-boot.test.ts:43:17
+     41|     pos: { col: number; row: number }
+     42|   }
+     43|   expect(probe).toMatchObject({ id: 'npc-1', present: true, pos: { col…
+       |                 ^
+     44| })
+     45|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

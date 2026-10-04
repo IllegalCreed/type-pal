@@ -1,0 +1,159 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-host-adapter.c85-arms.test.ts > 跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛
+AssertionError: expected [ …(13) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "args": [
++       "e1",
++       {
++         "col": 9,
++         "height": 0,
++         "row": 9,
++       },
++     ],
++     "method": "setEntityPos",
++   },
++   {
++     "args": [
++       "e2",
++       0,
++       0,
++     ],
++     "method": "setEntityPosRelParty",
++   },
++   {
++     "args": [
++       "e3",
++       1,
++     ],
++     "method": "setEntityFrame",
++   },
++   {
++     "args": [
++       "e4",
++       {
++         "action": "spin",
++         "loop": false,
++         "sprite": "walker",
++       },
++       AbortSignal {
++         Symbol(kEvents): Map {},
++         Symbol(events.maxEventTargetListeners): 0,
++         Symbol(events.maxEventTargetListenersWarned): false,
++         Symbol(kHandlers): Map {},
++         Symbol(kAborted): false,
++         Symbol(kReason): undefined,
++         Symbol(kComposite): false,
++       },
++     ],
++     "method": "playEntityAction",
++   },
++   {
++     "args": [
++       "e5",
++       true,
++     ],
++     "method": "stopEntityAction",
++   },
++   {
++     "args": [
++       "e6",
++     ],
++     "method": "takeEntity",
++   },
++   {
++     "args": [
++       "e7",
++     ],
++     "method": "releaseEntity",
++   },
++   {
++     "args": [
++       "e8",
++       1,
++       1,
++     ],
++     "method": "mountParty",
++   },
++   {
++     "args": [
++       "e9",
++       {
++         "col": 1,
++         "height": 0,
++         "row": 1,
++       },
++       "slow",
++       AbortSignal {
++         Symbol(kEvents): Map {},
++         Symbol(events.maxEventTargetListeners): 0,
++         Symbol(events.maxEventTargetListenersWarned): false,
++         Symbol(kHandlers): Map {},
++         Symbol(kAborted): false,
++         Symbol(kReason): undefined,
++         Symbol(kComposite): false,
++       },
++     ],
++     "method": "ride",
++   },
++   {
++     "args": [
++       "e10",
++       "down",
++     ],
++     "method": "stepEntity",
++   },
++   {
++     "args": [
++       "e11",
++     ],
++     "method": "animEntity",
++   },
++   {
++     "args": [
++       "e12",
++       1,
++       0,
++     ],
++     "method": "nudgeEntity",
++   },
++   {
++     "args": [
++       "e13",
++       {
++         "col": 0,
++         "height": 0,
++         "row": 0,
++       },
++       "fast",
++       AbortSignal {
++         Symbol(kEvents): Map {},
++         Symbol(events.maxEventTargetListeners): 0,
++         Symbol(events.maxEventTargetListenersWarned): false,
++         Symbol(kHandlers): Map {},
++         Symbol(kAborted): false,
++         Symbol(kReason): undefined,
++         Symbol(kComposite): false,
++       },
++     ],
++     "method": "moveEntity",
++   },
++ ]
+
+ ❯ src/script-host-adapter.c85-arms.test.ts:201:17
+    199|     },
+    200|   ])
+    201|   expect(calls).toEqual([])
+       |                 ^
+    202| })
+    203|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -1,0 +1,24 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-session.c85-arms.test.ts > C85 战斗演出动作臂 > stopMusic 即时臂:fadeMs 缺省 0 当拍停曲
+AssertionError: expected [] to deeply equal [ 1 ]
+
+- Expected
++ Received
+
+- [
+-   1,
+- ]
++ []
+
+ ❯ src/battle/battle-session.c85-arms.test.ts:201:19
+    199|     })
+    200|     session.tick(16, new Set())
+    201|     expect(stops).toEqual([1])
+       |                   ^
+    202|   })
+    203|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

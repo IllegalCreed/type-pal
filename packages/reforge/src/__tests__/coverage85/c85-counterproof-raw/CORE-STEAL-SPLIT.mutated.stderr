@@ -1,0 +1,19 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-core.c85-branches.test.ts > C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷窃非重复臂:lastAction notice 文案、未知道具名回落 itemId、c=0 静默不弹提示
+AssertionError: expected '获得 3 文钱' to be '获得 4 文钱' // Object.is equality
+
+Expected: "获得 4 文钱"
+Received: "获得 3 文钱"
+
+ ❯ src/battle/battle-core.c85-branches.test.ts:181:34
+    179|     // 本测试只测它未覆盖的 notice 与回落臂(battle-core.ts:651,654,663)。
+    180|     const s = castStealTurn({ itemId: '0', count: 9 }, { relic: itemOf…
+    181|     expect(s.lastAction?.notice).toBe('获得 4 文钱') // 651/654:获得文钱 notice
+       |                                  ^
+    182|     const named = castStealTurn({ itemId: 'relic', count: 1 }, { relic…
+    183|     expect(named.lastAction?.notice).toBe('获得 夜行衣')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

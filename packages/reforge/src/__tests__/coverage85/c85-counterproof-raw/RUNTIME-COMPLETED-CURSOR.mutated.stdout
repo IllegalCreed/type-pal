@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
+
+ ❯ src/runtime-host.c85-arms.test.ts (18 tests | 1 failed | 17 skipped) 5ms
+     ↓ runEntityTrigger 时机臂:auto 时机直接 fail-loud
+     ↓ runEntityTrigger 桥臂:宿主未提供调用桥时 fail-loud
+     ↓ runEntityTrigger 派发臂:调用桥收到同 target 与 context
+     ↓ lifecycle 拒收臂:lifecycle 命令不得进入基础 host,worldChanged 仍被通知
+     ↓ 守卫臂:已中止 signal 下的 execute 直接 AbortError
+     ↓ 摘要臂:非 64 位 hex canonicalContentDigest 构造即拒
+     ↓ script 初始化臂:world 缺 script 时构造补空脚本态
+     ↓ 私有脚本臂:物品私有脚本缺定义 fail-loud
+     ↓ 实体臂:runEntityBehavior 对缺席实体 fail-loud,对场景错位安静 false
+     ↓ 场景钩子臂:runSceneHook 对场景错位安静 false
+     × 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒 4ms
+     ↓ 完成游标臂:声明 complete 的 flow 使用 completed cursor 立即收尾零效果
+     ↓ auto 恢复臂:resume 无游标或控制器未开 checkpoint 即拒
+     ↓ 游标缺失臂:flow 指针指向不存在的 stage 即拒
+     ↓ gate 停止臂:宿主 gate 返回 stop 时本次运行干净收尾不再执行后续叶
+   ↓ 实体无行为臂:实体未声明 trigger 行为时 runEntityBehavior 安静 false
+   ↓ 钩子无变体臂:场景无 onTeleport 钩子时 runSceneHook 安静 false
+   ↓ 完成游标复入臂:行为游标已 completed 时不再取得租约
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  14:06:30
+   Duration  319ms (transform 204ms, setup 0ms, import 247ms, tests 5ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-zRRVC4/report.json
+undefined
+/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-zRRVC4/report.json
