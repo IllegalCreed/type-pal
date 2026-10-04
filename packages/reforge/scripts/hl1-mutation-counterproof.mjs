@@ -91,6 +91,15 @@ const runVitest = (testFile, testName, outFile, errFile) => {
   )
   return { proc, outFile, errFile, stdout: proc.stdout, stderr: proc.stderr }
 }
+// 默认 reporter 的断言 diff 不进 json failureMessages;补一份 console 原文用于片段匹配与取证。
+const runVitestConsole = (testFile, testName, outFile) => {
+  const proc = spawnSync(
+    'pnpm',
+    ['exec', 'vitest', 'run', testFile, ...(testName ? ['-t', testName] : [])],
+    { cwd: pkgRoot, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
+  )
+  return { text: `${proc.stdout ?? ''}\n${proc.stderr ?? ''}`, outFile }
+}
 
 function assertTreeClean(tag) {
   const out = execFileSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' })
@@ -169,6 +178,8 @@ try {
       )
       await writeFile(`${base}.stdout`, stdout)
       await writeFile(`${base}.stderr`, stderr)
+      const consoleRun = runVitestConsole(injection.testFile, injection.testName, `${base}.console`)
+      await writeFile(consoleRun.outFile, consoleRun.text)
       const identity = parseIdentity(proc)
       return {
         exitCode: proc.status,
@@ -180,6 +191,8 @@ try {
         numTotalTests: identity.parsed.numTotalTests,
         stdoutPath: `${base}.stdout`,
         stderrPath: `${base}.stderr`,
+        consolePath: consoleRun.outFile,
+        consoleText: consoleRun.text,
         raw: identity.parsed,
       }
     }
@@ -238,9 +251,14 @@ try {
     if (!red) issues.push('指定用例未红(可能 vacuous,核对 executedSet)')
     const expectedFailure = r.failures.find((f) => f.fullName.includes(r.expectedTest.slice(0, 12)))
     if (!expectedFailure) issues.push('失败集不含指定用例')
+    else if (!expectedFailure.messages.some((m) => m.includes('AssertionError')))
+      issues.push('指定失败非 AssertionError')
     else {
       const part = r.expectedErrorPart.replace(/["']/g, '')
-      const hay = expectedFailure.messages.join('\n').replace(/["']/g, '')
+      const hay = `${r.mutant.consoleText ?? ''}\n${expectedFailure.messages.join('\n')}`.replace(
+        /["']/g,
+        '',
+      )
       if (!hay.includes(part)) issues.push(`失败消息不含指定片段 ${r.expectedErrorPart}`)
     }
     return { id: r.id, issues, pass: issues.length === 0 }
@@ -264,6 +282,7 @@ try {
         skipped: r.original.skipped,
         stdoutPath: r.original.stdoutPath,
         stderrPath: r.original.stderrPath,
+        consolePath: r.original.consolePath,
       },
       mutant: {
         exitCode: r.mutant.exitCode,
@@ -274,7 +293,8 @@ try {
         skipped: r.mutant.skipped,
         stdoutPath: r.mutant.stdoutPath,
         stderrPath: r.mutant.stderrPath,
-        failures: r.failures,
+        failures: r.failures.map((f) => ({ ...f, messages: f.messagePreview })),
+        consolePath: r.mutant.consolePath,
       },
       restored: {
         exitCode: r.restored.exitCode,
@@ -283,6 +303,7 @@ try {
         skipped: r.restored.skipped,
         stdoutPath: r.restored.stdoutPath,
         stderrPath: r.restored.stderrPath,
+        consolePath: r.restored.consolePath,
       },
       rebuilt: r.rebuilt,
     })),
