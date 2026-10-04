@@ -1,0 +1,773 @@
+{
+  "card": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1",
+  "generatedAt": "2026-10-04T18:32:44.216Z",
+  "command": "node docs/ops/tasks/evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/run-mutations.mjs",
+  "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+  "phases": {
+    "original": {
+      "battlefield": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 零引用战场确认删除：单命令落账、选中回退并回报 focus，undo 原位还原完整深值",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 创建卡打开时收到深链 focus：退出创建、聚焦目标战场且零命令",
+            "status": "passed"
+          }
+        ]
+      },
+      "poison": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus",
+            "status": "passed"
+          }
+        ]
+      },
+      "alchemy": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id",
+            "status": "passed"
+          }
+        ]
+      },
+      "enemy": {
+        "argv": ["vitest", "run", "src/ui/EnemyTab.glm-data-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 1,
+        "tests": [
+          {
+            "file": "src/ui/EnemyTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 EnemyTab 无效/陈旧深链被忽略不偷换选择；后续有效深链仍应用；全程零命令",
+            "status": "passed"
+          }
+        ]
+      },
+      "datamode": {
+        "argv": ["vitest", "run", "src/ui/DataMode.glm-data-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/DataMode.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 battlefield 页深链选中战场，复制经路由回报新副本 focus，undo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/DataMode.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 poison 页深链选中并回报目录选择；切换 enemy-team 页不残留、试打整形 {kind:\"enemy-team\"}",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    "restored": {
+      "battlefield": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 零引用战场确认删除：单命令落账、选中回退并回报 focus，undo 原位还原完整深值",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 创建卡打开时收到深链 focus：退出创建、聚焦目标战场且零命令",
+            "status": "passed"
+          }
+        ]
+      },
+      "poison": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus",
+            "status": "passed"
+          }
+        ]
+      },
+      "alchemy": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id",
+            "status": "passed"
+          }
+        ]
+      },
+      "enemy": {
+        "argv": ["vitest", "run", "src/ui/EnemyTab.glm-data-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 1,
+        "tests": [
+          {
+            "file": "src/ui/EnemyTab.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 EnemyTab 无效/陈旧深链被忽略不偷换选择；后续有效深链仍应用；全程零命令",
+            "status": "passed"
+          }
+        ]
+      },
+      "datamode": {
+        "argv": ["vitest", "run", "src/ui/DataMode.glm-data-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 2,
+        "tests": [
+          {
+            "file": "src/ui/DataMode.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 battlefield 页深链选中战场，复制经路由回报新副本 focus，undo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/DataMode.glm-data-authoring.test.tsx",
+            "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 poison 页深链选中并回报目录选择；切换 enemy-team 页不残留、试打整形 {kind:\"enemy-team\"}",
+            "status": "passed"
+          }
+        ]
+      }
+    }
+  },
+  "injections": [
+    {
+      "id": "INJ-1",
+      "contract": "删除后 stale-selection 回退并回报父级 focus → 变异为不回报真实 id",
+      "compound": false,
+      "productFiles": ["src/ui/BattleFieldTab.tsx"],
+      "targetTestFile": "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+      "targetTestName": "零引用战场确认删除",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+        "-t",
+        "零引用战场确认删除",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/BattleFieldTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 零引用战场确认删除：单命令落账、选中回退并回报 focus，undo 原位还原完整深值"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/BattleFieldTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 零引用战场确认删除：单命令落账、选中回退并回报 focus，undo 原位还原完整深值"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected undefined to be '6' // Object.is equality",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 零引用战场确认删除：单命令落账、选中回退并回报 focus，undo 原位还原完整深值",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/BattleFieldTab.tsx",
+          "anchor": "onObjectFocus?.(next === undefined ? undefined : String(next))",
+          "mutant": "onObjectFocus?.(undefined)",
+          "hashes": {
+            "original": "a14b337815a224d1f503d36fc58b7ebe9268b82045c0d7bd2b88281d25a985e9",
+            "mutant": "9207ddfc59a8c9fc9aba3d1aa3f897b93705b17124f3862bc5b109de5360a10d",
+            "restored": "a14b337815a224d1f503d36fc58b7ebe9268b82045c0d7bd2b88281d25a985e9"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-2",
+      "contract": "深链到达退出创建卡 → 变异为保持创建态",
+      "compound": false,
+      "productFiles": ["src/ui/BattleFieldTab.tsx"],
+      "targetTestFile": "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+      "targetTestName": "创建卡打开时收到深链",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
+        "-t",
+        "创建卡打开时收到深链",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/BattleFieldTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 创建卡打开时收到深链 focus：退出创建、聚焦目标战场且零命令"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/BattleFieldTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 创建卡打开时收到深链 focus：退出创建、聚焦目标战场且零命令"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected <section …(1)>…(5)</section> to be null",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 BattleFieldTab 创建卡打开时收到深链 focus：退出创建、聚焦目标战场且零命令",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/BattleFieldTab.tsx",
+          "anchor": "      setSelId(parsed)\n      setCreating(false)",
+          "mutant": "      setSelId(parsed)",
+          "hashes": {
+            "original": "a14b337815a224d1f503d36fc58b7ebe9268b82045c0d7bd2b88281d25a985e9",
+            "mutant": "b1f3da81ad69dbb73617849859ebf43a770efecc8fe40c525826a733a5894bd3",
+            "restored": "a14b337815a224d1f503d36fc58b7ebe9268b82045c0d7bd2b88281d25a985e9"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-3",
+      "contract": "tick 清空整键删除 → 变异为保留空数组",
+      "compound": false,
+      "productFiles": ["src/ui/PoisonTab.tsx"],
+      "targetTestFile": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+      "targetTestName": "删到零=整键删除",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+        "-t",
+        "删到零=整键删除",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected [] to be undefined",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/PoisonTab.tsx",
+          "anchor": "onChange(arr.length ? arr : undefined) // 清空 = 删键(无 DoT)",
+          "mutant": "onChange(arr.length ? arr : []) // 清空 = 删键(无 DoT)",
+          "hashes": {
+            "original": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f",
+            "mutant": "cafd4f22164ba6418c77128dc5ae81b4e58e494c64f6fdcdf0e0412c44a71ac4",
+            "restored": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-4",
+      "contract": "「添加回合」补缺省 {hpDelta:-10} → 变异为 -1",
+      "compound": false,
+      "productFiles": ["src/ui/PoisonTab.tsx"],
+      "targetTestFile": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+      "targetTestName": "删到零=整键删除",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+        "-t",
+        "删到零=整键删除",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected [ { hpDelta: -10 }, { hpDelta: -1 } ] to deeply equal [ { hpDelta: -10 }, { hpDelta: -10 } ]",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 删到零=整键删除不留空数组；「添加回合」以缺省 {hpDelta:-10} 补格，逐格单命令可撤销",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/PoisonTab.tsx",
+          "anchor": "onChange([...list, { hpDelta: -10 }])",
+          "mutant": "onChange([...list, { hpDelta: -1 }])",
+          "hashes": {
+            "original": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f",
+            "mutant": "3ce09260dc0f59383142e2938ac56ecbfb2936b83bf90678d62d1d15e668a111",
+            "restored": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-5",
+      "contract": "致死对不对称 ⚠ 警告 → 变异为恒对称",
+      "compound": false,
+      "productFiles": ["src/ui/PoisonTab.tsx"],
+      "targetTestFile": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+      "targetTestName": "关系总览",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+        "-t",
+        "关系总览",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/PoisonTab.tsx",
+          "anchor": "symmetric: byId.get(p.lethalWith)?.lethalWith === p.id",
+          "mutant": "symmetric: true",
+          "hashes": {
+            "original": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f",
+            "mutant": "0d22da406a5c32ce41477131c0affb931c55597c12280ba30469c12a2f92f3cc",
+            "restored": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-6",
+      "contract": "关系总览 onPick 联动选毒回报 focus → 变异为不回报真实 id",
+      "compound": false,
+      "productFiles": ["src/ui/PoisonTab.tsx"],
+      "targetTestFile": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+      "targetTestName": "关系总览",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+        "-t",
+        "关系总览",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected undefined to be '3' // Object.is equality",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/PoisonTab.tsx",
+          "anchor": "onObjectFocus?.(String(id))",
+          "mutant": "onObjectFocus?.(undefined)",
+          "hashes": {
+            "original": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f",
+            "mutant": "e6a12bcd2e53d0d2ae50f253db07a9e0cc6ef4a24c9a0cf46e714757a834a0e0",
+            "restored": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-7",
+      "contract": "相克链首尾闭环 ⟲ 收口标记 → 变异为不闭环",
+      "compound": false,
+      "productFiles": ["src/ui/PoisonTab.tsx"],
+      "targetTestFile": "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+      "targetTestName": "关系总览",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx",
+        "-t",
+        "关系总览",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/PoisonTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected null not to be null",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 PoisonTab 关系总览：不对称致死对 ⚠ 警告、相克闭环单链 ⟲、rel-poison 点击联动选毒并回报 focus",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/PoisonTab.tsx",
+          "anchor": "      if (cur.id === ids[0]) {\n        loop = true\n        break\n      }",
+          "mutant": "      if (cur.id === ids[0]) {\n        loop = false\n        break\n      }",
+          "hashes": {
+            "original": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f",
+            "mutant": "4032874d505d2b7614d8ccb9f0faec37c12d21dcbacec143278865f690fde196",
+            "restored": "5d67b4888875ccf4496a25c700862dbc9c0f8182d37d6247f22f06bae844031f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-8",
+      "contract": "maxRoll 直改经 resizeResourcePoolEffect 严格同步奖励长度 → 变异为只改 maxRoll 不动 rewards",
+      "compound": false,
+      "productFiles": ["src/ui/ItemAlchemyTab.tsx"],
+      "targetTestFile": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+      "targetTestName": "直改：扩张克隆末档补齐",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+        "-t",
+        "直改：扩张克隆末档补齐",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected { kind: 'drawFromResourcePool', …(3) } to deeply equal { kind: 'drawFromResourcePool', …(3) }",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ItemAlchemyTab.tsx",
+          "anchor": "                            resizeResourcePoolEffect(\n                              effect,\n                              maxRoll,\n                              items[0]?.id ?? selectedItem.id,\n                            ),",
+          "mutant": "                            {\n                              ...effect,\n                              maxRoll,\n                            },",
+          "hashes": {
+            "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+            "mutant": "90f4a6bf610552d260097366263cae77a05c9cbd39f1dfb47cdea15fd2b2e80d",
+            "restored": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-9",
+      "contract": "无深链挂载自动回报 canonical owner → 变异为不回报",
+      "compound": false,
+      "productFiles": ["src/ui/ItemAlchemyTab.tsx"],
+      "targetTestFile": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+      "targetTestName": "机制页身份",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+        "-t",
+        "机制页身份",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected \"vi.fn()\" to be called 1 times, but got 0 times",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ItemAlchemyTab.tsx",
+          "anchor": "if (!focusObjectId && canonicalOwner) onObjectFocus?.(canonicalOwner.id)",
+          "mutant": "if (false) onObjectFocus?.(canonicalOwner.id)",
+          "hashes": {
+            "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+            "mutant": "12629d78d2c0f2ff0a2ad986a404478c9d617ce8300a31781656f0e2716676c7",
+            "restored": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-10",
+      "contract": "「打开承载物品」传出 owner id → 变异为传出伪造 id",
+      "compound": false,
+      "productFiles": ["src/ui/ItemAlchemyTab.tsx"],
+      "targetTestFile": "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+      "targetTestName": "机制页身份",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
+        "-t",
+        "机制页身份",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected \"vi.fn()\" to be called with arguments: [ 'vessel-c' ]",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ItemAlchemyTab.tsx",
+          "anchor": "props.onOpenItem?.(selectedItem.id)",
+          "mutant": "props.onOpenItem?.('broken-owner')",
+          "hashes": {
+            "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+            "mutant": "d67bf25510338fc61b812c2776c084bdd99a10de2628c99895092aef2c27dd74",
+            "restored": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-11",
+      "contract": "无效深链守卫（敌人存在性检查）→ 变异为恒放行（选中被偷换到不存在的敌人）",
+      "compound": false,
+      "productFiles": ["src/ui/EnemyTab.tsx"],
+      "targetTestFile": "src/ui/EnemyTab.glm-data-authoring.test.tsx",
+      "targetTestName": "无效/陈旧深链被忽略",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/EnemyTab.glm-data-authoring.test.tsx",
+        "-t",
+        "无效/陈旧深链被忽略",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/EnemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 EnemyTab 无效/陈旧深链被忽略不偷换选择；后续有效深链仍应用；全程零命令"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 0,
+      "failed": [
+        "src/ui/EnemyTab.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 EnemyTab 无效/陈旧深链被忽略不偷换选择；后续有效深链仍应用；全程零命令"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected '赤鬼' to be '青鬼' // Object.is equality",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 EnemyTab 无效/陈旧深链被忽略不偷换选择；后续有效深链仍应用；全程零命令",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":1,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/EnemyTab.tsx",
+          "anchor": "      enemies.some((entry) => entry.id === focusObjectId)",
+          "mutant": "      true",
+          "hashes": {
+            "original": "a4ff9db983aaf4876148d0387993ab19cb8b2ca96d5f52732c716bfcfef95a6c",
+            "mutant": "9a13ff25ddab1fc808d1171532b8aae38a32bbe202ee381f9e978c9cb5aee6d1",
+            "restored": "a4ff9db983aaf4876148d0387993ab19cb8b2ca96d5f52732c716bfcfef95a6c"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-12",
+      "contract": "敌队试打经路由整形 {kind:\"enemy-team\"} → 变异为 enemy 形状",
+      "compound": false,
+      "productFiles": ["src/ui/DataMode.tsx"],
+      "targetTestFile": "src/ui/DataMode.glm-data-authoring.test.tsx",
+      "targetTestName": "试打整形",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/DataMode.glm-data-authoring.test.tsx",
+        "-t",
+        "试打整形",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/type-pal-data-battle/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/DataMode.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 poison 页深链选中并回报目录选择；切换 enemy-team 页不残留、试打整形 {kind:\"enemy-team\"}"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 1,
+      "failed": [
+        "src/ui/DataMode.glm-data-authoring.test.tsx :: TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 poison 页深链选中并回报目录选择；切换 enemy-team 页不残留、试打整形 {kind:\"enemy-team\"}"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected \"vi.fn()\" to be called with arguments: [ { kind: 'enemy-team', …(1) } ]",
+      "failingTargetFullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 DataMode 路由委派 poison 页深链选中并回报目录选择；切换 enemy-team 页不残留、试打整形 {kind:\"enemy-team\"}",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":2,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":1,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/DataMode.tsx",
+          "anchor": "(id) => props.onBattleTrial?.({ kind: 'enemy-team', id })",
+          "mutant": "(id) => props.onBattleTrial?.({ kind: 'enemy', id })",
+          "hashes": {
+            "original": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f",
+            "mutant": "0a0612371ce5d3b26da206de43bbbe3c3c564769a8c01f2dd0f06c7b8f06b1ed",
+            "restored": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    }
+  ],
+  "productFilesGitStatus": [
+    {
+      "file": "src/ui/BattleFieldTab.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/PoisonTab.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/ItemAlchemyTab.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/EnemyTab.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/DataMode.tsx",
+      "status": "",
+      "clean": true
+    }
+  ],
+  "allMutantPhasesOk": true,
+  "productFilesAllClean": true
+}
