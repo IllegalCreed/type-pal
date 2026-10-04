@@ -47,13 +47,14 @@ const injections = [
     expectedErrorPart: 'confirm',
   },
   {
-    id: 'RUNNER-CALL-RETURN-SWALLOW',
+    id: 'RUNNER-WAIT-DISPATCH-DRIFT',
     file: 'packages/reforge/src/script-runner.ts',
-    anchor: 'if (!(err instanceof ScriptStopped)) throw err',
-    mutate: (line) => line.replace('if (!(err instanceof ScriptStopped)) throw err', 'throw err'),
+    anchor: 'return h.wait(cmd.ms, this.signal)',
+    mutate: (line) =>
+      line.replace('return h.wait(cmd.ms, this.signal)', 'return h.wait(cmd.ms * 2, this.signal)'),
     testFile: 'src/script-runner.host-lifecycle-1.test.ts',
-    testName: 'callScript 内 returnScript 只终止被调脚本,调用方从调用点继续',
-    expectedErrorPart: 'caller.after',
+    testName: '生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主',
+    expectedErrorPart: 'wait(840)',
   },
   {
     id: 'ADAPTER-VANISH-SELF-FALLBACK',
@@ -66,7 +67,7 @@ const injections = [
       ),
     testFile: 'src/script-host-adapter.host-lifecycle-1.test.ts',
     testName: 'vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发',
-    expectedErrorPart: "['self-entity', 2]",
+    expectedErrorPart: 'self-entity',
   },
   {
     id: 'MAIN-SCENE-MUSIC-NULL-WRITE',
@@ -139,8 +140,19 @@ try {
     const hits = lines.filter((line) =>
       injection.anchor.split(' ').every((tok) => line.includes(tok)),
     )
-    if (hits.length !== 1) throw new Error(`[${injection.id}] 锚点命中 ${hits.length} 行,拒绝注入`)
-    const mutant = original.split('\n').map(injection.mutate).join('\n')
+    // firstOnly:同形语句多处出现时,只把首个匹配行计入变异(源内行序确定,可复现)。
+    const allowed = injection.firstOnly ? Math.max(1, hits.length) : 1
+    if (hits.length < 1 || hits.length > allowed)
+      throw new Error(`[${injection.id}] 锚点命中 ${hits.length} 行,拒绝注入`)
+    let mutatedOnce = false
+    const mutant = lines
+      .map((line) => {
+        if (injection.firstOnly && mutatedOnce) return line
+        const next = injection.mutate(line)
+        if (next !== line) mutatedOnce = true
+        return next
+      })
+      .join('\n')
     if (mutant === original) throw new Error(`[${injection.id}] 变异未生效`)
     const receipt = { id: injection.id, file: injection.file, anchor: injection.anchor }
     const stage = async (label, source) => {
