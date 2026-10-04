@@ -1,0 +1,713 @@
+{
+  "generatedAt": "2026-10-04T09:25:21.720Z",
+  "nodeVersion": "v22.23.2",
+  "injections": [
+    {
+      "id": "CORE-CONFIRM-RESUME",
+      "file": "packages/reforge/src/script-runner-core.ts",
+      "anchor": "if (frame.control?.kind === 'confirm') arm = frame.control.arm",
+      "command": "pnpm exec vitest run src/script-runner-core.host-lifecycle-1.test.ts -t \"confirm 相位帧重放已选臂,宿主 confirm 不再询问\" --reporter=json",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/reforge",
+      "testFile": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "expectedTest": "confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+      "expectedErrorPart": "confirm",
+      "original": {
+        "exitCode": 0,
+        "hash": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 startBattle 已知战败相位只重放 onLose,不重开战斗",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 teleportOut 已知失败相位只重放 onFail,不再传出",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 settle 相位写入续跑帧,宿主迟到回执静默不再发布",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 执行帧深 嵌套分支超过 256 执行帧时精确熔断",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.original.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.original.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "9d839fe89d7d65065738c55b2db7483f9492d7e54c81b62fc7b5d6ae4b782e3c",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 startBattle 已知战败相位只重放 onLose,不重开战斗",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 teleportOut 已知失败相位只重放 onFail,不再传出",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 settle 相位写入续跑帧,宿主迟到回执静默不再发布",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 执行帧深 嵌套分支超过 256 执行帧时精确熔断",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.mutant.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.mutant.stderr",
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+            "messages": [
+              "AssertionError: expected [ Array(3) ] to deeply equal [ 'execute:giveMoney', …(1) ] |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts:136:24 |     at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+            ],
+            "messagePreview": [
+              "AssertionError: expected [ Array(3) ] to deeply equal [ 'execute:giveMoney', …(1) ] |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts:136:24 |     at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+            ]
+          }
+        ],
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 startBattle 已知战败相位只重放 onLose,不重开战斗",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 续跑控制帧 teleportOut 已知失败相位只重放 onFail,不再传出",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 settle 相位写入续跑帧,宿主迟到回执静默不再发布",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 自动单步检查点 setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
+            "fullName": "HL1 执行帧深 嵌套分支超过 256 执行帧时精确熔断",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.restored.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.restored.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/CORE-CONFIRM-RESUME.restored.console"
+      },
+      "rebuilt": {
+        "hash": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "RUNNER-WAIT-DISPATCH-DRIFT",
+      "file": "packages/reforge/src/script-runner.ts",
+      "anchor": "return h.wait(cmd.ms, this.signal)",
+      "command": "pnpm exec vitest run src/script-runner.host-lifecycle-1.test.ts -t \"生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主\" --reporter=json",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/reforge",
+      "testFile": "src/script-runner.host-lifecycle-1.test.ts",
+      "expectedTest": "生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+      "expectedErrorPart": "wait(840)",
+      "original": {
+        "exitCode": 0,
+        "hash": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 setSceneOnEnter 对既有槽覆写而不新建槽",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 调用与跳转生命周期 callScript 内 returnScript 只终止被调脚本,调用方从调用点继续",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 调用与跳转生命周期 jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.original.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.original.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "9e0f742d6d31ae05f66f2535203ede05b41d5ea915adf4c3ff0819b6e3c61dd0",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 setSceneOnEnter 对既有槽覆写而不新建槽",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 调用与跳转生命周期 callScript 内 returnScript 只终止被调脚本,调用方从调用点继续",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 调用与跳转生命周期 jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.mutant.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.mutant.stderr",
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+            "messages": [
+              "AssertionError: expected [ Array(3) ] to deeply equal [ Array(3) ] |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts:153:19 |     at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+            ],
+            "messagePreview": [
+              "AssertionError: expected [ Array(3) ] to deeply equal [ Array(3) ] |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts:153:19 |     at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+            ]
+          }
+        ],
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 残留命令分发 setSceneOnEnter 对既有槽覆写而不新建槽",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 调用与跳转生命周期 callScript 内 returnScript 只终止被调脚本,调用方从调用点继续",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
+            "fullName": "HL1 调用与跳转生命周期 jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.restored.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.restored.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/RUNNER-WAIT-DISPATCH-DRIFT.restored.console"
+      },
+      "rebuilt": {
+        "hash": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "ADAPTER-VANISH-SELF-FALLBACK",
+      "file": "packages/reforge/src/script-host-adapter.ts",
+      "anchor": "activeEntity(command.target ?? context.self, options)",
+      "command": "pnpm exec vitest run src/script-host-adapter.host-lifecycle-1.test.ts -t \"vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发\" --reporter=json",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/reforge",
+      "testFile": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "expectedTest": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+      "expectedErrorPart": "self-entity",
+      "original": {
+        "exitCode": 0,
+        "hash": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.original.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.original.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "f9efe73ed209d85b15011dbc141354eaee0446ea9c57ef3fd6635c400cde14f4",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.mutant.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.mutant.stderr",
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+            "messages": [
+              "AssertionError: expected [] to deeply equal [ { method: 'vanishEntity', …(1) } ] |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts:254:26 |     at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+            ],
+            "messagePreview": [
+              "AssertionError: expected [] to deeply equal [ { method: 'vanishEntity', …(1) } ] |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts:254:26 |     at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+            ]
+          }
+        ],
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
+            "fullName": "全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.restored.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.restored.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/ADAPTER-VANISH-SELF-FALLBACK.restored.console"
+      },
+      "rebuilt": {
+        "hash": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "MAIN-SCENE-MUSIC-NULL-WRITE",
+      "file": "packages/reforge/src/main.ts",
+      "anchor": "worldView.audio.currentMusic = plan.def.music",
+      "command": "pnpm exec vitest run src/main.host-lifecycle-1.test.ts -t \"场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键\" --reporter=json",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/reforge",
+      "testFile": "src/main.host-lifecycle-1.test.ts",
+      "expectedTest": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+      "expectedErrorPart": "currentMusic",
+      "original": {
+        "exitCode": 0,
+        "hash": "928de71262954b93fe4aea93a9c7ae6a44a0498ed3618a40172949a3159b6a44",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "标题入口视频:选中入口先播 intro 视频再进世界",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.original.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.original.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "4d519b8c0eef2436657c0ec685ec474bc9d587109526a6c48dc4696d16443516",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "标题入口视频:选中入口先播 intro 视频再进世界",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.mutant.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.mutant.stderr",
+        "failures": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "messages": [
+              "AssertionError: expected {} to deeply equal { currentMusic: null } |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts:340:37 |     at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ],
+            "messagePreview": [
+              "AssertionError: expected {} to deeply equal { currentMusic: null } |     at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts:340:37 |     at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "928de71262954b93fe4aea93a9c7ae6a44a0498ed3618a40172949a3159b6a44",
+        "executed": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "标题入口视频:选中入口先播 intro 视频再进世界",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+            "status": "skipped"
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
+            "fullName": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+            "status": "skipped"
+          }
+        ],
+        "stdoutPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.restored.stdout",
+        "stderrPath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.restored.stderr",
+        "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.restored.console"
+      },
+      "rebuilt": {
+        "hash": "928de71262954b93fe4aea93a9c7ae6a44a0498ed3618a40172949a3159b6a44",
+        "executedCount": 1
+      }
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "CORE-CONFIRM-RESUME",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "RUNNER-WAIT-DISPATCH-DRIFT",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "ADAPTER-VANISH-SELF-FALLBACK",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "MAIN-SCENE-MUSIC-NULL-WRITE",
+      "issues": [],
+      "pass": true
+    }
+  ],
+  "allPass": true,
+  "foreignDirtyPathsExcluded": [
+    "scripts/e2e/browser-journey.mjs",
+    "scripts/e2e/continuous-story-replay-both.mjs",
+    "scripts/e2e/continuous-story-replay-engine.mjs"
+  ]
+}

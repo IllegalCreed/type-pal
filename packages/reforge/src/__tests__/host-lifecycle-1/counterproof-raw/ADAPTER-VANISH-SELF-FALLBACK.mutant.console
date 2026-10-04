@@ -1,0 +1,47 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ❯ src/script-host-adapter.host-lifecycle-1.test.ts (6 tests | 1 failed | 5 skipped) 7ms
+   ↓ 生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主
+   ↓ 全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主
+   ↓ runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行
+   ↓ 队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发
+   ↓ 全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额
+   × vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发 7ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  18:24:51
+   Duration  388ms (transform 243ms, setup 0ms, import 297ms, tests 7ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-host-adapter.host-lifecycle-1.test.ts > vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发
+AssertionError: expected [] to deeply equal [ { method: 'vanishEntity', …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "args": [
+-       "self-entity",
+-       2,
+-     ],
+-     "method": "vanishEntity",
+-   },
+- ]
++ []
+
+ ❯ src/script-host-adapter.host-lifecycle-1.test.ts:254:26
+    252|   const fallback = recorderHost()
+    253|   await dispatch(fallback.host, [{ kind: 'vanishEntity' }], { self })
+    254|   expect(fallback.calls).toEqual([{ method: 'vanishEntity', args: ['se…
+       |                          ^
+    255|
+    256|   const filtered = recorderHost()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

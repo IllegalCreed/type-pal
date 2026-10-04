@@ -1,0 +1,68 @@
+{
+  "baselineLcov": "coverage/hl1-baseline/lcov.info(运行产物)",
+  "finalLcov": "coverage/hl1-final/lcov.info(运行产物)",
+  "totals": {
+    "closedArms": 51,
+    "lostArms": 0
+  },
+  "perFile": {
+    "src/main.ts": {
+      "baselineArmsHit": 1095,
+      "finalArmsHit": 1110,
+      "closedLines": [
+        477,
+        478,
+        480,
+        482,
+        488,
+        500,
+        530,
+        2078,
+        2730,
+        4157,
+        4850,
+        5150,
+        5874,
+        5885
+      ],
+      "lostLines": []
+    },
+    "src/script-runner.ts": {
+      "baselineArmsHit": 253,
+      "finalArmsHit": 268,
+      "closedLines": [
+        392,
+        459,
+        504,
+        791
+      ],
+      "lostLines": []
+    },
+    "src/script-runner-core.ts": {
+      "baselineArmsHit": 229,
+      "finalArmsHit": 239,
+      "closedLines": [
+        227,
+        229,
+        320,
+        382,
+        387,
+        396,
+        474,
+        508,
+        520
+      ],
+      "lostLines": []
+    },
+    "src/script-host-adapter.ts": {
+      "baselineArmsHit": 162,
+      "finalArmsHit": 173,
+      "closedLines": [
+        30,
+        58,
+        59
+      ],
+      "lostLines": []
+    }
+  }
+}

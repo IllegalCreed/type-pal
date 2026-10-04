@@ -308,7 +308,7 @@ const entries = rows
 const outPath = path.join(evidenceDir, 'hl1-family-ledger.json')
 await writeFile(
   outPath,
-  `${JSON.stringify({ generatedAt: new Date().toISOString(), entries }, null, 2)}\n`,
+  `${JSON.stringify({ generatedAt: identity.generatedAt, entries }, null, 2)}\n`,
 )
 // 以仓库 biome 为唯一定稿者,保证再生成逐字节一致。
 const fmt = spawnSync('pnpm', ['exec', 'biome', 'format', '--write', outPath], {

@@ -58,4 +58,58 @@ mkdtemp 清理交付。不标 done，等 Codex 独立验收。
 
 ## GLM 交付回执（r1，2026-10-04，待 Codex 独立验收）
 
-（交付时回填）
+- 候选分支 `codex/glm-reforge-host-lifecycle-r1`（base `70a56f6bc`，tip `96b04fb0e`），
+  产品文件零改动（`git diff 70a56f6bc..HEAD --stat` 仅本卡测试/脚本/证据/卡）。
+- **交付 29 条合同 / 4 个专属测试文件**（`*.host-lifecycle-1.test.ts`）：
+  - `main.host-lifecycle-1.test.ts`(8)：标题**读档**入口全链（bootLoadSlot 此前零测试）、
+    入口 intro 视频、启动视频序列（?menu 无 skip-startup 两段按角色顺序）、播放中/解析中
+    取消窗口（auto 行为实体 + F9 + 存档游标重放，奖励单结算）、战败读最近档（savedAt 而非
+    槽序）、无档重开安静收口、场景 BGM 显式 null 停曲 + 缺省延续。
+  - `script-runner.host-lifecycle-1.test.ts`(7)：12 个全仓从未派发的 author 命令 kind
+    （loadLastSave/gameOver/wait/setEntityFacing/setEntityFrame/moveEntity/moveParty/
+    unmountParty/ride/cameraPan/cameraSnap/clearFrameAnimation）分组合同 + signal 身份、
+    setEntityPos 宿主能力缺席、setSceneOnEnter 既有槽覆写、callScript 内 returnScript
+    边界、jumpScript 取消窗口（AbortError + 零解析）。
+  - `script-runner-core.host-lifecycle-1.test.ts`(8)：confirm/startBattle/teleportOut
+    续跑控制帧（宿主不再询问/重开/传出）、自动单步检查点（settle 相位写入续跑游标帧、
+    迟到回执静默、活发布 stop 吞没与真错误穿透、phase getter 两臂）、setCheckpointReady
+    wait/stop 空帧门（对照基线判别）、帧深 256 精确熔断。
+  - `script-host-adapter.host-lifecycle-1.test.ts`(6)：adapter 生存周期/全队增益/队伍镜头
+    命令逐参 + signal、runEntityTrigger 直派 fail-loud、vanishEntity 目标三态。
+- **四账**：identity（29 条 file×fullName×status）、family ledger（name→源行→caller→
+  oracle，与身份账双向唯一匹配，仓库 biome 定稿）、mutation counterproof（**4/4 PASS**：
+  original/mutant/restored/rebuilt 四 sha256、console+json 原文全量、executed/failed/skipped
+  分账、clean-tree 前置、mkdtemp+finally、-t vacuous 硬防）、branch delta（全量 fast
+  基线 vs 终态，见证据 README）。全部可由 `packages/reforge/scripts/hl1-*.mjs` 重建。
+- **U 账 19 条**不可达臂（author 校验前置/literal 类型/validateScriptContinuation/const
+  world 原地替换/环境恒真/调用方枚举/防御不变量），逐条一手锚点见
+  [证据 README](../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)。
+- **排重裁决**：与 H1/H2/H5/H6/auto-save/glm-q gate 族不重叠；setEntityPos 显式 height
+  合同与既有『0x13 缺省臂』（实际用显式 0/2）同 caller/输入形状/oracle，按纪律**删除**；
+  `?? 0` 默认臂按 GridPos.height 必填登记 U18；BGM 有声资产臂既有证明；awaitRunner 单次
+  结算面由 H5 delayed-read 既有证明。
+- **验证**：定向 29/29 绿；相邻 unit 12 文件 181 绿 + main/menu 邻域 13 文件 87 绿；
+  typecheck 0 错误；全仓 lint 零诊断；`pnpm check:docs` PASS；`git diff --check` 干净；
+  全量 fast 双跑见 delta 账。
+- **基线既有失败（非本卡）**：`src/pal-meal-author.test.ts`『the carried meal uses
+  existing persistent appearance…』在 base `70a56f6bc` 即红（期望缺 wait 命令），含/不含
+  本卡测试均同一失败；本卡不改旧测，留 Codex 裁决归属。
+- **工作树事故与修复（如实披露）**：派发后同工作树有并行 Agent 活动，其 `adaf3b51e`/
+  `281094adc` 两提交与本卡 6 提交先后叠上 `codex/e2e-clean-20261004`。已用临时 worktree
+  cherry-pick 重建：本卡分支 = `70a56f6bc` + 本卡 6 提交（`5b362471c..96b04fb0e`），
+  `codex/e2e-clean-20261004` 已归位其自有 tip `281094adc`。外来两提交只碰
+  `scripts/e2e/*` 与 `packages/editor`，本卡 4 个目标源文件字节不变，反控四 hash 证据
+  仍然有效；全量双跑已在正确拓扑重跑。
+
+## 下一位 Agent 提示词
+
+Codex 独立验收：读本卡与
+[证据 README](../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)，复跑
+`node packages/reforge/scripts/hl1-mutation-counterproof.mjs`（4 注入应全 PASS 且源恢复）、
+`node packages/reforge/scripts/hl1-identity-status.mjs`、
+`node packages/reforge/scripts/hl1-family-ledger.mjs`（再生成零 diff）、
+`pnpm --filter @type-pal/reforge run typecheck`、定向 4 文件与全量 fast、`pnpm lint`、
+`pnpm check:docs`。核对 identity/family/counterproof/delta 四账与 U 账锚点；重点抽查：
+反控指定 AssertionError 是否唯一归因、U6/U12/U18 类型/常量论证是否成立、29 合同是否与
+既有 fullName 重复状态轴、标题读档/视频取消两处 main 合同的观测面是否只用公开口。
+裁决 accept/counter/rework；未验收前不合 main、不标 done。

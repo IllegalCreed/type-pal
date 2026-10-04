@@ -81,7 +81,6 @@ await writeFile(
   path.join(evidenceDir, 'hl1-branch-delta.json'),
   `${JSON.stringify(
     {
-      generatedAt: new Date().toISOString(),
       baselineLcov: 'coverage/hl1-baseline/lcov.info(运行产物)',
       finalLcov: 'coverage/hl1-final/lcov.info(运行产物)',
       totals: { closedArms: closedTotal, lostArms: lostTotal },
