@@ -51,10 +51,20 @@ Capability: test-quality / coverage branch closure
 交付时在本卡登记每个合同的源锚、合法输入、oracle、fullName、三态反控和覆盖变化，并给出
 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
 
-## GLM 交付回执（r4 返工，2026-10-04，待 Codex 独立验收）
+## GLM 交付回执（r5 窄返工，2026-10-04，待 Codex 独立验收）
 
 - 候选分支 `codex/coverage85-glm-reforge-r1`（dispatch tip `76475c01c` 起，产品文件零改动，
   `git status` 仅新增本卡测试/脚本/证据）。
+- **r5 窄返工（Codex 六项）**：① 删除误提交的字面量名文件 `packages/reforge/\$\{identityJsonPath\}`
+  （r4 模板转义 bug 的产物）；② 反控回执 r5 重设计——clean 树前置强制、stdout/stderr 全量
+  raw 文件入库（c85-counterproof-raw/，entry 只存路径）、executedSet/skippedSet 分账
+  （skipped/pending 不入 credited 集合）、唯一业务 AssertionError（file×fullName+message+
+  expectedErrorPart 指定匹配）、四态 hash 且 rebuilt 非空硬校验、变异前后树必须 clean、
+  mkdtemp+finally 全临时文件清理；③ ledger/delta 脚本复跑后提交 JSON `git diff` 为空
+  （逐字节可再生成，无绝对 worktree 路径、无固定 /tmp 路径）；④ `-t` 过滤的 executed/skipped
+  分集记录进回执；⑤ 诚实覆盖率维持 80.44%（9787/12166，+130），未声称 85%，剩余可达分支
+  后续范围不变；⑥ 全套门重跑后双段提交（主提交 + 干净树回执提交）。
+
 - **r4 返工（Codex 七项）**：① 反控回执改为干净 checkout 流程生成（先提交全部工作使
   工作树 clean，再跑驱动，回执独立提交入库；本版 workingTree 快照为空 = 当前 SHA 有效
   证据）；② 回执字段齐备（command/cwd/env digest/stdout stderr/exit signal spawn/

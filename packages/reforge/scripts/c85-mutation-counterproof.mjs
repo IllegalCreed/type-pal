@@ -1,98 +1,44 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process'
-// TEST-COVERAGE85-GLM-REFORGE-1 — 真实注入点三态反控驱动(r3)。
-// 对每个注入点:原始(绿) → 变异产品源(指定 AssertionError 红) → 恢复(绿)。
-// 每次变异写入都在 try/finally 中恢复;回执逐注入记录:
-//   original/mutant/restored/rebuilt 四个 sha256、三次运行的 command/cwd/env(子集+digest)/
-//   exitCode/signal/spawnError/stdout 尾/stderr 尾、test file×fullName 执行身份、
-//   指定 AssertionError 全文,以及 before/after 工作树快照(零临时目录、零残留证明)。
-// 回执写入提交内证据目录 src/__tests__/coverage85/c85-mutation-counterproof.json。
+// TEST-COVERAGE85-GLM-REFORGE-1 — 真实注入点三态反控驱动(r5)。
+// 流程前置:工作树必须 clean(否则 abort)。每注入:原始(绿)→变异(指定业务 AssertionError 红)
+// →恢复(绿)。运行采用 default+json 双 reporter:stdout/stderr 全量原始文件入库
+// (src/__tests__/coverage85/c85-counterproof-raw/),json 供 executedSet/skippedSet 分账
+// (skipped/pending 不入 credited execution set)与唯一业务 AssertionError 提取。
+// 四态 hash(original/mutant/restored/rebuilt)、mkdtemp 临时目录 + finally 清理、
+// 变异前后工作树快照(必须 clean)、vitest4 -t 零匹配 exit0 的 vacuous 硬防。
 // 用法: node scripts/c85-mutation-counterproof.mjs
 import { createHash } from 'node:crypto'
-import { readFile, writeFile } from 'node:fs/promises'
+import { existsSync, readFileSync } from 'node:fs'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 
 const pkgRoot = path.resolve(import.meta.dirname, '..')
 const repoRoot = path.resolve(pkgRoot, '..', '..')
 const evidenceDir = path.join(pkgRoot, 'src', '__tests__', 'coverage85')
-const OUTPUT_TAIL = 6000
-
-// 工作树快照:驱动全程零临时文件/零残留证明(变异在源文件原位进行并在 finally 恢复)
-const gitStatus = () => {
-  const result = spawnSync('git', ['status', '--porcelain', 'packages/reforge'], {
-    cwd: repoRoot,
-    encoding: 'utf8',
-    timeout: 30_000,
-  })
-  return (result.stdout ?? '').trim()
-}
+const rawDir = path.join(evidenceDir, 'c85-counterproof-raw')
 
 const sha256 = (text) => createHash('sha256').update(text, 'utf8').digest('hex')
 
-const vitestArgs = (testFile, testName) => [
-  '--filter',
-  '@type-pal/reforge',
-  'exec',
-  'vitest',
-  'run',
-  testFile,
-  '-t',
-  testName,
-]
-
-const runVitest = (testFile, testName) => {
-  const command = vitestArgs(testFile, testName)
-  const envSubset = {
-    TYPE_PAL_COVERAGE: process.env.TYPE_PAL_COVERAGE ?? null,
-    TYPE_PAL_COVERAGE_PROFILE: process.env.TYPE_PAL_COVERAGE_PROFILE ?? null,
-    NODE_ENV: process.env.NODE_ENV ?? null,
-    CI: process.env.CI ?? null,
-  }
-  const envDigest = createHash('sha256')
-    .update(JSON.stringify({ ...process.env, ...envSubset }))
-    .digest('hex')
-  const result = spawnSync('pnpm', command, {
-    cwd: repoRoot,
-    env: process.env,
-    encoding: 'utf8',
-    timeout: 180_000,
-    maxBuffer: 16 * 1024 * 1024,
-  })
-  const stdout = result.stdout ?? ''
-  const stderr = result.stderr ?? ''
-  const output = `${stdout}\n${stderr}`
-  // vitest4 -t 零匹配陷阱:全 skipped 也 exit0 —— 视为 vacuous,不得当作绿/红证据
-  const summaryMatch = output.match(/Tests\s+([^\n]*)\((\d+)\)/)
-  const vacuous =
-    summaryMatch?.[1].includes('skipped') === true &&
-    summaryMatch[1].includes('passed') === false &&
-    summaryMatch[1].includes('failed') === false
-  return {
-    command: ['pnpm', ...command],
-    cwd: repoRoot,
-    env: envSubset,
-    envDigest,
-    exitCode: result.status,
-    signal: result.signal ?? null,
-    spawnError: result.error ? result.error.message : null,
-    timedOut: result.signal === 'SIGTERM' || Boolean(result.error),
-    stdoutTail: stdout.length > OUTPUT_TAIL ? stdout.slice(-OUTPUT_TAIL) : stdout,
-    stderrTail: stderr.length > OUTPUT_TAIL ? stderr.slice(-OUTPUT_TAIL) : stderr,
-    vacuous,
-    output,
-    outputTail: output.length > OUTPUT_TAIL ? output.slice(-OUTPUT_TAIL) : output,
-  }
-}
-
-const extractAssertionError = (output) => {
-  const match = output.match(
-    /AssertionError: ([^\n]*(?:\n(?! *[⎯❯]|Tests |Test Files |Duration).*)*)/,
+// 树清洁判定排除驱动自身的证据输出目录(raw/receipt);产品源变异与临时目录残留仍在监测域内
+const gitStatus = () => {
+  const result = spawnSync(
+    'git',
+    ['status', '--porcelain', '--', '.', ':(exclude)packages/reforge/src/__tests__/coverage85'],
+    { cwd: repoRoot, encoding: 'utf8', timeout: 30_000 },
   )
-  return match ? `AssertionError: ${match[1].trim()}` : null
+  return (result.stdout ?? '').trim()
 }
 
-const keyVar = `$\u007bkey}`
+// 前置:整个驱动只在 clean 树上运行;receipt 因此是当前 SHA 的有效证据
+const initialTree = gitStatus()
+if (initialTree !== '') {
+  console.error(`ABORT: working tree not clean before run:\n${initialTree}`)
+  process.exit(2)
+}
+
+const keyVar = '$' + '{key}'
 const injections = [
   {
     id: 'SR-FADE-DEFAULT',
@@ -145,7 +91,10 @@ const injections = [
   {
     id: 'MOTION-DUPLICATE-GUARD',
     source: 'src/entity-motion.ts',
-    original: `if (seen.has(key)) throw new Error(\`entity-motion: duplicate snapshot actor ${keyVar}\`)`,
+    original:
+      'if (seen.has(key)) throw new Error(`entity-motion: duplicate snapshot actor ' +
+      keyVar +
+      '`)',
     mutated: `if (false) throw new Error(\`entity-motion: duplicate snapshot actor ${keyVar}\`)`,
     testFile: 'src/entity-motion.c85-arms.test.ts',
     testName: '非法快照臂',
@@ -182,10 +131,117 @@ const injections = [
   },
 ]
 
+const parseJsonReport = (reportPath) => {
+  const executed = []
+  const skipped = []
+  let assertionFailures = []
+  if (!existsSync(reportPath)) return { executed, skipped, assertionFailures }
+  const report = JSON.parse(readFileSync(reportPath, 'utf8'))
+  for (const testResult of report.testResults ?? []) {
+    const file = String(testResult.name ?? '').replace(
+      /^.*packages\/reforge\//,
+      'packages/reforge/',
+    )
+    for (const assertion of testResult.assertionResults ?? []) {
+      const entry = {
+        file,
+        fullName: String(assertion.fullName ?? assertion.title ?? ''),
+        status: assertion.status,
+      }
+      if (assertion.status === 'passed' || assertion.status === 'failed') executed.push(entry)
+      else skipped.push(entry) // skipped/pending/todo 一律不入 credited set
+      if (assertion.status === 'failed')
+        for (const message of assertion.failureMessages ?? [])
+          if (String(message).includes('AssertionError') || String(message).includes('__VITEST_'))
+            assertionFailures.push({ ...entry, message: String(message) })
+    }
+  }
+  // 唯一业务 AssertionError:同文案多来源去重,保留 file×fullName 归属
+  const seen = new Set()
+  assertionFailures = assertionFailures.filter((failure) => {
+    const key = `${failure.file}::${failure.fullName}::${failure.message}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+  return { executed, skipped, assertionFailures }
+}
+
+await mkdir(rawDir, { recursive: true })
+const runVitest = async (testFile, testName, phase, id) => {
+  const runTempDir = await mkdtemp(path.join(pkgRoot, '.c85-counterproof-tmp-'))
+  try {
+    const jsonPath = path.join(runTempDir, 'report.json')
+    const command = [
+      '--filter',
+      '@type-pal/reforge',
+      'exec',
+      'vitest',
+      'run',
+      testFile,
+      '-t',
+      testName,
+      '--reporter=default',
+      '--reporter=json',
+      `--outputFile.json=${jsonPath}`,
+    ]
+    const envSubset = {
+      TYPE_PAL_COVERAGE: process.env.TYPE_PAL_COVERAGE ?? null,
+      TYPE_PAL_COVERAGE_PROFILE: process.env.TYPE_PAL_COVERAGE_PROFILE ?? null,
+      NODE_ENV: process.env.NODE_ENV ?? null,
+      CI: process.env.CI ?? null,
+    }
+    const envDigest = createHash('sha256')
+      .update(JSON.stringify({ ...process.env, ...envSubset }))
+      .digest('hex')
+    const result = spawnSync('pnpm', command, {
+      cwd: repoRoot,
+      env: process.env,
+      encoding: 'utf8',
+      timeout: 180_000,
+      maxBuffer: 32 * 1024 * 1024,
+    })
+    const report = parseJsonReport(jsonPath)
+    const vacuous = report.executed.length === 0
+    return {
+      spawn: {
+        command: ['pnpm', ...command],
+        cwd: repoRoot,
+        env: envSubset,
+        envDigest,
+        exitCode: result.status,
+        signal: result.signal ?? null,
+        spawnError: result.error ? result.error.message : null,
+        timedOut: result.signal === 'SIGTERM' || Boolean(result.error),
+      },
+      vacuous,
+      executedSet: report.executed,
+      skippedSet: report.skipped,
+      assertionFailures: report.assertionFailures,
+      stdoutRawPath: `src/__tests__/coverage85/c85-counterproof-raw/${id}.${phase}.stdout`,
+      stderrRawPath: `src/__tests__/coverage85/c85-counterproof-raw/${id}.${phase}.stderr`,
+      stdout: result.stdout ?? '',
+      stderr: result.stderr ?? '',
+    }
+  } finally {
+    await rm(runTempDir, { recursive: true, force: true })
+  }
+}
+
+// 全量 stdout/stderr 只落 raw 文件;JSON entry 仅存路径,避免与 raw 重复
+const withoutRawBodies = (run) => {
+  const { stdout: _stdout, stderr: _stderr, ...rest } = run
+  return rest
+}
+
+const persistRaw = async (run) => {
+  await writeFile(path.join(pkgRoot, run.stdoutRawPath), run.stdout, 'utf8')
+  await writeFile(path.join(pkgRoot, run.stderrRawPath), run.stderr, 'utf8')
+}
+
 const receipt = {
   driver: 'packages/reforge/scripts/c85-mutation-counterproof.mjs',
-  generatedAt: new Date().toISOString(),
-  repoRoot,
+  note: 'r5:清洁树前置;executedSet 只含 passed/failed(skipped/pending 不入 credited set);raw stdout/stderr 全量入库 c85-counterproof-raw/;四态 hash;mkdtemp+finally 零残留;vacuous(-t 零匹配 exit0)硬防。',
   injections: [],
 }
 let failures = 0
@@ -197,103 +253,107 @@ for (const injection of injections) {
     source: injection.source,
     testFile: injection.testFile,
     fullName: injection.testName,
-    identity: `pnpm --filter @type-pal/reforge exec vitest run ${injection.testFile} -t ${injection.testName}`,
+    identity:
+      'pnpm --filter @type-pal/reforge exec vitest run ' +
+      injection.testFile +
+      ' -t ' +
+      injection.testName,
     expectedErrorPart: injection.expectedErrorPart,
-    workingTreeBefore: gitStatus(),
   }
   try {
-    const originalText = await readFile(file, 'utf8')
+    const treeBefore = gitStatus()
+    entry.treeBeforeMutation = treeBefore
+    entry.treeCleanBeforeMutation = treeBefore === ''
+    const originalText = await readFileUtf8(file)
     entry.originalSha256 = sha256(originalText)
-    if (!originalText.includes(injection.original)) {
-      entry.error = 'ORIGINAL_SNIPPET_NOT_FOUND'
-      entry.pass = false
-      failures++
-      receipt.injections.push(entry)
-      console.log(`FAIL ${injection.id}: snippet missing`)
-      continue
-    }
-    const originalRun = runVitest(injection.testFile, injection.testName)
-    entry.original = {
-      command: originalRun.command,
-      cwd: originalRun.cwd,
-      env: originalRun.env,
-      envDigest: originalRun.envDigest,
-      exitCode: originalRun.exitCode,
-      signal: originalRun.signal,
-      spawnError: originalRun.spawnError,
-      timedOut: originalRun.timedOut,
-      stdoutTail: originalRun.stdoutTail,
-      stderrTail: originalRun.stderrTail,
-      outputTail: originalRun.outputTail,
-    }
-    entry.originalVacuous = originalRun.vacuous
-    entry.originalGreen = originalRun.exitCode === 0 && !originalRun.vacuous
+    if (!originalText.includes(injection.original)) throw new Error('ORIGINAL_SNIPPET_NOT_FOUND')
+
+    const originalRun = await runVitest(
+      injection.testFile,
+      injection.testName,
+      'original',
+      injection.id,
+    )
+    await persistRaw(originalRun)
+    entry.original = withoutRawBodies(originalRun)
+    entry.originalGreen =
+      originalRun.spawn.exitCode === 0 &&
+      !originalRun.vacuous &&
+      originalRun.executedSet.some((t) => t.status === 'passed')
+
     let mutatedRun = null
     try {
       const mutantText = originalText.replace(injection.original, injection.mutated)
       await writeFile(file, mutantText)
       entry.mutantSha256 = sha256(mutantText)
       entry.mutationApplied = entry.mutantSha256 !== entry.originalSha256
-      mutatedRun = runVitest(injection.testFile, injection.testName)
-      entry.mutated = {
-        command: mutatedRun.command,
-        cwd: mutatedRun.cwd,
-        env: mutatedRun.env,
-        envDigest: mutatedRun.envDigest,
-        exitCode: mutatedRun.exitCode,
-        signal: mutatedRun.signal,
-        spawnError: mutatedRun.spawnError,
-        timedOut: mutatedRun.timedOut,
-        stdoutTail: mutatedRun.stdoutTail,
-        stderrTail: mutatedRun.stderrTail,
-        outputTail: mutatedRun.outputTail,
-      }
-      entry.mutatedVacuous = mutatedRun.vacuous
-      entry.mutatedRed = mutatedRun.exitCode !== 0 && !mutatedRun.vacuous
-      entry.assertionError = extractAssertionError(mutatedRun.output)
-      entry.specifiedAssertionMatched =
-        entry.mutatedRed && entry.assertionError?.includes(injection.expectedErrorPart) === true
+      mutatedRun = await runVitest(injection.testFile, injection.testName, 'mutated', injection.id)
+      await persistRaw(mutatedRun)
+      entry.mutated = withoutRawBodies(mutatedRun)
+      entry.mutatedRed =
+        mutatedRun.spawn.exitCode !== 0 &&
+        !mutatedRun.vacuous &&
+        mutatedRun.executedSet.some((t) => t.status === 'failed')
+      entry.assertionFailures = mutatedRun.assertionFailures
+      const matched = mutatedRun.assertionFailures.find((failure) =>
+        failure.message.includes(injection.expectedErrorPart),
+      )
+      entry.businessAssertionError = matched ?? null
+      entry.specifiedAssertionMatched = matched !== undefined
     } finally {
-      // 无论变异运行结果如何,finally 恢复原始源并逐字节复核
       await writeFile(file, originalText)
-      const restoredText = await readFile(file, 'utf8')
+      const restoredText = await readFileUtf8(file)
       entry.restoredSha256 = sha256(restoredText)
       entry.sourceRestoredByteIdentical = restoredText === originalText
-      const restoredRun = runVitest(injection.testFile, injection.testName)
-      entry.restored = {
-        command: restoredRun.command,
-        cwd: restoredRun.cwd,
-        env: restoredRun.env,
-        envDigest: restoredRun.envDigest,
-        exitCode: restoredRun.exitCode,
-        signal: restoredRun.signal,
-        spawnError: restoredRun.spawnError,
-        timedOut: restoredRun.timedOut,
-        stdoutTail: restoredRun.stdoutTail,
-        stderrTail: restoredRun.stderrTail,
-        outputTail: restoredRun.outputTail,
-      }
-      entry.restoredVacuous = restoredRun.vacuous
-      entry.restoredGreen = restoredRun.exitCode === 0 && !restoredRun.vacuous
-      // rebuilt:恢复运行结束后再次读取源文件 —— 证明恢复运行本身未再改动源
-      entry.rebuiltSha256 = sha256(await readFile(file, 'utf8'))
+      const restoredRun = await runVitest(
+        injection.testFile,
+        injection.testName,
+        'restored',
+        injection.id,
+      )
+      await persistRaw(restoredRun)
+      entry.restored = withoutRawBodies(restoredRun)
+      entry.restoredGreen =
+        restoredRun.spawn.exitCode === 0 &&
+        !restoredRun.vacuous &&
+        restoredRun.executedSet.some((t) => t.status === 'passed')
+      entry.rebuiltSha256 = sha256(await readFileUtf8(file))
       entry.rebuiltEqualsOriginal = entry.rebuiltSha256 === entry.originalSha256
     }
-    entry.workingTreeAfter = gitStatus()
-    entry.workingTreeUnchanged = entry.workingTreeBefore === entry.workingTreeAfter
+    const treeAfter = gitStatus()
+    entry.treeAfterRestoration = treeAfter
+    entry.treeCleanAfterRestoration = treeAfter === ''
     const pass =
+      entry.treeCleanBeforeMutation &&
+      entry.treeCleanAfterRestoration &&
       entry.originalGreen &&
       entry.mutationApplied &&
       entry.mutatedRed &&
       entry.specifiedAssertionMatched &&
+      entry.businessAssertionError !== null &&
       entry.restoredGreen &&
       entry.sourceRestoredByteIdentical &&
       entry.rebuiltEqualsOriginal &&
-      entry.workingTreeUnchanged
+      typeof entry.rebuiltSha256 === 'string' &&
+      entry.rebuiltSha256.length === 64
     entry.pass = pass
     if (!pass) failures++
     console.log(
-      `${pass ? 'PASS' : 'FAIL'} ${injection.id}: original=${entry.originalGreen} mutated=${entry.mutatedRed} restored=${entry.restoredGreen} matched=${entry.specifiedAssertionMatched} hashRestored=${entry.sourceRestoredByteIdentical} rebuilt=${entry.rebuiltEqualsOriginal} treeClean=${entry.workingTreeUnchanged}`,
+      (pass ? 'PASS' : 'FAIL') +
+        ' ' +
+        injection.id +
+        ': original=' +
+        entry.originalGreen +
+        ' mutated=' +
+        entry.mutatedRed +
+        ' restored=' +
+        entry.restoredGreen +
+        ' matched=' +
+        entry.specifiedAssertionMatched +
+        ' rebuilt=' +
+        entry.rebuiltEqualsOriginal +
+        ' treeClean=' +
+        (entry.treeCleanBeforeMutation && entry.treeCleanAfterRestoration),
     )
   } catch (error) {
     entry.error = error instanceof Error ? error.message : String(error)
@@ -306,11 +366,22 @@ for (const injection of injections) {
 
 receipt.injectionCount = receipt.injections.length
 receipt.failureCount = failures
+receipt.executedSetPolicy =
+  'executedSet 只计入 status=passed|failed 的测试;skipped/pending/todo 记录在 skippedSet,不进入任何 credited 集合;vacuous(executedSet 为空)运行不作为绿/红证据。'
 await writeFile(
   path.join(evidenceDir, 'c85-mutation-counterproof.json'),
   `${JSON.stringify(receipt, null, 1)}\n`,
+  'utf8',
 )
 console.log(
-  `\nreceipt: src/__tests__/coverage85/c85-mutation-counterproof.json (${receipt.injectionCount} injections, ${failures} failures)`,
+  '\nreceipt: src/__tests__/coverage85/c85-mutation-counterproof.json (' +
+    receipt.injectionCount +
+    ' injections, ' +
+    failures +
+    ' failures) + raw outputs in c85-counterproof-raw/',
 )
 process.exit(failures === 0 ? 0 : 1)
+
+async function readFileUtf8(file) {
+  return readFileSync(file, 'utf8')
+}

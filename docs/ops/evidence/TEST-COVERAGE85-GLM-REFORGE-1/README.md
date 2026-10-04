@@ -1,7 +1,7 @@
 # TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r4）
 
 Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dispatch tip `76475c01c`）
-状态: 待 Codex 独立验收（不合 main、不标 done）。r1 `76f3c6bf2` → r2 `746f0c4f8` → r3 `4cef72844` → r4 本版（本目录从 docs/testing 迁入，docs/testing/README.md 越界行已撤）。
+状态: 待 Codex 独立验收（不合 main、不标 done）。r1 `76f3c6bf2` → r2 `746f0c4f8` → r3 `4cef72844` → r4 `75a12d84b`+`3c19c45cb` → r5 本版。
 
 ## 度量（fast 口径，与官方 runner 同参数）
 
@@ -66,7 +66,19 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
   即 battle-core.ts:651/654/663）。
 - battle-session：fleeBattle 演出臂与 `battle-session.test.ts:1405` 重复，已删。
 
-## 反控回执（r4 字段与清洁生成流程）
+## 反控回执（r5 字段与清洁生成流程）
+
+r5 设计：驱动**前置强制 clean 树**（非 clean 直接 abort，receipt 因此绑定当前 SHA）；
+每针三次运行采用 default+json 双 reporter——stdout/stderr **全量原始文件**入库
+`packages/reforge/src/__tests__/coverage85/c85-counterproof-raw/<ID>.<phase>.stdout/.stderr`
+（JSON entry 只存路径不存正文）；json report 解析出 `executedSet`（status=passed|failed）
+与 `skippedSet`（skipped/pending/todo，**不进入任何 credited 集合**）；`vacuous`
+（executedSet 为空，即 vitest4 `-t` 零匹配 exit0 陷阱）硬防；变异命中的唯一业务
+AssertionError 以 `businessAssertionError`（file×fullName+message）记录并按
+`expectedErrorPart` 指定匹配；四态 hash original/mutant/restored/rebuilt（rebuilt 非空且
+=original 硬校验）；变异前后工作树快照必须 clean；驱动临时文件全部 mkdtemp+finally 清理。
+
+（历史：r4 起回执在干净树上生成；r3 及以前的 dirty-tree 回执仅作历史，不作证据。）
 
 r4 起回执在**干净 checkout**上生成：先提交全部工作（工作树 clean），再运行驱动，回执作为
 独立提交入库——`workingTreeBefore/After` 快照在本版为空串（零 M/??），即当前 SHA 的有效
