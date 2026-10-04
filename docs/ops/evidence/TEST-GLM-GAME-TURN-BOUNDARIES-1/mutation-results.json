@@ -1,0 +1,473 @@
+{
+  "card": "TEST-GLM-GAME-TURN-BOUNDARIES-1",
+  "testFile": "src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
+  "originalGreen": {
+    "exitCode": 0,
+    "tests": 15,
+    "allPassed": true,
+    "identitySha": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+  },
+  "sourceOriginalSha": {
+    "sys": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+    "fin": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c"
+  },
+  "sourceFinalSha": {
+    "sys": "0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+    "fin": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c"
+  },
+  "sourceRestoredByteIdentical": true,
+  "verdicts": [
+    {
+      "id": "MUT-01",
+      "target": "finalizeBattle lost 归类",
+      "file": "packages/game/src/core/battle/battle-finalization.ts",
+      "find": "        ? 'lost'",
+      "replace": "        ? 'fled'",
+      "mutatedSha": "077969ba97206a9bc92ad2dc6cfab3eab398eb77386847cdaa5b57f5ae68daed",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 finalizeBattle lost 归类:resume 接回 lostIp + 战斗 MP 回写 runtime(战败不伪复活)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 33 to be 22 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:169:32\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "1ea53653965433fd3c5dcb06be6474964894b2d35381f3e0f9a835b326592013",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-02",
+      "target": "finalizeBattle forced",
+      "file": "packages/game/src/core/battle/battle-finalization.ts",
+      "find": "      ? 'won'",
+      "replace": "      ? 'fled'",
+      "mutatedSha": "9b566806533837a755c01151d8c1f163cc3fb6d5814cdbb72b7dd66b11f93ad7",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 finalizeBattle forced(看门狗)归类 won:非终态 phase 强制收场也接回 wonIp",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 33 to be 11 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:187:32\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "f65e31f539f5a551d89e7978a0a7b1515304e88d37d7f30698f860d49d1a82cd",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-03",
+      "target": "行动倍率 flee ×0.5 floor",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "    case 'flee':\n      return 0.5",
+      "replace": "    case 'flee':\n      return 1",
+      "mutatedSha": "9724a8815074985c65c8865171df7b82679b435b9237a0d259c2f8da5d31bd14",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动倍率 flee ×0.5 floor(L10,fight.c:1547):奇数 dex 逃跑者降到攻击者与敌人之后",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected [ [ false, +0, 21 ], …(2) ] to deeply equal [ [ false, 1, 21 ], …(2) ]\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:207:66\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "d0d9a016427f0dd10f4e711a4089e12fdef4aee5d311a72477d90fedb4806d65",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-04",
+      "target": "行动倍率 item ×3",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "    case 'item':\n      return 3",
+      "replace": "    case 'item':\n      return 1",
+      "mutatedSha": "5f72355a10b80ad3e1b6b3831356953aabd8a803875173fd3b9e4b7b626af32b",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动倍率 item ×3(fight.c:1549):物品动作压过基础 dex 更高的攻击者",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected [ [ false, 1, 20 ], …(2) ] to deeply equal [ [ false, +0, 24 ], …(2) ]\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:227:66\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "21595d0dc1a45709d37f9ca91c3d758a26abd274c2db6f3b50b84c58bbacad1c",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-05",
+      "target": "濒死 ÷2",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "dex = Math.floor(dex / 2)",
+      "replace": "dex = dex",
+      "mutatedSha": "fea6043fa5da6a8f93cc42f87c4c4f46a01d2fd3a54fe4f329621be70bc97a44",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 濒死 ÷2(fight.c:1558):濒死队员行动序降到健康低 dex 队员之后",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected [ [ false, +0, 30 ], …(2) ] to deeply equal [ [ false, 1, 20 ], …(2) ]\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:250:66\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "f3303bcdbedd24d735cc58e16bfb86e0f74bd59a72c47d694b21eb4ebb65e121",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-06",
+      "target": "行动项死亡敌人跳过",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (enemy && !enemy.defeated && enemy.e.health > 0) {",
+      "replace": "if (enemy && enemy.e.health >= 0) {",
+      "mutatedSha": "0277e9c07f1798cce8c8596924bc8a48767bad4695e43631dab420d60c147a09",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 行动项死亡敌人跳过:被先手击杀的敌人轮到时不行动(存活敌照常轮转)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 9003 to be 9999 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:281:38\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "442ee32d7672a988038ae71ef87456347c962f6266ef19fd9c5416444ba8f8db",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-07",
+      "target": "fleeAnim 逐步位移只挪活队员",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (!role || role.hp <= 0) return\n      p.currentFrame = 0",
+      "replace": "if (!role) return\n      p.currentFrame = 0",
+      "mutatedSha": "93fdb1bc3c8e3ba21ea4d2536e4d541ebd6da90349e3a42d91abc2c2db302340",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 fleeAnim 逐步位移只挪活队员:战内阵亡者保持原位(battle.c:1469 只挪活人)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected { x: 261, y: 156 } to deeply equal { x: 256, y: 152 }\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:335:32\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "6e0ca9f03f869450492c5590ce34301bcbdb57ef4cde2811f3757aa30cdf8bf8",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-08",
+      "target": "enemyEscapeAnim 死敌槽不位移",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (e.defeated || e.e.health <= 0 || !e.pos) continue",
+      "replace": "if (e.e.health <= 0 || !e.pos) continue",
+      "mutatedSha": "f4de76e8d84c5e05ebc14abd3de983705e17c3512b8ef9d847bbd27e5c7d77a9",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 enemyEscapeAnim 死敌槽不位移:0x69 触发后仅活敌左移(battle.c:1408 死敌跳过)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 80 to be 100 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:353:35\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "07b80214dc74ab5aa783a96082947d17bf6a20ffd66ea99d719b11116f3fc058",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-09",
+      "target": "玩家毒 tick",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (typeof next === 'number') ps.wPoisonScript = next",
+      "replace": "if (typeof next === 'number') void next",
+      "mutatedSha": "b8c921fd2bec0532892fa3c9f7eaac05e8771082e000ed9e636abe960e36bdfd",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 玩家毒 tick:回合末每毒槽跑 wPoisonScript 扣血 + 返回值回写推进毒链(fight.c:1624)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 1 to be 3 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:383:53\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "f05d3627e6c24280d7a86d8388b448f556a84254eebac76817e6699b69ed927d",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-10",
+      "target": "DM12",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (poisonChangedHp) state.roundEndDelayTicks = 8",
+      "replace": "if (false) state.roundEndDelayTicks = 8",
+      "mutatedSha": "39f8a68efd013f3b47046134d81e4dc8200dd2d47a231bf5b98fdc9bf7d1d114",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DM12:毒改 HP → 回合末 8 tick 停顿后才开下轮菜单(fight.c:1664-1668)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected undefined to be 8 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:408:35\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "a368684c122a594eaaf8ae964db8a3531040d99101d3666fe788e834802ec093",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-11",
+      "target": "跳过回合末毒结算",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (!battleDecidedByCombat) {",
+      "replace": "if (true) {",
+      "mutatedSha": "0ca4d101f5fe6534e69a83aa19b0023679773b39a703cffb5dfe2b697c33a8e0",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 战斗已分胜负的回合跳过回合末毒结算(普攻终结后毒不多扣一次,fight.c:1116-1150)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 90 to be 100 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:433:38\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "3858061bd03aaea8d9307c0a015c42a6630a0ed1e7f1f644db4b7e84901884ff",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-12",
+      "target": "DL3 fThisTurnCoop",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (state.fThisTurnCoop && action?.type !== 'coop-magic')",
+      "replace": "if (false)",
+      "mutatedSha": "53c560875036fd0261611c0826c6d0be1975eab223744b06dac52bad4eb63409",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DL3 fThisTurnCoop:合击后同回合后续玩家动作吞为 pass(无攻击伤害、无攻击隐藏经验)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 98972 to be 99999 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:456:37\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "ac475e9867e50dc1de605999ca0abd15c17df053d6ad8c2ce9b17840f49b548c",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-13",
+      "target": "DL1 prevPlayerAutoAtk 粘性",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "} else if (state.prevPlayerAutoAtk && action && action.type !== 'pass') {",
+      "replace": "} else if (false) {",
+      "mutatedSha": "807b688eea34ea5f60de0599fd353c4d85e6c0984f6675c451e25e5a703762dc",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 DL1 prevPlayerAutoAtk 粘性:围攻后手动防御被强制改普攻(防御经验 0/攻击经验 1)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 99999 to be less than 99999\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:477:37\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "8316249661b58559c7ab1a95230a21fcbceec1f5e00b62efe981902d43c1f555",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-14",
+      "target": "隐身期",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if ((state.iHidingTime ?? 0) > 0) return\n  for (let ei = 0",
+      "replace": "if (false) return\n  for (let ei = 0",
+      "mutatedSha": "d0a7fc07fdd0db1cb663217d397f45ef7b8d4133e6afd60345cfd1a664103b4a",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 隐身期(iHidingTime>0)敌整轮跳过包括 turnStart 脚本(不排嘲讽对话,fight.c:1680)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 1 to be +0 // Object.is equality\n    at /private/tmp/type-pal-glm-turn-r1/packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:501:47\n    at file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "8fa09653b2ac541f6b831da639c2020ef3e2cb41da15d1cb04f07f7729ee7ffc",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    },
+    {
+      "id": "MUT-15",
+      "target": "flee 成功即中止剩余队列",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "find": "if (tickBattleFleeAnim(state, res)) return",
+      "replace": "tickBattleFleeAnim(state, res)",
+      "mutatedSha": "4e0b4a8874cca2a0dfb5f81038edeb0462671a3e0132773260b63489a91c15ff",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-TURN-BOUNDARIES-1 flee 成功即中止剩余队列:后续队员的 flee 不再掷骰(逃跑音 45 恰一次)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected [ 45, 45 ] to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-glm-turn-r1/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 15
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "d6c5d23196e2ec6406fb665077b198119f9aa3c4554a158f94bf1ddd2a2953d3",
+        "restored": "92609842c3af5cab18424e7cf4dd0dc27185b8af6b31f19a202263eada3060b8"
+      }
+    }
+  ],
+  "validCount": 15,
+  "invalidCount": 0
+}
