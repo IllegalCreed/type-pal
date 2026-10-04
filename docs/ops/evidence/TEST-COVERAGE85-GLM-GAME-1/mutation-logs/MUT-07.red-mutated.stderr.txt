@@ -1,0 +1,22 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-system.cov85.test.ts > cov85r3 tickEventSystem waiting 家族(1480-1672) > frame-wait:逐帧递减 → 归零清 waiting + ip++ 续跑;waitGestureReset 复位行走帧(1480-1495)
+AssertionError: expected +0 to be 111 // Object.is equality
+
+- Expected
++ Received
+
+- 111
++ 0
+
+ ❯ src/core/event-system.cov85.test.ts:482:23
+    480|     expect(gs.walkingFrame.walking).toBe(false)
+    481|     tickEventSystem(gs, snapR3(), busStub())
+    482|     expect(gs.dwCash).toBe(111)
+       |                       ^
+    483|     expect(gs.eventCursor).toBeUndefined()
+    484|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

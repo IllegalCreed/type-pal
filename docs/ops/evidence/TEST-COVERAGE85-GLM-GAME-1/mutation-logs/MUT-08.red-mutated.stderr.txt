@@ -1,0 +1,24 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-system.cov85.test.ts > cov85r3 trigger/onEnter end 写回(1877-1960) > end + triggerOwnerId + advance → triggerResume={ip+1};plain → 不动;清场复位(1910-1944+)
+AssertionError: expected { ip: 2 } to deeply equal { ip: 1 }
+
+- Expected
++ Received
+
+  {
+-   "ip": 1,
++   "ip": 2,
+  }
+
+ ❯ src/core/event-system.cov85.test.ts:692:39
+    690|     gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
+    691|     tickEventSystem(gs, snapR3(), busStub())
+    692|     expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
+       |                                       ^
+    693|     expect(gs.eventCursor).toBeUndefined()
+    694|     expect(gs.currentDialogPortraitLayout).toBe(false)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

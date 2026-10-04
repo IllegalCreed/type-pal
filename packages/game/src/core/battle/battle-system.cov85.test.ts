@@ -7,6 +7,7 @@
  * lost/won/flee 主线/stall>1500(其 fixture 已证一臂)。
  */
 import type {
+  AbstractKey,
   BattleField,
   Command,
   Enemy,
@@ -22,7 +23,12 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { makeEnemy, makeField, makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
+import {
+  makeEnemy,
+  makeField,
+  makeRole,
+  seqRng,
+} from '../../__tests__/coverage85-glm-game/harness.js'
 import { type CommandBus, createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { startBattle, tickBattle, tickEnemyIdleGestures } from './battle-system.js'
@@ -35,6 +41,9 @@ interface BootOpts {
   enemies?: Enemy[]
   teamSlots?: [number, number, number, number, number]
   commands?: Command[]
+  spells?: Spell[]
+  magics?: Magic[]
+  objectMagics?: ObjectMagicView[]
 }
 
 interface Boot {
@@ -64,9 +73,9 @@ function boot(opts: BootOpts = {}): Boot {
     battleFields: [field],
     playerRoles,
     items: [] as Item[],
-    spells: [] as Spell[],
-    magics: [] as Magic[],
-    objectMagics: [] as ObjectMagicView[],
+    spells: opts.spells ?? ([] as Spell[]),
+    magics: opts.magics ?? ([] as Magic[]),
+    objectMagics: opts.objectMagics ?? ([] as ObjectMagicView[]),
     objectPoisons: [] as ObjectPoisonView[],
     objectPlayers: [] as ObjectPlayerView[],
     commands,
@@ -272,5 +281,148 @@ describe('cov85 tickBattle hold 守卫(420-449)', () => {
     st.phaseStallTicks = 0
     tickBattle(gs, emptyInput(), bus)
     expect(st.phase).toBe('performAction') // 被 hold,未推进
+  })
+})
+
+// ══════════════════════════════════════════════════════════════════════════
+// r3:tickBattle selectAction UI 状态机 / action queue dex / flee 拒绝路径
+// 公开 caller:tickBattle(input 经 InputSnapshot);pendingActions 为公开 Map 直填。
+// ══════════════════════════════════════════════════════════════════════════
+
+function snapB(pressed: AbstractKey[] = []): InputSnapshot {
+  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+}
+
+/** 推进到已起选指令菜单的 selectAction。 */
+function toSelectAction(fx: Boot): void {
+  tickBattle(fx.gs, emptyInput(), fx.bus) // preBattle → selectAction
+  tickBattle(fx.gs, emptyInput(), fx.bus) // turnStart(无脚本)+ 起菜单
+}
+
+function mkR3Magic(id: number, costMP: number): Magic {
+  return {
+    id,
+    effect: 1,
+    type: 'normal',
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 5,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 1,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP,
+    baseDamage: 0,
+    elemental: 0,
+    sound: 0,
+  }
+}
+
+describe('cov85r3 selectAction 主菜单与目标选择', () => {
+  it('方向选图标 + 无法术时 Right 拒绝回攻击;Confirm 攻击 → 单活敌同 tick 落账(1272-1286,1240-1243)', () => {
+    const fx = boot()
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    expect(st.uiState).toBe('selectMove')
+    expect(st.menuState).toBe('main')
+    tickBattle(fx.gs, snapB(['Down']), fx.bus)
+    expect(st.selectedAction).toBe(3)
+    tickBattle(fx.gs, snapB(['Up']), fx.bus)
+    expect(st.selectedAction).toBe(0)
+    tickBattle(fx.gs, snapB(['Right']), fx.bus) // 无 spells → isActionValid(2) false → 保持 0
+    expect(st.selectedAction).toBe(0)
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus)
+    expect(st.pendingActions.has(0)).toBe(true) // 单活敌 → 同 tick commit(draft 已清)
+    expect(st.pendingActionDraft).toBeUndefined()
+    expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
+  })
+
+  it('多敌:Confirm 攻击 → 留 selectTargetEnemy 等选;再 Confirm 落账目标(1213,1234-1243 多敌分支)', () => {
+    const fx = boot({
+      enemies: [makeEnemy(), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // main Confirm(attack)
+    expect(st.uiState).toBe('selectTargetEnemy') // 多敌不短路
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 选定当前光标目标
+    expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack' })
+  })
+
+  it('法术菜单:MP 不足禁用项 Confirm no-op(990-1025 disabled 臂)', () => {
+    const spells: Spell[] = [
+      {
+        id: 50,
+        magicNumber: 1,
+        scriptOnSuccess: 0,
+        scriptOnUse: 0,
+        scriptDesc: 0,
+        flags: {
+          usableOutsideBattle: false,
+          usableInBattle: true,
+          usableToEnemy: true,
+          applyToAll: false,
+        },
+      },
+    ]
+    const magics: Magic[] = [mkR3Magic(1, 99)]
+    const fx = boot({ spells, magics, roles: [makeRole(0, { magic: [50] })] })
+    fx.gs.PlayerRolesRuntime.rgwMagic[0]![0] = 50
+    fx.gs.PlayerRolesRuntime.rgwMP[0] = 10
+    fx.gs.PlayerRolesRuntime.rgwMaxMP[0] = 40
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    tickBattle(fx.gs, snapB(['Left']), fx.bus) // 有已学法术 → 1(法术)
+    expect(st.selectedAction).toBe(1)
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus)
+    expect(st.menuState).toBe('magicSelect')
+    expect(st.magicSelect?.items[0]?.disabled).toBe(true) // MP 10 < 99
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 禁用项 no-op
+    expect(st.menuState).toBe('magicSelect')
+    expect(st.pendingActions.has(0)).toBe(false)
+  })
+})
+
+describe('cov85r3 action queue 与 flee 拒绝路径', () => {
+  it('dex 排序:defend(×5)先于 attack(×1)进 actionQueue(602-624,712-716)', () => {
+    const fx = boot({ roles: [makeRole(0), makeRole(1)], partyMembers: [0, 1] })
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    st.pendingActions.set(0, { type: 'attack', actionId: 0, target: 0, targetSide: 'enemy' })
+    st.pendingActions.set(1, { type: 'defend', target: -1, targetSide: 'enemy' })
+    tickBattle(fx.gs, emptyInput(), fx.bus)
+    expect(st.phase).toBe('performAction')
+    const playerOrder = st.actionQueue.filter((q) => !q.isEnemy).map((q) => q.idx)
+    expect(playerOrder.indexOf(1)).toBeLessThan(playerOrder.indexOf(0)) // defend 先
+  })
+
+  it('flee 拒绝:roll > fleeRate → 失败演出,不入 fleed,战斗继续(flee.ts 失败臂)', () => {
+    const fx = boot({ enemies: [makeEnemy({ fleeRate: 50, level: 10 })] })
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    st.pendingActions.set(0, { type: 'flee', target: -1, targetSide: 'enemy' })
+    st.rng = seqRng([200]) // def=114 → roll=200 > str(5) → 失败
+    tickBattle(fx.gs, emptyInput(), fx.bus)
+    expect(st.fleeAnim).toBeUndefined()
+    expect(st.phase).not.toBe('fleed')
+    expect(fx.gs.battleState).toBeDefined()
+  })
+
+  it('flee 成功:str >= roll → fleeAnim 起 + 音 45(flee.ts 成功臂)', () => {
+    const fx = boot()
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    st.pendingActions.set(0, { type: 'flee', target: -1, targetSide: 'enemy' })
+    st.rng = seqRng([0, 0, 0, 0, 0, 0]) // 敌先行消耗若干掷后 flee roll=0 < str=5 → 成功
+    let guard = 120
+    while (!st.fleeAnim && fx.gs.battleState && guard-- > 0) {
+      tickBattle(fx.gs, emptyInput(), fx.bus) // 敌行动动画 hold 先放完,flee 轮到才执行
+    }
+    expect(guard).toBeGreaterThan(0) // 确实到达 flee 执行(非循环耗尽)
+    expect(fx.gs.pendingSounds).toContain(45)
   })
 })

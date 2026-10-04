@@ -7,10 +7,21 @@
  * 旧证去重:不重复 event-system.test.ts / glm-event-k01~k06 已证的 trigger 主循环、
  * 对话分页、opcode 语义与 palette-fade.test.ts 已证的 fade 步进。
  */
-import type { Command } from '@type-pal/shared'
-import { afterEach, describe, expect, it } from 'vitest'
-import { tickAutoScripts, tickSceneAutoFadeIn } from './event-system.js'
-import { createInitialGameState, type GameState, type NpcState } from './game-state.js'
+import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import {
+  setLoadLastSaveHandler,
+  tickAutoScripts,
+  tickEventSystem,
+  tickSceneAutoFadeIn,
+} from './event-system.js'
+import {
+  createInitialGameState,
+  type DialogBoxState,
+  type EventCursor,
+  type GameState,
+  type NpcState,
+} from './game-state.js'
 import { setGlobalEvents } from './script-catalog.js'
 
 function freshGs(): GameState {
@@ -28,6 +39,8 @@ function install(cmds: Command[]): GameState {
 
 afterEach(() => {
   setGlobalEvents([])
+  setLoadLastSaveHandler(null)
+  vi.restoreAllMocks()
 })
 
 describe('cov85 tickAutoScripts 前提门(1209-1252)', () => {
@@ -408,5 +421,403 @@ describe('cov85 tickSceneAutoFadeIn 门(700-730)', () => {
     const ride = mk(3)
     tickSceneAutoFadeIn(ride)
     expect(ride.paletteFadeState).toBeDefined()
+  })
+})
+
+// ══════════════════════════════════════════════════════════════════════════
+// r3:tickEventSystem waiting/resume/cancel + trigger/onEnter 生命周期
+// 公开 caller:tickEventSystem(gs, input, bus)(mode.ts event 模式每帧调)。
+// cursor 经 gs.eventCursor 公开 typed 字段构造;时间源 performance.now 用 spy(非业务核心)。
+// ══════════════════════════════════════════════════════════════════════════
+
+function snapR3(pressed: AbstractKey[] = []): InputSnapshot {
+  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+}
+
+const busStub = (): { emit: () => number; drain: () => []; complete: () => void } => ({
+  emit: () => 0,
+  drain: () => [],
+  complete: () => {},
+})
+
+/** 全局脚本:waitingIp 处挂起,waitingIp+1 = 0x1E 现金 +111(fall-through oracle)。 */
+function installWaitScript(waitingIp: number): GameState {
+  const commands: Command[] = []
+  for (let i = 0; i <= waitingIp + 2; i++) {
+    if (i === waitingIp + 1) commands.push({ op: 'raw', opcode: 0x1e, operands: [111, 0, 0] })
+    else commands.push({ op: 'end', label: `L_${i}` })
+  }
+  setGlobalEvents(commands)
+  const gs = freshGs()
+  gs.mode = 'event'
+  gs.dwCash = 0
+  return gs
+}
+
+function cursorAt(ip: number, extra: Partial<EventCursor> = {}): EventCursor {
+  return { ip, ...extra }
+}
+
+describe('cov85r3 tickEventSystem waiting 家族(1480-1672)', () => {
+  it('无 cursor → 直接切 explore(1473-1475)', () => {
+    const gs = freshGs()
+    gs.mode = 'event'
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.mode).toBe('explore')
+  })
+
+  it('frame-wait:逐帧递减 → 归零清 waiting + ip++ 续跑;waitGestureReset 复位行走帧(1480-1495)', () => {
+    const gs = installWaitScript(0)
+    gs.eventCursor = cursorAt(0, {
+      waiting: 'frame-wait',
+      waitFramesRemaining: 2,
+      waitGestureReset: true,
+    })
+    gs.walkingFrame.walking = true
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.eventCursor?.waiting).toBe('frame-wait')
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
+    expect(gs.walkingFrame.walking).toBe(false)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(111)
+    expect(gs.eventCursor).toBeUndefined()
+  })
+
+  it('camera-pan:每帧 camera += (dx,dy) 递减 → 归零清字段 + ip++ 续跑(1499-1512)', () => {
+    const gs = installWaitScript(1)
+    gs.eventCursor = cursorAt(1, {
+      waiting: 'camera-pan',
+      cameraPanFramesRemaining: 2,
+      cameraPanDx: 4,
+      cameraPanDy: 2,
+    })
+    const camX0 = gs.camera.x
+    const camY0 = gs.camera.y
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.camera.x).toBe(camX0 + 4)
+    expect(gs.camera.y).toBe(camY0 + 2)
+    expect(gs.eventCursor?.cameraPanFramesRemaining).toBe(1)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(111)
+    expect(gs.eventCursor?.cameraPanDx).toBeUndefined()
+  })
+
+  it('fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)', () => {
+    const gs = installWaitScript(0)
+    const now = vi.spyOn(performance, 'now').mockReturnValue(5000)
+    gs.eventCursor = cursorAt(0, { waiting: 'fade-screen' })
+    gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 4000, appliedSteps: 0 }
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(0) // elapsed 1000 < 2160 → 阻塞
+    now.mockReturnValue(6200)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.fadeState).toBeUndefined()
+    expect(gs.dwCash).toBe(111)
+    const gs2 = installWaitScript(0)
+    gs2.eventCursor = cursorAt(1, { waiting: 'fade-screen' }) // 防御臂不推 ip → 直落 0x1E
+    tickEventSystem(gs2, snapR3(), busStub())
+    expect(gs2.dwCash).toBe(111)
+  })
+
+  it('palette-fade 完成路径:finalize + ip++;未到阻塞(1537-1560)', () => {
+    const gs = installWaitScript(0)
+    vi.spyOn(performance, 'now').mockReturnValue(5000)
+    gs.eventCursor = cursorAt(0, { waiting: 'palette-fade' })
+    gs.paletteFadeState = {
+      startColors: [],
+      targetColors: [],
+      startTimeMs: 4900,
+      totalMs: 600,
+      mode: 'lerp',
+      steps: 6,
+      increment: 4,
+    }
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(0) // elapsed 100 < 600 → 阻塞
+    vi.spyOn(performance, 'now').mockReturnValue(5600)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(gs.dwCash).toBe(111)
+  })
+
+  it('palette-fade + 0x4E reloadSlotAfterFade:淡完停脚本并调 handler(1551-1556)', () => {
+    const gs = installWaitScript(0)
+    vi.spyOn(performance, 'now').mockReturnValue(5000)
+    const reloaded: number[] = []
+    setLoadLastSaveHandler((slot) => {
+      reloaded.push(slot)
+    })
+    gs.eventCursor = cursorAt(0, { waiting: 'palette-fade', reloadSlotAfterFade: 3 })
+    gs.paletteFadeState = {
+      startColors: [],
+      targetColors: [],
+      startTimeMs: 4900,
+      totalMs: 600,
+      mode: 'lerp',
+      steps: 6,
+      increment: 4,
+    }
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(reloaded).toEqual([])
+    vi.spyOn(performance, 'now').mockReturnValue(5600)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(reloaded).toEqual([3])
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.dwCash).toBe(0)
+  })
+
+  it('六个 modal waiting → 阻塞不步进(1574-1597)', () => {
+    for (const w of [
+      'shop',
+      'rng-play',
+      'show-fbp',
+      'scroll-fbp',
+      'ending-anim',
+      'quit',
+    ] as const) {
+      const gs = installWaitScript(0)
+      gs.eventCursor = cursorAt(0, { waiting: w })
+      tickEventSystem(gs, snapR3(['Confirm']), busStub())
+      expect(gs.dwCash).toBe(0)
+      expect(gs.eventCursor?.waiting).toBe(w)
+    }
+  })
+
+  it('scene-load:等 callback 替换 cursor,期间不步进;替换后续跑(1567-1569)', () => {
+    const gs = installWaitScript(0)
+    gs.eventCursor = cursorAt(0, { waiting: 'scene-load' })
+    tickEventSystem(gs, snapR3(), busStub())
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(0)
+    gs.eventCursor = cursorAt(1)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(111)
+  })
+
+  it('wait-key:无新按键/方向键阻塞;Confirm → 清 + ip++(1604-1611)', () => {
+    const gs = installWaitScript(0)
+    gs.eventCursor = cursorAt(0, { waiting: 'wait-key' })
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(0)
+    tickEventSystem(gs, snapR3(['Down']), busStub())
+    expect(gs.dwCash).toBe(0)
+    tickEventSystem(gs, snapR3(['Confirm']), busStub())
+    expect(gs.dwCash).toBe(111)
+  })
+
+  it('delay:未到 delayUntilMs 阻塞;到点清 + ip++(1664-1671)', () => {
+    const gs = installWaitScript(0)
+    const now = vi.spyOn(performance, 'now').mockReturnValue(1000)
+    gs.eventCursor = cursorAt(0, { waiting: 'delay', delayUntilMs: 2000 })
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(0)
+    now.mockReturnValue(2000)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(111)
+    expect(gs.eventCursor?.delayUntilMs).toBeUndefined()
+  })
+
+  it('confirm(0x0A):方向 toggle;默认否 Confirm → goto op0;Cancel=否;是 → ip++(1620-1652)', () => {
+    const commands: Command[] = [
+      { op: 'raw', opcode: 0x0a, operands: [9, 0, 0], label: 'L_0' },
+      { op: 'raw', opcode: 0x1e, operands: [111, 0, 0] },
+      { op: 'end', label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'end', label: 'L_4' },
+      { op: 'end', label: 'L_5' },
+      { op: 'end', label: 'L_6' },
+      { op: 'end', label: 'L_7' },
+      { op: 'end', label: 'L_8' },
+      { op: 'raw', opcode: 0x1e, operands: [222, 0, 0], label: 'L_9' },
+      { op: 'end', label: 'L_10' },
+    ]
+    const mk = (): GameState => {
+      setGlobalEvents([...commands])
+      const gs = freshGs()
+      gs.mode = 'event'
+      gs.dwCash = 0
+      gs.eventCursor = cursorAt(0, { waiting: 'confirm', confirmYes: false })
+      return gs
+    }
+    const no = mk()
+    tickEventSystem(no, snapR3(['Confirm']), busStub())
+    expect(no.dwCash).toBe(222)
+    const cancel = mk()
+    tickEventSystem(cancel, snapR3(['Cancel']), busStub())
+    expect(cancel.dwCash).toBe(222)
+    const yes = mk()
+    tickEventSystem(yes, snapR3(['Down']), busStub())
+    expect(yes.eventCursor?.confirmYes).toBe(true)
+    tickEventSystem(yes, snapR3(['Confirm']), busStub())
+    expect(yes.dwCash).toBe(111)
+  })
+
+  it('waiting=dialog 无 dialogBox → 防御清 waiting 续跑(1682-1684)', () => {
+    const gs = installWaitScript(0)
+    gs.eventCursor = cursorAt(1, { waiting: 'dialog' }) // 防御臂不推 ip → 直落 0x1E
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.dwCash).toBe(111)
+  })
+})
+
+describe('cov85r3 trigger/onEnter end 写回(1877-1960)', () => {
+  function dialogBox(over: Partial<DialogBoxState> = {}): DialogBoxState {
+    return {
+      shownLines: [],
+      currentLineText: null,
+      typingFrames: 0,
+      charsRevealed: 0,
+      dialogLineCount: 0,
+      phase: 'typing',
+      style: 'top',
+      fontColor: 0x4f,
+      shadow: true,
+      keyIconBlink: false,
+      ...over,
+    }
+  }
+
+  it('end + triggerOwnerId + advance → triggerResume={ip+1};plain → 不动;清场复位(1910-1944+)', () => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0', advance: true },
+      { op: 'end', label: 'L_1', advance: true },
+      { op: 'end', label: 'L_2' },
+    ]
+    setGlobalEvents([...commands])
+    const gs = freshGs()
+    gs.mode = 'event'
+    gs.npcs = [npc(0)]
+    gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.currentDialogPortraitLayout).toBe(false)
+    gs.npcs = [npc(0, { triggerResume: { ip: 2 } })]
+    gs.eventCursor = cursorAt(2, { triggerOwnerId: 0 })
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 2 })
+  })
+
+  it('end + reset:resetTo 在表 → triggerResume 落 label;idleFrames 未满 → 计数 + 续跑(1917-1937)', () => {
+    {
+      const commands: Command[] = [
+        { op: 'end', label: 'L_0', reset: true, resetTo: 0 },
+        { op: 'raw', opcode: 0x1e, operands: [55, 0, 0] },
+        { op: 'end', label: 'L_2' },
+      ]
+      setGlobalEvents([...commands])
+      const gs = freshGs()
+      gs.mode = 'event'
+      gs.dwCash = 0
+      gs.npcs = [npc(0)]
+      gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
+      tickEventSystem(gs, snapR3(), busStub())
+      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 })
+    }
+    {
+      // idleFrames=3:第 1/2 次 → 计数保留 + 跳 resetTo 结束(0x1E 未跑)
+      const withIdle: Command[] = [
+        { op: 'end', label: 'L_0', reset: true, resetTo: 0, idleFrames: 3 },
+        { op: 'raw', opcode: 0x1e, operands: [55, 0, 0] },
+        { op: 'end', label: 'L_2' },
+      ]
+      setGlobalEvents([...withIdle])
+      const gs = freshGs()
+      gs.mode = 'event'
+      gs.dwCash = 0
+      gs.npcs = [npc(0)]
+      gs.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
+      tickEventSystem(gs, snapR3(), busStub())
+      expect(gs.npcs[0]!.triggerEndIdleCount).toBe(1)
+      expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 0 }) // 未满 → 跳 resetTo 收尾
+      expect(gs.dwCash).toBe(0)
+      // 第 3 次(预置 count=2)→ 计数清 0 + cursor.ip++ 续跑本次(0x1E 执行)
+      const gs3 = freshGs()
+      gs3.mode = 'event'
+      gs3.dwCash = 0
+      gs3.npcs = [npc(0, { triggerEndIdleCount: 2 })]
+      gs3.eventCursor = cursorAt(0, { triggerOwnerId: 0 })
+      tickEventSystem(gs3, snapR3(), busStub())
+      expect(gs3.npcs[0]!.triggerEndIdleCount).toBe(0)
+      expect(gs3.dwCash).toBe(55)
+    }
+  })
+
+  it('end + onEnterSceneId:advance/reset/plain 三臂写 sceneOnEnterIp + 清 sceneLoading(1896-1908)', () => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0', advance: true },
+      { op: 'end', label: 'L_1', reset: true, resetTo: 0 },
+      { op: 'end', label: 'L_2' },
+    ]
+    const run = (ip: number, sceneId: number, startIp: number): GameState => {
+      setGlobalEvents([...commands])
+      const gs = freshGs()
+      gs.mode = 'event'
+      gs.sceneLoading = true
+      gs.eventCursor = cursorAt(ip, { onEnterSceneId: sceneId, onEnterStartIp: startIp })
+      tickEventSystem(gs, snapR3(), busStub())
+      return gs
+    }
+    expect(run(0, 7, 0).sceneOnEnterIp[7]).toBe(1)
+    expect(run(1, 7, 0).sceneOnEnterIp[7]).toBe(0)
+    expect(run(2, 7, 5).sceneOnEnterIp[7]).toBe(5)
+  })
+
+  it('end 前有未收尾 dialog:dialogLineCount>0 → 等 end-key;count=0 → 直接清(1877-1888)', () => {
+    const commands: Command[] = [{ op: 'end', label: 'L_0' }]
+    setGlobalEvents([...commands])
+    const gs = freshGs()
+    gs.mode = 'event'
+    gs.dialogBox = dialogBox({ dialogLineCount: 2, phase: 'typing' })
+    gs.eventCursor = cursorAt(0)
+    tickEventSystem(gs, snapR3(), busStub())
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.dialogBox?.phase).toBe('waiting-end-key')
+    const gs2 = freshGs()
+    gs2.mode = 'event'
+    gs2.dialogBox = dialogBox({ dialogLineCount: 0 })
+    gs2.eventCursor = cursorAt(0)
+    tickEventSystem(gs2, snapR3(), busStub())
+    expect(gs2.dialogBox).toBeUndefined()
+    expect(gs2.eventCursor).toBeUndefined()
+  })
+
+  it('narration dialog:任意键立即关 + ip++;typingFrames 满 1.4s 自动关(1685-1703)', () => {
+    const commands: Command[] = [
+      { op: 'showDialog', messageIndex: 0, text: '得到物品', label: 'L_0' },
+      { op: 'raw', opcode: 0x1e, operands: [111, 0, 0] },
+      { op: 'end', label: 'L_2' },
+    ]
+    {
+      setGlobalEvents([...commands])
+      const gs = freshGs()
+      gs.mode = 'event'
+      gs.dwCash = 0
+      gs.eventCursor = cursorAt(0, { waiting: 'dialog' })
+      gs.dialogBox = dialogBox({
+        style: 'narration',
+        currentLineText: '得到物品',
+        dialogLineCount: 1,
+      })
+      tickEventSystem(gs, snapR3(['Down']), busStub())
+      expect(gs.dialogBox).toBeUndefined()
+      expect(gs.dwCash).toBe(111)
+    }
+    {
+      setGlobalEvents([...commands])
+      const gs = freshGs()
+      gs.mode = 'event'
+      gs.dwCash = 0
+      gs.eventCursor = cursorAt(0, { waiting: 'dialog' })
+      gs.dialogBox = dialogBox({
+        style: 'narration',
+        currentLineText: '得到物品',
+        dialogLineCount: 1,
+        typingFrames: 84,
+      })
+      tickEventSystem(gs, snapR3(), busStub())
+      expect(gs.dialogBox).toBeUndefined()
+      expect(gs.dwCash).toBe(111)
+    }
   })
 })

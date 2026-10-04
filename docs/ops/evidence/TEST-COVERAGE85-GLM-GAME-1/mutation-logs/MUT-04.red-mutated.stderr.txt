@@ -10,13 +10,13 @@ AssertionError: expected 41 to be 40 // Object.is equality
 - 40
 + 41
 
- ❯ src/core/menu/menu-driver.cov85.test.ts:298:23
-    296|     expect(s.confirmYes).toBe(true)
-    297|     dispatchMenuInput(gs, snap(['Confirm']), bus)
-    298|     expect(gs.dwCash).toBe(40)
+ ❯ src/core/menu/menu-driver.cov85.test.ts:301:23
+    299|     expect(s.confirmYes).toBe(true)
+    300|     dispatchMenuInput(gs, snap(['Confirm']), bus)
+    301|     expect(gs.dwCash).toBe(40)
        |                       ^
-    299|     expect(gs.inventory).toEqual([{ itemId: 10, count: 1 }])
-    300|     expect(s.phase).toBe('list')
+    302|     expect(gs.inventory).toEqual([{ itemId: 10, count: 1 }])
+    303|     expect(s.phase).toBe('list')
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
 

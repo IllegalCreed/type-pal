@@ -437,3 +437,129 @@ describe('cov85 家族归属', () => {
     expect(apply(gs, 0x01, [0, 0, 0], 0)).toBe(false)
   })
 })
+
+// ══════════════════════════════════════════════════════════════════════════
+// r3:applyPlayerOpcode 生命周期/恢复/拒绝补臂(r1 已证合同的另一侧)
+// 公开 caller 不变:applyPlayerOpcode。
+// ══════════════════════════════════════════════════════════════════════════
+
+describe('cov85r3 玩家 opcode 补臂', () => {
+  it('0x17 roleId=0xffff → 警告跳过;partIdx>0 落对应效果槽(71-80)', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const gs = freshGs()
+    expect(apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0b, 6, 3], 0xffff)).toBe(true)
+    expect(gs.rgEquipmentEffect[0]!.rgwLevel[0]).toBe(0)
+    expect(warn).toHaveBeenCalledTimes(1)
+    // partIdx=1(op0=0x0c)写第二槽;row 7=MAX_HP(PLAYERROLES_ROW 真值)
+    expect(apply(gs, OP_SET_PLAYER_EXTRA_ATTR, [0x0c, 7, 9], 0)).toBe(true)
+    expect(gs.rgEquipmentEffect[1]!.rgwMaxHP[0]).toBe(9)
+  })
+
+  it('0x18 roleId=0xffff → 警告跳过,装备层与背包零变异(84-87)', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const gs = freshGs()
+    gs.inventory = [{ itemId: 30, count: 1 }]
+    expect(apply(gs, OP_EQUIP_ITEM, [0x0b, 30, 0], 0xffff)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwEquipment[0]![0]).toBe(0)
+    expect(gs.inventory).toEqual([{ itemId: 30, count: 1 }])
+    expect(warn).toHaveBeenCalledTimes(1)
+  })
+
+  it('0x19/0x1a op2=0 且有上下文 → 作用 currentEventObjectId(119,131 cond 另一侧)', () => {
+    const gs = freshGs()
+    gs.PlayerRolesRuntime.rgwMaxHP[1] = 100
+    expect(apply(gs, OP_INCREASE_PLAYER_ATTR, [7, 20, 0], 1)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwMaxHP[1]).toBe(120)
+    gs.PlayerRolesRuntime.rgwLevel[2] = 3
+    expect(apply(gs, OP_SET_PLAYER_STAT, [6, 8, 0], 2)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwLevel[2]).toBe(8)
+  })
+
+  it('0x22 单体 ctx=0xffff → 空目标集零变异(185-191 cond 臂)', () => {
+    const gs = freshGs()
+    gs.partyMembers = [0]
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwHP[0] = 0
+    rt.rgwMaxHP[0] = 100
+    expect(apply(gs, OP_REVIVE_PLAYER, [0, 5, 0], 0xffff)).toBe(true)
+    expect(rt.rgwHP[0]).toBe(0)
+    expect(gs.fScriptSuccess).toBe(false)
+  })
+
+  it('0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)', () => {
+    const gs = freshGs()
+    gs.PlayerRolesRuntime.rgwEquipment[0]![0] = 30
+    gs.PlayerRolesRuntime.rgwEquipment[2]![0] = 40
+    expect(apply(gs, OP_REMOVE_EQUIPMENT, [0, 0, 0], 0)).toBe(true)
+    expect(gs.inventory).toEqual([
+      { itemId: 30, count: 1 },
+      { itemId: 40, count: 1 },
+    ])
+    expect(gs.PlayerRolesRuntime.rgwEquipment[0]![0]).toBe(0)
+    expect(gs.PlayerRolesRuntime.rgwEquipment[2]![0]).toBe(0)
+  })
+
+  it('0x29 单体 ctx 命中 + 100 抗必不中(236-247 单体臂)', () => {
+    const gs = freshGs()
+    gs.partyMembers = [0]
+    gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 100
+    setObjectPoisons([{ id: 77, level: 2, color: 0, playerScript: 0, enemyScript: 0 }])
+    expect(apply(gs, OP_POISON_PLAYER, [0, 77, 0], 0)).toBe(true)
+    expect(isPlayerPoisoned(gs, 0, 77)).toBe(false)
+  })
+
+  it('0x2d/0x2f ctx=0xffff → 全队为目标(263-268,286-290 cond 臂)', () => {
+    const gs = freshGs()
+    gs.partyMembers = [0, 1]
+    gs.PlayerRolesRuntime.rgwHP[0] = 10
+    gs.PlayerRolesRuntime.rgwHP[1] = 10
+    expect(apply(gs, OP_SET_PLAYER_STATUS, [5, 2, 0], 0xffff)).toBe(true)
+    expect([gs.rgPlayerStatus[0]![5], gs.rgPlayerStatus[1]![5]]).toEqual([2, 2])
+    expect(apply(gs, OP_REMOVE_PLAYER_STATUS, [5, 0, 0], 0xffff)).toBe(true)
+    expect([gs.rgPlayerStatus[0]![5], gs.rgPlayerStatus[1]![5]]).toEqual([0, 0])
+  })
+
+  it('0x55/0x56 显式 role 越界(op1-1 ≥ roleCount)→ no-op(303-310,321-326)', () => {
+    const gs = freshGs()
+    expect(apply(gs, OP_ADD_MAGIC, [349, 0xff10, 0], 0)).toBe(true) // roleId=0xff0f 越界
+    expect(gs.PlayerRolesRuntime.rgwMagic[0]![0]).toBe(0)
+    expect(apply(gs, OP_REMOVE_MAGIC, [349, 0xff10, 0], 0)).toBe(true)
+  })
+
+  it('0x55 空 rgwMagic 表(roleCount=0)→ no-op 不炸(408-409)', () => {
+    const gs = freshGs()
+    gs.PlayerRolesRuntime.rgwMagic = []
+    expect(apply(gs, OP_ADD_MAGIC, [349, 0, 0], 0)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwMagic).toEqual([])
+  })
+
+  it('0x8d 多级升级:固定字段精确(等级/逃跑率),随机字段区间;Exp 行缺失不炸(378-403)', () => {
+    const gs = freshGs()
+    gs.partyMembers = [0]
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwLevel[0] = 1
+    rt.rgwFleeRate[0] = 5
+    gs.Exp.rgPrimaryExp = [] // Exp 行缺失臂(400-402)
+    expect(apply(gs, OP_INCREASE_PLAYER_LEVEL, [3, 0, 0], 0)).toBe(true)
+    expect(rt.rgwLevel[0]).toBe(4)
+    expect(rt.rgwFleeRate[0]).toBe(11) // +2/级,无随机
+    expect(rt.rgwMaxHP[0]).toBeGreaterThanOrEqual(30) // 3 级 × [10,17]
+    expect(rt.rgwMaxHP[0]).toBeLessThanOrEqual(51)
+    expect(rt.rgwMaxMP[0]).toBeGreaterThanOrEqual(24) // 3 级 × [8,13]
+    expect(rt.rgwMaxMP[0]).toBeLessThanOrEqual(39)
+  })
+
+  it('0x1d HP/MP 各自钳 max 双向(341-361 clamp 臂)', () => {
+    const gs = freshGs()
+    gs.partyMembers = [0]
+    const rt = gs.PlayerRolesRuntime
+    rt.rgwHP[0] = 95
+    rt.rgwMaxHP[0] = 100
+    rt.rgwMP[0] = 38
+    rt.rgwMaxMP[0] = 40
+    expect(apply(gs, OP_INCREASE_HP_MP, [0, 20, 0], 0)).toBe(true)
+    expect([rt.rgwHP[0], rt.rgwMP[0]]).toEqual([100, 40]) // 双双钳顶
+    expect(apply(gs, OP_INCREASE_HP_MP, [0, 0xff38, 0], 0)).toBe(true) // -200
+    expect([rt.rgwHP[0], rt.rgwMP[0]]).toEqual([0, 0]) // 双双钳底
+  })
+})

@@ -1,0 +1,15 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/battle/battle-system.cov85.test.ts > cov85r3 action queue 与 flee 拒绝路径 > flee 成功:str >= roll → fleeAnim 起 + 音 45(flee.ts 成功臂)
+AssertionError: expected -1 to be greater than 0
+ ❯ src/core/battle/battle-system.cov85.test.ts:425:19
+    423|       tickBattle(fx.gs, emptyInput(), fx.bus) // 敌行动动画 hold 先放完,flee 轮…
+    424|     }
+    425|     expect(guard).toBeGreaterThan(0) // 确实到达 flee 执行(非循环耗尽)
+       |                   ^
+    426|     expect(fx.gs.pendingSounds).toContain(45)
+    427|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

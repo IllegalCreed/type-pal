@@ -1,0 +1,24 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-system.cov85.test.ts > cov85r3 tickEventSystem waiting 家族(1480-1672) > palette-fade + 0x4E reloadSlotAfterFade:淡完停脚本并调 handler(1551-1556)
+AssertionError: expected [ 4 ] to deeply equal [ 3 ]
+
+- Expected
++ Received
+
+  [
+-   3,
++   4,
+  ]
+
+ ❯ src/core/event-system.cov85.test.ts:564:22
+    562|     vi.spyOn(performance, 'now').mockReturnValue(5600)
+    563|     tickEventSystem(gs, snapR3(), busStub())
+    564|     expect(reloaded).toEqual([3])
+       |                      ^
+    565|     expect(gs.eventCursor).toBeUndefined()
+    566|     expect(gs.dwCash).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

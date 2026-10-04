@@ -206,3 +206,66 @@ existing-proof 分类沿用 r1 回执,待 Codex 复核。
 4. **同步重推**：mutation-results.json 重跑后 6/6 VALID(含新自洽校验);定向 167/167 未变
    (本窄返工零测试/产品改动,全量 fresh JSON 与 ledger 沿用返工版且仍有效);amend 后
    force-with-lease 更新 `codex/coverage85-glm-game-r1`。产品/旧测/baseline/其它卡零改动。
+
+---
+
+## GLM r3 回执（2026-10-04，基于 main ea1fddb8c，仍不请求 done）
+
+r1 的 167 测试与 6 针反控**原样保留**（已由 Codex 合入 main 为 fe0fe141b）。r3 新增 **40 个合同**、
+**6 个新反控针**，全部落在四文件点名区域；无产品/旧测/配置/baseline 改动。
+
+### r3 新增合同（每条含 source:line / 公开 caller / 合法 typed 输入 / 业务 oracle / 旧 fullName 排重）
+
+- **event-system.cov85 +17（tickEventSystem 生命周期,公开 caller tickEventSystem）**：无 cursor→explore；
+  frame-wait 递减/归零 ip++/waitGestureReset 复位；camera-pan 增量/归零清字段；fade-screen 未到阻塞/
+  到点清/无 fadeState 防御；palette-fade 完成路径 + 0x4E reloadSlotAfterFade 停脚本调 handler；
+  六 modal waiting(shop/rng/fbp×2/ending/quit)阻塞；scene-load 等 callback 替换后续跑；wait-key 只认
+  Confirm/Menu/Cancel;delay 到点续跑;confirm(0x0A) 方向 toggle/否 goto/Cancel=否/是 ip++;
+  waiting=dialog 无 box 防御;narration 任意键/1.4s 自动关;
+  trigger end 写回(advance/reset/idleFrames 三拍/plain 不动)+onEnter 三臂写 sceneOnEnterIp+清 sceneLoading+
+  end 前未收尾 dialog 两态。
+- **battle-system.cov85 +6（tickBattle 公开 caller）**：主菜单四方向+无法术 Right 拒绝+Confirm attack
+  单活敌同 tick 落账;多敌留 selectTargetEnemy 再确认;法术菜单 MP 不足禁用 Confirm no-op;
+  action queue dex(defend×5 先于 attack×1,isEnemy/idx 断言);flee 拒绝(roll>str 失败演出不入 fleed);
+  flee 成功(fleeAnim+音 45,敌先行 hold 放完轮到才执行)。
+- **menu-driver.cov85 +6（dispatchMenuInput+tickMenu 公开 caller）**：shop 菜单关闭→
+  resumeAfterMenusClosed 清 shop 等待切 event 续跑脚本(现金 oracle);法术 MP 不足禁用项 no-op;
+  equip pick-role item 已不在 catalog 错误返回不动;save-slot load 异步 handler fire-and-forget
+  (handler 启动/栈保留/promise 完成三段);system save 异步落盘(wSavedTimes 微任务后=1,Save 内存态
+  _clearAllForTest 隔离);system switch Down/Left 补臂(纯 toggle 序列)。
+- **event-opcode-player.cov85 +11（applyPlayerOpcode）**：0x17 0xffff 守卫+partIdx>0 槽;0x18 0xffff 守卫;
+  0x19/0x1a op2=0 走上下文;0x22 单体 0xffff 空目标;0x23 全卸槽位混合回包;0x29 单体 100 抗;
+  0x2d/0x2f 0xffff 全队;0x55/56 显式 role 越界;0x55 空 rgwMagic;0x8d 多级升级(固定字段精确+随机字段区间
+  +Exp 行缺失);0x1d HP/MP 双向钳。
+
+### 数字
+
+- 定向 6 文件 **207/207**(167+40);相邻 12 文件 **844/844**(含 actions/mode 新增邻居);
+  全量 **3403/3403**;typecheck 0 error;lint 0/0/0;docs PASS。
+- **branch 8746→8764/11278(77.54%→77.70%,累计 +356 vs 官方基线 8408)**。r3 净增 +18 边
+  (waiting 家族/生命周期/补臂)——本轮以生命周期与拒绝路径合同为主,未追边数。
+- 未覆盖臂更新:event-system 452→440、battle-system 229→228、menu-driver 54→52、
+  event-opcode-player 70→67;bootstrap 266+main 18 维持宿主不可达 existing-proof。
+
+### r3 反控(6 新针,合计 12/12 VALID,完整 identity 证据沿用 r1 返工版 runner)
+
+| 针 | 注入点 | 变异 | 钉住合同 |
+|---|---|---|---|
+| MUT-07 | event-system.ts:1491-1493 | frame-wait 完成 ip++→+=2 | frame-wait 续跑现金 oracle |
+| MUT-08 | event-system.ts:1911 | triggerResume ip+1→+2 | advance 写回断言 |
+| MUT-09 | event-system.ts:1555 | handler(slot)→(slot+1) | 0x4E reload 槽位断言 |
+| MUT-10 | menu-stack.ts:16-17 | shop resume mode event→explore | shop 栈恢复三段断言 |
+| MUT-11 | flee.ts:59 | roll+9999 恒失败 | flee 成功针(音 45+到达) |
+| MUT-12 | event-opcode-player.ts:218 | 全卸回包 1→2 | 全卸槽位混合 count 断言 |
+
+初始 MUT-07(ip 推进变异弱)与 MUT-10(defend dex 平局)两针被实测暴露**判别力不足**(变异后仍绿)——
+已替换为更强业务变异并复验 12/12;这是反控自证其可靠性的直接案例,记录在案。
+
+### r3 判例
+
+- tickEventSystem 防御清 waiting(fade-screen/dialog 无状态)**不推 ip**——fall-through 从当前 ip 跑,
+  fixture 须让 ip 直落 marker op。
+- trigger 0x02-end idleFrames 语义:**未满→跳 resetTo 收尾;满→清计数+ip++ 续跑**(易读反)。
+- 战斗 selectAction 单活敌/单人队目标态**同 tick 短路 commit**(draft 即清);多敌才停留选择。
+- battle 法术菜单读 `playerRoles.roles[i].magic`(startBattle 传入的投影),rgwMagic seed 须先投影。
+- flee 执行轮到前敌行动 hold 先放完——断言用 guard 循环 tick 至 fleeAnim 出现。

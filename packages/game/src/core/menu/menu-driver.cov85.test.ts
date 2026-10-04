@@ -18,12 +18,13 @@ import type {
 } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
-import { setGlobalEvents } from '../event-system.js'
+import { setGlobalEvents, tickEventSystem } from '../event-system.js'
 import {
   createInitialGameState,
   type GameState,
   projectRuntimeToBattleRoles,
 } from '../game-state.js'
+import { Save } from '../save/api.js'
 import { createEquipMenu } from './equip-menu.js'
 import { createInGameMagicMenu } from './in-game-magic-menu.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
@@ -37,6 +38,7 @@ import {
   setMenuCatalogs,
   setSystemQuitHandler,
 } from './menu-driver.js'
+import { tickMenu } from './menu-mode.js'
 import { openMenu } from './menu-stack.js'
 import { createOpeningMenu } from './opening-menu.js'
 import { createPlayerStatus } from './player-status.js'
@@ -215,11 +217,12 @@ beforeEach(() => {
   setMenuCatalogs(DEFAULT_CATALOGS())
 })
 
-afterEach(() => {
+afterEach(async () => {
   vi.restoreAllMocks()
   _resetSystemQuitHandlerForTest()
   _resetLoadGameHandlerForTest()
   setGlobalEvents([]) // 清 installGlobalScripts 装入的全局脚本数组(单测隔离)
+  await Save._clearAllForTest() // 清 save 内存 fallback 槽位(异步 handler 单测隔离)
 })
 
 describe('cov85 requireCatalogs 未注入守卫', () => {
@@ -856,5 +859,149 @@ describe('cov85 存档槽菜单(save-slot)', () => {
     dispatchMenuInput(gs2, snap(['Confirm']), createCommandBus())
     expect(gs2.menuStack).toHaveLength(0)
     expect(warn).toHaveBeenCalled()
+  })
+})
+
+// ══════════════════════════════════════════════════════════════════════════
+// r3:menu-driver 栈恢复 / 禁用项 / 错误返回 / 异步 handler 生命周期
+// 公开 caller:dispatchMenuInput + tickMenu(菜单关闭 → resumeAfterMenusClosed 续跑脚本)。
+// ══════════════════════════════════════════════════════════════════════════
+
+describe('cov85r3 菜单栈恢复与生命周期', () => {
+  const shopItems = [mkItem(10, { price: 10 })]
+
+  function openShopWithScript(): GameState {
+    setMenuCatalogs({ items: shopItems, spells: [], magics: [], playerRoles: typedRoles() })
+    setGlobalEvents([
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x1e, operands: [77, 0, 0] }, // 商店后续指令(resume oracle)
+      { op: 'end', label: 'L_2' },
+    ])
+    const gs = mkGs()
+    gs.dwCash = 50
+    gs.mode = 'event'
+    gs.eventCursor = { ip: 1, waiting: 'shop' }
+    openMenu(gs, { kind: 'shop-buy', state: createBuyMenu(shopItems) })
+    expect(gs.mode).toBe('menu')
+    return gs
+  }
+
+  it('shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本', () => {
+    const gs = openShopWithScript()
+    const bus = createCommandBus()
+    dispatchMenuInput(gs, snap(['Menu']), bus) // 关店 → 栈空
+    expect(gs.menuStack).toHaveLength(0)
+    tickMenu(gs, snap(), bus) // 栈空 → resumeAfterMenusClosed
+    expect(gs.eventCursor?.waiting).toBeUndefined()
+    expect(gs.mode).toBe('event')
+    tickEventSystem(gs, snap(), bus) // 续跑 ip1 → 0x1E +77
+    expect(gs.dwCash).toBe(127)
+  })
+
+  it('法术菜单 MP 不足禁用项 Confirm → no-op 留 pick-spell(禁用项)', () => {
+    const spells = [
+      mkSpell(50, 1, {
+        scriptOnUse: 8,
+        scriptOnSuccess: 9,
+        _name: '耗蓝术',
+      }),
+    ]
+    const magics = [mkMagic(1, 99)] // costMP 99 > 全部 MP
+    const gs = mkGs([0])
+    gs.PlayerRolesRuntime.rgwMagic[0]![0] = 50
+    gs.PlayerRolesRuntime.rgwMP[0] = 10
+    gs.PlayerRolesRuntime.rgwMaxMP[0] = 40
+    gs.PlayerRolesRuntime.rgwHP[0] = 50
+    setMenuCatalogs({ items: [], spells, magics, playerRoles: typedRoles() })
+    installGlobalScripts()
+    const s = createInGameMagicMenu(
+      projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, typedRoles()),
+      [0],
+      spells,
+      magics,
+    )
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    openMenu(gs, { kind: 'in-game-magic', state: s })
+    const bus = createCommandBus()
+    expect(s.spellMenu?.items[0]?.disabled).toBe(true) // MP 不足 → 灰
+    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    expect(s.phase).toBe('pick-spell') // 禁用项 no-op
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(10) // 未扣
+  })
+
+  it('equip pick-role 确认时 item 已不在 catalog → 错误返回不动状态(错误返回)', () => {
+    const gs = mkGs()
+    gs.inventory = [{ itemId: 20, count: 1 }]
+    const withItem = [mkItem(20, { scriptOnEquip: 7, flags: flags({ equipable: true }) })]
+    setMenuCatalogs({ items: withItem, spells: [], magics: [], playerRoles: typedRoles() })
+    installGlobalScripts()
+    const s = createEquipMenu(gs, withItem)
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    openMenu(gs, { kind: 'equip', state: s })
+    const bus = createCommandBus()
+    dispatchMenuInput(gs, snap(['Confirm']), bus) // list → pick-role
+    expect(s.phase).toBe('pick-role')
+    // catalog 换成空表(确认前物品被移除)
+    setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: typedRoles() })
+    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    expect(s.phase).toBe('pick-role') // !item → return
+    expect(s.selectedItemId).toBe(20) // 不变
+  })
+
+  it('save-slot load 异步 handler:fire-and-forget 不阻塞关栈,promise 照常完成(异步生命周期)', async () => {
+    const gs = mkGs()
+    let started = false
+    setLoadGameHandler(async (slot) => {
+      started = true
+      await Promise.resolve()
+      gs.wSavedTimes = slot * 100 // 异步段写状态
+    })
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    const bus = createCommandBus()
+    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    expect(started).toBe(true) // handler 同步启动
+    expect(gs.menuStack).toHaveLength(1) // dispatcher 不等 promise;关栈是 handler 职责
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0)
+    })
+    expect(gs.wSavedTimes).toBe(100) // 异步段完成
+  })
+
+  it('system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)', async () => {
+    await Save._clearAllForTest() // 隔离:清内存 fallback 槽位(跨测试残留)
+    const gs = mkGs()
+    const logged = vi.spyOn(console, 'log').mockImplementation(() => {})
+    openMenu(gs, { kind: 'system', state: createSystemMenu() })
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
+    const bus = createCommandBus()
+    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    expect(gs.menuStack).toHaveLength(0)
+    expect(gs.currentSaveSlot).toBe(1)
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0)
+    })
+    expect(gs.wSavedTimes).toBe(1) // 内存 fallback:listSlots 空 → max 0 + 1
+    expect(logged).toHaveBeenCalled()
+  })
+
+  it('system switch 阶段 Down/Left 也 toggle(535-536 补臂)', () => {
+    const gs = mkGs()
+    const s = createSystemMenu()
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    openMenu(gs, { kind: 'system', state: s })
+    s.selection.cursor = 2 // music
+    gs.fMusicEnabled = false
+    const bus = createCommandBus()
+    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    expect(s.phase).toBe('switch')
+    expect(s.confirmYes).toBe(false) // 默认高亮当前态(关)
+    dispatchMenuInput(gs, snap(['Left']), bus) // switch 方向键 = 纯 toggle
+    expect(s.confirmYes).toBe(true)
+    dispatchMenuInput(gs, snap(['Down']), bus)
+    expect(s.confirmYes).toBe(false)
+    dispatchMenuInput(gs, snap(['Up']), bus)
+    expect(s.confirmYes).toBe(true)
+    dispatchMenuInput(gs, snap(['Right']), bus)
+    expect(s.confirmYes).toBe(false)
   })
 })

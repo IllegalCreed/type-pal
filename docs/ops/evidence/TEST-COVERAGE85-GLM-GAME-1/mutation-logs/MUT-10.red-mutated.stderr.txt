@@ -1,0 +1,19 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本
+AssertionError: expected 'explore' to be 'event' // Object.is equality
+
+Expected: "event"
+Received: "explore"
+
+ ❯ src/core/menu/menu-driver.cov85.test.ts:896:21
+    894|     tickMenu(gs, snap(), bus) // 栈空 → resumeAfterMenusClosed
+    895|     expect(gs.eventCursor?.waiting).toBeUndefined()
+    896|     expect(gs.mode).toBe('event')
+       |                     ^
+    897|     tickEventSystem(gs, snap(), bus) // 续跑 ip1 → 0x1E +77
+    898|     expect(gs.dwCash).toBe(127)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

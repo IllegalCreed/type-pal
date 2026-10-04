@@ -1,0 +1,32 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-opcode-player.cov85.test.ts > cov85r3 玩家 opcode 补臂 > 0x23 全卸槽位混合:有物槽回包、空槽跳过(211-216 loop 两臂)
+AssertionError: expected [ { itemId: 30, count: 2 }, …(1) ] to deeply equal [ { itemId: 30, count: 1 }, …(1) ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "count": 1,
++     "count": 2,
+      "itemId": 30,
+    },
+    {
+-     "count": 1,
++     "count": 2,
+      "itemId": 40,
+    },
+  ]
+
+ ❯ src/core/event-opcode-player.cov85.test.ts:494:26
+    492|     gs.PlayerRolesRuntime.rgwEquipment[2]![0] = 40
+    493|     expect(apply(gs, OP_REMOVE_EQUIPMENT, [0, 0, 0], 0)).toBe(true)
+    494|     expect(gs.inventory).toEqual([
+       |                          ^
+    495|       { itemId: 30, count: 1 },
+    496|       { itemId: 40, count: 1 },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
