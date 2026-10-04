@@ -12,3 +12,4 @@
 - [TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据](TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
 - [TEST-GLM-GAME-TURN-BOUNDARIES-1 交付证据](TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md)（r1 候选：15 回合/结算合同 + 15/15 三态反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
+- [TEST-GLM-REFORGE-RUNTIME-SESSION-1 交付证据](TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md)（15 合同、反控 5/5、排重/非合同/受阻账与基线缺陷披露；待 Codex 独立验收）。

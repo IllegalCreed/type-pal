@@ -1,0 +1,53 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-runtime-session/packages/reforge
+
+ ❯ src/runtime-project-view.runtime-session-1.test.ts (4 tests | 1 failed | 3 skipped) 7ms
+     × 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留 6ms
+     ↓ 刷新跳过 canonical 缺席的视图实体,保留其活体绑定
+     ↓ scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象
+     ↓ runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  22:03:31
+   Duration  435ms (transform 282ms, setup 0ms, import 352ms, tests 7ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime-project-view.runtime-session-1.test.ts > TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 > 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留
+AssertionError: expected { enemyTeamId: 'team-a', …(4) } to deeply equal { enemyTeamId: 'team-a', …(4) }
+
+- Expected
++ Received
+
+@@ -3,11 +3,17 @@
+      "floating": true,
+      "range": 4,
+      "speed": 2,
+    },
+    "enemyTeamId": "team-a",
+-   "onLose": [],
++   "onLose": [
++     {
++       "flag": "lost",
++       "kind": "setFlag",
++       "value": true,
++     },
++   ],
+    "onPlayerFlee": {
+      "kind": "remain",
+    },
+    "onVictory": {
+      "kind": "hide",
+
+ ❯ src/runtime-project-view.runtime-session-1.test.ts:69:19
+     67|     const view = baseSceneView(canonical, emptyWorldScriptState())
+     68|     const strip = view.entities.find((entity) => entity.id === 'e-stri…
+     69|     expect(strip).toEqual({
+       |                   ^
+     70|       enemyTeamId: 'team-a',
+     71|       chase: { range: 4, speed: 2, floating: true },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
