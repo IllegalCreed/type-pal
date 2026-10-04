@@ -1,7 +1,7 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
 
- ❯ src/script-runner.host-lifecycle-1.test.ts (7 tests | 1 failed | 6 skipped) 5ms
+ ❯ src/script-runner.host-lifecycle-1.test.ts (7 tests | 1 failed | 6 skipped) 6ms
      × 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主 5ms
      ↓ 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal
      ↓ 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发
@@ -12,8 +12,8 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 6 skipped (7)
-   Start at  18:24:41
-   Duration  594ms (transform 335ms, setup 0ms, import 414ms, tests 5ms, environment 0ms)
+   Start at  18:37:33
+   Duration  407ms (transform 239ms, setup 0ms, import 301ms, tests 6ms, environment 0ms)
 
 
 

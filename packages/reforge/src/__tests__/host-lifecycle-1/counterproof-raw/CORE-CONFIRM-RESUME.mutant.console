@@ -1,8 +1,8 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
 
- ❯ src/script-runner-core.host-lifecycle-1.test.ts (8 tests | 1 failed | 7 skipped) 7ms
-     × confirm 相位帧重放已选臂,宿主 confirm 不再询问 7ms
+ ❯ src/script-runner-core.host-lifecycle-1.test.ts (8 tests | 1 failed | 7 skipped) 9ms
+     × confirm 相位帧重放已选臂,宿主 confirm 不再询问 8ms
      ↓ startBattle 已知战败相位只重放 onLose,不重开战斗
      ↓ teleportOut 已知失败相位只重放 onFail,不再传出
      ↓ settle 相位写入续跑帧,宿主迟到回执静默不再发布
@@ -13,8 +13,8 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 7 skipped (8)
-   Start at  18:24:32
-   Duration  396ms (transform 247ms, setup 0ms, import 302ms, tests 7ms, environment 0ms)
+   Start at  18:37:23
+   Duration  425ms (transform 256ms, setup 0ms, import 321ms, tests 9ms, environment 0ms)
 
 
 
