@@ -1,13 +1,13 @@
 {
-  "suite": "editor fast (official coverage args, r5 run 2026-10-04)",
-  "directedWarningCheck": "9 cov85 files: 95/95 green, 0 act warnings, 0 console.error",
-  "totalTests": 4695,
-  "passed": 4695,
+  "suite": "editor fast (official coverage args, r6 narrow rework run 2026-10-04)",
+  "directedWarningCheck": "9 cov85 files: 94/94 green, 0 act warnings, 0 console.error",
+  "totalTests": 4694,
+  "passed": 4694,
   "failed": 0,
   "newFiles": 9,
-  "newTests": 95,
+  "newTests": 94,
   "allNewPassed": true,
-  "sha256": "d97c8fabccc69cd7198a6a7e3535fe29b70cab48662aae80d0868e1c3bc9c8f0",
+  "sha256": "e1811f285b14841ee2eb9cb09894bdc3b322cf85bc91ee6289aa1fd572ba02f1",
   "cases": [
     {
       "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
@@ -277,11 +277,6 @@
     {
       "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
       "fullName": "cov85-map C5 工具状态行：默认平移，切选择后活动层选择",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/MapMode.cov85.test.tsx",
-      "fullName": "cov85-map C6 碰撞工具标记一格碰撞并可 undo 清除",
       "status": "passed"
     },
     {

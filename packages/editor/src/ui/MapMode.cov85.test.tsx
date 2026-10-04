@@ -14,6 +14,9 @@
  * - C4 画布右键菜单开合与键盘导航 | openCanvasContextMenu 2581-2622 | contextmenu 事件
  *   + keydown Home/End/ArrowDown | 菜单 focus 流转 | activeElement 移到首/末菜单项。
  * - C5 工具状态行 | 2798-2805 | 工具切换按钮 | collision/eyedropper/select | 状态栏文本。
+ *   （r6 删除原 C6 碰撞绘制合同：与 MapMode.kimi-workflows.test.tsx K12 前置编辑
+ *   同 caller/输入/oracle——「绘制独立碰撞层」单击→collision 序列化断言；undo 清零
+ *   不构成独立业务轴。）
  *
  * 装配：loadBoundaryProject 真实装载（seed→fsaSource→loader→toEditorState 全合法），
  * assetBase/assetCatalog/assetReader 全真值；scene-stage 仅隔离绘制层（drawGridBlocked/
@@ -338,38 +341,4 @@ test('cov85-map C5 工具状态行：默认平移，切选择后活动层选择'
     buttonByText('选择').click()
   })
   expect(host.textContent).toContain('活动层选择')
-})
-
-/** r5：碰撞层绘制合同（MapMode.tsx:985/2220-2231 dispatchMapPatch）。 */
-function mapCollisionSnapshot(session: EditSession): string[] {
-  const cells: string[] = []
-  session.getState().maps.start!.collision.forEach((row, r) => {
-    row.forEach((value, c) => {
-      if (value === 1) cells.push(`${r},${c}`)
-    })
-  })
-  return cells
-}
-
-async function paintWithTool(canvas: HTMLCanvasElement, label: string): Promise<void> {
-  await act(async () => {
-    buttonByText(label).click()
-  })
-  await act(async () => {
-    pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 })
-    pointer(canvas, 'pointerup', { clientX: 1, clientY: 1 })
-  })
-}
-
-test('cov85-map C6 碰撞工具标记一格碰撞并可 undo 清除', async () => {
-  const { session, canvas } = await mountMapMode()
-  expect(mapCollisionSnapshot(session)).toEqual([])
-  await paintWithTool(canvas, '⛔ 碰撞')
-  const marked = mapCollisionSnapshot(session)
-  expect(marked.length).toBe(1)
-  expect(marked[0]).toMatch(/^\d+,\d+$/)
-  await act(async () => {
-    expect(session.undo()).toBe(true)
-  })
-  expect(mapCollisionSnapshot(session)).toEqual([])
 })

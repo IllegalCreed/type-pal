@@ -48,9 +48,9 @@ Capability: test-quality / coverage branch closure
 
 ## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
 
-**门禁状态如实申报（r5 终测）：editor branch 23865→24176（82.13%→83.19%，+311
-edges），未达 85%，不以 85% 冒交；全套 4695/4695，新增 9 文件 95 例；locless 实测
-504（r5 核实口径，已替换卡面历史 508 表述）。**
+**门禁状态如实申报（r6 窄返工终测）：editor branch 23865→24177（82.13%→83.20%，
++312 edges），未达 85%，不以 85% 冒交；全套 4694/4694，新增 9 文件 94 例；locless
+实测 504。**
 剩余缺口不构成不可达证明：其中 504 个是 v8 branchMap（r5 核实口径） `locations` 为空的合成计数
 （无源码位置、无法定向触发；cov-base 与 cov-final 两次实测口径一致，见
 `branch-census.json` 的 locless 字段）——该数字只说明缺口构成，**不作为 unreachable
@@ -261,6 +261,25 @@ CutsceneTab 格式化与 stale 回显）、MapMode 变换条/候选菜单/图章
 - **门**：定向 0 act/console.error 警告、typecheck 0、Biome 0、docs PASS、产品
   零改动；**不标 done**（83.19% 未达 85%，r6 范围同卡面 r5 清单 + C7 坐标推导 +
   ItemTab byActor 根因）。
+
+### r6 窄返工记录（GLM，2026-10-04）
+
+1. **C6 已删除**：与 `MapMode.kimi-workflows.test.tsx` K12 的前置编辑
+   （`chooseTool('绘制独立碰撞层')` + `clickCell` → `collision[0][0]===1`）同
+   caller（collision 工具 pointer→dispatchMapPatch）、同输入、同序列化 oracle；
+   「undo 清零」不构成独立业务轴（无新增 source:line 状态转移），按指令删除，
+   dedup 头同步声明。删除后 MapMode cov85 为 5 例。
+2. **证据同步**：vitest-fresh（94 例 file×fullName×status + 全套 sha256）、
+   branch-census、coverage-summary 均以删后复跑重建——4694/4694、24177/29058
+   =83.20%（+312）；mutation-evidence 6 注入复验全 OK；无旧数字残留。
+3. **门**：定向 9 文件 94/94 绿、0 act/console.error 警告；typecheck 0、Biome 0、
+   docs PASS、产品零改动。
+4. **不标 done**：83.20% 未达 85%。r6 剩余范围（真实分支，locless 504 不当不可达）：
+   MapMode 变换条键盘/候选菜单组内编辑/图章放置冲突覆盖族（K12 已覆盖主链，需新轴
+   才可加）；ScriptEditor 插入模板组与 fallback 判别反控（INJ-8 缺口）；PreviewCanvas
+   layers/ghost/淡幕臂；ProjectWorkbenchTab 毒物/资源角色；ActorMode 创建对话框；
+   CutsceneTab 格式化与 stale；C7 需画布坐标推导、ItemTab byActor 需 DsCheckbox
+   根因——均已在案。
 
 ### 下一棒建议（r2）
 
