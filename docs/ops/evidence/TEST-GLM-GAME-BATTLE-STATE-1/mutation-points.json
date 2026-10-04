@@ -1,0 +1,97 @@
+{
+  "card": "TEST-GLM-GAME-BATTLE-STATE-1",
+  "testFile": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+  "testArg": "src/core/battle/battle-state-machine.glm-battle.test.ts",
+  "points": [
+    {
+      "id": "MUT-01",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:748-751(getPlayerActualDexterity 队列构建接线)",
+      "targetIt": "haste 状态队员行动 dex ×3 进队列",
+      "intent": "拔掉 queue 构建对 haste 状态的接线 → p0 失去 ×3,队列序不再 p0 首位",
+      "find": "haste: player.status.haste > 0,",
+      "replaceWith": "haste: false,"
+    },
+    {
+      "id": "MUT-02",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2634-2644(DH3 known 未学门)",
+      "targetIt": "DH3 未学法术(rgwMagic 有数据但查无该 spell)",
+      "intent": "未学门恒真 → 未学法术照常施法(MP 扣、敌掉血方式改变)",
+      "find": "const known = !hasAnyMagicData || magicRows.some((row) => row[vRoleId] === action!.actionId)",
+      "replaceWith": "const known = true || magicRows.some((row) => row[vRoleId] === action!.actionId)"
+    },
+    {
+      "id": "MUT-03",
+      "file": "packages/game/src/core/battle/enemy-ai.ts",
+      "sourceAnchor": "enemy-ai.ts:119-121(DL7 silence 短路序)",
+      "targetIt": "DL7:被沉默敌仍消费一次魔法掷骰再落物理",
+      "intent": "silence 门恒真 → 被沉默敌掷骰过后走魔法分支(type 变 magic)",
+      "find": "&& (status?.silence ?? 0) === 0",
+      "replaceWith": "&& true"
+    },
+    {
+      "id": "MUT-04",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2526(scriptOnReady 返回值回写)",
+      "targetIt": "0x01 advance end → scriptOnReady 回写 end 行+1",
+      "intent": "拔掉 ready 侧回写 → 字段停在 1,show-once 失效",
+      "find": "enemy.scriptOnReady = runScript({",
+      "replaceWith": "void runScript({"
+    },
+    {
+      "id": "MUT-05",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2818(E04 defend 经验)",
+      "targetIt": "defend action → rgDefenseExp.wCount += 2",
+      "intent": "防御经验改 0 → 隐藏经验池不再累积",
+      "find": "addHiddenExp('rgDefenseExp', 2)",
+      "replaceWith": "addHiddenExp('rgDefenseExp', 0)"
+    },
+    {
+      "id": "MUT-06",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2855-2861(E04 玩家施法经验)",
+      "targetIt": "玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1",
+      "intent": "施法经验掷骰改 0 → rgMagicExp 不累积",
+      "find": "addHiddenExp('rgMagicExp', state.rng.rangeInclusive(2, 3))",
+      "replaceWith": "addHiddenExp('rgMagicExp', 0)"
+    },
+    {
+      "id": "MUT-07",
+      "file": "packages/game/src/core/battle/battle-settlement.ts",
+      "sourceAnchor": "battle-settlement.ts:119(exp-cash 屏门)",
+      "targetIt": "expGained=0 → 无 exp-cash 屏",
+      "intent": "0 经验也出 exp 屏 → screens 非空",
+      "find": "if (state.expGained > 0)",
+      "replaceWith": "if (state.expGained >= 0)"
+    },
+    {
+      "id": "MUT-08",
+      "file": "packages/game/src/core/battle/battle-settlement.ts",
+      "sourceAnchor": "battle-settlement.ts:168-170(Phase E 逐敌脚本)",
+      "targetIt": "Phase E:defeated 槽照跑 scriptOnBattleEnd",
+      "intent": "插入 defeated 跳过 → 胜利态(全敌 defeated)脚本不跑,对话队列为空",
+      "find": "if (!en || (en.scriptOnBattleEnd ?? 0) <= 0) continue",
+      "replaceWith": "if (!en || en.defeated || (en.scriptOnBattleEnd ?? 0) <= 0) continue"
+    },
+    {
+      "id": "MUT-09",
+      "file": "packages/game/src/core/battle/battle-progression.ts",
+      "sourceAnchor": "battle-progression.ts:299-303(PAL_AddMagic 空槽臂)",
+      "targetIt": "rgwMagic 32 槽全满 → 不再学新法术",
+      "intent": "空槽判定恒真 → 槽满时覆盖首槽学入,learnedMagics 非空",
+      "find": "if ((slot?.[roleId] ?? 0) === 0) {",
+      "replaceWith": "if (true) {"
+    },
+    {
+      "id": "MUT-10",
+      "file": "packages/game/src/core/battle/battle-progression.ts",
+      "sourceAnchor": "battle-progression.ts:241(升级快照有效值口径)",
+      "targetIt": "升级快照有效值含装备加成",
+      "intent": "old 退回裸 base → 装备项丢失,old 20≠27",
+      "find": "attack: { old: oldAtkBase + (effAtk - (rt.rgwAttackStrength[roleId] ?? 0)), cur: effAtk },",
+      "replaceWith": "attack: { old: oldAtkBase, cur: effAtk },"
+    }
+  ]
+}
