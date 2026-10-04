@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-EVENT-CONTRACTS-1 — event script semantic contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -63,7 +63,7 @@ docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md。
 
 **结论：22 条未重复语义合同全绿（1 个新测试文件），反控 8/8 VALID，全门通过；不请求 done，
 等待 Codex 独立验收。** 逐合同排重账见
-[evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md)
+[evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md)
 （判例：排重必须 hex 字面量与 OP_* 常量名双 grep——0x62/0x63/0x4C/0x4B 仅以常量名出现在旧测
 「B 类移动 opcode」describe，单查 hex 会误判未证而写重复包装）。
 
@@ -142,3 +142,9 @@ docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/（README/dedup-ledger/mutatio
 
 **r1 提交 SHA**：`5a8df6d25a94708a8ae605cfc22bb68b98d3e0d5`（工作提交，单一 commit 含 22 合同 +
 证据目录 + 回执；本行为 SHA 登记追加笔）。
+
+---
+
+## Codex quality closure (2026-10-04)
+
+候选 `a8e53316c352f08fa06d05e8a59fd228bfc2815c` 已独立验收：22/22 合同、8/8 反控、typecheck、lint 0/0/0、docs、diff 全通过。覆盖率只作为整体 main 记录，不作为本卡收口条件。本卡测试包已集成 main，原候选分支进入退休清理。

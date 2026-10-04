@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -11,7 +11,7 @@ Branch: `codex/glm-reforge-host-lifecycle-r2`
 
 ## Codex build allowed（dispatch 2026-10-04）
 
-前卡 [TEST-COVERAGE85-GLM-REFORGE-1](../archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md) 诚实收口于 80.49%，本卡为
+前卡 [TEST-COVERAGE85-GLM-REFORGE-1](TEST-COVERAGE85-GLM-REFORGE-1.md) 诚实收口于 80.49%，本卡为
 后续专项窄波：只攻 host lifecycle 六轴，不做覆盖率百分比承诺。
 
 独占范围（dispatch 指定重点核验）：
@@ -89,7 +89,7 @@ mkdtemp 清理交付。不标 done，等 Codex 独立验收。
   的 L488/L500 已被 main 侧演进自行闭合）。
 - **U 账 19 条**不可达臂（author 校验前置/literal 类型/validateScriptContinuation/const
   world 原地替换/环境恒真/调用方枚举/防御不变量），逐条一手锚点见
-  [证据 README](../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)。
+  [证据 README](../../../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)。
 - **排重裁决**：与 H1/H2/H5/H6/auto-save/glm-q gate 族不重叠；setEntityPos 显式 height
   合同与既有『0x13 缺省臂』（实际用显式 0/2）同 caller/输入形状/oracle，按纪律**删除**；
   `?? 0` 默认臂按 GridPos.height 必填登记 U18；BGM 有声资产臂既有证明；awaitRunner 单次
@@ -108,7 +108,7 @@ mkdtemp 清理交付。不标 done，等 Codex 独立验收。
 ## 下一位 Agent 提示词
 
 Codex 独立验收：读本卡与
-[证据 README](../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)，复跑
+[证据 README](../../../evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)，复跑
 `node packages/reforge/scripts/hl1-mutation-counterproof.mjs`（4 注入应全 PASS 且源恢复）、
 `node packages/reforge/scripts/hl1-identity-status.mjs`、
 `node packages/reforge/scripts/hl1-family-ledger.mjs`（再生成零 diff）、
@@ -117,3 +117,9 @@ Codex 独立验收：读本卡与
 反控指定 AssertionError 是否唯一归因、U6/U12/U18 类型/常量论证是否成立、29 合同是否与
 既有 fullName 重复状态轴、标题读档/视频取消两处 main 合同的观测面是否只用公开口。
 裁决 accept/counter/rework；未验收前不合 main、不标 done。
+
+---
+
+## Codex quality closure (2026-10-04)
+
+候选 `1a0fa76ff358aa0b067f98bb7d665141eb856e4d` 已独立验收：29/29 合同、4/4 反控、typecheck、lint 0/0/0、docs、diff 全通过。覆盖率只作为整体 main 记录，不作为本卡收口条件。本卡测试包已集成 main，原候选分支进入退休清理。
