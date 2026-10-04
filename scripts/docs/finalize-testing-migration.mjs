@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -7,6 +8,7 @@ import { rewriteLinks, rewriteRepositoryPaths } from './relocate.mjs'
 // Mechanical link/manifest reconciliation after a SHA-checked relocation.
 // This command never rewrites tests, runners, product files or raw receipts.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
+const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
 const [planPath] = process.argv.slice(2)
 if (!planPath) throw new Error('Usage: node scripts/docs/finalize-testing-migration.mjs PLAN.json')
 const plan = JSON.parse(readFileSync(resolve(root, planPath), 'utf8'))
@@ -47,6 +49,7 @@ for (const entry of plan.entries) {
     ...legacy,
     movedTo: entry.to.replace(/^docs\/testing\//, ''),
     sourceSha256: entry.sha256,
+    storedSha256: digest(resolve(root, entry.to)),
     plan: planPath,
   })
 }

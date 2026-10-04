@@ -11,6 +11,7 @@
       "capability": "item-logic-r5-review-evidence",
       "provenance": "unattributed",
       "sourceSha": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+      "storedSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 156,
@@ -48,13 +49,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -96,6 +97,7 @@
       "capability": "item-logic-r5-review",
       "provenance": "unattributed",
       "sourceSha": "b8825dec542f8ce3ff76389f27eb54eae34c975eed2ab21826e8e9fcc6976026",
+      "storedSha256": "479c79bd2982d2221a93d567183c5151592f69d4bca976e6d73683ae376c8e72",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 64,
@@ -133,13 +135,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "b8825dec542f8ce3ff76389f27eb54eae34c975eed2ab21826e8e9fcc6976026",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -181,6 +183,7 @@
       "capability": "item-logic-r6-review-evidence",
       "provenance": "unattributed",
       "sourceSha": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
+      "storedSha256": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 121,
@@ -209,13 +212,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -248,6 +251,7 @@
       "capability": "item-logic-r6-review",
       "provenance": "unattributed",
       "sourceSha": "62944963ce300f4c88f1a4e377819b016a3358aded113045d749a5e0fdb9554e",
+      "storedSha256": "687064bde082a6f5e325791c6e07891d4ebfdcd141750fd041b60ceb78b4a68f",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 56,
@@ -276,13 +280,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "62944963ce300f4c88f1a4e377819b016a3358aded113045d749a5e0fdb9554e",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -315,6 +319,7 @@
       "capability": "item-logic-r7-review",
       "provenance": "unattributed",
       "sourceSha": "5721397c7ffcb58fc84ba4dfd5d429d6ae89e48b8d630e0c5a94e093acc74bc6",
+      "storedSha256": "75e026e6678e349598b3648d29d7912bbf9545b530f76d85a52f38fd7bb9fdbd",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 46,
@@ -343,13 +348,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "5721397c7ffcb58fc84ba4dfd5d429d6ae89e48b8d630e0c5a94e093acc74bc6",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -382,6 +387,7 @@
       "capability": "item-logic-r8-review",
       "provenance": "unattributed",
       "sourceSha": "4bbfd646dd576f07d985ebb92937448046df8862c7a48d3b61d46f722bc94c07",
+      "storedSha256": "42349c2cc56f5c941bb461cbcaa306246ba4f114be8c935fb58b13b615bb964d",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 63,
@@ -419,13 +425,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "4bbfd646dd576f07d985ebb92937448046df8862c7a48d3b61d46f722bc94c07",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -467,6 +473,7 @@
       "capability": "migration-phase-owners-refactor-evidence",
       "provenance": "unattributed",
       "sourceSha": "163213a1be64b15f40a1e96a9aba26e1f32c70c8a3ea77aa7e4b61b27491fa3f",
+      "storedSha256": "ec80a04177cf10031c0fb748736289d6b2caee5250f88e41a4a4a69c3d2b0108",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 120,
@@ -495,13 +502,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "163213a1be64b15f40a1e96a9aba26e1f32c70c8a3ea77aa7e4b61b27491fa3f",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -534,6 +541,7 @@
       "capability": "migration-phase-owners-refactor",
       "provenance": "unattributed",
       "sourceSha": "3aab1ae1d690f0d6e046f79ca47d2fccef6a0edb63a8d64bf74096d3824c3be2",
+      "storedSha256": "7d187fe2174e93c385fdff916c3ec8c298e113a0dc9d73776db8aff8f5ba68ac",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 52,
@@ -562,13 +570,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "3aab1ae1d690f0d6e046f79ca47d2fccef6a0edb63a8d64bf74096d3824c3be2",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -601,6 +609,7 @@
       "capability": "migration-write-guard",
       "provenance": "unattributed",
       "sourceSha": "0727a8a9b3bc7a34411001e0aa5e834c2b92b7d7c2265bf4276aa69cdb7f4ea7",
+      "storedSha256": "7e7517e2f446cdf25aa5c9a43c89612f79ca0309cb8ceda563141962466d2b81",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 85,
@@ -639,13 +648,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "0727a8a9b3bc7a34411001e0aa5e834c2b92b7d7c2265bf4276aa69cdb7f4ea7",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -678,6 +687,7 @@
       "capability": "pal-simulator-presets",
       "provenance": "unattributed",
       "sourceSha": "beea5d741d9c2f96a0cda3e984c2e5b8f80d537d7f6a8f98159f4cb07b86928d",
+      "storedSha256": "795e9f029725a8e19be615993e986e1122d19a9df0f775fc1dd526e44d0cf60d",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 86,
@@ -715,13 +725,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "beea5d741d9c2f96a0cda3e984c2e5b8f80d537d7f6a8f98159f4cb07b86928d",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -763,6 +773,7 @@
       "capability": "parallel-guard-command-r2-review-evidence",
       "provenance": "unattributed",
       "sourceSha": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+      "storedSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 376,
@@ -902,13 +913,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1046,6 +1057,7 @@
       "capability": "phase1-main-owners-refactor-evidence",
       "provenance": "unattributed",
       "sourceSha": "4a9cb2396101fb42469ff49e33c172b835e075c1806a3875cf86358e59d413dc",
+      "storedSha256": "6808f1881b33fa09df07a7bf12df45cb33fd7b247e589ed098b50d0f090cae6e",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 133,
@@ -1092,13 +1104,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "4a9cb2396101fb42469ff49e33c172b835e075c1806a3875cf86358e59d413dc",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1148,6 +1160,7 @@
       "capability": "phase1-main-owners-refactor",
       "provenance": "unattributed",
       "sourceSha": "fb4912a14f7bc4723d7c06ee90f93ffdfb4fdbfe484121f5f5c36b3d0c1cc872",
+      "storedSha256": "78282126059b1edba8ec3aa42df38ea89c301c20bc86e7da77d981a270d734b1",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 57,
@@ -1176,13 +1189,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "fb4912a14f7bc4723d7c06ee90f93ffdfb4fdbfe484121f5f5c36b3d0c1cc872",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1215,6 +1228,7 @@
       "capability": "phase1-resource-test-inputs",
       "provenance": "unattributed",
       "sourceSha": "d80d0af7b071275b988dd02e0760f16c1bad8bd049b74546b733578ccf850512",
+      "storedSha256": "730d4483051979a1122e89561e111856379c67b0db03a035db8eedb554cc3c80",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 96,
@@ -1253,13 +1267,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "d80d0af7b071275b988dd02e0760f16c1bad8bd049b74546b733578ccf850512",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1292,6 +1306,7 @@
       "capability": "pre-e2e-admission",
       "provenance": "unattributed",
       "sourceSha": "1aca91c4aa874a764b1d9d1af14f665b81e5a8da492fe5c565376e461eb4df94",
+      "storedSha256": "00aeeb545237ad52efaf733baeafc3bae27c6bee7b94303c446089ea88b5657c",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 81,
@@ -1330,13 +1345,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "1aca91c4aa874a764b1d9d1af14f665b81e5a8da492fe5c565376e461eb4df94",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1369,6 +1384,7 @@
       "capability": "preview-controls",
       "provenance": "unattributed",
       "sourceSha": "157e0ca87499490b38d05f4120c7c6a5b0ae68bb921ce734510c391e17279544",
+      "storedSha256": "1c36983232ca0953e61c661ac2039a97db3c7d7f6aac606e6826b3bd3ff09c9a",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 69,
@@ -1397,13 +1413,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "157e0ca87499490b38d05f4120c7c6a5b0ae68bb921ce734510c391e17279544",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1436,6 +1452,7 @@
       "capability": "quality-zero-inventory",
       "provenance": "unattributed",
       "sourceSha": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
+      "storedSha256": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 806,
@@ -1543,13 +1560,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1655,6 +1672,7 @@
       "capability": "reforge-runtime-contracts-review",
       "provenance": "unattributed",
       "sourceSha": "c950d5d779ee2527261f18d85677e9fcde1c21d917b3f1ba93e7b13a88ff7a70",
+      "storedSha256": "a07a37314b63367f2095561039fbee544c2dd66a2992796c35c71d48661d1998",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 232,
@@ -1704,13 +1722,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "c950d5d779ee2527261f18d85677e9fcde1c21d917b3f1ba93e7b13a88ff7a70",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1752,6 +1770,7 @@
       "capability": "runtime-frame-refactor-evidence",
       "provenance": "unattributed",
       "sourceSha": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
+      "storedSha256": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 265,
@@ -1798,13 +1817,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1854,6 +1873,7 @@
       "capability": "runtime-frame-refactor",
       "provenance": "unattributed",
       "sourceSha": "d01cfc7fc964e5a272f01d2ee2325d9dcdb09a24dd0072ce48ea51693ba7df25",
+      "storedSha256": "fe37991fa15ec268aa8385098ab8919bf56f2d27cd03e6c556049f854d68702b",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 95,
@@ -1882,13 +1902,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "d01cfc7fc964e5a272f01d2ee2325d9dcdb09a24dd0072ce48ea51693ba7df25",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1921,6 +1941,7 @@
       "capability": "runtime-state-review",
       "provenance": "unattributed",
       "sourceSha": "19d8d92124e25a4dd73561e27ce652bcacdcbffd16381b9bf4bb88da9e95c942",
+      "storedSha256": "6cb752c93a6d37c6a5207609462648ed9fbd84cd4691084983cea230664add22",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 285,
@@ -1989,13 +2010,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "19d8d92124e25a4dd73561e27ce652bcacdcbffd16381b9bf4bb88da9e95c942",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2061,6 +2082,7 @@
       "capability": "save-barrier-lineage",
       "provenance": "unattributed",
       "sourceSha": "58afb6f007322fefc8202563e681fecef3e581641bd4dd8dac968601c9c36ef4",
+      "storedSha256": "0a231edbf97da26a5239c3a449553899f6339afd09368495c6952938c1be3f3e",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 93,
@@ -2103,13 +2125,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "58afb6f007322fefc8202563e681fecef3e581641bd4dd8dac968601c9c36ef4",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2142,6 +2164,7 @@
       "capability": "scene-preparation-refactor-evidence",
       "provenance": "unattributed",
       "sourceSha": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
+      "storedSha256": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 297,
@@ -2188,13 +2211,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2244,6 +2267,7 @@
       "capability": "scene-preparation-refactor",
       "provenance": "unattributed",
       "sourceSha": "ae02382152900646084f6060fdcddadaef68621e9678a5c296121f2b38b5df08",
+      "storedSha256": "9be0cc3fc003547ba55c5ca65220dd2c87e98a48e9f75ac030dfea96e53aac7a",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 78,
@@ -2272,13 +2296,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "ae02382152900646084f6060fdcddadaef68621e9678a5c296121f2b38b5df08",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2311,6 +2335,7 @@
       "capability": "scene-reference-guard",
       "provenance": "unattributed",
       "sourceSha": "bc4e8ad9df07a7591a951f0838a17e9bf2e8ec81da1e272b1eff43c28501082f",
+      "storedSha256": "509b3a481090ae681f9d6f83efdf3a32f7e6b045654ade94ec1940c5849d5534",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 103,
@@ -2362,13 +2387,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "bc4e8ad9df07a7591a951f0838a17e9bf2e8ec81da1e272b1eff43c28501082f",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2410,6 +2435,7 @@
       "capability": "script-card-ui",
       "provenance": "unattributed",
       "sourceSha": "e3b32739c54bc9e864906932b7302ce60881547a006501cba32c9ff09503bdb0",
+      "storedSha256": "6c4b0a6eadd2530b0aebdd7ba02c5d514697175fcd117ecee9418764936286d4",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 48,
@@ -2438,13 +2464,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "e3b32739c54bc9e864906932b7302ce60881547a006501cba32c9ff09503bdb0",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2477,6 +2503,7 @@
       "capability": "sprite-selection",
       "provenance": "unattributed",
       "sourceSha": "0141113b05fe928584c924ca6251215a751bddd850022be9a76050cb12e470da",
+      "storedSha256": "9914dce86f82451fe296bb85869a8c5abc692b0debb0ec7ef2122cf7c3aa2032",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 94,
@@ -2519,13 +2546,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "0141113b05fe928584c924ca6251215a751bddd850022be9a76050cb12e470da",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2558,6 +2585,7 @@
       "capability": "stability-fire-closeout-evidence",
       "provenance": "unattributed",
       "sourceSha": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
+      "storedSha256": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 226,
@@ -2595,13 +2623,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2643,6 +2671,7 @@
       "capability": "tb00-tb01-completion-evidence",
       "provenance": "unattributed",
       "sourceSha": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
+      "storedSha256": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 493,
@@ -2671,13 +2700,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2710,6 +2739,7 @@
       "capability": "tb00-tb01-completion",
       "provenance": "unattributed",
       "sourceSha": "2257f0bdd53474e1e86389b9e0d58b0a204585f70960e90709e2a6ebf8e4d7de",
+      "storedSha256": "e85e8932ee66ac39d4d84f52caaf2168791f1b3266377e2282e2ea069e1a2b70",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 89,
@@ -2752,13 +2782,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "2257f0bdd53474e1e86389b9e0d58b0a204585f70960e90709e2a6ebf8e4d7de",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -2791,6 +2821,7 @@
       "capability": "world-async-commit",
       "provenance": "unattributed",
       "sourceSha": "6b86402a931e1ce08c1c4f5f58a2cf2544101e8eeff3781baf34fc0de01693b0",
+      "storedSha256": "2432fe8a7be8a0fe9ab1fffa04f48708343b5f844d79d4f3b755373e55051961",
       "retentionDeadline": null,
       "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
       "bodyLines": 100,
@@ -2883,13 +2914,13 @@
         "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
       },
       "revision": {
-        "currentSha": "9df1afb449559da439f7f6f8d20e79523b18402b",
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
         "implementationSha": "6b86402a931e1ce08c1c4f5f58a2cf2544101e8eeff3781baf34fc0de01693b0",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "9df1afb449559da439f7f6f8d20e79523b18402b",
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
             "date": "2026-10-04",
             "action": "legacy-closeout-review",
             "notRun": ["runtime", "E2E", "coverage"]

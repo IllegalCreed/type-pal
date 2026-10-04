@@ -1000,7 +1000,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
       "sourceSha256": "c67e53149ab99a86f85709a3346e96d4a4b542954fc2136623102334fa37896f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "4e73a5539ade6f74c76bef4b3b5894e0c58fa006917398a23dfae91425bd9c6b"
     },
     {
       "path": "architecture-continuation-integration.md",
@@ -1009,7 +1010,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/architecture-continuation-integration.md",
       "sourceSha256": "bd4b4b2a9cac8ae3ae09e4b90a92b9403a062377b6cf32db3703f6f01ca1e3b1",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "4f0fc1703ad21a95b485c8626d569eba546e55c66ec942f6b1415358c0b5e189"
     },
     {
       "path": "architecture-intake-completion-evidence.json",
@@ -1018,7 +1020,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
       "sourceSha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8e040347d21b62aecf0df5a3712309db5921b942231ac174ed3dc46d06ff521d"
     },
     {
       "path": "battle-simulator-assessment.md",
@@ -1027,7 +1030,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/battle/battle-simulator-assessment.md",
       "sourceSha256": "3a394ddc8d89eeddada0962291a2e5ac17731e73f323226d7a1bdf69b198c779",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6d81d434cd0c6113b33684d984ea95b9841ea405d53148cc382a4d3def39896c"
     },
     {
       "path": "battle-simulator-implementation.md",
@@ -1036,7 +1040,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-simulator-implementation.md",
       "sourceSha256": "7bded78580bd12ddf182f9daf22a4b8d57604f49d2ac673dd6fe986e548f1a46",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e36d8e2674b9b8444b3d509e595b59e637d298102c6eea418de5402929ef1963"
     },
     {
       "path": "battle-simulator-r2-design.md",
@@ -1045,7 +1050,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-simulator-r2-design.md",
       "sourceSha256": "4b032f963cbf14c2c17d01bf6fa30917eb4a10f7eba10b369488e3208a4e62e5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "80f872ee868a4ad6fef2079c8f1437f1c999e8a315f11990bdf120887308d448"
     },
     {
       "path": "battle-workflows-integration-evidence.json",
@@ -1054,7 +1060,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-integration-evidence.json",
       "sourceSha256": "234250a84cd210109afa55edc6aa302cedf41a411f46004bd4603591b8c6f3db",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "234250a84cd210109afa55edc6aa302cedf41a411f46004bd4603591b8c6f3db"
     },
     {
       "path": "battle-workflows-integration.md",
@@ -1063,7 +1070,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-integration.md",
       "sourceSha256": "df60df231fff20dca2cb067a10144d0a88fe900007aca99a713600de75280af5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "df60df231fff20dca2cb067a10144d0a88fe900007aca99a713600de75280af5"
     },
     {
       "path": "battle-workflows-r2-evidence.json",
@@ -1072,7 +1080,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r2-evidence.json",
       "sourceSha256": "246451fa0ad90f79ed85d0af2dd1aba46a1a2264d295dc838c0b9d8b19d1fac8",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "246451fa0ad90f79ed85d0af2dd1aba46a1a2264d295dc838c0b9d8b19d1fac8"
     },
     {
       "path": "battle-workflows-r2-review.md",
@@ -1081,7 +1090,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r2-review.md",
       "sourceSha256": "dc9985844a09cd53aaf66fe2e2f11e26134b3b75db122227bd2fc3049f7af76d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "55f02241a154f0fb03e3f6433dbb7d113b76421b9fdaa120afdbcebe2168283b"
     },
     {
       "path": "battle-workflows-r3-evidence.json",
@@ -1090,7 +1100,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r3-evidence.json",
       "sourceSha256": "ecbc9867c782ed638f06e5a8657e6400123853e6f24e1a1d09261273cf3c147a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ecbc9867c782ed638f06e5a8657e6400123853e6f24e1a1d09261273cf3c147a"
     },
     {
       "path": "battle-workflows-r3-review.md",
@@ -1099,7 +1110,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r3-review.md",
       "sourceSha256": "f7d1809616b7023ec551a97de1e325b3f19c2fca03d375b9165fd61efacdc2c7",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "829417b29461d622afb3b1136cd7dde72ae29c1471c9d5942ab46fc332c72fd4"
     },
     {
       "path": "battle-workflows-r4-evidence.json",
@@ -1108,7 +1120,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r4-evidence.json",
       "sourceSha256": "0d214aef8b4f0d3e64bab36b5eca501b71f9365984e61d697dbf281ba0828517",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0d214aef8b4f0d3e64bab36b5eca501b71f9365984e61d697dbf281ba0828517"
     },
     {
       "path": "battle-workflows-r4-review.md",
@@ -1117,7 +1130,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r4-review.md",
       "sourceSha256": "849e42b67342107c50e3db58dc08ac50c33a789fcdc96b1c92523d578a771c0e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f72f1b9785b0bb7854e1de530369b3ec8b534a5d09f8ac590049e0ad72742c9b"
     },
     {
       "path": "battle-workflows-r5-evidence.json",
@@ -1126,7 +1140,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r5-evidence.json",
       "sourceSha256": "7ef71bed25e6e553c8339e5d9fa1e7877a6b4c1ba65fcd2241c3a2b55e1bf2d9",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7ef71bed25e6e553c8339e5d9fa1e7877a6b4c1ba65fcd2241c3a2b55e1bf2d9"
     },
     {
       "path": "battle-workflows-r5-review.md",
@@ -1135,7 +1150,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-r5-review.md",
       "sourceSha256": "bcd9c000d5fdca77d466f30ee20d33e37821c45d61bcba0f3e5445fac5876f71",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9e1390fd9f4e92b812257c1273b01bcc0cb3d090755fd5217d358f80799a0b03"
     },
     {
       "path": "battle-workflows-review-evidence.json",
@@ -1144,7 +1160,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-review-evidence.json",
       "sourceSha256": "821d21399ce550446096cb2aa14ff0ee6098a54de7f9b80b69e85fb49a54b79e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "821d21399ce550446096cb2aa14ff0ee6098a54de7f9b80b69e85fb49a54b79e"
     },
     {
       "path": "battle-workflows-review.md",
@@ -1153,7 +1170,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/battle-workflows-review.md",
       "sourceSha256": "7a7eba877fb3278812b50040d671982287be49c2c181b964feb9771eec174114",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ba76bafd9c1f4cd3688837d6754643a3bb6518c44396b2afdd7077f8bf1b457f"
     },
     {
       "path": "check-environment-stability.md",
@@ -1162,7 +1180,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/check-environment-stability.md",
       "sourceSha256": "b877615a9f8688f28fb83ed2e810317b50ff0d5e720cb08fb5cbf98fffeaf142",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "00d9a939e7b274f3c8af67482a3cb560b2c96a30dfa80e895f59eba0758470cf"
     },
     {
       "path": "checkpoint-export.md",
@@ -1171,7 +1190,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/save-and-recovery/checkpoint-export.md",
       "sourceSha256": "535957c4246b2ab77423ecef76baf16015f2cb0862c72a828a04296969407bb5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "b20026f3d8fab6dde6e57285fee9d4d695dab0bbabf7fd0f374757d534fea6dc"
     },
     {
       "path": "codex-content-boundaries.md",
@@ -1180,7 +1200,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/codex-content-boundaries.md",
       "sourceSha256": "721aa191a5fbe7f79a49fee4a670ac82cfa6c4a7b50be00333a6ee202ebcf24b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "75a9519687da1ac1139f0b7a34b4a87d1487ecd30b86a94e72912640f82f92d0"
     },
     {
       "path": "codex-plus2-ui.md",
@@ -1189,7 +1210,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/codex-plus2-ui.md",
       "sourceSha256": "5bf4d01cab57d0bfa5b12981131de7cbb29f8d5832985bc2894b807cd8851953",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5d5e569034836b9152d4f560518ee9149eaa8c64e493ecf051d481cd1181eb7d"
     },
     {
       "path": "codex-reference-coverage.md",
@@ -1198,7 +1220,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/codex-reference-coverage.md",
       "sourceSha256": "b09315b3393468462510c6e0e826268dc04f2110f8b32cb0b6d0987681fdfe09",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "17ee96656a8ba63256d3e3a7008ebfe9f99c180e0108546b33a659798f4967b7"
     },
     {
       "path": "codex-runtime-shell-evidence.json",
@@ -1207,7 +1230,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/codex-runtime-shell-evidence.json",
       "sourceSha256": "aefa8a479b1150e931220c89326cebe06e6f088b696f01e2858a150b2ba0bdc5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "aefa8a479b1150e931220c89326cebe06e6f088b696f01e2858a150b2ba0bdc5"
     },
     {
       "path": "codex-runtime-shell-wave2-evidence.json",
@@ -1216,7 +1240,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2-evidence.json",
       "sourceSha256": "b0cdacb195af98db58c061bf794d7e6e3ac9d30055ec3723144b1e8f894a5df0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "b0cdacb195af98db58c061bf794d7e6e3ac9d30055ec3723144b1e8f894a5df0"
     },
     {
       "path": "codex-runtime-shell-wave2.md",
@@ -1225,7 +1250,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
       "sourceSha256": "3f83a53ca920611eb64ffe39273a6e35bf6ea9fb215dcfc877444f3e109b4a15",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "40579a490acc7c819fd370c3948f40e0e208d5f5913bc95f65f81f067b0c38ee"
     },
     {
       "path": "codex-runtime-shell.md",
@@ -1234,7 +1260,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md",
       "sourceSha256": "dfe9869261e2e5528294b6a7e43161f6791d4ba7f971ff6e8e5baec278c7d1af",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "3c0042d439a15bd1408c82b8e3ea62b0c008ce525252933c864e2aa08e410f23"
     },
     {
       "path": "content-contracts-review.md",
@@ -1243,7 +1270,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/authoring-and-runtime/content-contracts-review.md",
       "sourceSha256": "a16d39d27c4cf03a1b4e884e964ad1597009f9731b39b0dfb730f759c690922d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "a512c2574887da634c333a4a7f0536aa517b3a09595cc805b267034860275b94"
     },
     {
       "path": "content-residual-review.md",
@@ -1252,7 +1280,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/content-residual-review.md",
       "sourceSha256": "11fde4f4d256fb4262595040ab3bbf532528e47c1cd909d00c14a275d5914a4f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "06ab7122709ad85fe016ce605368ad8603ef7e42458732fcf58feeb7d95b8896"
     },
     {
       "path": "content-validation-refactor.md",
@@ -1261,7 +1290,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/content-validation-refactor.md",
       "sourceSha256": "af9a54fa123ddb14f751a4a5b4ad3d242697c31faad508cd8be26a6b5785462c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "800cf8d9cbb8e7d666931e0b88854506095aed02e73fc74153ad3950eba4f4ab"
     },
     {
       "path": "coverage-initializer-diagnosis.md",
@@ -1270,7 +1300,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md",
       "sourceSha256": "5696c5a04bfdd39373fac9c09bece33914c4028735e1f01a195ad8b55ce71f86",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "94353c46aec9026356b2fcfed89917b816ba10552c4db7ecd05e1be03f123a32"
     },
     {
       "path": "coverage-initializer-evidence.json",
@@ -1279,7 +1310,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/coverage-initializer-evidence.json",
       "sourceSha256": "e9585e40e24b1b375c69499dd74a2197d43fbcb67f50d359db6eabd4d46eb997",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e9585e40e24b1b375c69499dd74a2197d43fbcb67f50d359db6eabd4d46eb997"
     },
     {
       "path": "coverage-large-domain-evidence.json",
@@ -1288,7 +1320,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json",
       "sourceSha256": "69128f8bfc49a8f110bbe96b0cdc9f54549e2ebd07c18a38ba01f6c376bcbc28",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "69128f8bfc49a8f110bbe96b0cdc9f54549e2ebd07c18a38ba01f6c376bcbc28"
     },
     {
       "path": "coverage-large-domain-plan.md",
@@ -1297,7 +1330,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/coverage-large-domain-plan.md",
       "sourceSha256": "c9beafb60ea8a3440c86d6e0ccf2d3fa547fed50928e9a7452acf17248207959",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "cb247f722e78d4e78fe3392a6bb188ffe13489cac42d9540d8e13d21c4f122f0"
     },
     {
       "path": "coverage-parallel-wave3-evidence.json",
@@ -1306,7 +1340,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/coverage-parallel-wave3-evidence.json",
       "sourceSha256": "7421c1ff521357324bca8992be29483f285140afc7ce5ee22c9efd5ca4b97566",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7421c1ff521357324bca8992be29483f285140afc7ce5ee22c9efd5ca4b97566"
     },
     {
       "path": "coverage.md",
@@ -1315,7 +1350,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/coverage.md",
       "sourceSha256": "97321d8f414a47e6a8382c217cd6a91d65423637d2ab3db942e8cd2153893e32",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "118ab0f30529c9e78e2af9441afc14e578cc97404ad38c9e93d7d47f85a649a5"
     },
     {
       "path": "cursor-arch-ds-labels-review.md",
@@ -1324,7 +1360,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
       "sourceSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd"
     },
     {
       "path": "cursor-arch-ds-labels.md",
@@ -1333,7 +1370,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-arch-ds-labels.md",
       "sourceSha256": "3963adf5ccc270db23a06924308a10fdf9f12ee3c0ad020c5573772b4a52e1f7",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "3963adf5ccc270db23a06924308a10fdf9f12ee3c0ad020c5573772b4a52e1f7"
     },
     {
       "path": "cursor-architecture-batch-integration.md",
@@ -1342,7 +1380,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
       "sourceSha256": "3b82c777f46e411628899eba580536c4208dbeba9196127f10b2bc4fb4db15ae",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c66470d4ff0f52ca8f48bc6ce80f1163823d21fa86a7159a4dd203c82be40391"
     },
     {
       "path": "cursor-architecture-batch-review-evidence.json",
@@ -1351,7 +1390,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/cursor-architecture-batch-review-evidence.json",
       "sourceSha256": "d24cfe0fd197e9f9b231db7bff875bb0bc285519dee0b270e706e2c1ec1d5168",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "d24cfe0fd197e9f9b231db7bff875bb0bc285519dee0b270e706e2c1ec1d5168"
     },
     {
       "path": "cursor-architecture-batch-review.md",
@@ -1360,7 +1400,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-architecture-batch-review.md",
       "sourceSha256": "fe3eee16c63fd362ae8e1cebd996eaaf1256445334b872b290191d8a93fb0071",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "202f074559528a22a555fa1d8107ace95f3077686582a80d65760286418d2393"
     },
     {
       "path": "cursor-architecture-batch.md",
@@ -1369,7 +1410,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-architecture-batch.md",
       "sourceSha256": "df69fd24d2e97e4022a5ec8cd552d6337a4e007a23a8a169d584d3c669e9f065",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "b032ce5ff0731607129b53e4917b9bc8758a03c3a6c95fd7892dce213175e8e0"
     },
     {
       "path": "cursor-author-guides-batch.md",
@@ -1378,7 +1420,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-author-guides-batch.md",
       "sourceSha256": "e8037fc87d0187e4e07814b525a9b05e9654ccbe69a98a3a4b528487eb0f9e07",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e86d062630a21d9b9598b6568e22b832b6cea368f52ac397ba269f689ae443e3"
     },
     {
       "path": "cursor-author-guides-review.md",
@@ -1387,7 +1430,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-author-guides-review.md",
       "sourceSha256": "cea4d852c9dad2ed934ab471c092ebea907dd96e77cca8cb08aa06c531c0d89d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "cea4d852c9dad2ed934ab471c092ebea907dd96e77cca8cb08aa06c531c0d89d"
     },
     {
       "path": "cursor-command-boundaries-r3-integration.md",
@@ -1396,7 +1440,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-integration.md",
       "sourceSha256": "84cd3a439b97a590cf6bb7367b694b3e9f2dc1465179c78b7eaae36484f35f16",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "b1b3d79dc0a47cb83fa3d4d8684a8a90cd830c9f7ef159345e897460ed92576a"
     },
     {
       "path": "cursor-command-boundaries-r3-review.md",
@@ -1405,7 +1450,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-command-boundaries-r3-review.md",
       "sourceSha256": "a92430ba4a709a4ca128d2500d047decaa4e7a0ece2c336b9028ff0cf371597f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "3404e42fbd861d9911a2691cde8be52c52bee21e65e0d800a691a98eb15ea6c9"
     },
     {
       "path": "cursor-commands-wave2-integration-evidence.json",
@@ -1414,7 +1460,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
       "sourceSha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "91e0c266038e29b12641528b0fccf24f19fa3b7e447e7242198ed3ec3f483b2c"
     },
     {
       "path": "cursor-commands-wave2-integration.md",
@@ -1423,7 +1470,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
       "sourceSha256": "8c3d3f67f31adfb808fd13436d75d8e9c73fedb32a46e38d1970b8d501e70944",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "20df0d4866e40b48ea7fd5bbc40301af8c80881bf1789c08d703ad490653b5c6"
     },
     {
       "path": "cursor-commands-wave2-review-evidence.json",
@@ -1432,7 +1480,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
       "sourceSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80"
     },
     {
       "path": "cursor-commands-wave2-review.md",
@@ -1441,7 +1490,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
       "sourceSha256": "a181b1e8cfe375c2dcd6d842d21f5d11f8244a458a71034e80730f8291932f57",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c0ff660c2fe24707e7baf1bc753101433cf0800b2b036ddeb6d444e3d3d2768f"
     },
     {
       "path": "cursor-content-pure-wave2-codex-review.md",
@@ -1450,7 +1500,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-content-pure-wave2-codex-review.md",
       "sourceSha256": "2151ea034e4d3d015253c91653c658f222df1549bee845e6109656b491f2b9ea",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "2151ea034e4d3d015253c91653c658f222df1549bee845e6109656b491f2b9ea"
     },
     {
       "path": "cursor-coverage-guide-audit.md",
@@ -1459,7 +1510,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/cursor-coverage-guide-audit.md",
       "sourceSha256": "a01c9eb7fe7bd474bd49a462f0492fed9b22171eb631477ad96bf8c308c62b1a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "eed4ff0b1c8e33459baf6be82fe79363fd780d2e0971c5bb544db90b5a0b9c2a"
     },
     {
       "path": "cursor-coverage-guide-review.md",
@@ -1468,7 +1520,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/cursor-coverage-guide-review.md",
       "sourceSha256": "104759180ee27f5710db70f91046c0d595cb91e8659aa7a80d12a3efd65cd6c0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "aec33e95bc91503adbf1fb35f7d385491dda39e16477f6e22ea124bfa17eabbf"
     },
     {
       "path": "cursor-docs-hygiene-review.md",
@@ -1477,7 +1530,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/testing-records/cursor-docs-hygiene-review.md",
       "sourceSha256": "ce6d40bc89c881bf5888992855b7cd9d5f1f449245c3c26b5f5ec11af2285500",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5309260dea84bf51b20700725bce481818b110112ccb2fee90b7baae19bf0643"
     },
     {
       "path": "cursor-docs-hygiene.md",
@@ -1486,7 +1540,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-docs-hygiene.md",
       "sourceSha256": "b6484be00ca2da08412a814a45d9ddaa5daef1031a320282e9e9494717aca0ac",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8db596c12bc8f9c432f0cdd5da4200989884d82e5e87dd6a4875b7a1936cc503"
     },
     {
       "path": "cursor-docs-wave2-review.md",
@@ -1495,7 +1550,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/testing-records/cursor-docs-wave2-review.md",
       "sourceSha256": "601bda41db8bc06a85ad2f11246b984d6aba6933ae96564fd510838f571b969f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "601bda41db8bc06a85ad2f11246b984d6aba6933ae96564fd510838f571b969f"
     },
     {
       "path": "cursor-docs-wave2.md",
@@ -1504,7 +1560,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/testing-records/cursor-docs-wave2.md",
       "sourceSha256": "1eeced3c138f901fad39319576586a381431abdcaf8e8ab542c93ce6191f506a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "3327c32451719e27fb297439568a53a92930d10bdea5213640859c9ed2fff966"
     },
     {
       "path": "cursor-guide-revision-review.md",
@@ -1513,7 +1570,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md",
       "sourceSha256": "ebaf7b93af644278099cd06da07ba7a5ee4a3c31ad580d251e7c6c11ead850cd",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ebaf7b93af644278099cd06da07ba7a5ee4a3c31ad580d251e7c6c11ead850cd"
     },
     {
       "path": "cursor-map-integration-evidence.json",
@@ -1522,7 +1580,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-map-integration-evidence.json",
       "sourceSha256": "24fa8c8c8129818acf60d591884b3975e5349edf0e6cfe6f40b6bb86f3559d8b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "24fa8c8c8129818acf60d591884b3975e5349edf0e6cfe6f40b6bb86f3559d8b"
     },
     {
       "path": "cursor-map-integration.md",
@@ -1531,7 +1590,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-map-integration.md",
       "sourceSha256": "0575e499a43346048e5804dea09a8cc2e9f445266418d1eeaa72e9068166d9ee",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9369681cfaf1e965d91543fa466e01b4911d0e943408b47f0857b7d82dcd99a1"
     },
     {
       "path": "cursor-map-logic-r1-review-evidence.json",
@@ -1540,7 +1600,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
       "sourceSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114"
     },
     {
       "path": "cursor-map-logic-r1-review.md",
@@ -1549,7 +1610,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-map-logic-r1-review.md",
       "sourceSha256": "fda0e9327bdbdaf7b0b074703e230d47ae0d67b2116b184d82e78d6dee2a8a05",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8966a928d4649a1b94ea3a191030c62d511d2a8311f258cce1970f644749c373"
     },
     {
       "path": "cursor-map-logic-r2-review-evidence.json",
@@ -1558,7 +1620,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
       "sourceSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a"
     },
     {
       "path": "cursor-map-logic-r2-review.md",
@@ -1567,7 +1630,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-map-logic-r2-review.md",
       "sourceSha256": "8779e6dff0cb864f72a8c5721bcba7400a8eed5d1814752d5d7e97043aae9167",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "45e621a12c64bab5cd9e5a46670edcddea8c6f321c43137e6bb2add4a45a159e"
     },
     {
       "path": "cursor-scene-entry-review.md",
@@ -1576,7 +1640,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-scene-entry-review.md",
       "sourceSha256": "0936651d26ae02937d9ed5d3467b4e33a10ad7d477964329b32982880571a55d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0936651d26ae02937d9ed5d3467b4e33a10ad7d477964329b32982880571a55d"
     },
     {
       "path": "cursor-scene-entry-truth.md",
@@ -1585,7 +1650,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/cursor-scene-entry-truth.md",
       "sourceSha256": "e1f6ab411069754fb27d978c50f58dfcb85ca8cb247174d5cc1dbef950119f1e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8d76bb369ac47a992ac0456b2559fa32d6d548a24ecea7d371fa529d48f70869"
     },
     {
       "path": "cursor-wave2-r2-review.md",
@@ -1594,7 +1660,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-wave2-r2-review.md",
       "sourceSha256": "e9554feea1f8effa4a0b919b2754e76a594a4baf025c4cee8e0bb91f9004c0e8",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e9554feea1f8effa4a0b919b2754e76a594a4baf025c4cee8e0bb91f9004c0e8"
     },
     {
       "path": "cursor-wave2-r3-review.md",
@@ -1603,7 +1670,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-wave2-r3-review.md",
       "sourceSha256": "d7462b784b3d7c279bb6fdd4de5651dcf6a4eeb57ba149be3c45499860fcab62",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9cf84ee1181a1e93757e7f21cee614c9994e909f71355e85c9f632f81bd4a5ca"
     },
     {
       "path": "cursor-wave2-review.md",
@@ -1612,7 +1680,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/cursor-wave2-review.md",
       "sourceSha256": "6c0272c9a00fb62f762ee3c530d4310e4765308c270bf7af551d8e21710c05a9",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6c0272c9a00fb62f762ee3c530d4310e4765308c270bf7af551d8e21710c05a9"
     },
     {
       "path": "design-system-audit-layering-refactor-evidence.json",
@@ -1621,7 +1690,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
       "sourceSha256": "dc78ba93f0f9a08661085e9128c315e7ab7882d1edb4465ba1a54556c961bad8",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6f36f29577e68a93e439588f8e08c8b591d263fed04a7c18e3817e9d8947becf"
     },
     {
       "path": "design-system-audit-layering-refactor.md",
@@ -1630,7 +1700,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
       "sourceSha256": "cc0343663dd541a182396ffe3a4b190b8f688d1ab9f014245ffa41cc3a8ea246",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f2fe788b7fe565271d76d6c4a74a3355b4ca106a63a820a8cf3a9b94a231cfbd"
     },
     {
       "path": "editor-app-sessions-refactor-evidence.json",
@@ -1639,7 +1710,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
       "sourceSha256": "798645233ee99662cfac74cb624cd941038f2c7769a2f80de1779537ab47ca31",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9caeb0e227879a993d3406b7a485f7f249b3bb537f2bdfe894c9836aadb280cd"
     },
     {
       "path": "editor-app-sessions-refactor.md",
@@ -1648,7 +1720,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
       "sourceSha256": "249c5403e47c8fe3953bdb9227c115a8f0deec5b7147563133b42a477d49833e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c4525b7fbcfcdac2d250f7bf701cf9d4cc0b57a75f40f53a4b6d61951d377439"
     },
     {
       "path": "editor-functional-visual-2026-09-22.md",
@@ -1657,7 +1730,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/editor-functional-visual-2026-09-22.md",
       "sourceSha256": "34d443a04fa86d2bf985fed573965c4749ef496f9753e39ba4f8f1cabd6218d0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "bcf765f1ab6ac1e4e6c6caef1c2021cf3fa46731f99fe33a85ad050745990be8"
     },
     {
       "path": "editor-leave-guard.md",
@@ -1666,7 +1740,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/editor-leave-guard.md",
       "sourceSha256": "1c07b03af03556db7e34315ac7a103646c6e835b506e3efc6153670103eb219c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "62bf88a2e12d011c4462cd07747fee8c21406369908dcac5a2d36ca0c0f5fc07"
     },
     {
       "path": "editor-logic-coverage-review.md",
@@ -1675,7 +1750,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/editor-logic-coverage-review.md",
       "sourceSha256": "7c8a03719c2963fc1f1e629468cfb2c22d53f20fa5e56553e98cc8c2cdeaf069",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "375009dcd0c29c7ee75426d567ec9bfd2d2ce643e4e3d7ab31bc6fb65c1c58fa"
     },
     {
       "path": "editor-preview-cache.md",
@@ -1684,7 +1760,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/editor-preview-cache.md",
       "sourceSha256": "880377d4655fe0e7beef17b6f175eb8cbc2a2c56b08c1427681f68eed4c580c8",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f913d8f278e83a0dde39a8a04e7e248a571645448f5e5ed74879d61befd8336f"
     },
     {
       "path": "editor-save-recovery-capability-review.md",
@@ -1693,7 +1770,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-capability-review.md",
       "sourceSha256": "53fdb693afd3427b554b31d99a94c3455f113c107ea4907df7559a7111042659",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5725ceaf3b519e447f206c5fd2fd8f370d43139c1ceb29aba05ba92aeef4198a"
     },
     {
       "path": "editor-save-recovery-closeout.md",
@@ -1702,7 +1780,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md",
       "sourceSha256": "f2b5975dbb5c103e675ecb98cbee8d85d5ba322f577490a1faccd9cc4896e8a3",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6bf0093e10b98d2f6ed1109d6cc9c5e651a5320207cbe2c3a0606f4c2b25387e"
     },
     {
       "path": "editor-save-recovery-coverage-pending.md",
@@ -1711,7 +1790,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md",
       "sourceSha256": "4721ae76115b8e393fb1ca4192f3c10cddbefdbe02c4e395db19a12067e900fa",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7b35a9e1ca397ab96726ad3a16fce458787793d6e11d8adb7f1e666272789493"
     },
     {
       "path": "editor-save-recovery-glm-batch-report.md",
@@ -1720,7 +1800,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md",
       "sourceSha256": "9a8461bfbdebb17ba8ee378b47b45d428f2a8b0c5b0d773e73be615b90f6bfa0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "dfcef3f18e3b105f935aad45b6b449e00ed0c98fc50161a6a1bd87e6177853be"
     },
     {
       "path": "editor-save-recovery-glm-batch.md",
@@ -1729,7 +1810,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-batch.md",
       "sourceSha256": "c89d2142055b5ecb318a63296f5ceda662ec6535ef06e78c98460662da7b2ef4",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6f4436556cd551acf2831ea3b48bdedbaa1aff8b1ad8103bd535764242c50446"
     },
     {
       "path": "editor-save-recovery-glm-identity-foundation.md",
@@ -1738,7 +1820,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-identity-foundation.md",
       "sourceSha256": "953d03b8edbb9ac634d668c1173198f250ad39ec0b6182cc6cbb06bec70e2d0d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e5190a8833fb7fd1e60d16e7309224d9d7ed6fc9d1b21febba24ae6c6fe3db0a"
     },
     {
       "path": "editor-save-recovery-glm-open-identity.md",
@@ -1747,7 +1830,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-open-identity.md",
       "sourceSha256": "e38b0ea01c3399785890f30cc87b87482c67e5a2d8c4280efaa91baf87095134",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5b1a44dbcc5fc442898b55c5d243b80ca91c702f1baf957d4b59294dbe99114e"
     },
     {
       "path": "editor-save-recovery-glm-preflight.md",
@@ -1756,7 +1840,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md",
       "sourceSha256": "c166bc6c9ab60314eb773d8cc8fe43634ee0d0e5b094e092c6c21aa2c90687db",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "85d4be90d245276b76694395c7b29a94036644bbf7b8564e696a165afbf8a2b6"
     },
     {
       "path": "editor-save-recovery-native-ui.md",
@@ -1765,7 +1850,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-native-ui.md",
       "sourceSha256": "b02c20e6812eaf6a57fefa2712a28cbbbd9df48e6c656c558ea23dd5254b4c0b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5fb078aea72c466965c7fb2f2d34ddc9e44f15f56519cfcb3e5e61a152a1fed1"
     },
     {
       "path": "editor-save-recovery-project-io-review.md",
@@ -1774,7 +1860,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/save-and-recovery/editor-save-recovery-project-io-review.md",
       "sourceSha256": "132314ab2451a5f5732869248e1a5a1352118304d7cbeb0b7c2ccf4f15c69abf",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "85072289460cf6a0a981cc07765766f298a35839a411725be63501ba6d72d12d"
     },
     {
       "path": "gemini-phase1-stats-integration.md",
@@ -1783,7 +1870,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/phase1-runtime/engine-boundaries/gemini-phase1-stats-integration.md",
       "sourceSha256": "16a88bb634d113a3601040a3d801533a9d6f47d8680af71017f85315c93e0811",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "16a88bb634d113a3601040a3d801533a9d6f47d8680af71017f85315c93e0811"
     },
     {
       "path": "glm-arch-battle-field-commands.md",
@@ -1792,7 +1880,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
       "sourceSha256": "e8d787406e9161be3fb68ac24efeb6b7805448a3573f04eb3930830dbe23a27b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "3c3b8b790bbc6f805f4cd55957dbee3537c18fbbde54bf2c501e191ac5d4a1cf"
     },
     {
       "path": "glm-battle-workflows-evidence.json",
@@ -1801,7 +1890,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/glm-battle-workflows-evidence.json",
       "sourceSha256": "c1d400aa79873194e6783d6ab984f804989f98159eca00cc0b2bbe89d15199b9",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "728ea11541f1256cb99dac52842aaab6f2294219122d67c2b04560c3afa86cbc"
     },
     {
       "path": "glm-battle-workflows.md",
@@ -1810,7 +1900,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/battle/glm-battle-workflows.md",
       "sourceSha256": "4d40b5cbe7566d4852489cbde8b6d7ad87f305c288ef66cf32f058ae01e26e29",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ad320f5882b5f321164102b9b7f62d0ae8f2196b91bb50373ce50b555b8a8327"
     },
     {
       "path": "glm-content-contracts-evidence.json",
@@ -1819,7 +1910,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json",
       "sourceSha256": "0d41b9909074273d0bc7be2941a1a147eb9ea81d0a85f147551f257a287740da",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0d41b9909074273d0bc7be2941a1a147eb9ea81d0a85f147551f257a287740da"
     },
     {
       "path": "glm-content-contracts.md",
@@ -1828,7 +1920,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md",
       "sourceSha256": "f6616bf1b6ec37a2c7d2a50300ee71e4742ed0f3253cd35b0afef979887d49c0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ad245f9567d391fd3b03b441770449122633889e1ced99a482aff92cb1df6045"
     },
     {
       "path": "glm-content-residual-evidence.json",
@@ -1837,7 +1930,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/glm-content-residual-evidence.json",
       "sourceSha256": "2ab07eb99b376b1ee819f65f53387a89667eed4af06bf42f89830decd51c83d3",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "2ab07eb99b376b1ee819f65f53387a89667eed4af06bf42f89830decd51c83d3"
     },
     {
       "path": "glm-content-residual.md",
@@ -1846,7 +1940,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/glm-content-residual.md",
       "sourceSha256": "1f020ef0c96f8cb423bc36de70698886fddf745058615108b2f6b91789a83276",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "91db9a98612675bd0579d1a9f2232dd44ac3c080c787bdf93184da9e8be2c87e"
     },
     {
       "path": "glm-coverage-queue-design-review.md",
@@ -1855,7 +1950,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-queue-design-review.md",
       "sourceSha256": "d9ebb5d74aa9be2d891ae0baf29b7f1709587d1cf4fc4cfc31021cea9004e449",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "114706a6c7aa0c3e5bb7373a86cbfe48f5b84a294c4f6b7146d7ea9d7051f45a"
     },
     {
       "path": "glm-coverage-remaining-review.md",
@@ -1864,7 +1960,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-remaining-review.md",
       "sourceSha256": "5906955387e6ed2d5eb932bcd144c34908102731852446df6db886efd5a37db8",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "4cb5028565b602cfa3ef5258f341b72fd4888f7b9d068d37e6389e8a3d8aa4d8"
     },
     {
       "path": "glm-coverage-wave2-evidence.json",
@@ -1873,7 +1970,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-wave2-evidence.json",
       "sourceSha256": "5a79ce9e44e00b74b921b83e7730da672fcdb40ff886b2c543c41de802b0a27c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5a79ce9e44e00b74b921b83e7730da672fcdb40ff886b2c543c41de802b0a27c"
     },
     {
       "path": "glm-coverage-wave2-receipt.md",
@@ -1882,7 +1980,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md",
       "sourceSha256": "4065124976e4d195ca62134097d5861284213f2998f027c9fc64a926e4f3dbab",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "d8382ac865c8cfc0653af9f762f2e1b0a4e252aadcc56b211a36e082f2b64ba7"
     },
     {
       "path": "glm-coverage-wave2-results.json",
@@ -1891,7 +1990,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-wave2-results.json",
       "sourceSha256": "99209656a32b2ee57df93050df856f5a19ce2bb2c8d317e277001ca65626a213",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "fb81b273acd693261d8323daca9fae9d1e30fc27d6281c70c1048120ca316f6c"
     },
     {
       "path": "glm-coverage-wave2.md",
@@ -1900,7 +2000,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-wave2.md",
       "sourceSha256": "2f12d7bf3c38bf3d450c731418e0c59a5df2e4516dcb8822d61b33aacbda04d2",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "2a4b785a1613dbb3fcc30e857c48e89de067a04e563843e77f5aad9f5ce789b9"
     },
     {
       "path": "glm-coverage-work-queue.json",
@@ -1909,7 +2010,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-work-queue.json",
       "sourceSha256": "cc5ff8272f978f8ad7f266efc5aeb47afffae85bb1a8c3c66937cf4cd9a0005f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "cc5ff8272f978f8ad7f266efc5aeb47afffae85bb1a8c3c66937cf4cd9a0005f"
     },
     {
       "path": "glm-coverage-work-queue.md",
@@ -1918,7 +2020,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-coverage-work-queue.md",
       "sourceSha256": "a5f2ba0e260c908e5dfad0a7debd804fcdc80230b8514e24d926227eb74ff008",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "171d5dd47c016f9dac9781d200974004778572de312ae1cd6ac7780001d4e4e9"
     },
     {
       "path": "glm-delivery-checklist.md",
@@ -1927,7 +2030,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/glm-delivery-checklist.md",
       "sourceSha256": "4b85e83f2407966cd59b4cf72c73e98de7678202cfe3a6e99be108fd14633960",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "4b85e83f2407966cd59b4cf72c73e98de7678202cfe3a6e99be108fd14633960"
     },
     {
       "path": "glm-editor-history-workflows-receipt.md",
@@ -1936,7 +2040,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
       "sourceSha256": "24b4f0d18fa416e6a7f17cf4f061e9b53a5907b908c0b62337a2ddb160ca98f9",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ec890562b34fa38527eb00270af4eeeab71dc11f2d2b6e2f624326f28a8a31bf"
     },
     {
       "path": "glm-editor-history-workflows.md",
@@ -1945,7 +2050,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-history-workflows.md",
       "sourceSha256": "194b71b0fde81b90bbe5f04c23d72fe796c5fd69fc5d380bf938f50d9978526a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "1e6b67680dd7b729ff55aa579f9736de84d246f1788d7a6df88fd3b41cd4d13d"
     },
     {
       "path": "glm-editor-import-codec.md",
@@ -1954,7 +2060,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/supply-and-import/glm-editor-import-codec.md",
       "sourceSha256": "b4600da8bd6aa7c3a68ef698d10c1e75ee747cbfded6114837e65b082e66b8e9",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "50d67bfcc523c79a8b3b335069f981d4d5feaad58bbee6a267383fb1447db1ba"
     },
     {
       "path": "glm-editor-logic-coverage-receipt.md",
@@ -1963,7 +2070,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-editor-logic-coverage-receipt.md",
       "sourceSha256": "d7c69ce03c079bb84378a9df996c5dcf36ceb4b41dc544f2ff116b0d6a9418d1",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "59537cf649ef57c452a2c75205f89b33c52279ad688970b378ccd6ee5231c447"
     },
     {
       "path": "glm-editor-map-data-evidence.json",
@@ -1972,7 +2080,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
       "sourceSha256": "37405cddc75ab625ddb91d41878c4244e703a6c5dcdb3162ecf451d8dc2b3144",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "56c01aed1e3a46dab0ddb26505fbf2cd048ca96845b51ac5379b1cb6ebe25a7b"
     },
     {
       "path": "glm-editor-map-data.md",
@@ -1981,7 +2090,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-map-data.md",
       "sourceSha256": "cc3f359c2a5f0cb8feb90ae3be6184514410be0d0aa9794f9d59081a0b94b339",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "66cfab49c8bab678a89465da97434794ca30f26343906a1571cce3b8d28ca379"
     },
     {
       "path": "glm-editor-script-helpers-evidence.json",
@@ -1990,7 +2100,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
       "sourceSha256": "8a2241e5bf41aa1d7d2f9f7c84ec4a5b1d5429b349d64fcca12707abfef7650f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6587fec116c6c007e10ab4c9bdf9925922c823db998598d4a9bc18f7ece24d00"
     },
     {
       "path": "glm-editor-script-helpers.md",
@@ -1999,7 +2110,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-script-helpers.md",
       "sourceSha256": "0283f8fb3cdc9fc0c1777c5261845ff0a3bcbe6db64b152a9771bf8d6f56023b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e8cb5c7b28e0bad8db92d44131e3bab366c9233db391c7723bfdd762bc237175"
     },
     {
       "path": "glm-editor-ui-wave-codex-r2-review.md",
@@ -2008,7 +2120,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-r2-review.md",
       "sourceSha256": "701785aa024ab29c17b100d308df4f66cbc1f04a40980e65b71b9f37011fe0cf",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "701785aa024ab29c17b100d308df4f66cbc1f04a40980e65b71b9f37011fe0cf"
     },
     {
       "path": "glm-editor-ui-wave-codex-review.md",
@@ -2017,7 +2130,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-review.md",
       "sourceSha256": "fc1cdae71158e714fa7f3cc812c7b503562ec15098f924e0f25afe49414c4a3c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "fc1cdae71158e714fa7f3cc812c7b503562ec15098f924e0f25afe49414c4a3c"
     },
     {
       "path": "glm-foundation-coverage-receipt.md",
@@ -2026,7 +2140,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-foundation-coverage-receipt.md",
       "sourceSha256": "7ab9f538aa91130116a0051ac1a5bef94b9fa1e7e78606aa292f70880438a7fb",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9284c533338e554746ab351998985f970189db61188707e1d100e06ffbac5740"
     },
     {
       "path": "glm-foundation-coverage-review.md",
@@ -2035,7 +2150,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/glm-foundation-coverage-review.md",
       "sourceSha256": "be3d670665f6e5c604b6465948ea97c7101454d01efaf9bda71298fbccb48ba3",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "99be3f0ad85e148db28a72a542424224678fe338421afcbe58249e5e7bc21be2"
     },
     {
       "path": "glm-game-host-boundaries-evidence.json",
@@ -2044,7 +2160,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/glm-game-host-boundaries-evidence.json",
       "sourceSha256": "82fd22a658e2cfe3515d679ed3ec6458744642c2750a83caa8bc7370c685d57e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c36ddfbb092ff5ca8e2c19010c47f5e8f17cf03b4c487b70ee9e12ba1ef8e77f"
     },
     {
       "path": "glm-game-host-boundaries.md",
@@ -2053,7 +2170,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/phase1-runtime/testing-records/glm-game-host-boundaries.md",
       "sourceSha256": "618f7119e6a70af01e4d0f43ce83a66a09943212d175f82839bc36f2900bd3cb",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f193d1de42afb3a6d083d29a5f8c5567cb235b0eb703e653c568a2ad1d45fe8a"
     },
     {
       "path": "glm-game-menu-boundaries-evidence.json",
@@ -2062,7 +2180,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json",
       "sourceSha256": "cffaeb36ba887e57aaec947e4cd56c05d632cb1a39e98f42686c44f538c95e56",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5bf717d2f42a221110e713a9d6fe321c128e23997de33d3ece9a70312676c734"
     },
     {
       "path": "glm-game-menu-boundaries.md",
@@ -2071,7 +2190,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/phase1-runtime/editor-workflows/glm-game-menu-boundaries.md",
       "sourceSha256": "76aecd1bb63399f9130580cd3bd4d35a31768997fc038dd03e14e41a43c15954",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "fda81b8ac376deeeaee79b8b3d0298d32fce0ec487f00f35dcfeac50f979797d"
     },
     {
       "path": "glm-import-codec-evidence.json",
@@ -2080,7 +2200,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/glm-import-codec-evidence.json",
       "sourceSha256": "e26ca9ebae9a2cdbad8d0205ce1e7383dddb47fd3ad87ebe74ea4058529ac200",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "569b94b33622e80eddb0cfc43649ad3dade29fd2a35db2e85b99a4a47f781776"
     },
     {
       "path": "glm-migration-boundaries-evidence.json",
@@ -2089,7 +2210,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/glm-migration-boundaries-evidence.json",
       "sourceSha256": "cff41809fea997cdf233c7dbcd50d1318e3aed1520b75380566b445fcceed0c6",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ff26ef514f4eab1acbca8525ae979a9b047e9731b0f0a4d4dce68271c39ef66b"
     },
     {
       "path": "glm-migration-boundaries.md",
@@ -2098,7 +2220,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/glm-migration-boundaries.md",
       "sourceSha256": "d6aa1399ac9115929ce63d31626fdb27125d95ab30078e09a4e07b74a54e70ba",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "dc3690edcc3c94f5483efe4e5a9e0439db8068368b045e71ad30e860f2517178"
     },
     {
       "path": "glm-nine-final-evidence.json",
@@ -2107,7 +2230,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/glm-nine-final-evidence.json",
       "sourceSha256": "87cdcf93d91e505a72e120c75a55b93646359d06a8773e83819935248645cad4",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8f358532a61c8baf03feea6d6bbd6843f35022cba7c56901977fc1c74ec83c8b"
     },
     {
       "path": "glm-nine-final-review.md",
@@ -2116,7 +2240,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/glm-nine-final-review.md",
       "sourceSha256": "c77c6b05d05dbdfded803d3981634c872518ad6f079c5dfa046eef329812d509",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ce32f0bc29ff51cfe11449fb3dfcf14e9d06651c8e3f899325687abc117cda7d"
     },
     {
       "path": "glm-nine-intake-evidence.json",
@@ -2125,7 +2250,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/glm-nine-intake-evidence.json",
       "sourceSha256": "ffad1b8083d9884a5690adceb3ddbe7c65d05676afe938b7b83817784e4b0a49",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "b6c4bbf333d34ff50aa7593b45190402a50cccbd935817e6a8c192509c4bbe61"
     },
     {
       "path": "glm-nine-intake-review.md",
@@ -2134,7 +2260,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/glm-nine-intake-review.md",
       "sourceSha256": "6f1629b1a867deaa62959aef8e0cd7846e2c54798cb3cafe9535a0c678aa59bd",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "46a8a0447173e05e5ac7df066617b2572fed46dca1e317c3fec609f0439a2385"
     },
     {
       "path": "glm-nine-rework-evidence.json",
@@ -2143,7 +2270,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/glm-nine-rework-evidence.json",
       "sourceSha256": "627961f1be26fee0ece0eb95b18dea42271ddad1589e8063b8251649e1bccd5c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "01ed1fe2c989e7e396b41c2afdfaadf700fbe3a475f1f8014026a078b6b6b465"
     },
     {
       "path": "glm-nine-rework-review.md",
@@ -2152,7 +2280,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/glm-nine-rework-review.md",
       "sourceSha256": "2dc9b1db18ef9643ea82cb69075fa527e14c31caecddbcfefe1fc8d1033a4198",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5d5c7f98d9f5413a32639b3543fa85e4f03c79da7acb6f0c48aec9731b24cc54"
     },
     {
       "path": "glm-pal-tables-evidence.json",
@@ -2161,7 +2290,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/glm-pal-tables-evidence.json",
       "sourceSha256": "2f487a0aeef2d5cd2612dbbf51115925351d721491f0a7d8d7ec4218a708091e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "d61491a6955917bfaedba0b1860ac740797b1465ab468acabaeec7acb524cfa7"
     },
     {
       "path": "glm-pal-tables.md",
@@ -2170,7 +2300,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/extraction/testing-records/glm-pal-tables.md",
       "sourceSha256": "97cce3910fa953d1c168f5ef9b5d882e12c8ed0a3df4ae237cf2690cb10cfb95",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "a5eca01ef6766115c096621f5759cb484e9871c743a9bede19e8c9847905ce09"
     },
     {
       "path": "glm-pre-e2e-boundary-batch-2-evidence.json",
@@ -2179,7 +2310,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
       "sourceSha256": "7483ca39366e63494e3569918c26e5a26f968ff45aedd5d2b13c89f9b533392d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7483ca39366e63494e3569918c26e5a26f968ff45aedd5d2b13c89f9b533392d"
     },
     {
       "path": "glm-pre-e2e-boundary-batch-2-report.md",
@@ -2188,7 +2320,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md",
       "sourceSha256": "30e0b8b2a06297deb2326ce89dd6e11819c4d6333382773954397e70e2588a8f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "d3082421e7a216cdf794069793aad654bcc0e04450daf9af7713fd222998ee80"
     },
     {
       "path": "glm-pre-e2e-boundary-batch-2.md",
@@ -2197,7 +2330,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2.md",
       "sourceSha256": "556672ac8a557f447cb04951c70916c56aa0625b6a76ca63fbfa2213c7890ffd",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8816a0c79afc4b673081a3606db4cc6ee53063887a7be69676eb98b8bcb0e91e"
     },
     {
       "path": "glm-pre-e2e-prep-report.md",
@@ -2206,7 +2340,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md",
       "sourceSha256": "f7518ada5c254f38e6a6178247c86730bdcbe2f2f7feff72cb9b151c74744344",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "b99b167f8cd96f09e8eb808addb2722ce88e8aee9955358352c08ea544094646"
     },
     {
       "path": "glm-pre-e2e-prep.md",
@@ -2215,7 +2350,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep.md",
       "sourceSha256": "5d5f2c426d78e438628080bf7ec901cfbf97e9dba6ca1c3de606182aa084952a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "38801f496d8d5cc1c9581f3edd2da76d19dbaaa4075b57a0c8b200d4557a1ffa"
     },
     {
       "path": "glm-reforge-asset-io-evidence.json",
@@ -2224,7 +2360,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io-evidence.json",
       "sourceSha256": "b2ba77ef873155b44f4df3acaf3d2215cef0e42d34cc2097f89ab576bee4f983",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "22c8c02eca25781460517ba23d7854d3bb43b4d021e59d1ba5d920fe4ac24fe7"
     },
     {
       "path": "glm-reforge-asset-io.md",
@@ -2233,7 +2370,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io.md",
       "sourceSha256": "81f23f71d17f83fb52757eda09c87645837dcccba84a04a60d2dc70061b129e4",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "98bfe50f365bf3dda3e292229a47e519d0f1a9ea64884af77ddee695841e49b5"
     },
     {
       "path": "glm-reforge-runtime-contracts-evidence.json",
@@ -2242,7 +2380,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts-evidence.json",
       "sourceSha256": "48f96ec09c8e2d8bca49732eafd49e423cfb3d63decb6d865e9ab133852d647a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "48f96ec09c8e2d8bca49732eafd49e423cfb3d63decb6d865e9ab133852d647a"
     },
     {
       "path": "glm-reforge-runtime-contracts.md",
@@ -2251,7 +2390,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md",
       "sourceSha256": "d288784e2321fb0134375e697edd6099bdf997a3c411ad7bc3481d5ef23e58b1",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6bfccc6c06d0a1eb59dba11c455d88d3720aba25b69798516797083f169e4c4f"
     },
     {
       "path": "glm-resource-tools-evidence.json",
@@ -2260,7 +2400,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json",
       "sourceSha256": "a3d552420aacf3d44fe66043e82ec443655b9a9bc8b19125bd9f6c3ca21d6cd1",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0eaff160497199b740ebe35375fa2b19dfbceef6414513ffcf49f8d4a4c4e0cb"
     },
     {
       "path": "glm-resource-tools.md",
@@ -2269,7 +2410,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/extraction/supply-and-import/glm-resource-tools.md",
       "sourceSha256": "a97fd9eaa34f7952511052a808fef409985820d99c2d68e50f73802ff2ac7703",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "850bdb68ac4f875dd7eeff6e10dd9596159a115f97033d5acaf2c62d04547c34"
     },
     {
       "path": "glm-runtime-state-boundaries.md",
@@ -2278,7 +2420,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md",
       "sourceSha256": "35476a7ce9a37f1b9f3df97d170d5da87eabe01b4d740f32d702ae2438924b08",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "176b746728d85494492da79ace38734d440c54870afcc9dda89a109a25d4ff26"
     },
     {
       "path": "glm-runtime-state-evidence.json",
@@ -2287,7 +2430,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json",
       "sourceSha256": "686825b0ae1e6693565e50751191222511dcccd529a807ac780ed655dd486f39",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "686825b0ae1e6693565e50751191222511dcccd529a807ac780ed655dd486f39"
     },
     {
       "path": "glm-wave-union-20260929.md",
@@ -2296,7 +2440,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/glm-wave-union-20260929.md",
       "sourceSha256": "bcee14991976643c611f5f79cf3d4672d8b02b2b1887a70ae1e7431a6667392e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "52cddfe7387c4213ede44b4f82ae81e4078d67c92ba89c5c10e7bc87b449d9af"
     },
     {
       "path": "grok-arch-ds-overflow-mutant.json",
@@ -2305,7 +2450,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/grok-arch-ds-overflow-mutant.json",
       "sourceSha256": "2355d59b5f215de37178e9ecaafea3d16ac4e76701e69a45326286a234cd42c5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "2355d59b5f215de37178e9ecaafea3d16ac4e76701e69a45326286a234cd42c5"
     },
     {
       "path": "grok-arch-ds-overflow-review.md",
@@ -2314,7 +2460,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
       "sourceSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff"
     },
     {
       "path": "grok-arch-ds-overflow.md",
@@ -2323,7 +2470,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/grok-arch-ds-overflow.md",
       "sourceSha256": "6f3c2405965bcafdf2ec91b380cef281af137bdcaec8999489a47e7c5cab609b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e71c31d825f91b26aa17752fd05b03d0d0c782073fb184f5eaa5f45eb16e0274"
     },
     {
       "path": "grok-phase1-composition-integration.md",
@@ -2332,7 +2480,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/grok-phase1-composition-integration.md",
       "sourceSha256": "be820f7a58d3053a6eb26d8b826a05aeab2ad770c712d3498d32b9409bf696ac",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "be820f7a58d3053a6eb26d8b826a05aeab2ad770c712d3498d32b9409bf696ac"
     },
     {
       "path": "grok-phase1-composition-review.md",
@@ -2341,7 +2490,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/grok-phase1-composition-review.md",
       "sourceSha256": "c330b4821bb6b0724bbc4531a6d4a734505078aa38eca79132ecbacb50530893",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c330b4821bb6b0724bbc4531a6d4a734505078aa38eca79132ecbacb50530893"
     },
     {
       "path": "grok-present-integration.md",
@@ -2350,7 +2500,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/grok-present-integration.md",
       "sourceSha256": "af04288497b2fb5bfc70971a9bf4c523e14fea10205dc87a3f1c010198a4857c",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "af04288497b2fb5bfc70971a9bf4c523e14fea10205dc87a3f1c010198a4857c"
     },
     {
       "path": "grok-present-review.md",
@@ -2359,7 +2510,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/grok-present-review.md",
       "sourceSha256": "75c12c652db6469c6eac4a39c27e4123dac42c4d9daa22fb92945635428fa6e8",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "75c12c652db6469c6eac4a39c27e4123dac42c4d9daa22fb92945635428fa6e8"
     },
     {
       "path": "guard-leaf-intake-review.md",
@@ -2368,7 +2520,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/quality-gates/guard-leaf-intake-review.md",
       "sourceSha256": "45e9e40d835fbfab1cfcfc5202fd3ca29162904acd666dd98f5c0d57356a735a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "cbce12d254d0940b233c15c79bdb63a5c85e79dc1a95fe0ccf747a3ecfb42623"
     },
     {
       "path": "guard-leaf-r2-evidence.json",
@@ -2377,7 +2530,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
       "sourceSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6"
     },
     {
       "path": "guard-leaf-r2-review.md",
@@ -2386,7 +2540,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/guard-leaf-r2-review.md",
       "sourceSha256": "74a0a8c751db330f924a2911fc46bc5d852fd736a99ef65179212ab7c654753f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0eca7172af1fba33b29d1b7a7741e441ed170cfc6f0eee53abe35a72b5e8d006"
     },
     {
       "path": "guard-leaf-r3-review.md",
@@ -2395,7 +2550,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/guard-leaf-r3-review.md",
       "sourceSha256": "68e81256f52cb63253b26274a8e8cb45116a102893e92cfa325675dca3612917",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e409620a0fbdd782113f5845002f0f9bbc9333c14d7f33b83adaf53e09c22a7f"
     },
     {
       "path": "guard-leaf-review-evidence.json",
@@ -2404,7 +2560,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/guard-leaf-review-evidence.json",
       "sourceSha256": "01b2f22d1f040a305a90456ebe3c70dfc23e5d9a655c814cbf8c375bd628f98e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "01b2f22d1f040a305a90456ebe3c70dfc23e5d9a655c814cbf8c375bd628f98e"
     },
     {
       "path": "guard-wave3-integration.md",
@@ -2413,7 +2570,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/guard-wave3-integration.md",
       "sourceSha256": "05fc6dc2b7b342eebe06974f2e969f740ea66c9140612934cba90db800eabe1e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "36808eb35bd2c1fe45676059b5a7a160bfb713231fb228a7268820df90e0d908"
     },
     {
       "path": "guard-wave3-r2-review.md",
@@ -2422,7 +2580,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/guard-wave3-r2-review.md",
       "sourceSha256": "5ff01f65f0756b5c7723acab1dfa044ead2e5028bbba063e812c2302cb524731",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "d32a97321d57bb479a4d79d28b770e8be6075a5dedf9e41edc50726cc6757b0a"
     },
     {
       "path": "guard-wave3-r3-review-evidence.json",
@@ -2431,7 +2590,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
       "sourceSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510"
     },
     {
       "path": "guard-wave3-r3-review.md",
@@ -2440,7 +2600,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/quality-gates/guard-wave3-r3-review.md",
       "sourceSha256": "178d270dd9c8134a5e3742b89b485c847fc4157a24765a1d919e5e529f28299e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f5ea2e7b5460ab8b30d3041bda63ae134c2b3db893e7fc2796c1176d8c5a79db"
     },
     {
       "path": "guard-wave3-review.md",
@@ -2449,7 +2610,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/guard-wave3-review.md",
       "sourceSha256": "64dbe8d375ddb26e606fed3afe20ca2352aac9965f74f8d2bd270e7d5f6145f5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f4193fc0dbccf226c05b6152886525b1ed93bbaab8990916ae67c1073760079f"
     },
     {
       "path": "image-import-cleanup.md",
@@ -2458,7 +2620,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/image-import-cleanup.md",
       "sourceSha256": "3ff5a7efc52fa13955ac1321da2bb88083ff8035498657dcea9cd4a7afa296bd",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "3ff5a7efc52fa13955ac1321da2bb88083ff8035498657dcea9cd4a7afa296bd"
     },
     {
       "path": "import-codec-acceptance-evidence.json",
@@ -2467,7 +2630,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/supply-and-import/import-codec-acceptance-evidence.json",
       "sourceSha256": "d292cb8f7b742546ffed36a2c9ecd66d252f96b411099603249111ab1f3003e5",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "56171a5373cd738b5f1ec5720db998c00e91dd656150daaf0852db88779aa5d0"
     },
     {
       "path": "import-codec-acceptance.md",
@@ -2476,7 +2640,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/import-codec-acceptance.md",
       "sourceSha256": "bc63519765f01d3d25c5e5b894163ef6545598a33769786e99e4c71a55123bad",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "450a7910b1be3bc041ab9ba88faceb5d03477674a78d1d85421bc19b62d8578e"
     },
     {
       "path": "import-codec-r4-evidence.json",
@@ -2485,7 +2650,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/supply-and-import/import-codec-r4-evidence.json",
       "sourceSha256": "eb4493fc155a683b6e17f6dae36b3f6d628aee7cc192c12ff4636e0e3d741050",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "4c7056eb7c30ef3d8672551d23204eb467a1f4b4026691f4087d8e7ce589f9f7"
     },
     {
       "path": "import-codec-r4-review.md",
@@ -2494,7 +2660,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/supply-and-import/import-codec-r4-review.md",
       "sourceSha256": "59f0bf9aa55a6eafea133cee0136bbfbc5e6a7e61759cd7d83acc19ffe67260b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e2ff2593baf9209f91c23aadb27a6b65ec34eff0f4ef2b099f66077a1ef202cf"
     },
     {
       "path": "item-authoring-glm-audit.md",
@@ -2503,7 +2670,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-authoring-glm-audit.md",
       "sourceSha256": "56e1c514dc9c8ddc88e777e922fc0dd5bcb4d8b30d222e3de2070edd4fdb1321",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "f08b335eb7481d323d82fc8e29f392de95733ea52f352756e46222bceb66db6e"
     },
     {
       "path": "item-authoring-implementation.md",
@@ -2512,7 +2680,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-authoring-implementation.md",
       "sourceSha256": "b289afb901ff12cfbdce2e55a2a86953e5005e81e6b579c3480438647d1803cb",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6e74cb96bcc1d99c1cd60337da91805f54e755f7dae5d9bd11873f2babd31b92"
     },
     {
       "path": "item-logic-integration.md",
@@ -2521,7 +2690,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-logic-integration.md",
       "sourceSha256": "c5366dafd1e977ab7d18ad331d4d8d72efefb798f2f53e0da6e8924005e793f3",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "46eff4c655dfe2968d3daa35dd431a52ae817c968a4ec56dd277469ba33dabaa"
     },
     {
       "path": "item-logic-r1-review-evidence.json",
@@ -2530,7 +2700,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
       "sourceSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff"
     },
     {
       "path": "item-logic-r1-review.md",
@@ -2539,7 +2710,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-logic-r1-review.md",
       "sourceSha256": "86ab71c60d48a161a0d7a3287f4ae8ea28cb2f18a823475006af395c6b69de09",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "df73efc8cb993b5ba61beed2897cd486e4342c5930923f486b9cb72823215de6"
     },
     {
       "path": "item-logic-r2-review-evidence.json",
@@ -2548,7 +2720,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
       "sourceSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac"
     },
     {
       "path": "item-logic-r2-review.md",
@@ -2557,7 +2730,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r2-review.md",
       "sourceSha256": "e6b783c52a247cb366aaf914dd6f0afdc6ff4f420a8b601ec22df76c82aa144a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9675229bfc666c00f50a00f1da6189c1315100abaa07dc1242ba5e5cd8945609"
     },
     {
       "path": "item-logic-r3-review-evidence.json",
@@ -2566,7 +2740,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
       "sourceSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7"
     },
     {
       "path": "item-logic-r3-review.md",
@@ -2575,7 +2750,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r3-review.md",
       "sourceSha256": "6ab724233bb303f40f62ee26fca5e9ddd141cc47acc9bca33d3d76eaaf6b289e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "d00da8e37d59b15277ddabf42c3122c982e7af7341a6a7edfab61976e8b516f2"
     },
     {
       "path": "item-logic-r4-review-evidence.json",
@@ -2584,7 +2760,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
       "sourceSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b"
     },
     {
       "path": "item-logic-r4-review.md",
@@ -2593,7 +2770,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-logic-r4-review.md",
       "sourceSha256": "28fd6bcea0fe97316093d0547f85d9d4bcce4231a991abbc7a775f79c020b757",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "83e952698fa6f59877af634a5dadfb26378d38a837a6601a6aba4fbbbe963bce"
     },
     {
       "path": "item-logic-r5-review-evidence.json",
@@ -2602,7 +2780,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
       "sourceSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2"
     },
     {
       "path": "item-logic-r5-review.md",
@@ -2611,7 +2790,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r5-review.md",
       "sourceSha256": "b8825dec542f8ce3ff76389f27eb54eae34c975eed2ab21826e8e9fcc6976026",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "479c79bd2982d2221a93d567183c5151592f69d4bca976e6d73683ae376c8e72"
     },
     {
       "path": "item-logic-r6-review-evidence.json",
@@ -2620,7 +2800,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-logic-r6-review-evidence.json",
       "sourceSha256": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd"
     },
     {
       "path": "item-logic-r6-review.md",
@@ -2629,7 +2810,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-logic-r6-review.md",
       "sourceSha256": "62944963ce300f4c88f1a4e377819b016a3358aded113045d749a5e0fdb9554e",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "687064bde082a6f5e325791c6e07891d4ebfdcd141750fd041b60ceb78b4a68f"
     },
     {
       "path": "item-logic-r7-review.md",
@@ -2638,7 +2820,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/item-logic-r7-review.md",
       "sourceSha256": "5721397c7ffcb58fc84ba4dfd5d429d6ae89e48b8d630e0c5a94e093acc74bc6",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "75e026e6678e349598b3648d29d7912bbf9545b530f76d85a52f38fd7bb9fdbd"
     },
     {
       "path": "item-logic-r8-review.md",
@@ -2647,7 +2830,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/item-logic-r8-review.md",
       "sourceSha256": "4bbfd646dd576f07d985ebb92937448046df8862c7a48d3b61d46f722bc94c07",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "42349c2cc56f5c941bb461cbcaa306246ba4f114be8c935fb58b13b615bb964d"
     },
     {
       "path": "migration-phase-owners-refactor-evidence.json",
@@ -2656,7 +2840,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/migration-phase-owners-refactor-evidence.json",
       "sourceSha256": "163213a1be64b15f40a1e96a9aba26e1f32c70c8a3ea77aa7e4b61b27491fa3f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "ec80a04177cf10031c0fb748736289d6b2caee5250f88e41a4a4a69c3d2b0108"
     },
     {
       "path": "migration-phase-owners-refactor.md",
@@ -2665,7 +2850,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
       "sourceSha256": "3aab1ae1d690f0d6e046f79ca47d2fccef6a0edb63a8d64bf74096d3824c3be2",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7d187fe2174e93c385fdff916c3ec8c298e113a0dc9d73776db8aff8f5ba68ac"
     },
     {
       "path": "migration-write-guard.md",
@@ -2674,7 +2860,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/migration-write-guard.md",
       "sourceSha256": "0727a8a9b3bc7a34411001e0aa5e834c2b92b7d7c2265bf4276aa69cdb7f4ea7",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "7e7517e2f446cdf25aa5c9a43c89612f79ca0309cb8ceda563141962466d2b81"
     },
     {
       "path": "pal-simulator-presets.md",
@@ -2683,7 +2870,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/testing-records/pal-simulator-presets.md",
       "sourceSha256": "beea5d741d9c2f96a0cda3e984c2e5b8f80d537d7f6a8f98159f4cb07b86928d",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "795e9f029725a8e19be615993e986e1122d19a9df0f775fc1dd526e44d0cf60d"
     },
     {
       "path": "parallel-guard-command-r2-review-evidence.json",
@@ -2692,7 +2880,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
       "sourceSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37"
     },
     {
       "path": "phase1-main-owners-refactor-evidence.json",
@@ -2701,7 +2890,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/phase1-runtime/engine-boundaries/phase1-main-owners-refactor-evidence.json",
       "sourceSha256": "4a9cb2396101fb42469ff49e33c172b835e075c1806a3875cf86358e59d413dc",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6808f1881b33fa09df07a7bf12df45cb33fd7b247e589ed098b50d0f090cae6e"
     },
     {
       "path": "phase1-main-owners-refactor.md",
@@ -2710,7 +2900,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
       "sourceSha256": "fb4912a14f7bc4723d7c06ee90f93ffdfb4fdbfe484121f5f5c36b3d0c1cc872",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "78282126059b1edba8ec3aa42df38ea89c301c20bc86e7da77d981a270d734b1"
     },
     {
       "path": "phase1-resource-test-inputs.md",
@@ -2719,7 +2910,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md",
       "sourceSha256": "d80d0af7b071275b988dd02e0760f16c1bad8bd049b74546b733578ccf850512",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "730d4483051979a1122e89561e111856379c67b0db03a035db8eedb554cc3c80"
     },
     {
       "path": "pre-e2e-admission.md",
@@ -2728,7 +2920,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md",
       "sourceSha256": "1aca91c4aa874a764b1d9d1af14f665b81e5a8da492fe5c565376e461eb4df94",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "00aeeb545237ad52efaf733baeafc3bae27c6bee7b94303c446089ea88b5657c"
     },
     {
       "path": "preview-controls.md",
@@ -2737,7 +2930,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/preview-controls.md",
       "sourceSha256": "157e0ca87499490b38d05f4120c7c6a5b0ae68bb921ce734510c391e17279544",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "1c36983232ca0953e61c661ac2039a97db3c7d7f6aac606e6826b3bd3ff09c9a"
     },
     {
       "path": "quality-zero-inventory.json",
@@ -2746,7 +2940,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/quality-zero-inventory.json",
       "sourceSha256": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343"
     },
     {
       "path": "reforge-runtime-contracts-review.md",
@@ -2755,7 +2950,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md",
       "sourceSha256": "c950d5d779ee2527261f18d85677e9fcde1c21d917b3f1ba93e7b13a88ff7a70",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "a07a37314b63367f2095561039fbee544c2dd66a2992796c35c71d48661d1998"
     },
     {
       "path": "runtime-frame-refactor-evidence.json",
@@ -2764,7 +2960,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json",
       "sourceSha256": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab"
     },
     {
       "path": "runtime-frame-refactor.md",
@@ -2773,7 +2970,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
       "sourceSha256": "d01cfc7fc964e5a272f01d2ee2325d9dcdb09a24dd0072ce48ea51693ba7df25",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "fe37991fa15ec268aa8385098ab8919bf56f2d27cd03e6c556049f854d68702b"
     },
     {
       "path": "runtime-state-review.md",
@@ -2782,7 +2980,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/engine-boundaries/runtime-state-review.md",
       "sourceSha256": "19d8d92124e25a4dd73561e27ce652bcacdcbffd16381b9bf4bb88da9e95c942",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6cb752c93a6d37c6a5207609462648ed9fbd84cd4691084983cea230664add22"
     },
     {
       "path": "save-barrier-lineage.md",
@@ -2791,7 +2990,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md",
       "sourceSha256": "58afb6f007322fefc8202563e681fecef3e581641bd4dd8dac968601c9c36ef4",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "0a231edbf97da26a5239c3a449553899f6339afd09368495c6952938c1be3f3e"
     },
     {
       "path": "scene-preparation-refactor-evidence.json",
@@ -2800,7 +3000,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json",
       "sourceSha256": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21"
     },
     {
       "path": "scene-preparation-refactor.md",
@@ -2809,7 +3010,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
       "sourceSha256": "ae02382152900646084f6060fdcddadaef68621e9678a5c296121f2b38b5df08",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9be0cc3fc003547ba55c5ca65220dd2c87e98a48e9f75ac030dfea96e53aac7a"
     },
     {
       "path": "scene-reference-guard.md",
@@ -2818,7 +3020,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md",
       "sourceSha256": "bc4e8ad9df07a7591a951f0838a17e9bf2e8ec81da1e272b1eff43c28501082f",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "509b3a481090ae681f9d6f83efdf3a32f7e6b045654ade94ec1940c5849d5534"
     },
     {
       "path": "script-card-ui.md",
@@ -2827,7 +3030,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/script-card-ui.md",
       "sourceSha256": "e3b32739c54bc9e864906932b7302ce60881547a006501cba32c9ff09503bdb0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6c4b0a6eadd2530b0aebdd7ba02c5d514697175fcd117ecee9418764936286d4"
     },
     {
       "path": "sprite-selection.md",
@@ -2836,7 +3040,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/editor/editor-workflows/sprite-selection.md",
       "sourceSha256": "0141113b05fe928584c924ca6251215a751bddd850022be9a76050cb12e470da",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "9914dce86f82451fe296bb85869a8c5abc692b0debb0ec7ef2122cf7c3aa2032"
     },
     {
       "path": "stability-fire-closeout-evidence.json",
@@ -2845,7 +3050,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json",
       "sourceSha256": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37"
     },
     {
       "path": "tb00-tb01-completion-evidence.json",
@@ -2854,7 +3060,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json",
       "sourceSha256": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a"
     },
     {
       "path": "tb00-tb01-completion.md",
@@ -2863,7 +3070,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/ops/testing-records/tb00-tb01-completion.md",
       "sourceSha256": "2257f0bdd53474e1e86389b9e0d58b0a204585f70960e90709e2a6ebf8e4d7de",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "e85e8932ee66ac39d4d84f52caaf2168791f1b3266377e2282e2ea069e1a2b70"
     },
     {
       "path": "world-async-commit.md",
@@ -2872,7 +3080,8 @@
       "migrateBy": "2026-11-01",
       "movedTo": "archive/legacy/runtime/authoring-and-runtime/world-async-commit.md",
       "sourceSha256": "6b86402a931e1ce08c1c4f5f58a2cf2544101e8eeff3781baf34fc0de01693b0",
-      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json"
+      "plan": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "storedSha256": "2432fe8a7be8a0fe9ab1fffa04f48708343b5f844d79d4f3b755373e55051961"
     }
   ]
 }

@@ -10,6 +10,7 @@ const manifest = JSON.parse(
 )
 const legacyManifest = JSON.parse(readFileSync(resolve(testingRoot, 'legacy-flat.json'), 'utf8'))
 const legacyByPath = new Map((legacyManifest.entries ?? []).map((entry) => [entry.path, entry]))
+const retiredByPath = new Map((legacyManifest.retired ?? []).map((entry) => [entry.path, entry]))
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const currentRevision = execFileSync('git', ['rev-parse', 'HEAD'], {
   cwd: repoRoot,
@@ -164,6 +165,7 @@ const entries = manifest.entries
       capability: entry.capability,
       provenance: entry.provenance,
       sourceSha: entry.sourceSha,
+      storedSha256: retiredByPath.get(entry.path)?.storedSha256 ?? null,
       retentionDeadline: legacyByPath.get(entry.path)?.migrateBy ?? null,
       governanceTask: 'docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md',
       bodyLines: text.split('\n').length,

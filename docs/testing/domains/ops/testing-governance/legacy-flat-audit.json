@@ -21,7 +21,7 @@
       "lines": "1-20",
       "anchor": "\"schemaVersion\": 1",
       "role": "legacy manifest",
-      "sha256": "f1189af48e098f93a4c1e27501b58cb43ba610c470f38c6e245bb08f4c49e97c"
+      "sha256": "c20574a7c4aeafc8fb5ceec8beaf5ccd10ffcd8a05fb837343b30a4036fea2ae"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -42,7 +42,7 @@
       "lines": "1-16",
       "anchor": "\"id\": \"legacy-full-closeout-relocation\"",
       "role": "relocation plan",
-      "sha256": "9d5d1770c1759a5538bb075731b3e02b658b74f416b5e3eca017331c712f3b85"
+      "sha256": "bf6d5c9654aec5cecbdca8ea45e7cadee5f2af9bbf957aaacdf9b5d41c8e9daf"
     }
   ],
   "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
