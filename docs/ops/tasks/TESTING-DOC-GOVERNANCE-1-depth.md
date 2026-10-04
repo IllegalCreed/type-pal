@@ -127,7 +127,7 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 
 ## 交接日志
 
-- 2026-10-04 Codex：从指定 `d02278dc` 建立隔离分支；完成机器清点、分类脚本/359 项 ledger、catalog v2 初稿、9 对 metadata/evidence、E2E-002 语义改名、架构历史合并索引。Evidence: `docs/testing/legacy-flat-classification.json`、`docs/testing/e2e/evidence/`、当前 diff。Next: 完成 checker/模板/任务卡验证，跑 docs/lint，写候选 SHA。
+- 2026-10-04 Codex：从指定 `d02278dc` 建立隔离分支；完成机器清点、分类脚本/359 项 ledger、catalog v2、9 对 front matter + metadata/evidence、E2E-002 语义改名、架构历史合并索引。Evidence: `docs/testing/legacy-flat-classification.json`、`docs/testing/e2e/evidence/`、实现提交 `e5fe2b80f7b62f16a5fac4fc4747510996d6ad55`。验证：`pnpm check:docs`（41 docs-tool tests，docs/testing PASS 0 issues）、`pnpm lint`（3149 files，0/0/0）、`git diff --check` 通过。Next: Codex 独立验收；保持 build，不合 main、不标 done。
 
 ## 下一位 Agent 提示词
 
