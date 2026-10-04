@@ -52,7 +52,7 @@ test('cadence exposes a compressed same-batch movement', () => {
 })
 
 test('state-first comparison catches facing change and preserves all findings', () => {
-  const otherActors = ['e62', 'e83', 'e84', 'e124', 'e127'].map((id) =>
+  const otherActors = ['e19', 'e62', 'e83', 'e84', 'e124', 'e127', 'party'].map((id) =>
     actor(1, id, [2, 2, 0], null, { frame: 0, sprite: 'npc' }),
   )
   const game = {
@@ -81,7 +81,7 @@ test('state-first comparison catches facing change and preserves all findings', 
   const comparison = compareNpcStateTraces(game, reforge, '005')
   assert.deepEqual(
     comparison.violations.map((finding) => finding.field ?? finding.type),
-    ['facing', 'frame', 'control'],
+    ['facing', 'actor-frame-animation', 'control'],
   )
   assert.equal(comparison.violations[0].field, 'facing')
   assert.equal(
@@ -94,24 +94,27 @@ test('state-first comparison catches facing change and preserves all findings', 
   )
 })
 
-test('an unlisted NPC and missing frame telemetry cannot silently pass', () => {
+test('missing frame telemetry cannot silently pass', () => {
   const baseline = {
     events: [
-      actor(1, 'e777', [10, 10, 0], null, { frame: 0, sprite: 'npc' }),
+      ...['e19', 'e62', 'e83', 'e84', 'e124', 'e127', 'party'].map((id) =>
+        actor(1, id, [10, 10, 0], null, { frame: 0, sprite: 'npc' }),
+      ),
+      actor(1, 'e123', [10, 10, 0], null, { frame: 0, sprite: 'npc' }),
       { kind: 'control', order: 2, state: true },
     ],
     pages: [{ page: { lines: ['测试'] } }],
   }
   const candidate = structuredClone(baseline)
-  candidate.events[0].state.facing = 'left'
-  delete candidate.events[0].state.frame
-  const comparison = compareNpcStateTraces(baseline, candidate, 'new-fragment')
-  assert.deepEqual(comparison.actors, ['e777'])
+  const candidateActor = candidate.events.find((event) => event.id === 'e123')
+  candidateActor.state.facing = 'left'
+  delete candidateActor.state.frame
+  const comparison = compareNpcStateTraces(baseline, candidate, '005')
   assert.deepEqual(
-    comparison.findings.map(({ type, field }) => [type, field]),
+    comparison.findings.map(({ type, field, id }) => [type, field, id]),
     [
-      ['actor-field', 'facing'],
-      ['evidence-gap', 'frame'],
+      ['actor-field', 'facing', 'e123'],
+      ['evidence-gap', 'frame', 'e123'],
     ],
   )
   assert.deepEqual(comparison.violations, comparison.findings)
