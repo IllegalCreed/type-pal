@@ -1,0 +1,328 @@
+{
+  "generatedAt": "2026-10-04T05:08:09.271Z",
+  "driver": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1-mutants.mjs",
+  "productFiles": [
+    "packages/pal-extract/src/events/slice.ts",
+    "packages/pal-extract/src/events/recompile.ts",
+    "packages/pal-extract/src/events/roundtrip.ts",
+    "packages/migrate/src/migration-transaction.ts",
+    "packages/migrate/src/migration-merge.ts",
+    "packages/migrate/src/pal-assets.ts"
+  ],
+  "controls": [
+    {
+      "pkg": "pal-extract",
+      "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/control-pal-extract.stdout.txt",
+      "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/control-pal-extract.stderr.txt",
+      "exit": 0,
+      "executed": 10
+    },
+    {
+      "pkg": "migrate",
+      "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/control-migrate.stdout.txt",
+      "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/control-migrate.stderr.txt",
+      "exit": 0,
+      "executed": 39
+    }
+  ],
+  "mutations": [
+    {
+      "id": "m1-slice-global-shared",
+      "expectRed": "end advance 续行命令仍被 globalEntries 强制归 shared（n = Math.max(n, 2)）",
+      "source": "packages/pal-extract/src/events/slice.ts",
+      "needle": {
+        "from": "    if (globalReachable.has(i)) n = Math.max(n, 2)",
+        "to": "    if (globalReachable.has(i)) n = Math.max(n, 1)"
+      },
+      "identity": {
+        "file": "src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行"
+      },
+      "hashes": {
+        "original": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe",
+        "mutant": "4712f303ae8c3c392a08e0a456837bb282117a17277f872864a6a9376a8ffc2f",
+        "restored": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe"
+      },
+      "red": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/m1-slice-global-shared.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/pal-extract",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m1-slice-global-shared-red.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m1-slice-global-shared-red.stderr.txt",
+        "assertionError": [
+          "AssertionError: expected [] to deeply equal [ { op: 'end', advance: true }, …(1) ]\n    at /private/tmp/tp-kimi-r3-wt/packages/pal-extract/src/events/slice.kimi-r1.test.ts:130:49\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      "green": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/control-pal-extract.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/pal-extract",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m1-slice-global-shared-green.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m1-slice-global-shared-green.stderr.txt"
+      }
+    },
+    {
+      "id": "m2-recompile-end-opcode",
+      "expectRed": "end advance 回写 opcode 0x0001（round-trip 字节相等）",
+      "source": "packages/pal-extract/src/events/recompile.ts",
+      "needle": {
+        "from": "      const op = c.advance ? 0x0001 : c.reset ? 0x0002 : 0x0000",
+        "to": "      const op = c.advance ? 0x0000 : c.reset ? 0x0002 : 0x0000"
+      },
+      "identity": {
+        "file": "src/events/roundtrip.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 roundtripCheck 合成输入 合法事件 round-trip：ok=true 且尺寸相等（合成 bytes/hash 锚）"
+      },
+      "hashes": {
+        "original": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+        "mutant": "2e15d91649ebbed5c19fe45f5d115572cf64e0c7414fbcbc3b678f92280c0889",
+        "restored": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f"
+      },
+      "red": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/m2-recompile-end-opcode.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/pal-extract",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m2-recompile-end-opcode-red.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m2-recompile-end-opcode-red.stderr.txt",
+        "assertionError": [
+          "AssertionError: expected { ok: false, originalSize: 16, …(4) } to deeply equal { ok: true, originalSize: 16, …(1) }\n    at /private/tmp/tp-kimi-r3-wt/packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts:84:20\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      "green": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/control-pal-extract.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/pal-extract",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m2-recompile-end-opcode-green.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m2-recompile-end-opcode-green.stderr.txt"
+      }
+    },
+    {
+      "id": "m3-roundtrip-diff-detect",
+      "expectRed": "首差异在 offset 4（首条不等字节才返回 ok:false）",
+      "source": "packages/pal-extract/src/events/roundtrip.ts",
+      "needle": {
+        "from": "    if (back[i] !== sss.bytecode[i]) {",
+        "to": "    if (back[i] === sss.bytecode[i]) {"
+      },
+      "identity": {
+        "file": "src/events/roundtrip.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 roundtripCheck 合成输入 内容不一致：ok=false 报告首个差异 offset/instruction/opcode"
+      },
+      "hashes": {
+        "original": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906",
+        "mutant": "c558be5516dc7e049c496b07e2dda1de95fc06f93602b00705520bc450edcb10",
+        "restored": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906"
+      },
+      "red": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/m3-roundtrip-diff-detect.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/pal-extract",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m3-roundtrip-diff-detect-red.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m3-roundtrip-diff-detect-red.stderr.txt",
+        "assertionError": [
+          "AssertionError: expected { ok: false, originalSize: 16, …(4) } to deeply equal { ok: false, originalSize: 16, …(4) }\n    at /private/tmp/tp-kimi-r3-wt/packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts:102:20\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      "green": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/control-pal-extract.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/pal-extract",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m3-roundtrip-diff-detect-green.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m3-roundtrip-diff-detect-green.stderr.txt"
+      }
+    },
+    {
+      "id": "m4-transaction-version-guard",
+      "expectRed": "journal version 必须为 2（version:1 在 id 合法时仍拒绝）",
+      "source": "packages/migrate/src/migration-transaction.ts",
+      "needle": {
+        "from": "  if (candidate.version !== 2 || !TRANSACTION_ID_RE.test(candidate.id ?? ''))",
+        "to": "  if (!TRANSACTION_ID_RE.test(candidate.id ?? ''))"
+      },
+      "identity": {
+        "file": "src/migration-transaction.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 迁移事务 journal 校验残余分支 version≠2 与 id 非 16-hex 均拒绝（不恢复、不清理）"
+      },
+      "hashes": {
+        "original": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+        "mutant": "21bbd17811b32fe7ae6bc520ae5aa971127a4a07cc7b0df64523ad071584835d",
+        "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
+      },
+      "red": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/m4-transaction-version-guard.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/migrate",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m4-transaction-version-guard-red.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m4-transaction-version-guard-red.stderr.txt",
+        "assertionError": [
+          "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-kimi-r3-wt/packages/migrate/src/migration-transaction.kimi-r1.test.ts:75:54\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+        ]
+      },
+      "green": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/control-migrate.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/migrate",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m4-transaction-version-guard-green.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m4-transaction-version-guard-green.stderr.txt"
+      }
+    },
+    {
+      "id": "m5-merge-conflict-type",
+      "expectRed": "base 在场且对侧修改时为 delete-modify（非 add-add）",
+      "source": "packages/migrate/src/migration-merge.ts",
+      "needle": {
+        "from": "      conflict(ctx.file, path, base.present ? 'delete-modify' : 'add-add', base, ours, theirs),",
+        "to": "      conflict(ctx.file, path, base.present ? 'add-add' : 'delete-modify', base, ours, theirs),"
+      },
+      "identity": {
+        "file": "src/migration-merge.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 mergeIdentityArray orderedIds 链式锚定 ours 全改 + theirs 删中段：后段插入锚定前段插入（?? candidate 回退方向）"
+      },
+      "hashes": {
+        "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "mutant": "d41462e078698f9597c3bbc46aace740e4502b8a82d5d087455cd64744cc63cb",
+        "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
+      },
+      "red": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/m5-merge-conflict-type.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/migrate",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m5-merge-conflict-type-red.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m5-merge-conflict-type-red.stderr.txt",
+        "assertionError": [
+          "AssertionError: expected [ [ '/@string:x', 'add-add' ], …(3) ] to deeply equal [ …(4) ]\n    at /private/tmp/tp-kimi-r3-wt/packages/migrate/src/migration-merge.kimi-r1.test.ts:49:59\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ]
+      },
+      "green": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/control-migrate.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/migrate",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m5-merge-conflict-type-green.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m5-merge-conflict-type-green.stderr.txt"
+      }
+    },
+    {
+      "id": "m6-palassets-gzip-magic",
+      "expectRed": "gzip 魔数任一字节不符即拒绝（单轴 [0x1f,0x00] 亦拒绝）",
+      "source": "packages/migrate/src/pal-assets.ts",
+      "needle": {
+        "from": "    if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)\n      throw new Error(`PAL 大世界精灵 ${sprite} 必须是 gzip RLE`)",
+        "to": "    if (compressed[0] !== 0x1f && compressed[1] !== 0x8b)\n      throw new Error(`PAL 大世界精灵 ${sprite} 必须是 gzip RLE`)"
+      },
+      "identity": {
+        "file": "src/pal-assets-loaders.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 loadPalWorldSprites 残余守卫 sprite 1 非 gzip 精确拒绝（首字节合法、次字节非法的单轴输入）"
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutant": "351d18cf08025a6e24014bf6d9d87ef78aa8026000a67467016cf7c99de38a8d",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+      },
+      "red": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/m6-palassets-gzip-magic.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/migrate",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m6-palassets-gzip-magic-red.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m6-palassets-gzip-magic-red.stderr.txt",
+        "assertionError": [
+          "AssertionError: expected [Function] to throw error including 'PAL 大世界精灵 1 必须是 gzip RLE' but got 'incorrect header check'\n    at Proxy.<anonymous> (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-kimi-r3-wt/packages/migrate/src/pal-assets-loaders.kimi-r1.test.ts:437:45\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/tp-kimi-r3-wt/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+        ]
+      },
+      "green": {
+        "command": "pnpm exec vitest run --config /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/kimi-r1-mutants-LriLZj/control-migrate.config.mjs",
+        "cwd": "/private/tmp/tp-kimi-r3-wt/packages/migrate",
+        "env": {
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "NODE_COMPILE_CACHE": "<deleted>"
+        },
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m6-palassets-gzip-magic-green.stdout.txt",
+        "stderrFile": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/m6-palassets-gzip-magic-green.stderr.txt"
+      }
+    }
+  ],
+  "hashesBefore": {
+    "packages/pal-extract/src/events/slice.ts": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe",
+    "packages/pal-extract/src/events/recompile.ts": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+    "packages/pal-extract/src/events/roundtrip.ts": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906",
+    "packages/migrate/src/migration-transaction.ts": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+    "packages/migrate/src/migration-merge.ts": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+    "packages/migrate/src/pal-assets.ts": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+  },
+  "hashesAfter": {
+    "packages/pal-extract/src/events/slice.ts": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe",
+    "packages/pal-extract/src/events/recompile.ts": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+    "packages/pal-extract/src/events/roundtrip.ts": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906",
+    "packages/migrate/src/migration-transaction.ts": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+    "packages/migrate/src/migration-merge.ts": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+    "packages/migrate/src/pal-assets.ts": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+  }
+}

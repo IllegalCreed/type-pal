@@ -1,0 +1,46 @@
+U1 探针存证：tsx 子进程执行零覆盖归因（一手实跑）
+日期: 2026-10-04T04:09:42Z
+
+方法：fast 全量覆盖实跑（scripts/coverage/run.mjs 同参数同环境变量）中，
+migrate-content-script.kimi-r1.test.ts 以 spawn tsx 执行真实 scripts/migrate-content.mts
+（--help / --bogus / --write --bogus 三例，全部断言 usage/未知参数/exit code 并通过），
+同一份 lcov 中 scripts/migrate-content.mts 的 DA/BRDA 记录全部归零。
+即：子进程确实执行了真实脚本，但其执行不产生任何覆盖归因 —— 这决定 cli.ts /
+extract-videos.ts / bake-assets.mts / migrate-content.mts 的 V8 覆盖只能经进程内
+import（真实数据写入/杀 worker，卡面禁止）到达，故列 unreachable ledger。
+
+== migrate fast lcov（交付实跑）中 scripts/migrate-content.mts 记录（DA/BRDA 摘前 30 行，全部归零）==
+SF:scripts/migrate-content.mts
+DA:35,0
+DA:38,0
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:54,0
+DA:55,0
+DA:56,0
+DA:57,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:66,0
+DA:70,0
+DA:71,0
+DA:72,0
+DA:73,0
+DA:74,0
+DA:79,0
+DA:84,0
+DA:85,0
+DA:86,0
+DA:91,0
+DA:96,0
+non-zero DA/BRDA entries: 0
+
+== 同跑 test-status：migrate-content-script.kimi-r1.test.ts 三例全部 passed ==
+（vitest JSON 记录见 evidence.json gates；三例 fullName 与 passed 状态见任务卡 C4 合同记录）

@@ -1,0 +1,198 @@
+{
+  "card": "TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1",
+  "branch": "codex/coverage85-kimi-extract-migrate-r1",
+  "base": "76475c01cfbbbd9a8cd52b1cb866d3b21ba6908d (dispatch) + d02278dc0154dd73b5db24388a35c30bb096cc81 (main docs governance)",
+  "generatedAt": "2026-10-04T05:08:36.496Z",
+  "metrics": {
+    "pal-extract": {
+      "branches": {
+        "before": [371, 539],
+        "after": [413, 539],
+        "delta": 42,
+        "pct": "76.62%"
+      },
+      "statements": {
+        "before": [957, 1492],
+        "after": [1024, 1492],
+        "delta": 67
+      },
+      "functions": {
+        "before": [106, 140],
+        "after": [109, 140],
+        "delta": 3
+      },
+      "lines": {
+        "before": [850, 1316],
+        "after": [899, 1316],
+        "delta": 49
+      },
+      "tests": 264
+    },
+    "migrate": {
+      "branches": {
+        "before": [1503, 1787],
+        "after": [1594, 1787],
+        "delta": 91,
+        "pct": "89.20%"
+      },
+      "statements": {
+        "before": [2146, 2592],
+        "after": [2290, 2592],
+        "delta": 144
+      },
+      "functions": {
+        "before": [362, 410],
+        "after": [379, 410],
+        "delta": 17
+      },
+      "lines": {
+        "before": [1870, 2266],
+        "after": [2007, 2266],
+        "delta": 137
+      },
+      "tests": 654
+    }
+  },
+  "newTests": {
+    "total": 91,
+    "pal-extract": 38,
+    "migrate": 53,
+    "nonPassed": 0,
+    "pending": 0
+  },
+  "fileDeltas": {
+    "pal-extract/src/events/slice.ts": [62, 83, 81, 83],
+    "pal-extract/src/events/disasm.ts": [47, 54, 48, 54],
+    "pal-extract/src/events/roundtrip.ts": [0, 4, 3, 4],
+    "migrate/src/pal-assets.ts": [147, 269, 196, 269],
+    "migrate/src/migration-merge.ts": [216, 241, 227, 241],
+    "migrate/src/migration-transaction.ts": [177, 184, 183, 184],
+    "migrate/src/pal-item-scheme-labels.ts": [68, 84, 83, 84],
+    "migrate/src/pal-world-sprite-registry.ts": [55, 67, 65, 67]
+  },
+  "gates": {
+    "targetedTests": "pal-extract 38/38 + migrate 53/53 green",
+    "typecheck": "pal-extract + migrate tsc --noEmit exit 0",
+    "lint": "pnpm lint PASS — 3145 files, 0 errors/warnings/infos",
+    "docs": "pnpm check:docs PASS (0 issues)",
+    "mutationReceipt": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutation-receipt.json (6/6 detected)"
+  },
+  "testFileHashes": {
+    "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts": "ba89a0c8797e8640a1fde7b5c310d3fd188e668cf46300870cc5ed3c5a7bbd9a",
+    "packages/pal-extract/src/events/disasm.kimi-r1.test.ts": "a50f4d05fc2dae1e259d5e46b89ff7f4aea73bc0dbc740c0b952f00333294400",
+    "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts": "ec1ba7fd79340e57f2e9792017a7531059a6545a5c3e286141a7a13dceb66c02",
+    "packages/pal-extract/src/events/slice.kimi-r1.test.ts": "78ec8b655620ae495fe5fcc46b615f99671c7d0ca20bee620c3ad8b07760f66d",
+    "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts": "010e628bcdb81ec708b8658c5899d29a45191b968e04bad4929b5fb615317a04",
+    "packages/migrate/src/migrate-content-script.kimi-r1.test.ts": "a0d16463305233251e32205bef6141bfe7b6dd83d5fcb07db696fa8c992aa50e",
+    "packages/migrate/src/migration-merge.kimi-r1.test.ts": "3ca276cbef9235ce6d70f8dc877aa72b5b09025a79e95f4626c1e501b6f55785",
+    "packages/migrate/src/migration-transaction.kimi-r1.test.ts": "ea03d0d45a93c03cc55dbcc915c27493c6df1d86f529608ae02c1474bbe988b1",
+    "packages/migrate/src/pal-assets-loaders.kimi-r1.test.ts": "b5f21e5cc0341cc9b73dd5e0495a4486670210416736e7cca4852a3bd8b65629",
+    "packages/migrate/src/pal-assets-materialize.kimi-r1.test.ts": "e43a5d8e3e927b246faa48545b3c8e40c96e608d46a5a557e9f01a94858f2c5c",
+    "packages/migrate/src/pal-item-scheme-labels.kimi-r1.test.ts": "b22034455f885b956ec78f7c1a25a3d722018653547b8217853b47494ba94d3c",
+    "packages/migrate/src/pal-world-sprite-registry.kimi-r1.test.ts": "bd0237dbcfb6fa37d3e018be862dfc0f98e778537b5729a3fdce947e68ea07f9"
+  },
+  "mutationSummary": [
+    {
+      "id": "m1-slice-global-shared",
+      "source": "packages/pal-extract/src/events/slice.ts",
+      "identity": {
+        "file": "src/events/slice.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 sliceByScene globalEntries BFS 残余分支 end advance：global BFS 收 i+1 续行"
+      },
+      "hashes": {
+        "original": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe",
+        "mutant": "4712f303ae8c3c392a08e0a456837bb282117a17277f872864a6a9376a8ffc2f",
+        "restored": "6cb5a4f08c26b1638ea43bfa540961fffd6013aa03c0a1b612fe437eebb2fbbe"
+      },
+      "redExit": 1,
+      "greenExit": 0,
+      "signal": null,
+      "spawnError": null
+    },
+    {
+      "id": "m2-recompile-end-opcode",
+      "source": "packages/pal-extract/src/events/recompile.ts",
+      "identity": {
+        "file": "src/events/roundtrip.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 roundtripCheck 合成输入 合法事件 round-trip：ok=true 且尺寸相等（合成 bytes/hash 锚）"
+      },
+      "hashes": {
+        "original": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+        "mutant": "2e15d91649ebbed5c19fe45f5d115572cf64e0c7414fbcbc3b678f92280c0889",
+        "restored": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f"
+      },
+      "redExit": 1,
+      "greenExit": 0,
+      "signal": null,
+      "spawnError": null
+    },
+    {
+      "id": "m3-roundtrip-diff-detect",
+      "source": "packages/pal-extract/src/events/roundtrip.ts",
+      "identity": {
+        "file": "src/events/roundtrip.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 roundtripCheck 合成输入 内容不一致：ok=false 报告首个差异 offset/instruction/opcode"
+      },
+      "hashes": {
+        "original": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906",
+        "mutant": "c558be5516dc7e049c496b07e2dda1de95fc06f93602b00705520bc450edcb10",
+        "restored": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906"
+      },
+      "redExit": 1,
+      "greenExit": 0,
+      "signal": null,
+      "spawnError": null
+    },
+    {
+      "id": "m4-transaction-version-guard",
+      "source": "packages/migrate/src/migration-transaction.ts",
+      "identity": {
+        "file": "src/migration-transaction.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 迁移事务 journal 校验残余分支 version≠2 与 id 非 16-hex 均拒绝（不恢复、不清理）"
+      },
+      "hashes": {
+        "original": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+        "mutant": "21bbd17811b32fe7ae6bc520ae5aa971127a4a07cc7b0df64523ad071584835d",
+        "restored": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
+      },
+      "redExit": 1,
+      "greenExit": 0,
+      "signal": null,
+      "spawnError": null
+    },
+    {
+      "id": "m5-merge-conflict-type",
+      "source": "packages/migrate/src/migration-merge.ts",
+      "identity": {
+        "file": "src/migration-merge.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 mergeIdentityArray orderedIds 链式锚定 ours 全改 + theirs 删中段：后段插入锚定前段插入（?? candidate 回退方向）"
+      },
+      "hashes": {
+        "original": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e",
+        "mutant": "d41462e078698f9597c3bbc46aace740e4502b8a82d5d087455cd64744cc63cb",
+        "restored": "e1d3a877f72e876fd64191555aadbd61bbc11fde1db3f9e7cf9fe71c494b777e"
+      },
+      "redExit": 1,
+      "greenExit": 0,
+      "signal": null,
+      "spawnError": null
+    },
+    {
+      "id": "m6-palassets-gzip-magic",
+      "source": "packages/migrate/src/pal-assets.ts",
+      "identity": {
+        "file": "src/pal-assets-loaders.kimi-r1.test.ts",
+        "fullName": "KIMI-R1 loadPalWorldSprites 残余守卫 sprite 1 非 gzip 精确拒绝（首字节合法、次字节非法的单轴输入）"
+      },
+      "hashes": {
+        "original": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "mutant": "351d18cf08025a6e24014bf6d9d87ef78aa8026000a67467016cf7c99de38a8d",
+        "restored": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+      },
+      "redExit": 1,
+      "greenExit": 0,
+      "signal": null,
+      "spawnError": null
+    }
+  ]
+}
