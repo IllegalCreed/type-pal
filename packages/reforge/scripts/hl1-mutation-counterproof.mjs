@@ -164,6 +164,16 @@ try {
       .join('\n')
     if (mutant === original) throw new Error(`[${injection.id}] 变异未生效`)
     const receipt = { id: injection.id, file: injection.file, anchor: injection.anchor }
+    // raw 证据落盘统一 EOF 纪律:剥净尾随空白后补恰好一个换行(git diff --check 零告警,
+    // 与 cov85 判例一致);bytes/sha256 按落盘字节记入回执。
+    const writeRaw = async (file, text) => {
+      const normalized = `${text.replace(/[\r\n \t]+$/, '')}\n`
+      await writeFile(file, normalized)
+      return {
+        bytes: Buffer.byteLength(normalized, 'utf8'),
+        sha256: sha256(Buffer.from(normalized, 'utf8')),
+      }
+    }
     const stage = async (label, source) => {
       await writeFile(abs, source)
       const base = path.join(rawDir, `${injection.id}.${label}`)
@@ -173,10 +183,10 @@ try {
         `${base}.stdout`,
         `${base}.stderr`,
       )
-      await writeFile(`${base}.stdout`, stdout)
-      await writeFile(`${base}.stderr`, stderr)
+      const stdoutStat = await writeRaw(`${base}.stdout`, stdout.toString('utf8'))
+      const stderrStat = await writeRaw(`${base}.stderr`, stderr.toString('utf8'))
       const consoleRun = runVitestConsole(injection.testFile, injection.testName, `${base}.console`)
-      await writeFile(consoleRun.outFile, consoleRun.text)
+      const consoleStat = await writeRaw(consoleRun.outFile, consoleRun.text)
       const identity = parseIdentity(proc)
       return {
         exitCode: proc.status,
@@ -190,6 +200,7 @@ try {
         stderrPath: `${base}.stderr`,
         consolePath: consoleRun.outFile,
         consoleText: consoleRun.text,
+        artifacts: { stdout: stdoutStat, stderr: stderrStat, console: consoleStat },
         raw: identity.parsed,
       }
     }
@@ -277,6 +288,7 @@ try {
         hash: r.original.hash,
         executed: r.original.executed,
         skipped: r.original.skipped,
+        artifacts: r.original.artifacts,
         stdoutPath: r.original.stdoutPath,
         stderrPath: r.original.stderrPath,
         consolePath: r.original.consolePath,
@@ -288,6 +300,7 @@ try {
         executed: r.mutant.executed,
         failed: r.mutant.failed,
         skipped: r.mutant.skipped,
+        artifacts: r.mutant.artifacts,
         stdoutPath: r.mutant.stdoutPath,
         stderrPath: r.mutant.stderrPath,
         failures: r.failures.map((f) => ({ ...f, messages: f.messagePreview })),
@@ -298,6 +311,7 @@ try {
         hash: r.restored.hash,
         executed: r.restored.executed,
         skipped: r.restored.skipped,
+        artifacts: r.restored.artifacts,
         stdoutPath: r.restored.stdoutPath,
         stderrPath: r.restored.stderrPath,
         consolePath: r.restored.consolePath,
