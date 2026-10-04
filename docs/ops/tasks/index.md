@@ -17,7 +17,6 @@
 | [TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts](TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-EVENT-CONTRACTS-1 — event script semantic contracts](TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — startup and continuation lifecycle contracts](TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理](TESTING-DOC-GOVERNANCE-1-depth.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -283,6 +282,7 @@
 | [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-SHELL-COVERAGE-2 — 真实宿主战斗、物品与脚本二批](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](../archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理](../archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)](../archive/tasks/done/W7B-tileset-library.md) | done | 完成证据、历史签字与交接见原卡。 |

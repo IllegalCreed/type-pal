@@ -1,6 +1,6 @@
 # TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理
 
-Status: build
+Status: done
 Phase: ops
 Capability: ops / testing-docs
 Coding Owner: Codex
@@ -94,7 +94,7 @@ CI 可以拒绝缺证据、过期依赖、旧链接、未分类 legacy 新增和
 - 贡献者交付与自验：已完成（Codex；209 项 SHA 锁定归档、122 个工具 stop-line 审计、classification 359/359 reviewed）
 - Codex 独立复核：进行中（需完成全仓 check:docs、lint、diff --check 后收口）
 - 用户体验/产品验收：N/A（纯文档与工具）
-- done 准入结论：pending 独立质量门；通过后合并并推送 main
+- done 准入结论：accept；Codex 已独立完成全量复核，合并提交 `3df724649` 已推送 `main`
 
 ## Draft: 设计与风险
 
@@ -119,13 +119,13 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 ## Review: 审查与返工
 
 - Reviewer：Codex
-- 审查结论：pending
-- 必须返工项：pending
-- Accept / rework：pending
+- 审查结论：accept；`check:docs`、48 个 docs-tool tests、`check:testing-docs`、lint 零诊断、`git diff --check` 均通过
+- 必须返工项：无
+- Accept / rework：accept
 
 ## 用户验收
 
-- 用户结论：pending（等待候选回执；用户已要求设定目标并完成治理）
+- 用户结论：接受全量治理回执；所有剩余 legacy 已迁移/归档或绑定工具停止线
 - 后续任务：E2E-006 当前两阶段 NPC/视觉日志另按原任务卡处理，不由本卡关闭。
 
 ## 交接日志
@@ -137,7 +137,8 @@ catalog v2 只保存稳定索引和小型合同元数据；完整执行数据仍
 - 2026-10-04 migration wave 2：`command-form-families`、`menu-session`、`map-workspace-sessions`、`phase1-dependency` 四组 report/evidence 已在本隔离分支按 SHA 迁入 `domains/editor`、`domains/runtime`、`domains/phase1-runtime`；工具/反控脚本仍保留 legacy，逐组理由和公开 caller 写入 canonical report。迁移计划：`docs/testing/archive/migrations/testing-domains-20261004-wave2.json`。当前 full census 359 项，active 331、retired 28。
 - 2026-10-04 migration wave 2 validation：`pnpm check:docs` 通过（932 Markdown/5278 links、48 docs-tool tests、0 issues），`pnpm check:testing-docs` 通过，`pnpm lint` 通过（3219 files、0/0/0），`git diff --check` 通过。工具脚本保持 legacy，并在报告中记录相对导入/公开 caller 的保留理由；未改产品源码、旧测试或 coverage。
 - 2026-10-04 full closeout implementation：209 项非工具材料按 domain/module SHA 锁定归档到 `docs/testing/archive/legacy/`，迁移后 `legacy-flat.json` 保持 frozen census 359；122 个工具保留原路径并逐项登记 imports/cwd/runner/temporary-tree/cleanup、publicCallers、legalInputs、businessOracle、dedupe、revision、evidence、history、supersedes 和 stopLine。`legacy-flat-classification.json` 359/359 `reviewStatus=reviewed`，无 pending depth review。计划：`docs/testing/archive/migrations/legacy-full-closeout-plan.json`；迁移：`docs/testing/archive/migrations/legacy-full-closeout-relocation.json`。当前 `node scripts/docs/check-testing.mjs` 已 PASS 0 issues；未改产品源码、旧测试或 coverage。
+- 2026-10-04 Codex 独立收口：集成到最新 `origin/main`（`a55862e12`）后重新通过 `check:docs`（961 Markdown/5465 links、48 docs-tool tests、0 issues）、`check:testing-docs`、lint（3236 files，0/0/0）和 `git diff --check`；合并提交 `3df724649` 已推送 `main`。无下一位 Agent 提示词；任务已归档。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；当前模式由 Codex 独立复核和收口，等待候选分支验收。
+无下一位 Agent 提示词；Codex 已完成独立复核、合并和推送，等待后续新任务。
