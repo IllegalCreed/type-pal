@@ -4,7 +4,9 @@ import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { runBrowserJourney } from './browser-journey.mjs'
 import { assertContinuousCheckpoint, CONTINUOUS_STORY_FRAGMENTS } from './continuous-story.mjs'
-import { readGame } from './game-observer.mjs'
+import { navigateInnRoute } from './inn-navigation.mjs'
+import { readInnGame, readInnReforge } from './inn-observer.mjs'
+import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
 
 const args = process.argv.slice(2),
   engine = args.includes('--reforge') ? 'reforge' : 'game',
@@ -21,14 +23,7 @@ assert.deepEqual(
 )
 
 const read =
-  engine === 'game'
-    ? () => page.evaluate(readGame)
-    : () =>
-        page.evaluate(() => ({
-          boot: window.__tpObserve?.readBoot?.() ?? null,
-          runtime: window.__tpObserve?.readRuntime?.(),
-          scene: window.__tpObserve?.readRuntime?.()?.sceneId,
-        }))
+  engine === 'game' ? () => page.evaluate(readInnGame) : () => page.evaluate(readInnReforge)
 let page
 let previousAtMs = null
 const report = { engine, mode: 'continuous', storyOnly: true, fragments: [], actions: [] }
@@ -105,25 +100,48 @@ const routeTargetReached = (state, target) => {
   )
 }
 const hasDialogue = (state) => (engine === 'game' ? !!state.dialog : !!state.runtime?.dialogue)
-const driveRouteTarget = async (action, entry, until, health) => {
+const driveRouteTarget = async (action, _entry, until, health) => {
   const target = action.routeTarget
   if (!target) return
-  const started = Date.now()
-  while (Date.now() - started < 1000) {
-    health()
-    if (routeTargetReached(await read(), target)) return
-    await delay(50)
-  }
-  await page.keyboard.down(action.key)
+  const current = await read()
+  if (routeTargetReached(current, target)) return
+  const scene = target.scene
+  const mapId = scene === 's001' ? '012' : scene === 's003' ? '010' : null
+  if (!mapId || !target.position) return
+  const map = JSON.parse(
+    await readFile(resolve(process.cwd(), `projects/pal/content/maps/map-${mapId}.json`), 'utf8'),
+  )
+  const targetGrid = kitchenGrid(target.position, engine)
+  const tolerance = engine === 'game' ? 1.5 : 0.2
   try {
-    await until(
+    await navigateInnRoute({
+      engine,
+      keyboard: page.keyboard,
+      map,
       read,
-      (next) => routeTargetReached(next, target),
-      `continuous route commit ${entry.fragment}/${action.key}`,
-      15000,
-    )
-  } finally {
-    await page.keyboard.up(action.key)
+      until,
+      health,
+      grid: (state) => kitchenGrid(state.position, engine),
+      inScene: (state) => state.scene === (engine === 'game' ? Number(scene.slice(1)) + 1 : scene),
+      ready: (state) => kitchenReady(state, engine),
+      destination: (col, row) => Math.hypot(col - targetGrid[0], row - targetGrid[1]) <= tolerance,
+      finished: (state) => routeTargetReached(state, target),
+      onInput: () => {},
+      onProgress: () => {},
+    })
+  } catch (error) {
+    if (!/no normal collision-safe inn route/u.test(String(error))) throw error
+    await page.keyboard.down(action.key)
+    try {
+      await until(
+        read,
+        (next) => routeTargetReached(next, target),
+        `continuous fallback route ${action.key}`,
+        15000,
+      )
+    } finally {
+      await page.keyboard.up(action.key)
+    }
   }
 }
 const waitForActionReady = async (action, until) => {
@@ -242,6 +260,7 @@ await runBrowserJourney({
         startState: await read(),
       }
       report.fragments.push(fragmentReport)
+      let consumedRouteKey = null
       for (const action of entry.actions) {
         health()
         if (Number.isFinite(action.atMs) && previousAtMs !== null) {
@@ -249,12 +268,31 @@ await runBrowserJourney({
           if (gap) await delay(gap)
         }
         previousAtMs = Number.isFinite(action.atMs) ? action.atMs : previousAtMs
+        const routeKey = action.routeTarget
+          ? JSON.stringify({ key: action.key, target: action.routeTarget })
+          : null
+        if (action.kind === 'up' && routeKey && routeKey === consumedRouteKey) {
+          report.actions.push({
+            fragment: entry.fragment,
+            ...action,
+            skipped: 'live-route-release',
+          })
+          consumedRouteKey = null
+          continue
+        }
         const shouldRun = await waitForActionReady(action, until)
         if (shouldRun === false) {
           report.actions.push({ fragment: entry.fragment, ...action, skipped: 'already-consumed' })
           continue
         }
         const before = stateKey(await read())
+        if (action.kind === 'down' && action.routeTarget?.position) {
+          await driveRouteTarget(action, entry, until, health)
+          consumedRouteKey = routeKey
+          report.actions.push({ fragment: entry.fragment, ...action, mode: 'live-route' })
+          fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
+          continue
+        }
         if (action.kind === 'down') await page.keyboard.down(action.key)
         else if (action.kind === 'up') await page.keyboard.up(action.key)
         else {

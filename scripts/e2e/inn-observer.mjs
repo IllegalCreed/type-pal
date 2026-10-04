@@ -198,6 +198,7 @@ export function installInnObserver() {
 export function readInnGame() {
   const gs = window.__tpgs
   return {
+    ready: !!gs,
     scene: gs?.wNumScene,
     position: gs ? [gs.party.x, gs.party.y] : null,
     cash: gs?.dwCash,
