@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts
 
-Status: review
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -121,7 +121,7 @@ import 路径 `../../../docs/testing/script-governance/successor-repairs.json` �
   - world-view 替换(4):hostile onLose 命令体剥离;canonical 缺席实体刷新跳过;
     scratch 可选腿深拷贝;runtimeProjectView 整体替换面。
 - 排重账/非合同账/受阻账与四文件既有 62 测试映射见
-  [证据 README](../evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md);
+  [证据 README](../../../evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md);
   候选"对话层方向键""商店吞 F5/F9"按同 caller/同 oracle 判重复不建;
   completePartyMove 旧槽守卫因 settled 幂等墙无公开 oracle 不建;teardown 钩子顺序
   独立合同的变异面在 motion-runtime-wiring.ts(白名单外)已并入 token 合同断言。
@@ -157,3 +157,9 @@ node packages/reforge/scripts/rs1-identity-status.mjs、rs1-family-ledger.mjs
 pnpm lint、pnpm check:docs、git diff --check。
 裁决 accept/counter/rework；未验收前不合 main、不标 done。
 ```
+
+---
+
+## Codex quality closure (2026-10-04)
+
+候选 `00b4e4f7130f51ad28889315066fc7c083bd4599` 已独立验收：15/15 合同、5/5 反控、typecheck、lint 0/0/0、docs、phase/lore governance 与 diff 全通过。本卡已集成 main，原候选分支进入退休清理。

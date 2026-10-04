@@ -10,7 +10,6 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
-| TEST-GLM-REFORGE-RUNTIME-SESSION-1 | [Reforge runtime input and frame-session contracts](tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | review | GLM r3 已推 / Codex 复验 | typecheck counter 已按 Codex 授权以一行 import 修正闭合(r3)，全套门禁重跑 |
 
 ## 看板规则
 

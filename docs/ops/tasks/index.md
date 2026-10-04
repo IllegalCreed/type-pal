@@ -14,7 +14,6 @@
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -262,6 +261,7 @@
 | [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](../archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](../archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](../archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](../archive/tasks/done/TEST-GLM-WAVE-L-1-editor-map-scene.md) | done | 完成证据、历史签字与交接见原卡。 |
