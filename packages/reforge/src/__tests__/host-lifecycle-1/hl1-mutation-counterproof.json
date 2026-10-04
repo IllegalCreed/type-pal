@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-04T10:22:19.626Z",
+  "generatedAt": "2026-10-04T10:23:45.313Z",
   "nodeVersion": "v22.23.2",
   "injections": [
     {
@@ -705,9 +705,5 @@
     }
   ],
   "allPass": true,
-  "foreignDirtyPathsExcluded": [
-    "scripts/e2e/browser-journey.mjs",
-    "scripts/e2e/continuous-story-replay-both.mjs",
-    "scripts/e2e/continuous-story-replay-engine.mjs"
-  ]
+  "foreignDirtyPathsExcluded": []
 }

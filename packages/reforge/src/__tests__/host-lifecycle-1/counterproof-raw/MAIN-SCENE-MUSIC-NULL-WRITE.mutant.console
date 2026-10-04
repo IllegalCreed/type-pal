@@ -4,7 +4,7 @@
 stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
 [reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
 
- ❯ src/main.host-lifecycle-1.test.ts (8 tests | 1 failed | 7 skipped) 786ms
+ ❯ src/main.host-lifecycle-1.test.ts (8 tests | 1 failed | 7 skipped) 1356ms
    ↓ 标题读档入口:标题菜单选读档后从真实存档完成开局
    ↓ 标题入口视频:选中入口先播 intro 视频再进世界
    ↓ 启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单
@@ -12,12 +12,12 @@ stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null
    ↓ 资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播
    ↓ 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
    ↓ 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换
-   × 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键 786ms
+   × 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键 1354ms
 
  Test Files  1 failed (1)
       Tests  1 failed | 7 skipped (8)
-   Start at  19:22:04
-   Duration  2.15s (transform 1.07s, setup 0ms, import 569ms, tests 786ms, environment 649ms)
+   Start at  19:23:31
+   Duration  2.59s (transform 1.50s, setup 0ms, import 599ms, tests 1.36s, environment 515ms)
 
 
 stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
