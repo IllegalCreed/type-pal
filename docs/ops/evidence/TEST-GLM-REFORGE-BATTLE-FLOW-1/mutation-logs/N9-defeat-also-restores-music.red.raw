@@ -1,0 +1,43 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-flow/packages/reforge
+
+ ❯ src/battle/battle-host.finalization.test.ts (3 tests | 1 failed | 2 skipped) 62ms
+   × BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0 61ms
+   ↓ BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)
+   ↓ BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  03:46:05
+   Duration  1.40s (transform 719ms, setup 0ms, import 879ms, tests 62ms, environment 367ms)
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+AssertionError: expected [ 'exitFrame', 'music:stop', …(5) ] to deeply equal [ 'exitFrame', 'music:stop', …(4) ]
+
+- Expected
++ Received
+
+@@ -3,6 +3,7 @@
+    "music:stop",
+    "publish",
+    "clear",
+    "write:defeat",
+    "restore",
++   "music:stop",
+  ]
+
+ ❯ src/battle/battle-host.finalization.test.ts:212:22
+    210|     expect(op.state.result).toBe('defeat')
+    211|     // 终局分配：defeat 不触发 settleVictory、不跑 onDefeated 战后脚本、不还原大世界音乐。
+    212|     expect(h.events).toEqual([
+       |                      ^
+    213|       'exitFrame',
+    214|       'music:stop',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

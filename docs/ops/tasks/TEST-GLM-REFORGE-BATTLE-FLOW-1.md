@@ -36,6 +36,32 @@ Visual Verification Timing: mixed
 
 交付 identity/family ledger、existing-proof/blocked 账、反控证据、定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check。覆盖率只记录为整体 main 数据，不是本卡门槛。
 
+## GLM 交付回执（r1，2026-10-05，待 Codex 独立验收）
+
+- **家族对账**：卡面 `battle-finalization.ts` 不存在——终局真源 = `battle-world-result.ts`
+  （settleBattleVictory / finishBattleWorldState，全仓零直接测试）；battle-command-selection /
+  turn-readiness / action-presentation-scheduler / settlement-presentation / result 五文件旧测饱和
+  不新增；battle-core/session 主干饱和仅补两条组合流；battle-host 补三条终局分配流。
+  全量对账与不设针登记见 [证据 dedup-ledger.md](../evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/dedup-ledger.md)。
+- **交付 12 合同 / 3 测试文件**（产品零 diff）：
+  - `battle-finalization.world-result.test.ts`(7)：BF-01 胜利奖励入账链（exp 门/首屏/半恢复）、
+    BF-02 零经验门、BF-03 升级+习得+结算屏 wiring（升级回满在 writeBackHp 之后的顺序 oracle）、
+    BF-04 victory finish 恢复组合（库存清项/毒 severe 清 incurable 留/不重写 HP）、
+    BF-05 defeat finish（HP 0/零结算/毒照清）、BF-06 偷得金钱逃跑保留、BF-07 收妖值并入。
+  - `battle-host.finalization.test.ts`(3)：BF-08 战败终局分配（无结算/无战后脚本/不还原音乐）、
+    BF-09 胜利曲经验门+boss 旗（含 exp=0 对照臂）、BF-10 逃跑终局分配。
+  - `battle-session.flow-residual.test.ts`(2)：BF-11 敌毒回合末致死→victory+计奖、
+    BF-12 逃跑失败→续战→胜利。
+- **反控**：12/12 针 VALID（world-result×7 / host×3 / core×2；每针红相位恰 1 指定业务
+  AssertionError，还原绿，四态 hash + clean-tree 无残留）；证据
+  [counterproof.json](../evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json)。
+- **门**：定向 12/12、相邻 56 文件 510/510、reforge 全量 343 文件 8760/8760、typecheck 0 错、
+  全仓 lint 0/0/0（3365 文件）。
+- **U-1 产品发现（待裁决，本卡未改产品）**：零活敌 target 相位输入死区
+  （battle-command-selection.ts:353 零活敌在 Escape 之前整体 no-op）——毒杀全灭后玩家确认攻击
+  即软锁；BF-11 以防御直提绕开。修复需 before→after 裁决并连带更新 G02 既有断言。
+- 覆盖率/例数未作完成条件；不标 done。
+
 ## 下一位 Agent 提示词
 
 ```text

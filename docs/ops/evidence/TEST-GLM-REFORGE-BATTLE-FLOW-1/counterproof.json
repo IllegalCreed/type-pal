@@ -1,0 +1,265 @@
+{
+  "card": "TEST-GLM-REFORGE-BATTLE-FLOW-1",
+  "suite": "定向三文件（battle-finalization.world-result / battle-host.finalization / battle-session.flow-residual .test.ts）",
+  "replay": "run-counterproof.mjs 以最终交付测试文件重放全部四态（基线绿 + 12 针红/绿 + 末次全套重放 + 产品零残留）",
+  "command": "pnpm exec vitest run <file> [-t <fullName 子串>]（cwd=packages/reforge）",
+  "cwd": "/private/tmp/type-pal-battle-flow/packages/reforge",
+  "node": "v22.23.2",
+  "pnpm": "10.29.2",
+  "tmpUsage": "无 mkdtemp/临时目录（变异直接落跟踪文件并 git checkout 还原；清理证明 = clean-tree 检查）",
+  "baseline": {
+    "state": "clean-baseline（第一态）",
+    "file": "mutation-logs/green-baseline.raw",
+    "sha256": "e0ab841b9e1ad3cf9ecd020a692de3a66c3fedf5f7f3c5faf9220c009179503a",
+    "tests": "12 passed (12)"
+  },
+  "needles": [
+    {
+      "id": "N1-victory-cash-sign",
+      "mutation": "battle-world-result.ts:19 胜利现金入账符号翻转（+= → -=）",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-01（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N1-victory-cash-sign.red.raw",
+        "sha256": "85b4d9d64f8bfb9426df2be585e317d148243288351d6713ec08d5f75d748ea2",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected 43 to be 57 // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N1-victory-cash-sign.green.raw",
+        "sha256": "c5312fb6199aabd98b45674aff3f89e6bc35c32cf2577fec944e49947d44d376",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N2-exp-gate-removed",
+      "mutation": "battle-world-result.ts:18 经验门拆除 → exp=0 也触发经验提示/胜利曲回调",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-02（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N2-exp-gate-removed.red.raw",
+        "sha256": "979f6caed65ae3d4991fc256ac468c869e6ea8bd5b8842ce5bd3b5bb7279acdb",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected 1 to be +0 // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N2-exp-gate-removed.green.raw",
+        "sha256": "63ecea0ba5b3ac8f39407ff9efdedc26e0188fffe8c2f00452a09a192b92548d",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N3-settlement-screens-wiring",
+      "mutation": "battle-world-result.ts:28 结算屏 wiring 断开 → settle 恒返回空屏序列",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-03（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N3-settlement-screens-wiring.red.raw",
+        "sha256": "9ad90dae797abceae0770c240e8c742aa22a4551b627317cd882f5cd8e391418",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected undefined to deeply equal { kind: 'exp-cash', exp: 15, cash: +0 }"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N3-settlement-screens-wiring.green.raw",
+        "sha256": "499ada6d0d72f71bbc44a83fd148da3ad119f4b69fefa709b965a32855b61f01",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N4-finish-rewrites-hp-on-victory",
+      "mutation": "battle-world-result.ts:47 victory 也无条件 writeBackHp → 半恢复结果被战斗快照覆盖",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-04（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N4-finish-rewrites-hp-on-victory.red.raw",
+        "sha256": "b1dc7aa713119abaa04e797be14a86d412b4bc00d0f5d156bc4da02fd20a2972",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected 34 to be 67 // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N4-finish-rewrites-hp-on-victory.green.raw",
+        "sha256": "b0f49ee740a95af9d6686c8f652488d313a7c299d2f53c93ac57f091d0e0c9d2",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N5-postbattle-condition-clear-removed",
+      "mutation": "battle-world-result.ts:52 战后状态三件套清理移除 → severe 毒带出战斗",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-05（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N5-postbattle-condition-clear-removed.red.raw",
+        "sha256": "34a63ecca28a671292e535068a58f9347347e46e2b68ce3679a5e28d0c2a3253",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected [ …(2) ] to deeply equal [ { poisonId: 602, tickIndex: +0 } ]"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N5-postbattle-condition-clear-removed.green.raw",
+        "sha256": "b1a423dfb8755c7a9f34e1754c7ba9299ed7ad051bf35177a336740648f9a2c5",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N6-money-delta-merge-removed",
+      "mutation": "battle-world-result.ts:49 战内金钱增减并入大世界的合并移除 → 偷得金钱丢失",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-06（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N6-money-delta-merge-removed.red.raw",
+        "sha256": "70d062b3c7f56050c95d7bf6c0b471aa6cf75d93f985a98386dd8a648fb9698a",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected 50 to be 80 // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N6-money-delta-merge-removed.green.raw",
+        "sha256": "e73112ab5846d6bcf01e238b999f7b2c286d106987726b1c778cf263d1212c0a",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N7-collect-merge-removed",
+      "mutation": "battle-world-result.ts:50-51 收妖值并入 world.collectValue 的合并移除",
+      "execution": "pnpm exec vitest run src/battle/battle-finalization.world-result.test.ts -t BF-07（cwd=packages/reforge，变异 src/battle/battle-world-result.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N7-collect-merge-removed.red.raw",
+        "sha256": "0beb6f18d0ebbf84430d0538185b013121c533ad798ad64adfd9d1e21d089912",
+        "tests": "1 failed | 6 skipped (7)",
+        "firstFailure": "AssertionError: expected 5 to be 14 // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N7-collect-merge-removed.green.raw",
+        "sha256": "2d6a4aad8a3b3635586629fd45940538931a38c1ec263331e8bc857ee92bca4d",
+        "tests": "1 passed | 6 skipped (7)"
+      }
+    },
+    {
+      "id": "N8-rundefeated-not-victory-only",
+      "mutation": "battle-host.ts:170-171 runDefeated 不再 victory 限定 → 败/逃也跑战后脚本",
+      "execution": "pnpm exec vitest run src/battle/battle-host.finalization.test.ts -t BF-08（cwd=packages/reforge，变异 src/battle/battle-host.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N8-rundefeated-not-victory-only.red.raw",
+        "sha256": "37ec1f2595faf45fa22f09c60f75b5f34ecdfc1ee1f2ea5e10b42ea7368f9076",
+        "tests": "1 failed | 2 skipped (3)",
+        "firstFailure": "AssertionError: expected [ 'exitFrame', 'music:stop', …(5) ] to deeply equal [ 'exitFrame', 'music:stop', …(4) ]"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N8-rundefeated-not-victory-only.green.raw",
+        "sha256": "39a9fef35a7f34ded40d1ecc86d2a96d71ad73373d2ba5388d369fc7ba3ac723",
+        "tests": "1 passed | 2 skipped (3)"
+      }
+    },
+    {
+      "id": "N9-defeat-also-restores-music",
+      "mutation": "battle-host.ts:179 defeat 也 restoreMusic → 战败终局多出尾部音乐事件",
+      "execution": "pnpm exec vitest run src/battle/battle-host.finalization.test.ts -t BF-08（cwd=packages/reforge，变异 src/battle/battle-host.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N9-defeat-also-restores-music.red.raw",
+        "sha256": "f93591e9843ad1ff6e5ec85b96905617325f8ecc16d799e1a88e62168c3a4c7c",
+        "tests": "1 failed | 2 skipped (3)",
+        "firstFailure": "AssertionError: expected [ 'exitFrame', 'music:stop', …(5) ] to deeply equal [ 'exitFrame', 'music:stop', …(4) ]"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N9-defeat-also-restores-music.green.raw",
+        "sha256": "348b7d6c5e5af88a173fe90ab232af5a3de851592c17e26efaa577b89f2cff30",
+        "tests": "1 passed | 2 skipped (3)"
+      }
+    },
+    {
+      "id": "N10-victory-boss-flag-dropped",
+      "mutation": "battle-host.ts:107 options.boss 旗不传 → victory(boss) 恒收 false",
+      "execution": "pnpm exec vitest run src/battle/battle-host.finalization.test.ts -t BF-09（cwd=packages/reforge，变异 src/battle/battle-host.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N10-victory-boss-flag-dropped.red.raw",
+        "sha256": "24964092e2597425cd906478a876aac753326210ee1b8fd76ad3efabdca9e7df",
+        "tests": "1 failed | 2 skipped (3)",
+        "firstFailure": "AssertionError: expected [ false ] to deeply equal [ true ]"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N10-victory-boss-flag-dropped.green.raw",
+        "sha256": "fde97a7e04a8f2c93ecf1ac8809fea5a94e15a90c4a08751dd2b0dc7757244b1",
+        "tests": "1 passed | 2 skipped (3)"
+      }
+    },
+    {
+      "id": "N11-enemy-round-end-poison-tick-removed",
+      "mutation": "battle-core.ts:1142 回合末敌毒 DoT 移除 → 毒杀终局不可达",
+      "execution": "pnpm exec vitest run src/battle/battle-session.flow-residual.test.ts -t BF-11（cwd=packages/reforge，变异 src/battle/battle-core.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N11-enemy-round-end-poison-tick-removed.red.raw",
+        "sha256": "e7133385fb818f880e2a12465e0ef600f95af9bd97b5cdf3fd346dfeb674c65a",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected 'defeat' to be 'victory' // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N11-enemy-round-end-poison-tick-removed.green.raw",
+        "sha256": "305bd93e70ef34a9ffc555928413785a74d515b9a813de06e11d0b59202ff02d",
+        "tests": "1 passed | 1 skipped (2)"
+      }
+    },
+    {
+      "id": "N12-flee-always-succeeds",
+      "mutation": "battle-core.ts:1961 逃跑掷骰门恒过 → 低吉运也必逃成功",
+      "execution": "pnpm exec vitest run src/battle/battle-session.flow-residual.test.ts -t BF-12（cwd=packages/reforge，变异 src/battle/battle-core.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N12-flee-always-succeeds.red.raw",
+        "sha256": "48076e3263e2c8d02ea9e85686059e870155a8c214617ed99cf805e6b30dfff7",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected 'playerFled' to be 'victory' // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N12-flee-always-succeeds.green.raw",
+        "sha256": "7deea74573498d7e882acaef4c0f4dc5f26e175fc2a2e8946cb1ce8ab5d249eb",
+        "tests": "1 passed | 1 skipped (2)"
+      }
+    }
+  ],
+  "finalState": {
+    "state": "final-replay（第四态：全部针还原后，定向三文件整套重放）",
+    "file": "mutation-logs/final-replay.raw",
+    "sha256": "a127a2c0b69cc1aef54a15cba1156b83ad0c821703b5a3ca8584f59428f30f5e",
+    "tests": "12 passed (12)"
+  },
+  "cleanTree": "clean（git status --porcelain 全仓无 M/D 残留；?? 仅本卡新增测试/证据交付文件）"
+}

@@ -1,0 +1,23 @@
+{
+  "card": "TEST-GLM-REFORGE-BATTLE-FLOW-1",
+  "suite": "定向三文件 12 测试全绿（vitest run，cwd=packages/reforge）",
+  "files": [
+    "packages/reforge/src/battle/battle-finalization.world-result.test.ts",
+    "packages/reforge/src/battle/battle-host.finalization.test.ts",
+    "packages/reforge/src/battle/battle-session.flow-residual.test.ts"
+  ],
+  "fullNames": [
+    "src/battle/battle-finalization.world-result.test.ts > BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界",
+    "src/battle/battle-finalization.world-result.test.ts > BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+    "src/battle/battle-finalization.world-result.test.ts > BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后",
+    "src/battle/battle-finalization.world-result.test.ts > BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱",
+    "src/battle/battle-finalization.world-result.test.ts > BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动",
+    "src/battle/battle-finalization.world-result.test.ts > BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界",
+    "src/battle/battle-finalization.world-result.test.ts > BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加",
+    "src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+    "src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)",
+    "src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+    "src/battle/battle-session.flow-residual.test.ts > BF-11 敌毒回合末致死：会话以 victory 收场且毒死计入战果",
+    "src/battle/battle-session.flow-residual.test.ts > BF-12 逃跑失败后会话续战：同一会话以胜利收场且只有一次结算意图"
+  ]
+}

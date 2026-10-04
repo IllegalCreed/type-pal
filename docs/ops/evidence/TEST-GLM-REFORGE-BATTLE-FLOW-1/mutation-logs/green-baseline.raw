@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-flow/packages/reforge
+
+ ✓ src/battle/battle-host.finalization.test.ts (3 tests) 240ms
+ ✓ src/battle/battle-finalization.world-result.test.ts (7 tests) 440ms
+ ✓ src/battle/battle-session.flow-residual.test.ts (2 tests) 11ms
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Start at  03:45:33
+   Duration  2.69s (transform 2.24s, setup 0ms, import 2.77s, tests 691ms, environment 920ms)

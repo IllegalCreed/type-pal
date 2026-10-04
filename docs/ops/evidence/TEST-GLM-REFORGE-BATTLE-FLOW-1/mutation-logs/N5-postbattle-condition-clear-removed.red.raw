@@ -1,0 +1,46 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-flow/packages/reforge
+
+ ❯ src/battle/battle-finalization.world-result.test.ts (7 tests | 1 failed | 6 skipped) 67ms
+   ↓ BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界
+   ↓ BF-02 零经验胜利：经验门关、金钱照入账、无结算屏
+   ↓ BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后
+   ↓ BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱
+   × BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动 66ms
+   ↓ BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界
+   ↓ BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  03:45:51
+   Duration  1.37s (transform 677ms, setup 0ms, import 840ms, tests 67ms, environment 372ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-finalization.world-result.test.ts > BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动
+AssertionError: expected [ …(2) ] to deeply equal [ { poisonId: 602, tickIndex: +0 } ]
+
+- Expected
++ Received
+
+  [
+    {
++     "poisonId": 601,
++     "tickIndex": 0,
++   },
++   {
+      "poisonId": 602,
+      "tickIndex": 0,
+    },
+  ]
+
+ ❯ src/battle/battle-finalization.world-result.test.ts:409:39
+    407|     h.finish('defeat')
+    408|     expect(h.world.party[0]!.hp).toBe(0) // lost 分支允许 0
+    409|     expect(h.world.party[0]!.poisons).toEqual([{ poisonId: 602, tickIn…
+       |                                       ^
+    410|   } finally {
+    411|     await h.close()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
