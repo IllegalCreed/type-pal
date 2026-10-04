@@ -1,6 +1,6 @@
 # A3-d/e 世界移动与绘制状态归属候选
 
-后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点`be5218bb`；实现`7be10bf4`；所属[连续治理卡](/docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。

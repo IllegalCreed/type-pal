@@ -23,7 +23,7 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
 非法单字段按已有错误拒绝。最强替代解释是该边界已被别的入口测到；必须先去重，已证写精确title/file，
 不再添一份。若当前guard实际放过违反当前类型/正式loader合同的输入，写最小诊断并交Codex裁决，不锁定缺陷为绿预期。
 
-必读AGENTS/CLAUDE/READ-FIRST、[E2回执](../../../../testing/content-validation-refactor.md)、
+必读AGENTS/CLAUDE/READ-FIRST、[E2回执](../../../../testing/archive/legacy/content/authoring-and-runtime/content-validation-refactor.md)、
 上述三个目标与`enemy-script.test.ts`、`enemy-script.boundaries.test.ts`、`enemy-script.wave2.test.ts`、
 `author-battle-dialogue-boundary.test.ts`、`validate-enemy-crosscalls.test.ts`。
 
@@ -67,12 +67,12 @@ Codex已读`enemy-validation-shapes.ts:1–37`、`enemy-ai-condition-guard.ts:4�
   全包+20L/+25S/+30B分母零变化；全content 957/957、TC、改动Biome 0 error、check:docs均过。
   未发现产品缺陷；锁绿现状合同见[回执](https://github.com/IllegalCreed/type-pal/blob/b8e037cb3f4da68e4c5217842949bddbe6d23828/docs/testing/glm-content-guards-wave2/receipt.md)。
   不合main、不标done，待Codex独立验收。
-- Codex独立验收：counter（b8e037cb，2026-09-26），仅R1–R4；见[本席报告](../../../../testing/guard-leaf-intake-review.md)与[机账](../../../../testing/guard-leaf-review-evidence.json)。上方作者交付区来自候选，仅将回执链接适配为固定SHA地址；仅作自验记录，不等于Codex确认其每项声明。done未开放。
+- Codex独立验收：counter（b8e037cb，2026-09-26），仅R1–R4；见[本席报告](../../../../testing/archive/legacy/content/quality-gates/guard-leaf-intake-review.md)与[机账](../../../../testing/archive/legacy/quality/quality-gates/guard-leaf-review-evidence.json)。上方作者交付区来自候选，仅将回执链接适配为固定SHA地址；仅作自验记录，不等于Codex确认其每项声明。done未开放。
 
 ## Codex r2 接收 / 当前返工提示词
 
 2026-09-26 Codex：候选 `99113d225fe2322395238a7b60fdb4a06e72d69c` 独立 **counter，仅C1/C2**。
-见[本轮报告](../../../../testing/guard-leaf-r2-review.md)和[机账](../../../../testing/guard-leaf-r2-evidence.json)。
+见[本轮报告](../../../../testing/archive/legacy/quality/quality-gates/guard-leaf-r2-review.md)和[机账](../../../../testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json)。
 R1原三针已检出、R2 wait/rows/playSound/中间hook已修、R3真实判据旧反例全拒、R4格式与percent归属已闭；不重开。
 全content957/957、TC、Biome/docs通过。但七处helper调用比较了另一个新对象，exactKeys/body改写仍91全绿；
 两处turn正控仍分别是aloneAlive/chance，嵌套turn一律错拒也91全绿。回执相关“全部闭合”声明不能采信。
@@ -81,7 +81,7 @@ R1原三针已检出、R2 wait/rows/playSound/中间hook已修、R3真实判据�
 ```text
 在 /Users/zhangxu/illegal/type-pal-glm-content-guards-wave2、codex/glm-content-guards-wave2
 对候选99113d22做TEST-GLM-CONTENT-GUARDS-2窄返工。fetch后先读origin/main上的
-docs/testing/guard-leaf-r2-review.md、机账和任务卡当前块；只修C1/C2，旧已闭项不重开。
+docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r2-review.md、机账和任务卡当前块；只修C1/C2，旧已闭项不重开。
 C1：修七处expectAcceptsUnchanged调用，生产消费的对象必须正是helper比较的对象；
 G1 exactKeys正/负输入、record坏数组、G6坏hook数组也按报告补实际可变输入深快照，原始值不凑快照。
 C2：G3 not(turn)与G6 when(turn)先执行同入口合法turn，再仅改op；G6参数表逐行明确同形状good/bad；
@@ -101,7 +101,7 @@ exactKeys-mutates-actual-object/body-mutates-actual-array/nested-turn-always-rej
 
 ```text
 在原codex/glm-content-guards-wave2返工TEST-GLM-CONTENT-GUARDS-2，候选b8e037cb，状态rework。
-fetch后先git show origin/main:docs/testing/guard-leaf-intake-review.md，按R1–R4一次闭合；
+fetch后先git show origin/main:docs/testing/archive/legacy/content/quality-gates/guard-leaf-intake-review.md，按R1–R4一次闭合；
 无需为取报告合main，目标生产冻结与已过白名单/957全包/六针本次有效红不重开。
 R1：对实际可变输入加独立快照；G1 record、G5回调cue不得共享expected遮盖改写；
 精确路径用完整message全等，不能toThrow字符串子串。三Codex见证应从MISSED转为候选AssertionError检出。
@@ -117,7 +117,7 @@ R4：修提交的evidence.json格式；最终树回执/计数/输入纪律如实
 ## GLM 候选 r1–r3 原交付块（合并保留）
 
 - GLM作者交付 r1（2026-09-26，b8e037cb）：G1–G6共91行叶测试+fixture；被Codex intake审查counter
-  （R1–R4，`docs/testing/guard-leaf-intake-review.md`@`ca96d45a`（origin/main，本分支未合入故不作本地链接）：输入保真/精确路径未钉住、同kind正控与单轴构造失实、
+  （R1–R4，`docs/testing/archive/legacy/content/quality-gates/guard-leaf-intake-review.md`@`ca96d45a`（origin/main，本分支未合入故不作本地链接）：输入保真/精确路径未钉住、同kind正控与单轴构造失实、
   负控判据误收五反例且缺运行态见证、evidence.json格式error与回执校准）。
 - GLM返工交付 r2（2026-09-26，同分支窄返工）：R1拒绝断言全部改完整message全等（expectExactError），
   对象/数组实际输入（含合法正控、G5 cue、容器输入）独立快照前后比较，原始值直接值断言；R2每个拒绝先跑
@@ -143,7 +143,7 @@ R4：修提交的evidence.json格式；最终树回执/计数/输入纪律如实
 ## Codex r3 独立接收（当前）
 
 2026-09-26：候选`09c8ccba`（正文`a3ab195a`）**accept**，C1/C2闭合。
-见[接收报告](../../../../testing/guard-leaf-r3-review.md)。七处调用已比实际实参；逐行turn正控与坏输入同容器，
+见[接收报告](../../../../testing/archive/legacy/quality/quality-gates/guard-leaf-r3-review.md)。七处调用已比实际实参；逐行turn正控与坏输入同容器，
 本席六针全部检出（旧三针仍有效、新三针由MISSED转AssertionError），判据旧误收反例全拒。
 独立原1+6反控、全content957、TC、改动Biome/docs/diff通过。只接收原白名单、保留历史counter/作者块。
 已进入主线集成验证；done待与Codex资源65项统一check→ratchet→受保护单次strict-fast，不拿作者自验代替独立复核。

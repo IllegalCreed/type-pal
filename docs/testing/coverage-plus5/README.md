@@ -16,9 +16,9 @@ Codex主动扩展仍暂停；余量是当前官方口径，不把分母整理算
 
 | 批次 | Owner | 当前状态 | 已验收新增分支 |
 |---|---|---|---:|
-| [物品六组](../item-logic-integration.md) | GLM | done，46项/八独立反控/统一门通过 | +85 |
-| [地图六组](../cursor-map-integration.md) | Cursor | done，29项/五独立反证/统一门通过 | +21 |
-| [content八组同步守卫](../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [done，110项/独立反控/统一门通过](../guard-wave3-integration.md) | +260 |
+| [物品六组](../archive/legacy/editor/editor-workflows/item-logic-integration.md) | GLM | done，46项/八独立反控/统一门通过 | +85 |
+| [地图六组](../archive/legacy/content/authoring-and-runtime/cursor-map-integration.md) | Cursor | done，29项/五独立反证/统一门通过 | +21 |
+| [content八组同步守卫](../../ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | GLM | [done，110项/独立反控/统一门通过](../archive/legacy/quality/quality-gates/guard-wave3-integration.md) | +260 |
 | [editor八组命令](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | Cursor | done，29项/独立五组/统一门通过 | +48 |
 | [migrate纯转换链](../codex-migrate-pure/README.md) | Codex | done，83项/六针/统一门通过 | +527 |
 | [migrate当前汇总链](../codex-migrate-assembly/README.md) | Codex | done，49项/六针/统一门通过 | +169 |
@@ -86,7 +86,7 @@ check9602→ratchet→单次受保护strict9110通过。本批净增48B/39L，�
 其它六包完整baseline对象不变；当前45,786/63,288=**72.34546833522943%**，距目标至少872分支。
 
 归属分列：九批纯补测+2059B，本次+48B，合计+2107B；另一个Codex会话的
-[架构统一集成](../architecture-continuation-integration.md)单列+261已覆盖分支/+110分支分母，
+[架构统一集成](../archive/legacy/ops/testing-records/architecture-continuation-integration.md)单列+261已覆盖分支/+110分支分母，
 生产701→728文件，不能算成本卡纯补测贡献。当前比起点约+3.62pp，母目标尚未完成；
 该快照时GLM16e647a1仍counter、主工作树帧编辑在途测试均未计入。
 

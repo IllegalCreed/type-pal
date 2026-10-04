@@ -53,7 +53,7 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 不读写槽/缩略图、不增加保存次数。错误直接reject，调用者必须await并处理失败；失败不阻断后续请求。
 存储和缩略图I/O继续在barrier外。该接口只保存自动flow内部执行帧，不保存临时交互调用栈或中途战斗态，
 不替代R4的业务结束断言。
-实现验证见[检查点导出](../../testing/checkpoint-export.md)，当前冻结旅程收据与剩余状态见本修复任务卡。
+实现验证见[检查点导出](../../testing/archive/legacy/runtime/save-and-recovery/checkpoint-export.md)，当前冻结旅程收据与剩余状态见本修复任务卡。
 
 ### 当前读档边界
 

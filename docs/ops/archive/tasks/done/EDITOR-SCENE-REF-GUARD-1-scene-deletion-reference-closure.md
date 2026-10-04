@@ -101,7 +101,7 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 ## 上下文与禁止回退
 
 [READ-FIRST](../../../../phase2/READ-FIRST.md)、[D-02审计](../../../audits/pre-e2e/editor-workflows.md#d-02--引用图遗漏部分场景依赖)、
-[GLM取证包已接收结果](../../../../testing/glm-pre-e2e-prep-report.md)、[内容补测接收](../../../../testing/content-contracts-review.md)。
+[GLM取证包已接收结果](../../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)、[内容补测接收](../../../../testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md)。
 当前引用图/保存守卫/历史事务已存在，不能降低保存校验来让删除变绿，不能改成无条件禁止删场景，不能引入旧schema兼容。
 
 ## Build与验证
@@ -109,7 +109,7 @@ scene-reference-deletion-workflow.test.ts及薄test-only fixture；可定点补p
 实现基线830db139；生产仅project-reference-adapters.ts，复用现有typed collector补命令父场景边与转换条件边。
 两个新正式测试文件22项，薄fixture由真实seed/loader装配；PAL旧census仅联动两项+1并钉真实s172→s182新增边。
 定向+相邻108项与editor tc通过，一对照/三变异业务负控通过；最终树串行check7442、ratchet与受保护单次strict-fast6954/617全部exit0。
-过程失败/订正、验证边界、重建命令详见[实施回执](../../../../testing/scene-reference-guard.md)，不把早期坏fixture当产品反例。
+过程失败/订正、验证边界、重建命令详见[实施回执](../../../../testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md)，不把早期坏fixture当产品反例。
 Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除与撤销、引用数逐次恢复；
 真实App与worker，内存隔离工程，1280×720截图记录于本会话浏览器工具；[可重建入口](../../../../testing/scene-reference-guard-visual.mjs)。
 没有改用户/PAL文件，无视觉任务交给GLM/Kimi；完整Root/OS保存重开仍归R4，不冒称E2E已完成。
@@ -287,7 +287,7 @@ Codex实际浏览器已核三条引用可见/可定位/阻断，解除后删除�
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立终审 EDITOR-SCENE-REF-GUARD-1 r1。
 卡：docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md，review；候选83598cc4e58828ff5ec586c1491da685d564c85c，对比830db139。设计不重签。
-先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/scene-reference-guard.md，独立读取源码与测试，不读取或复述GLM结论。
+先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md，独立读取源码与测试，不读取或复述GLM结论。
 核唯一生产adapter是否完整补inherit/disabled与transition scene边，复用typed collector且不重复body/entity域；use复合边保持计数、内部删除集合豁免正确；where/owner/locator/deletePolicy与冷暖消费一致，不新增公共模型或降低保存守卫。
 核22项正式回归的当前合法fixture、六command owner/四transition owner、嵌套条件、真实worker init/patch及删→序列化完整正文/资产保留→正式重开→undo/redo。PAL原例只补s172双disabled→s182一条边（25189/28090），其它parity及体积断言保留。
 复跑卡内定向与node docs/testing/scene-reference-guard-mutants.mjs（控制22绿、3单点变异指定新测试业务红、运行态marker与JSON见证）。核check7442、ratchet和TYPE_PAL_COVERAGE_BASE_REF=830db139 pnpm coverage:fast单次6954/617证据；旧测试身份与其它六包基线不变。日志/tmp/type-pal-scene-ref-build.CyLL0V/。原审计probe是历史缺陷断言，不作修复后绿门。
@@ -300,7 +300,7 @@ Codex已做最小真实App/worker功能验证，复用回执，不重复浏览�
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立终审 EDITOR-SCENE-REF-GUARD-1 r1。
 卡：docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md，review；同候选83598cc4e58828ff5ec586c1491da685d564c85c，对比830db139。设计不重签，本卡与运行时五组补测独立。
-先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/scene-reference-guard.md；直接核证据，不读取或复述Kimi结论。
+先同步检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md；直接核证据，不读取或复述Kimi结论。
 重点对账22回归：fixture先过真实loader/保存校验；每种漏边、use去重、all/any/not/嵌套转换、六command/四transition来源、内部豁免、拒删零历史变化、真实冷暖worker与保存文件集重开都有业务断言。检查完整正文/资产字节/删除路径，而非仅ID或计数。
 复跑node docs/testing/scene-reference-guard-mutants.mjs（1控制+3变异，22项每次真实执行，指定新增标题AssertionError红，函数内marker，混合宿主错误拒绝、hash不变）；按需108定向相邻、PAL单例/tc/Biome。核PAL新增恰s172→s182一边，rows25189/targetEdgeIds28090，其它旧断言原样；check7442与单次受保护fast6954/617、其它六包基线/旧测试身份不变。过程失败已分栏，不把早期坏fixture或旧census失败当最终证据。
 不做浏览器/截图/视觉复验，使用Codex已落最小功能回执；不操作工程数据，不自行跑ratchet改基线。你的运行时测试包继续独立推进，不把其未接收测试混入本卡。

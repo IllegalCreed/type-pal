@@ -1,6 +1,6 @@
 # Grok一阶段非视觉菜单/渲染候选回归
 
-> 历史隔离候选回执。P01–P10 已由 Codex 选择性接入[正式game测试](../grok-present-integration.md)；本目录不在官方runner，原候选命令与计数只作来源证据。
+> 历史隔离候选回执。P01–P10 已由 Codex 选择性接入[正式game测试](../archive/legacy/ops/testing-records/grok-present-integration.md)；本目录不在官方runner，原候选命令与计数只作来源证据。
 
 任务：[TEST-GROK-PRESENT-1](../../ops/archive/tasks/done/TEST-GROK-PRESENT-1-phase1-menu-regressions.md)。
 证据冻结 `1763ac58346e9a66edba6198a7c561df1aa57353`。工作树 `/Users/zhangxu/illegal/type-pal-grok-present`，分支 `codex/grok-present-tests-r1`，基点 `16fb1cbfcc0de97655e58224767b716e53510850`。

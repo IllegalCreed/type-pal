@@ -58,7 +58,7 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 增量确认 EDITOR-SKILL-TRIAL-1 的列宽补丁d394eccc，对比fe0fee84；卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
-先同步main检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面done准入核定/当前列宽补丁及docs/testing/battle-simulator-implementation.md列宽节。fe0fee84主体三席齐，不重签设计、不重开机制。
+先同步main检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面done准入核定/当前列宽补丁及docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md列宽节。fe0fee84主体三席齐，不重签设计、不重开机制。
 仅核Forms className、业务CSS、既有UI断言和CSS普查快照这4文件：统一auto-fill、显式收缩约束、移除独立限宽，没有改变业务回调/公共控件/引擎。Codex定向22项、TC/Biome/build及四尺寸实际视觉通过；不重复视觉，不跑全仓或改基线。选择器/360/full-Q1-Q2边界保持。
 独立读取源码，不读取或复述GLM补丁结论；只在本卡列宽补丁的Kimi席位及本人日志签accept或带file:line反证counter，提交推送，保留其它席原文。不得改实现/状态，不代签用户，不标done。
 ```
@@ -67,7 +67,7 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 增量确认 EDITOR-SKILL-TRIAL-1 的列宽补丁d394eccc，对比fe0fee84；卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
-先同步main检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面done准入核定/当前列宽补丁及docs/testing/battle-simulator-implementation.md列宽节。fe0fee84主体三席齐，不重签设计、不重开机制。
+先同步main检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面done准入核定/当前列宽补丁及docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md列宽节。fe0fee84主体三席齐，不重签设计、不重开机制。
 核4文件白名单、既有UI测试仅加断言、CSS快照只有auto-fit→auto-fill，未改测试数/选择/基线；按需复跑editor的battle-simulator-ui、field-layout-adoption、number-field-adoption共22项。Codex的四尺寸像素测量归视觉证据，你不操作浏览器、不判断截图，不补跑全仓覆盖率。选择器/360/full-Q1-Q2边界保持。
 独立读取源码，不读取或复述Kimi补丁结论；只在本卡列宽补丁的GLM席位及本人日志签accept或直接反证counter，提交推送，保留其它席原文。不得改实现/状态，不代签用户，不标done。
 ```
@@ -81,7 +81,7 @@ full/Q1/Q2未执行，不能写成全量E2E完成。两席此前对这些边界�
 
 - Codex：**accept（2026-09-20，自验）**。定向22/22、editor TC/Biome/build通过；四档真实浏览器测量同组22个下拉/多选，
   1920/1280/900/720宽均等宽，继承/指定与敌队引用/五槽切换后不跳宽，内部网格无横溢、控件无出屏。
-  具体数值/初轮裁切发现与修正见[实施记录列宽补丁](../../../../testing/battle-simulator-implementation.md)。
+  具体数值/初轮裁切发现与修正见[实施记录列宽补丁](../../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)。
   本补丁未重跑全仓check/覆盖率，也未修改基线；fe0fee84的7895/7404保持其原候选口径，不能倒填成新跑。
 - Kimi：**accept（2026-09-20，列宽补丁 d394eccc 增量对比 fe0fee84；4 文件本人直读/主树复跑，未读 GLM 补丁结论）**。
   - **4 文件白名单属实**：产品仅 `BattleSimulatorForms.tsx` 5 处 className 调整（删 4 处
@@ -129,7 +129,7 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
 `:182`三项位置枚举占整行；`:319-343`readout内部无间距owner；`battle-simulator.css`的1fr分列仍拉宽短控件。
 复核域：四目录和快捷试打弹窗，含队员/物品候选弹窗、确认前零修改/关闭归焦、短枚举/引用/长文本宽度、
 有效值与技能分组间距、临时配置覆盖/取消语义。不改模型、存储、引擎和公共控件默认尺寸。
-实现与证据详见[实施记录UI-r1节](../../../../testing/battle-simulator-implementation.md)：公共候选弹窗明确确认、短选项限宽、
+实现与证据详见[实施记录UI-r1节](../../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)：公共候选弹窗明确确认、短选项限宽、
 自适应列、readout与快捷弹窗节奏、删行归焦，以及命名/快捷入口两条临时配置覆盖确认。
 
 ### done前（UI-r1，候选fe0fee84）
@@ -194,7 +194,7 @@ r2/r2a保存、隔离、人数与四目录架构不变，不重签设计；本�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 增量复核 EDITOR-SKILL-TRIAL-1，任务卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md（review），UI-r1候选fe0fee84，对比cb44c378。
-先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面当前UI-r1节与docs/testing/battle-simulator-implementation.md；r2/r2a设计不重签，未改引擎/存档的旧accept按历史保留。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面当前UI-r1节与docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md；r2/r2a设计不重签，未改引擎/存档的旧accept按历史保留。
 重点核公共DsAddPickerDialog的scope/revision/确认前零修改/撤销失效，临时配置两入口覆盖确认及来源变化失效，命名命令与临时草稿隔离；核限宽/自适应列/间距未私改公共控件默认尺寸。按需复跑UI和App.leave-guard相关测试，不重复Codex视觉、不跑官方覆盖率或改基线。
 Codex最终check7895、ratchet与保护strict7404、build通过，四尺寸视觉已验；原生目录选择器/360主壳/full-Q1-Q2旧边界仍披露。不要读取或复述GLM的新结论。只在当前UI-r1 Kimi席位及本人日志写accept或file:line反证counter，提交推送；保留他席改动，不改实现/状态、不标done。
 ```
@@ -203,7 +203,7 @@ Codex最终check7895、ratchet与保护strict7404、build通过，四尺寸视�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 增量复核 EDITOR-SKILL-TRIAL-1，任务卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md（review），UI-r1候选fe0fee84，对比cb44c378。
-先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面当前UI-r1节与docs/testing/battle-simulator-implementation.md；不重签r2/r2a设计，旧机制accept原文保留。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、卡面当前UI-r1节与docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md；不重签r2/r2a设计，旧机制accept原文保留。
 复跑packages/editor的scripts/battle-simulator-ui.test.tsx（10项）、src/ui/App.leave-guard.test.tsx（32项）及add-picker/field-layout/number-field采用门。核取消/Escape/单次确认/重复排除/undo失效/删除归焦/两入口覆盖确认的业务断言；采用登记5→7、6→16与源码精确一致，旧deferred未变化，覆盖率新增恰4项且无缩范围。
 Codex统一完成check7895、ratchet和保护strict7404、build；不补跑全仓覆盖率、不改基线、不操作浏览器或判断截图。不要读取或复述Kimi新结论。只在当前UI-r1 GLM席位及本人日志写accept或直接证据counter，提交推送；同步保留他席改动，不改实现/状态、不标done。
 ```
@@ -221,7 +221,7 @@ DsAddPickerDialog 采用登记与源码逐一对上（5→7/6→16，旧登记�
 
 相对主线基点`1bae48e4`；产品候选`bd4c67c6`，`cb44c378`包含同树官方覆盖率基线和实施回执。
 r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细源码/测试/失败修正/视觉边界见
-[实施记录](../../../../testing/battle-simulator-implementation.md)。本卡测试由Codex编写，不把GLM其它补测包当作独立证明。
+[实施记录](../../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)。本卡测试由Codex编写，不把GLM其它补测包当作独立证明。
 
 用户本轮指出的图标偏色、横跨整行按钮和技能选择均已处理：恢复既定彩色/灰/暗红三态、不改HUD布局；
 同行操作与容器自适应列复用现有规范；指定技能用可搜索勾选多选与计数。人数勘误不变，不扩展其它业务页新快捷入口。
@@ -310,7 +310,7 @@ r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立终审 EDITOR-SKILL-TRIAL-1，卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
-先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a与 docs/testing/battle-simulator-r2-design.md、battle-simulator-implementation.md。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a与 docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md、battle-simulator-implementation.md。
 统一候选cb44c378，对比1bae48e4；设计不重签。重点独立核：附属库保存/删除/重开与原事务/身份闭环；URL严格早分流、一次性握手和revision复验；私有资源快照/取消迟到/AudioContext收尾；正式玩家派生、BattleSession及奖励只写临时world；我方1～3人/敌方5槽、旧?skill拒绝、未扩新入口。
 核本轮图标恢复三态/动态列/技能多选没有改规则或污染定义；normal DEV grantSkill仍属独立调试，不是试放入口。按需复跑两组负控与定向；不要重复Codex视觉，不重跑全仓覆盖率或改基线。
 证据：check7891、ratchet/保护strict7400、build通过。原生目录选择器返回取消，浏览器保存重开正向未通过但S1真实writer/loader集成通过；360窄屏沿既有主壳限制；请独立判断披露边界是否阻断。
@@ -321,7 +321,7 @@ r2/r2a首批已实现，进入review；**done门未开放，不代签**。详细
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立复核 EDITOR-SKILL-TRIAL-1，卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，review。
-先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a、docs/testing/battle-simulator-r2-design.md 与 battle-simulator-implementation.md。
+先同步main并检查工作树，读AGENTS/CLAUDE/READ-FIRST、本卡r2/r2a、docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md 与 battle-simulator-implementation.md。
 统一候选cb44c378，对比1bae48e4；设计不重签。按V1～V10核对声明/最终树/用例：四目录真实保存链、删空/坏文件/悬空引用、数值继承/覆写/装备只加一次、MP0/静音、三人上限、隔离存档、真实行动/奖励与取消重开。
 复跑 node docs/testing/battle-simulator-s1-mutants.mjs（4对照+4针）及 battle-simulator-runtime-mutants.mjs（6对照+6针）；抽查定向test与fixture先经正式loader、同一实参保真。运行时4文件位于packages/reforge/scripts；UI/握手/入口在packages/editor/scripts。
 完整check7891、官方ratchet/保护strict7400、build由Codex统一完成，不补跑全仓覆盖率、不改基线。核4新目录组件采用清单与两处断言更新确为精确扩容，没有新豁免。原生选择器取消和360窄屏限制已披露，不能写成浏览器保存重开/移动端通过。
@@ -434,10 +434,10 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
 
 ## r2本轮推进（GLM返工期间独立准备）
 
-实施进展见[独立工作树回执](../../../../testing/battle-simulator-implementation.md)：已落S1配置/命令与保存基础；
+实施进展见[独立工作树回执](../../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)：已落S1配置/命令与保存基础；
 真实试打、完整UI和引用诊断尚未接入，当前不交终审。可重建四针负控见同附件；不修改GLM返工树或官方覆盖率基线。
 
-已将方向收敛为[首批冻结设计](../../../../testing/battle-simulator-r2-design.md)，包括真实源码四向证据、
+已将方向收敛为[首批冻结设计](../../../../testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md)，包括真实源码四向证据、
 四目录字段/继承/覆写、推荐工程内文件、现有保存事务/撤销/重开接入、一次性内存启动协议、10组验收边界。
 同任务交互草图已制作；用户在确认“只是示意图、内容不完整”后明确“大方向我觉得没问题”。
 据此记录四目录布局/操作流程的大方向通过，不再重复询问；不是逐字段清单或正式产品视觉验收通过。
@@ -573,7 +573,7 @@ r1旧小弹窗的“待确认”只作为历史记录，不恢复该方案，也
 技能、敌队、战场以及可以在战斗中使用或投掷的道具等编辑入口，应复用同一个战斗模拟器，而不是各建一套试打。
 本次是产品方向讨论与旧方案修订；并未授权一次实现所有高级调试功能，也未决定预设文件格式/存储位置或新页面形态。
 
-用户随后要求整体评估所有战斗相关模块。已完成[8模块27子页复用评估](../../../../testing/battle-simulator-assessment.md)：
+用户随后要求整体评估所有战斗相关模块。已完成[8模块27子页复用评估](../../../../testing/archive/legacy/editor/battle/battle-simulator-assessment.md)：
 7个直接入口、8个上下文入口/配置来源、12个保留专用验证；逐项列出可验证边界、我方预设/试打方案、三批接入与N6b/Q2依赖。
 这些是建议范围，不是已获实施授权或已完成视觉验收；不把世界专用物品、剧情结局、场景遇敌全流程冒称战斗模拟器覆盖。
 
@@ -706,7 +706,7 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 
 ## 上下文与验收
 
-- [READ-FIRST](../../../../phase2/READ-FIRST.md)、[D-04/D-05审计及用户裁决](../../../audits/pre-e2e/editor-workflows.md)、[已收口存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md)、[世界异步提交](../../../../testing/world-async-commit.md)。
+- [READ-FIRST](../../../../phase2/READ-FIRST.md)、[D-04/D-05审计及用户裁决](../../../audits/pre-e2e/editor-workflows.md)、[已收口存档隔离](SAVE-ISOLATION-1-project-workspace-save-scope.md)、[世界异步提交](../../../../testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md)。
 - [harvest](../../../../phase2/reference/phase1-knowledge-harvest.md) X7/X8/B仅核现有资源/所有权教训，旧“现状”不当当前事实；本卡不重裁公式/原版怪癖。
 - 主/脚本dirty与身份复验参考ShopTab.tsx:178-189；shop-trial.test.ts已有早分流禁止SaveStore的验证模式，需加强为真实新项目/真实BattleSession。
 
@@ -866,7 +866,7 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
   补开发HTTP缺失文件404合同。实际App保存回调回归已钉；四正控/四坏实现负控通过，细节与失败记录见实施附件。
   尚未接真实BattleSession或完整UI；不宣称S1全完、整卡done或覆盖率门已过。
 - 2026-09-19 Codex：S1配置/作者保存基础已在`codex/editor-battle-simulator-r2`提交推送`641a85fb`，尚未并主线。
-  工作树`/Users/zhangxu/.codex/worktrees/battle-simulator-r2/type-pal`；该分支实施回执`docs/testing/battle-simulator-implementation.md`。
+  工作树`/Users/zhangxu/.codex/worktrees/battle-simulator-r2/type-pal`；该分支实施回执`docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md`。
   新增67项；原fast测试选择editor225/2397、reforge117/1219绿（只跑测试，非覆盖率门）；两包tc通过，四正控/四负控通过，Biome无error/warn。
   尚缺引用诊断、完整UI、真实战斗及整卡质量门，保持build、Codex继续，不交终审、不标done、不改官方基线。
 - 2026-09-19 Codex：用户告知“签了”后同步main，核9aac034c/444cad25为同一r2的前提/设计签字、无counter。
@@ -921,7 +921,7 @@ F5/F9不能读写进度，明确提示临时模式；不把浏览器刷新或正
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 定点补核 EDITOR-SKILL-TRIAL-1 r2a，卡 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md，rework。
-先同步并读AGENTS/CLAUDE/READ-FIRST、本卡r2a和 docs/testing/battle-simulator-r2-design.md。
+先同步并读AGENTS/CLAUDE/READ-FIRST、本卡r2a和 docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md。
 用户已明确我方本来只有1～3人，敌方仍五槽；这不是新增需求或以后做五人的承诺，不再问用户。
 独立读SDL palcommon.h:42/48（出战3与总角色5）、game draw-battle-ui:64/405、Reforge battle-ui:24/157和battle-session:2820/2846。
 只核人数勘误：配置草稿可空、启动1～3人、第四人守卫拒绝、UI/快速入口/宿主统一；不改正式战斗HUD，不保五人兼容。
@@ -939,7 +939,7 @@ Kimi审跨入口一致性，GLM审三人正控/四人拒绝/敌方五槽不误�
 在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-SKILL-TRIAL-1 的r2冻结设计，状态rework。
 先同步分支、核工作树，再读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md 的r2区及
-docs/testing/battle-simulator-r2-design.md；全域评估仅作背景。
+docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md；全域评估仅作背景。
 同一候选：r2 / 2026-09-19保存裁决后冻结，生产e58834f6389a40ffe9f187e6a8051f552e964d79。
 用户已确认四目录草图大方向、预设随工程保存、首版先保存工程再试打；临时调整不必另存，战斗结果不落盘。
 独立直读入口/保存/战斗一手链，必要时复跑 node --import tsx docs/testing/skill-trial-premise.mjs。
@@ -955,7 +955,7 @@ docs/testing/battle-simulator-r2-design.md；全域评估仅作背景。
 在 /Users/zhangxu/illegal/type-pal 审查 EDITOR-SKILL-TRIAL-1 的r2冻结设计，状态rework。
 先同步分支、核工作树，再读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
 docs/ops/tasks/EDITOR-SKILL-TRIAL-1-isolated-battle.md 的r2区及
-docs/testing/battle-simulator-r2-design.md；全域评估仅作背景。
+docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md；全域评估仅作背景。
 同一候选：r2 / 2026-09-19保存裁决后冻结，生产e58834f6389a40ffe9f187e6a8051f552e964d79。
 用户已确认四目录草图大方向、预设随工程保存、首版先保存工程再试打；临时调整不必另存，战斗结果不落盘。
 独立直读真实类型/守卫/保存/运行入口，可复跑 node --import tsx docs/testing/skill-trial-premise.mjs。

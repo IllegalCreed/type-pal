@@ -56,8 +56,8 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   分支45477/63178→45738/63288；27新增生产文件全纳入、零移出，七包四指标无回退。
 - Game/Reforge/Editor三端生产build通过；分项109针及隔离功能证据归原分项快照，未冒充本次重跑。
 - 玩法/公式/UI/SAVE8/content20/生成资产和正常存档不变，不占6010；主工作树其他对话的未提交文件不纳入。
-- 完整证据与未证范围见[统一回执](../../../../testing/architecture-continuation-integration.md)及
-  [机账](../../../../testing/architecture-continuation-integration-evidence.json)。full/Q1/Q2、屏幕/zoom矩阵、冻结历史组合、
+- 完整证据与未证范围见[统一回执](../../../../testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)及
+  [机账](../../../../testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json)。full/Q1/Q2、屏幕/zoom矩阵、冻结历史组合、
   demo/s135独立问题及其它贡献者未接收候选均不随本卡关闭。
 
 无下一位Agent提示词；本批由Codex直接完成统一收口，旧交接提示仅保留历史。
@@ -75,8 +75,8 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   route/adoption编排，6428→4669行，四层不反向依赖facade。未知switch连续空case的等价入口归并把冷
   `validateAdoption` 从约5.6秒降到2.407秒，未放宽15秒timeout、未删规则。新增6项，原三文件并发29项、
   Editor335文件/2885项、TC/Biome和设计门100文件/2例外通过；control10与六针反控全检出。完整范围、性能
-  根因、临时证据和未证项见[回执](../../../../testing/design-system-audit-layering-refactor.md)与
-  [机账](../../../../testing/design-system-audit-layering-refactor-evidence.json)。未跑共享全仓check/ratchet/strict，
+  根因、临时证据和未证项见[回执](../../../../testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md)与
+  [机账](../../../../testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json)。未跑共享全仓check/ratchet/strict，
   未更新官方基线、未合main；F1只报候选四层齐。
 
 - 2026-09-26 F1审计分层开工（基点 `fd09c15c`）：`design-system-audit.mjs` 当前6428行，混持TSX
@@ -98,7 +98,7 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   3314→3202。定向/相邻分别5文件103项、8文件63项；Migrate全包真实 PAL 数据93文件735项、远端新增
   translate-events六组59项、TC/Biome通过；control10与十一针反控全检出。输出重复调用、publication replay、
   merge/plan幂等、transaction/write guard均在全包内通过；未执行发布写盘。完整范围、临时证据和未证项见
-  [回执](../../../../testing/migration-phase-owners-refactor.md)与[机账](../../../../testing/migration-phase-owners-refactor-evidence.json)。
+  [回执](../../../../testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md)与[机账](../../../../testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor-evidence.json)。
   未跑共享全仓check/ratchet/strict，未更新官方基线、未合main；E1只报候选边界齐。
 
 - 2026-09-26 E1-b 场景源索引阶段开工（基点 `d6226e1a`）：`mapScenesStatic` 起手约 150 行同时做
@@ -134,8 +134,8 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   `event-system` 5570→5108、`battle-system` 3749→3139、`bootstrap` 1946→1931。D2-a 7文件722项，
   战斗13文件342项，启动6文件27项，Game全包167文件/2459项、TC、Biome、157-module build通过；真实
   extracted与五个raw MKF仅以临时只读式symlink消费，trap已解除。opcode六针与主控九针全部检出；完整范围、
-  命令、临时摘要和未证项见[回执](../../../../testing/phase1-main-owners-refactor.md)与
-  [机账](../../../../testing/phase1-main-owners-refactor-evidence.json)。未跑共享全仓check/ratchet/strict，未更新官方基线、
+  命令、临时摘要和未证项见[回执](../../../../testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md)与
+  [机账](../../../../testing/archive/legacy/phase1-runtime/engine-boundaries/phase1-main-owners-refactor-evidence.json)。未跑共享全仓check/ratchet/strict，未更新官方基线、
   未合main；D2只报候选边界齐，须原接收对话统一门后才可正式完成。
 
 - 2026-09-26 D2-d 启动资源并发批次开工（基点 `6ed5db3f`）：`bootstrap.ts:232-260` 直接启动
@@ -278,14 +278,14 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   premise verified / build allowed；无新手势、地图格式或 UI 产品取舍。
 
 - 2026-09-26 B1编辑器总壳会话候选 `4101926d`、`93e4a9c4`、`6181d7eb`、`52112d86`
-  已交付：[回执与未证项](../../../../testing/editor-app-sessions-refactor.md)。导航、场景工作区、试玩与工程生命周期
+  已交付：[回执与未证项](../../../../testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md)。导航、场景工作区、试玩与工程生命周期
   分别有 owner；既有 `ProjectLeaveGuard` 仍独占 leave admission/lease，历史仍独占 dirty/revision/undo/redo。
   `App.tsx` 5170→4688，不传完整编辑器上下文。18 新增、定向 54、保存冲突 37、同步主线后 Editor
   328 文件/2847 项、TC/Biome/build、二十针与 6054 隔离功能通过；content20/SAVE8/玩法/公式/UI/资产约定
   零改。按交接未跑共享全仓 check/ratchet/strict、未合 main；B1 只在候选树四段齐，待原接收对话统一门后
   正式标完成。本实现对话可继续 B2 等不重叠项。
 
-- 2026-09-26 本接收对话核定F2完成：[Cursor九组最终验收](../../../../testing/cursor-commands-wave2-integration.md)。候选2022acc3/集成96e9d3c1，R1–R3闭合，90声明/119出口/62绑定、五针、最小UI及check8740/strict8248/701通过。新架构对话无需重做F2；D1/E2/F2共三项完成，本卡其余八项仍按各自边界推进。
+- 2026-09-26 本接收对话核定F2完成：[Cursor九组最终验收](../../../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)。候选2022acc3/集成96e9d3c1，R1–R3闭合，90声明/119出口/62绑定、五针、最小UI及check8740/strict8248/701通过。新架构对话无需重做F2；D1/E2/F2共三项完成，本卡其余八项仍按各自边界推进。
 
 - 2026-09-26 对话分工交接：用户要求新开Codex对话继续架构治理。新对话接手`/Users/zhangxu/illegal/type-pal-codex-active-scene`（`codex/architecture-active-scene`）的A3移动/绘制实现；原接收对话继续Cursor九组与GLM六组验收。新对话不写main、不接管贡献者目录；分批候选推送后，由原接收对话统一安排check/ratchet/strict、main集成，避免共享coverage目录与基线并发写入。定向/相邻/TC/隔离功能自验由新对话自主完成；后续不重叠架构项可按下方提示连续推进。
 
@@ -304,9 +304,9 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
 - A3活动场景/相机段开工（基点8d851fa6，独立`codex/architecture-active-scene`）：`main.ts:389-410`的活动资源、实体基准和页动作归ActiveScene；`:440-458/:2074-2117/:3502-3515`的相机位置/偏移/pan取消归WorldCamera。直接源码核得提交序是新scene/assets/entityDefs→页动作同步cue→room/bounds→队伍落点/轨迹→音频，不能分成await或重排同步cue。reloadMap仍先造renderer/room，再commitCanonical，最后替换地图资源；其既有camera bounds不在本次暗改。准备、令牌校验、world替换与存档提交继续在原协调层。
   当前行为真值是上述生产调用链与scene/save/checkpoint回归；一阶段harvest W3/W4/W7、E3/E5、X1/X3只提供相机偏移/同帧采样风险参考，不引入旧引擎耦合。最强替代解释为“搬字段会捕获旧场景/旧玩家位置或重排同步cue”；用实际ScenePreparer产物、主壳调用链、冻结旧相机序列和取消反控排除。Codex核此前提verified、范围build allowed；无新玩法/格式/UI裁决，A3整体仍未完成。
 
-- 2026-09-26 Cursor24组与GLM实验包已独立accept收口，统一check8707/strict8215/686，详见[Cursor](../../../../testing/cursor-architecture-batch-integration.md)/[GLM](../../../../testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md)。未证后续明确保留：B1核720/900横向裁切、隐藏outliner后残留separator命中/焦点区及boot首屏失败矩阵；E1核globalScriptAliases及profile/reference端到端其它组合（sceneSemanticSpriteIds已有world-sprite-layout-registry三类动态证据，按existing-proof）；原生浏览器125/150% zoom归后续环境/E2E矩阵。以上不是本批已修/已覆盖，不借准备包done关闭架构项。
+- 2026-09-26 Cursor24组与GLM实验包已独立accept收口，统一check8707/strict8215/686，详见[Cursor](../../../../testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md)/[GLM](../../../../testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md)。未证后续明确保留：B1核720/900横向裁切、隐藏outliner后残留separator命中/焦点区及boot首屏失败矩阵；E1核globalScriptAliases及profile/reference端到端其它组合（sceneSemanticSpriteIds已有world-sprite-layout-registry三类动态证据，按existing-proof）；原生浏览器125/150% zoom归后续环境/E2E矩阵。以上不是本批已修/已覆盖，不借准备包done关闭架构项。
 - D1六个下层所有者已落：[实现与验证](../../../../testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md)。只读工具证实原七节点运行期SCC→无SCC、旧出口不变、161函数体保真（32搬移，仅两处同步状态路由变更）；8新增所有权回归、4既有跨模块、554相邻及类型检查通过。与E2统一check8678/ratchet/保护8bf40b90的单次strict8186/654、三针、生产build及隔离浏览器功能验证全部通过。Codex核该两项accept收口；不混入r11复核分支的GLM拟接入测试，后者仍按交接约束独立保留。
-- E2结构`4cdefcf1`已分离校验协议/形状/AI条件/演出；旧入口52/19出口一致、50函数体保真（11搬移），content运行期二节点环消除。[E2回执](../../../../testing/content-validation-refactor.md)与D1共享本批门禁。前轮包括GLM四项副本的门禁只作为独立候选证据，本次按实际E2+D1树重新统一执行，不挪用其测试总数。
+- E2结构`4cdefcf1`已分离校验协议/形状/AI条件/演出；旧入口52/19出口一致、50函数体保真（11搬移），content运行期二节点环消除。[E2回执](../../../../testing/archive/legacy/content/authoring-and-runtime/content-validation-refactor.md)与D1共享本批门禁。前轮包括GLM四项副本的门禁只作为独立候选证据，本次按实际E2+D1树重新统一执行，不挪用其测试总数。
 
 - E2缺陷修复先行：新增正式`author-battle-dialogue-boundary.test.ts`13项，原实现9项AssertionError红/4项合法与runtime对照绿；`:712`显式透传options后13/13、content全包863/863与typecheck通过。覆盖直接及七递归臂的精确错误路径、三种合法作者identity、实际cue/路径透传、runtime方言保留；结构解环随后另提交，整批质量门统一执行。
 

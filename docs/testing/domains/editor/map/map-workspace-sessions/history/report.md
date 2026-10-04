@@ -1,6 +1,6 @@
 # B2 地图工作区会话所有权候选
 
-后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点 `1e15f64f`；实现 `3c3fccda`、`a2ea1dee`、`3a633ed7`；所属

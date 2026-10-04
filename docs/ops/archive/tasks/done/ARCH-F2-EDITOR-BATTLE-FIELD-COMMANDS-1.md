@@ -18,7 +18,7 @@ Implementation candidate: `83833719`
 
 - `packages/editor/src/core/commands.ts`：只移除战场族实现并从新模块 re-export 原有公开符号；不得改其它命令类/label/错误文案/guard。
 - 新建 `packages/editor/src/core/battle-field-commands.ts`：承接 `withBattleField`、表快照、append、`BATTLE_FIELDS_PATH`、`nextBattleFieldId`、四命令和 `BattleFieldInUseError`/patch type；对 `Command` 只用 type import，避免 runtime 回环。不能另写近似算法。
-- 仅在必要时改 `packages/editor/src/core/commands.test.ts` 或新同目录测试，以证明新模块直接入口与旧导出是**同一构造器身份**，以及 apply/invert/引用阻断/输入深保真；旧测试断言不得删改迁就。允许 `docs/testing/glm-arch-battle-field-commands.md` 回执和 `docs/testing/README.md` 一条索引，不改任务卡/看板。
+- 仅在必要时改 `packages/editor/src/core/commands.test.ts` 或新同目录测试，以证明新模块直接入口与旧导出是**同一构造器身份**，以及 apply/invert/引用阻断/输入深保真；旧测试断言不得删改迁就。允许 `docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md` 回执和 `docs/testing/README.md` 一条索引，不改任务卡/看板。
 - 不改 `packages/content`、`reforge`、`main/App/MapMode/ScriptEditor`、schema/SAVE8、资产/生成工程、公共配置和覆盖基线。无新 `await`、副作用或状态采样时点变化。重构与发现的产品缺陷分开；若现行测试暴露 bug，留隔离反证交 Codex，不混修。
 
 ## 验收

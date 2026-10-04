@@ -11,7 +11,7 @@ Production Base: `7cac1d72ac0b8a44521a353cc87dbe1d18d65fa5`
 2026-09-26用户授权本对话并行补覆盖，Codex核 **premise verified / build allowed**。
 不接管另一对话A3/B1架构，也不占GLM三守卫叶或Cursor八组命令文件。
 一手真值是当前content模块的公开入口/类型/现行guard，原版/第一阶段N/A；保持当前格式，不发明旧版本兼容。
-现有fast LCOV与[冻结机账](../../../../testing/coverage-parallel-wave3-evidence.json)的codex组仅定位未命中，
+现有fast LCOV与[冻结机账](../../../../testing/archive/legacy/quality/quality-gates/coverage-parallel-wave3-evidence.json)的codex组仅定位未命中，
 不把可达性未知的156臂称作可交付数量。最强替代解释为已测上层的重复或守卫后的不可达防御；先读旧测试去重。
 
 | 组 | content/src目标 | 缺口B/L | 范围 |

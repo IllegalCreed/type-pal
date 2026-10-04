@@ -2,8 +2,8 @@
 
 任务卡：[TEST-GLM-EDITOR-UI-WAVE-1](../../ops/archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md)。
 贡献者 GLM，隔离候选 `codex/glm-editor-ui-wave-r1@071a39d8`；
-R1/R2 历史 counter 见[首轮](../glm-editor-ui-wave-codex-review.md)与
-[二轮](../glm-editor-ui-wave-codex-r2-review.md)。GLM 自验不是独立第三方证明。
+R1/R2 历史 counter 见[首轮](../archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-review.md)与
+[二轮](../archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-r2-review.md)。GLM 自验不是独立第三方证明。
 
 ## 独立验收
 

@@ -77,7 +77,7 @@ Codex 独立审断言/负控并集成后统一串行执行。Cursor 自验不能
 候选 `424ac428809041081a00998ef574c7da1e770ecd` 暂签 **counter / rework**。
 定向筛选26/26（含本包18新例）、content typecheck 0、17文件 Biome 0、四针
 候选自身业务红均已由 Codex 复跑；白名单外无产品改动。但 C3 两条直接反证见
-[独立接收记录](../../../../testing/cursor-content-pure-wave2-codex-review.md)：
+[独立接收记录](../../../../testing/archive/legacy/content/authoring-and-runtime/cursor-content-pure-wave2-codex-review.md)：
 `applyLevelGrowth(levels<=0)` 的三个现行生产调用域均不可传该输入，故该新例
 与 c3 针不能算当前业务覆盖；`drawFromResourcePool` 的 reward ID 没有加入
 items map，正式引用闭包会拒绝该正控。其余已核项不重开，Cursor 仅修这两点。

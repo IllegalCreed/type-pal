@@ -65,7 +65,7 @@
   "dedupe": {
     "result": "source-review-no-new-test-credit",
     "against": [
-      "docs/testing/architecture-continuation-integration.md",
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
       "domains/runtime/battle/battle-host/history/report.md"
     ],
     "notes": "准备资源、宿主 identity、BattleSession 内部菜单/结算是不同合同；H9 随机败北固定输入为历史测试校正，不计本治理的新反控。"

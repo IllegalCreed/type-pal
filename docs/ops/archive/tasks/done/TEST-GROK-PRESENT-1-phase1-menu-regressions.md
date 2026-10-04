@@ -126,19 +126,19 @@ diagnostics/pXX-*.test.ts     # 显式失败/待证，不进默认绿集合
 
 ### Codex r3 接收复核（2026-09-25）
 
-- 候选 `503a2d24`（对比 `5cb98087`）：**accept，仅隔离候选材料**，[本人独立证据](../../../../testing/grok-present-review.md)。P01/P02/P04/P05/P07的当次实传 `items` 与快照同一数组；P05工具自测 push/reverse/pop 均能检出，Codex真实 draw 隔离见证由 r2 `sameSnapshot:true` 反转为 `false`。C1a 已闭，C1/C2/C3 全部无剩余 counter。
+- 候选 `503a2d24`（对比 `5cb98087`）：**accept，仅隔离候选材料**，[本人独立证据](../../../../testing/archive/legacy/ops/testing-records/grok-present-review.md)。P01/P02/P04/P05/P07的当次实传 `items` 与快照同一数组；P05工具自测 push/reverse/pop 均能检出，Codex真实 draw 隔离见证由 r2 `sameSnapshot:true` 反转为 `false`。C1a 已闭，C1/C2/C3 全部无剩余 counter。
 - 本席复跑 25/25（23 项真实绘制、2 项快照自测）、tsc、Biome、docs/diff及P02/P05/P10三针；来源产品/旧测试/基线零 diff。r2相邻21/21保持，不重跑已闭像素与P06链。Status仍 `draft`，**未合 main、未标 done、未计官方覆盖率**；正式接入及完整质量门另由 Codex 排期，不以作者自验充独立终审。
 - 当前无下一位 Agent 提示词；Grok本轮返工已闭，不再让其重复修 C1a。以下 r2/r1 块及提示词均为历史，不能用于再次返工。
 
 ### Codex r2 收窄接收复核（历史，C1a 已闭）
 
-- 候选 `5cb98087`（对比 `e180cb56`）：**counter，仅剩 C1a**；仍为 `draft` 隔离候选，[独立证据](../../../../testing/grok-present-review.md)。C2、C3 与 C1 位图/背景/法术/毒等字段遗漏已闭；24/24候选、相邻21/21、tsc/Biome/docs与三针均通过，但它们不能证明实际传入的 `items` 数组容器不被污染。
+- 候选 `5cb98087`（对比 `e180cb56`）：**counter，仅剩 C1a**；仍为 `draft` 隔离候选，[独立证据](../../../../testing/archive/legacy/ops/testing-records/grok-present-review.md)。C2、C3 与 C1 位图/背景/法术/毒等字段遗漏已闭；24/24候选、相邻21/21、tsc/Biome/docs与三针均通过，但它们不能证明实际传入的 `items` 数组容器不被污染。
 - `p05-menu-stack.test.ts:59-66,94-109,135-152` 的快照 `items` 与传给 `drawMenuStack` 的内联数组不是同一对象；P01/P02/P04/P07同型调用需抽核。本席真实 draw 隔离见证在调用期间把实参数组从1项改成2项，当前快照仍 `sameSnapshot:true`，故暂不正式接入。只返工同一实际 catalog 容器的前后快照，并把新增 helper 自测与生产 draw 用例分栏；不改已闭像素、去重、三针或产品源码。
 - 本卡按当前“Codex分派—Grok贡献—Codex独立验收”流程处理，不等待固定三席签字；未接收候选不计官方覆盖率。
 
 ### Codex 首轮接收复核（历史，除 C1a 外已闭）
 
-- 候选 `bd6fad55` / 登记 `e180cb56`：**counter（仅候选材料）**，保留 `draft`；[独立证据与返工范围](../../../../testing/grok-present-review.md)。Grok 为测试贡献者，不算独立第三方；不合 main、不标 done。
+- 候选 `bd6fad55` / 登记 `e180cb56`：**counter（仅候选材料）**，保留 `draft`；[独立证据与返工范围](../../../../testing/archive/legacy/ops/testing-records/grok-present-review.md)。Grok 为测试贡献者，不算独立第三方；不合 main、不标 done。
 - 已核通过：十文件 23/23、相邻 17/17、tsc/Biome、P02/P05/P10 三针业务红、源码零漂移；像素与旧例去重方向成立。
 - 剩余 C1：`cloneInputs` 未纳入真实位图尺寸和多组实际 catalog/bitmap，P08/P09 等未完整做绘制输入保真；独立见证修改 frame 宽度和 spell 名后快照仍相等。C2：P05/P07 多处首轮 draw 后才取快照。C3：P06 用静态 10 MP 构造法术菜单、runtime 8 MP 绘制；正式菜单先投影 runtime，4/30 费用不能鉴别陈旧预算。
 - 当轮返工只改隔离候选测试/fixture/回执；P10所需 `png-rgba.ts` 已由本席补录卡面 fixture 白名单。不改产品、旧测试、官方配置/基线。该旧结论不覆盖上方 r2 收窄结果。
@@ -146,7 +146,7 @@ diagnostics/pXX-*.test.ts     # 显式失败/待证，不进默认绿集合
 ## r2 下一位 Agent 提示词（历史，已完成）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支窄返工 TEST-GROK-PRESENT-1。当前候选5cb98087，卡状态draft；fetch 后用 git show origin/main:AGENTS.md 读取当前委派模式（本候选旧基点的 AGENTS.md 仍是历史三贤人文本），再读候选 README，并用 git show archive/doc-cursor-review-r1:docs/testing/grok-present-review.md 读取 Codex r2 C1a 反证（原工作分支已归档；只读，不合入复核分支）。接手前同步分支并核干净工作树。
+在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支窄返工 TEST-GROK-PRESENT-1。当前候选5cb98087，卡状态draft；fetch 后用 git show origin/main:AGENTS.md 读取当前委派模式（本候选旧基点的 AGENTS.md 仍是历史三贤人文本），再读候选 README，并用 git show archive/doc-cursor-review-r1:docs/testing/archive/legacy/ops/testing-records/grok-present-review.md 读取 Codex r2 C1a 反证（原工作分支已归档；只读，不合入复核分支）。接手前同步分支并核干净工作树。
 只修实际传给 draw 的 catalog 数组身份：P05 :59-66/:94-109/:135-152 和 P01/P02/P04/P07 同型内联数组，先具名一次、同一对象交快照与产品调用；每次 draw 前后立即深比。自测至少钉一次真实实参数组成员增删或顺序变化能使快照红，不用另一份等值数组冒充。README将24项分为23项真实绘制回归+1项 helper 自测，不报新增官方覆盖率。
 C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不重开。只改隔离候选测试/fixture/回执，不改产品、旧测、官方配置/基线；复跑候选/相邻/tsc/Biome/docs/三针，交精确SHA、JSON计数和实参数组污染负控。提交推送，不合main、不标done；Codex独立接收后决定集成。当前不要求Kimi/GLM签字。
 ```
@@ -154,7 +154,7 @@ C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不�
 ## 首轮返工提示词（历史，已被上方 C1a 提示词替代）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/grok-present-regressions/README.md；fetch 后用 git show archive/doc-cursor-review-r1:docs/testing/grok-present-review.md 与该归档标签上的任务卡读取 Codex C1-C3 原反证（原工作分支已归档；只读，不把复核材料合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
+在 /Users/zhangxu/illegal/type-pal-grok-present 的 codex/grok-present-tests-r1 分支返工 TEST-GROK-PRESENT-1 候选；卡状态 draft，尚未开放正式 build/done。先读 AGENTS.md、CLAUDE.md、docs/testing/grok-present-regressions/README.md；fetch 后用 git show archive/doc-cursor-review-r1:docs/testing/archive/legacy/ops/testing-records/grok-present-review.md 与该归档标签上的任务卡读取 Codex C1-C3 原反证（原工作分支已归档；只读，不把复核材料合入候选）。复核候选 bd6fad55/登记 e180cb56；接手前同步分支、核干净工作树。
 只修 C1-C3：C1 为每次真实 draw 的 gs/menu/catalog/bitmap 等可变实参取完整独立快照，IndexedImage 连 width/height 都算，P06 spells/magics、P07 portrait/levelUpExp/bg、P05 bg/poisons、P08/P09 实际输入别漏；保留 toSpriteImages 同引用合同。C2 把 P05/P07 首轮绘制的快照移到该次调用之前，并在之后立即比较，不把 create/confirm/导航当绘制污染。C3 P06 施法者构造按正式 runtime→roles 投影或等效同步当前 MP，用能区分 8 与 10 的费用边界验证 disabled，同时保留屏幕现行 MP=8 像素断言。Codex 已补录 P10 png-rgba fixture 白名单，不需改产品或卡面他席。
 已核过像素坐标/去重方向/23项及 P02/P05/P10 三针，别重开已通过项目。返工后复跑候选 JSON、相邻定向、tsc、Biome、三针；给实际输入污染的单点反控或其他可复建见证，证明原盲区已堵。只改 docs/testing/grok-present-regressions/**，README 如实更新候选/命令/计数与缺口。提交推送返工候选，交确切 SHA 与结果；不合 main、不代签、不标 done，不跑官方覆盖率或改基线。Codex再独立接收，Grok自己的绿结果不算独立第三方证明。
 ```
@@ -178,6 +178,6 @@ C2/C3、位图宽高等C1已闭项、像素/旧例去重及P02/P05/P10三针不�
 
 ## Codex 正式接入与 done 收口（2026-09-25）
 
-- 用户在 r3 材料 accept 后明确要求 Codex 开始合并推送。Grok 候选 `503a2d24`、Codex 隔离复核 `8ac65c4f` 分别保留贡献与审查归属；[正式接入证据](../../../../testing/grok-present-integration.md)记录选择性 port，避免旧候选分支直接 merge 造成主线回退。
+- 用户在 r3 材料 accept 后明确要求 Codex 开始合并推送。Grok 候选 `503a2d24`、Codex 隔离复核 `8ac65c4f` 分别保留贡献与审查归属；[正式接入证据](../../../../testing/archive/legacy/ops/testing-records/grok-present-integration.md)记录选择性 port，避免旧候选分支直接 merge 造成主线回退。
 - Codex 正式提交 `5fc04913` 将 25项（23生产绘制/解码+2快照工具自测）接入game； `pnpm check`、受保护官方ratchet、单次严格fast均exit0，快照8090项/641生产文件，七包分母不变，全仓分支+157。测试发现的产品缺陷数为0；full/E2E/Q1/Q2不借本卡关闭。
 - 当前委派模式下由Codex独立accept并核`done allowed`；历史r1/r2 counter均由r3证据闭合。无下一位Agent提示词，本卡归档；正式测试与本报告留main。

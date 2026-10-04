@@ -105,7 +105,7 @@ docs/testing/glm-new-waves/codex-review-G-07140f75.md。清零完整 lint 7 erro
 ## 2026-09-29 Codex 代码集成后保留 review
 
 本卡测试/证据已进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
-见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+见[统一集成回执](../../../../testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md)。完整 `pnpm check`、
 官方 ratchet、受保护 fast 与静态零诊断均通过；正式并集分支覆盖率
 78.12%，不单独相加本 wave 收益。**仍非 done**：隔离试打截图已看图，
 但 9 条 console error 只有 8 条请求可按 URL 归因到预期无存档探测，
@@ -114,7 +114,7 @@ docs/testing/glm-new-waves/codex-review-G-07140f75.md。清零完整 lint 7 erro
 ## 2026-09-29 Codex 集成与视觉终态
 
 本卡测试/证据已进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
-见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)：完整 check、
+见[统一集成回执](../../../../testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md)：完整 check、
 官方 ratchet、受保护 fast、静态零诊断均通过，生产源码与覆盖分母不变。
 原 r2 视觉回执中唯一未归因的 console error 经 Codex
 [URL 级补验](../../../../testing/glm-new-waves/codex-G-console-closure-20260929.md)

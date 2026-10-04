@@ -4,7 +4,7 @@
 本轮新增6项编号记录：4类功能/测试问题、1类开发期旧调用面残留、1项全仓质量门禁未绿。
 不是6项全都阻断二阶段薄E2E，也不是又启动了6张修复卡。
 
-2026-09-19接续：[E-03/E-04私有预览缓存修复](../../../testing/editor-preview-cache.md)已完成实现，
+2026-09-19接续：[E-03/E-04私有预览缓存修复](../../../testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md)已完成实现，
 15项真实字节回归、7针业务负控及Codex原生浏览器绘制验证通过，check7457/严格fast6969通过，E-03/E-04在本范围内关闭。
 下文缺陷源码行号与探针结论保留首轮审计时点；本次不含缓存容量/LRU或pending FIRE读取协议。
 
@@ -21,7 +21,7 @@
 
 ## E-01 · 资源测试的前置条件与实际结果不一致
 
-2026-09-19：[测试输入合同修复](../../../testing/phase1-resource-test-inputs.md)由Codex连续推进：仅改三套测试，
+2026-09-19：[测试输入合同修复](../../../testing/archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md)由Codex连续推进：仅改三套测试，
 新增20项隔离FS输入回归，不改生产/资源/提取器；旧树7条反例已复现，修复后20项及真实资源对拍绿，
 check7478/严格fast6989通过，E-01按该范围关闭。下文保留原审计时点。
 

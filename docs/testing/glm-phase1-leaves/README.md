@@ -16,8 +16,8 @@
 
 ## 必须先看的旧证据
 
-- [Grok菜单/索引绘制正式接入](../grok-present-integration.md)：`packages/game/src/present/__tests__/grok-present/`，25项。
-- [Grok合成/战斗呈现正式接入](../grok-phase1-composition-integration.md)：`packages/game/src/present/__tests__/grok-composition/`，19项。
+- [Grok菜单/索引绘制正式接入](../archive/legacy/ops/testing-records/grok-present-integration.md)：`packages/game/src/present/__tests__/grok-present/`，25项。
+- [Grok合成/战斗呈现正式接入](../archive/legacy/runtime/engine-boundaries/grok-phase1-composition-integration.md)：`packages/game/src/present/__tests__/grok-composition/`，19项。
 - 这两份是历史回执，里面当时的warning记录不构成当前豁免；现在静态门必须全部零诊断。
 - `core/menu/__tests__`、同名/其它跨文件调用测试和各领域工程笔记也要读；标题本身不证明断言覆盖该合同。
   一组一张短去重表即可，不先写大审计报告再开工。

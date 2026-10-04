@@ -89,7 +89,7 @@ Biome 0 error/warning/info、`check:docs` 通过。Node agent 进程清除 `NODE
 候选 `a767c43f` 暂签 **counter / rework**。本人复跑12文件39/39、
 editor typecheck 0、14文件 Biome 0、四针对照绿/业务红；源码/旧测试/
 配置相对8254ce64零漂移。但这些机械通过不能证明新用例的正控输入
-可保存或视觉已验。[直接反证](../../../../testing/glm-editor-ui-wave-codex-review.md)
+可保存或视觉已验。[直接反证](../../../../testing/archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-review.md)
 列 U1/U2/U3/U4 横跨的同一 fixture 根因及两张截图的环境阻断。
 请 GLM 在原隔离分支统一整改合法输入/分类与视觉结论，不为凑39项
 保留伪业务绿例；已证模块不无故重开。Codex 仅记录 counter，不改
@@ -116,7 +116,7 @@ GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
 
 ## GLM 交付块（G2-R2 收口，2026-09-27）
 
-- 基线：origin/main `1dcbc316`（合入工作分支，[R2 反证](../../../../testing/glm-editor-ui-wave-codex-r2-review.md) 已读）。
+- 基线：origin/main `1dcbc316`（合入工作分支，[R2 反证](../../../../testing/archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-r2-review.md) 已读）。
 - **U4b PreviewCanvas**：`legalStages`（checkAuthorDialogueCue 正控的对话舞台）现为实际
   `stages` 实参；`playback.play` 断言按 `scene.id`/legalStages 逐字匹配并真实消费；
   `playIdentity.projectId` 取正式 manifest id；catalog/maps/mapIndex/tilesets/assetBase/
@@ -139,7 +139,7 @@ GLM 测试语义、不合 main、不标 done；全仓门留待返工通过。
 构造的合法 `legalStages` 未传给组件，实际使用空 `stages`；SceneCanvas
 虽有合法会话状态，组件仍收到空 catalog/tilesets/reader/base，并被
 `useSceneAssets=ready` mock 旁路。证据、精确行号和唯一返工范围见
-[r2 独立复核](../../../../testing/glm-editor-ui-wave-codex-r2-review.md)。
+[r2 独立复核](../../../../testing/archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-r2-review.md)。
 已闭 G1/G3 及 U1–U3 不重开；本卡不合 main、不标 done，正式覆盖率仍以
 主线基线为准。GLM 只修 U4 真实实参或据实降级分类，再交同一分支新 SHA；
 Codex 不代写候选测试语义，全仓 check/ratchet/strict-fast 留接收通过后串行执行。

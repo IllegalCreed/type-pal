@@ -22,8 +22,8 @@ Visual Verification Timing: N/A
 - 当前fast主壳1140/3360行、544/2427分支；旧full是9月12日，先重新校准，不能用旧full当本批证据。
 - 最强替代解释：缺口已由full或底层测试覆盖。先比当前full/fast；新增用例必须证明键盘/正式脚本→宿主闭环，
   不将单测重复执行当新合同。若合法fixture被正式guard拒绝，先修fixture；产品缺陷另记，不为统计硬改实现。
-- 必读：仓库AGENTS/CLAUDE/phase2 READ-FIRST；[前批宿主](../../../../testing/codex-runtime-shell.md)、
-  [战斗集成](../../../../testing/battle-workflows-integration.md)、[环境修复](../../../../testing/check-environment-stability.md)。
+- 必读：仓库AGENTS/CLAUDE/phase2 READ-FIRST；[前批宿主](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md)、
+  [战斗集成](../../../../testing/archive/legacy/runtime/battle/battle-workflows-integration.md)、[环境修复](../../../../testing/archive/legacy/quality/quality-gates/check-environment-stability.md)。
 
 ## 验证
 
@@ -47,11 +47,11 @@ Visual Verification Timing: N/A
 
 - 2026-09-24 Codex：main清洁且fetch后同步，启动当前树full校准；独立连续完成整批，不调用其他Agent。
 - 2026-09-24 Codex：实现94b59a6f，28项/8单点负控、相邻385、全reforge1497/TC、完整check8412通过。
-  [回执](../../../../testing/codex-runtime-shell-wave2.md)与正式ratchet7921/633已通过；另六包基线对象不变，
+  [回执](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md)与正式ratchet7921/633已通过；另六包基线对象不变，
   Reforge逐文件分母不变/无回退。此时进入review，等待严格复验。
 - 2026-09-24 Codex：单次strict7921/633 exit0，CI彩色与编译缓存污染环境下通过，前后baseline SHA-256
   `32a0c23bddf240ca801e3e4be1c3ace275af7cc96b37f7f2fe457add4d16382a`相同。
-  [机账](../../../../testing/codex-runtime-shell-wave2-evidence.json)记录所有命令结果/28标题/8针/逐文件增量。
+  [机账](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2-evidence.json)记录所有命令结果/28标题/8针/逐文件增量。
   本批独立核done并同步看板/索引；没有独立第三方审查、没有像素或完整E2E声明，不外推下一批豁免。
 
 ## 下一位Agent提示词

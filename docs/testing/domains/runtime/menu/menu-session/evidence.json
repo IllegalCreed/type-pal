@@ -65,7 +65,7 @@
   "dedupe": {
     "result": "source-review-no-new-test-credit",
     "against": [
-      "docs/testing/architecture-continuation-integration.md",
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
       "domains/runtime/menu/menu-session/history/report.md"
     ],
     "notes": "A1 report/evidence covers menu/session ownership; historical parity and mutant tools remain legacy until caller/import audit. Runtime E2E and coverage are separate."

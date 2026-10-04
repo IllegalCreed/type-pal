@@ -13,7 +13,7 @@ Codex按用户确认完成实现：原播放按钮切换暂停/恢复，普通�
 error/warning/info全零。完整check10,191→官方ratchet→保护2f59be7f的单次严格fast9,730/730文件
 串行通过；全仓B47,667/63,393=75.19%，新增产品分母32与覆盖分子30分列，另五包基线对象不变。
 Codex核定review→done，单人模式不需额外席位；无下一位Agent提示词。
-[最终回执](../../../../testing/preview-controls.md)含浏览器证据/限制/失败修正记录。
+[最终回执](../../../../testing/archive/legacy/editor/editor-workflows/preview-controls.md)含浏览器证据/限制/失败修正记录。
 不关闭E2E001/002、音频与完整剧情验证；真实游戏未使用预览调试钩子或自动对话政策。
 
 ## 本轮准入（2026-09-28）

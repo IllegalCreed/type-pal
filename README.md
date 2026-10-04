@@ -47,13 +47,13 @@
 PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、工程和存档只接受当前 canonical 版本。
 
 第一、第二阶段首轮代码审计见[审计总报告](docs/ops/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
-不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/architecture-continuation-integration.md)
+不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)
 和[零诊断质量门](docs/testing/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
 双引擎 [001 开场 E2E](docs/testing/e2e/stages/001-opening/report.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
 这**不是**完整剧情通关、完整视觉/音轨验收或可直接用于宣传的录像链。
 
 全生产源码的 Vitest/V8 fast/full 覆盖率和只升不降门禁已建立；口径见
-[`docs/testing/coverage.md`](docs/testing/coverage.md)，最新入库 fast 数字以
+[`docs/testing/coverage.md`](docs/testing/archive/legacy/quality/quality-gates/coverage.md)，最新入库 fast 数字以
 [`scripts/coverage/baseline.fast.json`](scripts/coverage/baseline.fast.json)为准。覆盖率不替代业务断言与 E2E。
 `pnpm check:docs` 检查本地链接、索引、任务状态和现行合同版本；完整文档导航见[文档首页](docs/README.md)。
 
@@ -122,7 +122,7 @@ pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localh
 一级菜单 **战斗模拟器** 提供“试打方案 / 我方预设 / 敌方预设 / 背包预设”。方案可直接配置，也可复用预设；
 命名配置随项目保存，本场临时调整不反写原定义。先保存作者改动，再从方案“开始试打”，或由技能、敌队、敌人原入口带入对象。
 实际运行Reforge战斗；我方1～3人、敌方5槽，停止/重新试打不保留战斗消耗或奖励，独立入口不读写正常存档。
-范围、验证及限制见[实施记录](docs/testing/battle-simulator-implementation.md)，最终状态以[归档任务卡](docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)为准。
+范围、验证及限制见[实施记录](docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)，最终状态以[归档任务卡](docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)为准。
 
 ### 普通开发调试面板
 
@@ -194,7 +194,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 有/无窗口模式和目前覆盖边界见[001 执行说明](docs/testing/e2e/stages/001-opening/report.md)。
 
 视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
-覆盖率口径、基线更新规则和长期目标见 [`docs/testing/coverage.md`](docs/testing/coverage.md)。
+覆盖率口径、基线更新规则和长期目标见 [`docs/testing/coverage.md`](docs/testing/archive/legacy/quality/quality-gates/coverage.md)。
 
 ## Workspace 结构
 

@@ -72,8 +72,8 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 
 ## 上下文锚点
 
-- AGENTS/CLAUDE、phase2 READ-FIRST、[交付清单](../../../../testing/glm-delivery-checklist.md)。
-- [刚结束物品包](../../../../testing/item-logic-integration.md)及r7/r8复核：重点防“回执完成、树上没改”和错实参快照。
+- AGENTS/CLAUDE、phase2 READ-FIRST、[交付清单](../../../../testing/archive/legacy/ops/testing-records/glm-delivery-checklist.md)。
+- [刚结束物品包](../../../../testing/archive/legacy/editor/editor-workflows/item-logic-integration.md)及r7/r8复核：重点防“回执完成、树上没改”和错实参快照。
 - 各模块exports行号、source hash、LCOV臂及旧测试候选清单见冻结账；旧清单是词法匹配，不能冒充完整语义去重。
 - 当前`buildBlankProject`/`buildWorld`/`instantiate`和各validate*守卫；引用provider须真实，不用恒空数组mock。
 - Editor命令允许no-op返回原引用；不可变约束针对实际输入，命令对象自身缓存old/added是合同，不要求冻结它。

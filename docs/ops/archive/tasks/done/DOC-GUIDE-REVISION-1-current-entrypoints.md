@@ -15,7 +15,7 @@ Evidence freeze: a3ceaf05
 
 用户要求接收DOC-CURSOR-1后另开修订准入。本卡只列已核实的五份源文档修改；
 2026-09-25用户明确回复“准入，我说的”，本轮据此开放限定范围的 `build`。
-Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../../../testing/cursor-docs-hygiene-review.md)
+Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../../../testing/archive/legacy/migration/testing-records/cursor-docs-hygiene-review.md)
 已在65193a84/320800ec更正并接收。开放实施不等于实现已验收或 `done`。
 
 ## 前提真值门
@@ -64,22 +64,22 @@ Cursor回执的六项事实成立，H7/N1经[Codex窄复核](../../../../testing
 
 ## Codex 候选接收复核（2026-09-25）
 
-- 窄返工候选 `a2220ca9`：Codex **accept，允许后续集成**；[独立复核](../../../../testing/cursor-guide-revision-review.md)确认唯一 H1 counter 已闭，返工轮只改 `dev-servers.md:40-48`，文档与 diff 检查通过。其余已闭项不重开；本次按用户要求不自行合 main、不标 done，五份指南仍只在 Cursor 隔离分支，DOC-CURSOR-3 继续后排。
-- 候选 `94fbb844` 对实施基点 `145791f1` 恰五文件；H1旧6001/Playwright删除、H2–H6、N1/T1的源文对照、H7零改和 docs/diff 门已由本席独立核实，见[复核报告](../../../../testing/cursor-guide-revision-review.md)。
+- 窄返工候选 `a2220ca9`：Codex **accept，允许后续集成**；[独立复核](../../../../testing/archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md)确认唯一 H1 counter 已闭，返工轮只改 `dev-servers.md:40-48`，文档与 diff 检查通过。其余已闭项不重开；本次按用户要求不自行合 main、不标 done，五份指南仍只在 Cursor 隔离分支，DOC-CURSOR-3 继续后排。
+- 候选 `94fbb844` 对实施基点 `145791f1` 恰五文件；H1旧6001/Playwright删除、H2–H6、N1/T1的源文对照、H7零改和 docs/diff 门已由本席独立核实，见[复核报告](../../../../testing/archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md)。
 - **counter，仅 H1 一处**：`dev-servers.md:41,47-48` 仍说 `E2E=1` 用于“真 Service Worker”/“HTTP Service Worker 路径”。实际 `vite.config.ts:85` 只关闭 basicSsl；`game/src/main.ts:22,71-75` 和 `precache-client.ts:50-51` 明确 dev/e2e 不注册预缓存 SW。把两句统一收窄为 HTTP dev 用途，不发明真 SW 验收入口；其余四文件与已闭事实不重开。
 - 状态转 `rework`，Cursor 只改原五文件白名单中 `dev-servers.md` 这一小段并重跑文档/diff 检查；Codex 复核后决定集成。候选未合 main、未标 done，DOC-CURSOR-3 继续后排。
 
 ### 下一位 Cursor 窄返工提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-cursor-guides 的 codex/cursor-guide-revision-r1 继续 DOC-GUIDE-REVISION-1，当前候选94fbb844、卡状态rework。先同步分支并读 main 上的 docs/testing/cursor-guide-revision-review.md 与本卡 Codex 接收块（用 git show 只读，不需合 main）。只修 dev-servers.md:40-48：E2E=1 当前只让 Vite dev 不挂 basicSsl、改走 HTTP；game dev/e2e 不注册预缓存 Service Worker，所以删“测真 SW”“HTTP Service Worker 路径”的错误承诺。保留旧 e2e/6001 已删除与 E2E=1 HTTP 命令，不发明新的真 SW 测试入口。
+在 /Users/zhangxu/illegal/type-pal-cursor-guides 的 codex/cursor-guide-revision-r1 继续 DOC-GUIDE-REVISION-1，当前候选94fbb844、卡状态rework。先同步分支并读 main 上的 docs/testing/archive/legacy/phase1-runtime/editor-workflows/cursor-guide-revision-review.md 与本卡 Codex 接收块（用 git show 只读，不需合 main）。只修 dev-servers.md:40-48：E2E=1 当前只让 Vite dev 不挂 basicSsl、改走 HTTP；game dev/e2e 不注册预缓存 Service Worker，所以删“测真 SW”“HTTP Service Worker 路径”的错误承诺。保留旧 e2e/6001 已删除与 E2E=1 HTTP 命令，不发明新的真 SW 测试入口。
 H2–H6、N1/T1 和其余四文件已核通过，不重开；H7/scene-entry-authoring.md 仍不动。不改产品、脚本、测试或基线，不运行迁移写盘。复跑 node scripts/docs/check.mjs 与 git diff --check，提交推送候选 SHA。Cursor 不自行合 main 或标 done；Codex 再做窄复核与集成，无需 Kimi/GLM 签字。
 ```
 
 ## 下一位Agent提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 DOC-GUIDE-REVISION-1；任务卡 docs/ops/tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md，状态 build。当前是 Codex 分派、你实施、Codex 独立验收的模式，不需要 Kimi/GLM 固定签字。你是 Cursor 限定范围的实施者；先读 AGENTS.md、CLAUDE.md、本卡、docs/testing/cursor-docs-hygiene.md 及 docs/testing/cursor-docs-hygiene-review.md。同步含 r2 准入的 main 并检查工作树，从 main 建独立 worktree /Users/zhangxu/illegal/type-pal-cursor-guides、分支 codex/cursor-guide-revision-r1；若已有未提交工作，先报告，不覆盖。
+在 /Users/zhangxu/illegal/type-pal 接手 DOC-GUIDE-REVISION-1；任务卡 docs/ops/tasks/DOC-GUIDE-REVISION-1-current-entrypoints.md，状态 build。当前是 Codex 分派、你实施、Codex 独立验收的模式，不需要 Kimi/GLM 固定签字。你是 Cursor 限定范围的实施者；先读 AGENTS.md、CLAUDE.md、本卡、docs/testing/archive/legacy/ops/testing-records/cursor-docs-hygiene.md 及 docs/testing/archive/legacy/migration/testing-records/cursor-docs-hygiene-review.md。同步含 r2 准入的 main 并检查工作树，从 main 建独立 worktree /Users/zhangxu/illegal/type-pal-cursor-guides、分支 codex/cursor-guide-revision-r1；若已有未提交工作，先报告，不覆盖。
 只修改卡面白名单五份：docs/ops/guides/dev-servers.md、docs/ops/guides/browser-verification.md、README.md、docs/phase2/specs/editor-architecture.md、docs/phase2/guides/debug-tools.md。逐项修 H1～H6、N1、T1；H7 场景 UI 待核，scene-entry-authoring.md 不动。保留历史时点统计与 E2E=1 用途，不把普通 grantSkill 命令写成隔离模拟器。先核现行源码/命令定义，再写可执行文字；不运行迁移 write/recover、覆盖率或 E2E，不改产品/脚本/测试/基线/其它指南。
 本分支运行 node scripts/docs/check.mjs、git diff --check，并逐项给原建议→最终文字与文件行号，提交推送候选 SHA。你不得自行合 main 或标 done；Codex 独立复核、集成并清理交付分支。DOC-CURSOR-3 在本卡交付前暂后排。
 ```

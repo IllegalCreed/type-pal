@@ -93,7 +93,7 @@
   "dedupe": {
     "result": "source-review-no-new-test-credit",
     "against": [
-      "docs/testing/architecture-continuation-integration.md",
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
       "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
     ],
     "notes": "D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts remain legacy tools with explicit package-relative imports. It does not close gameplay/E2E or coverage."

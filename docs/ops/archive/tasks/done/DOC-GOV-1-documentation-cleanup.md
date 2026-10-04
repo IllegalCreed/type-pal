@@ -25,7 +25,7 @@ Codex 编写检查工具并终审，不另请 Kimi 签纯文档维护。没有�
 - [当前源码版本](../../../../../packages/content/src/character.ts)：CONTENT_VERSION 与 CURRENT_PROJECT_MINIMUM_SAVE_VERSION；
   [当前工程](../../../../../projects/pal/manifest.json) 为对应实物证据。
 - [路线图](../../../../phase2/roadmap.md)：R4 content20 薄基线 → N6b content21 → 完整 E2E，不能漏掉薄基线。
-- [覆盖率](../../../../testing/coverage.md)：已建立真实基线，最终百分比不阻塞薄 E2E，覆盖率不替代业务断言。
+- [覆盖率](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)：已建立真实基线，最终百分比不阻塞薄 E2E，覆盖率不替代业务断言。
 
 前提门：产品行为/原版机制 N/A，本卡只修文档叙述与仓库检查；不重新裁决任何机制或能力状态。
 工程前提已核实：源码 content20 / SAVE8，而审计列出的现行指南仍有 content19；

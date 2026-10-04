@@ -1,6 +1,6 @@
 # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组回执
 
-Codex集成注：下文保留作者交付时点；当前接收与统一门禁见[独立集成记录](../cursor-map-integration.md)。
+Codex集成注：下文保留作者交付时点；当前接收与统一门禁见[独立集成记录](../archive/legacy/content/authoring-and-runtime/cursor-map-integration.md)。
 
 2026-09-27。Cursor 在独立 worktree `/Users/zhangxu/illegal/type-pal-cursor-map-logic-r2`、分支 `codex/cursor-map-logic-r2` 上连续补 M1–M6，并按 CM1–CM4 返工。本轮基于 `4dc8fb758f46de5c291fc45397d74255972e4a5c` 只闭 CM1 执行路径的 plan/patch 输入保真；CM2–CM4 不重开、不加新业务矩阵。生产冻结 `a95618fc2a9586c77ff42ff253f72fcfba1fa09a`。没有合 main，没有标 done，没有跑官方覆盖率 / ratchet / 严格全仓门。
 

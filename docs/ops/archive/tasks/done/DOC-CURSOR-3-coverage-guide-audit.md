@@ -11,9 +11,9 @@ Branch: `codex/cursor-coverage-guide-r1`（独立 worktree）
 
 ## 目标与边界
 
-Cursor 核对当前覆盖率说明中哪些文字仍能代表现行命令、统计范围和最近一次本地实测，交给 Codex 一份可采用的窄修订建议。**本卡只授权 draft 只读取证**：不修改 `docs/testing/coverage.md`、README、脚本、CI、基线或产品，不运行覆盖率任务。Codex 接收后单独决定正式修订与合入；五份[现行指南修订卡](DOC-GUIDE-REVISION-1-current-entrypoints.md)已先行完成，本包仍不得扩大五文件白名单。
+Cursor 核对当前覆盖率说明中哪些文字仍能代表现行命令、统计范围和最近一次本地实测，交给 Codex 一份可采用的窄修订建议。**本卡只授权 draft 只读取证**：不修改 `docs/testing/archive/legacy/quality/quality-gates/coverage.md`、README、脚本、CI、基线或产品，不运行覆盖率任务。Codex 接收后单独决定正式修订与合入；五份[现行指南修订卡](DOC-GUIDE-REVISION-1-current-entrypoints.md)已先行完成，本包仍不得扩大五文件白名单。
 
-2026-09-25 开卡基点 `817be7df`。当前本地 `coverage/fast/summary.json` 自报生成时间 `2026-09-25T05:37:55.300Z`、8039 测试/641 生产文件；`docs/testing/coverage.md:14-17` 的“最新本地实测”仍写 A3 首段 8008/639。两者不同是**核查线索**，不预判哪个是已发布或受保护 CI 真值，也不把历史批次表当错误。
+2026-09-25 开卡基点 `817be7df`。当前本地 `coverage/fast/summary.json` 自报生成时间 `2026-09-25T05:37:55.300Z`、8039 测试/641 生产文件；`docs/testing/archive/legacy/quality/quality-gates/coverage.md:14-17` 的“最新本地实测”仍写 A3 首段 8008/639。两者不同是**核查线索**，不预判哪个是已发布或受保护 CI 真值，也不把历史批次表当错误。
 
 ## 前提真值门
 
@@ -21,7 +21,7 @@ N/A（只核文档与现有脚本/报告是否同口径，不改变算法、源�
 
 ## 上下文锚点
 
-- 必读 `AGENTS.md`、`CLAUDE.md`、`docs/ops/guides/documentation.md`、[覆盖率说明](../../../../testing/coverage.md)、[前批 Cursor C10 审计](../../../../testing/cursor-docs-wave2.md)及[Codex 接收](../../../../testing/cursor-docs-wave2-review.md)。前批 CI 触发/脚本映射已有证据，不重复作为新发现。
+- 必读 `AGENTS.md`、`CLAUDE.md`、`docs/ops/guides/documentation.md`、[覆盖率说明](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)、[前批 Cursor C10 审计](../../../../testing/archive/legacy/runtime/testing-records/cursor-docs-wave2.md)及[Codex 接收](../../../../testing/archive/legacy/runtime/testing-records/cursor-docs-wave2-review.md)。前批 CI 触发/脚本映射已有证据，不重复作为新发现。
 - `package.json:6-15`、`scripts/coverage/run.mjs:25-42`、`scripts/coverage/config.mjs` 的 `testSelection`/production scope、`scripts/coverage/protected-baseline.mjs`、`.github/workflows/coverage.yml` 是现行静态定义；不是运行成功的证据。
 - `coverage/fast/summary.json`、`coverage/fast/*/coverage-summary.json` 是本地报告；先核生成时间、scopeDigest/testExecutionDigest 与基线或现行定义的可比性。未核实不得称“远端 CI 已通过”或“最新官方百分比”。
 - 历史测试回执和日期段落按其发生时点保留，不把过去的 8008/639 改写成 8039/641；只审“最新/当前”的入口句及命令用法。完整 E2E、Q1/Q2、full 与 fast 不互相替代。
@@ -38,13 +38,13 @@ N/A（只核文档与现有脚本/报告是否同口径，不改变算法、源�
 
 ## 交付与验收
 
-唯一交付 `docs/testing/cursor-coverage-guide-audit.md`：按 C01–C05 列短表，逐条稳定 ID、原文 file:line、现行定义/报告字段、分类（`确定不符` / `日期历史仍正确` / `待证` / `已有证据`）、可直接使用的替换句或不修改理由。脚本存在不等于运行成功；没有全量源码身份校验时把报告数标“本地快照”，不要提高确定性。不存在的问题不凑数。
+唯一交付 `docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-audit.md`：按 C01–C05 列短表，逐条稳定 ID、原文 file:line、现行定义/报告字段、分类（`确定不符` / `日期历史仍正确` / `待证` / `已有证据`）、可直接使用的替换句或不修改理由。脚本存在不等于运行成功；没有全量源码身份校验时把报告数标“本地快照”，不要提高确定性。不存在的问题不凑数。
 
 只允许读取文件、`rg`、`git show`、`node -e` 解析现成 JSON、`shasum`、`node scripts/docs/check.mjs`、`git diff --check`；不运行覆盖率、测试、ratchet、迁移、提取、部署或浏览器，不安装依赖。候选相对基点的 diff **只能是上述一份回执**。报告经 Codex 独立接收前不合 main、不标 done；接收后由 Codex 负责需要的正式修订、合并推送和废弃 worktree/分支清理。
 
 ## 正式集成与 done 准入（2026-09-25）
 
-- Cursor 只读回执 `b5e2ca4a` 经 Codex 独立 accept 后以 `0ba9ed14` 原样接入 main；并非将旧候选分支整体 merge。Codex 独立修订 `README.md` 与 `docs/testing/coverage.md` 的当前入口已先行于 `077516bb` 推送，历史 8008/639 表、脚本、CI、基线及产品均未改。
+- Cursor 只读回执 `b5e2ca4a` 经 Codex 独立 accept 后以 `0ba9ed14` 原样接入 main；并非将旧候选分支整体 merge。Codex 独立修订 `README.md` 与 `docs/testing/archive/legacy/quality/quality-gates/coverage.md` 的当前入口已先行于 `077516bb` 推送，历史 8008/639 表、脚本、CI、基线及产品均未改。
 - 本轮落地 `node scripts/docs/check.mjs` PASS、`git diff --check` PASS；未跑 coverage/full/E2E，也未把本地 8090/641 说成远端 CI。当前委派模式下由 Codex 核定本卡 done；开卡旧 8039 快照来源仍待证，但不会影响“旧最新标题已纠正”这一窄修订。原候选 `b5e2ca4a` 已留远端 `archive/cursor-coverage-guide-r1` 标签，干净 worktree 与本地/远端工作分支均已清理。以下 draft/不合 main 的记载为当轮历史门禁。无下一位 Agent 提示词，本卡已收口。
 
 ## 当前模式推进记录与交接
@@ -54,13 +54,13 @@ N/A（只核文档与现有脚本/报告是否同口径，不改变算法、源�
 
 ### Codex 接收（2026-09-25，候选 `b5e2ca4a`）
 
-- **accept，仅材料接收；任务仍 draft，候选不合 main、不标 done。** [独立复核](../../../../testing/cursor-coverage-guide-review.md)确认 C01–C05 的 2 项确定不符、6 项日期历史、1 项待证、1 项既有证据及白名单/文档门。开卡旧 8039 快照仍待证，未跑覆盖率或远端 CI。
+- **accept，仅材料接收；任务仍 draft，候选不合 main、不标 done。** [独立复核](../../../../testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-review.md)确认 C01–C05 的 2 项确定不符、6 项日期历史、1 项待证、1 项既有证据及白名单/文档门。开卡旧 8039 快照仍待证，未跑覆盖率或远端 CI。
 - Codex 依据已核入库基线与本地快照，单独修正根 README 的“当前数字”入口及 `coverage.md` 的“最新”标题，保留 8008/639 的 A3-a 历史表，不改统计脚本、CI、基线、测试或产品。此正式文案改动不是把 Cursor 隔离回执合入 main；当前模式不需再请用户逐次批准无产品行为变化的文字纠错。
 
 ## 下一位 Agent 提示词
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接手 DOC-CURSOR-3，卡 docs/ops/tasks/DOC-CURSOR-3-coverage-guide-audit.md，状态 draft。你是 Cursor 只读核对贡献者，不是审查签字席。先读 AGENTS.md、CLAUDE.md、本卡、docs/testing/coverage.md、前批 C10 回执与 Codex 接收；同步 main、核干净工作树后，从含本卡的 main 新建独立 worktree /Users/zhangxu/illegal/type-pal-cursor-coverage，分支 codex/cursor-coverage-guide-r1。
-连续完成 C01–C05：核根 package scripts、coverage run/config/protected-baseline 定义与现成本地 summary/baseline 的可比性；区分“当前入口、带日期历史、本地快照、远端CI”，对前批 C10 去重。唯一写入 docs/testing/cursor-coverage-guide-audit.md，给稳定 ID、原文/一手锚点、分类和可直接采用的替换句；无法证实时写待证，不凑发现数。
+在 /Users/zhangxu/illegal/type-pal 接手 DOC-CURSOR-3，卡 docs/ops/tasks/DOC-CURSOR-3-coverage-guide-audit.md，状态 draft。你是 Cursor 只读核对贡献者，不是审查签字席。先读 AGENTS.md、CLAUDE.md、本卡、docs/testing/archive/legacy/quality/quality-gates/coverage.md、前批 C10 回执与 Codex 接收；同步 main、核干净工作树后，从含本卡的 main 新建独立 worktree /Users/zhangxu/illegal/type-pal-cursor-coverage，分支 codex/cursor-coverage-guide-r1。
+连续完成 C01–C05：核根 package scripts、coverage run/config/protected-baseline 定义与现成本地 summary/baseline 的可比性；区分“当前入口、带日期历史、本地快照、远端CI”，对前批 C10 去重。唯一写入 docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-audit.md，给稳定 ID、原文/一手锚点、分类和可直接采用的替换句；无法证实时写待证，不凑发现数。
 不要修改 coverage.md/README/脚本/CI/基线/产品或其它任务卡；不跑覆盖率/ratchet/full/全仓测试/E2E/迁移/部署，不自行合 main 或标 done。只跑 docs 检查和 diff 检查。整包提交推送后交正文 SHA、分支 tip、命令退出码及待证清单；Codex 独立接收并负责后续正式修改与合并清理。
 ```

@@ -376,7 +376,13 @@ export function validateLegacyClassification(root = testingRoot) {
     ])
       if (entry[field] === undefined || entry[field] === null || entry[field] === '')
         issues.push(`classification ${entry.path}: missing ${field}`)
-    if (entry.agentInCanonicalPath || agentPathPattern.test(entry.canonicalTarget))
+    const archivePreservesProvenance =
+      typeof entry.canonicalTarget === 'string' &&
+      entry.canonicalTarget.startsWith('archive/legacy/')
+    if (
+      entry.agentInCanonicalPath ||
+      (agentPathPattern.test(entry.canonicalTarget) && !archivePreservesProvenance)
+    )
       issues.push(`classification ${entry.path}: agent name leaked into canonicalTarget`)
     if (!/^[a-f\d]{64}$/.test(entry.sourceSha ?? ''))
       issues.push(`classification ${entry.path}: sourceSha must be full SHA-256`)
@@ -387,7 +393,8 @@ export function validateLegacyClassification(root = testingRoot) {
       issues.push(`classification ${entry.path}: inventory must include sourceFiles and lineCount`)
     const absolute = resolve(root, entry.path)
     if (entry.disposition === 'migrated') {
-      if (!entry.supersededBy?.includes('testing-domains-20261004.json'))
+      const planRef = entry.supersededBy?.replace(/^docs\/testing\//, '')
+      if (!planRef || !existsSync(resolve(root, planRef)))
         issues.push(`classification ${entry.path}: migrated entry missing migration plan`)
       if (
         !entry.canonicalTarget ||

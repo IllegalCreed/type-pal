@@ -6,6 +6,17 @@ import { fileURLToPath } from 'node:url'
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 export const testingRoot = resolve(repoRoot, 'docs/testing')
 export const outputPath = resolve(testingRoot, 'legacy-flat-classification.json')
+const closeoutPlanPath = resolve(testingRoot, 'archive/migrations/legacy-full-closeout-plan.json')
+const closeoutPlan = existsSync(closeoutPlanPath)
+  ? JSON.parse(readFileSync(closeoutPlanPath, 'utf8'))
+  : { entries: [] }
+const closeoutEntries = [
+  ...(closeoutPlan.entries ?? []),
+  ...(closeoutPlan.entryFiles ?? []).flatMap(
+    (path) => JSON.parse(readFileSync(resolve(testingRoot, path), 'utf8')).entries,
+  ),
+]
+const closeoutByPath = new Map(closeoutEntries.map((entry) => [entry.path, entry]))
 
 const provenancePrefixes = new Map([
   ['codex', 'Codex'],
@@ -104,6 +115,9 @@ export function classifyPath(path, kind, sourceSha, options = {}) {
         : (rule?.[2] ?? 'testing-records'))
   const slug = slugify(stem) || 'legacy-record'
   const archiveHistory = stem.startsWith('architecture-regression-lab-codex-')
+  const closeout = options.closeout ?? null
+  const retainedWithStopline = closeout?.resolution === 'retain-legacy-with-stopline'
+  const reviewed = Boolean(options.movedTo || closeout)
   return {
     path,
     kind,
@@ -114,31 +128,43 @@ export function classifyPath(path, kind, sourceSha, options = {}) {
     sourceSha,
     classificationBasis: options.movedTo
       ? 'reviewed-migration-batch'
-      : inventory.dominant
-        ? 'body-source-paths'
-        : 'filename-hint-only',
-    reviewStatus: options.movedTo ? 'reviewed' : 'candidate-needs-depth-review',
+      : closeout
+        ? 'legacy-full-closeout-review'
+        : inventory.dominant
+          ? 'body-source-paths'
+          : 'filename-hint-only',
+    reviewStatus: reviewed ? 'reviewed' : 'candidate-needs-depth-review',
     inventory,
     canonicalTarget:
+      (retainedWithStopline ? 'archive/migrations/legacy-full-closeout-plan.json' : null) ??
       options.canonicalTarget ??
       options.movedTo ??
       `domains/${domain}/${module}/${slug}${path.slice(stem.length)}`,
     disposition: options.movedTo
       ? 'migrated'
-      : archiveHistory
-        ? 'archive-history'
-        : 'retain-legacy',
+      : retainedWithStopline
+        ? 'retain-legacy'
+        : archiveHistory
+          ? 'archive-history'
+          : 'retain-legacy',
     supersededBy: options.movedTo
-      ? 'docs/testing/archive/migrations/testing-domains-20261004.json'
+      ? (options.supersededBy ?? 'docs/testing/archive/migrations/testing-domains-20261004.json')
       : archiveHistory
         ? 'archive/architecture-regression-lab-history.md'
         : null,
-    reason: options.movedTo
-      ? '已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。'
-      : archiveHistory
-        ? '逐轮反证属于同一实验包；保留原始结论，由历史汇总承接当前导航。'
-        : '尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。',
-    agentInCanonicalPath: agentPattern.test(`domains/${domain}/${module}/${slug}`),
+    reason: closeout
+      ? `${closeout.reason}; stop line: ${closeout.stopLine}`
+      : options.movedTo
+        ? '已按 SHA 锁定迁入工程域/历史归档；当前 canonical 负责导航，原正文和源 SHA 由 history 保留。'
+        : archiveHistory
+          ? '逐轮反证属于同一实验包；保留原始结论，由历史汇总承接当前导航。'
+          : '尚未完成独立迁移/删除核验；保留原文件，禁止继续新增同类平面文件。',
+    proposedCanonicalTarget: closeout?.canonicalTarget ?? null,
+    closeoutResolution: closeout?.resolution ?? null,
+    stopLine: closeout?.stopLine ?? null,
+    agentInCanonicalPath:
+      !String(options.movedTo ?? '').startsWith('archive/legacy/') &&
+      agentPattern.test(`domains/${domain}/${module}/${slug}`),
   }
 }
 
@@ -159,6 +185,8 @@ export function buildClassification(root = testingRoot) {
         : null)
     return classifyPath(entry.path, entry.kind, sourceSha, {
       movedTo: entry.movedTo,
+      closeout: closeoutByPath.get(entry.path),
+      supersededBy: entry.plan ?? undefined,
       text: existsSync(absolute) ? readFileSync(absolute, 'utf8') : '',
       reviewedDomain: entry.movedTo?.startsWith('domains/runtime/')
         ? 'runtime'

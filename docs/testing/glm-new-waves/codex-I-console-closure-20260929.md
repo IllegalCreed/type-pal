@@ -27,5 +27,5 @@ Chrome headless、1440×900、独立 6093 端口，从初始页开始监听 Play
 Vite 服务在补验后均已停止，端口 6092/6093 不再监听。
 
 结论：Wave I 卡面的最小菜单视觉与 console 项闭合；产品/测试/覆盖率
-基线均未因本补验更改。A–J 的[统一集成门](../glm-wave-union-20260929.md)
+基线均未因本补验更改。A–J 的[统一集成门](../archive/legacy/ops/testing-records/glm-wave-union-20260929.md)
 仍适用，本纯测试卡可由 Codex 收口 `done`。

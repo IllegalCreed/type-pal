@@ -1,7 +1,7 @@
 # Cursor八组命令行为补测
 
 [任务卡](../../ops/archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) ·
-[冻结缺口](../coverage-parallel-wave3-evidence.json) ·
+[冻结缺口](../archive/legacy/quality/quality-gates/coverage-parallel-wave3-evidence.json) ·
 [八行回执](receipt.md)。
 
 由Cursor在隔离分支连续完成C1–C8，Codex独立接收、统一门禁和收口。作者已交付，不计官方覆盖增量。

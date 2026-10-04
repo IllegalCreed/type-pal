@@ -1,6 +1,6 @@
 # 当前脚本预览控制器六组补测
 
-2026-09-28更新：历史D1现已由[预览控制修复](../preview-controls.md)转绿，并纳入正式stepping回归。
+2026-09-28更新：历史D1现已由[预览控制修复](../archive/legacy/editor/editor-workflows/preview-controls.md)转绿，并纳入正式stepping回归。
 用户新增普通对话自动播放/单步不代选合同；原六针resume锚点适配现行代码，并新增五针。
 以下计数、失败记录与静态诊断为原补测批历史，不当成当前未修结论。
 

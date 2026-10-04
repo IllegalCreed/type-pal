@@ -1,7 +1,7 @@
 # Cursor 内容十六模块 wave2 · Codex 最终独立接收
 
 候选 `codex/cursor-content-pure-wave-2@f9bfb527`，原始基点 `8254ce64`。
-结论：**accept**。首轮 [R1/R2 counter](../cursor-content-pure-wave2-codex-review.md)
+结论：**accept**。首轮 [R1/R2 counter](../archive/legacy/content/authoring-and-runtime/cursor-content-pure-wave2-codex-review.md)
 按原反证收窄闭合，不重开其它已核项。
 
 - R1：`rewards.cursor-pure-wave2.test.ts` 删除 `applyLevelGrowth(0/-3/0.9)`

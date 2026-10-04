@@ -41,7 +41,7 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 
 ## 实施白名单与验收
 
-- 唯一写入 `docs/testing/cursor-scene-entry-truth.md`。不改 `scene-entry-authoring.md`、
+- 唯一写入 `docs/testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-truth.md`。不改 `scene-entry-authoring.md`、
   `script-system.md`、packages、测试、配置、资产、基线、其它任务卡或看板；不运行迁移、保存、覆盖率或 E2E。
 - 优先只读源码、现有测试和 `git show`；若当前工具能在**自有 demo/隔离环境**做一次最小浏览器检查，
   可附真实截图及可重建路径，但不得访问/修改 6010 用户正在编辑的项目或把没看过的图说成亲眼验过。
@@ -62,7 +62,7 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 
 ### Codex 独立接收（2026-09-25，候选 `31618c0d`）
 
-- **accept，仅审计材料接收；Status 按用户本轮要求保持 draft，候选不整体合 main、不标 done。** [一手复核与保存守卫反例](../../../../testing/cursor-scene-entry-review.md)确认 H7-1～H7-6 的源码/入库数据锚点与分类成立，父导航一行和回执是候选全部改动；文档、diff 检查通过。
+- **accept，仅审计材料接收；Status 按用户本轮要求保持 draft，候选不整体合 main、不标 done。** [一手复核与保存守卫反例](../../../../testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-review.md)确认 H7-1～H7-6 的源码/入库数据锚点与分类成立，父导航一行和回执是候选全部改动；文档、diff 检查通过。
 - Codex 已单独窄修 `docs/phase2/guides/scene-entry-authoring.md`：把旧“三区/默认提示/恢复默认”改为现行两页签和数据/UI边界，s001 内容保留。安全目录未接入当前菜单与作者保存校验是独立产品缺口，本卡不修改编辑器或 content；当前可见 UI 未做隔离浏览器目视验收，不冒称截图已证。
 
 ### 下一位 Cursor 提示词
@@ -70,13 +70,13 @@ Evidence freeze: `9540f059`（开卡时 main；交付以实际 main 起点记录
 ```text
 在 /Users/zhangxu/illegal/type-pal 接手 DOC-CURSOR-4；先读 AGENTS.md、CLAUDE.md、
 docs/phase2/READ-FIRST.md、本卡 docs/ops/tasks/DOC-CURSOR-4-scene-entry-current-ui.md、
-docs/testing/cursor-docs-hygiene-review.md 的 H7 反证及 docs/phase2/guides/scene-entry-authoring.md。
+docs/testing/archive/legacy/migration/testing-records/cursor-docs-hygiene-review.md 的 H7 反证及 docs/phase2/guides/scene-entry-authoring.md。
 从包含本卡的 origin/main 建独立 worktree /Users/zhangxu/illegal/type-pal-cursor-scene-entry，
 分支 codex/cursor-scene-entry-truth-r1；接手前核干净工作树。
 只做 H7-1～H7-6 逐句只读核对。以 App→SceneScriptWorkspace→ScriptSceneHookInspector→
 CanonicalScriptFlowEditor 的真实渲染链为准，不能用未渲染 ScriptTree 的字符串证明当前 UI。
 给每项一手 file:line、可证伪观察、confirmed/wrong/pending-ui/blocked-input 分类与最窄替换句；
-缺合法当前 PAL 输入就明确待证，不编样例。唯一写入 docs/testing/cursor-scene-entry-truth.md；
+缺合法当前 PAL 输入就明确待证，不编样例。唯一写入 docs/testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-truth.md；
 不改正式指南、产品、测试、基线或其它共享文档，不碰用户 6010 工程、不跑覆盖率/E2E/迁移。
 跑 node scripts/docs/check.mjs 与 git diff --check，提交推送精确候选 SHA 交 Codex 独立接收。
 Cursor 不自行合 main、不标 done；Codex 通过后会直接修指南并集成推送，无需再请用户重复批准。

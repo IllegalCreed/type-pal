@@ -40,7 +40,7 @@ DOC-CURSOR-4 已核场景入场 H7。**不重领**这些旧问题，也不把新
 
 ## 白名单与验收
 
-- 唯一可写 `docs/testing/cursor-author-guides-batch.md`；不修改上表五份指南、包 README、
+- 唯一可写 `docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-batch.md`；不修改上表五份指南、包 README、
   根/phase2 索引、源代码、脚本、测试、CI、锁文件、资产、基线、任务卡或看板。
 - 可用 `rg`、`git show`、文件读取、只读 `node -e` 解析现成 JSON；不运行 extract/migrate/bake、
   保存/导出、部署、覆盖率、E2E、全仓 test/check，也不安装依赖或改环境。
@@ -56,7 +56,7 @@ Codex 已按当前委派模式核八组与并行 Owner 无源文件写冲突：*
 
 ## Codex 独立接收与收口（2026-09-25）
 
-- **accept，仅只读审计材料**：候选 `f569853b` 的八组回执经 Codex 对照当前 App/组件接线、`assertProjectSaveValid`、`collectScriptReferenceIssuesFromVisits`、`BattleFieldPicker` 与试玩 URL 独立核验；详见 [Codex 接收记录](../../../../testing/cursor-author-guides-review.md)。审计材料已接入 main；五份正式指南未被 Cursor 修改，本卡 done 不表示其中的七处误导文字已修。
+- **accept，仅只读审计材料**：候选 `f569853b` 的八组回执经 Codex 对照当前 App/组件接线、`assertProjectSaveValid`、`collectScriptReferenceIssuesFromVisits`、`BattleFieldPicker` 与试玩 URL 独立核验；详见 [Codex 接收记录](../../../../testing/archive/legacy/editor/editor-workflows/cursor-author-guides-review.md)。审计材料已接入 main；五份正式指南未被 Cursor 修改，本卡 done 不表示其中的七处误导文字已修。
 - 候选比白名单多一条 `docs/testing/README.md` 导航，系 `check.mjs` 对新增报告的索引要求。Codex 明确接收该只读导航例外；不是指南或产品改动。候选 `node scripts/docs/check.mjs` 与 `git diff --check` 均通过。
 - `C2-4` 发现的是现行保存门没有 canonical `callScript` 环检测；**不可把未实现的保障写成已实现，也不可用本审计授权产品改动**。正式指南纠偏和产品缺口分别后续处理；没有浏览器视觉验收的项保持 pending-ui。无下一位 Agent 提示词。
 
@@ -67,7 +67,7 @@ Codex 已按当前委派模式核八组与并行 Owner 无源文件写冲突：*
 /Users/zhangxu/illegal/type-pal-cursor-author-guides，分支 codex/cursor-author-guides-audit-r1。
 先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、DOC-CURSOR-6 卡、五份目标指南，
 并查 DOC-CURSOR-1/2/4 已接收事实以去重。连续核 A1/A2/B1/B2/C1/C2/D1/D2 八组，
-仅写 docs/testing/cursor-author-guides-batch.md：每项原句file:line、真实App/模块调用链、
+仅写 docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-batch.md：每项原句file:line、真实App/模块调用链、
 confirmed/wrong/pending/blocked-input/historical分类、可证伪反例和可直接用的窄替换句。
 不能用未渲染组件字符串证明当前 UI；资源缺失或无自有隔离浏览器时如实待证。
 不改正式指南、产品、测试、配置或基线，不触碰用户6010/6051，不运行迁移/覆盖率/E2E。

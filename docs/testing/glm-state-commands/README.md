@@ -1,8 +1,8 @@
 # GLM 菜单与编辑命令：四批十六组
 
 [完成卡](../../ops/archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) /
-[冻结账](targets.freeze.json) / [交付清单](../glm-delivery-checklist.md) /
-[上批已接收证据](../item-logic-integration.md)。
+[冻结账](targets.freeze.json) / [交付清单](../archive/legacy/ops/testing-records/glm-delivery-checklist.md) /
+[上批已接收证据](../archive/legacy/editor/editor-workflows/item-logic-integration.md)。
 
 本包已由 Codex [独立接收与统一集成](codex-integration.md)并核定 done；
 [首轮反证](codex-intake-review.md)按历史事实保留，R1–R4 已逐项闭合。
