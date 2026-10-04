@@ -523,7 +523,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "7d083c2197941adee9ccd74297845b58acc9af7989d5fac082576e20f9421cd2",
+      "afterSha256": "6abe65b3aa824e5ff7749ace17f1c6d6a32425eea7744838e627b7a5e414f2d7",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -554,10 +554,16 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "7d083c2197941adee9ccd74297845b58acc9af7989d5fac082576e20f9421cd2",
+        "implementationSha": "6abe65b3aa824e5ff7749ace17f1c6d6a32425eea7744838e627b7a5e414f2d7",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
@@ -621,7 +627,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "7d083c2197941adee9ccd74297845b58acc9af7989d5fac082576e20f9421cd2"
+        "afterSha256": "6abe65b3aa824e5ff7749ace17f1c6d6a32425eea7744838e627b7a5e414f2d7"
       },
       "history": [
         {
@@ -658,7 +664,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "8eb5ab8136a1cfdc59bf36985ff3695b9d72a1c2767c621e1b7b0130de8a3f41",
+      "afterSha256": "cbe0c0dc8401291a4dadcd4ae47ab1d3fd0b8f34d5da7718dc9686b36fca0b9d",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -688,10 +694,16 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "8eb5ab8136a1cfdc59bf36985ff3695b9d72a1c2767c621e1b7b0130de8a3f41",
+        "implementationSha": "cbe0c0dc8401291a4dadcd4ae47ab1d3fd0b8f34d5da7718dc9686b36fca0b9d",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
@@ -730,7 +742,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "8eb5ab8136a1cfdc59bf36985ff3695b9d72a1c2767c621e1b7b0130de8a3f41"
+        "afterSha256": "cbe0c0dc8401291a4dadcd4ae47ab1d3fd0b8f34d5da7718dc9686b36fca0b9d"
       },
       "history": [
         {
@@ -1336,7 +1348,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "13acca6d9c9e5ae5784f8de29e5ccfcaa5ed5f490f80119687da5c0b98679e81",
+      "afterSha256": "e2fa9703c74c040f39f7c731275aea73b8f7211dff639b5cd2bd03622400bd1b",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1372,10 +1384,16 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "13acca6d9c9e5ae5784f8de29e5ccfcaa5ed5f490f80119687da5c0b98679e81",
+        "implementationSha": "e2fa9703c74c040f39f7c731275aea73b8f7211dff639b5cd2bd03622400bd1b",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
@@ -1443,7 +1461,7 @@
           "307:## 已取消（superseded / historical）",
           "316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "13acca6d9c9e5ae5784f8de29e5ccfcaa5ed5f490f80119687da5c0b98679e81"
+        "afterSha256": "e2fa9703c74c040f39f7c731275aea73b8f7211dff639b5cd2bd03622400bd1b"
       },
       "history": [
         {

@@ -11,6 +11,7 @@
 - [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。
 - [TEST-GLM-GAME-DIALOGUE-PAGINATION-1 交付证据](TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md)（r1 候选：6 分页/等待键集合同 + 6/6 三态反控，待 Codex 验收）。
 - [TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据](TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
+- [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 交付证据](TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md)（r1 候选：6 装备效果层/applyAll/抗性边界合同 + 7/7 三态反控，待 Codex 验收）。
 - [TEST-GLM-GAME-TURN-BOUNDARIES-1 交付证据](TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md)（r1 候选：15 回合/结算合同 + 15/15 三态反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-ASSET-RESOLVER-1 交付证据](TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md)（r1 候选：8 资源解析/缓存生命周期合同 + 7/7 三态反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
