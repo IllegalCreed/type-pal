@@ -1,6 +1,7 @@
 /** Sparse committed state plus actual rendered dialogue. No runtime writes. */
 export function installErrandObserver() {
   const events = [],
+    npcEvents = [],
     pages = [],
     restoreCommits = [],
     gameRestores = [],
@@ -16,6 +17,8 @@ export function installErrandObserver() {
     overflow = false,
     eventBytes = 0,
     snapshotBytes = 0,
+    npcBytes = 0,
+    npcOverflow = false,
     control
   const encoder = new TextEncoder()
   const append = (list, value, limit = 16000) => {
@@ -44,11 +47,44 @@ export function installErrandObserver() {
     if (errors.length < 10) errors.push(String(error))
     else overflow = true
   }
+  const npcIds = new Set([
+    'party',
+    'e35',
+    'e36',
+    'e59',
+    'e60',
+    'e61',
+    'e116',
+    'e117',
+    'e123',
+    'e203',
+  ])
+  const appendNpc = (event) => {
+    if (npcOverflow || (event.kind === 'actor' && !npcIds.has(event.id))) return
+    if (npcEvents.length >= 16000) {
+      npcOverflow = true
+      return
+    }
+    const copy = structuredClone(event)
+    const bytes = encoder.encode(JSON.stringify(copy)).byteLength
+    if (npcBytes + bytes > 4 * 1024 * 1024) {
+      npcOverflow = true
+      return
+    }
+    copy.seq = npcEvents.length
+    npcBytes += bytes
+    npcEvents.push(copy)
+  }
+  const appendObserved = (value) => {
+    const before = events.length
+    append(events, value)
+    if (events.length > before) appendNpc(events.at(-1))
+  }
   const point = (source, state) => {
     try {
       if (!['s001', 's002', 's003', 's004', 's005', 's014'].includes(state.scene)) return
       if (final?.scene !== state.scene)
-        append(events, { kind: 'scene', source, scene: state.scene })
+        appendObserved({ kind: 'scene', source, scene: state.scene })
       for (const [id, actor] of Object.entries(state.actors)) {
         const key = id === 'party' ? id : `${state.scene}/${id}`,
           before = prior.get(key)
@@ -61,7 +97,7 @@ export function installErrandObserver() {
         )
           fail(`unobserved committed move ${key} at ${source}`)
         if (JSON.stringify(before) !== JSON.stringify(actor)) {
-          append(events, {
+          appendObserved({
             kind: 'actor',
             source,
             scene: state.scene,
@@ -73,7 +109,7 @@ export function installErrandObserver() {
         }
       }
       if (control !== state.control) {
-        append(events, {
+        appendObserved({
           kind: 'control',
           scene: state.scene,
           source,
@@ -236,12 +272,12 @@ export function installErrandObserver() {
   globalThis.__readErrandNpcTrace = (ids) => {
     const selected = new Set(['party', ...(Array.isArray(ids) ? ids : [])])
     return structuredClone({
-      events: events.filter(
+      events: npcEvents.filter(
         (event) => event.kind === 'scene' || event.kind === 'control' || selected.has(event.id),
       ),
       pages,
       errors,
-      overflow: false,
+      overflow: npcOverflow,
       sourceOverflow: overflow,
       order: order - 1,
     })

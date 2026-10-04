@@ -12,6 +12,7 @@ const args = process.argv.slice(2),
   engine = args.includes('--reforge') ? 'reforge' : 'game',
   headless = args.includes('--headless'),
   hold = args.includes('--hold'),
+  stopAt = args.includes('--stop-at') ? args[args.indexOf('--stop-at') + 1] : null,
   tapePath = args[args.indexOf('--tape') + 1]
 assert(tapePath, 'continuous replay requires --tape')
 const tape = JSON.parse(await readFile(resolve(tapePath), 'utf8'))
@@ -436,8 +437,19 @@ await runBrowserJourney({
       fragmentReport.state = state
       fragmentReport.checkpoint = checkpoint
       fragmentReport.finishedAt = Date.now()
+      await writeFile(
+        resolve(out, `continuous-${entry.fragment}-checkpoint.json`),
+        `${JSON.stringify({ engine, fragment: entry.fragment, state }, null, 2)}\n`,
+      )
       await page.screenshot({ path: resolve(out, `continuous-${entry.fragment}-checkpoint.png`) })
       if (process.send) process.send({ checkpoint: entry.fragment, engine, state })
+      if (stopAt === entry.fragment) {
+        await writeFile(
+          resolve(out, 'continuous-report.json'),
+          `${JSON.stringify(report, null, 2)}\n`,
+        )
+        return
+      }
       if (entry.fragment !== '006') await waitRelease(entry.fragment)
     }
     if (hold) await waitRelease('finish')
