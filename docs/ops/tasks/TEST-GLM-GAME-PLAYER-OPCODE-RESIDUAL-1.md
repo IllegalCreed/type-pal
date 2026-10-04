@@ -110,3 +110,6 @@ mutation-points/mutation-results/mutation-logs），再核：
    after-SHA 外科刷新是否符合 8494b465c 判例。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+**r1 工作提交 SHA**：`6172c0df4a8e7ee5e7763c4a1dee837a270de703`（单一 commit 含 6 合同测试 +
+证据目录 + 回执 + review JSON 三条目外科刷新；本行为 SHA 登记追加笔，base `053ae5bb4`）。
