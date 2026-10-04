@@ -114,6 +114,11 @@ Q3k 已完成全仓质量门：game 全包 3,400、全仓 `pnpm check`、officia
 Biome 零诊断均通过；coverage baseline 只升不降更新至 total 19,282 tests。六个 present primitive
 已直接核验，但 present/battle/menu/dialog 其余生产文件仍未逐文件清点。
 
+Q3l 已完成 game battle-present 七文件窄批：背景、effect、数字弹幕、结算、精灵、战斗 UI 与
+`present-battle.ts` 逐文件核验，14 个直接测试文件/179 tests 通过；未发现需修的直接缺陷。
+全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；battle core、
+menu/dialog 与其它 present 生产文件仍待逐文件治理。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
