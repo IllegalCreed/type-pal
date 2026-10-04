@@ -195,7 +195,10 @@ try {
         .map((tc) => ({
           file: suite.name,
           fullName: tc.fullName,
-          messages: (tc.failureMessages ?? []).map((m) => m.split('\n').slice(0, 3).join(' | ')),
+          messages: tc.failureMessages ?? [],
+          messagePreview: (tc.failureMessages ?? []).map((m) =>
+            m.split('\n').slice(0, 3).join(' | '),
+          ),
         })),
     )
     const assertionFailures = failures.filter(
