@@ -11,6 +11,9 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
+| TEST-GLM-REFORGE-RUNTIME-SESSION-1 | [Reforge runtime input and frame-session contracts](tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | build | GLM / runtime session 合同 | input/frame/cancel/world-view 边界 |
+| TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 | [Editor asset lifecycle and sprite action contracts](tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md) | build | GLM / asset lifecycle 合同 | 资源选择、替换、删除、回收与动作作者流程 |
 
 2026-10-04 GLM Game / Reforge / Editor 三张覆盖任务卡已由 Codex 按“少而精”的合同质量标准独立验收并归档：覆盖率仅保留为整体 main 并集结算数据，不再作为单卡准入、通过或 done 指标。详见历史卡内的 Codex quality closure。
 
