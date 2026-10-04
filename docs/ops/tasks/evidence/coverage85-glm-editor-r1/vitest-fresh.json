@@ -1,12 +1,13 @@
 {
-  "suite": "editor fast (official coverage args, r3 final run 2026-10-04, base ea1fddb8c)",
+  "suite": "editor fast (official coverage args, r4 rework run 2026-10-04, base ea1fddb8c)",
+  "directedWarningCheck": "9 cov85 files rerun together: 0 act warnings, 0 console.error, 0 environment warnings",
   "totalTests": 4695,
   "passed": 4695,
   "failed": 0,
   "newFiles": 9,
   "newTests": 95,
   "allNewPassed": true,
-  "sha256": "916cd5403a5cd5671c15e4fbf4f27abb60b046f654e6fdcdc70a6ff3a6b246ea",
+  "sha256": "d2f7794e9b39ab8898b1bff18dfc3c83cf5596e2207fc25af411fbea20f468b5",
   "cases": [
     {
       "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",

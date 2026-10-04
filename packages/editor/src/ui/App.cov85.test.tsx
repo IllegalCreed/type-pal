@@ -63,6 +63,7 @@ interface AppWorld {
   main: EditSession
   script: ScriptEditSession
   host: HTMLDivElement
+  unmountRoot(): Promise<void>
   mount(url?: string): Promise<void>
 }
 
@@ -112,6 +113,14 @@ async function createAppWorld(withHostileEntity: boolean): Promise<AppWorld> {
     main,
     script,
     host,
+    async unmountRoot() {
+      if (!root) return
+      const currentRoot = root
+      root = undefined
+      await act(async () => {
+        currentRoot.unmount()
+      })
+    },
     async mount(url = '/?module=scene') {
       window.history.replaceState({}, '', url)
       document.body.append(host)
@@ -133,6 +142,10 @@ async function createAppWorld(withHostileEntity: boolean): Promise<AppWorld> {
           </StrictMode>,
         ),
       )
+      // 派生引用 store 的异步 start/通知在挂载后继续入队；用一轮宏任务 flush 进 act。
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
     },
   }
 }
@@ -142,6 +155,7 @@ let world: AppWorld | undefined
 beforeEach(async () => {
   const { installBrowserHardwarePorts } = await import('./__tests__/kimi-editor-workflows/kit.js')
   installBrowserHardwarePorts()
+  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   vi.stubGlobal('isSecureContext', true)
   vi.stubGlobal(
     'ResizeObserver',
@@ -181,6 +195,7 @@ beforeEach(async () => {
 afterEach(async () => {
   if (world) {
     const currentWorld = world
+    await currentWorld.unmountRoot()
     await act(async () => {
       currentWorld.host.remove()
     })
@@ -255,7 +270,9 @@ test('cov85-app 敌对开战开关：成对默认体落账、关闭清空并可�
     checkbox.click()
   })
   expect(current.main.getState().scenes[0]!.entities[1]!.hostile).toBeUndefined()
-  expect(current.main.undo()).toBe(true)
+  await act(async () => {
+    expect(current.main.undo()).toBe(true)
+  })
   expect(current.main.getState().scenes[0]!.entities[1]!.hostile).toEqual(expectedHostile)
 })
 

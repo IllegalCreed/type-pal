@@ -186,6 +186,36 @@ r2 内容（87 测试/类型安全/act 修复/反控证据）已在 main，未�
 - **终测（含 T2）**：全套 4695/4695；新增 9 文件 95 例（MapMode 5+Preview 2+插入
   菜单 6 加入 r2 保留 82 基数）；branch 24177/29058=83.20%（+312）。
 
+### r4 返工记录（GLM，2026-10-04，Codex 指令：act 警告清零）
+
+**根因**：r3 基点重置到 origin/main 时，main 上合入的 SkillTab/ItemTab/App 三个文件
+是 r1 版本（7e17f1741），r2 的 act 修复（裸 `session.undo()` 包 act、App root unmount、
+`IS_REACT_ACT_ENVIRONMENT`、违禁 cast 清零、敌队/chase 测试）留在 6a7799ef7 未随合入
+——当时误判「r2 内容已在 main」，导致定向出现 631 条 act 警告（SkillTab 243 /
+ItemTab 37 / App 351）。
+
+**修复**：三文件整体恢复为 6a7799ef7 版本（`git checkout 6a7799ef7 -- <三文件>`，
+该版含全部 r2 修复；r3 新增的 MapMode/PreviewCanvas/ScriptEditor 文件不受影响，
+本就 0 警告）。恢复后逐文件验证：
+
+- 9 个 cov85 文件合并运行：95/95 绿；`not wrapped in act` /
+  `not configured to support act` / `console.error` / 环境警告计数全部为 **0**；
+- 三文件 `@ts-expect-error`/`as never` 计数 0（恢复的是违禁清零后的版本）；
+- `IS_REACT_ACT_ENVIRONMENT` 在每文件 beforeEach/stubNodeTestHost 内设置；
+  所有 undo/redo/click/input/blur 均在 act 内（SkillTab 7 处、ItemTab/App 同款包裹）。
+
+**证据重建**：7 注入反控复验全 OK（raw stdout/stderr 全量、执行集合排除 skipped、
+三态 hash、清理证明）；vitest-fresh/branch-census/coverage-summary 以 r4 全量复跑
+重建（4695/4695，95 新例，24177/29058=83.20% 不变——修复只还原行为不增覆盖）。
+
+**门**：typecheck 0、Biome 0、docs PASS、产品/旧测试/baseline 零改动。
+
+**未完范围（不标 done）**：83.20% 未达 85%。r5 候选：T4 中型页表单族
+（ProjectWorkbenchTab 毒物/状态/资源角色、ActorMode 创建对话框与 battler 守卫、
+CutsceneTab 格式化与 stale 回显）、MapMode 变换条/候选菜单/图章族、ScriptEditor
+插入模板组与 fallback 判别补反控、App 放置面板/实体页检查器臂；locless 508 仅作
+缺口构成说明。
+
 ### 下一棒建议（r2）
 
 按 locatable 缺口排序：MapMode.tsx（键盘/候选菜单/变换条/只读解释族，参照
