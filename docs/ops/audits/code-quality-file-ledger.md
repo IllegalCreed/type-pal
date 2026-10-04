@@ -25,10 +25,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/pal-extract/src/events/slice.test.ts` | test | 已验证 | CODE-QUALITY-3a；scene/global/shared 合同 | 不以 coverage 单独验收 |
 | `packages/pal-extract/src/events/slice.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3a；切分边界反例 | 真实 caller |
 | `packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a；真实资源 slice 合同 | 不改生成物 |
-| `packages/pal-extract/src/io/msg.ts` | product | review | CODE-QUALITY-3b；offset 越界/倒序 34/34，pal-extract check | 受保护 fast 的 editor 门待闭合 |
-| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | review | CODE-QUALITY-3b；越界/倒序反例 | Q3b 未 done |
-| `packages/pal-extract/src/io/sss.ts` | product | review | CODE-QUALITY-3b；chunk2/3/4 对齐反例，真实 SSS，全包 | 受保护 fast 的 editor 门待闭合 |
-| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | review | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b 未 done |
+| `packages/pal-extract/src/io/msg.ts` | product | 已验证 | CODE-QUALITY-3b；offset 越界/倒序 34/34，pal-extract/full check、ratchet、protected fast | Q3b done |
+| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；越界/倒序反例 | Q3b done |
+| `packages/pal-extract/src/io/sss.ts` | product | 已验证 | CODE-QUALITY-3b；chunk2/3/4 对齐反例，真实 SSS，全包/check/ratchet/protected | Q3b done |
+| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b done |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
 | `packages/shared/tsconfig.json` | product | 已验证 | shared typecheck；编译边界 | 无产品行为 |
 | `packages/shared/src/events.ts` | product | 已验证 | 直接读取 Command union；shared typecheck/events 合同 | 类型 schema，未改公共接口 |

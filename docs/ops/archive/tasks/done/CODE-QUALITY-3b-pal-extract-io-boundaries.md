@@ -1,6 +1,6 @@
 # CODE-QUALITY-3b - pal-extract 原始表与消息边界
 
-Status: review
+Status: done
 Phase: phase1 pal-extract
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -84,10 +84,10 @@ GBK、SSS 输出保持不变，避免静默生成部分或伪造数据。WORD/pa
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验：pending。
-- Codex 独立复核：pending。
+- 贡献者交付与自验：Codex；SSS/M.MSG targeted 34/34、pal-extract 68 files / 417 tests、全仓 `pnpm check` 与 lint 通过。
+- Codex 独立复核：accept；直接读取 primary/raw、生产 callers、diff 与反控；支持并行 editor 的 official ratchet 与受保护 fast 均通过，未降低门槛。
 - 用户体验/产品验收：N/A（无用户可见形态变化）。
-- done 准入结论：blocked。
+- done 准入结论：Codex done allowed；Q3c coverage runner 调查独立保留。
 
 ## Draft: 设计与风险
 
@@ -122,8 +122,8 @@ GBK、SSS 输出保持不变，避免静默生成部分或伪造数据。WORD/pa
 
 - Reviewer：Codex
 - 审查结论：实现范围、primary source、真实 raw 合同、相邻回归和零诊断已独立复核；覆盖率 ratchet 通过，但受保护 fast 的 editor 单分支差额未闭合。
-- 必须返工项：先定位/收口 editor coverage worker-order 差额，或取得用户对独立质量门阻塞的裁决；不得通过降低 baseline、ignore、缩窄范围或重写测试逃避。
-- Accept / rework：rework（代码候选可审，但质量门未闭合）
+- 必须返工项：无；后续 editor runner 时序问题归 CODE-QUALITY-3c，不回写本卡范围。
+- Accept / rework：accept
 
 ## 用户验收
 
@@ -134,6 +134,7 @@ GBK、SSS 输出保持不变，避免静默生成部分或伪造数据。WORD/pa
 
 - 2026-10-04 Codex：Q3a 归档后直接读取 raw/primary source 与四 parser，确认 SSS/M.MSG 边界缺陷候选；WORD/palette 与并行 Kimi 覆盖合同冲突，收窄白名单并保留待裁决。Next: 先写 SSS/M.MSG 原子反例，再实现最小边界检查。
 - 2026-10-04 Codex：Q3b 实现完成，SSS/M.MSG 边界 34/34、pal-extract 68/417、全仓 check 与 lint 通过；ratchet 通过。受保护 fast 串行两次与 editor/game 并行一次均稳定暴露 editor 少 1 branch，任务留 review/rework，不宣称 done。Next: 先闭合 coverage 确定性门，再归档 Q3b。
+- 2026-10-05 Codex：在 Q2b 后续质量门中，支持并行 editor 的 official ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 均通过；Q3b 合法门闭合，CODE-QUALITY-3c 独立保留。Next: 归档 Q3b，进入 Q3c/Q3 其它文件。
 
 ## 下一位 Agent 提示词
 

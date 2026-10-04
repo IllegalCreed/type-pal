@@ -82,7 +82,7 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 |---|---|---|---|
 | Q1 shared RLE safety | `packages/shared/src/rle.ts`、同域 RLE 回归 | generic framing 的截断/越界失败、strict sprite 零长 guard；合法像素/opaque 保真 | `done` |
 | Q2 shared codecs/types | `shared/src/{mkf,yj2,rng,resources,tables}` 及必要 callers | MKF/RNG/YJ2 codec 边界已收；resources/tables/events/input/index/rle-encode 纯类型/合同文件已逐文件核验；剩余 caller/数据语义复核仍待后续账本批次 | `done`（codec/type 子批）；不得把剩余 caller/数据语义复核视作全仓已审完 |
-| Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | Q3a 事件切分/标注类型边界已收；Q3b SSS/M.MSG 代码候选完成但受 CODE-QUALITY-3c editor coverage 单分支门阻塞；其它纯解析、CLI、game 资源/运行时仍待核 | `review/rework`，不得与覆盖率/E2E线程重叠 |
+| Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | Q3a 事件切分/标注类型边界、Q3b SSS/M.MSG 输入边界已收；其它纯解析、CLI、game 资源/运行时仍待核；CODE-QUALITY-3c 仅保留 runner 调查 | `draft`，不得与覆盖率/E2E线程重叠 |
 | Q4 phase2 content/migrate | content validators/types、migrate pure/IO 薄壳 | canonical schema、迁移源、事务/幂等边界；不改生成物 | `draft`，不得开始实现 |
 | Q5 phase2 reforge/editor | reforge runtime、editor core/ui/tooling | 新架构 ownership、异步清理和公共出口；不重领13批 | `draft`，需要逐批准入 |
 | Q6 scripts tools | quality/docs/script-governance 等非 E2E 工具 | 子进程/临时树/失败语义/确定性；E2E 留给其 Owner | `draft`，按 caller 另卡 |
