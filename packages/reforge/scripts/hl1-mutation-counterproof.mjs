@@ -227,9 +227,12 @@ try {
     if (!r.rebuilt.hash || r.rebuilt.hash !== r.restored.hash) issues.push('重建 hash 不一致')
     if (r.original.executed.length !== 1)
       issues.push(`原始执行数 ${r.original.executed.length} ≠ 1`)
-    if (r.mutant.executed.length !== 1) issues.push(`变异执行数 ${r.mutant.executed.length} ≠ 1`)
-    const red = r.mutant.executed[0]
-    if (!red || red.status !== 'failed') issues.push('指定用例未红(可能 vacuous,核对 executedSet)')
+    if (r.mutant.executed.length !== 0 || r.mutant.failed.length !== 1)
+      issues.push(
+        `变异执行分账异常: passed=${r.mutant.executed.length} failed=${r.mutant.failed.length}`,
+      )
+    const red = r.mutant.failed[0]
+    if (!red) issues.push('指定用例未红(可能 vacuous,核对 executedSet)')
     const expectedFailure = r.failures.find((f) => f.fullName.includes(r.expectedTest.slice(0, 12)))
     if (!expectedFailure) issues.push('失败集不含指定用例')
     else {
