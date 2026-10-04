@@ -87,15 +87,6 @@ const INJECTIONS = [
     businessClaim: 'select 工具单选产生 cells 选区，Delete 必须触发 deleteMapSelection 提交',
   },
   {
-    id: 'INJ-7',
-    file: 'src/ui/scene-stage.ts',
-    anchor: 'setErr(e instanceof Error ? e.message : String(e))',
-    mutant: "setErr('')",
-    testFile: 'src/ui/PreviewCanvas.cov85.test.tsx',
-    testName: 'P1 瓦片集字节被真实拒绝 → 资产读取失败回显资源路径',
-    businessClaim: '资产读取异常必须以 err 文本回显（清空 err 将丢失失败可见性）',
-  },
-  {
     id: 'INJ-5',
     file: 'src/ui/App.tsx',
     anchor: '                              : 15,\n',

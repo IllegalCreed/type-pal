@@ -20,10 +20,14 @@
  * renderSceneFrame 等），数据面（map/scene/session）为真实公开输入。断言全部走
  * session 序列化业务结果，不做 snapshot-only/handler-only。
  */
+
 import type { ProjectMap, RleFrame } from '@type-pal/reforge'
+import { Canvas2DRenderer } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { requireRealCanvas2d } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
+import { installBrowserHardwarePorts } from '../__tests__/cursor-asset-r1/image-ports.js'
 import { stubNodeTestHost } from '../__tests__/glm-m/kit.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
@@ -34,6 +38,7 @@ import {
 } from '../core/project-reference.js'
 import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { MapMode } from './MapMode.js'
+import type { StageAssets } from './scene-stage.js'
 
 vi.mock('@type-pal/reforge', async (importOriginal) => {
   const original = await importOriginal<typeof import('@type-pal/reforge')>()
@@ -59,18 +64,28 @@ vi.mock('./scene-stage.js', async (importOriginal) => {
     mapBoxOf: vi.fn(() => ({ minX: 0, minY: 0, maxX: 640, maxY: 480 })),
     useStageSize: vi.fn(() => ({ w: 640, h: 480 })),
     useSceneAssets: (options: { mapId: string; projectMaps?: Record<string, ProjectMap> }) => {
-      const loadedRef = React.useRef({
-        renderer: {} as never,
+      // renderer 用真实 Canvas2DRenderer（node-canvas ctx；绘制调用本身已被
+      // renderSceneFrame mock 隔离，renderer 仅满足类型与间接读取）。
+      const palette = {
+        colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+        cycles: [],
+      }
+      const tilesets = new Map([['starter', new Map([[1, frame]])]])
+      const renderer = new Canvas2DRenderer(
+        document.createElement('canvas').getContext('2d')!,
+        palette,
+        tilesets,
+      )
+      const build = (): StageAssets => ({
+        renderer,
+        spritesByAsset: new Map(),
         map: options.projectMaps?.[options.mapId] as ProjectMap,
-        spritesByNum: new Map(),
         tiles: new Map([[1, frame]]),
-        tilesets: new Map([['starter', new Map([[1, frame]])]]),
-        palette: {
-          colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
-          cycles: [],
-        },
+        tilesets,
+        palette,
       })
-      loadedRef.current.map = options.projectMaps?.[options.mapId] as ProjectMap
+      const loadedRef = React.useRef<StageAssets>(build())
+      loadedRef.current = build()
       return { status: 'ready' as const, err: '', loadedRef }
     },
     useViewZoomPan: (options: { initial: { zoom: number; panX: number; panY: number } }) => {
@@ -87,6 +102,8 @@ let host: HTMLDivElement
 
 beforeEach(async () => {
   await stubNodeTestHost()
+  installBrowserHardwarePorts()
+  requireRealCanvas2d()
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
     configurable: true,

@@ -48,8 +48,8 @@ Capability: test-quality / coverage branch closure
 
 ## r1 交付记录（GLM，2026-10-04，branch `codex/coverage85-glm-editor-r1`，base 76475c01c）
 
-**门禁状态如实申报（r3 终测含 T2 补充，基点 ea1fddb8c=origin/main 最新）：editor
-branch 23865→24177（82.13%→83.20%，+312 edges），未达 85%，不以 85% 冒交。**
+**门禁状态如实申报（r4 二轮返工终测）：editor branch 23865→24177（82.13%→83.20%，
++312 edges），未达 85%，不以 85% 冒交；全套 4694/4694，新增 9 文件 94 例。**
 剩余缺口不构成不可达证明：其中 508 个是 v8 branchMap `locations` 为空的合成计数
 （无源码位置、无法定向触发；cov-base 与 cov-final 两次实测口径一致，见
 `branch-census.json` 的 locless 字段）——该数字只说明缺口构成，**不作为 unreachable
@@ -215,6 +215,35 @@ ItemTab 37 / App 351）。
 CutsceneTab 格式化与 stale 回显）、MapMode 变换条/候选菜单/图章族、ScriptEditor
 插入模板组与 fallback 判别补反控、App 放置面板/实体页检查器臂；locless 508 仅作
 缺口构成说明。
+
+### r4 二轮返工记录（GLM，2026-10-04，Codex 七项指令，基于 40dd02547 审）
+
+1. **选择性恢复**（未整支 merge）：r2 的 cast/act 修复以 `git checkout 6a7799ef7 --
+   <file>` 逐文件恢复（SkillTab/ItemTab/App），r3 新合同文件原样保留；本轮再核 main
+   （ac21cb863）无新冲突。
+2. **违禁清零补漏**：r3 新文件与 main 合入版残留 4 处已清——MapMode mock 的
+   `renderer: {} as never` 改为真实 `Canvas2DRenderer`（node-canvas ctx，
+   installBrowserHardwarePorts+requireRealCanvas2d 端口）；PreviewCanvas 两处
+   `failing as never` 直接删除（spread FileSource 结构已兼容）；
+   script-editor residual 的 `DeleteSharedScriptCommand` 恢复真实 provider 签名。
+   四文件 grep `@ts-expect-error|as never|as unknown as` 计数 0。
+3. **PreviewCanvas P1 删除**：与 `PreviewCanvas.c06-g01.cursor-r1.test.tsx:93-111`
+   的 readBytes rejection→error→blank canvas 合同重复；保留的唯一用例是真正新增的
+   **失败→健康 source 重挂完整恢复翻转**（前半失败构造是恢复前提，非独立合同），
+   文件头去重声明同步。
+4. **INJ-7 撤销**：其唯一红是 timing.ts pollUntil 超时（无精确业务 AssertionError），
+   按「generic timeout 不算有效反控」撤销；反控维持 6 点（INJ-1/2/3/4/5/6），
+   复验全部 原始绿→变异红→恢复绿 + 三态 hash + 清理证明。
+5. **证据一致性**：vitest-fresh/coverage-summary/branch-census/mutation-evidence
+   全部以本轮复跑重建（4694/4694、94 新例、24177/29058=83.20%），无 81/24156 或
+   87/4687 旧数字残留。
+6. **r5 范围**（真实合同清单，不把 locless 当不可达）：MapMode 变换条键盘/候选菜单
+   组内编辑/图章放置冲突覆盖族；ScriptEditor 插入模板组、fallback 判别反控
+   （INJ-8 撤销后的缺口）、命令树拖拽重排；PreviewCanvas layers/ghost/淡幕臂；
+   ProjectWorkbenchTab 毒物/状态/资源角色表单族；ActorMode 创建对话框与 battler
+   守卫；CutsceneTab 格式化与 stale 回显。
+7. **门**：定向 9 文件合并 94/94 绿、0 act/console.error/环境警告；typecheck 0、
+   Biome 0（src+证据）、docs PASS、diff 仅本卡测试与证据；不标 done。
 
 ### 下一棒建议（r2）
 

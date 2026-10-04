@@ -1,13 +1,13 @@
 {
-  "suite": "editor fast (official coverage args, r4 rework run 2026-10-04, base ea1fddb8c)",
-  "directedWarningCheck": "9 cov85 files rerun together: 0 act warnings, 0 console.error, 0 environment warnings",
-  "totalTests": 4695,
-  "passed": 4695,
+  "suite": "editor fast (official coverage args, r4 second rework run 2026-10-04)",
+  "directedWarningCheck": "9 cov85 files run together: 94/94 green, 0 act warnings, 0 console.error",
+  "totalTests": 4694,
+  "passed": 4694,
   "failed": 0,
   "newFiles": 9,
-  "newTests": 95,
+  "newTests": 94,
   "allNewPassed": true,
-  "sha256": "d2f7794e9b39ab8898b1bff18dfc3c83cf5596e2207fc25af411fbea20f468b5",
+  "sha256": "37e23e7c903eb5dd56558b858cfb8a88af4754483f149fa339519f63c01abaaa",
   "cases": [
     {
       "file": "packages/editor/src/core/script-editor.cov85-residual.test.ts",
@@ -281,12 +281,7 @@
     },
     {
       "file": "packages/editor/src/ui/PreviewCanvas.cov85.test.tsx",
-      "fullName": "cov85-preview P1 瓦片集字节被真实拒绝 → 资产读取失败回显资源路径",
-      "status": "passed"
-    },
-    {
-      "file": "packages/editor/src/ui/PreviewCanvas.cov85.test.tsx",
-      "fullName": "cov85-preview P2 失败后换健康 source 重挂 → 就绪且主画布真实不透明像素",
+      "fullName": "cov85-preview 失败→健康 source 重挂的完整恢复合同（前半失败构造属恢复前提，非独立重复）",
       "status": "passed"
     },
     {
