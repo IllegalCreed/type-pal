@@ -1,59 +1,61 @@
-# TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — startup and continuation lifecycle contracts
+# TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave
 
 Status: build
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
 Capability: reforge / host lifecycle
-Branch: `codex/glm-reforge-host-lifecycle-r1`
 Visual Verification Timing: mixed
+Base: `origin/main` `12247f7e3`（r1 初版基 `70a56f6bc` 的外来 e2e 混入按 Codex 返工令剔除）
+Branch: `codex/glm-reforge-host-lifecycle-r2`
 
-## 目标
+## Codex build allowed（dispatch 2026-10-04）
 
-核验 Reforge 真实公开启动与异步宿主生命周期中的取消、替换、恢复和错误边界；不新增产品观察口，不把分支数量或覆盖率作为本卡指标。
+前卡 [TEST-COVERAGE85-GLM-REFORGE-1](TEST-COVERAGE85-GLM-REFORGE-1.md) 诚实收口于 80.49%，本卡为
+后续专项窄波：只攻 host lifecycle 六轴，不做覆盖率百分比承诺。
 
-## 独占范围
+独占范围（dispatch 指定重点核验）：
 
-只允许新增 `packages/reforge` 本卡专属测试、必要 typed fixture 和本卡证据。候选合同集中在：
+- `src/main.ts:477-600`（启动视频序列、标题菜单决策、AsyncIntentController、awaitRunner 单次结算）
+- `src/main.ts:914-942`（commitSceneSwitch 场景 BGM 三态、switchScene 世界失效门）
+- `src/main.ts:2090-2184`（host.wait/teleportParty/loadScene 事务、entry reveal、cleanup 恢复）
+- `src/script-runner-core.ts`、`src/script-runner.ts`、`src/script-host-adapter.ts` 全文。
 
-- `src/main.ts:477-600`：视频/过场 promise 的 signal 取消、完成/错误只结算一次、取消不向宿主泄漏；
-- `src/main.ts:914-942`：切场景期间 world replacement、音乐计划和失败/取消清理；
-- `src/main.ts:2090-2184`：存档入口选择、缺失槽/未知入口、reveal/fade 失败与恢复路径；
-- `src/script-runner-core.ts` 的 continuation cursor 与 `src/script-runner.ts` 的公开 `run` caller：已完成叶、取消、后台错误和重新进入不得重复执行；
-- `src/script-host-adapter.ts` 的 signal/能力缺席分支：只用公开 `executeScriptHostEffect` 和真实 `ScriptHost` 扩展点。
+关注轴：启动/取消、promise 只结算一次、场景替换、存档入口、continuation cursor、signal、
+host capability 缺席、后台错误恢复。
 
-先对照已归档 `TEST-COVERAGE85-GLM-REFORGE-1` 及全量旧 fullName 排重；battle-session private state 和任何 `__rf*` debug 口不在本卡范围。
+明确不在范围：battle-session private state、`__rf*`/`__tp*` debug 口、新增产品观察接口、
+覆盖率百分比达标。
 
-## 硬约束
+## 白名单
 
-- 仅公开 boot/runner/adapter caller；不得反射 private state、注入产品接口、伪造世界后门或用业务核心 mock。
-- 每条合同必须有合法 typed 输入、精确业务 oracle、唯一 fullName、错误/取消后的可观察状态；单纯 `toHaveBeenCalled` 不算。
-- 反控必须保留原始/变异/恢复三态、唯一业务 AssertionError、执行集、四态 hash、clean-tree 和 mkdtemp 清理证明。
-- 禁止 `as unknown as`、`as never`、`@ts-expect-error`、skip、ignore 和扩大 timeout。
+只允许新增本卡测试（`*.host-lifecycle-1.test.ts`）、合法 typed fixture、本卡证据脚本与
+`docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1/`。不得修改产品、旧测、配置、baseline、
+真实 PAL 数据或共享文档；禁反射私有状态、业务核心 mock、强转、skip/ignore、扩大 timeout。
 
-## 验证与交付
+每条合同记录 source:line、公开 caller、合法输入、业务 oracle、唯一 fullName；反控按
+原始绿→指定业务红→恢复绿 + 唯一 AssertionError + raw/JSON + exit + 四态 hash + clean-tree +
+mkdtemp 清理交付。不标 done，等 Codex 独立验收。
 
-交付逐合同 ledger、fresh identity JSON、源 hash、反控 raw/JSON/exit/执行集、existing-proof/blocked 说明和定向/相邻/typecheck/lint/docs/diff 结果。测试质量和独立性是通过条件；覆盖率只进入整体 main 的汇总记录。
+## 排重与不可达账（build 期核验，2026-10-04）
 
-## 当前模式推进记录
+- 既有覆盖（不重复）：H5/H6 存档与场景竞态（main.save-flows/main.scene-flows）、H1 标题入口选择
+  （main.boot-flows）、H2 读档浏览器（opening-menu.flows，runOpeningMenu 直测）、auto-save 波的
+  F5/F9 剧情取消（main.auto-save-flows / main.auto-pose-authority）、gate/settlement 门族
+  （script-runner-core.gates.glm-q）、adapter 命令分发既有族（script-host-adapter.*）。
+- 本卡新增不与之重叠：bootGame 级标题读档入口（bootLoadSlot 全链无测试）、视频启动/取消窗口、
+  gameOver 读最近档/无档重开、场景 music null、ScriptRunner 12 个未分发命令 kind、
+  续跑控制帧（confirm/startBattle/teleportOut）、autoMotionCheckpoint 公开合同、
+  setCheckpointReady 空帧门、帧深 256、setEntityPos 显式 height、setSceneOnEnter 既有槽。
+- 不可达臂登记（证据见证据目录 README U 节）：core L305/442/445/448/451（author 校验前置拒绝，
+  content/src/author-script-core.ts:737-767）、L175/L595（compilerVersion 为 literal 3 类型，
+  合法 typed 值无法过期）、L553/L573/575（validateScriptContinuation 前置拒绝）、L328/L366/L540
+  （稠密编译产物/帧栈不变量防御）、L370 B43#1（叶子命令恒为带 kind 对象）、main L937/L2116
+  （world 为 const + replaceWorld 原地变更，引用恒等）、L520（DEV 观察臂测试环境恒真）、
+  L533（菜单只回传注入的 items id）、L535#1（shouldPlayEntryIntro('menu-entry') 字面量恒真）、
+  L478 入口臂（派发前 await 窗口各自带 abort 检查）、L2092 ?? 臂（host.wait 调用方全部显式传
+  signal）。
 
-- Codex 范围/前提核验: verified（基于当前 main 与已归档 Reforge 卡排重）
-- Coding Owner / 隔离分支: GLM / `codex/glm-reforge-host-lifecycle-r1`
-- build 准入: Codex build allowed（仅上述 lifecycle 合同）
-- Codex 独立验收: pending
-- done 准入: blocked，须先完成独立验收
+## GLM 交付回执（r1，2026-10-04，待 Codex 独立验收）
 
-## 下一位 Agent 提示词
-
-```text
-你是 TEST-GLM-REFORGE-HOST-LIFECYCLE-1 的 Coding Owner（GLM）。
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡，以及已归档
-docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md。
-只在分支 codex/glm-reforge-host-lifecycle-r1 的隔离工作树中工作。
-先对 packages/reforge/src/main.ts:477-600、914-942、2090-2184、script-runner-core.ts、script-runner.ts、script-host-adapter.ts
-做旧 fullName/公开 caller/合法输入/业务 oracle 排重，再只实现仍未证明的生命周期合同。
-不得改产品、旧测、配置、baseline、真实 PAL 数据、battle-session private state 或共享文档；不得使用 __rf*、强转、skip、ignore、扩大 timeout 或业务核心 mock。
-反控必须是原始绿→指定业务红→恢复绿，保存完整 raw/JSON/exit/执行集/三态或四态 hash/清理证明；取消、signal、spawn、runtime/collection 错误要单独判定。
-交付时跑定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check，提交完整 SHA。
-输出 accept 或 counter；不得把覆盖率百分比或测试数量当完成条件，不得标 done，等待 Codex 独立验收。
-```
+（交付时回填）
