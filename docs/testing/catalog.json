@@ -770,6 +770,7 @@
         "originalEvidence": "active-scene-evidence.json",
         "supersededBy": "runtime-active-scene"
       },
+      "supersedes": ["active-scene-refactor.md", "active-scene-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -880,6 +881,7 @@
         "originalEvidence": "battle-host-refactor-evidence.json",
         "supersededBy": "runtime-battle-host"
       },
+      "supersedes": ["battle-host-refactor.md", "battle-host-refactor-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -984,6 +986,10 @@
         "originalEvidence": "battle-session-owners-refactor-evidence.json",
         "supersededBy": "runtime-battle-session-owners"
       },
+      "supersedes": [
+        "battle-session-owners-refactor.md",
+        "battle-session-owners-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
@@ -1095,6 +1101,7 @@
         "originalEvidence": "world-runtime-refactor-evidence.json",
         "supersededBy": "runtime-world-owners"
       },
+      "supersedes": ["world-runtime-refactor.md", "world-runtime-refactor-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -1291,6 +1298,10 @@
         "originalEvidence": "command-form-families-refactor-evidence.json",
         "supersededBy": "editor-command-form-families"
       },
+      "supersedes": [
+        "command-form-families-refactor.md",
+        "command-form-families-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/editor/src/ui/CommandForm.tsx",
@@ -1329,12 +1340,12 @@
         }
       ],
       "revision": {
-        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1394,6 +1405,7 @@
         "originalEvidence": "menu-session-refactor-evidence.json",
         "supersededBy": "reforge-menu-session"
       },
+      "supersedes": ["menu-session-refactor.md", "menu-session-refactor-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/menu/menu-session.ts",
@@ -1432,12 +1444,12 @@
         }
       ],
       "revision": {
-        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1497,6 +1509,10 @@
         "originalEvidence": "map-workspace-sessions-refactor-evidence.json",
         "supersededBy": "editor-map-workspace-sessions"
       },
+      "supersedes": [
+        "map-workspace-sessions-refactor.md",
+        "map-workspace-sessions-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/editor/src/ui/MapMode.tsx",
@@ -1542,12 +1558,12 @@
         }
       ],
       "revision": {
-        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
@@ -1607,6 +1623,7 @@
         "originalEvidence": "phase1-dependency-refactor-evidence.json",
         "supersededBy": "phase1-dependency-ownership"
       },
+      "supersedes": ["phase1-dependency-refactor.md", "phase1-dependency-refactor-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/game/src/core/script-catalog.ts",
@@ -1673,12 +1690,12 @@
         }
       ],
       "revision": {
-        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
           {
-            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]

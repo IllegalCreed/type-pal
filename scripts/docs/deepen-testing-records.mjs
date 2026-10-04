@@ -8,14 +8,10 @@ import { fileURLToPath } from 'node:url'
 // Old publication bytes are retained under history/; no runtime tests are run here.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const testing = resolve(root, 'docs/testing')
-const base = execFileSync(
-  'git',
-  ['rev-parse', 'd02278dc0154dd73b5db24388a35c30bb096cc81^{commit}'],
-  {
-    cwd: root,
-    encoding: 'utf8',
-  },
-).trim()
+const base = execFileSync('git', ['rev-parse', 'HEAD^{commit}'], {
+  cwd: root,
+  encoding: 'utf8',
+}).trim()
 const gitSha = (value) =>
   value
     ? execFileSync('git', ['rev-parse', `${value}^{commit}`], {
@@ -630,7 +626,7 @@ function decorate(entry, refs, issue) {
     id: entry.id,
     kind: 'document-audit',
     status: entry.status,
-    candidateSha: base,
+    candidateSha: entry.revision.currentSha,
     versions: { content: 22, minimumSave: 11 },
     sourceRefs: refs,
     publicCallers: entry.publicCallers,
@@ -732,6 +728,7 @@ for (const audit of domains) {
       originalEvidence: audit.originalEvidence,
       supersededBy: audit.id,
     },
+    supersedes: [audit.legacy, audit.originalEvidence],
   }
   const header = decorate(entry, [...audit.refs, versionRef()], audit.findings)
   const lines = audit.refs

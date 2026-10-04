@@ -3,7 +3,7 @@
   "id": "editor-map-workspace-sessions",
   "kind": "document-audit",
   "status": "current",
-  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+  "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
   "versions": {
     "content": 22,
     "minimumSave": 11
@@ -102,7 +102,7 @@
   "artifacts": [],
   "history": [
     {
-      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
