@@ -87,6 +87,12 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 | Q5 phase2 reforge/editor | reforge runtime、editor core/ui/tooling | 新架构 ownership、异步清理和公共出口；不重领13批 | `draft`，需要逐批准入 |
 | Q6 scripts tools | quality/docs/script-governance 等非 E2E 工具 | 子进程/临时树/失败语义/确定性；E2E 留给其 Owner | `draft`，按 caller 另卡 |
 
+2026-10-05 Q3h 已闭合 game 资产/启动窄批：`assets/{loader,tileset-blob,png,rle-decode}.ts` 与
+`shell/{fetch-retry,bootstrap-resources}.ts` 已逐文件直接核验；仅 `fetch-retry` 非法配置的悬空
+`throw undefined` 有证据并修复。定向 77、game 全包 3,397、全仓第二轮 `pnpm check`、官方 ratchet、
+protected fast、Biome 零诊断均通过；game 其余 core/present/shell/analytics/tools 仍待账本逐文件核验，
+不可把本窄批写成 Q3 或全仓完成。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

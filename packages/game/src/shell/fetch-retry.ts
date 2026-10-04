@@ -19,9 +19,15 @@ let installed = false
 
 export function installFetchRetry(opts: { retries?: number; backoffMs?: number[] } = {}): void {
   if (installed) return
-  installed = true
   const retries = opts.retries ?? 2
   const backoff = opts.backoffMs ?? [300, 900]
+  if (!Number.isInteger(retries) || retries < 0) {
+    throw new RangeError(`fetch-retry: retries must be a non-negative integer (got ${retries})`)
+  }
+  if (backoff.some((delay) => !Number.isFinite(delay) || delay < 0)) {
+    throw new RangeError('fetch-retry: backoffMs must contain finite non-negative delays')
+  }
+  installed = true
   const orig = globalThis.fetch.bind(globalThis)
 
   globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
