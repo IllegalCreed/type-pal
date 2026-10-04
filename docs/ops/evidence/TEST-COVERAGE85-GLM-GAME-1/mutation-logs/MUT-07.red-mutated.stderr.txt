@@ -19,4 +19,3 @@ AssertionError: expected +0 to be 111 // Object.is equality
     486|     gs2.eventCursor = cursorAt(1, { waiting: 'fade-screen' }) // 防御臂不推…
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

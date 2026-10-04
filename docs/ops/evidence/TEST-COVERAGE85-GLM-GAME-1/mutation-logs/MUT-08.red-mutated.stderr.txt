@@ -21,4 +21,3 @@ AssertionError: expected { ip: 2 } to deeply equal { ip: 1 }
     573|     expect(gs.currentDialogPortraitIcon).toBeUndefined()
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

@@ -19,4 +19,3 @@ AssertionError: expected 2 to be 1 // Object.is equality
      93|     expect(gs.rgPlayerStatus[0]![4]).toBe(0)
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

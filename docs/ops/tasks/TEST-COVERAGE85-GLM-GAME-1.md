@@ -346,3 +346,21 @@ menu-driver 52、event-opcode-player 67;bootstrap 266 + main 18 宿主不可达 
 battle-system + actions + menu-driver + mode);全量 canonical 3389 条全 passed;typecheck 0 error;
 lint 0/0/0;docs PASS。diff 仅两个 cov85 测试文件 + 证据目录;产品/旧测/baseline/其它卡零改动。
 不宣称 done。
+
+---
+
+## GLM r6 窄返工回执（Codex 唯一反项:26 处日志 EOF 空行,2026-10-04,仍不请求 done）
+
+Codex 复核确认项(193/193、fresh 3389/3389、12/12 VALID+恢复 hash、typecheck/lint/docs)全部维持;
+唯一反项修复:**mutation-logs 26 个 stdout/stderr 的 `new blank line at EOF`**(MUT-07~12 各相位,
+来源 = vitest 输出尾部多余空行)。
+
+修复(只动证据生成/落盘,零测试/产品/旧测/baseline 改动):
+1. `mutation-runner.mjs` 落盘规整:`trimEof` 去尾部多余空白、保留恰好一个换行终止符;
+   stdout/stderr 的 `bytes`/`sha256` 改按**规整后落盘字节**计算,JSON 与磁盘文件逐字节一致。
+2. 复跑 runner:**12/12 VALID**;脚本自检全部 36 份日志 hash/bytes 与磁盘一致(0 mismatch)、
+   EOF 零残留、`restoredEqualsOriginal` 全真。
+3. 门禁复跑:`git diff --check`(工作树)0 输出;定向 6 文件 **193/193**;typecheck 0 error;
+   `pnpm lint` 0/0/0;docs PASS。覆盖率口径不变(canonical 8757/11278=77.64%,±4 v8 波动已声明),
+   本修复零测试改动,不重出覆盖率证据。
+4. 提交后 `git diff --check origin/main...HEAD` 复验 0(见推送提交)。

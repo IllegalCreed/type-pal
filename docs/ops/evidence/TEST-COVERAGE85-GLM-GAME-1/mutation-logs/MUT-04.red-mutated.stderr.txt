@@ -19,4 +19,3 @@ AssertionError: expected 41 to be 40 // Object.is equality
     303|     expect(s.phase).toBe('list')
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

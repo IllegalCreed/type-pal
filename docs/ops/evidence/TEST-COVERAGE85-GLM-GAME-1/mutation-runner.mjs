@@ -23,6 +23,13 @@ mkdirSync(LOG_DIR, { recursive: true })
 
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex')
 
+/**
+ * 落盘规整:去尾部多余空白行,保留恰好一个换行终止符 —— git diff --check 报
+ * "new blank line at EOF" 的来源是 vitest stdout/stderr 末尾的多余空行;
+ * hash/bytes 一律按规整后的落盘字节计算,保证 JSON 与磁盘文件一致。
+ */
+const trimEof = (text) => `${text.trimEnd()}\n`
+
 /** 每个注入点跑前固定 env 快照(全量保留,证明执行环境)。 */
 const ENV_SNAPSHOT = { ...process.env }
 
@@ -74,8 +81,10 @@ const runOnce = (id, phase, testFile) => {
   })
   const stdoutFile = resolve(LOG_DIR, `${id}.${phase}.stdout.txt`)
   const stderrFile = resolve(LOG_DIR, `${id}.${phase}.stderr.txt`)
-  writeFileSync(stdoutFile, proc.stdout ?? '')
-  writeFileSync(stderrFile, proc.stderr ?? '')
+  const stdoutText = trimEof(proc.stdout ?? '')
+  const stderrText = trimEof(proc.stderr ?? '')
+  writeFileSync(stdoutFile, stdoutText)
+  writeFileSync(stderrFile, stderrText)
   const { parsed, missingFields, json } = parseVitestJson(proc.stdout ?? '')
   const suiteStatuses = (json?.testResults ?? []).map((tr) => ({
     file: tr.name,
@@ -110,16 +119,8 @@ const runOnce = (id, phase, testFile) => {
     signal: proc.signal,
     spawnError: proc.error ? { name: proc.error.name, message: proc.error.message } : null,
     spawnTimedOut: proc.error?.code === 'ETIMEDOUT',
-    stdout: {
-      file: stdoutFile,
-      bytes: (proc.stdout ?? '').length,
-      sha256: sha256(proc.stdout ?? ''),
-    },
-    stderr: {
-      file: stderrFile,
-      bytes: (proc.stderr ?? '').length,
-      sha256: sha256(proc.stderr ?? ''),
-    },
+    stdout: { file: stdoutFile, bytes: stdoutText.length, sha256: sha256(stdoutText) },
+    stderr: { file: stderrFile, bytes: stderrText.length, sha256: sha256(stderrText) },
     vitestJson: {
       parsed,
       missingFields,
