@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T13:02:04.766Z",
+  "generatedAt": "2026-10-04T16:52:33.362Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19264,
+  "testCount": 19268,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -38,7 +38,7 @@
       ],
       "scopeDigest": "f3ef4476e6c1be8555817d7c6434f3ba3b2f88ec0d22776a5f3c6f8521d1a6de",
       "fastTests": {
-        "testCount": 127,
+        "testCount": 131,
         "testFileCount": 16,
         "files": [
           "packages/shared/src/events.test.ts",
@@ -136,30 +136,30 @@
           },
           {
             "file": "packages/shared/src/yj2.boundaries.test.ts",
-            "testCount": 5,
-            "identityDigest": "ba4e7947f4ed48d8a67bc8e306648c4313cbc74a9fb73b1c3ba1234105ccc6d9"
+            "testCount": 9,
+            "identityDigest": "90db125307e9edff94319870383ad8eb359e0f1ab7adfe35416897dea159f398"
           }
         ],
-        "identityDigest": "284de043974925d2a24af46ae9ea4079ca48605aee4953c0d0203c336870bc4b",
+        "identityDigest": "3dfba8816a5035be6df4e728411b24e20a3f7a78391c128c682a751a421479e6",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f49d8c9616144a210892afa67c50d4002537ea61e3196c3b12594b5d6732f3f5"
+        "executionDigest": "839efcdc4f7ec270d67ebb4d7754e7703aa7b7e308d278a366e3940710989a99"
       },
       "metrics": {
         "statements": {
-          "covered": 441,
-          "total": 459
+          "covered": 448,
+          "total": 466
         },
         "branches": {
-          "covered": 196,
-          "total": 210
+          "covered": 204,
+          "total": 218
         },
         "functions": {
           "covered": 23,
           "total": 23
         },
         "lines": {
-          "covered": 394,
-          "total": 406
+          "covered": 400,
+          "total": 412
         }
       }
     },
@@ -10085,20 +10085,20 @@
   },
   "total": {
     "statements": {
-      "covered": 68774,
-      "total": 77372
+      "covered": 68781,
+      "total": 77379
     },
     "branches": {
-      "covered": 49725,
-      "total": 60159
+      "covered": 49733,
+      "total": 60167
     },
     "functions": {
       "covered": 13030,
       "total": 14708
     },
     "lines": {
-      "covered": 61507,
-      "total": 67742
+      "covered": 61513,
+      "total": 67748
     }
   }
 }

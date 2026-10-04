@@ -29,6 +29,7 @@ Visual Verification Timing: N/A
 - 官方 fast 结果、独立 editor fast `maxWorkers=1`、独立 editor fast `maxWorkers=2` 的生产文件 census 都是 292 文件 / 29,284 lines / 33,513 statements / 29,058 branches；两种 worker 的 292 个逐文件 JSON 指标完全相同。
 - 连续两次相同 scope 的 `maxWorkers=2` 对照也逐文件完全相同，均为 24,165/29,058 branches；因此当前证据排除了 worker 数和单次并发抖动。
 - baseline 与当前结果的 editor test count、identity digest、execution digest 完全相同；差异只剩 branch covered `24,166 -> 24,165`。不能把它解释成测试清单漂移，也不能通过 baseline 降级关闭。
+- 历史 full timing probe（当前 4,682 tests）中 hold 与 flush 两种内存 RAF 调度都得到 24,166/29,058，且逐文件没有差异；旧 probe 的“应有 4 个差异”断言失败，说明当前树已不满足旧的 reorder 根因前提。该 probe 只提供诊断证据，不是正式 gate。
 
 ## 上下文锚点
 
@@ -55,6 +56,7 @@ Visual Verification Timing: N/A
 
 - 2026-10-04 Codex：Q3b 的 pal-extract 变更不触碰 editor，但 protected fast 连续暴露 editor branches 24165/29058 对 ratchet baseline 24166/29058 的差 1；历史调查要求不得多数放行。Next: 先做逐文件 coverage 对照，未闭合前 Q3b 不标 done。
 - 2026-10-04 Codex：完成相同 fast scope 的 maxWorkers=1/2 与重复 maxWorkers=2 对照，292 个 editor 生产文件逐文件指标完全一致，test identity/execution digest 也一致；当前差额是可重复的 1 branch，不是 worker 或 scope 漂移。Next: 对 baseline 生成来源与具体 branch oracle 做下一层定位，仍不得改门槛。
+- 2026-10-05 Codex：当前 full timing probe 的 hold/flush 均为 24166/29058、逐文件零差异，旧 probe 预期差异断言失败；Q3c 根因应转向七包 runner/环境时序，不能继续改 reorder 产品或测试。Next: 保持独立质量门未决，或在 runner 层找到可证伪修复。
 
 ## 下一位 Agent 提示词
 

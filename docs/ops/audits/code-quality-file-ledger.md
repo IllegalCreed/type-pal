@@ -38,7 +38,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/resources.ts` | product | 已验证 | 直接读取全部资源接口；pal-extract/game callers 与 typecheck | 纯类型合同 |
 | `packages/shared/src/rle-encode.ts` | product | 已验证 | encode roundtrip、独立 byte oracle、128KB guard | 与 RLE decoder 合同一致 |
 | `packages/shared/src/tables.ts` | product | 已验证 | 直接读取表类型与 pal-extract/game callers；typecheck/tables type contract | 纯类型合同 |
-| `packages/shared/src/yj2.ts` | product | review | CODE-QUALITY-2b；YJ2 raw/fixture 及位流/回引边界候选 | Q2b 未 done |
+| `packages/shared/src/yj2.ts` | product | 已验证 | CODE-QUALITY-2b；2,626 raw chunks / 34,367,608B 逐字节一致，位流/回引边界与反控 | Q2b done |
 | `packages/shared/src/__tests__/glm-foundation-fixtures.ts` | test | 已验证 | YJ2/MKF/RNG 固定向量直接被 shared tests 消费 | test-only fixture |
 | `packages/shared/src/__tests__/resources-types.ts` | test | 已验证 | shared type fixtures；typecheck | test-only fixture |
 | `packages/shared/src/events.test.ts` | test | 已验证 | Command union type contract | 不以数量验收 |
@@ -51,6 +51,6 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |
 | `packages/shared/src/rng.test.ts` | test | 已验证 | RNG public decoder contract | Q2 相邻 oracle |
 | `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
-| `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE-QUALITY-2b；新增位流/回引反例 | Q2b 未 done |
+| `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done |
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
