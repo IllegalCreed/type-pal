@@ -100,7 +100,7 @@ test('an unlisted NPC and missing frame telemetry cannot silently pass', () => {
       actor(1, 'e777', [10, 10, 0], null, { frame: 0, sprite: 'npc' }),
       { kind: 'control', order: 2, state: true },
     ],
-    pages: [],
+    pages: [{ page: { lines: ['测试'] } }],
   }
   const candidate = structuredClone(baseline)
   candidate.events[0].state.facing = 'left'

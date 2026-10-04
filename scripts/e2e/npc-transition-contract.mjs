@@ -340,11 +340,14 @@ function compareObservedState(game, reforge, ids, fragment) {
     stable(game.control) !== stable(reforge.control)
   )
     findings.push({ type: 'control', game: game.control, reforge: reforge.control })
-  if (
-    game.dialogue.length &&
-    reforge.dialogue.length &&
-    stable(game.dialogue) !== stable(reforge.dialogue)
-  )
+  if (!game.dialogue.length || !reforge.dialogue.length)
+    findings.push({
+      type: 'evidence-gap',
+      field: 'dialogue',
+      game: game.dialogue.length > 0,
+      reforge: reforge.dialogue.length > 0,
+    })
+  else if (stable(game.dialogue) !== stable(reforge.dialogue))
     findings.push({ type: 'dialogue', game: game.dialogue, reforge: reforge.dialogue })
   if (
     fragment === '002' &&
