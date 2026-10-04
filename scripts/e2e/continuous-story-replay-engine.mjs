@@ -9,6 +9,7 @@ import { readGame } from './game-observer.mjs'
 const args = process.argv.slice(2),
   engine = args.includes('--reforge') ? 'reforge' : 'game',
   headless = args.includes('--headless'),
+  hold = args.includes('--hold'),
   tapePath = args[args.indexOf('--tape') + 1]
 assert(tapePath, 'continuous replay requires --tape')
 const tape = JSON.parse(await readFile(resolve(tapePath), 'utf8'))
@@ -32,7 +33,10 @@ let previousAtMs = null
 const report = { engine, mode: 'continuous', storyOnly: true, fragments: [], actions: [] }
 const waitRelease = (fragment) =>
   new Promise((resolveRelease, reject) => {
-    const timer = setTimeout(() => reject(new Error(`barrier release timeout ${fragment}`)), 180000)
+    const timer = setTimeout(
+      () => reject(new Error(`barrier release timeout ${fragment}`)),
+      hold ? 12 * 60 * 60 * 1000 : 180000,
+    )
     process.once('message', (message) => {
       if (message?.release !== fragment)
         return reject(new Error(`unexpected barrier release ${message?.release}`))
@@ -48,10 +52,17 @@ await runBrowserJourney({
   arguments: [headless ? '--headless' : '--headed'],
   browserArgs: headless
     ? []
-    : [`--window-size=700,500`, `--window-position=${engine === 'game' ? 0 : 720},0`],
+    : [`--window-size=756,982`, `--window-position=${engine === 'game' ? 0 : 756},0`],
+  viewport: { width: 756, height: 900 },
+  journeyTimeoutMs: hold ? 12 * 60 * 60 * 1000 : 240_000,
+  sources: ['scripts/e2e/continuous-story.mjs', 'scripts/e2e/continuous-story-replay-engine.mjs'],
   journey: async ({ newPage, baseURL, out, until, health }) => {
     page = await newPage(`continuous-${engine}`)
     await page.goto(engine === 'reforge' ? `${baseURL}/?menu` : baseURL)
+    await page.addStyleTag({
+      content:
+        'html,body{margin:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;background:#111!important;display:grid!important;place-items:center!important}#screen{width:100vw!important;height:auto!important;max-width:100vw!important;max-height:100vh!important;aspect-ratio:8/5!important;object-fit:contain!important;image-rendering:pixelated!important}',
+    })
     await until(
       async () => {
         const overlay = page.getByText('点击屏幕开始 / Click to start', { exact: true })
@@ -92,6 +103,7 @@ await runBrowserJourney({
       if (process.send) process.send({ checkpoint: entry.fragment, engine, state })
       if (entry.fragment !== '006') await waitRelease(entry.fragment)
     }
+    if (hold) await waitRelease('finish')
     await writeFile(resolve(out, 'continuous-report.json'), `${JSON.stringify(report, null, 2)}\n`)
   },
 })

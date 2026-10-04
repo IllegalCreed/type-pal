@@ -27,6 +27,8 @@ export async function runBrowserJourney({
   journey,
   traceConfig,
   browserArgs = [],
+  viewport = { width: 1360, height: 900 },
+  journeyTimeoutMs = 240_000,
   arguments: journeyArguments = process.argv.slice(2),
   initScripts = [],
 }) {
@@ -94,7 +96,7 @@ export async function runBrowserJourney({
     browser,
     page
   const contexts = []
-  const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : 240_000)
+  const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : journeyTimeoutMs)
   server.on('error', (error) => {
     serverError = error
   })
@@ -164,7 +166,7 @@ export async function runBrowserJourney({
     report.browser = browser.version()
     const newPage = async (label) => {
       const context = await watchdog.run('owned browser newContext', () =>
-        browser.newContext({ viewport: { width: 1360, height: 900 } }),
+        browser.newContext({ viewport }),
       )
       contexts.push(context)
       await capture.install(context)

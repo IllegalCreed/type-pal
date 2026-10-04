@@ -7,6 +7,7 @@ import { repoRoot } from './browser-journey.mjs'
 import { continuousStoryPlan } from './continuous-story.mjs'
 
 const args = process.argv.slice(2),
+  hold = args.includes('--hold'),
   tape = resolve(args[args.indexOf('--tape') + 1])
 assert(tape, 'continuous replay requires --tape')
 const output = resolve(
@@ -20,7 +21,13 @@ const children = new Map(),
 const start = (engine) => {
   const child = fork(
     fileURLToPath(new URL('./continuous-story-replay-engine.mjs', import.meta.url)),
-    [engine === 'game' ? '--game' : '--reforge', '--headed', '--tape', tape],
+    [
+      engine === 'game' ? '--game' : '--reforge',
+      '--headed',
+      ...(hold ? ['--hold'] : []),
+      '--tape',
+      tape,
+    ],
     { stdio: ['ignore', 'inherit', 'inherit', 'ipc'] },
   )
   children.set(engine, child)
@@ -30,9 +37,13 @@ const start = (engine) => {
     state.set(engine, message.state)
     arrivals.set(message.checkpoint, state)
     if (state.size === 2) {
-      for (const participant of children.values()) participant.send({ release: message.checkpoint })
+      if (!(hold && message.checkpoint === '006'))
+        for (const participant of children.values())
+          if (participant.connected && participant.exitCode === null)
+            participant.send({ release: message.checkpoint }, () => {})
     }
   })
+  child.on('error', () => {})
   return new Promise((resolveChild) =>
     child.once('exit', (code, signal) => resolveChild({ engine, code, signal })),
   )
