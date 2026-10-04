@@ -8,3 +8,4 @@
 ## 当前证据
 
 - [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 交付证据](coverage85-kimi-extract-migrate-r1-evidence.md)（91 定向测试 / migrate +91 分支过门 / pal-extract +42 与 126 边逐条不可达账 / 6 针三态反控；待 Codex 验收）：原始机账、反控件与生成器见 [coverage85-kimi-extract-migrate-r1/](coverage85-kimi-extract-migrate-r1)。
+- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。
