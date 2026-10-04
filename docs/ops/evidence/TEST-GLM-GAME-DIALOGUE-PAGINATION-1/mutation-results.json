@@ -1,0 +1,219 @@
+{
+  "card": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1",
+  "testFile": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+  "originalGreen": {
+    "exitCode": 0,
+    "tests": 6,
+    "allPassed": true,
+    "identitySha": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+  },
+  "sourceOriginalSha": {
+    "event-system.ts": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+    "dialog-box.ts": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85"
+  },
+  "sourceFinalSha": {
+    "event-system.ts": "c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+    "dialog-box.ts": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85"
+  },
+  "sourceRestoredByteIdentical": true,
+  "verdicts": [
+    {
+      "id": "MUT-01",
+      "target": "C1 DM18 翻页等键吞任意键",
+      "file": "packages/game/src/core/event-system.ts",
+      "find": ": input.pressed.size > 0",
+      "replace": ": input.pressed.has('Confirm')",
+      "mutatedSha": "04eeab273df72eee52a5dc415afdad66dcbf53649a5151566e71344c32dfb049",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 翻页等键吞任意键:Cancel/Down 与 Confirm 同效翻页,第 5 行独占新页(event-system.ts:1708-1715,text.c:1433)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "failedAll": [
+          "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 翻页等键吞任意键:Cancel/Down 与 Confirm 同效翻页,第 5 行独占新页(event-system.ts:1708-1715,text.c:1433)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 'waiting-page-key' to be 'typing' // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "03c6aa1c3b9bd915bd31bead02c881196d6c23041f323a59626f326c57291fd2",
+        "restored": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+      }
+    },
+    {
+      "id": "MUT-02",
+      "target": "C2 末页边界:end 只等段末键不触发翻页键",
+      "file": "packages/game/src/core/event-system.ts",
+      "find": "            setWaitingEndKey(gs.dialogBox)",
+      "replace": "            setWaitingPageKey(gs.dialogBox)",
+      "mutatedSha": "2d7aae2ab716ae658e081adf5ba2deed11564a2abbb346f722410d98c2b0a43c",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 末页边界:恰 4 行后遇 end 只等段末键(不触发翻页键),末页 3 行 Confirm 关闭(event-system.ts:1879-1890,script.c:3475)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "failedAll": [
+          "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 末页边界:恰 4 行后遇 end 只等段末键(不触发翻页键),末页 3 行 Confirm 关闭(event-system.ts:1879-1890,script.c:3475)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 2 to be 1 // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "24853602137fcbfec00ad4e979ec42c5389c4987af1b3dd4a74869c02c8df001",
+        "restored": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+      }
+    },
+    {
+      "id": "MUT-03",
+      "target": "C3 typing 中 Cancel/Up 不跳字",
+      "file": "packages/game/src/core/event-system.ts",
+      "find": "? input.pressed.has('Confirm') || input.pressed.has('Menu')",
+      "replace": "? input.pressed.size > 0",
+      "mutatedSha": "ef04747e767cc7a1720dda24d6ac6864287f3e7049b37612903f2373f66b098d",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 反向:typing 中 Cancel/Up 不跳字,相位/已显字数/ip 全不动(event-system.ts:1712-1714,text.c:1602 kKeySearch|kKeyMenu)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "failedAll": [
+          "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 反向:typing 中 Cancel/Up 不跳字,相位/已显字数/ip 全不动(event-system.ts:1712-1714,text.c:1602 kKeySearch|kKeyMenu)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 'waiting-end-key' to be 'typing' // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "f84ab199bfa4876612185d3db0a0d4e03359bd8db17a7764e46716577ea86492",
+        "restored": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+      }
+    },
+    {
+      "id": "MUT-04",
+      "target": "C4 typing 中 Menu 跳字等价",
+      "file": "packages/game/src/core/event-system.ts",
+      "find": "? input.pressed.has('Confirm') || input.pressed.has('Menu')",
+      "replace": "? input.pressed.has('Confirm')",
+      "mutatedSha": "5fc0b8d1c5fc212a772efcf94181710f919b9c816e9c6770b673df2c5555ae1f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 跳字键集:typing 中 Menu(kKeyMenu)与 Confirm 同效瞬显并连锁到段末等键(event-system.ts:1712-1714,text.c:1602)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "failedAll": [
+          "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 跳字键集:typing 中 Menu(kKeyMenu)与 Confirm 同效瞬显并连锁到段末等键(event-system.ts:1712-1714,text.c:1602)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 5 to be 24 // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "83317bf9c9a29e7b785502e36e6feac1a2dfcf1a51649da2eb17aab71d5815ff",
+        "restored": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+      }
+    },
+    {
+      "id": "MUT-05",
+      "target": "C5 空行占页位(段中 $00 append)",
+      "file": "packages/game/src/core/event-system.ts",
+      "find": "appendDialogLine(gs.dialogBox, '', gs.nowMs)",
+      "replace": "/* MUT-05: empty-line append removed */",
+      "mutatedSha": "32105e149d1eaabc912d4990bb4609fb335957fa06e175a063087c0f4f0dc147",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 空页位:$00 段中空行占一页行位,翻页边界提前到第 4 真行;空行不入历史(event-system.ts:2017-2040,text.c:1745-1746 行计数无条件 ++)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "failedAll": [
+          "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 空页位:$00 段中空行占一页行位,翻页边界提前到第 4 真行;空行不入历史(event-system.ts:2017-2040,text.c:1745-1746 行计数无条件 ++)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected -1 to be greater than or equal to 0"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "aa0b5ce8ddc9c995ecf72bd78a0829fc9426e5e91f6580ecfdee72b44f8b2ab1",
+        "restored": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+      }
+    },
+    {
+      "id": "MUT-06",
+      "target": "C6 翻页后 userSkip 复位新页逐字",
+      "file": "packages/game/src/present/dialog-box.ts",
+      "find": "    state.userSkip = false // L2:翻页等键后复位 fUserSkip(text.c:1447),新页重新逐字",
+      "replace": "    /* MUT-06: userSkip reset removed */",
+      "mutatedSha": "06be4fe00ae4c00ad548d77c56c9145e1ce7d709821855e1284918594eb2167d",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 L2 跳字连锁停在翻页边界:Confirm 一次瞬显前 4 行、第 5 行保留 ip 等键;翻页后 userSkip 复位新页重新逐字(event-system.ts:2053-2058,dialog-box.ts:594-595,text.c:1447/1607)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "failedAll": [
+          "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 L2 跳字连锁停在翻页边界:Confirm 一次瞬显前 4 行、第 5 行保留 ip 等键;翻页后 userSkip 复位新页重新逐字(event-system.ts:2053-2058,dialog-box.ts:594-595,text.c:1447/1607)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected true to be false // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "bd4f440d5f039f4598acb46c2520f1a4a30506d75e7b586a2f33ed5edf8de4d9",
+        "restored": "39459989374d1acd2a27e0b49238271927f82cb9d997879ccc535c289d9cd5cc"
+      }
+    }
+  ]
+}
