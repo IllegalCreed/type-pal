@@ -9,6 +9,9 @@
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
+| TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
+| TEST-GLM-REFORGE-RUNTIME-SESSION-1 | [Reforge runtime input and frame-session contracts](tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | build | GLM / runtime session 合同 | input/frame/cancel/world-view 边界 |
+| TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 | [Editor asset lifecycle and sprite action contracts](tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md) | build | GLM / asset lifecycle 合同 | 资源选择、替换、删除、回收与动作作者流程 |
 
 ## 看板规则
 
