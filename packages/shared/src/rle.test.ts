@@ -43,18 +43,44 @@ describe('decodeRle', () => {
     expect(Array.from(frame.opaque)).toEqual([1, 1])
   })
 
-  it('畸形零长度/截断指令显式失败，不进入无进度循环', () => {
-    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x80]))).toThrow(/zero-length/)
-    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x01]))).toThrow(/truncated|exceeds/)
+  it.each([0, 0x80])('无像素进度命令 0x%s 后仍可解合法 literal', (command) => {
+    expect(decodeRle(new Uint8Array([1, 0, 1, 0, command, 1, 0x44]))).toEqual({
+      width: 1,
+      height: 1,
+      pixels: new Uint8Array([0x44]),
+      opaque: new Uint8Array([1]),
+    })
   })
 
-  it('尺寸与游程边界显式失败', () => {
-    expect(() => decodeRle(new Uint8Array([0x91, 0x01, 1, 0]))).toThrow(/invalid frame dimensions/)
-    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x82]))).toThrow(/transparent run exceeds/)
-    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x02, 0xaa, 0xbb]))).toThrow(
-      /pixel run exceeds/,
+  it('未填满像素且源流耗尽时显式失败', () => {
+    expect(() => decodeRle(new Uint8Array([1, 0, 2, 0, 0x81]))).toThrow(
+      'RLE: command stream truncated',
     )
-    expect(() => decodeRle(new Uint8Array([1, 0, 2, 0, 0x81]))).toThrow(/command stream truncated/)
+  })
+
+  it('literal payload 缺字节时显式失败', () => {
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 1]))).toThrow('RLE: pixel run exceeds frame')
+  })
+
+  it('透明段超过声明像素数时显式失败', () => {
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 0x82]))).toThrow(
+      'RLE: transparent run exceeds frame',
+    )
+  })
+
+  it('literal 数量超过声明像素数时显式失败', () => {
+    expect(() => decodeRle(new Uint8Array([1, 0, 1, 0, 2, 0xaa, 0xbb]))).toThrow(
+      'RLE: pixel run exceeds frame',
+    )
+  })
+
+  it('通用帧可解超过 sprite 容器上限的合法宽度', () => {
+    const bytes = new Uint8Array([0x91, 1, 1, 0, 0xff, 0xff, 0xff, 0x94])
+    const decoded = decodeRle(bytes)
+    expect(decoded.width).toBe(401)
+    expect(decoded.height).toBe(1)
+    expect(decoded.pixels).toEqual(new Uint8Array(401))
+    expect(decoded.opaque).toEqual(new Uint8Array(401))
   })
 })
 
@@ -158,7 +184,7 @@ describe('parseSpriteChunk', () => {
     expect(frames[0]!.width).toBe(1)
   })
 
-  it('宽容入口跳过无进度坏帧并保留后续合法帧', () => {
+  it('宽容入口跳过截断坏帧并保留后续合法帧', () => {
     const buf = new Uint8Array([
       0x02,
       0x00, // imagecount = 2
@@ -168,14 +194,11 @@ describe('parseSpriteChunk', () => {
       0x00,
       0x01,
       0x00,
-      0x80, // frame 0: 0x80 skips zero pixels -> malformed
-      0x00, // alignment padding
       0x01,
-      0x00,
-      0x01,
-      0x00,
-      0x01,
-      0x55, // frame 1: valid 1×1
+      0x55, // frame 0: valid 1×1
+      0x02,
+      0x00, // frame 1: 1×2
+      0x81, // skip one pixel, then source ends -> malformed
     ])
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1)

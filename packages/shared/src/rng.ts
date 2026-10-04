@@ -16,6 +16,22 @@ import { decompressYj2 } from './yj2.js'
 export const RNG_WIDTH = 320
 export const RNG_HEIGHT = 200
 
+function requirePayload(payload: Uint8Array, ptr: number, count: number, op: number): void {
+  if (ptr < 0 || count < 0 || ptr + count > payload.length) {
+    throw new Error(
+      `RNG decode: opcode 0x${op.toString(16)} payload truncated at ptr=${ptr} need=${count}`,
+    )
+  }
+}
+
+function requireSurface(surface: Uint8Array, dst: number, count: number, op: number): void {
+  if (dst < 0 || count < 0 || dst + count > surface.length) {
+    throw new Error(
+      `RNG decode: opcode 0x${op.toString(16)} surface range [${dst}, ${dst + count}) exceeds ${surface.length}`,
+    )
+  }
+}
+
 /**
  * RLE delta blit:把 YJ2-解压后的 payload 按 sdlpal `PAL_RNGBlitToSurface` opcode
  * 应用到 320×200 surface(in-place,跨 frame 复用,delta 累加)。
@@ -47,19 +63,26 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
         return // end frame
 
       case 0x02:
+        requireSurface(surface, dst, 2, op)
         dst += 2
         break
 
       case 0x03: {
+        requirePayload(payload, ptr, 1, op)
         const n = payload[ptr++]!
-        dst += (n + 1) * 2
+        const bytes = (n + 1) * 2
+        requireSurface(surface, dst, bytes, op)
+        dst += bytes
         break
       }
 
       case 0x04: {
+        requirePayload(payload, ptr, 2, op)
         const w = payload[ptr]! | (payload[ptr + 1]! << 8)
         ptr += 2
-        dst += (w + 1) * 2
+        const bytes = (w + 1) * 2
+        requireSurface(surface, dst, bytes, op)
+        dst += bytes
         break
       }
 
@@ -69,6 +92,9 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
       case 0x07:
       case 0x06: {
         const repeats = op - 0x05 // 0x06=1, 0x07=2, 0x08=3, 0x09=4, 0x0a=5
+        const bytes = repeats * 2
+        requirePayload(payload, ptr, bytes, op)
+        requireSurface(surface, dst, bytes, op)
         for (let r = 0; r < repeats; r++) {
           surface[dst++] = payload[ptr++]!
           surface[dst++] = payload[ptr++]!
@@ -77,7 +103,11 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
       }
 
       case 0x0b: {
+        requirePayload(payload, ptr, 1, op)
         const n = payload[ptr++]!
+        const bytes = (n + 1) * 2
+        requirePayload(payload, ptr, bytes, op)
+        requireSurface(surface, dst, bytes, op)
         for (let i = 0; i <= n; i++) {
           surface[dst++] = payload[ptr++]!
           surface[dst++] = payload[ptr++]!
@@ -86,8 +116,12 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
       }
 
       case 0x0c: {
+        requirePayload(payload, ptr, 2, op)
         const w = payload[ptr]! | (payload[ptr + 1]! << 8)
         ptr += 2
+        const bytes = (w + 1) * 2
+        requirePayload(payload, ptr, bytes, op)
+        requireSurface(surface, dst, bytes, op)
         for (let i = 0; i <= w; i++) {
           surface[dst++] = payload[ptr++]!
           surface[dst++] = payload[ptr++]!
@@ -100,6 +134,8 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
       case 0x0f:
       case 0x10: {
         const repeats = op - 0x0b // 0x0d=2, 0x0e=3, 0x0f=4, 0x10=5
+        requirePayload(payload, ptr, 2, op)
+        requireSurface(surface, dst, repeats * 2, op)
         const a = payload[ptr]!
         const b = payload[ptr + 1]!
         for (let i = 0; i < repeats; i++) {
@@ -111,7 +147,11 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
       }
 
       case 0x11: {
+        requirePayload(payload, ptr, 1, op)
         const n = payload[ptr++]!
+        const bytes = (n + 1) * 2
+        requirePayload(payload, ptr, 2, op)
+        requireSurface(surface, dst, bytes, op)
         const a = payload[ptr]!
         const b = payload[ptr + 1]!
         for (let i = 0; i <= n; i++) {
@@ -123,8 +163,12 @@ export function rngBlitDelta(payload: Uint8Array, surface: Uint8Array): void {
       }
 
       case 0x12: {
+        requirePayload(payload, ptr, 2, op)
         const n = (payload[ptr]! | (payload[ptr + 1]! << 8)) + 1
         ptr += 2
+        const bytes = n * 2
+        requirePayload(payload, ptr, 2, op)
+        requireSurface(surface, dst, bytes, op)
         const a = payload[ptr]!
         const b = payload[ptr + 1]!
         for (let i = 0; i < n; i++) {

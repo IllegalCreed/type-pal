@@ -79,8 +79,8 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 
 | 批次 | 白名单 | 目标 | 当前状态 |
 |---|---|---|---|
-| Q1 shared RLE safety | `packages/shared/src/rle.ts`、同域 RLE 回归 | 有限游标、零长度/截断失败语义；合法像素/opaque 保真 | `build allowed`，本卡首批 |
-| Q2 shared codecs/types | `shared/src/{mkf,yj2,rng,resources,tables}` 及必要 callers | 直接 caller、错误/状态所有权逐文件核验；只按证据修 | `draft`，不得开始实现 |
+| Q1 shared RLE safety | `packages/shared/src/rle.ts`、同域 RLE 回归 | generic framing 的截断/越界失败、strict sprite 零长 guard；合法像素/opaque 保真 | `done` |
+| Q2 shared codecs/types | `shared/src/{mkf,yj2,rng,resources,tables}` 及必要 callers | MKF/RNG offset、payload、surface 边界已收；YJ2/resources/tables 留下一窄批 | `done`（MKF/RNG 子批）；不得把剩余 shared 领域视作已审完 |
 | Q3 phase1 extract/game | `pal-extract` parsers/CLI、game assets/core/present/shell，分互斥子批 | 区分纯解析、IO、运行时状态和呈现；机制问题另卡 | `draft`，不得与覆盖率/E2E线程重叠 |
 | Q4 phase2 content/migrate | content validators/types、migrate pure/IO 薄壳 | canonical schema、迁移源、事务/幂等边界；不改生成物 | `draft`，不得开始实现 |
 | Q5 phase2 reforge/editor | reforge runtime、editor core/ui/tooling | 新架构 ownership、异步清理和公共出口；不重领13批 | `draft`，需要逐批准入 |
@@ -92,16 +92,19 @@ lint/typecheck/格式非零诊断。修复必须给出 before/after、生产 cal
 
 ## 首批结论（Q1 / Q1b）
 
-`packages/shared/src/rle.ts:61-100` 在 `b === 0`、`b === 0x80` 或 payload/header 截断时没有进度/边界保护；
-`parseSpriteChunkStrict` 的 `command === 0x80` 也会无限保持 `target`。真实 callers 为 game tileset/dialog 资源、
-pal-extract 资产导出和 reforge 资产加载（见任务卡真值矩阵）。首批仅添加共享 decoder 的有限检查，并让宽容
-`parseSpriteChunk` 跳过不可解帧；严格入口保留 fail-loud。若真实资源反例证明零长度命令是合法方言，首批立即 blocked，
-不改 raw 数据、不恢复兼容 fallback。
+`packages/shared/src/rle.ts:61-100` 对 header、source 游标、literal/透明段边界缺少显式失败；strict sprite container 的
+`command === 0/0x80` 仍拒绝无像素进度命令。通用 `decodeRle` 则保留 PAL 帧 framing 中的 0/0x80 no-op，只要后续指令
+能填满帧；源流耗尽或段越界时显式失败。真实 callers 为 game tileset/dialog 资源、pal-extract 资产导出和 reforge
+资产加载；本批没有改变合法帧结果或资源格式。
 
 Q1b 复核了 editor PAL project-reference census：`379304503` 将历史总数更新为 22,666，随后
 `66676dc9f` 增加 `projects/pal` 场景状态字段后，当前 collector 的直接结果变为 22,663；同一漂移同步影响
 blockers、behavior-reference edges、compact rows/target edges（4,353 / 4,448 / 25,196 / 28,092）。本批只更新
 过期测试 oracle，不改 collector、项目内容或 UI。Q1/Q1b 的完整 check、官方 ratchet 和 protected fast 已通过；
 这只关闭首批问题，不关闭 Q2–Q6，也不代表全仓逐文件治理完成。
+
+Q2 的 MKF/RNG 子批已完成：真实 raw 的 2,373 个 chunks 与 1,464 个 RNG frames 通过新边界检查，完整 check、
+official ratchet、protected fast 和 lint 全绿。剩余 YJ2、resources、tables 仍保持待核，下一批从 Q3 phase1
+extract/game 开始。
 
 验证完成前本节不标“已验证”；完整质量门与全仓逐文件治理仍未完成。

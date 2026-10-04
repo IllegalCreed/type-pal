@@ -63,6 +63,7 @@
 | [C3 - 装备结构化编辑器 + 数值单一真相源(desc 去脱节)](../archive/tasks/done/C3-equip-structured-editor.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [C8 - 物品用途机制、运行时与迁移闭环](../archive/tasks/done/C8-item-use-mechanisms.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-1 - 全仓代码质量治理与首批 RLE 解码边界](../archive/tasks/done/CODE-QUALITY-1-governance.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-2 - shared MKF / RNG codec 边界治理](../archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |

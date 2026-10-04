@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T09:08:58.030Z",
+  "generatedAt": "2026-10-04T10:23:56.502Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19252,
+  "testCount": 19262,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -38,7 +38,7 @@
       ],
       "scopeDigest": "f3ef4476e6c1be8555817d7c6434f3ba3b2f88ec0d22776a5f3c6f8521d1a6de",
       "fastTests": {
-        "testCount": 117,
+        "testCount": 127,
         "testFileCount": 16,
         "files": [
           "packages/shared/src/events.test.ts",
@@ -76,8 +76,8 @@
           },
           {
             "file": "packages/shared/src/mkf.boundaries.test.ts",
-            "testCount": 9,
-            "identityDigest": "7452ff9c038665bbd8059a9730400ac157981d042dc45611364bb39b64aa6ffd"
+            "testCount": 11,
+            "identityDigest": "f50171fca1415a7c3183a7164db3bba66bad4117d83f76bfc141719e1aeba7ef"
           },
           {
             "file": "packages/shared/src/pal-map-names.test.ts",
@@ -116,13 +116,13 @@
           },
           {
             "file": "packages/shared/src/rle.test.ts",
-            "testCount": 21,
-            "identityDigest": "7f9009949a738a103f3a939de69d99e651323036814753816d4057b57b3058be"
+            "testCount": 26,
+            "identityDigest": "cb6f6ff9c37cb7acfed56d9dc52c827561998895cbc494d5478a9e83719c7e66"
           },
           {
             "file": "packages/shared/src/rng.boundaries.test.ts",
-            "testCount": 13,
-            "identityDigest": "d277f83e6ae687c7c5a0574ea2dee6fcce8577dcafb76974cb1d7a0d17043010"
+            "testCount": 16,
+            "identityDigest": "3c4b172f0bad3cf14018ff9b65854fbfc9e34166ae10d579d63ab4f6167a9723"
           },
           {
             "file": "packages/shared/src/rng.test.ts",
@@ -140,26 +140,26 @@
             "identityDigest": "ba4e7947f4ed48d8a67bc8e306648c4313cbc74a9fb73b1c3ba1234105ccc6d9"
           }
         ],
-        "identityDigest": "c9b4b9d0e681a1e7e74928cfb8f4afb43cb2a36ced47815b7584f83b42f9fc87",
+        "identityDigest": "284de043974925d2a24af46ae9ea4079ca48605aee4953c0d0203c336870bc4b",
         "duplicateIdentityCount": 0,
-        "executionDigest": "ea9c73262b1cfc211401f9f94476406142af39164241e5e97509a3988a3d5a8d"
+        "executionDigest": "f49d8c9616144a210892afa67c50d4002537ea61e3196c3b12594b5d6732f3f5"
       },
       "metrics": {
         "statements": {
-          "covered": 401,
-          "total": 420
+          "covered": 441,
+          "total": 459
         },
         "branches": {
-          "covered": 184,
-          "total": 199
+          "covered": 196,
+          "total": 210
         },
         "functions": {
-          "covered": 21,
-          "total": 21
+          "covered": 23,
+          "total": 23
         },
         "lines": {
-          "covered": 355,
-          "total": 367
+          "covered": 394,
+          "total": 406
         }
       }
     },
@@ -10085,20 +10085,20 @@
   },
   "total": {
     "statements": {
-      "covered": 68723,
-      "total": 77325
+      "covered": 68763,
+      "total": 77364
     },
     "branches": {
-      "covered": 49694,
-      "total": 60136
+      "covered": 49706,
+      "total": 60147
     },
     "functions": {
-      "covered": 13028,
-      "total": 14709
+      "covered": 13030,
+      "total": 14711
     },
     "lines": {
-      "covered": 61456,
-      "total": 67694
+      "covered": 61495,
+      "total": 67733
     }
   }
 }

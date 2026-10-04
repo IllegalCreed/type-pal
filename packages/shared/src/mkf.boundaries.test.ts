@@ -49,6 +49,27 @@ describe('openMkf 头合同', () => {
     expect(chunkCount(mkf)).toBe(2)
     expect(Array.from(readChunk(mkf, 1))).toEqual([0x33])
   })
+
+  it('offset table 超出 buffer 时拒绝，不让 DataView 越界读取成为裸异常', () => {
+    const bad = new Uint8Array(8)
+    new DataView(bad.buffer).setUint32(0, 12, true)
+    expect(() => openMkf(bad)).toThrow(/offset table truncated/)
+  })
+
+  it('offset 超出 buffer 或倒序时拒绝', () => {
+    const outside = new Uint8Array(8)
+    const outsideView = new DataView(outside.buffer)
+    outsideView.setUint32(0, 8, true)
+    outsideView.setUint32(4, 9, true)
+    expect(() => openMkf(outside)).toThrow(/outside buffer/)
+
+    const descending = new Uint8Array(12)
+    const descendingView = new DataView(descending.buffer)
+    descendingView.setUint32(0, 12, true)
+    descendingView.setUint32(4, 8, true)
+    descendingView.setUint32(8, 12, true)
+    expect(() => openMkf(descending)).toThrow(/not monotonic/)
+  })
 })
 
 describe('readChunk 边界', () => {

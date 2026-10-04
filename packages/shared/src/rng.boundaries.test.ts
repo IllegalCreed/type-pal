@@ -114,6 +114,46 @@ describe('rngBlitDelta 终止与混合', () => {
   })
 })
 
+describe('rngBlitDelta 非法 payload / surface 边界', () => {
+  it('变量长度 opcode 缺操作数或 literal 时拒绝', () => {
+    expect(() => rngBlitDelta(Uint8Array.from([0x03]), surface())).toThrow(/payload truncated/)
+    expect(() => rngBlitDelta(Uint8Array.from([0x04, 0x01]), surface())).toThrow(
+      /payload truncated/,
+    )
+    expect(() => rngBlitDelta(Uint8Array.from([0x0b, 0x01, 0xaa]), surface())).toThrow(
+      /payload truncated/,
+    )
+    expect(() => rngBlitDelta(Uint8Array.from([0x0c, 0x01, 0x00, 0xaa]), surface())).toThrow(
+      /payload truncated/,
+    )
+    expect(() => rngBlitDelta(Uint8Array.from([0x11, 0x01, 0xaa]), surface())).toThrow(
+      /payload truncated/,
+    )
+    expect(() => rngBlitDelta(Uint8Array.from([0x12, 0x01, 0x00, 0xaa]), surface())).toThrow(
+      /payload truncated/,
+    )
+  })
+
+  it('固定长度 literal / repeat opcode 缺 payload 时拒绝', () => {
+    for (const op of [0x06, 0x07, 0x08, 0x09, 0x0a, 0x0d, 0x0e, 0x0f, 0x10]) {
+      expect(() => rngBlitDelta(Uint8Array.of(op), surface())).toThrow(/payload truncated/)
+    }
+  })
+
+  it('skip 或写入超过 surface 时在写入前拒绝', () => {
+    expect(() => rngBlitDelta(Uint8Array.of(0x02), new Uint8Array(1))).toThrow(/surface range/)
+    expect(() => rngBlitDelta(Uint8Array.from([0x03, 0xff]), new Uint8Array(4))).toThrow(
+      /surface range/,
+    )
+    expect(() => rngBlitDelta(Uint8Array.from([0x06, 0xaa, 0xbb]), new Uint8Array(1))).toThrow(
+      /surface range/,
+    )
+    expect(() => rngBlitDelta(Uint8Array.from([0x12, 0xff, 0xff, 0xaa, 0xbb]), surface())).toThrow(
+      /surface range/,
+    )
+  })
+})
+
 describe('decodeRngFrames（合成 sub-MKF 容器链路）', () => {
   // 注：空输入 → [] 已由既有 rng.test.ts「空 chunk → 空帧数组」覆盖，此处不重复（R4 去重）。
 

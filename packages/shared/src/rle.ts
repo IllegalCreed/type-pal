@@ -46,8 +46,8 @@ export interface IndexedRleChunkResult {
 /** @deprecated 使用 IndexedRleChunkResult；保留给 A7-3W 调用方源码兼容。 */
 export type WorldSpriteChunkResult = IndexedRleChunkResult
 
-// 原版资源的有效精灵尺寸都小于屏幕；同一上限也用于 strict chunk parser，
-// 先拒绝伪造的超大宽高，避免畸形输入在分配像素面前耗尽内存。
+// PAL sprite 容器的坏尾槽可能伪装成巨大帧；只对容器解析应用该历史上限。
+// 通用帧 codec 也服务作者图像，不能把 sprite 的尺寸约定扩成帧格式限制。
 const SPRITE_DIM_MAX = 400
 
 /**
@@ -80,8 +80,7 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
   if (offset + 4 > buf.byteLength) throw new Error('RLE: frame header truncated')
   const width = buf[offset]! | (buf[offset + 1]! << 8)
   const height = buf[offset + 2]! | (buf[offset + 3]! << 8)
-  if (width <= 0 || height <= 0 || width > SPRITE_DIM_MAX || height > SPRITE_DIM_MAX)
-    throw new Error(`RLE: invalid frame dimensions ${width}x${height}`)
+  if (width <= 0 || height <= 0) throw new Error(`RLE: invalid frame dimensions ${width}x${height}`)
   offset += 4
 
   const total = width * height
@@ -92,8 +91,8 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
   while (dst < total) {
     if (offset >= buf.byteLength) throw new Error('RLE: command stream truncated')
     const b = buf[offset++]!
-    // 0 / 0x80 consume no pixels. Treat them as malformed instead of looping forever.
-    if (b === 0 || b === 0x80) throw new Error('RLE: zero-length command')
+    // Both commands consume a source byte but no pixel. Preserve that existing
+    // framing; a stream that never fills the frame fails at the source boundary.
     if (b >= 0x80) {
       // 跳过 b-0x80 个像素(opaque 保持 0,pixels 保持 0)
       const skip = b - 0x80

@@ -22,9 +22,21 @@ export function openMkf(buffer: Uint8Array): Mkf {
   if (count < 0) {
     throw new Error(`MKF: bad first offset ${firstOffset}`)
   }
+  if (firstOffset > buffer.byteLength) {
+    throw new Error(`MKF: offset table truncated (end=${firstOffset}, size=${buffer.byteLength})`)
+  }
   const offsets: number[] = []
+  let previous = firstOffset
   for (let i = 0; i <= count; i++) {
-    offsets.push(view.getUint32(i * 4, true))
+    const offset = view.getUint32(i * 4, true)
+    if (offset < previous) {
+      throw new Error(`MKF: offsets not monotonic at ${i} (${offset} < ${previous})`)
+    }
+    if (offset > buffer.byteLength) {
+      throw new Error(`MKF: offset ${offset} outside buffer size ${buffer.byteLength}`)
+    }
+    offsets.push(offset)
+    previous = offset
   }
   return { buffer, offsets }
 }
@@ -34,7 +46,7 @@ export function chunkCount(mkf: Mkf): number {
 }
 
 export function readChunk(mkf: Mkf, index: number): Uint8Array {
-  if (index < 0 || index >= chunkCount(mkf)) {
+  if (!Number.isInteger(index) || index < 0 || index >= chunkCount(mkf)) {
     throw new Error(`MKF: chunk ${index} out of range (count=${chunkCount(mkf)})`)
   }
   const start = mkf.offsets[index]!

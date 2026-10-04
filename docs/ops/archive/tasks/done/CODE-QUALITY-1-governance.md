@@ -20,8 +20,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 ## 目标
 
 建立按工程 → 模块 → 功能 → 文件组织、可机器核验且不与并行线程重叠的代码质量治理账，先在 shared 的 RLE
-解码边界收口一个可证伪的失败语义问题：畸形零长度/截断指令不得让生产解码器死循环或静默读入未定义字节，合法
-资源的像素与透明度结果保持不变。
+解码边界收口一个可证伪的失败语义问题：截断/越界输入不得让生产解码器静默读入未定义字节，合法资源的像素与透明度结果保持不变。
 
 ## 范围
 
@@ -37,14 +36,14 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 
 ### 一句话行为 / 工程前提
 
-生产 RLE 解码入口必须对合法帧保持既有像素/opaque 结果，并对无法消费的指令在有限步内显式失败或按既有 PAL
-宽容入口跳过，不能因零长度或截断输入无限循环、越界读取或把 `undefined` 当像素。
+生产 RLE 解码入口必须对合法帧保持既有像素/opaque 结果，并对源流截断、literal/透明段越界在有限步内显式失败
+或按既有 PAL 宽容入口跳过；generic frame codec 的 0/0x80 no-op framing 与 strict sprite container 的拒绝合同分开维护。
 
 ### 真值矩阵
 
 | 维度 | 当前真值 | 直接证据 |
 |---|---|---|
-| 原版 / primary source | PAL RLE 以宽高和指令流逐像素推进；零长度指令不产生进度，不能作为可消费帧继续运行 | `reference/sdlpal/palcommon.c:118-226`；`palcommon.c:129-140` 的 `T` 分支 |
+| 原版 / primary source | PAL RLE 以宽高和指令流逐像素推进；0/0x80 在 generic frame loop 中不推进，但后续 source 可继续消费；严格 sprite 容器另有坏尾/零长 guard | `reference/sdlpal/palcommon.c:118-226`；`packages/shared/src/rle.ts:128-164` |
 | 第一阶段 | shared `decodeRle` 被 extractor 与 game 共同消费；宽容 `parseSpriteChunk` 已对 broken sprite 尺寸跳过，严格入口拒坏容器 | `packages/shared/src/rle.ts:1-9,61-100,103-124,167-182,189-216`；`packages/game/src/assets/tileset-blob.ts:34-55`；`packages/pal-extract/src/cli.ts:372-390` |
 | 当前二阶段 | Reforge 直接消费 shared 的 `parseSpriteChunk`，不应把第一阶段的隐式死循环或未定义读入带入新资源加载链 | `packages/reforge/src/assets.ts:1-45,420-450`；`docs/phase2/READ-FIRST.md:1-11,17-30` |
 | 本任务目标 | 在 shared 解码层增加有限进度/边界检查；合法输入字节结果不变，宽容入口继续跳过不可解帧，严格入口继续 fail-loud | `packages/shared/src/rle.ts:50-100,128-164`；首批验证见本卡“验收条件” |
@@ -62,7 +61,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 ### 用户可见偏离
 
 - 是否主动偏离已核真值：N/A（内部畸形输入失败语义收紧；合法资源的用户可见表现不变）
-- `before -> after` 一句话：`畸形 RLE 可能死循环/读未定义字节 -> 在有限步内抛错，宽容 sprite 入口跳过该帧并继续其它帧`
+- `before -> after` 一句话：`截断/越界 RLE 可能读未定义字节 -> 在有限步内抛错，宽容 sprite 入口跳过该帧并继续其它帧；合法 generic 0/0x80 framing 保持`
 - 代表场景：game/reforge 加载含损坏尾帧或截断帧的 sprite blob 时，页面/CLI 不再卡在解码循环；正常角色、tileset、dialog icon 的像素与 opaque 逐字节不变。
 - 用户裁决：N/A
 
@@ -78,7 +77,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 
 测试按[统一质量标准](../../../agent-workflow.md)核对原子合同、合法 typed 输入、真实 decoder caller、排重和有效反控；不以例数或覆盖率单独 accept。
 
-- 功能：`decodeRle`/严格帧解析对 `0x00`、`0x80`、截断头、截断 payload、目标越界均有限失败；合法实心、透明、palette-0、混合帧结果与改动前逐字节一致；宽容 `parseSpriteChunk` 对不可解帧保持跳过，不压缩其它可解帧之外的新索引政策。
+- 功能：`decodeRle` 对截断头、截断 payload、目标越界有限失败并保持 generic 0/0x80 framing；严格帧解析拒绝零长度命令；合法实心、透明、palette-0、混合帧结果与改动前逐字节一致；宽容 `parseSpriteChunk` 对不可解帧保持跳过。
 - 测试：shared RLE 定向测试、相邻 `rle-encode` 往返、shared typecheck/test；不要修改其它包测试来“守覆盖率数字”。
 - 文档：本卡、机器清单/治理路线与看板责任列更新；不改 `docs/testing/**`。
 - 视觉 / 手工验证：N/A；本批无 UI/演出改动。
@@ -109,7 +108,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 
 1. `scripts/quality/code-quality-inventory.mjs` 生成全仓逐文件 JSON 清单（可输出到临时路径），稳定输出 category/domain/module/feature、出口与生产 caller 的静态线索，并将未知职责标为 `待核`，不把静态计数当缺陷。
 2. `docs/ops/audits/code-quality-governance.md` 维护工程/模块/功能地图、问题优先级、文件级 Owner、首批停线和后续候选；正文只写已核证据，未知项单列。
-3. 首批收口 shared RLE 解码器的无进度/截断失败语义；生产算法只加边界，不动合法字节路径或资源格式。
+3. 首批收口 shared RLE 解码器的截断/越界失败语义，并保留 generic 0/0x80 framing 与 strict sprite 零长 guard；生产算法不动合法字节路径或资源格式。
 4. 每批定向门后按风险串行全仓 `pnpm check`、官方 ratchet/受保护 strict（若源码变更进入统计域），再更新本卡与看板；未全仓零诊断不宣布专项总体完成。
 
 ### 已知风险
@@ -138,7 +137,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 
 - Coding Owner：Codex
 - 修改文件：`packages/shared/src/rle.ts`、`packages/shared/src/rle.test.ts`、`packages/shared/src/rle.boundaries.test.ts`、`packages/shared/src/rle.glm-runtime-resource.test.ts`、`packages/editor/src/core/project-reference.pal.test.ts`、`scripts/coverage/baseline.fast.json`；治理清单/总纲/看板/索引
-- 实现摘要：decoder 对 zero-progress、header/command/pixel/transparent 越界显式失败；strict parser 同步拒绝 `0x80`；宽容 sprite parser 捕获不可解帧并保留后续合法帧；合法路径逐字节回归保持。
+- 实现摘要：decoder 对 header/source、pixel/transparent 越界显式失败；strict parser 保持 `0/0x80` 拒绝；宽容 sprite parser 捕获不可解帧并保留后续合法帧；generic decoder 保留合法 0/0x80 framing。
 - 运行命令：shared 全包 `vitest` 117/117、shared typecheck；game 资产相邻 39/39；reforge 资产/对话相邻 11/11；pal-extract RLE/sprite 相邻 10/10；质量清单工具 28/28；完整 `pnpm check` 通过（editor 605/4844、migrate 95/723）；`pnpm coverage:ratchet` 通过，shared 语句/分支 401/420、184/199；`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 通过；全仓 `pnpm lint`（3196 文件）零诊断。
 - 浏览器 / 手工检查：N/A
 - 跳过的检查及原因：无必须检查跳过项；无浏览器验证（非 UI）。
@@ -170,6 +169,7 @@ Worktree: `/Users/zhangxu/illegal/type-pal-code-quality`
 - 2026-10-04 Codex：核对主 checkout 未提交改动、覆盖率/E2E/文档活跃线程与 worktree；从 `origin/main@b9ba7e0fa` 建立独立工作树。读取 AGENTS、CLAUDE、READ-FIRST、agent-workflow、board、architecture-debt 及相关历史收口卡；原 13 批架构治理均已 done，本专项不重领。Next: 生成逐文件清单并完成首批 RLE 边界取证。
 - 2026-10-04 Codex：前提真值门完成，直接读取 `reference/sdlpal/palcommon.c`、shared decoder 和全部生产 callers；清单生成器与治理路线已落盘。首批白名单只含 `shared/src/rle.ts` 及同域回归，合法输入不变、畸形输入显式失败/宽容跳过。Next: 实现并跑定向/相邻回归。
 - 2026-10-04 Codex：Q1 实现完成。`decodeRle`/strict parser 增加 header、尺寸、游标、零进度和段越界失败语义；宽容入口保留坏帧跳过；历史 runtime-resource 回执中的截断死循环登记转为可反证回归。影响包定向/全包测试与 typecheck 通过，`pnpm lint` 3196 文件零诊断。Evidence: `packages/shared/src/rle*.test.ts`、`docs/testing/glm-runtime-resource-wave/receipt.md:73-81`。Next: review/选择性集成。
+- 2026-10-04 Codex：复核 raw/primary source 后修正 Q1 前提：generic `decodeRle` 的 0/0x80 no-op 只要后续 source 能填满帧就属于合法 framing；严格 sprite container 仍拒绝 zero-length command。Q1 收紧范围为截断/越界失败，避免把 sprite 上限或 strict 合同错误扩到通用 codec。
 - 2026-10-04 Codex：全仓 `pnpm check` 已串行尝试；主树 ignored raw/extracted 输入以只读 symlink 补齐后，除 editor 全包一个既有 `project-reference` 计数合同（22666→22663）外均通过；不修改该存量 oracle。候选已提交并推送 `7fde00ce302250e823fe53edd7c705560e698acf`（`codex/code-quality-governance`）。专项留在 review，统一质量门不宣称 done。Next: 用户/后续 Codex 处理存量合同后再重跑全仓门。
 - 2026-10-04 Codex：继续核实 `379304503` 与后续 `66676dc9f` 的内容/测试历史，确认 22666、4356、4450、25201/28104 是旧 census；当前 collector 与精确关系断言在 22663、4353、4448、25196/28092 下全绿。完整 check、ratchet 与 protected fast 均通过。Next: 归档本卡，保留 Q2–Q6 路线。
 - 2026-10-04 Codex：为 RLE 新增尺寸/透明段/像素段/命令流四个原子反例，shared 117/117；`pnpm coverage:ratchet` 只升不降（shared 401/420 statements、184/199 branches），`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 受保护门通过；全仓 `pnpm check` 与 lint 已通过。Next: 本卡完成，后续按 Q2–Q6 另开窄批。
