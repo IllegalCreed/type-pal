@@ -1,11 +1,12 @@
 # TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据
 
-分支 `codex/glm-reforge-runtime-session-r1`;base `origin/main` `6a5675efa`
-(r2:Codex typecheck counter 后换基重放并完成基线归属核实;开卡基 `a2857c123`,
-r1 基 `45d890e4c`,四目标源文件与其既有测试在各基间零变化,证据在 r2 基全量
-重生成)。范围:runtime input router、frame session、world-motion runtime、
-runtime project view 四文件的未证明公开合同(输入仲裁、帧推进、暂停/恢复、取消、
-迟到回执、scene token 失效、world-view 替换),不做覆盖率百分比承诺。
+分支 `codex/glm-reforge-runtime-session-r1`;base `origin/main` `0eb936cf3`
+(r3:Codex 裁决授权后完成 stale import 一行修正并全套重验;沿革:开卡基
+`a2857c123` → r1 `45d890e4c` → r2 `6a5675efa`(typecheck counter 归属核实)→
+r3 `0eb936cf3`;四目标源文件与本卡测试在各基间零变化,证据在 r3 tip 重生成)。
+范围:runtime input router、frame session、world-motion runtime、runtime project
+view 四文件的未证明公开合同(输入仲裁、帧推进、暂停/恢复、取消、迟到回执、
+scene token 失效、world-view 替换),不做覆盖率百分比承诺。
 
 ## 交付物
 
@@ -75,32 +76,27 @@ runtime project view 四文件的未证明公开合同(输入仲裁、帧推进�
 - `gameplay-clock`/`entity-motion`/`motion-batch`/`async-intent` 邻域文件不在本卡
   独占范围,仅作相邻回归运行,不新增合同。
 
-## 基线缺陷披露(非本卡引入;Codex counter 后已完成一手归属核实,详见任务卡 counter 记录)
+## 基线缺陷沿革(已按 Codex r3 裁决授权闭合)
 
-- `origin/main`(核实时 tip `6a5675efa`)上 `packages/reforge` typecheck 恒红 1 条:
-  `src/pal-script-successor-governance.test.ts(11,27): TS2307` —— 该测试 import
-  `docs/testing/script-governance/successor-repairs.json`,而提交
-  `4548a895b1ef23e3fd0cd051d9208194be0366ce`("docs: finish testing layout
-  cleanup",origin/main 祖先)已把该 JSON 以 R100 移入
-  `docs/testing/archive/legacy/batches/script-governance/` 未同步测试引用。
-- **归属一手复现(r2)**:`git worktree add --detach` 纯净检出 `origin/main`
-  `6a5675efa`(零本卡文件),install 后 `pnpm --filter @type-pal/reforge run
-  typecheck` → exit 2,唯一错误同址同文。根因链:测试 blob `2fcd7943` 自
-  `379304503`(2026-10-03,当时旧路径 JSON blob `d64b1107` 在场)至 tip 未变;
-  `4548a895b` 移档未同步 import。**结论:main 既有缺陷,非本分支拓扑**
-  (本卡 diff 不触该测试与两个 JSON 路径中的任何一个)。
-- 同一缺陷令该测试文件在 vitest 下收集失败(0 tests,import 解析失败)。全量
-  reforge 333 文件中 332 过、唯一失败文件即它,其余 8700 测试全绿(8685 基线 +
-  15 本卡)。修复涉旧测,按卡面约束留 Codex 一行修正;本卡未触碰、未加
-  ignore/豁免。
+- **缺陷与归属(r1 披露、r2 一手核实)**:`4548a895b`("docs: finish testing
+  layout cleanup",origin/main 祖先)把 `successor-repairs.json` 以 R100 移入
+  `docs/testing/archive/legacy/batches/script-governance/`(blob `d64b1107` 与
+  `379304503` 当年旧路径下逐字节一致)未同步
+  `pal-script-successor-governance.test.ts`(blob `2fcd7943`)的 import →
+  TS2307 + vitest 收集失败。纯净 origin/main 脱离工作树复现 exit 2 唯一同址错误
+  → **main 既有,非本分支拓扑**(方法与根因链见任务卡 counter 记录)。
+- **r3 闭合(Codex 授权)**:按 Codex 裁决"只做最小测试/文档路径修正"在该测试
+  第 11 行把 import 改指 archive 路径,恰一行 diff;断言/夹具/配置零改动,无
+  ignore/豁免。修正后该文件 31/31 绿(行为恢复:同一 JSON blob、同一测试 blob,
+  仅路径还原);全量 reforge 333/333 文件、8731/8731 测试;typecheck exit 0。
 
 ## 验证
 
 - 定向 4 文件 15/15 绿;相邻 12 文件 151 绿(六个同域旧测 + coordinator/clock/
   batch/wiring/entity-motion/async-intent);
-- 全量 reforge:8700/8700 测试绿 + 上述基线失败文件单列;
-- `pnpm --filter @type-pal/reforge run typecheck`:全包恰 1 错=基线 TS2307(归属见
-  上节),本卡文件 0 错误;
-- 全仓 `pnpm lint`:PASS,3287 文件 0 error/0 warning/0 info;
+- 全量 reforge:333/333 文件、8731/8731 测试全绿(含 r3 修复后恢复加载的
+  successor-governance 31 测试);
+- `pnpm --filter @type-pal/reforge run typecheck`:**exit 0 零错误**;
+- 全仓 `pnpm lint`:PASS,3295 文件 0 error/0 warning/0 info;
 - `pnpm check:docs`(含 phase-lore governance)与 testing docs:PASS(0 issues);
-- `git diff --check`:干净。r2 门禁数字均在新基 `6a5675efa` 重跑取得。
+- `git diff --check`:干净。r3 门禁数字均在基 `0eb936cf3` + 一行修正后重跑取得。

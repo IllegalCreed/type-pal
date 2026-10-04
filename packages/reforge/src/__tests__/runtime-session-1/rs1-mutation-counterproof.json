@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-04T13:03:35.140Z",
+  "generatedAt": "2026-10-04T14:16:38.468Z",
   "nodeVersion": "v22.23.2",
   "injections": [
     {
@@ -24,8 +24,8 @@
         "skipped": [],
         "artifacts": {
           "stdout": {
-            "bytes": 1016,
-            "sha256": "fe9171a3714b31b54f2c62e15fca7820871ce45700db705d36e676e31ab97901"
+            "bytes": 1015,
+            "sha256": "d051fb7a39eba900c8df6ef99f7ffa1671b814a48263d98b1c3dd06cbe33bf73"
           },
           "stderr": {
             "bytes": 1,
@@ -33,7 +33,7 @@
           },
           "console": {
             "bytes": 306,
-            "sha256": "5d28a6c1c209956136c4262149d0eb005fcc3ee03d233024a14cc46f5ad33d71"
+            "sha256": "6b13c59e995894127ee5b7ef234f52e1138ce993b3d1cdcd95ba582f89b69d7d"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.original.stdout",
@@ -56,7 +56,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 2432,
-            "sha256": "2edc9d7a848660ac3c065aef70ff8016777989dde497c2489b5f29948d8c60d3"
+            "sha256": "2472747b5b6d8953d412dd884ebf962170a350eca04fd09bf736678b9b68cb69"
           },
           "stderr": {
             "bytes": 1,
@@ -64,7 +64,7 @@
           },
           "console": {
             "bytes": 1327,
-            "sha256": "57c2bbddb4861fc926e06369eefa73ba72b7afb78c3f67f46ed7d64e744d776c"
+            "sha256": "9edab16d3c1e409eb1928e75c13181d4aa4ab7e5a002cad659b051b67eb710eb"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.mutant.stdout",
@@ -96,8 +96,8 @@
         "skipped": [],
         "artifacts": {
           "stdout": {
-            "bytes": 1016,
-            "sha256": "600d552fba45ee5090fd71a851be8b837e8f6df30ca5a8141a07a5287dc83273"
+            "bytes": 1015,
+            "sha256": "73b83c8c05aa6c3b5f6fb8e8eb1f5dbf5461c7c42ffe5cb8020baf202ab00c70"
           },
           "stderr": {
             "bytes": 1,
@@ -105,7 +105,7 @@
           },
           "console": {
             "bytes": 306,
-            "sha256": "eda0237a8d5e3a9e07ab1e4353b090cc04ac7dec30fbecbdcc85a0b75f2e678e"
+            "sha256": "17afa1ca8fdeb0122faba8b157a91cbd038633a6b78f031d7f4b20bbf532fcd1"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.restored.stdout",
@@ -146,7 +146,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 1296,
-            "sha256": "25f7c86a68f98787b58fa77d696c0cee5c2ccb05ada46fa678529c0930d923f1"
+            "sha256": "1013c26cf8fc3825fbf7b272c70847be084f2ddfd14ea38af86f10a064774e1d"
           },
           "stderr": {
             "bytes": 1,
@@ -154,7 +154,7 @@
           },
           "console": {
             "bytes": 332,
-            "sha256": "fb1d139c3077c82002bbf99a8c380c9988444322a9e4977156d46474330b401e"
+            "sha256": "5c18a8d641f5251f39062429520e7afb292b57cf12e4dea0cecae8cb536bac8d"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.original.stdout",
@@ -182,8 +182,8 @@
         ],
         "artifacts": {
           "stdout": {
-            "bytes": 2687,
-            "sha256": "fc061c985cb5e9c3ee512dbcf5465df7fc3e27a99b0d421a877935499c182847"
+            "bytes": 2696,
+            "sha256": "085f367c808f42cbb0e125f28d6fe1de0ad348a9634972473016eb34df00a272"
           },
           "stderr": {
             "bytes": 1,
@@ -191,7 +191,7 @@
           },
           "console": {
             "bytes": 1341,
-            "sha256": "d869672c2f2154845b6bd0a8d03a2c78a5d2153ade525fff3e7e72648398733f"
+            "sha256": "5798dc4911b97a18f94621bec91a7a6fcd230f9522c5e64f5e2237adc45c1060"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.mutant.stdout",
@@ -230,7 +230,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 1295,
-            "sha256": "2963eb460abac4c0db9e9f3e119edb0a1825fd38ef574503d4eb5345281dfae7"
+            "sha256": "d0ef64c5660a2455b9d01ece68ee451a714b1d6c7634f6b8600aa9fad2f2c811"
           },
           "stderr": {
             "bytes": 1,
@@ -238,7 +238,7 @@
           },
           "console": {
             "bytes": 332,
-            "sha256": "d55fbe04473aac26f9dec1acbe80f6fec6307c4f2e6d423a6f1368445c8050f9"
+            "sha256": "6724e7f084b32fb579b513ade6abcc6efa453c944c254bcf3794543c01ececbf"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.restored.stdout",
@@ -309,7 +309,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 3496,
-            "sha256": "4ae7b548e9ff23e2e9dd3d2271e377a138bb5eb2a43e13472b895a0d98369dd6"
+            "sha256": "8754fd4ebc46ef985fce80fb0c8d62ae4b7f35b4550cff32ef00339f6be79f70"
           },
           "stderr": {
             "bytes": 1,
@@ -317,7 +317,7 @@
           },
           "console": {
             "bytes": 331,
-            "sha256": "5e2633c60795524e5f1b33717a81e33e5b26af704688bfc8d2194eea28200b4c"
+            "sha256": "74b460250da3ab8bcb77a29379ea4db2ce6ad56644e3aab26317dce11da438c6"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.original.stdout",
@@ -376,7 +376,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 4450,
-            "sha256": "a24f5b9a495e25a222118141a1cde10eaf9e3c4a4bc1ac1a91c200fe79c14c65"
+            "sha256": "4ab3e643b679ee82f99bb30993caa3355df36bccfcee52fb32385a68959d412e"
           },
           "stderr": {
             "bytes": 1,
@@ -384,7 +384,7 @@
           },
           "console": {
             "bytes": 1911,
-            "sha256": "40191d74cc3489d6a5f8ced4b89cc8bb00ce2875d8d5a4691f7145a084668075"
+            "sha256": "9b817974f596ee4157d32eae71fd0cbf60803443e33d6dd691994903d83198de"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.mutant.stdout",
@@ -452,8 +452,8 @@
         ],
         "artifacts": {
           "stdout": {
-            "bytes": 3496,
-            "sha256": "cd8860cb7ea589bff7178ac198914b6b24b19dbdd739b03fee987bc2e1e5fcd9"
+            "bytes": 3497,
+            "sha256": "da6a0b4ae27d4200df4622e0d6806d17e51110210d50e3bd80e4a590ddfacf01"
           },
           "stderr": {
             "bytes": 1,
@@ -461,7 +461,7 @@
           },
           "console": {
             "bytes": 331,
-            "sha256": "4ec18a5ffa5798775ee314cfa1b4e295a861c41b4010b86992be4628eb828d76"
+            "sha256": "c8efca10625b58f3189f612639d29da3ac8f970f4058a74c208bc70668df2775"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.restored.stdout",
@@ -531,8 +531,8 @@
         ],
         "artifacts": {
           "stdout": {
-            "bytes": 3496,
-            "sha256": "6a0c839a7485ca10260e1875433ebfc6e736b8e2342dfd32d2b7beefe811100f"
+            "bytes": 3497,
+            "sha256": "4d65a45f7f5f696f2cd53e64d59bc4dc42eafd0f516e47a1154a8b3c62d0b909"
           },
           "stderr": {
             "bytes": 1,
@@ -540,7 +540,7 @@
           },
           "console": {
             "bytes": 331,
-            "sha256": "69ee803c4a0101db6b47cce6e0c417f3dfbca97b10158c7f114b84b6ddd0dbcd"
+            "sha256": "5f1ca6cf44ab42f7d4edbb20176b95eb211f4f70133e6290fd5dea12142bfb22"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.original.stdout",
@@ -599,7 +599,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 4889,
-            "sha256": "0c2b4be80f6f5f21162115c661438f122157fa8b586f1140e4724757a5c33236"
+            "sha256": "78d0262448de8ecc0abee1a14ee8cd607d48464e5865d33132cb7b65a2f762e3"
           },
           "stderr": {
             "bytes": 1,
@@ -607,7 +607,7 @@
           },
           "console": {
             "bytes": 1789,
-            "sha256": "da57ac15f3bc9721e993fa9cefdc0e1c67f560a344b2df7fa9552961cd9588a6"
+            "sha256": "cb9f91bcf2e6f080963ac2a9805e3d541dd0590fadc511fc0de749b96bc234d4"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.mutant.stdout",
@@ -676,7 +676,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 3496,
-            "sha256": "ea4f9ca87efb930842a9728d7632e0b3e9ce60ebc3025a0a248f6f5bf8f926de"
+            "sha256": "5a986dd23f4312af29319d13eef1fd397671ed85bbe4db360e77392e5c720360"
           },
           "stderr": {
             "bytes": 1,
@@ -684,7 +684,7 @@
           },
           "console": {
             "bytes": 331,
-            "sha256": "f2156b9ac570f93fee39ed4845e09774a9eac382cc2d0f037e9f463edff3bc91"
+            "sha256": "81e8ef19eeeb3526a4c038998cb19545d4ec3585c15f15de66b43d56f6348c28"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.restored.stdout",
@@ -735,7 +735,7 @@
         "artifacts": {
           "stdout": {
             "bytes": 2297,
-            "sha256": "64d25b3c5e3512ab797985787a9b606810a257a148df98af8d9486f32a063734"
+            "sha256": "6c1d82927651d4aac50586bc04c83a3b79b2aa6f392bee3176ff233dc6494d3a"
           },
           "stderr": {
             "bytes": 1,
@@ -743,7 +743,7 @@
           },
           "console": {
             "bytes": 333,
-            "sha256": "13cb2991a3f0e0489748fe160c697d87f0ca4a193732c2e7dfb42a237cb4a8ad"
+            "sha256": "fa130de44fac7c297f1ad670e6cccec6ea2f907e128907b8633573048963d373"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.original.stdout",
@@ -781,8 +781,8 @@
         ],
         "artifacts": {
           "stdout": {
-            "bytes": 3724,
-            "sha256": "aa3cb9a14d2628ed4e4a729af2afea099f38baab7b9c540804b1380c89939757"
+            "bytes": 3721,
+            "sha256": "ce7588be291a024afb236614155dc58cddf2d387fdf92ed8b840ed2c3e197f53"
           },
           "stderr": {
             "bytes": 1,
@@ -790,7 +790,7 @@
           },
           "console": {
             "bytes": 1952,
-            "sha256": "1c88f0c3101b6d6338fde8122bb98fc7bcdf509047153f5419ed5ce48879c6fb"
+            "sha256": "8480fa05bb3e4de4e1d0c455a684f96c5a8f301659c4a298fa7184b0799515ee"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.mutant.stdout",
@@ -838,8 +838,8 @@
         ],
         "artifacts": {
           "stdout": {
-            "bytes": 2296,
-            "sha256": "2830de88c6ff70b80152d2624b700db0dbc19b0ac5224b6aab6cc5f0f0e7c2be"
+            "bytes": 2297,
+            "sha256": "88e903b516998a7c3dc7a17075430bc14bae0612b83e243e1e8936530d7cc913"
           },
           "stderr": {
             "bytes": 1,
@@ -847,7 +847,7 @@
           },
           "console": {
             "bytes": 333,
-            "sha256": "c236573c6d97cde81c975a7bfa0a658881339c131432ed0ce7255f0b59ffe077"
+            "sha256": "6640ede53b98e2d988eb3103dd40ab1056a5a4b08d89b31f390efc1e18251d41"
           }
         },
         "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.restored.stdout",

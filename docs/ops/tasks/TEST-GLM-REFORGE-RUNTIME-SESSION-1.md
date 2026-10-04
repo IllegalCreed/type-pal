@@ -35,8 +35,9 @@ Visual Verification Timing: dev-functional
 - Codex 范围/前提核验: verified
 - Coding Owner / 隔离分支: GLM / `codex/glm-reforge-runtime-session-r1`
 - build 准入: Codex build allowed
-- GLM 交付回执: r1 已推;Codex counter(typecheck 基线归属);r2 归属核实+重验已推(2026-10-04)
-- Codex 独立验收: counter 中(typecheck 失败已核实为 main 既有缺陷,见下方 counter 记录;等 Codex 对基线修复与本卡候选的裁决)
+- GLM 交付回执: r1 已推;Codex counter(typecheck 基线归属);r2 归属核实+重验;
+  Codex 裁决授权一行修正;r3 修正+全套重验已推(2026-10-04)
+- Codex 独立验收: pending(r3 候选待复验;typecheck counter 已按授权闭合)
 - done 准入: blocked
 
 ## Codex 验收 counter 与归属核实(r2,2026-10-04)
@@ -75,12 +76,40 @@ archive 路径,或恢复 JSON 原路径);该修复落 main 后本分支 typechec
 `pnpm check:docs` 含新增 phase-lore governance 全 PASS;`git diff --check` 干净;
 反控 5/5 PASS 重跑确认。
 
-## GLM 交付回执(r2,2026-10-04,响应 Codex typecheck counter,待再验收)
+## Counter 闭合(r3,2026-10-04,Codex 裁决授权的一行修正)
 
-- 基 `origin/main` `6a5675efa`(r1 曾基于 `45d890e4c`,r2 换基 rebase 重放;开卡基
-  `a2857c123`;四目标源文件与既有测试在各基间零变化,证据在 r2 基全量重生成);分支
-  两提交:测试 `e1d568535` + 证据(见分支 tip);产品/旧测/配置/baseline/真实数据
-  零改动。typecheck 基线归属核实见上方 counter 记录(main 既有,非本卡拓扑)。
+**Codex r3 裁决要点**:候选 9a4113f36 的 15/15、5/5、lint/docs 已过;typecheck 失败
+即上述 stale import;当前 canonical 文件在
+`docs/testing/archive/legacy/batches/script-governance/successor-repairs.json`;
+授权"只做最小测试/文档路径修正,不得改产品逻辑、旧测试行为、配置、baseline 或加入
+ignore/豁免",并要求重跑 typecheck/定向/lint/docs/diff 后推送新 SHA。
+
+**修正前核对(最新 `origin/main` `0eb936cf34d64bdb4dca1bae84b7843114694734`)**:
+该测试 blob 仍为 `2fcd7943`(stale import 未变);canonical JSON 仅存在于 archive
+路径且 blob `d64b1107` 与 `379304503` 当年旧路径下的同一 blob(R100 重命名,
+内容逐字节一致)→ 改路径即恢复原始行为,非行为变更。`git grep` 全仓仅此一个文件
+引用旧目录,一行修正即闭合。
+
+**精确 diff**(恰一行,`packages/reforge/src/pal-script-successor-governance.test.ts:11`):
+import 路径 `../../../docs/testing/script-governance/successor-repairs.json` →
+`../../../docs/testing/archive/legacy/batches/script-governance/successor-repairs.json`。
+未改断言/夹具/配置/baseline,未加 ignore/豁免/规则降级。
+
+**r3 重验(基 `0eb936cf3`,board 冲突按新 main 解后)**:
+- `pnpm --filter @type-pal/reforge run typecheck` **exit 0,零错误**;
+- 该测试文件自身 31/31 绿(此前 0 收集 → 行为恢复证明:同一 JSON blob、同一测试
+  blob,仅路径还原);
+- 定向 4 文件 15/15;相邻 12 文件 151 绿;
+- 全量 reforge **333/333 文件、8731/8731 测试全绿**(8700 + 恢复加载的 31);
+- 全仓 lint 0/0/0(3295 文件);`pnpm check:docs` 与 testing docs PASS;
+  `git diff --check` 干净;反控三账在 r3 tip 重生成复跑 5/5 PASS。
+
+## GLM 交付回执(r3,2026-10-04,counter 已按授权闭合,待 Codex 复验)
+
+- 基 `origin/main` `0eb936cf3`(r2 曾基 `6a5675efa`,r1 基 `45d890e4c`,开卡基
+  `a2857c123`;四目标源文件与本卡测试在各基间零变化);分支三提交:本卡测试
+  `063e8e9a9` + 证据 + r3 一行修正提交(见分支 tip);除 Codex 授权的该一行 import
+  路径修正外,产品/旧测/配置/baseline/真实数据零改动。
 - **15 条合同 / 4 个专属测试文件**(`*.runtime-session-1.test.ts`):
   - 输入仲裁(1):菜单层完整按键集合原样送达,路由器不预滤、不旁路二次派发。
   - 帧推进/暂停恢复(2):混合截止时间等待到期子集逆向结算(0ms + `>=` 边界、未到期
@@ -99,34 +128,32 @@ archive 路径,或恢复 JSON 原路径);该修复落 main 后本分支 typechec
 - **三账**:identity 15 条、family ledger 15 条(biome 定稿再生成逐字节一致)、
   mutation counterproof **5/5 PASS**(每注入四态 sha256 + console/json raw + 执行集
   分账 + clean-tree + mkdtemp 清理;均以唯一业务 AssertionError 变红)。
-- **验证(r2 基重跑)**:定向 15/15;相邻 12 文件 151 绿;全量 reforge 8700/8700
-  (基线 8685+15);typecheck 本卡文件零错误(全包恰 1 错=基线 TS2307,归属见
-  counter 记录);全仓 lint 0/0/0(3287 文件);check:docs(含 phase-lore
-  governance)PASS;`git diff --check` 干净。
-- **基线缺陷披露(非本卡引入)**:`origin/main` 自 `4548a895b` 起
-  `pal-script-successor-governance.test.ts` import 已移档的
-  `successor-repairs.json` → TS2307 + vitest 收集失败(全量唯一红文件,0 测试)。
-  r1 已披露、r2 按 Codex 指令完成一手归属核实(纯净 origin/main 复现 + blob 链),
-  结论 main 既有,详见上方 counter 记录;涉旧测修复,留 Codex 处置,本卡未触碰、
-  未加任何 ignore/豁免。
+- **验证(r3 基重跑,数字见上方 Counter 闭合节)**:定向 15/15;相邻 12 文件 151 绿;
+  全量 reforge 333/333 文件、8731/8731 测试;typecheck **exit 0 零错误**;全仓
+  lint 0/0/0(3295 文件);check:docs(含 phase-lore governance)PASS;
+  `git diff --check` 干净。
+- **基线缺陷处置沿革**:r1 披露 → r2 一手归属核实(main 既有,非本卡拓扑,见
+  counter 记录)→ r3 按 Codex 裁决授权完成一行 import 路径修正并全量重验。全程未加
+  ignore/豁免/规则降级。
 - 覆盖率未测、不作为完成条件;未标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-你是 TEST-GLM-REFORGE-RUNTIME-SESSION-1 的独立验收方（Codex），这是 r2 复验。
+你是 TEST-GLM-REFORGE-RUNTIME-SESSION-1 的独立验收方（Codex），这是 r3 复验。
 先读 docs/ops/tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md 的「Codex 验收 counter
-与归属核实」节与 docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md。
-候选分支 codex/glm-reforge-runtime-session-r1（基 6a5675efa，测试提交 e1d568535 +
-证据提交，见分支 tip）。
-typecheck counter 的归属核实复核：可按卡内方法重放——git worktree add --detach
-<dir> origin/main 后 pnpm install --frozen-lockfile && pnpm --filter @type-pal/reforge
-run typecheck，应 exit 2 且唯一 TS2307 同址同文（零本卡文件）；根因链锚点
-379304503 / 4548a895b / blob 2fcd7943、d64b1107 见卡。若认可归属 main：本卡候选
-其余门禁复验用 rs1-identity-status / rs1-family-ledger（再生成零 diff）/
-rs1-mutation-counterproof（5 注入全 PASS 且源恢复）、定向 4 文件与全量 reforge、
-pnpm lint、pnpm check:docs、git diff --check；基线一行修正（import 改指
-docs/testing/archive/legacy/batches/script-governance/successor-repairs.json 或恢复
-原路径）由你在 main 侧落地，落地后本分支 rebase 即 typecheck 零错误。
+与归属核实」与「Counter 闭合(r3)」节，以及
+docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md。
+候选分支 codex/glm-reforge-runtime-session-r1（基 0eb936cf3；本卡测试 063e8e9a9 +
+证据提交 + r3 一行修正提交，见分支 tip）。
+r3 修正复核：git diff origin/main..HEAD -- packages/reforge/src/pal-script-successor-governance.test.ts
+应恰为一行 import 路径变更（旧目录 → docs/testing/archive/legacy/batches/
+script-governance/successor-repairs.json，blob d64b1107 与当年旧路径逐字节一致），
+断言/夹具/配置零改动；归属链锚点 379304503 / 4548a895b / blob 2fcd7943 见卡。
+门禁复验：pnpm --filter @type-pal/reforge run typecheck（应 exit 0）、该测试自身
+31/31、定向 4 文件 15/15、全量 reforge 333 文件 8731 测试、
+node packages/reforge/scripts/rs1-identity-status.mjs、rs1-family-ledger.mjs
+（再生成零 diff）、rs1-mutation-counterproof.mjs（5 注入全 PASS 且源恢复）、
+pnpm lint、pnpm check:docs、git diff --check。
 裁决 accept/counter/rework；未验收前不合 main、不标 done。
 ```
