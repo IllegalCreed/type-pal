@@ -32,10 +32,10 @@
 | A2 Reforge战斗宿主（[r1 done](../archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md)） | 7f3840e6 main.ts:2149–2505，资源准备、会话、结算、战后脚本由大闭包调度 | 46287966 BattleHost/准备单元已落；main6798→6486；独立所有权，不改核心 | 23新增/11针/check8463/strict7972/637与真实功能验证通过；自审两处时序补正已闭 |
 | A3 Reforge世界/帧循环（[首段done](../archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)、[资源预检段done](../../testing/scene-preparation-refactor.md)、[活动场景/镜头段accept](../../testing/domains/runtime/scene/active-scene/report.md)、[移动/绘制已完成](../../testing/domains/runtime/world/world-runtime/report.md)） | 原大闭包同时拥有场景资源、镜头、移动、绘制；各分段以冻结SHA重定位 | 7be10bf4已迁WorldMotionRuntime/WorldScenePresentation；main6486→6427→6260→6148→5698 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B1 编辑器App（[会话所有权已完成](../../testing/editor-app-sessions-refactor.md)） | App.tsx原5170行，导航/保存/历史/试打/场景选择混在总壳 | 四个hook分别拥有导航、场景工作区、试玩和工程生命周期；App降至4688行，既有guard/history不复制 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
-| B2 地图工作区（[owner已完成](../../testing/map-workspace-sessions-refactor.md)） | 当前批MapMode 3819行，手势临时态/变换剪贴板/视图与结构确认混在宿主 | 3c3fccda..3a633ed7迁出四类session并保留既有selection reducer；MapMode降至3734行，只留坐标、权限、plan/command与同步提交 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
+| B2 地图工作区（[owner已完成](../../testing/domains/editor/map/map-workspace-sessions/report.md)） | 当前批MapMode 3819行，手势临时态/变换剪贴板/视图与结构确认混在宿主 | 3c3fccda..3a633ed7迁出四类session并保留既有selection reducer；MapMode降至3734行，只留坐标、权限、plan/command与同步提交 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | B3 脚本/内容表单 | ScriptEditor.tsx:1710单表单913行；CommandForm.tsx:257单组件1842行 | 已拆四命令族表单、共享控件和作者桥合同，不传完整宿主context | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | C1 战斗会话 | BattleSession:217单类2806行/134成员，tick:1191为488行 | 已拆readiness、命令选择、动作演出和结算呈现四owner；tick保留业务协调顺序 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
-| D1 第一阶段依赖环（[已完成](../../testing/phase1-dependency-refactor.md)） | 原7文件运行时SCC | d488f72e将脚本目录/背包/毒/装备状态/地图身份/菜单栈下沉，静态运行期环清零 | 161函数体/旧出口保持、8新增/三针、PAL全包与最小功能验证；check8678/strict8186/654 |
+| D1 第一阶段依赖环（[已完成](../../testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md)） | 原7文件运行时SCC | d488f72e将脚本目录/背包/毒/装备状态/地图身份/菜单栈下沉，静态运行期环清零 | 161函数体/旧出口保持、8新增/三针、PAL全包与最小功能验证；check8678/strict8186/654 |
 | D2 第一阶段大主控 | event-system5784行/applyRawOpcode1459行；battle-system3749行；bootstrap1946行 | 已拆角色opcode、战斗资源/终态/成长/结算、启动资源owner；原公共入口保留 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | E1 迁移转换 | migrate-content3314行/mapScenesStatic808行；translate-events2472行/walkBody1184行 | 已拆移动族翻译和场景源规划纯内存owner；调用壳保留上下文与最终结果编排 | 分项回归/严格反控与隔离功能证据见统一回执；check9573/strict9081/728通过，已完成 |
 | E2 内容校验边界（[已完成](../../testing/content-validation-refactor.md)） | 原author-script-core ↔ enemy-script 双向依赖 | 4cdefcf1拆协议/形状/AI/演出，50函数体保持、运行期环清零 | ebef3d5a单独修嵌套cue漏options；13项先红后绿，和D1统一门禁；非“有环即有bug” |
@@ -67,7 +67,7 @@
 ## 批次与风险纪律
 
 1. 首批A1[任务卡](../archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md)已按本批用户单席豁免完成；
-   [回执](../../testing/menu-session-refactor.md)保留模式与证据；后续卡按上述用户新的全队列独立授权推进。
+   [回执](../../testing/domains/runtime/menu/menu-session/report.md)保留模式与证据；后续卡按上述用户新的全队列独立授权推进。
 2. 上述队列不是全仓同时build授权；一批只改变一个主要状态所有权边界，Coding Owner唯一。
 3. 无行为变化的重构与实际bug修复分别提交。发现原测试把缺陷当合同，先做直接反证，不盲目保留或直接改预期。
 4. 不重写schema/SAVE8/content20，不改公式/原版玩法，不以重构夹带新UI。需要改变这些时另开相应卡。

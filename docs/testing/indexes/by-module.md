@@ -56,11 +56,29 @@
 |---|---|---|---|
 | e2e-001 | [001 开场](../e2e/stages/001-opening/report.md) | verified | Codex |
 
+## editor/commands
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| editor-command-form-families | [编辑器命令表单族所有权](../domains/editor/commands/command-form-families/report.md) | current | Codex |
+
+## editor/map
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| editor-map-workspace-sessions | [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md) | current | Codex |
+
 ## ops/testing-governance
 
 | ID | 文档 | 状态 | Owner |
 |---|---|---|---|
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
+
+## phase1-runtime/dependencies
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| phase1-dependency-ownership | [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | current | Codex |
 
 ## runtime/battle
 
@@ -68,6 +86,12 @@
 |---|---|---|---|
 | runtime-battle-host | [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md) | current | Codex |
 | runtime-battle-session-owners | [战斗会话 readiness、结算与指令选择](../domains/runtime/battle/battle-session-owners/report.md) | current | Codex |
+
+## runtime/menu
+
+| ID | 文档 | 状态 | Owner |
+|---|---|---|---|
+| reforge-menu-session | [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md) | current | Codex |
 
 ## runtime/scene
 

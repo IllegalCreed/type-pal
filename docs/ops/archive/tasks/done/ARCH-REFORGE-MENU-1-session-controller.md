@@ -68,13 +68,13 @@ Visual Verification Timing: dev-functional
 - 2026-09-24 Codex：用户确认本批独立实施/自验收口，现核build allowed；开始代码拆分。
 - 2026-09-24 Codex：主壳7153→6798，15个菜单/物品可变状态归入MenuSession与ItemUseSession；
   菜单控制器最大方法85行，输入入口只路由。40真实宿主回归、27直接单元、20存档链、54正控/8负控、
-  155冻结输入序列及浏览器菜单最小验证通过，check8439 exit0。[实施记录](../../../../testing/menu-session-refactor.md)。
+  155冻结输入序列及浏览器菜单最小验证通过，check8439 exit0。[实施记录](../../../../testing/domains/runtime/menu/menu-session/report.md)。
   进入review，官方ratchet与受保护单次strict尚待，不提前done。
 - 2026-09-24 Codex自审补强：增加1条真实菜单存m01/坏档拒绝/好档恢复闭环和两针端口变异，
   弥补原H5只走快捷键的接线证据缺口；原产品实现与旧断言未改。新合计28项、55正控/10针，
   中间ratchet7948/635不作最终验收，随后统一重跑最终树门禁。
 - 2026-09-24 Codex：最终dbe55b55通过check8440、ratchet与保护09429b6c的单次strict7949/635。
-  [机账](../../../../testing/menu-session-refactor-evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。
+  [机账](../../../../testing/domains/runtime/menu/menu-session/evidence.json)含17个未改关键函数hash、范围/指标对账、负控及浏览器记录。
   另六包完整基线不变；新模块完整纳入，合并主壳/两模块核分母+60行，不伪装为同分母纯补测。
   本批核done并同步索引/看板。DEMO-CURRENT-1、s135调试落点观察、A2/A3与第一阶段后续不借此关闭。
 

@@ -29,6 +29,14 @@
 - e2e-005 — [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md)（verified）
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
 
+## commands
+
+- editor-command-form-families — [编辑器命令表单族所有权](../domains/editor/commands/command-form-families/report.md)（current）
+
+## dependencies
+
+- phase1-dependency-ownership — [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md)（current）
+
 ## dialogue
 
 - e2e-001 — [001 开场](../e2e/stages/001-opening/report.md)（verified）
@@ -36,6 +44,10 @@
 
 ## document-audit
 
+- editor-command-form-families — [编辑器命令表单族所有权](../domains/editor/commands/command-form-families/report.md)（current）
+- editor-map-workspace-sessions — [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md)（current）
+- phase1-dependency-ownership — [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md)（current）
+- reforge-menu-session — [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md)（current）
 - runtime-active-scene — [活动场景资源与镜头所有权](../domains/runtime/scene/active-scene/report.md)（current）
 - runtime-battle-host — [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md)（current）
 - runtime-battle-session-owners — [战斗会话 readiness、结算与指令选择](../domains/runtime/battle/battle-session-owners/report.md)（current）
@@ -73,9 +85,14 @@
 
 - legacy-flat-audit — [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md)（current）
 
+## map
+
+- editor-map-workspace-sessions — [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md)（current）
+
 ## menu
 
 - e2e-004 — [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md)（verified）
+- reforge-menu-session — [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md)（current）
 
 ## migration
 
@@ -93,6 +110,10 @@
 
 ## ownership
 
+- editor-command-form-families — [编辑器命令表单族所有权](../domains/editor/commands/command-form-families/report.md)（current）
+- editor-map-workspace-sessions — [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md)（current）
+- phase1-dependency-ownership — [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md)（current）
+- reforge-menu-session — [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md)（current）
 - runtime-active-scene — [活动场景资源与镜头所有权](../domains/runtime/scene/active-scene/report.md)（current）
 - runtime-battle-host — [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md)（current）
 - runtime-battle-session-owners — [战斗会话 readiness、结算与指令选择](../domains/runtime/battle/battle-session-owners/report.md)（current）

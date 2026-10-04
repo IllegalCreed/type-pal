@@ -32,7 +32,6 @@
 | [glm-content-residual-mutants.mjs](../glm-content-residual-mutants.mjs) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [glm-content-residual.config.mts](../glm-content-residual.config.mts) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [glm-content-residual.md](../glm-content-residual.md) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
-| [map-workspace-sessions-refactor.md](../map-workspace-sessions-refactor.md) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [scene-preparation-mutants.mjs](../scene-preparation-mutants.mjs) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [scene-preparation-refactor.md](../scene-preparation-refactor.md) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [scene-reference-guard-visual.mjs](../scene-reference-guard-visual.mjs) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | filename-hint-only |
@@ -95,16 +94,15 @@
 | [glm-content-contracts.md](../glm-content-contracts.md) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [map-pointer-gesture-mutants.mjs](../map-pointer-gesture-mutants.mjs) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [map-workspace-sessions-mutants.mjs](../map-workspace-sessions-mutants.mjs) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
-| [map-workspace-sessions-refactor-evidence.json](../map-workspace-sessions-refactor-evidence.json) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [scene-reference-guard-mutants.mjs](../scene-reference-guard-mutants.mjs) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [scene-reference-guard.md](../scene-reference-guard.md) | authoring-and-runtime | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [battle-simulator-assessment.md](../battle-simulator-assessment.md) | battle | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [battle-simulator-s1-mutants.mjs](../battle-simulator-s1-mutants.mjs) | battle | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [glm-arch-battle-field-commands.md](../glm-arch-battle-field-commands.md) | battle | retain-legacy | candidate-needs-depth-review | body-source-paths |
+| [command-form-families-refactor-evidence.json](../domains/editor/commands/command-form-families/evidence.json) | commands | migrated | reviewed | reviewed-migration-batch |
+| [command-form-families-refactor.md](../domains/editor/commands/command-form-families/report.md) | commands | migrated | reviewed | reviewed-migration-batch |
 | [codex-plus2-ui.md](../codex-plus2-ui.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [command-form-families-mutants.mjs](../command-form-families-mutants.mjs) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
-| [command-form-families-refactor-evidence.json](../command-form-families-refactor-evidence.json) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
-| [command-form-families-refactor.md](../command-form-families-refactor.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [cursor-author-guides-batch.md](../cursor-author-guides-batch.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [cursor-author-guides-review.md](../cursor-author-guides-review.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [cursor-command-boundaries-r3-integration.md](../cursor-command-boundaries-r3-integration.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
@@ -157,12 +155,13 @@
 | [item-logic-r7-review.md](../item-logic-r7-review.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [item-logic-required-witnesses.mjs](../item-logic-required-witnesses.mjs) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [menu-session-refactor-mutants.mjs](../menu-session-refactor-mutants.mjs) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
-| [menu-session-refactor.md](../menu-session-refactor.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [parallel-guard-command-r2-review-witnesses.mjs](../parallel-guard-command-r2-review-witnesses.mjs) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [preview-controls.md](../preview-controls.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [script-card-ui.md](../script-card-ui.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [sprite-selection-mutants.mjs](../sprite-selection-mutants.mjs) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [sprite-selection.md](../sprite-selection.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
+| [map-workspace-sessions-refactor-evidence.json](../domains/editor/map/map-workspace-sessions/evidence.json) | map | migrated | reviewed | reviewed-migration-batch |
+| [map-workspace-sessions-refactor.md](../domains/editor/map/map-workspace-sessions/report.md) | map | migrated | reviewed | reviewed-migration-batch |
 | [editor-save-recovery-capability-review.md](../editor-save-recovery-capability-review.md) | save-and-recovery | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [editor-save-recovery-closeout.md](../editor-save-recovery-closeout.md) | save-and-recovery | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [editor-save-recovery-glm-batch.md](../editor-save-recovery-glm-batch.md) | save-and-recovery | retain-legacy | candidate-needs-depth-review | body-source-paths |
@@ -266,10 +265,11 @@
 
 | 文件 | 模块 | 处理 | 深审状态 | 分类依据 |
 |---|---|---|---|---|
+| [phase1-dependency-refactor-evidence.json](../domains/phase1-runtime/dependencies/dependency-ownership/evidence.json) | dependencies | migrated | reviewed | reviewed-migration-batch |
+| [phase1-dependency-refactor.md](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | dependencies | migrated | reviewed | reviewed-migration-batch |
 | [cursor-guide-revision-review.md](../cursor-guide-revision-review.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [glm-game-menu-boundaries.md](../glm-game-menu-boundaries.md) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [gemini-phase1-stats-integration.md](../gemini-phase1-stats-integration.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
-| [phase1-dependency-refactor-evidence.json](../phase1-dependency-refactor-evidence.json) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [phase1-main-owners-mutants.mjs](../phase1-main-owners-mutants.mjs) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [phase1-main-owners-refactor-evidence.json](../phase1-main-owners-refactor-evidence.json) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [phase1-player-opcode-mutants.mjs](../phase1-player-opcode-mutants.mjs) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
@@ -370,7 +370,6 @@
 | [glm-battle-workflows-mutants.mjs](../glm-battle-workflows-mutants.mjs) | battle | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [glm-battle-workflows.md](../glm-battle-workflows.md) | battle | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [menu-session-parity.mjs](../menu-session-parity.mjs) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
-| [menu-session-refactor-evidence.json](../menu-session-refactor-evidence.json) | editor-workflows | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [codex-runtime-shell-evidence.json](../codex-runtime-shell-evidence.json) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [codex-runtime-shell-mutants.mjs](../codex-runtime-shell-mutants.mjs) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [codex-runtime-shell-wave2-evidence.json](../codex-runtime-shell-wave2-evidence.json) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
@@ -393,7 +392,6 @@
 | [grok-phase1-composition-review.md](../grok-phase1-composition-review.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [phase1-dependency-refactor-audit.mjs](../phase1-dependency-refactor-audit.mjs) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [phase1-dependency-refactor-mutants.mjs](../phase1-dependency-refactor-mutants.mjs) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
-| [phase1-dependency-refactor.md](../phase1-dependency-refactor.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [phase1-main-owners-refactor.md](../phase1-main-owners-refactor.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [reforge-runtime-contracts-review-witnesses.mjs](../reforge-runtime-contracts-review-witnesses.mjs) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [reforge-runtime-contracts-review.md](../reforge-runtime-contracts-review.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
@@ -403,6 +401,8 @@
 | [runtime-frame-refactor-evidence.json](../runtime-frame-refactor-evidence.json) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [runtime-frame-refactor.md](../runtime-frame-refactor.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | filename-hint-only |
 | [runtime-state-review.md](../runtime-state-review.md) | engine-boundaries | retain-legacy | candidate-needs-depth-review | body-source-paths |
+| [menu-session-refactor-evidence.json](../domains/runtime/menu/menu-session/evidence.json) | menu | migrated | reviewed | reviewed-migration-batch |
+| [menu-session-refactor.md](../domains/runtime/menu/menu-session/report.md) | menu | migrated | reviewed | reviewed-migration-batch |
 | [checkpoint-export-mutants.mjs](../checkpoint-export-mutants.mjs) | save-and-recovery | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [checkpoint-export.md](../checkpoint-export.md) | save-and-recovery | retain-legacy | candidate-needs-depth-review | body-source-paths |
 | [active-scene-evidence.json](../domains/runtime/scene/active-scene/evidence.json) | scene | migrated | reviewed | reviewed-migration-batch |

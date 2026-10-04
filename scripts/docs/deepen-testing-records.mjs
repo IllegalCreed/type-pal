@@ -8,14 +8,10 @@ import { fileURLToPath } from 'node:url'
 // Old publication bytes are retained under history/; no runtime tests are run here.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const testing = resolve(root, 'docs/testing')
-const base = execFileSync(
-  'git',
-  ['rev-parse', 'd02278dc0154dd73b5db24388a35c30bb096cc81^{commit}'],
-  {
-    cwd: root,
-    encoding: 'utf8',
-  },
-).trim()
+const base = execFileSync('git', ['rev-parse', 'HEAD^{commit}'], {
+  cwd: root,
+  encoding: 'utf8',
+}).trim()
 const gitSha = (value) =>
   value
     ? execFileSync('git', ['rev-parse', `${value}^{commit}`], {
@@ -374,6 +370,236 @@ const domains = [
     findings:
       '旧正文中的不合 main/未统一门仅为候选时点；当前由 unified integration 收口。未读取 console 的原最小功能过程保持未证，不倒填 console 零错误；完整剧情观感仍另归 E2E。',
   },
+  {
+    id: 'editor-command-form-families',
+    domain: 'editor',
+    module: 'commands',
+    slug: 'command-form-families',
+    plan: '/docs/testing/archive/migrations/testing-domains-20261004-wave2.json',
+    title: '编辑器命令表单族所有权',
+    implementation: 'e538d924',
+    legacy: 'command-form-families-refactor.md',
+    originalEvidence: 'command-form-families-refactor-evidence.json',
+    refs: [
+      ref('packages/editor/src/ui/CommandForm.tsx', 'export function CommandForm', 'caller', 12),
+      ref(
+        'packages/editor/src/ui/command-form-contract.ts',
+        'export function createAuthorCommandFormBridge',
+        'contract',
+        24,
+      ),
+      ref(
+        'packages/editor/src/ui/command-form-family-ownership.test.ts',
+        "describe('command form family ownership'",
+        'oracle',
+        24,
+      ),
+      ref(
+        'packages/editor/src/ui/command-form-contract.test.ts',
+        "describe('author command form bridge'",
+        'oracle',
+        18,
+      ),
+    ],
+    callers: [
+      'ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch',
+      'CommandForm → dialogue/actor/world/control typed subforms',
+    ],
+    inputs: [
+      'current typed AuthorCommand/SharedAuthorCommand',
+      'current editor project guards',
+      'family-specific form props and author bridge',
+    ],
+    assertions: [
+      'kind dialect cannot drift across bridge',
+      'family owner emits legal command shape',
+      'shared controls remain single implementation',
+    ],
+    dedupe:
+      'B3 report/evidence are architecture ownership records; design-system and command-form mutant tools remain legacy until their relative imports and public runners are separately moved. No coverage credit is added by this source audit.',
+    findings:
+      'Historical candidate was later unified by architecture-continuation integration; original candidate counters and strict numbers remain history. This report records current caller/source boundaries, not a new UI run.',
+  },
+  {
+    id: 'reforge-menu-session',
+    domain: 'runtime',
+    module: 'menu',
+    slug: 'menu-session',
+    plan: '/docs/testing/archive/migrations/testing-domains-20261004-wave2.json',
+    title: 'Reforge 菜单与物品会话所有权',
+    implementation: 'dbe55b55',
+    legacy: 'menu-session-refactor.md',
+    originalEvidence: 'menu-session-refactor-evidence.json',
+    refs: [
+      ref('packages/reforge/src/menu/menu-session.ts', 'export class MenuSession', 'contract', 24),
+      ref(
+        'packages/reforge/src/menu/item-use-session.ts',
+        'export class ItemUseSession',
+        'contract',
+        18,
+      ),
+      ref(
+        'packages/reforge/src/menu/menu-session.test.ts',
+        "test('closed menu ignores input",
+        'oracle',
+        24,
+      ),
+      ref(
+        'packages/reforge/src/menu/item-use-session.test.ts',
+        "test('item operation owns the pending slot",
+        'oracle',
+        18,
+      ),
+    ],
+    callers: [
+      'main menu input → MenuSession',
+      'main item action → ItemUseSession → world/save ports',
+    ],
+    inputs: [
+      'typed menu input',
+      'current world/save port',
+      'AbortSignal and canonical item/skill/actor inputs',
+    ],
+    assertions: [
+      'cancelled item use remains owned until settle',
+      'menu pop restores the correct view',
+      'save/load completion is observed through real port events',
+    ],
+    dedupe:
+      'A1 report/evidence covers menu/session ownership; historical parity and mutant tools remain legacy until caller/import audit. Runtime E2E and coverage are separate.',
+    findings:
+      'Historical A1 receipt states its original SAVE8/content20 scope and browser boundary. Current source audit does not rerun the PAL menu or storage chain.',
+  },
+  {
+    id: 'editor-map-workspace-sessions',
+    domain: 'editor',
+    module: 'map',
+    slug: 'map-workspace-sessions',
+    plan: '/docs/testing/archive/migrations/testing-domains-20261004-wave2.json',
+    title: '编辑器地图工作区会话所有权',
+    implementation: '3a633ed7',
+    legacy: 'map-workspace-sessions-refactor.md',
+    originalEvidence: 'map-workspace-sessions-refactor-evidence.json',
+    refs: [
+      ref('packages/editor/src/ui/MapMode.tsx', '} = useMapPointerGestureSession({', 'caller', 18),
+      ref(
+        'packages/editor/src/ui/map-pointer-gesture-session.ts',
+        'export class MapPointerGestureSession',
+        'contract',
+        24,
+      ),
+      ref(
+        'packages/editor/src/ui/map-pointer-gesture-session.test.tsx',
+        "describe('map pointer gesture session ownership'",
+        'oracle',
+        18,
+      ),
+      ref(
+        'packages/editor/src/ui/map-transform-session.test.ts',
+        "describe('map transform session ownership'",
+        'oracle',
+        18,
+      ),
+      ref(
+        'packages/editor/src/ui/map-workspace-view-session.test.tsx',
+        "describe('map workspace view session ownership'",
+        'oracle',
+        18,
+      ),
+    ],
+    callers: [
+      'MapMode → pointer gesture session',
+      'MapMode → transform/view/stamp sessions → reducered command dispatch',
+    ],
+    inputs: [
+      'current MapMode project/map revision',
+      'trusted pointer session and pointerId',
+      'typed map command plan with revision guard',
+    ],
+    assertions: [
+      'pointer cancel/lost capture has zero command writes',
+      'clipboard/session state respects map and EditSession identity',
+      'stale structure confirmation cannot commit',
+    ],
+    dedupe:
+      'B2 report/evidence covers owner separation; pointer/transform/view tools remain legacy until their UI runner/cwd and temporary tree lifecycle are separately audited.',
+    findings:
+      'Historical browser path was a minimum functional check only; native clipboard and full visual matrix remain explicitly unverified. This source audit preserves that limit.',
+  },
+  {
+    id: 'phase1-dependency-ownership',
+    domain: 'phase1-runtime',
+    module: 'dependencies',
+    slug: 'dependency-ownership',
+    plan: '/docs/testing/archive/migrations/testing-domains-20261004-wave2.json',
+    title: '第一阶段依赖所有权拆分',
+    implementation: 'd488f72e',
+    legacy: 'phase1-dependency-refactor.md',
+    originalEvidence: 'phase1-dependency-refactor-evidence.json',
+    refs: [
+      ref(
+        'packages/game/src/core/script-catalog.ts',
+        'export function patchGiveItemZeroBugs',
+        'owner',
+        8,
+      ),
+      ref(
+        'packages/game/src/core/inventory-state.ts',
+        'export function addItemToInventory',
+        'owner',
+        14,
+      ),
+      ref(
+        'packages/game/src/core/equipment-state.ts',
+        'export const MAX_PLAYER_EQUIPMENTS',
+        'owner',
+        8,
+      ),
+      ref(
+        'packages/game/src/core/player-poison-state.ts',
+        'export function setObjectPoisons',
+        'owner',
+        8,
+      ),
+      ref(
+        'packages/game/src/core/scene-identity.ts',
+        'export function getCurrentMapNum',
+        'owner',
+        8,
+      ),
+      ref(
+        'packages/game/src/core/menu/menu-stack.ts',
+        'export function resumeAfterMenusClosed',
+        'owner',
+        8,
+      ),
+      ref(
+        'packages/game/src/core/dependency-ownership.test.ts',
+        "describe('D1 shared-state ownership",
+        'oracle',
+        20,
+      ),
+      ref('packages/game/src/core/cross-module-boundaries.test.ts', "describe('G07", 'oracle', 20),
+    ],
+    callers: [
+      'game event/scene/equipment/battle/menu consumers → single lower owner modules',
+      'dependency-ownership and cross-module boundary tests',
+    ],
+    inputs: [
+      'current GameState',
+      'current event/battle/menu typed commands',
+      'PAL runtime data and synchronous scene identity',
+    ],
+    assertions: [
+      'static runtime SCC is zero',
+      'old exports and function bodies retain contracts',
+      'inventory/poison/equipment/scene/menu state has one owner',
+    ],
+    dedupe:
+      'D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts remain legacy tools with explicit package-relative imports. It does not close gameplay/E2E or coverage.',
+    findings:
+      'Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check. Current source audit does not rerun PAL or reclassify the old warnings.',
+  },
 ]
 
 const catalog = JSON.parse(read('docs/testing/catalog.json'))
@@ -400,7 +626,7 @@ function decorate(entry, refs, issue) {
     id: entry.id,
     kind: 'document-audit',
     status: entry.status,
-    candidateSha: base,
+    candidateSha: entry.revision.currentSha,
     versions: { content: 22, minimumSave: 11 },
     sourceRefs: refs,
     publicCallers: entry.publicCallers,
@@ -453,7 +679,7 @@ for (const entry of catalog.entries.filter((entry) => e2e[entry.id])) {
 }
 
 for (const audit of domains) {
-  const directory = `domains/runtime/${audit.module}/${audit.slug}`
+  const directory = `domains/${audit.domain ?? 'runtime'}/${audit.module}/${audit.slug}`
   const absolute = resolve(testing, directory)
   const history = resolve(absolute, 'history')
   mkdirSync(history, { recursive: true })
@@ -471,7 +697,7 @@ for (const audit of domains) {
     engines: ['reforge'],
     owner: 'Codex',
     provenance: ['Codex'],
-    domain: 'runtime',
+    domain: audit.domain ?? 'runtime',
     module: audit.module,
     canonical: `${directory}/report.md`,
     index: `${directory}/README.md`,
@@ -502,6 +728,7 @@ for (const audit of domains) {
       originalEvidence: audit.originalEvidence,
       supersededBy: audit.id,
     },
+    supersedes: [audit.legacy, audit.originalEvidence],
   }
   const header = decorate(entry, [...audit.refs, versionRef()], audit.findings)
   const lines = audit.refs
@@ -514,6 +741,16 @@ for (const audit of domains) {
     resolve(absolute, 'report.md'),
     `${header}# ${audit.title}\n\n## 复核范围与结论\n\n${audit.findings}\n\n本轮结论为当前源码接线与历史出版记录已核读。没有重跑运行时、旧反控、浏览器或覆盖率；历史证据不可因文档治理升级为当前动态验证。\n\n## 真实 caller、输入与业务 oracle\n\n${lines}\n\n公开调用链：${audit.callers.join('；')}。合法输入：${audit.inputs.join('；')}。\n\n业务判据：${audit.assertions.join('；')}。这里是对既有测试合同的核读，不是新增测试或历史运行真实性再认证。\n\n## 排重和处理理由\n\n${audit.dedupe}\n\n保留唯一历史 report/evidence；当前索引与报告 supersede 原平面材料的导航和当前状态口径，原失败、warnings、计数和候选 SHA 均由 [历史报告](history/report.md) 和 [原始机账](history/evidence.json) 保留。\n\n## 证据与 revision\n\n[配对文档核读证据](evidence.json)记录 source hashes。原始材料迁移前 hash 在 [迁移计划](/docs/testing/archive/migrations/testing-domains-20261004.json)；当前内容22/保存11，历史内容20/保存8不升级。\n\n2026-10-04：基线 ${base}，迁移+source audit；未重新执行产品，原作者验收与历史 counter 按旧记录保留。\n`,
   )
+  if (audit.plan) {
+    const reportPath = resolve(absolute, 'report.md')
+    writeFileSync(
+      reportPath,
+      readFileSync(reportPath, 'utf8').replace(
+        '/docs/testing/archive/migrations/testing-domains-20261004.json',
+        audit.plan,
+      ),
+    )
+  }
   writeFileSync(
     resolve(absolute, 'README.md'),
     `# ${audit.title}\n\n- [当前文档核读报告](report.md)\n- [配对 evidence](evidence.json)\n- [历史出版记录](history/README.md)\n\n状态：current（source audit），当前版本 content22/SAVE11。历史动态验收见原报告，不用 source review 冒充实跑。\n`,

@@ -1,13 +1,13 @@
 # B3 命令表单族所有权候选
 
-后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点 `b3eada17`；实现 `ec813052`、`83a8f7be`、`951131d8`、`a5744ee1`、
 `e538d924`；设计审计性能与证据迁移 `703e14cb`、`be2796e6`、`badd411c`、`f4beb777`；所属
-[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](/docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话统一集成和执行 check/ratchet/strict。完整计数、命令和未证项见
-[机账](command-form-families-refactor-evidence.json)。
+[机账](evidence.json)。
 
 ## 所有权边界
 
@@ -39,7 +39,7 @@ field-layout census 的生产 owner 路径全部迁到真实族文件，旧 `Com
 - 表单族定向 5 文件 51/51；设计所有权轻量相邻 7 文件 53/53；Editor 整包 334 文件/2879 项；TypeScript、
   production build 与设计门通过。build 仅保留既有大 chunk 提示。候选 24 个 Biome 文件零 error；
   `boundary.test.ts` 的 5 条 warning 在基点已存在，本批未扩大。
-- [十二针](command-form-families-mutants.mjs)覆盖对话身份/单行删除/删除选择、队伍删除、角色条件默认值、
+- [十二针](/docs/testing/command-form-families-mutants.mjs)覆盖对话身份/单行删除/删除选择、队伍删除、角色条件默认值、
   wait/fade/entity state/world variable 提交、loadScene 目标、bridge kind 与作者 identity。control 20/20；
   12 个坏实现全部由指定候选测试的单一 `AssertionError` 检出。最终临时机账：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-command-form-families-mutants-sDJzxA/summary.json`。

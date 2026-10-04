@@ -770,6 +770,7 @@
         "originalEvidence": "active-scene-evidence.json",
         "supersededBy": "runtime-active-scene"
       },
+      "supersedes": ["active-scene-refactor.md", "active-scene-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -880,6 +881,7 @@
         "originalEvidence": "battle-host-refactor-evidence.json",
         "supersededBy": "runtime-battle-host"
       },
+      "supersedes": ["battle-host-refactor.md", "battle-host-refactor-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -984,6 +986,10 @@
         "originalEvidence": "battle-session-owners-refactor-evidence.json",
         "supersededBy": "runtime-battle-session-owners"
       },
+      "supersedes": [
+        "battle-session-owners-refactor.md",
+        "battle-session-owners-refactor-evidence.json"
+      ],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
@@ -1095,6 +1101,7 @@
         "originalEvidence": "world-runtime-refactor-evidence.json",
         "supersededBy": "runtime-world-owners"
       },
+      "supersedes": ["world-runtime-refactor.md", "world-runtime-refactor-evidence.json"],
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
@@ -1185,7 +1192,7 @@
           "lines": "1-20",
           "anchor": "\"schemaVersion\": 1",
           "role": "legacy manifest",
-          "sha256": "5457deb986251b30c833992888600f45d0055d914bac3ce601619c45f872c454"
+          "sha256": "7cfd4cb357033237ab022f99df6bb9bd2952805e2276efdca97c1e43fc717b3e"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1224,7 +1231,7 @@
           "docs/testing/archive/migrations/testing-domains-20261004.json",
           "docs/testing/catalog.json"
         ],
-        "notes": "Classification is the complete census; only the 20-file reviewed batch is physically migrated. Retained legacy files are not silently deleted or promoted to verified."
+        "notes": "Classification is the complete census; only the 28-file reviewed batches is physically migrated. Retained legacy files are not silently deleted or promoted to verified."
       },
       "revision": {
         "currentSha": "35e2b8d07c310a15c69f5e013a6d748c2146042e",
@@ -1239,6 +1246,463 @@
           }
         ]
       }
+    },
+    {
+      "id": "editor-command-form-families",
+      "kind": "report",
+      "title": "编辑器命令表单族所有权",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "editor",
+      "module": "commands",
+      "canonical": "domains/editor/commands/command-form-families/report.md",
+      "index": "domains/editor/commands/command-form-families/README.md",
+      "evidence": "domains/editor/commands/command-form-families/evidence.json",
+      "tags": ["ownership", "commands", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
+        "CommandForm → dialogue/actor/world/control typed subforms"
+      ],
+      "legalInputs": [
+        "current typed AuthorCommand/SharedAuthorCommand",
+        "current editor project guards",
+        "family-specific form props and author bridge"
+      ],
+      "businessOracle": {
+        "type": "editor-command-form-families",
+        "assertions": [
+          "kind dialect cannot drift across bridge",
+          "family owner emits legal command shape",
+          "shared controls remain single implementation"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/editor/commands/command-form-families/history/report.md"
+        ],
+        "notes": "B3 report/evidence are architecture ownership records; design-system and command-form mutant tools remain legacy until their relative imports and public runners are separately moved. No coverage credit is added by this source audit."
+      },
+      "historical": {
+        "report": "domains/editor/commands/command-form-families/history/report.md",
+        "evidence": "domains/editor/commands/command-form-families/history/evidence.json",
+        "implementationSha": "e538d924ca4c7e33007ade2a3d0eb293021a6331",
+        "originalReport": "command-form-families-refactor.md",
+        "originalEvidence": "command-form-families-refactor-evidence.json",
+        "supersededBy": "editor-command-form-families"
+      },
+      "supersedes": [
+        "command-form-families-refactor.md",
+        "command-form-families-refactor-evidence.json"
+      ],
+      "sourceRefs": [
+        {
+          "path": "packages/editor/src/ui/CommandForm.tsx",
+          "lines": "82-93",
+          "anchor": "export function CommandForm",
+          "role": "caller",
+          "sha256": "be02bf5a67b18e9f92901ec25013f4c7e16b36a24aeadc608d0b057bb042c3bb"
+        },
+        {
+          "path": "packages/editor/src/ui/command-form-contract.ts",
+          "lines": "98-113",
+          "anchor": "export function createAuthorCommandFormBridge",
+          "role": "contract",
+          "sha256": "26494bbaa2c026946ab52478df97367121f123329b414f417d9485b1964c7062"
+        },
+        {
+          "path": "packages/editor/src/ui/command-form-family-ownership.test.ts",
+          "lines": "11-34",
+          "anchor": "describe('command form family ownership'",
+          "role": "oracle",
+          "sha256": "18047df99f35c1e630cf3849c1c8184d7739ba0fef5a23f866728463c3fcfc54"
+        },
+        {
+          "path": "packages/editor/src/ui/command-form-contract.test.ts",
+          "lines": "8-25",
+          "anchor": "describe('author command form bridge'",
+          "role": "oracle",
+          "sha256": "5843e284c33f455c9c7b0309e3e29e3a72dd3586f5c4989816ed9a493df2eda8"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "reforge-menu-session",
+      "kind": "report",
+      "title": "Reforge 菜单与物品会话所有权",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "runtime",
+      "module": "menu",
+      "canonical": "domains/runtime/menu/menu-session/report.md",
+      "index": "domains/runtime/menu/menu-session/README.md",
+      "evidence": "domains/runtime/menu/menu-session/evidence.json",
+      "tags": ["ownership", "menu", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "main menu input → MenuSession",
+        "main item action → ItemUseSession → world/save ports"
+      ],
+      "legalInputs": [
+        "typed menu input",
+        "current world/save port",
+        "AbortSignal and canonical item/skill/actor inputs"
+      ],
+      "businessOracle": {
+        "type": "reforge-menu-session",
+        "assertions": [
+          "cancelled item use remains owned until settle",
+          "menu pop restores the correct view",
+          "save/load completion is observed through real port events"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/runtime/menu/menu-session/history/report.md"
+        ],
+        "notes": "A1 report/evidence covers menu/session ownership; historical parity and mutant tools remain legacy until caller/import audit. Runtime E2E and coverage are separate."
+      },
+      "historical": {
+        "report": "domains/runtime/menu/menu-session/history/report.md",
+        "evidence": "domains/runtime/menu/menu-session/history/evidence.json",
+        "implementationSha": "dbe55b55734d69c9935f2e17b69b377144f7f1ba",
+        "originalReport": "menu-session-refactor.md",
+        "originalEvidence": "menu-session-refactor-evidence.json",
+        "supersededBy": "reforge-menu-session"
+      },
+      "supersedes": ["menu-session-refactor.md", "menu-session-refactor-evidence.json"],
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/menu/menu-session.ts",
+          "lines": "105-128",
+          "anchor": "export class MenuSession",
+          "role": "contract",
+          "sha256": "85ae2bc5120c08bd3d20c6a44fadcc66da43e5f1bea265b2eeae8d4e92ac9e64"
+        },
+        {
+          "path": "packages/reforge/src/menu/item-use-session.ts",
+          "lines": "2-19",
+          "anchor": "export class ItemUseSession",
+          "role": "contract",
+          "sha256": "30440de9697b2ed0e5bed5b102381da4fb95ac380e3062f61cbb37c599818f09"
+        },
+        {
+          "path": "packages/reforge/src/menu/menu-session.test.ts",
+          "lines": "9-32",
+          "anchor": "test('closed menu ignores input",
+          "role": "oracle",
+          "sha256": "e4c4b3108a268d769814eabc2414f79ee8112ac3ef885a8348796f359fae81cf"
+        },
+        {
+          "path": "packages/reforge/src/menu/item-use-session.test.ts",
+          "lines": "5-22",
+          "anchor": "test('item operation owns the pending slot",
+          "role": "oracle",
+          "sha256": "06e8fa00425ff2a6b199863a13fb8fa007ff121a743496ed44cd5b2795cc09a9"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "kind": "report",
+      "title": "编辑器地图工作区会话所有权",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "editor",
+      "module": "map",
+      "canonical": "domains/editor/map/map-workspace-sessions/report.md",
+      "index": "domains/editor/map/map-workspace-sessions/README.md",
+      "evidence": "domains/editor/map/map-workspace-sessions/evidence.json",
+      "tags": ["ownership", "map", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "MapMode → pointer gesture session",
+        "MapMode → transform/view/stamp sessions → reducered command dispatch"
+      ],
+      "legalInputs": [
+        "current MapMode project/map revision",
+        "trusted pointer session and pointerId",
+        "typed map command plan with revision guard"
+      ],
+      "businessOracle": {
+        "type": "editor-map-workspace-sessions",
+        "assertions": [
+          "pointer cancel/lost capture has zero command writes",
+          "clipboard/session state respects map and EditSession identity",
+          "stale structure confirmation cannot commit"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/editor/map/map-workspace-sessions/history/report.md"
+        ],
+        "notes": "B2 report/evidence covers owner separation; pointer/transform/view tools remain legacy until their UI runner/cwd and temporary tree lifecycle are separately audited."
+      },
+      "historical": {
+        "report": "domains/editor/map/map-workspace-sessions/history/report.md",
+        "evidence": "domains/editor/map/map-workspace-sessions/history/evidence.json",
+        "implementationSha": "3a633ed7777b93fafa191ad064027527dabf605a",
+        "originalReport": "map-workspace-sessions-refactor.md",
+        "originalEvidence": "map-workspace-sessions-refactor-evidence.json",
+        "supersededBy": "editor-map-workspace-sessions"
+      },
+      "supersedes": [
+        "map-workspace-sessions-refactor.md",
+        "map-workspace-sessions-refactor-evidence.json"
+      ],
+      "sourceRefs": [
+        {
+          "path": "packages/editor/src/ui/MapMode.tsx",
+          "lines": "403-420",
+          "anchor": "} = useMapPointerGestureSession({",
+          "role": "caller",
+          "sha256": "a0f2dbdac3c4643cd68f8c6634b20989621860decfb83c561ec9339125ac4926"
+        },
+        {
+          "path": "packages/editor/src/ui/map-pointer-gesture-session.ts",
+          "lines": "36-59",
+          "anchor": "export class MapPointerGestureSession",
+          "role": "contract",
+          "sha256": "15cbbf02f5c8001dae025a71d6e829228582f0dddb77578f7ef415db77f5925b"
+        },
+        {
+          "path": "packages/editor/src/ui/map-pointer-gesture-session.test.tsx",
+          "lines": "31-48",
+          "anchor": "describe('map pointer gesture session ownership'",
+          "role": "oracle",
+          "sha256": "0c6fc2f314bc9095f43fcd72aeed698b1db1627d3ef722430e4fbb8a3550f227"
+        },
+        {
+          "path": "packages/editor/src/ui/map-transform-session.test.ts",
+          "lines": "37-54",
+          "anchor": "describe('map transform session ownership'",
+          "role": "oracle",
+          "sha256": "c340d78c5656124ccd73fd5220e5d09c6e3048451ddb264fb80929892ced4df3"
+        },
+        {
+          "path": "packages/editor/src/ui/map-workspace-view-session.test.tsx",
+          "lines": "30-47",
+          "anchor": "describe('map workspace view session ownership'",
+          "role": "oracle",
+          "sha256": "8ec0b5e77923d806c5647f0971ead8810c22e0b42a1f92e79ee75000b0cf708f"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "kind": "report",
+      "title": "第一阶段依赖所有权拆分",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "phase1-runtime",
+      "module": "dependencies",
+      "canonical": "domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "index": "domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+      "evidence": "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "tags": ["ownership", "dependencies", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "game event/scene/equipment/battle/menu consumers → single lower owner modules",
+        "dependency-ownership and cross-module boundary tests"
+      ],
+      "legalInputs": [
+        "current GameState",
+        "current event/battle/menu typed commands",
+        "PAL runtime data and synchronous scene identity"
+      ],
+      "businessOracle": {
+        "type": "phase1-dependency-ownership",
+        "assertions": [
+          "static runtime SCC is zero",
+          "old exports and function bodies retain contracts",
+          "inventory/poison/equipment/scene/menu state has one owner"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md"
+        ],
+        "notes": "D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts remain legacy tools with explicit package-relative imports. It does not close gameplay/E2E or coverage."
+      },
+      "historical": {
+        "report": "domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
+        "evidence": "domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+        "implementationSha": "d488f72e2384ab8df7000eb17722bba20a2a6926",
+        "originalReport": "phase1-dependency-refactor.md",
+        "originalEvidence": "phase1-dependency-refactor-evidence.json",
+        "supersededBy": "phase1-dependency-ownership"
+      },
+      "supersedes": ["phase1-dependency-refactor.md", "phase1-dependency-refactor-evidence.json"],
+      "sourceRefs": [
+        {
+          "path": "packages/game/src/core/script-catalog.ts",
+          "lines": "33-40",
+          "anchor": "export function patchGiveItemZeroBugs",
+          "role": "owner",
+          "sha256": "15b8c7b86a9d2125198054a32305b4fb83ef8dff15ccde4865e5af2dc301606b"
+        },
+        {
+          "path": "packages/game/src/core/inventory-state.ts",
+          "lines": "10-23",
+          "anchor": "export function addItemToInventory",
+          "role": "owner",
+          "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25"
+        },
+        {
+          "path": "packages/game/src/core/equipment-state.ts",
+          "lines": "6-13",
+          "anchor": "export const MAX_PLAYER_EQUIPMENTS",
+          "role": "owner",
+          "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c"
+        },
+        {
+          "path": "packages/game/src/core/player-poison-state.ts",
+          "lines": "12-19",
+          "anchor": "export function setObjectPoisons",
+          "role": "owner",
+          "sha256": "074b4318ac0b92d6e9a5621e23ea84303a335056b83a60803e6690a690de214c"
+        },
+        {
+          "path": "packages/game/src/core/scene-identity.ts",
+          "lines": "6-13",
+          "anchor": "export function getCurrentMapNum",
+          "role": "owner",
+          "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "lines": "12-19",
+          "anchor": "export function resumeAfterMenusClosed",
+          "role": "owner",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/dependency-ownership.test.ts",
+          "lines": "26-45",
+          "anchor": "describe('D1 shared-state ownership",
+          "role": "oracle",
+          "sha256": "21ff3e7739eca1c54ce5d6000300cb82ee08ce8c8c44ddf11014226fb369bf1e"
+        },
+        {
+          "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+          "lines": "45-64",
+          "anchor": "describe('G07",
+          "role": "oracle",
+          "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     }
   ]
 }

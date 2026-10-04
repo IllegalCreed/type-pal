@@ -1,12 +1,12 @@
 # B2 地图工作区会话所有权候选
 
-后续统一门与当前集成状态见[统一回执](architecture-continuation-integration.md)；下文为分项候选时的验证快照，
+后续统一门与当前集成状态见[统一回执](/docs/testing/architecture-continuation-integration.md)；下文为分项候选时的验证快照，
 其中“不合 main/未跑统一门”不代表后续集成状态。
 
 Owner：Codex；基点 `1e15f64f`；实现 `3c3fccda`、`a2ea1dee`、`3a633ed7`；所属
-[连续治理卡](../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
+[连续治理卡](/docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)。本候选不合 main、不运行共享全仓
 coverage 门；待原接收对话统一集成和执行 check/ratchet/strict。完整计数、命令和未证项见
-[机账](map-workspace-sessions-refactor-evidence.json)。
+[机账](evidence.json)。
 
 ## 所有权边界
 
@@ -42,11 +42,11 @@ coverage 门；待原接收对话统一集成和执行 check/ratchet/strict。�
 - 新增 21 项：pointer gesture 6、transform 7、view 4、stamp structure 4。地图/组合相邻批 33 文件/260 项通过；
   Editor 整包 332 文件/2868 项、TypeScript 与 production build 通过；build 仅保留既有大 chunk 提示。
   候选文件 Biome 无 error，最终四个 owner 定向 21/21 通过。
-- [pointer 九针](map-pointer-gesture-mutants.mjs)覆盖 stroke 覆盖/取走、pointerId、selection 取走、cancel 重绘、
+- [pointer 九针](/docs/testing/map-pointer-gesture-mutants.mjs)覆盖 stroke 覆盖/取走、pointerId、selection 取走、cancel 重绘、
   pan 释放、coordinate reset、blur 与 lost-capture 接线；control 6/6，9 个坏实现均由指定候选测试的单一
   `AssertionError` 检出。最终临时机账：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-map-pointer-gesture-mutants-NiFnKl/summary.json`。
-- [会话十六针](map-workspace-sessions-mutants.mjs)覆盖 transform complete/返回调整/地图与会话 reset/nudge/组合分类/
+- [会话十六针](/docs/testing/map-workspace-sessions-mutants.mjs)覆盖 transform complete/返回调整/地图与会话 reset/nudge/组合分类/
   owner 接线，view reset/非法图章/滴管/初始 tileset，以及结构 focus/refresh/close/reset；control 15/15，
   16 个坏实现均被指定业务断言检出。最终临时机账：
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-map-workspace-sessions-mutants-5lW5Qf/summary.json`。

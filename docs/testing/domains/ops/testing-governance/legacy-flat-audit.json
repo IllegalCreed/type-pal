@@ -18,7 +18,7 @@
       "lines": "1-20",
       "anchor": "\"schemaVersion\": 1",
       "role": "legacy manifest",
-      "sha256": "5457deb986251b30c833992888600f45d0055d914bac3ce601619c45f872c454"
+      "sha256": "7cfd4cb357033237ab022f99df6bb9bd2952805e2276efdca97c1e43fc717b3e"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -57,7 +57,7 @@
       "docs/testing/archive/migrations/testing-domains-20261004.json",
       "docs/testing/catalog.json"
     ],
-    "notes": "Classification is the complete census; only the 20-file reviewed batch is physically migrated. Retained legacy files are not silently deleted or promoted to verified."
+    "notes": "Classification is the complete census; only the 28-file reviewed batches is physically migrated. Retained legacy files are not silently deleted or promoted to verified."
   },
   "claims": [
     {

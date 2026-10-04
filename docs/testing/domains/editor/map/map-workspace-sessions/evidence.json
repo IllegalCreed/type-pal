@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 2,
+  "id": "editor-map-workspace-sessions",
+  "kind": "document-audit",
+  "status": "current",
+  "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
+  "sourceRefs": [
+    {
+      "path": "packages/editor/src/ui/MapMode.tsx",
+      "lines": "403-420",
+      "anchor": "} = useMapPointerGestureSession({",
+      "role": "caller",
+      "sha256": "a0f2dbdac3c4643cd68f8c6634b20989621860decfb83c561ec9339125ac4926"
+    },
+    {
+      "path": "packages/editor/src/ui/map-pointer-gesture-session.ts",
+      "lines": "36-59",
+      "anchor": "export class MapPointerGestureSession",
+      "role": "contract",
+      "sha256": "15cbbf02f5c8001dae025a71d6e829228582f0dddb77578f7ef415db77f5925b"
+    },
+    {
+      "path": "packages/editor/src/ui/map-pointer-gesture-session.test.tsx",
+      "lines": "31-48",
+      "anchor": "describe('map pointer gesture session ownership'",
+      "role": "oracle",
+      "sha256": "0c6fc2f314bc9095f43fcd72aeed698b1db1627d3ef722430e4fbb8a3550f227"
+    },
+    {
+      "path": "packages/editor/src/ui/map-transform-session.test.ts",
+      "lines": "37-54",
+      "anchor": "describe('map transform session ownership'",
+      "role": "oracle",
+      "sha256": "c340d78c5656124ccd73fd5220e5d09c6e3048451ddb264fb80929892ced4df3"
+    },
+    {
+      "path": "packages/editor/src/ui/map-workspace-view-session.test.tsx",
+      "lines": "30-47",
+      "anchor": "describe('map workspace view session ownership'",
+      "role": "oracle",
+      "sha256": "8ec0b5e77923d806c5647f0971ead8810c22e0b42a1f92e79ee75000b0cf708f"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
+  ],
+  "publicCallers": [
+    "MapMode → pointer gesture session",
+    "MapMode → transform/view/stamp sessions → reducered command dispatch"
+  ],
+  "legalInputs": [
+    "current MapMode project/map revision",
+    "trusted pointer session and pointerId",
+    "typed map command plan with revision guard"
+  ],
+  "businessOracle": {
+    "type": "editor-map-workspace-sessions",
+    "assertions": [
+      "pointer cancel/lost capture has zero command writes",
+      "clipboard/session state respects map and EditSession identity",
+      "stale structure confirmation cannot commit"
+    ]
+  },
+  "dedupe": {
+    "result": "source-review-no-new-test-credit",
+    "against": [
+      "docs/testing/architecture-continuation-integration.md",
+      "domains/editor/map/map-workspace-sessions/history/report.md"
+    ],
+    "notes": "B2 report/evidence covers owner separation; pointer/transform/view tools remain legacy until their UI runner/cwd and temporary tree lifecycle are separately audited."
+  },
+  "claims": [
+    {
+      "id": "editor-map-workspace-sessions-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "packages/editor/src/ui/MapMode.tsx:403-420",
+        "packages/editor/src/ui/map-pointer-gesture-session.ts:36-59",
+        "packages/editor/src/ui/map-pointer-gesture-session.test.tsx:31-48",
+        "packages/editor/src/ui/map-transform-session.test.ts:37-54",
+        "packages/editor/src/ui/map-workspace-view-session.test.tsx:30-47",
+        "packages/content/src/character.ts:168-170"
+      ]
+    }
+  ],
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "Historical browser path was a minimum functional check only; native clipboard and full visual matrix remain explicitly unverified. This source audit preserves that limit."
+  ],
+  "artifacts": [],
+  "history": [
+    {
+      "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
+  ]
+}

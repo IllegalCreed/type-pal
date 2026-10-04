@@ -239,7 +239,7 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   Cursor 当前 editor 命令测试返工不写该文件，范围不重叠。
 
 - 2026-09-26 B3 命令表单族候选 `ec813052`、`83a8f7be`、`951131d8`、`a5744ee1`、`e538d924`
-  已交付：[回执与未证项](../../../../testing/command-form-families-refactor.md)。`CommandForm` 2098→203，只保留 kind
+  已交付：[回执与未证项](../../../../testing/domains/editor/commands/command-form-families/report.md)。`CommandForm` 2098→203，只保留 kind
   分派/公共出口；dialogue、world/entity、actor/party、control/resource 四族分别持有窄资源与表单状态，共享控件
   只有一份实现。作者桥显式列作者专用 kind，并拒绝 kind 漂移与 dialogue identity 降级；`ScriptEditor` 删除
   `as Command`/`as AuthorCommand` 方言强转。设计证据迁到真实 owner，既有 15 秒 CSS 失效门未放宽且恢复余量。
@@ -258,7 +258,7 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   当前生产调用链后 premise verified / build allowed；无产品取舍变化。
 
 - 2026-09-26 B2 地图工作区候选 `3c3fccda`、`a2ea1dee`、`3a633ed7` 已交付：
-  [回执与未证项](../../../../testing/map-workspace-sessions-refactor.md)。pointer session 独占 stroke/pan/selection preview/
+  [回执与未证项](../../../../testing/domains/editor/map/map-workspace-sessions/report.md)。pointer session 独占 stroke/pan/selection preview/
   hover 与取消；既有 reducer 继续独占正式 selection；transform session 独占 clipboard/preview/lock/overwrite；view
   与 stamp-structure session 分别独占工具显示态和结构确认快照/焦点。MapMode 保留坐标命中、权限、plan/command、
   revision guard 与同步历史提交，不传整个上下文。`MapMode.tsx` 3819→3734；21 新增、地图/组合相邻 260、Editor
@@ -305,7 +305,7 @@ Codex按本轮独立治理授权完成实现者自审与验收，不冒充第三
   当前行为真值是上述生产调用链与scene/save/checkpoint回归；一阶段harvest W3/W4/W7、E3/E5、X1/X3只提供相机偏移/同帧采样风险参考，不引入旧引擎耦合。最强替代解释为“搬字段会捕获旧场景/旧玩家位置或重排同步cue”；用实际ScenePreparer产物、主壳调用链、冻结旧相机序列和取消反控排除。Codex核此前提verified、范围build allowed；无新玩法/格式/UI裁决，A3整体仍未完成。
 
 - 2026-09-26 Cursor24组与GLM实验包已独立accept收口，统一check8707/strict8215/686，详见[Cursor](../../../../testing/cursor-architecture-batch-integration.md)/[GLM](../../../../testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md)。未证后续明确保留：B1核720/900横向裁切、隐藏outliner后残留separator命中/焦点区及boot首屏失败矩阵；E1核globalScriptAliases及profile/reference端到端其它组合（sceneSemanticSpriteIds已有world-sprite-layout-registry三类动态证据，按existing-proof）；原生浏览器125/150% zoom归后续环境/E2E矩阵。以上不是本批已修/已覆盖，不借准备包done关闭架构项。
-- D1六个下层所有者已落：[实现与验证](../../../../testing/phase1-dependency-refactor.md)。只读工具证实原七节点运行期SCC→无SCC、旧出口不变、161函数体保真（32搬移，仅两处同步状态路由变更）；8新增所有权回归、4既有跨模块、554相邻及类型检查通过。与E2统一check8678/ratchet/保护8bf40b90的单次strict8186/654、三针、生产build及隔离浏览器功能验证全部通过。Codex核该两项accept收口；不混入r11复核分支的GLM拟接入测试，后者仍按交接约束独立保留。
+- D1六个下层所有者已落：[实现与验证](../../../../testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md)。只读工具证实原七节点运行期SCC→无SCC、旧出口不变、161函数体保真（32搬移，仅两处同步状态路由变更）；8新增所有权回归、4既有跨模块、554相邻及类型检查通过。与E2统一check8678/ratchet/保护8bf40b90的单次strict8186/654、三针、生产build及隔离浏览器功能验证全部通过。Codex核该两项accept收口；不混入r11复核分支的GLM拟接入测试，后者仍按交接约束独立保留。
 - E2结构`4cdefcf1`已分离校验协议/形状/AI条件/演出；旧入口52/19出口一致、50函数体保真（11搬移），content运行期二节点环消除。[E2回执](../../../../testing/content-validation-refactor.md)与D1共享本批门禁。前轮包括GLM四项副本的门禁只作为独立候选证据，本次按实际E2+D1树重新统一执行，不挪用其测试总数。
 
 - E2缺陷修复先行：新增正式`author-battle-dialogue-boundary.test.ts`13项，原实现9项AssertionError红/4项合法与runtime对照绿；`:712`显式透传options后13/13、content全包863/863与typecheck通过。覆盖直接及七递归臂的精确错误路径、三种合法作者identity、实际cue/路径透传、runtime方言保留；结构解环随后另提交，整批质量门统一执行。

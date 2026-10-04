@@ -128,10 +128,10 @@
 - [F1设计系统审计分层候选](design-system-audit-layering-refactor.md)、[机账](design-system-audit-layering-refactor-evidence.json)与[六针反控](design-system-audit-layering-mutants.mjs)（AST/CSS/规则/报告四层齐；Editor2885、设计门与原15秒性能门通过；全仓统一门/集成待原接收对话）。
 - [Codex当前脚本翻译回归](codex-translate-events/README.md)（六组现行消费链，排除未消费历史入口）。
 - [全仓分支覆盖率+5pp持续队列](coverage-plus5/README.md)与[GLM同步守卫第三批](glm-content-guards-wave3/README.md)（大批实施、统一统计）。
-- [B3命令表单族所有权候选](command-form-families-refactor.md)、[机账](command-form-families-refactor-evidence.json)与[十二针反控](command-form-families-mutants.mjs)（四命令族/共享控件/作者桥边界齐；定向51、Editor2879、设计门与6056只读隔离功能通过；全仓统一门/集成待原接收对话）。
+- [B3命令表单族所有权候选](domains/editor/commands/command-form-families/report.md)、[机账](domains/editor/commands/command-form-families/evidence.json)与[十二针反控](command-form-families-mutants.mjs)（四命令族/共享控件/作者桥边界齐；定向51、Editor2879、设计门与6056只读隔离功能通过；全仓统一门/集成待原接收对话）。
 - [C1 BattleSession状态所有权候选](domains/runtime/battle/battle-session-owners/report.md)、[机账](domains/runtime/battle/battle-session-owners/evidence.json)与[十一针反控](battle-session-owners-mutants.mjs)（readiness/结算/命令选择/动作演出四owner边界齐；35新增、Reforge1682、TC/build与6057独立试打通过；全仓统一门/集成待原接收对话）。
 - [D2第一阶段大主控所有权候选](phase1-main-owners-refactor.md)、[机账](phase1-main-owners-refactor-evidence.json)、[opcode六针](phase1-player-opcode-mutants.mjs)与[主控九针](phase1-main-owners-mutants.mjs)（角色opcode族、战斗资源/终态/升级/结算、启动并发资源边界齐；Game2459、真实PAL数据/MKF、TC/build通过；全仓统一门/集成待原接收对话）。
-- [B2地图工作区会话所有权候选](map-workspace-sessions-refactor.md)、[机账](map-workspace-sessions-refactor-evidence.json)、[pointer九针](map-pointer-gesture-mutants.mjs)与[会话十六针](map-workspace-sessions-mutants.mjs)（手势/既有选择/变换剪贴板/视图/组合结构边界齐；21新增、Editor2868、TC/build与6055隔离功能通过；全仓统一门/集成待原接收对话）。
+- [B2地图工作区会话所有权候选](domains/editor/map/map-workspace-sessions/report.md)、[机账](domains/editor/map/map-workspace-sessions/evidence.json)、[pointer九针](map-pointer-gesture-mutants.mjs)与[会话十六针](map-workspace-sessions-mutants.mjs)（手势/既有选择/变换剪贴板/视图/组合结构边界齐；21新增、Editor2868、TC/build与6055隔离功能通过；全仓统一门/集成待原接收对话）。
 - [B1编辑器总壳会话所有权候选](editor-app-sessions-refactor.md)、[机账](editor-app-sessions-refactor-evidence.json)与[二十针反控](editor-app-sessions-mutants.mjs)（导航/场景/试玩/工程四owner；18新增、Editor2847、TC/build与6054隔离功能通过；全仓统一门/集成待原接收对话）。
 - [Cursor八组命令行为补测](cursor-command-boundaries-r3/README.md)、[Codex五组资源索引补测](codex-content-resources/README.md)与[共同冻结机账](coverage-parallel-wave3-evidence.json)（独立文件范围，整批统计）。
 - [Cursor九组命令最终验收](cursor-commands-wave2-integration.md)与[统一机账](cursor-commands-wave2-integration-evidence.json)（R1–R3闭合，check8740/strict8248/701）。
@@ -148,7 +148,7 @@
 
 - [E2内容校验解环与嵌套对话修复](content-validation-refactor.md)、[出口/运行期依赖图复算](content-validation-refactor-audit.mjs)（缺陷修复与结构拆分分提交，13项回归；与D1统一门禁，不混入r11候选统计）
 
-- [D1第一阶段依赖环拆分](phase1-dependency-refactor.md)、[只读等价/依赖图工具](phase1-dependency-refactor-audit.mjs)、[三针所有权反控](phase1-dependency-refactor-mutants.mjs)（六个下层所有者、旧出口/161函数核对；本批质量门按回执登记）
+- [D1第一阶段依赖环拆分](domains/phase1-runtime/dependencies/dependency-ownership/report.md)、[只读等价/依赖图工具](phase1-dependency-refactor-audit.mjs)、[三针所有权反控](phase1-dependency-refactor-mutants.mjs)（六个下层所有者、旧出口/161函数核对；本批质量门按回执登记）
 
 - [GLM 战场命令族拆分回执与Codex验收](glm-arch-battle-field-commands.md)及[done任务卡](../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)（83833719机械搬移保真；156项/两针/check8657/受保护strict8165/644与隔离功能核验通过，F2整体未完成）
 
@@ -199,7 +199,7 @@
 
 - [战斗宿主旧败北测试随机性见证](battle-host-rng-witness.mjs)（7f3840e6 与 A2 拆分树：0.99 持续闪避同红、0.5 无闪避同绿；只固定该路由测试输入，不改变帧数/断言/产品 RNG）
 
-- [运行时菜单/物品控制器拆分](menu-session-refactor.md)、[机账](menu-session-refactor-evidence.json)、[冻结源码逐步等价](menu-session-parity.mjs)与[隔离负控](menu-session-refactor-mutants.mjs)（A1 dbe55b55/done；28新增、155序列3798步与10针，check8440/单次strict7949/635，用户本批独立推进授权）
+- [运行时菜单/物品控制器拆分](domains/runtime/menu/menu-session/report.md)、[机账](domains/runtime/menu/menu-session/evidence.json)、[冻结源码逐步等价](menu-session-parity.mjs)与[隔离负控](menu-session-refactor-mutants.mjs)（A1 dbe55b55/done；28新增、155序列3798步与10针，check8440/单次strict7949/635，用户本批独立推进授权）
 
 - [真实宿主二批：战斗/物品/装备/实体](codex-runtime-shell-wave2.md)、[机账](codex-runtime-shell-wave2-evidence.json)与[隔离负控](codex-runtime-shell-wave2-mutants.mjs)（94b59a6f/done；28项/8针、check8412/单次严格fast7921/633；full8230为补测前校准，Kimi/GLM本批用户豁免）
 

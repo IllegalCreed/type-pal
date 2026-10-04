@@ -141,7 +141,7 @@ GLM返工包和帧编辑在途测试未计入；本地fast不代表远端CI、fu
 
 ### 同日上一批：D1/E2
 
-[E2内容校验](content-validation-refactor.md)与[D1第一阶段解环](phase1-dependency-refactor.md)完成后，
+[E2内容校验](content-validation-refactor.md)与[D1第一阶段解环](domains/phase1-runtime/dependencies/dependency-ownership/report.md)完成后，
 完整check **8678项**、官方ratchet与保护8bf40b90的单次严格fast **8186项/654生产文件**全部通过。
 全仓行 **78.12%**、语句 **75.96%**、函数 **75.72%**、分支 **68.48%**。
 新增21项回归与10个下层模块；原644文件全保留、五个未改包基线对象不变。
@@ -205,7 +205,7 @@ main6798→6486；拆分前后按main+新模块组合核算，17保存/场景关
 
 ## 历史本地实测（2026-09-24 · 菜单/物品控制器拆分A1）
 
-[dbe55b55回执](menu-session-refactor.md)、[机账](menu-session-refactor-evidence.json)：用户明确豁免本批Kimi/GLM，
+[dbe55b55回执](domains/runtime/menu/menu-session/report.md)、[机账](domains/runtime/menu/menu-session/evidence.json)：用户明确豁免本批Kimi/GLM，
 Codex独立实施与自验后done。28新增测试、155序列3798步冻结源码等价、10负控及最小功能视觉通过，
 完整check **8440项**、官方ratchet与保护09429b6c的**单次严格fast7949项/635生产文件**全部exit0。
 
