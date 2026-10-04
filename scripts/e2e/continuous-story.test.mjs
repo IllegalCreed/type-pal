@@ -35,6 +35,12 @@ test('continuous checkpoints are scene-boundary oracles, not action-count labels
   assertContinuousCheckpoint('002', 'reforge', {
     scene: 's003',
     runtime: { position: { col: 126, row: 46 } },
+    script: {
+      entityPos: { s003: { e56: { col: 137, row: 66 } } },
+      behaviors: {
+        entities: { s003: { e56: { auto: { cursor: { at: { kind: 'completed' } } } } } },
+      },
+    },
     trio: [{ visible: false }, { visible: false }, { visible: false }],
   })
   assert.throws(
@@ -42,6 +48,12 @@ test('continuous checkpoints are scene-boundary oracles, not action-count labels
       assertContinuousCheckpoint('002', 'reforge', {
         scene: 's003',
         runtime: { position: { col: 126, row: 46 } },
+        script: {
+          entityPos: { s003: { e56: { col: 137, row: 66 } } },
+          behaviors: {
+            entities: { s003: { e56: { auto: { cursor: { at: { kind: 'completed' } } } } } },
+          },
+        },
         trio: [{ visible: false }, { visible: true }, { visible: false }],
       }),
     /before all three Miao guests left/,

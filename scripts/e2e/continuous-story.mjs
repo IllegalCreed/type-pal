@@ -88,6 +88,19 @@ export function assertContinuousCheckpoint(fragment, engine, state) {
       ) <= 1.5,
       `continuous ${engine} 002 ended at an unexpected party position ${actualPosition}; expected ${expectedPosition}`,
     )
+    if (engine === 'reforge') {
+      const aunt = state.script?.behaviors?.entities?.s003?.e56
+      assert.equal(
+        aunt?.auto?.cursor?.at?.kind,
+        'completed',
+        'continuous reforge 002 ended before Li Daniang finished the hallway auto phase',
+      )
+      assert.deepEqual(
+        [state.script?.entityPos?.s003?.e56?.col, state.script?.entityPos?.s003?.e56?.row],
+        [137, 66],
+        'continuous reforge 002 ended with a stale Li Daniang auto position',
+      )
+    }
   }
   return { fragment, engine, scene: actual }
 }

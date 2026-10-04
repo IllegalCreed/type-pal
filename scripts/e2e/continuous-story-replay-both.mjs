@@ -8,6 +8,7 @@ import { repoRoot } from './browser-journey.mjs'
 const args = process.argv.slice(2),
   hold = args.includes('--hold'),
   headless = args.includes('--headless'),
+  stopAt = args.includes('--stop-at') ? args[args.indexOf('--stop-at') + 1] : null,
   tape = resolve(args[args.indexOf('--tape') + 1])
 assert(tape, 'continuous replay requires --tape')
 const output = resolve(
@@ -24,6 +25,7 @@ const start = (engine) => {
     [
       engine === 'game' ? '--game' : '--reforge',
       headless ? '--headless' : '--headed',
+      ...(stopAt ? ['--stop-at', stopAt] : []),
       ...(hold ? ['--hold'] : []),
       '--tape',
       tape,
