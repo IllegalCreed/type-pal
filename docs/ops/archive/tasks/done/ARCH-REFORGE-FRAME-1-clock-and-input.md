@@ -52,7 +52,7 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
   确认框>商店>奖励>菜单>对话>runner/敌对忙>探索的实时输入优先级。
 - `main.dialog-flows.test.ts`、`main.scene-flows.test.ts`、`main.save-flows.test.ts`、
   `main.boot-flows.test.ts`、`debug-tools.test.ts`与各motion/session回归。
-- [A2自审教训](../../../../testing/battle-host-refactor.md)：不在原同步采样/提交边界插await。
+- [A2自审教训](../../../../testing/domains/runtime/battle/battle-host/report.md)：不在原同步采样/提交边界插await。
 - A2远端已核同b11d4bc9成功：Coverage run36014078975 / Documentation run36014078953。
 
 ## 设计

@@ -11,6 +11,7 @@ Q的已知[标题读档IO产品draft](tasks/REFORGE-OPENING-LOAD-ERROR-1.md)独�
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| TESTING-DOC-GOVERNANCE-1 | [测试文档深度治理](tasks/TESTING-DOC-GOVERNANCE-1-depth.md) | build | Codex / 独立验收后回执 | 359 项分类账、20 项真实迁移、runtime/E2E source audit、metadata/evidence/CI 门禁 |
 | TEST-COVERAGE85-GLM-GAME-1 | [game runtime branch-contract closure](tasks/TEST-COVERAGE85-GLM-GAME-1.md) | build | GLM / branch合同与反控 | 只收现行公开caller，目标为game branches 85%，不设例数配额 |
 | TEST-COVERAGE85-GLM-REFORGE-1 | [Reforge runtime branch-contract closure](tasks/TEST-COVERAGE85-GLM-REFORGE-1.md) | build | GLM / branch合同与反控 | main/battle/script/motion 分域，目标为reforge branches 85% |
 | TEST-COVERAGE85-GLM-EDITOR-1 | [editor workflow branch-contract closure](tasks/TEST-COVERAGE85-GLM-EDITOR-1.md) | build | GLM / UI状态合同与证据 | App/MapMode/ScriptEditor 等真实交互，目标为editor branches 85% |

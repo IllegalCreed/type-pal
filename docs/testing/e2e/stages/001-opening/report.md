@@ -1,14 +1,21 @@
+---
+testingSchema: 2
+id: e2e-001
+evidence: e2e/evidence/e2e-001.json
+---
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"28-32","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"fab7df7504b750e0554884470e6814cf46f716f667aa0fcf2ebff53a844d2585"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-93","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"a2c9116df25e1e8d96e097fdf340540645bcdedb3db876c229515e68636ffb10"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
+-->
+
 # 001 开场执行器：双引擎完整验证
 
-[任务卡](../../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
-[跨阶段合同](../../contract.md) / [剧情边界](../../../../../projects/pal/e2e-checkpoints/README.md)。
+## 2026-10-04 文档深审
 
-2026-09-28：[001收口卡](../../../../ops/archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md)已核定 **verify done**。
-覆盖game/Reforge各自001正常流程与真实检查点、55行正文及说话人、24个对白块的完整显示、
-参与本段的队长/e3出口/e8密道遮挡物/e10行走李大娘/e11床边替身；保留两句站定对话与离场偏序。
-这是verify合同，不是capture-ready或全游戏所有NPC验收。无需AI、模型账号或人工逐句回车。
-二阶段产品/内容未改；一阶段修复四行翻页跳过第5行、自动淡入未补足调色板两处bug，
-未改原版提取资产/存档格式。
+历史 2026-09-28 二阶段回执是 content20/SAVE8；原文后加的 content21/SAVE10 不是该次执行版本。当前 22/11 链由 current-checkpoints 单独登记。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 新旧脚本具体差异
 

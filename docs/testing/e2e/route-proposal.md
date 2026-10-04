@@ -1,10 +1,21 @@
+---
+testingSchema: 2
+id: e2e-route
+evidence: e2e/evidence/e2e-route.json
+---
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-route","sourceRefs":[{"path":"scripts/e2e/inn-contract.mjs","lines":"67-84","anchor":"export function validatePredecessor(","role":"input","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both"],"legalInputs":["fresh current project","current-version checkpoint only"],"businessOracle":{"type":"route-admission","assertions":["每段有明确前驱/终止条件","路线失败不能被跳场景隐藏"]},"dedupe":{"result":"reviewed","against":["e2e/stages/*/README.md"],"notes":"方案不宣称任何阶段已运行通过。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-route.json"}
+-->
+
 # 双阶段快速通关E2E：路线驱动方案（讨论稿）
 
-2026-09-27用户改优先级：GLM/Cursor继续隔离补测，Codex暂停主动覆盖率推进，先讨论E2E怎么跑。
-[R4准备卡](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md) /
-[已有合同](contract.md) / [已确认001/002](../../../projects/pal/e2e-checkpoints/README.md)。
-范围已按下方2026-09-27用户追加裁决更新；执行器细节仍是建议，不表示runner/导航器已存在，
-不批准未核实的测试后门或改变剧情结果。
+## 2026-10-04 文档深审
+
+方案在 2026-09-27 写作时尚无 runner，现已存在 root package E2E 命令；该段保留为历史前提，不能当当前能力缺口。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 用户追加裁决（当前有效）
 

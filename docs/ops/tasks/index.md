@@ -17,6 +17,7 @@
 | [TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure](TEST-COVERAGE85-GLM-GAME-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure](TEST-COVERAGE85-GLM-REFORGE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure](TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理](TESTING-DOC-GOVERNANCE-1-depth.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 

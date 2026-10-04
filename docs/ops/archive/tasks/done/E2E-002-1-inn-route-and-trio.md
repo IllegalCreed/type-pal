@@ -69,7 +69,7 @@ Codex 已复核现行原始场景/视频和 game 插桩源码 hash 一致；锁�
 - [AGENTS](../../../../../AGENTS.md)、[CLAUDE](../../../../../CLAUDE.md)、[二阶段铁律](../../../../phase2/READ-FIRST.md)。
 - [母卡](../../../tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[E2E 合同](../../../../testing/e2e/contract.md)、
   [001 回执](../../../../testing/e2e/stages/001-opening/report.md)、[检查点边界](../../../../../projects/pal/e2e-checkpoints/README.md)。
-- [002 执行与编排回执](../../../../testing/e2e/stages/002-inn-e56/report.md)维护源码审查、历史失败与最终真实双引擎证据。
+- [002 执行与编排回执](../../../../testing/e2e/stages/002-inn-guests-and-reward/report.md)维护源码审查、历史失败与最终真实双引擎证据。
 - [一阶段知识测绘](../../../../phase2/reference/phase1-knowledge-harvest.md) E6/E7：auto/trigger 双解释器，
   真 tick 证据优先于手工模拟；touch 重入不可造成死锁。
 - `packages/content/src/author-script-core.ts:188` target/to/speed；

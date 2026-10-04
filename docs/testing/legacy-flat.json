@@ -1,13 +1,12 @@
 {
   "schemaVersion": 1,
+  "frozenCensus": {
+    "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+    "count": 359,
+    "sha256": "cadb9fbf6c36263c95ab5f2d550a9a897341b1ab9afc5007f04d29fbf99edf58"
+  },
   "policy": "No new root-level testing files. Every legacy entry needs an explicit migration review date.",
   "entries": [
-    {
-      "path": "active-scene-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
     {
       "path": "active-scene-mutants.mjs",
       "kind": "tool",
@@ -17,12 +16,6 @@
     {
       "path": "active-scene-parity.mjs",
       "kind": "tool",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "active-scene-refactor.md",
-      "kind": "document",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
@@ -45,98 +38,14 @@
       "migrateBy": "2026-11-01"
     },
     {
-      "path": "architecture-regression-lab-codex-r10-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r10-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r2-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r3-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r4-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r5-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r6-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r7-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r8-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-r9-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-codex-review.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "architecture-regression-lab-completion.md",
-      "kind": "document",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
       "path": "battle-host-readiness-scheduling.mjs",
       "kind": "tool",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
     {
-      "path": "battle-host-refactor-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
       "path": "battle-host-refactor-mutants.mjs",
       "kind": "tool",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "battle-host-refactor.md",
-      "kind": "document",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
@@ -155,18 +64,6 @@
     {
       "path": "battle-session-owners-mutants.mjs",
       "kind": "tool",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "battle-session-owners-refactor-evidence.json",
-      "kind": "evidence",
-      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
-    },
-    {
-      "path": "battle-session-owners-refactor.md",
-      "kind": "document",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
     },
@@ -2143,18 +2040,188 @@
       "kind": "tool",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
       "migrateBy": "2026-11-01"
+    }
+  ],
+  "retired": [
+    {
+      "path": "architecture-regression-lab-codex-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "sourceSha256": "290588089a86ae0db14c03672abe0adae3e1ff9c2343b4d7dc0aec11b2fd31d9",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
     },
     {
-      "path": "world-runtime-refactor-evidence.json",
+      "path": "architecture-regression-lab-codex-r2-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "sourceSha256": "4ededa51c4d358d48724e8427aa38fee3781a71494d297d974bfc4b6102212b8",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r3-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "sourceSha256": "8b0846fa92cb1ccff0c288354784b439ba44f9cbf79c4a0ab620139d1f5c1988",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r4-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "sourceSha256": "45157c65ac1bd75770269d2d5becbea9092609fdbe31a5a36c24370c6c69ab67",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r5-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "sourceSha256": "0f4136a0cb434db7ef97db1b6e5922338ad0d5aa33229f418833988e9c979b28",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r6-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "sourceSha256": "71328c0e5c08ffd181fc7ec1836f83f43903af189dccef3c2ebce0de0022b6e1",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r7-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "sourceSha256": "695997b8134b3dc26ea302c5987d08cd33d666d017d7f3f83dbb1d097d4dd105",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r8-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "sourceSha256": "cd28728b6bfaa95b6fd3ebf069e150fb58c724fd200cb1bcffbac2a5a3d2f1e2",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r9-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "sourceSha256": "87cd2c68f9aec38ef9c57e12d314158e96ca4cd174582ebb6ad5ae2c2c630416",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r10-review.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "sourceSha256": "55cbdf5bbec35584399c11dc48b597a2424adb22236989eecef3458ff5767005",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-codex-r10-evidence.json",
       "kind": "evidence",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "sourceSha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "architecture-regression-lab-completion.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "sourceSha256": "0b775a0d08d7603513e6a7972951cea71c79373ad428829a1240ef952908b580",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "active-scene-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/scene/active-scene/report.md",
+      "sourceSha256": "e4da4319341a937909cb2dd3e56c7b31241aade9a433e24feb5a66c8e1a4d8b3",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "active-scene-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/scene/active-scene/evidence.json",
+      "sourceSha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "battle-host-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/battle/battle-host/report.md",
+      "sourceSha256": "c76672db557313b2acfec425a93c6ae1fc37abd28dfadbb2ded435d7d627bc3f",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "battle-host-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/battle/battle-host/evidence.json",
+      "sourceSha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "battle-session-owners-refactor.md",
+      "kind": "document",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/battle/battle-session-owners/report.md",
+      "sourceSha256": "1804e58d57b7ca119e2960fb1bff67418671ed4a6a0837e11700093d20518ace",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "battle-session-owners-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/battle/battle-session-owners/evidence.json",
+      "sourceSha256": "6228678bc6f135f4de12bf580b9b0fbec0125d2c50075228a369a84b20b63fd9",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
     },
     {
       "path": "world-runtime-refactor.md",
       "kind": "document",
       "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
-      "migrateBy": "2026-11-01"
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/world/world-runtime/report.md",
+      "sourceSha256": "0670c52dbb799cb1be524fb6bab285ec2dc51f92f5ae44e5aa1e9b36bda25cc3",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
+    },
+    {
+      "path": "world-runtime-refactor-evidence.json",
+      "kind": "evidence",
+      "reason": "legacy flat file retained for compatibility; migrate into a domain directory or archive.",
+      "migrateBy": "2026-11-01",
+      "movedTo": "domains/runtime/world/world-runtime/evidence.json",
+      "sourceSha256": "ceddedc5cf0544af69991d478c6b7253d57fccc43d8591d8433b60bca8ea3ce1",
+      "plan": "docs/testing/archive/migrations/testing-domains-20261004.json"
     }
   ]
 }

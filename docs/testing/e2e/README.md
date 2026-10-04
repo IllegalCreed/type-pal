@@ -7,7 +7,7 @@
 | 阶段 | 状态 | 报告 | 依赖 |
 |---|---|---|---|
 | 001 开场 | verified | [阶段页](stages/001-opening/README.md) · [正式报告](stages/001-opening/report.md) | 新游戏 |
-| 002 客栈/e56 | verified | [阶段页](stages/002-inn-e56/README.md) · [正式报告](stages/002-inn-e56/report.md) | E2E-001 |
+| 002 客栈住客与赏银 | verified | [阶段页](stages/002-inn-guests-and-reward/README.md) · [正式报告](stages/002-inn-guests-and-reward/report.md) | E2E-001 |
 | 003 下楼/厨房 | verified | [阶段页](stages/003-kitchen/README.md) · [正式报告](stages/003-kitchen/report.md) | E2E-002 |
 | 004 端菜/赠酒 | verified | [阶段页](stages/004-meal/README.md) · [正式报告](stages/004-meal/report.md) | E2E-003 |
 | 005 买虾/报信 | verified | [阶段页](stages/005-shrimp/README.md) · [正式报告](stages/005-shrimp/report.md) | E2E-004 |

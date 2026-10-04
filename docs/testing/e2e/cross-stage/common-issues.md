@@ -1,14 +1,21 @@
+---
+testingSchema: 2
+id: e2e-common-issues
+evidence: e2e/evidence/e2e-common-issues.json
+---
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-common-issues","sourceRefs":[{"path":"scripts/e2e/errand-contract.mjs","lines":"295-308","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"482-499","anchor":"export function assertKitchenTrace(","role":"oracle","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"}],"publicCallers":["pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["each stage's current same-engine predecessor","normal input/navigation","isolated browser storage"],"businessOracle":{"type":"issue-family-closure","assertions":["公共根因按族收敛","路线/演出/存档失败分开归因","源码核读不计作实跑"]},"dedupe":{"result":"reviewed","against":["e2e/stages/001-opening/report.md","e2e/stages/002-inn-guests-and-reward/report.md","e2e/stages/003-kitchen/report.md","e2e/stages/004-meal/report.md","e2e/stages/005-shrimp/report.md"],"notes":"只汇总问题族，不复制各阶段通过数字。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-common-issues.json"}
+-->
+
 # 001 至 005 共性问题回顾
 
-核对日期：2026-10-02。结构计数来自005本轮最终作者内容；后期站点仅作源码核查，不冒称实跑。
-后续治理已启动，当前批次的修复与剩余数量见[剧本共性治理证据](../../script-governance/README.md)；
-本文的165套机器和段外案例保留为开工基线，不作为批次修改后的实时缺陷清单。
+## 2026-10-04 文档深审
 
-001–005暴露的问题不能统称迁移bug，也不能逐NPC修完就销账。这里按公共根因整理，区分已经在公共层解决、
-已经批量处理，以及仅修代表场景、仍需问题族治理的部分。目标是早期集中暴露，修复后后续E2E明显收敛。
+共性问题族只汇总已报告问题，不为后期站点或 006 追加实跑信用。
 
-依据为各段[001](../stages/001-opening/report.md)、[002](../stages/002-inn-e56/report.md)、[003](../stages/003-kitchen/report.md)、[004](../stages/004-meal/report.md)、
-[005](../stages/005-shrimp/report.md)回执和当前源码；历史数字标明范围，不当作当前缺陷总数。
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 剧情脚本的七类共性问题
 

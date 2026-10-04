@@ -127,14 +127,14 @@ GLM返工包和帧编辑在途测试未计入；本地fast不代表远端CI、fu
 
 ### 同日上一批：A3活动场景与镜头
 
-[A3活动场景与镜头分段](active-scene-refactor.md)实现2dc5d1d5完成后，完整check **8724项**、
+[A3活动场景与镜头分段](domains/runtime/scene/active-scene/report.md)实现2dc5d1d5完成后，完整check **8724项**、
 官方ratchet及保护51048353的单次严格fast **8232项/688生产文件**全部通过。
 全仓行 **78.18%**、语句 **76.02%**、函数 **75.77%**、分支 **68.51%**。
 17新回归、两新模块，原686生产文件全保留；其它六包完整基线不变。A3移动/绘制未完成，full/Q1/Q2与远端CI另证。
 
 ### 同日上一批：Cursor与GLM接收
 
-[Cursor24组](cursor-architecture-batch-integration.md)及[GLM准备包剩余接入](architecture-regression-lab-completion.md)
+[Cursor24组](cursor-architecture-batch-integration.md)及[GLM准备包剩余接入](archive/architecture-regression-lab/architecture-regression-lab-completion.md)
 完成后，完整check **8707项**、官方ratchet与保护8d851fa6的单次严格fast **8215项/686生产文件**全部通过。
 全仓行 **78.12%**、语句 **75.96%**、函数 **75.72%**、分支 **68.49%**。本批新增29项（Cursor25/GLM4）
 及32个机械拆分模块，原654文件全保留、无分母缩减。不是full/Q1/Q2或远端CI通过证明。
@@ -182,7 +182,7 @@ GLM返工包和帧编辑在途测试未计入；本地fast不代表远端CI、fu
 
 ## 历史本地实测（2026-09-24 · 战斗宿主拆分A2）
 
-[最终46287966回执](battle-host-refactor.md)、[机账](battle-host-refactor-evidence.json)：用户明确整个架构治理
+[最终46287966回执](domains/runtime/battle/battle-host/report.md)、[机账](domains/runtime/battle/battle-host/evidence.json)：用户明确整个架构治理
 队列由Codex独立推进，两席签字豁免。23新增、11负控、真实战斗功能验证通过；
 完整check **8463项**、官方ratchet与保护7f3840e6的**单次严格fast7972项/637生产文件**全部exit0。
 

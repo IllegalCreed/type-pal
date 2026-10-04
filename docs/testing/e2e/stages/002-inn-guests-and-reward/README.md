@@ -1,4 +1,4 @@
-# E2E-002 · 客栈与 e56
+# E2E-002 · 客栈住客与赏银
 
 ```yaml
 id: e2e-002
@@ -13,4 +13,4 @@ tags: [story, inn, dialogue, script-governance, checkpoint]
 canonicalReport: report.md
 ```
 
-正式报告：[report.md](report.md)。历史 SAVE/旧 revision 只作历史证据，不自动成为当前前驱。
+正式报告：[report.md](report.md)。内部 `s003/e56` 仅作为 `sourceRefs` 和稳定实体 ID；历史 SAVE/旧 revision 只作历史证据，不自动成为当前前驱。

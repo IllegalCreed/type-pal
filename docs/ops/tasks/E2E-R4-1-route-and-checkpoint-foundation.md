@@ -18,7 +18,7 @@ Visual Verification Timing: e2e-consolidated（001独立执行器首批）
 
 ## 先前进展（2026-10-01）
 
-002最终双引擎verify与完整质量门已通过并收口，见[002回执](../../testing/e2e/stages/002-inn-e56/report.md)。
+002最终双引擎verify与完整质量门已通过并收口，见[002回执](../../testing/e2e/stages/002-inn-guests-and-reward/report.md)。
 各自真实001档正常出房至s003/e56，20正文/500文、三人起步/两段对白停步/短续走/终点隐藏、
 真实002档新上下文恢复与同引擎Canvas均通过；两门持久open页修复未改变保存前结束画面。
 已交付编排审查：保留目标＋速度与独立auto并行；落实局部参与者接管、完成语义与持久门意图；

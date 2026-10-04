@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "generatedBy": "scripts/docs/generate-testing-index.mjs",
   "entries": [
     {
@@ -10,12 +10,74 @@
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge", "editor"],
       "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "cross-stage-contract",
       "canonical": "e2e/contract.md",
       "index": "e2e/README.md",
+      "evidence": "e2e/evidence/e2e-contract.json",
       "tags": ["e2e", "governance", "capture"],
       "lastVerified": "2026-10-04",
       "reviewBy": "2026-11-04",
-      "dependsOn": []
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/opening-both.mjs",
+          "lines": "2-9",
+          "anchor": "import { spawn }",
+          "role": "caller",
+          "sha256": "2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": [
+        "pnpm e2e:001:both",
+        "pnpm e2e:002:both",
+        "pnpm e2e:003:both",
+        "pnpm e2e:004:both",
+        "pnpm e2e:005:both"
+      ],
+      "legalInputs": [
+        "current canonical project",
+        "engine-owned checkpoint",
+        "verify or capture profile"
+      ],
+      "businessOracle": {
+        "type": "observable-business-contract",
+        "assertions": [
+          "正文/说话人/状态变化来自真实 caller",
+          "结束 checkpoint 可被同引擎正式恢复",
+          "capture 不冒充 verify"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/e2e/stages/*/report.md",
+          "docs/testing/legacy-flat-classification.json"
+        ],
+        "notes": "合同只定义共用门，不重复阶段报告的执行结论。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-route",
@@ -25,12 +87,57 @@
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "route-planning",
       "canonical": "e2e/route-proposal.md",
       "index": "e2e/README.md",
+      "evidence": "e2e/evidence/e2e-route.json",
       "tags": ["e2e", "route", "checkpoint"],
       "lastVerified": "2026-10-04",
       "reviewBy": "2026-10-18",
-      "dependsOn": ["e2e-contract"]
+      "dependsOn": ["e2e-contract"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "67-84",
+          "anchor": "export function validatePredecessor(",
+          "role": "input",
+          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+      "legalInputs": ["fresh current project", "current-version checkpoint only"],
+      "businessOracle": {
+        "type": "route-admission",
+        "assertions": ["每段有明确前驱/终止条件", "路线失败不能被跳场景隐藏"]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e/stages/*/README.md"],
+        "notes": "方案不宣称任何阶段已运行通过。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-common-issues",
@@ -40,12 +147,72 @@
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "cross-stage-audit",
       "canonical": "e2e/cross-stage/common-issues.md",
       "index": "e2e/README.md",
+      "evidence": "e2e/evidence/e2e-common-issues.json",
       "tags": ["e2e", "audit", "script-governance"],
       "lastVerified": "2026-10-04",
       "reviewBy": "2026-11-04",
-      "dependsOn": ["e2e-001", "e2e-002", "e2e-003", "e2e-004", "e2e-005"]
+      "dependsOn": ["e2e-001", "e2e-002", "e2e-003", "e2e-004", "e2e-005"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "295-308",
+          "anchor": "export function assertErrandBackground(",
+          "role": "oracle",
+          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "482-499",
+          "anchor": "export function assertKitchenTrace(",
+          "role": "oracle",
+          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+        }
+      ],
+      "publicCallers": [
+        "pnpm e2e:002:both",
+        "pnpm e2e:003:both",
+        "pnpm e2e:004:both",
+        "pnpm e2e:005:both"
+      ],
+      "legalInputs": [
+        "each stage's current same-engine predecessor",
+        "normal input/navigation",
+        "isolated browser storage"
+      ],
+      "businessOracle": {
+        "type": "issue-family-closure",
+        "assertions": ["公共根因按族收敛", "路线/演出/存档失败分开归因", "源码核读不计作实跑"]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "e2e/stages/001-opening/report.md",
+          "e2e/stages/002-inn-guests-and-reward/report.md",
+          "e2e/stages/003-kitchen/report.md",
+          "e2e/stages/004-meal/report.md",
+          "e2e/stages/005-shrimp/report.md"
+        ],
+        "notes": "只汇总问题族，不复制各阶段通过数字。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-001",
@@ -55,87 +222,1023 @@
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "e2e",
+      "module": "story-opening",
       "canonical": "e2e/stages/001-opening/report.md",
       "index": "e2e/stages/001-opening/README.md",
+      "evidence": "e2e/evidence/e2e-001.json",
       "tags": ["story", "opening", "dialogue", "checkpoint"],
       "lastVerified": "2026-09-28",
       "reviewBy": "2026-10-28",
-      "dependsOn": []
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/game-opening.mjs",
+          "lines": "28-32",
+          "anchor": "const openingContract = await readOpeningContract",
+          "role": "caller",
+          "sha256": "fab7df7504b750e0554884470e6814cf46f716f667aa0fcf2ebff53a844d2585"
+        },
+        {
+          "path": "scripts/e2e/opening-matrix.mjs",
+          "lines": "76-93",
+          "anchor": "export function assertOpeningMatrix(",
+          "role": "oracle",
+          "sha256": "a2c9116df25e1e8d96e097fdf340540645bcdedb3db876c229515e68636ffb10"
+        },
+        {
+          "path": "scripts/e2e/opening-handoff.mjs",
+          "lines": "52-67",
+          "anchor": "export function assertOpeningHandoff(",
+          "role": "oracle",
+          "sha256": "e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
+      "legalInputs": ["fresh new story", "normal Enter/Escape/F5 flow", "same-engine save/load"],
+      "businessOracle": {
+        "type": "opening-dialogue-and-restore",
+        "assertions": [
+          "55正文/说话人与分页完整",
+          "指定站定区间零位移且前后有真实移动",
+          "结束档在新上下文正式恢复"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e-contract", "e2e-route", "e2e-002"],
+        "notes": "旧 SAVE/content 回执保留为历史，不升级为当前前驱。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-002",
       "kind": "e2e-stage",
-      "title": "002 客栈与 e56",
+      "title": "002 客栈住客与赏银",
       "status": "verified",
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
-      "canonical": "e2e/stages/002-inn-e56/report.md",
-      "index": "e2e/stages/002-inn-e56/README.md",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "inn-guests-and-reward",
+      "canonical": "e2e/stages/002-inn-guests-and-reward/report.md",
+      "index": "e2e/stages/002-inn-guests-and-reward/README.md",
+      "evidence": "e2e/evidence/e2e-002.json",
       "tags": ["story", "inn", "dialogue", "script-governance", "checkpoint"],
       "lastVerified": "2026-10-02",
       "reviewBy": "2026-11-02",
-      "dependsOn": ["e2e-001"]
+      "dependsOn": ["e2e-001"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/game-inn.mjs",
+          "lines": "3-3",
+          "anchor": "await runInnJourney",
+          "role": "caller",
+          "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "67-84",
+          "anchor": "export function validatePredecessor(",
+          "role": "input",
+          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "337-354",
+          "anchor": "export function assertInnEvidence(",
+          "role": "oracle",
+          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "453-464",
+          "anchor": "'money not committed between thanks and reward display'",
+          "role": "oracle",
+          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["pnpm e2e:002", "pnpm e2e:002:reforge", "pnpm e2e:002:both"],
+      "legalInputs": [
+        "same-engine current 001 end save",
+        "normal movement into s003/e56",
+        "isolated fresh restore context"
+      ],
+      "businessOracle": {
+        "type": "inn-guest-reward-and-restore",
+        "assertions": [
+          "20行正文/说话人完整",
+          "cash 0→500且三苗人真实进房",
+          "结束档在新上下文恢复并保留房内状态"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e-001", "e2e-003", "docs/testing/e2e/stages/002-inn-guests-and-reward"],
+        "notes": "e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-003",
       "kind": "e2e-stage",
-      "title": "003 下楼、道士与厨房",
+      "title": "003 下楼、道士与厨房交代",
       "status": "verified",
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "e2e",
+      "module": "stairs-and-kitchen-handoff",
       "canonical": "e2e/stages/003-kitchen/report.md",
       "index": "e2e/stages/003-kitchen/README.md",
+      "evidence": "e2e/evidence/e2e-003.json",
       "tags": ["story", "inn", "kitchen", "npc", "checkpoint"],
       "lastVerified": "2026-10-02",
       "reviewBy": "2026-11-02",
-      "dependsOn": ["e2e-002"]
+      "dependsOn": ["e2e-002"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/kitchen-game.mjs",
+          "lines": "3-3",
+          "anchor": "await runKitchenJourney",
+          "role": "caller",
+          "sha256": "9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "117-134",
+          "anchor": "export function validateKitchenPredecessor(",
+          "role": "input",
+          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "518-532",
+          "anchor": "'stairs must commit all twelve authored fragments'",
+          "role": "oracle",
+          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "386-403",
+          "anchor": "export function assertKitchenStoryEnd(",
+          "role": "oracle",
+          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["pnpm e2e:003", "pnpm e2e:003:reforge", "pnpm e2e:003:both"],
+      "legalInputs": [
+        "same-engine current 002 report.json",
+        "held normal movement",
+        "no take-dish shortcut"
+      ],
+      "businessOracle": {
+        "type": "stairs-dialogue-kitchen-handoff",
+        "assertions": ["楼梯真实12次提交", "14行正文完整", "停止于126/127并恢复控制"]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e-002", "e2e-004"],
+        "notes": "004取菜入口只登记，不把源码核读冒充003实跑。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-004",
       "kind": "e2e-stage",
-      "title": "004 端菜与赠酒",
+      "title": "004 端菜、赠酒与道士离场",
       "status": "verified",
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "meal-and-gift",
       "canonical": "e2e/stages/004-meal/report.md",
       "index": "e2e/stages/004-meal/README.md",
+      "evidence": "e2e/evidence/e2e-004.json",
       "tags": ["story", "items", "menu", "save-restore", "checkpoint"],
       "lastVerified": "2026-10-02",
       "reviewBy": "2026-11-02",
-      "dependsOn": ["e2e-003"]
+      "dependsOn": ["e2e-003"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/meal-game.mjs",
+          "lines": "3-3",
+          "anchor": "await runMealJourney",
+          "role": "caller",
+          "sha256": "a922f13f014cb4923e0f3ede5d7ddcacc030d892a75a8aeb86cf202d478aad8f"
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "lines": "261-278",
+          "anchor": "export function validateMealPredecessor(",
+          "role": "input",
+          "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "lines": "182-197",
+          "anchor": "export function assertMealSuite(",
+          "role": "oracle",
+          "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "lines": "596-613",
+          "anchor": "export function assertMealGameSaveInput(",
+          "role": "oracle",
+          "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["pnpm e2e:004", "pnpm e2e:004:reforge", "pnpm e2e:004:both"],
+      "legalInputs": [
+        "same-engine current 003 kitchen save",
+        "normal menu use",
+        "isolated save/restore case"
+      ],
+      "businessOracle": {
+        "type": "meal-gift-continuity",
+        "assertions": [
+          "story/items/saves 六 case 分开",
+          "取消/错误 use 不扣酒",
+          "赠酒正文、消失、喊话后恢复移动"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e-003", "e2e-005", "e2e/stages/004-meal/report.md#历史"],
+        "notes": "旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-005",
       "kind": "e2e-stage",
-      "title": "005 买虾与报信",
+      "title": "005 买虾、报信与返程",
       "status": "verified",
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "shrimp-errand-and-news",
       "canonical": "e2e/stages/005-shrimp/report.md",
       "index": "e2e/stages/005-shrimp/README.md",
+      "evidence": "e2e/evidence/e2e-005.json",
       "tags": ["story", "npc", "guards", "save-restore", "checkpoint"],
       "lastVerified": "2026-10-02",
       "reviewBy": "2026-11-02",
-      "dependsOn": ["e2e-004"]
+      "dependsOn": ["e2e-004"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/errand-game.mjs",
+          "lines": "3-3",
+          "anchor": "await runErrandJourney",
+          "role": "caller",
+          "sha256": "177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7"
+        },
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "376-393",
+          "anchor": "export function validateErrandPredecessor(",
+          "role": "input",
+          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+        },
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "253-272",
+          "anchor": "export function assertErrandStory(",
+          "role": "oracle",
+          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+        },
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "295-314",
+          "anchor": "export function assertErrandBackground(",
+          "role": "oracle",
+          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["pnpm e2e:005", "pnpm e2e:005:reforge", "pnpm e2e:005:both"],
+      "legalInputs": [
+        "same-engine current 004 saves report",
+        "normal route and dialogue",
+        "fresh browser restore context"
+      ],
+      "businessOracle": {
+        "type": "errand-news-and-return",
+        "assertions": [
+          "story/guards/saves 六 case 分开",
+          "唯一50文与报信偏序",
+          "读回后后台返程与前台控制并存"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e-004", "e2e-006", "e2e/stages/005-shrimp/report.md#历史"],
+        "notes": "早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
     },
     {
       "id": "e2e-006",
       "kind": "e2e-stage",
-      "title": "006 求药与出海",
+      "title": "006 求药、出海与仙灵岛入口",
       "status": "rework",
       "phase": ["phase1", "phase2"],
       "engines": ["game", "reforge"],
       "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "doctor-and-boat",
       "canonical": "e2e/stages/006-doctor-boat/report.md",
       "index": "e2e/stages/006-doctor-boat/README.md",
+      "evidence": "e2e/evidence/e2e-006.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
       "reviewBy": "2026-10-15",
-      "dependsOn": ["e2e-005"]
+      "dependsOn": ["e2e-005"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/boat-reforge.mjs",
+          "lines": "3-3",
+          "anchor": "await runBoatJourney",
+          "role": "caller",
+          "sha256": "d5c648a90e22617c1d16b97964f3539c22625cc68836e5194c23802c0dd14b43"
+        },
+        {
+          "path": "scripts/e2e/boat-journey.mjs",
+          "lines": "12-31",
+          "anchor": "export async function runBoatJourney(",
+          "role": "caller",
+          "sha256": "3737d0004aa6107654c9604b37748840d2c0055b9c90f1a86fe814cb96e5d675"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "publicCallers": ["node scripts/e2e/boat-reforge.mjs"],
+      "legalInputs": [
+        "current SAVE11/content22 001→005 chain",
+        "normal movement to boat",
+        "current phase1 and reforge NPC logs"
+      ],
+      "businessOracle": {
+        "type": "rework-gated-boat-entry",
+        "assertions": [
+          "Reforge route reaches s014",
+          "two-stage key NPC logs exist",
+          "boat anchor/action/landing visual evidence closes rework"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["e2e-005", "historical 001–005 reports"],
+        "notes": "历史链不能替代当前 006 两阶段证据；缺失项显式保留。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "runtime-active-scene",
+      "kind": "report",
+      "title": "活动场景资源与镜头所有权",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "runtime",
+      "module": "scene",
+      "canonical": "domains/runtime/scene/active-scene/report.md",
+      "index": "domains/runtime/scene/active-scene/README.md",
+      "evidence": "domains/runtime/scene/active-scene/evidence.json",
+      "tags": ["ownership", "scene", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "bootGame → ActiveScene.commit(plan)",
+        "bootGame → WorldCamera.update/pan/advance/reset"
+      ],
+      "legalInputs": [
+        "正式 ScenePreparer.prepare 产出的 ActiveScenePlan",
+        "GridPos 与 live bounds callbacks",
+        "当前 runner AbortSignal"
+      ],
+      "businessOracle": {
+        "type": "runtime-active-scene",
+        "assertions": [
+          "换场清旧 action/baseline/wave 并兑现旧 waiter",
+          "新资源在 boundary cue 前发布，room/bounds 时机保留",
+          "pre-abort 不取代旧 pan；reset 不提前采样像素位置"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/runtime/scene/active-scene/history/report.md"
+        ],
+        "notes": "17 项历史 owner 回归与 save/async/checkpoint 链职责不同；不将 80 个 AST 保护函数或 2560 步对照计作新增业务测试。当前 residual 文件属于后续测试包，本卡不重收/修改。"
+      },
+      "historical": {
+        "report": "domains/runtime/scene/active-scene/history/report.md",
+        "evidence": "domains/runtime/scene/active-scene/history/evidence.json",
+        "implementationSha": "2dc5d1d5f4eb64b4166af344d687bcf03d53732a",
+        "originalReport": "active-scene-refactor.md",
+        "originalEvidence": "active-scene-evidence.json",
+        "supersededBy": "runtime-active-scene"
+      },
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "386-393",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "425-432",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+        },
+        {
+          "path": "packages/reforge/src/active-scene.ts",
+          "lines": "65-90",
+          "anchor": "commit(plan:",
+          "role": "contract",
+          "sha256": "b4a09715ebd57eba9062808e667d64466c2e10c1d355d0849a6d9b0b4438890c"
+        },
+        {
+          "path": "packages/reforge/src/active-scene.test.ts",
+          "lines": "53-77",
+          "anchor": "test('next scene clears old actions",
+          "role": "oracle",
+          "sha256": "ec3ea1276432a68cdf8110109d5c98f45a375fa38cae6c9c7d5cd30404b277cd"
+        },
+        {
+          "path": "packages/reforge/src/world-camera.test.ts",
+          "lines": "108-125",
+          "anchor": "test('pre-aborted request rejects",
+          "role": "oracle",
+          "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "runtime-battle-host",
+      "kind": "report",
+      "title": "战斗宿主启动、取消与世界提交",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "runtime",
+      "module": "battle",
+      "canonical": "domains/runtime/battle/battle-host/report.md",
+      "index": "domains/runtime/battle/battle-host/README.md",
+      "evidence": "domains/runtime/battle/battle-host/evidence.json",
+      "tags": ["ownership", "battle", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "bootGame → BattleHost.start/cancel/active",
+        "BattleHost.start → BattleLaunchPreparation.prepare → commit → BattleSession"
+      ],
+      "legalInputs": [
+        "当前 loader 验证的 team/world/content",
+        "真实准备资源端口",
+        "runner signal 与 captureScriptOwner 身份门"
+      ],
+      "businessOracle": {
+        "type": "runtime-battle-host",
+        "assertions": [
+          "await 准备完成后提交拍读取 world snapshot",
+          "旧 finally 只释放自身 active session",
+          "释放 active 与 finishWorld 同一 continuation"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/runtime/battle/battle-host/history/report.md"
+        ],
+        "notes": "准备资源、宿主 identity、BattleSession 内部菜单/结算是不同合同；H9 随机败北固定输入为历史测试校正，不计本治理的新反控。"
+      },
+      "historical": {
+        "report": "domains/runtime/battle/battle-host/history/report.md",
+        "evidence": "domains/runtime/battle/battle-host/history/evidence.json",
+        "implementationSha": "46287966206e7760c55c7ae23ddc8ebeec303c71",
+        "originalReport": "battle-host-refactor.md",
+        "originalEvidence": "battle-host-refactor-evidence.json",
+        "supersededBy": "runtime-battle-host"
+      },
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1162-1181",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "53-67",
+          "anchor": "async start(",
+          "role": "contract",
+          "sha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "155-159",
+          "anchor": "this.ports.finishWorld(session, result)",
+          "role": "contract",
+          "sha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.test.ts",
+          "lines": "13-36",
+          "anchor": "test('commit consumes live inventory",
+          "role": "oracle",
+          "sha256": "5bcce095e611c8827a4cea2dba819fb1bebfb9503463a049625858ffb29a8154"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "runtime-battle-session-owners",
+      "kind": "report",
+      "title": "战斗会话 readiness、结算与指令选择",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "runtime",
+      "module": "battle",
+      "canonical": "domains/runtime/battle/battle-session-owners/report.md",
+      "index": "domains/runtime/battle/battle-session-owners/README.md",
+      "evidence": "domains/runtime/battle/battle-session-owners/evidence.json",
+      "tags": ["ownership", "battle", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "BattleSession constructor → readiness/settlement owners",
+        "BattleSession.tick → command selection and settlement",
+        "BattleSession.playTimeline → action scheduler"
+      ],
+      "legalInputs": [
+        "当前 BattleContent 与 typed PlayerRuntime 投影",
+        "五敌槽与存活目标集合",
+        "真实 pressed key Set 与明确 dtMs"
+      ],
+      "businessOracle": {
+        "type": "runtime-battle-session-owners",
+        "assertions": [
+          "取消后迟到 prepare 无法提交",
+          "结算每屏 300ms 与 terminated 同拍边界",
+          "指令 LIFO 与 scripted playback 清理保持区别"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/runtime/battle/battle-session-owners/history/report.md"
+        ],
+        "notes": "四 owner 共35条历史回归；与 BattleHost 的 launch/world 写回合同区分。AST 接线计数是结构合同，不能独立证明胜敗演出。"
+      },
+      "historical": {
+        "report": "domains/runtime/battle/battle-session-owners/history/report.md",
+        "evidence": "domains/runtime/battle/battle-session-owners/history/evidence.json",
+        "implementationSha": "afef3cd3fcffcf0babb7376478b26c4cd52d9923",
+        "originalReport": "battle-session-owners-refactor.md",
+        "originalEvidence": "battle-session-owners-refactor-evidence.json",
+        "supersededBy": "runtime-battle-session-owners"
+      },
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "209-211",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "361-372",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1162-1171",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
+          "lines": "37-60",
+          "anchor": "describe('BattleTurnReadinessGate'",
+          "role": "oracle",
+          "sha256": "2bcc3e72cb6ddb16b56db2f99f18827548d66709c92f9e4cf3391349a0555fc7"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "72-95",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "runtime-world-owners",
+      "kind": "report",
+      "title": "世界移动提交与绘制状态所有权",
+      "status": "current",
+      "phase": ["phase2"],
+      "engines": ["reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "runtime",
+      "module": "world",
+      "canonical": "domains/runtime/world/world-runtime/report.md",
+      "index": "domains/runtime/world/world-runtime/README.md",
+      "evidence": "domains/runtime/world/world-runtime/evidence.json",
+      "tags": ["ownership", "world", "document-audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "publicCallers": [
+        "bootGame → WorldMotionRuntime + WorldScenePresentation",
+        "advanceMoves → canonical endpoint/live position/touch",
+        "render → scene presentation snapshot"
+      ],
+      "legalInputs": [
+        "当前 scene session/authority/runner lineage",
+        "production MotionRuntimeCoordinator 与合法 GridPos",
+        "typed scene/renderer draw snapshot"
+      ],
+      "businessOracle": {
+        "type": "runtime-world-owners",
+        "assertions": [
+          "endpoint 先落 canonical，live 提交后 touch，再唤醒 continuation",
+          "party/实体取消释放监听器与 waiter",
+          "每帧自身锚点与 frame priority/shake/wave 保留"
+        ]
+      },
+      "dedupe": {
+        "result": "source-review-no-new-test-credit",
+        "against": [
+          "docs/testing/architecture-continuation-integration.md",
+          "domains/runtime/world/world-runtime/history/report.md"
+        ],
+        "notes": "MotionRuntimeCoordinator 仍拥有 authority/slot；WorldMotionRuntime 管外围节拍和生命周期。ActiveScene 拥有资源、presentation 拥有绘制状态，不能把两份报告重复算整场景 E2E。"
+      },
+      "historical": {
+        "report": "domains/runtime/world/world-runtime/history/report.md",
+        "evidence": "domains/runtime/world/world-runtime/history/evidence.json",
+        "implementationSha": "7be10bf428ad0c7327cb8a58bfd5e3565063b8a8",
+        "originalReport": "world-runtime-refactor.md",
+        "originalEvidence": "world-runtime-refactor-evidence.json",
+        "supersededBy": "runtime-world-owners"
+      },
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "413-424",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+        },
+        {
+          "path": "packages/reforge/src/world-motion-runtime.ts",
+          "lines": "145-168",
+          "anchor": "export class WorldMotionRuntime",
+          "role": "contract",
+          "sha256": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "lines": "71-88",
+          "anchor": "export class WorldScenePresentation",
+          "role": "contract",
+          "sha256": "708a17ca1c63fc18f636f2a5911b436c70d68df5b35af93c994f1599b090f205"
+        },
+        {
+          "path": "packages/reforge/src/world-motion-runtime.test.ts",
+          "lines": "7-30",
+          "anchor": "describe('WorldMotionRuntime ownership'",
+          "role": "oracle",
+          "sha256": "51076a037f665a57d472ada1af68e91eb8dc08fef3a6619222e507f5d534bbe1"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.test.ts",
+          "lines": "82-105",
+          "anchor": "describe('WorldScenePresentation sprite ownership'",
+          "role": "oracle",
+          "sha256": "f2130f0547be77347d41e8d0548b8a6e62c956dbdae80e8fe168f424e6568a9e"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        }
+      ],
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    {
+      "id": "legacy-flat-audit",
+      "kind": "audit",
+      "title": "Legacy flat 内容深审总账",
+      "status": "current",
+      "phase": ["phase1", "phase2", "ops"],
+      "engines": ["game", "reforge", "editor", "content"],
+      "owner": "Codex",
+      "provenance": ["Codex"],
+      "domain": "ops",
+      "module": "testing-governance",
+      "canonical": "domains/ops/testing-governance/legacy-flat-audit.md",
+      "index": "domains/ops/testing-governance/README.md",
+      "evidence": "domains/ops/testing-governance/legacy-flat-audit.json",
+      "tags": ["governance", "legacy", "migration", "audit"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "scripts/docs/classify-testing-legacy.mjs",
+          "lines": "19-150",
+          "anchor": "const domainRules = [",
+          "role": "classification rules",
+          "sha256": "93d04fa7de97afc430e9e7a49fc2300b890afc474aa979bc998e66267ad815ef"
+        },
+        {
+          "path": "docs/testing/legacy-flat.json",
+          "lines": "1-20",
+          "anchor": "\"schemaVersion\": 1",
+          "role": "legacy manifest",
+          "sha256": "5457deb986251b30c833992888600f45d0055d914bac3ce601619c45f872c454"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "current version",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+        },
+        {
+          "path": "docs/testing/archive/migrations/testing-domains-20261004.json",
+          "lines": "1-107",
+          "anchor": "\"kind\": \"testing-document-domain-migration\"",
+          "role": "migration plan",
+          "sha256": "778bad605ecd58b59353df10af45d64c7ffc2b59e04c4f8d8eddfb15e9d51179"
+        }
+      ],
+      "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
+      "legalInputs": [
+        "tracked docs/testing root files",
+        "legacy-flat.json entries and retired records",
+        "source path references embedded in report bodies"
+      ],
+      "businessOracle": {
+        "type": "legacy-content-governance",
+        "assertions": [
+          "every legacy path has domain/module/capability/provenance/sourceSha/inventory",
+          "migrated files have retired SHA and canonical target",
+          "retained files have explicit reason and review status",
+          "Agent names do not leak into canonical targets"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/testing-domains-20261004.json",
+          "docs/testing/catalog.json"
+        ],
+        "notes": "Classification is the complete census; only the 20-file reviewed batch is physically migrated. Retained legacy files are not silently deleted or promoted to verified."
+      },
+      "revision": {
+        "currentSha": "35e2b8d07c310a15c69f5e013a6d748c2146042e",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "35e2b8d07c310a15c69f5e013a6d748c2146042e",
+            "date": "2026-10-04",
+            "action": "full census + representative migration batch",
+            "notRun": ["product runtime", "old tests", "coverage"]
+          }
+        ]
+      }
     }
   ]
 }
