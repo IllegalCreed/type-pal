@@ -51,25 +51,35 @@ Capability: test-quality / coverage branch closure
 交付时在本卡登记每个合同的源锚、合法输入、oracle、fullName、三态反控和覆盖变化，并给出
 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
 
-## GLM 交付回执（r1，2026-10-04，待 Codex 独立验收）
+## GLM 交付回执（r2 返工，2026-10-04，待 Codex 独立验收）
 
 - 候选分支 `codex/coverage85-glm-reforge-r1`（dispatch tip `76475c01c` 起，产品文件零改动，
   `git status` 仅新增本卡测试/脚本/证据）。
-- **第一轮交付，未达 85%**：fast 口径 branches 9657→**9785**/12166（**+128**），
-  statements +83 / functions +6 / lines +48。逐文件闭合与剩余臂诚实披露见
+- **r2 返工（Codex 七项）**：① `c85-branch-delta.mjs` 修复 total++ ReferenceError，参数化
+  lcov 路径可从干净 checkout 按脚本头注释重建，且双 lcov 原始拷贝随账提交；② 证据链接全部
+  改指候选内真实文件（原 `evidence/` 幻路径已清）；③ 删除与 main.glm-n.test.ts 重复的
+  gallery/battle-preview/party 四测（私有重复不计覆盖）；④ 删除 `Reflect.get(window,
+  '__rfWorld'/'__rfScene')` 私有 debug 口，改 runtime-shell 公开 `observation()` 与 canvas
+  DEV dataset（DOM 面）；⑤ 删除 script-world 两处 `as never` 强构造，on 值域守卫按类型不可
+  达登记 U21；⑥ 反控驱动 r2：逐注入 try/finally 恢复、original/mutant/restored 三 sha256、
+  command/cwd/exitCode、原始输出尾与执行身份，回执直接写提交目录；⑦ branch delta 重算
+  （基线=排除本卡测试的 fast 全量 317 文件/8569 全绿，精确复现官方 9657 口径；终态 9784，
+  **+127，不作为 85% 达标**——距 85% 仍差 ~557 臂）。
+- **第一轮交付，未达 85%**：fast 口径 branches 9657→**9784**/12166（**+127**），
+  statements +80 / functions +5 / lines +47（基线 317 文件/8569 测试全绿复现官方口径；终态 325 文件/8686 全绿）。逐文件闭合与剩余臂诚实披露见
   [证据](../../testing/coverage85-glm-reforge-r1-evidence.md)。
-- 新增 8 个专属测试文件 121 测试（`*.c85-*.test.ts`，全部公开 caller：bootGame/BattleSession
+- 新增 8 个专属测试文件 117 测试（r2 删除与既有 main.glm-n.test.ts 重复的 gallery/battle-preview/party 合同、删除 Reflect 私有 debug 口改 observation()/canvas dataset、删除 as never 强构造并登记 U21）（`*.c85-*.test.ts`，全部公开 caller：bootGame/BattleSession
   构造器+tick/createBattleState+stepBattle/decideEnemyAction/applyEnemyEffect/ScriptRunner/
   executeScriptHostEffect/planEntityMotion/ScriptProjectRuntime/RuntimeScriptRunner.runFlow/
   FlowRuntimeCoordinator/公开纯函数）；零 unsafe cast、零 `@ts-expect-error`、零 skip、
   零 timeout 扩大。
-- 三态反控 9/9（`packages/reforge/scripts/c85-mutation-counterproof.mjs`：原始绿→变异红
-  [指定 AssertionError 全文]→恢复绿，源 sha256 前后一致；回执
+- 三态反控 9/9（`packages/reforge/scripts/c85-mutation-counterproof.mjs` r2：逐注入 try/finally 恢复，
+  original/mutant/restored 三 sha256 + command/cwd/exitCode + 原始输出尾 + 执行身份；回执直接写入提交内
   `src/__tests__/coverage85/c85-mutation-counterproof.json`）。
-- 账目：identity（`c85-identity-status.json` 121 条 file×fullName×status）、branch delta
+- 账目：identity（`c85-identity-status.json` 117 条 file×fullName×status）、branch delta
   （`c85-branch-delta.json`）、family ledger（`c85-family-ledger.json` 源行/caller/oracle）、
-  20 条不可达/防御臂判定（证据文档 U1–U20，各带源码条件+调用图+反例一手锚点）。
-- 验证：定向 121/121 绿；全量 fast 325 文件/8690 测试全绿（含相邻既有文件与 battle-trial
+  21 条不可达/防御臂判定（证据文档 U1–U21，各带源码条件+调用图+反例一手锚点）。
+- 验证：定向 117/117 绿；全量 fast 325 文件/8686 测试全绿（含相邻既有文件与 battle-trial
   scripts 测试）；`typecheck` 0 错误；`pnpm lint` 全仓 3145 文件零诊断 PASS；`pnpm check:docs`
   PASS；`git diff` 产品零改动。
 - 已知未闭合（非不可达，留后续轮）：main.ts 主循环/菜单/演出长尾（~780 臂）、battle-session

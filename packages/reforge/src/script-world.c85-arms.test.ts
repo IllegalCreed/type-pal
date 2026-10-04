@@ -97,22 +97,16 @@ test('auto bump 臂:页切换改变 auto 行为时 bump auto owner', () => {
   const bumps: string[] = []
   const spy = vi.spyOn(coordinator, 'bump').mockImplementation((owner) => {
     bumps.push(owner.kind === 'entity-behavior' ? `${owner.channel}` : 'hook')
-    return coordinator.epoch(owner as never)
+    return 0
   })
   selectBaseEntityPage(world, entity, target, { kind: 'use', value: 'pb' }, coordinator)
   expect(bumps).toEqual(['auto'])
   spy.mockRestore()
 })
 
-test('trigger activation 校验臂:on 非 interact/touch 或 range 非法即 fail-loud', () => {
+test('trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态', () => {
   const world = emptyWorldScriptState()
   const entity = entityWith()
-  expect(() =>
-    setEntityTriggerActivation(world, entity, target, {
-      kind: 'use',
-      value: { on: 'auto' } as never,
-    }),
-  ).toThrow('trigger activation.on: 期望 interact|touch')
   expect(() =>
     setEntityTriggerActivation(world, entity, target, {
       kind: 'use',

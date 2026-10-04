@@ -86,8 +86,8 @@
       "families": [
         {
           "lines": [
-            131, 162, 191, 221, 288, 290, 291, 306, 308, 334, 348, 364, 375, 378, 382, 404, 425,
-            433, 444, 445, 597, 602, 609, 617, 628, 634, 721, 726, 740
+            131, 162, 191, 221, 288, 290, 291, 308, 334, 348, 364, 375, 378, 382, 404, 425, 433,
+            444, 445, 597, 602, 609, 617, 628, 634, 721, 726, 740
           ],
           "caller": "公开纯函数 + FlowRuntimeCoordinator",
           "oracle": "校验 fail-loud/inherit 清除/租约停机/checkpoint wait-continue/barrier 句柄全臂/gate 中止/idle 唤醒"
@@ -123,11 +123,17 @@
       "file": "src/main.c85-boot.test.ts",
       "families": [
         {
-          "lines": [300, 371, 378, 436, 469, 539, 548, 814, 823, 826, 827, 831],
+          "lines": [300, 814, 823, 826, 827, 831],
           "caller": "bootGame 公开启动入口",
-          "oracle": "gallery 速查图/battle-preview 摆位与拒绝/party 拉满/运动探针在场与缺席/MemorySaveStore 回退"
+          "oracle": "?motion-entity 探针在场/缺席(canvas DEV dataset = DOM 观测面 + observation().sceneId)"
+        },
+        {
+          "lines": [469, 471],
+          "caller": "bootGame 公开启动入口",
+          "oracle": "indexedDB 缺席回落 MemorySaveStore 正常开局"
         }
       ]
     }
-  ]
+  ],
+  "notes": "main gallery/battle-preview/party 合同由既有 main.glm-n.test.ts 覆盖,本卡不重复;script-world:306 的 on∈{interact,touch} 守卫由 TriggerActivation 类型保证,类型化 caller 不可构造非法 on(U21,见证据文档)。"
 }

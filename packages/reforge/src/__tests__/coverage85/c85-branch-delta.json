@@ -1,4 +1,7 @@
 {
+  "note": "基线=dispatch 基点全量 fast(不含本卡新测试);终态=含本卡新测试。这是 +N 臂闭合账,不是 85% 达标声明。",
+  "baselineLcov": "/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/coverage/c85-baseline/lcov.info",
+  "finalLcov": "/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/coverage/c85-final/lcov.info",
   "targets": {
     "src/main.ts": 7,
     "src/battle/battle-session.ts": 8,
@@ -8,10 +11,10 @@
     "src/script-host-adapter.ts": 26,
     "src/entity-motion.ts": 7,
     "src/script-project-core.ts": 0,
-    "src/script-world.ts": 20,
+    "src/script-world.ts": 19,
     "src/runtime-script-project.ts": 5
   },
-  "targetClosedTotal": 128,
+  "targetClosedTotal": 127,
   "perFile": {
     "src/main.ts": {
       "baselineMissedArms": 835,
@@ -77,11 +80,11 @@
     },
     "src/script-world.ts": {
       "baselineMissedArms": 35,
-      "finalMissedArms": 15,
-      "closedByThisCard": 20,
+      "finalMissedArms": 16,
+      "closedByThisCard": 19,
       "newlyMissedArms": 0,
       "closedLines": [
-        131, 162, 221, 288, 290, 291, 306, 308, 364, 375, 378, 382, 404, 444, 597, 609, 617, 721
+        131, 162, 221, 288, 290, 291, 308, 364, 375, 378, 382, 404, 444, 597, 609, 617, 721
       ]
     },
     "src/runtime-script-project.ts": {

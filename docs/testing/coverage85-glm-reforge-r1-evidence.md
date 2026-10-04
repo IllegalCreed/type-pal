@@ -5,26 +5,26 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 
 ## 交付物
 
-- 8 个新专属测试文件（`*.c85-*.test.ts`，121 测试，全部公开 caller 入口、零 unsafe cast/`@ts-expect-error`/skip/timeout 扩大）。
+- 8 个新专属测试文件（`*.c85-*.test.ts`，117 测试（r2 删除与 main.glm-n.test.ts 重复的 gallery/battle-preview/party 四测），全部公开 caller 入口、零 unsafe cast/`@ts-expect-error`/skip/timeout 扩大）。
 - 2 个证据脚本：`packages/reforge/scripts/c85-mutation-counterproof.mjs`（三态反控驱动）、`packages/reforge/scripts/c85-branch-delta.mjs`（基线对比）。
-- 证据 JSON（见 `evidence/` 目录，来自 worktree 运行产物）：identity（file×fullName×status）、branch delta、mutation receipt。
+- 证据 JSON 全部提交在候选内 `packages/reforge/src/__tests__/coverage85/`：[identity（file×fullName×status）](../../packages/reforge/src/__tests__/coverage85/c85-identity-status.json)、[branch delta](../../packages/reforge/src/__tests__/coverage85/c85-branch-delta.json)（附基线/终态 lcov 原始拷贝）、[family ledger](../../packages/reforge/src/__tests__/coverage85/c85-family-ledger.json)、[mutation receipt](../../packages/reforge/src/__tests__/coverage85/c85-mutation-counterproof.json)。
 
 ## 度量（fast profile，与官方 runner 同参数）
 
 | 指标 | 基线（baseline.fast.json） | 终态 | Δ |
 |---|---|---|---|
-| branches | 9657/12166 (79.39%) | 9785/12166 (80.42%) | **+128** |
-| statements | 15761/17939 | 15844 | +83 |
-| functions | 2561/2916 | 2567 | +6 |
-| lines | 14162/15662 | 14210 | +48 |
+| branches | 9657/12166 (79.39%) | 9784/12166 (80.42%) | **+127** |
+| statements | 15761/17939 | 15841 | +80 |
+| functions | 2561/2916 | 2566 | +5 |
+| lines | 14162/15662 | 14209 | +47 |
 
-逐文件 branch 闭合（基线未覆盖 → 本卡闭合的臂数，详见 evidence/c85-branch-delta.json）：
+逐文件 branch 闭合（基线未覆盖 → 本卡闭合的臂数，详见 [c85-branch-delta.json](../../packages/reforge/src/__tests__/coverage85/c85-branch-delta.json)）：
 
 | 文件 | 闭合臂数 |
 |---|---|
 | src/script-runner.ts | 41 |
 | src/script-host-adapter.ts | 26 |
-| src/script-world.ts | 20 |
+| src/script-world.ts | 19 |
 | src/battle/battle-core.ts | 12 |
 | src/battle/battle-session.ts | 8 |
 | src/main.ts | 7 |
@@ -32,13 +32,13 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 | src/runtime-script-project.ts | 5 |
 | src/script-runner-core.ts | 2 |
 | src/script-project-core.ts | 0 |
-| **合计** | **128** |
+| **合计** | **127** |
 
-诚实声明：未达到 85%（需 ~685）。本卡为第一轮交付：121 个新测试身份、128 个基线未覆盖 branch 闭合、9 个真实注入点三态反控全过、24 条不可达判定带一手证据。剩余 ~2377 未覆盖臞中：main.ts（~780）与 battle-session.ts（~390）的长尾为「可达但未覆盖」（多数需要交互式 shell/渲染断言 harness），不在本轮闭合；见下方账目。
+诚实声明：未达到 85%（需 ~685）。本卡为第一轮交付：117 个新测试身份、127 个基线未覆盖 branch 闭合、9 个真实注入点三态反控全过、21 条不可达判定（U1–U21）带一手证据。剩余 ~2377 未覆盖臞中：main.ts（~780）与 battle-session.ts（~390）的长尾为「可达但未覆盖」（多数需要交互式 shell/渲染断言 harness），不在本轮闭合；见下方账目。
 
 ## admitted branch family 账（每家族：源行/caller/合法输入/oracle）
 
-完整逐测试映射见 `evidence/c85-family-ledger.json`。抽样（合同区间内）：
+完整逐测试映射见 [c85-family-ledger.json](../../packages/reforge/src/__tests__/coverage85/c85-family-ledger.json)。抽样（合同区间内）：
 
 - `script-runner.ts:510,518,521,528` — `ScriptRunner.run`（公开）合成命令缺省臂：fade 300/dither 720/chase range 8 speed 4/vanish seconds 2，oracle = 宿主收到的逐参调用序。
 - `script-runner.ts:234-287` — `evalCondition`（公开导出）条件臂：var 六算子、flag 缺省 false、ownsItem atLeast 缺省、currentScene 缺查询 fail-loud、all/any/not、entitiesNear/facingEntity 透传。
@@ -76,6 +76,7 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 | U18 | main.ts:300/461/801/834/843 | `import.meta.env.DEV` 的 false 臂为生产构建常量；vitest 环境 DEV 恒 true，false 臂在测试环境不可达（与官方 coverage 工具口径一致，不以此豁免质量门）。 |
 | U19 | entity-motion.ts:177/183 | requiredMapValue/requiredArrayValue throw：求解器内部查询全部发生在 normalization（:393-455 已验证存在性）之后的固定键集合上。 | normalization 调用图。 |
 | U20 | battle-core.ts:1218-1232 | applyPlayerSkill 缺技能/酒神限用/MP 不足守卫：源注『正常不可达:validatePlayerAction 已降级』（:1225/1232 原注），入队动作先经降级。 | battle-core.ts:1928-1937 validatePlayerAction 前置。 |
+| U21 | script-world.ts:306 | trigger activation `on` 值域守卫：`TriggerActivation.on: 'interact' \| 'touch'`（content 类型）已把非法 on 排除在类型层，类型化 caller 无法构造 `on:'auto'` 输入；守卫为跨层双保险。 | content 类型定义 + 本卡 r1 曾用 `as never` 强构造被 r2 删除（返工第 5 条）。 |
 
 ## 剩余可达未覆盖（诚实披露，非不可达）
 
@@ -86,8 +87,8 @@ Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1`（base `b95a69473`，dis
 
 ## 验证
 
-- 定向：8 个新文件 121/121 绿（`vitest run <files>`）。
+- 定向：8 个新文件 117/117 绿（`vitest run <files>`）。
 - 相邻/全量：fast profile 全量 325 文件 / 8691 测试全绿（含 battle-trial scripts 测试与全部既有相邻文件）。
 - typecheck：`pnpm --filter @type-pal/reforge run typecheck` 零错误。
-- 反控：`node scripts/c85-mutation-counterproof.mjs` 9/9（原始绿→变异红[指定 AssertionError]→恢复绿，源 sha256 恢复一致），receipt `evidence/c85-mutation-counterproof.json`。
+- 反控：`node scripts/c85-mutation-counterproof.mjs` 9/9（原始绿→变异红[指定 AssertionError]→恢复绿；r2 驱动逐注入 try/finally 恢复 + original/mutant/restored 三 sha256 + command/cwd/exitCode/输出尾），receipt [c85-mutation-counterproof.json](../../packages/reforge/src/__tests__/coverage85/c85-mutation-counterproof.json)。
 - 产品零改动：`git status` 仅新增本卡测试/脚本/证据文件；反控驱动的变异全部原地恢复（sha256 对账）。

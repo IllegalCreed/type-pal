@@ -1,110 +1,594 @@
-[
-  {
-    "id": "SR-FADE-DEFAULT",
-    "source": "src/script-runner.ts",
-    "identity": "vitest run src/script-runner.c85-arms.test.ts -t 演出缺省臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]\n\n- Expected\n+ Received\n\n@@ -1,11 +1,11 @@\n  [\n    [\n      \"fade\",\n      [\n        \"out\",\n-       300,\n+       301,\n        undefined,\n        AbortSignal {\n          Symbol(kEvents): Map {},\n          Symbol(events.maxEventTargetListeners): 0,\n          Symbol(events.maxEventTargetListenersWarned): false,",
-    "sourceSha256Before": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
-    "sourceSha256AfterRestored": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c"
-  },
-  {
-    "id": "ADAPTER-SCENE-FILTER",
-    "source": "src/script-host-adapter.ts",
-    "identity": "vitest run src/script-host-adapter.c85-arms.test.ts -t 跨场景过滤臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected [ …(13) ] to deeply equal []\n\n- Expected\n+ Received\n\n- []\n+ [\n+   {\n+     \"args\": [\n+       \"e1\",\n+       {\n+         \"col\": 9,\n+         \"height\": 0,\n+         \"row\": 9,\n+       },\n+     ],\n+     \"method\": \"setEntityPos\",\n+   },\n+   {\n+     \"args\": [\n+       \"e2\",\n+       0,\n+       0,\n+     ],\n+     \"method\": \"setEntityPosRelParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e3\",\n+       1,\n+     ],\n+     \"method\": \"setEntityFrame\",\n+   },\n+   {\n+     \"args\": [\n+       \"e4\",\n+       {\n+         \"action\": \"spin\",\n+         \"loop\": false,\n+         \"sprite\": \"walker\",\n+       },\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"playEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e5\",\n+       true,\n+     ],\n+     \"method\": \"stopEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e6\",\n+     ],\n+     \"method\": \"takeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e7\",\n+     ],\n+     \"method\": \"releaseEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e8\",\n+       1,\n+       1,\n+     ],\n+     \"method\": \"mountParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e9\",\n+       {\n+         \"col\": 1,\n+         \"height\": 0,\n+         \"row\": 1,\n+       },\n+       \"slow\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"ride\",\n+   },\n+   {\n+     \"args\": [\n+       \"e10\",\n+       \"down\",\n+     ],\n+     \"method\": \"stepEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e11\",\n+     ],\n+     \"method\": \"animEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e12\",\n+       1,\n+       0,\n+     ],\n+     \"method\": \"nudgeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e13\",\n+       {\n+         \"col\": 0,\n+         \"height\": 0,\n+         \"row\": 0,\n+       },\n+       \"fast\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"moveEntity\",\n+   },\n+ ]",
-    "sourceSha256Before": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
-    "sourceSha256AfterRestored": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73"
-  },
-  {
-    "id": "CORE-STEAL-SPLIT",
-    "source": "src/battle/battle-core.ts",
-    "identity": "vitest run src/battle/battle-core.c85-branches.test.ts -t 偷钱臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected 3 to be 4 // Object.is equality\n\n- Expected\n+ Received\n\n- 4\n+ 3",
-    "sourceSha256Before": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
-    "sourceSha256AfterRestored": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862"
-  },
-  {
-    "id": "CORE-POISON-MP",
-    "source": "src/battle/battle-core.ts",
-    "identity": "vitest run src/battle/battle-core.c85-branches.test.ts -t mpDelta 分侧臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected 34 to be 26 // Object.is equality\n\n- Expected\n+ Received\n\n- 26\n+ 34",
-    "sourceSha256Before": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
-    "sourceSha256AfterRestored": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862"
-  },
-  {
-    "id": "WORLD-BARRIER-RELEASE-GATE",
-    "source": "src/script-world.ts",
-    "identity": "vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined",
-    "sourceSha256Before": "b89b85eb02ed58912fb88fdd4411aca6cc0963d24547bee81d9be8b3204b95c1",
-    "sourceSha256AfterRestored": "b89b85eb02ed58912fb88fdd4411aca6cc0963d24547bee81d9be8b3204b95c1"
-  },
-  {
-    "id": "MOTION-DUPLICATE-GUARD",
-    "source": "src/entity-motion.ts",
-    "identity": "vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined",
-    "sourceSha256Before": "8aff9be1a0dc0eac35eee2f451fe1aa60d8802d5667ba9432ac0b60a0e1a0546",
-    "sourceSha256AfterRestored": "8aff9be1a0dc0eac35eee2f451fe1aa60d8802d5667ba9432ac0b60a0e1a0546"
-  },
-  {
-    "id": "SESSION-CHOREO-STOP-FADE",
-    "source": "src/battle/battle-session.ts",
-    "identity": "vitest run src/battle/battle-session.c85-arms.test.ts -t stopMusic 即时臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected [] to deeply equal [ 1 ]\n\n- Expected\n+ Received\n\n- [\n-   1,\n- ]\n+ []",
-    "sourceSha256Before": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19",
-    "sourceSha256AfterRestored": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
-  },
-  {
-    "id": "RUNTIME-COMPLETED-CURSOR",
-    "source": "src/script-runner-core.ts",
-    "identity": "vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined",
-    "sourceSha256Before": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
-    "sourceSha256AfterRestored": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e"
-  },
-  {
-    "id": "MAIN-PARTY-FULL-HEAL",
-    "source": "src/main.ts",
-    "identity": "vitest run src/main.c85-boot.test.ts -t dev 队伍覆写臂",
-    "originalGreen": true,
-    "mutatedRed": true,
-    "restoredGreen": true,
-    "specifiedAssertionMatched": true,
-    "assertionError": "AssertionError: expected 99 to be 100 // Object.is equality\n\n- Expected\n+ Received\n\n- 100\n+ 99",
-    "sourceSha256Before": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
-    "sourceSha256AfterRestored": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
-  }
-]
+{
+  "driver": "packages/reforge/scripts/c85-mutation-counterproof.mjs",
+  "generatedAt": "2026-10-04T04:02:41.527Z",
+  "repoRoot": "/Users/zhangxu/illegal/type-pal-c85glm",
+  "injections": [
+    {
+      "id": "SR-FADE-DEFAULT",
+      "source": "src/script-runner.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/script-runner.c85-arms.test.ts -t 演出缺省臂",
+      "expectedErrorPart": "to deeply equal",
+      "originalSha256": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-runner.c85-arms.test.ts",
+          "-t",
+          "演出缺省臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/script-runner.c85-arms.test.ts (30 tests | 29 skipped) 2ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 29 skipped (30)\n   Start at  13:02:41\n   Duration  359ms (transform 234ms, setup 0ms, import 283ms, tests 2ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "0d57607d0120d982d25b945dc0815030636e9e29a0501fe86c86c125ceae0b66",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-runner.c85-arms.test.ts",
+          "-t",
+          "演出缺省臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/script-runner.c85-arms.test.ts (30 tests | 1 failed | 29 skipped) 7ms\n   × 演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主 7ms\n   ↓ B8 缺省臂:无宿主实体的 chasePlayer 以空 self 派发缺省 range/speed/floating\n   ↓ B8 缺省臂:vanishEntity 无 entity 时回落触发者自身,seconds 缺省 2\n   ↓ 0x13 缺省臂:setEntityPos 的 height 缺省落 0 并持久写 world.entityPos\n   ↓ 0x98 清空臂:setFollowers 空表把 world.followers 归 undefined\n   ↓ 循环动作后台失败臂:非 abort 错误按复合引用上报宿主,不中断后续命令\n   ↓ 循环动作后台失败臂:runner 已取消时不把 abort 上报为宿主错误\n   ↓ 0x2E/0x63/0x6E 缺省臂:loseItem count 缺省 1、mountParty 偏移缺省 0、addVar 缺省累加底数 0\n   ↓ setSceneMapOverride 持久臂:指定 scene 直接写 world,不触碰当前场景\n   ↓ setSceneMapOverride 当前场景臂:宿主无 reloadMap 时只落持久 override\n   ↓ setSceneMapOverride 当前场景臂:无 sceneId 查询的宿主保持零写入\n   ↓ 脚本绑定双臂:setEntityAuto/setEntityTrigger 分别以 script 引用与 stages 内联派发\n   ↓ 场景覆写残留臂:onTeleport/clearSceneScripts 对全新场景各自建立 override 槽\n   ↓ 战斗配置臂:startBattle 透传 choreography 且按字段缺席裁剪\n   ↓ 节拍臂:paceMs>0 时每条命令后按拍等待宿主 wait\n   ↓ runStages 空段臂:空 stages 绑定安静收尾,不建阶段不抛错\n   ↓ runStages 宿主臂:entry 段遇无 revealSceneEntry 宿主 fail-loud\n   ↓ 条件残留臂:缺席 flag 按 false 求值,ownsItem 缺省 atLeast=1\n   ↓ 条件残留臂:var 六比较算子按数值语义求值\n   ↓ 条件残留臂:缺席 var 按默认 0 参与比较;not/all/any 组合臂齐走\n   ↓ 条件残留臂:currentScene 缺当前场景查询时 fail-loud\n   ↓ 条件残留臂:entityState 用 NaN 哨兵拒绝缺席实体,facingEntity/items 走宿主查询\n   ↓ 条件残留臂:entitiesNear 透传 range,chance 用注入 random 定率\n   ↓ 命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力\n   ↓ 宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud\n   ↓ call 重抛臂:callee 内非 returnScript 错误穿透 callScript 原样上抛\n   ↓ endBattle 拒绝臂:大世界 runner 拒绝战斗演出专属命令\n   ↓ vanish 双回落臂:无 entity 且无 selfId 时以空实体 id 派发宿主\n   ↓ 后台失败上报臂:非 Error 拒绝值按 String() 文本上报\n   ↓ 脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自落位\n\n Test Files  1 failed (1)\n      Tests  1 failed | 29 skipped (30)\n   Start at  13:02:42\n   Duration  327ms (transform 205ms, setup 0ms, import 248ms, tests 7ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-runner.c85-arms.test.ts -t 演出缺省臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/script-runner.c85-arms.test.ts > 演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主\nAssertionError: expected [ …(2) ] to deeply equal [ …(2) ]\n\n- Expected\n+ Received\n\n@@ -1,11 +1,11 @@\n  [\n    [\n      \"fade\",\n      [\n        \"out\",\n-       300,\n+       301,\n        undefined,\n        AbortSignal {\n          Symbol(kEvents): Map {},\n          Symbol(events.maxEventTargetListeners): 0,\n          Symbol(events.maxEventTargetListenersWarned): false,\n\n ❯ src/script-runner.c85-arms.test.ts:119:15\n    117|   const r = newRunner(recordingHost(log))\n    118|   await r.run([{ kind: 'fade', dir: 'out' }, { kind: 'ditherScreen' }])\n    119|   expect(log).toEqual([\n       |               ^\n    120|     ['fade', ['out', 300, undefined, expect.any(AbortSignal)]],\n    121|     ['ditherScreen', [720, expect.any(AbortSignal)]],\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]\n\n- Expected\n+ Received\n\n@@ -1,11 +1,11 @@\n  [\n    [\n      \"fade\",\n      [\n        \"out\",\n-       300,\n+       301,\n        undefined,\n        AbortSignal {\n          Symbol(kEvents): Map {},\n          Symbol(events.maxEventTargetListeners): 0,\n          Symbol(events.maxEventTargetListenersWarned): false,",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-runner.c85-arms.test.ts",
+          "-t",
+          "演出缺省臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/script-runner.c85-arms.test.ts (30 tests | 29 skipped) 2ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 29 skipped (30)\n   Start at  13:02:43\n   Duration  308ms (transform 195ms, setup 0ms, import 236ms, tests 2ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "ADAPTER-SCENE-FILTER",
+      "source": "src/script-host-adapter.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/script-host-adapter.c85-arms.test.ts -t 跨场景过滤臂",
+      "expectedErrorPart": "to deeply equal []",
+      "originalSha256": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-host-adapter.c85-arms.test.ts",
+          "-t",
+          "跨场景过滤臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/script-host-adapter.c85-arms.test.ts (21 tests | 20 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 20 skipped (21)\n   Start at  13:02:44\n   Duration  310ms (transform 192ms, setup 0ms, import 235ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "20ca394bf5d140daa6436c8c4272c7ec92bed0891dd9c1cab926c190e6046669",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-host-adapter.c85-arms.test.ts",
+          "-t",
+          "跨场景过滤臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/script-host-adapter.c85-arms.test.ts (21 tests | 1 failed | 20 skipped) 8ms\n   ↓ 在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主\n   × 跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛 7ms\n   ↓ chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传\n   ↓ chasePlayer 跨场景臂:self 不在场时零调用\n   ↓ 演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both\n   ↓ playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成\n   ↓ playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛\n   ↓ playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测\n   ↓ releaseEntity 双臂:无 target 归还全部,target 在场只还该实体\n   ↓ setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud\n   ↓ setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载\n   ↓ 宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud\n   ↓ 世界持久类叶零派发臂:状态写入类命令不触碰画面宿主\n   ↓ loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主\n   ↓ setActorAppearance 部分补丁臂:仅改单维度时其余键缺席\n   ↓ setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override\n   ↓ playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主\n   ↓ mountParty 在场缺省臂:偏移缺席按 0 派发宿主\n   ↓ endBattle 拒绝臂:非战斗演出上下文直接 fail-loud\n   ↓ loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主\n   ↓ setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发\n\n Test Files  1 failed (1)\n      Tests  1 failed | 20 skipped (21)\n   Start at  13:02:44\n   Duration  362ms (transform 225ms, setup 0ms, import 278ms, tests 8ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-host-adapter.c85-arms.test.ts -t 跨场景过滤臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/script-host-adapter.c85-arms.test.ts > 跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛\nAssertionError: expected [ …(13) ] to deeply equal []\n\n- Expected\n+ Received\n\n- []\n+ [\n+   {\n+     \"args\": [\n+       \"e1\",\n+       {\n+         \"col\": 9,\n+         \"height\": 0,\n+         \"row\": 9,\n+       },\n+     ],\n+     \"method\": \"setEntityPos\",\n+   },\n+   {\n+     \"args\": [\n+       \"e2\",\n+       0,\n+       0,\n+     ],\n+     \"method\": \"setEntityPosRelParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e3\",\n+       1,\n+     ],\n+     \"method\": \"setEntityFrame\",\n+   },\n+   {\n+     \"args\": [\n+       \"e4\",\n+       {\n+         \"action\": \"spin\",\n+         \"loop\": false,\n+         \"sprite\": \"walker\",\n+       },\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"playEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e5\",\n+       true,\n+     ],\n+     \"method\": \"stopEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e6\",\n+     ],\n+     \"method\": \"takeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e7\",\n+     ],\n+     \"method\": \"releaseEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e8\",\n+       1,\n+       1,\n+     ],\n+     \"method\": \"mountParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e9\",\n+       {\n+         \"col\": 1,\n+         \"height\": 0,\n+         \"row\": 1,\n+       },\n+       \"slow\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"ride\",\n+   },\n+   {\n+     \"args\": [\n+       \"e10\",\n+       \"down\",\n+     ],\n+     \"method\": \"stepEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e11\",\n+     ],\n+     \"method\": \"animEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e12\",\n+       1,\n+       0,\n+     ],\n+     \"method\": \"nudgeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e13\",\n+       {\n+         \"col\": 0,\n+         \"height\": 0,\n+         \"row\": 0,\n+       },\n+       \"fast\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"moveEntity\",\n+   },\n+ ]\n\n ❯ src/script-host-adapter.c85-arms.test.ts:201:17\n    199|     },\n    200|   ])\n    201|   expect(calls).toEqual([])\n       |                 ^\n    202| })\n    203|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected [ …(13) ] to deeply equal []\n\n- Expected\n+ Received\n\n- []\n+ [\n+   {\n+     \"args\": [\n+       \"e1\",\n+       {\n+         \"col\": 9,\n+         \"height\": 0,\n+         \"row\": 9,\n+       },\n+     ],\n+     \"method\": \"setEntityPos\",\n+   },\n+   {\n+     \"args\": [\n+       \"e2\",\n+       0,\n+       0,\n+     ],\n+     \"method\": \"setEntityPosRelParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e3\",\n+       1,\n+     ],\n+     \"method\": \"setEntityFrame\",\n+   },\n+   {\n+     \"args\": [\n+       \"e4\",\n+       {\n+         \"action\": \"spin\",\n+         \"loop\": false,\n+         \"sprite\": \"walker\",\n+       },\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"playEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e5\",\n+       true,\n+     ],\n+     \"method\": \"stopEntityAction\",\n+   },\n+   {\n+     \"args\": [\n+       \"e6\",\n+     ],\n+     \"method\": \"takeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e7\",\n+     ],\n+     \"method\": \"releaseEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e8\",\n+       1,\n+       1,\n+     ],\n+     \"method\": \"mountParty\",\n+   },\n+   {\n+     \"args\": [\n+       \"e9\",\n+       {\n+         \"col\": 1,\n+         \"height\": 0,\n+         \"row\": 1,\n+       },\n+       \"slow\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"ride\",\n+   },\n+   {\n+     \"args\": [\n+       \"e10\",\n+       \"down\",\n+     ],\n+     \"method\": \"stepEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e11\",\n+     ],\n+     \"method\": \"animEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e12\",\n+       1,\n+       0,\n+     ],\n+     \"method\": \"nudgeEntity\",\n+   },\n+   {\n+     \"args\": [\n+       \"e13\",\n+       {\n+         \"col\": 0,\n+         \"height\": 0,\n+         \"row\": 0,\n+       },\n+       \"fast\",\n+       AbortSignal {\n+         Symbol(kEvents): Map {},\n+         Symbol(events.maxEventTargetListeners): 0,\n+         Symbol(events.maxEventTargetListenersWarned): false,\n+         Symbol(kHandlers): Map {},\n+         Symbol(kAborted): false,\n+         Symbol(kReason): undefined,\n+         Symbol(kComposite): false,\n+       },\n+     ],\n+     \"method\": \"moveEntity\",\n+   },\n+ ]",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "e57cd2b0a4cb2b50d4f4120bd4fe7f5bb86cb9a2f2d7fc8d0b7a255a6a134c73",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-host-adapter.c85-arms.test.ts",
+          "-t",
+          "跨场景过滤臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/script-host-adapter.c85-arms.test.ts (21 tests | 20 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 20 skipped (21)\n   Start at  13:02:45\n   Duration  334ms (transform 218ms, setup 0ms, import 263ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "CORE-STEAL-SPLIT",
+      "source": "src/battle/battle-core.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/battle/battle-core.c85-branches.test.ts -t 偷钱臂",
+      "expectedErrorPart": "expected 3 to be 4",
+      "originalSha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-core.c85-branches.test.ts",
+          "-t",
+          "偷钱臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/battle/battle-core.c85-branches.test.ts (16 tests | 15 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 15 skipped (16)\n   Start at  13:02:46\n   Duration  356ms (transform 230ms, setup 0ms, import 280ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "9f37092eb9d8ae3b14d1c964a98b0c332d861a65d5e78ca4d8878585beabff91",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-core.c85-branches.test.ts",
+          "-t",
+          "偷钱臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/battle/battle-core.c85-branches.test.ts (16 tests | 1 failed | 15 skipped) 8ms\n     ↓ deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵\n     ↓ divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排\n     ↓ mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩\n     ↓ 毒名缺省与到期产物臂:无 name 按 id 合成名,grantItem 优先叠已有背包槽\n     × 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice 7ms\n     ↓ 偷物臂:具名道具入背包;未知道具名回落 itemId\n     ↓ 偷空臂:余量耗尽后命中也一无所获\n     ↓ 沉默臂:技能在表的 cast fallback 被沉默拦回落普攻(规则路径由求值器先跳过)\n     ↓ 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻\n     ↓ 无 enemyId 召唤臂:召唤动作回落召唤者自身定义\n     ↓ 混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴\n     ↓ 死亡宿主臂:applyEnemyEffect 对死者直接 failed\n     ↓ 召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback\n     ↓ transform 解析臂:enemiesById 命中即换定义并保留余量\n     ↓ 装备回蓝臂:regenMp 每回合回蓝并钳上限\n     ↓ 濒死伤亡臂:濒死队员睡着时不触发 dying 脚本\n\n Test Files  1 failed (1)\n      Tests  1 failed | 15 skipped (16)\n   Start at  13:02:46\n   Duration  398ms (transform 252ms, setup 0ms, import 310ms, tests 8ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/battle-core.c85-branches.test.ts -t 偷钱臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-core.c85-branches.test.ts > C85 偷窃臂(performSteal 经 cast 效果链驱动) > 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice\nAssertionError: expected 3 to be 4 // Object.is equality\n\n- Expected\n+ Received\n\n- 4\n+ 3\n\n ❯ src/battle/battle-core.c85-branches.test.ts:203:26\n    201|   test('偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice', () => {\n    202|     const s = castStealTurn({ itemId: '0', count: 9 })\n    203|     expect(s.moneyDelta).toBe(4) // floor(9 / (2 + 0)) = 4\n       |                          ^\n    204|     expect(s.lastAction?.notice).toBe('获得 4 文钱')\n    205|     expect(s.log).toContain('li 获得 4 文钱')\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected 3 to be 4 // Object.is equality\n\n- Expected\n+ Received\n\n- 4\n+ 3",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-core.c85-branches.test.ts",
+          "-t",
+          "偷钱臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/battle/battle-core.c85-branches.test.ts (16 tests | 15 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 15 skipped (16)\n   Start at  13:02:47\n   Duration  361ms (transform 236ms, setup 0ms, import 285ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "CORE-POISON-MP",
+      "source": "src/battle/battle-core.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/battle/battle-core.c85-branches.test.ts -t mpDelta 分侧臂",
+      "expectedErrorPart": "26",
+      "originalSha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-core.c85-branches.test.ts",
+          "-t",
+          "mpDelta 分侧臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/battle/battle-core.c85-branches.test.ts (16 tests | 15 skipped) 4ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 15 skipped (16)\n   Start at  13:02:48\n   Duration  361ms (transform 238ms, setup 0ms, import 287ms, tests 4ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "7926a6019424dd98c5e704d4880838f6c26e9661dd8e0ff06fd1ddaf6685ed86",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-core.c85-branches.test.ts",
+          "-t",
+          "mpDelta 分侧臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/battle/battle-core.c85-branches.test.ts (16 tests | 1 failed | 15 skipped) 6ms\n     ↓ deprecated enemies 别名臂:dense enemies 建出与 enemySlots 等价的敌阵\n     ↓ divide 扩上限臂:分裂填入 maxEnemyIndex 之外的空槽,全场站位随新上限重排\n     × mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩 6ms\n     ↓ 毒名缺省与到期产物臂:无 name 按 id 合成名,grantItem 优先叠已有背包槽\n     ↓ 偷钱臂:余量按 R(2,3) 分成入 moneyDelta 并留获得文钱 notice\n     ↓ 偷物臂:具名道具入背包;未知道具名回落 itemId\n     ↓ 偷空臂:余量耗尽后命中也一无所获\n     ↓ 沉默臂:技能在表的 cast fallback 被沉默拦回落普攻(规则路径由求值器先跳过)\n     ↓ 缺数据落普攻臂:transform/summon 引用缺失时 log 提示并落普攻\n     ↓ 无 enemyId 召唤臂:召唤动作回落召唤者自身定义\n     ↓ 混乱臂:唯一敌混乱咬不到同伴转 pass;多敌时咬中同伴\n     ↓ 死亡宿主臂:applyEnemyEffect 对死者直接 failed\n     ↓ 召唤解析臂:显式 resolvedTarget 优先于表查询;无 fallback 的目标不带 fallback\n     ↓ transform 解析臂:enemiesById 命中即换定义并保留余量\n     ↓ 装备回蓝臂:regenMp 每回合回蓝并钳上限\n     ↓ 濒死伤亡臂:濒死队员睡着时不触发 dying 脚本\n\n Test Files  1 failed (1)\n      Tests  1 failed | 15 skipped (16)\n   Start at  13:02:49\n   Duration  390ms (transform 257ms, setup 0ms, import 311ms, tests 6ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/battle-core.c85-branches.test.ts -t mpDelta 分侧臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-core.c85-branches.test.ts > C85 毒系统臂 > mpDelta 分侧臂:玩家毒扣蓝,敌毒无 mp 槽只走 HP 不崩\nAssertionError: expected 34 to be 26 // Object.is equality\n\n- Expected\n+ Received\n\n- 26\n+ 34\n\n ❯ src/battle/battle-core.c85-branches.test.ts:136:30\n    134|     enemy.poisons = [{ poisonId: 1, tickIndex: 0 }]\n    135|     runOneTurn(s, () => 0)\n    136|     expect(s.players[0]?.mp).toBe(26)\n       |                              ^\n    137|     expect(enemy.hp).toBe(49)\n    138|     expect(s.log).toContain('li 赤毒 发作')\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected 34 to be 26 // Object.is equality\n\n- Expected\n+ Received\n\n- 26\n+ 34",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "e90dc0c682d4afcd5076b3c53e331da97109fd3118fb46dda41a1cf763fe2862",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-core.c85-branches.test.ts",
+          "-t",
+          "mpDelta 分侧臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/battle/battle-core.c85-branches.test.ts (16 tests | 15 skipped) 4ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 15 skipped (16)\n   Start at  13:02:50\n   Duration  419ms (transform 274ms, setup 0ms, import 333ms, tests 4ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "WORLD-BARRIER-RELEASE-GATE",
+      "source": "src/script-world.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂",
+      "expectedErrorPart": "expected [Function] to throw an error",
+      "originalSha256": "b89b85eb02ed58912fb88fdd4411aca6cc0963d24547bee81d9be8b3204b95c1",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-world.c85-arms.test.ts",
+          "-t",
+          "barrier 句柄臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/script-world.c85-arms.test.ts (15 tests | 14 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 14 skipped (15)\n   Start at  13:02:51\n   Duration  538ms (transform 380ms, setup 0ms, import 450ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "57fde0e42f33edbc746252b475e7c19ca14cd2218f431ffcda8906897109407d",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-world.c85-arms.test.ts",
+          "-t",
+          "barrier 句柄臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/script-world.c85-arms.test.ts (15 tests | 1 failed | 14 skipped) 5ms\n   ↓ page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined\n   ↓ page 缺席臂:initialPage 指向不存在页时 fail-loud\n   ↓ behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud\n   ↓ selectEntityBehavior inherit 臂:显式继承清除该通道的手动选择\n   ↓ auto bump 臂:页切换改变 auto 行为时 bump auto owner\n   ↓ trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态\n   ↓ scene hook 校验臂:空 selection 与未知变体 fail-loud;undefined 槽位安静跳过\n   ↓ scene hook inherit 臂:继承清空手动选择且同 id 游标保留\n   ↓ resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined\n   ↓ 租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop\n   ↓ checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue\n   × barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理 4ms\n   ↓ barrier cancel 臂:Error 原样透传,字符串原因包成 Error\n   ↓ activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝\n   ↓ owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝\n\n Test Files  1 failed (1)\n      Tests  1 failed | 14 skipped (15)\n   Start at  13:02:52\n   Duration  514ms (transform 348ms, setup 0ms, import 420ms, tests 5ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/script-world.c85-arms.test.ts -t barrier 句柄臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/script-world.c85-arms.test.ts > barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理\nAssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined\n\n ❯ src/script-world.c85-arms.test.ts:206:35\n    204|   if (!lease) throw new Error('expected lease')\n    205|   const barrier = coordinator.requestSaveBarrier()\n    206|   expect(() => barrier.release()).toThrow('save barrier 尚未 ready，不能 re…\n       |                                   ^\n    207|   // 非嵌套租约在 gate 关闭时到达安全点 = 'stop' 并结束租约 → barrier 就绪\n    208|   await expect(lease.reachSafePoint({ kind: 'stage', stage: 's0' })).r…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "b89b85eb02ed58912fb88fdd4411aca6cc0963d24547bee81d9be8b3204b95c1",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/script-world.c85-arms.test.ts",
+          "-t",
+          "barrier 句柄臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/script-world.c85-arms.test.ts (15 tests | 14 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 14 skipped (15)\n   Start at  13:02:53\n   Duration  430ms (transform 280ms, setup 0ms, import 339ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "MOTION-DUPLICATE-GUARD",
+      "source": "src/entity-motion.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂",
+      "expectedErrorPart": "expected [Function] to throw an error",
+      "originalSha256": "8aff9be1a0dc0eac35eee2f451fe1aa60d8802d5667ba9432ac0b60a0e1a0546",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/entity-motion.c85-arms.test.ts",
+          "-t",
+          "非法快照臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/entity-motion.c85-arms.test.ts (8 tests | 7 skipped) 2ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 7 skipped (8)\n   Start at  13:02:53\n   Duration  131ms (transform 44ms, setup 0ms, import 53ms, tests 2ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "8a40c865236884cb4b9159c034dc16ea30378c5b30c4dcf0d1a7e86fdc9139b2",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/entity-motion.c85-arms.test.ts",
+          "-t",
+          "非法快照臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/entity-motion.c85-arms.test.ts (8 tests | 1 failed | 7 skipped) 5ms\n   × 非法快照臂:重复 actor 与空足迹各自 fail-loud 4ms\n   ↓ 非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud\n   ↓ 非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud\n   ↓ 公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud\n   ↓ 原地意图臂:desired 等于 from 的动态意图零位移成功且朝向回落 desiredFacing\n   ↓ 悬浮臂:floating 意图无视全图地形封锁照常移动\n   ↓ 移动键臂:party 键恒为 0:party 且排序先于实体键\n   ↓ 足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与\n\n Test Files  1 failed (1)\n      Tests  1 failed | 7 skipped (8)\n   Start at  13:02:54\n   Duration  133ms (transform 43ms, setup 0ms, import 52ms, tests 5ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/entity-motion.c85-arms.test.ts -t 非法快照臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/entity-motion.c85-arms.test.ts > 非法快照臂:重复 actor 与空足迹各自 fail-loud\nAssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined\n\n ❯ src/entity-motion.c85-arms.test.ts:47:5\n     45|       terrainBlocked: openTerrain(),\n     46|     }),\n     47|   ).toThrow('entity-motion: duplicate snapshot actor 1:e1')\n       |     ^\n     48|   expect(() =>\n     49|     planEntityMotion({\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected [Function] to throw an error\n\n- Expected:\nnull\n\n+ Received:\nundefined",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "8aff9be1a0dc0eac35eee2f451fe1aa60d8802d5667ba9432ac0b60a0e1a0546",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/entity-motion.c85-arms.test.ts",
+          "-t",
+          "非法快照臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/entity-motion.c85-arms.test.ts (8 tests | 7 skipped) 2ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 7 skipped (8)\n   Start at  13:02:54\n   Duration  135ms (transform 42ms, setup 0ms, import 50ms, tests 2ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "SESSION-CHOREO-STOP-FADE",
+      "source": "src/battle/battle-session.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/battle/battle-session.c85-arms.test.ts -t stopMusic 即时臂",
+      "expectedErrorPart": "to deeply equal [ 1 ]",
+      "originalSha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-session.c85-arms.test.ts",
+          "-t",
+          "stopMusic 即时臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/battle/battle-session.c85-arms.test.ts (9 tests | 8 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 8 skipped (9)\n   Start at  13:02:55\n   Duration  798ms (transform 588ms, setup 0ms, import 711ms, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "5ffff20fd55baad4facb389855c06ae61c586c01ed2836d217e752a59702c640",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-session.c85-arms.test.ts",
+          "-t",
+          "stopMusic 即时臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/battle/battle-session.c85-arms.test.ts (9 tests | 1 failed | 8 skipped) 49ms\n     ↓ stopMusic 定时臂:fadeMs>0 入排程,越时后原 serial 停曲\n     × stopMusic 即时臂:fadeMs 缺省 0 当拍停曲 27ms\n     ↓ 排程失效臂:排程后的 cancel 使 serial 失配,越时不再停曲\n     ↓ applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud\n     ↓ endBattle 重复登记臂:同链两条终局命令第二条 fail-loud\n     ↓ fleeBattle 演出臂:敌逃登记 won 终局并驱动离场 timeline\n     ↓ cancel 双守卫臂:已取消会话 tick 不再驱动演出与回合准备\n     ↓ cancel 幂等臂:终局后再 cancel 安静返回不再 reject\n     ↓ 形象缺失臂:构造期形象复位即对未注册定义 fail-loud\n\n Test Files  1 failed (1)\n      Tests  1 failed | 8 skipped (9)\n   Start at  13:02:56\n   Duration  1.19s (transform 884ms, setup 0ms, import 1.02s, tests 49ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/battle-session.c85-arms.test.ts -t stopMusic 即时臂\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/battle/battle-session.c85-arms.test.ts > C85 战斗演出动作臂 > stopMusic 即时臂:fadeMs 缺省 0 当拍停曲\nAssertionError: expected [] to deeply equal [ 1 ]\n\n- Expected\n+ Received\n\n- [\n-   1,\n- ]\n+ []\n\n ❯ src/battle/battle-session.c85-arms.test.ts:201:19\n    199|     })\n    200|     session.tick(16, new Set())\n    201|     expect(stops).toEqual([1])\n       |                   ^\n    202|   })\n    203|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected [] to deeply equal [ 1 ]\n\n- Expected\n+ Received\n\n- [\n-   1,\n- ]\n+ []",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/battle/battle-session.c85-arms.test.ts",
+          "-t",
+          "stopMusic 即时臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/battle/battle-session.c85-arms.test.ts (9 tests | 8 skipped) 3ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 8 skipped (9)\n   Start at  13:02:58\n   Duration  1.23s (transform 911ms, setup 0ms, import 1.09s, tests 3ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "RUNTIME-COMPLETED-CURSOR",
+      "source": "src/script-runner-core.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明",
+      "expectedErrorPart": "promise resolved \"undefined\" instead of rejecting",
+      "originalSha256": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/runtime-host.c85-arms.test.ts",
+          "-t",
+          "完成游标臂:未声明"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/runtime-host.c85-arms.test.ts (15 tests | 14 skipped) 6ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 14 skipped (15)\n   Start at  13:03:00\n   Duration  524ms (transform 361ms, setup 0ms, import 445ms, tests 6ms, environment 0ms)\n\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "28c63dfec699fde339c775f7bb394a79a56b0e7598cff2da6c9a0bebfd8b5512",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/runtime-host.c85-arms.test.ts",
+          "-t",
+          "完成游标臂:未声明"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ❯ src/runtime-host.c85-arms.test.ts (15 tests | 1 failed | 14 skipped) 5ms\n     ↓ runEntityTrigger 时机臂:auto 时机直接 fail-loud\n     ↓ runEntityTrigger 桥臂:宿主未提供调用桥时 fail-loud\n     ↓ runEntityTrigger 派发臂:调用桥收到同 target 与 context\n     ↓ lifecycle 拒收臂:lifecycle 命令不得进入基础 host,worldChanged 仍被通知\n     ↓ 守卫臂:已中止 signal 下的 execute 直接 AbortError\n     ↓ 摘要臂:非 64 位 hex canonicalContentDigest 构造即拒\n     ↓ script 初始化臂:world 缺 script 时构造补空脚本态\n     ↓ 私有脚本臂:物品私有脚本缺定义 fail-loud\n     ↓ 实体臂:runEntityBehavior 对缺席实体 fail-loud,对场景错位安静 false\n     ↓ 场景钩子臂:runSceneHook 对场景错位安静 false\n     × 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒 4ms\n     ↓ 完成游标臂:声明 complete 的 flow 使用 completed cursor 立即收尾零效果\n     ↓ auto 恢复臂:resume 无游标或控制器未开 checkpoint 即拒\n     ↓ 游标缺失臂:flow 指针指向不存在的 stage 即拒\n     ↓ gate 停止臂:宿主 gate 返回 stop 时本次运行干净收尾不再执行后续叶\n\n Test Files  1 failed (1)\n      Tests  1 failed | 14 skipped (15)\n   Start at  13:03:01\n   Duration  420ms (transform 249ms, setup 0ms, import 302ms, tests 5ms, environment 0ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/runtime-host.c85-arms.test.ts -t 完成游标臂:未声明\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/runtime-host.c85-arms.test.ts > C85 ScriptRunnerCore 流臂 > 完成游标臂:未声明 complete 的 flow 使用 completed cursor 即拒\nAssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined\n\n ❯ src/runtime-host.c85-arms.test.ts:249:5\n    247|         executable: flowOf([]),\n    248|       }),\n    249|     ).rejects.toThrow('flow 未声明 complete，不能使用 completed cursor')\n       |     ^\n    250|   })\n    251|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: promise resolved \"undefined\" instead of rejecting\n\n- Expected:\nError {\n  \"message\": \"rejected promise\",\n}\n\n+ Received:\nundefined",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "80892583f4b3d25d3598b04f6bc9d7cb51497fef74a5563190a5e68f5aa5de7e",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/runtime-host.c85-arms.test.ts",
+          "-t",
+          "完成游标臂:未声明"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\n ✓ src/runtime-host.c85-arms.test.ts (15 tests | 14 skipped) 2ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 14 skipped (15)\n   Start at  13:03:02\n   Duration  381ms (transform 257ms, setup 0ms, import 309ms, tests 2ms, environment 0ms)\n\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    },
+    {
+      "id": "MAIN-MOTION-PROBE-PRESENT",
+      "source": "src/main.ts",
+      "identity": "pnpm --filter @type-pal/reforge exec vitest run src/main.c85-boot.test.ts -t 运动探针臂",
+      "expectedErrorPart": "present",
+      "originalSha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
+      "original": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/main.c85-boot.test.ts",
+          "-t",
+          "运动探针臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\nstdout | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\n[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话\n\n ✓ src/main.c85-boot.test.ts (3 tests | 2 skipped) 787ms\n   ✓ C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性  786ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 2 skipped (3)\n   Start at  13:03:02\n   Duration  1.69s (transform 893ms, setup 0ms, import 352ms, tests 787ms, environment 477ms)\n\n\nstderr | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\n[sfx] AudioContext 不可用，音效播放器停用\n\n"
+      },
+      "originalGreen": true,
+      "mutantSha256": "71082953b5b3c5a164a4746ae76ceb23f32863d7dc142e9f567af457ab0da3d0",
+      "mutationApplied": true,
+      "mutated": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/main.c85-boot.test.ts",
+          "-t",
+          "运动探针臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 1,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\nstdout | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\n[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话\n\n ❯ src/main.c85-boot.test.ts (3 tests | 1 failed | 2 skipped) 545ms\n   × C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性 544ms\n   ↓ C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测\n   ↓ C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局\n\n Test Files  1 failed (1)\n      Tests  1 failed | 2 skipped (3)\n   Start at  13:03:05\n   Duration  1.14s (transform 623ms, setup 0ms, import 245ms, tests 545ms, environment 283ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/main.c85-boot.test.ts -t 运动探针臂\n\nstderr | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\n[sfx] AudioContext 不可用，音效播放器停用\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\nAssertionError: expected { scene: 'a', worldTick: +0, …(5) } to match object { id: 'npc-1', present: true, …(1) }\n(4 matching properties omitted from actual)\n\n- Expected\n+ Received\n\n@@ -2,7 +2,7 @@\n    \"id\": \"npc-1\",\n    \"pos\": {\n      \"col\": 4,\n      \"row\": 4,\n    },\n-   \"present\": true,\n+   \"present\": false,\n  }\n\n ❯ src/main.c85-boot.test.ts:43:17\n     41|     pos: { col: number; row: number }\n     42|   }\n     43|   expect(probe).toMatchObject({ id: 'npc-1', present: true, pos: { col…\n       |                 ^\n     44| })\n     45|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+      },
+      "mutatedRed": true,
+      "assertionError": "AssertionError: expected { scene: 'a', worldTick: +0, …(5) } to match object { id: 'npc-1', present: true, …(1) }\n(4 matching properties omitted from actual)\n\n- Expected\n+ Received\n\n@@ -2,7 +2,7 @@\n    \"id\": \"npc-1\",\n    \"pos\": {\n      \"col\": 4,\n      \"row\": 4,\n    },\n-   \"present\": true,\n+   \"present\": false,\n  }",
+      "specifiedAssertionMatched": true,
+      "restoredSha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
+      "sourceRestoredByteIdentical": true,
+      "restored": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/reforge",
+          "exec",
+          "vitest",
+          "run",
+          "src/main.c85-boot.test.ts",
+          "-t",
+          "运动探针臂"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal-c85glm",
+        "exitCode": 0,
+        "outputTail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge\n\nstdout | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\n[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话\n\n ✓ src/main.c85-boot.test.ts (3 tests | 2 skipped) 590ms\n   ✓ C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性  589ms\n\n Test Files  1 passed (1)\n      Tests  1 passed | 2 skipped (3)\n   Start at  13:03:06\n   Duration  1.20s (transform 667ms, setup 0ms, import 253ms, tests 590ms, environment 286ms)\n\n\nstderr | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性\n[sfx] AudioContext 不可用，音效播放器停用\n\n"
+      },
+      "restoredGreen": true,
+      "pass": true
+    }
+  ],
+  "injectionCount": 9,
+  "failureCount": 0
+}

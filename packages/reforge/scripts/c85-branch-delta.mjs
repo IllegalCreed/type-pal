@@ -1,9 +1,29 @@
 #!/usr/bin/env node
 // TEST-COVERAGE85-GLM-REFORGE-1 — 分支账生成:基线 vs 终态逐文件臂级对比 + 目标行闭合明细。
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+//
+// 干净 checkout 重建(两份 lcov 都是运行产物,不在 git 内;在候选分支上执行即可,
+// 基线通过排除本卡 `*.c85-*.test.ts` 精确还原 dispatch 交付的测试集,产品文件两边相同):
+//   # 基线(dispatch 测试集):
+//   TYPE_PAL_COVERAGE_PROFILE=fast TYPE_PAL_COVERAGE=1 pnpm --filter @type-pal/reforge exec \
+//     vitest run --passWithNoTests --exclude '**/*.pal.test.ts' --exclude '**/*.c85-*.test.ts' \
+//     --coverage --coverage.provider=v8 --coverage.reportsDirectory=<baselineDir> \
+//     --coverage.reporter=lcov --coverage.include 'src/**/*.{ts,tsx}' \
+//     --coverage.exclude '**/__tests__/**' --coverage.exclude '**/*.test.ts' \
+//     --coverage.exclude '**/*.test.tsx' --coverage.exclude '**/*.spec.ts' \
+//     --coverage.exclude '**/*.spec.tsx' --coverage.exclude '**/*.d.ts'
+//   # 终态(含本卡新测试):同命令去掉 --exclude '**/*.c85-*.test.ts',换 <finalDir>
+//   node scripts/c85-branch-delta.mjs <baselineDir>/lcov.info <finalDir>/lcov.info
+//
+// 缺省参数指向本 worktree 的两份运行产物目录(coverage/c85-baseline、coverage/c85-final)。
+// 输出固定写入提交内证据目录 src/__tests__/coverage85/c85-branch-delta.json。
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const pkgRoot = path.resolve(import.meta.dirname, '..')
+const evidenceDir = path.join(pkgRoot, 'src', '__tests__', 'coverage85')
+const baselineLcov = process.argv[2] ?? path.join(pkgRoot, 'coverage', 'c85-baseline', 'lcov.info')
+const finalLcov = process.argv[3] ?? path.join(pkgRoot, 'coverage', 'c85-final', 'lcov.info')
+
 const targets = [
   'src/main.ts',
   'src/battle/battle-session.ts',
@@ -24,25 +44,22 @@ async function readArms(lcovPath) {
     if (line.startsWith('SF:')) current = line.slice(3).trim()
     else if (line.startsWith('BRDA:') && current) {
       const [lineNo, block, arm, taken] = line.slice(5).trim().split(',')
-      const key = `${current}:${lineNo}:${block}:${arm}`
-      arms.set(key, taken.trim())
+      arms.set(`${current}:${lineNo}:${block}:${arm}`, taken.trim())
     }
   }
   return arms
 }
 
-const baseline = await readArms(path.join(pkgRoot, 'coverage', 'c85-scan-reforge', 'lcov.info'))
-const final = await readArms(path.join(pkgRoot, 'coverage', 'c85-final', 'lcov.info'))
+const baseline = await readArms(baselineLcov)
+const final = await readArms(finalLcov)
 
 const perFile = {}
 const closedByTarget = {}
 for (const suffix of targets) {
-  const file = suffix
   const baseMissed = []
   const finalMissed = []
   for (const [key, taken] of baseline) {
-    if (!key.startsWith(`${file}:`)) continue
-    total++
+    if (!key.startsWith(`${suffix}:`)) continue
     if (taken === '0' || taken === '-') baseMissed.push(key)
   }
   for (const key of baseMissed)
@@ -61,13 +78,19 @@ for (const suffix of targets) {
 }
 
 const summary = {
+  note: '基线=dispatch 基点全量 fast(不含本卡新测试);终态=含本卡新测试。这是 +N 臂闭合账,不是 85% 达标声明。',
+  baselineLcov,
+  finalLcov,
   targets: closedByTarget,
   targetClosedTotal: Object.values(closedByTarget).reduce((a, b) => a + b, 0),
   perFile,
 }
-await mkdir(path.join(pkgRoot, 'coverage'), { recursive: true })
+await mkdir(evidenceDir, { recursive: true })
 await writeFile(
-  path.join(pkgRoot, 'coverage', 'c85-branch-delta.json'),
-  JSON.stringify(summary, null, 2),
+  path.join(evidenceDir, 'c85-branch-delta.json'),
+  `${JSON.stringify(summary, null, 2)}\n`,
 )
+// 同目录留双 lcov 原始拷贝,验收方可不重跑直接复核臂级归属
+await copyFile(baselineLcov, path.join(evidenceDir, 'c85-baseline-lcov.info'))
+await copyFile(finalLcov, path.join(evidenceDir, 'c85-final-lcov.info'))
 console.log(JSON.stringify({ targets: closedByTarget, total: summary.targetClosedTotal }, null, 2))

@@ -1,6 +1,6 @@
 {
   "profile": "fast",
-  "testCount": 121,
+  "testCount": 117,
   "entries": [
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
@@ -202,30 +202,6 @@
     },
     {
       "file": "packages/reforge/src/main.c85-boot.test.ts",
-      "fullName": "C85 battle-preview 拒绝臂:未注册的敌人定义 fail-loud 且不进主循环",
-      "status": "passed",
-      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 battle-preview 拒绝臂:未注册的敌人定义 fail-loud 且不进主循环"
-    },
-    {
-      "file": "packages/reforge/src/main.c85-boot.test.ts",
-      "fullName": "C85 battle-preview 臂:无敌人表的工程按空摆位渲染静态预览",
-      "status": "passed",
-      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 battle-preview 臂:无敌人表的工程按空摆位渲染静态预览"
-    },
-    {
-      "file": "packages/reforge/src/main.c85-boot.test.ts",
-      "fullName": "C85 dev 队伍覆写臂:?party 重排开局队伍并拉满血蓝",
-      "status": "passed",
-      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 dev 队伍覆写臂:?party 重排开局队伍并拉满血蓝"
-    },
-    {
-      "file": "packages/reforge/src/main.c85-boot.test.ts",
-      "fullName": "C85 gallery 臂:?gallery 渲染精灵速查图后安静退出,不发布运行时",
-      "status": "passed",
-      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 gallery 臂:?gallery 渲染精灵速查图后安静退出,不发布运行时"
-    },
-    {
-      "file": "packages/reforge/src/main.c85-boot.test.ts",
       "fullName": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
       "status": "passed",
       "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局"
@@ -238,9 +214,9 @@
     },
     {
       "file": "packages/reforge/src/main.c85-boot.test.ts",
-      "fullName": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与步态",
+      "fullName": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性",
       "status": "passed",
-      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 运动探针臂:?motion-entity 报告在场实体的坐标与步态"
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性"
     },
     {
       "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
@@ -718,9 +694,9 @@
     },
     {
       "file": "packages/reforge/src/script-world.c85-arms.test.ts",
-      "fullName": "trigger activation 校验臂:on 非 interact/touch 或 range 非法即 fail-loud",
+      "fullName": "trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态",
       "status": "passed",
-      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: trigger activation 校验臂:on 非 interact/touch 或 range 非法即 fail-loud"
+      "identity": "packages/reforge/src/script-world.c85-arms.test.ts :: project reforge :: trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态"
     },
     {
       "file": "packages/reforge/src/script-world.c85-arms.test.ts",
