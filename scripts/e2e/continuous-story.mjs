@@ -31,6 +31,15 @@ export const CONTINUOUS_STORY_FRAGMENTS = Object.freeze([
 
 export const STORY_ONLY_CASES = Object.freeze(['story'])
 
+const CONTINUOUS_SEMANTIC_PHASE_STARTS = Object.freeze({
+  '003': Object.freeze({ aunt: [137, 66], taoist: [137, 73] }),
+})
+
+function continuousPosition(report, grid) {
+  if (report.engine === 'game') return [16 * (grid[0] - grid[1]), 8 * (grid[0] + grid[1]), 0]
+  return [...grid, 0]
+}
+
 // A replay is only a valid continuous fragment when it reaches the same scene
 // boundary as the standalone story receipt.  The action tape is an input aid,
 // never the oracle: a browser that merely consumes every key must fail here.
@@ -139,8 +148,11 @@ export function continuousStoryActions(report) {
       committedSteps: steps.length,
       expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
     }
-    if (input.phase !== undefined && input.phase !== previousPhase && steps[0]?.to)
-      target.phaseStart = steps[0].to
+    if (input.phase !== undefined && input.phase !== previousPhase) {
+      const semanticStart = CONTINUOUS_SEMANTIC_PHASE_STARTS[report.fragment]?.[input.phase]
+      if (semanticStart) target.phaseStart = continuousPosition(report, semanticStart)
+      else if (steps[0]?.to) target.phaseStart = steps[0].to
+    }
     previousPhase = input.phase
     routeTargets.set(`${input.kind}:${input.key}:${input.atMs}`, target)
     routeTargets.set(`${up.kind}:${up.key}:${up.atMs}`, target)
