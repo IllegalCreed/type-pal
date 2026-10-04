@@ -32,6 +32,20 @@ test('continuous checkpoints are scene-boundary oracles, not action-count labels
     () => assertContinuousCheckpoint('002', 'reforge', { scene: 's001' }),
     /stopped at scene s001; expected s003/,
   )
+  assertContinuousCheckpoint('002', 'reforge', {
+    scene: 's003',
+    runtime: { position: { col: 126, row: 46 } },
+    trio: [{ visible: false }, { visible: false }, { visible: false }],
+  })
+  assert.throws(
+    () =>
+      assertContinuousCheckpoint('002', 'reforge', {
+        scene: 's003',
+        runtime: { position: { col: 126, row: 46 } },
+        trio: [{ visible: false }, { visible: true }, { visible: false }],
+      }),
+    /before all three Miao guests left/,
+  )
 })
 
 test('plan rejects missing, reordered, failed and specialist reports', () => {

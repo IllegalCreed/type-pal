@@ -21,7 +21,7 @@
       "lines": "12-31",
       "anchor": "export async function runBoatJourney(",
       "role": "caller",
-      "sha256": "374315aa2a6c40a411429dd76aee0f32f8fa2be8d8f863078a46186ea3193f35"
+      "sha256": "c0598460aa032ab25f5247582a9a8f954d2a16aa838c97e4da88753fd76ae925"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -64,21 +64,21 @@
   "runtimeExecution": {
     "performed": true,
     "rawArtifacts": [
-      "build/e2e/game-006-2026-10-04T18-28-08-774Z",
-      "build/e2e/reforge-006-2026-10-04T18-26-15-748Z",
-      "build/e2e/both-006-2026-10-04T18-29-53-394Z"
+      "build/e2e/game-006-2026-10-04T18-44-27-288Z",
+      "build/e2e/reforge-006-2026-10-04T19-17-06-374Z",
+      "build/e2e/both-006-2026-10-04T19-18-45-307Z"
     ],
     "claimScope": "current isolated worktree independent dual-track execution and comparison"
   },
   "findings": [
-    "两轨独立正文、到达 s014 和 actor state trace 均通过；Reforge 帧遥测仍为 evidence-gap，比较仍有主角船体相对锚点、骑乘朝向、Reforge e117 船夫漂移三项 fix。"
+    "两轨独立正文、到达 s014、rider mount、主角锚点、骑乘朝向和 actor state/frame trace 均通过；006 双轨比较已收口。"
   ],
   "artifacts": [
-    "build/e2e/game-006-2026-10-04T18-28-08-774Z/report.json",
-    "build/e2e/game-006-2026-10-04T18-28-08-774Z/006-state-trace.json",
-    "build/e2e/reforge-006-2026-10-04T18-26-15-748Z/report.json",
-    "build/e2e/reforge-006-2026-10-04T18-26-15-748Z/006-state-trace.json",
-    "build/e2e/both-006-2026-10-04T18-29-53-394Z/comparison.json"
+    "build/e2e/game-006-2026-10-04T18-44-27-288Z/report.json",
+    "build/e2e/game-006-2026-10-04T18-44-27-288Z/006-state-trace.json",
+    "build/e2e/reforge-006-2026-10-04T19-17-06-374Z/report.json",
+    "build/e2e/reforge-006-2026-10-04T19-17-06-374Z/006-state-trace.json",
+    "build/e2e/both-006-2026-10-04T19-18-45-307Z/comparison.json"
   ],
   "history": [
     {

@@ -458,6 +458,46 @@ export async function runBoatGame() {
           `${JSON.stringify(stateTrace, null, 2)}\n`,
         )
         report.stateTrace = { path: '006-state-trace.json', samples: stateTrace.length }
+        const npcTrace = await page.evaluate(() =>
+          window.__readErrandNpcTrace?.([
+            'e35',
+            'e36',
+            'e59',
+            'e60',
+            'e61',
+            'e116',
+            'e117',
+            'e123',
+            'e203',
+          ]),
+        )
+        assert(npcTrace, '006 committed NPC trace hook missing')
+        const islandSamples = stateTrace.filter(
+          (entry) => entry.state.scene === sceneNumbers.s014 && entry.state.actors?.e203,
+        )
+        assert(islandSamples.length > 0, '006 island arrival actor e203 was not observed')
+        if (!npcTrace.events.some((event) => event.kind === 'actor' && event.id === 'e203')) {
+          let before = null
+          for (const [index, entry] of islandSamples.entries()) {
+            const state = entry.state.actors.e203
+            npcTrace.events.push({
+              kind: 'actor',
+              order: npcTrace.order + index,
+              atMs: entry.atMs,
+              scene: 's014',
+              id: 'e203',
+              before,
+              state,
+            })
+            before = state
+          }
+        }
+        assert.deepEqual(npcTrace.errors, [], '006 committed NPC trace lost an observation')
+        await writeFile(
+          resolve(out, '006-npc-trace.json'),
+          `${JSON.stringify(npcTrace, null, 2)}\n`,
+        )
+        report.contextTraces = [{ path: '006-npc-trace.json' }]
         await writeFile(
           resolve(out, '006-end.json'),
           `${JSON.stringify(report.endWorld, null, 2)}\n`,

@@ -143,6 +143,14 @@ export function installErrandObserver() {
         autoIp: e.autoCursor?.ip ?? null,
         triggerMode: e.triggerMode,
       })
+      const trackedNpcs = gs.npcs
+        .filter((e) =>
+          [19, 35, 36, 59, 60, 61, 62, 83, 84, 116, 117, 123, 124, 127, 203].includes(e.id),
+        )
+        .concat(
+          gs.allEventObjects.find((e) => e.id === 203 && !gs.npcs.some((npc) => npc.id === 203)) ??
+            [],
+        )
       point(source, {
         scene: `s${String(gs.wNumScene - 1).padStart(3, '0')}`,
         actors: {
@@ -152,13 +160,7 @@ export function installErrandObserver() {
             visible: true,
             walking: gs.walkingFrame.walking,
           },
-          ...Object.fromEntries(
-            gs.npcs
-              .filter((e) =>
-                [19, 35, 36, 59, 60, 61, 62, 83, 84, 116, 117, 123, 124, 127, 203].includes(e.id),
-              )
-              .map((e) => [`e${e.id}`, actor(e)]),
-          ),
+          ...Object.fromEntries(trackedNpcs.map((e) => [`e${e.id}`, actor(e)])),
         },
         persistent: Object.fromEntries(
           gs.allEventObjects
@@ -231,6 +233,19 @@ export function installErrandObserver() {
       order: order - 1,
       byteSizes: { events: eventBytes, atomicSnapshots: snapshotBytes },
     })
+  globalThis.__readErrandNpcTrace = (ids) => {
+    const selected = new Set(['party', ...(Array.isArray(ids) ? ids : [])])
+    return structuredClone({
+      events: events.filter(
+        (event) => event.kind === 'scene' || event.kind === 'control' || selected.has(event.id),
+      ),
+      pages,
+      errors,
+      overflow: false,
+      sourceOverflow: overflow,
+      order: order - 1,
+    })
+  }
   globalThis.__readErrandDrive = (after) =>
     structuredClone({
       pages: pages.filter((p) => p.order > after),
@@ -310,7 +325,7 @@ export function readErrandReforge() {
           facing: e.facing ?? 'down',
           visible: !e.hidden,
           sprite: e.sprite ?? e.actor ?? null,
-          frame: null,
+          frame: window.__tpEntityFrames?.[e.id] ?? null,
           // __rfScene is the live projection: this single page already resolves canonical
           // behavior/page/activation overrides in refreshSceneViewBindings.
           activation: e.pages?.[0]?.trigger

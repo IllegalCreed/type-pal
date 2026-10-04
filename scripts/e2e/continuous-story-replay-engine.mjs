@@ -82,9 +82,7 @@ const routeTargetReached = (state, target) => {
     engine === 'game' ? Number(scene.slice(1)) + 1 : scene,
   )
   if (!acceptedScenes.includes(actualScene)) return false
-  if (actualScene !== expectedScene && !target.position) return true
-  if (actualScene !== expectedScene && target.acceptScenes?.length > 1) return true
-  if (!target.position) return true
+  if (!target.position) return actualScene === expectedScene
   const actual =
     engine === 'game'
       ? state.position
@@ -92,27 +90,122 @@ const routeTargetReached = (state, target) => {
         ? [state.runtime.position.col, state.runtime.position.row, state.runtime.position.height]
         : null
   if (!Array.isArray(actual) || actual.length < target.position.length) return false
-  const tolerance = engine === 'game' ? 24 : 0.2
+  // A standalone receipt records the last committed cell, but a continuous
+  // page may enter the same semantic leg with background NPCs one cell apart.
+  // Keep long legs exact; short one/two-step transitions use a bounded local
+  // neighborhood and still require the scene/control barrier below.
+  const tolerance = engine === 'game' ? 24 : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
   return (
     Math.hypot(
       ...target.position.slice(0, 2).map((value, index) => Number(actual[index]) - Number(value)),
     ) <= tolerance
   )
 }
+const SCENE_BOUNDARY_POSITIONS = {
+  s001: { s003: [66, 34] },
+  s002: { s003: [86, 12] },
+  s003: { s001: [124, 62], s004: [137, 76] },
+  s004: { s005: [140, 26] },
+  s005: { s014: [126, 52] },
+}
+const DIRECT_SCENE_BOUNDARY_STARTS = {
+  's001>s003': [60, -15],
+  's003>s001': [124, 62],
+}
 const hasDialogue = (state) => (engine === 'game' ? !!state.dialog : !!state.runtime?.dialogue)
 const driveRouteTarget = async (action, _entry, until, health) => {
   const target = action.routeTarget
   if (!target) return
-  const current = await read()
+  let current = await read()
+  if (!isContinuousBoundaryReady(current))
+    current = await until(
+      read,
+      (next) => isContinuousBoundaryReady(next),
+      `continuous route settles before ${action.key}`,
+      30000,
+    )
   if (routeTargetReached(current, target)) return
+  const actualScene =
+    engine === 'game' ? `s${String(current.scene - 1).padStart(3, '0')}` : current.scene
   const scene = target.scene
-  const mapId = scene === 's001' ? '012' : scene === 's003' ? '010' : null
+  if (actualScene !== scene && target.position) {
+    const boundary = SCENE_BOUNDARY_POSITIONS[actualScene]?.[scene]
+    if (boundary) {
+      const directStart = DIRECT_SCENE_BOUNDARY_STARTS[`${actualScene}>${scene}`]
+      const currentGrid = kitchenGrid(current.position, engine)
+      if (
+        directStart &&
+        Math.hypot(currentGrid[0] - directStart[0], currentGrid[1] - directStart[1]) <= 2
+      ) {
+        await page.keyboard.down(action.key)
+        try {
+          await until(
+            read,
+            (next) => routeTargetReached(next, target),
+            `continuous scene boundary ${actualScene}->${scene}`,
+            15000,
+          )
+        } finally {
+          await page.keyboard.up(action.key)
+        }
+        return
+      }
+      const mapId =
+        actualScene === 's001' || actualScene === 's002'
+          ? '012'
+          : actualScene === 's003'
+            ? '010'
+            : actualScene === 's004'
+              ? '001'
+              : '002'
+      const map = JSON.parse(
+        await readFile(
+          resolve(process.cwd(), `projects/pal/content/maps/map-${mapId}.json`),
+          'utf8',
+        ),
+      )
+      const boundaryPosition =
+        engine === 'game'
+          ? [16 * (boundary[0] - boundary[1]), 8 * (boundary[0] + boundary[1])]
+          : boundary
+      await navigateInnRoute({
+        engine,
+        keyboard: page.keyboard,
+        map,
+        read,
+        until,
+        health,
+        grid: (state) => kitchenGrid(state.position, engine),
+        inScene: (state) =>
+          state.scene === (engine === 'game' ? Number(actualScene.slice(1)) + 1 : actualScene),
+        ready: (state) => kitchenReady(state, engine),
+        destination: (...position) =>
+          Math.hypot(
+            position[0] - kitchenGrid(boundaryPosition, engine)[0],
+            position[1] - kitchenGrid(boundaryPosition, engine)[1],
+          ) <= (engine === 'game' ? 1.5 : 1),
+        finished: (state) => routeTargetReached(state, { ...target, position: null }),
+        onInput: () => {},
+        onProgress: () => {},
+      })
+      return driveRouteTarget(action, _entry, until, health)
+    }
+  }
+  const mapId =
+    {
+      s001: '012',
+      s002: '012',
+      s003: '010',
+      s004: '001',
+      s005: '002',
+    }[scene] ?? null
   if (!mapId || !target.position) return
   const map = JSON.parse(
     await readFile(resolve(process.cwd(), `projects/pal/content/maps/map-${mapId}.json`), 'utf8'),
   )
   const targetGrid = kitchenGrid(target.position, engine)
-  const tolerance = engine === 'game' ? 1.5 : 0.2
+  const tolerance = engine === 'game' ? 1.5 : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
+  const routeScenes = target.position ? [scene] : (target.acceptScenes ?? [scene])
   try {
     await navigateInnRoute({
       engine,
@@ -122,7 +215,11 @@ const driveRouteTarget = async (action, _entry, until, health) => {
       until,
       health,
       grid: (state) => kitchenGrid(state.position, engine),
-      inScene: (state) => state.scene === (engine === 'game' ? Number(scene.slice(1)) + 1 : scene),
+      inScene: (state) =>
+        routeScenes.some(
+          (candidate) =>
+            state.scene === (engine === 'game' ? Number(candidate.slice(1)) + 1 : candidate),
+        ),
       ready: (state) => kitchenReady(state, engine),
       destination: (col, row) => Math.hypot(col - targetGrid[0], row - targetGrid[1]) <= tolerance,
       finished: (state) => routeTargetReached(state, target),
@@ -130,6 +227,10 @@ const driveRouteTarget = async (action, _entry, until, health) => {
       onProgress: () => {},
     })
   } catch (error) {
+    console.error(
+      '[continuous route failure]',
+      JSON.stringify({ engine, fragment: _entry.fragment, target, state: await read() }),
+    )
     if (!/no normal collision-safe inn route/u.test(String(error))) throw error
     await page.keyboard.down(action.key)
     try {

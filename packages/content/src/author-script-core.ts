@@ -204,7 +204,13 @@ export type BaseAuthorCommand =
   | { kind: 'nudgeEntity'; target: EntityAddress; dx: number; dy: number }
   | { kind: 'takeEntity'; target: EntityAddress }
   | { kind: 'releaseEntity'; target?: EntityAddress }
-  | { kind: 'mountParty'; target: EntityAddress; dx?: number; dy?: number }
+  | {
+      kind: 'mountParty'
+      target: EntityAddress
+      dx?: number
+      dy?: number
+      riders?: Array<{ target: EntityAddress; dx?: number; dy?: number }>
+    }
   | { kind: 'ride'; target: EntityAddress; to: GridPos; speed: WalkSpeed }
   | {
       kind: 'startBattle'
@@ -712,6 +718,26 @@ export function checkBaseAuthorCommands(
       nonEmptyString(command.token, `${commandPath}.token`)
     }
     if (kind === 'dialog') options.checkDialogueCue?.(command.cue, `${commandPath}.cue`)
+    if (kind === 'mountParty' && command.riders !== undefined) {
+      checkEntityAddress(command.target, `${commandPath}.target`)
+      if (!Array.isArray(command.riders)) throw new Error(`${commandPath}.riders: 期望数组`)
+      const seen = new Set([`${command.target.scene}/${command.target.entity}`])
+      for (const [index, value] of command.riders.entries()) {
+        const path = `${commandPath}.riders[${index}]`
+        const rider = record(value, path)
+        exactKeys(rider, ['target', 'dx', 'dy'], path)
+        checkEntityAddress(rider.target, `${path}.target`)
+        if (rider.target.scene !== command.target.scene)
+          throw new Error(`${path}.target: 搭乘实体必须与载具同场景`)
+        const key = `${rider.target.scene}/${rider.target.entity}`
+        if (seen.has(key)) throw new Error(`${path}.target: 重复搭乘实体或载具自身`)
+        seen.add(key)
+        if (rider.dx !== undefined && !Number.isFinite(rider.dx))
+          throw new Error(`${path}.dx: 期望有限数`)
+        if (rider.dy !== undefined && !Number.isFinite(rider.dy))
+          throw new Error(`${path}.dy: 期望有限数`)
+      }
+    }
     if (ENTITY_TARGET_KINDS.has(kind)) {
       if ('entity' in command) throw new Error(`${commandPath}.entity: 当前作者态禁止裸实体 id`)
       checkEntityAddress(command.target, `${commandPath}.target`)

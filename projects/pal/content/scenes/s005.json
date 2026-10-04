@@ -106,7 +106,7 @@
                       "kind": "clearDialog"
                     },
                     {
-                      "facing": "down",
+                      "facing": "up",
                       "kind": "setPartyFacing",
                       "member": 1
                     },
@@ -114,7 +114,7 @@
                       "kind": "clearDialog"
                     },
                     {
-                      "facing": "down",
+                      "facing": "up",
                       "kind": "setPartyFacing"
                     },
                     {
@@ -131,6 +131,25 @@
                         "kind": "use",
                         "value": "legacy-001"
                       }
+                    },
+                    {
+                      "kind": "mountParty",
+                      "target": {
+                        "scene": "s005",
+                        "entity": "e116"
+                      },
+                      "dx": -2,
+                      "dy": -4,
+                      "riders": [
+                        {
+                          "target": {
+                            "scene": "s005",
+                            "entity": "e117"
+                          },
+                          "dx": -2,
+                          "dy": 2.25
+                        }
+                      ]
                     },
                     {
                       "kind": "ride",
@@ -3991,6 +4010,10 @@
                         },
                         {
                           "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
                     },
@@ -4008,6 +4031,10 @@
                         },
                         {
                           "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
                     },
@@ -4289,6 +4316,10 @@
                         },
                         {
                           "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
                     },
@@ -4306,6 +4337,10 @@
                         },
                         {
                           "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
                     },

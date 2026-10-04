@@ -2471,7 +2471,7 @@ export async function bootGame(
     },
     // E7 载具(D20 父动子随;原版 0xA1 聚拢 + 0x3F/44/97 骑乘的 clean 表达)
     // 全员叠筏:队长 + 全部跟随者一起 mount 同偏移(原版 0xA1 全员重叠队首;芦苇漂 1 格共乘)。
-    mountParty: (entityId, dx, dy) => {
+    mountParty: (entityId, dx, dy, riders = []) => {
       const parent = activeScene.scene.entities.find((entity) => entity.id === entityId)
       if (
         !parent ||
@@ -2484,6 +2484,11 @@ export async function bootGame(
       setAuthority('party', { kind: 'mount', parent: entityId, dx, dy })
       for (let m = 1; m < world.party.length; m++)
         followerAuth.set(m, { kind: 'mount', parent: entityId, dx, dy })
+      for (const rider of riders) {
+        const child = activeScene.scene.entities.find((entity) => entity.id === rider.id)
+        if (child && entityLifecycleGates(child).visible)
+          setAuthority(rider.id, { kind: 'mount', parent: entityId, dx: rider.dx, dy: rider.dy })
+      }
       // Mount is a synchronous authority mutation. Materialize its derived leader/follower pose
       // before another producer can capture a motion snapshot in this frame.
       deriveMounts()
@@ -3371,13 +3376,11 @@ export async function bootGame(
    */
   function dismountParty(): void {
     const a = authority.get('party')
-    let mounted = a?.kind === 'mount'
-    for (let m = 1; m < world.party.length; m++)
-      if (followerAuth.get(m)?.kind === 'mount') mounted = true
-    if (!mounted) return
-    if (a?.kind === 'mount') releaseAuthority('party')
-    for (let m = 1; m < world.party.length; m++)
-      if (followerAuth.get(m)?.kind === 'mount') followerAuth.delete(m)
+    const parents = new Set<string>()
+    if (a?.kind === 'mount') parents.add(a.parent)
+    for (const owner of followerAuth.values()) if (owner.kind === 'mount') parents.add(owner.parent)
+    if (!parents.size) return
+    for (const parent of parents) detachMountChildrenOf(parent)
     trail = [{ pos: { ...player.pos }, dir: facing }]
   }
 

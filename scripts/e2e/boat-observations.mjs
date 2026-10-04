@@ -11,9 +11,16 @@ export function summarizeBoatMotion(samples) {
   assert(Array.isArray(samples) && samples.length >= 3, 'missing boat motion observations')
   const origin = canonicalPosition(samples[0].e116)
   assert(origin, 'missing initial boat position')
-  const ride = samples.filter((sample) => {
+  const ride = samples.filter((sample, index) => {
     const point = canonicalPosition(sample.e116)
-    return point && Math.hypot(point[0] - origin[0], point[1] - origin[1]) > 0.01
+    const previous = index > 0 ? canonicalPosition(samples[index - 1].e116) : null
+    return (
+      index > 0 &&
+      point &&
+      previous &&
+      Math.hypot(point[0] - previous[0], point[1] - previous[1]) > 0.001 &&
+      Math.hypot(point[0] - origin[0], point[1] - origin[1]) > 0.01
+    )
   })
   assert(ride.length >= 3, 'boat never moved through three observed positions')
   const relative = (sample, key) => {

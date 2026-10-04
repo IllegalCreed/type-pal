@@ -245,7 +245,19 @@ export async function executeScriptHostEffect(
     }
     case 'mountParty': {
       const entity = activeEntity(command.target, options)
-      if (entity) host.mountParty(entity, command.dx ?? 0, command.dy ?? 0)
+      if (!entity) return
+      if (command.riders === undefined) host.mountParty(entity, command.dx ?? 0, command.dy ?? 0)
+      else
+        host.mountParty(
+          entity,
+          command.dx ?? 0,
+          command.dy ?? 0,
+          command.riders.map((rider) => ({
+            id: rider.target.entity,
+            dx: rider.dx ?? 0,
+            dy: rider.dy ?? 0,
+          })),
+        )
       return
     }
     case 'unmountParty':

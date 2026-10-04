@@ -46,27 +46,52 @@ export function assertBoatReport(report) {
   assert.equal(report.endWorld.position.sceneId, 's014')
   assert(report.endWorld.position.pos)
   assert(report.boatMotion?.samples >= 3)
-  assert.equal(report.boatMotion.partyBoatRelative, 'zero-through-ride')
-  assert.equal(report.boatMotion.rideFacing, 'down')
+  assert.equal(report.boatMotion.partyBoatRelative, 'constant-through-ride')
+  assert(Array.isArray(report.boatMotion.relativeOffset))
+  assert(Array.isArray(report.boatMotion.companionOffset))
+  assert(Array.isArray(report.boatMotion.rideFacings) && report.boatMotion.rideFacings.length > 0)
 }
 
 export function assertBoatMotion(samples) {
   assert(samples.length >= 3, 'boat motion trace too short')
   const origin = samples[0].e116
-  const ride = samples.filter(
-    (sample) =>
+  const ride = samples.filter((sample, index) => {
+    const previous = samples[index - 1]?.e116
+    return (
+      index > 0 &&
       sample.e116 &&
+      previous &&
+      Math.hypot(sample.e116[0] - previous[0], sample.e116[1] - previous[1]) > 0.001 &&
       origin &&
-      Math.hypot(sample.e116[0] - origin[0], sample.e116[1] - origin[1]) > 0.01,
-  )
+      Math.hypot(sample.e116[0] - origin[0], sample.e116[1] - origin[1]) > 0.01
+    )
+  })
   assert(ride.length >= 3, 'boat never committed a multi-sample ride')
+  const roundedOffset = (values) => values.map((value) => Math.round(value * 10000) / 10000)
+  const relativeOffset = roundedOffset(
+    ride[0].position.map((value, index) => value - ride[0].e116[index]),
+  )
+  const companionOffset = roundedOffset(
+    ride[0].e117.map((value, index) => value - ride[0].e116[index]),
+  )
   for (const sample of ride) {
     assert(sample.position && sample.e116, 'ride sample missing party/boat position')
-    assert(
-      Math.hypot(sample.position[0] - sample.e116[0], sample.position[1] - sample.e116[1]) < 0.05,
+    assert.deepEqual(
+      roundedOffset(sample.position.map((value, index) => value - sample.e116[index])),
+      relativeOffset,
       'party detached from boat during ride',
     )
-    assert.equal(sample.facing, 'down', 'party facing changed during ride')
+    assert.deepEqual(
+      roundedOffset(sample.e117.map((value, index) => value - sample.e116[index])),
+      companionOffset,
+      'rower detached from boat during ride',
+    )
   }
-  return { samples: ride.length, partyBoatRelative: 'zero-through-ride', rideFacing: 'down' }
+  return {
+    samples: ride.length,
+    relativeOffset,
+    companionOffset,
+    rideFacings: [...new Set(ride.map((sample) => sample.facing))],
+    partyBoatRelative: 'constant-through-ride',
+  }
 }

@@ -53,11 +53,13 @@ export function instrumentErrandTrace(source, file) {
         for(const [scene,ids] of [['s001',['e19']],['s003',['e62']],['s004',['e83','e84']],['s005',['e123','e124','e127']]])
           persistent[scene]=Object.fromEntries(ids.map(id=>[id,binding(scene,id)]));
         const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true,walking}};
+        const frames={};
         for(const e of activeScene.scene.entities.filter(e=>['e19','e35','e36','e59','e60','e61','e62','e83','e84','e116','e117','e123','e124','e127','e203'].includes(e.id)))
           actors[e.id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,
             state:host.getEntityState(e.id),behavior:binding(sid,e.id),
             sprite:typeof e.sprite==='string'&&e.sprite.startsWith('sprite-')?Number(e.sprite.slice(7)):e.sprite??e.actor??null,
-            frame:worldPresentation.entityFrame(e.id)??motion.gaitPhase(e.id)??motion.explicitAnimation(e.id)??entityActions.frame(e.id)??0};
+            frame:frames[e.id]=motion.gaitPhase(e.id)??motion.explicitAnimation(e.id)??worldPresentation.entityFrame(e.id)??entityActions.frame(e.id)??0};
+        globalThis.__tpEntityFrames=frames;
         globalThis.__errandPoint?.(source,{scene:sid,actors,money:world.money,persistent,hooks:{s004:{onEnter:slot(world.script.behaviors?.scenes?.s004?.onEnter)}},control:!runner&&!dialogBox.active&&!presentation.busy()});
       }catch(error){globalThis.__errandError?.(String(error));}
     }`

@@ -250,6 +250,8 @@ export async function runBoatJourney() {
         await touch('s004', 'e95', (s) => inScene(s, 's005') && ready(s))
         await interact('s005', 'e123')
         await dialogue('boat', 's005', [533, 534, 535, 536, 538, 539, 540, 542, 543, 544, 546])
+        await page.screenshot({ path: resolve(out, '006-before-ride.png') })
+        let rideShot = false
         await touch(
           's005',
           'e116',
@@ -266,6 +268,10 @@ export async function runBoatJourney() {
             }
             const previous = boatMotion.at(-1)
             if (JSON.stringify(previous) !== JSON.stringify(sample)) boatMotion.push(sample)
+            if (!rideShot && boatMotion.length > 30) {
+              rideShot = true
+              void page.screenshot({ path: resolve(out, '006-during-ride.png') })
+            }
           },
         )
         await writeFile(
@@ -277,6 +283,26 @@ export async function runBoatJourney() {
           `${JSON.stringify(stateTrace, null, 2)}\n`,
         )
         report.stateTrace = { path: '006-state-trace.json', samples: stateTrace.length }
+        const npcTrace = await page.evaluate(() =>
+          window.__readErrandNpcTrace?.([
+            'e35',
+            'e36',
+            'e59',
+            'e60',
+            'e61',
+            'e116',
+            'e117',
+            'e123',
+            'e203',
+          ]),
+        )
+        assert(npcTrace, '006 committed NPC trace hook missing')
+        assert.deepEqual(npcTrace.errors, [], '006 committed NPC trace lost an observation')
+        await writeFile(
+          resolve(out, '006-npc-trace.json'),
+          `${JSON.stringify(npcTrace, null, 2)}\n`,
+        )
+        report.contextTraces = [{ path: '006-npc-trace.json' }]
         report.checks.island = 'passed'
         const islandState = await snapshot()
         report.endWorld = {
@@ -290,6 +316,7 @@ export async function runBoatJourney() {
           },
           arrivalDialogue: islandState.runtime?.dialogue?.pageTextIds ?? [],
         }
+        await page.screenshot({ path: resolve(out, '006-island-arrival.png') })
         report.boatMotion = {
           ...assertBoatMotion(boatMotion),
           final: boatMotion.at(-1) ?? null,

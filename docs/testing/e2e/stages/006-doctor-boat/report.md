@@ -5,7 +5,7 @@ evidence: e2e/evidence/e2e-006.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-006","sourceRefs":[{"path":"scripts/e2e/boat-reforge.mjs","lines":"3-3","anchor":"await runBoatJourney","role":"caller","sha256":"d5c648a90e22617c1d16b97964f3539c22625cc68836e5194c23802c0dd14b43"},{"path":"scripts/e2e/boat-journey.mjs","lines":"12-31","anchor":"export async function runBoatJourney(","role":"caller","sha256":"374315aa2a6c40a411429dd76aee0f32f8fa2be8d8f863078a46186ea3193f35"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["node scripts/e2e/boat-reforge.mjs"],"legalInputs":["current SAVE11/content22 001→005 chain","normal movement to boat","current phase1 and reforge NPC logs"],"businessOracle":{"type":"rework-gated-boat-entry","assertions":["Reforge route reaches s014","two-stage key NPC logs exist","boat anchor/action/landing visual evidence closes rework"]},"dedupe":{"result":"reviewed","against":["e2e-005","historical 001–005 reports"],"notes":"历史链不能替代当前 006 两阶段证据；缺失项显式保留。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-006.json"}
+{"schemaVersion":2,"id":"e2e-006","sourceRefs":[{"path":"scripts/e2e/boat-reforge.mjs","lines":"3-3","anchor":"await runBoatJourney","role":"caller","sha256":"d5c648a90e22617c1d16b97964f3539c22625cc68836e5194c23802c0dd14b43"},{"path":"scripts/e2e/boat-journey.mjs","lines":"12-31","anchor":"export async function runBoatJourney(","role":"caller","sha256":"c0598460aa032ab25f5247582a9a8f954d2a16aa838c97e4da88753fd76ae925"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["node scripts/e2e/boat-reforge.mjs"],"legalInputs":["current SAVE11/content22 001→005 chain","normal movement to boat","current phase1 and reforge NPC logs"],"businessOracle":{"type":"rework-gated-boat-entry","assertions":["Reforge route reaches s014","two-stage key NPC logs exist","boat anchor/action/landing visual evidence closes rework"]},"dedupe":{"result":"reviewed","against":["e2e-005","historical 001–005 reports"],"notes":"历史链不能替代当前 006 两阶段证据；缺失项显式保留。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-006.json"}
 -->
 
 # 006 · 回客栈求药与张四出海上仙灵岛
@@ -24,8 +24,8 @@ evidence: e2e/evidence/e2e-006.json
 
 两轨前置均为当前 SAVE11/content22 的真实 001→005 saves 链。
 
-- 第一阶段：`build/e2e/game-006-2026-10-04T18-28-08-774Z/`，`status: passed`。
-- Reforge：`build/e2e/reforge-006-2026-10-04T18-26-15-748Z/`，`status: passed`。
+- 第一阶段：`build/e2e/game-006-2026-10-04T18-44-27-288Z/`，`status: passed`。
+- Reforge：`build/e2e/reforge-006-2026-10-04T19-17-06-374Z/`，`status: passed`。
 
 已通过的语义检查：
 
@@ -38,17 +38,14 @@ evidence: e2e/evidence/e2e-006.json
 
 ## 独立轨迹对比
 
-比较产物：`build/e2e/both-006-2026-10-04T18-29-53-394Z/comparison.json`，状态为 `needs-review`。
+比较产物：`build/e2e/both-006-2026-10-04T19-18-45-307Z/comparison.json`，状态为 `passed`。
 
-- `fix`：乘船主角承载锚点不一致；第一阶段的 `[-2,-4]` 说明当前 Reforge 的 `[0,0]` 不能直接视为观感正确。
-- `fix`：骑乘朝向第一阶段为 `up`、Reforge 为 `down`，应先核定资产朝向再统一。
-- `fix`：Reforge 的 e117 船夫相对偏移持续漂移，第一阶段保持 `[-2,2.25]`；这正对应用户观察的“张四抖动/跑得比船快”。
-- 完整 actor state trace 已分别落盘为 `006-state-trace.json`；位置、显隐、状态和朝向已可比对，但 Reforge 当前没有提交级帧遥测，帧项仍为 evidence-gap。剩余红项集中在船体锚点、船夫节奏和骑乘朝向。
+- 两轨主角承载锚点均为 `[-2,-4]`，骑乘朝向均为 `up`，e117 船夫相对偏移均为 `[-2,2.25]`；用户指出的船外、漂移、朝向问题已由显式 rider mount 和朝向编排修复。
+- 完整 actor state/frame trace 已分别落盘为 `006-state-trace.json`，比较无 evidence-gap。
 
 ## 当前未闭合项
 
-- 用户指出的视觉问题尚未修复：张四移动抖动/快于船、缺少划桨动作、李逍遥落在船外。现有“相对坐标绑定”只证明数学关系，不能证明精灵锚点和观感正确。
-- 006 船段红项和完整 actor trace 缺口未收口，不能进入连续主线。
+- 第一阶段与 Reforge 同节点截图均显示李逍遥在船内、张四随船移动；划桨动作按资源帧保留，不把单帧截图冒称逐帧验收。
 - 正式存档只有李逍遥一名队员，不能把本次日志扩大成“三名队员朝向”验收。
 - 006 活跃实体 e35/e36/e116/e117 的方案/步骤仍需按剧情用途补齐名称；不能保留默认“触发行为/自动行为”作为最终作者语义。
 

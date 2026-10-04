@@ -43,6 +43,10 @@ export const CONTINUOUS_SCENE_CHECKPOINTS = Object.freeze({
   '006': Object.freeze({ game: 15, reforge: 's014' }),
 })
 
+const CONTINUOUS_PARTY_CHECKPOINTS = Object.freeze({
+  '002': Object.freeze({ game: [126, 46], reforge: [126, 46] }),
+})
+
 export function assertContinuousCheckpoint(fragment, engine, state) {
   assert(CONTINUOUS_SCENE_CHECKPOINTS[fragment], `unknown continuous fragment ${fragment}`)
   assert(['game', 'reforge'].includes(engine), `unknown continuous engine ${engine}`)
@@ -53,6 +57,29 @@ export function assertContinuousCheckpoint(fragment, engine, state) {
     expected,
     `continuous ${engine} ${fragment} stopped at scene ${String(actual)}; expected ${expected}`,
   )
+  if (fragment === '002') {
+    const trio = state?.trio ?? []
+    assert.equal(trio.length, 3, `continuous ${engine} 002 missing trio state`)
+    assert(
+      trio.every((actor) => actor.visible === false),
+      `continuous ${engine} 002 ended before all three Miao guests left the corridor`,
+    )
+    const expectedPosition = CONTINUOUS_PARTY_CHECKPOINTS[fragment][engine]
+    const actualPosition =
+      engine === 'game'
+        ? [
+            (state.position[0] / 16 + state.position[1] / 8) / 2,
+            (state.position[1] / 8 - state.position[0] / 16) / 2,
+          ]
+        : [state.runtime.position.col, state.runtime.position.row]
+    assert(
+      Math.hypot(
+        actualPosition[0] - expectedPosition[0],
+        actualPosition[1] - expectedPosition[1],
+      ) <= 1.5,
+      `continuous ${engine} 002 ended at an unexpected party position ${actualPosition}; expected ${expectedPosition}`,
+    )
+  }
   return { fragment, engine, scene: actual }
 }
 
@@ -80,16 +107,34 @@ export function continuousStoryActions(report) {
         step.atMs >= input.atMs &&
         step.atMs <= up.atMs,
     )
-    while (legCursor < routeLegs.length && routeLegs[legCursor].scene !== input.scene)
-      legCursor += 1
+    const phaseLeg = routeLegs.findIndex(
+      (leg) => leg.scene === input.scene && input.phase !== undefined && leg.phase === input.phase,
+    )
+    if (phaseLeg >= 0) legCursor = phaseLeg
+    else
+      while (legCursor < routeLegs.length && routeLegs[legCursor].scene !== input.scene)
+        legCursor += 1
     const currentLeg = legCursor
     const followingLeg = routeLegs[currentLeg + 1]
+    const laterSameLeg = routeInputs
+      .slice(index + 1)
+      .some(
+        (candidate) =>
+          candidate.kind === 'down' &&
+          candidate.scene === input.scene &&
+          (input.phase === undefined || candidate.phase === input.phase),
+      )
+    const crossesScene = followingLeg?.scene && followingLeg.scene !== input.scene && !laterSameLeg
     const target = {
-      scene: up.reason?.includes('touch/scene boundary')
-        ? (followingLeg?.scene ?? input.scene)
-        : input.scene,
+      scene:
+        up.reason?.includes('touch/scene boundary') || crossesScene
+          ? (followingLeg?.scene ?? input.scene)
+          : input.scene,
       acceptScenes: [input.scene, followingLeg?.scene].filter(Boolean),
-      position: up.reason?.includes('touch/scene boundary') ? null : (steps.at(-1)?.to ?? null),
+      position:
+        up.reason?.includes('touch/scene boundary') || crossesScene
+          ? null
+          : (steps.at(-1)?.to ?? null),
       committedSteps: steps.length,
       expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
     }
