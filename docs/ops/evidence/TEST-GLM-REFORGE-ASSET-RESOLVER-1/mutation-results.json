@@ -1,0 +1,225 @@
+{
+  "card": "TEST-GLM-REFORGE-ASSET-RESOLVER-1",
+  "executionSet": [
+    "packages/reforge/src/asset-resolver.failure-causes.test.ts",
+    "packages/reforge/src/project-image-cache.decode-lifecycle.test.ts",
+    "packages/reforge/src/project-image-cache.inflight-dispose.test.ts",
+    "packages/reforge/src/project-loader.image-cache-binding.test.ts",
+    "packages/reforge/src/asset-resolver.test.ts",
+    "packages/reforge/src/asset-resolver.io-boundaries.test.ts",
+    "packages/reforge/src/project-image-cache.test.ts",
+    "packages/reforge/src/project-image-cache.lifecycle.test.ts",
+    "packages/reforge/src/project-loader.test.ts",
+    "packages/reforge/src/project-loader.current-boundaries.test.ts"
+  ],
+  "originalGreen": {
+    "exitCode": 0,
+    "tests": 43,
+    "allPassed": true,
+    "identitySha": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+  },
+  "sourceOriginalSha": {
+    "src/asset-resolver.ts": "d61bfe5d7b68331d6b182aabec9b9e2b66977c2af1c701fd712535fb697db92b",
+    "src/project-image-cache.ts": "1d8b5f08b4454032a6ffcf5c22e3681beaaab0f3176fda9ff7c818acc828b49b",
+    "src/project-loader.ts": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+  },
+  "sourceFinalSha": {
+    "src/asset-resolver.ts": "d61bfe5d7b68331d6b182aabec9b9e2b66977c2af1c701fd712535fb697db92b",
+    "src/project-image-cache.ts": "1d8b5f08b4454032a6ffcf5c22e3681beaaab0f3176fda9ff7c818acc828b49b",
+    "src/project-loader.ts": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+  },
+  "sourceRestoredByteIdentical": true,
+  "verdicts": [
+    {
+      "id": "MUT-01",
+      "target": "非 Error 原因包装",
+      "file": "packages/reforge/src/asset-resolver.ts",
+      "find": ": String(error)",
+      "replace": ": 'opaque-fault'",
+      "mutatedSha": "04566028873a9536f898e6071bdacf13692f20c3d17dc66dc2119dfbb1e1d657",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "AssetResolver 失败原因边界 非 Error 原因（裸字符串）仍包装出工程/asset/kind/path 上下文；同实例修复后恢复"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected '工程 \"cause-proj\" 读取 AssetId \"music.the…' to contain 'disk-fault:raw'\n    at /private/tmp/type-pal-asset-resolver-mut.XrgrBS/packages/reforge/src/asset-resolver.failure-causes.test.ts:77:27"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "4fb501dd75eee1d1f743b7ebf5fd8dc6f55187790bdbba2364cc2a725d6703ed",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    },
+    {
+      "id": "MUT-02",
+      "target": "无 dispose 源的 dispose no-op",
+      "file": "packages/reforge/src/asset-resolver.ts",
+      "find": "this.source.dispose?.()",
+      "replace": "this.source.dispose()",
+      "mutatedSha": "1c5d859d2afad66123f6b5503c85aee0ba24699fd1c5bb3cf46e6258a03c3829",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "AssetResolver 失败原因边界 source 未提供可选 dispose 时 resolver.dispose() 不抛、不阻断后续读取"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected [Function] to not throw an error but 'TypeError: this.source.dispose is not…' was thrown\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-asset-resolver-mut.XrgrBS/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "b093897aad58120ada0f988e59ac2a1b26d08c534f765b0bcb7122aa340a6fc7",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    },
+    {
+      "id": "MUT-03",
+      "target": "解码失败消息上下文",
+      "file": "packages/reforge/src/project-image-cache.ts",
+      "find": "解码 AssetId",
+      "replace": "解码资产",
+      "mutatedSha": "c60e06a3a609ffc6ed7279ee741d46d63285fd4b474d9119a516096615c3539e",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "ProjectImageCache 解码生命周期 解码失败：消息含工程/asset/底层原因；失败不缓存，修复后重试成功（重读+重解码双见证）"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected '工程 \"decode-proj\" 解码资产 \"portrait.a\" 失败…' to contain '解码 AssetId \"portrait.a\" 失败'\n    at /private/tmp/type-pal-asset-resolver-mut.XrgrBS/packages/reforge/src/project-image-cache.decode-lifecycle.test.ts:110:27"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "24b885b422ad390a5b1e4cedffd205faa00d62919ed563f4b9d3d0164da69742",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    },
+    {
+      "id": "MUT-04",
+      "target": "解码 Blob mediaType 保真",
+      "file": "packages/reforge/src/project-image-cache.ts",
+      "find": "type: record.mediaType",
+      "replace": "type: 'application/octet-stream'",
+      "mutatedSha": "41b13f6740cabc4578af25bb14cb41bc709e1ca10c6d8622ed74a6fabc0eec84",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "ProjectImageCache 解码生命周期 解码输入保真：createImageBitmap 收到的 Blob 携带 catalog mediaType 且字节与 readBytes 相符"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 'application/octet-stream' to be 'image/png' // Object.is equality\n    at /private/tmp/type-pal-asset-resolver-mut.XrgrBS/packages/reforge/src/project-image-cache.decode-lifecycle.test.ts:129:23"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "4f42e852487b022b2c7cdd56756b683f36df1897e286379ec14fcec111ec79b8",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    },
+    {
+      "id": "MUT-05",
+      "target": "支持 kind 正面枚举",
+      "file": "packages/reforge/src/project-image-cache.ts",
+      "find": "  'item-icon',\n",
+      "replace": "",
+      "mutatedSha": "80f3ba0328e83179123cb1045e4e331fcc7098689c5f6fdf9a6b9fef30529de0",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "ProjectImageCache 解码生命周期 登记支持的四种 image kind 全部可经 cache 载入（正面枚举）"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected [ [ 'portrait.a', 'loaded' ], …(3) ] to deeply equal [ [ 'portrait.a', 'loaded' ], …(3) ]\n    at /private/tmp/type-pal-asset-resolver-mut.XrgrBS/packages/reforge/src/project-image-cache.decode-lifecycle.test.ts:162:22"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "88c629a26c1d318fdae1f213f9a0239dd2ae05d69a749d4da1e0487371edd95a",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    },
+    {
+      "id": "MUT-06",
+      "target": "dispose 清 pending（取消不复活）",
+      "file": "packages/reforge/src/project-image-cache.ts",
+      "find": "    this.decoded.clear()\n    this.pending.clear()",
+      "replace": "    this.decoded.clear()",
+      "mutatedSha": "a4d8c23aefe23af6ac9235c5de0e2dc1dbf42f47cea405b5eeae8b47e1a4ebac",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "ProjectImageCache 在途 dispose dispose 不取消在途；窗口内新 load 真重解码（不复活已清 pending）；二次 dispose 只关闭最后回填位图"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected [ 'assets/generated/pa.png' ] to deeply equal [ 'assets/generated/pa.png', …(1) ]\n    at /private/tmp/type-pal-asset-resolver-mut.XrgrBS/packages/reforge/src/project-image-cache.inflight-dispose.test.ts:108:19"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "7a99993d08017c9d3056975d4fb96f98d59d384c08a00abe72086f5b5019d775",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    },
+    {
+      "id": "MUT-07",
+      "target": "loader imageCache 绑定",
+      "file": "packages/reforge/src/project-loader.ts",
+      "find": "imageCache: new ProjectImageCache(assetResolver),",
+      "replace": "imageCache: new ProjectImageCache(\n          new AssetResolver(manifest.id, { version: 1, assets: {} }, manifest.assets.roles, source),\n        ),",
+      "mutatedSha": "4d1ba5d350cd0c94204c63128197f43b8d86434409cee6eeae4105347ac23d8e",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "targetFailed": [
+          "loadCurrentProjectFrom 绑定：imageCache 经 manifest catalog 登记路径读字节，与 assetResolver 同源"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 'thrown:工程 \"demo-d\" 解析 AssetId \"portra…' to be 'loaded' // Object.is equality\n    at /private/tmp/type-pal-asset-resolver-mut.XrgrBS/packages/reforge/src/project-loader.image-cache-binding.test.ts:51:19"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 43,
+        "identityMatchOriginal": true
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "9cf6847970b87520eb1f0787f83950b1e402274130533ae8ca422e4f0b216d00",
+        "restored": "2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d"
+      }
+    }
+  ],
+  "validCount": 7,
+  "invalidCount": 0
+}
