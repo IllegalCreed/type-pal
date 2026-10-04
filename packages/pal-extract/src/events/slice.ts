@@ -109,7 +109,7 @@ export function sliceByScene(
       }
 
       // 其他命令:扫描所有字符串字段寻找 L_N 模式,再 fall-through
-      for (const v of Object.values(c as unknown as Record<string, unknown>)) {
+      for (const v of Object.values(c)) {
         if (typeof v === 'string') {
           const t = parseLabel(v)
           if (t !== null) queue.push(t)
@@ -147,7 +147,7 @@ export function sliceByScene(
         if (t !== null) queue.push(t)
         continue
       }
-      for (const v of Object.values(c as unknown as Record<string, unknown>)) {
+      for (const v of Object.values(c)) {
         if (typeof v === 'string') {
           const t = parseLabel(v)
           if (t !== null) queue.push(t)
