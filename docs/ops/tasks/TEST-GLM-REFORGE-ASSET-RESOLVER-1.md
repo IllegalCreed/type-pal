@@ -22,7 +22,7 @@ Visual Verification Timing: dev-functional
 你是 TEST-GLM-REFORGE-ASSET-RESOLVER-1 的 Coding Owner（GLM）。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡和已归档 Reforge 卡；只在 codex/glm-reforge-asset-resolver-r1 工作。对 asset-resolver.ts、project-image-cache.ts 及公开 loader/cache caller 先做旧 fullName/caller/input/oracle 排重，再补缺失、失败、重试、取消、缓存失效合同。不得改产品、旧测、配置、baseline、真实 PAL 数据、私有 state 或 __rf*；禁止强转、skip、ignore、扩大 timeout、业务核心 mock。反控须三态绿红绿、四态 hash、执行集和清理证明。交付定向/相邻测试、typecheck、lint 0/0/0、docs、diff 和完整 SHA；不得把覆盖率或例数当完成条件，不得标 done。
 ```
 
-## GLM r1 交付回执（2026-10-05，基线 f83ed41e9）
+## GLM r1 交付回执（2026-10-05，基线 f83ed41e9，工作提交 b8e315497c72ae261dbd3c3aefc00fe69e8128a8）
 
 - 交付（产品/旧测/配置零改动，仅新增）：4 个测试文件 8 合同 ——
   `asset-resolver.failure-causes.test.ts`（C1 非 Error 原因包装+恢复 / C2 无 dispose 源 no-op）、
@@ -39,10 +39,13 @@ Visual Verification Timing: dev-functional
   无匹配；交付树产品文件 `git diff f83ed41e9 --` 为空。
 - 质量门实测：定向 8/8（4 文件）；执行集 43/43；相邻 reforge 全包 337 文件 8739/8739；
   reforge typecheck 0 错；全仓 `pnpm lint` 0/0/0（3342 文件）。
-- **docs 门如实披露**：`pnpm check:docs` 红于三处 after-SHA drift —— `docs/ops/board.md`、
-  `docs/ops/tasks/index.md` 为基线 f83ed41e9 自带漂移（开卡提交未刷新评审戳，非本卡改动）；
-  `docs/ops/evidence/README.md` 为本卡按同一 checker「子目录未进入导航」要求追加的一行导航。
-  内容评审 stamp 属治理记录，贡献者不自行改写刷新；待 Codex 治理批刷新（登记，不绕门）。
+- **docs 门（r1 披露 → r2 已闭合）**：r1 时 `pnpm check:docs` 红于三处 after-SHA drift ——
+  `docs/ops/board.md`、`docs/ops/tasks/index.md` 为基线 f83ed41e9 自带漂移（开卡提交未刷新
+  评审戳）；`docs/ops/evidence/README.md` 为本卡按「子目录未进入导航」要求追加的一行导航。
+  r2 按 8494b465c 先例的机械流程刷新（`content-review-sha-refresh`：仅改三条目的
+  afterSha256/implementationSha 并 append-only 追加 history，不改任何评审结论；origin/main
+  无新提交，基线即 f83ed41e9），`pnpm check:docs` 与
+  `node scripts/docs/check-content-review.mjs --strict` 均 PASS。
 - **现行政策登记（交 Codex 复核）**：C6 观察到「dispose 早于在途完成且回填前又有新 load」时，
   先完成位图失去 close 通道（等 GC；battle-trial abort 路径到达时泄漏有界）。若判定应改
   「dispose 后完成即 close/不回填」，属产品决策另开卡；本卡按现行行为钉住。
@@ -58,7 +61,25 @@ mutation-results + mutation-logs），在 codex/glm-reforge-asset-resolver-r1 �
    两合同的时序构造、C8 loader 绑定判别点、登记未证项是否确无单点针）；
 2) 复跑定向 4 文件与执行集 10 文件，抽验至少 2 针三态（红相位 failed-total 恰 1、恢复字节一致）；
 3) 裁决「现行政策登记」的 in-flight 泄漏形行为（改产品另开卡或按现状接受）；
-4) 处理 docs 门三处 after-SHA drift（两处为基线 f83ed41e9 自带，一处为本卡必要导航行）——
-   按治理流程刷新 stamp 后全绿方可收口。
-不得由贡献者代刷评审戳。验收通过后按现行模式收口并更新看板。
+4) 核对 r2 的 content-review-sha-refresh 仅机械刷新三条目 stamp（diff 应只有
+   afterSha256/implementationSha 与追加 history，无评审结论改动）。
+验收通过后按现行模式收口并更新看板。
 ```
+
+## GLM r2 返工记录（2026-10-05）
+
+- 返工指令：docs content-review strict 三处 after-SHA drift 须闭合；基于最新 origin/main
+  rebase，保留本卡测试与证据，重生成索引/证据引用，不覆盖其它任务文档，全门复跑。
+- 基线核实：`git fetch` 后 origin/main 仍为 f83ed41e9（无新提交），本分支基线即最新，
+  无需 rebase；本卡测试、证据与 evidence/README.md 导航行原样保留，tasks/index.md 的
+  本卡条目系开卡提交已有，未改动其它任务文档。
+- stamp 刷新：按 8494b465c 先例机械刷新
+  `docs/phase-governance/reviews/20261004-semantic-current-batch.json` 中
+  board.md / evidence/README.md / tasks/index.md 三条目（afterSha256、
+  revision.implementationSha 对齐当前字节 + append-only history
+  `content-review-sha-refresh`），diff 仅 24+/6-，无评审结论改动。
+- 全门复跑实测：定向 4 文件 8/8；reforge typecheck 0 错；全仓 `pnpm lint` 0/0/0（3342 文件）；
+  `pnpm check:docs` PASS（testing docs / phase-lore / content review 全绿）；
+  `node scripts/docs/check-content-review.mjs --strict` PASS（570 documents）；
+  `git diff f83ed41e9..HEAD --check` 干净。产品零 diff 不变。
+- 不标 done，等待 Codex 独立验收。
