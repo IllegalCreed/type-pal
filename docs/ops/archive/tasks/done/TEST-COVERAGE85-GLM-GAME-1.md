@@ -1,6 +1,6 @@
 # TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex
 Base: `b95a6947369bf5d32db5746df0c82acae27b3663`
@@ -374,3 +374,9 @@ Codex 复核确认项(193/193、fresh 3389/3389、12/12 VALID+恢复 hash、type
 12/12 VALID;36 份 stdout/stderr 的 bytes/sha256 与实际文件 0 mismatch 且恢复 hash 全真;
 `pnpm lint` 0/0/0(重生成后的 JSON 直接过门,无需再手工 format);`git diff --check
 origin/main...HEAD` 0 输出;工作树仅证据/runner 变更。零测试/产品/旧测/baseline/覆盖率口径改动。
+
+---
+
+## Codex quality closure (2026-10-04)
+
+本卡按用户最新裁决以测试质量收口，不以单卡覆盖率百分比或新增用例数量作为通过条件。Codex 独立复核候选 `46ace96e00e49e4d7e19860d54522da40cb98ff9`：193/193 合同通过；12/12 反控原始绿→指定业务红→恢复绿且源 hash 一致；无重复 fullName、违禁强转或私有状态；typecheck、lint、docs、diff 全部通过。覆盖率分支变化保留为整体 main 并集结算的数据记录，未作为本卡失败理由。测试包已选择性集成 main，原候选分支进入退休清理。

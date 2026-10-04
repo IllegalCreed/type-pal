@@ -1,6 +1,6 @@
 # TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex
 Base: `b95a6947369bf5d32db5746df0c82acae27b3663`
@@ -111,7 +111,7 @@ Capability: test-quality / coverage branch closure
   **+127，不作为 85% 达标**——距 85% 仍差 ~557 臂）。
 - **第一轮交付，未达 85%**：fast 口径 branches 9657→**9784**/12166（**+127**），
   statements +80 / functions +5 / lines +47（基线 317 文件/8569 测试全绿复现官方口径；终态 325 文件/8686 全绿）。逐文件闭合与剩余臂诚实披露见
-  [证据](../evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md)。
+  [证据](../../../evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md)。
 - 新增 8 个专属测试文件 117 测试（r2 删除与既有 main.glm-n.test.ts 重复的 gallery/battle-preview/party 合同、删除 Reflect 私有 debug 口改 observation()/canvas dataset、删除 as never 强构造并登记 U21）（`*.c85-*.test.ts`，全部公开 caller：bootGame/BattleSession
   构造器+tick/createBattleState+stepBattle/decideEnemyAction/applyEnemyEffect/ScriptRunner/
   executeScriptHostEffect/planEntityMotion/ScriptProjectRuntime/RuntimeScriptRunner.runFlow/
@@ -132,9 +132,15 @@ Capability: test-quality / coverage branch closure
 
 ## 下一位 Agent 提示词（更新）
 
-Codex 独立验收：读本卡与 [证据](../evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md)，复跑
+Codex 独立验收：读本卡与 [证据](../../../evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md)，复跑
 `node packages/reforge/scripts/c85-mutation-counterproof.mjs`（约 2 分钟，9 注入应全 PASS 且
 源恢复）、`pnpm --filter @type-pal/reforge run typecheck`、定向 8 文件与全量 fast、
 `pnpm lint`/`pnpm check:docs`。核对 identity/delta/family/不可达四账与源锚；重点抽查：
 反控指定 AssertionError 是否唯一归因、U3/U10/U17 守卫锚是否仍在一手位置、121 测试是否与
 既有 fullName 重复状态轴。裁决 accept/counter/rework；未验收前不合 main、不标 done。
+
+---
+
+## Codex quality closure (2026-10-04)
+
+本卡按用户最新裁决以测试质量收口，不以单卡覆盖率百分比或新增用例数量作为通过条件。Codex 独立复核候选 `5829a1ae7ca96f4903b3986184bfb22fd16a3a4a`：118/118 合同通过；9/9 反控原始绿→指定业务红→恢复绿、执行身份和四态 hash 对齐；公开 caller、typed 输入、业务 oracle、排重与隔离证据齐全；typecheck、lint、docs、diff 全部通过。覆盖率分支变化保留为整体 main 并集结算的数据记录，未作为本卡失败理由。测试包已选择性集成 main，原候选分支进入退休清理。

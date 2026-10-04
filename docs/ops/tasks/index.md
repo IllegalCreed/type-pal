@@ -13,9 +13,6 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-GLM-EDITOR-1 — editor workflow branch-contract closure](TEST-COVERAGE85-GLM-EDITOR-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure](TEST-COVERAGE85-GLM-GAME-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure](TEST-COVERAGE85-GLM-REFORGE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure](TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理](TESTING-DOC-GOVERNANCE-1-depth.md) | build | 以任务卡当前准入与看板分工为准。 |
 
@@ -226,6 +223,9 @@
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](../archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-GLM-EDITOR-1 — editor workflow branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](../archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | done | 完成证据、历史签字与交接见原卡。 |

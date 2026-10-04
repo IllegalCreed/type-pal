@@ -1,6 +1,6 @@
 # TEST-COVERAGE85-GLM-EDITOR-1 — editor workflow branch-contract closure
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex
 Base: `76475c01cfbbbd9a8cd52b1cb866d3b21ba6908d`（codex/coverage-85-dispatch-r1 实际派生基点；卡首版误写 b95a6947，r1 返工更正）
@@ -294,3 +294,9 @@ ProjectWorkbenchTab/ActorMode/CutsceneTab/两 SpriteLibrary。
 本卡和 fast baseline，再对 App/MapMode/ScriptEditor 的真实 caller 与旧 fullName 做排重。只写
 本卡白名单的新测试/fixture/证据；交付时记录每个合同的事件、状态、oracle、fullName、三态反控
 和 branch 变化，并输出 `accept` 或 `counter`；不得改产品、旧测、配置或标 done。
+
+---
+
+## Codex quality closure (2026-10-04)
+
+本卡按用户最新裁决以测试质量收口，不以单卡覆盖率百分比或新增用例数量作为通过条件。Codex 独立复核候选 `a85da13cb707d01b00e805ded90caf2fc26caaee`：94/94 合同通过；6/6 反控原始绿→指定业务红→恢复绿、三态 hash 和清理证明一致；无重复 fullName、act/console.error 诊断、违禁强转或私有状态；typecheck、lint、docs、diff 全部通过。覆盖率分支变化保留为整体 main 并集结算的数据记录，未作为本卡失败理由。测试包已选择性集成 main，原候选分支进入退休清理。
