@@ -10,7 +10,7 @@
   "baseline": {
     "state": "clean-baseline（第一态）",
     "file": "mutation-logs/green-baseline.raw",
-    "sha256": "b89b30f40226e4745ef68d225f01e8ffb522abf30ffa96589611be7541afd1bb",
+    "sha256": "abcf8d83c6d67650df8d416836c6cf147cb7e7cda5f623705f41e0e82812277b",
     "tests": "9 passed (9)"
   },
   "needles": [
@@ -22,7 +22,7 @@
         "state": "red（第二态）",
         "exit": 1,
         "file": "mutation-logs/N1-resume-unlock-replays-account.red.raw",
-        "sha256": "ad3746e275b86fe418ff617eff6d11ab56651d536dddac571db72eeba55763ac",
+        "sha256": "97cb8fdb18a074e44dc2ccaee0b29ed094772762c3fe5acefb9be2d0693db9cc",
         "tests": "1 failed | 3 skipped (4)",
         "firstFailure": "AssertionError: expected [ Array(1) ] to have a length of 2 but got 1"
       },
@@ -30,7 +30,7 @@
         "state": "restored-green（第三态）",
         "exit": 0,
         "file": "mutation-logs/N1-resume-unlock-replays-account.green.raw",
-        "sha256": "ffda7749d84fb67bcda2998abeb5dbeaf142ed0e39f51d969c6cfadc4cb80ac7",
+        "sha256": "6eac564701f243bb0870de218aea5a67f45390e3b0d394007ebf6356acc0fedb",
         "tests": "1 passed | 3 skipped (4)"
       }
     },
@@ -42,7 +42,7 @@
         "state": "red（第二态）",
         "exit": 1,
         "file": "mutation-logs/N2-same-song-repeat-restarts.red.raw",
-        "sha256": "2aa2e93bf6d292613e670f115fad8417fff98c865207aa2a17b78a2b542f14ea",
+        "sha256": "3ed0a98208bfc0c87bd1cb691924b1ccce1009da71bcb6bc3b973b8794209c86",
         "tests": "1 failed | 3 skipped (4)",
         "firstFailure": "AssertionError: expected [ { asset: 'music.town', …(1) }, …(1) ] to have a length of 1 but got 2"
       },
@@ -50,7 +50,7 @@
         "state": "restored-green（第三态）",
         "exit": 0,
         "file": "mutation-logs/N2-same-song-repeat-restarts.green.raw",
-        "sha256": "4d0b6d247b184bf0bb8330a73b19f4cfd70c38d62c93df4865729e14632c4781",
+        "sha256": "0d740a6612e2b8bbb0fc3d18ad9b28ea77a2c32582102cb289a27dac9dd93fc0",
         "tests": "1 passed | 3 skipped (4)"
       }
     },
@@ -62,7 +62,7 @@
         "state": "red（第二态）",
         "exit": 1,
         "file": "mutation-logs/N3-setenabled-idempotence.red.raw",
-        "sha256": "4a29c806c1e545313394434f7af69ed124a1017049765eb6140d21b0ae7a01c2",
+        "sha256": "e8133293217a9572dfa6817bee0153e57173b8d53991817624a0cba18069c7ba",
         "tests": "1 failed | 3 skipped (4)",
         "firstFailure": "AssertionError: expected [ 1, 1 ] to have a length of 1 but got 2"
       },
@@ -70,7 +70,7 @@
         "state": "restored-green（第三态）",
         "exit": 0,
         "file": "mutation-logs/N3-setenabled-idempotence.green.raw",
-        "sha256": "316c87b06ab6c27dcfdb2a64b9f6f7b80d4560876add12f5d2adff2a0ffcb423",
+        "sha256": "7ad668c9932c5df154e63930b96f7c6d66abe12a6ba59c9d675c67433a4b4d0b",
         "tests": "1 passed | 3 skipped (4)"
       }
     },
@@ -82,7 +82,7 @@
         "state": "red（第二态）",
         "exit": 1,
         "file": "mutation-logs/N4-replace-stops-old-song.red.raw",
-        "sha256": "6dfe198126ae1ca66fe31a60c838fe0b6cde8071d850599d670e2abc3f04c951",
+        "sha256": "9e6c5b681081b9a0063d41f6f7b9294e6bcaec433c402de1220710e121a5abc0",
         "tests": "1 failed | 1 skipped (2)",
         "firstFailure": "AssertionError: expected false to be true // Object.is equality"
       },
@@ -90,7 +90,7 @@
         "state": "restored-green（第三态）",
         "exit": 0,
         "file": "mutation-logs/N4-replace-stops-old-song.green.raw",
-        "sha256": "42baaf3e9a8614288f1a16ca5547c8337717491ef8a5b4fb67d9f44c362eb5b0",
+        "sha256": "51914d3fd8b4bc672c8d6c9b974b27396925fb35f6a774704bc663568e2d87d5",
         "tests": "1 passed | 1 skipped (2)"
       }
     },
@@ -102,7 +102,7 @@
         "state": "red（第二态）",
         "exit": 1,
         "file": "mutation-logs/N5-replace-failure-keeps-stale-bytes.red.raw",
-        "sha256": "3566f56013176ed32a5689498bd279d6faefa9691cdcce9976ef51835fddf3b4",
+        "sha256": "a289250f0e0006c6ec3e38a583d3d90a0d5d45801dab1de709ee708e936a236d",
         "tests": "1 failed | 1 skipped (2)",
         "firstFailure": "AssertionError: expected { asset: 'music.b', …(3) } to match object { Object (asset, duration, ...) }"
       },
@@ -110,7 +110,7 @@
         "state": "restored-green（第三态）",
         "exit": 0,
         "file": "mutation-logs/N5-replace-failure-keeps-stale-bytes.green.raw",
-        "sha256": "2b0b2e5111e9233b26481c316d08b1e1140838499edf18fce9c8d0e54beb58f5",
+        "sha256": "c1d5617aa6f690ddd542b283e27d66f5a008aa4cdb483c8b9ffb74efd9dd948d",
         "tests": "1 passed | 1 skipped (2)"
       }
     },
@@ -122,7 +122,7 @@
         "state": "red（第二态）",
         "exit": 1,
         "file": "mutation-logs/N6-mid-collection-abort.red.raw",
-        "sha256": "c90a805eedd6a32a0df0bc433a4a8074b67c19bf92f09456b24a4a49ff5aadb0",
+        "sha256": "d226082173dd42b69bddb91bf23f09a6bd531612f57f0682ec9d2537a36bd0d3",
         "tests": "1 failed | 2 skipped (3)",
         "firstFailure": "AssertionError: expected Error: SFX readiness root[1]: 无 sprites 注… to match object { name: 'AbortError' }"
       },
@@ -130,7 +130,7 @@
         "state": "restored-green（第三态）",
         "exit": 0,
         "file": "mutation-logs/N6-mid-collection-abort.green.raw",
-        "sha256": "1ef54bc14492649d092271e7ad32ad7f2d666ab2b384f0e2b3e44372af091119",
+        "sha256": "54f3b585d5667c460c61de4c10eb37eecbeeb8c13d9b934610a5dc8c5afe0e7e",
         "tests": "1 passed | 2 skipped (3)"
       }
     }
@@ -138,7 +138,7 @@
   "finalState": {
     "state": "final-replay（第四态：全部针还原后，定向三文件整套重放）",
     "file": "mutation-logs/final-replay.raw",
-    "sha256": "573d0be2bfa2580f0ecf6a1d39e2f6b5451e6e8675ffcc1d3051dc9d8a6d37d7",
+    "sha256": "d94d6588006008f1c8da33d824e976c962e2d7f9ecb70407b281ef117a7e4b74",
     "tests": "9 passed (9)"
   },
   "cleanTree": "clean（git status --porcelain 全仓无 M/D 残留；?? 仅本卡新增测试/证据交付文件）"

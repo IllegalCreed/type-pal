@@ -4,8 +4,9 @@
   - `packages/reforge/src/audio/bgm.glm-audio-lifecycle.test.ts`（L1a/L1b/L2/L3）
   - `packages/reforge/src/audio/midi-preview.glm-audio-lifecycle.test.ts`（L4/L5）
   - `packages/reforge/src/audio/sfx-readiness.glm-audio-lifecycle.test.ts`（L6 主臂 + 两正控）
-- 排重账：任务卡「r1 交付」节 identity/family ledger（6 合同 source/caller/input/oracle/fullName）
-  与 [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md](../tasks/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md) 内排重结论。
+- 排重账：[dedup-ledger.md](dedup-ledger.md)（6 新增合同源锚/caller/合法输入/oracle/排重结论
+  + 登记不设针项 + 判例）；任务卡「r1 交付」节 identity/family ledger 见
+  [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md](../../tasks/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md)。
 - 身份集：[identity.json](identity.json)（定向 3 文件 9 测试全绿，fullName 逐条）。
 - 反控：[counterproof.json](counterproof.json)（6/6 针 VALID；每针恰 1 指定业务 AssertionError）；
   可重放脚本 [run-counterproof.mjs](run-counterproof.mjs)；逐相位 raw 见 [mutation-logs/](mutation-logs/)

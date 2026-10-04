@@ -1,9 +1,9 @@
 
  RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
 
- ✓ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts (3 tests | 2 skipped) 3ms
+ ✓ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts (3 tests | 2 skipped) 2ms
 
  Test Files  1 passed (1)
       Tests  1 passed | 2 skipped (3)
-   Start at  02:42:46
-   Duration  342ms (transform 220ms, setup 0ms, import 266ms, tests 3ms, environment 0ms)
+   Start at  02:44:21
+   Duration  377ms (transform 240ms, setup 0ms, import 294ms, tests 2ms, environment 0ms)

@@ -236,7 +236,9 @@ report.finalState = {
   tests: final.testsLine,
 }
 
-const residue = execFileSync('git', ['-C', root, 'status', '--porcelain'], { encoding: 'utf8' })
+const residue = execFileSync('git', ['-C', root, 'status', '--porcelain', 'packages/'], {
+  encoding: 'utf8',
+})
 const modifiedResidue = residue.split('\n').filter((line) => line && !line.startsWith('??'))
 if (modifiedResidue.length > 0)
   throw new Error(`product residue after needles:\n${modifiedResidue.join('\n')}`)
