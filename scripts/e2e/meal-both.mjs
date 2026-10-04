@@ -5,6 +5,7 @@ import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
 import { assertMealSuite, MEAL_CASES, mealArguments } from './meal-contract.mjs'
+import { assertNpcTransitionParity } from './npc-transition-contract.mjs'
 
 const options = mealArguments(process.argv.slice(2), true)
 const out = resolve(
@@ -88,6 +89,12 @@ try {
   assertMealSuite(reports)
   comparison.status = 'passed'
   comparison.revision = reports[0].revision
+  const storyReports = reports.filter((report) => report.case === 'story')
+  comparison.npc = await assertNpcTransitionParity({
+    fragment: '004',
+    gameReportPath: `${storyReports.find((report) => report.engine === 'game').output}/report.json`,
+    reforgeReportPath: `${storyReports.find((report) => report.engine === 'reforge').output}/report.json`,
+  })
   comparison.core = reports.map((report) => ({
     engine: report.engine,
     case: report.case,
@@ -97,7 +104,9 @@ try {
     predecessor: report.predecessor,
   }))
 } catch (error) {
+  comparison.status = 'failed'
   comparison.failure = error.message
+  if (error.comparison) comparison.npc = error.comparison
   process.exitCode = interrupted ? 130 : 1
 }
 await writeFile(resolve(out, 'comparison.json'), JSON.stringify(comparison, null, 2))

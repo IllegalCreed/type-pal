@@ -5,6 +5,7 @@ import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
 import { assertErrandSuite, readErrandContract, readErrandReceipt } from './errand-contract.mjs'
+import { assertNpcTransitionParity } from './npc-transition-contract.mjs'
 
 const options = {},
   args = process.argv.slice(2)
@@ -88,8 +89,16 @@ try {
   assertErrandSuite(reports)
   comparison.status = 'passed'
   comparison.revision = reports[0].revision
+  const storyReports = reports.filter((report) => report.case === 'story')
+  comparison.npc = await assertNpcTransitionParity({
+    fragment: '005',
+    gameReportPath: `${storyReports.find((report) => report.engine === 'game').output}/report.json`,
+    reforgeReportPath: `${storyReports.find((report) => report.engine === 'reforge').output}/report.json`,
+  })
 } catch (error) {
+  comparison.status = 'failed'
   comparison.failure = String(error)
+  if (error.comparison) comparison.npc = error.comparison
   process.exitCode = interrupted ? 130 : 1
 }
 await writeFile(resolve(out, 'comparison.json'), JSON.stringify(comparison, null, 2))

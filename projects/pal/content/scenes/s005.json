@@ -3686,6 +3686,14 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s005",
+                        "entity": "e123"
+                      }
+                    },
+                    {
                       "kind": "setEntityTriggerActivation",
                       "target": {
                         "scene": "s005",

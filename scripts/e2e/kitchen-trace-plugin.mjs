@@ -46,7 +46,8 @@ export function instrumentKitchenTrace(source, file) {
         for(const e of activeScene.scene.entities) {
           const id=e.id;
           actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,state:host.getEntityState(id),
-            behavior:world.script.behaviors?.entities?.[sid]?.[id]??null,sprite:e.sprite??e.actor??null,
+            behavior:world.script.behaviors?.entities?.[sid]?.[id]??null,
+            sprite:typeof e.sprite==='string'&&e.sprite.startsWith('sprite-')?Number(e.sprite.slice(7)):e.sprite??e.actor??null,
             frame:worldPresentation.entityFrame(id)??
               motion.gaitPhase(id)??motion.explicitAnimation(id)??entityActions.frame(id)??0};
         }

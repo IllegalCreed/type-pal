@@ -87,7 +87,7 @@ export function instrumentInnTrace(code, file) {
           actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,
             state:host.getEntityState(id),frame:worldPresentation.entityFrame(id)??
               motion.gaitPhase(id)??motion.explicitAnimation(id)??entityActions.frame(id)??0,
-            sprite:e.sprite??e.actor??null};
+            sprite:typeof e.sprite==='string'&&e.sprite.startsWith('sprite-')?Number(e.sprite.slice(7)):e.sprite??e.actor??null};
         }
         globalThis.__innPoint?.(source,{scene:activeScene.scene.id,actors,money:world.money,
           control:!runner&&!dialogBox.active&&!presentation.busy(),

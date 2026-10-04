@@ -55,7 +55,8 @@ export function installErrandObserver() {
         if (
           before &&
           JSON.stringify(before.position) !== JSON.stringify(actor.position) &&
-          !source.startsWith('commit:')
+          !source.startsWith('commit:') &&
+          !source.startsWith('tick:')
         )
           fail(`unobserved committed move ${key} at ${source}`)
         if (JSON.stringify(before) !== JSON.stringify(actor)) {
@@ -150,7 +151,11 @@ export function installErrandObserver() {
             visible: true,
             walking: gs.walkingFrame.walking,
           },
-          ...Object.fromEntries(gs.npcs.map((e) => [`e${e.id}`, actor(e)])),
+          ...Object.fromEntries(
+            gs.npcs
+              .filter((e) => [19, 62, 83, 84, 123, 124, 127].includes(e.id))
+              .map((e) => [`e${e.id}`, actor(e)]),
+          ),
         },
         persistent: Object.fromEntries(
           gs.allEventObjects

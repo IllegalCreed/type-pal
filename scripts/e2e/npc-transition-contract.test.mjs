@@ -78,6 +78,18 @@ test('state-first comparison catches facing change and preserves all findings', 
       ],
       pages: [{ page: { lines: ['张四'] } }],
     }
+  const scenes = {
+    e19: 's001',
+    e62: 's003',
+    e83: 's004',
+    e84: 's004',
+    e123: 's005',
+    e124: 's005',
+    e127: 's005',
+    party: 's005',
+  }
+  for (const trace of [game, reforge])
+    for (const event of trace.events) if (event.kind === 'actor') event.scene = scenes[event.id]
   const comparison = compareNpcStateTraces(game, reforge, '005')
   assert.deepEqual(
     comparison.violations.map((finding) => finding.field ?? finding.type),
@@ -95,6 +107,16 @@ test('state-first comparison catches facing change and preserves all findings', 
 })
 
 test('missing frame telemetry cannot silently pass', () => {
+  const scenes = {
+    e19: 's001',
+    e62: 's003',
+    e83: 's004',
+    e84: 's004',
+    e123: 's005',
+    e124: 's005',
+    e127: 's005',
+    party: 's005',
+  }
   const baseline = {
     events: [
       ...['e19', 'e62', 'e83', 'e84', 'e124', 'e127', 'party'].map((id) =>
@@ -106,6 +128,8 @@ test('missing frame telemetry cannot silently pass', () => {
     pages: [{ page: { lines: ['测试'] } }],
   }
   const candidate = structuredClone(baseline)
+  for (const trace of [baseline, candidate])
+    for (const event of trace.events) if (event.kind === 'actor') event.scene = scenes[event.id]
   const candidateActor = candidate.events.find((event) => event.id === 'e123')
   candidateActor.state.facing = 'left'
   delete candidateActor.state.frame

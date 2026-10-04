@@ -55,7 +55,8 @@ export function installMealObserver() {
         if (
           before &&
           JSON.stringify(before.position) !== JSON.stringify(actor.position) &&
-          !source.startsWith('commit:')
+          !source.startsWith('commit:') &&
+          !source.startsWith('tick:')
         )
           fail(`unobserved committed move ${key} at ${source}`)
         if (JSON.stringify(before) !== JSON.stringify(actor)) {

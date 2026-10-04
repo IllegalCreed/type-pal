@@ -5,6 +5,7 @@ import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
 import { innArguments } from './inn-contract.mjs'
+import { assertNpcTransitionParity } from './npc-transition-contract.mjs'
 
 const options = innArguments(process.argv.slice(2), true),
   out = resolve(repoRoot, 'build/e2e', `both-002-${new Date().toISOString().replace(/[:.]/g, '-')}`)
@@ -71,6 +72,11 @@ try {
   assert.equal(reports[0].core.rows, reports[1].core.rows)
   comparison.status = 'passed'
   comparison.revision = reports[0].revision
+  comparison.npc = await assertNpcTransitionParity({
+    fragment: '002',
+    gameReportPath: results.find((result) => result.engine === 'game').report,
+    reforgeReportPath: results.find((result) => result.engine === 'reforge').report,
+  })
   comparison.core = reports.map((r) => ({
     engine: r.engine,
     verdict: r.core,
@@ -78,7 +84,9 @@ try {
     predecessor: r.predecessor,
   }))
 } catch (error) {
+  comparison.status = 'failed'
   comparison.failure = error.message
+  if (error.comparison) comparison.npc = error.comparison
   process.exitCode = interrupted ? 130 : 1
 }
 await writeFile(resolve(out, 'comparison.json'), JSON.stringify(comparison, null, 2))

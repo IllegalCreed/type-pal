@@ -167,7 +167,7 @@ export function instrumentOpeningTrace(code, file) {
             'entity.pos': 1,
             'e.pos': 3,
             'meta.entity.pos': 1,
-            'player.pos': 6,
+            'player.pos': 7,
             render: 1,
             bootGame: 1,
           }

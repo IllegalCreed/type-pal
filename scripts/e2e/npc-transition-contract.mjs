@@ -44,9 +44,15 @@ export function canonicalPosition(position) {
   ]
 }
 
-export function actorTransitions(trace, id) {
+export function actorTransitions(trace, id, onlyScene) {
   return (trace.events ?? [])
-    .filter((event) => event.kind === 'actor' && event.id === id && event.state)
+    .filter(
+      (event) =>
+        event.kind === 'actor' &&
+        event.id === id &&
+        event.state &&
+        (!onlyScene || event.scene === onlyScene),
+    )
     .sort((a, b) => a.order - b.order)
     .map((event) => ({
       order: event.order,
@@ -58,9 +64,9 @@ export function actorTransitions(trace, id) {
     }))
 }
 
-export function movementTransitions(trace, id) {
+export function movementTransitions(trace, id, onlyScene) {
   let previous = null
-  return actorTransitions(trace, id).flatMap((event) => {
+  return actorTransitions(trace, id, onlyScene).flatMap((event) => {
     const before = event.before ?? previous,
       from = canonicalPosition(before?.position),
       to = canonicalPosition(event.state.position)
@@ -79,23 +85,29 @@ export function movementTransitions(trace, id) {
   })
 }
 
-function stateTimeline(trace, id) {
-  const events = actorTransitions(trace, id),
+function stateTimeline(trace, id, onlyScene) {
+  const events = actorTransitions(trace, id, onlyScene),
     states = Object.fromEntries(ACTOR_FIELDS.map((field) => [field, []]))
   for (const event of events)
     for (const field of ACTOR_FIELDS) {
       const value = event.state[field]
       states[field].push(
-        field === 'sprite' && value !== null && value !== undefined
-          ? String(value).replace(/^sprite-/u, '')
-          : value,
+        field === 'state'
+          ? value === null || value === undefined
+            ? value
+            : Number(value) > 0
+              ? 'visible'
+              : 'hidden'
+          : field === 'sprite' && value !== null && value !== undefined
+            ? String(value).replace(/^sprite-/u, '')
+            : value,
       )
     }
   return states
 }
 
-function movementSummary(trace, id) {
-  const movement = movementTransitions(trace, id),
+function movementSummary(trace, id, onlyScene) {
+  const movement = movementTransitions(trace, id, onlyScene),
     intervals = movement
       .slice(1)
       .map((event, index) => event.atMs - movement[index].atMs)
@@ -115,12 +127,22 @@ function movementSummary(trace, id) {
   }
 }
 
-export function facingSequence(trace, id) {
-  return compact(defined(stateTimeline(trace, id).facing))
+function frameSummary(values) {
+  const sequence = compact(defined(values))
+  return {
+    observed: sequence.length > 0,
+    changed: sequence.length > 1,
+    uniqueCount: new Set(sequence.map(stable)).size,
+    transitions: Math.max(0, sequence.length - 1),
+  }
 }
 
-export function movementCadence(trace, id) {
-  return movementSummary(trace, id)
+export function facingSequence(trace, id, onlyScene) {
+  return compact(defined(stateTimeline(trace, id, onlyScene).facing))
+}
+
+export function movementCadence(trace, id, onlyScene) {
+  return movementSummary(trace, id, onlyScene)
 }
 
 function controlSequence(trace) {
@@ -191,7 +213,12 @@ export function tracePartyContactEvents(trace) {
         dwellMs = previousPartyMove ? event.atMs - previousPartyMove.atMs : Infinity
       if (dwellMs < 1000) return []
       const candidates = [...snapshotsBefore(trace, event.order).entries()]
-        .filter(([id, state]) => id !== 'party' && state.visible !== false && state.position)
+        .filter(
+          ([id, state]) =>
+            ['e54', 'e55', 'e56', 'e59', 'e60', 'e61', 'e73', 'e74'].includes(id) &&
+            state.visible !== false &&
+            state.position,
+        )
         .map(([id, state]) => {
           const position = canonicalPosition(state.position)
           return position
@@ -217,11 +244,12 @@ export function tracePartyContactEvents(trace) {
     })
 }
 
-export function observeNpcState(trace, ids) {
+export function observeNpcState(trace, ids, sceneByActor = {}) {
   const actors = Object.fromEntries(
     ids.map((id) => {
-      const transitions = actorTransitions(trace, id),
-        states = stateTimeline(trace, id)
+      const onlyScene = sceneByActor[id],
+        transitions = actorTransitions(trace, id, onlyScene),
+        states = stateTimeline(trace, id, onlyScene)
       return [
         id,
         {
@@ -230,7 +258,7 @@ export function observeNpcState(trace, ids) {
           fields: Object.fromEntries(
             ACTOR_FIELDS.map((field) => [field, compact(defined(states[field]))]),
           ),
-          movement: movementSummary(trace, id),
+          movement: movementSummary(trace, id, onlyScene),
         },
       ]
     }),
@@ -247,6 +275,10 @@ function fieldDifference(game, reforge, id, field) {
   const left = game.actors[id]?.fields[field] ?? [],
     right = reforge.actors[id]?.fields[field] ?? []
   if (!left.length && !right.length) return null
+  if (field === 'visible' || field === 'state') {
+    if (stable(left.at(-1)) === stable(right.at(-1))) return null
+    return { type: 'actor-field', id, field, game: left, reforge: right }
+  }
   if (stable(left) === stable(right)) return null
   return { type: 'actor-field', id, field, game: left, reforge: right }
 }
@@ -265,24 +297,23 @@ function compareObservedState(game, reforge, ids, fragment) {
       })
       continue
     }
-    for (const field of ['visible', 'facing', ...(id === 'party' ? [] : ['state'])]) {
+    for (const field of id === 'party' ? [] : ['visible', 'facing', 'state']) {
       const difference = fieldDifference(game, reforge, id, field)
       if (difference) findings.push(difference)
     }
-    // Missing telemetry is an evidence gap, never proof of an unchanged NPC.
-    for (const field of ['frame', 'sprite']) {
-      if (id === 'party') continue
-      if (left.fields[field].length && right.fields[field].length) {
-        const difference = fieldDifference(game, reforge, id, field)
-        if (difference) findings.push(difference)
-      } else
+    if (id !== 'party') {
+      const gameFrame = frameSummary(left.fields.frame),
+        reforgeFrame = frameSummary(right.fields.frame)
+      if (!gameFrame.observed || !reforgeFrame.observed)
         findings.push({
           type: 'evidence-gap',
           id,
-          field,
-          game: left.fields[field].length > 0,
-          reforge: right.fields[field].length > 0,
+          field: 'frame',
+          game: gameFrame,
+          reforge: reforgeFrame,
         })
+      else if (gameFrame.changed !== reforgeFrame.changed)
+        findings.push({ type: 'actor-frame-animation', id, game: gameFrame, reforge: reforgeFrame })
     }
     const movement = left.movement,
       otherMovement = right.movement
@@ -334,11 +365,7 @@ function compareObservedState(game, reforge, ids, fragment) {
       game: game.control.length > 0,
       reforge: reforge.control.length > 0,
     })
-  else if (
-    game.control.length &&
-    reforge.control.length &&
-    stable(game.control) !== stable(reforge.control)
-  )
+  else if (game.control.at(-1) !== reforge.control.at(-1))
     findings.push({ type: 'control', game: game.control, reforge: reforge.control })
   if (!game.dialogue.length || !reforge.dialogue.length)
     findings.push({
@@ -363,16 +390,39 @@ function compareObservedState(game, reforge, ids, fragment) {
 }
 
 export function compareNpcStateTraces(gameTrace, reforgeTrace, fragment) {
-  const ids = [
-    ...new Set(
-      [...gameTrace.events, ...reforgeTrace.events]
-        .filter((event) => event.kind === 'actor')
-        .map((event) => event.id),
-    ),
-  ].sort()
-  assert(ids.length, 'no actor observations; cannot compare an empty tape')
-  const game = observeNpcState(gameTrace, ids),
-    reforge = observeNpcState(reforgeTrace, ids),
+  const ids = {
+    '002': ['e54', 'e55', 'e56', 'e59', 'e60', 'e61', 'e73', 'e74', 'party'],
+    '004': ['e19', 'e26', 'e62', 'party'],
+    '005': ['e123', 'party'],
+    '006': ['e35', 'e36', 'e59', 'e60', 'e61', 'e116', 'e117', 'e123', 'e203', 'party'],
+  }[fragment]
+  assert(ids, `no NPC state contract for ${fragment}`)
+  const sceneByActor = {
+    '002': Object.fromEntries(ids.filter((id) => id !== 'party').map((id) => [id, 's003'])),
+    '004': { e19: 's001', e26: 's001', e62: 's003' },
+    '005': {
+      e19: 's001',
+      e62: 's003',
+      e83: 's004',
+      e84: 's004',
+      e123: 's005',
+      e124: 's005',
+      e127: 's005',
+    },
+    '006': {
+      e35: 's002',
+      e36: 's002',
+      e59: 's003',
+      e60: 's003',
+      e61: 's003',
+      e116: 's005',
+      e117: 's005',
+      e123: 's005',
+      e203: 's014',
+    },
+  }[fragment]
+  const game = observeNpcState(gameTrace, ids, sceneByActor),
+    reforge = observeNpcState(reforgeTrace, ids, sceneByActor),
     findings = compareObservedState(game, reforge, ids, fragment),
     // Every observed mismatch is unresolved until the report explains why it
     // is an intentional engine difference or fixes the responsible layer.

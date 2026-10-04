@@ -3993,6 +3993,62 @@ export async function bootGame(
         }
       },
       afterLiveCommit: () => {
+        // Authored NPC locomotion bypasses the dynamic planner, but its committed body still
+        // participates in the scene. Preserve the first-stage contact response as a post-commit
+        // party yield: choose the NPC-facing next direction, then the remaining cardinal slots,
+        // without adding a collision check to authored movement itself.
+        if (canWriteParty && !authority.has('party') && !playerMoved) {
+          const directionOrder: Record<Facing, Facing[]> = {
+            down: ['left', 'up', 'right', 'down'],
+            left: ['up', 'right', 'down', 'left'],
+            up: ['right', 'down', 'left', 'up'],
+            right: ['down', 'left', 'up', 'right'],
+          }
+          const step: Record<Facing, { col: number; row: number }> = {
+            down: { col: 0, row: 1 },
+            left: { col: -1, row: 0 },
+            up: { col: 0, row: -1 },
+            right: { col: 1, row: 0 },
+          }
+          const movedAutoEntities = entityOutcomes
+            .filter(({ outcome, meta }) => outcome.kind === 'moved' && meta.source === 'auto')
+            .map(({ meta }) => meta.entity)
+          const contact = movedAutoEntities.find((entity) => {
+            const gates = entityLifecycleGates(entity)
+            return (
+              gates.visible &&
+              gates.collidable &&
+              Math.abs(entity.pos.col - player.pos.col) +
+                Math.abs(entity.pos.row - player.pos.row) <=
+                1.5
+            )
+          })
+          if (contact) {
+            for (const facing of directionOrder[contact.facing ?? 'down']) {
+              const delta = step[facing]
+              const next = {
+                col: player.pos.col + delta.col,
+                row: player.pos.row + delta.row,
+                height: player.pos.height,
+              }
+              if (isBlockedAt(activeScene.map, next)) continue
+              if (
+                activeScene.scene.entities.some(
+                  (entity) =>
+                    entity.id !== contact.id &&
+                    entityLifecycleGates(entity).collidable &&
+                    entity.pos.col === next.col &&
+                    entity.pos.row === next.row &&
+                    entity.pos.height === next.height,
+                )
+              )
+                continue
+              player.pos = next
+              updateCamera()
+              break
+            }
+          }
+        }
         // Keep queued/re-enterable and committed/non-repeatable one-shots paired with the live
         // pose in this same stack, before touch and the deliberately deferred Promise wake-up.
         for (const { meta } of entityOutcomes)
