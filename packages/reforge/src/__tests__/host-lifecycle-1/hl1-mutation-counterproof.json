@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-04T09:38:10.201Z",
+  "generatedAt": "2026-10-04T10:22:19.626Z",
   "nodeVersion": "v22.23.2",
   "injections": [
     {
@@ -511,7 +511,7 @@
       "expectedErrorPart": "currentMusic",
       "original": {
         "exitCode": 0,
-        "hash": "928de71262954b93fe4aea93a9c7ae6a44a0498ed3618a40172949a3159b6a44",
+        "hash": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
         "executed": [
           {
             "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
@@ -563,7 +563,7 @@
       "mutant": {
         "exitCode": 1,
         "signal": null,
-        "hash": "4d519b8c0eef2436657c0ec685ec474bc9d587109526a6c48dc4696d16443516",
+        "hash": "50138292bdf335770df7ab8c483998be36fcebc0ffb4d02a4f2e6908dea02923",
         "executed": [],
         "failed": [
           {
@@ -627,7 +627,7 @@
       },
       "restored": {
         "exitCode": 0,
-        "hash": "928de71262954b93fe4aea93a9c7ae6a44a0498ed3618a40172949a3159b6a44",
+        "hash": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
         "executed": [
           {
             "file": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.host-lifecycle-1.test.ts",
@@ -677,7 +677,7 @@
         "consolePath": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/host-lifecycle-1/counterproof-raw/MAIN-SCENE-MUSIC-NULL-WRITE.restored.console"
       },
       "rebuilt": {
-        "hash": "928de71262954b93fe4aea93a9c7ae6a44a0498ed3618a40172949a3159b6a44",
+        "hash": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
         "executedCount": 1
       }
     }

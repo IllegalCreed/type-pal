@@ -1,11 +1,11 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
 
- ✓ src/script-runner.host-lifecycle-1.test.ts (7 tests | 6 skipped) 2ms
+ ✓ src/script-runner.host-lifecycle-1.test.ts (7 tests | 6 skipped) 4ms
 
  Test Files  1 passed (1)
       Tests  1 passed | 6 skipped (7)
-   Start at  18:37:35
-   Duration  420ms (transform 240ms, setup 0ms, import 293ms, tests 2ms, environment 0ms)
+   Start at  19:21:38
+   Duration  500ms (transform 315ms, setup 0ms, import 386ms, tests 4ms, environment 0ms)
 
 
