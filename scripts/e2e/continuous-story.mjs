@@ -93,6 +93,7 @@ export function continuousStoryActions(report) {
   const routeInputs = report.route?.inputs ?? []
   const routeLegs = report.route?.legs ?? []
   let legCursor = 0
+  let previousPhase
   for (let index = 0; index < routeInputs.length; index++) {
     const input = routeInputs[index]
     if (input.kind !== 'down') continue
@@ -138,6 +139,9 @@ export function continuousStoryActions(report) {
       committedSteps: steps.length,
       expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
     }
+    if (input.phase !== undefined && input.phase !== previousPhase && steps[0]?.to)
+      target.phaseStart = steps[0].to
+    previousPhase = input.phase
     routeTargets.set(`${input.kind}:${input.key}:${input.atMs}`, target)
     routeTargets.set(`${up.kind}:${up.key}:${up.atMs}`, target)
     legCursor = currentLeg + 1

@@ -126,6 +126,11 @@ const driveRouteTarget = async (action, _entry, until, health) => {
       30000,
     )
   if (routeTargetReached(current, target)) return
+  if (target.phaseStart) {
+    const phaseTarget = { ...target, position: target.phaseStart, phaseStart: undefined }
+    await driveRouteTarget({ ...action, routeTarget: phaseTarget }, _entry, until, health)
+    if (routeTargetReached(await read(), target)) return
+  }
   const actualScene =
     engine === 'game' ? `s${String(current.scene - 1).padStart(3, '0')}` : current.scene
   const scene = target.scene
