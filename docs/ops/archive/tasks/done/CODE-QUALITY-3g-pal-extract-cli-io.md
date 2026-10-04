@@ -1,6 +1,6 @@
 # CODE-QUALITY-3g - pal-extract CLI IO 与失败边界
 
-Status: draft
+Status: done
 Phase: phase1 pal-extract
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -42,12 +42,13 @@ Base: `abb759ceb`
 ## 当前模式推进记录
 
 - Codex 前提核验：verified（范围明确；symbols 子批已收，其余 CLI 仍待证）。
-- build 准入：blocked；先完成分段 caller/失败策略 census，发现问题后再单独准入实现。
-- 独立验收：pending。
+- build 准入：Codex build allowed（本批为只读审计，无实现改动）。
+- 独立验收：accept；完整 CLI 分段 caller/清理/写盘/降级/manifest 直接复核，pal-extract/full check、support-mode ratchet、protected fast、lint 均通过；未发现需修的直接证据问题。
 
 ## 交接日志
 
 - 2026-10-05 Codex：CLI 已直接读过并完成 symbols 子批；账本将其余总装 IO/失败策略保留 review。Next: 分段核验清理、写盘、降级与 manifest 的真实调用域。
+- 2026-10-05 Codex：完成 73-896 行全量分段审计：OUT 清理有固定 suffix guard 且保留 videos，round-trip fail-loud，资源异常降级均有 caller 注释，manifest 最后写入；未发现新增直接缺陷。全包/full check、ratchet/protected/lint 通过，归档 done。
 
 ## 下一位 Agent 提示词
 
