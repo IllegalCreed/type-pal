@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T17:35:22.638Z",
+  "generatedAt": "2026-10-04T18:47:44.633Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19270,
+  "testCount": 19271,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6543,8 +6543,8 @@
       ],
       "scopeDigest": "17a2035a760e7292c1ab49e410b06bcaad56c83e05557d927416ae1e5db09b7a",
       "fastTests": {
-        "testCount": 4682,
-        "testFileCount": 586,
+        "testCount": 4683,
+        "testFileCount": 587,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7019,6 +7019,7 @@
           "packages/editor/src/ui/SpriteActionEditorDialog.glm-l.test.tsx",
           "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
           "packages/editor/src/ui/SpriteFrameDeletion.test.ts",
+          "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
@@ -9500,6 +9501,11 @@
             "identityDigest": "b4d57744584a215929629b3d50f3da743a64f1f29a70ad84aba8f5b24ca737a2"
           },
           {
+            "file": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+            "testCount": 1,
+            "identityDigest": "9cc539365ccfcc08f6fbfd8265e977f693f4d714e386c1cc1f12d49555a5fc0a"
+          },
+          {
             "file": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
             "testCount": 9,
             "identityDigest": "810ea50bb8c74e74265db412f622fdbd2df710dc1f394b564b2d88389c85c025"
@@ -10065,9 +10071,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "60d4a4e447b072b2e443aab9d2f8f304b37ed1976fb8adea4854695efe7f1caa",
+        "identityDigest": "a3dabf333255851825fc057dfad81531641dca72970ed25be6d6b629fefac553",
         "duplicateIdentityCount": 8,
-        "executionDigest": "a8228f4aa4501ab06d0947d4b9974cb8b96de9bc1364e9edb61842673e3deeea"
+        "executionDigest": "109ef5c6902401941bd028f11c53f91bb536ab3415bd2e2cdb0f517502222076"
       },
       "metrics": {
         "statements": {
@@ -10075,7 +10081,7 @@
           "total": 33513
         },
         "branches": {
-          "covered": 24166,
+          "covered": 24168,
           "total": 29058
         },
         "functions": {
@@ -10095,7 +10101,7 @@
       "total": 77386
     },
     "branches": {
-      "covered": 49745,
+      "covered": 49747,
       "total": 60179
     },
     "functions": {

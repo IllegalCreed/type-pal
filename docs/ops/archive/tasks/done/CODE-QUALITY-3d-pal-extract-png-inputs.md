@@ -1,6 +1,6 @@
 # CODE-QUALITY-3d - pal-extract indexed PNG 输入边界
 
-Status: review
+Status: done
 Phase: phase1 pal-extract
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -43,7 +43,7 @@ Base: `ea0ba6c97`
 
 - Codex 前提核验：verified；修改白名单仅 sprite.ts、专属边界测试与治理文档。
 - build 准入：Codex build allowed。
-- 独立验收：rework pending；实现/定向/pal-extract 全包/全仓 check/lint 通过，但 official ratchet 与 protected fast 的默认/并行采样仍受 CODE-QUALITY-3c editor branch 差额影响。
+- 独立验收：accept；实现、定向、全仓 check、support-mode ratchet、protected fast、lint 均通过；editor runner 差额由 CODE-QUALITY-3c 闭合。
 
 ## Build / Review
 
@@ -51,13 +51,14 @@ Base: `ea0ba6c97`
 - 定向：sprite 边界 + runtime resource + sprite 基础 9/9；pal-extract 全包 69 files / 419 tests；typecheck 通过。
 - 反控：临时移除 guard 后 malformed tests 失败；生产文件已恢复。
 - 全仓：`pnpm check` 通过（pal-extract 419、editor 605/4844、migrate 95/723、lint 3197 文件零诊断）。
-- Coverage：Q3d 单包达到 1044/1507 statements、441/563 branches、922/1332 lines；ratchet/protected 尚未在不受 CODE-QUALITY-3c 影响的采样中闭合，未降门槛。
-- Review：Codex 确认实现范围和 caller 保真；Q3d 不标 done，待 runner 门明确后重跑官方 gates。
+- Coverage：Q3d 单包达到 1044/1507 statements、441/563 branches、922/1332 lines；support-mode ratchet/protected fast 已通过，未降门槛。
+- Review：Codex 确认实现范围和 caller 保真；accept。
 
 ## 交接日志
 
 - 2026-10-05 Codex：直接读取 encoder 与全部生产 callers，确认短输入会静默补零且没有合法 caller 依赖；Next: 增加独立 malformed 反例并实现最小入口校验。
 - 2026-10-05 Codex：实现 guard 与专属边界测试，负控失败；全仓 check/lint 通过。Q3d 留 review/rework，等待 CODE-QUALITY-3c 的 coverage runner 门，不把单包提升冒充全仓 ratchet/protected closure。
+- 2026-10-05 Codex：Q3c 闭合后重跑 support-mode ratchet/protected fast，Q3d 质量门通过；PNG 合法输出/alpha 合同保持。Next: 归档 Q3d。
 
 ## 下一位 Agent 提示词
 
