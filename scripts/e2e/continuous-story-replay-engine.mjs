@@ -103,14 +103,13 @@ const routeTargetReached = (state, target) => {
   )
 }
 const SCENE_BOUNDARY_POSITIONS = {
-  s001: { s003: [66, 34] },
+  s001: { s003: [60, -13] },
   s002: { s003: [86, 12] },
   s003: { s001: [124, 62], s004: [137, 76] },
   s004: { s005: [140, 26] },
   s005: { s014: [126, 52] },
 }
 const DIRECT_SCENE_BOUNDARY_STARTS = {
-  's001>s003': [60, -15],
   's003>s001': [124, 62],
 }
 const hasDialogue = (state) => (engine === 'game' ? !!state.dialog : !!state.runtime?.dialogue)
