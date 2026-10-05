@@ -27,7 +27,41 @@ Visual Verification Timing: dev-functional
 - 反控为绿→指定业务红→恢复绿，恰一业务 AssertionError，保留 JSON/raw/exit/执行集/源/变异/恢复 hash 与 mkdtemp/finally 清理证明。
 - 定向/相邻 Reforge 测试、typecheck、lint 0/0/0、docs、`git diff --check` 通过；不设例数或覆盖率门槛。审计后若无合法新合同，提交饱和档案，不堆弱测。
 
-## GLM 交付回执（r1，2026-10-05，待 Codex 独立验收）
+## GLM r2 返工回执（2026-10-05，反控 runner 按 Codex 一审令重铸，待二审）
+
+- 返工范围：仅 `packages/reforge/scripts/mt1-mutation-counterproof.mjs` 与证据；3 条业务合同、
+  排重账、产品/旧测/config/baseline 零改动（测试文件字节与 r1 相同）。
+- r1 缺陷（一审认定）：回执只存计数摘要、failed 用 includes 前缀匹配、绿相位无执行集比较。
+- r2 重铸后的反控证据口径（[counterproof.json](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json)）：
+  - **完整执行集**：每个 phase（baseline / 每针 mutant / 每针 restored / final-replay，全量
+    8767 测试、`--reporter=json`、无 `-t`）解析完整 file×fullName×status 执行集，按 (file,
+    fullName) 排序落盘 `counterproof-raw/*.identity.tsv`（8 个 artifact，字节流即
+    identitySha256，回执记录路径/字节/文件 sha256 并逐一复核）。
+  - **红相位硬门**：exitCode≠0、signal===null、spawnError===null、numFailedTests===1、
+    numPendingTests===0、numTodoTests===0、success===false、无「失败且零断言行」的 suite
+    （collection/runtime error 形态）；identity 中 failed 行恰 1 且 fullName 与目标合同**精确
+    相等**（目标全名取自 baseline 执行集恰一匹配）；failureMessages 含指定 AssertionError
+    片段，console 原文旁证同查。
+  - **绿相位硬门**：exit 0、signal/spawnError null、全 passed、零 pending/todo，且
+    identitySha256 与 baseline **集合级一致**（restored ×3 与 final-replay 全部相等，
+    identitySha 90a5ade2…）。
+  - **可复算**：完整 argv（`pnpm exec vitest run --reporter=json`）/cwd/env 摘要
+    （NODE_COMPILE_CACHE deleted）、JSON 计数、exit/signal/spawnError、源文件四态 sha256
+    （orig==restored==rebuilt==当前源 d32aa7d4…）、mkdtemp finally 移除入账。
+  - **runner 自测**：11 例（9 拒收反例：两失败/错 fullName/exit 0/pending/collection error/
+    非断言错误/signal SIGKILL/spawn ENOENT/绿相位集合漂移；2 放行正例）全部由同一判据函数
+    正确裁决，自测不过即不运行真针。
+- 结果：3/3 PASS（每针红相位全包恰 1 failed=指定合同 AssertionError；恢复绿、final-replay
+  identity 与 baseline 一致）。
+- 门禁（raw 见 [gates/](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/)）：定向 3/3、
+  相邻 21 文件 192/192、Reforge 全包 8767/8767（另由反控 baseline+final 双证）、typecheck
+  exit 0、全仓 lint 3416 文件 0/0/0（identity artifact 用 TSV 避开 biome JSON 1MiB 上限，
+  回执 biome format 后 8 个 artifact sha256 复核不变）、`check:docs` PASS、
+  `check-content-review --strict` PASS、`git diff --check` 干净。
+- 提交：见分支 `codex/glm-reforge-motion-transition-r1`（r2 提交在本回执之后）。
+- 不标 done，等待 Codex 二审。
+
+## GLM 交付回执（r1，2026-10-05，历史保留；反控证据已被 r2 取代）
 
 - 分支/基线：`codex/glm-reforge-motion-transition-r1`，基于 `origin/main` `7a9157ac5`；产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试、反控脚本、证据、导航行与 stamp 机械刷新）。
 - 排重结论：8 文件逐轴账见 [dedup-ledger.md](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md)。
@@ -58,8 +92,8 @@ Visual Verification Timing: dev-functional
   afterSha256/implementationSha 对齐 + append-only history，无评审结论改动）；`git diff --check` 干净。
 - 判例：`pnpm --filter` 递归形态在红相位（exit≠0）会把 ERR_PNPM banner 追加进 stdout 污染 json
   reporter，反控驱动必须用 cwd=pkgRoot 裸 `pnpm exec`；反控驱动运行期间不得并发编辑任何 tracked
-  交付文件（clean 前置检查会拦截自己的交付改动）。
-- 覆盖率/例数未设门槛、未计量；不标 done，等待 Codex 独立验收。
+  交付文件（clean 前置检查会拦截自己的交付改动）。（r1 反控证据口径已被上方 r2 取代。）
+- 覆盖率/例数未设门槛、未计量；不标 done，等待 Codex 验收。
 
 ## 下一位 Agent 提示词（Codex 独立验收）
 

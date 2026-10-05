@@ -11,14 +11,27 @@
 
 - [dedup-ledger.md](dedup-ledger.md) — 8 文件逐轴排重账（source:line × caller × 输入 ×
   oracle × 判定），含 U 账 4 条防御臂与候选不设针账。
-- [counterproof.json](counterproof.json) — 3/3 针四态反控回执（原始绿/指定业务红/字节恢复绿/
-  rebuilt hash），执行集 = reforge 全量套件（无 `-t` 过滤，免疫零匹配假绿），红相位全包恰
-  1 failed 且为指定业务 AssertionError。
-- [counterproof-raw/](counterproof-raw/) — baseline、每针 mutant/restored 的默认 reporter
-  全量 console 原文（EOF 已按纪律规整，sha256 见 counterproof.json）。
-- 定向/相邻/typecheck/lint/docs 门禁 raw 见本目录 `gates/` 子目录（交付时生成）。
+- [counterproof.json](counterproof.json) — r2 反控回执：runner 自测 11 例（9 拒收反例 +
+  2 放行正例）全过；每针四态（原始绿/指定业务红/字节恢复绿/rebuilt hash）与完整 argv/cwd/env
+  摘要、JSON 计数、exit/signal/spawnError、源文件四态 sha256。
+- [counterproof-raw/](counterproof-raw/) — 每个 phase（baseline / 每针 mutant / 每针
+  restored / final-replay）的**完整 file×fullName×status 执行集** TSV artifact
+  （`*.identity.tsv`，按 (file, fullName) 排序，字节流即 identitySha256，8 个 artifact 逐一经
+  回执 sha256 复核）+ 红相位默认 reporter console 原文。红相位硬门：exit≠0、signal/spawnError
+  null、numFailedTests=1、numPending/numTodo=0、无空断言集失败 suite、唯一失败 fullName 与
+  目标合同**精确相等**、failureMessages 含指定 AssertionError；绿相位硬门：全 passed 且
+  identitySha256 与 baseline 集合级一致。
+- 定向/相邻/全包/typecheck/lint/docs 门禁 raw 见本目录 `gates/` 子目录。
 - 复现：`node packages/reforge/scripts/mt1-mutation-counterproof.mjs`（约 15 分钟，前置要求
-  工作树对产品文件 clean）。
+  工作树对产品文件 clean；回执跑后以 biome format 规整，artifact TSV 不经 format、字节即 hash）。
+
+## r2 返工说明（2026-10-05，Codex 一审反控证据门）
+
+r1 回执只存计数摘要、failed 用 includes 前缀匹配、绿相位无执行集比较。r2 按返工令重铸：完整
+执行集 TSV artifact + 集合级 identitySha256 比较、严格红/绿相位硬门（exit/signal/spawnError/
+pending/todo/collection 形态）、精确 fullName 相等判、runner 自测反例族（多失败/错名/exit0/
+pending/collection error/非断言错误/signal/spawn/绿相位集合漂移全部拒收，正例放行）。三针三态
+与全部门禁由最终脚本字节重出。
 
 ## 三条新合同摘要
 
