@@ -130,6 +130,11 @@ lookup、global script catalog 逐文件核验；发现并修复 global label ma
 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；scene-system、event-system
 及其它 core 生产文件仍待逐文件清点。
 
+Q3o 已完成 game core mode/history/poison/search 四文件窄批：逐文件核对 play.c/scene.c/global.c
+与真实 callers/tests，未发现直接缺陷；定向 42、game 全包 3,403、全仓第二轮 check、official
+ratchet、protected fast、Biome 零诊断均通过。event-opcode-player、scene-system、battle-system
+及其它 core 生产文件仍待核验。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
