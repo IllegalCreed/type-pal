@@ -154,6 +154,13 @@ runEnterScript 均有直接 caller/oracle 证据，未发现直接缺陷。定�
 ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3r 只关闭 event-system 与其主测试，
 battle-opcodes、save 及账本剩余 2,758 个待核记录仍未关闭。
 
+Q3s 已完成高风险 `battle-system.ts` 逐文件核验：3139 行实现与 4182 行主 lifecycle/UI 测试全文读取，另核
+cov85/GLM/runtime-context、anim/death-fade/dialog/settlement/finalization callers；逐段对照 `battle.c`/`fight.c`/
+`script.c`、bootstrap/mode/actions。startBattle 资源/敌槽/波场、phase guards、queue/UI、动画/dialog、逃跑/淡出、
+毒/status/cleanup/resume 均有直接证据，未发现直接缺陷。定向 242、game 全包 3,403、完整 check、official ratchet、
+protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3s 只关闭 battle-system 与四个直接 lifecycle oracle，
+battle-opcodes、其它 actions/present、save 及账本剩余 2,753 个待核记录仍未关闭。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
