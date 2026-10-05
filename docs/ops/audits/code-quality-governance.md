@@ -135,6 +135,11 @@ Q3o 已完成 game core mode/history/poison/search 四文件窄批：逐文件�
 ratchet、protected fast、Biome 零诊断均通过。event-opcode-player、scene-system、battle-system
 及其它 core 生产文件仍待核验。
 
+Q3p 已完成高风险 event player/equipment/poison opcode 单文件核验：`event-opcode-player.ts`
+及 3 个专属测试文件逐段对照 `script.c/global.c`、event-system/equipment/inventory/poison callers；
+未发现直接缺陷或需改行为。全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断
+均通过；event-system、scene-system、battle-system、save 等大型 core 文件仍待逐文件核验。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
