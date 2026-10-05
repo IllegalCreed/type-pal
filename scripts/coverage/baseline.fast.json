@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-04T22:48:39.251Z",
+  "generatedAt": "2026-10-05T01:08:47.705Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19282,
+  "testCount": 19285,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4447,7 +4447,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3372,
+        "testCount": 3375,
         "testFileCount": 293,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5107,8 +5107,8 @@
           },
           {
             "file": "packages/game/src/core/dependency-ownership.test.ts",
-            "testCount": 8,
-            "identityDigest": "d849678dff904663ce7af6332c9581cdef0205b107fd26702fad7aba088e1053"
+            "testCount": 11,
+            "identityDigest": "0d2454eae327c2235c4ac643343158de7f81673e4f590996a3f90ddcfb7a09e0"
           },
           {
             "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
@@ -6211,26 +6211,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "5c0e4ba0f5ba1bb04508ef60a8685d264b1cd3cbd9d9300501ddcabd10e3f8cf",
+        "identityDigest": "e71bf0dcd179964b182d3e4ea4cdb9b5642f83d9184c72f56b17a31a2b6ae2f7",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f229ad8e0d3f366b3aabfef09d7a835317eb4aca3012d4d43733336b695ca366"
+        "executionDigest": "ea6312ffbec40d039607bf209d70d00796aec643c05deec1c04cd330028b853d"
       },
       "metrics": {
         "statements": {
-          "covered": 13382,
-          "total": 15522
+          "covered": 13383,
+          "total": 15523
         },
         "branches": {
-          "covered": 8758,
-          "total": 11290
+          "covered": 8762,
+          "total": 11294
         },
         "functions": {
           "covered": 1512,
           "total": 1853
         },
         "lines": {
-          "covered": 11962,
-          "total": 13625
+          "covered": 11963,
+          "total": 13626
         }
       }
     },
@@ -10097,20 +10097,20 @@
   },
   "total": {
     "statements": {
-      "covered": 68811,
-      "total": 77409
+      "covered": 68812,
+      "total": 77410
     },
     "branches": {
-      "covered": 49773,
-      "total": 60205
+      "covered": 49777,
+      "total": 60209
     },
     "functions": {
       "covered": 13032,
       "total": 14710
     },
     "lines": {
-      "covered": 61539,
-      "total": 67774
+      "covered": 61540,
+      "total": 67775
     }
   }
 }

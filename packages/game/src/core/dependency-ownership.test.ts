@@ -68,6 +68,34 @@ describe('D1 shared-state ownership after dependency split', () => {
     expect(eventEntry.resolveScriptLabel(fresh(), 'L_8')).toEqual({ ip: 0 })
   })
 
+  it('unknown global labels cannot resolve inherited object members as script IPs', () => {
+    catalog.setGlobalEvents([{ op: 'end', label: 'L_1' }])
+    for (const label of ['toString', 'constructor', '__proto__']) {
+      expect(catalog.resolveScriptLabel(fresh(), label)).toBeNull()
+      expect(catalog.resolveLabelIp({}, label)).toBeUndefined()
+    }
+  })
+
+  it('cursor label lookup reads only its own entries, including IP zero', () => {
+    const cursor = { labelMap: { L_7: 0 } }
+    expect(catalog.resolveLabelIp(cursor, 'shared#L_7')).toBe(0)
+    for (const label of ['toString', 'constructor', '__proto__']) {
+      expect(catalog.resolveLabelIp(cursor, label)).toBeUndefined()
+    }
+  })
+
+  it('explicit global labels colliding with object members remain ordinary command labels', () => {
+    const commands: Command[] = [
+      { op: 'end', label: '__proto__' },
+      { op: 'end', label: 'toString' },
+      { op: 'end', label: '__proto__' },
+    ]
+    catalog.setGlobalEvents(commands)
+    expect(catalog.resolveScriptLabel(fresh(), '__proto__')).toEqual({ ip: 2 })
+    expect(catalog.resolveLabelIp({}, 'shared#toString')).toBe(1)
+    expect(Object.getPrototypeOf(catalog.getGlobalLabelMap())).toBeNull()
+  })
+
   it('inventory consumption across entrypoints mutates only the supplied GameState', () => {
     const gs = fresh(),
       untouched = fresh(),

@@ -11,7 +11,7 @@ import type { GameState } from './game-state.js'
 // trigger/autoScript 设到只切进 B scene 的脚本)会在 A scene 解析失败。全局数组兜底:
 // commands[i] = 全局 script entry i(events/all.json,annotated 未切片全量),label = L_<i>。
 let _globalCommands: Command[] = []
-let _globalLabelMap: Record<string, number> = {}
+let _globalLabelMap: Record<string, number> = Object.create(null) as Record<string, number>
 
 /**
  * 原版「扬州宝物屋」giveItem 归零 bug 补丁(tp 层修,user 2026-06-13 报开箱「?0」)。
@@ -45,7 +45,7 @@ export function patchGiveItemZeroBugs(commands: Command[]): void {
 export function setGlobalEvents(commands: Command[]): void {
   patchGiveItemZeroBugs(commands) // tp 层:修原版宝物屋 giveItem 归零 bug(见函数注释)
   _globalCommands = commands
-  const map: Record<string, number> = {}
+  const map: Record<string, number> = Object.create(null) as Record<string, number>
   for (let i = 0; i < commands.length; i++) {
     const lbl = commands[i]?.label
     if (lbl) map[lbl] = i
@@ -79,7 +79,8 @@ export function resolveLabelIp(
   to: string,
 ): number | undefined {
   const label = to.startsWith('shared#') ? to.slice('shared#'.length) : to
-  return getLabels(cursor)[label]
+  const labels = getLabels(cursor)
+  return Object.hasOwn(labels, label) ? labels[label] : undefined
 }
 
 /**
@@ -92,6 +93,6 @@ export function resolveScriptLabel(
   label: string,
 ): { commands?: Command[]; labelMap?: Record<string, number>; ip: number } | null {
   void gs
-  const ip = _globalLabelMap[label]
+  const ip = Object.hasOwn(_globalLabelMap, label) ? _globalLabelMap[label] : undefined
   return ip !== undefined ? { ip } : null
 }

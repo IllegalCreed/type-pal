@@ -124,6 +124,12 @@ battle-positions、rng 逐文件读取 primary source/caller/tests，未发现�
 game 全包 3,400、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
 其它 battle core/actions/system/menu/scene/save 文件仍待逐文件核验。
 
+Q3n 已完成 game core fade/identity/catalog 四文件窄批：palette fade、scene identity、WORD
+lookup、global script catalog 逐文件核验；发现并修复 global label map 对 inherited
+`toString`/`constructor`/`__proto__` 的误解析，补 own-property/null-prototype 合同。全仓第二轮
+`pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；scene-system、event-system
+及其它 core 生产文件仍待逐文件清点。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
