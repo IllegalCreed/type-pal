@@ -1,0 +1,2 @@
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts	MP1 buildMigrationTransactionChanges baseline 磁盘真值 退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除	failed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts	MP1 迁移事务 manifest 排序门 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘	passed

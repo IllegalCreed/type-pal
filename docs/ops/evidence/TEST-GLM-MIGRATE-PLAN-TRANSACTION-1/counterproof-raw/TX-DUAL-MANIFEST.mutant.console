@@ -1,0 +1,31 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/migrate
+
+ ❯ |unit| src/migration-plan-transaction.glm-r1.test.ts (2 tests | 1 failed) 8ms
+     × 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘 5ms
+     ✓ 退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除 2ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  01:59:58
+   Duration  322ms (transform 197ms, setup 0ms, import 241ms, tests 8ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/migration-plan-transaction.glm-r1.test.ts > MP1 迁移事务 manifest 排序门 > 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘
+AssertionError: expected [Function] to throw error including '迁移事务只能包含一个 manifest 操作' but got 'manifest 操作必须是事务最后一项'
+
+Expected: "迁移事务只能包含一个 manifest 操作"
+Received: "manifest 操作必须是事务最后一项"
+
+ ❯ src/migration-plan-transaction.glm-r1.test.ts:53:7
+     51|         { target: 'projects/pal/other.json', scope: 'manifest', conten…
+     52|       ]),
+     53|     ).toThrow('迁移事务只能包含一个 manifest 操作')
+       |       ^
+     54|     // 排序预检先于一切写盘：零控制目录、零目标写入、无 pending 事务、前置资产原样。
+     55|     expect(existsSync(resolve(repo, '.type-pal-migrate'))).toBe(false)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

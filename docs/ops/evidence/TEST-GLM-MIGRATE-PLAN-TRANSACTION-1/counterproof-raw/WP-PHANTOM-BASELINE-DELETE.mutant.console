@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/migrate
+
+ ❯ |unit| src/migration-plan-transaction.glm-r1.test.ts (2 tests | 1 failed) 8ms
+     ✓ 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘 3ms
+     × 退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除 4ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  02:00:00
+   Duration  349ms (transform 222ms, setup 0ms, import 270ms, tests 8ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/migration-plan-transaction.glm-r1.test.ts > MP1 buildMigrationTransactionChanges baseline 磁盘真值 > 退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除
+AssertionError: 退役 baseline 文件不在磁盘时不得产生幻影 delete: expected [ { …(2) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "scope": "baseline",
++     "target": "packages/migrate/baselines/pal/content/old.json",
++   },
++ ]
+
+ ❯ src/migration-plan-transaction.glm-r1.test.ts:88:57
+     86|       ({ target }) => target === 'packages/migrate/baselines/pal/conte…
+     87|     )
+     88|     expect(phantom, '退役 baseline 文件不在磁盘时不得产生幻影 delete').toEqual([])
+       |                                                         ^
+     89|     expect(buildMigrationTransactionChanges(args()).map(({ target }) =…
+     90|       'packages/migrate/baselines/pal/_state.json',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

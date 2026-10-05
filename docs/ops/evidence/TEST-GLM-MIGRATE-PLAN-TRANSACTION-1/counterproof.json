@@ -1,0 +1,517 @@
+{
+  "generatedAt": "2026-10-05T17:00:01.911Z",
+  "nodeVersion": "v22.23.2",
+  "executionSet": "pnpm exec vitest run --project unit src/migration-plan-transaction.glm-r1.test.ts（cwd=packages/migrate，--reporter=json）",
+  "selfTest": {
+    "cases": [
+      {
+        "case": "valid-red-accept",
+        "expect": "accept",
+        "issueCount": 0,
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "two-failures-reject",
+        "expect": "reject",
+        "issueCount": 2,
+        "ok": true,
+        "issues": ["numFailedTests=2 ≠ 1", "failed 行数 2 ≠ 1"]
+      },
+      {
+        "case": "wrong-fullname-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": [
+          "唯一失败 fullName 不精确等于目标合同：got \"MP1 迁移事务 manifest 排序门 其它合同\""
+        ]
+      },
+      {
+        "case": "exit-zero-reject",
+        "expect": "reject",
+        "issueCount": 2,
+        "ok": true,
+        "issues": ["exit 0（未红/假绿）", "success≠false"]
+      },
+      {
+        "case": "pending-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["numPendingTests=1 ≠ 0"]
+      },
+      {
+        "case": "collection-error-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["collection/runtime error suite: broken.test.ts"]
+      },
+      {
+        "case": "non-assertion-error-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["指定失败非 AssertionError"]
+      },
+      {
+        "case": "signal-failure-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["signal=SIGKILL"]
+      },
+      {
+        "case": "spawn-failure-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["spawnError=spawn pnpm ENOENT"]
+      },
+      {
+        "case": "green-identity-mismatch-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["identity 集合与 baseline 不一致：bbbbbbbbbbbb ≠ aaaaaaaaaaaa"]
+      },
+      {
+        "case": "valid-green-accept",
+        "expect": "accept",
+        "issueCount": 0,
+        "ok": true,
+        "issues": []
+      }
+    ],
+    "allOk": true
+  },
+  "baseline": {
+    "label": "baseline",
+    "argv": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "--project",
+      "unit",
+      "src/migration-plan-transaction.glm-r1.test.ts",
+      "--reporter=json"
+    ],
+    "env": {
+      "nodeVersion": "v22.23.2",
+      "NODE_COMPILE_CACHE": "deleted",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+    },
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "success": true,
+    "counts": {
+      "numTotalTests": 2,
+      "numPassedTests": 2,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTestSuites": 3,
+      "numFailedTestSuites": 0
+    },
+    "suites": [
+      {
+        "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+        "status": "passed",
+        "assertionCount": 2
+      }
+    ],
+    "identity": {
+      "rows": 2,
+      "identitySha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2",
+      "failedRows": [],
+      "artifact": {
+        "path": "counterproof-raw/baseline.identity.tsv",
+        "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+        "bytes": 478,
+        "sha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2"
+      }
+    }
+  },
+  "injections": [
+    {
+      "id": "TX-DUAL-MANIFEST",
+      "file": "packages/migrate/src/migration-transaction.ts",
+      "anchor": "if (manifests.length > 1) throw new Error('迁移事务只能包含一个 manifest 操作')",
+      "expectedTest": "两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘",
+      "expectedFullName": "MP1 迁移事务 manifest 排序门 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘",
+      "expectedErrorPart": "只能包含一个 manifest 操作",
+      "original": {
+        "hash": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
+      },
+      "mutant": {
+        "hash": "89e8622ef100eb0bec09b2cd15f00ed7e89254c8fbafc2b4ef5d6aa701c54b1f",
+        "phase": {
+          "label": "TX-DUAL-MANIFEST.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/migration-plan-transaction.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 3,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 2
+            }
+          ],
+          "identity": {
+            "rows": 2,
+            "identitySha256": "2a0efdf6d8d82c0e4cde474f6c93f84eb611716fa112ee5a89ace80228d5a5b6",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+                "fullName": "MP1 迁移事务 manifest 排序门 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including '迁移事务只能包含一个 manifest 操作' but got 'manifest 操作必须是事务最后一项'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts:53:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/TX-DUAL-MANIFEST.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 478,
+              "sha256": "2a0efdf6d8d82c0e4cde474f6c93f84eb611716fa112ee5a89ace80228d5a5b6"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "TX-DUAL-MANIFEST.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/migration-plan-transaction.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 1593,
+              "sha256": "231210337217a36a96b390ad66890a5c4f1a8f0407989db09a3cf8023a3659d5",
+              "path": "counterproof-raw/TX-DUAL-MANIFEST.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f",
+        "phase": {
+          "label": "TX-DUAL-MANIFEST.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/migration-plan-transaction.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 3,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 2
+            }
+          ],
+          "identity": {
+            "rows": 2,
+            "identitySha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/TX-DUAL-MANIFEST.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 478,
+              "sha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "f22787611d1e0ae9b2b0ee8f03cf863a6ef48dafe4abed8ec8a841fd1561b78f"
+      },
+      "pass": true
+    },
+    {
+      "id": "WP-PHANTOM-BASELINE-DELETE",
+      "file": "packages/migrate/src/migration-write-plan.ts",
+      "anchor": "if (existsSync(resolve(repo, target))) changes.push({ target, scope: 'baseline' })",
+      "expectedTest": "退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除",
+      "expectedFullName": "MP1 buildMigrationTransactionChanges baseline 磁盘真值 退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除",
+      "expectedErrorPart": "不得产生幻影 delete",
+      "original": {
+        "hash": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3"
+      },
+      "mutant": {
+        "hash": "24edf8dccdb1924ed32cf5b93ccd264cdc1f9907cf869703c1416e2474982c93",
+        "phase": {
+          "label": "WP-PHANTOM-BASELINE-DELETE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/migration-plan-transaction.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 3,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 2
+            }
+          ],
+          "identity": {
+            "rows": 2,
+            "identitySha256": "c16ebe4b19bcf0c6e9707833cdeb171b212ff9b1dfb48aee174a2d5204cf5e8e",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+                "fullName": "MP1 buildMigrationTransactionChanges baseline 磁盘真值 退役 baseline 文件不在磁盘时不产生幻影 delete，在场时仍产生真值删除",
+                "messages": [
+                  "AssertionError: 退役 baseline 文件不在磁盘时不得产生幻影 delete: expected [ { …(2) } ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts:88:57\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/WP-PHANTOM-BASELINE-DELETE.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 478,
+              "sha256": "c16ebe4b19bcf0c6e9707833cdeb171b212ff9b1dfb48aee174a2d5204cf5e8e"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "WP-PHANTOM-BASELINE-DELETE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/migration-plan-transaction.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 1629,
+              "sha256": "3b27bbbfbf2a8877af2d67146b46fa467c845345c8ef7b32b704ffa2ebf6c581",
+              "path": "counterproof-raw/WP-PHANTOM-BASELINE-DELETE.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3",
+        "phase": {
+          "label": "WP-PHANTOM-BASELINE-DELETE.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/migration-plan-transaction.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 3,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 2
+            }
+          ],
+          "identity": {
+            "rows": 2,
+            "identitySha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/WP-PHANTOM-BASELINE-DELETE.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 478,
+              "sha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "4fd28ecd4c767cc0eeb9cf897f15bc731e0b31e8826c2515cc7772e58d2c09b3"
+      },
+      "pass": true
+    }
+  ],
+  "finalReplay": {
+    "phase": {
+      "label": "final-replay",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "--project",
+        "unit",
+        "src/migration-plan-transaction.glm-r1.test.ts",
+        "--reporter=json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+      },
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "success": true,
+      "counts": {
+        "numTotalTests": 2,
+        "numPassedTests": 2,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "numTotalTestSuites": 3,
+        "numFailedTestSuites": 0
+      },
+      "suites": [
+        {
+          "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+          "status": "passed",
+          "assertionCount": 2
+        }
+      ],
+      "identity": {
+        "rows": 2,
+        "identitySha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2",
+        "failedRows": [],
+        "artifact": {
+          "path": "counterproof-raw/final-replay.identity.tsv",
+          "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+          "bytes": 478,
+          "sha256": "a00e8b86cbd731b3b0e596cf585ade5b16f52846f2d712f29cc59734bdfaf1f2"
+        }
+      }
+    },
+    "issues": []
+  },
+  "tmpTree": {
+    "fixturePrefix": "mpt1-plan-tx-",
+    "residueBefore": [],
+    "residueAfter": [],
+    "clean": true,
+    "runnerTmp": {
+      "created": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/mpt1-counterproof-ygXoMd",
+      "removedInFinally": true
+    }
+  },
+  "allPass": true,
+  "ownNewPathsExcluded": [
+    "packages/migrate/src/migration-plan-transaction.glm-r1.test.ts",
+    "packages/migrate/scripts/mpt1-mutation-counterproof.mjs",
+    "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1",
+    "docs/ops/tasks/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1.md",
+    "docs/ops/evidence/README.md"
+  ],
+  "concurrentForeignWork": {
+    "note": "并行卡（reforge 侧）同树在途交付时按前缀豁免 clean 判定，逐相位披露，与本卡目标源/交付零交集；无并行交付时 gateExclusions 为空",
+    "excludedPrefixes": ["packages/reforge/", "docs/ops/evidence/TEST-GLM-REFORGE-"],
+    "gateExclusions": []
+  }
+}
