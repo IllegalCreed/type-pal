@@ -29,6 +29,8 @@ Visual Verification Timing: dev-functional
 
 ## GLM r1 交付回执（2026-10-06）
 
+- 候选提交：`acb1f6d607d8a41efb8cfde8aef17d34597a27cd`（分支 `codex/glm-game-shell-bootstrap-r1`，
+  基 origin/main `cb12a63e2`；工作树 `/private/tmp/type-pal-shell-bootstrap`）。
 - 交付：`packages/game/src/shell/shell-bootstrap.glm-shell.test.ts`（6 合同：SB1 胜利结算曲覆盖
   bootstrap.ts:191-198 / SB2 揭场 introFade 静默+战斗曲循环 :192-199 / SB3 战斗帧 bus SFX
   drain+explore 不消费 :202-213 / SB4 SW 消息路由 precache-client.ts:67-72 / SB5 storage.persist
