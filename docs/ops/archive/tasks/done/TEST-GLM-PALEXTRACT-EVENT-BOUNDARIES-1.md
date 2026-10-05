@@ -1,6 +1,6 @@
 # TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 — event codec and resource parser boundary audit
 
-Status: build
+Status: done
 Phase: phase1
 Capability: pal-extract / event codec and resource parser boundaries
 Coding Owner: GLM
@@ -40,7 +40,7 @@ Visual Verification Timing: N/A
 
 ## GLM r1 交付记录（2026-10-05，分支 codex/glm-palextract-event-boundaries-r1）
 
-- 排重账：范围内 7 文件逐分支账见 [证据 dedup-ledger.md](../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md)。events 五文件（annotate/disasm/recompile/slice/roundtrip）与 scene.ts 全轴 `existing-proof / unreachable / blocked`：Kimi R1 与 R06/R04/C2 已覆盖卡面示例轴（具名 raw fallback、unsupported op、末场景/缺对象、chunk 尺寸门），其余未覆盖分支经一手 branch 测量复核为合法 typed 输入不可达（emitRawFallback `??0`、findOpcodeByName、roundtrip 长度分支、slice 两处 `??0`、annotate 三条无载体规则、player-roles cursor 门、dumpAllEventObjects `!scene`——parseSss 恒密集）或 recompile authored-缺省字段政策未定（沿 R04「不为其新增正确绿测」登记，不造绿）。
+- 排重账：范围内 7 文件逐分支账见 [证据 dedup-ledger.md](../../../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md)。events 五文件（annotate/disasm/recompile/slice/roundtrip）与 scene.ts 全轴 `existing-proof / unreachable / blocked`：Kimi R1 与 R06/R04/C2 已覆盖卡面示例轴（具名 raw fallback、unsupported op、末场景/缺对象、chunk 尺寸门），其余未覆盖分支经一手 branch 测量复核为合法 typed 输入不可达（emitRawFallback `??0`、findOpcodeByName、roundtrip 长度分支、slice 两处 `??0`、annotate 三条无载体规则、player-roles cursor 门、dumpAllEventObjects `!scene`——parseSss 恒密集）或 recompile authored-缺省字段政策未定（沿 R04「不为其新增正确绿测」登记，不造绿）。
 - 新合同 2 条（均 player-roles 公开 parser 边界，卡面「名称缺省」轴）：PR-NAME-BOUNDARY-1（rgwName 0 哨兵/越表尾 fail-soft 缺省 + 3/4 对调不受污染）、PR-ELEM-ORDER-1（elemResistance 手写键字面量 water/earth 两键行列判别补全——C2 只判别 3/5 键，water↔earth 互换既有测试不可检）。
 - 反控 2/2 针 VALID（四态 raw + 产品文件原始/变异/恢复 sha256 + mkdtemp 临时树清理证明）：N1 名称指针下限钳 0、N2 water↔earth 键互换；各针红相位 exit 1、恰 1 业务 AssertionError、还原字节=原始、还原绿。
 - 门：定向 2/2、相邻 20 文件 206/206、pal-extract 全包 69 文件 417/417、typecheck exit 0、全仓 lint 0/0/0、check:docs PASS、git diff --check 干净；门 raw 见证据目录。
@@ -51,11 +51,17 @@ Visual Verification Timing: N/A
 
 一审认可：业务测试 2/2 绿、typecheck/docs/lint 通过。一审拒绝点与 r2 修复（只动证据 runner 与证据，不改产品/旧测/config/baseline/真实数据、不新增测试）：
 
-1. 判据全部改为 `vitest run --reporter=json --outputFile`（cwd=包根裸 exec）机读 JSON：每相位计数（numFailedTests/numPendingTests/numTodoTests）+ 完整执行集 `file×fullName×status` 排序稳定摘要 + 规范序列化 sha256，六相位（original / 每针 red+green / final-replay）JSON 与 stdout 档案均落 [mutation-logs/](../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/)。
+1. 判据全部改为 `vitest run --reporter=json --outputFile`（cwd=包根裸 exec）机读 JSON：每相位计数（numFailedTests/numPendingTests/numTodoTests）+ 完整执行集 `file×fullName×status` 排序稳定摘要 + 规范序列化 sha256，六相位（original / 每针 red+green / final-replay）JSON 与 stdout 档案均落 [mutation-logs/](../../../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/)。
 2. 红相位严格门：exit!==0 && signal===null && spawnError===null && numFailedTests===1 && numPendingTests===0 && numTodoTests===0，且红相位跑全文件（不再 `-t` 过滤）同时证明针不误伤兄弟测试。
-3. 唯一失败 fullName 严格 === 目标合同 fullName（由 original 执行集按 title 唯一提取，机读精确值同步 [identity.json](../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/identity.json)）；其 failureMessages 恰 1 条以 AssertionError 开头且含指定差异子串（N1 `expected [ '李逍遥', '李逍遥',`、N2 `expected { wind: +0, thunder: +0, …(3) } to deeply equal`）——不再看默认 reporter 首行。
+3. 唯一失败 fullName 严格 === 目标合同 fullName（由 original 执行集按 title 唯一提取，机读精确值同步 [identity.json](../../../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/identity.json)）；其 failureMessages 恰 1 条以 AssertionError 开头且含指定差异子串（N1 `expected [ '李逍遥', '李逍遥',`、N2 `expected { wind: +0, thunder: +0, …(3) } to deeply equal`）——不再看默认 reporter 首行。
 4. `/1 failed/` 非锚定文本匹配废除（`11 failed` 误判风险消除），计数一律来自 JSON。
 5. restored / final-replay 完整执行集与 original 逐三元组一致（identity set + sha 相等）；产品源原始==恢复 sha256；临时树 finally 清理证明保留。
 6. runner 自测反例 13 例：两失败 / 错误 fullName / 红相位 exit 0 / pending / todo / runtime error / collection error / signal / spawn 失败 / 绿相位带失败全部被拒，canonical 红/绿正控被接收（防恒拒），identity 漂移被检出——任一不符即非零退出不产回执。
 
-r2 结果：2/2 针 VALID + 13 自测全按预期（[counterproof.json](../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/counterproof.json) schema `vitest-json-reporter-v2`）；定向/相邻/全包/typecheck/lint/docs/diff-check 重跑全绿。r1 四态 raw 命名被六相位新命名替换，r1 版本在 git 历史 aa8de30f3 保留。未标 done，等待 Codex 二审。
+r2 结果：2/2 针 VALID + 13 自测全按预期（[counterproof.json](../../../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/counterproof.json) schema `vitest-json-reporter-v2`）；定向/相邻/全包/typecheck/lint/docs/diff-check 重跑全绿。r1 四态 raw 命名被六相位新命名替换，r1 版本在 git 历史 aa8de30f3 保留。未标 done，等待 Codex 二审。
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 2/2；strict counterproof 2/2，13 个自测反例全部按预期拒收。
+- 独立质量门：pal-extract typecheck、docs、git diff --check 通过；集成全仓 lint 3441 files、0/0/0。
+- 结论：2 条新合同有效，events/scene 其余分支 existing-proof/unreachable/blocked 账成立；合入 main，任务归档为 done。

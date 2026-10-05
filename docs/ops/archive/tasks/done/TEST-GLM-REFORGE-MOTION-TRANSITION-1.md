@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-MOTION-TRANSITION-1 — motion, scene transition and input lifecycle audit
 
-Status: build
+Status: done
 Phase: phase2
 Capability: reforge / motion, scene transition and runtime input lifecycle
 Coding Owner: GLM
@@ -32,7 +32,7 @@ Visual Verification Timing: dev-functional
 - 返工范围：仅 `packages/reforge/scripts/mt1-mutation-counterproof.mjs` 与证据；3 条业务合同、
   排重账、产品/旧测/config/baseline 零改动（测试文件字节与 r1 相同）。
 - r1 缺陷（一审认定）：回执只存计数摘要、failed 用 includes 前缀匹配、绿相位无执行集比较。
-- r2 重铸后的反控证据口径（[counterproof.json](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json)）：
+- r2 重铸后的反控证据口径（[counterproof.json](../../../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json)）：
   - **完整执行集**：每个 phase（baseline / 每针 mutant / 每针 restored / final-replay，全量
     8767 测试、`--reporter=json`、无 `-t`）解析完整 file×fullName×status 执行集，按 (file,
     fullName) 排序落盘 `counterproof-raw/*.identity.tsv`（8 个 artifact，字节流即
@@ -53,7 +53,7 @@ Visual Verification Timing: dev-functional
     正确裁决，自测不过即不运行真针。
 - 结果：3/3 PASS（每针红相位全包恰 1 failed=指定合同 AssertionError；恢复绿、final-replay
   identity 与 baseline 一致）。
-- 门禁（raw 见 [gates/](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/)）：定向 3/3、
+- 门禁（raw 见 [gates/](../../../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/)）：定向 3/3、
   相邻 21 文件 192/192、Reforge 全包 8767/8767（另由反控 baseline+final 双证）、typecheck
   exit 0、全仓 lint 3416 文件 0/0/0（identity artifact 用 TSV 避开 biome JSON 1MiB 上限，
   回执 biome format 后 8 个 artifact sha256 复核不变）、`check:docs` PASS、
@@ -64,7 +64,7 @@ Visual Verification Timing: dev-functional
 ## GLM 交付回执（r1，2026-10-05，历史保留；反控证据已被 r2 取代）
 
 - 分支/基线：`codex/glm-reforge-motion-transition-r1`，基于 `origin/main` `7a9157ac5`；产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试、反控脚本、证据、导航行与 stamp 机械刷新）。
-- 排重结论：8 文件逐轴账见 [dedup-ledger.md](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md)。
+- 排重结论：8 文件逐轴账见 [dedup-ledger.md](../../../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md)。
   7 文件全轴 existing-proof 饱和（collision 6 轴、scene-transition 4 轴、scene-entry-session 6 轴、
   scene-switch-transaction 6 轴、runtime-input-router 9 轴、async-intent 5 轴、entity-motion 全域——
   卡面重点轴 reservation/terrain/fairness、scene commit-abort-old-world isolation、input lock/latest
@@ -79,13 +79,13 @@ Visual Verification Timing: dev-functional
     在途走位并清槽、迟到 abort 不二次结算（全仓旧测对该行为零覆盖，仅 chain 测试 empty mock）。
 - U 账 4 条：四注册入口尾部 `if (signal.aborted) abort()` 防御臂（同步构造窗内 throwIfAborted
   已先行拒绝，合法输入不可达），不为过门伪造输入。
-- 反控：3/3 针 VALID（[counterproof.json](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json)，
+- 反控：3/3 针 VALID（[counterproof.json](../../../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json)，
   `node packages/reforge/scripts/mt1-mutation-counterproof.mjs` 可再生）。执行集 = reforge 全量套件
   （无 `-t` 过滤，免疫零匹配假绿）：baseline 8767/8767 绿；每针红相位 exit 1、全包恰 1 failed 且为
   指定业务 AssertionError；字节恢复后全量 8767/8767 复绿；四态 sha256（orig/mut/restored/rebuilt）
   逐针入账，orig==restored==rebuilt 且等于当前源；红相位 try/finally 强制恢复 + 脚本内 mkdtemp
   finally 清理。
-- 门禁（raw 见 [gates/](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/)）：定向 3/3；相邻 21 文件
+- 门禁（raw 见 [gates/](../../../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/)）：定向 3/3；相邻 21 文件
   192/192（motion/scene/input 家族 + main.scene-flows/main.entity-host-flows）；typecheck exit 0；
   全仓 lint 3416 文件 0/0/0；`check:docs` PASS 0 issues；`check-content-review --strict` PASS
   （board/index/evidence-README 三处基线自带 after-SHA drift 按 8494b465c 先例机械刷新：仅
@@ -121,3 +121,9 @@ counterproof-raw/ + gates/），在 codex/glm-reforge-motion-transition-r1（基
 只写本卡测试、合法 typed fixture、证据和回执；禁止改产品/schema/API/旧测/config/baseline/真实数据、私有 state/__rf*、核心 mock、强转、skip、ignore、扩 timeout 或非法 backdoor。新增反控必须绿→指定业务红→恢复绿、恰一 AssertionError、完整执行集/hash/清理证明；无新合同就交 existing-proof/unreachable 饱和档案。
 交付定向/相邻 test、typecheck、lint 0/0/0、docs、git diff --check 和完整 SHA。覆盖率/例数不是完成条件，不得标 done，等待 Codex 独立验收。
 ```
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 3/3；r2 strict counterproof 3/3 PASS，identity artifact/红绿 phase gate/9 自测反例全部通过。
+- 独立质量门：Reforge typecheck、docs、git diff --check 通过；集成全仓 lint 3441 files、0/0/0。
+- 结论：motion transition 三条残余合同及 existing-proof/U 账满足门禁，合入 main，任务归档为 done。

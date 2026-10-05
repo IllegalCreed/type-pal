@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-MOTION-TRANSITION-1 交付证据
 
-上级：[任务专属证据](../../README.md) · 任务卡：[TEST-GLM-REFORGE-MOTION-TRANSITION-1](../../tasks/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md)
+上级：[任务专属证据](../../README.md) · 任务卡：[TEST-GLM-REFORGE-MOTION-TRANSITION-1](../../archive/tasks/done/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md)
 
 - 基线：`origin/main` `7a9157ac5`，分支 `codex/glm-reforge-motion-transition-r1`。
 - 产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试、脚本、证据与卡面）。

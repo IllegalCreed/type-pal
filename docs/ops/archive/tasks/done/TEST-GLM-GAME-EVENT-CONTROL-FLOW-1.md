@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 — event interpreter control-flow contracts
 
-Status: build
+Status: done
 Phase: phase1
 Capability: game / event interpreter and opcode control flow
 Coding Owner: GLM
@@ -42,7 +42,7 @@ Visual Verification Timing: e2e-deferred
 
 **结论：排重后仅 2 条未证明控制流合同全绿（1 个新测试文件），反控 2/2 VALID，全门通过；
 不请求 done，等待 Codex 独立验收。** 逐分支排重账（NEW/REG/unreachable + 数据面证据 + 判例）见
-[evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md)。
+[evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md)。
 
 ### 交付物（全部本卡白名单新增，零产品/旧测/配置/baseline/真实 PAL 数据改动）
 
@@ -196,3 +196,9 @@ mutation-selftest.mjs/selftest-results.json/mutation-logs/），再核：
 
 **r2 工作提交 SHA**：`c765dde8604d903d061a203ae4553ffdfeb1f6c9`（单一 commit：判据库 + runner 重写 +
 selftest + points targetContract + 2 针重跑证据 + evidence README/pin 刷新 + r2 回执；本行为 SHA 登记追加笔）。
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 2/2；r2 strict mutation runner 2/2 VALID，selftest 反例全部拒收。
+- 独立质量门：Game typecheck、docs、git diff --check 通过；集成全仓 lint 3441 files、0/0/0。
+- 结论：事件控制流 2 条新合同及完整反控判据满足门禁，合入 main，任务归档为 done。

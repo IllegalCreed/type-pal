@@ -13,10 +13,7 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 — event interpreter control-flow contracts](TEST-GLM-GAME-EVENT-CONTROL-FLOW-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 — event codec and resource parser boundary audit](TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-REFORGE-MOTION-TRANSITION-1 — motion, scene transition and input lifecycle audit](TEST-GLM-REFORGE-MOTION-TRANSITION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -288,6 +285,7 @@
 | [TEST-GLM-GAME-BATTLE-STATE-1 — battle action, AI and settlement contracts](../archive/tasks/done/TEST-GLM-GAME-BATTLE-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-DIALOGUE-PAGINATION-1 — dialogue pagination contracts](../archive/tasks/done/TEST-GLM-GAME-DIALOGUE-PAGINATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-EVENT-CONTRACTS-1 — event script semantic contracts](../archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 — event interpreter control-flow contracts](../archive/tasks/done/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-MENU-SAVE-IO-1 — menu, input and save boundary contracts](../archive/tasks/done/TEST-GLM-GAME-MENU-SAVE-IO-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — player opcode residual contracts](../archive/tasks/done/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -298,11 +296,13 @@
 | [TEST-GLM-NEW-H-1 — 一阶段战斗当前合同](../archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现](../archive/tasks/done/TEST-GLM-NEW-I-1-game-shell.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](../archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 — event codec and resource parser boundary audit](../archive/tasks/done/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-ASSET-RESOLVER-1 — asset resolver and cache lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-ASSET-RESOLVER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 — runtime audio lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts](../archive/tasks/done/TEST-GLM-REFORGE-BATTLE-FLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](../archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-MOTION-TRANSITION-1 — motion, scene transition and input lifecycle audit](../archive/tasks/done/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](../archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -3,7 +3,7 @@
 GLM r1(2026-10-05,分支 `codex/glm-game-event-control-flow-r1`,base `7a9157ac5`):
 事件解释器控制流残差——排重后 2 条新合同(`packages/game/src/core/event-system.glm-event-control-flow.test.ts`),
 定向/相邻/全量/typecheck/lint 0/0/0/docs/diff 全过。回执见
-[任务卡](../../tasks/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1.md)。
+[任务卡](../../archive/tasks/done/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1.md)。
 
 GLM r2(2026-10-05,同分支返工):Codex 一审判反控 runner 判据误收 → 判据库化 + 严格化
 (红相位 exit/signal/spawn、恰一失败、精确命中目标合同、红/原始执行集逐集合核对、恢复 identity 全等),
