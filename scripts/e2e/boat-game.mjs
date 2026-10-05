@@ -476,7 +476,11 @@ export async function runBoatGame() {
           (entry) => entry.state.scene === sceneNumbers.s014 && entry.state.actors?.e203,
         )
         assert(islandSamples.length > 0, '006 island arrival actor e203 was not observed')
-        if (!npcTrace.events.some((event) => event.kind === 'actor' && event.id === 'e203')) {
+        if (
+          !npcTrace.events.some(
+            (event) => event.kind === 'actor' && event.id === 'e203' && event.scene === 's014',
+          )
+        ) {
           let before = null
           for (const [index, entry] of islandSamples.entries()) {
             const state = entry.state.actors.e203

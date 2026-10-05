@@ -31,6 +31,8 @@ export function summarizeBoatMotion(samples) {
   }
   return {
     samples: ride.length,
+    start: origin,
+    end: canonicalPosition(ride.at(-1).e116),
     partyOffsets: compact(ride.map((sample) => relative(sample, 'position'))),
     rowerOffsets: compact(ride.map((sample) => relative(sample, 'e117'))),
     facings: compact(ride.map((sample) => sample.facing)),
@@ -48,6 +50,8 @@ export function compareBoatObservations(game, reforge) {
   compare('boat.party-relative-offset', game.motion.partyOffsets, reforge.motion.partyOffsets)
   compare('boat.rower-relative-offset', game.motion.rowerOffsets, reforge.motion.rowerOffsets)
   compare('boat.ride-facing', game.motion.facings, reforge.motion.facings)
+  compare('boat.route-start', game.motion.start, reforge.motion.start)
+  compare('boat.route-end', game.motion.end, reforge.motion.end)
   compare('boat.arrival-scene', game.arrivalScene, reforge.arrivalScene)
   return {
     status: findings.length ? 'needs-review' : 'passed',

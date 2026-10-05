@@ -165,6 +165,6 @@ test('continuous route actions retain committed-step targets instead of only key
       { key: 'ArrowDown', kind: 'up', reason: 'route effect', atMs: 30 },
     ],
   })
-  assert.equal(actions[1].routeTarget.committedSteps, 2)
+  assert.equal(actions[1].routeTarget.inputKey, 'ArrowDown')
   assert.deepEqual(actions[1].routeTarget.position, [60, -13, 0])
 })

@@ -1517,6 +1517,7 @@ export async function bootGame(
     speed: WalkSpeed,
     signal?: AbortSignal,
     commitControl?: MoveEntityCommitControl,
+    slowCadence = true,
   ): Promise<number> {
     try {
       signal?.throwIfAborted()
@@ -1548,6 +1549,7 @@ export async function bootGame(
         ? { activation: { ownerId: activation.entityId, epoch: activation.epoch } }
         : {}),
       ...(commitControl ? { commitControl } : {}),
+      slowCadence,
     })
   }
 
@@ -2583,7 +2585,7 @@ export async function bootGame(
       const a = authority.get('party')
       if (!(a?.kind === 'mount' && a.parent === entityId)) host.mountParty(entityId, 0, 0)
       takeByScript(entityId) // 载具本身按位移指令语义接管(其 auto 暂停)
-      await host.moveEntity(entityId, to, speed, signal)
+      await scheduleEntityMove('script', entityId, to, speed, signal, undefined, false)
       assertRunnerActive(signal, `骑乘 ${entityId} 的 runner 已取消`)
     },
     // Base host is authored/scripted by default. autoHost below selects its own independent slot.
@@ -3693,7 +3695,9 @@ export async function bootGame(
             })
             continue
           }
-          const cadence = consumeScheduledMoveRest(slot.speed, slot.slowRestPending)
+          const cadence = slot.slowCadence
+            ? consumeScheduledMoveRest(slot.speed, slot.slowRestPending)
+            : { attempt: true, restPending: false }
           slot.slowRestPending = cadence.restPending
           if (!cadence.attempt) {
             slowRestEntityIds.add(id)
@@ -3929,7 +3933,7 @@ export async function bootGame(
       },
       commitLivePositions: () => {
         for (const { outcome, meta, reachedEndpoint } of entityOutcomes) {
-          if (meta.slot?.kind === 'move')
+          if (meta.slot?.kind === 'move' && meta.slot.slowCadence)
             meta.slot.slowRestPending = restAfterMoveAttempt(meta.slot.speed)
           if (outcome.kind === 'blocked') {
             meta.entity.facing = outcome.facing

@@ -95,7 +95,8 @@ const routeTargetReached = (state, target) => {
   // page may enter the same semantic leg with background NPCs one cell apart.
   // Keep long legs exact; short one/two-step transitions use a bounded local
   // neighborhood and still require the scene/control barrier below.
-  const tolerance = engine === 'game' ? 24 : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
+  const tolerance =
+    engine === 'game' ? (target.effect ? 8 : 24) : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
   return (
     Math.hypot(
       ...target.position.slice(0, 2).map((value, index) => Number(actual[index]) - Number(value)),
@@ -149,6 +150,14 @@ const driveRouteTarget = async (action, _entry, until, health) => {
       )
     } finally {
       await page.keyboard.up(target.inputKey)
+    }
+    if (target.settled) {
+      await until(
+        read,
+        (next) => routeTargetReached(next, target.settled),
+        `continuous scripted route settlement ${_entry.fragment}`,
+        15000,
+      )
     }
     return
   }
@@ -232,7 +241,8 @@ const driveRouteTarget = async (action, _entry, until, health) => {
     await readFile(resolve(process.cwd(), `projects/pal/content/maps/map-${mapId}.json`), 'utf8'),
   )
   const targetGrid = kitchenGrid(target.position, engine)
-  const tolerance = engine === 'game' ? 1.5 : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
+  const tolerance =
+    engine === 'game' ? (target.effect ? 0.5 : 1.5) : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
   const routeScenes = target.position ? [scene] : (target.acceptScenes ?? [scene])
   try {
     await navigateInnRoute({

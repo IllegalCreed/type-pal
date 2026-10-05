@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { receiptRouteTargets } from './continuous-route.mjs'
 
 export const CONTINUOUS_STORY_FRAGMENTS = Object.freeze([
   { id: '001', title: '开场与密道', runner: 'opening', checkpoints: ['room-control-returned'] },
@@ -30,15 +31,6 @@ export const CONTINUOUS_STORY_FRAGMENTS = Object.freeze([
 ])
 
 export const STORY_ONLY_CASES = Object.freeze(['story'])
-
-const CONTINUOUS_SEMANTIC_PHASE_STARTS = Object.freeze({
-  '003': Object.freeze({ aunt: [131, 52], taoist: [137, 73] }),
-})
-
-function continuousPosition(report, grid) {
-  if (report.engine === 'game') return [16 * (grid[0] - grid[1]), 8 * (grid[0] + grid[1]), 0]
-  return [...grid, 0]
-}
 
 // A replay is only a valid continuous fragment when it reaches the same scene
 // boundary as the standalone story receipt.  The action tape is an input aid,
@@ -111,78 +103,7 @@ const BOUNDARY_REASONS =
 /** Extract only gameplay inputs from an existing story receipt. Boundary I/O is deliberately omitted. */
 export function continuousStoryActions(report) {
   assert.equal(report?.case ?? 'story', 'story', 'continuous tape accepts story only')
-  const routeTargets = new Map()
-  const routeInputs = report.route?.inputs ?? []
-  const routeLegs = report.route?.legs ?? []
-  let legCursor = 0
-  let previousPhase
-  for (let index = 0; index < routeInputs.length; index++) {
-    const input = routeInputs[index]
-    if (input.kind !== 'down') continue
-    const up = routeInputs
-      .slice(index + 1)
-      .find((candidate) => candidate.kind === 'up' && candidate.key === input.key)
-    if (!up) continue
-    const steps = (report.route?.steps ?? []).filter(
-      (step) =>
-        step.scene === input.scene &&
-        Number.isFinite(step.atMs) &&
-        step.atMs >= input.atMs &&
-        step.atMs <= up.atMs,
-    )
-    const phaseLeg = routeLegs.findIndex(
-      (leg) => leg.scene === input.scene && input.phase !== undefined && leg.phase === input.phase,
-    )
-    if (phaseLeg >= 0) legCursor = phaseLeg
-    else
-      while (legCursor < routeLegs.length && routeLegs[legCursor].scene !== input.scene)
-        legCursor += 1
-    const currentLeg = legCursor
-    const followingLeg = routeLegs[currentLeg + 1]
-    const laterSameLeg = routeInputs
-      .slice(index + 1)
-      .some(
-        (candidate) =>
-          candidate.kind === 'down' &&
-          candidate.scene === input.scene &&
-          (input.phase === undefined || candidate.phase === input.phase),
-      )
-    const crossesScene = followingLeg?.scene && followingLeg.scene !== input.scene && !laterSameLeg
-    const target = {
-      scene:
-        up.reason?.includes('touch/scene boundary') || crossesScene
-          ? (followingLeg?.scene ?? input.scene)
-          : input.scene,
-      acceptScenes: [input.scene, followingLeg?.scene].filter(Boolean),
-      position:
-        up.reason?.includes('touch/scene boundary') || crossesScene
-          ? null
-          : (steps.at(-1)?.to ?? null),
-      committedSteps: steps.length,
-      inputKey: input.key,
-      expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
-    }
-    if (
-      followingLeg?.phase &&
-      followingLeg.phase !== input.phase &&
-      !laterSameLeg &&
-      !crossesScene
-    ) {
-      const nextPhaseStart = CONTINUOUS_SEMANTIC_PHASE_STARTS[report.fragment]?.[followingLeg.phase]
-      if (nextPhaseStart) target.position = continuousPosition(report, nextPhaseStart)
-    }
-    if (input.phase !== undefined && input.phase !== previousPhase) {
-      const semanticStart = CONTINUOUS_SEMANTIC_PHASE_STARTS[report.fragment]?.[input.phase]
-      if (semanticStart) {
-        target.phaseStart = continuousPosition(report, semanticStart)
-        target.phaseStartPassive = input.phase === 'aunt'
-      } else if (steps[0]?.to) target.phaseStart = steps[0].to
-    }
-    previousPhase = input.phase
-    routeTargets.set(`${input.kind}:${input.key}:${input.atMs}`, target)
-    routeTargets.set(`${up.kind}:${up.key}:${up.atMs}`, target)
-    legCursor = currentLeg + 1
-  }
+  const routeTargets = receiptRouteTargets(report)
   return (report.actions ?? [])
     .filter((action) => action.kind === undefined || ['down', 'up'].includes(action.kind))
     .filter((action) => !BOUNDARY_REASONS.test(String(action.reason ?? '')))

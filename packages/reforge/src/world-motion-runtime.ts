@@ -44,6 +44,8 @@ export interface EntityMoveSlot extends EntityMotionSlotBase {
   blockedAttempts: number
   nextBlockedReportAt: number
   slowRestPending: boolean
+  /** Mounted rides keep their authored speed every world tick; ordinary slow moves keep the rest. */
+  slowCadence: boolean
   commitSettlement(): void
 }
 
@@ -103,6 +105,7 @@ interface RegisterMoveInput {
   signal?: AbortSignal
   activation?: ActivationStamp
   commitControl?: MoveEntityCommitControl
+  slowCadence?: boolean
 }
 
 interface RegisterAutoStepInput {
@@ -272,6 +275,7 @@ export class WorldMotionRuntime {
         blockedAttempts: 0,
         nextBlockedReportAt: 20,
         slowRestPending: false,
+        slowCadence: input.slowCadence ?? true,
         commandEpoch: this.nextCommandEpoch(),
         sceneSessionId: this.currentSceneSessionId(input.sceneId),
         ...(input.activation

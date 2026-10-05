@@ -46,3 +46,20 @@ test('independent pass labels cannot hide missing counsel, rower drift or wrong 
     ['dialogue.sequence', 'boat.rower-relative-offset', 'boat.ride-facing'],
   )
 })
+
+test('a wrong boat endpoint fails even when every rider offset and facing matches', () => {
+  const observed = (samples) => ({
+    rows: ['dlg.546'],
+    arrivalScene: 's014',
+    motion: summarizeBoatMotion(samples),
+  })
+  const game = observed([sample(0, 0), sample(16, -8), sample(32, -16), sample(48, -24)])
+  const candidate = observed([sample(0, 0), sample(16, -8), sample(32, -16), sample(48, -32)])
+  assert.deepEqual(candidate.motion.partyOffsets, game.motion.partyOffsets)
+  assert.deepEqual(candidate.motion.rowerOffsets, game.motion.rowerOffsets)
+  assert.deepEqual(candidate.motion.facings, game.motion.facings)
+  assert.deepEqual(
+    compareBoatObservations(game, candidate).findings.map((f) => f.id),
+    ['boat.route-end'],
+  )
+})

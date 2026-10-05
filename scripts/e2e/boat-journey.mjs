@@ -283,7 +283,7 @@ export async function runBoatJourney() {
           `${JSON.stringify(stateTrace, null, 2)}\n`,
         )
         report.stateTrace = { path: '006-state-trace.json', samples: stateTrace.length }
-        const npcTrace = await page.evaluate(() =>
+        let npcTrace = await page.evaluate(() =>
           window.__readErrandNpcTrace?.([
             'e35',
             'e36',
@@ -298,13 +298,49 @@ export async function runBoatJourney() {
         )
         assert(npcTrace, '006 committed NPC trace hook missing')
         assert.deepEqual(npcTrace.errors, [], '006 committed NPC trace lost an observation')
+        // The scene commit hook runs before the prepared entity projection is painted. Capture
+        // the first stable island state through the same observer boundary instead of fabricating
+        // an actor event from the report after the journey has ended.
+        const islandState = await snapshot()
+        await page.evaluate((state) => {
+          const actor = state.actors?.e203
+          if (!actor) return
+          globalThis.__errandPoint?.('observe:island-state', {
+            scene: 's014',
+            actors: { e203: actor },
+            money: state.cash,
+            persistent: {},
+            hooks: {},
+            control:
+              !!state.runtime &&
+              !state.runtime.scriptRunning &&
+              !state.runtime.dialogue &&
+              !state.runtime.presentationBusy &&
+              !state.runtime.menuActive &&
+              !state.runtime.battleActive,
+          })
+        }, islandState)
+        npcTrace = await page.evaluate(() =>
+          window.__readErrandNpcTrace?.([
+            'e35',
+            'e36',
+            'e59',
+            'e60',
+            'e61',
+            'e116',
+            'e117',
+            'e123',
+            'e203',
+          ]),
+        )
+        assert(npcTrace, '006 island NPC trace refresh missing')
+        assert.deepEqual(npcTrace.errors, [], '006 island NPC trace lost an observation')
         await writeFile(
           resolve(out, '006-npc-trace.json'),
           `${JSON.stringify(npcTrace, null, 2)}\n`,
         )
         report.contextTraces = [{ path: '006-npc-trace.json' }]
         report.checks.island = 'passed'
-        const islandState = await snapshot()
         report.endWorld = {
           position: {
             sceneId: 's014',

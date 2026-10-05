@@ -151,14 +151,14 @@
                         }
                       ]
                     },
-                    {
-                      "kind": "ride",
-                      "speed": "slow",
-                      "to": {
-                        "col": 124,
-                        "height": 0,
-                        "row": 30
-                      },
+                {
+                  "kind": "ride",
+                  "speed": "slow",
+                  "to": {
+                    "col": 126,
+                    "height": 0,
+                    "row": 34
+                  },
                       "target": {
                         "scene": "s005",
                         "entity": "e116"
