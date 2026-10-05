@@ -200,6 +200,12 @@ tracked 数量和状态汇总漂移均 fail-closed；37 个 quality-tool tests�
 明确不把机器 PASS 当作源码语义审查；新增 `code-quality-ledger.mjs` 与其测试本身已登记为已验证文件。当前 tracked inventory 2,966：
 已闭合 226、review 5、pending 2,735；全仓仍未完成。
 
+Q3x 已完成 `battle-progression.ts` 与两个专属 progression/levelup 测试逐文件核验：306 行实现、`battle.c:991-1373,1226-1328`、
+`global.c:2347-2454`、settlement caller 和 battle-system progression 相邻段均有直接证据。主升级活人 gate、隐藏经验池顺序/截断/
+99 边界与无 cap、主升级 cap、HP/MP 回满时机、法术 level gate/去重/槽写入和 snapshot 有效值均闭合，未发现直接缺陷。定向/相邻
+205 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3x 关闭 3 条账本记录（1 个 product +
+2 个 test），当前账本为 2,966 条：已闭合 229、review 5、pending 2,732；全仓仍未完成。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

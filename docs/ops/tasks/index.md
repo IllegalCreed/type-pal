@@ -8,7 +8,6 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
-| [CODE-QUALITY-3x - game battle progression / hidden experience 逐文件治理](CODE-QUALITY-3x-game-battle-progression.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -88,6 +87,7 @@
 | [CODE-QUALITY-3u - game battle-state/runtime-context/positions 逐文件治理](../archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3v - game battle actions attack/attack-mate/defend/flee 逐文件治理](../archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3w - game battle settlement/finalization 逐文件治理](../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-3x - game battle progression / hidden experience 逐文件治理](../archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
