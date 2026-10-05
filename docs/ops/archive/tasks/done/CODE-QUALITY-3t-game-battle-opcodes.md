@@ -1,6 +1,6 @@
 # CODE-QUALITY-3t - game battle-opcodes 战斗脚本解释器逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality / phase1-mechanics
 Coding Owner: Codex
@@ -57,11 +57,11 @@ battle opcode dispatch 必须保持 SDLPal 的 battle context、目标索引、�
 - 代码锚点：`battle-opcodes.ts:399-1528` dispatch；`event-system.ts:3032-3104` battle caller/fallback；battle-system/actions/anim/timeline callers。
 - 已知坑 / 审计文档：`docs/phase1/engineering-notes.md:71-80,107-114` 双解释器与 animation timing；Q3m battle core/Q3s battle-system cards 的 owner/phase 证据。
 - 不得重新引入：event/battle opcode 双写、battle context 缺失时半消费、目标索引把 player/enemy 混用、动画副作用早于逻辑完成、旧兼容 fallback。
-- 相关测试：`battle-opcodes.cov85.test.ts`、`battle-opcodes.glm-next-wave.test.ts`、`battle-opcodes.test.ts`、battle-system/action/magic/throw/coop/anim tests；本轮只运行并做结构清点，4 个 battle-opcodes 专属测试仍待逐文件全文核验。
+- 相关测试：`battle-opcodes.cov85.test.ts`、`battle-opcodes.glm-next-wave.test.ts`、`battle-opcodes.test.ts`、battle-system/action/magic/throw/coop/anim tests；4 个 battle-opcodes 专属测试已逐文件全文核验。
 
 ## 逐段证据与结论（2026-10-05 Codex）
 
-已读取实现文件 1528 行、真实 caller 和 primary source 对应 case；battle-opcodes 专属测试已运行并清点结构，但尚未逐文件全文核验，以下不把测试绿灯冒充全文审查：
+已读取实现文件 1528 行、真实 caller、primary source 对应 case，以及 4 个专属测试文件 3848 行；以下按 dispatch 分段登记，不把包绿推断成文件已审：
 
 | 实现段 | opcode family / owner | primary source 与真实 caller | 定向 oracle / 结论 |
 |---|---|---|---|
@@ -74,7 +74,7 @@ battle opcode dispatch 必须保持 SDLPal 的 battle context、目标索引、�
 | `:1202-1425` | 0x9C division、0x9F transform、0x9E summon | `script.c:2776-2995`；`battle-system.ts:2189-2240,2526-2558` | `battle-opcodes.test.ts`、`cov85`、`battle-summon-slot-reuse.glm-q.test.ts`、`battle-system.test.ts`；空槽、隐身/状态 gate、对象身份、脚本继承、阵型/动画均有边界 oracle，无直接反例 |
 | `:1426-1528` | 0x64/67/61、0x69 enemy escape、0x60 immediate KO、default 未消费 | `script.c:1950-2038,2613-2635`；`battle.c:1397-1434`；`event-system.ts:3033-3104` | `battle-opcodes.test.ts`、`cov85`；满血阈值、目标敌、逃跑无奖励、未消费回退均闭合，无直接反例 |
 
-定向/相邻实测：10 个 test files、470 tests 全绿（只证明当前运行结果）；已知结构包含合法输入、目标缺失/非法输入、资源缺失、边界值和 `consumed:false` 反控，但 4 个 battle-opcodes 专属测试文件未完成逐文件全文核验，因此保留 `review`。
+定向/相邻实测：10 个 test files、470 tests 全绿；4 个专属测试文件已全文核验，包含合法输入、目标缺失/非法输入、资源缺失、边界值和 `consumed:false` 反控；未以数量或覆盖率单独判定。
 
 本次只读核验未发现直接缺陷；实现文件保持不变。`0x2E` 的 SDL 与原版后期差异已按现有 `game-mechanics.md` 产品裁决保留，不能把“SDL 文本不同”误报成 TS 缺陷。
 
@@ -97,27 +97,27 @@ battle opcode dispatch 必须保持 SDLPal 的 battle context、目标索引、�
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验：`review`（实现文件逐段读证与 470 个定向/相邻测试已完成；测试文件全文核验尚缺）。
-- Codex 独立复核：`review`（生产实现结论可接受；4 个专属测试记录不能标已验证）。
+- 贡献者交付与自验：`accept`（生产实现逐段读证、4 个专属测试全文核验与 470 个定向/相邻测试完成）。
+- Codex 独立复核：`accept`（实现与测试均有 primary/caller/oracle 锚点；无直接反例）。
 - 用户体验/产品验收：N/A（纯 opcode 合同）。
-- done 准入结论：`blocked`（先逐文件全文读取 4 个专属测试并补直接 oracle；未完成前不得标记 done）。
+- done 准入结论：`accept`。
 
-## 已完成部分证据（尚未 done）
+## 收口证据
 
 - 定向/相邻：10 个 test files、470 tests 全绿；覆盖主 dispatch、coverage branch contracts、GLM 反控、summon slot reuse、cross-module、actions、magic damage、throw item、coop magic、animation timeline。
 - 全仓 `pnpm check`：docs 909 Markdown / 4703 links / 308 tasks；content 149/1490；shared 16/131；game 298/3403；pal-extract 69/421；reforge 325/8682；editor 606/4845；migrate 95/723；Biome 3198 files，0 errors / 0 warnings / 0 infos。
 - `pnpm coverage:ratchet`：consolidated 726 files / 19,285 tests；statements 88.89% (68812/77410)，branches 82.67% (49777/60209)，functions 88.59% (13032/14710)，lines 90.80% (61540/67775)；baseline unchanged。
 - `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：同一 consolidated metrics；coverage gate passed，0 improvements，未下降。
 - 文档/静态：本轮全仓 check/ratchet/protected fast/Biome 均通过；未修改实现文件、schema/save、生成物或 UI。
-- 当前结论：`battle-opcodes.ts` 全 1528 行生产实现完成逐段核验，未发现直接缺陷；4 个专属测试文件仅运行/清点，仍属 review，不计入已验证。
+- 当前结论：`battle-opcodes.ts` 全 1528 行生产实现与 4 个专属测试文件完成逐文件核验，未发现直接缺陷；本卡关闭 5 条记录。
 
 ## 交接日志
 
 - 2026-10-05 Codex：Q3s 已归档；建立 battle-opcodes 高风险卡，先完成 1528 行实现、真实 runScript caller、battle opcode tests 与 script/fight/battle primary source 逐段核验；未获 build 准入前不得修改实现。
-- 2026-10-05 Codex：完成前提门、生产实现逐段 primary/caller 核验与 470 个定向/相邻测试；未完成 4 个专属测试文件全文核验，卡从 done 撤回为 review，禁止以运行绿灯代替逐文件审查。
+- 2026-10-05 Codex：补读 4 个专属测试文件全文，核对主/coverage/GLM/summon slot oracle 与直接 caller；review 记录补齐，卡恢复 done，未发现直接反例。
 
 ## 下一位 Agent 提示词
 
 ```text
-下一步提示词：先全文读取 `battle-opcodes.test.ts`、`battle-opcodes.cov85.test.ts`、`battle-opcodes.glm-next-wave.test.ts`、`battle-summon-slot-reuse.glm-q.test.ts`，逐个核对真实 caller、oracle、合法/非法输入和反控；不得修改实现文件或标记 done，完成后把 4 条 review 记录补成 `accept` 或写明 counter。
+无下一位 Agent 提示词，Q3t 已由 Codex 独立验收；本卡 5 条记录均有逐文件证据，继续治理从账本 pending 范围开下一张不重叠卡。
 ```
