@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 — data and battle authoring contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -92,7 +92,7 @@ AddEnemyTeamCommand/UpdateLocaleCommand/withSharedEnemyBattleSprite）；EnemyTa
   悬空标记（保存门对悬空敌引用报 error，合法 fixture 不可达）；remove 类 `!changed` 分支
   （useSyncExternalStore 同步重渲染下窗口不存在）。
 
-### 三态反控（12 注入点全过，证据 `evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/`）
+### 三态反控（12 注入点全过，证据 `../../../tasks/evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/`）
 
 `run-mutations.mjs` 自动执行并落盘 `mutation-evidence.json`（biome format 后入库）：Phase A 五套件
 原始绿（9 例）→ 每注入点产品文件唯一锚点变异 → 定向 `-t` 单测红（exit≠0、恰一指定业务
@@ -136,4 +136,10 @@ original==restored≠mutant，产品文件 git-clean 零残留：
 ## 下一位 Agent 提示词（覆盖卡内旧提示词）
 
 无下一位 Agent 提示词，等待 Codex 独立验收（验收入口：本卡交付记录 + 五个测试文件 +
-`evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/mutation-evidence.json`）。
+`../../../tasks/evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/mutation-evidence.json`）。
+
+## Codex 独立验收与收口（2026-10-05）
+
+- 独立复跑：5 文件 9/9 定向通过；12 针反控三态全部通过，产品文件恢复哈希一致且 clean。
+- 独立质量门：Editor typecheck 通过；全仓 lint 3379 files、0/0/0；docs check 0 issues；git diff --check 通过。
+- 结论：合同原子性、真实组件 caller/oracle、排重饱和登记与反控判别力满足测试质量门；合入 main，任务归档为 done。

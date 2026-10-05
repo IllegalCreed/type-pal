@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -42,7 +42,7 @@ Visual Verification Timing: mixed
   （settleBattleVictory / finishBattleWorldState，全仓零直接测试）；battle-command-selection /
   turn-readiness / action-presentation-scheduler / settlement-presentation / result 五文件旧测饱和
   不新增；battle-core/session 主干饱和仅补两条组合流；battle-host 补三条终局分配流。
-  全量对账与不设针登记见 [证据 dedup-ledger.md](../evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/dedup-ledger.md)。
+  全量对账与不设针登记见 [证据 dedup-ledger.md](../../../evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/dedup-ledger.md)。
 - **交付 12 合同 / 3 测试文件**（产品零 diff）：
   - `battle-finalization.world-result.test.ts`(7)：BF-01 胜利奖励入账链（exp 门/首屏/半恢复）、
     BF-02 零经验门、BF-03 升级+习得+结算屏 wiring（升级回满在 writeBackHp 之后的顺序 oracle）、
@@ -54,7 +54,7 @@ Visual Verification Timing: mixed
     BF-12 逃跑失败→续战→胜利。
 - **反控**：12/12 针 VALID（world-result×7 / host×3 / core×2；每针红相位恰 1 指定业务
   AssertionError，还原绿，四态 hash + clean-tree 无残留）；证据
-  [counterproof.json](../evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json)。
+  [counterproof.json](../../../evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json)。
 - **门**：定向 12/12、相邻 56 文件 510/510、reforge 全量 343 文件 8760/8760、typecheck 0 错、
   全仓 lint 0/0/0（3365 文件）。
 - **U-1 产品发现（待裁决，本卡未改产品）**：零活敌 target 相位输入死区
@@ -70,3 +70,9 @@ Visual Verification Timing: mixed
 不得改产品、旧测、配置、baseline、真实数据、私有 state/visual、__rf*、强转、skip、ignore、扩大 timeout 或业务核心 mock。每条合同必须有业务 oracle；反控必须三态绿红绿、四态 hash、执行集和清理证明。
 交付定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check 和完整 SHA。不得把覆盖率或测试数量当完成条件，不得标 done。
 ```
+
+## Codex 独立验收与收口（2026-10-05）
+
+- 独立复跑：定向 12/12；反控 12/12 VALID，指定业务红、恢复绿、四态哈希与清理证明一致。
+- 独立质量门：Reforge typecheck 通过；全仓 lint 3379 files、0/0/0；docs check 0 issues；git diff --check 通过。
+- U-1 零活敌 target 相位死区保持为产品发现，未夹带修复；结论：本卡测试合同质量满足门禁，合入 main，任务归档为 done。

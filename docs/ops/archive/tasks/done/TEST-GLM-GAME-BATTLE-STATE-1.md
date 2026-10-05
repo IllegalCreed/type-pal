@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-BATTLE-STATE-1 — battle action, AI and settlement contracts
 
-Status: build
+Status: done
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -51,7 +51,7 @@ Visual Verification Timing: e2e-deferred
 
 **结论：排重后 10 条未证明 battle 状态机合同全绿（1 个新测试文件），反控 10/10 VALID
 （每针红相位 failed-total 恰 1 且命中目标合同），全门通过；不请求 done，等待 Codex 独立验收。**
-逐合同排重账见 [evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md)。
+逐合同排重账见 [evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md)。
 
 ### 交付物（全部本卡白名单新增，零产品/旧测/配置/baseline/真实 PAL 数据改动）
 
@@ -74,7 +74,7 @@ buildBattleWonSettlement / tickBattleSettlement / battleWonLevelUp 公开导出�
 4 个目标文件）→ 全文件跑：红相位 exit=1 + 目标合同业务 AssertionError + **failed-total 恰 1
 （只杀目标）**；恢复 sha 与原始一致（4 文件字节级恢复 allFilesRestored=true），恢复绿 10/10；
 每相位 identitySha 落盘，绿前/绿后零漂移。变异点/首条业务断言/identitySha 逐针落
-[evidence/TEST-GLM-GAME-BATTLE-STATE-1/](../evidence/TEST-GLM-GAME-BATTLE-STATE-1/)
+[evidence/TEST-GLM-GAME-BATTLE-STATE-1/](../../../evidence/TEST-GLM-GAME-BATTLE-STATE-1/)
 （mutation-logs 受 .gitignore `*.log` 约束，已 `git add -f`）。
 
 ### 排重登记要点（REG，不新增包装测试）
@@ -116,3 +116,9 @@ mutation-points/mutation-runner/mutation-results/mutation-logs），再核：
 
 **r1 工作提交 SHA**：`d8707b85fc2a6fdc215aa5d845dd3008c12d340e`（单一 commit 含 10 合同测试 +
 证据目录 + 回执 + review JSON 三条目外科刷新；本行为 SHA 登记追加笔，base `5dcb4569b`）。
+
+## Codex 独立验收与收口（2026-10-05）
+
+- 独立复跑：定向 10/10；反控 10/10 VALID，恢复哈希与产品文件 clean 证明一致。
+- 独立质量门：Game typecheck 通过；全仓 lint 3379 files、0/0/0；docs check 0 issues；git diff --check 通过。
+- 结论：合同原子性、真实 caller/oracle、排重账与反控判别力满足测试质量门；合入 main，任务归档为 done。

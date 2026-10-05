@@ -13,10 +13,7 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 — data and battle authoring contracts](TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-GAME-BATTLE-STATE-1 — battle action, AI and settlement contracts](TEST-GLM-GAME-BATTLE-STATE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts](TEST-GLM-REFORGE-BATTLE-FLOW-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -254,8 +251,10 @@
 | [TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1 — audio preview ownership contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-BATTLE-REGISTRY-1 — battle sprite registry authoring contracts](../archive/tasks/done/TEST-GLM-EDITOR-BATTLE-REGISTRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 — data and battle authoring contracts](../archive/tasks/done/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测](../archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-BATTLE-STATE-1 — battle action, AI and settlement contracts](../archive/tasks/done/TEST-GLM-GAME-BATTLE-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-DIALOGUE-PAGINATION-1 — dialogue pagination contracts](../archive/tasks/done/TEST-GLM-GAME-DIALOGUE-PAGINATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-EVENT-CONTRACTS-1 — event script semantic contracts](../archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — player opcode residual contracts](../archive/tasks/done/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -270,6 +269,7 @@
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-ASSET-RESOLVER-1 — asset resolver and cache lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-ASSET-RESOLVER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 — runtime audio lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts](../archive/tasks/done/TEST-GLM-REFORGE-BATTLE-FLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](../archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](../archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |
