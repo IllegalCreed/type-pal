@@ -193,3 +193,6 @@ mutation-selftest.mjs/selftest-results.json/mutation-logs/），再核：
 4) 门禁复算（定向/相邻/全量/typecheck/lint 0-0-0/docs/diff --check）。
 输出 accept（r2 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+**r2 工作提交 SHA**：`c765dde8604d903d061a203ae4553ffdfeb1f6c9`（单一 commit：判据库 + runner 重写 +
+selftest + points targetContract + 2 针重跑证据 + evidence README/pin 刷新 + r2 回执；本行为 SHA 登记追加笔）。
