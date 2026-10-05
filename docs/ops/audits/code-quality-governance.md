@@ -147,6 +147,13 @@ callers；输入顺序、移动步长、trigger/vanish/revive、blocker push、�
 protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3q 只关闭这两个 scene-system 文件，event-system、
 battle-system、save 及账本剩余 2,760 个待核记录仍未关闭。
 
+Q3r 已完成高风险 `event-system.ts` 逐文件核验：5110 行实现与 5973 行主测试全文读取，逐段对照
+`script.c`/`play.c`/`scene.c`/`text.c`/`global.h` 及 mode/bootstrap/scene/battle/menu/equipment/poison callers；
+全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析、移动/镜头与
+runEnterScript 均有直接 caller/oracle 证据，未发现直接缺陷。定向 370、game 全包 3,403、完整 check、official
+ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3r 只关闭 event-system 与其主测试，
+battle-opcodes、save 及账本剩余 2,758 个待核记录仍未关闭。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

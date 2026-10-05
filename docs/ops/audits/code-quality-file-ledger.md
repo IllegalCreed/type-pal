@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（`5f13c3010`，含后来新增的两份测试）：2,964。
-当前已闭合核验：199；已读但待审：5；尚未逐文件核验：2,760；合计未闭合：2,765。
+当前已闭合核验：201；已读但待审：5；尚未逐文件核验：2,758；合计未闭合：2,763。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
@@ -206,10 +206,12 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/player-poison-state.ts` | product | 已验证 | CODE-QUALITY-3o；event-opcode/equipment/battle callers、ownership/poison tests | poison definition ownership/level99/slot dedup/cure/runner 合同完整 |
 | `packages/game/src/core/scene-system-search.ts` | product | 已验证 | CODE-QUALITY-3o；scene-system Confirm caller、play.c:362-510、search tests | 13-cell range、trigger mode 阈值、grid/h/sState/first-hit 合同完整 |
 | `packages/game/src/core/scene-system.ts` | product | 已验证 | CODE-QUALITY-3q；play.c:25-238,423-591、scene.c:512-847、map.c:277-299、res.c:229-301、global.h:75-121；mode/event/bootstrap/dev callers | 662 行逐段核验；131 定向测试、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
+| `packages/game/src/core/event-system.ts` | product | 已验证 | CODE-QUALITY-3r；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；mode/bootstrap/scene/battle/menu/equipment/poison callers | 5110 行逐段核验全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析与移动；定向 370、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | 已验证 | CODE-QUALITY-3o；13-cell/facing/trigger threshold/first hit contracts | primary search oracle |
 | `packages/game/src/core/scene-system.test.ts` | test | 已验证 | CODE-QUALITY-3q；真实 tickSceneSystem/tickEventSystem/SceneAssetsCache/setGlobalEvents caller，play.c/scene.c/map.c oracle | 2064 行全文核验；方向/顺序、4..8 trigger、vanish/revive、blocker push、tile h/bit13、trail/步态、loadScene/cache/onEnter、TouchFar 死锁和 invalid-label 反例均有高判别力合同 |
+| `packages/game/src/core/event-system.test.ts` | test | 已验证 | CODE-QUALITY-3r；真实 tickEventSystem/tickAutoScripts/runScript/runEnterScript callers，script.c/play.c/scene.c/text.c oracle | 5973 行主测试全文核验；dialog/wait/confirm/end、battle fallback、global ip/call、移动/镜头/fade、scene/item/poison/object 条件与特效生命周期合同完整 |
 | `packages/game/src/core/event-opcode-player.ts` | product | 已验证 | CODE-QUALITY-3p；script.c/global.c opcode 0x17-0x2F/0x41/0x55/0x56/0x8D、event-system caller、event/equip/poison tests | role/slot/SHORT/WORD/fScriptSuccess/owner contracts逐段核对；未发现直接缺陷 |
 | `packages/game/src/core/event-opcode-player.test.ts` | test | 已验证 | CODE-QUALITY-3p；player/equipment/HP-MP/revive/poison/status/magic opcode contracts | direct opcode oracle |
 | `packages/game/src/core/event-opcode-player.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3p；opcode family branch contracts | branch boundary oracle |
