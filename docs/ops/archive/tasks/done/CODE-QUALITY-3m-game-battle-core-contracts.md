@@ -1,6 +1,6 @@
 # CODE-QUALITY-3m - game battle core 合同逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality
 Coding Owner: Codex
@@ -47,7 +47,7 @@ Base: `07e2c1c39`
 - 贡献者交付/自验：Codex；定向 7 files/128 tests、game 全包 3400、typecheck 通过；六个生产文件审计保留，未改实现。
 - Codex 独立验收：accept（formula/magic/status/queue/positions/RNG 的 primary source、真实 caller、反例合同逐段核对；全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断通过）。
 - 用户产品裁决/体验验收：N/A（不主动改变数值/战斗行为）。
-- done 准入：blocked，待提交推送和独立工作树核对；本卡只关闭六个 core helper，不代表 battle core/system/menu/save 或全仓治理完成。
+- done 准入：Codex done allowed；提交 `6c48c1390` 已推送，独立 diff/status 核对通过；本卡只关闭六个 core helper，不代表 battle core/system/menu/save 或全仓治理完成。
 
 ## 交接日志
 
