@@ -1,6 +1,6 @@
 # CODE-QUALITY-3s - game battle-system 战斗生命周期/phase 路由逐文件治理
 
-Status: draft
+Status: build
 Phase: phase1 game
 Capability: ops / code-quality / phase1-mechanics
 Coding Owner: Codex
@@ -34,8 +34,8 @@ phase 路由、round/action/animation/dialog/settlement/fade/flee/escape 生命�
 
 | 维度 | 当前真值 | 直接证据 |
 |---|---|---|
-| 原版 / primary source | `PAL_StartBattle`/`PAL_BattleMain`/`PAL_BattleWon`/`PAL_BattleLost`/`PAL_BattleFleed`、battle fade/settlement、script-on-turn-start/ready 调度 | `reference/sdlpal/battle.c`、`fight.c`、`script.c:3318-3331`、`global.h`；待逐段补精确行号 |
-| 第一阶段 | TS `startBattle`/`tickBattle` 与 bootstrap handler、mode dispatch、battle actions/opcodes/settlement/finalization/dialog/anim callers | `battle-system.ts` 全文、`shell/bootstrap.ts:1178-1225`、`mode.ts:65-67`、`battle-finalization.ts`、actions/settlement/anim callers；分散测试全文待读取 |
+| 原版 / primary source | `PAL_StartBattle`/`PAL_BattleMain`/`PAL_BattleWon`/`PAL_BattleLost`/`PAL_BattleFleed`、battle fade/settlement、script-on-turn-start/ready 调度 | `reference/sdlpal/battle.c:565-682,685-988,991-1372,1390-1528,1531-1838`、`fight.c:740-885,1080-1190,1390-1710,1770-1860`、`script.c:3318-3331`、`global.h` |
+| 第一阶段 | TS `startBattle`/`tickBattle` 与 bootstrap handler、mode dispatch、battle actions/opcodes/settlement/finalization/dialog/anim callers | `battle-system.ts:120-346,348-533,540-770,1974-2400,2403-3139`、`shell/bootstrap.ts:1178-1225`、`mode.ts:65-67`、`battle-finalization.ts`、actions/settlement/anim callers；battle-system 主测试 4182 行及 lifecycle tests 已读取 |
 | 当前二阶段 | N/A（仅 packages/game phase1） | `CLAUDE.md` 阶段规则 |
 | 本任务目标 | 每个 phase/cleanup/资源生命周期段有 caller、primary source、可证伪反例和验证结果；未知项保留 review/blocked | 本卡、file ledger、定向/相邻测试和全仓门禁 |
 
@@ -73,10 +73,10 @@ phase 路由、round/action/animation/dialog/settlement/fade/flee/escape 生命�
 ### 进入 build 前：Codex 核定
 
 - Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 `battle-system.ts` 与专属回归（若 direct evidence）。
-- 前提核验：pending（需先完成本卡真值矩阵逐项读取）
-- 范围、设计和验收条件：pending
+- 前提核验：verified（已逐段读取 primary source、当前实现、生产 callers、battle lifecycle tests；见下方审计日志）
+- 范围、设计和验收条件：agree（audit-first；不主动改变战斗玩法、phase 产品取舍或资源格式）
 - 高风险用户产品裁决：N/A（保持已核真值；证据冲突才暂停）
-- build 准入结论：blocked（完成前提门后再进入实现；审计读取可继续）
+- build 准入结论：build allowed（本批无实现变更白名单需求；若直接反例出现，先补证据再作最小修复）
 
 ### 进入 done 前：独立验收
 
@@ -88,6 +88,32 @@ phase 路由、round/action/animation/dialog/settlement/fade/flee/escape 生命�
 ## 交接日志
 
 - 2026-10-05 Codex：Q3r 已归档；建立 battle-system 高风险卡，先完成 3139 行实现、分散 battle lifecycle tests、primary source 与真实 callers 的逐段核验；未获 build 准入前不得修改实现。
+- 2026-10-05 Codex：完成 battle-system 3139 行源码、battle-system 主测试 4182 行、cov85/GLM/runtime-context/finalization/settlement/dialog/death-fade/anim integration tests 的职责入口读取；对照 `battle.c`/`fight.c`/`script.c`、bootstrap/mode/actions callers。定向 9 files/242 tests 与 game typecheck 通过，未发现 primary-source + caller 可证实的 direct defect，准入 audit-only build。
+
+## 逐段审计证据（2026-10-05）
+
+| 实现段 | 当前行 | 真实 caller / oracle | primary source | 结论 |
+|---|---:|---|---|---|
+| startBattle 资源/敌槽/玩家/波场播种 | `120-346` | `bootstrap.ts:1178-1225`、mode startBattle handler、cov85/main battle tests、runtime-context | `battle.c:1531-1838`、`global.h` | 0xFFFF 跳过、0 空槽保留、OBJECT overlay 优先、倒地复活/傀儡清除、装备重建、wave snapshot/field、资源 context 安装均有直接合同；资源缺失由 tick 顶层 fail-closed |
+| tickBattle 顶层 guards 与 phase 路由 | `348-533` | `mode.ts:65-67`、main-loop、cov85 phase/guard tests | `battle.c:685-988`、`fight.c:1080-1150` | intro fade、palette/death fade、dialog/settlement/flee/escape hold、stall 兜底、preBattle→select→perform→post→won/lost/fleed 顺序与 C 调度直接核对 |
+| selectAction/UI/action queue | `540-770,1001-1960` | battle-system 主测试、cov85、menu/actions/turn-queue callers | `fight.c:1390-1609`、`uibattle.c` menu/target sections | 失能占位、Force/Repeat/Flee、coop 消耗、target picker、enemy/player dex multiplier、dualMove、RNG 次序和 live target 重选合同有 caller/oracle |
+| casualty/idle/fade/flee/escape | `806-970,1974-2221` | casualty-sounds/death-fade/anim integration/GLM lifecycle tests | `fight.c:740-885`、`battle.c:1390-1528`、`battle.c:608-682` | 守护者健康门、毒杀 death sound 门、72-step death fade、16-step flee、enemy escape + 500ms hold、turn-start 终态 break 均有直接反例 |
+| battle dialog hold | `2240-2400` | `battle-dialog.test.ts`、runScript battle queue、battle-system turn-start callers | `text.c:1660-1772`、`fight.c:1184-1191,1719-1724` | queue→dialogBox、typing cadence、page/end key、narration auto-dismiss、effect ordering、Confirm 消费和 phase stall reset 合同完整 |
+| performAction/animation/actions | `2403-2987` | actions/anim-driver/magic/throw/item/attack callers、anim integration/death-fade/main tests | `fight.c` action/animation/delay sections、`script.c:2655-2990` | timeline hold、damage-number timing、item afterComplete、casualty scripts、player action validation、dead target reselect、hidden exp RNG gate、coop/flee/pass/throw dispatch均逐段读过 |
+| postAction/poison/status/settlement boundary | `2989-3135` | battle-settlement/finalization/game-state/poison/status callers、settlement tests | `fight.c:1611-1710`、`battle.c:991-1372,1822-1830` | combat-decided 时跳过末回合毒、毒脚本推进回写、status/hiding decrement、death rewards、won/lost 转态与 settlement/cleanup 边界符合 C；结算 owner 仍在 settlement/finalization 文件外部，不越界重写 |
+
+### 反证排查记录
+
+- 运行时语义/命令分类：`tickBattle` 只负责宿主 phase/hold，battle-opcode/action/settlement/finalization 各自保留 owner；event-system 仅通过注入 `runScript`/resources 连接。
+- 原版/第一阶段理解：敌槽空位、dualMove、dex/RNG 顺序、失能/傀儡、turn-start/ready、毒/status/cleanup、胜败逃分支均回到 C 行号，不由 phase 数量推断。
+- 资源/数据解码：本卡只消费已注入 canonical resources；未发现 extractor/map/data decoder 反例，不改生成物或迁移层。
+- 审计/测试模型：主测试与 lifecycle tests 使用公开 `startBattle`/`tickBattle`/`tickBattleDialog`、typed BattleState 和真实 action/settlement/finalization callers；定向 242 仅作必要证据，不把全绿或 coverage 单独当成 correctness。
+
+### build / review 结论
+
+- `premise verified`：Codex；primary source、真实 callers、主测试和分散 lifecycle tests 已直接读取。
+- `design agree`：Codex；audit-only，保持行为/接口/schema/save/生成物/UI 边界。
+- `accept` 前置条件：定向 battle lifecycle tests、game typecheck、全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断全部通过；否则保留 review，不归档。
 
 ## 下一位 Agent 提示词
 
