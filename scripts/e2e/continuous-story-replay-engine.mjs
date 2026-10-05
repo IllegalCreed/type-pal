@@ -138,6 +138,20 @@ const driveRouteTarget = async (action, _entry, until, health) => {
     if (hasDialogue(await read())) return
     if (routeTargetReached(await read(), target)) return
   }
+  if (target.inputKey) {
+    await page.keyboard.down(target.inputKey)
+    try {
+      await until(
+        read,
+        (next) => routeTargetReached(next, target) || hasDialogue(next),
+        `continuous held route ${target.inputKey}`,
+        30000,
+      )
+    } finally {
+      await page.keyboard.up(target.inputKey)
+    }
+    return
+  }
   const actualScene =
     engine === 'game' ? `s${String(current.scene - 1).padStart(3, '0')}` : current.scene
   const scene = target.scene

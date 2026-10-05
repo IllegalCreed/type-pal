@@ -159,6 +159,7 @@ export function continuousStoryActions(report) {
           ? null
           : (steps.at(-1)?.to ?? null),
       committedSteps: steps.length,
+      inputKey: input.key,
       expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
     }
     if (
