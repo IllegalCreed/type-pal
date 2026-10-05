@@ -27,6 +27,9 @@
   docs 门：主工作树 `pnpm check:docs` 的 2 个红项均来自并行卡在途目录
   TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1（未登记导航，非本卡文件）；本卡分支提交的干净
   worktree 复跑 `node scripts/docs/check.mjs` 全绿（见 gates/docs-worktree.stdout.txt）。
+  lint 门：`pnpm lint` 在交付时点 PASS 0/0/0（gates/lint.stdout.txt，3449 文件）；其后并行卡
+  落盘的未跟踪文件（bcs1 counterproof.json）在主树引入 format 红项，非本卡文件；本卡分支
+  tip 干净 worktree 复跑 biome check 0 诊断（gates/lint-worktree.stdout.txt）。
 - 复现：`node packages/migrate/scripts/mas1-mutation-counterproof.mjs`（约 7 分钟，前置要求
   工作树对 7 个目标源 clean 且分支为交付分支；并行卡（reforge 侧）同树在途文件按前缀豁免并
   逐相位披露，见回执 concurrentForeignWork）。
