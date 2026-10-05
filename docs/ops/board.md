@@ -10,6 +10,9 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
+| TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 | [PAL extract event codec and parser boundary audit](tasks/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1.md) | build | GLM / event codec + parser 审计 | round-trip、label/operand、scene/global BFS 与合法 parser 边界 |
+| TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 | [Game event interpreter control-flow contracts](tasks/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1.md) | build | GLM / event-system 控制流审计 | end/call/goto/reset、随机跳、镜头、物品放置与失败收口 |
+| TEST-GLM-REFORGE-MOTION-TRANSITION-1 | [Reforge motion, scene transition and input lifecycle audit](tasks/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md) | build | GLM / motion + transition 审计 | reservation、terrain、scene abort/commit、输入取消与恢复 |
 
 ## 看板规则
 
