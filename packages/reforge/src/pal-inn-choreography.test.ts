@@ -108,6 +108,54 @@ function assertParticipantWindows(snapshots: { at: string; held: string[] }[]): 
 }
 
 describe('canonical PAL inn participant choreography', () => {
+  test('e59 takes its authority before switching auto and releases after the final dialogue', () => {
+    const scene = validateAuthorScenes([structuredClone(authorInn)])[0]
+    const auto = scene?.entities
+      .find((entity) => entity.id === 'e59')
+      ?.behaviors?.auto?.['legacy-001']?.flow
+    if (!auto || auto.kind !== 'stages') throw new Error('PAL e59 automatic flow is missing')
+    expect(auto.stages[0]?.body[0]).toMatchObject({
+      kind: 'moveEntity',
+      target: { scene: 's003', entity: 'e59' },
+      to: { col: 137, row: 73, height: 0 },
+    })
+    const flow = scene?.entities
+      .find((entity) => entity.id === 'e59')
+      ?.behaviors?.trigger?.['legacy-001']?.flow
+    if (!flow || flow.kind !== 'stages') throw new Error('PAL e59 interaction flow is missing')
+    const stage = flow.stages.find((candidate) => candidate.id === flow.initial)
+    if (!stage) throw new Error('PAL e59 initial stage is missing')
+    const body = stage.body
+    const takeIndex = body.findIndex(
+      (command) => command.kind === 'takeEntity' && command.target.entity === 'e59',
+    )
+    const autoSelectionIndex = body.findIndex(
+      (command) =>
+        command.kind === 'selectEntityBehavior' &&
+        command.target.entity === 'e59' &&
+        command.channel === 'auto',
+    )
+    const facingIndex = body.findIndex(
+      (command) =>
+        command.kind === 'setEntityFacing' &&
+        command.target.entity === 'e59' &&
+        command.facing === 'left',
+    )
+    const dialogIndexes = body.flatMap((command, index) =>
+      command.kind === 'dialog' ? [index] : [],
+    )
+    const releaseIndex = body.findIndex(
+      (command) => command.kind === 'releaseEntity' && command.target?.entity === 'e59',
+    )
+    expect(takeIndex).toBe(0)
+    expect(autoSelectionIndex).toBeGreaterThan(takeIndex)
+    expect(facingIndex).toBeGreaterThan(autoSelectionIndex)
+    expect(dialogIndexes.length).toBeGreaterThan(0)
+    expect(facingIndex).toBeLessThan(dialogIndexes[0] ?? Number.POSITIVE_INFINITY)
+    expect(releaseIndex).toBe(body.length - 1)
+    expect(releaseIndex).toBeGreaterThan(dialogIndexes.at(-1) ?? -1)
+  })
+
   test('takes only the three participants for dialogue and releases during the authored movement beats', async () => {
     const result = await runChoreography(innFlow())
     assertParticipantWindows(result.snapshots)

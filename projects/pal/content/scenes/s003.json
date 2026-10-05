@@ -2895,6 +2895,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
                       "kind": "setEntityPos",
                       "pos": {
                         "col": 122,
@@ -2986,6 +2993,14 @@
                           "on": "interact",
                           "range": 2
                         }
+                      }
+                    },
+                    {
+                      "facing": "left",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
                       }
                     },
                     {
@@ -3390,6 +3405,13 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
                     }
                   ]
                 }
@@ -4830,7 +4852,7 @@
                       "to": {
                         "col": 137,
                         "height": 0,
-                        "row": 72
+                        "row": 73
                       },
                       "target": {
                         "scene": "s003",
