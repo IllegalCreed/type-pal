@@ -179,6 +179,15 @@ test）；`battle-positions.ts` 与 `battle-runtime-context.test.ts` 沿用 Q3m/
 2,964 条：已闭合 215、已读待审 5、尚未逐文件核验 2,744；battle
 actions/present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
 
+Q3v 已完成 `actions/attack.ts`、`attack-mate.ts`、`defend.ts`、`flee.ts` 四个基础 action 文件逐文件核验：826 行
+实现与真实 `performBattleAction` caller、`fight.c`/`battle.c` primary source、attack-mate/attack GLM 专属测试及
+actions/anim/formula 相邻 oracle 全文/相关段读取。普通/群攻/DualAttack、敌攻格挡/替挡/protect、混乱攻友、逃跑
+装备与 boss gate、equiv poison、动画与 legacy fallback 均有直接证据，未发现直接缺陷；`performFlee` 敌吉运修复按
+`game-mechanics.md` 用户裁决保留。定向/相邻 154 tests、完整 check、official ratchet、protected fast、Biome 零诊断
+均通过；ratchet 基线未变化。Q3v 关闭 6 条账本记录（4 个 product + 2 个 test），`actions.test.ts` 只作相关段相邻
+oracle，不计入本批关闭。当前账本为 2,964 条：已闭合 221、已读待审 5、尚未逐文件核验 2,738；battle 其它 actions、
+present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

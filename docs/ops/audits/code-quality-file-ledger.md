@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（`5f13c3010`，含后来新增的两份测试）：2,964。
-当前已闭合核验：215；已读但待审：5；尚未逐文件核验：2,744；合计未闭合：2,749。
+当前已闭合核验：221；已读但待审：5；尚未逐文件核验：2,738；合计未闭合：2,743。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
@@ -217,6 +217,12 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | 已验证 | CODE-QUALITY-3u；BattleState 工厂/位置/状态 seed oracle，定向/相邻 55 tests | 383 行逐段读取；未知 role、>3 player、状态 seed、快照、EnemyPos/fallback/y offset 和独立坐标对象反例 |
 | `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3u；null 空槽、maxHealth/object identity、autoBattle/scriptPrevHp oracle，定向/相邻 55 tests | 81 行逐段读取；0 占位槽不压缩、真实槽浅拷贝、开战 seed 反例 |
 | `packages/game/src/core/battle/battle-finalization.test.ts` | test | 已验证 | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例 |
+| `packages/game/src/core/battle/actions/attack.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:3618-3754,4910-5148,4591-4654；battle-system:2769-2825；action/anim/formula callers | 614 行逐段核验玩家/敌方物攻、群攻/DualAttack、auto-defend/cover/protect、equiv poison、混乱友敌与 timeline/legacy fallback；154 定向/相邻 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
+| `packages/game/src/core/battle/actions/attack-mate.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:3760-3853；battle-system attack-mate dispatch；attack-mate/action tests | 111 行逐段核验随机活友军、目标防御/protect、HP clamp、武器声、动画与无目标 Pass；未发现直接缺陷 |
+| `packages/game/src/core/battle/actions/defend.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:4110-4117,4924-4929；battle-system dispatch；actions tests | 20 行全文核验；只写 defending，减伤由 enemy attack owner 消费，越界 no-op 合同闭合 |
+| `packages/game/src/core/battle/actions/flee.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:4119-4172；battle.c:1455-1528；battle-system dispatch；actions tests | 81 行逐段核验 flee rate/装备、敌吉运修复、boss RNG、空槽/SHORT 溢出、失败动画与 exp；未发现直接缺陷 |
+| `packages/game/src/core/battle/__tests__/attack-mate.test.ts` | test | 已验证 | CODE-QUALITY-3v；111 行实现对应的 7 个 AttackMate oracle，154 定向/相邻 tests | 148 行全文读取；随机 self/dead 跳过、protect/defend/clamp/无活友军/武器声与 HP ownership 反例 |
+| `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3v；64 行命中特效帧基号/缺表反例，154 定向/相邻 tests | 全文读取；flat index `sprite*2+1`、×3、undefined fallback 与真实 timeline oracle |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | 已验证 | CODE-QUALITY-3o；13-cell/facing/trigger threshold/first hit contracts | primary search oracle |
