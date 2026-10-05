@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+      "afterSha256": "86801dee690a8099b7cef1c4b6231cb194f919e759ca63cdd909e98e4b0d7f01",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -560,7 +560,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+        "implementationSha": "86801dee690a8099b7cef1c4b6231cb194f919e759ca63cdd909e98e4b0d7f01",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -651,7 +651,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1"
+        "afterSha256": "86801dee690a8099b7cef1c4b6231cb194f919e759ca63cdd909e98e4b0d7f01"
       },
       "history": [
         {
@@ -688,7 +688,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "399846018b62e9a8e37cb6710206d9640e7f71152506329bbd41c55e19616071",
+      "afterSha256": "a3cd4e16d9953e5683bbb23507931e344f8fc475ee23cbc84f6c3dceac099ed3",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -718,7 +718,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "399846018b62e9a8e37cb6710206d9640e7f71152506329bbd41c55e19616071",
+        "implementationSha": "a3cd4e16d9953e5683bbb23507931e344f8fc475ee23cbc84f6c3dceac099ed3",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -790,7 +790,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "399846018b62e9a8e37cb6710206d9640e7f71152506329bbd41c55e19616071"
+        "afterSha256": "a3cd4e16d9953e5683bbb23507931e344f8fc475ee23cbc84f6c3dceac099ed3"
       },
       "history": [
         {
@@ -1396,7 +1396,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "4db6e0dda505eb67d526bdba370fc7029b0c6c5c999b743fce6c832791976b8b",
+      "afterSha256": "79311f19ab854ac12c09d9727c82e3094b2c4c224370c0beadaec85aaf8b0992",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1432,7 +1432,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "4db6e0dda505eb67d526bdba370fc7029b0c6c5c999b743fce6c832791976b8b",
+        "implementationSha": "79311f19ab854ac12c09d9727c82e3094b2c4c224370c0beadaec85aaf8b0992",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1521,7 +1521,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "4db6e0dda505eb67d526bdba370fc7029b0c6c5c999b743fce6c832791976b8b"
+        "afterSha256": "79311f19ab854ac12c09d9727c82e3094b2c4c224370c0beadaec85aaf8b0992"
       },
       "history": [
         {

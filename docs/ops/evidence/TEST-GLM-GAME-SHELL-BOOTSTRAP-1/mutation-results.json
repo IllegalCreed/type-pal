@@ -1,0 +1,179 @@
+{
+  "card": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1",
+  "testFile": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
+  "originalGreen": {
+    "exitCode": 0,
+    "tests": 6,
+    "allPassed": true,
+    "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+  },
+  "sourceOriginalSha": {
+    "MUT-01": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+    "MUT-02": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+    "MUT-03": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+    "MUT-04": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+    "MUT-05": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+    "MUT-06": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+  },
+  "sourceFinalSha": {
+    "MUT-01": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+    "MUT-02": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+    "MUT-03": "3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596",
+    "MUT-04": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+    "MUT-05": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+    "MUT-06": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+  },
+  "sourceRestoredByteIdentical": true,
+  "verdicts": [
+    {
+      "id": "MUT-01",
+      "target": "SB1 胜利结算期 BGM 覆盖",
+      "file": "packages/game/src/shell/bootstrap.ts",
+      "find": "const victoryTrack = battleVictoryTrack(gs.battleState)",
+      "replace": "const victoryTrack = -1",
+      "findHits": 1,
+      "mutatedSha": "b1705469c6840f7b93f6b26862fc0ca873c7f6ec07f02fc162c60e2c9fd848ce",
+      "targetFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "totalTests": 6,
+        "failedFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)",
+        "firstBusinessAssertion": "AssertionError: expected [ { track: 7, loop: true } ] to deeply equal [ { track: 3, loop: false } ]\n    at /private/tmp/type-pal-shell-bootstrap/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts:151:29\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "identitySha": "6cec38fdd75f09941746c220da0b5e38e30682c2cfee40ed3875eecdc9d6e773"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6,
+        "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+      },
+      "cleanupRestored": true
+    },
+    {
+      "id": "MUT-02",
+      "target": "SB2 揭场 introFade 静默",
+      "file": "packages/game/src/shell/bootstrap.ts",
+      "find": "const battleIntroActive = gs.battleState?.introFade !== undefined",
+      "replace": "const battleIntroActive = false",
+      "findHits": 1,
+      "mutatedSha": "efc66cb0483fb9a8954c8ee496cc4802d265464fadf573f690637385f3b92a07",
+      "targetFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "totalTests": 6,
+        "failedFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环",
+        "firstBusinessAssertion": "AssertionError: expected [ { track: 7, loop: true } ] to deeply equal [ { track: +0, loop: true } ]\n    at /private/tmp/type-pal-shell-bootstrap/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts:160:29\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "identitySha": "9b5ec8e58850233ef1754fce75899f15d5c0eebfd6436f0283aaf7b5f52a1d7a"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6,
+        "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+      },
+      "cleanupRestored": true
+    },
+    {
+      "id": "MUT-03",
+      "target": "SB3 战斗帧 bus SFX drain",
+      "file": "packages/game/src/shell/bootstrap.ts",
+      "find": "if (inBattle) {",
+      "replace": "if (false) {",
+      "findHits": 1,
+      "mutatedSha": "8b81971c87bfe224094436ef676982d76615ee7439ace642ac2aab54cf951e60",
+      "targetFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "totalTests": 6,
+        "failedFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费",
+        "firstBusinessAssertion": "AssertionError: expected [] to deeply equal [ 12, 51 ]\n    at /private/tmp/type-pal-shell-bootstrap/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts:184:37\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "identitySha": "b08fcc9196b6f5683dbf523657eebbc4f20d6b08d9895591ac6d3ff4fe7ce5c8"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6,
+        "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+      },
+      "cleanupRestored": true
+    },
+    {
+      "id": "MUT-04",
+      "target": "SB4 SW 进度消息路由",
+      "file": "packages/game/src/shell/precache-client.ts",
+      "find": "if (d?.type === 'precache-progress') opts.onProgress(d)",
+      "replace": "if (d?.type === 'precache-progress-x') opts.onProgress(d)",
+      "findHits": 1,
+      "mutatedSha": "80335b6cf13bd29f049479359b95aab31007fec50f2a2396b8f61d5d1d4aae16",
+      "targetFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "totalTests": 6,
+        "failedFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略",
+        "firstBusinessAssertion": "AssertionError: expected [] to deeply equal [ { type: 'precache-progress', …(4) } ]\n    at /private/tmp/type-pal-shell-bootstrap/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts:240:22\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+        "identitySha": "470134f5ec287e72912565aaadfe0f9fba930afbeeed7c46bd264676ec7e475a"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6,
+        "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+      },
+      "cleanupRestored": true
+    },
+    {
+      "id": "MUT-05",
+      "target": "SB5 storage.persist 失败容忍",
+      "file": "packages/game/src/shell/precache-client.ts",
+      "find": "  try {\n    await navigator.storage?.persist?.()\n  } catch {\n    /* ignore */\n  }",
+      "replace": "  try {\n    await navigator.storage?.persist?.()\n  } catch (err) {\n    throw err\n  }",
+      "findHits": 1,
+      "mutatedSha": "27dbd3044461386243c5be69b41fa3b84b62dfe6e55ed0521bfe0d05bd668217",
+      "targetFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "totalTests": 6,
+        "failedFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)",
+        "firstBusinessAssertion": "AssertionError: expected 'rejected:Error: quota denied' to be 'resolved' // Object.is equality\n    at /private/tmp/type-pal-shell-bootstrap/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts:271:21\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+        "identitySha": "785b08022817f33113a4b7f3d23630bc0aa500ac09e4468e858391deab6a14fb"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6,
+        "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+      },
+      "cleanupRestored": true
+    },
+    {
+      "id": "MUT-06",
+      "target": "SB6 startRafLoop 帧链自续订",
+      "file": "packages/game/src/shell/main-loop.ts",
+      "find": "    tickFps(now) // 左上角 FPS 覆盖层:每 rAF 累计帧数(未启用时内部早退)\n    raf = requestAnimationFrame(loop)",
+      "replace": "    tickFps(now) // 左上角 FPS 覆盖层:每 rAF 累计帧数(未启用时内部早退)\n    // MUT-06: raf = requestAnimationFrame(loop)",
+      "findHits": 1,
+      "mutatedSha": "ad4d02e5a0ed4d70de1ffa8e3e8f9b4c078b54240ef50da90a666c87d4507d26",
+      "targetFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期 SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedCount": 1,
+        "totalTests": 6,
+        "failedFullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期 SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链",
+        "firstBusinessAssertion": "AssertionError: expected 1 to be 2 // Object.is equality\n    at /private/tmp/type-pal-shell-bootstrap/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts:319:32\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-shell-bootstrap/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26",
+        "identitySha": "853bd9b7ece648798074a9d6fd25c7d3ad0a85ecaaf8f36921dc9801c4e47cca"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 6,
+        "identitySha": "7263025bc78e2a9dc539e9a6011d2971da8a4f8287b7c404d1cd9e4369891bbb"
+      },
+      "cleanupRestored": true
+    }
+  ]
+}
