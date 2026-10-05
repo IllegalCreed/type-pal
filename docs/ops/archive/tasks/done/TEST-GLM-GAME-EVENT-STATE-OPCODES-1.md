@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-EVENT-STATE-OPCODES-1 — event state and opcode business contracts
 
-Status: build
+Status: done
 Phase: phase1
 Capability: game / event state mutations and opcode business effects
 Coding Owner: GLM
@@ -42,7 +42,7 @@ Visual Verification Timing: e2e-deferred
 ## GLM r1 交付回执（2026-10-05，分支 codex/glm-game-event-state-opcodes-r1，base f4dbd0e3d）
 
 **结论：臂级排重后 8 条未证状态业务合同全绿（1 个新测试文件），反控 8/8 VALID（复用已验收 r2 判据库），全门通过；event-opcode-player.ts 经全量 coverage 并集确认零残余、零新增。不请求 done，等待 Codex 独立验收。** 逐臂排重账（NEW/REG/unreachable/defensive + 两轮 coverage 数据 + 判例）见
-[evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md)。
+[evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md)。
 
 ### 方法（排重为何落到臂级）
 
@@ -136,3 +136,9 @@ onenter-walk-reachability/mutation-lib/runner/selftest/points/results/logs/direc
 ```
 
 **r1 工作提交 SHA**：`57bea1d502df8a9768e446e7a958b15b68f69940`（单一 commit 含 8 合同测试 + 证据目录 + evidence 导航行 + review JSON 三 pin 外科刷新 + 回执；本行为 SHA 登记追加笔，base `f4dbd0e3d`）。
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 8/8；strict event-state mutation runner 8/8 VALID，10 个 selftest 反例全部通过。
+- 独立质量门：Game typecheck、docs、git diff --check 通过；集成全仓 lint 3459 files、0/0/0。
+- 结论：8 条业务状态 opcode 合同及 existing-proof/unreachable 账满足门禁，合入 main，任务归档为 done。

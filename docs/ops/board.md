@@ -10,9 +10,6 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
-| TEST-GLM-GAME-EVENT-STATE-OPCODES-1 | [Game event state and opcode business contracts](tasks/TEST-GLM-GAME-EVENT-STATE-OPCODES-1.md) | build | GLM / event state 合同 | 对象、队伍、场景、资源与脚本状态写回 |
-| TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 | [Reforge battle core and session contracts](tasks/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1.md) | build | GLM r1 已推，待 Codex 独立验收 | 6 残余合同 + identity 反控 6/6（证据见卡面回执） |
-| TEST-GLM-MIGRATE-ASSET-SUPPLY-1 | [Migrate asset supply and publication boundaries](tasks/TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md) | build | GLM / asset supply 合同 | ownership、hash/bytes、retirement、map 与 publication |
 
 ## 看板规则
 

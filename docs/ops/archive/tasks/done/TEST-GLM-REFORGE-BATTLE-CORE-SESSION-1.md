@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 — battle core and session business contracts
 
-Status: build
+Status: done
 Phase: phase2
 Capability: reforge / battle core and session
 Coding Owner: GLM
@@ -31,7 +31,7 @@ Visual Verification Timing: mixed
 
 - 分支/基线：`codex/glm-reforge-battle-core-session-r1`，基 `origin/main` `f4dbd0e3d`；
   产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试/脚本/证据/卡面/导航行）。
-- **排重结论**（[dedup-ledger.md](../evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/dedup-ledger.md)）：
+- **排重结论**（[dedup-ledger.md](../../../evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/dedup-ledger.md)）：
   卡面六文件逐轴对账——battle-command-selection 三族 20 例、battle-turn-readiness 8 例、
   battle-action-presentation-scheduler 5 例判**饱和不新增**；终局 BF-01..12、异步 handoff
   （readiness 屏障族 + H9-6 延迟精灵 abort）、cancel/abort/latest（session cancel 四态族）、
@@ -48,13 +48,13 @@ Visual Verification Timing: mixed
     fleeAll → observeCorePhase 映射 → 会话 done 精确兑现 `enemyFled`、buildSettlement
     零触发（辅助）、零战果；terminal-flows 既有 enemyFled 走 choreography
     requestTerminal caller，非重复）。
-- **反控 6/6 PASS**（mt1 r2 口径，[counterproof.json](../evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json)）：
+- **反控 6/6 PASS**（mt1 r2 口径，[counterproof.json](../../../evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json)）：
   全量执行集（8773 测试/777 文件）identity TSV 落盘；每针红相位 exit 1、恰 1 指定业务
   AssertionError、fullName 精确相等、零 pending/todo/collection-error、signal/spawnError
   null；还原绿与 baseline 集合级 sha256 一致（`3f63521b…f1f4e`）；末次全套重放同 sha；
   四态源 hash/argv/env/mkdtemp finally 全记；runner 自测 11 例全过。再生：
   `node packages/reforge/scripts/bcs1-mutation-counterproof.mjs`（尾步自动 biome 格式化回执）。
-- **门**：定向 6/6、相邻 24 文件 327/327（[identity.json](../evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json)，
+- **门**：定向 6/6、相邻 24 文件 327/327（[identity.json](../../../evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json)，
   `bcs1-identity-status.mjs` 零 diff 再生）；Reforge 全量 349 文件 8773/8773（反控
   baseline/final-replay + gates/reforge-full.raw）；typecheck exit 0；全仓 lint 3450 文件
   0/0/0；`git diff --check` 干净；check:docs 的链接/任务/testing/phase-lore 全 PASS——
@@ -85,3 +85,9 @@ docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md、dedup-ledge
    纯 origin/main 复跑可复现，勿计本卡）。
 4) 裁决 accept/counter/rework；未验收前不合 main、不标 done。
 ```
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 6/6；strict BCS mutation counterproof 6/6 PASS，11 个 selftest 反例全部通过。
+- 独立质量门：Reforge typecheck、docs、git diff --check 通过；集成全仓 lint 3459 files、0/0/0。
+- 结论：battle core/session 六条业务合同、identity artifact、四态 hash 与清理证明满足门禁，合入 main，任务归档为 done。

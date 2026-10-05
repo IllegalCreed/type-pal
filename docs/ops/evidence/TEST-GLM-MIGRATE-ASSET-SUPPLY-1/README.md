@@ -1,6 +1,6 @@
 # TEST-GLM-MIGRATE-ASSET-SUPPLY-1 交付证据
 
-上级：[任务专属证据](../../README.md) · 任务卡：[TEST-GLM-MIGRATE-ASSET-SUPPLY-1](../../tasks/TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md)
+上级：[任务专属证据](../../README.md) · 任务卡：[TEST-GLM-MIGRATE-ASSET-SUPPLY-1](../../archive/tasks/done/TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md)
 
 - 基线：`origin/main` `f4dbd0e3d`，分支 `codex/glm-migrate-asset-supply-r1`。
 - 产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试、反控脚本、证据与卡面）。

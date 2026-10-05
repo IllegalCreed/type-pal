@@ -1,6 +1,6 @@
 # TEST-GLM-MIGRATE-ASSET-SUPPLY-1 — asset supply, ownership and publication boundaries
 
-Status: review
+Status: done
 Phase: phase2
 Capability: migrate / asset supply and publication
 Coding Owner: GLM
@@ -37,7 +37,7 @@ Visual Verification Timing: N/A
   `packages/migrate/scripts/mas1-mutation-counterproof.mjs`；产品/schema/旧测/config/baseline/
   真实数据零改动。
 - 排重账：7 文件逐轴（source:line × caller × 输入 × oracle × 判定）见
-  [dedup-ledger.md](../evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md)；15 净新合同 +
+  [dedup-ledger.md](../../../evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md)；15 净新合同 +
   unreachable/product-counter 账（含 :1154 经 validateAssetCatalog 前缀/路径门证明为防御重复、
   :533 经 sentinel-only 块一手实探）。
 - 关键修正：kimi-r1 ledger 判 loadPalEffectSprites 合成不可达（「合法 YJ2 只能由 pal-extract
@@ -48,7 +48,7 @@ Visual Verification Timing: N/A
   （9 拒收反例 + 2 放行正例）；完整 file×fullName×status TSV identity artifact（28 phase，集合
   sha256 级比较）；红相位唯一失败 fullName 精确相等 + AssertionError 片段 + console 旁证；
   mkdtemp 残留前后扫描 0。见
-  [counterproof.json](../evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/counterproof.json)。
+  [counterproof.json](../../../evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/counterproof.json)。
 - 门禁：定向 15/15；相邻 30 文件 294/294；migrate 全量 738/738；repo typecheck exit 0；
   lint 0/0/0（3449 文件）；`git diff --cached --check` 零输出；docs 门主树 2 红项均为并行卡
   在途目录（非本卡文件），本卡分支干净 worktree 复跑全绿。
@@ -72,6 +72,12 @@ clean）；4) 门禁复跑（定向/相邻/migrate 全量/typecheck/lint/diff --
 交付的隔离是否成立（回执 concurrentForeignWork + 分支稳定门）。
 不得改实现文件；验收结论（accept/counter + 理由）写回本卡并按当前模式收口或返工。
 ```
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 15/15；strict asset-supply counterproof 13/13 PASS，identity TSV、四态 hash 和 mkdtemp 清理一致。
+- 独立质量门：Migrate typecheck、docs、git diff --check 通过；集成全仓 lint 3459 files、0/0/0。
+- 并行卡隔离与 YJ2 合成供应链证据可复核；结论：15 条资产供应合同满足门禁，合入 main，任务归档为 done。
 
 ## 历史：r1 开卡提示词（已被上方交付记录的验收提示词取代）
 
