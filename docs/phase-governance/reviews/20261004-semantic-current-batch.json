@@ -682,7 +682,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "10f62e1fe284bca63a380822daae12f92d98b387d3f2b3af7fd2c21cc0a4f2e5",
+      "afterSha256": "1471a37a43c8da7c0bff742abf304fd3c1e0119fa335b72ec45d6d3ddc9f21f8",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -712,10 +712,16 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "10f62e1fe284bca63a380822daae12f92d98b387d3f2b3af7fd2c21cc0a4f2e5",
+        "implementationSha": "1471a37a43c8da7c0bff742abf304fd3c1e0119fa335b72ec45d6d3ddc9f21f8",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
@@ -766,7 +772,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "10f62e1fe284bca63a380822daae12f92d98b387d3f2b3af7fd2c21cc0a4f2e5"
+        "afterSha256": "1471a37a43c8da7c0bff742abf304fd3c1e0119fa335b72ec45d6d3ddc9f21f8"
       },
       "history": [
         {

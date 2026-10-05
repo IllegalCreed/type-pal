@@ -1,0 +1,461 @@
+{
+  "card": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1",
+  "generatedAt": "2026-10-05T11:43:11.301Z",
+  "targetFile": "packages/game/src/core/event-system.ts",
+  "testFile": "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+  "targetShaBefore": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+  "targetShaAfter": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+  "cleanupProof": {
+    "targetRestoredToOriginal": true,
+    "logsWritten": 12
+  },
+  "envSnapshot": {
+    "COMMAND_MODE": "unix2003",
+    "HOME": "/Users/zhangxu",
+    "LOGNAME": "zhangxu",
+    "MACH_PORT_RENDEZVOUS_PEER_VALDATION": "1",
+    "MallocNanoZone": "0",
+    "PATH": "/Users/zhangxu/.antigravity-ide/antigravity-ide/bin:/Users/zhangxu/.grok/bin:/Users/zhangxu/.kimi-code/bin:/Users/zhangxu/.antigravity/antigravity/bin:/Users/zhangxu/.local/bin:/Users/zhangxu/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Users/zhangxu/.cargo/bin:/Users/zhangxu/.nvm/versions/node/v22.23.2/bin:/Users/zhangxu/bin:/Users/zhangxu/Library/Android/sdk/platform-tools:/Users/zhangxu/Library/Android/sdk/emulator:/Applications/ZCode.app/Contents/Resources/tools/bfs:/Applications/ZCode.app/Contents/Resources/tools/ripgrep:/Applications/ZCode.app/Contents/Resources/tools/ugrep",
+    "SHELL": "/bin/zsh",
+    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.P8UEHOTVd0/Listeners",
+    "TMPDIR": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/",
+    "USER": "zhangxu",
+    "XPC_FLAGS": "0x0",
+    "XPC_SERVICE_NAME": "0",
+    "ZAI_BUSINESS_BASE_URL": "https://api.z.ai",
+    "ZAI_OAUTH_CLIENT_ID": "client_P8X5CMWmlaRO9gyO-KSqtg",
+    "ZAI_OAUTH_ORIGIN": "https://chat.z.ai",
+    "ZCODE_APP_VERSION": "3.14.4",
+    "ZCODE_BASE_URL": "https://zcode.z.ai",
+    "ZCODE_BUILD_COMMIT_ID": "10bbcea5",
+    "ZCODE_CUA_BUNDLED_HELPER_APP_PATH": "/Applications/ZCode.app/Contents/Resources/cua-helper/ZCode Computer Use.app",
+    "ZCODE_CUA_LAUNCHER_PID": "3349",
+    "ZCODE_DESKTOP_CONTEXT_PROMPT_ENABLED": "1",
+    "ZCODE_ENV": "production",
+    "ZCODE_PROCESS_LABEL": "local-1",
+    "ZCODE_RUNTIME_ENV": "production",
+    "__CFBundleIdentifier": "dev.zcode.app",
+    "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+    "TERM": "dumb",
+    "NVM_DIR": "/Users/zhangxu/.nvm",
+    "NVM_CD_FLAGS": "-q",
+    "JAVA_HOME": "/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home",
+    "ZCODE_BFS_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/bfs/bfs",
+    "ZCODE_RG_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/ripgrep/rg",
+    "ZCODE_UGREP_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/ugrep/ugrep",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "ZCODE_BUILTIN_PROVIDER_CONFIG_FILE": "/Users/zhangxu/.zcode/v2/runtime/provider/darwin-aarch64/3.14.4/endpoint-78d7c3bef4024722642626fe3669a799/zcode-builtin.json",
+    "ZCODE_PERSONAL_PROVIDER_CONFIG_FILE": "/Users/zhangxu/.zcode/v2/provider_config.json",
+    "LANG": "en_US.UTF-8",
+    "LC_CTYPE": "en_US.UTF-8",
+    "GIT_EDITOR": "true",
+    "SHLVL": "1",
+    "PWD": "/private/tmp/type-pal-event-control",
+    "OLDPWD": "/Users/zhangxu/illegal/type-pal",
+    "NVM_BIN": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin",
+    "NVM_INC": "/Users/zhangxu/.nvm/versions/node/v22.23.2/include/node",
+    "_": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node"
+  },
+  "summary": {
+    "points": 2,
+    "valid": 2,
+    "allValid": true
+  },
+  "results": [
+    {
+      "id": "MUT-01",
+      "line": 3444,
+      "intent": "resolveConfirmGoto fail-closed 终止合同:删除 fail-closed 块内 gs.eventCursor = undefined,游标残留 → it 1 的 eventCursor 终止断言红",
+      "carrier": "以唯一 warn 行(0x0A goto entry)锚定删除下一行赋值;该路径全仓 0 旧证,不影响其它测试",
+      "find": "    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)\n    gs.eventCursor = undefined\n",
+      "replaceWith": "    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)\n",
+      "targetShaOriginal": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "targetShaRestored": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/event-system.glm-event-control-flow.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/private/tmp/type-pal-event-control",
+          "stdout": {
+            "bytes": 1899,
+            "sha256": "sha256:ad428931d3356f4b66e5e38cce6939955a78a4e21e7b384c59c31b7fb86bef5e",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertions": 2
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
+          ],
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/event-system.glm-event-control-flow.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/private/tmp/type-pal-event-control",
+          "stdout": {
+            "bytes": 3468,
+            "sha256": "sha256:3f96ed275ef2600f148dfc61b8b7378cbfa2236dc6450df8334ae6411d0dadc0",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "failed",
+                "assertions": 2
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: failed"
+          ],
+          "failedFullNames": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+              "messages": [
+                "AssertionError: expected { commands: [ { …(3) }, …(3) ], …(5) } to be undefined\n    at /private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts:62:28\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/event-system.glm-event-control-flow.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/private/tmp/type-pal-event-control",
+          "stdout": {
+            "bytes": 1898,
+            "sha256": "sha256:5a3dfa975b43db6f290fc145cf6d90244952ca876b42a4a85dc096d8cb1a24fb",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertions": 2
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
+          ],
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "redFailedFullNames": [
+        "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
+      ],
+      "redFailedAssertionExcerpts": [
+        {
+          "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+          "firstMessage": "AssertionError: expected { commands: [ { …(3) }, …(3) ], …(5) } to be undefined"
+        }
+      ],
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-02",
+      "line": 2388,
+      "intent": "0x7F[0,0,0xFFFF] 回正豁免边界:豁免常量 0xffff 改 0xfffe(永不匹配真数据 flag)→ 豁免臂误清屏 → it 2 portrait 90 断言红",
+      "carrier": "行内 && flag === 0xffff)) 上下文在 2388 唯一(2392 是 !==、3608 是独立 else if);center 臂 flag=0 与 [5,3,0xffff] 旧测行为不变",
+      "find": "      if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xffff)) {",
+      "replaceWith": "      if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xfffe)) {",
+      "targetShaOriginal": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "targetShaRestored": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/event-system.glm-event-control-flow.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/private/tmp/type-pal-event-control",
+          "stdout": {
+            "bytes": 1899,
+            "sha256": "sha256:59af17f641fc89c520aab4914a8d5dbe4aaa63b48485b05b5f659215f337b17b",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertions": 2
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
+          ],
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/event-system.glm-event-control-flow.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/private/tmp/type-pal-event-control",
+          "stdout": {
+            "bytes": 3449,
+            "sha256": "sha256:c557c11936ed4af22a626490c8132003a9b79583cc365659598d256e62dd6009",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "failed",
+                "assertions": 2
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: failed",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
+          ],
+          "failedFullNames": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+              "messages": [
+                "AssertionError: expected undefined to be 90 // Object.is equality\n    at /private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts:113:45\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/event-system.glm-event-control-flow.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/private/tmp/type-pal-event-control",
+          "stdout": {
+            "bytes": 1897,
+            "sha256": "sha256:f2af22ee6aea48e689e62bafa8c1d39026aae30640e01c11a1253a4857c4dd88",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertions": 2
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
+          ],
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "redFailedFullNames": [
+        "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘"
+      ],
+      "redFailedAssertionExcerpts": [
+        {
+          "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+          "firstMessage": "AssertionError: expected undefined to be 90 // Object.is equality"
+        }
+      ],
+      "valid": true,
+      "invalidReasons": []
+    }
+  ]
+}

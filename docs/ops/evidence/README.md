@@ -9,6 +9,7 @@
 
 - [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 交付证据](coverage85-kimi-extract-migrate-r1/README.md)（已集成 main，Codex quality closure 见历史任务卡）：原始机账、反控件与生成器见 [coverage85-kimi-extract-migrate-r1/](coverage85-kimi-extract-migrate-r1)。
 - [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。
+- [TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据](TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/README.md)（r1 候选：事件控制流排重账 + fail-closed/0x7F 豁免 2 新合同 + 2/2 三态反控 + 全库 auto 0x7F 零可达数据面证据，待 Codex 验收）。
 - [TEST-GLM-GAME-DIALOGUE-PAGINATION-1 交付证据](TEST-GLM-GAME-DIALOGUE-PAGINATION-1/README.md)（r1 候选：6 分页/等待键集合同 + 6/6 三态反控，待 Codex 验收）。
 - [TEST-GLM-GAME-BATTLE-STATE-1 交付证据](TEST-GLM-GAME-BATTLE-STATE-1/README.md)（r1 候选：battle 状态机残余 10 合同 + 10/10 三态反控，待 Codex 验收）。
 - [TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据](TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。

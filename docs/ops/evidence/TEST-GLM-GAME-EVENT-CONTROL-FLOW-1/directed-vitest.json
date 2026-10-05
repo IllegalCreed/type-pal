@@ -1,0 +1,20 @@
+{
+  "card": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1",
+  "suite": "directed",
+  "numTotalTests": 2,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "tests": [
+    {
+      "file": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+      "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+      "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+      "status": "passed"
+    }
+  ]
+}
