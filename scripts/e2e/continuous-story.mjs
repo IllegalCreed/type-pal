@@ -161,6 +161,15 @@ export function continuousStoryActions(report) {
       committedSteps: steps.length,
       expectDialogue: up.reason?.includes('touch/scene boundary') && !followingLeg,
     }
+    if (
+      followingLeg?.phase &&
+      followingLeg.phase !== input.phase &&
+      !laterSameLeg &&
+      !crossesScene
+    ) {
+      const nextPhaseStart = CONTINUOUS_SEMANTIC_PHASE_STARTS[report.fragment]?.[followingLeg.phase]
+      if (nextPhaseStart) target.position = continuousPosition(report, nextPhaseStart)
+    }
     if (input.phase !== undefined && input.phase !== previousPhase) {
       const semanticStart = CONTINUOUS_SEMANTIC_PHASE_STARTS[report.fragment]?.[input.phase]
       if (semanticStart) {
