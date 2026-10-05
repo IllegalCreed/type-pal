@@ -195,6 +195,11 @@ Q3w 已完成 `battle-finalization.ts` 与 `battle-settlement.ts` 两个结算/�
 （2 个 product + 1 个 test）；`battle-finalization.test.ts` 沿用 Q3u 历史记录，不重复计数。当前账本为 2,964 条：已闭合 224、已读待审 5、尚未逐文件核验 2,735；其它 battle actions/present、
 save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
 
+CODE-QUALITY-6a 增加了逐文件账本机器完整性门：真实 inventory 与 Markdown ledger 逐路径对账，重复/未知路径、非法状态、缺证据、
+tracked 数量和状态汇总漂移均 fail-closed；37 个 quality-tool tests（含 9 个账本反例/真实仓库调用）通过。该门只验证记录完整性，
+明确不把机器 PASS 当作源码语义审查；新增 `code-quality-ledger.mjs` 与其测试本身已登记为已验证文件。当前 tracked inventory 2,966：
+已闭合 226、review 5、pending 2,735；全仓仍未完成。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
