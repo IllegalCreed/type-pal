@@ -119,6 +119,11 @@ Q3l 已完成 game battle-present 七文件窄批：背景、effect、数字弹�
 全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；battle core、
 menu/dialog 与其它 present 生产文件仍待逐文件治理。
 
+Q3m 已完成 game battle core 合同六文件窄批：formulas、magic-damage、status、turn-queue、
+battle-positions、rng 逐文件读取 primary source/caller/tests，未发现直接缺陷或需要行为修复。
+game 全包 3,400、全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断均通过；
+其它 battle core/actions/system/menu/scene/save 文件仍待逐文件核验。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

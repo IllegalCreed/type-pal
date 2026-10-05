@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（`5f13c3010`，含后来新增的两份测试）：2,964。
-当前已闭合核验：167；已读但待审：5；尚未逐文件核验：2,792；合计未闭合：2,797。
+当前已闭合核验：178；已读但待审：5；尚未逐文件核验：2,781；合计未闭合：2,786。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
@@ -182,5 +182,16 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；settlement pixel/word layout 证据 | 高判别力像素 oracle |
 | `packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；sprite pixel/mask/z-order 证据 | 高判别力像素 oracle |
 | `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；battle UI pixel/early-return 证据 | 高判别力像素 oracle |
+| `packages/game/src/core/battle/formulas.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:131-389 primary source、battle callers、formula tests | SHORT cast/CLASSIC formula/resist/element field 合同逐段核对；未发现直接缺陷 |
+| `packages/game/src/core/battle/magic-damage.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:4270-4318/5300-5400/4673-4853、inline/Simulate/throw callers、magic tests | per-target RNG/minDamage/def/resistance/autoDefend/defeated skip 合同逐段核对 |
+| `packages/game/src/core/battle/status.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:1632-1661、battle-system turn-end caller、status/actions tests | 全 status counter tick、alive enemy、canAct/canCast 合同完整 |
+| `packages/game/src/core/battle/turn-queue.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:1451-1584、battle-system caller、turn-queue tests | stable dex sort、dualMove dex2/legacy fallback、enemy-first tie 合同完整 |
+| `packages/game/src/core/battle/battle-positions.ts` | product | 已验证 | CODE-QUALITY-3m；battle.c g_rgPlayerPos/ENEMYPOS anchors、present core callers、UI/sprite tests | party count layouts/fallback/idx bounds 合同完整 |
+| `packages/game/src/core/rng.ts` | product | 已验证 | CODE-QUALITY-3m；battle/event/shell callers、rng tests、seed state contract | mulberry32 deterministic state/range APIs；sdlpal LCG 差异为已记录设计，不擅改 |
+| `packages/game/src/core/battle/__tests__/formulas.test.ts` | test | 已验证 | CODE-QUALITY-3m；base/physical/magic/dex formula contracts | primary-source numeric oracle |
+| `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | 已验证 | CODE-QUALITY-3m；inline/Simulate/enemy magic/autoDefend contracts | real BattleState caller oracle |
+| `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m；all status tick/alive enemy/canAct contracts | counter lifecycle oracle |
+| `packages/game/src/core/battle/__tests__/turn-queue.test.ts` | test | 已验证 | CODE-QUALITY-3m；sort/tie/dualMove/dex2 contracts | queue identity oracle |
+| `packages/game/src/core/rng.test.ts` | test | 已验证 | CODE-QUALITY-3m；same seed/different seed/range/state contracts | deterministic RNG oracle |
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
