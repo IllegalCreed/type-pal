@@ -111,3 +111,6 @@ data-reachability*/mutation-points/mutation-results/mutation-logs），再核：
    semantic-current-batch.json 三处 sha 外科刷新 + history 头插是否符合 8494b465c 判例。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+**r1 工作提交 SHA**：`105b20c29ba060c25b530b9032835630fbf41133`（单一 commit 含 2 合同测试 + 证据目录 +
+evidence 导航行 + review JSON 外科刷新 + 回执；本行为 SHA 登记追加笔，base `7a9157ac5`）。
