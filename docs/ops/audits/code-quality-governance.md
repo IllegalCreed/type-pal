@@ -170,6 +170,14 @@ ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。
 当前账本为 2,964 条：已闭合 211、已读待审 5、尚未逐文件核验 2,748；其余 battle actions/present、save 及其它
 pending 文件仍未完成，不得宣布全仓治理收口。
 
+Q3u 已完成 `battle-state.ts`、`battle-runtime-context.ts`、`battle-positions.ts` 三个基础文件逐文件核验：918/98/93
+行实现与 state/runtime/finalization/animation 相邻 tests 全文读取，逐段对照 `battle.h`/`global.h`/`battle.c`/`fight.c`
+及 `battle-system`/`battle-finalization` callers。BattleState 快照/phase/UI/空槽/对象身份、runtime resource/runner
+ownership 与清理、玩家/敌人位置表和 y offset/fallback 均有直接证据，未发现直接缺陷。定向/相邻 55 tests、完整 check、
+official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3u 关闭 7 条账本记录（3 个 product + 4 个
+test），当前账本为 2,964 条：已闭合 218、已读待审 5、尚未逐文件核验 2,741；battle actions/present、save 及其它
+pending 文件仍未完成，不得宣布全仓治理收口。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
