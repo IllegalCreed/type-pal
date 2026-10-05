@@ -670,7 +670,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "e90c6e4527a107bab6afcb711f5f549acca45479b9629de6b958d09f01fc91c6",
+      "afterSha256": "10f62e1fe284bca63a380822daae12f92d98b387d3f2b3af7fd2c21cc0a4f2e5",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -700,7 +700,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "e90c6e4527a107bab6afcb711f5f549acca45479b9629de6b958d09f01fc91c6",
+        "implementationSha": "10f62e1fe284bca63a380822daae12f92d98b387d3f2b3af7fd2c21cc0a4f2e5",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -754,7 +754,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "e90c6e4527a107bab6afcb711f5f549acca45479b9629de6b958d09f01fc91c6"
+        "afterSha256": "10f62e1fe284bca63a380822daae12f92d98b387d3f2b3af7fd2c21cc0a4f2e5"
       },
       "history": [
         {
@@ -1360,7 +1360,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "7ceca6695b701114aacb98d5d33fdc53f3211cd5cf80879cf8e1bcd2866821b1",
+      "afterSha256": "b3f20a11a3bab0df9fe95fe12bd3361195429e338a5001757f5bb79e47b9cf5a",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1396,7 +1396,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "7ceca6695b701114aacb98d5d33fdc53f3211cd5cf80879cf8e1bcd2866821b1",
+        "implementationSha": "b3f20a11a3bab0df9fe95fe12bd3361195429e338a5001757f5bb79e47b9cf5a",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1479,7 +1479,7 @@
           "307:## 已取消（superseded / historical）",
           "316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "7ceca6695b701114aacb98d5d33fdc53f3211cd5cf8e1bcd2866821b1"
+        "afterSha256": "b3f20a11a3bab0df9fe95fe12bd3361195429e338a5001757f5bb79e47b9cf5a"
       },
       "history": [
         {

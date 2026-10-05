@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts
 
-Status: review
+Status: done
 Phase: phase2
 Capability: reforge / world, entity and scene lifecycle
 Coding Owner: GLM
@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Contributor: GLM
 Branch: `codex/glm-reforge-world-lifecycle-r1`
 
-> 当前采用 [`AGENTS.md`](../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”模式。覆盖率、测试数量和通过率都不是本卡的单独完成条件。
+> 当前采用 [`AGENTS.md`](../../../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”模式。覆盖率、测试数量和通过率都不是本卡的单独完成条件。
 
 ## 目标
 
@@ -70,13 +70,13 @@ Reforge 世界生命周期必须由显式 typed owner 和可取消事务驱动�
 
 - 已拍板决策 / 铁律: `AGENTS.md` 测试少而精、零诊断和单一 Owner；`docs/phase2/READ-FIRST.md` 铁律 1–6、8–11；不引入全局槽、隐式跨场景残留和下标身份。
 - 代码锚点(`file:line`): `packages/reforge/src/scene-preparer.ts`、`scene-entry-session.ts`、`scene-switch-transaction.ts`、`scene-transition.ts`、`scene-resources.ts`；`entity-lifecycle.ts`、`entity-lifecycle-command.ts`、`entity-action-player.ts`、`entity-motion.ts`、`world-motion-runtime.ts`；`runtime-input-router.ts`、`async-intent.ts`、`cutscene-controller.ts`。
-- 已知坑 / 审计文档: [`docs/phase2/reference/phase1-knowledge-harvest.md`](../../phase2/reference/phase1-knowledge-harvest.md) world/scene/motion 段；现有 `world-async-commit.test.ts`、`scene-switch-transaction.test.ts`、`entity-motion.c85-arms.test.ts` 的恢复/公平判例；不得把 visual/presentation 私有状态当业务 oracle。
+- 已知坑 / 审计文档: [`docs/phase2/reference/phase1-knowledge-harvest.md`](../../../../phase2/reference/phase1-knowledge-harvest.md) world/scene/motion 段；现有 `world-async-commit.test.ts`、`scene-switch-transaction.test.ts`、`entity-motion.c85-arms.test.ts` 的恢复/公平判例；不得把 visual/presentation 私有状态当业务 oracle。
 - 不得重新引入: 旧引擎隐式脚本暂停、`sys:*` 全局变量、数组位置身份、未经清理的 timer/listener、双写事务、真实用户数据和剧情后门。
 - 相关测试: `scene-*.test.ts`、`entity-*.test.ts`、`collision.test.ts`、`world-motion-runtime*.test.ts`、`runtime-input-router*.test.ts`、`async-intent.test.ts`、`deferred-trigger.test.ts`、`cutscene-controller*.test.ts`、`main.*scene/entity*.test.ts`。
 
 ## 验收条件
 
-测试任务另核[统一质量标准](../agent-workflow.md)：原子业务合同、合法 typed 输入、真实 caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率 accept。
+测试任务另核[统一质量标准](../../../agent-workflow.md)：原子业务合同、合法 typed 输入、真实 caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率 accept。
 
 - 功能:
   - 建立 world lifecycle family ledger，逐条写 source/caller/input/oracle/fullName/旧测差异；已有合同只登记 existing-proof，缺合法入口登记 blocked/unreachable；
@@ -113,7 +113,7 @@ Reforge 世界生命周期必须由显式 typed owner 和可取消事务驱动�
 
 - 分支/基线: `codex/glm-reforge-world-lifecycle-r1`，基于 `origin/main` `53bf97e01`；business 提交
   `5d1d197a5`（仅 3 个新增测试文件，产品/schema/API/旧测/config/baseline/真实数据零 diff）。
-- 排重结论: 四家族逐轴排重（[dedup-ledger.md](../evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/dedup-ledger.md)）。
+- 排重结论: 四家族逐轴排重（[dedup-ledger.md](../../../evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/dedup-ledger.md)）。
   卡面轴中 prepare-commit-abort、旧场景隔离、entity phase/reappear、动作 abort、reservation/fairness、
   输入锁、最新意图取消均 existing-proof，不重复堆叠；仅补 4 条真实未证明合同：
   - DT-CLEAR-1: `DeferredTouchTrigger.clear()` 原子复位 claim+deliveryFence（caller main.ts:4408 teardown）；
@@ -125,7 +125,7 @@ Reforge 世界生命周期必须由显式 typed owner 和可取消事务驱动�
 - unreachable 登记: `SceneResources.map()` LRU `oldest === id` 保护分支（插入序下不可触达，防御）。
 - 反控: 4/4 针 VALID——每针红相位 exit 1、恰 1 指定业务 AssertionError（防 `-t` 零匹配假绿守卫）、
   git 字节还原（sha256 原始=恢复）、还原绿、final-replay 4/4；四态 raw + 逐针原始/变异/恢复 hash +
-  mkdtemp 临时树 finally 移除证明见 [counterproof.json](../evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/counterproof.json)。
+  mkdtemp 临时树 finally 移除证明见 [counterproof.json](../../../evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/counterproof.json)。
 - 门: 定向+相邻 38 文件 356/356（adjacent.raw）；`tsc --noEmit` 0 错；全仓 lint 3385 文件 0/0/0；
   `check:docs` PASS；`git diff --check` 干净。覆盖率/例数未设门槛；不标 done。
 - 判例: vitest4 `-t` 含 ASCII 括号零匹配全 skipped exit 0；GameplayClock 回退重锚真值；biome
@@ -153,3 +153,9 @@ Reforge 世界生命周期必须由显式 typed owner 和可取消事务驱动�
 只写本卡测试、合法 typed fixture、证据与本卡回执；禁止改产品/schema/API/旧测/config/baseline/真实数据，禁止私有 state、__rf*、核心 mock、强转、skip、ignore、扩大 timeout 或剧情后门。
 反控必须绿→指定业务红→恢复绿、恰一业务 AssertionError、完整执行集/hash/清理证明；交付定向/相邻 test、typecheck、lint 0/0/0、docs、git diff --check 和完整 SHA。覆盖率/例数不是完成条件，不得标 done，等待 Codex 独立验收。
 ```
+
+## Codex 独立验收与收口（2026-10-05）
+
+- 独立复跑：3 个新增文件 4/4 通过；4 针反控全部 VALID，指定业务红、恢复绿、源文件哈希一致。
+- 独立质量门：Reforge typecheck 通过；集成全仓 lint 3413 files、0/0/0；docs check 0 issues；git diff --check 通过。
+- `SceneResources` 不可达防御分支保持 unreachable 登记，未为非法输入伪造测试；结论：合入 main，任务归档为 done。

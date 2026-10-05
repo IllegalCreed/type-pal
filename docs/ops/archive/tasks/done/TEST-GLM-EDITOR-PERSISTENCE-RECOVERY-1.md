@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 — project persistence, recovery and history contracts
 
-Status: build
+Status: done
 Phase: phase2
 Capability: editor / project persistence, recovery and history
 Coding Owner: GLM
@@ -11,7 +11,7 @@ Visual Verification Timing: dev-functional
 Contributor: GLM
 Branch: `codex/glm-editor-persistence-recovery-r1`
 
-> 当前采用 [`AGENTS.md`](../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”模式。覆盖率、测试数量和通过率都不是本卡的单独完成条件。
+> 当前采用 [`AGENTS.md`](../../../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”模式。覆盖率、测试数量和通过率都不是本卡的单独完成条件。
 
 ## 目标
 
@@ -76,7 +76,7 @@ Editor 的 canonical 工程保存必须是可验证、可恢复、可重放的�
 
 ## 验收条件
 
-测试任务另核[统一质量标准](../agent-workflow.md)：原子业务合同、合法 typed 输入、真实 caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率 accept。
+测试任务另核[统一质量标准](../../../agent-workflow.md)：原子业务合同、合法 typed 输入、真实 caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率 accept。
 
 - 功能:
   - 建立 persistence/history family ledger，逐合同记录 source/caller/input/oracle/fullName/旧测差异；重复、无业务 oracle、不可合法输入必须登记而非凑数；
@@ -113,7 +113,7 @@ Editor 的 canonical 工程保存必须是可验证、可恢复、可重放的�
 
 **交付结论：五族饱和档案，零新增测试、零产品改动。** 按本卡 Draft「若一族已饱和，只写
 existing-proof，不新增包装测试」与 AGENTS.md（2026-10-03 测试少而精），本轮不造换包装用例；
-证据只放 [`docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/`](../evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md)。
+证据只放 [`docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/`](../../../evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md)。
 
 ### 方法与核心证据
 
@@ -186,3 +186,9 @@ existing-proof，不新增包装测试」与 AGENTS.md（2026-10-03 测试少而
 `node docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/run-evidence.mjs`）。
 Codex 若按 `branch-inventory.json`/`coverage-fullsuite.json` 行号指认出真实业务缺口，开返工指令
 由 GLM 按「反控申报」节补合同与三态反控。
+
+## Codex 独立验收与收口（2026-10-05）
+
+- 独立复跑：directed fresh 52 文件、823/823 全绿；重新执行饱和档案脚本后结果一致。
+- 独立质量门：Editor typecheck 通过；集成全仓 lint 3413 files、0/0/0；docs check 0 issues；git diff --check 通过。
+- 结论：五族逐 fullName×caller×input×oracle 排重足以证明 existing-proof，本卡不新增弱测；归档为 done。

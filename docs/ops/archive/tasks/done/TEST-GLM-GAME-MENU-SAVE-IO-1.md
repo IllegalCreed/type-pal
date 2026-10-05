@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-MENU-SAVE-IO-1 — menu, input and save boundary contracts
 
-Status: build
+Status: done
 Phase: phase1
 Capability: game / menu, input and save IO
 Coding Owner: GLM
@@ -11,7 +11,7 @@ Visual Verification Timing: e2e-deferred
 Contributor: GLM
 Branch: `codex/glm-game-menu-save-io-r1`
 
-> 当前采用 [`AGENTS.md`](../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”模式。覆盖率、测试数量和通过率都不是本卡的单独完成条件。
+> 当前采用 [`AGENTS.md`](../../../../../AGENTS.md) 的“Codex 分派—贡献者执行—Codex 独立验收”模式。覆盖率、测试数量和通过率都不是本卡的单独完成条件。
 
 ## 目标
 
@@ -70,13 +70,13 @@ Branch: `codex/glm-game-menu-save-io-r1`
 
 - 已拍板决策 / 铁律: `AGENTS.md` 当前委派协议、测试少而精与零诊断门；`CLAUDE.md` 第一阶段忠实与真实输入规则。
 - 代码锚点(`file:line`): `packages/game/src/shell/input.ts`；`packages/game/src/core/menu/menu-driver.ts`、`menu-mode.ts`、`menu-stack.ts`；`packages/game/src/core/menu/save-slot-menu.ts`；`packages/game/src/core/save/api.ts`；`packages/game/src/core/save/indexed-db.ts`；`packages/game/src/tools/save-io.ts`；`packages/game/src/tools/quick-save.ts`。
-- 已知坑 / 审计文档: [`docs/phase1/engineering-notes.md`](../../phase1/engineering-notes.md) 的输入/菜单/存档条目；[`docs/phase1/game-mechanics.md`](../../phase1/game-mechanics.md) 的资源与状态边界；已归档 `TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1`、`TEST-GLM-GAME-DIALOGUE-PAGINATION-1`、菜单 leaf/pixel 卡。
+- 已知坑 / 审计文档: [`docs/phase1/engineering-notes.md`](../../../../phase1/engineering-notes.md) 的输入/菜单/存档条目；[`docs/phase1/game-mechanics.md`](../../../../phase1/game-mechanics.md) 的资源与状态边界；已归档 `TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1`、`TEST-GLM-GAME-DIALOGUE-PAGINATION-1`、菜单 leaf/pixel 卡。
 - 不得重新引入: 第一阶段与 Reforge 串台、菜单形态自创、数组位置当身份、写真实用户存档、全局 fake IndexedDB、私有 debug state、弱断言和重复包装。
 - 相关测试: `packages/game/src/shell/input.test.ts`、`input.boundaries.test.ts`、`packages/game/src/core/menu/**/*.test.ts`、`packages/game/src/core/save/__tests__/api.test.ts`、`packages/game/src/tools/save-io.test.ts`、`quick-save.test.ts`。
 
 ## 验收条件
 
-测试任务另核[统一质量标准](../agent-workflow.md)：原子业务合同、合法 typed 输入、真实 caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率 accept。
+测试任务另核[统一质量标准](../../../agent-workflow.md)：原子业务合同、合法 typed 输入、真实 caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率 accept。
 
 - 功能:
   - 逐合同 ledger 写清 source/caller/input/oracle/fullName/最近旧测差异；同 caller 同 oracle 只登记 existing-proof；不可合法构造写 blocked/unreachable 理由；
@@ -139,7 +139,7 @@ Branch: `codex/glm-game-menu-save-io-r1`
 **结论：348 条旧 fullName 全量排重后补 8 条真实未证明合同（3 个新测试文件），反控 8/8
 VALID（每针红相位 failed-total 恰 1 且首条失败为业务 AssertionError），全门通过；不请求
 done，等待 Codex 独立验收。** 逐合同排重账（NEW/REG/U/BLOCKED 四类 + 3 判例）见
-[evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md)。
+[evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md](../../../evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md)。
 
 ### 交付物（全部本卡白名单新增，零产品/旧测/配置/baseline/真实存档与提取数据改动）
 
@@ -166,7 +166,7 @@ done，等待 Codex 独立验收。** 逐合同排重账（NEW/REG/U/BLOCKED 四
 每针源码单点变异（find 恰 1 次）→ 定向文件全量跑：红 exit≠0 + 目标合同业务 AssertionError
 + failed-total 恰 1；恢复 sha256 与原始一致（sourceRestoredByteIdentical），复绿 8/8。
 raw JSON+log、identity 逐相位 sha 落
-[evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/](../evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/)
+[evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/](../../../evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/)
 （mutation-logs 的 `*.log` 受 .gitignore 约束已 `git add -f`）。
 
 判例：① MUT-01 初版"menu case 加跑 tickSceneSystem"双绿空转 — scene-system.ts:584 有
@@ -202,3 +202,10 @@ identity/mutation-logs/inventory-vitest-list），再核：
    data/extracted 软链与 data/raw MKF 软链）。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+## Codex 独立验收与收口（2026-10-05）
+
+- 独立复跑：3 个新增文件 8/8 通过；8 针反控全部 VALID，指定业务红、恢复绿、源文件字节恢复一致。
+- 独立质量门：Game typecheck 通过；集成全仓 lint 3413 files、0/0/0；docs check 0 issues；git diff --check 通过。
+- U-1 `parseImportedSave` 未校验 version、B-1 IndexedDB 分支受环境约束均按卡面登记，未夹带产品修复。
+- 结论：合同原子性、真实 caller/oracle、排重账与反控判别力满足门禁，合入 main，任务归档为 done。
