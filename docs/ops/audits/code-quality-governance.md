@@ -161,22 +161,23 @@ cov85/GLM/runtime-context、anim/death-fade/dialog/settlement/finalization calle
 protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3s 只关闭 battle-system 与四个直接 lifecycle oracle，
 battle-opcodes、其它 actions/present、save 及账本剩余 2,753 个待核记录仍未关闭。
 
-Q3t 已完成高风险 `battle-opcodes.ts` 逐文件核验：1528 行实现与主/coverage/GLM opcode tests、summon slot reuse、
-cross-module、actions、magic-damage、throw-item、coop-magic、anim-timeline callers/tests 全文读取；逐段对照
+Q3t 已完成高风险 `battle-opcodes.ts` 生产实现逐文件核验：1528 行实现与主/coverage/GLM opcode tests、summon slot reuse、
+cross-module、actions、magic-damage、throw-item、coop-magic、anim-timeline caller 运行结果逐段对照
 `script.c`/`fight.c`/`battle.c`、`runScript` battle caller 与 `BattleCtx` ownership。目标/状态/伤害/毒、召唤/分裂/变身/
 逃跑、动画/偷窃/战斗结果和 `consumed/newIp` 均有直接证据，未发现直接缺陷；0x2E 的 `>=` 是既有
 `game-mechanics.md` 记录的原版后期产品决策，不回改为 SDL 的 `>`。定向/相邻 470 tests、完整 check、official
-ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3t 关闭 5 条账本记录（1 个 product + 4 个 test），
-当前账本为 2,964 条：已闭合 211、已读待审 5、尚未逐文件核验 2,748；其余 battle actions/present、save 及其它
-pending 文件仍未完成，不得宣布全仓治理收口。
+ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3t 只关闭 1 条 product 账本记录，4 个专属测试
+记录因尚未全文读取保留 `review`，因此不能标记 done。当前账本为 2,964 条：已闭合 211、已读待审 9、尚未逐文件核验
+2,744；其余 battle actions/present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
 
-Q3u 已完成 `battle-state.ts`、`battle-runtime-context.ts`、`battle-positions.ts` 三个基础文件逐文件核验：918/98/93
-行实现与 state/runtime/finalization/animation 相邻 tests 全文读取，逐段对照 `battle.h`/`global.h`/`battle.c`/`fight.c`
+Q3u 完成 `battle-state.ts`、`battle-runtime-context.ts`、`battle-positions.ts` 三个基础文件的生产实现核验：918/98/93
+行实现与 state/runtime/finalization/animation 相邻 tests 运行结果逐段对照 `battle.h`/`global.h`/`battle.c`/`fight.c`
 及 `battle-system`/`battle-finalization` callers。BattleState 快照/phase/UI/空槽/对象身份、runtime resource/runner
 ownership 与清理、玩家/敌人位置表和 y offset/fallback 均有直接证据，未发现直接缺陷。定向/相邻 55 tests、完整 check、
 official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3u 关闭 7 条账本记录（3 个 product + 4 个
-test），当前账本为 2,964 条：已闭合 218、已读待审 5、尚未逐文件核验 2,741；battle actions/present、save 及其它
-pending 文件仍未完成，不得宣布全仓治理收口。
+test）中的新增记录实际为 5 条（2 个 product + 3 个 test）；`battle-positions.ts` 与 `battle-runtime-context.test.ts`
+沿用 Q3m/Q3s 历史核验，不重复计数。当前账本仍为 2,964 条：已闭合 211、已读待审 9、尚未逐文件核验 2,744；battle
+actions/present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
 
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →

@@ -20,7 +20,7 @@ SDLPal `battle.h`/`global.h`/`fight.c`/`battle.c` primary source、真实 battle
 
 ## 范围
 
-- 范围内：上述 3 个实现文件、其直接工厂/清理/动画/inspect caller，以及 `battle-state`、`battle-runtime-context`、`battle-positions` 专属测试和必要 cross-module oracle。
+- 范围内：上述 3 个实现文件、其直接工厂/清理/动画/inspect caller，以及 `battle-state`、`battle-runtime-context`、`battle-positions` 专属测试和必要 cross-module oracle；其中 `battle-positions.ts` 已在 CODE-QUALITY-3m 登记，`battle-runtime-context.test.ts` 已在 CODE-QUALITY-3s 登记，本卡只做相邻复核，不重复关闭。
 - 范围外：`battle-system.ts`（CODE-QUALITY-3s 已关闭）、`battle-opcodes.ts`（CODE-QUALITY-3t 已关闭）、公式/magic/status/queue、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。
 - 明确不做：不改玩家/敌人容量、坐标常量或 BattleState 公共字段；若发现产品行为需变更，停线交用户裁决。
 
@@ -62,7 +62,7 @@ BattleState 必须是每场战斗独立且可清理的工作状态，runtime con
 
 ## 逐段证据与结论（2026-10-05 Codex）
 
-已读取 3 个实现文件共 1109 行、直接 owner/caller 与 primary source 对应段，以及 4 个直接测试文件共 619 行；未改实现。
+已读取 3 个实现文件共 1109 行、直接 owner/caller 与 primary source 对应段，以及 4 个本卡新增直接测试文件共 619 行；`battle-positions.ts` 与 `battle-runtime-context.test.ts` 的历史核验沿用原卡，不重复计数；未改实现。
 
 | 实现段 | 责任 / owner | primary source 与真实 caller | 定向 oracle / 结论 |
 |---|---|---|---|
@@ -74,7 +74,7 @@ BattleState 必须是每场战斗独立且可清理的工作状态，runtime con
 | `battle-runtime-context.ts:1-98` | BattleResources 只读表、GameState 隐藏 stash、runner override、live-role identity、finalize release | `battle.c:1741-1754,1838-1857` 的战斗资源/cleanup 生命周期；`battle-system.ts:324-344`、`battle-finalization.ts:63` | `battle-runtime-context.test.ts` + `battle-finalization.test.ts`；精确 identity、runner 优先级、清理后 fallback/hidden-field 语义均通过，无直接反例 |
 | `battle-positions.ts:1-93` | 3 人玩家固定布局、敌方 EnemyPos 选择、yPosOffset、fallback 与越界 undefined | `battle.c:900-907,934-943`、`global.h:395-404`；`createBattleState` caller | state positions tests；1/2/3 player 坐标、EnemyPos count-1 layout、offset、fallback 与独立 pos copy 均有 oracle；输入合法域由 `EnemyTeam` 5-tuple + `startBattle` 固定 5 槽守住 |
 
-定向实测：7 个 test files、55 tests 全绿（state 主/GLM、runtime context、finalization、battle anim driver/integration、cross-module）。测试包含 >3 player、未知 role、null 空槽、对象身份/满血快照、缺 EnemyPos、y offset、资源清理、runner override 和 post-battle resume 反例；不以数量或覆盖率单独验收。
+定向实测：7 个 test files、55 tests 全绿（state 主/GLM、runtime context、finalization、battle anim driver/integration、cross-module）；其中本卡新增直接测试全文核验为 state 主/GLM 与 finalization 3 个，runtime context test 仅沿用 Q3s 历史核验。测试包含 >3 player、未知 role、null 空槽、对象身份/满血快照、缺 EnemyPos、y offset、资源清理、runner override 和 post-battle resume 反例；不以数量或覆盖率单独验收。
 
 本批未发现直接缺陷。`createBattleState` 的敌人输入在生产 caller 由 `EnemyTeam` 的 5-tuple 和 `startBattle` 的固定五槽循环约束；不凭内部 factory 的宽数组签名新增第二套容量规则。
 
@@ -97,7 +97,7 @@ BattleState 必须是每场战斗独立且可清理的工作状态，runtime con
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验：`accept`（Codex 完成 3 个实现文件逐段读证与 55 个定向/相邻测试）。
+- 贡献者交付与自验：`accept`（Codex 完成 3 个实现文件逐段读证；本卡新增直接测试为 3 个全文核验，另有历史记录复用）。
 - Codex 独立复核：`accept`（全仓 check、official ratchet、protected fast、Biome 零诊断及账本/治理正文均已完成）。
 - 用户体验/产品验收：N/A（纯状态/资源/位置合同）。
 - done 准入结论：`accept`。
@@ -109,7 +109,7 @@ BattleState 必须是每场战斗独立且可清理的工作状态，runtime con
 - `pnpm coverage:ratchet`：consolidated 726 files / 19,285 tests；statements 88.89% (68812/77410)，branches 82.67% (49777/60209)，functions 88.59% (13032/14710)，lines 90.80% (61540/67775)；baseline unchanged。
 - `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：同一 consolidated metrics；coverage gate passed，0 improvements，未下降。
 - 文档/静态：`node scripts/docs/check.mjs --json` 0 issues，`git diff --check` 通过；未修改实现文件、schema/save、生成物或 UI。
-- 结论：3 个实现文件全文完成逐文件核验，未发现直接缺陷；账本只关闭本卡列出的 7 条记录，不能外推为全仓治理完成。
+- 结论：3 个实现文件均有核验记录，但 `battle-positions.ts` 与 runtime context 测试为历史已闭合记录；本卡新增并关闭 5 条记录（2 个 product + 3 个 test），不能外推为全仓治理完成。
 
 ## 交接日志
 
@@ -119,5 +119,5 @@ BattleState 必须是每场战斗独立且可清理的工作状态，runtime con
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent 提示词，Q3u 已由 Codex 独立验收并归档；全仓逐文件治理仍未完成，继续从账本 pending 记录开下一张不重叠卡。
+无下一位 Agent 提示词，Q3u 已由 Codex 独立验收并归档；本卡未重复关闭 Q3m/Q3s 已有记录，全仓逐文件治理仍未完成。
 ```
