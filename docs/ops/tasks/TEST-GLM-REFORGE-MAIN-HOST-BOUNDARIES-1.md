@@ -53,20 +53,37 @@ Visual Verification Timing: dev-functional
   把 onEnter 段 body 无条件投影为 `[]`，walk 永远找不到 startBattle 命令；调试靴实证遭遇台词零呈现。
   本卡白名单不含 main.ts，未越界修复。
 - **反控 5/5 PASS**（mt1 r2 严格口径，counterproof.json + counterproof-raw/ identity TSV）：
-  全量执行集（8778 测试）逐相位落盘；每针红相位 exit 1、恰 1 指定业务 AssertionError、fullName
-  精确相等、零 pending/todo/collection-error；恢复绿与 final-replay identity 集合 sha256 与
-  baseline 一致；四态源 hash/argv/env/mkdtemp finally 全记；runner 自测 11 例先行。再生：
-  `node packages/reforge/scripts/mhb1-mutation-counterproof.mjs`。
+  全量执行集（8778 测试/778 文件，identity 集合 sha256 `fb7c2a9a…`）逐相位落盘；每针红相位
+  exit 1、恰 1 指定业务 AssertionError、fullName 精确相等、零 pending/todo/collection-error；
+  恢复绿与 final-replay identity 集合 sha256 与 baseline 一致；四态源 hash/argv/env/mkdtemp
+  finally 全记；runner 自测 11 例先行；尾步 biome format 回执。再生：
+  `node packages/reforge/scripts/mhb1-mutation-counterproof.mjs`。换针披露：MHB-SAVE-FAIL 首选
+  「写队列毒化」变异会连带打红 checkpoint-export.chain 两条既有合同（共享写序/计数面，3 failed
+  不满足恰一红），预核本卡测试同变异下业务红后，正式针换为独占的 `存档失败` 回执移除。
 - **门**：定向 5/5；相邻 49 文件 300/300；Reforge 全量 8778/8778；typecheck exit 0；全仓 lint
-  3461 文件 0/0/0；`git diff --check` 干净；docs check 于 counterproof.json 落盘后复跑 PASS。
+  3462 文件 0/0/0；`git diff --check` 干净；docs check PASS（0 issues）。raw 见
+  [gates/](../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/gates/)。
   覆盖率/例数未设门槛；不标 done，等待 Codex 独立验收。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（Codex 独立验收）
 
 ```text
-你是 TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 的 Coding Owner（GLM）。先读 AGENTS.md、docs/phase2/READ-FIRST.md、phase1-knowledge-harvest、本卡和 HOST-LIFECYCLE、RUNTIME-SESSION、WORLD-LIFECYCLE、MOTION-TRANSITION、BATTLE-CORE/SESSION 归档卡。
-只在 codex/glm-reforge-main-host-boundaries-r1 工作；先对 main.ts 及 runtime-frame-session/runtime-input-router/scene-entry-session/world-async-commit 的真实组合 caller 做 fullName×legal input×oracle 排重。
-重点审计 scene enter/leave、script continuation/abort、save/readback、world mutation、battle trial public done/error、stale async 与 cleanup；不得重复已收口合同或读取私有 state/visual/__rf*。
-只写本卡测试、合法 fixture、证据和回执；禁止产品/schema/API/旧测/config/baseline/真实数据、核心 mock、强转、skip、ignore、扩 timeout。反控必须严格三态、完整 identity/hash/清理证明；无新合同就交饱和档案。
-交付定向/相邻 test、typecheck、lint 0/0/0、docs、diff 和完整 SHA。覆盖率/例数不是完成条件，不得标 done。
+你是 TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 的独立验收方（Codex）。先读本卡「GLM 交付回执
+（r1）」节与 docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/（README/dedup-ledger/
+counterproof.json + counterproof-raw/ + gates/）。候选分支 codex/glm-reforge-main-host-boundaries-r1
+（基 origin/main cb12a63e2，产品零 diff）。重点复核：
+1) 排重裁决抽查：MHB-ENTRY-REVEAL-1 与 frame-animation-owner「scene commit 清 cinematic」的
+   caller/oracle 区分是否成立（本卡是 entry 契约链：sceneEntrySession.begin→fade-out→提交→
+   runSceneEntry 揭幕→正文）；MHB-TRIAL 族与 H9（__reforge.startBattle dev 口）的边界；
+   MHB-SAVE-FAIL-1 与 H5 成功臂计数、checkpoint-export.chain 写序面的非重叠。
+2) D-1 产品缺陷裁决：?battle-scene= walk 消费 getSceneDef 投影而投影 body 恒空
+   （main.ts:5862 + runtime-project-view.ts:97-111/163-173），choreography 永不接线——
+   确认缺陷归属并决定修复卡（测试卡未越界修产品）。
+3) 反控复跑：node packages/reforge/scripts/mhb1-mutation-counterproof.mjs（应 5/5 PASS、
+   回执再生后 biome 尾步格式化与落盘一致）；核对 identity TSV 执行集、四态 hash、自测 11 例、
+   mkdtemp 清理；换针披露（写队列毒化针 3 红连带既有合同）是否可接受。
+4) 门禁复跑：定向 1 文件 5/5、相邻 49 文件 300/300、全量 reforge 8778/8778、
+   pnpm --filter @type-pal/reforge run typecheck、pnpm lint、node scripts/docs/check.mjs、
+   git diff --check。
+裁决 accept/counter/rework；未验收前不合 main、不标 done。
 ```

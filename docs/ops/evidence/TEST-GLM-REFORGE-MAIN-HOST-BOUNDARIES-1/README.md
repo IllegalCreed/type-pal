@@ -14,10 +14,16 @@
 
 ## 反控结果
 
-见 [counterproof.json](counterproof.json)（再生：`node packages/reforge/scripts/mhb1-mutation-counterproof.mjs`）。
-每针：原始绿 → 指定业务红（全量恰 1 failed、fullName 精确相等、唯一 AssertionError、
-console 原文旁证）→ 字节恢复绿（identity 集合 sha256 与 baseline 一致）→ 四态源 hash；
-runner 自测 11 例先行；mkdtemp 临时树 finally 移除。
+见 [counterproof.json](counterproof.json)（再生：`node packages/reforge/scripts/mhb1-mutation-counterproof.mjs`，
+尾步自动 biome format 回执）。**5/5 PASS**：baseline 全量 8778 测试/778 文件（identity 集合
+sha256 `fb7c2a9a…`）；每针红相位 exit 1、全量恰 1 failed 且 fullName 精确等于目标合同、唯一
+指定 AssertionError（console 原文旁证）；恢复绿与 final-replay 的 identity 集合 sha256 与
+baseline 一致；四态源 hash/argv/env/mkdtemp finally 全记；runner 自测 11 例先行。
+
+针选择披露（首轮 → 二轮）：MHB-SAVE-FAIL 首选「写队列毒化」变异（`saveWriteQueue = scheduled`）
+会把 checkpoint-export.chain 的两条既有合同（写序/计数面）一并打红（3 failed），不满足恰一红口径；
+预核（工作树手工变异，已字节还原）确认本卡测试在毒化变异下同样业务红后，正式针换为独占的
+`存档失败` 回执移除（`main.ts:4906`）。首轮 raw 已被二轮重生成覆盖，换针理由以 runner 内注释为准。
 
 ## 环境清理
 

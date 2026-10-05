@@ -76,7 +76,7 @@ const injections = [
     // 存档失败公开回执被移除。注：写队列毒化变异(saveWriteQueue = scheduled)会连带打红
     // checkpoint-export.chain 的两条既有合同(共享写序/计数面)，不满足恰一红口径；本针独占
     // 打红本卡回执腿，队列/计数腿由测试断言本身与该预核记录共同覆盖。
-    mutate: () => "  /* mhb1-mutant: save failure receipt removed */",
+    mutate: () => '  /* mhb1-mutant: save failure receipt removed */',
     expectedTest: 'MHB-SAVE-FAIL-1',
     expectedErrorPart: 'expected false to be true',
   },
@@ -577,6 +577,12 @@ try {
   }
   const outPath = path.join(evidenceDir, 'counterproof.json')
   await writeFile(outPath, `${JSON.stringify(receipt, null, 2)}\n`)
+  // 尾步（bcs1 先例）：回执过 biome format，重跑可字节复现。
+  spawnSync('pnpm', ['exec', 'biome', 'format', '--write', path.relative(repoRoot, outPath)], {
+    cwd: repoRoot,
+    encoding: 'buffer',
+    maxBuffer: 64 * 1024 * 1024,
+  })
   if (!allPass)
     throw new Error(
       `反控存在未过项: ${JSON.stringify(
