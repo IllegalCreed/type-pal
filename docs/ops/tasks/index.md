@@ -13,7 +13,10 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-GAME-EVENT-STATE-OPCODES-1 — event state and opcode business contracts](TEST-GLM-GAME-EVENT-STATE-OPCODES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-MIGRATE-ASSET-SUPPLY-1 — asset supply, ownership and publication boundaries](TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 — battle core and session business contracts](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
