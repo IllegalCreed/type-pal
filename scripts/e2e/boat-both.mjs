@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { compareBoatObservations, summarizeBoatMotion } from './boat-observations.mjs'
 import { repoRoot } from './browser-journey.mjs'
-import { compareNpcStateTraces, readNpcTrace } from './npc-transition-contract.mjs'
+import { canonicalPosition, compareNpcStateTraces, readNpcTrace } from './npc-transition-contract.mjs'
 
 const args = process.argv.slice(2)
 const value = (name) => {
@@ -53,6 +53,35 @@ const npcTransitions = compareNpcStateTraces(
   scopeArrivalDialogue(reforgeNpc.trace),
   '006',
 )
+const e59DialogueWindow = (trace) => {
+  const pages = (trace.pages ?? []).filter(
+    (page) => page.scene === 's003' && page.page && page.actors?.e59?.visible,
+  )
+  assert(pages.length > 0, '006 e59 dialogue window is missing')
+  const positions = pages.map((page) => page.actors.e59.position)
+  const canonical = positions.map(canonicalPosition)
+  const uniquePositions = new Set(canonical.map((position) => JSON.stringify(position)))
+  const facings = [...new Set(pages.map((page) => page.actors.e59.facing))]
+  return {
+    pageCount: pages.length,
+    positions: canonical,
+    stablePosition: uniquePositions.size === 1,
+    facings,
+    facedLeft: facings.includes('left'),
+    canonicalPosition: canonical[0],
+  }
+}
+const e59DialogueEvidence = {
+  game: e59DialogueWindow(gameNpc.trace),
+  reforge: e59DialogueWindow(reforgeNpc.trace),
+}
+const e59DialogueHoldVerified =
+  e59DialogueEvidence.game.stablePosition &&
+  e59DialogueEvidence.reforge.stablePosition &&
+  e59DialogueEvidence.game.facedLeft &&
+  e59DialogueEvidence.reforge.facedLeft &&
+  JSON.stringify(e59DialogueEvidence.game.canonicalPosition) ===
+    JSON.stringify(e59DialogueEvidence.reforge.canonicalPosition)
 const acceptedNpcRationales = new Map([
   [
     'actor-field:e35:facing',
@@ -103,6 +132,20 @@ const acceptedNpcRationales = new Map([
     'e123 includes different pre-interaction placement sampling; both traces complete the same dialogue and hide state.',
   ],
 ])
+if (e59DialogueHoldVerified) {
+  acceptedNpcRationales.set(
+    'actor-field:e59:facing',
+    'e59 has the same left-facing dialogue window on both traces; the extra right/up samples are pre-interaction setup before explicit take and left turn.',
+  )
+  acceptedNpcRationales.set(
+    'movement-count:e59:',
+    'e59 has a stable identical canonical dialogue position on both traces; the count difference is pre-dialogue pixel/subtile sampling after the same authored endpoint.',
+  )
+  acceptedNpcRationales.set(
+    'movement-path:e59:',
+    'e59 has a stable identical canonical dialogue position on both traces; the extra path directions are pre-dialogue coordinate sampling, not movement during speech.',
+  )
+}
 const findingKey = (finding) => `${finding.type}:${finding.id ?? ''}:${finding.field ?? ''}`
 const reviewedNpcFindings = []
 const unresolvedNpcFindings = []
@@ -132,6 +175,7 @@ await writeFile(
         boundary: 'island arrival; observed dialogue differences remain unresolved',
         facing: { game: game.boatMotion.rideFacings, reforge: reforge.boatMotion.rideFacings },
         sampling: { game: game.boatMotion.samples, reforge: reforge.boatMotion.samples },
+        e59DialogueEvidence,
       },
     },
     null,
