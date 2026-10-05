@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-asset-lifecycle/packages/editor
+
+ ✓ src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx (5 tests | 4 skipped) 45ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 4 skipped (5)
+   Start at  22:15:41
+   Duration  2.38s (transform 1.49s, setup 0ms, import 1.83s, tests 45ms, environment 399ms)

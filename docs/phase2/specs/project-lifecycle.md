@@ -117,7 +117,7 @@ post fingerprint，再与落盘实值精确比较。若操作中断，只在 liv
 ### 保存中断恢复与复制读边界（A-03，2026-09-13 已验收）
 
 实施/测试见[EDITOR-SAVE-RECOVERY-1](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)，
-候选 cd3de679 已三席终审及用户验收通过；性能与集中 E2E 剩余边界见[收口记录](../../testing/editor-save-recovery-closeout.md)。
+候选 cd3de679 已三席终审及用户验收通过；性能与集中 E2E 剩余边界见[收口记录](../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)。
 普通保存、空白/HTTP 首存、PAL 克隆与另存为共用同一持久协调器：完整目标字节、删除和空目录
 先落私有暂存并回读校验，原浏览器的真实句柄/身份凭据封为 ready 后，才能发布 pending 并写作者路径。
 清理失败与内容未保存分开反馈；恢复只重放已封存计划，不依赖旧页面回调或再次访问复制源。
@@ -130,7 +130,7 @@ ZIP 仅排除根 `.type-pal/save-recovery` 暂存子树，保留 committed 状�
 
 ### 未保存修改的离开保护（A-07，2026-09-13 已收口）
 
-[A-07 验证](../../testing/editor-leave-guard.md)已三席终审，用户授权收口。新建/打开前统一检查主编辑与脚本两份session；
+[A-07 验证](../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)已三席终审，用户授权收口。新建/打开前统一检查主编辑与脚本两份session；
 有未保存修改时选择取消、明确放弃或先保存。取消/失败保留原会话与历史，异步完成后重验当前请求和修改版本。
 “已保存后继续”与“放弃修改”绑定各自点击选择，不能因后台新修改而互相解释；继续打开必须重新点击启动选夹。
 另存为后若原会话又有新修改，保留原会话并告知副本已保存，不丢弃这些新修改。新建/打开/保存/另存/导出统一同步互斥。

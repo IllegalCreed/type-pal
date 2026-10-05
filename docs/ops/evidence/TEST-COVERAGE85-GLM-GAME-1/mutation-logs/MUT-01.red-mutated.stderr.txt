@@ -19,4 +19,3 @@ AssertionError: expected 1 to be +0 // Object.is equality
     272|     expect(events[0]).toMatchObject({ value: 999, color: 'blue' })
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

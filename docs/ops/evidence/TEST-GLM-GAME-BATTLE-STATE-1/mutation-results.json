@@ -1,0 +1,2443 @@
+{
+  "card": "TEST-GLM-GAME-BATTLE-STATE-1",
+  "generatedAt": "2026-10-04T18:34:50.452Z",
+  "testFile": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+  "mutationPointsFile": "mutation-points.json",
+  "filesTouched": [
+    "packages/game/src/core/battle/battle-system.ts",
+    "packages/game/src/core/battle/enemy-ai.ts",
+    "packages/game/src/core/battle/battle-settlement.ts",
+    "packages/game/src/core/battle/battle-progression.ts"
+  ],
+  "cleanupProof": {
+    "allFilesRestoredToOriginal": true,
+    "files": [
+      {
+        "file": "packages/game/src/core/battle/battle-system.ts",
+        "restored": true,
+        "shaAfter": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f"
+      },
+      {
+        "file": "packages/game/src/core/battle/enemy-ai.ts",
+        "restored": true,
+        "shaAfter": "sha256:32582a364d7022b415bc74e5c7094f3a504388da71cfaf6c2e3a5beeee4dc912"
+      },
+      {
+        "file": "packages/game/src/core/battle/battle-settlement.ts",
+        "restored": true,
+        "shaAfter": "sha256:881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6"
+      },
+      {
+        "file": "packages/game/src/core/battle/battle-progression.ts",
+        "restored": true,
+        "shaAfter": "sha256:6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1"
+      }
+    ],
+    "logsWritten": 60
+  },
+  "envSnapshot": {
+    "COMMAND_MODE": "unix2003",
+    "HOME": "/Users/zhangxu",
+    "LOGNAME": "zhangxu",
+    "MACH_PORT_RENDEZVOUS_PEER_VALDATION": "1",
+    "MallocNanoZone": "0",
+    "PATH": "/Users/zhangxu/.antigravity-ide/antigravity-ide/bin:/Users/zhangxu/.grok/bin:/Users/zhangxu/.kimi-code/bin:/Users/zhangxu/.antigravity/antigravity/bin:/Users/zhangxu/.local/bin:/Users/zhangxu/.pyenv/shims:/opt/homebrew/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Users/zhangxu/.cargo/bin:/Users/zhangxu/.nvm/versions/node/v22.23.2/bin:/Users/zhangxu/bin:/Users/zhangxu/Library/Android/sdk/platform-tools:/Users/zhangxu/Library/Android/sdk/emulator:/Applications/ZCode.app/Contents/Resources/tools/bfs:/Applications/ZCode.app/Contents/Resources/tools/ripgrep:/Applications/ZCode.app/Contents/Resources/tools/ugrep",
+    "SHELL": "/bin/zsh",
+    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.P8UEHOTVd0/Listeners",
+    "TMPDIR": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/",
+    "USER": "zhangxu",
+    "XPC_FLAGS": "0x0",
+    "XPC_SERVICE_NAME": "0",
+    "ZAI_BUSINESS_BASE_URL": "https://api.z.ai",
+    "ZAI_OAUTH_CLIENT_ID": "client_P8X5CMWmlaRO9gyO-KSqtg",
+    "ZAI_OAUTH_ORIGIN": "https://chat.z.ai",
+    "ZCODE_APP_VERSION": "3.14.4",
+    "ZCODE_BASE_URL": "https://zcode.z.ai",
+    "ZCODE_BUILD_COMMIT_ID": "10bbcea5",
+    "ZCODE_CUA_BUNDLED_HELPER_APP_PATH": "/Applications/ZCode.app/Contents/Resources/cua-helper/ZCode Computer Use.app",
+    "ZCODE_CUA_LAUNCHER_PID": "3349",
+    "ZCODE_DESKTOP_CONTEXT_PROMPT_ENABLED": "1",
+    "ZCODE_ENV": "production",
+    "ZCODE_PROCESS_LABEL": "local-1",
+    "ZCODE_RUNTIME_ENV": "production",
+    "__CFBundleIdentifier": "dev.zcode.app",
+    "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+    "TERM": "dumb",
+    "NVM_DIR": "/Users/zhangxu/.nvm",
+    "NVM_CD_FLAGS": "-q",
+    "JAVA_HOME": "/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home",
+    "ZCODE_BFS_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/bfs/bfs",
+    "ZCODE_RG_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/ripgrep/rg",
+    "ZCODE_UGREP_BINARY": "/Applications/ZCode.app/Contents/Resources/tools/ugrep/ugrep",
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "ZCODE_BUILTIN_PROVIDER_CONFIG_FILE": "/Users/zhangxu/.zcode/v2/runtime/provider/darwin-aarch64/3.14.4/endpoint-78d7c3bef4024722642626fe3669a799/zcode-builtin.json",
+    "ZCODE_PERSONAL_PROVIDER_CONFIG_FILE": "/Users/zhangxu/.zcode/v2/provider_config.json",
+    "LANG": "en_US.UTF-8",
+    "LC_CTYPE": "en_US.UTF-8",
+    "GIT_EDITOR": "true",
+    "SHLVL": "1",
+    "PWD": "/Users/zhangxu/illegal/type-pal",
+    "OLDPWD": "/Users/zhangxu/illegal/type-pal",
+    "NVM_BIN": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin",
+    "NVM_INC": "/Users/zhangxu/.nvm/versions/node/v22.23.2/include/node",
+    "_": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node"
+  },
+  "summary": {
+    "points": 10,
+    "valid": 10,
+    "allValid": true
+  },
+  "results": [
+    {
+      "id": "MUT-01",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:748-751(getPlayerActualDexterity 队列构建接线)",
+      "targetIt": "haste 状态队员行动 dex ×3 进队列",
+      "intent": "拔掉 queue 构建对 haste 状态的接线 → p0 失去 ×3,队列序不再 p0 首位",
+      "find": "haste: player.status.haste > 0,",
+      "replaceWith": "haste: false,",
+      "targetShaOriginal": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "mutatedSha": "sha256:4f9497ec89c5e1c03141e35ff7b6bd39acfe8b228b7ed74fc23ce98ae6aacf91",
+      "targetShaRestored": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected [ 'p1', 'p0', 'e0' ] to deeply equal [ 'p0', 'p1', 'e0' ]\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:251:80"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:c4c75b3cde72bd0f21298685451a275b80310ff7fe0c099db861bc25cd16ad65",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6205,
+            "sha256": "sha256:65240cd9b2c3b1bf6eed3f96fb2f5bd683a35511fcb3daac2ebf05cbfde2ac64",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-01-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-01-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7747,
+            "sha256": "sha256:2b2ede29e733876324c851c74479aa590543311f6e01daad046927e7b89faf7e",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-01-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-01-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: failed"
+          ],
+          "identitySha": "sha256:c4c75b3cde72bd0f21298685451a275b80310ff7fe0c099db861bc25cd16ad65",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)",
+              "messages": [
+                "AssertionError: expected [ 'p1', 'p0', 'e0' ] to deeply equal [ 'p0', 'p1', 'e0' ]\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:251:80\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6208,
+            "sha256": "sha256:8aab3b2f8de3f62066ed9308489ede337ba02deea9bb51d79ce61dd6a0aa6967",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-01-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-01-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-02",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2634-2644(DH3 known 未学门)",
+      "targetIt": "DH3 未学法术(rgwMagic 有数据但查无该 spell)",
+      "intent": "未学门恒真 → 未学法术照常施法(MP 扣、敌掉血方式改变)",
+      "find": "const known = !hasAnyMagicData || magicRows.some((row) => row[vRoleId] === action!.actionId)",
+      "replaceWith": "const known = true || magicRows.some((row) => row[vRoleId] === action!.actionId)",
+      "targetShaOriginal": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "mutatedSha": "sha256:3e841d65318381eb100d4997afb2febe69905f78ce54e37d30f1819e56e50689",
+      "targetShaRestored": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 25 to be 30 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:277:42"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:12d4a4db00426f2ba4e93e6aa04f6f166c1ef1def50c471d122d76a4af441583",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6206,
+            "sha256": "sha256:efe6c550d115b0c48644cd9fb656b64e6c7e45cf087ba1c733b0c4eab60fe208",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-02-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-02-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7718,
+            "sha256": "sha256:0bf78710d08cd25fc349b4a33843a9f0fe3c39c4465234831f6636f32276ff5b",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-02-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-02-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:12d4a4db00426f2ba4e93e6aa04f6f166c1ef1def50c471d122d76a4af441583",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)",
+              "messages": [
+                "AssertionError: expected 25 to be 30 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:277:42\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6206,
+            "sha256": "sha256:5e1b944b39a4744d5b0cca5447ae4d451dd02eca7ea9ffdaf77e3411d1800e34",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-02-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-02-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-03",
+      "file": "packages/game/src/core/battle/enemy-ai.ts",
+      "sourceAnchor": "enemy-ai.ts:119-121(DL7 silence 短路序)",
+      "targetIt": "DL7:被沉默敌仍消费一次魔法掷骰再落物理",
+      "intent": "silence 门恒真 → 被沉默敌掷骰过后走魔法分支(type 变 magic)",
+      "find": "&& (status?.silence ?? 0) === 0",
+      "replaceWith": "&& true",
+      "targetShaOriginal": "sha256:32582a364d7022b415bc74e5c7094f3a504388da71cfaf6c2e3a5beeee4dc912",
+      "mutatedSha": "sha256:2eb6d879645fd8f621fadb3f5cbdac0e81d76565b3bee9faac42e6054201eb4f",
+      "targetShaRestored": "sha256:32582a364d7022b415bc74e5c7094f3a504388da71cfaf6c2e3a5beeee4dc912",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 'magic' to be 'attack' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:326:33"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:7ab9b208124bceea42e0e0e12741e1cd86cbce17e6e9530f2f9002650be43781",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6203,
+            "sha256": "sha256:020a03255ac077758aad9aa2004083860e38e25c935c4163d0d7e8d6f869aa78",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-03-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-03-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7728,
+            "sha256": "sha256:cf0d19d14a16fdd1ad7e827519852b4b0216c6ab0d2bee75bc82436e24ef0373",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-03-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-03-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:7ab9b208124bceea42e0e0e12741e1cd86cbce17e6e9530f2f9002650be43781",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)",
+              "messages": [
+                "AssertionError: expected 'magic' to be 'attack' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:326:33\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6207,
+            "sha256": "sha256:ca6b269eb06b70b964cc189d637d32f730fa401d3f0de0b00f8c87b30f4b0bbe",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-03-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-03-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-04",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2526(scriptOnReady 返回值回写)",
+      "targetIt": "0x01 advance end → scriptOnReady 回写 end 行+1",
+      "intent": "拔掉 ready 侧回写 → 字段停在 1,show-once 失效",
+      "find": "enemy.scriptOnReady = runScript({",
+      "replaceWith": "void runScript({",
+      "targetShaOriginal": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "mutatedSha": "sha256:a95ec97bc6582916167c1c5fbf92cbdac03fec4f5c3d4cbadaaeef297b059387",
+      "targetShaRestored": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:352:42"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:82e72474765c6f49c85b39917596b2f24725d2c0f64bf412e7bf7e11118862b3",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6209,
+            "sha256": "sha256:fbcbd4f50db6efa7e84dc4900ec0662099d620209991b2d6dba52197b9874c1e",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-04-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-04-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7714,
+            "sha256": "sha256:76b8cd941370ddf7777a41d8d073f94ed7eb083997c2beeed2ccc45779875ee0",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-04-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-04-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:82e72474765c6f49c85b39917596b2f24725d2c0f64bf412e7bf7e11118862b3",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)",
+              "messages": [
+                "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:352:42\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6208,
+            "sha256": "sha256:f0d932348d28580f46bd3de5780c715198a393734a00d18824cceb9d17c6f6a0",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-04-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-04-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-05",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2818(E04 defend 经验)",
+      "targetIt": "defend action → rgDefenseExp.wCount += 2",
+      "intent": "防御经验改 0 → 隐藏经验池不再累积",
+      "find": "addHiddenExp('rgDefenseExp', 2)",
+      "replaceWith": "addHiddenExp('rgDefenseExp', 0)",
+      "targetShaOriginal": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "mutatedSha": "sha256:e447ec53b19b35b11e1fccb1d1b3115f6be3dc132eaeb51d5026a161c2934d73",
+      "targetShaRestored": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected +0 to be 2 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:364:44"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:d041bea9cee1927a23e37f2c0106c9bdcada909149b208c8fca4da3ad61689a2",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6209,
+            "sha256": "sha256:9253cf7266d7bd18bd2dfeb466b17c20fe02044fc820b052fdb2f73e0f81996a",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-05-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-05-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7716,
+            "sha256": "sha256:359fc0ac2334eee06ba840f481b973898aa5e56ed461013fbc04956b5f73f76f",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-05-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-05-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:d041bea9cee1927a23e37f2c0106c9bdcada909149b208c8fca4da3ad61689a2",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)",
+              "messages": [
+                "AssertionError: expected +0 to be 2 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:364:44\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6207,
+            "sha256": "sha256:8b6631bef611ba7c913d4742ce8561045babcf2588df0f0c6e88ae4e82994d11",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-05-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-05-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-06",
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "sourceAnchor": "battle-system.ts:2855-2861(E04 玩家施法经验)",
+      "targetIt": "玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1",
+      "intent": "施法经验掷骰改 0 → rgMagicExp 不累积",
+      "find": "addHiddenExp('rgMagicExp', state.rng.rangeInclusive(2, 3))",
+      "replaceWith": "addHiddenExp('rgMagicExp', 0)",
+      "targetShaOriginal": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "mutatedSha": "sha256:c2939fa6d3ecf9035e4193397ba04a562a2cbefc5c3f245832129c8b8c915dc7",
+      "targetShaRestored": "sha256:0053e3b53eeaca0c5e0dda96aa770c14d11f5ffaf33469121cab36c87b52a82f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 0 to be greater than or equal to 2\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:378:42"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:88cef3812a10e117ca38aaf863d54163db98c5e514b26b88b71180944f26dfd8",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6210,
+            "sha256": "sha256:be4e179ec6721e27190e3465eb85bdfe54722ffab5fd042b1b8615ff53e3e72b",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-06-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-06-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7715,
+            "sha256": "sha256:005304156f5fc6e7702d40e4f10d8d690d067093897fac02601571b4db98a4c1",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-06-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-06-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:88cef3812a10e117ca38aaf863d54163db98c5e514b26b88b71180944f26dfd8",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)",
+              "messages": [
+                "AssertionError: expected 0 to be greater than or equal to 2\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:378:42\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6207,
+            "sha256": "sha256:52515df4e88519288f0ef4ea661d36fc0b31a790becb2637f5c37fe647d17c22",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-06-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-06-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-07",
+      "file": "packages/game/src/core/battle/battle-settlement.ts",
+      "sourceAnchor": "battle-settlement.ts:119(exp-cash 屏门)",
+      "targetIt": "expGained=0 → 无 exp-cash 屏",
+      "intent": "0 经验也出 exp 屏 → screens 非空",
+      "find": "if (state.expGained > 0)",
+      "replaceWith": "if (state.expGained >= 0)",
+      "targetShaOriginal": "sha256:881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "mutatedSha": "sha256:04778f35c498cc6ab230013bc00e22b3104b0f465dedead55652ca4e0d72fa04",
+      "targetShaRestored": "sha256:881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected [ { kind: 'exp-cash', …(3) } ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:392:36"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:b196bb44a4e71a38fb6cdb0bb6670844cfc3f8384ef2c83e862de80dc9df49e8",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6207,
+            "sha256": "sha256:15f51abd6b5b1a940d377a96dbfe7dc7b5ff074d67c995cbc03ec5ea5ac1e602",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-07-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-07-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7737,
+            "sha256": "sha256:26760b63d180c7174312679bc3f33587223ae8ee4df697f2b829b3b9f0267ef7",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-07-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-07-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:b196bb44a4e71a38fb6cdb0bb6670844cfc3f8384ef2c83e862de80dc9df49e8",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)",
+              "messages": [
+                "AssertionError: expected [ { kind: 'exp-cash', …(3) } ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:392:36\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6204,
+            "sha256": "sha256:fc068932569f1e10bd116deecc4639d25c6d941f654f104c69a3a1c317d18c78",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-07-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-07-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-08",
+      "file": "packages/game/src/core/battle/battle-settlement.ts",
+      "sourceAnchor": "battle-settlement.ts:168-170(Phase E 逐敌脚本)",
+      "targetIt": "Phase E:defeated 槽照跑 scriptOnBattleEnd",
+      "intent": "插入 defeated 跳过 → 胜利态(全敌 defeated)脚本不跑,对话队列为空",
+      "find": "if (!en || (en.scriptOnBattleEnd ?? 0) <= 0) continue",
+      "replaceWith": "if (!en || en.defeated || (en.scriptOnBattleEnd ?? 0) <= 0) continue",
+      "targetShaOriginal": "sha256:881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "mutatedSha": "sha256:3deba3ff4f0287fc7637d38368b5515d71ac29fc12c0bfd1dca8147cc8086169",
+      "targetShaRestored": "sha256:881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected undefined to be 1 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:411:42"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:942a1dc228a8b4307b2f0fbd3711353c318ca0236cdd816cc583b528d33a0173",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6208,
+            "sha256": "sha256:982a99ea5bab80bea0688397010e6fa987ab81ae93f3f3018d9de466ad0aa40c",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-08-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-08-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7724,
+            "sha256": "sha256:00fccbaf1dab91a44669bd1d8588452a40a05c5a55ed39afe6424c661696825e",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-08-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-08-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:942a1dc228a8b4307b2f0fbd3711353c318ca0236cdd816cc583b528d33a0173",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)",
+              "messages": [
+                "AssertionError: expected undefined to be 1 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:411:42\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6207,
+            "sha256": "sha256:3cdad1ba78aed3575f5fc769b7b1a0f7eed34faf275ef8bd49b8f34fb0c4fe3e",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-08-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-08-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-09",
+      "file": "packages/game/src/core/battle/battle-progression.ts",
+      "sourceAnchor": "battle-progression.ts:299-303(PAL_AddMagic 空槽臂)",
+      "targetIt": "rgwMagic 32 槽全满 → 不再学新法术",
+      "intent": "空槽判定恒真 → 槽满时覆盖首槽学入,learnedMagics 非空",
+      "find": "if ((slot?.[roleId] ?? 0) === 0) {",
+      "replaceWith": "if (true) {",
+      "targetShaOriginal": "sha256:6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "mutatedSha": "sha256:e8f68f178403a12a578ea14367ad059a55c6060f81f96b609c57b89310a15efe",
+      "targetShaRestored": "sha256:6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected [ 354 ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:444:39"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:b3fb3879fda59cd4c12bdec665997780872b0a8cb2058d695c094a2e92d2d97d",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6205,
+            "sha256": "sha256:c1b870f2ca7ec458c0e2e064a4664ee9f13d0367a3d5a5d5da9efa7b901dc257",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-09-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-09-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7711,
+            "sha256": "sha256:511e6e23ddaefbd27802b0c37a4c32278fd8fd678b6e914e26a13a22a8c2859c",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-09-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-09-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:b3fb3879fda59cd4c12bdec665997780872b0a8cb2058d695c094a2e92d2d97d",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)",
+              "messages": [
+                "AssertionError: expected [ 354 ] to deeply equal []\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:444:39\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6207,
+            "sha256": "sha256:5a2b13083ada105dca6190b038a520002accdd573c3230546e7fa25565d6600e",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-09-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-09-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    },
+    {
+      "id": "MUT-10",
+      "file": "packages/game/src/core/battle/battle-progression.ts",
+      "sourceAnchor": "battle-progression.ts:241(升级快照有效值口径)",
+      "targetIt": "升级快照有效值含装备加成",
+      "intent": "old 退回裸 base → 装备项丢失,old 20≠27",
+      "find": "attack: { old: oldAtkBase + (effAtk - (rt.rgwAttackStrength[roleId] ?? 0)), cur: effAtk },",
+      "replaceWith": "attack: { old: oldAtkBase, cur: effAtk },",
+      "targetShaOriginal": "sha256:6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "mutatedSha": "sha256:a270a25f3665f652e1b264bcf1309cf7b98daf13931b7c127f753e4769c26968",
+      "targetShaRestored": "sha256:6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "failedTotal": 1,
+        "failedFullNames": [
+          "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)"
+        ],
+        "firstBusinessAssertion": "AssertionError: expected 20 to be 27 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:461:33"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 10
+      },
+      "identitySha": {
+        "original": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+        "red": "sha256:e610f3516ecbb284b859f13b8b008e442668d2d30bfd9b8e74267aaa91a4042c",
+        "restored": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c"
+      },
+      "executions": {
+        "original": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6208,
+            "sha256": "sha256:18e71ca16afd5c7802b586e2dcc474e49818502558d1f2886f9c1b39c3935689",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-10-original.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-10-original.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        },
+        "mutated": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 7719,
+            "sha256": "sha256:a48c4d807cb37f862a225381be234c64ca0fedca6db600f6f3285cd3a4f2cacc",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-10-mutated.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-10-mutated.stderr.log"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 9,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "failed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: failed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:e610f3516ecbb284b859f13b8b008e442668d2d30bfd9b8e74267aaa91a4042c",
+          "failedFullNames": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)"
+          ],
+          "failedAssertionMessages": [
+            {
+              "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)",
+              "messages": [
+                "AssertionError: expected 20 to be 27 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts:461:33\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ],
+          "parseError": null
+        },
+        "restored": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state-machine.glm-battle.test.ts",
+            "--reporter=json"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal",
+          "stdout": {
+            "bytes": 6208,
+            "sha256": "sha256:107532cd7546d606443622a4de7ccc7f9634bfc350764bf1cafff1bb8ad66fd5",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-10-restored.stdout.log"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": "/Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-logs/MUT-10-restored.stderr.log"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "spawnTimedOut": false,
+          "jsonSummary": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 10,
+            "numPassedTests": 10,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suiteStatuses": [
+              {
+                "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+                "status": "passed",
+                "assertions": 10
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
+          "identitySet": [
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证) :: passed",
+            "/Users/zhangxu/illegal/type-pal/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts :: TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556) :: passed"
+          ],
+          "identitySha": "sha256:3dd54112018f7dfb0ccb9302f9b639a04d3e195311a42273c35af4a6d58b987c",
+          "failedFullNames": [],
+          "failedAssertionMessages": [],
+          "parseError": null
+        }
+      },
+      "valid": true,
+      "invalidReasons": []
+    }
+  ]
+}

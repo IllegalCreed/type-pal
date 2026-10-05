@@ -59,7 +59,7 @@ Target Design-System Version: `2.22.0`
 | 原版 / primary source | N/A：纯二阶段作者工具布局，不涉及原版游戏行为。 | `docs/phase2/READ-FIRST.md:8-21` |
 | 第一阶段 | N/A：第一阶段没有当前 Reforge 编辑器设计系统。 | `CLAUDE.md:5-16` |
 | 当前二阶段 | 公共组件已经存在；根为 inline-flex/flex:none/max-content，default 图标 36×36、compact 图标 32×32；生产恰 6 files / 8 callsites。规范只有通用尺寸、图标与排序条款，全文零次具名 `DsActionGroup`。 | `packages/editor/src/ui/design-system/recipes.tsx:371-382`；`packages/editor/src/ui/design-system/recipes.css:885-918`；`docs/phase2/specs/editor-design-system.md:179-235,514-554` |
-| 本任务目标 | DS 2.22.0 正式登记合同；当前 8 adopted 全符合；15 candidate surfaces 逐项分类且可机器追踪，不在本卡迁移。 | 本卡设计与验收条件；`docs/ops/board.md` |
+| 本任务目标 | DS 2.22.0 正式登记合同；当前 8 adopted 全符合；15 candidate surfaces 逐项分类且可机器追踪，不在本卡迁移。 | 本卡设计与验收条件；`docs/ops/archive/board-history/board-20261004.md` |
 
 ### 生产 census 直接证据
 

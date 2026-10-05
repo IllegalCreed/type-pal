@@ -75,13 +75,13 @@ if (!selected) return
 
 ```sh
 # 快速因果对照：既有 reorder 23 项，两个帧时机各跑一次
-node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs
+node docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs
 
 # 同一干预扩到整个 editor fast 范围（不是 pnpm coverage:full）
-node docs/ops/audits/pre-e2e/probe-editor-coverage-timing.mjs --full
+node docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs --full
 ```
 
-探针与[临时加载配置](probe-editor-coverage-timing.config.mts)只在内存转换一份测试，运行输出写独立临时目录；
+探针与[临时加载配置](tools/probe-editor-coverage-timing.config.mts)只在内存转换一份测试，运行输出写独立临时目录；
 产品树有未提交变化时拒绝启动，不自动还原文件。每次保存 SHA/环境/源摘要、命令、测试 JSON、覆盖率 JSON 与差异。
 它断言的是修复前缺口，现已不再作为当前通过条件；属于历史审计证据，不作为正式回归或 CI 门禁，源码未改。
 

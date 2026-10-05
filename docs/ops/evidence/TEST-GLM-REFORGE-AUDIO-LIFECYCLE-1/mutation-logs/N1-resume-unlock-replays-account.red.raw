@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ❯ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests | 1 failed | 3 skipped) 1118ms
+     × 挂起 ctx 上 autoplay 被拒仍完成一次静默提交；手势 resume 成功 → 补播记账曲 1117ms
+     ↓ 负臂：stop 清账后手势解锁不补播（补播只由记账曲驱动，不无条件重放）
+     ↓ 运行中重复 play 同曲：零重读/零重载/零重启，恢复全增益；stop 后再 play 真重载
+     ↓ 重复开不重启；重复关只停一次（pause/cancelFade 恰一次）；重开补播记账曲
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  02:44:10
+   Duration  1.65s (transform 377ms, setup 0ms, import 444ms, tests 1.12s, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio/bgm.glm-audio-lifecycle.test.ts > L1 autoplay 解锁补播（bgm 头注释合同：resume 成功后补播记账曲） > 挂起 ctx 上 autoplay 被拒仍完成一次静默提交；手势 resume 成功 → 补播记账曲
+AssertionError: expected [ Array(1) ] to have a length of 2 but got 1
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ src/audio/bgm.glm-audio-lifecycle.test.ts:140:44
+    138|     player.resume()
+    139|     h.resumeGates[1]!.resolve()
+    140|     await vi.waitFor(() => expect(h.loads).toHaveLength(2))
+       |                                            ^
+    141|     expect(h.plays).toHaveLength(2)
+    142|     expect(h.resumeCalls).toHaveLength(2)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

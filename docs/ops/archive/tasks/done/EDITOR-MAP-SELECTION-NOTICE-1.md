@@ -14,7 +14,7 @@ Root与独立核验确认底栏是操作通知；Esc真正清选和Inspector明�
 Root premise verified/design agree/build allowed，限MapMode及相邻回归，不改变全局通知机制。
 
 GLM L 候选 `e2b3f43770c9968d72b16a34f3d0173a271cc4ca` 的
-`docs/testing/glm-next-triple/wave-L/functional-visual.md` 与截图
+`docs/testing/archive/legacy/batches/glm-next-triple/wave-L/functional-visual.md` 与截图
 `visual/02-map-selection-made.png`、`visual/03-map-selection-esc-cleared.png` 显示：
 Esc 后 Inspector 已回到「属性/选中图层」，底部仍写「已选择 1 个视觉槽、1 个格点。」。
 截图 SHA256 已由 Codex 核对，03 截图可见状态矛盾；选区实际清除已由 UI 回显证明。

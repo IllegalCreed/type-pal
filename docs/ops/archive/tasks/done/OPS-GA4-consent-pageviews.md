@@ -24,7 +24,7 @@ Capability: production analytics
 ## 上下文锚点
 
 - 根协议与阶段门禁：`AGENTS.md`、`docs/ops/agent-workflow.md`。
-- 当前看板与并行任务：`docs/ops/board.md`；不得夹带或干扰 N3-1、C8、ED-5I。
+- 当前看板与并行任务：`docs/ops/archive/board-history/board-20261004.md`；不得夹带或干扰 N3-1、C8、ED-5I。
 - 浏览器入口：`packages/game/src/main.ts`。
 - 静态壳与启动覆盖层：`packages/game/index.html`。
 - 包门禁：`packages/game/package.json`、根 `package.json`。

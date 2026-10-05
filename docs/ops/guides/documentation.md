@@ -26,7 +26,7 @@
 
 - `docs/` 下每个直接含 Markdown 的目录都有 README；README 链接该目录的每份直接文档，按上述类型说明。
 - 活动任务放 `docs/ops/tasks/`；终态任务按 `done/cancelled` 放 `docs/ops/archive/tasks/`，模板放
-  `docs/ops/templates/`。任务卡使用 [独立生成索引](../tasks/index.md)。当前行动只从 [看板](../board.md) 进入；已完成卡内的旧交接提示
+  `docs/ops/templates/`。任务卡使用 [独立生成索引](../tasks/index.md)。当前行动只从 [看板](../archive/board-history/board-20261004.md) 进入；已完成卡内的旧交接提示
   不构成新的授权，历史状态也不覆盖卡片顶部终态。
 - 新任务顶部写 `Status: draft`，使用既定状态机；既有五张终态卡的中文状态标签按确切文件名单读取，
   无需为工具统一字段而改写历史。索引不根据正文中零散的 `build/done` 判断状态。

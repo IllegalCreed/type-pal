@@ -1,0 +1,23 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-system.cov85.test.ts > cov85r3 trigger/onEnter end 写回(r5 排重后旧测未证臂;真实 bus) > end+trigger advance:写回后清场复位缩进(advance 本体旧测 2765 已证;此处补 1946+ 清场段)
+AssertionError: expected { ip: 2 } to deeply equal { ip: 1 }
+
+- Expected
++ Received
+
+  {
+-   "ip": 1,
++   "ip": 2,
+  }
+
+ ❯ src/core/event-system.cov85.test.ts:571:39
+    569|     const { bus } = realBus()
+    570|     tickEventSystem(gs, snapR3(), bus)
+    571|     expect(gs.npcs[0]!.triggerResume).toEqual({ ip: 1 })
+       |                                       ^
+    572|     expect(gs.currentDialogPortraitLayout).toBe(false) // 旧测未证:PAL_End…
+    573|     expect(gs.currentDialogPortraitIcon).toBeUndefined()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

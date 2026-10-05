@@ -13,10 +13,10 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-GLM-EDITOR-1 — editor workflow branch-contract closure](TEST-COVERAGE85-GLM-EDITOR-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure](TEST-COVERAGE85-GLM-GAME-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure](TEST-COVERAGE85-GLM-REFORGE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure](TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 — event interpreter control-flow contracts](TEST-GLM-GAME-EVENT-CONTROL-FLOW-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 — event codec and resource parser boundary audit](TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-REFORGE-MOTION-TRANSITION-1 — motion, scene transition and input lifecycle audit](TEST-GLM-REFORGE-MOTION-TRANSITION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -208,7 +208,9 @@
 | [N6 - 共享脚本/子程序创作闭环](../archive/tasks/done/N6-shared-script-authoring.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单](../archive/tasks/done/OPENING-HANDOFF-1-no-stale-title-frame.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-0001 - 建立三贤人系统协作工作流](../archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [OPS-CONTENT-DOC-REVIEW-1 - Lore / 三阶段 / Ops 内容深审](../archive/tasks/done/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-CURSOR-TEMP-CLEANUP-1 - Cursor 反控临时工作树去重清理](../archive/tasks/done/OPS-CURSOR-TEMP-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [OPS-DOC-GOVERNANCE-1 - 协作文档深度治理与入口收口](../archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-GA4 - 同意后启用独立 GA4 页面浏览](../archive/tasks/done/OPS-GA4-consent-pageviews.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-MAP-1 - 能力地图真值对账与选择器校准](../archive/tasks/done/OPS-MAP-1-capability-map-truth-reconciliation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [OPS-MAP-2 - X3 通关/结局流转真值纠偏](../archive/tasks/done/OPS-MAP-2-x3-ending-truth-reconciliation.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -252,6 +254,10 @@
 | [TEST-COVERAGE-DETERMINISM-1 - 编辑器覆盖率计数确定性](../archive/tasks/done/TEST-COVERAGE-DETERMINISM-1-editor-ratchet.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点](../archive/tasks/done/TEST-COVERAGE-PLUS5-1-continuous-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复](../archive/tasks/done/TEST-COVERAGE-TRUTH-1-class-initializers.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-GLM-EDITOR-1 — editor workflow branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-GLM-GAME-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 — extract/migrate pipeline branch-contract closure](../archive/tasks/done/TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-ASSET-UI-LARGE-1 — 已交付测试有限收口](../archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组编辑命令行为残项](../archive/tasks/done/TEST-CURSOR-COMMAND-BOUNDARIES-3-editor-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-CONTENT-PURE-WAVE-2 — 内容模型十六模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -271,8 +277,19 @@
 | [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-3 — 八组同步脚本与记录守卫补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-ASSET-LIFECYCLE-1 — asset lifecycle and sprite action contracts](../archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1 — audio preview ownership contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-AUTHORING-PANELS-1 — authoring panel state contracts](../archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-BATTLE-REGISTRY-1 — battle sprite registry authoring contracts](../archive/tasks/done/TEST-GLM-EDITOR-BATTLE-REGISTRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 — data and battle authoring contracts](../archive/tasks/done/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 — project persistence, recovery and history contracts](../archive/tasks/done/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归](../archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测](../archive/tasks/done/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-BATTLE-STATE-1 — battle action, AI and settlement contracts](../archive/tasks/done/TEST-GLM-GAME-BATTLE-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-DIALOGUE-PAGINATION-1 — dialogue pagination contracts](../archive/tasks/done/TEST-GLM-GAME-DIALOGUE-PAGINATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-EVENT-CONTRACTS-1 — event script semantic contracts](../archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-MENU-SAVE-IO-1 — menu, input and save boundary contracts](../archive/tasks/done/TEST-GLM-GAME-MENU-SAVE-IO-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — player opcode residual contracts](../archive/tasks/done/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](../archive/tasks/done/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](../archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -282,6 +299,12 @@
 | [TEST-GLM-NEW-I-1 — 一阶段壳层、菜单与呈现](../archive/tasks/done/TEST-GLM-NEW-I-1-game-shell.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-NEW-J-1 — 迁移编排与发布前校验](../archive/tasks/done/TEST-GLM-NEW-J-1-migrate-orchestration.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测](../archive/tasks/done/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-ASSET-RESOLVER-1 — asset resolver and cache lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-ASSET-RESOLVER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 — runtime audio lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts](../archive/tasks/done/TEST-GLM-REFORGE-BATTLE-FLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](../archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](../archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测](../archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-STATE-COMMANDS-1 — 菜单与编辑命令十六组连续补测](../archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包](../archive/tasks/done/TEST-GLM-WAVE-L-1-editor-map-scene.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -306,6 +329,8 @@
 | [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-SHELL-COVERAGE-2 — 真实宿主战斗、物品与脚本二批](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-2-battle-items.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-STATE-BOUNDARIES-1 - 运行时状态与作者元数据六组补测](../archive/tasks/done/TEST-RUNTIME-STATE-BOUNDARIES-1-state-and-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理](../archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TESTING-DOC-LAYOUT-1 - 测试文档根目录结构收口](../archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W4-1 - 命名落点闭环与迁移去重](../archive/tasks/done/W4-1-named-scene-entry-closure.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W6 - 昼夜氛围系统(全帧乘法滤镜 + 氛围数据表)](../archive/tasks/done/W6-ambience-day-night.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [W7B - tileset 库:自有瓦片图集(上传 → 量化贴盘 0 → 入库可选)](../archive/tasks/done/W7B-tileset-library.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -32,7 +32,7 @@ Codex于2026-09-26核定build allowed；当前委派模式由本席自验与质�
 
 - 六新测试：`packages/migrate/src/migrate-{records,skill-effects,skills,equipment,item-use,throw}.pure.test.ts`；
   可新增`src/__tests__/pure-migration-fixtures.ts`，仅测试目录。
-- 专属报告/代表负控在`docs/testing/codex-migrate-pure/`；公共索引/看板与官方baseline由本席统一更新。
+- 专属报告/代表负控在`docs/testing/archive/legacy/batches/codex-migrate-pure/`；公共索引/看板与官方baseline由本席统一更新。
 - 实际同一入参调用前后深快照；输出对象/数组与诊断精确比较；合法输出在适用范围走content正式guard。
 - 旧测试与产品、配置、资产零改；不运行migrate/bake写主树、不碰GLM content测试与Cursor editor测试。
 - 整批定向/相邻/包TC/Biome，6代表单点负控；随后串行check→ratchet→受保护单次strict-fast。
@@ -44,7 +44,7 @@ Codex于2026-09-26核定build allowed；当前委派模式由本席自验与质�
 - 2026-09-26 Codex：完成83新测试（records8/effects16/skills24/equipment7/item-use20/throw8），
   6正控+6代表反控检出、同一judge伪红拒绝、TC与改动Biome通过。完整check8,979、官方ratchet、
   受保护单次strict8,487/701均exit0；全仓+527B/+456L/+527S/+42F，生产分母与其它六包基线对象不变。
-  初次错误与修正如实记[回执](../../../../testing/codex-migrate-pure/README.md)，没有产品修改或真实工程写盘。
+  初次错误与修正如实记[回执](../../../../testing/archive/legacy/batches/codex-migrate-pure/README.md)，没有产品修改或真实工程写盘。
   本席核定 **accept / done**；当前临时模式无需其它AI签字。Cursor候选单独counter，未计并集。
 
 无下一位Agent提示词；本席连续实施与验收。

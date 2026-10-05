@@ -24,7 +24,7 @@ Branch: codex/glm-architecture-support-r1
 用户2026-09-25告知GLM已有视觉能力，要求多分配并行任务。
 本卡只在draft阶段采集架构/回归/功能视觉证据，**不授权改产品或正式测试**；
 Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的独立第三方。
-完整工作包：[八组范围/白名单/纪律/交付](../../../../testing/glm-architecture-support/README.md)。
+完整工作包：[八组范围/白名单/纪律/交付](../../../../testing/archive/legacy/batches/glm-architecture-support/README.md)。
 
 ## 前提与上下文
 
@@ -63,7 +63,7 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex定点接收席位（2026-09-25，f4236474）
 
 **counter，仅余P5-GRAPH-1；Status仍draft。**
-[逐行复核和唯一完成条件](../../../../testing/glm-architecture-support/codex-f423-review.md)。
+[逐行复核和唯一完成条件](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-f423-review.md)。
 
 通过：38/38报告ID和分类一致；V1旧risk、P5测试表、P6扩大结论、P4门归属/三段动画清理、summary命令链均已修。
 最终GLM JSON Biome exit0、check:docs PASS；5文件增量，产品/正式测试/基线、原机账/旧反证零改。
@@ -76,8 +76,8 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex r3接收席位（2026-09-25，1410916e）
 
 **继续counter，仅保留定点残项；Status仍draft，不开build、不标done。**
-[r3具体行与完成条件](../../../../testing/glm-architecture-support/codex-r3-review.md)、
-[本席r3机账](../../../../testing/glm-architecture-support/codex-r3-evidence.json)。
+[r3具体行与完成条件](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-r3-review.md)、
+[本席r3机账](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json)。
 
 已闭：C2主要源码真值、38唯一ID/21covered+12risk+5N/A及八包合计、hash引用清理、最终JSON Biome exit0；
 产品零漂移、旧Codex六文件、22源码hash与17图均未变；39旧独立定向证据保留，不重跑。
@@ -92,9 +92,9 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex r2接收席位（2026-09-25，717d507d / 9e5ba310）
 
 **继续counter，收窄返工；Status仍draft，不开build、不标done。**
-[r2报告与精确锚点](../../../../testing/glm-architecture-support/codex-r2-review.md)、
-[本席机账](../../../../testing/glm-architecture-support/codex-r2-evidence.json)、
-[只读复算器](../../../../testing/glm-architecture-support/codex-r2-probe.mjs)。
+[r2报告与精确锚点](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-r2-review.md)、
+[本席机账](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json)、
+[只读复算器](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-r2-probe.mjs)。
 
 已闭合：白名单、产品零漂移、旧Codex三文件未改；38唯一ID与JSON19/14/5小计、22个源码hash、17图哈希与尺寸；
 新增6图对应可见布局；derivedStore/cancel/50vs81/hooks三轴/preparing门/SCC/双向校验及6参数的更正方向；
@@ -114,9 +114,9 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 ## Codex接收席位（2026-09-25，候选3967a376）
 
 **counter；仍为draft，build未开放，不标done。**
-完整理由与返工提示：[独立接收报告](../../../../testing/glm-architecture-support/codex-intake-review.md)；
-[机账](../../../../testing/glm-architecture-support/codex-intake-evidence.json)；
-[冻结只读复算器](../../../../testing/glm-architecture-support/codex-intake-probe.mjs)。
+完整理由与返工提示：[独立接收报告](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-intake-review.md)；
+[机账](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json)；
+[冻结只读复算器](../../../../testing/archive/legacy/batches/glm-architecture-support/codex-intake-probe.mjs)。
 
 | 包 | 本席结论 | 阻断摘要 |
 |---|---|---|
@@ -161,7 +161,7 @@ Codex继续A3生产实现，GLM作为准备材料贡献者，不作为自证的�
 在 /Users/zhangxu/illegal/type-pal 接手 ARCH-SUPPORT-GLM-1 的八包只读准备取证。
 先同步并读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
 docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md 与
-docs/testing/glm-architecture-support/README.md，严格按工作包八组连续执行。
+docs/testing/archive/legacy/batches/glm-architecture-support/README.md，严格按工作包八组连续执行。
 用户已确认你具备视觉能力，允许本包实际浏览器/截图/交互初审；先完成一个完整视觉小样证明工具通路，
 再做P1～P6、V1～V2。无法实际看图时如实blocked，先完成非视觉组。
 生产冻结b11d4bc9；从包含工作包的提交开独立分支codex/glm-architecture-support-r1和独立worktree，

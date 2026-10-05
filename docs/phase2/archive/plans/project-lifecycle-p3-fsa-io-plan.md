@@ -1,7 +1,7 @@
 # P3 · FSA 本地读写原语 实现计划
 
 > **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
-> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/board.md) 进入。
+> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans. Steps use checkbox (`- [ ]`).
 

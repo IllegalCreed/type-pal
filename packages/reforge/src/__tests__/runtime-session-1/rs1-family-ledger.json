@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-10-04T14:16:14.663Z",
+  "entries": [
+    {
+      "file": "src/runtime-frame-session.runtime-session-1.test.ts",
+      "identityFullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+      "name": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+      "family": "暂停/恢复",
+      "source": "src/runtime-frame-session.ts",
+      "sourceLines": [93, 94, 104],
+      "caller": "RuntimeFrameSession.tick → ports.advanceFade(this.#now)",
+      "oracle": "冻结帧零淡入;恢复帧淡入收到 gameplay now(200)而非 realNow(5100)"
+    },
+    {
+      "file": "src/runtime-frame-session.runtime-session-1.test.ts",
+      "identityFullName": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+      "name": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+      "family": "帧推进",
+      "source": "src/runtime-frame-session.ts",
+      "sourceLines": [96, 97, 98, 99, 100, 101, 102, 103],
+      "caller": "RuntimeFrameSession.tick(公开 tick,main.ts:5635 帧循环)",
+      "oracle": "到期子集(含 >= 边界与 0ms)按注册逆序结算;未到期等待不因他人到期被连带结算"
+    },
+    {
+      "file": "src/runtime-input-router.runtime-session-1.test.ts",
+      "identityFullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+      "name": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+      "family": "输入仲裁",
+      "source": "src/runtime-input-router.ts",
+      "sourceLines": [37],
+      "caller": "routeRuntimeInput(公开 router,main.ts:5635 routeInput 桥)",
+      "oracle": "菜单帧把完整按键集(方向/取消/F5/[/杂键)原样交给 menu.input;不触发 save/open/changeDebugScene"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+      "name": "runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+      "family": "world-view 替换",
+      "source": "src/runtime-project-view.ts",
+      "sourceLines": [255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265],
+      "caller": "runtimeProjectView(公开整体投影,main.ts:279)",
+      "oracle": "入口场景为新投影对象;items runScript 引用落运行时 chunk;scriptStore own-key 显式 undefined;sceneIndex/actorsById/assetResolver 引用透传"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+      "name": "scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+      "family": "world-view 替换",
+      "source": "src/runtime-project-view.ts",
+      "sourceLines": [277, 278, 279, 280, 281, 282],
+      "caller": "projectedWorldScriptScratch(公开平面化,main.ts:561/605)",
+      "oracle": "三条可选腿按在场深拷贝(改 scratch 不写回 world)、只含当前场景、缺席不造空对象"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+      "name": "刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+      "family": "world-view 替换",
+      "source": "src/runtime-project-view.ts",
+      "sourceLines": [181, 182, 183, 184, 185, 186, 187],
+      "caller": "refreshSceneViewBindings(公开刷新,main.ts:2956 refreshCurrentScriptBindings)",
+      "oracle": "canonical 离场实体(定义缺席)页绑定与活体位置原样保留;在场实体照常刷新回缺省投影"
+    },
+    {
+      "file": "src/runtime-project-view.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+      "name": "运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+      "family": "world-view 替换",
+      "source": "src/runtime-project-view.ts",
+      "sourceLines": [152, 153, 154, 155, 159],
+      "caller": "baseSceneView/projectRuntimeEntity(公开投影,main.ts:365 runtimeSceneView)",
+      "oracle": "命令体 onLose 投影为 [];gameOver/chase/onVictory/onPlayerFlee 逐字克隆;无 hostile 实体不造键;投影不写回 canonical"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+      "name": "scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+      "family": "scene token 失效",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [276, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576],
+      "caller": "registerMove(teardownScene → teardownMotionRuntime → invalidateSceneSession)",
+      "oracle": "token 注册时快照;teardown 先取消槽位(authority 尚在)再释放;旧槽迟到回执持旧 token,新注册(含跨场景)取换代后 token"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+      "name": "中止在途 auto 单步拒绝且不留下已提交续点",
+      "family": "取消",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [336, 337, 338, 339, 340, 341, 342, 344, 348],
+      "caller": "registerAutoStep(公开注册,main.ts auto 单步适配)",
+      "oracle": "中止以「auto 实体 id 单步所属 runner 已取消」拒绝;autoSlots 清空且 autoLineages 无残留"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+      "name": "中止在途实体走位按来源署名拒绝并清空注册表",
+      "family": "取消",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [258, 290],
+      "caller": "registerMove(公开注册,main.ts script/auto 走位适配)",
+      "oracle": "signal 中止以「实体 id {source} 走位所属 runner 已取消」拒绝;槽位出注册表且 abort 监听器分离"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+      "name": "单步 attempted 结算后的迟到回执不再重发 committed 回调",
+      "family": "迟到回执",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [312, 313, 314, 315, 316, 317, 318, 334, 335],
+      "caller": "registerAutoStep settle(公开 slot 回执:resolve/dropByAuthority/cancel)",
+      "oracle": "attempted 结算后迟到 drop/cancel/resolve 不重发 onCommitted;已提交续点保留"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+      "name": "同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+      "family": "取消/迟到回执",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [288, 345, 413],
+      "caller": "registerMove/registerAutoStep(公开注册,替换路径)",
+      "oracle": "同源重注册旧等待者以替换消息拒绝、新槽接管注册表与 commandEpoch;auto 走位被单步跨类替换"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+      "name": "实体 authority 接管清空旧 owner 的步态与侧避锁",
+      "family": "取消",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [163, 164, 165, 166, 167, 168, 169, 170, 171],
+      "caller": "MotionRuntimeCoordinator 构造回调(authorityChanged → clearGait/clearStick)",
+      "oracle": "setAuthority(实体)后步态/gaitOwner/lastMovedTick 清空、休眠侧避锁不再进入下一批 plan"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+      "name": "追逐取消结算后的迟到调用不再重发任何回调",
+      "family": "迟到回执",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [372, 373, 374, 375, 376, 377, 378, 396, 403, 404, 405, 406, 407, 408],
+      "caller": "registerChase settle(公开 slot 回执:resolve/dropByAuthority/cancel)",
+      "oracle": "取消结算后迟到 resolve/drop/cancel 不重发 onCancelled/onDropped/onCommitted 任何一个"
+    },
+    {
+      "file": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "identityFullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+      "name": "预中止信号让全部注册入口立即拒绝且不留槽位",
+      "family": "取消",
+      "source": "src/world-motion-runtime.ts",
+      "sourceLines": [216, 254, 298, 355],
+      "caller": "schedulePartyMove/registerMove/registerAutoStep/registerChase(公开注册入口)",
+      "oracle": "预中止 signal 立即拒绝四个入口;partyMove 为 null、双注册表空、onRegistered 零调用"
+    }
+  ]
+}

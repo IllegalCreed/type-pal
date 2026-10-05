@@ -1,0 +1,107 @@
+{
+  "kind": "testing-document-domain-migration",
+  "id": "testing-domains-20261004",
+  "reason": "把代表性的运行时 owner 报告/机账迁入真实工程域，并把架构实验逐轮审查物理归档；每个源文件保留原始 SHA，工具文件仍留 legacy 直到其相对导入和调用者单独核验。",
+  "entries": [
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "sha256": "290588089a86ae0db14c03672abe0adae3e1ff9c2343b4d7dc0aec11b2fd31d9"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r2-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "sha256": "4ededa51c4d358d48724e8427aa38fee3781a71494d297d974bfc4b6102212b8"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r3-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "sha256": "8b0846fa92cb1ccff0c288354784b439ba44f9cbf79c4a0ab620139d1f5c1988"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r4-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "sha256": "45157c65ac1bd75770269d2d5becbea9092609fdbe31a5a36c24370c6c69ab67"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r5-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "sha256": "0f4136a0cb434db7ef97db1b6e5922338ad0d5aa33229f418833988e9c979b28"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r6-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "sha256": "71328c0e5c08ffd181fc7ec1836f83f43903af189dccef3c2ebce0de0022b6e1"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r7-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "sha256": "695997b8134b3dc26ea302c5987d08cd33d666d017d7f3f83dbb1d097d4dd105"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r8-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "sha256": "cd28728b6bfaa95b6fd3ebf069e150fb58c724fd200cb1bcffbac2a5a3d2f1e2"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r9-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "sha256": "87cd2c68f9aec38ef9c57e12d314158e96ca4cd174582ebb6ad5ae2c2c630416"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r10-review.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "sha256": "55cbdf5bbec35584399c11dc48b597a2424adb22236989eecef3458ff5767005"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-codex-r10-evidence.json",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929"
+    },
+    {
+      "from": "docs/testing/architecture-regression-lab-completion.md",
+      "to": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "sha256": "0b775a0d08d7603513e6a7972951cea71c79373ad428829a1240ef952908b580"
+    },
+    {
+      "from": "docs/testing/active-scene-refactor.md",
+      "to": "docs/testing/archive/legacy/active-scene/report.md",
+      "sha256": "e4da4319341a937909cb2dd3e56c7b31241aade9a433e24feb5a66c8e1a4d8b3"
+    },
+    {
+      "from": "docs/testing/active-scene-evidence.json",
+      "to": "docs/testing/archive/legacy/active-scene/evidence.json",
+      "sha256": "0815eb8d7864e240d54d6e0ced25c3afcda70739fab73776ecf93173a159649f"
+    },
+    {
+      "from": "docs/testing/battle-host-refactor.md",
+      "to": "docs/testing/archive/legacy/battle-host/report.md",
+      "sha256": "c76672db557313b2acfec425a93c6ae1fc37abd28dfadbb2ded435d7d627bc3f"
+    },
+    {
+      "from": "docs/testing/battle-host-refactor-evidence.json",
+      "to": "docs/testing/archive/legacy/battle-host/evidence.json",
+      "sha256": "d898965cc9d4cccb7aab14a6473b2e78c60761a8339531a14a11a410d1652203"
+    },
+    {
+      "from": "docs/testing/battle-session-owners-refactor.md",
+      "to": "docs/testing/archive/legacy/battle-session-owners/report.md",
+      "sha256": "1804e58d57b7ca119e2960fb1bff67418671ed4a6a0837e11700093d20518ace"
+    },
+    {
+      "from": "docs/testing/battle-session-owners-refactor-evidence.json",
+      "to": "docs/testing/archive/legacy/battle-session-owners/evidence.json",
+      "sha256": "6228678bc6f135f4de12bf580b9b0fbec0125d2c50075228a369a84b20b63fd9"
+    },
+    {
+      "from": "docs/testing/world-runtime-refactor.md",
+      "to": "docs/testing/archive/world/world-runtime/report.md",
+      "sha256": "0670c52dbb799cb1be524fb6bab285ec2dc51f92f5ae44e5aa1e9b36bda25cc3"
+    },
+    {
+      "from": "docs/testing/world-runtime-refactor-evidence.json",
+      "to": "docs/testing/archive/world/world-runtime/evidence.json",
+      "sha256": "ceddedc5cf0544af69991d478c6b7253d57fccc43d8591d8433b60bca8ea3ce1"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ❯ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests | 1 failed | 3 skipped) 64ms
+     ↓ 挂起 ctx 上 autoplay 被拒仍完成一次静默提交；手势 resume 成功 → 补播记账曲
+     ↓ 负臂：stop 清账后手势解锁不补播（补播只由记账曲驱动，不无条件重放）
+     × 运行中重复 play 同曲：零重读/零重载/零重启，恢复全增益；stop 后再 play 真重载 63ms
+     ↓ 重复开不重启；重复关只停一次（pause/cancelFade 恰一次）；重开补播记账曲
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  02:44:14
+   Duration  601ms (transform 357ms, setup 0ms, import 436ms, tests 64ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio/bgm.glm-audio-lifecycle.test.ts > L2 同曲 steady-state 重复调用（接口合同：同曲重复调用不重启） > 运行中重复 play 同曲：零重读/零重载/零重启，恢复全增益；stop 后再 play 真重载
+AssertionError: expected [ { asset: 'music.town', …(1) }, …(1) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/audio/bgm.glm-audio-lifecycle.test.ts:176:21
+    174|     player.play('music.town', true) // steady-state 重复（无进行中换曲/停止窗口）
+    175|     await flush()
+    176|     expect(h.reads).toHaveLength(1) // 不重读
+       |                     ^
+    177|     expect(h.loads).toHaveLength(1) // 不重载
+    178|     expect(h.plays).toHaveLength(1) // 不重启
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

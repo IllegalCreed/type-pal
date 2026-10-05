@@ -50,11 +50,11 @@ SAVE8/content20不变，不做旧档修复/兼容fallback；不新增“所有�
 
 ### 已复核证据与替代解释
 
-- 批二材料：[接手回执](../../../../testing/glm-pre-e2e-boundary-batch-2-report.md)、[机器账](../../../../testing/glm-pre-e2e-boundary-batch-2-evidence.json)。
+- 批二材料：[接手回执](../../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)、[机器账](../../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json)。
   GLM原材料+Codex修正自验，不充当本卡Kimi独立签字。相同产品、源码哈希已核；不重复72项全量盘点。
 - 本轮最小复跑：A01 contract exit0；A02/A03/A05/A09分别在正确业务断言exit1，无环境失败。
   日志：`/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-world-async-draft-KIe6PD/`。
-  命令：`node --import tsx docs/ops/audits/pre-e2e/probe-glm-next-async.mjs --mode=contract --case <ID>`。
+  命令：`node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs --mode=contract --case <ID>`。
 - 最强替代解释：这些改变可能已合法提交，或审计替身跳过了主壳/使用不存在的旧字段，误把正常取消报成缺陷。
   排除依据：A02/A03跑实际main.reloadMap；失败时现场旧而canonical新；A09取消前快照无选择，成功resolver返回后才出现残留。
   A05通过真实selector和main.prepare/assert/reveal，不手工把缺失字段塞回scratch。已提交后的microtask取消另设正控，不能混同。
@@ -278,7 +278,7 @@ scene-switch-transaction.test.ts、runtime-project-view.test.ts、script-runner.
 ## Build / Review / 用户验收
 
 Codex自验证、Kimi独立终审和GLM补审均accept，用户本轮确认签字，Codex已统一收口；不等同完整E2E通过。
-实现与证据入口：[验证记录](../../../../testing/world-async-commit.md)。实现候选：`e13216e7a4439008df38666cbcfec557c8e5a26c`，对比`5bc62a2135ce7145087d73d39a8bba54d7c0c406`。收口树787c1e0f的七产品文件中仅script-project-core有后续已验收SAVE-BARRIER-LINEAGE-1改动（独立根/内联lease），本卡地图/selector逻辑零漂移；其余六文件一致。不得把整个当前树说成旧候选零diff。
+实现与证据入口：[验证记录](../../../../testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md)。实现候选：`e13216e7a4439008df38666cbcfec557c8e5a26c`，对比`5bc62a2135ce7145087d73d39a8bba54d7c0c406`。收口树787c1e0f的七产品文件中仅script-project-core有后续已验收SAVE-BARRIER-LINEAGE-1改动（独立根/内联lease），本卡地图/selector逻辑零漂移；其余六文件一致。不得把整个当前树说成旧候选零diff。
 
 - 产品7文件：reforge的script-project-core/script-host-adapter/script-runner/main/runtime-project-view/scene-switch-transaction，以及editor playback；未改content/codec/迁移/生成资产/第一阶段/锁文件。
 - 正式回归新增55项：世界提交35、主壳预检10、依赖矩阵9、编辑器真实预览1；现有adapter/移动控制/读档chain仅按实际接口及定义读取调整，未删除既有测试身份。
@@ -333,8 +333,8 @@ Codex自验证、Kimi独立终审和GLM补审均accept，用户本轮确认签�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 WORLD-ASYNC-COMMIT-1，卡 docs/ops/archive/tasks/done/WORLD-ASYNC-COMMIT-1-world-async-commit.md，状态review，实现候选e13216e7a4439008df38666cbcfec557c8e5a26c，对比5bc62a21。r1设计不重签；用户已豁免本卡GLM，恢复后补审安排保留。
-先同步main、检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST、本卡AC-01～12、docs/testing/world-async-commit.md。独立核core→真实main路由→adapter→reloadMap提交控制、失败/取消零抢写、提交后通知、editor无reload宿主；main无第二writer，投影Runner现有合同不误删。
+先同步main、检查工作树，读AGENTS/CLAUDE/phase2 READ-FIRST、本卡AC-01～12、docs/testing/archive/legacy/runtime/authoring-and-runtime/world-async-commit.md。独立核core→真实main路由→adapter→reloadMap提交控制、失败/取消零抢写、提交后通知、editor无reload宿主；main无第二writer，投影Runner现有合同不误删。
 核首次await前的冻结输入/candidate script、目标hook/cursor/page依赖与无关变化正控；核四叶signal/来源会话检查，不误拒跨scene，不破坏move/lifecycle后提交语义。
-独立复跑定向及node docs/testing/world-async-commit-mutants.mjs（8反控红、2正常对照绿）；核check 7036、ratchet及单次受保护strict-fast 6548/617、55新增测试身份和零scope移除的原始证据。旧批二probe冻结历史API，不代替新正式回归。GLM只贡献原材料，不代填其席位；WA-E1～3视觉/磁盘重开延期集中E2E，不重复跑浏览器。
+独立复跑定向及node docs/testing/domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs（8反控红、2正常对照绿）；核check 7036、ratchet及单次受保护strict-fast 6548/617、55新增测试身份和零scope移除的原始证据。旧批二probe冻结历史API，不代替新正式回归。GLM只贡献原材料，不代填其席位；WA-E1～3视觉/磁盘重开延期集中E2E，不重复跑浏览器。
 在你的实现审查席位写accept或带file:line的counter，明确旧版本兼容审查及剩余风险；只更新自己的审查块/交接日志，提交推送。不改产品/他席/状态，不标done，交Codex统一收口。
 ```

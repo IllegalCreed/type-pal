@@ -129,8 +129,8 @@ schema/runtime/editor/当前内容必须在同一canonical候选中完成切换�
 ## 上下文与验收要求
 
 - [二阶段铁律](../../../../phase2/READ-FIRST.md)、[协作协议](../../../../../AGENTS.md)、[工作流](../../../agent-workflow.md)。
-- [统一步骤后续方案](../../../../testing/script-governance/unified-steps-plan.md)、[机器全量分类](../../../../testing/script-governance/machine-census.json)。
-- [当前检查点](../../../../testing/script-governance/current-checkpoints.md)与[SAVE10作者组织修复](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)。
+- [统一步骤后续方案](../../../../testing/archive/legacy/batches/script-governance/unified-steps-plan.md)、[机器全量分类](../../../../testing/archive/legacy/batches/script-governance/machine-census.json)。
+- [当前检查点](../../../../testing/archive/legacy/batches/script-governance/current-checkpoints.md)与[SAVE10作者组织修复](../../../tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md)。
 - 编排保持目标点与速度优先，不将每次转弯拆成跨激活步骤，不为此次任务引入parallel/join。
 - 实际compiler/runner/ProjectRuntime覆盖条件与确认分支、循环、取消、自切绑定、共享返回和后台保存恢复。
 - 内容与时序反例须核完整动作/等待/条件求值偏序，不只核末位置；保护001至005已验观感。
@@ -149,7 +149,7 @@ schema/runtime/editor/当前内容必须在同一canonical候选中完成切换�
 2026-10-03 Root已独立复核执行器、保存结算、词法循环范围、编辑器引用与深层保存消费者。
 147个旧机器hash、294个场景非脚本字段及10个共享调用者的历史hash均直接对Git1b3bffb79重算相符。
 作者内容冻结hash为10f2c0528fa2ee4424ae18ab56e6b2f618b830e655bf501ebd5a0698666af93c；
-全部1329个自动方案只有一个步骤，具体时序、四交接族与尾等待例外见[内容证据](../../../../testing/script-governance/unified-steps-evidence.md)。
+全部1329个自动方案只有一个步骤，具体时序、四交接族与尾等待例外见[内容证据](../../../../testing/archive/legacy/batches/script-governance/unified-steps-evidence.md)。
 
 质量验收采用完整组合证据：Content1256；Reforge全包7600，随后Content专属回归增至5480由Root独立复跑；
 Editor3811；Migrate453；Game2773；Extractor357；Shared128。Migrate全包曾有作者商店引用在生成分区提前检查的失败，
@@ -171,7 +171,7 @@ Root另独立复跑8个高风险脚本文件，因并行冷启动出现一次主
 Root签accept / done allowed。整体canonical候选70cbe05f2已快进main；主树仅保留用户原有.zcodeignore，
 6012原进程88523未关闭，新页实际加载294场景工程。证据144文件共22,566,156字节已逐字节保全到
 build/evidence-archive/unified-steps-20261003，原报告、原档和失败日志不改写。
-当前入口见[检查点](../../../../testing/script-governance/current-checkpoints.md)。任务关闭仅覆盖统一模型及本批已核修复，
+当前入口见[检查点](../../../../testing/archive/legacy/batches/script-governance/current-checkpoints.md)。任务关闭仅覆盖统一模型及本批已核修复，
 母卡的动态入口待核和后期剧情E2E仍继续。
 
 6014临时验证服务已结束，managed候选工作树通过App归档为可恢复快照，已合入的本地codex/unified-script-steps分支删除。

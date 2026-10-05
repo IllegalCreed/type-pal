@@ -2,27 +2,27 @@
   "total": {
     "lines": {
       "total": 29284,
-      "covered": 26984,
+      "covered": 26997,
       "skipped": 0,
-      "pct": 92.14
+      "pct": 92.19
     },
     "statements": {
       "total": 33513,
-      "covered": 30146,
+      "covered": 30159,
       "skipped": 0,
-      "pct": 89.95
+      "pct": 89.99
     },
     "functions": {
       "total": 8543,
-      "covered": 7632,
+      "covered": 7637,
       "skipped": 0,
-      "pct": 89.33
+      "pct": 89.39
     },
     "branches": {
       "total": 29058,
-      "covered": 24167,
+      "covered": 24177,
       "skipped": 0,
-      "pct": 83.16
+      "pct": 83.2
     },
     "branchesTrue": {
       "total": 0,
@@ -4584,27 +4584,27 @@
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapMode.tsx": {
     "lines": {
       "total": 1290,
-      "covered": 1068,
+      "covered": 1076,
       "skipped": 0,
-      "pct": 82.79
+      "pct": 83.41
     },
     "functions": {
       "total": 223,
-      "covered": 186,
+      "covered": 187,
       "skipped": 0,
-      "pct": 83.4
+      "pct": 83.85
     },
     "statements": {
       "total": 1467,
-      "covered": 1152,
+      "covered": 1160,
       "skipped": 0,
-      "pct": 78.52
+      "pct": 79.07
     },
     "branches": {
       "total": 1411,
-      "covered": 1011,
+      "covered": 1021,
       "skipped": 0,
-      "pct": 71.65
+      "pct": 72.36
     }
   },
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapSelectionInspector.tsx": {
@@ -5104,27 +5104,27 @@
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptEditor.tsx": {
     "lines": {
       "total": 836,
-      "covered": 694,
+      "covered": 699,
       "skipped": 0,
-      "pct": 83.01
+      "pct": 83.61
     },
     "functions": {
       "total": 329,
-      "covered": 253,
+      "covered": 257,
       "skipped": 0,
-      "pct": 76.89
+      "pct": 78.11
     },
     "statements": {
       "total": 929,
-      "covered": 750,
+      "covered": 755,
       "skipped": 0,
-      "pct": 80.73
+      "pct": 81.27
     },
     "branches": {
       "total": 1283,
-      "covered": 1015,
+      "covered": 1014,
       "skipped": 0,
-      "pct": 79.11
+      "pct": 79.03
     }
   },
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptSceneHookInspector.tsx": {
@@ -5408,9 +5408,9 @@
     },
     "branches": {
       "total": 175,
-      "covered": 153,
+      "covered": 154,
       "skipped": 0,
-      "pct": 87.42
+      "pct": 88
     }
   },
   "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrames.tsx": {

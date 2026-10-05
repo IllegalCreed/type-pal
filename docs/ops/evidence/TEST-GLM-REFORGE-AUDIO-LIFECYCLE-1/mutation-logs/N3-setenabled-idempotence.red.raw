@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ❯ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests | 1 failed | 3 skipped) 59ms
+     ↓ 挂起 ctx 上 autoplay 被拒仍完成一次静默提交；手势 resume 成功 → 补播记账曲
+     ↓ 负臂：stop 清账后手势解锁不补播（补播只由记账曲驱动，不无条件重放）
+     ↓ 运行中重复 play 同曲：零重读/零重载/零重启，恢复全增益；stop 后再 play 真重载
+     × 重复开不重启；重复关只停一次（pause/cancelFade 恰一次）；重开补播记账曲 58ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  02:44:16
+   Duration  515ms (transform 292ms, setup 0ms, import 355ms, tests 59ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio/bgm.glm-audio-lifecycle.test.ts > L3 setEnabled 同值幂等（接口合同：无变化不重启/不重停） > 重复开不重启；重复关只停一次（pause/cancelFade 恰一次）；重开补播记账曲
+AssertionError: expected [ 1, 1 ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/audio/bgm.glm-audio-lifecycle.test.ts:200:21
+    198|     player.setEnabled(true) // 已开：幂等早退
+    199|     await flush()
+    200|     expect(h.plays).toHaveLength(1)
+       |                     ^
+    201|     expect(h.pauses).toHaveLength(0)
+    202|     expect(h.cancelFades).toHaveLength(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

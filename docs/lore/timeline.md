@@ -54,7 +54,7 @@
 二阶段用明确编排表达这些停步，不让全地图NPC都随对话冻结。剧情记忆只需记住交谈与赏银完成时人物关系仍连贯，
 不要把原引擎的调度细节当成剧情本身。
 
-依据：[002回执](../testing/e2e/stages/002-inn-e56/report.md)、[走廊李大娘与三苗人](../../projects/pal/content/scenes/s003.json)。
+依据：[002回执](../testing/e2e/stages/002-inn-guests-and-reward/report.md)、[走廊李大娘与三苗人](../../projects/pal/content/scenes/s003.json)。
 
 ### 003 赶不走的醉道士与厨房交代
 

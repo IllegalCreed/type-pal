@@ -16,7 +16,7 @@ Visual Verification Timing: N/A（真实DOM事件/参数合同，不改UI、不�
 ## 六组与白名单
 
 新增packages/reforge/src/debug-tools.{commands,failures,triggers,battle,inspect,navigation}.test.ts，
-专属src/__tests__/debug-tools-fixtures.ts、docs/testing/codex-debug-tools/**。
+专属src/__tests__/debug-tools-fixtures.ts、docs/testing/archive/legacy/batches/codex-debug-tools/**。
 只调用installDebugTools与真实DOM事件；工程经正式loader；脚本经真实ScriptProjectRuntime，
 宿主副作用端口仅作调用/失败/取消见证，不称真实战斗、Canvas或磁盘保存已验证。
 预设使用生产buildWorld，检查实际传参和world/工程输入深保真。不得私有反射/核心mock/放宽fixture守卫。
@@ -28,7 +28,7 @@ Visual Verification Timing: N/A（真实DOM事件/参数合同，不改UI、不�
 ## 实施与收口
 
 2026-09-26 Codex accept：61新增/相邻17，定向78/78、Reforge TC、新文件Biome通过；
-六正控+六单点反控全部有精确业务AssertionError且产品hash不变，详见[回执](../../../../testing/codex-debug-tools/README.md)。
+六正控+六单点反控全部有精确业务AssertionError且产品hash不变，详见[回执](../../../../testing/archive/legacy/batches/codex-debug-tools/README.md)。
 串行check9387→ratchet→保护cd1baa6c的单次strict8895全部exit0；全仓45304/63178，
 净增173B。生产701文件、各分母与其它六包baseline对象不变。当前模式由Codex实施/自验，
 不冒称独立他席；本批纯测试/文档无产品选择，done准入满足，母卡未完成。

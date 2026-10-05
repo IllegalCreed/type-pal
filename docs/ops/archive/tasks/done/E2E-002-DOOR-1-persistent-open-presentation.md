@@ -64,7 +64,7 @@ Branch: codex/e2e-002-r1
 ## 上下文锚点与已核设计
 
 - [二阶段铁律](../../../../phase2/READ-FIRST.md)、[脚本系统](../../../../phase2/specs/script-system.md)、
-  [存档系统](../../../../phase2/specs/save-system.md)、[002回执](../../../../testing/e2e/stages/002-inn-e56/report.md)、
+  [存档系统](../../../../phase2/specs/save-system.md)、[002回执](../../../../testing/e2e/stages/002-inn-guests-and-reward/report.md)、
   [工具卡](E2E-002-1-inn-route-and-trio.md)。
 - `author-script-core.ts:370` page animation与`sprite.ts:51` SpriteActionBinding；
   `projects/pal/content/sprites.json` sprite53/54为static、尚无open pose。

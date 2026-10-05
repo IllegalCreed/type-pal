@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-10-04T10:55:55.730Z",
+  "total": 29,
+  "rows": [
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "标题入口视频:选中入口先播 intro 视频再进世界",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+      "status": "passed"
+    },
+    {
+      "file": "src/main.host-lifecycle-1.test.ts",
+      "fullName": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "fullName": "runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "fullName": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "fullName": "全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "fullName": "全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "fullName": "生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "fullName": "队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 执行帧深 嵌套分支超过 256 执行帧时精确熔断",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 续跑控制帧 confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 续跑控制帧 startBattle 已知战败相位只重放 onLose,不重开战斗",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 续跑控制帧 teleportOut 已知失败相位只重放 onFail,不再传出",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 自动单步检查点 setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 自动单步检查点 settle 相位写入续跑帧,宿主迟到回执静默不再发布",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 自动单步检查点 宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "fullName": "HL1 自动单步检查点 活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 残留命令分发 setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 残留命令分发 setSceneOnEnter 对既有槽覆写而不新建槽",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 残留命令分发 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 残留命令分发 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 残留命令分发 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 调用与跳转生命周期 callScript 内 returnScript 只终止被调脚本,调用方从调用点继续",
+      "status": "passed"
+    },
+    {
+      "file": "src/script-runner.host-lifecycle-1.test.ts",
+      "fullName": "HL1 调用与跳转生命周期 jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标",
+      "status": "passed"
+    }
+  ]
+}

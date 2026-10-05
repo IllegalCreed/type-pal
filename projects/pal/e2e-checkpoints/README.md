@@ -11,7 +11,7 @@
 
 以下为历次进展记录：
 001/002文字边界已定；[001双引擎执行器](../../../docs/testing/e2e/stages/001-opening/report.md)及
-[002执行与编排回执](../../../docs/testing/e2e/stages/002-inn-e56/report.md)已各自跑通真实结束档与新页读回。
+[002执行与编排回执](../../../docs/testing/e2e/stages/002-inn-guests-and-reward/report.md)已各自跑通真实结束档与新页读回。
 2026-09-28：001 **verify已收口**，55正文/说话人、参与角色与密道对象、李大娘停步偏序、
 结束与读回的真实持久域及Canvas像素一致通过；10节点截图已核查。录像/音轨仍为capture待办。
 2026-10-01：两引擎各自已形成真实001→002 checkpoint链；不跨引擎喂档、不造档或跳场景。

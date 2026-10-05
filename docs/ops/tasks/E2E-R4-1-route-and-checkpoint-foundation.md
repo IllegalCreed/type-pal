@@ -18,7 +18,7 @@ Visual Verification Timing: e2e-consolidated（001独立执行器首批）
 
 ## 先前进展（2026-10-01）
 
-002最终双引擎verify与完整质量门已通过并收口，见[002回执](../../testing/e2e/stages/002-inn-e56/report.md)。
+002最终双引擎verify与完整质量门已通过并收口，见[002回执](../../testing/e2e/stages/002-inn-guests-and-reward/report.md)。
 各自真实001档正常出房至s003/e56，20正文/500文、三人起步/两段对白停步/短续走/终点隐藏、
 真实002档新上下文恢复与同引擎Canvas均通过；两门持久open页修复未改变保存前结束画面。
 已交付编排审查：保留目标＋速度与独立auto并行；落实局部参与者接管、完成语义与持久门意图；
@@ -201,7 +201,7 @@ e2e-load:5383成功/失败已有明确分叉。本批只读导出这些既有事
 - Reforge main:5372-5418的导出/恢复，main:797-809/5073后的读观察点；package.json没有runner。
 - 碰撞与地图实例：reforge/src/collision.ts；动态移动继续走生产输入链，不用测试路径规划替换它。
 - 用户已确认001/002见[剧情边界](../../../projects/pal/e2e-checkpoints/README.md)，003–010仍须Codex先起草。
-- [现行E2E合同](../../testing/e2e/contract.md)、[旧前置盘点](../../testing/pre-e2e-admission.md)和READ-FIRST：
+- [现行E2E合同](../../testing/e2e/contract.md)、[旧前置盘点](../../testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)和READ-FIRST：
   旧日期/行号/缺陷状态必须按当前树重核；一阶段只作内容/UX参考，不对齐内部状态。
 - 最强替代解释：直跳场景或读档失败回落新游戏造成假通；必须有正式恢复成功与起始契约、真实前驱档hash。
 - 第一阶段bootstrap:1120-1133/1918-1919的DEV状态与core/save/api.ts；game与reforge对话分页接口不同，

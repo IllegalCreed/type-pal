@@ -12,7 +12,7 @@ Codex已修复普通继续按钮误带箭头、步骤卡半块hover/圆角不一
 完整check10,176、官方ratchet与保护1529f97e的单次strict-fast9,715全部通过，
 TC及lint2,391文件error/warning/info全零；覆盖基线完全不变（B47,637/63,361）。
 首轮设计系统两项登记失败已按真实producer补齐，没有放宽门禁。
-Codex核定review→done并归档，见[验证回执](../../../../testing/script-card-ui.md)。
+Codex核定review→done并归档，见[验证回执](../../../../testing/archive/legacy/editor/editor-workflows/script-card-ui.md)。
 本卡不关闭E2E-001/002待办；无下一位Agent提示词，不需其它席位。
 
 ## 准入与范围

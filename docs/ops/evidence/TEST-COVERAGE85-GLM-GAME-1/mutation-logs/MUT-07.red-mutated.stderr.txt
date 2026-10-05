@@ -1,0 +1,21 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/event-system.cov85.test.ts > cov85r3 tickEventSystem waiting 家族(r5 排重后旧测未证 lifecycle 轴;真实 bus + drain 无 emit 证明) > fade-screen:未到 totalMs 阻塞;到点清 + ip++;无 fadeState 防御清 waiting(1518-1531)
+AssertionError: expected +0 to be 111 // Object.is equality
+
+- Expected
++ Received
+
+- 111
++ 0
+
+ ❯ src/core/event-system.cov85.test.ts:484:23
+    482|     tickEventSystem(gs, snapR3(), bus)
+    483|     expect(gs.fadeState).toBeUndefined()
+    484|     expect(gs.dwCash).toBe(111)
+       |                       ^
+    485|     const gs2 = installWaitScript(0)
+    486|     gs2.eventCursor = cursorAt(1, { waiting: 'fade-screen' }) // 防御臂不推…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

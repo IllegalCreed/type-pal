@@ -28,7 +28,7 @@ Branch: codex/e2e-003
 ## 前提与上下文
 
 - 必读 `docs/phase2/READ-FIRST.md`、`docs/phase2/reference/phase1-knowledge-harvest.md` W/E段、
-  `docs/testing/e2e/stages/002-inn-e56/report.md`、`docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md`。
+  `docs/testing/e2e/stages/002-inn-guests-and-reward/report.md`、`docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md`。
 - 原前驱：冻结10e65063 RF002 `build/e2e/reforge-002-2026-09-30T23-09-35-990Z`，
   actual ended SAVE9/content21，SHA `42ac15aff0719f8f11b3f59d6001266c59e2075c715d616f5c75985bcfb0136f`。
   此档后来核实选错次日方案，保留历史、不用于新003；当前正常重跑前驱见下方05-09-59-537Z。

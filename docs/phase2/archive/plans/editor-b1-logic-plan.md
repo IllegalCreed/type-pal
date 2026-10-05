@@ -1,7 +1,7 @@
 # 编辑器 B1 · 逻辑层实现计划(给 GLM)
 
 > **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
-> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/board.md) 进入。
+> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。
 
 > **执行者**:GLM(全非视觉:命令集 / 会话脏标记 / 工程 IO / 命中测试,纯 TS,`pnpm check` 可验)。
 > **Claude 并行**:React 外壳 + 画布 + 交互(照下方**契约**接 GLM 这层)。**GLM 只碰 `editor/src/core/`,不碰任何 React/UI 文件**——两边靠契约汇合,不撞车。

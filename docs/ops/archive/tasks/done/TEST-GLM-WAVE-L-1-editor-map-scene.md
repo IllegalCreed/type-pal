@@ -12,8 +12,8 @@ Branch: `codex/glm-wave-l-editor-map-r1`（独立工作树）
 ## 准入与前提
 
 2026-09-30 Codex 核 `build allowed`，限纯测试。
-[冻结表](../../../../testing/glm-next-triple/targets.json) L01–L06 为 **24 个互异生产源**，
-[只读校验](../../../../testing/glm-next-triple/verify-targets.mjs)证与 A–K 目标及 M/N 零交集；
+[冻结表](../../../../testing/archive/legacy/batches/glm-next-triple/targets.json) L01–L06 为 **24 个互异生产源**，
+[只读校验](../../../../testing/archive/legacy/batches/glm-next-triple/verify-targets.mjs)证与 A–K 目标及 M/N 零交集；
 基础提交 `f70db72236d9cac794d40a625a89fef8c29459ae`。
 本地 fast 逐文件 1155 个未命中臂只是选题池，不承诺可达收益。
 
@@ -26,7 +26,7 @@ Branch: `codex/glm-wave-l-editor-map-r1`（独立工作树）
 `existing-proof/unreachable/blocked`，不写伪新测。
 
 先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、
-`docs/testing/glm-next-triple/README.md`、冻结表及对应旧测试，
+`docs/testing/archive/legacy/batches/glm-next-triple/README.md`、冻结表及对应旧测试，
 特别排重历史 A 的编辑器表单、B 的会话和 F 的主壳/预览；
 不得接 `EDITOR-SCENE-FACING-1` 的朝向产品修复或 E2E-R4-1 的剧情路线。
 
@@ -43,11 +43,11 @@ Branch: `codex/glm-wave-l-editor-map-r1`（独立工作树）
 
 这些是审计轴，不是按未命中臂凑用例的额度。写入白名单只含冻结源同目录
 `*.glm-l.test.ts(x)` 新文件、`packages/editor/src/__tests__/glm-l/**` typed fixture、
-`docs/testing/glm-next-triple/wave-L/**` 证据/反控；产品、旧测和共享文件只读。
+`docs/testing/archive/legacy/batches/glm-next-triple/wave-L/**` 证据/反控；产品、旧测和共享文件只读。
 功能视觉至少两条：地图选区/取消与精灵或印章编辑回显，记录实际浏览器 URL、
 视口、操作、截图 SHA256、console；不能看图则标未证，不能用测试 DOM 代替。
 
-验收按[共同协议](../../../../testing/glm-next-triple/README.md)：六组逐行
+验收按[共同协议](../../../../testing/archive/legacy/batches/glm-next-triple/README.md)：六组逐行
 caller→旧 fullName/断言→新证或不写理由，至少四枚有效业务反控，
 Editor 定向/相邻及全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test`、
 `typecheck`、根 `pnpm lint` 0/0/0、docs/diff 零诊断。GLM 只推隔离候选，不合 main、
@@ -82,7 +82,7 @@ Editor 定向/相邻及全包 `env -u NODE_COMPILE_CACHE pnpm --filter @type-pal
    画面回显已核；但浏览器 console 逐条记录未采集，不能据“无 overlay”宣称
    console 归零。补可核的 console 证据，或明确此验收轴未证。
 5. `node scripts/docs/check.mjs` 在候选仅因共享
-   `docs/testing/glm-next-triple/README.md` 缺 wave-L 导航行失败。该共享文件在 GLM
+   `docs/testing/archive/legacy/batches/glm-next-triple/README.md` 缺 wave-L 导航行失败。该共享文件在 GLM
    白名单外，**不要求 GLM 越界修**；Codex 待接收集成时补一行并复跑 docs 门。
    隔离覆盖 +133 / 同分母 5381 仅是候选对照；正式结算待 main 并集实测，
    本轮不运行官方 ratchet/受保护 fast、不清理分支或工作树。
@@ -100,7 +100,7 @@ Inspector 消失但底部仍写「已选择 1 个视觉槽、1 个格点」，�
 ```text
 你是 TEST-GLM-WAVE-L-1 测试 Coding Owner，请在原隔离工作树/分支
 codex/glm-wave-l-editor-map-r1 基于候选 e2b3f437 返工。先读本卡 Codex 独立审核段、
-AGENTS.md、docs/phase2/READ-FIRST.md、docs/testing/glm-next-triple/README.md
+AGENTS.md、docs/phase2/READ-FIRST.md、docs/testing/archive/legacy/batches/glm-next-triple/README.md
 及 wave-L 原始日志。只改卡面白名单内新测试与 wave-L 证据：
 1) 格式化 vitest-directed.json，完整重跑 pnpm lint 并交 lint-zero.mjs 0/0/0 原始输出；
 2) 去掉 StampTemplateDialog 新测的双强转，修 act 环境警告，不降规则、不吞 console；
@@ -117,7 +117,7 @@ AGENTS.md、docs/phase2/READ-FIRST.md、docs/testing/glm-next-triple/README.md
 你是 TEST-GLM-WAVE-L-1 的唯一测试 Coding Owner。请在独立工作树、分支
 codex/glm-wave-l-editor-map-r1 从包含本卡的最新 main 派发提交起步；生产冻结 f70db722。
 先读 AGENTS.md、docs/phase2/READ-FIRST.md、本卡、
-docs/testing/glm-next-triple/README.md 与 targets.json，运行 verify-targets.mjs。
+docs/testing/archive/legacy/batches/glm-next-triple/README.md 与 targets.json，运行 verify-targets.mjs。
 完成 L01–L06 地图/场景/精灵/印章 24 源大包：先逐组查真实 caller 和旧测 fullName/断言，
 再只为合法未重复合同新增 *.glm-l.test.ts(x)、专属 typed fixture 和 wave-L 证据。
 两条真实浏览器功能视觉、至少四枚合法输入业务反控、鲜活 Vitest JSON、Editor 全包测试与
@@ -173,5 +173,5 @@ GLM 无需继续返工；下一位为 Codex，完成并集门后才能 done。
 
 并集最终门：完整 check 10715 例及硬性静态门通过，但官方 ratchet exit1，
 migrate statements/branches/lines 比率回退；baseline 未改，protected fast 未执行。
-详见[统一记录](../../../../testing/glm-next-triple/codex-lm-union-review.md)。
+详见[统一记录](../../../../testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md)。
 保持 review，测试未合 main、未正式结算、未清树；不把存量 migrate 问题转给 GLM L。

@@ -1,0 +1,66 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791181213551,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-A3 hub 同帧 Menu+Confirm:取消优先"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-A3 hub 同帧 Menu+Confirm:取消优先 同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "status": "passed",
+          "title": "同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "duration": 1.5955840000000308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-C1 save-slot dispatcher 跨槽 max+1 真链"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-C1 save-slot dispatcher 跨槽 max+1 真链 slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "status": "passed",
+          "title": "slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "duration": 2.6708339999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791181214157,
+      "endTime": 1791181214160.671,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-menu-save-io/packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts"
+    }
+  ]
+}

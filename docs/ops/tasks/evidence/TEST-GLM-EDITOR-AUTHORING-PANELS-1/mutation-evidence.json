@@ -1,0 +1,844 @@
+{
+  "card": "TEST-GLM-EDITOR-AUTHORING-PANELS-1",
+  "generatedAt": "2026-10-04T10:19:10.342Z",
+  "command": "node docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/run-mutations.mjs",
+  "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+  "phases": {
+    "original": {
+      "pwt": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 4,
+        "tests": [
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P1 条件弹窗全部取消勾选保存：seedConditions 整键删除、单命令、undo 精确还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P2 零改动打开条件弹窗直接保存：零命令（规范化对合法输入是恒等，无修复可写）",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P3 entrypoint focus 活跃同步：跟随存在入口、清空回落直接启动入口、陈旧 focus 保持当前选择",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P4 advanced 问题页 focus 入向同步：选中目标分组、非法 focus 保持当前分组",
+            "status": "passed"
+          }
+        ]
+      },
+      "actor": {
+        "argv": ["vitest", "run", "src/ui/ActorMode.glm-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 5,
+        "tests": [
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A1 新建守卫：空字段零派发保留面板，重复 id 报命令层错误，合法新建可 undo",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A2 删除当前 actor：选择回落剩余第一名并回报 onActorFocus，undo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A3 战斗音效空值删除：逐键删除，最后一键删除后 battler.sounds 整键消失，undo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A4 非法数值拒绝与 no-op 抑制：负数零派发带回显错误，同值重提交零派发，改值单命令",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A5 initial magic 选项去重：每行选项排除其它行已用技能，全部用尽后添加禁用",
+            "status": "passed"
+          }
+        ]
+      },
+      "cutscene": {
+        "argv": ["vitest", "run", "src/ui/CutsceneTab.glm-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 6,
+        "tests": [
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C1 检查器大小行按字节三分支格式化，时长走分钟支 M:SS.S",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C2 视频扩展识别：webm（EBML 魔数）真实导入落账 .webm；.mp4 名 + webm 字节拒绝零提交",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C3 stale selection：选中资源被外部真实删除后选择回落第一项且不伪造 focus 回报",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C4a discard 确认：脏帧动画下切走 → 确认后真实切换且脏标志复位（再切不弹窗）",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C4b focus 深链确认后取消：onCancel 把 focus 还原回当前选择，选择与脏状态保持",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C5 卸载回收 objectURL：视频预览建立的 URL 在 unmount 时被 revoke",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    "restored": {
+      "pwt": {
+        "argv": [
+          "vitest",
+          "run",
+          "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+          "--reporter=json"
+        ],
+        "exit": 0,
+        "executedCount": 4,
+        "tests": [
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P1 条件弹窗全部取消勾选保存：seedConditions 整键删除、单命令、undo 精确还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P2 零改动打开条件弹窗直接保存：零命令（规范化对合法输入是恒等，无修复可写）",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P3 entrypoint focus 活跃同步：跟随存在入口、清空回落直接启动入口、陈旧 focus 保持当前选择",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+            "fullName": "P 组 ProjectWorkbenchTab 作者面板残差 P4 advanced 问题页 focus 入向同步：选中目标分组、非法 focus 保持当前分组",
+            "status": "passed"
+          }
+        ]
+      },
+      "actor": {
+        "argv": ["vitest", "run", "src/ui/ActorMode.glm-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 5,
+        "tests": [
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A1 新建守卫：空字段零派发保留面板，重复 id 报命令层错误，合法新建可 undo",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A2 删除当前 actor：选择回落剩余第一名并回报 onActorFocus，undo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A3 战斗音效空值删除：逐键删除，最后一键删除后 battler.sounds 整键消失，undo 还原",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A4 非法数值拒绝与 no-op 抑制：负数零派发带回显错误，同值重提交零派发，改值单命令",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/ActorMode.glm-authoring.test.tsx",
+            "fullName": "A 组 ActorMode 作者面板残差 A5 initial magic 选项去重：每行选项排除其它行已用技能，全部用尽后添加禁用",
+            "status": "passed"
+          }
+        ]
+      },
+      "cutscene": {
+        "argv": ["vitest", "run", "src/ui/CutsceneTab.glm-authoring.test.tsx", "--reporter=json"],
+        "exit": 0,
+        "executedCount": 6,
+        "tests": [
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C1 检查器大小行按字节三分支格式化，时长走分钟支 M:SS.S",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C2 视频扩展识别：webm（EBML 魔数）真实导入落账 .webm；.mp4 名 + webm 字节拒绝零提交",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C3 stale selection：选中资源被外部真实删除后选择回落第一项且不伪造 focus 回报",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C4a discard 确认：脏帧动画下切走 → 确认后真实切换且脏标志复位（再切不弹窗）",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C4b focus 深链确认后取消：onCancel 把 focus 还原回当前选择，选择与脏状态保持",
+            "status": "passed"
+          },
+          {
+            "file": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "fullName": "C 组 CutsceneTab 作者面板残差 C5 卸载回收 objectURL：视频预览建立的 URL 在 unmount 时被 revoke",
+            "status": "passed"
+          }
+        ]
+      }
+    }
+  },
+  "injections": [
+    {
+      "id": "INJ-1",
+      "contract": "seedConditions 整键删除 → 变异为保留空对象 {}",
+      "compound": false,
+      "productFiles": ["src/ui/ProjectWorkbenchTab.tsx"],
+      "targetTestFile": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+      "targetTestName": "P1",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+        "-t",
+        "P1",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P1 条件弹窗全部取消勾选保存：seedConditions 整键删除、单命令、undo 精确还原"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 3,
+      "failed": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P1 条件弹窗全部取消勾选保存：seedConditions 整键删除、单命令、undo 精确还原"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected {} to be undefined",
+      "failingTargetFullName": "P 组 ProjectWorkbenchTab 作者面板残差 P1 条件弹窗全部取消勾选保存：seedConditions 整键删除、单命令、undo 精确还原",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":3,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ProjectWorkbenchTab.tsx",
+          "anchor": "patch({\n      seedConditions: Object.keys(seedConditions).length ? seedConditions : undefined,\n    })",
+          "mutant": "patch({\n      seedConditions: Object.keys(seedConditions).length ? seedConditions : {},\n    })",
+          "hashes": {
+            "original": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f",
+            "mutant": "6d64cd400941ebc1148e05df3b7c9c307d4cc7e23a4c91fa82d7e6aa4fdaad3a",
+            "restored": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-2",
+      "contract": "focus 清空回落直接启动入口 → 变异为不回落",
+      "compound": false,
+      "productFiles": ["src/ui/ProjectWorkbenchTab.tsx"],
+      "targetTestFile": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+      "targetTestName": "P3",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+        "-t",
+        "P3",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P3 entrypoint focus 活跃同步：跟随存在入口、清空回落直接启动入口、陈旧 focus 保持当前选择"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 3,
+      "failed": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P3 entrypoint focus 活跃同步：跟随存在入口、清空回落直接启动入口、陈旧 focus 保持当前选择"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected '序章线' to be '新的故事' // Object.is equality",
+      "failingTargetFullName": "P 组 ProjectWorkbenchTab 作者面板残差 P3 entrypoint focus 活跃同步：跟随存在入口、清空回落直接启动入口、陈旧 focus 保持当前选择",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":3,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ProjectWorkbenchTab.tsx",
+          "anchor": "if (focusObjectId === undefined) {",
+          "mutant": "if (false) {",
+          "hashes": {
+            "original": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f",
+            "mutant": "6aaad9a939e41b498ca1ec6d831619910f07a6d7ffdea0eb76556d9d96f286ad",
+            "restored": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-3",
+      "contract": "问题页 focus 入向选中分组 → 变异为同步 no-op",
+      "compound": false,
+      "productFiles": ["src/ui/ProjectWorkbenchTab.tsx"],
+      "targetTestFile": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+      "targetTestName": "P4",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+        "-t",
+        "P4",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P4 advanced 问题页 focus 入向同步：选中目标分组、非法 focus 保持当前分组"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 3,
+      "failed": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P4 advanced 问题页 focus 入向同步：选中目标分组、非法 focus 保持当前分组"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected '未引用资源 · 音效' to be '未引用资源 · 视频' // Object.is equality",
+      "failingTargetFullName": "P 组 ProjectWorkbenchTab 作者面板残差 P4 advanced 问题页 focus 入向同步：选中目标分组、非法 focus 保持当前分组",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":3,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ProjectWorkbenchTab.tsx",
+          "anchor": "setLocalSelectedId(focusObjectId)",
+          "mutant": "setLocalSelectedId(localSelectedId)",
+          "hashes": {
+            "original": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f",
+            "mutant": "014907376c6a31f423c384d8cfa7e5612aac169abf2fd033454e6e2436a50607",
+            "restored": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-13",
+      "contract": "零改动保存零命令 → 变异为恒需修复（无改动也派发命令）",
+      "compound": false,
+      "productFiles": ["src/ui/ProjectWorkbenchTab.tsx"],
+      "targetTestFile": "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+      "targetTestName": "P2",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
+        "-t",
+        "P2",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P2 零改动打开条件弹窗直接保存：零命令（规范化对合法输入是恒等，无修复可写）"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 3,
+      "failed": [
+        "src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx :: P 组 ProjectWorkbenchTab 作者面板残差 P2 零改动打开条件弹窗直接保存：零命令（规范化对合法输入是恒等，无修复可写）"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected \"dispatch\" to not be called at all, but actually been called 1 times",
+      "failingTargetFullName": "P 组 ProjectWorkbenchTab 作者面板残差 P2 零改动打开条件弹窗直接保存：零命令（规范化对合法输入是恒等，无修复可写）",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":3,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ProjectWorkbenchTab.tsx",
+          "anchor": "const needsRepair = !sameDsSerializableValue(rawCurrent, current)",
+          "mutant": "const needsRepair = true",
+          "hashes": {
+            "original": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f",
+            "mutant": "5815346edc3cd880f951e10b13f57e49e1cc0945c243e2b40187c0dfb587e292",
+            "restored": "263bfce723b7fc9a42a766a82feb473cbdb11488727f940c9a9bf880d8147c6f"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-4",
+      "contract": "新建空字段守卫 → 变异为跳过守卫（空字段走命令层错误文案）",
+      "compound": false,
+      "productFiles": ["src/ui/ActorMode.tsx"],
+      "targetTestFile": "src/ui/ActorMode.glm-authoring.test.tsx",
+      "targetTestName": "A1",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ActorMode.glm-authoring.test.tsx",
+        "-t",
+        "A1",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A1 新建守卫：空字段零派发保留面板，重复 id 报命令层错误，合法新建可 undo"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 4,
+      "failed": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A1 新建守卫：空字段零派发保留面板，重复 id 报命令层错误，合法新建可 undo"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected '人物 id 必须是无首尾空格的非空字符串' to be '人物 ID、显示名称和默认精灵都必须填写。' // Object.is equality",
+      "failingTargetFullName": "A 组 ActorMode 作者面板残差 A1 新建守卫：空字段零派发保留面板，重复 id 报命令层错误，合法新建可 undo",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ActorMode.tsx",
+          "anchor": "if (!id || !displayName || !actorDraft.spriteId) {",
+          "mutant": "if (false) {",
+          "hashes": {
+            "original": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac",
+            "mutant": "e42b1ca4b3eeda2fc24910a5480305812ddf08595f3ad7af9098c137132c9a7c",
+            "restored": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-5",
+      "contract": "battle sound 最后一键整键删除 → 变异为保留空对象 {}",
+      "compound": false,
+      "productFiles": ["src/ui/ActorMode.tsx"],
+      "targetTestFile": "src/ui/ActorMode.glm-authoring.test.tsx",
+      "targetTestName": "A3",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ActorMode.glm-authoring.test.tsx",
+        "-t",
+        "A3",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A3 战斗音效空值删除：逐键删除，最后一键删除后 battler.sounds 整键消失，undo 还原"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 4,
+      "failed": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A3 战斗音效空值删除：逐键删除，最后一键删除后 battler.sounds 整键消失，undo 还原"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected {} to be undefined",
+      "failingTargetFullName": "A 组 ActorMode 作者面板残差 A3 战斗音效空值删除：逐键删除，最后一键删除后 battler.sounds 整键消失，undo 还原",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ActorMode.tsx",
+          "anchor": "sounds: Object.keys(sounds).length ? sounds : undefined",
+          "mutant": "sounds: Object.keys(sounds).length ? sounds : {}",
+          "hashes": {
+            "original": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac",
+            "mutant": "27b2a4c31b51c38e4023ba984ee080504c2870c612778922805d12ca68a07c03",
+            "restored": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-6",
+      "contract": "每行选项排除其它行已用技能 → 变异为不排除（重复可选，选项集判别去重）",
+      "compound": false,
+      "productFiles": ["src/ui/ActorMode.tsx"],
+      "targetTestFile": "src/ui/ActorMode.glm-authoring.test.tsx",
+      "targetTestName": "A5",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ActorMode.glm-authoring.test.tsx",
+        "-t",
+        "A5",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A5 initial magic 选项去重：每行选项排除其它行已用技能，全部用尽后添加禁用"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 4,
+      "failed": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A5 initial magic 选项去重：每行选项排除其它行已用技能，全部用尽后添加禁用"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected [ '火咒fire-spell', '冰咒ice-spell' ] to have a length of 1 but got 2",
+      "failingTargetFullName": "A 组 ActorMode 作者面板残差 A5 initial magic 选项去重：每行选项排除其它行已用技能，全部用尽后添加禁用",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/ActorMode.tsx",
+          "anchor": "existingIndex !== index",
+          "mutant": "false",
+          "hashes": {
+            "original": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac",
+            "mutant": "61832068cfaa922a2dde712aa88877364806ed306805a521a3bab2fd6d9ea1a2",
+            "restored": "910e354c15d266f216a5e7e53f29f2ec26157b6697ac99eff04d1e349a760cac"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-7",
+      "contract": "同值重提交 no-op 抑制（draft + number 双层真源） → 两层同时变异为恒派发",
+      "compound": true,
+      "productFiles": [
+        "src/ui/design-system/draft-input-state.ts",
+        "src/ui/design-system/number-inputs.tsx"
+      ],
+      "targetTestFile": "src/ui/ActorMode.glm-authoring.test.tsx",
+      "targetTestName": "A4",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/ActorMode.glm-authoring.test.tsx",
+        "-t",
+        "A4",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A4 非法数值拒绝与 no-op 抑制：负数零派发带回显错误，同值重提交零派发，改值单命令"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 4,
+      "failed": [
+        "src/ui/ActorMode.glm-authoring.test.tsx :: A 组 ActorMode 作者面板残差 A4 非法数值拒绝与 no-op 抑制：负数零派发带回显错误，同值重提交零派发，改值单命令"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected \"dispatch\" to not be called at all, but actually been called 1 times",
+      "failingTargetFullName": "A 组 ActorMode 作者面板残差 A4 非法数值拒绝与 no-op 抑制：负数零派发带回显错误，同值重提交零派发，改值单命令",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":4,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/design-system/draft-input-state.ts",
+          "anchor": "next.value === canonicalValue ? true : onCommit(next.value)",
+          "mutant": "onCommit(next.value)",
+          "hashes": {
+            "original": "659a41a4dbbf3d90c203c7bd24c9bfbb90fb5f48d5d9d6eadfc554b2b05f058f",
+            "mutant": "9ce64c97326d3c29e262bb8d8db0f699e1d3f95b82c509ce72cdf3ed3c7dbe11",
+            "restored": "659a41a4dbbf3d90c203c7bd24c9bfbb90fb5f48d5d9d6eadfc554b2b05f058f"
+          },
+          "hashOk": true
+        },
+        {
+          "productFile": "src/ui/design-system/number-inputs.tsx",
+          "anchor": "return normalized === value ? false : onCommit(normalized)",
+          "mutant": "return onCommit(normalized)",
+          "hashes": {
+            "original": "e63a5f3ff972146b6b21b2f709e79c18bd0ac60d09658108ee522fd5e1c361fc",
+            "mutant": "a6e6d902d82d9ebd62511a39eb870e96aa6891d22ff4b02a0a8e969b9d9d5fd7",
+            "restored": "e63a5f3ff972146b6b21b2f709e79c18bd0ac60d09658108ee522fd5e1c361fc"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-8",
+      "contract": "时长分钟支 M:SS.S → 变异为恒走秒支",
+      "compound": false,
+      "productFiles": ["src/ui/CutsceneTab.tsx"],
+      "targetTestFile": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+      "targetTestName": "C1",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/CutsceneTab.glm-authoring.test.tsx",
+        "-t",
+        "C1",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C1 检查器大小行按字节三分支格式化，时长走分钟支 M:SS.S"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 5,
+      "failed": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C1 检查器大小行按字节三分支格式化，时长走分钟支 M:SS.S"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected '62.00 秒' to be '1:02.0' // Object.is equality",
+      "failingTargetFullName": "C 组 CutsceneTab 作者面板残差 C1 检查器大小行按字节三分支格式化，时长走分钟支 M:SS.S",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":5,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/CutsceneTab.tsx",
+          "anchor": "const minutes = Math.floor(seconds / 60)",
+          "mutant": "const minutes = 0",
+          "hashes": {
+            "original": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+            "mutant": "1355d4e3b45a22770b8f57a69ed6807bed385d64c21bd4b5c52f7ceb97f2ad1c",
+            "restored": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-9",
+      "contract": "webm EBML 魔数识别 → 变异为魔数永不匹配",
+      "compound": false,
+      "productFiles": ["src/ui/CutsceneTab.tsx"],
+      "targetTestFile": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+      "targetTestName": "C2",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/CutsceneTab.glm-authoring.test.tsx",
+        "-t",
+        "C2",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C2 视频扩展识别：webm（EBML 魔数）真实导入落账 .webm；.mp4 名 + webm 字节拒绝零提交"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 5,
+      "failed": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C2 视频扩展识别：webm（EBML 魔数）真实导入落账 .webm；.mp4 名 + webm 字节拒绝零提交"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected [] to have a length of 1 but got +0",
+      "failingTargetFullName": "C 组 CutsceneTab 作者面板残差 C2 视频扩展识别：webm（EBML 魔数）真实导入落账 .webm；.mp4 名 + webm 字节拒绝零提交",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":5,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/CutsceneTab.tsx",
+          "anchor": "bytes[3] === 0xa3",
+          "mutant": "bytes[3] === 0xa4",
+          "hashes": {
+            "original": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+            "mutant": "e8e7b73787ede0ca57a81284a1b1f56e97098e182de01ee0f52bcf859c3f37d8",
+            "restored": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-10",
+      "contract": "stale selection 回落第一项 → 变异为不回落",
+      "compound": false,
+      "productFiles": ["src/ui/CutsceneTab.tsx"],
+      "targetTestFile": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+      "targetTestName": "C3",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/CutsceneTab.glm-authoring.test.tsx",
+        "-t",
+        "C3",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C3 stale selection：选中资源被外部真实删除后选择回落第一项且不伪造 focus 回报"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 5,
+      "failed": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C3 stale selection：选中资源被外部真实删除后选择回落第一项且不伪造 focus 回报"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected null to be '回落甲' // Object.is equality",
+      "failingTargetFullName": "C 组 CutsceneTab 作者面板残差 C3 stale selection：选中资源被外部真实删除后选择回落第一项且不伪造 focus 回报",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":5,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/CutsceneTab.tsx",
+          "anchor": "if (!selected && allEntries[0]) setSelectedId(allEntries[0].id)",
+          "mutant": "if (false) setSelectedId(allEntries[0].id)",
+          "hashes": {
+            "original": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+            "mutant": "7e61c482f714c6459cf5ef5c41ac8a26680f2293df8470d9ed7b1c86e3c1990c",
+            "restored": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-11",
+      "contract": "脏状态切换先弹放弃确认 → 变异为脏状态直接放行不弹窗",
+      "compound": false,
+      "productFiles": ["src/ui/CutsceneTab.tsx"],
+      "targetTestFile": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+      "targetTestName": "C4a",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/CutsceneTab.glm-authoring.test.tsx",
+        "-t",
+        "C4a",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C4a discard 确认：脏帧动画下切走 → 确认后真实切换且脏标志复位（再切不弹窗）"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 5,
+      "failed": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C4a discard 确认：脏帧动画下切走 → 确认后真实切换且脏标志复位（再切不弹窗）"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: 弹窗 放弃未保存修改 处于打开: expected false to be true // Object.is equality",
+      "failingTargetFullName": "C 组 CutsceneTab 作者面板残差 C4a discard 确认：脏帧动画下切走 → 确认后真实切换且脏标志复位（再切不弹窗）",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":5,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/CutsceneTab.tsx",
+          "anchor": "if (!frameEditorDirty) {",
+          "mutant": "if (frameEditorDirty) {",
+          "hashes": {
+            "original": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+            "mutant": "fd44f51d08546cc6cba4cb23cad47d67cfbfb26cee48ee26d84a28b2c6d2aea9",
+            "restored": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    },
+    {
+      "id": "INJ-12",
+      "contract": "卸载回收 objectURL → 变异为不回收",
+      "compound": false,
+      "productFiles": ["src/ui/CutsceneTab.tsx"],
+      "targetTestFile": "src/ui/CutsceneTab.glm-authoring.test.tsx",
+      "targetTestName": "C5",
+      "argv": [
+        "vitest",
+        "run",
+        "src/ui/CutsceneTab.glm-authoring.test.tsx",
+        "-t",
+        "C5",
+        "--reporter=json"
+      ],
+      "cwd": "/private/tmp/authoring-panels-wt/packages/editor",
+      "exit": 1,
+      "signal": null,
+      "executedSet": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C5 卸载回收 objectURL：视频预览建立的 URL 在 unmount 时被 revoke"
+      ],
+      "executedCount": 1,
+      "skippedExcluded": 5,
+      "failed": [
+        "src/ui/CutsceneTab.glm-authoring.test.tsx :: C 组 CutsceneTab 作者面板残差 C5 卸载回收 objectURL：视频预览建立的 URL 在 unmount 时被 revoke"
+      ],
+      "uniqueBusinessAssertion": "AssertionError: expected [] to deeply equal [ 'blob:k06-cutscene-1' ]",
+      "failingTargetFullName": "C 组 CutsceneTab 作者面板残差 C5 卸载回收 objectURL：视频预览建立的 URL 在 unmount 时被 revoke",
+      "mutantPhaseOk": true,
+      "stdoutExcerpt": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":0,\"numFailedTests\":1,\"numPendingTests\":5,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"update",
+      "files": [
+        {
+          "productFile": "src/ui/CutsceneTab.tsx",
+          "anchor": "if (objectUrl) URL.revokeObjectURL(objectUrl)",
+          "mutant": "if (false) URL.revokeObjectURL(objectUrl)",
+          "hashes": {
+            "original": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+            "mutant": "6916b9f76c7bd9b2d288eb4637f62ec09987c09752ee43dac2abe71d743444a4",
+            "restored": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638"
+          },
+          "hashOk": true
+        }
+      ],
+      "hashOk": true
+    }
+  ],
+  "productFilesGitStatus": [
+    {
+      "file": "src/ui/ProjectWorkbenchTab.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/ActorMode.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/design-system/draft-input-state.ts",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/design-system/number-inputs.tsx",
+      "status": "",
+      "clean": true
+    },
+    {
+      "file": "src/ui/CutsceneTab.tsx",
+      "status": "",
+      "clean": true
+    }
+  ],
+  "allMutantPhasesOk": true,
+  "productFilesAllClean": true
+}

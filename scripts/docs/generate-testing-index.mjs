@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -17,7 +17,7 @@ const rows = (entries) =>
     .map((entry) => `| ${entry.id} | ${link(entry)} | ${entry.status} | ${entry.owner} |`)
     .join('\n')
 
-export function renderIndexes(catalog) {
+export function renderIndexes(catalog, classification = { entries: [] }) {
   const entries = [...catalog.entries].sort((a, b) => a.id.localeCompare(b.id, 'en'))
   const tags = new Map()
   const owners = new Map()
@@ -46,13 +46,9 @@ export function renderIndexes(catalog) {
         [
           `## ${status}`,
           '',
-          '| ID | 文档 | Owner |',
-          '|---|---|---|',
-          rows(
-            entries
-              .filter((entry) => entry.status === status)
-              .map((entry) => ({ ...entry, owner: entry.owner })),
-          ).replace(/ \| (?:[^|]+) \|$/, ' |'),
+          '| ID | 文档 | 状态 | Owner |',
+          '|---|---|---|---|',
+          rows(entries.filter((entry) => entry.status === status)),
           '',
         ].join('\n'),
       ),
@@ -89,23 +85,77 @@ export function renderIndexes(catalog) {
         ].join('\n'),
       ),
   ].join('\n')
+  function grouped(title, valuesFor) {
+    const groups = new Map()
+    for (const entry of entries)
+      for (const value of valuesFor(entry)) groups.set(value, [...(groups.get(value) ?? []), entry])
+    return [
+      `# 测试文档索引：${title}`,
+      '',
+      '由 `scripts/docs/generate-testing-index.mjs` 从 catalog 生成；current source audit 与历史实跑按报告边界阅读。',
+      '',
+      ...[...groups.keys()]
+        .sort()
+        .flatMap((value) => [
+          `## ${value}`,
+          '',
+          '| ID | 文档 | 状态 | Owner |',
+          '|---|---|---|---|',
+          rows(groups.get(value)),
+          '',
+        ]),
+    ].join('\n')
+  }
+  const ledger = [...classification.entries].sort((a, b) =>
+    `${a.domain}/${a.module}/${a.path}`.localeCompare(`${b.domain}/${b.module}/${b.path}`),
+  )
+  const byLegacyDomain = [
+    '# Legacy 文件工程域分类',
+    '',
+    '分类依据来自正文源码路径或文件名线索。candidate-needs-depth-review 不是已经验收；完整锚点/SHA/理由见分类账。',
+    '',
+    ...[...new Set(ledger.map((entry) => entry.domain))].sort().flatMap((domain) => [
+      `## ${domain}`,
+      '',
+      '| 文件 | 模块 | 处理 | 深审状态 | 分类依据 |',
+      '|---|---|---|---|---|',
+      ...ledger
+        .filter((entry) => entry.domain === domain)
+        .map((entry) => {
+          const path = entry.disposition === 'migrated' ? entry.canonicalTarget : entry.path
+          return `| [${entry.path}](../${path}) | ${entry.module} | ${entry.disposition} | ${entry.reviewStatus} | ${entry.classificationBasis} |`
+        }),
+      '',
+    ]),
+  ].join('\n')
   return {
     'by-stage.md': byStage,
     'by-status.md': byStatus,
     'by-tag.md': byTag,
     'by-owner.md': byOwner,
+    'by-domain.md': grouped('工程域', (entry) => [entry.domain ?? 'unspecified']),
+    'by-module.md': grouped('模块/功能', (entry) => [
+      `${entry.domain ?? 'unspecified'}/${entry.module ?? 'unspecified'}`,
+    ]),
+    'by-phase.md': grouped('阶段', (entry) => entry.phase ?? []),
+    'by-engine.md': grouped('执行引擎', (entry) => entry.engines ?? []),
+    'legacy-by-domain.md': byLegacyDomain,
   }
 }
 
 export function writeIndexes(root = testingRoot) {
   const catalog = loadCatalog(root)
   const output = resolve(root, 'indexes')
-  const indexes = renderIndexes(catalog)
+  const ledgerPath = resolve(root, 'legacy-flat-classification.json')
+  const classification = existsSync(ledgerPath)
+    ? JSON.parse(readFileSync(ledgerPath, 'utf8'))
+    : { entries: [] }
+  const indexes = renderIndexes(catalog, classification)
   for (const [name, text] of Object.entries(indexes)) writeFileSync(resolve(output, name), text)
   return indexes
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  writeIndexes()
-  console.log(`testing indexes generated: ${Object.keys(renderIndexes(loadCatalog())).join(', ')}`)
+  const indexes = writeIndexes()
+  console.log(`testing indexes generated: ${Object.keys(indexes).join(', ')}`)
 }

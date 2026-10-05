@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-world-lifecycle/packages/reforge
+
+ ✓ src/deferred-trigger.world-lifecycle-1.test.ts (2 tests) 2ms
+ ✓ src/async-intent.world-lifecycle-1.test.ts (1 test) 2ms
+ ✓ src/gameplay-clock.world-lifecycle-1.test.ts (1 test) 2ms
+
+ Test Files  3 passed (3)
+      Tests  4 passed (4)
+   Start at  15:08:48
+   Duration  190ms (transform 41ms, setup 0ms, import 60ms, tests 6ms, environment 0ms)

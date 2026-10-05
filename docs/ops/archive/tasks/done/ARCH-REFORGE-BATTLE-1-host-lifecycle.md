@@ -57,8 +57,8 @@ Implementation candidate: 46287966（含57794d15拆分、348a50d1提交快照补
 - `main.ts:5115`：强停；`:6265`：主循环 tick/render 转发。不得新增第二帧调度器。
 - `main.battle-host-flows.test.ts:37/72/90/126/165/177`：H9 六条真实宿主链，
   已涵盖胜利/败北、作者续链、投掷库存、空敌队、迟到精灵与换场景；不能只用核心 mock 替代。
-- [战斗流程接收证据](../../../../testing/battle-workflows-integration.md)、
-  [真实宿主二批](../../../../testing/codex-runtime-shell-wave2.md)：接收结论保留，新模块须重验接线。
+- [战斗流程接收证据](../../../../testing/archive/legacy/runtime/battle/battle-workflows-integration.md)、
+  [真实宿主二批](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md)：接收结论保留，新模块须重验接线。
 - 不得重引 `sys:battleField`、完整 RuntimeContext、下标身份、旧 save/content fallback 或测试专用产品入口。
 
 ## Draft：边界设计
@@ -110,7 +110,7 @@ Implementation candidate: 46287966（含57794d15拆分、348a50d1提交快照补
 
 - Codex：2026-09-24 accept（实现者自验/自审，不宣称第三方独立审查）。候选46287966，
   23新增/11针/17关键函数全等、check8463、ratchet7972/637与单次受保护strict7972/637全过；
-  build通过；最小功能视觉及复用边界见[回执](../../../../testing/battle-host-refactor.md)。旧版本兼容审查pass。
+  build通过；最小功能视觉及复用边界见[回执](../../../../testing/domains/runtime/battle/battle-host/report.md)。旧版本兼容审查pass。
 - Kimi：用户豁免，未代签。
 - GLM：用户豁免，未代签。
 - 缺签豁免：同上，全队列独立实施、自验收口，免补审。
@@ -125,9 +125,9 @@ A2 与其余队列由 Codex 独立实施、自验收口，两席 build/done 签�
 
 ## Build / Review / 用户验收
 
-2026-09-24 最终候选46287966已完成全部本地质量门并收口，详见[统一机账](../../../../testing/battle-host-refactor-evidence.json)。
+2026-09-24 最终候选46287966已完成全部本地质量门并收口，详见[统一机账](../../../../testing/domains/runtime/battle/battle-host/evidence.json)。
 
-当前实施/失败/复核证据见[回执](../../../../testing/battle-host-refactor.md)。用户全队列授权已落总计划；
+当前实施/失败/复核证据见[回执](../../../../testing/domains/runtime/battle/battle-host/report.md)。用户全队列授权已落总计划；
 H9随机性修正3be0e273与架构实现分提交；两处自审时序补正单列，不把中途绿色结果冒充最终证据。
 
 - 2026-09-24 Codex：新增BattleHost/BattleLaunchPreparation与21项回归；9针业务反证通过，

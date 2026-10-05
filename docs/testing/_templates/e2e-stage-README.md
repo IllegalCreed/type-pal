@@ -27,3 +27,5 @@ canonicalReport: report.md
 
 - [正式报告](e2e-report.md)
 - [机器回执](evidence.json)
+
+阶段名应表达剧情/业务用途；内部 scene/entity 编号只写入报告的 `sourceRefs`，不能成为 canonical 目录名。

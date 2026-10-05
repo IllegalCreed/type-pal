@@ -7,6 +7,7 @@
  * lost/won/flee 主线/stall>1500(其 fixture 已证一臂)。
  */
 import type {
+  AbstractKey,
   BattleField,
   Command,
   Enemy,
@@ -22,7 +23,12 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
-import { makeEnemy, makeField, makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
+import {
+  makeEnemy,
+  makeField,
+  makeRole,
+  seqRng,
+} from '../../__tests__/coverage85-glm-game/harness.js'
 import { type CommandBus, createCommandBus } from '../command-bus.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { startBattle, tickBattle, tickEnemyIdleGestures } from './battle-system.js'
@@ -35,6 +41,9 @@ interface BootOpts {
   enemies?: Enemy[]
   teamSlots?: [number, number, number, number, number]
   commands?: Command[]
+  spells?: Spell[]
+  magics?: Magic[]
+  objectMagics?: ObjectMagicView[]
 }
 
 interface Boot {
@@ -64,9 +73,9 @@ function boot(opts: BootOpts = {}): Boot {
     battleFields: [field],
     playerRoles,
     items: [] as Item[],
-    spells: [] as Spell[],
-    magics: [] as Magic[],
-    objectMagics: [] as ObjectMagicView[],
+    spells: opts.spells ?? ([] as Spell[]),
+    magics: opts.magics ?? ([] as Magic[]),
+    objectMagics: opts.objectMagics ?? ([] as ObjectMagicView[]),
     objectPoisons: [] as ObjectPoisonView[],
     objectPlayers: [] as ObjectPlayerView[],
     commands,
@@ -272,5 +281,50 @@ describe('cov85 tickBattle hold 守卫(420-449)', () => {
     st.phaseStallTicks = 0
     tickBattle(gs, emptyInput(), bus)
     expect(st.phase).toBe('performAction') // 被 hold,未推进
+  })
+})
+
+// ══════════════════════════════════════════════════════════════════════════
+// r3:tickBattle selectAction UI 状态机 / action queue dex / flee 拒绝路径
+// 公开 caller:tickBattle(input 经 InputSnapshot);pendingActions 为公开 Map 直填。
+// ══════════════════════════════════════════════════════════════════════════
+
+function snapB(pressed: AbstractKey[] = []): InputSnapshot {
+  return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
+}
+
+/** 推进到已起选指令菜单的 selectAction。 */
+function toSelectAction(fx: Boot): void {
+  tickBattle(fx.gs, emptyInput(), fx.bus) // preBattle → selectAction
+  tickBattle(fx.gs, emptyInput(), fx.bus) // turnStart(无脚本)+ 起菜单
+}
+
+describe('cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂)', () => {
+  // r4+r5 排重:主菜单方向/单敌短路/queue/flee 成功(r4);MP 禁用 no-op(2689-2692)(r5)。
+  // 保留:多敌目标 Confirm 落账(2359 停留之后的增量)、flee 拒绝(1495 只证成功臂)。
+
+  it('多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)', () => {
+    const fx = boot({
+      enemies: [makeEnemy(), makeEnemy({ id: 101 })],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // main → attack → 停留 selectTargetEnemy(多敌)
+    expect(st.uiState).toBe('selectTargetEnemy')
+    tickBattle(fx.gs, snapB(['Confirm']), fx.bus) // 选定光标目标 → 落账
+    expect(st.pendingActions.get(0)).toMatchObject({ type: 'attack', target: 0 })
+  })
+
+  it('flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)', () => {
+    const fx = boot({ enemies: [makeEnemy({ fleeRate: 50, level: 10 })] })
+    toSelectAction(fx)
+    const st = fx.gs.battleState!
+    st.pendingActions.set(0, { type: 'flee', target: -1, targetSide: 'enemy' })
+    st.rng = seqRng([200]) // def=114 → roll=200 > str(5) → 失败
+    tickBattle(fx.gs, emptyInput(), fx.bus)
+    expect(st.fleeAnim).toBeUndefined()
+    expect(st.phase).not.toBe('fleed')
+    expect(fx.gs.battleState).toBeDefined()
   })
 })

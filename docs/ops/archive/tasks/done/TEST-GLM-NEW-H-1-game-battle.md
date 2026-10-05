@@ -10,9 +10,9 @@ Capability: coverage / current-public-contract
 
 2026-09-29 用户明确先前 GLM A–E 已在执行，要求**另外多个新 wave 并行**，
 并争取当日全仓分支覆盖率 85%。本卡只授权自己的六组/12 源；完整窄合同见
-[F–J 工作包](../../../../testing/glm-new-waves/README.md)，精确源与 source digest
-见[冻结表](../../../../testing/glm-new-waves/targets.json)：`ebe7d9d5794d3a51fb1234e6bc58a164467260846849c5c1c98d02955aa2a5da`。
-先运行 `node docs/testing/glm-new-waves/verify-targets.mjs`；目标已与 A–E 和此前四队列去重。
+[F–J 工作包](../../../../testing/archive/legacy/batches/glm-new-waves/README.md)，精确源与 source digest
+见[冻结表](../../../../testing/archive/legacy/batches/glm-new-waves/targets.json)：`ebe7d9d5794d3a51fb1234e6bc58a164467260846849c5c1c98d02955aa2a5da`。
+先运行 `node docs/testing/archive/legacy/batches/glm-new-waves/verify-targets.mjs`；目标已与 A–E 和此前四队列去重。
 先读真实 caller、同名/跨文件旧测试的完整 title/断言，有未证公开合同才建测试；
 分支未命中只是选题线索，不承诺收益或以凑数为验收。85% 由 Codex 在 main 并集实测。
 
@@ -35,7 +35,7 @@ Capability: coverage / current-public-contract
 工作树 `/Users/zhangxu/.codex/worktrees/glm-new-h/type-pal`，分支 `codex/glm-new-h-r1`；不得占用正在运行的 A–E 工作树或同伴分支。
 每个冻结源最多新增一个必要的同目录 `<stem>.glm-next-wave.test.ts(x)`；
 typed fixture 仅 `packages/game/src/__tests__/glm-next-wave/H/**`；
-回执/反控/隔离宿主仅 `docs/testing/glm-new-waves/wave-H/**`，
+回执/反控/隔离宿主仅 `docs/testing/archive/legacy/batches/glm-new-waves/wave-H/**`，
 截图仅 `/tmp/type-pal-glm-new-wave/H/`。
 共享清单/README/判据、任务卡/看板、产品、旧测试、共享配置/依赖/锁、正式工程和官方基线只读。
 正控走现行构造器/guard 与实际公开 API；负控从合法输入单点变异或公开 unknown 边界进入。
@@ -57,7 +57,7 @@ Codex 独立审核 F–J 与 A–E 并集，选择性集成，串行 check → r
 ## 2026-09-29 Codex 独立审核与返工
 
 候选 `013abf99e647ecd027aeb05d6225ae5c9ee7c6c2` 已独立审核，结论
-**rework，未合 main**。完整[审核回执](../../../../testing/glm-new-waves/codex-review-H-013abf99.md)
+**rework，未合 main**。完整[审核回执](../../../../testing/archive/legacy/batches/glm-new-waves/codex-review-H-013abf99.md)
 记录 48/48、game typecheck 与一手源码抽查通过，但完整 lint 的三份 JSON 格式
 error、H02 伪顺序日志及反控越界改生产源仍待闭合。GLM 只修原白名单，推新完整
 SHA；派发校验器的交付后误报由 Codex 负责。官方覆盖率门暂缓。
@@ -68,7 +68,7 @@ SHA；派发校验器的交付后误报由 Codex 负责。官方覆盖率门暂�
 你是 GLM Wave H 的唯一测试 Coding Owner。只在 /Users/zhangxu/.codex/worktrees/glm-new-h/type-pal
 的 codex/glm-new-h-r1 分支工作；A–E 已有人执行，绝不碰其工作树/分支。
 先读 AGENTS.md、CLAUDE.md、docs/phase1/engineering-notes.md、docs/phase1/game-mechanics.md、
-docs/ops/tasks/TEST-GLM-NEW-H-1-game-battle.md、docs/testing/glm-new-waves/README.md、targets.json，
+docs/ops/tasks/TEST-GLM-NEW-H-1-game-battle.md、docs/testing/archive/legacy/batches/glm-new-waves/README.md、targets.json，
 运行 verify-targets.mjs。逐组读现行 caller 和旧断言，有新公开合同才增测试；
 只改自己 wave 的同目录新测、专属 typed fixture 和专属证据。不改产品、旧测、
 正式工程、官方基线或同伴分支。定向+相邻、相关 typecheck、Biome 零诊断、docs/diff、
@@ -83,7 +83,7 @@ docs/ops/tasks/TEST-GLM-NEW-H-1-game-battle.md、docs/testing/glm-new-waves/READ
 你仍是 TEST-GLM-NEW-H-1 测试 Coding Owner。只在
 /Users/zhangxu/.codex/worktrees/glm-new-h/type-pal 的 codex/glm-new-h-r1 分支返工
 013abf99e647ecd027aeb05d6225ae5c9ee7c6c2。先读本卡与 main 上
-docs/testing/glm-new-waves/codex-review-H-013abf99.md。清零三份 JSON 的完整 lint
+docs/testing/archive/legacy/batches/glm-new-waves/codex-review-H-013abf99.md。清零三份 JSON 的完整 lint
 格式 error；H02 让 RNG 与 script 回调写同一实时轨迹，再断言预掷先后；反控不要
 临时改正式生产源码，用隔离副本/loader 注入重做，核绝对 file/fullName、执行数、
 失败集合与前后产品 hash。回执写 r1 和新候选完整 SHA，更新新鲜 JSON 与反控。
@@ -96,7 +96,7 @@ docs/testing/glm-new-waves/codex-review-H-013abf99.md。清零三份 JSON 的完
 
 分支 HEAD `6a25727ccc0806640f444c01e271207094207ee8`（返工测试/证据
 提交 `6e9fe6e01eb69bb243712c0720941e88dc3c8bfa`）**代码候选 accept**，
-见[独立验收回执](../../../../testing/glm-new-waves/codex-accept-H-r1-6a25727c.md)。
+见[独立验收回执](../../../../testing/archive/legacy/batches/glm-new-waves/codex-accept-H-r1-6a25727c.md)。
 状态为 `review`，尚未合 main；统一 `pnpm check`、官方 ratchet、受保护 fast
 与正式覆盖收益待 Codex 并集成门。无下一位 GLM 提示词；未证机制疑点仍
 按回执登记，不自动变成产品修复授权。
@@ -104,7 +104,7 @@ docs/testing/glm-new-waves/codex-review-H-013abf99.md。清零三份 JSON 的完
 ## 2026-09-29 Codex 集成终态
 
 本卡测试/证据已作为 A–J 并集进入 main `056cb6cb26dbe46e374e9121c1a2bdb94b12d990`，
-见[统一集成回执](../../../../testing/glm-wave-union-20260929.md)。完整 `pnpm check`、
+见[统一集成回执](../../../../testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md)。完整 `pnpm check`、
 官方 ratchet、受 `origin/main` 旧基线保护的单次 fast 均通过；完整 lint
 0 error / 0 warning / 0 info，生产源码与覆盖分母不变。本卡按测试-only
 验收条件由 Codex 标记 `done`。全仓 85% 目标未达（实测 78.12%），

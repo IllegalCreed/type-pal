@@ -47,7 +47,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 给GLM一个可连续执行的整包：六组25个现行非视觉模块，先逐族去重/合法性核验，三席设计齐后统一开build补正式回归。
 不是重开TB00～TB10，也不把长队列变成薄E2E新前置。工作包、白名单、分组边界与验收以
-[六组工作包](../../../../testing/glm-coverage-wave2.md)及[冻结机账](../../../../testing/glm-coverage-wave2-evidence.json)为准。
+[六组工作包](../../../../testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md)及[冻结机账](../../../../testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-evidence.json)为准。
 
 - 范围内：脚本host/world/core；模拟器config/prepare/snapshot与editor预设纯数据；精灵投影/动画draft；引用/proof；content守卫；三个current迁移映射/审计模块。
 - 范围外：任何产品修改、UI/视觉/听感/浏览器、E-05/U-02/C-01～05/N6b修复、真实迁移/资产写入、官方配置/排除/阈值与baseline修改。
@@ -75,8 +75,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 ## 上下文锚点
 
 - AGENTS/CLAUDE/phase2 READ-FIRST、当前7538覆盖记录、已done TB00～TB10及工作包列出的相关已验收修复。
-- [GLM交付前自检清单](../../../../testing/glm-delivery-checklist.md)：合法guard先行、同一实际输入深快照、entered/同步观察/finally同一pending、精确变异判据、回执从最终树生成。
-- [前置欠账](../../../../testing/pre-e2e-admission.md)：E-05/U-02/N6b/Q2归属不变；不重开已done迁移写盘卡。
+- [GLM交付前自检清单](../../../../testing/archive/legacy/ops/testing-records/glm-delivery-checklist.md)：合法guard先行、同一实际输入深快照、entered/同步观察/finally同一pending、精确变异判据、回执从最终树生成。
+- [前置欠账](../../../../testing/archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)：E-05/U-02/N6b/Q2归属不变；不重开已done迁移写盘卡。
 - 不得重新引入：旧模型/兼容fallback、默认红/skip、覆盖率ignore、假原版结论、全模块mock、无鉴别力“非空”断言、另一个对象冒充实际输入。
 
 ## 准备与实施验收
@@ -332,7 +332,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ### done前
 
-- Codex：**accept（实施者自验，不算独立第三方；2026-09-22，候选27bd8c00，对比967b35fb）**。GLM原A/B贡献6839ea78/816c32ce保留并披露；本席修正guard/实参/取消链并完成C～F。25新测试、9薄fixture、2工具，163项（A25/B40/C20/D14/E45/F19）；所有25产品目标和旧测试零改。4个全新套件正控/17个精确候选AssertionError负控、PNG独立CRC/原字节检查通过；各包TC/37代码JSON文件Biome通过。完整check8281、官方ratchet及保护967b35fb的**单次strict-fast7790/633**全部exit0，私有对照与官方分子完全相同，另三包完整基线不变。净增673L/761S/84F/572B；未伪称全部文件95/90，未覆盖/无现行caller/防御及F输入解耦归属见回执、机账。旧版本兼容审查pass，未加兼容层或把F离线桥带回产品；未做visual/full/Q1/Q2。原GLM假fixture、Codex开发/工具错误与所有修正日志如实记录。证据：`docs/testing/glm-coverage-wave2-receipt.md`当前Codex节、机账`codexImplementation`、`/tmp/type-pal-wave2-build-Pq8YxT/`及`/tmp/type-pal-wave2-coverage-fivq93/`。
+- Codex：**accept（实施者自验，不算独立第三方；2026-09-22，候选27bd8c00，对比967b35fb）**。GLM原A/B贡献6839ea78/816c32ce保留并披露；本席修正guard/实参/取消链并完成C～F。25新测试、9薄fixture、2工具，163项（A25/B40/C20/D14/E45/F19）；所有25产品目标和旧测试零改。4个全新套件正控/17个精确候选AssertionError负控、PNG独立CRC/原字节检查通过；各包TC/37代码JSON文件Biome通过。完整check8281、官方ratchet及保护967b35fb的**单次strict-fast7790/633**全部exit0，私有对照与官方分子完全相同，另三包完整基线不变。净增673L/761S/84F/572B；未伪称全部文件95/90，未覆盖/无现行caller/防御及F输入解耦归属见回执、机账。旧版本兼容审查pass，未加兼容层或把F离线桥带回产品；未做visual/full/Q1/Q2。原GLM假fixture、Codex开发/工具错误与所有修正日志如实记录。证据：`docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md`当前Codex节、机账`codexImplementation`、`/tmp/type-pal-wave2-build-Pq8YxT/`及`/tmp/type-pal-wave2-coverage-fivq93/`。
 - GLM：**accept（2026-09-23，候选 27bd8c00 对比 967b35fb，集成 f703e49c；**披露：本人是原 A/B 组
   测试贡献者（6839ea78/816c32ce），额度耗尽后由 Codex 复验修正 A/B 并完成 C～F；本签为测试贡献者
   对最终候选的自验复核，**不作为独立第三方自证**——独立终审以 Kimi 同候选 accept 为准**）。
@@ -519,8 +519,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 - 2026-09-22 GLM（准备完成）：在 codex/glm-coverage-wave2 工作树（基 f828b9fc，零产品/测试/
   配置改动）一次完成六组逐族分类：25 模块 960L/1274B 分桶 NEW671/888·PKG124/186·XPKG103/117·
   UNREACH29/42·PEND33/41（与冻结机账逐模块对账通过）；A01～F03 逐族 caller/fixture/旧测试
-  精确标题/断言/最强坏实现/代表负控落 [准备回执](../../../../testing/glm-coverage-wave2-receipt.md)
-  与 [机账](../../../../testing/glm-coverage-wave2-results.json)；白名单冻结 25 测试+9 fixture+2 工具；
+  精确标题/断言/最强坏实现/代表负控落 [准备回执](../../../../testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md)
+  与 [机账](../../../../testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-results.json)；白名单冻结 25 测试+9 fixture+2 工具；
   PEND 项单列。签本人 premise verified / design agree（证据见本席）。两席同候选并行设计审查
   提示词见下；未改共享状态、不代签、不标 build/done。
 
@@ -529,19 +529,19 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ## 历史下一位Agent提示词（给GLM，候选27bd8c00代码/矩阵复核，已完成）
 
-在 `/Users/zhangxu/illegal/type-pal` 复核 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，集成main f703e49c，生产冻结57dda7ed，设计v5不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前交接、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`；不要读取或复述Kimi本轮结论。你原6839ea78/816c32ce贡献保留，Codex已修正A/B并完成C～F，本席复核须披露贡献关系，不作为独立第三方自证。
+在 `/Users/zhangxu/illegal/type-pal` 复核 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，集成main f703e49c，生产冻结57dda7ed，设计v5不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前交接、`docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`；不要读取或复述Kimi本轮结论。你原6839ea78/816c32ce贡献保留，Codex已修正A/B并完成C～F，本席复核须披露贡献关系，不作为独立第三方自证。
 
 核25新测试+9薄fixture+2工具白名单、163项及四包增量、产品/旧测试/官方scope零改。重点抽查合法guard、实际同一输入深快照、A05真实取消/漂移链、B05正式资源准备与失败释放、C多实例/非空redo、D真实proof generation、E父guard、F独立36键与fast解耦归属。对账剩余可达/无caller/防御/未决项，不把旧已证合同重复计新增；有必须本卡补齐的有效缺口给真实caller与file:line反证，不发明政策或修改生产。
 
-复跑四包定向163及相关TC/Biome；`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确目标AssertionError负控及PNG CRC/源字节一致，检查判据自测和真实运行入口同源。完整check8281/ratchet/单次strict7790及远端CI已有证据，不跑官方ratchet/strict、不与Kimi争用同一/tmp报告目录；不操作浏览器、不做视觉。仅修改本人done前席位与本人日志，签accept或带锚点与复现的counter，单列旧兼容审查；不改实现/他席/共享状态、不代签、不标done。提交前同步保留Kimi改动，自行处理push竞态；由Codex统一核门。
+复跑四包定向163及相关TC/Biome；`node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs`应4完整正控+17精确目标AssertionError负控及PNG CRC/源字节一致，检查判据自测和真实运行入口同源。完整check8281/ratchet/单次strict7790及远端CI已有证据，不跑官方ratchet/strict、不与Kimi争用同一/tmp报告目录；不操作浏览器、不做视觉。仅修改本人done前席位与本人日志，签accept或带锚点与复现的counter，单列旧兼容审查；不改实现/他席/共享状态、不代签、不标done。提交前同步保留Kimi改动，自行处理push竞态；由Codex统一核门。
 
 ## 历史下一位Agent提示词（给Kimi，候选27bd8c00独立终审，已完成）
 
-在 `/Users/zhangxu/illegal/type-pal` 独立终审 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，生产冻结57dda7ed，v5设计不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前代班/验收席位、`docs/testing/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`。GLM额度耗尽，Codex接手修正A/B并完成C～F；GLM原6839ea78/816c32ce是贡献，不作为独立第三方证明；不要以本席accept代替独立读取一手证据。
+在 `/Users/zhangxu/illegal/type-pal` 独立终审 TEST-NONVISUAL-COVERAGE-2 r1，卡 `docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md`（review），实现候选27bd8c00，对比967b35fb，生产冻结57dda7ed，v5设计不重签。先同步main并核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡当前代班/验收席位、`docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md`的Codex节及机账`codexImplementation`。GLM额度耗尽，Codex接手修正A/B并完成C～F；GLM原6839ea78/816c32ce是贡献，不作为独立第三方证明；不要以本席accept代替独立读取一手证据。
 
 核范围25测试+9薄fixture+2工具，产品/旧测试/官方scope/排除/超时零改；baseline只增163至7790/633，另三包不变。重点核A05真实current compiler→host/runner的提交前/后取消与漂移，B05正式loader/RLE/gzip/hash/重新读取工程及失败释放，C同资源多实例/非空redo分叉，D真实session/proof generation和canonical会话换代，E父guard先行，F四入口独立36键与fast输入解耦不二次报功。B05的图像宿主只核合法PNG尺寸/close、无视觉验收；无当前caller的旧扫描器/BaseScriptProjectRuntime及未达whole-file95/90如实留账，是否仍有必须本卡补齐的有效缺口请独立裁定。
 
-复跑四包`.wave2.test.ts`定向163、相关TC/白名单Biome，`node docs/testing/glm-coverage-wave2-mutants.mjs`应4完整正控+17精确标题单针业务红、两PNG CRC/原字节一致。负控每针只执行控制组确认的目标（其它同文件项为显式名称过滤，不计执行）；目标Error/混合错误/超时/未执行不得采信。覆盖对照config已入仓，输出/tmp；全仓check8281/ratchet/保护967b35fb单次strict7790日志已落，不并发重跑官方覆盖。所有失败记录不得省略。
+复跑四包`.wave2.test.ts`定向163、相关TC/白名单Biome，`node docs/testing/domains/quality/quality-gates/tools/coverage-wave2-mutants.mjs`应4完整正控+17精确标题单针业务红、两PNG CRC/原字节一致。负控每针只执行控制组确认的目标（其它同文件项为显式名称过滤，不计执行）；目标Error/混合错误/超时/未执行不得采信。覆盖对照config已入仓，输出/tmp；全仓check8281/ratchet/保护967b35fb单次strict7790日志已落，不并发重跑官方覆盖。所有失败记录不得省略。
 
 仅在本人done前席位签accept或带file:line及复现的counter，单列旧兼容审查，写本人日志并提交推送；保留他席/历史原文，不改产品、不代签、不标done。GLM已恢复额度并行复核，但其原贡献不算独立第三方证明；不读取或复述其本轮结论。最终仍由Codex核门。
 
@@ -555,8 +555,8 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ## 历史下一位Agent提示词（给GLM，准备阶段原文）
 
-在 /Users/zhangxu/illegal/type-pal 接 TEST-NONVISUAL-COVERAGE-2 r1，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md，draft，Coding Owner=GLM。先同步main/检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/glm-coverage-wave2.md、冻结evidence.json与glm-delivery-checklist.md。生产冻结57dda7ed2376fc25f07756be117bb4a058d09915，基线7538项/633生产文件。
-请在独立codex/glm-coverage-wave2工作树，一口气完成W2-A～F六组25模块的逐臂分类、合法fixture/guard、真实caller、旧测试精确标题去重、业务断言与最强单点反例，冻结新增测试/fixture/工具白名单；将准备回执写docs/testing/glm-coverage-wave2-receipt.md，机账写glm-coverage-wave2-results.json，核每臂唯一主分类和各组加总。960行/1274臂只是整文件候选缺口，不能承诺全可达；F组区分full已有证明与fast输入解耦，不测历史translator注入/旧输出分支。发现未知政策、现行无caller或产品缺陷要单列，不固化为正确绿测。
+在 /Users/zhangxu/illegal/type-pal 接 TEST-NONVISUAL-COVERAGE-2 r1，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md，draft，Coding Owner=GLM。先同步main/检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md、冻结evidence.json与glm-delivery-checklist.md。生产冻结57dda7ed2376fc25f07756be117bb4a058d09915，基线7538项/633生产文件。
+请在独立codex/glm-coverage-wave2工作树，一口气完成W2-A～F六组25模块的逐臂分类、合法fixture/guard、真实caller、旧测试精确标题去重、业务断言与最强单点反例，冻结新增测试/fixture/工具白名单；将准备回执写docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md，机账写glm-coverage-wave2-results.json，核每臂唯一主分类和各组加总。960行/1274臂只是整文件候选缺口，不能承诺全可达；F组区分full已有证明与fast输入解耦，不测历史translator注入/旧输出分支。发现未知政策、现行无caller或产品缺陷要单列，不固化为正确绿测。
 本阶段可读源码/旧测试/真实来源、跑既有定向并做隔离取证；不得改packages、正式测试、原probe、官方baseline/config/排除/超时、真实data/projects或模拟器UI；不操作浏览器/做视觉。不得checkout主工作树或恢复stash。
 准备完请落自己有一手锚点的premise/design或counter，并提交推送；不改共享状态，不代签，不标build/done。给Codex和Kimi两份钉同一准备候选的并行设计审查提示词。等三席齐且Codex核build allowed后，在同一父卡/分支按六组各一提交连续实现，最终整包交Codex；严格执行自检清单和工作包验收，GLM不跑官方ratchet/strict-fast。不要每组停下询问继续，也不要绕过设计门。
 
@@ -598,7 +598,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r3 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 提交 33a7a034（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 cec14f05 的 C1～C3。
-先同步分支/核工作树，读你的 counter、GLM 回执 r3（docs/testing/glm-coverage-wave2-receipt.md）与机账 v3（glm-coverage-wave2-results.json schemaVersion 3）。逐项复核：① C1——branchArmExceptions 扩展规则重放（[40,8,0]→E04 NEW；[96,0,0]/[98,1,0]/[211,28,0]→F01 NEW；仅 [211,28,1] PEND），验证重生成 NEW955/1263·UNREACH5/10·PEND0/1 与 23 个未变模块计数；② C2——dedupTitles 45 条与 d4703cdf v1 逐字一致、familyTable 差异归属无重复、确切 25+9+2 白名单数组与 v1 一致；③ C3——A03 正控为全量写入后命令级一次通知、B04 新针为 readText/readJson 包装（:85）且旧切片合同归已有证据、F03 标 fast 解耦；④ 勘误清单（:85/:87 包装、:88-89 urlFor、:76 post-await、:81 切片、:150-151 循环、:247 D03、:170/:158、78/47 余数）落入 reason/needle。在本人席位对 r3 签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对 r3 齐后由你统一核 build allowed。
+先同步分支/核工作树，读你的 counter、GLM 回执 r3（docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md）与机账 v3（glm-coverage-wave2-results.json schemaVersion 3）。逐项复核：① C1——branchArmExceptions 扩展规则重放（[40,8,0]→E04 NEW；[96,0,0]/[98,1,0]/[211,28,0]→F01 NEW；仅 [211,28,1] PEND），验证重生成 NEW955/1263·UNREACH5/10·PEND0/1 与 23 个未变模块计数；② C2——dedupTitles 45 条与 d4703cdf v1 逐字一致、familyTable 差异归属无重复、确切 25+9+2 白名单数组与 v1 一致；③ C3——A03 正控为全量写入后命令级一次通知、B04 新针为 readText/readJson 包装（:85）且旧切片合同归已有证据、F03 标 fast 解耦；④ 勘误清单（:85/:87 包装、:88-89 urlFor、:76 post-await、:81 切片、:150-151 循环、:247 D03、:170/:158、78/47 余数）落入 reason/needle。在本人席位对 r3 签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对 r3 齐后由你统一核 build allowed。
 ```
 
 ### 给Kimi（复核r3）
@@ -614,7 +614,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 复核 TEST-NONVISUAL-COVERAGE-2 r2 修订准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2 修订提交 38dd1fe1（worktree /Users/zhangxu/illegal/type-pal-glm-wave2），针对你 4240fbca 的 R1～R4。
-先同步分支/核工作树，读你的 counter、GLM 回执 r2（docs/testing/glm-coverage-wave2-receipt.md）与机账 v2（glm-coverage-wave2-results.json schemaVersion 2）。逐项复核：① ruleTable 可机械展开——按 expansionRule 重放求交，验证 25 模块集合相等与 generatedTotals（NEW955/1259·UNREACH5/11·PEND0/4=960/1274）；② R2 五处更正（B04 收窄 :40-42/:85/:87+branch:39/:76、vanish 3/6 UNREACH、validate-runtime 2/5 UNREACH、script-world 锚点、core:170 归 moveEntity NEW）；③ R3 迁移（历史轴=migrate-enemies :96/:98/:211 共 0L/4B；author-core r1 PEND 撤销的 caller 证据 validate.ts/runtime-script.ts/enemy-script.ts/script-compiler-core.ts）；④ 六负控真实锚（script-project-core:148-149/battle-trial-assets:78/world-sprite-behavior:527-555/tileset-references:243 generation 实参/enemy-script percent 0..100/script-library-audit:155 谓词）；⑤ 元数据（SHA 058d09915/caller src/migrate-content.ts:1753/editor×12/fixture×9）与 check:docs PASS/Biome。在本人席位对修订稿签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对修订稿齐后由你统一核 build allowed。
+先同步分支/核工作树，读你的 counter、GLM 回执 r2（docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md）与机账 v2（glm-coverage-wave2-results.json schemaVersion 2）。逐项复核：① ruleTable 可机械展开——按 expansionRule 重放求交，验证 25 模块集合相等与 generatedTotals（NEW955/1259·UNREACH5/11·PEND0/4=960/1274）；② R2 五处更正（B04 收窄 :40-42/:85/:87+branch:39/:76、vanish 3/6 UNREACH、validate-runtime 2/5 UNREACH、script-world 锚点、core:170 归 moveEntity NEW）；③ R3 迁移（历史轴=migrate-enemies :96/:98/:211 共 0L/4B；author-core r1 PEND 撤销的 caller 证据 validate.ts/runtime-script.ts/enemy-script.ts/script-compiler-core.ts）；④ 六负控真实锚（script-project-core:148-149/battle-trial-assets:78/world-sprite-behavior:527-555/tileset-references:243 generation 实参/enemy-script percent 0..100/script-library-audit:155 谓词）；⑤ 元数据（SHA 058d09915/caller src/migrate-content.ts:1753/editor×12/fixture×9）与 check:docs PASS/Biome。在本人席位对修订稿签 accept、维持 counter 或列新反证并写日志提交推送；保留他席原文，不改GLM文件/共享状态、不代签。三席对修订稿齐后由你统一核 build allowed。
 ```
 
 ### 给Kimi（复核r2）
@@ -630,7 +630,7 @@ Production Freeze: `57dda7ed2376fc25f07756be117bb4a058d09915`
 
 ~~~text
 在 /Users/zhangxu/illegal/type-pal 审 TEST-NONVISUAL-COVERAGE-2 r1 准备候选，卡 docs/ops/archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md（draft），分支 codex/glm-coverage-wave2（独立worktree /Users/zhangxu/illegal/type-pal-glm-wave2），生产冻结57dda7ed，官方fast7538/633。
-先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/glm-coverage-wave2.md、你的冻结evidence.json、GLM准备回执 docs/testing/glm-coverage-wave2-receipt.md 与机账 glm-coverage-wave2-results.json。
+先同步main/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md、你的冻结evidence.json、GLM准备回执 docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md 与机账 glm-coverage-wave2-results.json。
 独立复核（不与GLM互相复述）：① 25模块分桶与你的冻结LCOV逐模块对账（NEW671/888·PKG124/186·XPKG103/117·UNREACH29/42·PEND33/41）；② 抽读各主导区域源码验证分类方向（adapter派发臂/script-world条件与cursorHandoff/core命令与moveEntity/trial snapshot/投影函数/守卫臂/迁移三文件）；③ PKG/XPKG去重标题是否真实存在且确覆盖所述臂（尤其script-host-adapter.current-dispatch五标题、F组16项full-only）；④ 白名单25+9+2是否与逐族合同一致、PEND单列是否恰当；⑤ 代表负控12~18针规划的鉴别力。
 在本人build前席位签带锚点的premise verified/design agree或counter并写日志提交推送；保留他席改动，不改GLM准备文件/共享状态、不代签。若三席齐，由你统一核build allowed并记录；build后GLM在同一分支A→F连续实施、整包交你独立接收。
 ~~~

@@ -1,0 +1,892 @@
+{
+  "generatedAt": "2026-10-04T14:16:38.468Z",
+  "nodeVersion": "v22.23.2",
+  "injections": [
+    {
+      "id": "ROUTER-MENU-PREFILTER",
+      "file": "packages/reforge/src/runtime-input-router.ts",
+      "anchor": "else if (ports.menu.active()) ports.menu.input(pressed)",
+      "command": "pnpm exec vitest run src/runtime-input-router.runtime-session-1.test.ts -t \"菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键\" --reporter=json",
+      "cwd": "/private/tmp/type-pal-glm-runtime-session/packages/reforge",
+      "testFile": "src/runtime-input-router.runtime-session-1.test.ts",
+      "expectedTest": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+      "expectedErrorPart": "Escape",
+      "original": {
+        "exitCode": 0,
+        "hash": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts",
+            "fullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+            "status": "passed"
+          }
+        ],
+        "skipped": [],
+        "artifacts": {
+          "stdout": {
+            "bytes": 1015,
+            "sha256": "d051fb7a39eba900c8df6ef99f7ffa1671b814a48263d98b1c3dd06cbe33bf73"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 306,
+            "sha256": "6b13c59e995894127ee5b7ef234f52e1138ce993b3d1cdcd95ba582f89b69d7d"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.original.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.original.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "99c8da699fe32bb6c839e2072b5ce7d0ddf04e022381efa642fb99e1995031ff",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts",
+            "fullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+            "status": "failed"
+          }
+        ],
+        "skipped": [],
+        "artifacts": {
+          "stdout": {
+            "bytes": 2432,
+            "sha256": "2472747b5b6d8953d412dd884ebf962170a350eca04fd09bf736678b9b68cb69"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 1327,
+            "sha256": "9edab16d3c1e409eb1928e75c13181d4aa4ab7e5a002cad659b051b67eb710eb"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.mutant.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.mutant.stderr",
+        "failures": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts",
+            "fullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+            "messages": [
+              "AssertionError: expected [ [ 'menu', [ 'ArrowUp', 'x' ] ] ] to deeply equal [ [ 'menu', …(1) ] ] |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts:17:20 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ],
+            "messagePreview": [
+              "AssertionError: expected [ [ 'menu', [ 'ArrowUp', 'x' ] ] ] to deeply equal [ [ 'menu', …(1) ] ] |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts:17:20 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ]
+          }
+        ],
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts",
+            "fullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+            "status": "passed"
+          }
+        ],
+        "skipped": [],
+        "artifacts": {
+          "stdout": {
+            "bytes": 1015,
+            "sha256": "73b83c8c05aa6c3b5f6fb8e8eb1f5dbf5461c7c42ffe5cb8020baf202ab00c70"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 306,
+            "sha256": "17afa1ca8fdeb0122faba8b157a91cbd038633a6b78f031d7f4b20bbf532fcd1"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.restored.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.restored.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/ROUTER-MENU-PREFILTER.restored.console"
+      },
+      "rebuilt": {
+        "hash": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "FRAME-FADE-REALTIME",
+      "file": "packages/reforge/src/runtime-frame-session.ts",
+      "anchor": "if (!stepping) ports.advanceFade(this.#now)",
+      "command": "pnpm exec vitest run src/runtime-frame-session.runtime-session-1.test.ts -t \"暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间\" --reporter=json",
+      "cwd": "/private/tmp/type-pal-glm-runtime-session/packages/reforge",
+      "testFile": "src/runtime-frame-session.runtime-session-1.test.ts",
+      "expectedTest": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+      "expectedErrorPart": "5100",
+      "original": {
+        "exitCode": 0,
+        "hash": "1337c9023a173e14e538127362d683cf7392054ba1b57b777e3d5ae496c1f6a9",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 1296,
+            "sha256": "1013c26cf8fc3825fbf7b272c70847be084f2ddfd14ea38af86f10a064774e1d"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 332,
+            "sha256": "5c18a8d641f5251f39062429520e7afb292b57cf12e4dea0cecae8cb536bac8d"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.original.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.original.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "e367428cc80026345d09049203452bbb80723d435f48c34df1a5af11e2093729",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 2696,
+            "sha256": "085f367c808f42cbb0e125f28d6fe1de0ad348a9634972473016eb34df00a272"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 1341,
+            "sha256": "5798dc4911b97a18f94621bec91a7a6fcd230f9522c5e64f5e2237adc45c1060"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.mutant.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.mutant.stderr",
+        "failures": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+            "messages": [
+              "AssertionError: expected [ [ 'fade', 5100 ] ] to deeply equal [ [ 'fade', 200 ] ] |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts:40:59 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ],
+            "messagePreview": [
+              "AssertionError: expected [ [ 'fade', 5100 ] ] to deeply equal [ [ 'fade', 200 ] ] |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts:40:59 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ]
+          }
+        ],
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "1337c9023a173e14e538127362d683cf7392054ba1b57b777e3d5ae496c1f6a9",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts",
+            "fullName": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 1295,
+            "sha256": "d0ef64c5660a2455b9d01ece68ee451a714b1d6c7634f6b8600aa9fad2f2c811"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 332,
+            "sha256": "6724e7f084b32fb579b513ade6abcc6efa453c944c254bcf3794543c01ececbf"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.restored.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.restored.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/FRAME-FADE-REALTIME.restored.console"
+      },
+      "rebuilt": {
+        "hash": "1337c9023a173e14e538127362d683cf7392054ba1b57b777e3d5ae496c1f6a9",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "MOTION-MOVE-ABORT-MSG",
+      "file": "packages/reforge/src/world-motion-runtime.ts",
+      "anchor": "const abort = (): void => entry.cancel(`实体 ${id} ${source} 走位所属 runner 已取消`)",
+      "command": "pnpm exec vitest run src/world-motion-runtime.runtime-session-1.test.ts -t \"中止在途实体走位按来源署名拒绝并清空注册表\" --reporter=json",
+      "cwd": "/private/tmp/type-pal-glm-runtime-session/packages/reforge",
+      "testFile": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "expectedTest": "中止在途实体走位按来源署名拒绝并清空注册表",
+      "expectedErrorPart": "走位所属 runner 已取消",
+      "original": {
+        "exitCode": 0,
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 3496,
+            "sha256": "8754fd4ebc46ef985fce80fb0c8d62ae4b7f35b4550cff32ef00339f6be79f70"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 331,
+            "sha256": "74b460250da3ab8bcb77a29379ea4db2ce6ad56644e3aab26317dce11da438c6"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.original.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.original.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "2e2ec8bd7034940833d888d35db5780458e6df21768f2cdbb983176fa6bd96be",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 4450,
+            "sha256": "4ab3e643b679ee82f99bb30993caa3355df36bccfcee52fb32385a68959d412e"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 1911,
+            "sha256": "9b817974f596ee4157d32eae71fd0cbf60803443e33d6dd691994903d83198de"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.mutant.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.mutant.stderr",
+        "failures": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "messages": [
+              "AssertionError: expected AbortError: 实体 npc script 走位已中止 to match object { name: 'AbortError', …(1) } |     at Proxy.<anonymous> (file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1283:10) |     at Proxy.<anonymous> (file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)"
+            ],
+            "messagePreview": [
+              "AssertionError: expected AbortError: 实体 npc script 走位已中止 to match object { name: 'AbortError', …(1) } |     at Proxy.<anonymous> (file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1283:10) |     at Proxy.<anonymous> (file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)"
+            ]
+          }
+        ],
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 3497,
+            "sha256": "da6a0b4ae27d4200df4622e0d6806d17e51110210d50e3bd80e4a590ddfacf01"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 331,
+            "sha256": "c8efca10625b58f3189f612639d29da3ac8f970f4058a74c208bc70668df2775"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.restored.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.restored.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-MOVE-ABORT-MSG.restored.console"
+      },
+      "rebuilt": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "MOTION-TOKEN-SNAPSHOT",
+      "file": "packages/reforge/src/world-motion-runtime.ts",
+      "anchor": "sceneSessionId: this.currentSceneSessionId(input.sceneId),",
+      "command": "pnpm exec vitest run src/world-motion-runtime.runtime-session-1.test.ts -t \"scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token\" --reporter=json",
+      "cwd": "/private/tmp/type-pal-glm-runtime-session/packages/reforge",
+      "testFile": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "expectedTest": "scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+      "expectedErrorPart": "mutated-token",
+      "original": {
+        "exitCode": 0,
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 3497,
+            "sha256": "4d65a45f7f5f696f2cd53e64d59bc4dc42eafd0f516e47a1154a8b3c62d0b909"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 331,
+            "sha256": "5f1ca6cf44ab42f7d4edbb20176b95eb211f4f70133e6290fd5dea12142bfb22"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.original.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.original.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "5ef3941c94eb09ca1285ed5c67f0b0f35632a4133e76032b9fffe3bdbf026c44",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 4889,
+            "sha256": "78d0262448de8ecc0abee1a14ee8cd607d48464e5865d33132cb7b65a2f762e3"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 1789,
+            "sha256": "cb9f91bcf2e6f080963ac2a9805e3d541dd0590fadc511fc0de749b96bc234d4"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.mutant.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.mutant.stderr",
+        "failures": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "messages": [
+              "AssertionError: expected 'mutated-token' to be 'a:1' // Object.is equality |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts:282:39 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ],
+            "messagePreview": [
+              "AssertionError: expected 'mutated-token' to be 'a:1' // Object.is equality |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts:282:39 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ]
+          }
+        ],
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 owner 的步态与侧避锁",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 3496,
+            "sha256": "5a986dd23f4312af29319d13eef1fd397671ed85bbe4db360e77392e5c720360"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 331,
+            "sha256": "81e8ef19eeeb3526a4c038998cb19545d4ec3585c15f15de66b43d56f6348c28"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.restored.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.restored.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/MOTION-TOKEN-SNAPSHOT.restored.console"
+      },
+      "rebuilt": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "executedCount": 1
+      }
+    },
+    {
+      "id": "VIEW-HOSTILE-ONLOSE-KEEP",
+      "file": "packages/reforge/src/runtime-project-view.ts",
+      "anchor": "? { ...structuredClone(entity.hostile), onLose: [] }",
+      "command": "pnpm exec vitest run src/runtime-project-view.runtime-session-1.test.ts -t \"运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留\" --reporter=json",
+      "cwd": "/private/tmp/type-pal-glm-runtime-session/packages/reforge",
+      "testFile": "src/runtime-project-view.runtime-session-1.test.ts",
+      "expectedTest": "运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+      "expectedErrorPart": "setFlag",
+      "original": {
+        "exitCode": 0,
+        "hash": "1c7ed7ca473734f1bc12f6c4b6b2f14cf5bff8dad96a9674398e9eb24022b1e2",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 2297,
+            "sha256": "6c1d82927651d4aac50586bc04c83a3b79b2aa6f392bee3176ff233dc6494d3a"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 333,
+            "sha256": "fa130de44fac7c297f1ad670e6cccec6ea2f907e128907b8633573048963d373"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.original.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.original.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.original.console"
+      },
+      "mutant": {
+        "exitCode": 1,
+        "signal": null,
+        "hash": "84139e3ace989b969601fe07eec3403dc77a7dbb2e0422542ce95a8174755be9",
+        "executed": [],
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+            "status": "failed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 3721,
+            "sha256": "ce7588be291a024afb236614155dc58cddf2d387fdf92ed8b840ed2c3e197f53"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 1952,
+            "sha256": "8480fa05bb3e4de4e1d0c455a684f96c5a8f301659c4a298fa7184b0799515ee"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.mutant.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.mutant.stderr",
+        "failures": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+            "messages": [
+              "AssertionError: expected { enemyTeamId: 'team-a', …(4) } to deeply equal { enemyTeamId: 'team-a', …(4) } |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts:69:19 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ],
+            "messagePreview": [
+              "AssertionError: expected { enemyTeamId: 'team-a', …(4) } to deeply equal { enemyTeamId: 'team-a', …(4) } |     at /private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts:69:19 |     at file:///private/tmp/type-pal-glm-runtime-session/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+            ]
+          }
+        ],
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.mutant.console"
+      },
+      "restored": {
+        "exitCode": 0,
+        "hash": "1c7ed7ca473734f1bc12f6c4b6b2f14cf5bff8dad96a9674398e9eb24022b1e2",
+        "executed": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+            "status": "passed"
+          }
+        ],
+        "skipped": [
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+            "status": "skipped"
+          },
+          {
+            "file": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+            "status": "skipped"
+          }
+        ],
+        "artifacts": {
+          "stdout": {
+            "bytes": 2297,
+            "sha256": "88e903b516998a7c3dc7a17075430bc14bae0612b83e243e1e8936530d7cc913"
+          },
+          "stderr": {
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          "console": {
+            "bytes": 333,
+            "sha256": "6640ede53b98e2d988eb3103dd40ab1056a5a4b08d89b31f390efc1e18251d41"
+          }
+        },
+        "stdoutPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.restored.stdout",
+        "stderrPath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.restored.stderr",
+        "consolePath": "/private/tmp/type-pal-glm-runtime-session/packages/reforge/src/__tests__/runtime-session-1/counterproof-raw/VIEW-HOSTILE-ONLOSE-KEEP.restored.console"
+      },
+      "rebuilt": {
+        "hash": "1c7ed7ca473734f1bc12f6c4b6b2f14cf5bff8dad96a9674398e9eb24022b1e2",
+        "executedCount": 1
+      }
+    }
+  ],
+  "verdicts": [
+    {
+      "id": "ROUTER-MENU-PREFILTER",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "FRAME-FADE-REALTIME",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "MOTION-MOVE-ABORT-MSG",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "MOTION-TOKEN-SNAPSHOT",
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "VIEW-HOSTILE-ONLOSE-KEEP",
+      "issues": [],
+      "pass": true
+    }
+  ],
+  "allPass": true,
+  "foreignDirtyPathsExcluded": []
+}

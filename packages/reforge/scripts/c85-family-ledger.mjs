@@ -660,6 +660,33 @@ const ledger = [
         ),
         match: ['足迹重叠臂'],
       },
+      {
+        ...F(
+          'party 绕行回落臂',
+          [349, 351, 353, 1131, 1135, 1147],
+          'planEntityMotion(公开)',
+          '让位者无法侧踏让出时 party 自身 side-only 绕行并产生持杖(实体侧踏候选构造/强制让位/回落路径)',
+        ),
+        match: ['party 绕行回落臂'],
+      },
+      {
+        ...F(
+          '持杖多拍臂',
+          [385, 388, 390, 1356, 1361, 1370],
+          'planEntityMotion 多拍回喂 nextSideSticks',
+          '同侧持杖续行且剩余拍数递减(真实多拍输入:拍→结果→回喂)',
+        ),
+        match: ['持杖多拍臂'],
+      },
+      {
+        ...F(
+          '绕行受限臂',
+          [962, 966],
+          'planEntityMotion',
+          'party 侧踏候选全被地形拦死时回落 blocked',
+        ),
+        match: ['绕行受限臂'],
+      },
     ],
   },
   {
@@ -750,6 +777,15 @@ const ledger = [
         match: ['完成游标复入臂'],
       },
       {
+        ...F(
+          '断点续行臂',
+          [179, 181, 199, 227, 232, 321, 352, 387, 474, 494],
+          'runEntityBehavior(auto)+RuntimeScriptRunner.runFlow resume',
+          'gate 挂住→abort 保留断点(含续行帧)→复跑从断点续行不重放已完成叶(真实 continuation,非手造)',
+        ),
+        match: ['断点续行臂'],
+      },
+      {
         ...F('场景钩子臂', [481, 553], 'runSceneHook(公开)', '场景错位安静 false'),
         match: ['场景钩子臂'],
       },
@@ -806,6 +842,15 @@ const ledger = [
       {
         ...F('存储回退臂', [469, 471], 'bootGame', 'indexedDB 缺席回落 MemorySaveStore 正常开局'),
         match: ['存储回退臂'],
+      },
+      {
+        ...F(
+          '标题启动序列臂',
+          [500, 488],
+          'bootGame ?menu(公开)',
+          '无 startup 视频角色→playVideoSequence 空臂直达菜单,选择第二入口开局',
+        ),
+        match: ['标题启动序列臂'],
       },
     ],
   },
@@ -887,6 +932,21 @@ const doc = {
 }
 await writeFile(
   path.join(evidenceDir, 'c85-family-ledger.json'),
-  `${JSON.stringify(doc, null, 1)}\n`,
+  `${JSON.stringify(doc, null, 2)}\n`,
 )
+// 以仓库格式化器(biome)为唯一定稿者:单元素数组折叠等格式由 biome 决定,
+// 保证再生成与提交 JSON 逐字节一致
+const formatted = spawnSync(
+  'node',
+  [
+    path.join(repoRoot, 'node_modules', '@biomejs', 'biome', 'bin', 'biome'),
+    'format',
+    '--write',
+    path.join(evidenceDir, 'c85-family-ledger.json'),
+  ],
+  { cwd: repoRoot, encoding: 'utf8', timeout: 60_000 },
+)
+if (formatted.status !== 0) {
+  throw new Error(`biome format 失败: ${(formatted.stderr ?? '').slice(-300)}`)
+}
 console.log(`family ledger: ${entries.length} entries across ${ledger.length} files`)

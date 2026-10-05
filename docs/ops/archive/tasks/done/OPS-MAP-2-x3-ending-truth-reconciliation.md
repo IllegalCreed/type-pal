@@ -376,7 +376,7 @@ Evidence: capability-map.md :130,231,233-238,262 / roadmap.md :176-177,184 / boa
 - 修改文件:
   - `docs/phase2/capability-map.md`
   - `docs/phase2/roadmap.md`
-  - `docs/ops/board.md`
+  - `docs/ops/archive/board-history/board-20261004.md`
   - 本卡
 - 实现摘要:
   - X3 从 `⚠️ / —` 纠正为 `✅ / —`，说明只陈述已实现的 `quitToTitle(videos[])`、PAL s281

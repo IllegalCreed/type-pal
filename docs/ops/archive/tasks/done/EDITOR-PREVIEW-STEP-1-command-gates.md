@@ -13,7 +13,7 @@ Codex按用户确认完成实现：原播放按钮切换暂停/恢复，普通�
 error/warning/info全零。完整check10,191→官方ratchet→保护2f59be7f的单次严格fast9,730/730文件
 串行通过；全仓B47,667/63,393=75.19%，新增产品分母32与覆盖分子30分列，另五包基线对象不变。
 Codex核定review→done，单人模式不需额外席位；无下一位Agent提示词。
-[最终回执](../../../../testing/preview-controls.md)含浏览器证据/限制/失败修正记录。
+[最终回执](../../../../testing/archive/legacy/editor/editor-workflows/preview-controls.md)含浏览器证据/限制/失败修正记录。
 不关闭E2E001/002、音频与完整剧情验证；真实游戏未使用预览调试钩子或自动对话政策。
 
 ## 本轮准入（2026-09-28）
@@ -48,7 +48,7 @@ entry呈现/状态转移/尾安全点不另吃空步。初次单步即放行首�
 [补测批](TEST-CODEX-PLAYBACK-1-canonical-controls.md)从正式 `SceneScriptWorkspace.tsx:245`
 调用域构造合法、单条setPartyFacing的current flow。`Playback.playCanonical(...,{paused:true})` 后，
 公开step一次仍down；预期left的AssertionError已复现，非timeout。源码起点82863cf2。
-复现命令/原始日志见[批回执](../../../../testing/codex-playback/README.md)。
+复现命令/原始日志见[批回执](../../../../testing/archive/legacy/batches/codex-playback/README.md)。
 
 根因锚：`script-runner-core.ts:165`阶段入口awaitGate、`:304`命令前awaitGate，
 而`playback.ts:493-505`只释放gateQueue首项；第一次step被无onStep事件的阶段门消费。

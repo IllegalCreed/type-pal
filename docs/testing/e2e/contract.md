@@ -1,13 +1,21 @@
+---
+testingSchema: 2
+id: e2e-contract
+evidence: e2e/evidence/e2e-contract.json
+---
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"2-9","anchor":"import { spawn }","role":"caller","sha256":"2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["正文/说话人/状态变化来自真实 caller","结束 checkpoint 可被同引擎正式恢复","capture 不冒充 verify"]},"dedupe":{"result":"reviewed","against":["docs/testing/e2e/stages/*/report.md","docs/testing/legacy-flat-classification.json"],"notes":"合同只定义共用门，不重复阶段报告的执行结论。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-contract.json"}
+-->
+
 # 两阶段 E2E 与录像验证合同
 
-> **目的**:把整个游戏切成几百个小碎片,每个碎片小到足够独立验证、独立重跑和独立录像。每个碎片 =
-> **一个起始检查点**(`NNN-名.save.json`,秒进该状态)+ **一份剧情与执行说明**(碎片目录中的每节 + 可选单独 md)
-> + **可机器复核的结束条件**。**碎片 N 的结束检查点 = 碎片 N+1 的起始检查点**。这样重复 E2E
-> 或重录某个镜头时可从任意碎片直接进入,不必从头通关,也不要求作者手动玩一遍再录屏。
->
-> 碎片边界由作者(仙剑专家)最终确认。Agent 可以根据
-> [`docs/lore/timeline.md`](../../lore/timeline.md)、场景/脚本数据和既有验证证据起草候选边界,
-> 但**不得把猜测直接登记成剧情真值**。作者只需审核边界和内容语义,不承担手动通关、录屏或给无标签录像补剧情说明。
+## 2026-10-04 文档深审
+
+合同硬门中的旧平面报告名应由 catalog canonical 解析。capture、路线、存读与 NPC 演出门分别保留。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 1. 产品定位与前置关系
 
@@ -67,9 +75,9 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 > 全仓代码审计**A–E 首轮取证已完成**（见 `docs/ops/audits/pre-e2e/summary.md`），当前是按总收口
 > 修复影响数据安全、流程正确性和 E2E 可信度的阻断问题，再开始 R4；一般优化不要求在 E2E 前全部完成。
 
-历史准入核对见[前置欠账台账](../pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
+历史准入核对见[前置欠账台账](../archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
 2026-09-27已建[R4准备卡](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](route-proposal.md)，
-001～005作者边界及两阶段各自连续checkpoint链现已建设，见[001](stages/001-opening/report.md)、[002](stages/002-inn-e56/report.md)、
+001～005作者边界及两阶段各自连续checkpoint链现已建设，见[001](stages/001-opening/report.md)、[002](stages/002-inn-guests-and-reward/report.md)、
 [003](stages/003-kitchen/report.md)、[004](stages/004-meal/report.md)、[005](stages/005-shrimp/report.md)；006以后作者边界待确认。正常输入、对话适配、正式存读档和
 关键NPC事件已执行；不同冻结revision的历史报告不冒称同revision汇总。当前content21/SAVE10，旧版本准入顺序仅作历史。
 用户本次将Codex从主动补覆盖转为E2E；GLM/Cursor后台补测不阻塞，尚未授权实现加速旁路。
@@ -185,7 +193,7 @@ E2E用于代表性观感/端到端验证和发现新类型问题，不能成为�
 - 空/重复/冲突工作区参数、缺失/错身份句柄记录可见拒绝，不退回 HTTP 或创建错误存档库；独立试买
   允许新的身份参数但仍零存档读写。旧未分区库仅可用隔离 sentinel 验证“不读、不迁、不删”。
 - 断言 checkpoint 恢复后继续保存落在选定 scope；原导出钩子误接已由
-  [Q1-CHECKPOINT-EXPORT-1](../checkpoint-export.md)修复并三席收口，2026-09-21真实链17项复跑通过。
+  [Q1-CHECKPOINT-EXPORT-1](../archive/legacy/runtime/save-and-recovery/checkpoint-export.md)修复并三席收口，2026-09-21真实链17项复跑通过。
   R4仍须验证整页导出→文件恢复→下一段接续，不能以接口回归替代连续E2E。
 - 后续执行证据写到 `artifacts/e2e/save-isolation/<run-id>/`（计划目录，尚未生成），含候选 SHA、
   版本/身份元组、逐步快照与断言，失败保留错误栈；N6b 切版重建输入但保留业务断言。
@@ -200,7 +208,7 @@ E2E用于代表性观感/端到端验证和发现新类型问题，不能成为�
 ### 已登记的作者保存恢复回归（EDITOR-SAVE-RECOVERY-1）
 
 状态：**R4集中自动化链待跑，Owner Codex**。[保存恢复卡](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)已三席终审、用户免手动复审通过；
-[原生补证与限制](../editor-save-recovery-closeout.md)是开发期证据，不替代本条完整自动化链。
+[原生补证与限制](../archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)是开发期证据，不替代本条完整自动化链。
 
 - 入口/数据：隔离浏览器资料及测试目录，从空白当前工程创建新人物，体力上限237，场景实体引用该人物；禁止使用用户作者工程。
 - 主链：完整暂存后在人物表作者IO边界中断保存→关闭旧页/重启测试浏览器→选原目录并按需要重新授权→恢复为committed。
@@ -332,7 +340,7 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
   与普通保存共用安全快照队列，自动脚本按可恢复指令边界捕获，不等待全地图自动行为结束，
   不写用户槽/缩略图/计数。前台能否存档仍遵守菜单控制权，快速存档不绕过手动存档准入。
   超时/捕获失败reject，调用方须处理错误，不生成下一段检查点；取得快照不替代业务结束断言。
-  [接口实现与历史验证](../checkpoint-export.md)、[后台续跑快照](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
+  [接口实现与历史验证](../archive/legacy/runtime/save-and-recovery/checkpoint-export.md)、[后台续跑快照](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
   001→004各段当前版本保存/正式恢复链见各段回执。
   DEV控制台示例（正式runner还须完成结束断言和文件落盘）：
 

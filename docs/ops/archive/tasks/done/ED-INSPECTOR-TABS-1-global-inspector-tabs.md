@@ -201,7 +201,7 @@ ScriptV5BehaviorInspector、ScriptV5SceneHookInspector、SpriteFrameWorkbench、
 ### 本轮 draft 自检
 
 - 已按当前工作树静态复核 8 模块 / 24 二级页和两个 sprite domain；未启动实现、typecheck、Vitest 或浏览器。
-- 文档改动后运行 git diff --check -- docs/ops/board.md
+- 文档改动后运行 git diff --check -- docs/ops/archive/board-history/board-20261004.md
   docs/ops/archive/tasks/done/ED-INSPECTOR-TABS-1-global-inspector-tabs.md。
 
 ### Build 实现结果（2026-08-16，Codex）
@@ -266,7 +266,7 @@ ScriptV5BehaviorInspector、ScriptV5SceneHookInspector、SpriteFrameWorkbench、
 ## 上下文锚点
 
 - 决策/纪律：AGENTS.md（跨会话非小改开卡、前提门、三签、单 Coding Owner、当前 canonical）、
-  CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、docs/ops/board.md。
+  CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、docs/ops/archive/board-history/board-20261004.md。
 - 设计系统：docs/phase2/specs/editor-design-system.md:53-70,200-224,520-578,660-679；
   docs/ops/archive/tasks/done/ED-DS-1-editor-design-system-spec.md；
   docs/ops/archive/tasks/done/ED-DS-2-editor-design-system-foundation.md:14-69；

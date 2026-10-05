@@ -14,7 +14,7 @@ Codex按用户恢复和业务缺陷修复授权完成六文件33项回归，包�
 editor TC零诊断、全仓lint2,391文件error/warning/info全零，文档与差异检查通过。
 FrameAnimationEditor B266/324、L432/445、F105/109；全仓B47,637/63,361=75.18%。
 本次产品修复新增38分支分母，覆盖分子净增148，不冒充纯补测收益。无格式/资产/旧测试变更。
-Codex独立核定review→done，证据及前后红绿见[最终回执](../../../../testing/codex-frame-editor/README.md)。
+Codex独立核定review→done，证据及前后红绿见[最终回执](../../../../testing/archive/legacy/batches/codex-frame-editor/README.md)。
 不需另席或用户手工复审；无下一位Agent提示词。布局像素/剧情/音轨/full/Q1/Q2为本卡范围外。
 
 ## 历史准入与暂停记录
@@ -62,7 +62,7 @@ Codex独立核定review→done，证据及前后红绿见[最终回执](../../..
 5. 保存/量化经真实worker降级纯核、UpsertAssetCommand/EditSession、正式TPFS重新解码逐字节核验及错误恢复。
 
 新增ui/FrameAnimationEditor.{loading,editing,playback,viewport,save,async-ownership}.test.tsx、
-ui/__tests__/frame-editor-fixture.ts、docs/testing/codex-frame-editor/**；产品仅改本卡已证
+ui/__tests__/frame-editor-fixture.ts、docs/testing/archive/legacy/batches/codex-frame-editor/**；产品仅改本卡已证
 FrameAnimationEditor.tsx异步归属与错误处理，旧测试/其它产品/配置/资产不改。
 完整合法空白工程经正式loader，TPFS由正式编码器构建，真实reader与EditSession；
 宿主替身仅补JSDOM的Canvas/ResizeObserver/几何/指针端口，不能mock核心reader/codec/command。

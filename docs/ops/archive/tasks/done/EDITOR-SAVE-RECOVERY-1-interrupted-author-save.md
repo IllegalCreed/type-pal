@@ -20,7 +20,7 @@ Implementation Candidate: cd3de679（2026-09-13，后续只补交接文档，不
 三席已对同一候选cd3de679签accept，用户明确“签了，另外你这个太技术了，我就不手动复审了，直接通过”。
 Codex于2026-09-13核定done：Kimi终审提交e36aadc8、GLM终审提交855c676f；接手树相对候选的packages/scripts零diff，工作树干净，r2设计不重签，无缺签豁免。
 本次用户免手动复审只记录为本卡最终验收，不扩大为其它卡的验收或实现授权。
-优先阅读[最终收口](../../../../testing/editor-save-recovery-closeout.md)与[当前未覆盖台账](../../../../testing/editor-save-recovery-coverage-pending.md)；
+优先阅读[最终收口](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)与[当前未覆盖台账](../../../../testing/archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md)；
 以下历史各批的“尚未接入”“pending”及测试计数仅代表当时，不覆盖本节当前状态。
 完整实现按135d065a起点审查，不只看本批7087dbad之后的旧链清理。没有改content20/SAVE8或生成工程，没有采用仓外连接复用原型。
 已补真实OS目录整浏览器重启/撤权，已退役旧作者保存链，check6,873/严格fast6,385均通过。
@@ -64,9 +64,9 @@ Codex于2026-09-13核定done：Kimi终审提交e36aadc8、GLM终审提交855c676
 ### 当前 API 的独立复现
 
 旧 `probe-editor-persistence.mjs` 已不匹配 A-02 新增的必填 authorBaseline，不能把其参数错误当 A-03 证据。
-原文件保留未改，新增[当前保存恢复探针](../../../audits/pre-e2e/probe-editor-save-recovery.mjs)。
+原文件保留未改，新增[当前保存恢复探针](../../../audits/pre-e2e/tools/probe-editor-save-recovery.mjs)。
 
-运行：`node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs`，exit 0，最终观察：
+运行：`node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs`，exit 0，最终观察：
 
 - 以真实 buildBlankProject → 首存授权/writeProject → openLocalProject → toEditorState 构造 current 项目。
   新人物 `a03-new-npc` 的合法字段 `battler.baseStats.maxHP=237`，场景用真实 createCanonicalPlacedEntity 引用它；
@@ -1538,8 +1538,8 @@ Save As部分分支；open-local余下两条为非Error异常文案兜底，先�
 ### GLM大批测试分工（batch-r1，2026-09-10，用户要求）
 
 用户要求把一大批GLM能做的工作整理为一次交付，由Codex完成后统一检查。
-本次范围与逐项验收放在[工作包附件](../../../../testing/editor-save-recovery-glm-batch.md)，
-GLM直接填写[整批回执](../../../../testing/editor-save-recovery-glm-batch-report.md)。附件不是新任务卡，继承本卡r2三签，不重签。
+本次范围与逐项验收放在[工作包附件](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-batch.md)，
+GLM直接填写[整批回执](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md)。附件不是新任务卡，继承本卡r2三签，不重签。
 
 - 固定产品基线aa87c305，从工作包首次落地的文档提交建立独立worktree/分支`codex/glm-save-coverage-batch`。
 - G1打开/权限8项、G2写入10项、G3工作区保护10项、G4基线/恢复8项、G5存储/保存状态7项，
@@ -1600,7 +1600,7 @@ GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-cove
 （覆盖 G1-G5 五组、全部业务结果红）。验证：定向+相邻 175/175、完整 pnpm check exit0 共 6,681 项
 （环境注记：worktree 需本地补 gitignored data/migrated 资产，不入提交）、同口径 editor-fast
 194 文件/1,954 项全绿、typecheck 0、biome 净；整文件覆盖缺口如实登记，官方 ratchet 未动。
-详见[整批回执](../../../../testing/editor-save-recovery-glm-batch-report.md)。不代签、不标父卡 done；
+详见[整批回执](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md)。不代签、不标父卡 done；
 测试贡献留待终审披露。
 
 ### Codex · batch-r1接收复核（2026-09-11，counter）
@@ -1608,7 +1608,7 @@ GLM（2026-09-10，整批完成）：独立 worktree/分支 `codex/glm-save-cove
 不接收08c1ee09/fa0da062，本卡暂记rework，**仅GLM测试贡献返工，r2前提/设计签字继续有效**。
 本席独立核白名单/远端SHA、11文件175项与typecheck；六个声称的变体均红，但进一步反例证明
 P2/P6自抛错假通过、W6错层、W10零进度也绿、S4锁替身违背API合同，43项/SR表也有错误映射。
-详细file:line、隔离证据、R1–R4返工与12项归属裁定见[Codex接收复核](../../../../testing/editor-save-recovery-glm-batch-report.md#codex接收复核2026-09-1108c1ee09counter)。
+详细file:line、隔离证据、R1–R4返工与12项归属裁定见[Codex接收复核](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md#codex接收复核2026-09-1108c1ee09counter)。
 
 待证中的O5/P1/P5/P7/B2/B6/S1/S2/S3自动化仍属GLM原范围；O8/P10/B8补逐分支分类证据。
 仅真正原生权限/跨页、E2E、性能与产品修复留Codex，不因fixture需要构造就把原测试工作退给Codex。
@@ -1625,7 +1625,7 @@ Lock形状/读后释放正控并清理文档冲突及unused。首次全仓还抓
 已撤销第一故障后再注第二故障；强制locale先读时原候选红/修订绿，不作为环境抖动豁免。
 
 修订后21项及相邻183项通过，八组反证有效；完整check修复后7包/561文件/6,689项通过。
-详细R1–R4判定、原候选差异、本席贡献及后续优先级见[接收修订](../../../../testing/editor-save-recovery-glm-batch-report.md#codex返工复核与接收修订2026-09-11fa8af7c2)。
+详细R1–R4判定、原候选差异、本席贡献及后续优先级见[接收修订](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md#codex返工复核与接收修订2026-09-11fa8af7c2)。
 仅接收核实后的测试子集；原工作包43项与SR对账尚未完成。done前三席仍pending，不代签、不抢N6b/E2E。
 统一ratchet及单次严格fast通过，618生产文件/6,201项测试，报告除时间戳外逐字段相同。
 本次恢复build是继续实现/测试剩余范围，不是整包accept或父卡done；GLM贡献与Codex补证均须终审披露。
@@ -1636,7 +1636,7 @@ Lock形状/读后释放正控并清理文档冲突及unused。首次全仓还抓
 独立197项/typecheck通过，NC2/NC5及S2早resolve变体红，PAL正常打开正控真实有效；
 但新增data/extracted绝对符号链接越过白名单，W9仍只证基线冲突，IDB替身abort不回滚且复用openRequest，
 43项摘要实际只列41个唯一ID，O8/P10/B8分类存在跨文件错引。不能据此标剩余工作已完成。
-详细证据、C1–C4返工及深防御裁定见[本次接收复核](../../../../testing/editor-save-recovery-glm-batch-report.md#codex剩余项接收复核2026-09-12574012e5counter)。
+详细证据、C1–C4返工及深防御裁定见[本次接收复核](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md#codex剩余项接收复核2026-09-12574012e5counter)。
 
 K5失败、缺extracted及审计超时日志已核到；B3修复未涉及design-system，“B3修好了审计根因”的归因撤回。
 质量/性能项保留由Codex核实，不以隔离多次绿免责。本轮只收文档，不执行含越界链接的merge，不更新baseline；
@@ -1645,7 +1645,7 @@ K5失败、缺extracted及审计超时日志已核到；B3修复未涉及design-
 ### Codex · 3fe58baa C1–C4返工复核（2026-09-12，counter）
 
 候选仍未达到接收条件；原21项、6,201项fast基线与r2签字保持有效。详细独立证据及复现配置见
-[批回执末尾](../../../../testing/editor-save-recovery-glm-batch-report.md#codex-c1c4返工复核3fe58baa2026-09-12counter)。
+[批回执末尾](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md#codex-c1c4返工复核3fe58baa2026-09-12counter)。
 
 - C1：5460a370确曾撤追踪，但fce75a0e又加入data/extracted，3fe58baa最终远端仍是绝对路径symlink；未合并、未触碰真实资产。
 - C2：W9确已改到输入/真实decoder，本席完整快照+IO见证也绿；O4失败传播、B正控及P5/B6收窄有效，保留。
@@ -1662,7 +1662,7 @@ K5失败、缺extracted及审计超时日志已核到；B3修复未涉及design-
 ### Codex · d39efe15接收侧补证与统一集成（2026-09-12）
 
 已核最终远端白名单及链接撤追踪，测试贡献经本席补证后接收，历史batch-r1 counter解除、状态恢复build。
-详见[批回执当前结论](../../../../testing/editor-save-recovery-glm-batch-report.md#codex-d39efe15接收与集成2026-09-12)。
+详见[批回执当前结论](../../../../testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md#codex-d39efe15接收与集成2026-09-12)。
 原21项断言保持；接收GLM续批17项，本席新增3个IDB替身读写错误终结回归及2个W3真实序列化回归，
 批6文件43测试、相邻12文件205测试通过。补齐同键put失败、原global descriptor恢复和测试锁finally释放，
 产品/原探针/真实工程/配置零变化。七种独立单点产品负控业务红；GLM及Codex测试贡献均须终审披露。
@@ -1678,7 +1678,7 @@ K5/审计时长风险不因一次绿而注销。r2签字有效、不重签；don
 
 ### Codex · GLM preflight-r1分工（2026-09-12，用户授权）
 
-用户要求给提示词让GLM继续开始。新分工见[保存前校验与序列化测试包](../../../../testing/editor-save-recovery-glm-preflight.md)，
+用户要求给提示词让GLM继续开始。新分工见[保存前校验与序列化测试包](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md)，
 沿用本卡build/r2，不重新设计签字。代码/测试基线4b72e492（check6,711、fast6,223），从本次纯文档派工提交
 建立独立codex/glm-save-preflight-tests分支；不复用已接收批次工作树，不跟随主线改产品。
 GLM只写两组新测试及一份workspace-persistence剩余分支只读清单；不造新IDB/FSA替身，不改产品/旧测试/基线。
@@ -1713,7 +1713,7 @@ assertDirectoryEmpty 两臂撤回前置阻断、27→28 勘误；回执勘误 ch
 用户交接aebcbea4，远端后续f1c540a2只补文档；测试代码同为327db910。本席已同步并核最终白名单，
 独立44/44、editor typecheck通过，四个单点负控均红；biome仍有1个新增unused import warning。
 结论：**本包未接收，只落文档，原4b72e492及6,223项基线不动**。详情见
-[工作包PF-1～PF-3](../../../../testing/editor-save-recovery-glm-preflight.md#codex-preflight-r1接收复核2026-09-12counter)。
+[工作包PF-1～PF-3](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md#codex-preflight-r1接收复核2026-09-12counter)。
 
 - PF-1：S01手工复活content.scripts，而current loader:188–189明禁；本席把原输出连同seed资产完整重开，
   立即因该字段被拒。旧分片bytes合同不等于当前canonical正控，不能用它抬高本卡覆盖。
@@ -1730,7 +1730,7 @@ GLM在原分支按当前提示词返工，不重签、不代签、不标done、�
 
 fd0fcc4f仅在ee7169e3代码候选上补文档；本席独立45/45、typecheck通过，四种负控均按预期红。
 S01当前sharedScripts重开（本席额外核整库相等）、S02已加载/未加载双态及P01/P02对照已通过，不再返工。
-本包仍有两类阻断，详细证据见[最新返工复核](../../../../testing/editor-save-recovery-glm-preflight.md#codex-preflight-r1返工复核fd0fcc4f2026-09-12counter)：
+本包仍有两类阻断，详细证据见[最新返工复核](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md#codex-preflight-r1返工复核fd0fcc4f2026-09-12counter)：
 
 - P05实际只有正控调用writeProject；负控坏kind先在serialize阶段抛出，catch将其当成功证明。
   本席入口计数在正控后/负控后均为1，不能算writer拒绝回归。应在合法序列化后只破坏bytes/SHA并直接断言writer拒绝。
@@ -1745,10 +1745,10 @@ S01当前sharedScripts重开（本席额外核整库相等）、S02已加载/未
 
 接收193f4adf/fae10e55的13个测试与窄helper；本席已独立46/46、P05入口见证及四种负控验证，
 P05负向确实进入writeProject，不再接受序列化先拒。接收侧统一正反控标识、加强字节快照，产品/旧测试/资产零改动。
-完整证据及质量门回填见[本批接收结论](../../../../testing/editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)。
+完整证据及质量门回填见[本批接收结论](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md#codex-fae10e55接收结论2026-09-12)。
 
 C组原“已有覆盖/可达性”分类仍不成立，不签该审计结论accept；本席已重建
-[119臂未覆盖台账](../../../../testing/editor-save-recovery-coverage-pending.md)，0命中不当作已覆盖，
+[119臂未覆盖台账](../../../../testing/archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md)，0命中不当作已覆盖，
 1臂已有独立可达反例、118臂尚待真实caller/前置条件核实，后续由Codex接管，不让用户再转GLM反复填表。
 状态恢复build是继续本卡剩余验证，不是C组审计或整卡完成；r2签字保持，GLM/Codex测试贡献须终审披露。
 全仓check **6,724项**、官方ratchet及随后**单次严格fast 6,236项**均exit0；618生产文件及全部分母不变，
@@ -1797,13 +1797,13 @@ HTTP可信源在专用6011验证页镜像隔离目录，模拟开发服务器读
 
 上述是原生后端/跨上下文**API**验证，**不是OS文件夹选择器、实际编辑器点击/UI提示或完整试玩/剧情E2E**；
 UI可达性、权限手势与全量PAL内容/性能仍按整卡后续验证，不用这份小fixture替代。
-等价临时探针首次通过后，本席将其参数化为[可重建原生探针](../../../audits/pre-e2e/verify-pal-save-recovery.mjs)，
+等价临时探针首次通过后，本席将其参数化为[可重建原生探针](../../../audits/pre-e2e/tools/verify-pal-save-recovery.mjs)，
 每次运行mktemp新资料目录，不复用用户Chrome资料，不自动安装依赖；语法/biome检查后再用入库入口实跑通过。
 
 重跑前按dev-servers指南准备专用6011实例；Playwright由外部开发运行时提供：
 
 ```sh
-TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/verify-pal-save-recovery.mjs
+TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs
 ```
 
 可用TYPE_PAL_CHROME_EXECUTABLE指定浏览器二进制；默认本机Google Chrome。脚本打印EVIDENCE_DIRECTORY并保留native-pal.json及隔离profile，
@@ -1813,7 +1813,7 @@ TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json nod
 
 正式ratchet及随后单次严格fast均已通过：6,236→6,249项，editor 198测试文件/2,010项；618生产文件及所有分母未变，
 全仓语句+8、分支+10、行+6、函数不变。workspace-persistence由353/435→362/435（83.21%），
-原119臂台账中的9臂已常驻命中，当前剩110臂；[台账](../../../../testing/editor-save-recovery-coverage-pending.md)已更新并纠正短路表达式节选的空白/残缺定位。
+原119臂台账中的9臂已常驻命中，当前剩110臂；[台账](../../../../testing/archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md)已更新并纠正短路表达式节选的空白/残缺定位。
 首次完整check及添加入库原生探针后的最终完整check均exit0、6,737项通过；最终日志check-final.log。
 正式baseline与严格fast汇总一致；原有50项lint warning/11项info未在本切片扩大，新增文件检查无诊断。
 本轮不代签、不标done；原生API补证不等于UI/OS权限/大克隆性能和余下分支审查全部完成。
@@ -1868,11 +1868,11 @@ transaction/execute/journal/保存协议/项目版本/公共接口、原审计�
 不得擅自减少strict事务、身份检查或先写后备份。若进一步拆分持久凭据/游标或改变协议，须先另行设计审查，
 不能拿本次纯解析优化授权替代。小增量无可辨改善，不归因为加速。
 
-上述计量已整理为[可重跑的PAL保存计量](../../../audits/pre-e2e/measure-pal-save-recovery.mjs)，无历史实现分支、
+上述计量已整理为[可重跑的PAL保存计量](../../../audits/pre-e2e/tools/measure-pal-save-recovery.mjs)，无历史实现分支、
 不复用用户资料、不安装依赖，仅向本次隔离OPFS写；复跑前准备专用6011，命令：
 
 ```sh
-TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/measure-pal-save-recovery.mjs current
+TYPE_PAL_PLAYWRIGHT_PACKAGE_JSON=/absolute/runtime/node_modules/package.json node docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs current
 ```
 
 入库入口另实跑得到81.18s/增量2.95s，字节和close数一致；该次是脚本可重建性复验，不拿多次最好值替代主对照。
@@ -1894,7 +1894,7 @@ check.log、ratchet.log、strict-fast.log、docs.log均在本轮证据目录；�
 ### Codex · 原生目录与界面主链补证（2026-09-12）
 
 从1ba88755继续r2，产品/测试/覆盖率基线零改动，三方设计不重签。
-[完整回执](../../../../testing/editor-save-recovery-native-ui.md)已记录U1–U6：实际系统目录选择和Chrome授权、
+[完整回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-native-ui.md)已记录U1–U6：实际系统目录选择和Chrome授权、
 界面复制新人物/设置237/放入场景、保存中断后关闭旧tab、新页恢复、继续保存238、实际启动试玩；
 另测239保存中断后的777外部冲突，以及同一个project-b目录拒绝授权/允许授权的对照，全部通过。
 冲突前后23文件/目录共36项SHA与mtime快照相同；恢复数据保留，错误文案可见且启动页仍可操作。
@@ -1954,7 +1954,7 @@ wp由362/435到379/435（约87.13%），行393/423、函数58/58；正式LCOV确
 ### GLM并行分工 · 打开身份代码测试（2026-09-12）
 
 用户要求提供GLM并行提示词，随后明确视觉相关测试只能由Codex执行，GLM没有多模态能力。
-新增[open-identity-r1工作包](../../../../testing/editor-save-recovery-glm-open-identity.md)：GLM仅写打开身份函数的单测和本人文本回执，
+新增[open-identity-r1工作包](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-open-identity.md)：GLM仅写打开身份函数的单测和本人文本回执，
 不操作浏览器、不看截图/录屏验收。Codex负责全部视觉工作、project-io/性能/权限遗留与统一集成。
 生产基线1ba88755，r2设计签字保持；GLM用新worktree/codex/glm-open-identity-tests，不改现有首存测试或全局配置。
 GLM为测试贡献者，终审披露；本包自测不等于独立第三席终审。
@@ -1964,7 +1964,7 @@ GLM为测试贡献者，终审披露；本包自测不等于独立第三席终�
 ```text
 在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 的 open-identity-r1 并行代码测试包。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build，r2不重签。
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡最新回执及 docs/testing/editor-save-recovery-glm-open-identity.md，严格按工作包执行。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡最新回执及 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-open-identity.md，严格按工作包执行。
 同步origin/main后新建独立worktree和codex/glm-open-identity-tests；生产基线1ba88755。若发现主树生产源码变化先交Codex确认。
 唯一白名单：新增 packages/editor/src/core/workspace-open-identity.test.ts，以及工作包GLM回执区。
 一批完成普通本地/沙盒/PAL/expectedIdentity四组身份矩阵；复用合法blank fixture与真实构造器，各工作区有finishOpen函数的正反入口，拒绝时核文件/IO/原绑定不变。
@@ -1984,7 +1984,7 @@ project-io-admission.test.ts；不碰GLM的workspace-open-identity.test.ts或本
 对旧分片/缺字段路径先核当前loader合同，不把旧工程形态当合法正控。生产代码暂不改，保持GLM生产基线稳定。
 日志：`/tmp/codex-project-io.xphxdA/`；r2签字保持，不重复视觉流程。
 
-本轮[复核回执](../../../../testing/editor-save-recovery-project-io-review.md)已落盘：15项新回归、相邻80项和六组负控通过预期；
+本轮[复核回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-project-io-review.md)已落盘：15项新回归、相邻80项和六组负控通过预期；
 完整check6,783、官方ratchet及单次严格fast6,295均exit0，618生产文件/全部分母不变。
 project-io未覆盖37→26，与wp合计93→82；其中10臂按构造/前置保证分类，3臂列旧管线退役审查，
 仍保留在分母，不冒充命中。没有修改生产、GLM文件、旧测试或公共接口，保持其1ba88755生产基线。
@@ -1995,7 +1995,7 @@ project-io未覆盖37→26，与wp合计93→82；其中10臂按构造/前置保
 ### Codex · open-identity-r1接收复核（2026-09-12，counter）
 
 候选f3b84033白名单符合，本席94项/typecheck/biome及四组独立AST负控复跑完成；但本测试包暂不接收。
-[R1–R3及证据](../../../../testing/editor-save-recovery-glm-open-identity.md#codex接收复核2026-09-12f3b84033counter)：
+[R1–R3及证据](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-open-identity.md#codex接收复核2026-09-12f3b84033counter)：
 遗漏hint.source轴，独立真实登记链见证了不一致source被登记且下次重开失败；forceSandbox漏dir断言、
 部分零副作用声明无断言支撑，登记替身略去真实业务守卫；覆盖增量应为wp+14而非+40，剩余分类有反例。
 没有合入候选测试、没有更新官方baseline/82臂台账，没有改生产；3项专用取证见证已入库，不进常规测试门禁。
@@ -2006,7 +2006,7 @@ project-io未覆盖37→26，与wp合计93→82；其中10臂按构造/前置保
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 EDITOR-SAVE-RECOVERY-1/open-identity-r1。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 仍build/r2，本测试包counter，不重签。
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及 docs/testing/editor-save-recovery-glm-open-identity.md 的Codex R1–R3和证据。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-open-identity.md 的Codex R1–R3和证据。
 沿用codex/glm-open-identity-tests独立worktree，先同步最新main的counter文档；保留他席原文，不在main实现。
 R1：补hint.source单轴不一致与同条件正控，分别用无既有最近记录的新鲜fixture；负例不能先正常finishOpen登记后再改hint，以免后层守卫遮住首次打开缺口。当前要求拒绝的回归应如实留为预期红，不skip/test.fails，不改生产，产品修复归Codex。
 R2：保持真实登记业务/锁校验，仅在底层IDB替身；补forceSandbox的dir缺席及相应负控、遗漏的文件/IO/绑定断言和合法对照。句柄“载入前”需读取见证，否则收窄表述。重叠守卫按实记录，不再删后层硬造错误放行。
@@ -2019,7 +2019,7 @@ R3：重做起点/新增/剩余逐臂表，本包相对起点wp+14不是+40；�
 ### Codex并行切片 · 写入授权生命周期（2026-09-12）
 
 用户要求GLM返工同时继续推进。新增独立workspace-capability-lifecycle.test.ts，保持生产/GLM文件不变。
-[本批回执](../../../../testing/editor-save-recovery-capability-review.md)：13项真实授权测试、相邻214项、typecheck/biome通过，
+[本批回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-capability-review.md)：13项真实授权测试、相邻214项、typecheck/biome通过，
 10组唯一throw负控最终均错误放行级业务红。覆盖owner成功/失败后token失效、writer提交后写权限关闭、
 recent声明归属、恢复私有路径/操作及原基线封存；保持真实登记业务/锁，仅替换底层存储。
 不通过伪造品牌或导出私有函数凑覆盖；产品hint.source缺口仍留待GLM反例交付后由Codex修复。
@@ -2031,7 +2031,7 @@ wp新增16臂命中，行402/423、分支395/435；重点两模块未覆盖82→
 ### Codex并行续批 · 最终取样与恢复快照（2026-09-12）
 
 用户要求GLM仍在返工时继续推进；基于261c3c66，新增save-readback-boundaries.test.ts10项，生产/GLM文件零变更。
-[续批回执](../../../../testing/editor-save-recovery-project-io-review.md#最终取样与恢复快照边界起点261c3c66)：
+[续批回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-project-io-review.md#最终取样与恢复快照边界起点261c3c66)：
 journal公开调用缺project diff时恢复完明确要求重开，正常writer保留snapshot；PAL最后校验/取样间隙外部改动必须在owner回调前拒绝；
 JSON三形式真实改标题/记账/重开及裸二进制拒绝。相邻150项/typecheck/biome通过，四组单点业务负控1/1/1/3红。
 当前加载器虽补齐可选表字段，仍未将所有后续命令可达性误判为已证明。
@@ -2043,7 +2043,7 @@ r2签字保持，hint.source缺口留给GLM反例交付后的Codex修复，不�
 ### Codex · open-identity-r1返工接收与来源漏检修复（2026-09-12）
 
 候选73aa0ea7基于693dec71，接收主线实际为6eaf4dc7；仅适配测试与GLM返工回执，保留主线全部并行成果。
-[本席独立回执](../../../../testing/editor-save-recovery-glm-open-identity.md#codex返工接收与r1修复2026-09-1273aa0ea7)：
+[本席独立回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-open-identity.md#codex返工接收与r1修复2026-09-1273aa0ea7)：
 未改生产先复跑18绿+1来源错误放行红；真实登记链/dir缺席/后层重叠保护复核到位。
 Codex补强根目录零访问见证、mode用例同workspaceId及source精确报错断言，并仅在现有沙盒身份条件加入source比较；
 原反例转绿，禁用该比较再业务红，原取证probe零改动且缺陷见证转为正确拒绝。版本/模型/登记顺序不变。
@@ -2055,12 +2055,12 @@ GLM测试贡献终审披露；r2不重签、不代签、不标done、不转Kimi�
 
 ### 双线继续 · identity-foundation-r1与完整覆盖率（2026-09-12）
 
-用户要求Codex/GLM继续双线。基于b7a56dd4，[GLM工作包](../../../../testing/editor-save-recovery-glm-identity-foundation.md)
+用户要求Codex/GLM继续双线。基于b7a56dd4，[GLM工作包](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-identity-foundation.md)
 限定workspace-context/handle-store两模块的构造、解析、指纹、锁和存储代码测试；独立分支、两个新测试文件及本人回执。
 Codex继续剩余写侧/旧路径/性能判断，先重跑full覆盖率补齐当前真实PAL口径，并同步过时的进度摘要；生产基线暂不改。
 分工不等于GLM已开工，待用户转交。既有r2设计签字有效，不重签，视觉全部由Codex承担。
 
-Codex本轮已完成[当前full覆盖率](../../../../testing/coverage.md#最新实测2026-09-12)：6,673项/618生产文件通过，
+Codex本轮已完成[当前full覆盖率](../../../../testing/archive/legacy/quality/quality-gates/coverage.md#最新实测2026-09-12)：6,673项/618生产文件通过，
 fast6,337身份清单为其子集，所有源码范围/分母相同，各包四指标均未回退；未改fast baseline或产品。
 全仓full行73.64%、语句71.37%、函数72.43%、分支65.01%。这是增加已有PAL测试的测量口径，不是新补336项，
 也不代表E2E或本卡已验收；快照台账的46臂不以full结果偷偷改写。
@@ -2072,7 +2072,7 @@ fast6,337身份清单为其子集，所有源码范围/分母相同，各包四�
 ```text
 在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 / identity-foundation-r1 并行测试包。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 保持build/r2，不重签。
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡最新记录，以及 docs/testing/editor-save-recovery-glm-identity-foundation.md 全文。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡最新记录，以及 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-identity-foundation.md 全文。
 同步origin/main，在独立worktree新建codex/glm-identity-foundation-tests，生产基线b7a56dd4；目标模块hash按工作包核对。
 一次完成F1–F6：身份构造/当前标记解析/公开指纹函数/可信PAL证明/真实锁生命周期/IDB与代码级Web Locks接线。
 唯一白名单是两个新测试文件 workspace-context-boundaries.test.ts、handle-store-capability.test.ts 和工作包GLM回执区。
@@ -2086,7 +2086,7 @@ fast6,337身份清单为其子集，所有源码范围/分母相同，各包四�
 ### Codex · 另存为边界续批（2026-09-12）
 
 基于7767b67c，与GLM身份基础包分开文件；新增save-as-boundaries.test.ts10项，不修改产品、旧测试、共享fixture或GLM两个目标模块。
-[真实入口回执](../../../../testing/editor-save-recovery-project-io-review.md#另存为边界收口起点7767b67c)：
+[真实入口回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-project-io-review.md#另存为边界收口起点7767b67c)：
 取消、构建失败、缺/旧源基线、local/source-only清理警告与重开闭环；真实登记/锁保留，角色237和资产字节核对。
 相邻130项/typecheck/biome通过，三组单点负控1/2/2红；未将后层仍拒绝错误输入误称错误写入。
 open-actions另外两个分支已有前置/构造保证的直接源码链，保留防御不凑覆盖、不删代码。
@@ -2097,7 +2097,7 @@ r2不重签、不标done。无下一位Agent提示词；GLM沿用identity-founda
 ### Codex · identity-foundation-r1接收复核（2026-09-12，counter）
 
 候选ff0a0d4a白名单/冻结hash成立；本席21项、相邻147项、typecheck/biome复跑通过，但本包不接收。
-[R1–R4及本席C0勘误](../../../../testing/editor-save-recovery-glm-identity-foundation.md#codex接收复核2026-09-12ff0a0d4acounter)：
+[R1–R4及本席C0勘误](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-identity-foundation.md#codex接收复核2026-09-12ff0a0d4acounter)：
 缺maps/scenes被当合法成功输入；IDB在空写集上abort且删旧store未清记录；移除等待caller的await后21项仍绿。
 独立loader/事务/真实品牌oracle已证实这些测试问题，非当前产品缺陷；23臂名义命中不计验收，不更新官方baseline/台账。
 Codex同时纠正自己的F3说明：JSON数字1e400可解析为Infinity，该错误不归责GLM，产品现有拒绝行为/r2方案不变。
@@ -2108,7 +2108,7 @@ Codex同时纠正自己的F3说明：JSON数字1e400可解析为Infinity，该�
 ```text
 在 /Users/zhangxu/illegal/type-pal 返工 EDITOR-SAVE-RECOVERY-1 / identity-foundation-r1，候选ff0a0d4a被Codex签counter。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 保持build/r2，不重签。
-先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及 docs/testing/editor-save-recovery-glm-identity-foundation.md 的本席R1–R4和C0勘误全文。
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-identity-foundation.md 的本席R1–R4和C0勘误全文。
 沿用codex/glm-identity-foundation-tests独立worktree，同步最新main审查文档并保留原回执/counter；生产基线b7a56dd4及两模块hash不变。
 R1：撤回缺maps/scenes的合法成功用例，只分类；路径变体用完整清单/真实搬移索引等合法输入，先经正式loader。不要为保100%改产品或伪造proof/hash。
 R2：put成功前真正暂存非空写集，abort丢弃、complete发布、终结一次；断言请求成功/暂存见证及同库新记录未留/旧值未覆盖。deleteObjectStore须清掉预置旧数据。补abort泄漏写集必红的fixture负控。
@@ -2133,7 +2133,7 @@ check与helper调用间没有await或外部callback，不接受getter切换/篡�
 这不是删除安全guard来凑覆盖，分母/分子退休数量与新增测试贡献分别登记。workspace-context/handle-store冻结模块及GLM两个测试文件不动。
 沿用本卡r2及同Owner连续清理，不重签、不标done；跨包/脚本公共模型的旧管线退役不在本切片实施。
 
-本轮[回执](../../../../testing/editor-save-recovery-project-io-review.md#私有本地记录转换清理起点e963598b)：
+本轮[回执](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-project-io-review.md#私有本地记录转换清理起点e963598b)：
 新增公开入口11项在旧实现与清理后均通过，清理后相邻100项/typecheck/biome通过，两组保留guard单点负控2+1业务红。
 完整check6,846/官方ratchet/单次严格fast6,358均exit0；wp原7个未覆盖臂及2个已覆盖判断臂退休，415/436→413/427。
 主表46→39来自退休而非新增命中；618生产文件、其他模块指标/GLM冻结hash保持。测试/文档与源码清理已分别对账，不宣称性能改善。
@@ -2142,7 +2142,7 @@ check与helper调用间没有await或外部callback，不接受getter切换/篡�
 ### Codex · identity-foundation-r1返工接收（2026-09-13）
 
 候选6f26cc68435442d20d6dc602e5ff71a2863d7fc0在最新main/2d3887e0上复核并适配。
-[原候选证据、接收修订及有效覆盖归属](../../../../testing/editor-save-recovery-glm-identity-foundation.md#codex返工接收修订2026-09-136f26cc68)已落盘：
+[原候选证据、接收修订及有效覆盖归属](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-identity-foundation.md#codex返工接收修订2026-09-136f26cc68)已落盘：
 真实JSON溢出/合法PAL路径/非空事务写集及queued宿主已核；Codex移除残缺清单helper成功断言、补异常lease悬挂期与put专属见证，并新增旧记录abort保护用例。
 原26/147项、接收27/185项/typecheck/biome全绿；五组独立单点负控均业务红，细分原候选与接收树结果，不复述GLM“两条lease”误报。
 完整check6,873、官方ratchet/单次严格fast6,385全部exit0；207 editor-fast文件/2,146项、618生产文件，全部指标分母不变。
@@ -2300,7 +2300,7 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-RECOVERY-1。
 任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，review/r2；实现候选cd3de679，完整实现对比135d065a，本批收口对比7087dbad。r2设计签字不重签。
-先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡r2真值/红线/SR-01～12、docs/testing/editor-save-recovery-closeout.md与当前未覆盖台账。
+先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡r2真值/红线/SR-01～12、docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md与当前未覆盖台账。
 独立读一手源码，不读或复述GLM终审结论。核整条暂存/授权/前缀重放/提交/清理、原页retry与旧窗口拒写、首存/PAL/sandbox/另存/克隆及ZIP/试玩/HTTP读门，不只审最后一次清理diff。
 重点确认：旧脚本/逐文件保存已退役但canonical预览投影未误删；低层policy测试consumer不冒充writer；同目录重拾取与scope生命周期；权限文案不预断提交状态；共享CSS及lostcapture处理无新UI语义。
 复跑必要定向与关键单点负控，核check6873/严格fast6385、613生产文件及真实退休/测试迁移；保留34个重点未覆盖分支与约80～85秒克隆成本。连接复用仅仓外原型、未入生产；原probe旧IDB替身db.close失败不能作修复证明。
@@ -2313,7 +2313,7 @@ Next：GLM 并行签字；两席齐后 Codex 统一核门禁放行 build。
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-SAVE-RECOVERY-1。
 任务卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，review/r2；实现候选cd3de679，完整实现对比135d065a，本批收口对比7087dbad。r2设计签字不重签。
-先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡SR-01～12、docs/testing/editor-save-recovery-closeout.md、coverage.md和当前未覆盖台账。
+先同步分支并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡SR-01～12、docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md、coverage.md和当前未覆盖台账。
 披露你此前是测试贡献者，本席为矩阵/证据复核，不冒称独立第三方自证；不要读取或复述Kimi终审结论。
 按实际最终树逐项核SR证据和缺口，抽跑当前调用链/负控。特别核旧38项模型测试及旧copy6项的退休/迁移、commands.test.ts恢复114项但不恢复旧模型、现存102项断言未弱化；低层policy consumer与完整writer证据分开。
 核官方check6873、严格fast6385、613生产文件、editor205文件2146项；5个实际源码退休、比率不降、保护基线未绕过。核wp三新增一失去/净增加2臂、当前34未覆盖与30构造保证/4待确认分类，不把0命中写成已覆盖。
@@ -2336,7 +2336,7 @@ journal等单模块覆盖目标已达标；7a0c6f1c的21项保留，d39efe15经C
 在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-preflight-tests 工作树返工fd0fcc4f。
 先同步本轮main counter文档，读AGENTS/CLAUDE/READ-FIRST、父卡
 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 和工作包
-docs/testing/editor-save-recovery-glm-preflight.md 末尾“Codex preflight-r1返工复核（fd0fcc4f）”。
+docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md 末尾“Codex preflight-r1返工复核（fd0fcc4f）”。
 本包仍rework，r2设计不重签；已通过S01当前共享脚本重开、S02双态、P01/P02对照和四负控，不推倒重做。
 
 1. P05负控没进入writer：本席入口计数只有正控1次。不要再用not-a-kind让serialize提前抛错，
@@ -2362,7 +2362,7 @@ project-io的37臂同样逐一列清，不用范围和类型可选推断可达�
 在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-preflight-tests 工作树返工preflight-r1。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 当前rework，仅本测试包返工；
 原4b72e492和6,223项基线保留，r2设计不重签。先同步本轮main counter文档，保留他席结论，
-读AGENTS/CLAUDE/READ-FIRST、工作包 docs/testing/editor-save-recovery-glm-preflight.md 文末PF-1～PF-3。
+读AGENTS/CLAUDE/READ-FIRST、工作包 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md 文末PF-1～PF-3。
 
 PF-1：S01的content.scripts被project-loader:188–189明确禁止，Codex正式重开oracle已红。
 撤销旧分片形态“当前合法正控”结论，改为当前AuthorScriptLibrary/sharedScripts的有效脚本体/引用保存重开证据；
@@ -2388,7 +2388,7 @@ PF-3：C组82个未覆盖branchId/arm逐一对账，写准函数/条件/caller/�
 在 /Users/zhangxu/illegal/type-pal 接手 EDITOR-SAVE-RECOVERY-1 的 preflight-r1 测试包。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 当前build，产品设计r2已签，不重签、不标done。
 先同步分支并检查工作树；读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡红线/SR矩阵/最新日志，
-再完整读 docs/testing/editor-save-recovery-glm-preflight.md 和上批回执末尾的Codex d39efe15接收结论。
+再完整读 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-preflight.md 和上批回执末尾的Codex d39efe15接收结论。
 
 从新工作包首次加入的派工文档提交建立独立worktree/分支 codex/glm-save-preflight-tests，
 建议目录 /Users/zhangxu/illegal/type-pal-glm-save-preflight；核packages/scripts相对4b72e492零diff。
@@ -2416,7 +2416,7 @@ C只交真实caller/前置守卫/已有证据/可达性与下一责任人清单�
 在 /Users/zhangxu/illegal/type-pal 的原 codex/glm-save-coverage-batch 工作树返工3fe58baa。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md 仍rework，仅测试续批返工；
 已接收21项不回滚，r2不重签。先同步main本轮counter文档，读AGENTS/CLAUDE/READ-FIRST、原工作包
-和 docs/testing/editor-save-recovery-glm-batch-report.md 文末“Codex C1–C4返工复核（3fe58baa）”。
+和 docs/testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md 文末“Codex C1–C4返工复核（3fe58baa）”。
 
 保留已修好的W9输入层、O4传播、S1/S2、S3句柄抛错、P5/B6收窄和C4c写错误优先，不推倒重做。
 1. C1：fce75a0e把链接重新加入了！只撤data/extracted的Git追踪、不删磁盘链接/真实目标；最后一次
@@ -2442,7 +2442,7 @@ W3未登记pending仍如实待证，先核真实pending资源合同，不把合�
 ```text
 在 /Users/zhangxu/illegal/type-pal 的原codex/glm-save-coverage-batch工作树返工574012e5。
 父卡EDITOR-SAVE-RECOVERY-1现为rework，仅新续批返工；已接收21项不回滚，r2不重签。
-先读项目规则、原工作包、docs/testing/editor-save-recovery-glm-batch-report.md末尾
+先读项目规则、原工作包、docs/testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md末尾
 “Codex剩余项接收复核（2026-09-12）”C1–C4；同步本次main文档，保留Codex历史结论。
 
 C1：撤回本次data/extracted的Git追踪（只撤追踪，不删真实资产/链接目标），恢复严格白名单。
@@ -2467,7 +2467,7 @@ C4：逐行输出43项当前表，补P7/B6，W10只算一个ID，贡献作者另
 继续 /Users/zhangxu/illegal/type-pal 的EDITOR-SAVE-RECOVERY-1/batch-r1剩余工作。
 父卡现为build，r2不重签；在原codex/glm-save-coverage-batch工作树同步最新main接收提交，
 保留Codex对W6/S4/B3的修订及2条真实删除回归，不回退到fa8af7c2或7b534b7c。
-先读项目规则、原工作包，以及docs/testing/editor-save-recovery-glm-batch-report.md文末
+先读项目规则、原工作包，以及docs/testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md文末
 “Codex返工复核与接收修订”的结果、剩余优先级与失败证据边界。
 
 按顺序连续补余项，不逐组等待：
@@ -2492,7 +2492,7 @@ C4：逐行输出43项当前表，补P7/B6，W10只算一个ID，贡献作者另
 在 /Users/zhangxu/illegal/type-pal 的原独立worktree/分支codex/glm-save-coverage-batch返工08c1ee09。
 父卡EDITOR-SAVE-RECOVERY-1现为rework，仅测试贡献返工，r2设计签字保持，不重签。
 先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、原batch-r1工作包，以及
-docs/testing/editor-save-recovery-glm-batch-report.md 的Codex接收复核R1–R4和12项归属裁定。
+docs/testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md 的Codex接收复核R1–R4和12项归属裁定。
 同步本次main counter文档（产品仍aa87c305），保留Codex原文/其他席位，不切共享main、不stash。
 
 R1：P2/P6去掉回调自抛错的伪拒绝，使用真实可成功操作、明确产品错误和未进入/零IO见证；
@@ -2520,7 +2520,7 @@ Node可用边界替身测真实IDB函数：Codex已独立跑通open error及requ
 在 /Users/zhangxu/illegal/type-pal 执行 EDITOR-SAVE-RECOVERY-1 的GLM大批测试工作包batch-r1。
 父卡 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态build，r2设计三签有效，不重签。
 先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、父卡设计/SR/历轮counter与最新回执，
-以及 docs/testing/editor-save-recovery-glm-batch.md（全部范围与验收）和对应batch-report.md。
+以及 docs/testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-glm-batch.md（全部范围与验收）和对应batch-report.md。
 
 同步分支后，从工作包文档首次落地提交建立独立worktree/新分支codex/glm-save-coverage-batch，
 开工核产品相对aa87c305零diff；不要复用旧返工分支、切共享main或stash还原。
@@ -2534,7 +2534,7 @@ Node可用边界替身测真实IDB函数：Codex已独立跑通open error及requ
 最后从实际候选树生成完整回执、测试名映射、覆盖分子分母、负控精确diff与业务红因；
 跑全部分组/相邻、editor typecheck、完整check及同口径editor-fast，真实红与测试错误分清，不能虚报全绿。
 不更新官方baseline，统一全仓ratchet/严格fast由Codex接收后跑。
-直接写 docs/testing/editor-save-recovery-glm-batch-report.md 与父卡本人batch-r1日志，
+直接写 docs/testing/archive/legacy/persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md 与父卡本人batch-r1日志，
 提交推送本分支并核远端SHA，最后给Codex整批接收提示词。不代签、不标done、不让用户搬审查正文。
 ```
 
@@ -2706,7 +2706,7 @@ content/SAVE版本或旧探针。自建6011验证实例均已停止，用户6010
 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态 draft，产品源码基线135d065a。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、现行 project-lifecycle 规范及卡内锚点。
 用户已批准“完整暂存后，中断则继续完成这次保存；外部冲突停止”，不要再问前滚/回滚产品选择。
-请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs，
+请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs，
 不要读取或复述GLM席结论。重点压力测试目录内目标字节+原浏览器handle凭据、ready/issued/committed跨FSA与IDB间隙、
 PAL/sandbox权限、原页retry与另一旧窗口、锁序、所有写入口及HTTP读门范围；HTTP缺失JSON目前会200HTML，不能吞错。
 分别签有直接证据和可证伪观察的 premise verified/counter、design agree/counter，列阻断及可实施修订；
@@ -2719,7 +2719,7 @@ PAL/sandbox权限、原页retry与另一旧窗口、锁序、所有写入口及H
 docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md，状态 draft，产品源码基线135d065a。
 先同步分支并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡、现行 project-lifecycle 规范及卡内锚点。
 用户已批准“完整暂存后，中断则继续完成这次保存；外部冲突停止”，不要再问前滚/回滚产品选择。
-请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/probe-editor-save-recovery.mjs，
+请先独立读一手源码/规范并复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs，
 不要读取或复述Kimi席结论。重点核SR-01～12逐项能否发现真实故障：每步close/IDB abort、空占位/删除/catalog超集、
 完整封存前零作者IO、首次/clone/Save As整笔计划、各读入口和HTTP200HTML、dirty归属、清理/版本边界及证据数字口径。
 分别签有直接证据和可证伪观察的 premise verified/counter、design agree/counter；不能把单测框架设想或多数通过当证据。

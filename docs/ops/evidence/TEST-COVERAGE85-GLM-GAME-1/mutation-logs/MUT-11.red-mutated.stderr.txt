@@ -1,0 +1,34 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/battle/__tests__/battle-system.test.ts > tickBattle finalize > flee 成功 → fleed → finalize 切 explore(无 hp 改动)
+AssertionError: expected 'battle' to be 'explore' // Object.is equality
+
+Expected: "explore"
+Received: "battle"
+
+ ❯ src/core/battle/__tests__/battle-system.test.ts:1510:21
+    1508|     while (gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyI…
+    1509|
+    1510|     expect(gs.mode).toBe('explore')
+       |                     ^
+    1511|     expect(role.hp).toBe(150) // 无 hp 改动
+    1512|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/core/battle/__tests__/battle-system.test.ts > B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-3853) > 逃跑动画:flee 成功 → 播逃跑动画(队员右移)→ fleed → explore(sdlpal PAL_BattlePlayerEscape)
+AssertionError: expected 'battle' to be 'explore' // Object.is equality
+
+Expected: "explore"
+Received: "battle"
+
+ ❯ src/core/battle/__tests__/battle-system.test.ts:1574:21
+    1572|       }
+    1573|     }
+    1574|     expect(gs.mode).toBe('explore') // 逃离成功
+       |                     ^
+    1575|     expect(sawFleeAnim).toBe(true) // 播了逃跑动画(非直接 fleed)
+    1576|     expect(maxX).toBeGreaterThan(startX!) // 队员逐帧右移
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯

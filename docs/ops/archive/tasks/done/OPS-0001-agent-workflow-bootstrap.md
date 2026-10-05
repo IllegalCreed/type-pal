@@ -19,7 +19,7 @@ Branch: main
 - 范围内:
   - `AGENTS.md` 多 Agent 根协议。
   - `docs/ops/agent-workflow.md` 工作流。
-  - `docs/ops/board.md` 当前进行中/阻塞看板。
+  - `docs/ops/archive/board-history/board-20261004.md` 当前进行中/阻塞看板。
   - 完整任务卡模板和轻量任务卡模板。
   - Codex 唯一 Generation Owner 规则。
   - 订阅额度耗尽时的代班和补审规则。
@@ -124,7 +124,7 @@ draft -> build -> review -> done
 - 修改文件:
   - `AGENTS.md`
   - `docs/ops/agent-workflow.md`
-  - `docs/ops/board.md`
+  - `docs/ops/archive/board-history/board-20261004.md`
   - `docs/ops/tasks/README.md`
   - `docs/ops/templates/TASK-template.md`
   - `docs/ops/templates/TASK-lite-template.md`

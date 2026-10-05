@@ -14,17 +14,16 @@
  * 回显与引用刷新期禁止删除。全部走真实组件事件 → 公开 EditSession 状态 oracle。
  */
 
-// @ts-expect-error Node test-host bridge only.
-import { Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
 import type { SkillData, SkillEffect } from '@type-pal/content'
 import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from '@type-pal/content'
+import type { AssetBase, FileSource } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterAll, afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { stubNodeTestHost } from '../__tests__/glm-m/kit.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import {
   type CurrentProjectReferenceIndexProvider,
@@ -60,10 +59,15 @@ function skill(effects: SkillData['effects'] = [], id = 'skill-cov85'): SkillDat
   }
 }
 
+let lastSource: FileSource
+let lastAssetBase: AssetBase
+
 async function legalSkillState(skills: SkillData[]): Promise<EditorState> {
-  const { state } = await loadLegalUiProject('cov85-skill')
+  const legal = await loadLegalUiProject('cov85-skill')
+  lastSource = legal.source
+  lastAssetBase = legal.assetBase
   const next: EditorState = {
-    ...state,
+    ...legal.state,
     skills,
     poisons: [{ id: 1, name: 'cov85 毒', color: 0, curability: 'common' }],
   }
@@ -74,14 +78,8 @@ async function legalSkillState(skills: SkillData[]): Promise<EditorState> {
 let root: Root
 let host: HTMLDivElement
 
-vi.stubGlobal('Blob', NodeBlob)
-vi.stubGlobal('crypto', webcrypto)
-afterAll(() => {
-  vi.unstubAllGlobals()
-})
-
-beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+beforeEach(async () => {
+  await stubNodeTestHost()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -91,6 +89,7 @@ afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
   vi.restoreAllMocks()
+  vi.unstubAllGlobals()
 })
 
 interface MountOptions {
@@ -106,6 +105,8 @@ function Harness(props: {
   referenceStatus: 'current' | 'stale' | 'failed'
   provider: CurrentProjectReferenceIndexProvider
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  assetBase: AssetBase
+  assetReader: EditorAssetReader
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -117,9 +118,9 @@ function Harness(props: {
       skills={current.skills}
       items={current.items}
       session={props.session}
-      assetBase={undefined as never}
+      assetBase={props.assetBase}
       assetCatalog={current.assetCatalog}
-      assetReader={{} as never}
+      assetReader={props.assetReader}
       battleSprites={current.battleSprites}
       referenceIndex={props.referenceStatus === 'current' ? props.provider(current) : undefined}
       referenceStatus={props.referenceStatus}
@@ -137,6 +138,7 @@ async function mountSkill(skills: SkillData[], options: MountOptions = {}): Prom
   let base = await legalSkillState(skills)
   if (options.battleSprites) base = { ...base, battleSprites: options.battleSprites }
   const session = new EditSession(base)
+  const assetReader = createEditorAssetReader(lastSource, () => session.getState())
   await act(async () => {
     root.render(
       <Harness
@@ -145,6 +147,8 @@ async function mountSkill(skills: SkillData[], options: MountOptions = {}): Prom
         provider={INDEX_PROVIDER}
         focus={options.focus}
         onStatusNotice={options.onStatusNotice}
+        assetBase={lastAssetBase}
+        assetReader={assetReader}
       />,
     )
     await Promise.resolve()
@@ -184,7 +188,11 @@ test.each(DEFAULT_EFFECT_CASES)('$option 类型切换提交精确缺省效果体
   const session = await mountSkill([skill([{ kind: 'damage', power: 10, elemental: 0 }])])
   await chooseComboboxOption(comboboxByAriaLabel(host, '效果 1 类型'), option)
   expect(session.getState().skills[0]!.effects).toEqual([effect])
-  expect(session.undo()).toBe(true)
+  await act(async () => {
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+  })
   expect(session.getState().skills[0]!.effects).toEqual([
     { kind: 'damage', power: 10, elemental: 0 },
   ])
@@ -199,24 +207,35 @@ test('cov85-skill 变身：blank 项目的 player-fighter 精灵直接可用', a
 })
 
 test('cov85-skill 召唤：登记 summon 用途后缺省体引用其稳定 id', async () => {
-  const { state } = await loadLegalUiProject('cov85-skill-summon')
+  const legal = await loadLegalUiProject('cov85-skill-summon')
+  lastSource = legal.source
+  lastAssetBase = legal.assetBase
   const withSummon: EditorState = {
-    ...state,
+    ...legal.state,
     skills: [skill([{ kind: 'damage', power: 10, elemental: 0 }])],
     battleSprites: [
-      ...state.battleSprites,
+      ...legal.state.battleSprites,
       {
         id: 'cov85-summon-fox',
         label: '灵狐',
-        asset: state.battleSprites[0]!.asset,
+        asset: legal.state.battleSprites[0]!.asset,
         profile: { kind: 'summon' },
       },
     ],
   }
   assertProjectSaveValid(withSummon)
   const session = new EditSession(withSummon)
+  const assetReader = createEditorAssetReader(lastSource, () => session.getState())
   await act(async () => {
-    root.render(<Harness session={session} referenceStatus="current" provider={INDEX_PROVIDER} />)
+    root.render(
+      <Harness
+        session={session}
+        referenceStatus="current"
+        provider={INDEX_PROVIDER}
+        assetBase={lastAssetBase}
+        assetReader={assetReader}
+      />,
+    )
     await Promise.resolve()
   })
   await chooseComboboxOption(comboboxByAriaLabel(host, '效果 1 类型'), '召唤')
@@ -312,7 +331,11 @@ test('cov85-skill 敌方施法分支：类型选项被运行时白名单过滤�
   })
   await clickButton(host, '删除敌人分支')
   expect(session.getState().skills[0]!.execution).toBeUndefined()
-  expect(session.undo()).toBe(true)
+  await act(async () => {
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+  })
   expect(session.getState().skills[0]!.execution).toEqual({
     enemy: { effects: [{ kind: 'damage', power: 10, elemental: 0 }] },
   })

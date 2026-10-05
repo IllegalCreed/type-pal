@@ -10,13 +10,12 @@ AssertionError: expected 94 to be 100 // Object.is equality
 - 100
 + 94
 
- ❯ src/core/event-system.cov85.test.ts:72:27
-     70|     }
-     71|     tickAutoScripts(gs)
-     72|     expect(gs.npcs[0]!.x).toBe(100) // owner 冻结
+ ❯ src/core/event-system.cov85.test.ts:86:27
+     84|     }
+     85|     tickAutoScripts(gs)
+     86|     expect(gs.npcs[0]!.x).toBe(100) // owner 冻结
        |                           ^
-     73|     expect(gs.npcs[1]!.x).toBeLessThan(100) // 非 owner 走了
-     74|   })
+     87|     expect(gs.npcs[1]!.x).toBeLessThan(100) // 非 owner 走了
+     88|   })
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

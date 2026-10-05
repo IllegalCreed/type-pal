@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-runtime-session/packages/reforge
+
+ ❯ src/runtime-frame-session.runtime-session-1.test.ts (2 tests | 1 failed | 1 skipped) 6ms
+   ↓ 混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成
+   × 暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间 6ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  23:16:21
+   Duration  122ms (transform 27ms, setup 0ms, import 38ms, tests 6ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/runtime-frame-session.runtime-session-1.test.ts > 暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间
+AssertionError: expected [ [ 'fade', 5100 ] ] to deeply equal [ [ 'fade', 200 ] ]
+
+- Expected
++ Received
+
+  [
+    [
+      "fade",
+-     200,
++     5100,
+    ],
+  ]
+
+ ❯ src/runtime-frame-session.runtime-session-1.test.ts:40:59
+     38|   f.tick(5100)
+     39|   // 恢复帧的淡入收到 gameplay now(200),绝非 realNow(5100)或冻结前的旧时刻。
+     40|   expect(f.events.filter((event) => event[0] === 'fade')).toEqual([['f…
+       |                                                           ^
+     41| })
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

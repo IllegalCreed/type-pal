@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-flow/packages/reforge
+
+ ❯ src/battle/battle-finalization.world-result.test.ts (7 tests | 1 failed | 6 skipped) 81ms
+   × BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界 80ms
+   ↓ BF-02 零经验胜利：经验门关、金钱照入账、无结算屏
+   ↓ BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后
+   ↓ BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱
+   ↓ BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动
+   ↓ BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界
+   ↓ BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  03:45:36
+   Duration  1.53s (transform 763ms, setup 0ms, import 938ms, tests 81ms, environment 410ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-finalization.world-result.test.ts > BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界
+AssertionError: expected 43 to be 57 // Object.is equality
+
+- Expected
++ Received
+
+- 57
++ 43
+
+ ❯ src/battle/battle-finalization.world-result.test.ts:288:27
+    286|     expect(settled()).toBe('victory')
+    287|     expect(h.observables.onExpRewardCalls).toBe(1) // exp>0 → 恰一次经验提示回调
+    288|     expect(h.world.money).toBe(50 + 7) // 战前 50 + 现金奖 7
+       |                           ^
+    289|     expect(h.world.party[0]!.exp).toBe(15) // 无升级曲线角色：经验直加
+    290|     const screens = h.observables.screens ?? []
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

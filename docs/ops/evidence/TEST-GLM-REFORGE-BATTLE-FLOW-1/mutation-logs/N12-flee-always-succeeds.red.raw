@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-flow/packages/reforge
+
+ ❯ src/battle/battle-session.flow-residual.test.ts (2 tests | 1 failed | 1 skipped) 9ms
+   ↓ BF-11 敌毒回合末致死：会话以 victory 收场且毒死计入战果
+   × BF-12 逃跑失败后会话续战：同一会话以胜利收场且只有一次结算意图 8ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  03:46:15
+   Duration  951ms (transform 701ms, setup 0ms, import 854ms, tests 9ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-session.flow-residual.test.ts > BF-12 逃跑失败后会话续战：同一会话以胜利收场且只有一次结算意图
+AssertionError: expected 'playerFled' to be 'victory' // Object.is equality
+
+Expected: "victory"
+Received: "playerFled"
+
+ ❯ src/battle/battle-session.flow-residual.test.ts:204:19
+    202|   h.press(['q', 'Q']) // 提交逃跑 → 掷骰失败，该次行动作废，战斗继续
+    203|   await driveToDone(h, () => settled, 'attack') // 次轮起自动普攻收尾（200 攻 ≥ 3…
+    204|   expect(settled).toBe('victory')
+       |                   ^
+    205|   // 逃跑失败只作废该次行动：无 fled 终态残留，战果照常累计。
+    206|   expect(h.session.debugLog().some((line) => line.startsWith('p1 逃跑失败'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

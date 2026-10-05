@@ -17,7 +17,7 @@ Visual Verification Timing: N/A（DOM合同补测，不改变布局或宣称像�
 ## 范围与验收
 
 白名单新增ui/CommandForm.current-{movement,scene,data,identity,dialog}.test.tsx及
-ui/__tests__/command-form-current-fixture.ts、docs/testing/codex-command-forms/**；不改产品/旧测试/配置/资产。
+ui/__tests__/command-form-current-fixture.ts、docs/testing/archive/legacy/batches/codex-command-forms/**；不改产品/旧测试/配置/资产。
 合法工程经正式loader；输入作者命令先guard，实际消费body及context数据深快照；
 每个控件检查完整输出、原实参不变、完成前零提交。与Cursor编辑命令/GLM内容guard不重叠。
 整批定向/相邻/TC/Biome与代表单点反控后，串行全仓check→ratchet→保护起点strict。
@@ -27,7 +27,7 @@ ui/__tests__/command-form-current-fixture.ts、docs/testing/codex-command-forms/
 
 2026-09-26 Codex实施自验accept：五组51新增，定向及相邻91/91；最终夹具+静态门136/136，
 editor TC、五正控+五反控、Biome全部通过。首次全仓失败为本席TSX夹具被静态门计为产品，
-已等价改为TS辅助文件；不改扫描器/旧测试，原失败日志保留在[回执](../../../../testing/codex-command-forms/README.md)。
+已等价改为TS辅助文件；不改扫描器/旧测试，原失败日志保留在[回执](../../../../testing/archive/legacy/batches/codex-command-forms/README.md)。
 之后串行check9438→ratchet→保护7bd8f064的单次strict8946通过；全仓45477/63178，净增173B。
 701生产文件/所有分母/其它六包baseline对象不变。产品/旧测试/配置/资产零改。
 切场景朝向保持缺陷已用原红/隔离oracle绿证明，归[独立卡](EDITOR-SCENE-FACING-1-clear-override.md)，

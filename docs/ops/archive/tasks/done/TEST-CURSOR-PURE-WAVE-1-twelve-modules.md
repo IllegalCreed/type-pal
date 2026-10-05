@@ -16,7 +16,7 @@ Cursor 在独立工作树连续完成，三个批次分别提交，整包一次�
 旧 fast LCOV 的 252 个未命中分支臂仅是选题池，不承诺全部可达或固定覆盖收益；
 先看旧测试的真实断言，已证即登记 existing-proof，不复制用例凑数字。
 
-[工作包与十二源文件冻结](../../../../testing/cursor-pure-wave/README.md)给出精确路径、SHA-256、
+[工作包与十二源文件冻结](../../../../testing/archive/legacy/batches/cursor-pure-wave/README.md)给出精确路径、SHA-256、
 旧套件和业务轴。当前 main 的目标源码已逐文件读到可用公开入口；三包与
 `TEST-GLM-STATE-COMMANDS-1` 的 16 个生产目标交集为零。
 
@@ -45,7 +45,7 @@ Cursor 在独立工作树连续完成，三个批次分别提交，整包一次�
 2. 需要共用合法 fixture 时，各包最多一个：`packages/content/src/cursor-pure-fixtures.ts`、
    `packages/reforge/src/cursor-pure-fixtures.ts`、
    `packages/editor/src/core/__tests__/cursor-pure-fixtures.ts`。
-3. `docs/testing/cursor-pure-wave/{a,b,c,tools}/**`：各批四行账、实际命令/结果、
+3. `docs/testing/archive/legacy/batches/cursor-pure-wave/{a,b,c,tools}/**`：各批四行账、实际命令/结果、
    可重建负控和最终树回执。Cursor 可追加本卡自己的交付块，不改 Codex 的准入/验收结论。
 
 生产源、旧测试、配置、基线、资产、当前 E2E、GLM 十六模块、暂停中的帧编辑 WIP
@@ -72,14 +72,14 @@ Cursor 在独立工作树连续完成，三个批次分别提交，整包一次�
 
 - 开工先读 [`AGENTS.md`](../../../../../AGENTS.md)、[`CLAUDE.md`](../../../../../CLAUDE.md)、
   [`READ-FIRST`](../../../../phase2/READ-FIRST.md) 与
-  [工作包](../../../../testing/cursor-pure-wave/README.md)。当前协作模式是贡献者实现、Codex验收，
+  [工作包](../../../../testing/archive/legacy/batches/cursor-pure-wave/README.md)。当前协作模式是贡献者实现、Codex验收，
   不等待三贤人固定签字。
 - A 类来源：上述四个 content 源文件及同目录既有 `.test.ts`；
   B 类来源：上述四个 reforge 源文件及旧测；
   C 类来源：上述四个 editor 源文件、`core/project-diagnostics.ts:823` 保存门、
   `core/seed.ts:71` 正式空白项目与当前地图/引用 fixture。
 - `TEST-GLM-STATE-COMMANDS-1` 正处 rework，尤其其合法 fixture 的反证在
-  [独立复核](../../../../testing/glm-state-commands/codex-intake-review.md)。
+  [独立复核](../../../../testing/archive/legacy/batches/glm-state-commands/codex-intake-review.md)。
   别从它的候选分支复制 fixture 或读成当前 main 产品合同。
 - Codex 复核通过后才合入推送与清理隔离工作树；卡继续 build，done 准入未开放。
 
@@ -93,7 +93,7 @@ Cursor 在独立工作树连续完成，三个批次分别提交，整包一次�
 
 候选 `codex/cursor-pure-wave-r1@fd870c877fd2a0ac373e8d0991376e1d6dd654d8`
 暂签 **counter / rework**，三项直接反证见
-[接收记录](../../../../testing/cursor-pure-wave/codex-intake-review.md)。八个新增测试定向 4/2/2
+[接收记录](../../../../testing/archive/legacy/batches/cursor-pure-wave/codex-intake-review.md)。八个新增测试定向 4/2/2
 均绿，抽验 A01/C01 两针为确切业务红，十二目标产品源 hash 与冻结表一致；但
 A01 的 identity 压缩产物不是正式可解码帧序列，A02 的作者脚本错桶被当前完整校验拒绝且
 `getScriptBody` 无生产调用者，B04 的作者脚本落在非派生分片且声明 bytes 与实际不符。
@@ -103,7 +103,7 @@ A01 的 identity 压缩产物不是正式可解码帧序列，A02 的作者脚�
 ## Codex 返工接收与收口（2026-09-27）
 
 候选 `bd8876e40c964c7cb0b270ec20ae6fc16eab1229` 独立复核为 **accept**，
-R1–R3 均闭合，直接证据见 [最终接收](../../../../testing/cursor-pure-wave/codex-final-review.md)。
+R1–R3 均闭合，直接证据见 [最终接收](../../../../testing/archive/legacy/batches/cursor-pure-wave/codex-final-review.md)。
 最终为7项新测试（A3/B2/C2），A02 非法错桶/无当前消费者已撤回，不以其凑覆盖。
 Codex 在隔离集成树复跑定向7/7、三包 typecheck 0、11文件 Biome 0、六针确切业务红；
 完整 `pnpm check` 9,966项/lint2,309文件零问题，官方 ratchet 与基于 `c442dcb7`

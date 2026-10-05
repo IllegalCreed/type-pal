@@ -46,5 +46,56 @@
     "find": "const px = (col ?? 0) * 32 + (h ?? 0) * 16",
     "replace": "const px = (col ?? 0) * 33 + (h ?? 0) * 16",
     "testFile": "src/core/event-opcodes.cov85.test.ts"
+  },
+  {
+    "id": "MUT-07",
+    "file": "src/core/event-system.ts",
+    "line": 1528,
+    "find": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip++",
+    "replace": "      gs.fadeState = undefined\n      cursor.waiting = undefined\n      cursor.ip += 2",
+    "testFile": "src/core/event-system.cov85.test.ts",
+    "note": "r5: frame-wait 完成语义在旧承载(k02 explore 落点/当帧跑完)下无可判别强变异(ip 偏移与 waiting 残留均不红,已记录);针移至同族保留新轴 fade-screen 完成推进(现金 fall-through oracle)"
+  },
+  {
+    "id": "MUT-08",
+    "file": "src/core/event-system.ts",
+    "line": 1911,
+    "find": "owner.triggerResume = { ip: cursor.ip + 1 } // P2#5:全局 ip,默认读全局数组",
+    "replace": "owner.triggerResume = { ip: cursor.ip + 2 } // P2#5:全局 ip,默认读全局数组",
+    "testFile": "src/core/event-system.cov85.test.ts"
+  },
+  {
+    "id": "MUT-09",
+    "file": "src/core/event-system.ts",
+    "line": 1555,
+    "find": "if (_loadLastSaveHandler) _loadLastSaveHandler(slot)",
+    "replace": "if (_loadLastSaveHandler) _loadLastSaveHandler(slot + 1)",
+    "testFile": "src/core/event-system.test.ts",
+    "note": "dedup: 0x4E reload 合同由旧 event-system.test.ts(4820-4845)承载,针随合同走"
+  },
+  {
+    "id": "MUT-10",
+    "file": "src/core/menu/menu-stack.ts",
+    "line": 23,
+    "find": "    gs.eventCursor.waiting = undefined\n    gs.mode = 'event'",
+    "replace": "    gs.eventCursor.waiting = undefined\n    gs.mode = 'explore'",
+    "testFile": "src/core/menu/menu-driver.cov85.test.ts"
+  },
+  {
+    "id": "MUT-11",
+    "file": "src/core/battle/actions/flee.ts",
+    "line": 59,
+    "find": "const roll = state.rng.rangeInclusive(0, def)",
+    "replace": "const roll = state.rng.rangeInclusive(0, def) + 9999",
+    "testFile": "src/core/battle/__tests__/battle-system.test.ts",
+    "note": "dedup: flee 成功合同由旧 battle-system.test.ts(1495-1575)承载,针随合同走"
+  },
+  {
+    "id": "MUT-12",
+    "file": "src/core/event-opcode-player.ts",
+    "line": 218,
+    "find": "          if (itemId !== 0) {\n            addItemToInventory(gs, itemId, 1)\n            equipment[slot]![roleId] = 0",
+    "replace": "          if (itemId !== 0) {\n            addItemToInventory(gs, itemId, 2)\n            equipment[slot]![roleId] = 0",
+    "testFile": "src/core/event-opcode-player.cov85.test.ts"
   }
 ]

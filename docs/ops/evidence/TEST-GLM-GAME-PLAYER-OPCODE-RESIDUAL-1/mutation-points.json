@@ -1,0 +1,63 @@
+{
+  "card": "TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1",
+  "targetFile": "packages/game/src/core/event-opcode-player.ts",
+  "testFile": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+  "points": [
+    {
+      "id": "MUT-01",
+      "line": 96,
+      "intent": "0x18 equipItem 入口撤旧部位效果层(script.c:768-775):删 removeEquipmentEffect 调用,换装后旧加成残留",
+      "carrier": "C1 0x18 换装先撤旧部位效果层",
+      "find": "      gs.iCurEquipPart = slot\n      removeEquipmentEffect(gs, roleId, slot)",
+      "replaceWith": "      gs.iCurEquipPart = slot"
+    },
+    {
+      "id": "MUT-02",
+      "line": 227,
+      "intent": "0x23 单槽卸下撤效果层(script.c:1122-1131):删 else 分支内 removeEquipmentEffect 调用",
+      "carrier": "C2 0x23 单槽卸下:有物槽撤效果层",
+      "find": "          removeEquipmentEffect(gs, roleId, slot)\n          addItemToInventory(gs, itemId, 1)",
+      "replaceWith": "          addItemToInventory(gs, itemId, 1)"
+    },
+    {
+      "id": "MUT-03",
+      "line": 221,
+      "intent": "0x23 全卸循环无条件撤每个部位效果层(script.c:1112-1121):删循环内 removeEquipmentEffect 调用,空槽残留不清",
+      "carrier": "C3 0x23 全卸无条件清效果层含无物槽残留",
+      "find": "          removeEquipmentEffect(gs, roleId, slot)\n        }",
+      "replaceWith": "        }"
+    },
+    {
+      "id": "MUT-04",
+      "line": 161,
+      "intent": "0x1c applyAll 臂不写 fScriptSuccess(script.c:896-919):守卫 !applyAll && 删除,全队零改也置 false",
+      "carrier": "C4 0x1c applyAll 全队 MP + fScriptSuccess 不写",
+      "find": "if (!applyAll && !anyChanged) gs.fScriptSuccess = false\n      return true\n    }\n\n    case OP_INCREASE_HP_MP:",
+      "replaceWith": "if (!anyChanged) gs.fScriptSuccess = false\n      return true\n    }\n\n    case OP_INCREASE_HP_MP:"
+    },
+    {
+      "id": "MUT-05",
+      "line": 173,
+      "intent": "0x1d applyAll 臂不写 fScriptSuccess(script.c:923-947):守卫 !applyAll && 删除,全队零改也置 false",
+      "carrier": "C5 0x1d applyAll 全队 HP+MP + fScriptSuccess 不写",
+      "find": "if (!applyAll && !anyChanged) gs.fScriptSuccess = false\n      return true\n    }\n\n    case OP_DAMAGE_ENEMY:",
+      "replaceWith": "if (!anyChanged) gs.fScriptSuccess = false\n      return true\n    }\n\n    case OP_DAMAGE_ENEMY:"
+    },
+    {
+      "id": "MUT-06",
+      "line": 244,
+      "intent": "0x29 抗性判定 <= inclusive(script.c:1200s 真值):roll==resist 应被抗性挡住,改 < 后等值命中",
+      "carrier": "C6 0x29 抗性等值边界",
+      "find": "Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)",
+      "replaceWith": "Math.floor(Math.random() * 100) + 1 < getPlayerPoisonResistance(gs, roleId)"
+    },
+    {
+      "id": "MUT-07",
+      "line": 346,
+      "intent": "applyHPMPDelta 死人跳过(global.c:1282 PAL_IncreaseHPMP 只处理活人):删 continue,死人 MP 被改动",
+      "carrier": "C4 0x1c applyAll 死人跳过",
+      "find": "    if ((gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0) <= 0) continue\n    if (hp) {",
+      "replaceWith": "    if (hp) {"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-battle-flow/packages/reforge
+
+ ❯ src/battle/battle-session.flow-residual.test.ts (2 tests | 1 failed | 1 skipped) 15ms
+   × BF-11 敌毒回合末致死：会话以 victory 收场且毒死计入战果 14ms
+   ↓ BF-12 逃跑失败后会话续战：同一会话以胜利收场且只有一次结算意图
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  03:46:12
+   Duration  1.04s (transform 760ms, setup 0ms, import 924ms, tests 15ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-session.flow-residual.test.ts > BF-11 敌毒回合末致死：会话以 victory 收场且毒死计入战果
+AssertionError: expected 'defeat' to be 'victory' // Object.is equality
+
+Expected: "victory"
+Received: "defeat"
+
+ ❯ src/battle/battle-session.flow-residual.test.ts:178:19
+    176|   // 敌死于回合末毒 tick（非攻击致死）→ 次轮防御直提空步后 core 判胜 → hold → done。
+    177|   await driveToDone(h, () => settled, 'defend')
+    178|   expect(settled).toBe('victory')
+       |                   ^
+    179|   const log = h.session.debugLog()
+    180|   // 两次毒发作 = 投掷即刻 tick0 + 回合末 tick1（敌侧行首为毒 def.id）。
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

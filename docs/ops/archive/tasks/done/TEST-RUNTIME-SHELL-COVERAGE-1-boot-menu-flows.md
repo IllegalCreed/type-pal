@@ -40,7 +40,7 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
 | primary source | 启动scope先核、当前工程投影、资源/世界建态、keyboard/主循环到菜单各有当前合同 | `main.ts:339-424/:6223/:6384/:6835-6955` |
 | 第一阶段 | UX/资源约定沿已实现的一阶段知识，不在补测试时更改布局或机制 | `phase1-knowledge-harvest.md` C7/N4～5/X3/X7/X9；`game/src/present/menu/`是后续若需像素核验的UX参考，不混同新引擎架构 |
 | 当前二阶段 | `boot.ts:13`与`editor/src/play.ts:40/:144`真调用；shop trial测试从main早返回，不是普通启动 | `shop-trial.test.ts:138`、`main.ts:349-352`；AST旧测试见world-async-fixture与save-lineage.chain |
-| 目标 | 真import、正式loader合法输入、受控外部IO、完整公共结果；保留旧回归 | 下方H1～H6与[冻结机账](../../../../testing/coverage-large-domain-evidence.json) |
+| 目标 | 真import、正式loader合法输入、受控外部IO、完整公共结果；保留旧回归 | 下方H1～H6与[冻结机账](../../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json) |
 
 最强替代解释：主入口复杂资源/无限帧依赖让测试只能mock业务或强造工程，或AST专项已证所有结果。可证伪：正式loader不能消费fixture、正常启动必须改产品接口、入口始终走预览/商店提前return、main实际覆盖未增长。发生则先报告宿主阻碍，不改统计范围或把Ast拷贝当成功。
 
@@ -48,7 +48,7 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
 
 ## 上下文与六组流程
 
-必读AGENTS/CLAUDE/READ-FIRST、[总计划](../../../../testing/coverage-large-domain-plan.md)、现行SAVE-PREFLIGHT/ISOLATION已归档合同、world-async既有测试、[第一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md) N/X。旧文“未实现”以当前源码核实，不按历史标签改产品。
+必读AGENTS/CLAUDE/READ-FIRST、[总计划](../../../../testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md)、现行SAVE-PREFLIGHT/ISOLATION已归档合同、world-async既有测试、[第一阶段知识](../../../../phase2/reference/phase1-knowledge-harvest.md) N/X。旧文“未实现”以当前源码核实，不按历史标签改产品。
 
 | 组 | 连续链与断言 | 去重与替身边界 |
 |---|---|---|
@@ -69,7 +69,7 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
 
 ## 白名单与验证
 
-新测试6文件（`packages/reforge/src/`）：`main.boot-flows.test.ts`、`opening-menu.flows.test.ts`、`main.menu-flows.test.ts`、`main.dialog-flows.test.ts`、`main.save-flows.test.ts`、`main.scene-flows.test.ts`。fixture仅`__tests__/runtime-shell/{project,dom-host,driver}.ts`。新文档/工具为`docs/testing/codex-runtime-shell-{mutants.mjs,coverage.config.mts,evidence.json}`与`docs/testing/codex-runtime-shell.md`；必要README索引/本卡席位日志可写。
+新测试6文件（`packages/reforge/src/`）：`main.boot-flows.test.ts`、`opening-menu.flows.test.ts`、`main.menu-flows.test.ts`、`main.dialog-flows.test.ts`、`main.save-flows.test.ts`、`main.scene-flows.test.ts`。fixture仅`__tests__/runtime-shell/{project,dom-host,driver}.ts`。新文档/工具为`docs/testing/codex-runtime-shell-{mutants.mjs,coverage.config.mts,evidence.json}`与`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`；必要README索引/本卡席位日志可写。
 
 不改产品/旧测试/公共fixture/官方配置基线/真实data和projects；不删AST回归，不降低阈值或忽略main。GLM战斗的测试文件与fixture不动。
 
@@ -198,7 +198,7 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
 
 - 2026-09-23 Codex（STAT-1后续定位）：Kimi专项窄审e7c4b743已推宿主分支（非整卡accept）；
   本席继续取原始数据，定位到覆盖率合并器的同range双initializer身份冲突。原生12组与旧1378对照见
-  [诊断](../../../../testing/coverage-initializer-diagnosis.md)，37L/42S/2F/37B差额可由该冲突解释；正式修复超本卡白名单，
+  [诊断](../../../../testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md)，37L/42S/2F/37B差额可由该冲突解释；正式修复超本卡白名单，
   已开[TEST-COVERAGE-TRUTH-1](TEST-COVERAGE-TRUTH-1-class-initializers.md) draft等两席设计签名。
   宿主36项保留，不改本卡设计、产品、原测试或官方基线；不以Kimi窄审代整卡done签字。
 
@@ -214,7 +214,7 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
   本卡该文件计数按不可信处理）超白名单，列 Codex 裁定。未改实现/统计配置/基线/状态，
   不签整卡 accept、不标 done；详见卡内「Kimi 统计专项复核」节。
 
-- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../../../testing/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
+- 2026-09-23 Codex（六组实现）：独立分支候选1d3d3fb3，6新测试/3fixture/2工具，36项、全reforge1414、TC/Biome和1正控+8业务负控通过，产品/旧测试/官方配置基线零改。实际bootGame/loader/codec/store/菜单/runner保留；对实际输入纯数据快照，不拿文件表替代；H6实际原map Promise收口，不固化旧取消错误提示。局部cb77对照净+1615L/+799B，但script-runner-core出现旧计数虚高反例（报告guard:123=2，旧1378真实执行见证=0），具体工具根因/其余37行解释待Kimi窄审；不把总包增长当豁免。回执/机账见[实施记录](../../../../testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md)。保持build，官方check/ratchet/strict待与GLM并集统一，不标review/done、不代签。
 
 - 2026-09-23 Codex（build准入）：用户确认“签了”，同步5b07d84a后核两席同r1直接证据与风险回答，无counter；本席统一登记build并同步看板/索引。独立工作树实施H1/H2后继续H3～H6，GLM战斗卡独立推进；不逐测试跑覆盖率、不提前done。
 
@@ -245,12 +245,12 @@ DEV-TOAST-1、full/Q1/Q2和GLM战斗返工保持原归属；统计修复另卡�
 
 ### 历史给Kimi：STAT-1统计异常窄复核（e7c4b743已完成）
 
-在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
+在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 同步 `codex/runtime-shell-coverage-r1`（tip0996cd87；代码候选1d3d3fb3，基4872b017），卡仍build，设计不重签。读AGENTS/CLAUDE/READ-FIRST、该分支本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1与机账；按分支卡内完整提示词独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`。核旧1378/新1414的覆盖差分和旧1378真实throw分支见证，给带一手锚点的统计结论/反证与最小后续证据；不由Codex描述推结论，不签整卡accept，不改产品/旧测试/统计配置/基线/状态。不跑官方覆盖率，DEV-TOAST-1不扩成修产品。只在分支卡追加本人“统计专项复核”及日志、提交推送该分支，不代签；若需框架改动，明确为当前白名单外待准入事项。
 ### 历史窄审完整提示词（已完成）
 
-在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
+在 `/Users/zhangxu/illegal/type-pal-runtime-shell` 的 `codex/runtime-shell-coverage-r1` 独立窄审统计异常，代码候选1d3d3fb3（基4872b017），卡仍build，r1设计不重签。先同步该分支/核工作树，读AGENTS/CLAUDE/READ-FIRST、本卡、`docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md`的STAT-1和机账。36项/全包1414/8业务负控已通过，但不据此认可统计；不读或复述GLM结论。
 
-独立复建 `node docs/testing/codex-runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
+独立复建 `node docs/testing/domains/runtime/engine-boundaries/tools/runtime-shell-mutants.mjs --probe-core-coverage`：旧1378报core195/195且:123计2；加宿主1414报158/195且:123计0；旧1378临时真实分支见证load已进、分支实际0。核见证是否真在该throw前、旧用例/源码是否完整、结论应收窄到哪里，以及是否还需额外隔离证据。不要为了恢复数字补非法防御输入或改变排除/阈值，不并发跑官方覆盖；DEV-TOAST-1仅作另列观察，不扩成修产品。
 
 只在本卡追加本人“统计专项复核”与日志、给带锚点的结论/反证，提交推送本分支，保留全部签字；不要签整卡done前accept、不改Status/实现/官方基线、不代签。若需要改统计框架/依赖/旧测试，明确列为超出当前白名单的待准入事项，由Codex处理。
 

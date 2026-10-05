@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "id": "cross-phase-document-truth-matrix-20261004",
+  "owner": "Codex",
+  "policy": "A row records the relationship between document families. resolved means the boundary is documented; guarded means a source conflict is known and cannot be promoted; blocked means a user or primary-source decision is required.",
+  "rows": [
+    {
+      "id": "P1-P2-architecture-boundary",
+      "from": ["docs/phase1/01-feasibility.md", "docs/phase1/02-architecture.md", "CLAUDE.md"],
+      "to": [
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase2/specs/editor-architecture.md",
+        "docs/phase2/specs/content-schema.md"
+      ],
+      "relationship": "Phase1 is faithful-restoration/reference work; Phase2 is a new Reforge architecture and must not inherit old module coupling or fidelity as its implementation contract.",
+      "status": "resolved",
+      "evidence": ["docs/phase1/02-architecture.md:1", "docs/phase2/READ-FIRST.md:1-11"],
+      "stopLine": "Do not cite Phase1 architecture as the current Phase2 design without an explicit Phase2 decision."
+    },
+    {
+      "id": "P1-P2-save-and-schema",
+      "from": [
+        "docs/phase1/05-events-schema.md",
+        "docs/phase1/06-testing.md",
+        "docs/phase1/02-architecture.md"
+      ],
+      "to": [
+        "docs/phase2/specs/content-schema.md",
+        "docs/phase2/specs/save-system.md",
+        "docs/phase2/reference/phase1-knowledge-harvest.md"
+      ],
+      "relationship": "Phase1 event/save contracts provide transferable knowledge, but Phase2 canonical schema/save semantics are independently governed.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase1/05-events-schema.md:1",
+        "docs/phase2/READ-FIRST.md:2-5",
+        "docs/phase2/specs/save-system.md:1"
+      ],
+      "unresolved": [
+        "A current implementation-level one-to-one field mapping is not established by document reading alone."
+      ],
+      "stopLine": "No migration or compatibility claim may be made from this row without current code, schema and save evidence."
+    },
+    {
+      "id": "P1-history-vs-current-ops",
+      "from": [
+        "docs/phase1/plans/README.md",
+        "docs/phase1/status/README.md",
+        "docs/phase1/03-development-plan.md"
+      ],
+      "to": ["docs/ops/board.md", "docs/ops/tasks/index.md", "docs/ops/audits/README.md"],
+      "relationship": "Phase1 plans/status snapshots are historical evidence; Ops board/task status is the current responsibility surface.",
+      "status": "resolved",
+      "evidence": [
+        "docs/phase1/plans/README.md:1-12",
+        "docs/ops/board.md:1",
+        "docs/ops/tasks/index.md:1"
+      ],
+      "stopLine": "A historical M0-M7 completion line cannot close a current Ops task."
+    },
+    {
+      "id": "lore-canon-vs-phase2-content",
+      "from": [
+        "docs/lore/README.md",
+        "docs/lore/characters.md",
+        "docs/lore/versions.md",
+        "docs/lore/taboos.md"
+      ],
+      "to": [
+        "docs/phase2/reference/phase1-knowledge-harvest.md",
+        "docs/phase2/guides/content-publication.md",
+        "docs/phase2/specs/content-schema.md"
+      ],
+      "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+      "status": "guarded",
+      "evidence": [
+        "docs/lore/README.md:1-63",
+        "docs/lore/characters.md:1-360",
+        "docs/lore/taboos.md:1-106"
+      ],
+      "unresolved": [
+        "Several later-series and resurrection details remain source-questioned; they are not publication contracts."
+      ],
+      "stopLine": "Do not convert a lore draft, fan source or version-specific ending into canonical content without author adjudication."
+    },
+    {
+      "id": "guijie-vs-phase3-roadmap",
+      "from": [
+        "docs/lore/ideas/guijie/beat-sheet.md",
+        "docs/lore/ideas/guijie/brainstorm.md",
+        "docs/lore/dlc-ideas.md"
+      ],
+      "to": [
+        "docs/phase3/backlog.md",
+        "docs/phase3/map-reconstruction.md",
+        "docs/phase3/reference/art-pipeline.md"
+      ],
+      "relationship": "DLC-01 is a narrative draft/idea; Phase3 files are future roadmap/reference and neither authorizes current runtime implementation.",
+      "status": "resolved",
+      "evidence": [
+        "docs/lore/ideas/guijie/beat-sheet.md:1-20",
+        "docs/lore/ideas/guijie/brainstorm.md:1-20",
+        "docs/phase3/README.md:1"
+      ],
+      "stopLine": "Keep all Guijie beats and Phase3 backlog items draft until a scoped product task and user decision promotes them."
+    },
+    {
+      "id": "ops-evidence-vs-runtime",
+      "from": [
+        "docs/ops/evidence/README.md",
+        "docs/ops/audits/README.md",
+        "docs/ops/tasks/README.md"
+      ],
+      "to": ["packages/", "scripts/e2e/", "docs/testing/"],
+      "relationship": "Ops documents describe work, evidence and claims; only current callers, executable tests and business oracles can establish runtime/test results.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/README.md:1",
+        "docs/ops/audits/README.md:1",
+        "docs/ops/agent-workflow.md:1"
+      ],
+      "unresolved": [
+        "Static content review does not re-run every historical command or re-validate every old artifact."
+      ],
+      "stopLine": "Do not promote a historical receipt, coverage number, screenshot or task status to current quality proof."
+    },
+    {
+      "id": "document-template-contract",
+      "from": [
+        "docs/phase-governance/templates/registry.json",
+        "docs/phase-governance/document-registry.json"
+      ],
+      "to": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
+      "relationship": "All 563 governed materials have one stable type/template binding; existing bodies remain governed legacy, while new documents must be template-compliant.",
+      "status": "resolved",
+      "evidence": [
+        "docs/phase-governance/document-registry.json:summary",
+        "docs/phase-governance/templates/README.md:1-22"
+      ],
+      "unresolved": [
+        "Body rewrites for legacy records are intentionally not performed in bulk; a future migration task must preserve history and links."
+      ],
+      "stopLine": "No new independent document style or unregistered type may enter the governed roots."
+    }
+  ],
+  "acceptance": {
+    "allRelationshipsExplained": true,
+    "guardedRowsAreNotCurrentTruth": true,
+    "unresolvedItemsAreExplicit": true,
+    "runtimeClaimsDeferred": true
+  }
+}

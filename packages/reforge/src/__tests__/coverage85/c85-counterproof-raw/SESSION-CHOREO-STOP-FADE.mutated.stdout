@@ -1,9 +1,9 @@
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge
 
- ❯ src/battle/battle-session.c85-arms.test.ts (8 tests | 1 failed | 7 skipped) 6ms
+ ❯ src/battle/battle-session.c85-arms.test.ts (8 tests | 1 failed | 7 skipped) 8ms
      ↓ stopMusic 定时臂:fadeMs>0 入排程,越时后原 serial 停曲
-     × stopMusic 即时臂:fadeMs 缺省 0 当拍停曲 5ms
+     × stopMusic 即时臂:fadeMs 缺省 0 当拍停曲 6ms
      ↓ 排程失效臂:排程后的 cancel 使 serial 失配,越时不再停曲
      ↓ applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud
      ↓ endBattle 重复登记臂:同链两条终局命令第二条 fail-loud
@@ -13,10 +13,10 @@
 
  Test Files  1 failed (1)
       Tests  1 failed | 7 skipped (8)
-   Start at  14:06:27
-   Duration  508ms (transform 357ms, setup 0ms, import 433ms, tests 6ms, environment 0ms)
+   Start at  16:03:30
+   Duration  880ms (transform 600ms, setup 0ms, import 742ms, tests 8ms, environment 0ms)
 
-JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-6z3SWf/report.json
+JSON report written to /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-O84zVF/report.json
 undefined
 /Users/zhangxu/illegal/type-pal-c85glm/packages/reforge:
- ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/battle-session.c85-arms.test.ts -t stopMusic 即时臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-6z3SWf/report.json
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/battle/battle-session.c85-arms.test.ts -t stopMusic 即时臂 --reporter=default --reporter=json --outputFile.json=/Users/zhangxu/illegal/type-pal-c85glm/packages/reforge/.c85-counterproof-tmp-O84zVF/report.json

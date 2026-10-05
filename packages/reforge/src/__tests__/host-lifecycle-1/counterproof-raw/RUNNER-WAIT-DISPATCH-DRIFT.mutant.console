@@ -1,0 +1,43 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ❯ src/script-runner.host-lifecycle-1.test.ts (7 tests | 1 failed | 6 skipped) 7ms
+     × 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主 6ms
+     ↓ 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal
+     ↓ 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发
+     ↓ setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界
+     ↓ setSceneOnEnter 对既有槽覆写而不新建槽
+     ↓ callScript 内 returnScript 只终止被调脚本,调用方从调用点继续
+     ↓ jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  19:55:00
+   Duration  365ms (transform 209ms, setup 0ms, import 254ms, tests 7ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-runner.host-lifecycle-1.test.ts > HL1 残留命令分发 > 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主
+AssertionError: expected [ Array(3) ] to deeply equal [ Array(3) ]
+
+- Expected
++ Received
+
+  [
+    "loadLastSave()",
+    "gameOver()",
+-   "wait(420)",
++   "wait(840)",
+  ]
+
+ ❯ src/script-runner.host-lifecycle-1.test.ts:153:19
+    151|     const runner = runnerOf(host, ac.signal)
+    152|     await runner.run([{ kind: 'loadLastSave' }, { kind: 'gameOver' }, …
+    153|     expect(calls).toEqual(['loadLastSave()', 'gameOver()', 'wait(420)'…
+       |                   ^
+    154|     for (const method of ['loadLastSave', 'gameOver', 'wait'])
+    155|       expect(signals.get(method)).toBe(ac.signal)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -52,7 +52,7 @@
 
 2026-09-19：[场景引用保护卡](../../archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md)r1候选83598cc4三席accept、用户要求继续，Codex已核零漂移并done归档。
 单adapter补三类依赖；22项真实冷暖/删除恢复回归及PAL s172→s182一条补边、三负控、Codex最小界面验证通过，
-check7442/受保护单次fast6954绿，见[实施回执](../../../testing/scene-reference-guard.md)。以下为修复前历史取证，不关闭其它缺陷。
+check7442/受保护单次fast6954绿，见[实施回执](../../../testing/archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md)。以下为修复前历史取证，不关闭其它缺陷。
 
 - `project-reference-adapters.ts:215-232`命令目标adapter白名单不包含`selectSceneHooks`；
   `script-editor.ts:916-925`另一路只为`selection.kind=use`添加具体hook边，因此纯disabled/inherit不产生场景边。
@@ -74,7 +74,7 @@ check7442/受保护单次fast6954绿，见[实施回执](../../../testing/scene-
 ## D-03 · 旧图片解码完成后覆盖新选图
 
 2026-09-18：[EDITOR-SPRITE-PICK-1](../../archive/tasks/done/EDITOR-SPRITE-PICK-1-latest-image-selection.md) r1已done收口，候选a88ab18d，
-Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试、6负控和实际界面检查；check7302/strict fast6814通过。
+Codex[验证回执](../../../testing/archive/legacy/editor/editor-workflows/sprite-selection.md)含20新＋2旧测试、6负控和实际界面检查；check7302/strict fast6814通过。
 三席终审accept齐、用户验收通过，已核候选零漂移并归档。下方保留审计时点的原始缺陷；G-I04提交后卸载风险不属于本次修复范围。
 
 - `SpriteUploadWizard.tsx:145-173`的pickFile在`await createImageBitmap`后直接写draft，没有请求身份检查；
@@ -96,8 +96,8 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
 
 **修复状态（2026-09-20）：已完成。** [EDITOR-SKILL-TRIAL-1](../../archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)
 主体fe0fee84及列宽补丁d394eccc三席accept齐、用户最终UI验收通过，Codex已done归档。
-当前工程显式配置、真实BattleSession、缺敌人可操作拒绝及独立试玩已验证；详见[实施记录](../../../testing/battle-simulator-implementation.md)。
-原生选择器/360主壳/full-Q1-Q2边界保持，不扩成所有评估入口或完整E2E通过。下方与[前提探针](../../../testing/skill-trial-premise.mjs)保留修复前证据。
+当前工程显式配置、真实BattleSession、缺敌人可操作拒绝及独立试玩已验证；详见[实施记录](../../../testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)。
+原生选择器/360主壳/full-Q1-Q2边界保持，不扩成所有评估入口或完整E2E通过。下方与[前提探针](../../../testing/domains/runtime/testing-records/tools/skill-trial-premise.mjs)保留修复前证据。
 
 - `SkillTab.tsx:1120`URL写死`scene=s001&battle=0`，只将project/workspace/skill做参数化。
   新空白工程真实种子只有start场景，未生成敌队0（`core/seed.ts:164-166,222-245`）。
@@ -142,7 +142,7 @@ Codex[验证回执](../../../testing/sprite-selection.md)含20新＋2旧测试�
 ### D-06 · 新建物品后立即添加私有脚本缺少作者记录（2026-09-13补充）
 
 **修复状态（2026-09-21）：已完成。** [物品作者记录/脚本身份卡](../../archive/tasks/done/EDITOR-ITEM-AUTHORING-1-item-script-identity.md)候选451cbbb7三席accept齐、用户明确授权，Codex核零漂移后done归档。
-新建/复制/删除成对维护两会话；14新增回归、五组负控、check7909/strict7418及原生保存重开通过，见[实施记录](../../../testing/item-authoring-implementation.md)。以下为修复前历史证据，综合R4/E2E仍单列。
+新建/复制/删除成对维护两会话；14新增回归、五组负控、check7909/strict7418及原生保存重开通过，见[实施记录](../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md)。以下为修复前历史证据，综合R4/E2E仍单列。
 
 Codex在D-01功能界面验证中复现：空白项目→新建物品→启用使用能力→添加当前物品脚本，
 报“物品不存在 item-001”。主会话已有物品，而ScriptEditSession尚无该作者item；保存并正式重开后同入口可用。
@@ -157,7 +157,7 @@ D-01不扩张为整组物品增删复制重构。D-01已有物品的配对编辑
 
 ### D-07 · 共享ScriptId与内部私有引用前缀相同时无法保存（2026-09-13补充）
 
-**修复状态（2026-09-21）：已完成。** 同候选451cbbb7以独立内存tag区分私有owner与共享ScriptId，并同步修正canonical引用校验和真实runtime分流；不新增保留前缀、不改作者JSON/content20/SAVE8。三席/用户准入、诊断/保存/业务结果证据见D-06的[同卡实施记录](../../../testing/item-authoring-implementation.md)。以下只保留修复前取证。
+**修复状态（2026-09-21）：已完成。** 同候选451cbbb7以独立内存tag区分私有owner与共享ScriptId，并同步修正canonical引用校验和真实runtime分流；不新增保留前缀、不改作者JSON/content20/SAVE8。三席/用户准入、诊断/保存/业务结果证据见D-06的[同卡实施记录](../../../testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md)。以下只保留修复前取证。
 
 合法seed仅包含共享脚本`item:collision-item:use`及物品对它的引用，没有私有脚本，正式loader接受。
 Codex只读补审对比：dded6f27的Root主态保留字符串引用，merge把它错误变成undefined，正式serialize拒绝
@@ -187,10 +187,10 @@ Codex只读补审对比：dded6f27的Root主态保留字符串引用，merge把�
 修复后应转为正确行为测试并退役旧假设；不为保持审计脚本通过而保留旧产品行为。
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-history.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-reference-delete.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-sprite-upload.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-editor-trial.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs
 ```
 
 Vite只用于实际模块转换，最终D批脚本不启HTTP服务，hmr=false且ws=false；拒绝fetch及已有IndexedDB。

@@ -1,0 +1,145 @@
+{
+  "card": "TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1",
+  "suite": "定向三文件（bgm / midi-preview / sfx-readiness .glm-audio-lifecycle.test.ts）",
+  "replay": "run-counterproof.mjs 以最终交付测试文件重放全部四态（基线绿 + 6 针红/绿 + 末次全套重放 + 产品零残留）",
+  "command": "pnpm exec vitest run <file> [-t <fullName 子串>]（cwd=packages/reforge）",
+  "cwd": "/private/tmp/type-pal-audio-lifecycle/packages/reforge",
+  "node": "v22.23.2",
+  "pnpm": "10.29.2",
+  "tmpUsage": "无 mkdtemp/临时目录（变异直接落跟踪文件并 git checkout 还原；清理证明 = clean-tree 检查）",
+  "baseline": {
+    "state": "clean-baseline（第一态）",
+    "file": "mutation-logs/green-baseline.raw",
+    "sha256": "abcf8d83c6d67650df8d416836c6cf147cb7e7cda5f623705f41e0e82812277b",
+    "tests": "9 passed (9)"
+  },
+  "needles": [
+    {
+      "id": "N1-resume-unlock-replays-account",
+      "mutation": "bgm.ts resume() 解锁成功后不再补播记账曲（playCurrent 移除）",
+      "execution": "pnpm exec vitest run src/audio/bgm.glm-audio-lifecycle.test.ts -t 挂起 ctx 上 autoplay 被拒仍完成一次静默提交（cwd=packages/reforge，变异 src/audio/bgm.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N1-resume-unlock-replays-account.red.raw",
+        "sha256": "97cb8fdb18a074e44dc2ccaee0b29ed094772762c3fe5acefb9be2d0693db9cc",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected [ Array(1) ] to have a length of 2 but got 1"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N1-resume-unlock-replays-account.green.raw",
+        "sha256": "6eac564701f243bb0870de218aea5a67f45390e3b0d394007ebf6356acc0fedb",
+        "tests": "1 passed | 3 skipped (4)"
+      }
+    },
+    {
+      "id": "N2-same-song-repeat-restarts",
+      "mutation": "bgm.ts play() 同曲守卫永不命中 → steady-state 重复调用走完整重读/重载/重启",
+      "execution": "pnpm exec vitest run src/audio/bgm.glm-audio-lifecycle.test.ts -t 运行中重复 play 同曲（cwd=packages/reforge，变异 src/audio/bgm.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N2-same-song-repeat-restarts.red.raw",
+        "sha256": "3ed0a98208bfc0c87bd1cb691924b1ccce1009da71bcb6bc3b973b8794209c86",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected [ { asset: 'music.town', …(1) }, …(1) ] to have a length of 1 but got 2"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N2-same-song-repeat-restarts.green.raw",
+        "sha256": "0d740a6612e2b8bbb0fc3d18ad9b28ea77a2c32582102cb289a27dac9dd93fc0",
+        "tests": "1 passed | 3 skipped (4)"
+      }
+    },
+    {
+      "id": "N3-setenabled-idempotence",
+      "mutation": "bgm.ts setEnabled() 移除同值早退 → 重复开触发重启、重复关二次 pause",
+      "execution": "pnpm exec vitest run src/audio/bgm.glm-audio-lifecycle.test.ts -t 重复开不重启（cwd=packages/reforge，变异 src/audio/bgm.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N3-setenabled-idempotence.red.raw",
+        "sha256": "e8133293217a9572dfa6817bee0153e57173b8d53991817624a0cba18069c7ba",
+        "tests": "1 failed | 3 skipped (4)",
+        "firstFailure": "AssertionError: expected [ 1, 1 ] to have a length of 1 but got 2"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N3-setenabled-idempotence.green.raw",
+        "sha256": "7ad668c9932c5df154e63930b96f7c6d66abe12a6ba59c9d675c67433a4b4d0b",
+        "tests": "1 passed | 3 skipped (4)"
+      }
+    },
+    {
+      "id": "N4-replace-stops-old-song",
+      "mutation": "midi-preview.ts 替换路径两处旧曲停止（load 同步 pause + loadSequencer pause）一并移除；单删一处会被另一处互补吸收，不红",
+      "execution": "pnpm exec vitest run src/audio/midi-preview.glm-audio-lifecycle.test.ts -t 旧曲播放中 load 新曲（cwd=packages/reforge，变异 src/audio/midi-preview.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N4-replace-stops-old-song.red.raw",
+        "sha256": "9e6c5b681081b9a0063d41f6f7b9294e6bcaec433c402de1220710e121a5abc0",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected false to be true // Object.is equality"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N4-replace-stops-old-song.green.raw",
+        "sha256": "51914d3fd8b4bc672c8d6c9b974b27396925fb35f6a774704bc663568e2d87d5",
+        "tests": "1 passed | 1 skipped (2)"
+      }
+    },
+    {
+      "id": "N5-replace-failure-keeps-stale-bytes",
+      "mutation": "midi-preview.ts load() 替换时不清旧 bytes/activity → 失败后旧曲成果顶替新选择",
+      "execution": "pnpm exec vitest run src/audio/midi-preview.glm-audio-lifecycle.test.ts -t 替换读取失败（cwd=packages/reforge，变异 src/audio/midi-preview.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N5-replace-failure-keeps-stale-bytes.red.raw",
+        "sha256": "a289250f0e0006c6ec3e38a583d3d90a0d5d45801dab1de709ee708e936a236d",
+        "tests": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected { asset: 'music.b', …(3) } to match object { Object (asset, duration, ...) }"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N5-replace-failure-keeps-stale-bytes.green.raw",
+        "sha256": "c1d5617aa6f690ddd542b283e27d66f5a008aa4cdb483c8b9ffb74efd9dd948d",
+        "tests": "1 passed | 1 skipped (2)"
+      }
+    },
+    {
+      "id": "N6-mid-collection-abort",
+      "mutation": "sfx-readiness.ts visit 移除 signal.throwIfAborted() → 中途 abort 不再拦截后续 root",
+      "execution": "pnpm exec vitest run src/audio/sfx-readiness.glm-audio-lifecycle.test.ts -t 首 root 访问完成后同步 abort（cwd=packages/reforge，变异 src/audio/sfx-readiness.ts）",
+      "red": {
+        "state": "red（第二态）",
+        "exit": 1,
+        "file": "mutation-logs/N6-mid-collection-abort.red.raw",
+        "sha256": "d226082173dd42b69bddb91bf23f09a6bd531612f57f0682ec9d2537a36bd0d3",
+        "tests": "1 failed | 2 skipped (3)",
+        "firstFailure": "AssertionError: expected Error: SFX readiness root[1]: 无 sprites 注… to match object { name: 'AbortError' }"
+      },
+      "restoredGreen": {
+        "state": "restored-green（第三态）",
+        "exit": 0,
+        "file": "mutation-logs/N6-mid-collection-abort.green.raw",
+        "sha256": "54f3b585d5667c460c61de4c10eb37eecbeeb8c13d9b934610a5dc8c5afe0e7e",
+        "tests": "1 passed | 2 skipped (3)"
+      }
+    }
+  ],
+  "finalState": {
+    "state": "final-replay（第四态：全部针还原后，定向三文件整套重放）",
+    "file": "mutation-logs/final-replay.raw",
+    "sha256": "d94d6588006008f1c8da33d824e976c962e2d7f9ecb70407b281ef117a7e4b74",
+    "tests": "9 passed (9)"
+  },
+  "cleanTree": "clean（git status --porcelain 全仓无 M/D 残留；?? 仅本卡新增测试/证据交付文件）"
+}

@@ -27,7 +27,7 @@ Closed: 2026-09-13（用户在仅待验收确认的上下文回复“继续推�
 
 2026-09-13 Codex 接收 GLM 11d6026b / Kimi 2d8e56d0 终审：三席均对10c84238签accept，无返工项；
 接手 main/origin 同为2d8e56d0、工作树净，候选后 packages 零 diff，两席只更新本卡。
-[实现与验证回执](../../../../testing/editor-leave-guard.md)记录原生操作、LG矩阵、五组负控制及自审返工；
+[实现与验证回执](../../../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)记录原生操作、LG矩阵、五组负控制及自审返工；
 check6,918/严格fast6,430仍为同一候选证据，不重跑不代签。
 随后用户在仅待验收确认的上下文回复“继续推进”，本卡按已有功能验证授权收口；Codex在9fd32674核工作树净、
 main/origin同步、候选后packages零漂移，推进done并归档。不把此前“签了”倒记为手动复验，也不外推为未来任务免签。
@@ -87,7 +87,7 @@ main/origin同步、候选后packages零漂移，推进done并归档。不把此
   当前 canonical、单 Coding Owner、功能视觉由 Codex 负责；不重开已完成 A-03。
 - [A-07 审计](../../../audits/pre-e2e/README.md#a-07--新建打开缺少未保存内容离开保护)、
   [D-01 相邻问题](../../../audits/pre-e2e/editor-workflows.md#d-01--跨会话撤销没有统一的时间顺序)、
-  [A-03 验收边界](../../../../testing/editor-save-recovery-closeout.md)。
+  [A-03 验收边界](../../../../testing/archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)。
 - [App](../../../../../packages/editor/src/ui/App.tsx)：行 580–584 同步保存门；1922–1966 快捷键；
   1989 入口失效早退；2166–2174 保存快照/dirty 保护；2207–2235 另存为；2477 编辑区 inert。
 - [DsDialog](../../../../../packages/editor/src/ui/design-system/overlays.tsx) 行 177–237：native modal、焦点归还、Esc；
@@ -420,7 +420,7 @@ main/origin同步、候选后packages零漂移，推进done并归档。不把此
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
 任务卡 docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
-先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/editor-leave-guard.md。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md。
 你负责独立代码/架构审查：真实新建/打开/另存回调、双 dirty、同步互斥、请求与修改版本/点击 choice、失败与清理警告、卸载和 beforeunload。
 重点复核 ceec744a 的旧 ready 点击误当 discard 两条先红及10c84238修复，重建 choice/revision 负控制；不要读取或复述 GLM 终审结论。
 已测81定向、check6918、严格fast6430；原生功能/视觉与准备期失败边界在回执，复用证据，不重跑已有浏览器流程。
@@ -433,7 +433,7 @@ main/origin同步、候选后packages零漂移，推进done并归档。不把此
 ```text
 在 /Users/zhangxu/illegal/type-pal 终审 EDITOR-LEAVE-GUARD-1。
 任务卡 docs/ops/archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md，review，产品/测试候选10c84238，对比d46d63fa；r1不重签。
-先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/editor-leave-guard.md。
+先同步并检查工作树，读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡及 docs/testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md。
 你负责独立矩阵/覆盖审查：逐条核LG-01～10与成功正控，18 guard+27真实App+36既有保存冲突共81项，抽查五组单点业务负控制。
 重点核PAL取消、IO AbortError、cleanup warning、export互斥、discardRedo保守失效、真实保存重开和旧ready点击竞态；不要读取或复述Kimi终审结论。
 核check6918、严格fast6430/616源码；旧测试身份计数零变化，新45项与3源码入分母，无门槛下调；区分存储替身和原生证据。

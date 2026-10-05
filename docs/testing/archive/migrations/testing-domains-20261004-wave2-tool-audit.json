@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 2,
+  "id": "testing-domains-20261004-wave2-tool-audit",
+  "status": "current",
+  "batch": "testing-domains-20261004-wave2",
+  "runtimeExecution": { "performed": false, "scope": "import/cwd/public-caller audit only" },
+  "entries": [
+    {
+      "id": "editor-command-form-families",
+      "tools": [
+        {
+          "path": "docs/testing/domains/editor/editor-workflows/tools/command-form-families-mutants.mjs",
+          "lines": "10-14",
+          "anchor": "const root = resolve",
+          "sha256": "f2b4a7d9d050e22a18b478dc2347c795e2e99a9e0f3e6160c1e24bf4795776d3",
+          "imports": ["../../scripts/coverage/environment.mjs"],
+          "cwd": "packages/editor",
+          "runner": "pnpm exec vitest run --config <temporary config>",
+          "publicCaller": "node docs/testing/domains/editor/editor-workflows/tools/command-form-families-mutants.mjs"
+        }
+      ],
+      "decision": "retain-legacy-tool",
+      "reason": "工具通过临时 Vite loader 修改真实 editor 模块并在 packages/editor cwd 运行；report/evidence 已迁移，工具留在 legacy 直到单独核清临时 config、artifact 清理和公开 runner。"
+    },
+    {
+      "id": "reforge-menu-session",
+      "tools": [
+        {
+          "path": "docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs",
+          "lines": "11-17",
+          "anchor": "const root = resolve",
+          "sha256": "adc91baf86c72284391f082981c297c746e2e922f3dfbd05c853d4e251aeb084",
+          "imports": ["../../scripts/coverage/environment.mjs"],
+          "cwd": "repository root",
+          "runner": "pnpm exec vitest run --config <temporary config>",
+          "publicCaller": "node docs/testing/domains/runtime/editor-workflows/tools/menu-session-parity.mjs"
+        },
+        {
+          "path": "docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs",
+          "lines": "10-13",
+          "anchor": "const root = resolve",
+          "sha256": "2ba954e4cbc7ec7bbfac9289981e91e221a6e17e19524f8b4af7237211fbd1c8",
+          "imports": ["../../scripts/coverage/environment.mjs"],
+          "cwd": "repository root",
+          "runner": "pnpm exec vitest run --config <temporary config>",
+          "publicCaller": "node docs/testing/domains/editor/editor-workflows/tools/menu-session-refactor-mutants.mjs"
+        }
+      ],
+      "decision": "retain-legacy-tool",
+      "reason": "parity tool reads a frozen Git source and mutants use root-level main.ts loaders; both are historical evidence tools, not current product callers. Move only after tool-specific rebuild/cleanup audit."
+    },
+    {
+      "id": "editor-map-workspace-sessions",
+      "tools": [
+        {
+          "path": "docs/testing/domains/editor/authoring-and-runtime/tools/map-pointer-gesture-mutants.mjs",
+          "lines": "10-14",
+          "anchor": "const root = resolve",
+          "sha256": "fea0bfe20a67a9110310eec294df7d0d3e7e495669742394326e4269cf6471b8",
+          "imports": ["../../scripts/coverage/environment.mjs"],
+          "cwd": "packages/editor",
+          "runner": "pnpm exec vitest run --config <temporary config>",
+          "publicCaller": "node docs/testing/domains/editor/authoring-and-runtime/tools/map-pointer-gesture-mutants.mjs"
+        },
+        {
+          "path": "docs/testing/domains/editor/authoring-and-runtime/tools/map-workspace-sessions-mutants.mjs",
+          "lines": "10-14",
+          "anchor": "const root = resolve",
+          "sha256": "2e5d2444087813f6dd5e24b06b55ad3d494426d7ca97931fe0e624202be4186d",
+          "imports": ["../../scripts/coverage/environment.mjs"],
+          "cwd": "packages/editor",
+          "runner": "pnpm exec vitest run --config <temporary config>",
+          "publicCaller": "node docs/testing/domains/editor/authoring-and-runtime/tools/map-workspace-sessions-mutants.mjs"
+        }
+      ],
+      "decision": "retain-legacy-tool",
+      "reason": "Both tools mutate isolated loader output and write temporary receipts; report/evidence caller/oracle is migrated, tool lifecycle remains a separate audit item."
+    },
+    {
+      "id": "phase1-dependency-ownership",
+      "tools": [
+        {
+          "path": "docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-audit.mjs",
+          "lines": "9-12",
+          "anchor": "const root = resolve",
+          "sha256": "63fa966c82aeb8fcb0fdc1335647cbff20c40f3ec7809db4bc8cfc91571d4d7b",
+          "imports": ["typescript"],
+          "cwd": "repository root",
+          "runner": "node docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-audit.mjs [root]",
+          "publicCaller": "node docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-audit.mjs"
+        },
+        {
+          "path": "docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-mutants.mjs",
+          "lines": "2-10",
+          "anchor": "const root = resolve",
+          "sha256": "b857f63a8d16bde7eae6fef53a80ee5edd72897bc9922e7d27c6d09a09d58827",
+          "imports": [],
+          "cwd": "repository root",
+          "runner": "node docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-mutants.mjs [root]",
+          "publicCaller": "node docs/testing/domains/runtime/engine-boundaries/tools/phase1-dependency-refactor-mutants.mjs"
+        }
+      ],
+      "decision": "retain-legacy-tool",
+      "reason": "Audit and mutant tools resolve a supplied root and inspect frozen Git/source trees; no package public caller consumes them. Keep source-relative invocation documented until a dedicated tool relocation is reviewed."
+    }
+  ]
+}

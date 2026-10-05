@@ -348,7 +348,7 @@ Branch: main
     `pal-map-name-boundary.test.ts`、`pal-map-names.pal.test.ts`、`project-map-converter.test.ts`、
     `migration-merge.test.ts`、`migration-plan.test.ts`。
   - 受控生成：current / baseline 的 `content/maps/index.json` 与 baseline `_state.json`。
-  - 运维：本卡与 `docs/ops/board.md`；未混入 ED-CATALOG 实现。
+  - 运维：本卡与 `docs/ops/archive/board-history/board-20261004.md`；未混入 ED-CATALOG 实现。
 - 实现摘要:
   - 222 条一阶段考据表逐项原样迁到冻结的 `@type-pal/shared/pal-authored-map-names` 专用 subpath；
     shared 根 barrel 不暴露该 API，phase1 wrapper 保留 `地图N` 既有展示 fallback。

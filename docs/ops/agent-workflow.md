@@ -27,7 +27,7 @@
 | 文件 | 用途 |
 |---|---|
 | [`../../AGENTS.md`](../../AGENTS.md) | 多 Agent 根协议。 |
-| [`board.md`](board.md) | 当前进行中/阻塞任务看板。 |
+| [`board.md`](archive/board-history/board-20261004.md) | 当前进行中/阻塞任务看板。 |
 | [`tasks/`](tasks) | 任务卡目录（索引与终态说明见 [`tasks/README.md`](tasks/README.md)）。 |
 | [`tasks/TASK-template.md`](templates/TASK-template.md) | 不可逆/高风险任务模板。 |
 | [`tasks/TASK-lite-template.md`](templates/TASK-lite-template.md) | 中等任务轻量模板。 |

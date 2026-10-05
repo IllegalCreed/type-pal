@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-asset-lifecycle/packages/editor
+
+ ❯ src/ui/SpriteActionEditor.glm-asset-lifecycle.test.tsx (1 test | 1 failed) 23ms
+     × 越界帧步骤渲染占位不吞步骤；重命名与追加合法帧仍真实提交且可撤销 22ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  22:16:20
+   Duration  4.04s (transform 2.31s, setup 0ms, import 2.86s, tests 23ms, environment 942ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/SpriteActionEditor.glm-asset-lifecycle.test.tsx > SpriteActionEditor 数据级越界帧残余合同 > 越界帧步骤渲染占位不吞步骤；重命名与追加合法帧仍真实提交且可撤销
+TypeError: Cannot read properties of undefined (reading 'canvas')
+ ❯ src/ui/SpriteActionEditor.tsx:656:63
+    654|                         >
+    655|                           <SpriteFrameCanvas
+    656|                             source={props.frames[step.frame]!.canvas}
+       |                                                               ^
+    657|                             width={56}
+    658|                             height={56}
+ ❯ SpriteActionEditor src/ui/SpriteActionEditor.tsx:628:31
+ ❯ Object.react_stack_bottom_frame ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ ❯ renderWithHooks ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ ❯ updateFunctionComponent ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ ❯ beginWork ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+ ❯ runWithFiberInDEV ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:874:13
+ ❯ performUnitOfWork ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:17641:22
+ ❯ workLoopSync ../../node_modules/.pnpm/react-dom@19.2.7_react@19.2.7/node_modules/react-dom/cjs/react-dom-client.development.js:17469:41
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

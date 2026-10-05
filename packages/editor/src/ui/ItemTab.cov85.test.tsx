@@ -126,7 +126,7 @@ function equipItem(effects: ItemData['equip'] extends infer E ? E : never): Item
 const EQUIP_DEFAULT_CASES = [
   { option: '上限加成', effect: { kind: 'maxPool', pool: 'hp' as const, delta: 50 } },
   { option: '抗性', effect: { kind: 'resistance', element: 'fire' as const, percent: 30 } },
-  { option: '常驻状态', effect: { kind: 'grantStatus', status: 'dualAttack' as never } },
+  { option: '常驻状态', effect: { kind: 'grantStatus', status: 'dualAttack' } },
   { option: '授予技能', effect: { kind: 'grantSkill', skillId: '' } },
   { option: '攻击全体', effect: { kind: 'attackAll' } },
   { option: '回合回体力', effect: { kind: 'regenHp', amount: 20 } },
@@ -159,7 +159,9 @@ test.each(EQUIP_DEFAULT_CASES)('cov85-item 装备效果切到 $option 提交精�
     option_!.dispatchEvent(new MouseEvent('click', { bubbles: true }))
   })
   expect(session.getState().items[0]!.equip!.effects[0]).toEqual(effect)
-  expect(session.undo()).toBe(true)
+  await act(async () => {
+    expect(session.undo()).toBe(true)
+  })
   expect(session.getState().items[0]!.equip!.effects[0]).toEqual({
     kind: 'statBonus',
     stat: 'attack',

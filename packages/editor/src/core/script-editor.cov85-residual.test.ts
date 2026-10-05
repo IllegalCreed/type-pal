@@ -20,7 +20,10 @@ import type {
   AuthorScriptFlow,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
-import type { CanonicalScriptReference } from './script-editor.js'
+import type {
+  CanonicalScriptReference,
+  CurrentScriptProjectReferenceIndexProvider,
+} from './script-editor.js'
 import {
   AddEntityBehaviorCommand,
   AddItemDefinitionCommand,
@@ -325,7 +328,11 @@ test('cov85-residual 共享脚本守卫：更新/删除缺脚本、元数据 inv
     () => new UpdateSharedScriptCommand('shared/user/missing', { name: 'x' }),
     /共享脚本不存在 shared\/user\/missing/,
   )
-  const deleteMissing = new DeleteSharedScriptCommand('shared/user/missing', undefined as never)
+  // 删除守卫先于引用检查触发；provider 用真实签名（守卫路径不读索引）。
+  const missingReferences: CurrentScriptProjectReferenceIndexProvider = () => {
+    throw new Error('删除守卫应先于引用检查触发')
+  }
+  const deleteMissing = new DeleteSharedScriptCommand('shared/user/missing', missingReferences)
   expect(() => deleteMissing.apply(session.getState())).toThrow(
     /共享脚本不存在 shared\/user\/missing/,
   )

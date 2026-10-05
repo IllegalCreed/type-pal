@@ -4,6 +4,9 @@
 
 上级：[协作与工程维护](../README.md)。
 
+- [历史看板快照](board-history/README.md)
+- [协作文档布局收口计划](ops-governance-layout-20261004.json)
+
 ## 分类入口
 
 - [历史验收批次](acceptance/README.md)

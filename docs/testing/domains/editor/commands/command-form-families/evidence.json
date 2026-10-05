@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "id": "editor-command-form-families",
+  "kind": "document-audit",
+  "status": "current",
+  "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
+  "sourceRefs": [
+    {
+      "path": "packages/editor/src/ui/CommandForm.tsx",
+      "lines": "82-93",
+      "anchor": "export function CommandForm",
+      "role": "caller",
+      "sha256": "be02bf5a67b18e9f92901ec25013f4c7e16b36a24aeadc608d0b057bb042c3bb"
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-contract.ts",
+      "lines": "98-113",
+      "anchor": "export function createAuthorCommandFormBridge",
+      "role": "contract",
+      "sha256": "26494bbaa2c026946ab52478df97367121f123329b414f417d9485b1964c7062"
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-family-ownership.test.ts",
+      "lines": "11-34",
+      "anchor": "describe('command form family ownership'",
+      "role": "oracle",
+      "sha256": "18047df99f35c1e630cf3849c1c8184d7739ba0fef5a23f866728463c3fcfc54"
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-contract.test.ts",
+      "lines": "8-25",
+      "anchor": "describe('author command form bridge'",
+      "role": "oracle",
+      "sha256": "5843e284c33f455c9c7b0309e3e29e3a72dd3586f5c4989816ed9a493df2eda8"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
+  ],
+  "publicCallers": [
+    "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
+    "CommandForm → dialogue/actor/world/control typed subforms"
+  ],
+  "legalInputs": [
+    "current typed AuthorCommand/SharedAuthorCommand",
+    "current editor project guards",
+    "family-specific form props and author bridge"
+  ],
+  "businessOracle": {
+    "type": "editor-command-form-families",
+    "assertions": [
+      "kind dialect cannot drift across bridge",
+      "family owner emits legal command shape",
+      "shared controls remain single implementation"
+    ]
+  },
+  "dedupe": {
+    "result": "source-review-no-new-test-credit",
+    "against": [
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "domains/editor/commands/command-form-families/history/report.md"
+    ],
+    "notes": "B3 report/evidence are architecture ownership records; design-system and command-form mutant tools remain legacy until their relative imports and public runners are separately moved. No coverage credit is added by this source audit."
+  },
+  "claims": [
+    {
+      "id": "editor-command-form-families-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "packages/editor/src/ui/CommandForm.tsx:82-93",
+        "packages/editor/src/ui/command-form-contract.ts:98-113",
+        "packages/editor/src/ui/command-form-family-ownership.test.ts:11-34",
+        "packages/editor/src/ui/command-form-contract.test.ts:8-25",
+        "packages/content/src/character.ts:168-170"
+      ]
+    }
+  ],
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "Historical candidate was later unified by architecture-continuation integration; original candidate counters and strict numbers remain history. This report records current caller/source boundaries, not a new UI run."
+  ],
+  "artifacts": [],
+  "history": [
+    {
+      "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
+  ]
+}

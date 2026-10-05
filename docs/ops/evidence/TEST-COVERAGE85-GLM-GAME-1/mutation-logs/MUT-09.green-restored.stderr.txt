@@ -1,0 +1,5 @@
+stderr | src/core/event-system.test.ts > goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 labelMap 解析) > shared# label 全局不存在 → warn + skip(不抛错,不死循环)
+event-system: goto label shared#L_DOES_NOT_EXIST 不在全局 labelMap → 终止脚本
+
+stderr | src/core/event-system.test.ts > 特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed) > 0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)
+event-system: setObjectPos 无 currentEventObjectId(可能从 runEnterScript 跑),跳过

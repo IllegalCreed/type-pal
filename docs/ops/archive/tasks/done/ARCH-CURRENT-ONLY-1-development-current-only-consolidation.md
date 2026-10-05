@@ -416,7 +416,7 @@ OPS-TST-PERF-B/C 未提交改动，未标 build/done。
   - `docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md`
   - `packages/content/src/**`、`packages/reforge/src/**`、`packages/editor/src/**`
   - `packages/migrate/src/**`、`packages/migrate/scripts/migrate-content.mts`、current PAL baseline/project
-  - current-only 架构/迁移/脚本/资源文档、本任务卡与 `docs/ops/board.md`
+  - current-only 架构/迁移/脚本/资源文档、本任务卡与 `docs/ops/archive/board-history/board-20261004.md`
 - 实现摘要:
   - 2026-08-20 接管 `OPS-TST-PERF-B` 停线交接；失败候选不作为 authority，表示层 byte-order 差异不再建设兼容转换器。
   - 完成 GLM1 命名轴裁定：原 `V5 + V13 + V14` 表达的是现行脚本语义演进，能力保留并折叠为无版本 `current author-script`，不继续作为产品公开版本号。

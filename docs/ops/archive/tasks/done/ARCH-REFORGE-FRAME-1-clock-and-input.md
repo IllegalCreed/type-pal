@@ -52,7 +52,7 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
   确认框>商店>奖励>菜单>对话>runner/敌对忙>探索的实时输入优先级。
 - `main.dialog-flows.test.ts`、`main.scene-flows.test.ts`、`main.save-flows.test.ts`、
   `main.boot-flows.test.ts`、`debug-tools.test.ts`与各motion/session回归。
-- [A2自审教训](../../../../testing/battle-host-refactor.md)：不在原同步采样/提交边界插await。
+- [A2自审教训](../../../../testing/domains/runtime/battle/battle-host/report.md)：不在原同步采样/提交边界插await。
 - A2远端已核同b11d4bc9成功：Coverage run36014078975 / Documentation run36014078953。
 
 ## 设计
@@ -106,10 +106,10 @@ before→after：用户可见行为不变，无产品偏离需要裁决。
 - 2026-09-25 Codex：实现时钟/等待/单步所有者与同步帧、输入路由；36新增，117定向/相邻、
   中途全Reforge1584、384帧/896输入冻结对照、44正控/11针通过，19关键函数AST token树保真。
   最小浏览器完成菜单、朝向、单步745→746、退出恢复；短按不声明持续走位通过，持按由真实宿主回归覆盖。
-  见[回执](../../../../testing/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。
+  见[回执](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md)。整批质量门正在执行，未标done，不提前关闭A3整体。
 - 2026-09-25 Codex：最终8eb93bb7通过check8499、ratchet与保护b11d4bc9的单次strict8008/639，
   baseline前后SHA256一致；6包完整基线不变，scope无移除；build通过。已核本段done并归档，
-  全仓仍2/13大批完成，A3其余职责与full/Q1/Q2不借此关闭。证据见[机账](../../../../testing/runtime-frame-refactor-evidence.json)。
+  全仓仍2/13大批完成，A3其余职责与full/Q1/Q2不借此关闭。证据见[机账](../../../../testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json)。
 
 ## 下一位Agent提示词
 

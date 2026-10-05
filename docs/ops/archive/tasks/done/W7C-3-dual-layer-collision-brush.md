@@ -71,7 +71,7 @@ Capability: W7c
   - `packages/reforge/src/own-map.ts` / `own-map.test.ts` / `index.ts`
   - `packages/editor/src/core/commands.ts` / `commands.test.ts`
   - `packages/editor/src/ui/MapMode.tsx`
-  - `docs/ops/board.md` / 本任务卡
+  - `docs/ops/archive/board-history/board-20261004.md` / 本任务卡
 - 实现摘要:
   - `SubTileEdit` 增加可选 `mask`;`paintCells` 改为 `(old & ~mask) | (word & mask)`,缺省仍兼容整 word 覆盖。
   - 新增 layer1 编码与掩码常量;`floodFillSubTiles` 支持按 mask 判断连通区。

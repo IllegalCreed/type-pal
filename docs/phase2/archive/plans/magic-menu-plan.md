@@ -1,7 +1,7 @@
 # 仙术菜单 实现计划(接技能地基)
 
 > **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。
-> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/board.md) 进入。
+> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。
 
 > **分工**:Task A(状态机·纯逻辑)= **GLM**;Task B/C/D(Canvas UI · 集成 · 浏览器对齐)= **Claude**(视觉活,GLM 无多模态)。
 > **依赖地基**:技能数据三层已就位([skill-data-design](../designs/skill-data-design.md))——`SkillData` / `DEMO_SKILLS` / `WorldState.learnedSkills` 在 `@type-pal/content`。本计划**不再自造仙术数据**(旧 Task 1 已被地基取代、删除)。

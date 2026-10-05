@@ -1,0 +1,719 @@
+{
+  "schemaVersion": 1,
+  "id": "phase1-content-review-20261004-batch2",
+  "reviewer": "Codex",
+  "reviewDate": "2026-10-04",
+  "policy": "Content reading only; historical milestones and source facts are not current runtime proof.",
+  "entries": [
+    {
+      "path": "docs/phase1/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "The Phase1 index frames the stage as faithful restoration, distinguishes status snapshots/design/engineering/history, and warns that plans are historical and later defects belong to audit ledgers.",
+      "truthAnchors": [
+        "faithful restoration boundary",
+        "status tables are freeze snapshots",
+        "plans are historical"
+      ],
+      "unresolved": ["the index does not itself reconcile every status table against current main"],
+      "nextStep": "Use phase-governance catalog plus phase1 status tables; do not treat old plan completion markers as current implementation evidence.",
+      "phase": "phase1",
+      "module": "README.md",
+      "capability": "phase1-README",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "afterSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/README.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/README.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/README.md",
+        "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-56",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines the first-stage goal as a faithful web restoration for private use, with sdlpal as an engine specification and user-owned original data; it explicitly separates engine reimplementation from data ownership.",
+      "truthAnchors": [
+        "private/non-public scope",
+        "sdlpal reference rather than fork",
+        "offline MKF conversion into modern resources"
+      ],
+      "unresolved": [
+        "legal/private-use assumptions require current owner judgment if distribution scope changes"
+      ],
+      "nextStep": "Keep as historical phase1 premise; phase2/3 productization must not silently inherit its private-use assumptions.",
+      "phase": "phase1",
+      "module": "01-feasibility.md",
+      "capability": "phase1-01-feasibility",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "afterSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/01-feasibility.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/01-feasibility.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/01-feasibility.md",
+        "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-54",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines a two-stage offline extraction/runtime split, resource-versus-event boundaries, GameState as save truth, event-driven systems, fixed cadence, abstract input, waitable commands, and the 3-package TS/Vite/Vitest/Biome stack.",
+      "truthAnchors": [
+        "MKF only in pal-extract",
+        "event bytecode roundtrip is the fidelity boundary",
+        "GameState is serializable truth",
+        "10/25 FPS cadence and waitable commands"
+      ],
+      "unresolved": [
+        "this is phase1 architecture and must not override later phase2 canonical architecture without a cross-phase decision"
+      ],
+      "nextStep": "Use as first-stage evidence in the cross-phase matrix; do not mark phase1 architecture as current phase2 product architecture by proximity.",
+      "phase": "phase1",
+      "module": "02-architecture.md",
+      "capability": "phase1-02-architecture",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "afterSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/02-architecture.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/02-architecture.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/02-architecture.md",
+        "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-137",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/03-development-plan.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Records historical vertical-slice milestones M0–M6.5 with detailed completion snapshots, known deviations, M7 end-to-end ambition, and an explicit phase2 boundary.",
+      "truthAnchors": [
+        "M1–M6.5 historical completion claims are time-scoped",
+        "M3 has known deviations and skips",
+        "M7 is later full-game validation",
+        "phase2 is outside scope"
+      ],
+      "unresolved": [
+        "old milestone counts/checks must not be reused as current main evidence without current artifact verification"
+      ],
+      "nextStep": "Keep as historical plan/report; link any current claim to current test/phase evidence.",
+      "phase": "phase1",
+      "module": "03-development-plan.md",
+      "capability": "phase1-03-development-plan",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
+      "afterSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/03-development-plan.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/03-development-plan.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/03-development-plan.md",
+        "sourceSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-192",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "template": "docs/phase-governance/templates/plan-status.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Central phase1 decision ledger: fidelity, TS/Vite/pnpm, canvas, fixed frame model, event schema, extraction, sdlpal reference, and open questions. It is decision history rather than a universal current architecture contract.",
+      "truthAnchors": [
+        "decisions are numbered and cross-linked",
+        "open questions are explicit",
+        "sdlpal/reference and data boundaries are separated"
+      ],
+      "unresolved": [
+        "some decisions were superseded by phase2; cross-phase matrix must identify successor documents"
+      ],
+      "nextStep": "Add supersedes links where phase2 changed the boundary; retain original decisions unchanged.",
+      "phase": "phase1",
+      "module": "04-decisions.md",
+      "capability": "phase1-04-decisions",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "afterSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/04-decisions.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/04-decisions.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/04-decisions.md",
+        "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-86",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines phase1 event/command schema and fidelity assumptions; it is a primary source for extraction/runtime compatibility, not a phase3 content authoring contract.",
+      "truthAnchors": [
+        "event schema follows original opcode semantics",
+        "unknown/raw commands require explicit handling",
+        "roundtrip is part of fidelity"
+      ],
+      "unresolved": [
+        "phase2 structured authoring layers must be checked for lossless boundary rather than replacing this schema"
+      ],
+      "nextStep": "Cross-reference phase2 script-system and phase1 knowledge harvest before declaring schema compatibility.",
+      "phase": "phase1",
+      "module": "05-events-schema.md",
+      "capability": "phase1-05-events-schema",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "afterSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/05-events-schema.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/05-events-schema.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/05-events-schema.md",
+        "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-158",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "template": "docs/phase-governance/templates/design-spec.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Defines historical phase1 testing layers: unit/integration, sdlpal comparisons, roundtrip, visual E2E and full playability. It distinguishes fidelity checks from product/E2E claims.",
+      "truthAnchors": [
+        "roundtrip and sdlpal are fidelity oracles",
+        "visual/full playability are separate layers",
+        "old test commands are historical scope"
+      ],
+      "unresolved": [
+        "current official gates are now governed by newer testing docs; this file cannot be the sole current gate"
+      ],
+      "nextStep": "Link phase1 tests to current evidence only when artifacts and source revisions are current.",
+      "phase": "phase1",
+      "module": "06-testing.md",
+      "capability": "phase1-06-testing",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "afterSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/06-testing.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/06-testing.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/06-testing.md",
+        "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-84",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Engineering notes preserve implementation pitfalls and fidelity lessons from phase1; they are experience/history, not normative current design.",
+      "truthAnchors": [
+        "notes contain discovered pitfalls",
+        "sdlpal and data boundary lessons",
+        "historical context must remain visible"
+      ],
+      "unresolved": [
+        "individual notes need per-item supersedes/current applicability tags in future batches"
+      ],
+      "nextStep": "Use as source evidence when a current task cites a pitfall; do not infer current status from note age alone.",
+      "phase": "phase1",
+      "module": "engineering-notes.md",
+      "capability": "phase1-engineering-notes",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+      "afterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/engineering-notes.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/engineering-notes.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/engineering-notes.md",
+        "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-205",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Captures first-stage mechanics and formula truth with sdlpal line anchors, including hidden experience, damage, resistance, critical, cover, recovery and elemental systems; it records implementation deviations explicitly.",
+      "truthAnchors": [
+        "primary sdlpal references",
+        "formula conditions and integer boundaries",
+        "current TS implementation status is stated separately"
+      ],
+      "unresolved": [
+        "mechanic claims must be revalidated if phase2/3 intentionally changes player-visible behavior"
+      ],
+      "nextStep": "Treat as phase1 mechanism truth; any deliberate divergence needs a user-facing before→after decision and new oracle.",
+      "phase": "phase1",
+      "module": "game-mechanics.md",
+      "capability": "phase1-game-mechanics",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "afterSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/game-mechanics.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/game-mechanics.md",
+        "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-1582",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "template": "docs/phase-governance/templates/reference-canon.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "contentReviewStatus": "content-reviewed",
+      "coreConclusion": "Operationally documents sdlpal builds, classic patches, manual/headless invocation, cwd/env constraints, dumps and harness commands. It is a reproduction runbook, not a product completion claim.",
+      "truthAnchors": [
+        "classic versus default build distinction",
+        "cwd and raw data requirements",
+        "headless harness uses deterministic fixtures"
+      ],
+      "unresolved": [
+        "commands depend on local build artifacts and must be revalidated before a current evidence claim"
+      ],
+      "nextStep": "Keep command/cwd/fixture identity explicit in any current reproduction record.",
+      "phase": "phase1",
+      "module": "sdlpal-runbook.md",
+      "capability": "phase1-sdlpal-runbook",
+      "owner": "Codex",
+      "provenance": ["source-document", "repository-history"],
+      "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "afterSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+      "publicCallers": ["docs navigation"],
+      "legalInputs": ["current repository documentation", "docs/phase1/sdlpal-runbook.md"],
+      "businessOracle": {
+        "type": "content-review",
+        "assertions": [
+          "core conclusion is grounded in the read body",
+          "unresolved claims remain explicitly blocked"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": ["docs/phase-governance/catalog.json", "docs/phase1/sdlpal-runbook.md"],
+        "notes": "Content review record; no runtime/E2E/coverage credit."
+      },
+      "revision": {
+        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
+        "implementationSha": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+            "date": "2026-10-04",
+            "action": "phase1-content-review-20261004-batch2",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-reading",
+        "path": "docs/phase1/sdlpal-runbook.md",
+        "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81"
+      },
+      "history": [
+        {
+          "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "do not promote unresolved or source-questioned claims to canonical truth without author/primary-source decision",
+      "userVisibleBeforeAfter": null,
+      "reviewedLines": "1-253",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "governed-legacy",
+      "readMethod": "full-text-read",
+      "reviewDepth": "deep-semantic"
+    }
+  ]
+}

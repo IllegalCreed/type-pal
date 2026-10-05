@@ -123,7 +123,7 @@ yes，且用户已于 2026-08-16 明确裁决：目录控制区从页面私有�
 
 - `MapStampPalette.tsx:67-97` 是地图主工作区内的临时组合 palette，不是 24 个路由页的左侧 outliner。本卡不把
   它塞进带 `DsListHeader` 的目录 recipe；它的 raw search/select 已以 `ED-MAP-PALETTE-CONTROLS-1` 登记在
-  `docs/ops/board.md`，本卡不得新增同类样式。若 Kimi/GLM 认为“全局目录”必须含它，应在 build 前签字中明确
+  `docs/ops/archive/board-history/board-20261004.md`，本卡不得新增同类样式。若 Kimi/GLM 认为“全局目录”必须含它，应在 build 前签字中明确
   扩 scope，不能边做边加。
 - `CanonicalScriptEditorV5.tsx` 的“插入指令”搜索、NamedIdPicker、各资源 picker、Inspector 和表单字段不是
   shell 左侧目录，本卡不迁。
@@ -249,7 +249,7 @@ yes，且用户已于 2026-08-16 明确裁决：目录控制区从页面私有�
 ## 上下文锚点
 
 - 协作/阶段：`AGENTS.md`（跨会话非小改开卡、用户可见行为前提门、三签、单 Coding Owner、当前 canonical）；
-  `CLAUDE.md`; `docs/phase2/READ-FIRST.md`; `docs/ops/agent-workflow.md`; `docs/ops/board.md`。
+  `CLAUDE.md`; `docs/phase2/READ-FIRST.md`; `docs/ops/agent-workflow.md`; `docs/ops/archive/board-history/board-20261004.md`。
 - 规范：`docs/phase2/specs/editor-design-system.md:326-389`（列表头/搜索/过滤）、`:553-590`
   （实现层级/primitive 边界）、`:660-679`（rollout/采用清单）。
 - Foundation / audit：`ED-DS-1-editor-design-system-spec.md`; `ED-DS-2-editor-design-system-foundation.md:14-68`;
@@ -323,7 +323,7 @@ input（无 aria-label）是真实 a11y 缺口，迁移动机成立。
 **问题 4 — MapStampPalette：排除成立。** 它是地图主工作区内的临时选择 palette
 （MapStampPalette.tsx:67-97），不是 24 路由左侧目录；塞进带 DsListHeader 的目录 recipe 会混淆
 两种 surface。但其 raw search/select 是同类漂移源——**CK1（必落钉）：把 map palette control
-debt 写入 docs/ops/board.md 或后续任务卡号，不能只留在本卡文字里。**
+debt 写入 docs/ops/archive/board-history/board-20261004.md 或后续任务卡号，不能只留在本卡文字里。**
 
 **问题 5 — CSS 删除面与浏览器矩阵 ✓：** 卡文点名的私有 selector 全部在引用行号实证存在
 （tileset :3646-3702、stamp :4232-4298、sprite :5449-5532,5882-5886、music :8144-8220、
@@ -527,7 +527,7 @@ ls 17 测试文件（5 无 + Sound 38 行）。只读审查,未改实现文件,�
 
 **返工项：**
 
-- **RK-A（唯一，CK1 看板补录）**：把 MapStampPalette palette control debt 写入 `docs/ops/board.md`
+- **RK-A（唯一，CK1 看板补录）**：把 MapStampPalette palette control debt 写入 `docs/ops/archive/board-history/board-20261004.md`
   （或新建后续任务卡并在看板登记卡号）。当前 board.md 无该行、docs/ops/tasks/ 无对应卡，debt 只存在
   于本卡文字——正是 CK1 禁止的形态；build 交接日志"MapStampPalette debt 已落看板"与实际不符，须一并
   修正表述或补实际条目。纯文档改动，落地后本席转 accept。
@@ -536,7 +536,7 @@ Evidence: recipes.tsx:159-197 / recipes.css（ds-catalog-controls 块）/ bounda
 BattleFieldTab.tsx:228-252 / WorldSpriteLibrary.tsx（scope slot）/ BattleSpriteLibrary.tsx:1155-1164 /
 DataMode.tsx:584-627 / App.tsx:1862-1873 / VarsTab.tsx:97-108 / EventLibTab.tsx:35-46 /
 VarsTab.test.tsx:38 / EventLibTab.test.tsx:30 / WorldSpriteLibrary.test.tsx:217-226 /
-docs/ops/board.md 全文（无 palette debt 行）/ Chromium 实机（Stamp 193px、Tileset 1920px、sprite
+docs/ops/archive/board-history/board-20261004.md 全文（无 palette debt 行）/ Chromium 实机（Stamp 193px、Tileset 1920px、sprite
 domain round trip、Event 手册）+ /tmp 截图文件清单。只读审查，未改实现文件，未代签 GLM，未标 done。
 
 ## 交接
@@ -591,7 +591,7 @@ domain round trip、Event 手册）+ /tmp 截图文件清单。只读审查，�
   零残留。focused 48 + typecheck + 全量 124/912 本人独立复跑全绿。**同感 Kimi RK-A**：本人复核看板
   确无 palette debt 行，CK1 未落地属实——本席 accept 不受影响，但关卡保持 blocked 至 RK-A 落地、
   Kimi 转 accept、用户验收。未改实现文件，未代签 Kimi，未标 done。
-- 2026-08-16 Codex（RK-A 返工）: 已在 `docs/ops/board.md` 新增 `ED-MAP-PALETTE-CONTROLS-1`，明确
+- 2026-08-16 Codex（RK-A 返工）: 已在 `docs/ops/archive/board-history/board-20261004.md` 新增 `ED-MAP-PALETTE-CONTROLS-1`，明确
   `MapStampPalette` 的 raw search/select 后续迁入共享控件，但不得混入带 `DsListHeader` 的目录 recipe；同时
   修正 build 交接日志的失实表述。RK-A/CK1 已闭环，未改实现文件。Next: Kimi 只核对看板条目与本记录后
   直接将 counter 转 accept；无需重新全面复审，任务仍不得标 done，等待 Kimi accept + 用户验收。
@@ -648,7 +648,7 @@ editor-navigation.ts:67-268、DataMode.tsx:234-654、design-system recipes/contr
     upload/表单/Inspector;已删 selector（.tileset-search-field 等）全仓 rg 零残留。
   GLM GC5: Map/Skill/Enemy/Poison/BattleField 五个 DsCatalogFilter 消费者同批迁入;boundary
     加"迁移页必须消费 DsCatalogControls"正向断言防半迁。
-  Kimi CK1: MapStampPalette control debt 写入 docs/ops/board.md 或后续任务卡号,不只留在本卡文字。
+  Kimi CK1: MapStampPalette control debt 写入 docs/ops/archive/board-history/board-20261004.md 或后续任务卡号,不只留在本卡文字。
   Kimi CK2: BattleFieldTab.tsx:250-254 默认缺失警告移入列表正文顶部,不为它给 recipe 加 slot/variant。
   Kimi 观察: sprite domain 的 DsTabs 化必须保持 URL domain 深链（DataMode.tsx:584-594,617-627）。
 顺序: recipe+contract 测试 → 五基准页迁入（GC5）→ 12 private/raw 页迁移（含 GC3 label 补齐）→

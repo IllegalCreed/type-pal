@@ -25,4 +25,4 @@ primary为`packages/reforge/src/save/store.ts:116-139`的IndexedDB错误分支�
 原Kimi限额短审是设计/只读证据，不是实现accept；不续派它，不把本页变成新额度任务。
 
 下一步由Codex单独核当前合法IO反例、生命周期与错误呈现方案，再决定build；先红后绿/零未处理拒绝/正常读档与返回回归/功能UI最小验证/静态零诊断不可省。
-无下一位产品Agent提示词，保持draft。O/P/Q测试卡关闭不关闭这个产品缺陷，见[冻结交付入口](../../testing/glm-tenfold-triple/README.md)。
+无下一位产品Agent提示词，保持draft。O/P/Q测试卡关闭不关闭这个产品缺陷，见[冻结交付入口](../../testing/archive/legacy/batches/glm-tenfold-triple/README.md)。

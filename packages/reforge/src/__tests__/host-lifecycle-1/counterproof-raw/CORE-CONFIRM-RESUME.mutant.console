@@ -1,0 +1,43 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ❯ src/script-runner-core.host-lifecycle-1.test.ts (8 tests | 1 failed | 7 skipped) 8ms
+     × confirm 相位帧重放已选臂,宿主 confirm 不再询问 8ms
+     ↓ startBattle 已知战败相位只重放 onLose,不重开战斗
+     ↓ teleportOut 已知失败相位只重放 onFail,不再传出
+     ↓ settle 相位写入续跑帧,宿主迟到回执静默不再发布
+     ↓ 活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批
+     ↓ 宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门
+     ↓ setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标
+     ↓ 嵌套分支超过 256 执行帧时精确熔断
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  19:54:51
+   Duration  385ms (transform 228ms, setup 0ms, import 281ms, tests 8ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/script-runner-core.host-lifecycle-1.test.ts > HL1 续跑控制帧 > confirm 相位帧重放已选臂,宿主 confirm 不再询问
+AssertionError: expected [ Array(3) ] to deeply equal [ 'execute:giveMoney', …(1) ]
+
+- Expected
++ Received
+
+  [
++   "confirm",
+    "execute:giveMoney",
+    "execute:giveMoney",
+  ]
+
+ ❯ src/script-runner-core.host-lifecycle-1.test.ts:136:24
+    134|       cursorController: controller,
+    135|     })
+    136|     expect(host.calls).toEqual(['execute:giveMoney', 'execute:giveMone…
+       |                        ^
+    137|     expect(host.confirm).not.toHaveBeenCalled()
+    138|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

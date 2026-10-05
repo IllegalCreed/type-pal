@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 2,
+  "id": "runtime-active-scene",
+  "kind": "document-audit",
+  "status": "current",
+  "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
+  "sourceRefs": [
+    {
+      "path": "packages/reforge/src/main.ts",
+      "lines": "386-393",
+      "anchor": "const activeScene = new ActiveScene",
+      "role": "caller",
+      "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "lines": "425-432",
+      "anchor": "const cameraSession = new WorldCamera",
+      "role": "caller",
+      "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+    },
+    {
+      "path": "packages/reforge/src/active-scene.ts",
+      "lines": "65-90",
+      "anchor": "commit(plan:",
+      "role": "contract",
+      "sha256": "b4a09715ebd57eba9062808e667d64466c2e10c1d355d0849a6d9b0b4438890c"
+    },
+    {
+      "path": "packages/reforge/src/active-scene.test.ts",
+      "lines": "53-77",
+      "anchor": "test('next scene clears old actions",
+      "role": "oracle",
+      "sha256": "ec3ea1276432a68cdf8110109d5c98f45a375fa38cae6c9c7d5cd30404b277cd"
+    },
+    {
+      "path": "packages/reforge/src/world-camera.test.ts",
+      "lines": "108-125",
+      "anchor": "test('pre-aborted request rejects",
+      "role": "oracle",
+      "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "role": "version",
+      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+    }
+  ],
+  "publicCallers": [
+    "bootGame → ActiveScene.commit(plan)",
+    "bootGame → WorldCamera.update/pan/advance/reset"
+  ],
+  "legalInputs": [
+    "正式 ScenePreparer.prepare 产出的 ActiveScenePlan",
+    "GridPos 与 live bounds callbacks",
+    "当前 runner AbortSignal"
+  ],
+  "businessOracle": {
+    "type": "runtime-active-scene",
+    "assertions": [
+      "换场清旧 action/baseline/wave 并兑现旧 waiter",
+      "新资源在 boundary cue 前发布，room/bounds 时机保留",
+      "pre-abort 不取代旧 pan；reset 不提前采样像素位置"
+    ]
+  },
+  "dedupe": {
+    "result": "source-review-no-new-test-credit",
+    "against": [
+      "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "domains/runtime/scene/active-scene/history/report.md"
+    ],
+    "notes": "17 项历史 owner 回归与 save/async/checkpoint 链职责不同；不将 80 个 AST 保护函数或 2560 步对照计作新增业务测试。当前 residual 文件属于后续测试包，本卡不重收/修改。"
+  },
+  "claims": [
+    {
+      "id": "runtime-active-scene-source-contract",
+      "result": "source-backed",
+      "evidence": [
+        "packages/reforge/src/main.ts:386-393",
+        "packages/reforge/src/main.ts:425-432",
+        "packages/reforge/src/active-scene.ts:65-90",
+        "packages/reforge/src/active-scene.test.ts:53-77",
+        "packages/reforge/src/world-camera.test.ts:108-125",
+        "packages/content/src/character.ts:168-170"
+      ]
+    }
+  ],
+  "runtimeExecution": {
+    "performed": false,
+    "rawArtifacts": "not-present-in-isolated-checkout",
+    "claimScope": "historical-publication-only"
+  },
+  "findings": [
+    "历史正文 A3 未完成、53 warning/6 info 属于 2026-09-25 快照。后续全队列统一接收已由 architecture-continuation-integration 记载；本轮只核当前 owner 接线。历史临时日志/内联截图没有随隔离 checkout 入库，无法本轮复算原实跑。"
+  ],
+  "artifacts": [],
+  "history": [
+    {
+      "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "date": "2026-10-04",
+      "action": "source-and-publication-audit",
+      "notRun": ["runtime", "E2E", "coverage"]
+    }
+  ]
+}

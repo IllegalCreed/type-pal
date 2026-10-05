@@ -25,7 +25,7 @@ Visual Verification Timing: N/A（翻译与结构合同；不证明战斗演出�
 ## 范围与验收
 
 六份新测试 `packages/migrate/src/translate-enemy-hook-flow.{cfg,dialog,media,effects,growth,errors}.test.ts`，
-专属 `src/__tests__/enemy-hook-fixtures.ts`、[报告与反控](../../../../testing/codex-enemy-hooks/README.md)。
+专属 `src/__tests__/enemy-hook-fixtures.ts`、[报告与反控](../../../../testing/archive/legacy/batches/codex-enemy-hooks/README.md)。
 源码/旧测试/资产/配置不变；仅整批官方门通过后ratchet生成baseline。
 每组完整输出或精确错误；所有成功走真实wrapper+guard；实际source在消费前后深比较。
 六针代表业务AssertionError、唯一加载与源hash不变；定向/相邻/TC/Biome后串行

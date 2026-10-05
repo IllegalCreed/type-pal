@@ -1,17 +1,29 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "e2e-NNN",
   "status": "draft",
-  "candidateSha": "",
-  "contentVersion": 22,
-  "minimumSaveVersion": 11,
+  "candidateSha": null,
+  "shaStatus": "recorded|missing-in-report",
+  "versions": {
+    "executedContent": 22,
+    "executedMinimumSave": 11,
+    "currentContent": 22,
+    "currentMinimumSave": 11
+  },
   "engine": "game|reforge|editor",
   "profile": "verify|capture",
+  "sourceRefs": [{ "path": "packages/...", "lines": "1-10", "role": "caller/source" }],
+  "publicCallers": ["pnpm ..."],
+  "legalInputs": ["..."],
+  "businessOracle": { "type": "...", "assertions": ["..."] },
+  "dedupe": { "result": "reviewed", "against": ["..."] },
+  "claims": [],
   "steps": [],
   "checkpoints": [],
   "npcLogs": [],
   "artifacts": [],
   "sourceHashesStable": false,
   "exitCode": null,
-  "failures": []
+  "failures": [],
+  "history": []
 }

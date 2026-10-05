@@ -1,0 +1,17 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.host-lifecycle-1.test.ts (8 tests | 7 skipped) 867ms
+   ✓ 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键  866ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 7 skipped (8)
+   Start at  19:55:32
+   Duration  1.68s (transform 923ms, setup 0ms, import 356ms, tests 867ms, environment 377ms)
+
+
+stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[sfx] AudioContext 不可用，音效播放器停用

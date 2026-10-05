@@ -44,7 +44,7 @@ Codex 核实三签后单独放行本卡；两卡没有实现依赖，不把此�
 
 ### 直接复算（2026-09-06，基线 5462d01a）
 
-`node --import tsx docs/ops/audits/pre-e2e/probe-reforge-restore.mjs` 的八项观察：
+`node --import tsx docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs` 的八项观察：
 
 | 输入 / 控制 | 实际结果 |
 |---|---|
@@ -982,7 +982,7 @@ Codex 已跑130相关测试、typecheck与一次严格fast coverage，完成隔�
 ```text
 请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
 你负责架构/前提设计审查。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与上下文锚点。
-Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现。请独立先读 current-codec/main 的槽、F9、e2e-load、prepare/commit、follower 与现行 WorldState 类型，复跑 node --import tsx docs/ops/audits/pre-e2e/probe-reforge-restore.mjs。
+Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现。请独立先读 current-codec/main 的槽、F9、e2e-load、prepare/commit、follower 与现行 WorldState 类型，复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs。
 重点反证提交前隔离、合法分数坐标/当前可选字段、取消和新请求胜出；检查方案是否越界为版本切换或巨大重写。不要读取或复述 GLM 结论。
 将自己的带证据 premise verified/counter、design agree/counter、可证伪观察和返工项直接写入本卡 Kimi 签字块与本人日志，并提交推送。提交前同步最新分支并保留另一席改动，自行处理 push/rebase 竞态。
 不得改产品/测试实现、任务状态或标记 build/done。SAVE-ISOLATION-1 的工作区产品选择尚待用户，不代其裁决，也不把本卡签字扩张为整组修复授权。
@@ -993,7 +993,7 @@ Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现
 ```text
 请在 /Users/zhangxu/illegal/type-pal 审查 docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md，r1，产品基线 5462d01a，状态 draft。
 你负责数据/测试覆盖设计审查。先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡与上下文锚点。
-Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现。请独立核当前 SAVE8/WorldState/CharacterInstance、既有 guards 和正式恢复入口，复跑 node --import tsx docs/ops/audits/pre-e2e/probe-reforge-restore.mjs。
+Codex 已复跑 B-04 真实函数体探针及六文件38项基线；未改实现。请独立核当前 SAVE8/WorldState/CharacterInstance、既有 guards 和正式恢复入口，复跑 node --import tsx docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs。
 重点审字段正负边界、四反例与三个正向控制、读失败零污染、提示不被覆盖、现行合法缺省与有限分数坐标；检查是否把类型断言当作校验、是否遗漏正式入口。不要读取或复述 Kimi 结论。
 将自己的带证据 premise verified/counter、design agree/counter、可证伪观察和返工项直接写入本卡 GLM 签字块与本人日志，并提交推送。提交前同步最新分支并保留另一席改动，自行处理 push/rebase 竞态。
 不得改产品/测试实现、任务状态或标记 build/done。SAVE-ISOLATION-1 的工作区产品选择尚待用户，不代其裁决，也不把本卡签字扩张为整组修复授权。

@@ -8,7 +8,7 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
-import repairReceipt from '../../../docs/testing/script-governance/successor-repairs.json' with {
+import repairReceipt from '../../../docs/testing/archive/legacy/batches/script-governance/successor-repairs.json' with {
   type: 'json',
 }
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }

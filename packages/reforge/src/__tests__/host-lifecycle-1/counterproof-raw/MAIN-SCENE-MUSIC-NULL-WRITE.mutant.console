@@ -1,0 +1,48 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ❯ src/main.host-lifecycle-1.test.ts (8 tests | 1 failed | 7 skipped) 864ms
+   ↓ 标题读档入口:标题菜单选读档后从真实存档完成开局
+   ↓ 标题入口视频:选中入口先播 intro 视频再进世界
+   ↓ 启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单
+   ↓ 播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次
+   ↓ 资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播
+   ↓ 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+   ↓ 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换
+   × 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键 863ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  19:55:22
+   Duration  1.75s (transform 978ms, setup 0ms, import 412ms, tests 864ms, environment 384ms)
+
+
+stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+AssertionError: expected {} to deeply equal { currentMusic: null }
+
+- Expected
++ Received
+
+- {
+-   "currentMusic": null,
+- }
++ {}
+
+ ❯ src/main.host-lifecycle-1.test.ts:340:37
+    338|   const fixture = await shellProject({ first: quietScene })
+    339|   await bootAndAwait(fixture)
+    340|   expect(observation().world.audio).toEqual({ currentMusic: null })
+       |                                     ^
+    341|   await key(host, ']')
+    342|   await advance(() => observation().sceneId === 'b')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

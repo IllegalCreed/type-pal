@@ -1,0 +1,47 @@
+{
+  "card": "TEST-GLM-REFORGE-WORLD-LIFECYCLE-1",
+  "round": "r1",
+  "branch": "codex/glm-reforge-world-lifecycle-r1",
+  "businessCommit": "5d1d197a5",
+  "directedFiles": 3,
+  "directedTests": 4,
+  "contracts": [
+    {
+      "id": "DT-CLEAR-1",
+      "fullName": "deferred touch trigger (world-lifecycle-1) > clear() 原子复位未决 claim 与 deliveryFence：teardown 后 auto safe-point 屏障立即解除",
+      "source": "packages/reforge/src/deferred-trigger.ts:30-33",
+      "caller": "main.ts stopAutoRunners() 场景 teardown（packages/reforge/src/main.ts:4408）",
+      "input": "合法 touch claim：enqueue → busy held → started（deliveryFence 置位）→ clear()",
+      "oracle": "pending=false、blocksAutoSafePoint=false、后续 drain 'empty' 且 fire 不重发",
+      "needle": "N1-dt-clear-resets-fence"
+    },
+    {
+      "id": "DT-FIRE-DROP-1",
+      "fullName": "deferred touch trigger (world-lifecycle-1) > fire 失败的落点按 dropped 收口：不设 deliveryFence、不保留 claim、不重试",
+      "source": "packages/reforge/src/deferred-trigger.ts:77-80",
+      "caller": "main.ts drainPendingTouchTrigger() fire 回调（packages/reforge/src/main.ts:4630-4635，重新查实体并复检 runner）",
+      "input": "合法 claim + disposition ready + busy false + fire 返回 false",
+      "oracle": "drain 'dropped'、claim 清空、blocksAutoSafePoint=false（不设围栏）、再次 drain 'empty'（一次性）",
+      "needle": "N2-dt-fire-failure-dropped",
+      "reachability": "模块公开状态机语义；main.ts wiring 在 disposition/fire 同步窗内自带实体/runner 复检，按模块公开合同登记，不宣称 host 当前可自然触达"
+    },
+    {
+      "id": "AI-CAPTURE-1",
+      "fullName": "AsyncIntentController capture (world-lifecycle-1) > capture() 是只读快照：不换代、不作废在途 token；后续 begin 才使旧 token 失效",
+      "source": "packages/reforge/src/async-intent.ts:15-17",
+      "caller": "main.ts:931-932（sceneSwitchIntent.begin() + worldMutationIntent.capture()）、main.ts:1168/1902（scriptMutationIntent.capture() 同世界提交门）",
+      "input": "begin → capture ×2 → assertCurrent → begin（最新启动胜出）",
+      "oracle": "两次 capture 同 serial、在途 token 保持 current；新 begin 后旧 session/capture token 均失效并以原 message AbortError",
+      "needle": "N3-async-capture-readonly"
+    },
+    {
+      "id": "GC-REGRESS-1",
+      "fullName": "GameplayClock regression guard (world-lifecycle-1) > realNow 回退被钳为 0 dt，gameplayNow 单调不回退，恢复帧从重锚点起算",
+      "source": "packages/reforge/src/gameplay-clock.ts:21-25",
+      "caller": "runtime-frame-session.ts:93（frames.tick 的唯一时钟；wait deadline 与 advanceFade 以 gameplayNow 为基）",
+      "input": "advance(2000,false) → advance(2016,false) → advance(1000,false)（时间源回退）→ advance(2032,false)",
+      "oracle": "回退帧 realDt=0/gameplayDt=0/gameplayNow 不变；恢复帧 dt 自重锚点起算并受 100ms 上限钳制（实测产品真值）",
+      "needle": "N4-clock-regression-clamp"
+    }
+  ]
+}

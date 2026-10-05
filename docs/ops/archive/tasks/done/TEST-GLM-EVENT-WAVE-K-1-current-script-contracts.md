@@ -10,8 +10,8 @@ Capability: current-script-contract / coverage
 
 2026-09-29 用户要求再给 GLM 一包。Codex 核定此包只增当前一阶段脚本的非重复测试与隔离证据，
 **build allowed**；不修改任何产品、旧测、共享配置、原始/提取资产、官方基线、既有任务卡。
-[冻结表](../../../../testing/glm-event-wave-k/targets.json)指定唯一产品目标和六个新测试路径；
-先运行 `node docs/testing/glm-event-wave-k/verify-targets.mjs`。
+[冻结表](../../../../testing/archive/legacy/batches/glm-event-wave-k/targets.json)指定唯一产品目标和六个新测试路径；
+先运行 `node docs/testing/archive/legacy/batches/glm-event-wave-k/verify-targets.mjs`。
 源 SHA256 `c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb`，
 与 Kimi/GLM 六个既有目标队列无交集。最新 fast 报告对该源显示 595 个未覆盖分支，
 但它并非收益承诺；旧 `event-system.test.ts` 约 6,000 行，必须先逐项排重。
@@ -30,7 +30,7 @@ Capability: current-script-contract / coverage
 
 ## 六组交付范围
 
-组别、标题和新测试路径由[冻结表](../../../../testing/glm-event-wave-k/targets.json)唯一规定：
+组别、标题和新测试路径由[冻结表](../../../../testing/archive/legacy/batches/glm-event-wave-k/targets.json)唯一规定：
 K01 trigger 游标/子脚本/恢复，K02 auto/onEnter/等待，K03 物品金钱商店队伍，
 K04 场景对象地图相机，K05 对话调色板音画，K06 战斗/大世界脚本与失败门。
 每组至少交「caller、旧测 fullName/断言、一手真值、缺口结论」审计行；
@@ -43,14 +43,14 @@ GameState 走现行构造器，脚本入口走实际导出与调度；必要的�
 
 写入白名单：冻结表中六个新测试路径（无需为已证/不可达组制造文件），
 `packages/game/src/core/__tests__/glm-event-wave-k/**` 内 typed fixture，
-`docs/testing/glm-event-wave-k/**` 的证据/只读核对/反控脚本。
+`docs/testing/archive/legacy/batches/glm-event-wave-k/**` 的证据/只读核对/反控脚本。
 任务卡、看板、共享索引由 Codex 独占；GLM 只在专属 evidence/README 记录交付。
 工作树 `/Users/zhangxu/.codex/worktrees/glm-union-intake/type-pal`，
 分支 `codex/glm-event-wave-k-r1`；此树已从 A–J 集成工作释放并复用。
 
 ## 验收与交接
 
-- `node docs/testing/glm-event-wave-k/verify-targets.mjs` 通过；产品 1/1 hash 与冻结一致。
+- `node docs/testing/archive/legacy/batches/glm-event-wave-k/verify-targets.mjs` 通过；产品 1/1 hash 与冻结一致。
 - 新鲜定向六组及旧 `event-system.test.ts`、相邻 `mode`/`scene-system`/相关战斗调用测试通过，
   Vitest JSON列新增 file/fullName/status，注明旧测复跑范围；若组仅作排重，记零新测理由。
 - 选 2–4 个跨不同组的代表新业务断言做单点反控：同一判据验证无注入正控 exit0，
@@ -75,7 +75,7 @@ GameState 走现行构造器，脚本入口走实际导出与调度；必要的�
 codex/glm-event-wave-k-r1 分支工作。先读 AGENTS.md、CLAUDE.md、
 docs/phase1/engineering-notes.md、docs/phase1/game-mechanics.md、
 docs/ops/tasks/TEST-GLM-EVENT-WAVE-K-1-current-script-contracts.md、
-docs/testing/glm-event-wave-k/README.md 与 targets.json，并运行 verify-targets.mjs。
+docs/testing/archive/legacy/batches/glm-event-wave-k/README.md 与 targets.json，并运行 verify-targets.mjs。
 逐组核现行 caller、reference/sdlpal/script.c/必要的原始脚本字节，通读旧
 event-system.test.ts 和相邻旧测试的实际断言；只为可达、未重复的当前公开合同加新测试。
 只写冻结六个新测试路径、专属 typed fixture 和本包隔离证据/反控；产品、旧测、
@@ -90,7 +90,7 @@ existing-proof/unreachable 对照、新鲜 Vitest JSON file/fullName/status、�
 ## 2026-09-29 Codex 独立首轮审核
 
 候选 `4ebea2b58e4110133cc2ffdd37974c2c6a1a7ade` **rework，未合 main**。
-[独立审核回执](../../../../testing/glm-event-wave-k/codex-review-4ebea2b5.md)记录：白名单/冻结 hash、
+[独立审核回执](../../../../testing/archive/legacy/batches/glm-event-wave-k/codex-review-4ebea2b5.md)记录：白名单/冻结 hash、
 Game 2772 全绿及静态零诊断成立；K04“无 handler”对照仍保留 handler，三反控仅改答案且判据
 可误收 timeout/未核文件，K03 将卖出 opcode 未消费的 storeNum 锁为真值，K06 正控 caster
 指向空玩家表。只在原白名单内返工后推新完整 SHA；Codex 再审前不合 main、不标 done。
@@ -104,7 +104,7 @@ Game 2772 全绿及静态零诊断成立；K04“无 handler”对照仍保留 h
 ## 2026-09-29 Codex r2 独立验收与集成终态
 
 新候选 `1f26d421ab81090c83b704968973e369473d563a` 的四项返工
-已由 Codex 独立闭合；[接收与正式结算回执](../../../../testing/glm-event-wave-k/codex-accept-r2-1f26d421.md)
+已由 Codex 独立闭合；[接收与正式结算回执](../../../../testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md)
 记录 20 个新增测试、3/3 合法输入反控与 8/8 判据自测。贡献经快进进入 main；
 串行 `pnpm check → coverage:ratchet → coverage:fast` 均通过，静态门零诊断。
 目标源和生产分母未变，官方 fast 基线净增 55 分支，至 49584/63398（78.21%）；

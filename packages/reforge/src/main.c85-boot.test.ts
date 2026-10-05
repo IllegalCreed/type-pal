@@ -5,7 +5,7 @@
 // @vitest-environment jsdom
 import { afterEach, expect, test, vi } from 'vitest'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
-import { observation } from './__tests__/runtime-shell/driver.js'
+import { key, observation } from './__tests__/runtime-shell/driver.js'
 import { shellProject, shellScene } from './__tests__/runtime-shell/project.js'
 
 let host: ShellHost | undefined
@@ -69,4 +69,18 @@ test('C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开
   } finally {
     vi.unstubAllGlobals()
   }
+})
+
+test('C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单', async () => {
+  host = await installShellHost('?menu')
+  const fixture = await shellProject()
+  const { bootGame } = await import('./main.js')
+  const pending = bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
+  // 无 startupTrademark/startupSplash 角色 → playVideoSequence(undefined) 空臂,直接到标题菜单
+  await vi.waitFor(() => expect(host!.frames.size).toBeGreaterThanOrEqual(1))
+  await key(host, 'ArrowDown')
+  await key(host, 'Enter')
+  await pending
+  host.frame()
+  expect(observation().sceneId).toBe('b') // 选中第二入口(既有 H1 同款选择序)
 })

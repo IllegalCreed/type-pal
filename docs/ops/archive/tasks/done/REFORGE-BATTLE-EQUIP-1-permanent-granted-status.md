@@ -75,7 +75,7 @@ Branch: main
 
 ### 进入 build 前：Codex 核定
 
-- Coding Owner / 隔离工作树 / 修改白名单：Codex / 当前 main（单一写入者）/ `packages/content/src/battle-formulas.ts`（仅注释如需）、`packages/reforge/src/battle/battle-core.ts`、`packages/reforge/src/battle/battle-player-input.ts`、对应测试、`docs/ops/board.md`、本卡。
+- Coding Owner / 隔离工作树 / 修改白名单：Codex / 当前 main（单一写入者）/ `packages/content/src/battle-formulas.ts`（仅注释如需）、`packages/reforge/src/battle/battle-core.ts`、`packages/reforge/src/battle/battle-player-input.ts`、对应测试、`docs/ops/archive/board-history/board-20261004.md`、本卡。
 - 前提核验：verified（primary source、第一阶段审计与当前代码锚点已列）。
 - 范围、设计和验收条件：agree（用户已明确第二阶段产品目标；不改 schema/存档）。
 - 高风险用户产品裁决：2026-10-03 用户已批准装备效果随装备永久有效，复活不清。

@@ -1,11 +1,21 @@
+---
+testingSchema: 2
+id: e2e-003
+evidence: e2e/evidence/e2e-003.json
+---
+
+<!-- testing-meta
+{"schemaVersion":2,"id":"e2e-003","sourceRefs":[{"path":"scripts/e2e/kitchen-game.mjs","lines":"3-3","anchor":"await runKitchenJourney","role":"caller","sha256":"9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"117-134","anchor":"export function validateKitchenPredecessor(","role":"input","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"518-532","anchor":"'stairs must commit all twelve authored fragments'","role":"oracle","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"386-403","anchor":"export function assertKitchenStoryEnd(","role":"oracle","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:003","pnpm e2e:003:reforge","pnpm e2e:003:both"],"legalInputs":["same-engine current 002 report.json","held normal movement","no take-dish shortcut"],"businessOracle":{"type":"stairs-dialogue-kitchen-handoff","assertions":["楼梯真实12次提交","14行正文完整","停止于126/127并恢复控制"]},"dedupe":{"result":"reviewed","against":["e2e-002","e2e-004"],"notes":"004取菜入口只登记，不把源码核读冒充003实跑。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-003.json"}
+-->
+
 # 003 · 下楼、道士交谈与厨房交代
 
-现行边界由用户2026-10-01指定：三苗人全部进房后，正常下楼找李大娘、与醉酒道士交谈、
-再正常进厨房，止于李大娘交代把桌上酒菜端上楼（126/127）及恢复控制；不开始拿菜。
-任务卡：[E2E-003-1](../../../../ops/archive/tasks/done/E2E-003-1-inn-stairs-and-kitchen.md)。
+## 2026-10-04 文档深审
 
-2026-10-02脚本治理后的当前二阶段002前驱和003结束档见[重建链](../../../script-governance/current-checkpoints.md)。
-本页下列旧回执原样保留，不改历史版本、hash或通过结论。
+两份旧实跑使用不同 revision，不能据此写成同 SHA both 汇总；004 取菜/姿态相邻核读不计 003 运行覆盖。
+
+当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+
 
 ## 可执行入口
 

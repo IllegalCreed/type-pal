@@ -157,10 +157,10 @@ assertSceneSwitchPlanCurrent/commitSceneSwitch/replaceWorld/abortScript等原函
 Node独立进程，无真实IndexedDB、网络和用户目录写入；仅读取源码及phase1角色/精灵数据：
 
 ```sh
-node --import tsx docs/ops/audits/pre-e2e/probe-phase1-world-lifecycle.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-reforge-restore.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-canonical-async.mjs
-node --import tsx docs/ops/audits/pre-e2e/probe-scene-preflight.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs
+node --import tsx docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs
 ```
 
 主Agent已运行最终落盘版本：B-01..09均按上述范围复现，正向控制也通过。

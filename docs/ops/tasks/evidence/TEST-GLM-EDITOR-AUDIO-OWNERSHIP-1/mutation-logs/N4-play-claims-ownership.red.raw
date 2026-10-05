@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-own/packages/editor
+
+ ❯ src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx (5 tests | 1 failed | 4 skipped) 52ms
+     × P1 同页相邻按钮用默认真实工厂互相接管：旧真实源停止、旧按钮回 idle、transport 不销毁 51ms
+     ↓ P2a 绑定值切换：stop 并回 idle、不 dispose、再试听 load 新 asset+cacheKey
+     ↓ P2b loading 中换绑定值：旧请求作废（放行后不置 playing、不调 play），再试听新资源成功
+     ↓ P4 播放中卸载：stop 真实源、释放所有权、microtask 后 dispose 硬件端口
+     ↓ P3 MIDI play 被真实降级拒绝：释放 owner、transport.stop、可读错误、回 idle
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  01:38:25
+   Duration  2.14s (transform 1.38s, setup 0ms, import 1.68s, tests 52ms, environment 327ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx > P 组（真实 WAV 端口）：接管 / 绑定值切换 / 在途打断 / 卸载清理 > P1 同页相邻按钮用默认真实工厂互相接管：旧真实源停止、旧按钮回 idle、transport 不销毁
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx:219:32
+    217|     expect(button('停止试听 命中音效')).toBeDefined()
+    218|     const hitContext = audio.contexts[0]!
+    219|     expect(hitContext.sources).toHaveLength(1)
+       |                                ^
+    220|     expect(hitContext.sources[0]!.starts).toEqual([0])
+    221|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

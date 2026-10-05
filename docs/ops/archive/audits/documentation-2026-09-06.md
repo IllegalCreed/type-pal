@@ -132,10 +132,10 @@ issues / 审计台账承接后续缺陷；真正仍由源码与原始数据证�
 
 ### DOC-06 · ops 当前状态语义与现行流程入口不清
 
-- `docs/ops/board.md:16` 把 PRE-E2E-AUDIT-1 写成 `review（审计已收口，修复未开工）`，事实描述与审计总
+- `docs/ops/archive/board-history/board-20261004.md:16` 把 PRE-E2E-AUDIT-1 写成 `review（审计已收口，修复未开工）`，事实描述与审计总
   收口一致；问题是没有对应任务卡说明这个 `review` 还等待哪项验收/签字、何时离开只保留当前工作的看板。
   应明确将审计闭合移出，或写清保留 `review` 的退出条件；后续修复仍须使用自己的任务身份和准入。
-- `docs/ops/board.md:5-6` 把 2026-08-15 的 Kimi/GLM 额度快照放在当前看板顶部；额度是外部瞬时状态，
+- `docs/ops/archive/board-history/board-20261004.md:5-6` 把 2026-08-15 的 Kimi/GLM 额度快照放在当前看板顶部；额度是外部瞬时状态，
   旧快照不能成为今天的规则。
 - `docs/ops/templates/TASK-lite-template.md:3` 只给 `build | review | done`，缺现行状态机的 `draft`，也无法表达
   `blocked / rework / cancelled`。

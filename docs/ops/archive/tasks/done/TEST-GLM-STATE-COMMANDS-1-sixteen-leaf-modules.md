@@ -17,7 +17,7 @@ Branch: `codex/glm-state-commands-r1`
 
 冻结官方fast9295项/728生产文件。16目标合计 **277个未命中分支臂、43行**，只是选题池，
 不是已证可达、不承诺全部覆盖、不要求100%或固定新增用例数。禁止复制旧用例凑工作量。
-详见[工作包/交付合同](../../../../testing/glm-state-commands/README.md)与[机械冻结账](../../../../testing/glm-state-commands/targets.freeze.json)。
+详见[工作包/交付合同](../../../../testing/archive/legacy/batches/glm-state-commands/README.md)与[机械冻结账](../../../../testing/archive/legacy/batches/glm-state-commands/targets.freeze.json)。
 
 ## 前提真值与范围
 
@@ -52,7 +52,7 @@ GLM须先读旧测试再选差异；有相反证据即归existing-proof/guarded/
    - `packages/editor/src/core/__tests__/glm-state-commands-b.ts`
    - `packages/editor/src/core/__tests__/glm-state-commands-c.ts`
    - `packages/editor/src/core/__tests__/glm-state-commands-d.ts`
-3. `docs/testing/glm-state-commands/{a,b,c,d}/**`（批回执/ledger/必要隔离诊断），及`tools/**`（共用严判据/四批负控/最终树清单工具）。
+3. `docs/testing/archive/legacy/batches/glm-state-commands/{a,b,c,d}/**`（批回执/ledger/必要隔离诊断），及`tools/**`（共用严判据/四批负控/最终树清单工具）。
 4. 本卡只能追加GLM自己的交付块；不改Codex结论/状态，不改共享看板与导航。
 
 本目录根README与targets.freeze.json是Codex冻结合同，GLM不得改；父导航已预登记，无需再加索引例外。
@@ -72,8 +72,8 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 
 ## 上下文锚点
 
-- AGENTS/CLAUDE、phase2 READ-FIRST、[交付清单](../../../../testing/glm-delivery-checklist.md)。
-- [刚结束物品包](../../../../testing/item-logic-integration.md)及r7/r8复核：重点防“回执完成、树上没改”和错实参快照。
+- AGENTS/CLAUDE、phase2 READ-FIRST、[交付清单](../../../../testing/archive/legacy/ops/testing-records/glm-delivery-checklist.md)。
+- [刚结束物品包](../../../../testing/archive/legacy/editor/editor-workflows/item-logic-integration.md)及r7/r8复核：重点防“回执完成、树上没改”和错实参快照。
 - 各模块exports行号、source hash、LCOV臂及旧测试候选清单见冻结账；旧清单是词法匹配，不能冒充完整语义去重。
 - 当前`buildBlankProject`/`buildWorld`/`instantiate`和各validate*守卫；引用provider须真实，不用恒空数组mock。
 - Editor命令允许no-op返回原引用；不可变约束针对实际输入，命令对象自身缓存old/added是合同，不要求冻结它。
@@ -88,7 +88,7 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 - 交付：四个 `.glm-boundaries.test.ts`（B01 skill 6例 / B02 poison 9例 / B03 enemy-team 6例 /
   B04 enemy 6例，合计 27）+ fixture `packages/editor/src/core/__tests__/glm-state-commands-b.ts`
   + 共用负控工具 `tools/state-commands-mutants.mjs`（判据自测10例）+ 批回执
-  `docs/testing/glm-state-commands/b/README.md`（4行ledger）与 tools 登记。
+  `docs/testing/archive/legacy/batches/glm-state-commands/b/README.md`（4行ledger）与 tools 登记。
 - 门禁（最终树实测）：定向27/27 exit 0（JSON /tmp/batch-b-directed.json）；相邻133/133；
   editor typecheck 0诊断；Biome 六文件 0/0/0；docs PASS；`git diff --check` 干净；
   四个目标源 sha256 与冻结账逐一相符且 oracle 每轮复验不变。
@@ -102,7 +102,7 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 
 - 交付：四个 `.glm-boundaries.test.ts`（C01 actor 10例 / C02 sprite 10例 / C03 battle-sprite 6例 /
   C04 tileset 7例，合计 33）+ fixture `packages/editor/src/core/__tests__/glm-state-commands-c.ts`
-  + 批回执 `docs/testing/glm-state-commands/c/README.md`（4行ledger）+ tools 登记批C三针。
+  + 批回执 `docs/testing/archive/legacy/batches/glm-state-commands/c/README.md`（4行ledger）+ tools 登记批C三针。
 - 基线与字节：一律 `buildBlankProject`/`loadBoundaryProject` 正式空白项目；bytes/sha 读真实种子
   编码产物，实际帧数经 `decodeWorldSpriteAssetBytes`/`decodeBattleSpriteAssetBytes` 解码取得。
 - 门禁（最终树实测）：定向 33/33 exit 0（JSON /tmp/batch-c-directed.json）；相邻 170/170；
@@ -116,7 +116,7 @@ E2E/main/dialogue/motion接口、暂停的FrameAnimationEditor测试。禁止mai
 
 - 交付：四个 `.glm-boundaries.test.ts`（D01 shop 6例 / D02 ambience 5例 / D03 battle-field 6例 /
   D04 world-variable 5例，合计 22）+ fixture `packages/editor/src/core/__tests__/glm-state-commands-d.ts`
-  + 批回执 `docs/testing/glm-state-commands/d/README.md`（4行ledger）+ tools 登记批D三针。
+  + 批回执 `docs/testing/archive/legacy/batches/glm-state-commands/d/README.md`（4行ledger）+ tools 登记批D三针。
 - 门禁（最终树实测）：定向 22/22 exit 0（JSON /tmp/batch-d-directed.json）；相邻 142/142；
   editor typecheck 零诊断；Biome 六文件 0/0/0；docs PASS；`git diff --check` 干净。
 - 负控：对照 exit 0 全绿；shop-update-first-capture、ambience-undo-occupied-silent、
@@ -169,7 +169,7 @@ mutants-a,mutants-b,mutants-c,mutants-d,check,ratchet,strict}.log`。
 ## Codex 独立接收复核（2026-09-27）
 
 候选 `codex/glm-state-commands-r1@36c1f034` 暂签 **counter**，详情见
-[接收反证](../../../../testing/glm-state-commands/codex-intake-review.md)。16 个源文件 hash 与冻结账一致，
+[接收反证](../../../../testing/archive/legacy/batches/glm-state-commands/codex-intake-review.md)。16 个源文件 hash 与冻结账一致，
 16 个新增测试文件定向运行 116/116（A 34、B/C/D 82），B/C/D 的 9 针独立复跑业务红。
 但 A 批回执仍为“待实施”且共用反控工具未登记 A；全部新增文件 Biome 有 6 error/1 warning；
 B/C/D 共用正例状态的入口场景 `s` 不在 `scenes: []`，现行项目保存门明确拒绝。

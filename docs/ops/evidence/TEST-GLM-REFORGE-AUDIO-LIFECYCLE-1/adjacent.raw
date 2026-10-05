@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ✓ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests) 426ms
+ ✓ src/audio/bgm.runtime-boundaries.test.ts (4 tests) 260ms
+ ✓ src/audio/bgm.glm-n.test.ts (3 tests) 119ms
+ ✓ src/audio/bgm.test.ts (11 tests) 1584ms
+ ✓ src/audio/midi-preview.test.ts (8 tests) 43ms
+ ✓ src/audio/midi-preview.glm-runtime-resource.test.ts (2 tests) 40ms
+ ✓ src/audio-spessa-runtime.glm-q.test.ts (12 tests) 92ms
+ ✓ src/audio/midi-preview.play-guards.glm-n.test.ts (2 tests) 38ms
+ ✓ src/audio/sfx.test.ts (12 tests) 7ms
+stderr | src/audio/sfx.staged-failures.test.ts > fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）
+Promise returned by `expect(actual).resolves.toBeUndefined()` was not awaited. Vitest currently auto-awaits hanging assertions at the end of the test, but this will cause the test to fail in the next Vitest major. Please remember to await the assertion.
+    at /private/tmp/type-pal-audio-lifecycle/packages/reforge/src/audio/sfx.staged-failures.test.ts:31:41
+
+ ✓ src/video-sfx-ports.glm-q.test.ts (3 tests) 18ms
+ ✓ src/audio/sfx.staged-failures.test.ts (5 tests) 7ms
+ ✓ src/audio/midi-preview.lifecycle-boundaries.test.ts (8 tests) 6ms
+ ✓ src/audio/sfx-readiness.test.ts (9 tests) 5ms
+ ✓ src/audio/bgm.dispose.test.ts (2 tests) 3ms
+ ✓ src/audio/midi-preview.glm-audio-lifecycle.test.ts (2 tests) 4ms
+ ✓ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts (3 tests) 3ms
+ ✓ src/audio/sfx-readiness.collections.test.ts (5 tests) 3ms
+ ✓ src/audio/midi-preview.glm-n.test.ts (3 tests) 3ms
+
+ Test Files  18 passed (18)
+      Tests  98 passed (98)
+   Start at  02:35:26
+   Duration  2.88s (transform 344ms, setup 0ms, import 631ms, tests 2.66s, environment 1.18s)

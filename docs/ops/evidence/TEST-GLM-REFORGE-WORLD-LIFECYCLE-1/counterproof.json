@@ -1,0 +1,138 @@
+{
+  "tempTree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/world-lifecycle-counterproof-W1oNYK",
+  "phases": {
+    "greenBaseline": {
+      "exit": 0,
+      "signal": null,
+      "sha": "ed550b4d04eff44193e163471c4154b8cca5fad7c7d1e4f3b283e237e94ce9a0",
+      "testsLine": "4 passed (4)",
+      "failedLine": "",
+      "firstFailure": "",
+      "raw": "mutation-logs/green-baseline.raw"
+    },
+    "finalReplay": {
+      "exit": 0,
+      "signal": null,
+      "sha": "7dde9312eec29eb59e2e0318d2abccf6087ee51dd6f2bf887df957c29d7332b7",
+      "testsLine": "4 passed (4)",
+      "failedLine": "",
+      "firstFailure": "",
+      "raw": "mutation-logs/final-replay.raw"
+    }
+  },
+  "needles": [
+    {
+      "id": "N1-dt-clear-resets-fence",
+      "mutation": "deferred-trigger.ts clear() 不再复位 deliveryFence → teardown 把 auto safe-point 围栏泄漏到新场景",
+      "expectedFailure": "blocksAutoSafePoint 在 clear() 后仍为 true",
+      "file": "src/deferred-trigger.ts",
+      "productHashes": {
+        "original": "a0ce757d4a822b16561994cbb6c9579aca08396a0105964acb744be65adec28d",
+        "mutated": "3a36ed6f46061dd586c6b4e2afd4b6c087b5c5f48e08b2cf6d06c5e392c18b90",
+        "restored": "a0ce757d4a822b16561994cbb6c9579aca08396a0105964acb744be65adec28d"
+      },
+      "hashRestoredEqualsOriginal": true,
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "testsLine": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected true to be false // Object.is equality",
+        "raw": "mutation-logs/N1-dt-clear-resets-fence.red.raw",
+        "sha": "cd25d3143ae531e023a521de59fc6564dc1836090267f60a67fb8cf798ddeefc"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "testsLine": "1 passed | 1 skipped (2)",
+        "raw": "mutation-logs/N1-dt-clear-resets-fence.green.raw",
+        "sha": "807b0daaa78b6e84c15fce9ca1530c092f8d8728dbaa0603c35e49b23f48761d"
+      }
+    },
+    {
+      "id": "N2-dt-fire-failure-dropped",
+      "mutation": "deferred-trigger.ts drain() 忽略 fire 失败 → 未启动的交付仍报 started 并设 deliveryFence",
+      "expectedFailure": "drain 结果从 'dropped' 变 'started' 且 blocksAutoSafePoint 为 true",
+      "file": "src/deferred-trigger.ts",
+      "productHashes": {
+        "original": "a0ce757d4a822b16561994cbb6c9579aca08396a0105964acb744be65adec28d",
+        "mutated": "1542217f2fb881904304cd6c0db1ea200de260c4ed5c7e82842c5b4137eead26",
+        "restored": "a0ce757d4a822b16561994cbb6c9579aca08396a0105964acb744be65adec28d"
+      },
+      "hashRestoredEqualsOriginal": true,
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "testsLine": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected 'started' to be 'dropped' // Object.is equality",
+        "raw": "mutation-logs/N2-dt-fire-failure-dropped.red.raw",
+        "sha": "a28335b0f1999f62dcb3dac3c117fab889b15b3ddce183bc43cfe12a673ac41b"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "testsLine": "1 passed | 1 skipped (2)",
+        "raw": "mutation-logs/N2-dt-fire-failure-dropped.green.raw",
+        "sha": "7f09aec43a8740075bca1ddcbeafd1c5197bd4292fbedfa5fdab370311b965ea"
+      }
+    },
+    {
+      "id": "N3-async-capture-readonly",
+      "mutation": "async-intent.ts capture() 变换代读取 → 只读快照作废在途 token",
+      "expectedFailure": "连续两次 capture 返回不同 serial 且在途 begin token 被 capture 推翻",
+      "file": "src/async-intent.ts",
+      "productHashes": {
+        "original": "f0c9dbe5e09cba06ee0cf6a20d46b795180d72c8c6a451c2b19f4dcb66957d4d",
+        "mutated": "bba4eec0f7f6ee0fb9e0d2f0968463f5e33fc01dfe254799b9740fa35f7a1543",
+        "restored": "f0c9dbe5e09cba06ee0cf6a20d46b795180d72c8c6a451c2b19f4dcb66957d4d"
+      },
+      "hashRestoredEqualsOriginal": true,
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "testsLine": "1 failed (1)",
+        "firstFailure": "AssertionError: expected 2 to be 3 // Object.is equality",
+        "raw": "mutation-logs/N3-async-capture-readonly.red.raw",
+        "sha": "e685a04cba1ba2a63404c7eed8aa78d3499f166d2ec5c919ee80c795cb39d4a9"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "testsLine": "1 passed (1)",
+        "raw": "mutation-logs/N3-async-capture-readonly.green.raw",
+        "sha": "906fcea4783a8e1dcba3f39998547912c3abf42268b07ab7c2d033d60c4b5cd4"
+      }
+    },
+    {
+      "id": "N4-clock-regression-clamp",
+      "mutation": "gameplay-clock.ts 移除 dt 下限钳位 → realNow 回退倒扣 gameplayNow",
+      "expectedFailure": "回退帧 realDt/gameplayDt 为负且 gameplayNow 回退",
+      "file": "src/gameplay-clock.ts",
+      "productHashes": {
+        "original": "3353210587a9b28717414a9e7331926a3a53ea40cda831078fc422cdb04ee66c",
+        "mutated": "3be730190edb198b4ba7997f5af3655a959737b1e197a1fa24dca61298e1c1d0",
+        "restored": "3353210587a9b28717414a9e7331926a3a53ea40cda831078fc422cdb04ee66c"
+      },
+      "hashRestoredEqualsOriginal": true,
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "testsLine": "1 failed (1)",
+        "firstFailure": "AssertionError: expected { realDt: -1016, …(2) } to deeply equal { realDt: +0, gameplayDt: +0, …(1) }",
+        "raw": "mutation-logs/N4-clock-regression-clamp.red.raw",
+        "sha": "7f69a2076beefe4ac18b81d1d3ce8da81997a400cf1db8184bb307128d4e9d0b"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "testsLine": "1 passed (1)",
+        "raw": "mutation-logs/N4-clock-regression-clamp.green.raw",
+        "sha": "aba999a15ae106454f0a8ec79a40aca227186465c1698be4dea4e020c4bd9c6b"
+      }
+    }
+  ],
+  "cleanup": {
+    "porcelainAfterRestore": "?? docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/",
+    "tempTree": {
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/world-lifecycle-counterproof-W1oNYK",
+      "existedBeforeRemoval": true,
+      "removed": true
+    }
+  },
+  "allPhasesValid": true
+}

@@ -13,8 +13,8 @@ Branch: main（源分支codex/glm-reforge-runtime-contracts-r1）
 
 Revision: r1，2026-09-18。生产冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`。
 用户要求“再给GLM一大块工作，Codex也并行推进”；整包五组十模块，一次设计签字，签齐后连续完成，不逐组请示。
-工作包/唯一测试路径/30族账见[GLM运行时补测工作包](../../../../testing/glm-reforge-runtime-contracts.md)。
-当前（2026-09-19）：源3dfec190收窄返工已由Codex独立复核并集成为候选`62a18137`，见[接收回执](../../../../testing/reforge-runtime-contracts-review.md)。
+工作包/唯一测试路径/30族账见[GLM运行时补测工作包](../../../../testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md)。
+当前（2026-09-19）：源3dfec190收窄返工已由Codex独立复核并集成为候选`62a18137`，见[接收回执](../../../../testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md)。
 D1实际输入保真与看板剩余counter闭环，其它已通过项不重开；60定向/1190全包、两见证工具/原15跑及补充lazy输入反控通过。
 主线串行check7538、官方ratchet与受保护单次fast7049通过；三席accept齐、无返工，用户确认“签了”，2026-09-19由Codex核定done并归档。r1设计不重签。
 GLM为测试贡献者，其实施者自验保留本人原文，不作为独立第三方；Reforge测试/fixture/诊断与3dfec190逐字一致，官方基线由Codex单独验证。
@@ -45,7 +45,7 @@ GLM为测试贡献者，其实施者自验保留本人原文，不作为独立�
 ## 上下文锚点
 
 [READ-FIRST](../../../../phase2/READ-FIRST.md)、[harvest](../../../../phase2/reference/phase1-knowledge-harvest.md)相关输入/菜单/元层经验；
-[当前覆盖率](../../../../testing/coverage.md)、[上批counter与接收教训](../../../../testing/content-contracts-review.md)、
+[当前覆盖率](../../../../testing/archive/legacy/quality/quality-gates/coverage.md)、[上批counter与接收教训](../../../../testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md)、
 [B批待证U-02](../../../audits/pre-e2e/summary.md#待证项与撤回项)、[C战斗审计](../../../audits/pre-e2e/battle.md)、
 [D编辑器审计](../../../audits/pre-e2e/editor-workflows.md)、[E工程审计](../../../audits/pre-e2e/engineering.md)。
 不把脚本效果adapter当canonical执行器；不测试退役vanishEntity、旧ScriptChunkStore/MemoryScriptResolver；不动save/战斗/移动碰撞。
@@ -267,18 +267,18 @@ GLM为测试贡献者，其实施者自验保留本人原文，不作为独立�
 
 ```text
 在 /Users/zhangxu/illegal/type-pal 独立终审 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1。任务卡 docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md 当前review；集成候选62a181376f283fe7bfbb84c69be631399887e495，对比b99ec6cf，源GLM候选3dfec190，设计不重签。
-先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡上下文、docs/testing/glm-reforge-runtime-contracts.md和机器账；从源码/实际调用独立形成结论，不复述Codex或GLM评价。GLM编写十新测试+fixture，属于测试贡献者/实施者自验，不是独立第三方；Codex接收记录在docs/testing/reforge-runtime-contracts-review.md。
+先同步main并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡上下文、docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md和机器账；从源码/实际调用独立形成结论，不复述Codex或GLM评价。GLM编写十新测试+fixture，属于测试贡献者/实施者自验，不是独立第三方；Codex接收记录在docs/testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md。
 重点核：D1 source.readJson返回value就是记录的实际对象，交付时快照、消费后保真及runtime不别名；project actorsById保护；此前C2/C4真实交错、D4/D5同实例IO失败恢复与B5真实use请求链已闭环，按风险抽查，不重开设计。候选无产品/旧测试/原探针/统计范围变化，主线guard归档、预览缓存、E-01修复完整保留。
-可复跑两个常驻见证：node docs/testing/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal；node docs/testing/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal；应五控绿/五针detected。原负控：node docs/testing/glm-reforge-runtime-contracts-mutants.mjs，应5控绿+10针业务红。定向60/全Reforge1190/tc/Biome14、完整check7538、官方ratchet及受保护单次fast7049已由Codex独立通过；官方分母/617生产清单与旧106个Reforge测试身份保留，其余六包整个基线对象不变。不要并行争用官方coverage目录。
+可复跑两个常驻见证：node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal；node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal；应五控绿/五针detected。原负控：node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs，应5控绿+10针业务红。定向60/全Reforge1190/tc/Biome14、完整check7538、官方ratchet及受保护单次fast7049已由Codex独立通过；官方分母/617生产清单与旧106个Reforge测试身份保留，其余六包整个基线对象不变。不要并行争用官方coverage目录。
 仅在本人Kimi席位写带直接证据的accept或counter、本人交接日志并提交推送；不改产品/测试/其他席位/任务状态，不标done。BGM initP初始化失败缓存政策保留后续核验，不把待证当本包已修。签前再次同步保留他席改动，不切GLM工作树或回退已收口任务。无视觉/听感/E2E复验要求。
 ```
 
 ### GLM · D1输入保真与看板收尾（历史）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 收窄返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，候选a9e1d4f1，卡docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md为rework。先核本人分支codex/glm-reforge-runtime-contracts-r1，同步本次Codex counter与最新main，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/reforge-runtime-contracts-review.md当前节。不得切主worktree、reset、恢复stash或回退其他任务；guard已done归档、预览缓存4df7823e已收口，均须保留。r1设计不重签，R1/R3及已通过的投影/IO恢复/A5不重开。
+在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 收窄返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，候选a9e1d4f1，卡docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md为rework。先核本人分支codex/glm-reforge-runtime-contracts-r1，同步本次Codex counter与最新main，读AGENTS/CLAUDE/READ-FIRST、本卡与docs/testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md当前节。不得切主worktree、reset、恢复stash或回退其他任务；guard已done归档、预览缓存4df7823e已收口，均须保留。r1设计不重签，R1/R3及已通过的投影/IO恢复/A5不重开。
 只修两处：①D1测试:75-89的project快照遗漏实际actorsById，Codex在loadAllScenes正确返回前污染传入actor.name为polluted.name，6项仍绿；补实际project纯数据保真（排除真正活动的source/resolver/cache），并在FileSource读取边界保留实际交给loader的author对象及快照，不能用前后两次独立structuredClone证明同一输入不变。保留完整cue期望与投影负控；不要改生产或用冻结导致TypeError冒充业务回归。②候选board:15把另一guard卡review回退build，check:docs exit1；同步后保留主线归档状态/链接，只改本人卡状态回执，修旧tip并跑文档门。
-重跑原node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理路径>：四控绿/四针detected；新增node docs/testing/reforge-runtime-input-review-witness.mjs <候选物理路径>须由MISSED转detected，正常控制绿，函数内实际污染见证保留。不得改原见证降低判据。复跑定向/全reforge/tc/14新增文件Biome/原15跑及同口径/tmp覆盖，数字/30族/失败记录按最终树更新。已确认59/1189和+74/+84/+13/+73的有效事实保留，不凑条数；bgm initP政策仍待证。
+重跑原node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs <候选物理路径>：四控绿/四针detected；新增node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs <候选物理路径>须由MISSED转detected，正常控制绿，函数内实际污染见证保留。不得改原见证降低判据。复跑定向/全reforge/tc/14新增文件Biome/原15跑及同口径/tmp覆盖，数字/30族/失败记录按最终树更新。已确认59/1189和+74/+84/+13/+73的有效事实保留，不凑条数；bgm initP政策仍待证。
 只改原白名单测试/fixture/本人回执及必要索引；产品/旧测试/官方基线/原探针零改。全仓check/ratchet/strict-fast仍留Codex通过接收后串行跑。提交推送本人分支，直接交Codex复核，不代签、不标done、不转Kimi。
 ```
 
@@ -287,16 +287,16 @@ GLM为测试贡献者，其实施者自验保留本人原文，不作为独立�
 ```text
 在 /Users/zhangxu/illegal/type-pal-glm-reforge-runtime 返工 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1，原候选75c9cfe8，卡docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md，rework。设计不重签。
 先在自己的worktree核分支codex/glm-reforge-runtime-contracts-r1，合入Codex counter并保留主线guard实现/他席终审；不得切换主worktree、移动guard分支引用、reset或恢复stash。冻结约束reforge目标面，相对返工接收基点产品零改，不把主线已接收editor变化算自己贡献或回退。
-读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/reforge-runtime-contracts-review.md。R1保留正确的初始化last接管例但改准确标题，补真实旧读entered→新请求提交→旧读完成、不同字节的BGM交错；MIDI补旧A finally与仍在途B/key去重组合。R2钉author/runtime cue与完整树，不用ID/数组不等当投影；补source.urlFor真实故障/上下文与同实例恢复。R3实际world/items/state在真实调用后深比较，B5经useConfirm/useApply产合法对应request，不手造oneAlly的pick-item或不一致selectedItemId。R4如实刷新30族、标题/计数/失败记录/index；A5不制造MAIN_MENU不共享的新规则。
-复跑node docs/testing/reforge-runtime-contracts-review-witnesses.mjs <候选物理绝对路径>：四控绿、bgm-post-read-ownership/midi-stale-finally/loader-projection-bypassed/equip-input-pollution应由MISSED转detected，必须保留实际执行见证。不得改原见证掩盖问题；确需适配名称只报告Codex。
+读AGENTS/CLAUDE/READ-FIRST、本卡和docs/testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md。R1保留正确的初始化last接管例但改准确标题，补真实旧读entered→新请求提交→旧读完成、不同字节的BGM交错；MIDI补旧A finally与仍在途B/key去重组合。R2钉author/runtime cue与完整树，不用ID/数组不等当投影；补source.urlFor真实故障/上下文与同实例恢复。R3实际world/items/state在真实调用后深比较，B5经useConfirm/useApply产合法对应request，不手造oneAlly的pick-item或不一致selectedItemId。R4如实刷新30族、标题/计数/失败记录/index；A5不制造MAIN_MENU不共享的新规则。
+复跑node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs <候选物理绝对路径>：四控绿、bgm-post-read-ownership/midi-stale-finally/loader-projection-bypassed/equip-input-pollution应由MISSED转detected，必须保留实际执行见证。不得改原见证掩盖问题；确需适配名称只报告Codex。
 原56测试/原10负控及覆盖增量的有效部分保留，不推倒重做、不凑固定条数、不改产品/旧测试/原探针/官方基线。复跑定向/全reforge/tc/全部新文件Biome、原15跑、四新见证及官方同口径/tmp覆盖；全仓check/ratchet/strict-fast仍留Codex。bgm initP政策继续待证，不扩成修复授权。提交推送本人测试/回执，交Codex重新接收；不代签、不标done、不直接转Kimi。
 ```
 
 ### Codex · 复核 r1 收窄返工（历史）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 复核 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 收窄返工。任务卡 docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（rework）；回执 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），在你的 counter 4678650a 之上 rebase 后追加收窄返工提交（tip d28b3c51+）；生产冻结 3bc20273；设计不重签；主线 guard 归档与预览缓存修复原样保留。
-GLM 只修了你剩的两件：D1 实际输入保真（project 纯数据快照含 actorsById；fixture readJson 边界捕获 loadAllScenes 实际消费的 lazy scene 对象、交付时快照、消费后比同一对象；runtime 改 cue 不影响实际对象；确定性例改实名）与看板回退撤回（board 保留主线最新行，check:docs PASS）。新见证 node docs/testing/reforge-runtime-input-review-witness.mjs <候选物理绝对路径> 已 MISSED→detected（对照 7/7 绿）；原四见证保持 detected；原 15 跑 rc=0；定向 60/60、全包 116 文件/1190 项、tc rc=0、14 新文件 Biome rc=0；覆盖对照数字不变（+74 行/+84 语句/+73 分支，收窄只强化断言）。
+在 /Users/zhangxu/illegal/type-pal 复核 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 收窄返工。任务卡 docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（rework）；回执 docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），在你的 counter 4678650a 之上 rebase 后追加收窄返工提交（tip d28b3c51+）；生产冻结 3bc20273；设计不重签；主线 guard 归档与预览缓存修复原样保留。
+GLM 只修了你剩的两件：D1 实际输入保真（project 纯数据快照含 actorsById；fixture readJson 边界捕获 loadAllScenes 实际消费的 lazy scene 对象、交付时快照、消费后比同一对象；runtime 改 cue 不影响实际对象；确定性例改实名）与看板回退撤回（board 保留主线最新行，check:docs PASS）。新见证 node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs <候选物理绝对路径> 已 MISSED→detected（对照 7/7 绿）；原四见证保持 detected；原 15 跑 rc=0；定向 60/60、全包 116 文件/1190 项、tc rc=0、14 新文件 Biome rc=0；覆盖对照数字不变（+74 行/+84 语句/+73 分支，收窄只强化断言）。
 请独立复核：复跑两个见证工具与 15 跑、抽查 D1 边界捕获断言确是比较实际消费对象、核 board 与 check:docs。通过后统一串行执行全仓 check、官方 ratchet、受保护 strict-fast（GLM 未跑），在本席签 accept、更新看板并给 Kimi 终审提示词。仍有问题则 counter 并写明复现；已闭环项不重开；不代签、不标 done。
 ```
 
@@ -308,7 +308,7 @@ GLM 只修了你剩的两件：D1 实际输入保真（project 纯数据快照�
 在 /Users/zhangxu/illegal/type-pal 接手新双线任务，两卡均r1/draft，生产冻结3bc20273fe88e83da2dcb32f04ea132a0ada60d9：
 1. docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md（你负责五组十模块补测）。
 2. docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md（Codex修D-02，你只审前提/矩阵）。
-先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、两卡和docs/testing/glm-reforge-runtime-contracts.md。独立核真实caller、既有去重、合法fixture、异步所有权及负控；本卡68既有测试/tc绿，D-02三反例与use正控复现、40相邻绿。不要读取或复述Kimi结论。
+先同步并检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、两卡和docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md。独立核真实caller、既有去重、合法fixture、异步所有权及负控；本卡68既有测试/tc绿，D-02三反例与use正控复现、40相邻绿。不要读取或复述Kimi结论。
 先在两卡各自本人席位写带直接证据/可证伪观察的premise verified与design agree或counter，更新本人日志，同步保留他席后提交推送。设计未齐不得实施。补测卡三席同r1齐且无counter后由你核build allowed，在codex/glm-reforge-runtime-contracts-r1独立worktree连续完成五组30族，不逐组请示。
 只改工作包十个新测试/薄fixture/本人诊断回执，产品/旧测试/原探针/官方基线零改；不碰Codex的editor修复。至少10条有执行见证的单点业务负控，定向/相邻/tc/Biome及同树/tmp覆盖双口径；全仓check/ratchet/strict-fast留Codex。无浏览器、截图、听感或视觉验收。新缺陷隔离报告，不反向写绿色合同。整包完成交Codex独立接收，披露测试贡献，不代签、不标done、不直接转Kimi终审。
 ```
@@ -319,7 +319,7 @@ GLM 只修了你剩的两件：D1 实际输入保真（project 纯数据快照�
 在 /Users/zhangxu/illegal/type-pal 独立审两张新卡r1/draft，生产冻结3bc20273fe88e83da2dcb32f04ea132a0ada60d9：
 docs/ops/archive/tasks/done/EDITOR-SCENE-REF-GUARD-1-scene-deletion-reference-closure.md；
 docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md。
-先同步检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、两卡及docs/testing/glm-reforge-runtime-contracts.md，直接核源码/caller，不读取或复述GLM结论。
+先同步检查工作树，读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、两卡及docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md，直接核源码/caller，不读取或复述GLM结论。
 D-02请独立复跑两条卡内原probe，核inherit/disabled父场景边、transition条件漏接、use复合边去重、冷暖同源、删除集合豁免及现有owner定位能力；不扩大成公共locator/schema重构。补测卡核五组十模块30族的真实调用、合法输入、旧测试去重、current-only排除、异步负控鉴别力与非视觉边界；Codex只动editor，GLM不改生产，官方覆盖由Codex串行集成。
 分别在两卡本人席位签premise verified（直接证据和可证伪观察）+design agree或counter，写本人日志，同步保留他席后提交推送。不得改产品/测试/他席/任务状态，不代签、不标build/done。两卡独立裁决；都无counter且三签齐后各Coding Owner自行核准入，无需重复签整包中的每一组。
 ```
@@ -327,7 +327,7 @@ D-02请独立复跑两条卡内原probe，核inherit/disabled父场景边、tran
 ### Codex（接收 r1 整包，build 完成后）
 
 ```text
-在 /Users/zhangxu/illegal/type-pal 接收 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md；回执与 30 族账 docs/testing/glm-reforge-runtime-contracts.md；机器账 docs/testing/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），基点 6300223a；生产冻结 3bc20273fe88e83da2dcb32f04ea132a0ada60d9。
+在 /Users/zhangxu/illegal/type-pal 接收 TEST-REFORGE-RUNTIME-CONTRACTS-1 r1 整包。任务卡 docs/ops/archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md；回执与 30 族账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md；机器账 docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts-evidence.json。候选分支 codex/glm-reforge-runtime-contracts-r1（worktree /Users/zhangxu/illegal/type-pal-glm-reforge-runtime），基点 6300223a；生产冻结 3bc20273fe88e83da2dcb32f04ea132a0ada60d9。
 GLM 已交付五组 10 新测试文件 56 项（input/menu/equip/use/bgm/midi/loader/resolver/cutscene/adapter）、10 针负控+判据自测（5 对照+10 针 15/15，钉名 JSON 执行见证）、官方 testSelection 覆盖对照（十模块 +73 行/+83 语句/+73 分支，/tmp 输出）与实施者自验 accept；无新产品缺陷，bgm initP 拒绝缓存政策记待证。附注：build allowed 登记当日存在已披露并已纠正的主 worktree 分支检出竞态（6300223a 已在 main，你的 guard 分支已复位 830db139）。
-你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过当前守卫）、复跑定向与全 reforge 包、tc/Biome；复跑 node docs/testing/glm-reforge-runtime-contracts-mutants.mjs 验 15/15；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。与你的 EDITOR-SCENE-REF-GUARD-1 修复并行时注意主 worktree 分支检出竞态（先核当前分支再提交）。
+你负责独立接收/集成：核对白名单与计数、抽读合同断言与 fixture 合法性（先过当前守卫）、复跑定向与全 reforge 包、tc/Biome；复跑 node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-mutants.mjs 验 15/15；按需重跑覆盖对照（config 绝对路径可复制）。然后统一串行执行全仓 check、官方 ratchet 与受保护 strict-fast（GLM 未跑）；全部通过后在本席签 accept、更新看板并给 Kimi 终审提示词。发现问题先 counter 并写明复现，不直接改 GLM 测试语义；不得代签他人或标 done。与你的 EDITOR-SCENE-REF-GUARD-1 修复并行时注意主 worktree 分支检出竞态（先核当前分支再提交）。
 ```

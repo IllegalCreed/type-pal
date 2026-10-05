@@ -1,0 +1,2998 @@
+{
+  "schemaVersion": 1,
+  "id": "legacy-full-closeout-plan-7",
+  "sourcePlan": "legacy-full-closeout-plan.json",
+  "entries": [
+    {
+      "path": "item-logic-r5-review-evidence.json",
+      "kind": "evidence",
+      "domain": "content",
+      "module": "content",
+      "capability": "item-logic-r5-review-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+      "storedSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 156,
+      "sourceRefs": [
+        {
+          "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/content/src/__tests__/glm-item-logic-fixtures.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
+        "sourceRefs": [
+          {
+            "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 156,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/item-logic-r5-review-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "item-logic-r5-review.md",
+      "kind": "document",
+      "domain": "content",
+      "module": "content",
+      "capability": "item-logic-r5-review",
+      "provenance": "unattributed",
+      "sourceSha": "b8825dec542f8ce3ff76389f27eb54eae34c975eed2ab21826e8e9fcc6976026",
+      "storedSha256": "479c79bd2982d2221a93d567183c5151592f69d4bca976e6d73683ae376c8e72",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 64,
+      "sourceRefs": [
+        {
+          "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/content/src/__tests__/glm-item-logic-fixtures.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "b8825dec542f8ce3ff76389f27eb54eae34c975eed2ab21826e8e9fcc6976026",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "b8825dec542f8ce3ff76389f27eb54eae34c975eed2ab21826e8e9fcc6976026",
+        "sourceRefs": [
+          {
+            "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 64,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/item-logic-r5-review.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/content/editor-workflows/item-logic-r5-review.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "item-logic-r6-review-evidence.json",
+      "kind": "evidence",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "item-logic-r6-review-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
+      "storedSha256": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 121,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "7f4c2f19c366f0f2665effd53237a7e2b2d50e83e8c168f77dd9d55db1cf16cd",
+        "sourceRefs": [],
+        "bodyLines": 121,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/item-logic-r6-review-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/editor-workflows/item-logic-r6-review-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "item-logic-r6-review.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "item-logic-r6-review",
+      "provenance": "unattributed",
+      "sourceSha": "62944963ce300f4c88f1a4e377819b016a3358aded113045d749a5e0fdb9554e",
+      "storedSha256": "687064bde082a6f5e325791c6e07891d4ebfdcd141750fd041b60ceb78b4a68f",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 56,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "62944963ce300f4c88f1a4e377819b016a3358aded113045d749a5e0fdb9554e",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "62944963ce300f4c88f1a4e377819b016a3358aded113045d749a5e0fdb9554e",
+        "sourceRefs": [],
+        "bodyLines": 56,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/item-logic-r6-review.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/editor-workflows/item-logic-r6-review.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "item-logic-r7-review.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "item-logic-r7-review",
+      "provenance": "unattributed",
+      "sourceSha": "5721397c7ffcb58fc84ba4dfd5d429d6ae89e48b8d630e0c5a94e093acc74bc6",
+      "storedSha256": "75e026e6678e349598b3648d29d7912bbf9545b530f76d85a52f38fd7bb9fdbd",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 46,
+      "sourceRefs": [],
+      "publicCommands": ["git show HEAD:<file>"],
+      "publicCallers": ["git show HEAD:<file>"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "5721397c7ffcb58fc84ba4dfd5d429d6ae89e48b8d630e0c5a94e093acc74bc6",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "5721397c7ffcb58fc84ba4dfd5d429d6ae89e48b8d630e0c5a94e093acc74bc6",
+        "sourceRefs": [],
+        "bodyLines": 46,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/item-logic-r7-review.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/editor-workflows/item-logic-r7-review.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "item-logic-r8-review.md",
+      "kind": "document",
+      "domain": "content",
+      "module": "content",
+      "capability": "item-logic-r8-review",
+      "provenance": "unattributed",
+      "sourceSha": "4bbfd646dd576f07d985ebb92937448046df8862c7a48d3b61d46f722bc94c07",
+      "storedSha256": "42349c2cc56f5c941bb461cbcaa306246ba4f114be8c935fb58b13b615bb964d",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 63,
+      "sourceRefs": [
+        {
+          "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+          "lines": "106-111",
+          "anchor": "export function expectInputsUnchanged(run: () => void, inputs: readonly object[]): void {",
+          "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": ["git diff 3da6002e..HEAD --name-only", "git show HEAD:<path>"],
+      "publicCallers": ["git diff 3da6002e..HEAD --name-only", "git show HEAD:<path>"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/content/src/__tests__/glm-item-logic-fixtures.ts:106-111"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "4bbfd646dd576f07d985ebb92937448046df8862c7a48d3b61d46f722bc94c07",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "4bbfd646dd576f07d985ebb92937448046df8862c7a48d3b61d46f722bc94c07",
+        "sourceRefs": [
+          {
+            "path": "packages/content/src/__tests__/glm-item-logic-fixtures.ts",
+            "lines": "106-111",
+            "anchor": "export function expectInputsUnchanged(run: () => void, inputs: readonly object[]): void {",
+            "sha256": "bf260689e872d0f93fae4ba85056401a651ae3da1cc7cc5726e72fb640108b87",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 63,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/item-logic-r8-review.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/content/editor-workflows/item-logic-r8-review.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "migration-phase-owners-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "migration",
+      "module": "migration",
+      "capability": "migration-phase-owners-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "163213a1be64b15f40a1e96a9aba26e1f32c70c8a3ea77aa7e4b61b27491fa3f",
+      "storedSha256": "ec80a04177cf10031c0fb748736289d6b2caee5250f88e41a4a4a69c3d2b0108",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 120,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "163213a1be64b15f40a1e96a9aba26e1f32c70c8a3ea77aa7e4b61b27491fa3f",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "163213a1be64b15f40a1e96a9aba26e1f32c70c8a3ea77aa7e4b61b27491fa3f",
+        "sourceRefs": [],
+        "bodyLines": 120,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/migration-phase-owners-refactor-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/migration/supply-and-import/migration-phase-owners-refactor-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "document-only",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "migration-phase-owners-refactor.md",
+      "kind": "document",
+      "domain": "migration",
+      "module": "migration",
+      "capability": "migration-phase-owners-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "3aab1ae1d690f0d6e046f79ca47d2fccef6a0edb63a8d64bf74096d3824c3be2",
+      "storedSha256": "7d187fe2174e93c385fdff916c3ec8c298e113a0dc9d73776db8aff8f5ba68ac",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 52,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "3aab1ae1d690f0d6e046f79ca47d2fccef6a0edb63a8d64bf74096d3824c3be2",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "3aab1ae1d690f0d6e046f79ca47d2fccef6a0edb63a8d64bf74096d3824c3be2",
+        "sourceRefs": [],
+        "bodyLines": 52,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/migration-phase-owners-refactor.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "document-only",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "migration-write-guard.md",
+      "kind": "document",
+      "domain": "migration",
+      "module": "migration",
+      "capability": "migration-write-guard",
+      "provenance": "unattributed",
+      "sourceSha": "0727a8a9b3bc7a34411001e0aa5e834c2b92b7d7c2265bf4276aa69cdb7f4ea7",
+      "storedSha256": "7e7517e2f446cdf25aa5c9a43c89612f79ca0309cb8ceda563141962466d2b81",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 85,
+      "sourceRefs": [],
+      "publicCommands": [
+        "pnpm --filter @type-pal/migrate exec vitest run src/migration-path.test.ts src/migration-write-guard.test.ts src/pal-assets-paths.test.ts",
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-mutants.mjs",
+        "pnpm --filter @type-pal/migrate exec vitest run --config \"$PWD/docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-config.mjs\"",
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-publish.mjs"
+      ],
+      "publicCallers": [
+        "pnpm --filter @type-pal/migrate exec vitest run src/migration-path.test.ts src/migration-write-guard.test.ts src/pal-assets-paths.test.ts",
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-mutants.mjs",
+        "pnpm --filter @type-pal/migrate exec vitest run --config \"$PWD/docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-config.mjs\"",
+        "node docs/testing/domains/migration/supply-and-import/tools/migration-write-guard-publish.mjs"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "0727a8a9b3bc7a34411001e0aa5e834c2b92b7d7c2265bf4276aa69cdb7f4ea7",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "0727a8a9b3bc7a34411001e0aa5e834c2b92b7d7c2265bf4276aa69cdb7f4ea7",
+        "sourceRefs": [],
+        "bodyLines": 85,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/migration-write-guard.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/migration/supply-and-import/migration-write-guard.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "pal-simulator-presets.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "pal-simulator-presets",
+      "provenance": "unattributed",
+      "sourceSha": "beea5d741d9c2f96a0cda3e984c2e5b8f80d537d7f6a8f98159f4cb07b86928d",
+      "storedSha256": "795e9f029725a8e19be615993e986e1122d19a9df0f775fc1dd526e44d0cf60d",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 86,
+      "sourceRefs": [
+        {
+          "path": "packages/editor/scripts/pal-simulator-presets.test.ts",
+          "lines": "1-1",
+          "anchor": "/** Tracked JSON only: no extracted/raw/binary assets or browser mocks are required. */",
+          "sha256": "84d9c9f6de2f1e3a3384aa0ef9b2875d17f52c2d866a21df7b2a10a9e5737e84",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/editor/scripts/pal-simulator-presets.test.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "beea5d741d9c2f96a0cda3e984c2e5b8f80d537d7f6a8f98159f4cb07b86928d",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "beea5d741d9c2f96a0cda3e984c2e5b8f80d537d7f6a8f98159f4cb07b86928d",
+        "sourceRefs": [
+          {
+            "path": "packages/editor/scripts/pal-simulator-presets.test.ts",
+            "lines": "1-1",
+            "anchor": "/** Tracked JSON only: no extracted/raw/binary assets or browser mocks are required. */",
+            "sha256": "84d9c9f6de2f1e3a3384aa0ef9b2875d17f52c2d866a21df7b2a10a9e5737e84",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 86,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/pal-simulator-presets.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/testing-records/pal-simulator-presets.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "parallel-guard-command-r2-review-evidence.json",
+      "kind": "evidence",
+      "domain": "content",
+      "module": "content",
+      "capability": "parallel-guard-command-r2-review-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+      "storedSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 376,
+      "sourceRefs": [
+        {
+          "path": "packages/content/src/author-command.guard-residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "b43f30248ffd724578047f0b48202f194a7eb18dbd78c064b3b67174808529b2",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/content/src/record-items.guard-residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "6a27d8931063e9e05675fd8832ef543a0626102c8702746df2ffdbb79f033f00",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/content/src/author-script-core.ts",
+          "lines": "1-1",
+          "anchor": "import { checkActorConditionCommandShape } from './actor-condition.js'",
+          "sha256": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/content/src/author-flow.guard-residual.test.ts",
+          "lines": "1-1",
+          "anchor": "import { describe, expect, test } from 'vitest'",
+          "sha256": "046c66948bf93089f7b11460186c6a6b53e193b9a77a7336bc6faf8d4bf4227d",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/content/src/enemy-script.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "978da06bb1628d22647e7c803d90922ed79cc6c478cc46621d715f1bd0fa0ec8",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/content/src/enemy-hook.guard-residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "679aa1f3fd9f5c7162f0624a2b07fadf8e673da6d521c57a489ff61ad4972b0e",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/content/src/validate.ts",
+          "lines": "1-1",
+          "anchor": "// 轻量 guard(zod 接缝):校验 loader 加载的工程 JSON 形状。",
+          "sha256": "365f12981e3337c11fa31e4b0fe08af70acfb4285ed8d094c164fa6529445025",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/entity-commands.residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "bb4539043203a5352c4834bc6d171a8c1e2f6cff48240318a0b01088dd5016b2",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "37aa75df7eea2bed25ceb13c1f1ca1547e0aaa8e4bbfa823e7a8643936a81b9b",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/map-asset-commands.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "415fdf063497594409eb4b8d635ffea08a8cfc0152ddc766c8d07c7f7f946cfc",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/map-asset-commands.residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "9218a8a7dcf68d140d43aa47fd86d361299605723f51b6794b21b9c1214853d9",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/tileset-commands.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/tileset-commands.residual.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/content/src/author-command.guard-residual.test.ts:1-1",
+        "packages/content/src/record-items.guard-residual.test.ts:1-1",
+        "packages/content/src/author-script-core.ts:1-1",
+        "packages/content/src/author-flow.guard-residual.test.ts:1-1",
+        "packages/content/src/enemy-script.ts:1-1",
+        "packages/content/src/enemy-hook.guard-residual.test.ts:1-1",
+        "packages/content/src/validate.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
+        "sourceRefs": [
+          {
+            "path": "packages/content/src/author-command.guard-residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "b43f30248ffd724578047f0b48202f194a7eb18dbd78c064b3b67174808529b2",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/content/src/record-items.guard-residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "6a27d8931063e9e05675fd8832ef543a0626102c8702746df2ffdbb79f033f00",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/content/src/author-script-core.ts",
+            "lines": "1-1",
+            "anchor": "import { checkActorConditionCommandShape } from './actor-condition.js'",
+            "sha256": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/content/src/author-flow.guard-residual.test.ts",
+            "lines": "1-1",
+            "anchor": "import { describe, expect, test } from 'vitest'",
+            "sha256": "046c66948bf93089f7b11460186c6a6b53e193b9a77a7336bc6faf8d4bf4227d",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/content/src/enemy-script.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "978da06bb1628d22647e7c803d90922ed79cc6c478cc46621d715f1bd0fa0ec8",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/content/src/enemy-hook.guard-residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "679aa1f3fd9f5c7162f0624a2b07fadf8e673da6d521c57a489ff61ad4972b0e",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/content/src/validate.ts",
+            "lines": "1-1",
+            "anchor": "// 轻量 guard(zod 接缝):校验 loader 加载的工程 JSON 形状。",
+            "sha256": "365f12981e3337c11fa31e4b0fe08af70acfb4285ed8d094c164fa6529445025",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/entity-commands.residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "bb4539043203a5352c4834bc6d171a8c1e2f6cff48240318a0b01088dd5016b2",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "37aa75df7eea2bed25ceb13c1f1ca1547e0aaa8e4bbfa823e7a8643936a81b9b",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/map-asset-commands.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "415fdf063497594409eb4b8d635ffea08a8cfc0152ddc766c8d07c7f7f946cfc",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/map-asset-commands.residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "9218a8a7dcf68d140d43aa47fd86d361299605723f51b6794b21b9c1214853d9",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/tileset-commands.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "1d43a0b7d4afedadc929dac09b6d34247d8bc02d2c93d8062c85d010bd8742c0",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/tileset-commands.residual.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "8fa146720f3b611821f8d1f8bee4271dc6780b47ff1c4a3b0384ccdf155dcca0",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 376,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/parallel-guard-command-r2-review-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "phase1-main-owners-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "phase1-runtime",
+      "module": "phase1-runtime",
+      "capability": "phase1-main-owners-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "4a9cb2396101fb42469ff49e33c172b835e075c1806a3875cf86358e59d413dc",
+      "storedSha256": "6808f1881b33fa09df07a7bf12df45cb33fd7b247e589ed098b50d0f090cae6e",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 133,
+      "sourceRefs": [
+        {
+          "path": "packages/game/src/core/event-opcode-player.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap-resources.ts",
+          "lines": "1-1",
+          "anchor": "import { type DialogAssets, loadDialogAssets } from '../assets/dialog-assets.js'",
+          "sha256": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/game/src/core/event-opcode-player.ts:1-1",
+        "packages/game/src/shell/bootstrap-resources.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "4a9cb2396101fb42469ff49e33c172b835e075c1806a3875cf86358e59d413dc",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "4a9cb2396101fb42469ff49e33c172b835e075c1806a3875cf86358e59d413dc",
+        "sourceRefs": [
+          {
+            "path": "packages/game/src/core/event-opcode-player.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/game/src/shell/bootstrap-resources.ts",
+            "lines": "1-1",
+            "anchor": "import { type DialogAssets, loadDialogAssets } from '../assets/dialog-assets.js'",
+            "sha256": "c0d0b685415871153da86c4fd431c1eb0245d67bfa33002c3bbbedd952d5a38e",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 133,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/phase1-main-owners-refactor-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/phase1-runtime/engine-boundaries/phase1-main-owners-refactor-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "phase1-main-owners-refactor.md",
+      "kind": "document",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "phase1-main-owners-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "fb4912a14f7bc4723d7c06ee90f93ffdfb4fdbfe484121f5f5c36b3d0c1cc872",
+      "storedSha256": "78282126059b1edba8ec3aa42df38ea89c301c20bc86e7da77d981a270d734b1",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 57,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "fb4912a14f7bc4723d7c06ee90f93ffdfb4fdbfe484121f5f5c36b3d0c1cc872",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "fb4912a14f7bc4723d7c06ee90f93ffdfb4fdbfe484121f5f5c36b3d0c1cc872",
+        "sourceRefs": [],
+        "bodyLines": 57,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/phase1-main-owners-refactor.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "document-only",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "phase1-resource-test-inputs.md",
+      "kind": "document",
+      "domain": "migration",
+      "module": "migration",
+      "capability": "phase1-resource-test-inputs",
+      "provenance": "unattributed",
+      "sourceSha": "d80d0af7b071275b988dd02e0760f16c1bad8bd049b74546b733578ccf850512",
+      "storedSha256": "730d4483051979a1122e89561e111856379c67b0db03a035db8eedb554cc3c80",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 96,
+      "sourceRefs": [],
+      "publicCommands": [
+        "pnpm --filter @type-pal/game exec vitest run src/assets/snapshot-input-boundaries.test.ts src/assets/sprite-blob-snapshot.test.ts src/assets/rng-blob-snapshot.test.ts src/assets/tileset-blob-snapshot.test.ts src/assets/tileset-blob.test.ts",
+        "pnpm --filter @type-pal/game run typecheck",
+        "pnpm check",
+        "pnpm coverage:fast"
+      ],
+      "publicCallers": [
+        "pnpm --filter @type-pal/game exec vitest run src/assets/snapshot-input-boundaries.test.ts src/assets/sprite-blob-snapshot.test.ts src/assets/rng-blob-snapshot.test.ts src/assets/tileset-blob-snapshot.test.ts src/assets/tileset-blob.test.ts",
+        "pnpm --filter @type-pal/game run typecheck",
+        "pnpm check",
+        "pnpm coverage:fast"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "d80d0af7b071275b988dd02e0760f16c1bad8bd049b74546b733578ccf850512",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "d80d0af7b071275b988dd02e0760f16c1bad8bd049b74546b733578ccf850512",
+        "sourceRefs": [],
+        "bodyLines": 96,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/phase1-resource-test-inputs.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/migration/supply-and-import/phase1-resource-test-inputs.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "pre-e2e-admission.md",
+      "kind": "document",
+      "domain": "e2e",
+      "module": "e2e",
+      "capability": "pre-e2e-admission",
+      "provenance": "unattributed",
+      "sourceSha": "1aca91c4aa874a764b1d9d1af14f665b81e5a8da492fe5c565376e461eb4df94",
+      "storedSha256": "00aeeb545237ad52efaf733baeafc3bae27c6bee7b94303c446089ea88b5657c",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 81,
+      "sourceRefs": [],
+      "publicCommands": [
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs --mode=observe --case all",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=observe --case B08",
+        "pnpm --filter @type-pal/migrate exec vitest run src/migration-project-io.test.ts src/migration-project-io.boundaries.test.ts src/migration-write-plan.test.ts src/migration-write-plan.boundaries.test.ts src/migration-transaction.test.ts src/",
+        "pnpm --filter @type-pal/reforge exec vitest run src/checkpoint-export.chain.test.ts"
+      ],
+      "publicCallers": [
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs --mode=observe --case all",
+        "node --import tsx docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs --mode=observe --case B08",
+        "pnpm --filter @type-pal/migrate exec vitest run src/migration-project-io.test.ts src/migration-project-io.boundaries.test.ts src/migration-write-plan.test.ts src/migration-write-plan.boundaries.test.ts src/migration-transaction.test.ts src/",
+        "pnpm --filter @type-pal/reforge exec vitest run src/checkpoint-export.chain.test.ts"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "1aca91c4aa874a764b1d9d1af14f665b81e5a8da492fe5c565376e461eb4df94",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "1aca91c4aa874a764b1d9d1af14f665b81e5a8da492fe5c565376e461eb4df94",
+        "sourceRefs": [],
+        "bodyLines": 81,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/pre-e2e-admission.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "preview-controls.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "preview-controls",
+      "provenance": "unattributed",
+      "sourceSha": "157e0ca87499490b38d05f4120c7c6a5b0ae68bb921ce734510c391e17279544",
+      "storedSha256": "1c36983232ca0953e61c661ac2039a97db3c7d7f6aac606e6826b3bd3ff09c9a",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 69,
+      "sourceRefs": [],
+      "publicCommands": ["node docs/testing/archive/legacy/batches/codex-playback/mutants.mjs"],
+      "publicCallers": ["node docs/testing/archive/legacy/batches/codex-playback/mutants.mjs"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "157e0ca87499490b38d05f4120c7c6a5b0ae68bb921ce734510c391e17279544",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "157e0ca87499490b38d05f4120c7c6a5b0ae68bb921ce734510c391e17279544",
+        "sourceRefs": [],
+        "bodyLines": 69,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/preview-controls.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/editor-workflows/preview-controls.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "quality-zero-inventory.json",
+      "kind": "evidence",
+      "domain": "quality",
+      "module": "quality",
+      "capability": "quality-zero-inventory",
+      "provenance": "unattributed",
+      "sourceSha": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
+      "storedSha256": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 806,
+      "sourceRefs": [
+        {
+          "path": "packages/content/src/runtime-script.ts",
+          "lines": "1-1",
+          "anchor": "import type {",
+          "sha256": "dfa187ff78797be5e0c2f02972fb7429a845072471d8e639f95e64d331d52da3",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/entity-placement.ts",
+          "lines": "1-1",
+          "anchor": "import type {",
+          "sha256": "48826d40e658a9cebd9e2b2ce8a0d2be55ddf986e50573b4666800af99da32ff",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "9023345be0a2a4751530170c0868a7d5d8c29e629807aa8556be99da15f2fd59",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/script-editor.hooks-session.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "b13dc77b94bd145c8dc1c9fd561349d9cec03925184b677be604f2fdc7bfbf0f",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/stamp-draft.test.ts",
+          "lines": "1-1",
+          "anchor": "import { formatStampTemplates, mapInstanceTilesetId, type StampTemplate } from '@type-pal/content'",
+          "sha256": "10d050d3e611d567fe50de598597acfea6c1719b965ab884a4ff8a9618a86021",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+          "lines": "1-1",
+          "anchor": "// @ts-nocheck -- Vitest-only Node filesystem audit; the editor bundle intentionally has no Node types.",
+          "sha256": "8c4762219165d7a320437d998ff329c618913d5225db8ce95875b5c58bd2c5ef",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts",
+          "lines": "1-1",
+          "anchor": "// @ts-nocheck -- Vitest-only source census; editor production bundle intentionally has no Node types.",
+          "sha256": "7c280618e5d9d62e571aaf3c813a7245a18de18d5c017abcd6105dcf7a4c31c0",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/ui/design-system/draft-input-state.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "659a41a4dbbf3d90c203c7bd24c9bfbb90fb5f48d5d9d6eadfc554b2b05f058f",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/ui/design-system/field-layout-adoption.test.ts",
+          "lines": "1-1",
+          "anchor": "// @ts-nocheck -- Vitest-only source census; editor production bundle intentionally has no Node types.",
+          "sha256": "4e352fd6402944a3a0606fb11dc7c09f0c051b1e0614d7064682ea115734284b",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": ["pnpm -r run typecheck\","],
+      "publicCallers": ["pnpm -r run typecheck\","],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/content/src/runtime-script.ts:1-1",
+        "packages/editor/src/core/entity-placement.ts:1-1",
+        "packages/editor/src/core/playback.ts:1-1",
+        "packages/editor/src/core/script-editor.hooks-session.test.ts:1-1",
+        "packages/editor/src/core/stamp-draft.test.ts:1-1",
+        "packages/editor/src/ui/design-system/boundary.test.ts:1-1",
+        "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "418fcf68167c320c579566bdf39d230aef50221f78e02eec93f5f6f9fe18d343",
+        "sourceRefs": [
+          {
+            "path": "packages/content/src/runtime-script.ts",
+            "lines": "1-1",
+            "anchor": "import type {",
+            "sha256": "dfa187ff78797be5e0c2f02972fb7429a845072471d8e639f95e64d331d52da3",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/entity-placement.ts",
+            "lines": "1-1",
+            "anchor": "import type {",
+            "sha256": "48826d40e658a9cebd9e2b2ce8a0d2be55ddf986e50573b4666800af99da32ff",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/playback.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "9023345be0a2a4751530170c0868a7d5d8c29e629807aa8556be99da15f2fd59",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/script-editor.hooks-session.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "b13dc77b94bd145c8dc1c9fd561349d9cec03925184b677be604f2fdc7bfbf0f",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/stamp-draft.test.ts",
+            "lines": "1-1",
+            "anchor": "import { formatStampTemplates, mapInstanceTilesetId, type StampTemplate } from '@type-pal/content'",
+            "sha256": "10d050d3e611d567fe50de598597acfea6c1719b965ab884a4ff8a9618a86021",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/ui/design-system/boundary.test.ts",
+            "lines": "1-1",
+            "anchor": "// @ts-nocheck -- Vitest-only Node filesystem audit; the editor bundle intentionally has no Node types.",
+            "sha256": "8c4762219165d7a320437d998ff329c618913d5225db8ce95875b5c58bd2c5ef",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/ui/design-system/catalog-row-content-adoption.test.ts",
+            "lines": "1-1",
+            "anchor": "// @ts-nocheck -- Vitest-only source census; editor production bundle intentionally has no Node types.",
+            "sha256": "7c280618e5d9d62e571aaf3c813a7245a18de18d5c017abcd6105dcf7a4c31c0",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/ui/design-system/draft-input-state.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "659a41a4dbbf3d90c203c7bd24c9bfbb90fb5f48d5d9d6eadfc554b2b05f058f",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/ui/design-system/field-layout-adoption.test.ts",
+            "lines": "1-1",
+            "anchor": "// @ts-nocheck -- Vitest-only source census; editor production bundle intentionally has no Node types.",
+            "sha256": "4e352fd6402944a3a0606fb11dc7c09f0c051b1e0614d7064682ea115734284b",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 806,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/quality-zero-inventory.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/quality/quality-gates/quality-zero-inventory.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "document-only",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "reforge-runtime-contracts-review.md",
+      "kind": "document",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "reforge-runtime-contracts-review",
+      "provenance": "unattributed",
+      "sourceSha": "c950d5d779ee2527261f18d85677e9fcde1c21d917b3f1ba93e7b13a88ff7a70",
+      "storedSha256": "a07a37314b63367f2095561039fbee544c2dd66a2992796c35c71d48661d1998",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 232,
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/project-loader.current-boundaries.test.ts",
+          "lines": "75-87",
+          "anchor": "// 交付时即快照，消费完成后比较同一对象（不是另一次独立 readJson 的 clone）。",
+          "sha256": "d268ef48988a2224c6859f79d447634ea4655e203e854ee45274e87931fe7ef7",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [
+        "pnpm check",
+        "pnpm coverage:fast",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "pnpm check:docs"
+      ],
+      "publicCallers": [
+        "pnpm check",
+        "pnpm coverage:fast",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-contracts-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/reforge-runtime-input-review-witness.mjs /Users/zhangxu/illegal/type-pal-glm-reforge-runtime",
+        "pnpm check:docs"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/reforge/src/project-loader.current-boundaries.test.ts:75-87"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "c950d5d779ee2527261f18d85677e9fcde1c21d917b3f1ba93e7b13a88ff7a70",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "c950d5d779ee2527261f18d85677e9fcde1c21d917b3f1ba93e7b13a88ff7a70",
+        "sourceRefs": [
+          {
+            "path": "packages/reforge/src/project-loader.current-boundaries.test.ts",
+            "lines": "75-87",
+            "anchor": "// 交付时即快照，消费完成后比较同一对象（不是另一次独立 readJson 的 clone）。",
+            "sha256": "d268ef48988a2224c6859f79d447634ea4655e203e854ee45274e87931fe7ef7",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 232,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/reforge-runtime-contracts-review.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "runtime-frame-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "runtime-frame-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
+      "storedSha256": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 265,
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/runtime-frame-session.ts",
+          "lines": "1-1",
+          "anchor": "import { asyncIntentAbortError } from './async-intent.js'",
+          "sha256": "1337c9023a173e14e538127362d683cf7392054ba1b57b777e3d5ae496c1f6a9",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/runtime-input-router.ts",
+          "lines": "1-1",
+          "anchor": "/** Each active query is live. A consumed frame cannot fall through to a newly exposed layer. */",
+          "sha256": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/reforge/src/runtime-frame-session.ts:1-1",
+        "packages/reforge/src/runtime-input-router.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
+        "sourceRefs": [
+          {
+            "path": "packages/reforge/src/runtime-frame-session.ts",
+            "lines": "1-1",
+            "anchor": "import { asyncIntentAbortError } from './async-intent.js'",
+            "sha256": "1337c9023a173e14e538127362d683cf7392054ba1b57b777e3d5ae496c1f6a9",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/runtime-input-router.ts",
+            "lines": "1-1",
+            "anchor": "/** Each active query is live. A consumed frame cannot fall through to a newly exposed layer. */",
+            "sha256": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 265,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/runtime-frame-refactor-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "document-only",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "runtime-frame-refactor.md",
+      "kind": "document",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "runtime-frame-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "d01cfc7fc964e5a272f01d2ee2325d9dcdb09a24dd0072ce48ea51693ba7df25",
+      "storedSha256": "fe37991fa15ec268aa8385098ab8919bf56f2d27cd03e6c556049f854d68702b",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 95,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "d01cfc7fc964e5a272f01d2ee2325d9dcdb09a24dd0072ce48ea51693ba7df25",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "d01cfc7fc964e5a272f01d2ee2325d9dcdb09a24dd0072ce48ea51693ba7df25",
+        "sourceRefs": [],
+        "bodyLines": 95,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/runtime-frame-refactor.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "runtime-state-review.md",
+      "kind": "document",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "runtime-state-review",
+      "provenance": "unattributed",
+      "sourceSha": "19d8d92124e25a4dd73561e27ce652bcacdcbffd16381b9bf4bb88da9e95c942",
+      "storedSha256": "6cb752c93a6d37c6a5207609462648ed9fbd84cd4691084983cea230664add22",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 285,
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "lines": "231-287",
+          "anchor": "const slowBytes = await tpfs()",
+          "sha256": "7416127a100c30141a641d04f1ee6a0e5e98b235445c59cb9129472b4a276aac",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "lines": "231-266",
+          "anchor": "const slowBytes = await tpfs()",
+          "sha256": "7416127a100c30141a641d04f1ee6a0e5e98b235445c59cb9129472b4a276aac",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/scene-entry-session.boundaries.test.ts",
+          "lines": "32-32",
+          "anchor": "session2.startReveal('s1', { kind: 'dither', ms: 999, source: 'previousPresentedFrame' }),",
+          "sha256": "78adac945c7a4a5e5477875641c2e8f3596678a3270316564e354c22eaecc4ed",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/__tests__/glm-state-boundary-fixtures.ts",
+          "lines": "154-154",
+          "anchor": "],",
+          "sha256": "8679f87d3da0e81ff74e2526f03c0cc73779c3e0dd54b686c5de213e29570587",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /Users/zhangxu/illegal/type-pal-glm-runtime-state"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/reforge/src/frame-animation-player.boundaries.test.ts:231-287",
+        "packages/reforge/src/frame-animation-player.boundaries.test.ts:231-266",
+        "packages/reforge/src/scene-entry-session.boundaries.test.ts:32-32",
+        "packages/reforge/src/__tests__/glm-state-boundary-fixtures.ts:154-154"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "19d8d92124e25a4dd73561e27ce652bcacdcbffd16381b9bf4bb88da9e95c942",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "19d8d92124e25a4dd73561e27ce652bcacdcbffd16381b9bf4bb88da9e95c942",
+        "sourceRefs": [
+          {
+            "path": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+            "lines": "231-287",
+            "anchor": "const slowBytes = await tpfs()",
+            "sha256": "7416127a100c30141a641d04f1ee6a0e5e98b235445c59cb9129472b4a276aac",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+            "lines": "231-266",
+            "anchor": "const slowBytes = await tpfs()",
+            "sha256": "7416127a100c30141a641d04f1ee6a0e5e98b235445c59cb9129472b4a276aac",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/scene-entry-session.boundaries.test.ts",
+            "lines": "32-32",
+            "anchor": "session2.startReveal('s1', { kind: 'dither', ms: 999, source: 'previousPresentedFrame' }),",
+            "sha256": "78adac945c7a4a5e5477875641c2e8f3596678a3270316564e354c22eaecc4ed",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/__tests__/glm-state-boundary-fixtures.ts",
+            "lines": "154-154",
+            "anchor": "],",
+            "sha256": "8679f87d3da0e81ff74e2526f03c0cc73779c3e0dd54b686c5de213e29570587",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 285,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/runtime-state-review.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/engine-boundaries/runtime-state-review.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "save-barrier-lineage.md",
+      "kind": "document",
+      "domain": "persistence",
+      "module": "persistence",
+      "capability": "save-barrier-lineage",
+      "provenance": "unattributed",
+      "sourceSha": "58afb6f007322fefc8202563e681fecef3e581641bd4dd8dac968601c9c36ef4",
+      "storedSha256": "0a231edbf97da26a5239c3a449553899f6339afd09368495c6952938c1be3f3e",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 93,
+      "sourceRefs": [],
+      "publicCommands": [
+        "pnpm --filter @type-pal/reforge exec vitest run src/script-activity-lineage.test.ts src/runtime-save-lineage.test.ts src/save-lineage.chain.test.ts src/runtime-script-project.test.ts src/script-world.test.ts src/script-runner-core.test.ts s",
+        "pnpm --filter @type-pal/reforge typecheck",
+        "node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs",
+        "pnpm check",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "publicCallers": [
+        "pnpm --filter @type-pal/reforge exec vitest run src/script-activity-lineage.test.ts src/runtime-save-lineage.test.ts src/save-lineage.chain.test.ts src/runtime-script-project.test.ts src/script-world.test.ts src/script-runner-core.test.ts s",
+        "pnpm --filter @type-pal/reforge typecheck",
+        "node docs/testing/domains/persistence/save-and-recovery/tools/save-lineage-mutants.mjs",
+        "pnpm check",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "58afb6f007322fefc8202563e681fecef3e581641bd4dd8dac968601c9c36ef4",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "58afb6f007322fefc8202563e681fecef3e581641bd4dd8dac968601c9c36ef4",
+        "sourceRefs": [],
+        "bodyLines": 93,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/save-barrier-lineage.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/persistence/save-and-recovery/save-barrier-lineage.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "scene-preparation-refactor-evidence.json",
+      "kind": "evidence",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "scene-preparation-refactor-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
+      "storedSha256": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 297,
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/scene-preparer.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "b84709594a2a6045ac7e29d2d5f44154b5d66722fea0c229244fe2f11ba41833",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/scene-resources.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "400b4116377f30219923071e120dfcd3f80529bd05da8a3a595f22da21b24f1b",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/reforge/src/scene-preparer.ts:1-1",
+        "packages/reforge/src/scene-resources.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
+        "sourceRefs": [
+          {
+            "path": "packages/reforge/src/scene-preparer.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "b84709594a2a6045ac7e29d2d5f44154b5d66722fea0c229244fe2f11ba41833",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/scene-resources.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "400b4116377f30219923071e120dfcd3f80529bd05da8a3a595f22da21b24f1b",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 297,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/scene-preparation-refactor-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "document-only",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "scene-preparation-refactor.md",
+      "kind": "document",
+      "domain": "content",
+      "module": "content",
+      "capability": "scene-preparation-refactor",
+      "provenance": "unattributed",
+      "sourceSha": "ae02382152900646084f6060fdcddadaef68621e9678a5c296121f2b38b5df08",
+      "storedSha256": "9be0cc3fc003547ba55c5ca65220dd2c87e98a48e9f75ac030dfea96e53aac7a",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 78,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "ae02382152900646084f6060fdcddadaef68621e9678a5c296121f2b38b5df08",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "ae02382152900646084f6060fdcddadaef68621e9678a5c296121f2b38b5df08",
+        "sourceRefs": [],
+        "bodyLines": 78,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/scene-preparation-refactor.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "scene-reference-guard.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "scene-reference-guard",
+      "provenance": "unattributed",
+      "sourceSha": "bc4e8ad9df07a7591a951f0838a17e9bf2e8ec81da1e272b1eff43c28501082f",
+      "storedSha256": "509b3a481090ae681f9d6f83efdf3a32f7e6b045654ade94ec1940c5849d5534",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 103,
+      "sourceRefs": [
+        {
+          "path": "packages/editor/src/core/project-reference-adapters.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "c962483e77f4ae26225ae1f6754a61943944057f97656b11c04b171ed788a89f",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [
+        "pnpm --filter @type-pal/editor exec vitest run src/core/project-reference-scene-guards.test.ts src/core/scene-reference-deletion-workflow.test.ts src/core/project-reference.test.ts src/core/project-reference-adapters.test.ts src/core/projec",
+        "pnpm --filter @type-pal/editor run typecheck",
+        "node docs/testing/domains/editor/authoring-and-runtime/tools/scene-reference-guard-mutants.mjs",
+        "pnpm check",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "publicCallers": [
+        "pnpm --filter @type-pal/editor exec vitest run src/core/project-reference-scene-guards.test.ts src/core/scene-reference-deletion-workflow.test.ts src/core/project-reference.test.ts src/core/project-reference-adapters.test.ts src/core/projec",
+        "pnpm --filter @type-pal/editor run typecheck",
+        "node docs/testing/domains/editor/authoring-and-runtime/tools/scene-reference-guard-mutants.mjs",
+        "pnpm check",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/editor/src/core/project-reference-adapters.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "bc4e8ad9df07a7591a951f0838a17e9bf2e8ec81da1e272b1eff43c28501082f",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "bc4e8ad9df07a7591a951f0838a17e9bf2e8ec81da1e272b1eff43c28501082f",
+        "sourceRefs": [
+          {
+            "path": "packages/editor/src/core/project-reference-adapters.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "c962483e77f4ae26225ae1f6754a61943944057f97656b11c04b171ed788a89f",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 103,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/scene-reference-guard.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/authoring-and-runtime/scene-reference-guard.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "script-card-ui.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "script-card-ui",
+      "provenance": "unattributed",
+      "sourceSha": "e3b32739c54bc9e864906932b7302ce60881547a006501cba32c9ff09503bdb0",
+      "storedSha256": "6c4b0a6eadd2530b0aebdd7ba02c5d514697175fcd117ecee9418764936286d4",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 48,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "e3b32739c54bc9e864906932b7302ce60881547a006501cba32c9ff09503bdb0",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "e3b32739c54bc9e864906932b7302ce60881547a006501cba32c9ff09503bdb0",
+        "sourceRefs": [],
+        "bodyLines": 48,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/script-card-ui.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "sprite-selection.md",
+      "kind": "document",
+      "domain": "editor",
+      "module": "editor",
+      "capability": "sprite-selection",
+      "provenance": "unattributed",
+      "sourceSha": "0141113b05fe928584c924ca6251215a751bddd850022be9a76050cb12e470da",
+      "storedSha256": "9914dce86f82451fe296bb85869a8c5abc692b0debb0ec7ef2122cf7c3aa2032",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 94,
+      "sourceRefs": [],
+      "publicCommands": [
+        "pnpm --filter @type-pal/editor exec vitest run src/ui/SpriteUploadWizard.selection.test.tsx src/ui/SpriteUploadWizard.test.tsx",
+        "pnpm --filter @type-pal/editor exec vitest run src/ui/WorldSpriteLibrary.test.tsx src/ui/SpriteResourceViewer.test.tsx src/core/sprite-reference-commands.test.ts",
+        "node docs/testing/domains/editor/editor-workflows/tools/sprite-selection-mutants.mjs",
+        "pnpm check",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "publicCallers": [
+        "pnpm --filter @type-pal/editor exec vitest run src/ui/SpriteUploadWizard.selection.test.tsx src/ui/SpriteUploadWizard.test.tsx",
+        "pnpm --filter @type-pal/editor exec vitest run src/ui/WorldSpriteLibrary.test.tsx src/ui/SpriteResourceViewer.test.tsx src/core/sprite-reference-commands.test.ts",
+        "node docs/testing/domains/editor/editor-workflows/tools/sprite-selection-mutants.mjs",
+        "pnpm check",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "0141113b05fe928584c924ca6251215a751bddd850022be9a76050cb12e470da",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "0141113b05fe928584c924ca6251215a751bddd850022be9a76050cb12e470da",
+        "sourceRefs": [],
+        "bodyLines": 94,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/sprite-selection.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/editor/editor-workflows/sprite-selection.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "stability-fire-closeout-evidence.json",
+      "kind": "evidence",
+      "domain": "quality",
+      "module": "quality",
+      "capability": "stability-fire-closeout-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
+      "storedSha256": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 226,
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-sprite-readiness.ts",
+          "lines": "1-1",
+          "anchor": "import type {",
+          "sha256": "b21a654bed89acac3c485f236b091246ad6bf61102825bb19f1cb3111c6bff51",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/reforge/src/battle/battle-sprite-readiness.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "6d33aaed7f4b59c1848255d381217d057f03ec7cecd2a275a9d3a1e5ebe0ce37",
+        "sourceRefs": [
+          {
+            "path": "packages/reforge/src/battle/battle-sprite-readiness.ts",
+            "lines": "1-1",
+            "anchor": "import type {",
+            "sha256": "b21a654bed89acac3c485f236b091246ad6bf61102825bb19f1cb3111c6bff51",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 226,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/stability-fire-closeout-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "tb00-tb01-completion-evidence.json",
+      "kind": "evidence",
+      "domain": "ops",
+      "module": "ops",
+      "capability": "tb00-tb01-completion-evidence",
+      "provenance": "unattributed",
+      "sourceSha": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
+      "storedSha256": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 493,
+      "sourceRefs": [],
+      "publicCommands": [],
+      "publicCallers": ["document-only historical record; no public runner registered"],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
+        "sourceRefs": [],
+        "bodyLines": 493,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/tb00-tb01-completion-evidence.json"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "tb00-tb01-completion.md",
+      "kind": "document",
+      "domain": "ops",
+      "module": "ops",
+      "capability": "tb00-tb01-completion",
+      "provenance": "unattributed",
+      "sourceSha": "2257f0bdd53474e1e86389b9e0d58b0a204585f70960e90709e2a6ebf8e4d7de",
+      "storedSha256": "e85e8932ee66ac39d4d84f52caaf2168791f1b3266377e2282e2ea069e1a2b70",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 89,
+      "sourceRefs": [],
+      "publicCommands": [
+        "pnpm check",
+        "pnpm coverage:fast",
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
+      ],
+      "publicCallers": [
+        "pnpm check",
+        "pnpm coverage:fast",
+        "node docs/testing/domains/content/engine-boundaries/tools/runtime-state-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-review-witnesses.mjs /absolute/current-tree",
+        "node docs/testing/domains/runtime/engine-boundaries/tools/runtime-state-mutants.mjs",
+        "node docs/testing/domains/content/authoring-and-runtime/tools/content-residual-mutants.mjs"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "the archived source record itself"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "2257f0bdd53474e1e86389b9e0d58b0a204585f70960e90709e2a6ebf8e4d7de",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "2257f0bdd53474e1e86389b9e0d58b0a204585f70960e90709e2a6ebf8e4d7de",
+        "sourceRefs": [],
+        "bodyLines": 89,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/tb00-tb01-completion.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/ops/testing-records/tb00-tb01-completion.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    },
+    {
+      "path": "world-async-commit.md",
+      "kind": "document",
+      "domain": "runtime",
+      "module": "runtime",
+      "capability": "world-async-commit",
+      "provenance": "unattributed",
+      "sourceSha": "6b86402a931e1ce08c1c4f5f58a2cf2544101e8eeff3781baf34fc0de01693b0",
+      "storedSha256": "2432fe8a7be8a0fe9ab1fffa04f48708343b5f844d79d4f3b755373e55051961",
+      "retentionDeadline": null,
+      "governanceTask": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "bodyLines": 100,
+      "sourceRefs": [
+        {
+          "path": "packages/reforge/src/world-async-commit.test.ts",
+          "lines": "1-1",
+          "anchor": "import type { RuntimeCommand } from '@type-pal/content'",
+          "sha256": "2aac47b4a5a930924849daef8ec0fd3397d2c05cd0365524c076860f3582abd3",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/scene-preflight.chain.test.ts",
+          "lines": "1-1",
+          "anchor": "import * as content from '@type-pal/content'",
+          "sha256": "d41d9b668cccf94a8c74b15c8e9fff38285333dc59d274241006cd2191ba1f52",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/scene-switch-transaction.test.ts",
+          "lines": "1-1",
+          "anchor": "import {",
+          "sha256": "bd54b60914cd5f591bbc6950406d8f32775217b1e7b71e1ee3f1b1bf2c493be1",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/__tests__/world-async-fixture.ts",
+          "lines": "1-1",
+          "anchor": "// Test-only fixtures. GLM batch-2 supplied the original cases; no audit code is imported.",
+          "sha256": "a366576e5693053875bc008d77ac318e189bddc7c11690c511f1c7d0897e4cb2",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/reforge/src/save/restore-preflight.chain.test.ts",
+          "lines": "1-1",
+          "anchor": "/**",
+          "sha256": "fd81adf4afc14ed7bf9ac136631e1f295bd417ad5b7f62ad2c386e49e797308c",
+          "source": "body-reference",
+          "role": "source-inventory"
+        },
+        {
+          "path": "packages/editor/src/core/playback.test.ts",
+          "lines": "1-1",
+          "anchor": "import type { AuthorSceneDef, AuthorScriptFlow, SceneDef } from '@type-pal/content'",
+          "sha256": "f46d5594ee7a316257f92e856dd7ffdbdfbc69235e5b5140c3f2bd05a899af4a",
+          "source": "body-reference",
+          "role": "source-inventory"
+        }
+      ],
+      "publicCommands": [
+        "node docs/testing/domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs",
+        "pnpm --filter @type-pal/reforge exec vitest run src/world-async-commit.test.ts src/scene-preflight.chain.test.ts src/scene-switch-transaction.test.ts src/runtime-script-project.test.ts src/script-host-adapter.test.ts src/save/restore-prefli",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "publicCallers": [
+        "node docs/testing/domains/content/authoring-and-runtime/tools/world-async-commit-mutants.mjs",
+        "pnpm --filter @type-pal/reforge exec vitest run src/world-async-commit.test.ts src/scene-preflight.chain.test.ts src/scene-switch-transaction.test.ts src/runtime-script-project.test.ts src/script-host-adapter.test.ts src/save/restore-prefli",
+        "pnpm coverage:ratchet",
+        "pnpm coverage:fast"
+      ],
+      "legalInputs": [
+        "current repository checkout at the recorded revision",
+        "packages/reforge/src/world-async-commit.test.ts:1-1",
+        "packages/reforge/src/scene-preflight.chain.test.ts:1-1",
+        "packages/reforge/src/scene-switch-transaction.test.ts:1-1",
+        "packages/reforge/src/__tests__/world-async-fixture.ts:1-1",
+        "packages/reforge/src/save/restore-preflight.chain.test.ts:1-1",
+        "packages/editor/src/core/playback.test.ts:1-1"
+      ],
+      "businessOracle": {
+        "type": "document-audit",
+        "assertions": [
+          "sourceRefs resolve to existing files with full SHA-256 and line anchors",
+          "historical execution claims remain historical and are not promoted to current runtime proof",
+          "archive placement does not create a current product or coverage contract"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/testing/legacy-flat-classification.json",
+          "docs/testing/archive/migrations/legacy-full-closeout-plan.json"
+        ],
+        "notes": "This closeout record is an inventory/decision, not a new runtime test or coverage credit."
+      },
+      "revision": {
+        "currentSha": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+        "implementationSha": "6b86402a931e1ce08c1c4f5f58a2cf2544101e8eeff3781baf34fc0de01693b0",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "6f7761fd2100f5e4cb6eb3355a54c82f364e78de",
+            "date": "2026-10-04",
+            "action": "legacy-closeout-review",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "source-inventory",
+        "sourceSha": "6b86402a931e1ce08c1c4f5f58a2cf2544101e8eeff3781baf34fc0de01693b0",
+        "sourceRefs": [
+          {
+            "path": "packages/reforge/src/world-async-commit.test.ts",
+            "lines": "1-1",
+            "anchor": "import type { RuntimeCommand } from '@type-pal/content'",
+            "sha256": "2aac47b4a5a930924849daef8ec0fd3397d2c05cd0365524c076860f3582abd3",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/scene-preflight.chain.test.ts",
+            "lines": "1-1",
+            "anchor": "import * as content from '@type-pal/content'",
+            "sha256": "d41d9b668cccf94a8c74b15c8e9fff38285333dc59d274241006cd2191ba1f52",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/scene-switch-transaction.test.ts",
+            "lines": "1-1",
+            "anchor": "import {",
+            "sha256": "bd54b60914cd5f591bbc6950406d8f32775217b1e7b71e1ee3f1b1bf2c493be1",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/__tests__/world-async-fixture.ts",
+            "lines": "1-1",
+            "anchor": "// Test-only fixtures. GLM batch-2 supplied the original cases; no audit code is imported.",
+            "sha256": "a366576e5693053875bc008d77ac318e189bddc7c11690c511f1c7d0897e4cb2",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/reforge/src/save/restore-preflight.chain.test.ts",
+            "lines": "1-1",
+            "anchor": "/**",
+            "sha256": "fd81adf4afc14ed7bf9ac136631e1f295bd417ad5b7f62ad2c386e49e797308c",
+            "source": "body-reference",
+            "role": "source-inventory"
+          },
+          {
+            "path": "packages/editor/src/core/playback.test.ts",
+            "lines": "1-1",
+            "anchor": "import type { AuthorSceneDef, AuthorScriptFlow, SceneDef } from '@type-pal/content'",
+            "sha256": "f46d5594ee7a316257f92e856dd7ffdbdfbc69235e5b5140c3f2bd05a899af4a",
+            "source": "body-reference",
+            "role": "source-inventory"
+          }
+        ],
+        "bodyLines": 100,
+        "claims": ["historical source inventory and disposition only"]
+      },
+      "supersedes": ["docs/testing/world-async-commit.md"],
+      "toolAudit": null,
+      "toolImports": [],
+      "canonicalTarget": "archive/legacy/runtime/authoring-and-runtime/world-async-commit.md",
+      "decision": "archive-history",
+      "wave": 3,
+      "reason": "historical material was physically relocated under the full closeout plan; preserve source SHA and do not promote it to a current contract",
+      "stopLine": "do not restore this record as current; any new contract requires a separately cataloged canonical report/evidence pair",
+      "executionClaimScope": "historical-claim-requires-evidence",
+      "resolution": "archive-history"
+    }
+  ]
+}

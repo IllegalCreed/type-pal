@@ -1,0 +1,72 @@
+{
+  "card": "TEST-GLM-GAME-EVENT-CONTRACTS-1",
+  "targetFile": "packages/game/src/core/event-system.ts",
+  "testFile": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+  "note": "每针 = 唯一原始字符串替换;三相位(原始绿/变异红/恢复绿)同 vitest 命令。承载合同均在本卡新测试文件内。",
+  "points": [
+    {
+      "id": "MUT-01",
+      "line": 3163,
+      "find": "const startIp = labelMap[`L_${playerScriptIp}`] ?? playerScriptIp",
+      "replaceWith": "const startIp = labelMap[`L_${playerScriptIp}`] ?? 0",
+      "intent": "毒入口恒等 ip 回退被吞 → 缺 label 时误从 0 跑",
+      "carrier": "contracts runPlayerPoisonEntrySync 毒入口同步(3156-3225) > 入口解析(3163):L_<ip> 在全局 labelMap → 从标签 ip 起;缺 → 恒等 ip 起步"
+    },
+    {
+      "id": "MUT-02",
+      "line": 3180,
+      "find": "          curEventObjectId = frame.savedEventObjectId\n          break\n        }\n        if (cmd.advance) return ip + 1\n        if (cmd.reset && cmd.resetTo !== undefined) return labelMap[`L_${cmd.resetTo}`] ?? startIp",
+      "replaceWith": "          curEventObjectId = frame.savedEventObjectId\n          break\n        }\n        if (cmd.advance) return ip\n        if (cmd.reset && cmd.resetTo !== undefined) return labelMap[`L_${cmd.resetTo}`] ?? startIp",
+      "intent": "advance-end 下一轮 entry 少一行(show-once 变重跑)",
+      "carrier": "contracts runPlayerPoisonEntrySync 毒入口同步(3156-3225) > raw 真执行 + end 三态返回(3180-3182):plain→startIp;advance→ip+1;reset+resetTo→标签 ip;resetTo 缺→startIp / 世界侧集成"
+    },
+    {
+      "id": "MUT-03",
+      "line": 3207,
+      "find": "      default:\n        // 对话/场景切换等阻塞命令不能在施毒 helper 中安全同步嵌套;保留入口,下一次 tick 仍从原脚本跑。\n        return startIp",
+      "replaceWith": "      default:\n        // 对话/场景切换等阻塞命令不能在施毒 helper 中安全同步嵌套;保留入口,下一次 tick 仍从原脚本跑。\n        return 0",
+      "intent": "阻塞 op/越界返回值改成常量 0(丢失起始 entry)",
+      "carrier": "contracts runPlayerPoisonEntrySync 毒入口同步(3156-3225) > ip 越界(3169-3170):commands[ip] 不存在 → 返回 startIp / 入口解析恒等臂"
+    },
+    {
+      "id": "MUT-04",
+      "line": 4313,
+      "find": "        (roleId) => (r.rgwHP[roleId] ?? 0) < (r.rgwMaxHP[roleId] ?? 0),",
+      "replaceWith": "        (roleId) => (r.rgwHP[roleId] ?? 0) > (r.rgwMaxHP[roleId] ?? 0),",
+      "intent": "0x74 未满血判定翻转 → 满血门永不触发",
+      "carrier": "contracts applyRawOpcode 条件跳转/装备消耗长尾(4288-4601) > 0x74 jumpIfNotAllFullHp(4309-4316):任一队员 HP<MaxHP → 跳 op0;全满 → 顺序"
+    },
+    {
+      "id": "MUT-05",
+      "line": 3740,
+      "find": "                gs.PlayerRolesRuntime.rgwEquipment[slot]![roleId] = 0",
+      "replaceWith": "                gs.PlayerRolesRuntime.rgwEquipment[slot]![roleId] = itemId",
+      "intent": "0x20 装备消耗不清槽(装备仍挂效果却不算持有)",
+      "carrier": "contracts applyRawOpcode 条件跳转/装备消耗长尾(4288-4601) > 0x20 removeItem 装备槽补足臂(3729-3745):库存不足 + 无失败分支 → 清装备槽并撤该部位效果层"
+    },
+    {
+      "id": "MUT-06",
+      "line": 4436,
+      "find": "      if ((operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (operands[1] ?? 0) - 1",
+      "replaceWith": "      if ((operands[1] ?? 0) !== 0) cursor.currentEventObjectId = (operands[1] ?? 0)",
+      "intent": "0x04 op1 对象覆盖丢 -1(1-based 译 0-based off-by-one)",
+      "carrier": "contracts runScript battle 0x04 call/return(2952-2957,4414-4438) > 0x04 op1 覆盖(4436):curEventObjId = op1-1 持久到子脚本 raw(0x5D 按 role=4 判毒)"
+    },
+    {
+      "id": "MUT-07",
+      "line": 1410,
+      "find": "          if (cursor.ip === beforeIp && (cursor.callStack?.length ?? 0) === beforeDepth) break // 多帧 op 卡住",
+      "replaceWith": "          if (false && (cursor.callStack?.length ?? 0) === beforeDepth) break // 多帧 op 卡住",
+      "intent": "autoScript 0x04 callee 多帧卡住防御失效 → 同帧吞掉 callee 全部等待",
+      "carrier": "contracts autoScript 0x04 call 多帧 callee(1391-1413) > callee 内 0x09 wait 退化逐帧推进,callStack 弹帧后 caller 续跑(不挂死)"
+    },
+    {
+      "id": "MUT-08",
+      "line": 3101,
+      "find": "            ip = cursor.ip + 1 // 跳转 opcode 设 cursor.ip=target-1 → ip=target;非跳转保持 → ip+1",
+      "replaceWith": "            ip = cursor.ip // 跳转 opcode 设 cursor.ip=target-1 → ip=target;非跳转保持 → ip+1",
+      "intent": "battle runScript raw 后 ip 不 +1 → call 跳转少一步(子脚本首行被跳过)",
+      "carrier": "contracts runScript battle 0x04 call/return(2952-2957,4414-4438) > raw 0x04 call:子脚本同步跑完弹帧回 caller;返回值 = caller 侧 plain end"
+    }
+  ]
+}

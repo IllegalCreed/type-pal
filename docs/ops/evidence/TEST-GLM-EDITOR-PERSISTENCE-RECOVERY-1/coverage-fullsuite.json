@@ -1,0 +1,991 @@
+{
+  "kind": "whole-suite branch coverage appendix (564 test files / 4429 tests green)",
+  "provider": "v8",
+  "excludes": "src/ui/design-system/** (adoption gates 30s-timeout flaky under coverage load; pre-existing) + src/core/project-reference.pal.test.ts (pre-existing main red at 53bf97e01: 22663 != 22666, PAL data drift, outside this card)",
+  "scopeFiles": 19,
+  "perFile": {
+    "author-disk-baseline.ts": {
+      "branchGroups": 34,
+      "coveredTotal": "68/71",
+      "summaryPct": 95.77
+    },
+    "author-save-journal.ts": {
+      "branchGroups": 146,
+      "coveredTotal": "274/297",
+      "summaryPct": 92.25
+    },
+    "author-save-plan.ts": {
+      "branchGroups": 41,
+      "coveredTotal": "86/87",
+      "summaryPct": 98.85
+    },
+    "author-save-prefix.ts": {
+      "branchGroups": 15,
+      "coveredTotal": "31/31",
+      "summaryPct": 100
+    },
+    "author-save-store.ts": {
+      "branchGroups": 32,
+      "coveredTotal": "102/102",
+      "summaryPct": 100
+    },
+    "edit-session.ts": {
+      "branchGroups": 134,
+      "coveredTotal": "241/276",
+      "summaryPct": 87.31
+    },
+    "editor-history-coordinator.ts": {
+      "branchGroups": 27,
+      "coveredTotal": "50/54",
+      "summaryPct": 92.59
+    },
+    "editor-history-participant.ts": {
+      "branchGroups": 0,
+      "coveredTotal": "0/0",
+      "summaryPct": 100
+    },
+    "export-zip.ts": {
+      "branchGroups": 16,
+      "coveredTotal": "32/33",
+      "summaryPct": 96.96
+    },
+    "file-system-access.ts": {
+      "branchGroups": 3,
+      "coveredTotal": "5/6",
+      "summaryPct": 83.33
+    },
+    "fsa-copy.ts": {
+      "branchGroups": 3,
+      "coveredTotal": "6/6",
+      "summaryPct": 100
+    },
+    "handle-store.ts": {
+      "branchGroups": 19,
+      "coveredTotal": "39/39",
+      "summaryPct": 100
+    },
+    "load-play-project.ts": {
+      "branchGroups": 1,
+      "coveredTotal": "2/2",
+      "summaryPct": 100
+    },
+    "open-actions.ts": {
+      "branchGroups": 54,
+      "coveredTotal": "106/108",
+      "summaryPct": 98.14
+    },
+    "project-copy-source.ts": {
+      "branchGroups": 10,
+      "coveredTotal": "17/20",
+      "summaryPct": 85
+    },
+    "project-diagnostics.ts": {
+      "branchGroups": 117,
+      "coveredTotal": "216/240",
+      "summaryPct": 90
+    },
+    "project-io.ts": {
+      "branchGroups": 120,
+      "coveredTotal": "221/242",
+      "summaryPct": 91.32
+    },
+    "project-read-lock.ts": {
+      "branchGroups": 3,
+      "coveredTotal": "9/9",
+      "summaryPct": 100
+    },
+    "workspace-persistence.ts": {
+      "branchGroups": 206,
+      "coveredTotal": "415/427",
+      "summaryPct": 97.18
+    }
+  },
+  "remaining0CountArms": {
+    "author-disk-baseline.ts": [
+      {
+        "line": 80,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 463]
+      },
+      {
+        "line": 80,
+        "col": 12,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [463, 0]
+      },
+      {
+        "line": 186,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 720]
+      }
+    ],
+    "author-save-journal.ts": [
+      {
+        "line": 120,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [21303, 0]
+      },
+      {
+        "line": 198,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 1011]
+      },
+      {
+        "line": 219,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 10699]
+      },
+      {
+        "line": 261,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 567]
+      },
+      {
+        "line": 346,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 280]
+      },
+      {
+        "line": 423,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 4531]
+      },
+      {
+        "line": 434,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [250, 0]
+      },
+      {
+        "line": 553,
+        "col": 8,
+        "type": "cond-expr",
+        "kind": "unc",
+        "counts": [0, 0]
+      },
+      {
+        "line": 559,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 4279]
+      },
+      {
+        "line": 572,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 4278]
+      },
+      {
+        "line": 577,
+        "col": 10,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 675]
+      },
+      {
+        "line": 607,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [213, 0]
+      },
+      {
+        "line": 610,
+        "col": 40,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [3, 0]
+      },
+      {
+        "line": 635,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 247]
+      },
+      {
+        "line": 680,
+        "col": 8,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [2, 0, 0]
+      },
+      {
+        "line": 690,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 275]
+      },
+      {
+        "line": 691,
+        "col": 11,
+        "type": "if",
+        "kind": "prt",
+        "counts": [8, 0]
+      },
+      {
+        "line": 715,
+        "col": 76,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [21, 0]
+      },
+      {
+        "line": 780,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 18]
+      },
+      {
+        "line": 790,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 18]
+      },
+      {
+        "line": 817,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 214]
+      }
+    ],
+    "author-save-plan.ts": [
+      {
+        "line": 165,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 32021]
+      }
+    ],
+    "edit-session.ts": [
+      {
+        "line": 172,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [663, 0]
+      },
+      {
+        "line": 222,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 1]
+      },
+      {
+        "line": 271,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 2277]
+      },
+      {
+        "line": 303,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 4]
+      },
+      {
+        "line": 338,
+        "col": 11,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 3859]
+      },
+      {
+        "line": 403,
+        "col": 19,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [515, 0]
+      },
+      {
+        "line": 407,
+        "col": 19,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [515, 0]
+      },
+      {
+        "line": 436,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 237]
+      },
+      {
+        "line": 436,
+        "col": 12,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [237, 0]
+      },
+      {
+        "line": 463,
+        "col": 15,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [0, 75]
+      },
+      {
+        "line": 463,
+        "col": 15,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [75, 0]
+      },
+      {
+        "line": 475,
+        "col": 12,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 11]
+      },
+      {
+        "line": 477,
+        "col": 12,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 11]
+      },
+      {
+        "line": 547,
+        "col": 11,
+        "type": "cond-expr",
+        "kind": "unc",
+        "counts": [0, 0]
+      },
+      {
+        "line": 547,
+        "col": 11,
+        "type": "binary-expr",
+        "kind": "unc",
+        "counts": [0, 0]
+      },
+      {
+        "line": 585,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [18, 0]
+      },
+      {
+        "line": 597,
+        "col": 28,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 684,
+        "col": 28,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [70, 0]
+      },
+      {
+        "line": 694,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [56, 0]
+      },
+      {
+        "line": 699,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 211]
+      },
+      {
+        "line": 735,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [140, 0]
+      },
+      {
+        "line": 741,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [16, 0]
+      },
+      {
+        "line": 745,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 126]
+      },
+      {
+        "line": 754,
+        "col": 20,
+        "type": "binary-expr",
+        "kind": "unc",
+        "counts": [0, 0]
+      },
+      {
+        "line": 755,
+        "col": 4,
+        "type": "if",
+        "kind": "unc",
+        "counts": [0, 0]
+      },
+      {
+        "line": 760,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 18]
+      },
+      {
+        "line": 777,
+        "col": 26,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [126, 0]
+      },
+      {
+        "line": 781,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 23]
+      },
+      {
+        "line": 788,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 830,
+        "col": 10,
+        "type": "if",
+        "kind": "prt",
+        "counts": [8, 0]
+      },
+      {
+        "line": 853,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 1]
+      }
+    ],
+    "editor-history-coordinator.ts": [
+      {
+        "line": 33,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 1126]
+      },
+      {
+        "line": 158,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 166,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 1]
+      },
+      {
+        "line": 202,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 2]
+      }
+    ],
+    "export-zip.ts": [
+      {
+        "line": 51,
+        "col": 50,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      }
+    ],
+    "file-system-access.ts": [
+      {
+        "line": 18,
+        "col": 30,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [2, 0]
+      }
+    ],
+    "open-actions.ts": [
+      {
+        "line": 182,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 13]
+      },
+      {
+        "line": 293,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 25]
+      }
+    ],
+    "project-copy-source.ts": [
+      {
+        "line": 31,
+        "col": 8,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 15]
+      },
+      {
+        "line": 31,
+        "col": 12,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [15, 0]
+      },
+      {
+        "line": 64,
+        "col": 10,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 9]
+      }
+    ],
+    "project-diagnostics.ts": [
+      {
+        "line": 175,
+        "col": 15,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [2322, 0]
+      },
+      {
+        "line": 181,
+        "col": 15,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [2322, 0]
+      },
+      {
+        "line": 262,
+        "col": 17,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [2, 0]
+      },
+      {
+        "line": 332,
+        "col": 20,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [4, 0]
+      },
+      {
+        "line": 334,
+        "col": 17,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [4, 0]
+      },
+      {
+        "line": 339,
+        "col": 12,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [4, 0]
+      },
+      {
+        "line": 343,
+        "col": 12,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [4, 0]
+      },
+      {
+        "line": 396,
+        "col": 15,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [25, 0]
+      },
+      {
+        "line": 408,
+        "col": 15,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [33, 0]
+      },
+      {
+        "line": 424,
+        "col": 10,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [0, 3]
+      },
+      {
+        "line": 426,
+        "col": 12,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [0, 3]
+      },
+      {
+        "line": 450,
+        "col": 16,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [0, 166]
+      },
+      {
+        "line": 463,
+        "col": 10,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [403, 0]
+      },
+      {
+        "line": 474,
+        "col": 55,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [9, 0]
+      },
+      {
+        "line": 581,
+        "col": 6,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [28, 0]
+      },
+      {
+        "line": 775,
+        "col": 37,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [3, 0]
+      },
+      {
+        "line": 776,
+        "col": 41,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [4, 0]
+      },
+      {
+        "line": 823,
+        "col": 27,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [1721, 0]
+      },
+      {
+        "line": 826,
+        "col": 23,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 835,
+        "col": 27,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [8, 0]
+      },
+      {
+        "line": 842,
+        "col": 36,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [1739, 0]
+      },
+      {
+        "line": 880,
+        "col": 4,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [1725, 0]
+      },
+      {
+        "line": 905,
+        "col": 22,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 912,
+        "col": 21,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [2, 0]
+      }
+    ],
+    "project-io.ts": [
+      {
+        "line": 284,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 587]
+      },
+      {
+        "line": 297,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 1525]
+      },
+      {
+        "line": 341,
+        "col": 16,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 342,
+        "col": 18,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 343,
+        "col": 14,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 345,
+        "col": 13,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 346,
+        "col": 15,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 347,
+        "col": 25,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 350,
+        "col": 20,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 355,
+        "col": 52,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [596, 0]
+      },
+      {
+        "line": 580,
+        "col": 8,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [296, 0]
+      },
+      {
+        "line": 581,
+        "col": 11,
+        "type": "cond-expr",
+        "kind": "unc",
+        "counts": [0, 0]
+      },
+      {
+        "line": 625,
+        "col": 32,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [148, 0]
+      },
+      {
+        "line": 630,
+        "col": 50,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [164, 0]
+      },
+      {
+        "line": 641,
+        "col": 32,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [2170, 0]
+      },
+      {
+        "line": 647,
+        "col": 56,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [169, 0]
+      },
+      {
+        "line": 650,
+        "col": 42,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 727,
+        "col": 36,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [2, 0]
+      },
+      {
+        "line": 737,
+        "col": 37,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 747,
+        "col": 39,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      }
+    ],
+    "workspace-persistence.ts": [
+      {
+        "line": 127,
+        "col": 38,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [12, 0]
+      },
+      {
+        "line": 147,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 22]
+      },
+      {
+        "line": 555,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 258]
+      },
+      {
+        "line": 613,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 214]
+      },
+      {
+        "line": 622,
+        "col": 34,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 632,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 24]
+      },
+      {
+        "line": 642,
+        "col": 34,
+        "type": "cond-expr",
+        "kind": "prt",
+        "counts": [1, 0]
+      },
+      {
+        "line": 646,
+        "col": 19,
+        "type": "binary-expr",
+        "kind": "prt",
+        "counts": [22, 0]
+      },
+      {
+        "line": 648,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 110]
+      },
+      {
+        "line": 660,
+        "col": 2,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 22]
+      },
+      {
+        "line": 663,
+        "col": 4,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 110]
+      },
+      {
+        "line": 775,
+        "col": 6,
+        "type": "if",
+        "kind": "prt",
+        "counts": [0, 10]
+      }
+    ]
+  },
+  "conclusion": "remaining 0-count arms under the whole suite are defense layers / environment-specific arms / v8 sub-expression arms per dedup-ledger.md section 3; none traced to an unproven legal-input business contract"
+}

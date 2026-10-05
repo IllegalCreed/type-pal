@@ -24,7 +24,7 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 若拆后出现新runtime SCC或新模块回引commands barrel，说明边界不成立，应在内部下层拆helper而非增加万能Context。
 
 必读：AGENTS/CLAUDE/READ-FIRST、[治理台账](../../../audits/architecture-debt.md)、
-[前批验收](../../../../testing/cursor-architecture-batch-integration.md)、`command-contract.ts`、`edit-session.ts`。
+[前批验收](../../../../testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md)、`command-contract.ts`、`edit-session.ts`。
 不复活旧schema/旧入口，旧有fallback是否有问题另登记，不借机械拆分偷偷删除或“修好”。
 
 ## 九组顺序（连续完成，不逐组等批准）
@@ -49,7 +49,7 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 - 产品：`packages/editor/src/core/commands.ts`及上表明确命名的13个新模块。其他既有命令/生产模块零diff。
 - 测试：最多每目标域一个新`packages/editor/src/core/commands-wave2.<域>.test.ts`；共享fixture仅
   `packages/editor/src/core/__tests__/commands-wave2/`。既有测试仅源码路径绑定确受移动影响时机械适配，逐处说明，旧断言零改。
-- 证据：`docs/testing/cursor-commands-wave2/**`与本卡作者交付块。不改看板/索引/其它卡，由Codex维护。
+- 证据：`docs/testing/archive/legacy/batches/cursor-commands-wave2/**`与本卡作者交付块。不改看板/索引/其它卡，由Codex维护。
 - 禁止修改App/MapMode/UI/CSS、content/reforge产品、保存/迁移/项目资产、package配置、超时、coverage基线与范围。
 
 ## 验收与交付
@@ -69,8 +69,8 @@ before→after：同一编辑输入、返回对象/引用、历史与错误不�
 
 - Codex：premise verified / build allowed，2026-09-26；源码范围与Codex的reforge活动场景、GLM的content测试互斥。
 - Coding Owner：Cursor；贡献者自验与Codex独立验收分列。
-- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../../../testing/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
-- Codex验收：**accept / done allowed**（2026-09-26，2022acc3，集成96e9d3c1）。R1–R3、最小UI与统一质量门全部通过；[最终验收](../../../../testing/cursor-commands-wave2-integration.md)与[机账](../../../../testing/cursor-commands-wave2-integration-evidence.json)。首轮反证保留历史事实，不代签他席。
+- 作者交付：delivered，2026-09-26；产品 C9 `6952ffeec978e7716e7f3e48fd5f240244f07f93`；回执与反控见[receipt.md](../../../../testing/archive/legacy/batches/cursor-commands-wave2/receipt.md)。r1 窄修只动判据、C1 新 fixture 与回执归位。
+- Codex验收：**accept / done allowed**（2026-09-26，2022acc3，集成96e9d3c1）。R1–R3、最小UI与统一质量门全部通过；[最终验收](../../../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md)与[机账](../../../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json)。首轮反证保留历史事实，不代签他席。
 
 ## Codex统一收口
 
@@ -95,7 +95,7 @@ C1经buildBlankProject/正式loader构造、实际输入快照与原顺序断言
 
 ```text
 在原codex/cursor-commands-wave2窄返工ARCH-F2-CURSOR-BATCH-2，候选b2e8d712。
-fetch后先git show origin/main:docs/testing/cursor-commands-wave2-review.md，状态rework，只修R1–R3。
+fetch后先git show origin/main:docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md，状态rework，只修R1–R3。
 产品九组、90声明/119出口/62绑定/无环、2829全包与五针本次有效红已核；不重做、不改产品或旧断言。
 R1：实际judge拒同message混错、timed out、额外执行失败、suite/global错误；绿红均校验完整报告，
 自测走同一真实judge并包含本席四反例与合法对照；默认输出只进/tmp，不回写已跟踪JSON。
@@ -122,8 +122,8 @@ Codex负责后续独立复验、必要UI、统一全仓门与集成；不用重�
 
 ```bash
 cd /Users/zhangxu/illegal/type-pal-cursor-commands-wave2
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs --self-test
-env -u NODE_COMPILE_CACHE node docs/testing/cursor-commands-wave2/module-mutants.mjs
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs --self-test
+env -u NODE_COMPILE_CACHE node docs/testing/archive/legacy/batches/cursor-commands-wave2/module-mutants.mjs
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck
 env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor check
 ```

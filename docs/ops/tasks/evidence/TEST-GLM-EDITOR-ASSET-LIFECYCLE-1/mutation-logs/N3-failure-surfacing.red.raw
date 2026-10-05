@@ -1,0 +1,29 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-glm-asset-lifecycle/packages/editor
+
+ ❯ src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx (5 tests | 1 failed | 4 skipped) 39ms
+     ↓ 同 AssetId 替换：revision 变化令旧 URL 回收、新 URL 重建，卸载回收最终 URL
+     ↓ 在途 stale：读取未完成即切走，迟到的旧读取不建 URL、不串显
+     × 失败后恢复：读取失败只显错误芯片；同 id 真实 upsert 后错误态恢复为图片 38ms
+     ↓ 带色盘：真实重染为项目标准色像素；无色盘：透传原始索引字节
+     ↓ 索引违例与尺寸违例：精确拒绝文案且不产生 object URL
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  22:15:50
+   Duration  2.68s (transform 1.75s, setup 0ms, import 2.14s, tests 39ms, environment 406ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx > ImageAssetThumbnail 对象 URL 生命周期残余合同 > 失败后恢复：读取失败只显错误芯片；同 id 真实 upsert 后错误态恢复为图片
+AssertionError: 错误芯片应在失败链排空后同步可见: expected null not to be null
+ ❯ src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx:360:42
+    358|     })
+    359|     const chip = host.querySelector<HTMLElement>('.image-asset-thumb.e…
+    360|     expect(chip, '错误芯片应在失败链排空后同步可见').not.toBeNull()
+       |                                          ^
+    361|     expect(chip?.getAttribute('title')).toContain('注入磁盘读取失败')
+    362|     expect(host.querySelector('img')).toBeNull()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

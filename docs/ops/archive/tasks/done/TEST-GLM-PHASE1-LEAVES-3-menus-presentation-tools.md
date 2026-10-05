@@ -16,8 +16,8 @@ Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走�
 冻结 `4a9ad67faa07b004f259dcde1e175e864684dbd0`（相对 `29e76fe6` 产品/scripts 零变更），
 分支 `codex/glm-phase1-leaves-r1`，已备好工作树
 `/Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal`；不借其它对话或 main。
-具体新文件/hash/公开入口/旧测试线索见[冻结表](../../../../testing/glm-phase1-leaves/targets.json)，
-逐组合同与验证方式见[工作包](../../../../testing/glm-phase1-leaves/README.md)。
+具体新文件/hash/公开入口/旧测试线索见[冻结表](../../../../testing/archive/legacy/batches/glm-phase1-leaves/targets.json)，
+逐组合同与验证方式见[工作包](../../../../testing/archive/legacy/batches/glm-phase1-leaves/README.md)。
 
 ## 前提真值门
 
@@ -42,7 +42,7 @@ Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走�
 
 - 新测试为 targets.json 的 51 个 `newTest`；无新增合同可登记 existing-proof，不凑文件。
 - fixture 限 `packages/game/src/__tests__/glm-phase1-leaves/**`；专属报告/工具/诊断/浏览器宿主限
-  `docs/testing/glm-phase1-leaves/**`。冻结表只读；不改任务卡、公共索引或派发规则。
+  `docs/testing/archive/legacy/batches/glm-phase1-leaves/**`。冻结表只读；不改任务卡、公共索引或派发规则。
 - 产品、旧测试、官方配置/覆盖基线、依赖/锁、正式资源、用户存档不改；不合其它候选、不共享新增fixture。
 - 不碰 E2E001/002 的事件/场景/移动/总壳、主绘制/对话管线；battle-system/opcodes/公式/action执行、
   menu-driver/magic-script、真实Save API/IndexedDB均不接。具体排除列表见冻结表。
@@ -80,7 +80,7 @@ Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走�
 你是 GLM 第三对话，接手 TEST-GLM-PHASE1-LEAVES-3，不接前两条GLM或Kimi的任务。
 先读 AGENTS.md、CLAUDE.md、docs/phase1/engineering-notes.md、涉及领域的game-mechanics，
 以及 docs/ops/tasks/TEST-GLM-PHASE1-LEAVES-3-menus-presentation-tools.md、
-docs/testing/glm-phase1-leaves/README.md 和 targets.json。
+docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md 和 targets.json。
 本卡build allowed，生产冻结4a9ad67f，分支codex/glm-phase1-leaves-r1，使用自己的隔离工作树。
 已备好 /Users/zhangxu/.codex/worktrees/glm-phase1-leaves/type-pal。
 按A→F连续做24组，每四组固定SHA提交推送后继续下一批，不必等Codex审完；直接实现，不只写审计。

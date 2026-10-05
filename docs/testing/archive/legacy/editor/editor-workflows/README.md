@@ -1,0 +1,33 @@
+# Legacy 历史归档：editor/editor-workflows
+
+本目录仅保存历史记录，不提供当前 runtime、E2E 或 coverage 结论。源 SHA、caller、oracle、排重与停止线见
+[全量收口决策账](../../../migrations/legacy-full-closeout-plan.json)。
+
+- [codex-plus2-ui.md](codex-plus2-ui.md)
+- [cursor-author-guides-batch.md](cursor-author-guides-batch.md)
+- [cursor-author-guides-review.md](cursor-author-guides-review.md)
+- [cursor-command-boundaries-r3-integration.md](cursor-command-boundaries-r3-integration.md)
+- [cursor-command-boundaries-r3-review.md](cursor-command-boundaries-r3-review.md)
+- [cursor-commands-wave2-integration.md](cursor-commands-wave2-integration.md)
+- [cursor-commands-wave2-review.md](cursor-commands-wave2-review.md)
+- [design-system-audit-layering-refactor.md](design-system-audit-layering-refactor.md)
+- [editor-app-sessions-refactor.md](editor-app-sessions-refactor.md)
+- [editor-functional-visual-2026-09-22.md](editor-functional-visual-2026-09-22.md)
+- [editor-leave-guard.md](editor-leave-guard.md)
+- [editor-preview-cache.md](editor-preview-cache.md)
+- [glm-editor-history-workflows-receipt.md](glm-editor-history-workflows-receipt.md)
+- [glm-editor-history-workflows.md](glm-editor-history-workflows.md)
+- [glm-editor-map-data.md](glm-editor-map-data.md)
+- [glm-editor-script-helpers.md](glm-editor-script-helpers.md)
+- [glm-editor-ui-wave-codex-r2-review.md](glm-editor-ui-wave-codex-r2-review.md)
+- [glm-editor-ui-wave-codex-review.md](glm-editor-ui-wave-codex-review.md)
+- [item-authoring-glm-audit.md](item-authoring-glm-audit.md)
+- [item-authoring-implementation.md](item-authoring-implementation.md)
+- [item-logic-integration.md](item-logic-integration.md)
+- [item-logic-r1-review.md](item-logic-r1-review.md)
+- [item-logic-r4-review.md](item-logic-r4-review.md)
+- [item-logic-r6-review.md](item-logic-r6-review.md)
+- [item-logic-r7-review.md](item-logic-r7-review.md)
+- [preview-controls.md](preview-controls.md)
+- [script-card-ui.md](script-card-ui.md)
+- [sprite-selection.md](sprite-selection.md)

@@ -1,6 +1,6 @@
 {
   "profile": "fast",
-  "testCount": 113,
+  "testCount": 118,
   "entries": [
     {
       "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
@@ -100,6 +100,24 @@
     },
     {
       "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
+      "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝",
+      "status": "passed",
+      "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） > 绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝"
+    },
+    {
+      "file": "packages/reforge/src/entity-motion.c85-arms.test.ts",
       "fullName": "公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud",
       "status": "passed",
       "identity": "packages/reforge/src/entity-motion.c85-arms.test.ts :: project reforge :: 公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud"
@@ -151,6 +169,12 @@
       "fullName": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
       "status": "passed",
       "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局"
+    },
+    {
+      "file": "packages/reforge/src/main.c85-boot.test.ts",
+      "fullName": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
+      "status": "passed",
+      "identity": "packages/reforge/src/main.c85-boot.test.ts :: project reforge :: C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单"
     },
     {
       "file": "packages/reforge/src/main.c85-boot.test.ts",
@@ -253,6 +277,12 @@
       "fullName": "C85 ScriptRunnerCore 流臂 > 游标缺失臂:flow 指针指向不存在的 stage 即拒",
       "status": "passed",
       "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 ScriptRunnerCore 流臂 > 游标缺失臂:flow 指针指向不存在的 stage 即拒"
+    },
+    {
+      "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",
+      "fullName": "C85 r6 断点续行臂（真实 continuation:stop 落游标→复跑续行不重放） > auto 行为中止后保留断点续行,复跑从断点续行且不重放已完成叶",
+      "status": "passed",
+      "identity": "packages/reforge/src/runtime-host.c85-arms.test.ts :: project reforge :: C85 r6 断点续行臂（真实 continuation:stop 落游标→复跑续行不重放） > auto 行为中止后保留断点续行,复跑从断点续行且不重放已完成叶"
     },
     {
       "file": "packages/reforge/src/runtime-host.c85-arms.test.ts",

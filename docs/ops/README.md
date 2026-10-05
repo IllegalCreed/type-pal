@@ -16,4 +16,5 @@
 ## 文档与附件
 
 - [三贤人系统工作流](agent-workflow.md)
-- [三贤人系统任务看板](board.md)
+- [当前任务看板](board.md)
+- [历史任务看板快照](archive/board-history/README.md)

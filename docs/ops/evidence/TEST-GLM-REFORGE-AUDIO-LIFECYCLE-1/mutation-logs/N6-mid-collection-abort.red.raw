@@ -1,0 +1,37 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-audio-lifecycle/packages/reforge
+
+ ❯ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts (3 tests | 1 failed | 2 skipped) 6ms
+     × 首 root 访问完成后同步 abort → 后续 root 不访问，以 AbortError 收场 6ms
+     ↓ 同输入正控（不 abort）：root[1] 会被访问并以缺 sprites 注册表 fail-loud
+     ↓ 双合法 root 正控：多 root 收集不受影响，全部入集
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  02:44:20
+   Duration  536ms (transform 346ms, setup 0ms, import 422ms, tests 6ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio/sfx-readiness.glm-audio-lifecycle.test.ts > L6 收集中途 abort（AbortSignal 轴） > 首 root 访问完成后同步 abort → 后续 root 不访问，以 AbortError 收场
+AssertionError: expected Error: SFX readiness root[1]: 无 sprites 注… to match object { name: 'AbortError' }
+
+- Expected
++ Received
+
+- {
+-   "name": "AbortError",
++ Error {
++   "message": "SFX readiness root[1]: 无 sprites 注册表，无法解析动作音效",
+  }
+
+ ❯ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts:26:21
+     24|       (error: unknown) => error,
+     25|     )
+     26|     expect(outcome).toMatchObject({ name: 'AbortError' })
+       |                     ^
+     27|   })
+     28|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
