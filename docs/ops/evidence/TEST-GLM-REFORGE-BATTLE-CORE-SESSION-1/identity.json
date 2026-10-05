@@ -1,0 +1,49 @@
+{
+  "card": "TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1",
+  "suite": "定向 2 文件 6 测试 + 相邻 24 文件 327 测试全绿（vitest run，cwd=packages/reforge）",
+  "files": [
+    "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts",
+    "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+  ],
+  "fullNames": [
+    "BCS-1 敌方回复术：applyEnemySkill healHp 按量回复并钳满血上限，战斗日志留痕",
+    "BCS-2 敌方 HP 阈值门：门判玩家当前血，过门即死、超线截断为无任何效果",
+    "BCS-3 敌方状态术：applyEnemySkill applyStatus 对玩家写入 sleep 回合并留痕",
+    "BCS-4 复活无保底：极端小档复活到 0 依旧倒地（trunc 语义，无 floor 1）",
+    "BCS-5 先杀后逃的战果会计：先死之敌照计战果，逃跑之敌一律不计",
+    "BCS-6 AI 规则敌逃终局：会话 done 精确兑现 enemyFled，零结算零战果"
+  ],
+  "adjacent": {
+    "files": [
+      "packages/reforge/src/battle/battle-core.test.ts",
+      "packages/reforge/src/battle/battle-core.glm-next-wave.test.ts",
+      "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
+      "packages/reforge/src/battle/battle-enemy-confused.test.ts",
+      "packages/reforge/src/battle/battle-casualty.test.ts",
+      "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+      "packages/reforge/src/battle/battle-session.test.ts",
+      "packages/reforge/src/battle/battle-session.action-flows.test.ts",
+      "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
+      "packages/reforge/src/battle/battle-session.flow-residual.test.ts",
+      "packages/reforge/src/battle/battle-session.glm-next-wave.test.ts",
+      "packages/reforge/src/battle/battle-session.round-flows.test.ts",
+      "packages/reforge/src/battle/battle-session.script-flows.test.ts",
+      "packages/reforge/src/battle/battle-session.selection-flows.test.ts",
+      "packages/reforge/src/battle/battle-session.terminal-flows.test.ts",
+      "packages/reforge/src/battle/battle-session.writeback-flows.test.ts",
+      "packages/reforge/src/battle/battle-command-selection.test.ts",
+      "packages/reforge/src/battle/battle-command-selection.residual.test.ts",
+      "packages/reforge/src/battle/battle-command-selection.glm-next-wave.test.ts",
+      "packages/reforge/src/battle/battle-turn-readiness.test.ts",
+      "packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts",
+      "packages/reforge/src/main.battle-host-flows.test.ts",
+      "packages/reforge/src/battle/battle-host.test.ts",
+      "packages/reforge/src/battle/battle-host.finalization.test.ts"
+    ],
+    "rows": 327
+  },
+  "counts": {
+    "directedPassed": 6,
+    "adjacentPassed": 327
+  }
+}

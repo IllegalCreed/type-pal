@@ -1,0 +1,1638 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ❯ src/battle/battle-core.enemy-cast-residual.test.ts (5 tests | 1 failed) 7ms
+   ✓ BCS-1 敌方回复术：applyEnemySkill healHp 按量回复并钳满血上限，战斗日志留痕 3ms
+   ✓ BCS-2 敌方 HP 阈值门：门判玩家当前血，过门即死、超线截断为无任何效果 1ms
+   × BCS-3 敌方状态术：applyEnemySkill applyStatus 对玩家写入 sleep 回合并留痕 3ms
+   ✓ BCS-4 复活无保底：极端小档复活到 0 依旧倒地（trunc 语义，无 floor 1） 0ms
+   ✓ BCS-5 先杀后逃的战果会计：先死之敌照计战果，逃跑之敌一律不计 0ms
+stdout | src/pal-meal-shell.test.ts > stationary normal item menu immediately awaits the entire NPC gift, once, and restores movement
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-meal-shell.test.ts > normal item cancellation and invalid wine position preserve inventory and never enter the gift
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-meal-shell.test.ts > slow kitchen dialogue keeps the aunt facing down and restores up only after the instruction
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-meal-shell.test.ts > normal manual save and fresh current-codec restore retain the actual carried tray
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/pal-unified-steps-content.test.ts (5414 tests) 2141ms
+stdout | src/pal-meal-shell.test.ts > a normal landing executes the actual serving body, restores the persistent sprite and grants wine once
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/pal-meal-shell.test.ts (6 tests) 5727ms
+   ✓ stationary normal item menu immediately awaits the entire NPC gift, once, and restores movement  2206ms
+   ✓ normal item cancellation and invalid wine position preserve inventory and never enter the gift  631ms
+   ✓ slow kitchen dialogue keeps the aunt facing down and restores up only after the instruction  698ms
+   ✓ normal manual save and fresh current-codec restore retain the actual carried tray  1029ms
+   ✓ a normal landing executes the actual serving body, restores the persistent sprite and grants wine once  995ms
+ ✓ src/render-occlusion.test.ts (21 tests) 1921ms
+     ✓ fractional camera -0.25/-0.75, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask  612ms
+     ✓ fractional camera -0.375/-0.625, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask  597ms
+     ✓ fractional camera -0.2/-0.8, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask  584ms
+ ✓ src/audio/bgm.test.ts (11 tests) 1598ms
+stdout | src/main.frame-animation-owner.test.ts > explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.frame-animation-owner.test.ts > a delayed old decode and its finally cannot repaint or hide a superseding held request
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.frame-animation-owner.test.ts > clear during slow first decode releases its owned black and prevents resurrection
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.frame-animation-owner.test.ts > superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.frame-animation-owner.test.ts > real author clear between movie and world does not leave a held layer through the following command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.frame-animation-owner.test.ts > a legal SAVE11 restore resets held cinematic state rather than replaying its pixels
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.frame-animation-owner.test.ts > a real scene commit clears held cinematic pixels while its own scene fade stays authoritative
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/battle/battle-host.test.ts (16 tests) 1530ms
+stdout | src/main.frame-animation-owner.test.ts > author clear does not remove a later ordinary fade that belongs to the surrounding script
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.frame-animation-owner.test.ts (8 tests) 1470ms
+   ✓ a real scene commit clears held cinematic pixels while its own scene fade stays authoritative  449ms
+stdout | src/main.auto-save-flows.test.ts > a paused command inside one ordinary step remains saveable when hidden before F5, then resumes without replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a paused command inside one ordinary step remains saveable when suspended before F5, then resumes without replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > the ordinary save menu snapshots a queued auto stepEntity without waiting for a frozen world tick
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > the ordinary save menu snapshots a queued auto chasePlayer without waiting for a frozen world tick
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a committed auto stepEntity is saved before its deferred ack and never applies its relative movement twice after F9
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a committed auto chasePlayer is saved before its deferred ack and never applies its relative movement twice after F9
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 restores a self chase contact claim before hostile scanning can steal its pacing window
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 restores a shared-suspended-owner chase contact claim before hostile scanning can steal its pacing window
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 restores a between-chase-leaves chase contact claim before hostile scanning can steal its pacing window
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 restores a self-hidden-owner chase contact claim before hostile scanning can steal its pacing window
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 restores a shared-hidden-target chase contact claim before hostile scanning can steal its pacing window
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.save-flows.test.ts > H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a committed cross-target auto step suspended at its owner is immediately saveable and resumes without a second step
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a committed cross-target auto step suspended at its target is immediately saveable and resumes without a second step
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a completed chase-trigger interaction is saved during its pacing wait and never rewards twice after F9
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a chase terminal held by the manual-save menu remains pending in the real slot and fires once after restoring that slot
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F5 during the actual one-step aunt route at first-target captures the in-flight pose immediately, and F9 resumes that command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.save-flows.test.ts > H5 empty slot preserves world and shows the absent message, not load success
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F5 during the actual one-step aunt route at stairs captures the in-flight pose immediately, and F9 resumes that command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.save-flows.test.ts > H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 during the actual aunt multi-command route cancels every remaining move and final trigger switch
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > a real diagonal target leg saves without waiting for its endpoint and resumes without reward replay after F9
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > F9 cancels a real in-flight diagonal move without late position, reward or behavior selection
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > ordinary auto completion (next) commits after self state0, permitting F5/F9 without replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > ordinary auto completion (direct) commits after self state0, permitting F5/F9 without replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.save-flows.test.ts > H5 two actual quick-save requests commit monotonically without consuming an extra count
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > ordinary auto completion (branch) commits after self state0, permitting F5/F9 without replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-save-flows.test.ts > the actual kitchen departure hides the hall aunt, settles and survives F5/F9
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.auto-save-flows.test.ts (24 tests) 946ms
+stdout | src/main.save-flows.test.ts > H5 delayed old IDB read cannot replace a newer restore or its success message
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.save-flows.test.ts (5 tests) 775ms
+stdout | src/main.presentation-clock.test.ts > ordinary first cue uses UI time despite accumulated long-frame lag: false
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > ordinary first cue uses UI time despite accumulated long-frame lag: true
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > world single-step pause does not pause dialogue typing, input or the next script effect
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > world pause keeps legal skip and automatic tail timing on the same UI clock
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > ordinary page skip and next-page typing retain real-time start after a lagged first cue
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > normal dither keeps its forced zero frame and all 72 time-derived steps before resolving
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > dither UI progress agrees with real output and finishes while gameplay lags or pauses: false
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > dither UI progress agrees with real output and finishes while gameplay lags or pauses: true
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.host-lifecycle-1.test.ts > 标题入口视频:选中入口先播 intro 视频再进世界
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > palette preparation cost is excluded from the existing 720ms dither budget
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > canceling a real detached dialog rejects its awaited effect and never executes the tail
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock.test.ts > canceling a real detached dither rejects its awaited effect and never executes the tail
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.host-lifecycle-1.test.ts > 启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.presentation-clock.test.ts (11 tests) 607ms
+stdout | src/main.host-lifecycle-1.test.ts > 播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.host-lifecycle-1.test.ts > 资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.host-lifecycle-1.test.ts (8 tests) 603ms
+stdout | src/main.auto-pose-authority.test.ts > automatic 'setEntityFacing' waits for the actual target owner, including a different automatic caller
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > automatic 'setEntityFrame' waits for the actual target owner, including a different automatic caller
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > automatic 'animEntity' waits for the actual target owner, including a different automatic caller
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > automatic 'playEntityAction' waits for the actual target owner, including a different automatic caller
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > automatic 'stopEntityAction' waits for the actual target owner, including a different automatic caller
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > an already playing automatic action keeps its exact phase while its target is held and resumes after release
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > a taken target pauses only its automatic page action while another page continues
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/audio/bgm.glm-audio-lifecycle.test.ts (4 tests) 417ms
+stdout | src/main.auto-pose-authority.test.ts > a foreground awaited action still finishes on a target it has explicitly taken
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > switching the automatic binding while a pose waits invalidates the old owner and never writes its old frame or reward
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > a new scene with the same entity id cannot receive the previous scene automatic pose or tail
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > a foreground action with the same binding replaces a paused automatic waiter and still completes
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.auto-pose-authority.test.ts > restoring the same scene invalidates the old held automatic activation before its pose can write
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.auto-pose-authority.test.ts (12 tests) 528ms
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 实体状态、朝向、图层和屏幕波纹从正式 onEnter 走到持久世界与活场景
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 全队资源同加按上限钳制，半钱只取当前钱数，不改变原入口 seed
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 编外跟随精灵经真实资源准备后提交一次世界态；当前已有队员仍保持身份
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 实体隐藏与恢复经同一脚本状态表实时投影，下一条命令仍能继续
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 只扣 MP 到零而 HP 不变；正式换队保留成员实例与顺序
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 编外跟随从非空清空后不保留旧资源引用，也不改变队员本体
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 当前角色形象在合法精灵/战斗资源准备后写入持久实例，定义和素材输入不变
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 全队恢复跳过阵亡者，复活仅作用阵亡者且按最大体力十分比结算
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-inn-door-save.test.ts > untouched doors remain closed after real F5/F9 while ordinary transient frames are cleared
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 批量实体显隐先持久写两个场景，切场后第二个实体才由当前场景投影隐藏
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 显式场景与落点只覆盖启动位置，不偷换所选入口世界或重放 onEnter 奖励
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-inn-door-save.test.ts > actual e73 opening survives real F5/F9 without frame Map persistence or reward replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 开发期 give 参数只给已登记物品五件，保持正常入口脚本和独立素材闭包
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.effect-flows.residual.test.ts (11 tests) 416ms
+stdout | src/pal-inn-door-save.test.ts > actual e74 opening survives real F5/F9 without frame Map persistence or reward replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-inn-door-save.test.ts > actual e60 opening survives real F5/F9 without frame Map persistence or reward replay
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-inn-door-save.test.ts > existing page/state model restores hidden doors without inventing a canonical close storyline
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-inn-door-save.test.ts > existing page/state model restores closed doors without inventing a canonical close storyline
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/pal-inn-door-save.test.ts (7 tests) 399ms
+stdout | src/main.boot-flows.test.ts > H1 normal boot executes the real current project pipeline and first world frame
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-flows.test.ts > H1 startup ?entry=second selects a complete entry, not just its scene
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-flows.test.ts > H1 startup ?entry=unknown selects a complete entry, not just its scene
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-flows.test.ts > H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 medicine repeats on the real target and returns to list only after last consumption
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 explicit failed item gate keeps item and menu, with a visible failure message
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-flows.test.ts > H1 title selection completes ordinary boot with the selected world, not the default world
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.boot-flows.test.ts (9 tests) 373ms
+stdout | src/main.item-flows.test.ts > H8 all-allies item uses direct route, heals both and consumes only once
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 item target cancellation preserves bag, and a close-after-use item really releases the menu
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 actual item private script blocks duplicate input and preserves its money on consumption
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 unavailable teleport hook refuses consumption and restores the same usable menu
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 running item script owns exploration input until completion, then scene navigation works
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.item-flows.test.ts > H8 item private script changes scene and closes the old menu while preserving its new world
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.item-flows.test.ts (8 tests) 362ms
+stdout | src/main.scene-flows.test.ts > H6 public next/previous scene input commits complete scenes and preserves party identity
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.scene-flows.test.ts > H6 failed scene IO leaves the original world operable; repairing the same source permits retry
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.entity-host-flows.test.ts > H10 'absolute' entity position reaches both durable state and live projection before continuation
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.scene-flows.test.ts > H6 old in-flight scene response cannot overwrite a newer complete round trip
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.entity-host-flows.test.ts > H10 'party-relative' entity position reaches both durable state and live projection before continuation
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.scene-flows.test.ts (3 tests) 332ms
+stdout | src/main.entity-host-flows.test.ts > H10 authored move waits for exact endpoint and persists it without mutating scene definition
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.entity-host-flows.test.ts > H10 hide then restore keeps entity identity and resumes the next authored command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.entity-host-flows.test.ts > H10 authored loadScene uses 'default' arrival and continues after the actual map commit
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.entity-host-flows.test.ts > H10 authored loadScene uses 'explicit' arrival and continues after the actual map commit
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.entity-host-flows.test.ts > H10 script movement owns keyboard until completion; exploration menu opens afterwards
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.entity-host-flows.test.ts (7 tests) 321ms
+ ✓ src/unified-script-core.test.ts (18 tests) 330ms
+stdout | src/main.dialog-flows.test.ts > H4 top author dialogue blocks menu, then closes before its next real command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 bottom author dialogue blocks menu, then closes before its next real command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 narration author dialogue blocks menu, then closes before its next real command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 center author dialogue blocks menu, then closes before its next real command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 wait resumes from gameplay frames and ignored menu input cannot bypass the wait
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 multi-page dialogue retains its real runner until the last displayed page is acknowledged
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 confirm yes consumes keyboard and resumes exactly its current branch
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.dialog-flows.test.ts > H4 confirm no consumes keyboard and resumes exactly its current branch
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.dialog-flows.test.ts (8 tests) 320ms
+stdout | src/main.menu-flows.test.ts > H3 status panel cycles both real party members and returns through hub without changing world
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 real magic route selects caster and target, heals only target, charges caster once, and backs out
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 empty caster list cannot cast and returns to the same hub
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 music switch commits explicit silence; cancellation preserves stored preferences and world
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 empty equip panel rejects confirm without closing hub or mutating inventory
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.menu-flows.test.ts > H3 empty use panel rejects confirm without closing hub or mutating inventory
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.menu-flows.test.ts (7 tests) 318ms
+stdout | src/main.equipment-flows.test.ts > H7 equip confirmation can be cancelled without changing the actual world or author input
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.equipment-flows.test.ts > H7 equip empty slot commits only selected equipment and removes exactly one bag item
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.equipment-flows.test.ts > H7 equip occupied slot swaps back through the same confirmation panel without losing inventory
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowRight' ] commits 'w1', not the original cursor
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowDown' ] commits 'w3', not the original cursor
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowDown', 'ArrowUp' ] commits 'w0', not the original cursor
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowRight', 'ArrowLeft' ] commits 'w0', not the original cursor
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.equipment-flows.test.ts (7 tests) 304ms
+stdout | src/main.battle-host-flows.test.ts > H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.battle-host-flows.test.ts > H9 author startBattle waits for real victory then runs the following command exactly once
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.battle-host-flows.test.ts > H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.battle-host-flows.test.ts > H9 thrown inventory is consumed by real battle and reaches the host world after victory
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.battle-host-flows.test.ts > H9 missing enemy team rejects before any active session and leaves menu operable
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.battle-host-flows.test.ts > H9 delayed battle sprite cannot commit a battle after the scene owner has changed
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.battle-host-flows.test.ts (6 tests) 302ms
+ ✓ src/debug-tools.commands.test.ts (24 tests) 283ms
+stdout | src/main.menu-storage-flows.test.ts > menu storage ports write the selected real slot, retain rejected load UI, then restore and close on success
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.menu-storage-flows.test.ts (1 test) 290ms
+ ✓ src/debug-tools.failures.test.ts (13 tests) 226ms
+stdout | src/main.boot-shell.glm-q.test.ts > Q01 无偏好存储：音乐/音效默认全开，标题带工程名
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-shell.glm-q.test.ts > Q01 显式双关偏好落盘：setEnabled(false) 各一次
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-shell.glm-q.test.ts > Q01 半开关偏好只关音乐：缺省 sound 键按开启解析
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-shell.glm-q.test.ts > Q01 坏偏好 JSON 静默回退全开，不抛出
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.boot-shell.glm-q.test.ts > Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.boot-shell.glm-q.test.ts (8 tests) 284ms
+stdout | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.c85-boot.test.ts > C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.c85-boot.test.ts > C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.c85-boot.test.ts > C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.c85-boot.test.ts (4 tests) 252ms
+stdout | src/boot-page-shell.glm-q.test.ts > Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/boot-page-shell.glm-q.test.ts (6 tests) 243ms
+stdout | src/main.party-nudge-flows.test.ts > nonzero authored nudge keeps actual gait during its wait and settles after script ownership ends
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.party-nudge-flows.test.ts > a zero nudge preserves pose and phase; explicit leader pose supersedes preceding gait
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.party-nudge-flows.test.ts > an already pending real load cancels a nudge wait without late movement or rewards
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.party-nudge-flows.test.ts (3 tests) 248ms
+ ✓ src/audio/bgm.runtime-boundaries.test.ts (4 tests) 261ms
+stdout | src/pal-gov3-content-swimming.test.ts > s252水中入口：李逍遥不在初始队伍仍在setParty后持久化sprite531，切到s250等价场景并SAVE11仍保留
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-gov3-content-swimming.test.ts > s251离开水域：吴侯进reserve仍恢复本体，李逍遥临时sprite193后持久本体
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-gov3-content-swimming.test.ts > s149上岸演出：李逍遥的sprite232只存于当前演出，灵儿reserve保留sprite512/portrait91/battleSprite5
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-gov3-content-swimming.test.ts > s144水中队伍：三名队员的持久泳装形象随SAVE11恢复
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/pal-gov3-content-swimming.test.ts (4 tests) 242ms
+ ✓ src/battle-trial-host.glm-next-wave.test.ts (4 tests) 243ms
+ ✓ src/battle/battle-launch-preparation.glm-n.test.ts (3 tests) 240ms
+ ✓ src/shop-trial.test.ts (6 tests) 238ms
+ ✓ src/frame-animation-player.test.ts (8 tests) 218ms
+stdout | src/main.glm-n.test.ts > N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.glm-n.test.ts (5 tests) 280ms
+ ✓ src/save/restore-preflight.chain.test.ts (20 tests) 206ms
+ ✓ src/debug-tools.triggers.test.ts (10 tests) 198ms
+stdout | src/main.observation.test.ts > runtime observation is detached/read-only and preserves actual world and player state
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.observation.test.ts > real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.observation.test.ts > real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.observation.test.ts (2 tests) 202ms
+ ✓ src/main.battle-preview.glm-q.test.ts (5 tests) 197ms
+ ✓ src/scene-preflight.chain.test.ts (11 tests) 175ms
+ ✓ src/frame-animation-player.boundaries.test.ts (10 tests) 171ms
+ ✓ src/debug-tools.battle.test.ts (7 tests) 174ms
+ ✓ src/checkpoint-export.chain.test.ts (17 tests) 158ms
+ ✓ src/text/glyph.test.ts (5 tests) 168ms
+ ✓ src/battle/battle-session.test.ts (43 tests) 175ms
+stdout | src/pal-gov3-content-portal-shell.test.ts > s025 canonical 600/600 profile keeps source scene until commit and fades in target
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/pal-gov3-content-portal-shell.test.ts > s145 canonical 1200/600 profile keeps source scene until commit and fades in target
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/pal-gov3-content-portal-shell.test.ts (35 tests) 183ms
+ ✓ src/shop-trial.glm-q.test.ts (4 tests) 156ms
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 165ms
+stdout | src/main.presentation-clock-root.test.ts > Root counter: a genuine long frame cannot turn 720ms dither into gameplay-clock catch-up
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | src/main.presentation-clock-root.test.ts > Root counter: the first ordinary cue keeps its real 24ms typewriter after a long frame
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.presentation-clock-root.test.ts (2 tests) 173ms
+ ✓ src/save-lineage.chain.test.ts (3 tests) 149ms
+stdout | src/pal-gov3-content-door-shell.test.ts > s047/e757真实Main：石门三段帧→open页，F5/F9恢复帧3且不回默认页
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/pal-gov3-content-door-shell.test.ts (1 test) 140ms
+ ✓ src/battle/battle-finalization.world-result.test.ts (7 tests) 136ms
+ ✓ src/opening-menu.glm-q.test.ts (5 tests) 132ms
+ ✓ src/battle/battle-launch-preparation.test.ts (7 tests) 134ms
+stdout | src/main.entity-proximity.test.ts > two real moving instances cross the strict half-grid boundary, including a hidden different-height target
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.entity-proximity.test.ts (1 test) 128ms
+ ✓ src/debug-tools.navigation.test.ts (4 tests) 125ms
+ ✓ src/opening-menu.flows.test.ts (4 tests) 159ms
+ ✓ scripts/battle-trial-host.test.ts (4 tests) 110ms
+ ✓ src/world-async-commit.test.ts (35 tests) 122ms
+ ✓ src/debug-tools.test.ts (7 tests) 126ms
+ ✓ src/scene-preparer.test.ts (14 tests) 122ms
+ ✓ src/audio/bgm.glm-n.test.ts (3 tests) 124ms
+ ✓ src/scene-resources.test.ts (11 tests) 114ms
+ ✓ src/battle/battle-ui.glm-n.test.ts (6 tests) 119ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 116ms
+ ✓ src/opening-menu.observation.test.ts (1 test) 107ms
+ ✓ src/debug-tools.glm-next-wave.test.ts (3 tests) 104ms
+ ✓ src/debug-tools.inspect.test.ts (3 tests) 105ms
+ ✓ src/audio-spessa-runtime.glm-q.test.ts (12 tests) 94ms
+ ✓ src/battle/battle-host.finalization.test.ts (3 tests) 96ms
+ ✓ src/dialog/dialog-box.glm-large-wave.test.ts (2 tests) 69ms
+ ✓ src/dialog/dialog-box.observation.test.ts (3 tests) 87ms
+ ✓ src/active-scene.test.ts (6 tests) 79ms
+ ✓ src/pal-confirm-script-governance.test.ts (16 tests) 76ms
+ ✓ src/script-runner-core.test.ts (15 tests) 69ms
+ ✓ src/runnable-project-loader.glm-q.test.ts (4 tests) 77ms
+ ✓ src/pal-script-successor-governance.test.ts (31 tests) 73ms
+ ✓ scripts/battle-trial-workflow.test.ts (14 tests) 65ms
+ ✓ src/runtime-host.c85-arms.test.ts (19 tests) 61ms
+ ✓ src/script-runner.dispatch-residual.test.ts (8 tests) 60ms
+ ✓ src/scene-switch-transaction.test.ts (23 tests) 61ms
+ ✓ src/assets.battle-bg.residual.test.ts (4 tests) 58ms
+ ✓ src/latest-snapshot-transaction.test.ts (3 tests) 57ms
+ ✓ src/battle-trial-assets.wave2.test.ts (11 tests) 58ms
+ ✓ scripts/battle-trial-session.test.ts (5 tests) 57ms
+ ✓ src/script-runner-core.host-lifecycle-1.test.ts (8 tests) 55ms
+ ✓ src/pal-inn-stairs-target.test.ts (18 tests) 54ms
+ ✓ src/pal-linear-script-governance.test.ts (10 tests) 55ms
+ ✓ src/battle/battle-fire-readiness.test.ts (6 tests) 48ms
+ ✓ src/audio/midi-preview.test.ts (8 tests) 43ms
+ ✓ src/pal-gov3-content-presentation.test.ts (280 tests) 49ms
+ ✓ src/battle-trial-assets.glm-n.test.ts (5 tests) 44ms
+ ✓ src/pal-gov3-content.test.ts (50 tests) 44ms
+ ✓ src/engine-chrome/registry.lifecycle.test.ts (2 tests) 29ms
+ ✓ src/audio/midi-preview.glm-runtime-resource.test.ts (2 tests) 40ms
+ ✓ scripts/battle-trial-assets.test.ts (5 tests) 40ms
+ ✓ src/pal-script-payment-governance.test.ts (48 tests) 40ms
+ ✓ src/audio/midi-preview.play-guards.glm-n.test.ts (2 tests) 38ms
+ ✓ src/video-player.glm-n.test.ts (7 tests) 37ms
+ ✓ src/pal-inn-choreography.test.ts (8 tests) 36ms
+ ✓ src/pal-gov3-motion-arena.test.ts (4 tests) 35ms
+ ✓ src/runtime-auto-checkpoint.test.ts (37 tests) 34ms
+ ✓ src/runtime-project-view.runtime-session-1.test.ts (4 tests) 33ms
+ ✓ src/assets.test.ts (9 tests) 33ms
+ ✓ src/__tests__/main-api-fixture.test.ts (3 tests) 29ms
+ ✓ src/assets-decode-gates.glm-q.test.ts (11 tests) 30ms
+ ✓ src/world-runtime-ownership.test.ts (5 tests) 30ms
+ ✓ src/script-runner.test.ts (49 tests) 24ms
+ ✓ src/battle/battle-core.test.ts (115 tests) 25ms
+ ✓ src/entity-motion.test.ts (45 tests) 22ms
+ ✓ src/pal-gov3-motion.test.ts (12 tests) 16ms
+ ✓ src/assets.glm-next-wave.test.ts (5 tests) 21ms
+ ✓ src/pal-gov3-motion-actions.test.ts (101 tests) 23ms
+ ✓ src/pal-errand-author.test.ts (8 tests) 22ms
+ ✓ src/pal-gov3-content-world-recovery.test.ts (72 tests) 22ms
+ ✓ src/battle/battle-sprite-readiness.test.ts (4 tests) 29ms
+ ✓ src/save/store.isolation.test.ts (18 tests) 23ms
+ ✓ src/runtime-save-lineage.test.ts (22 tests) 18ms
+ ✓ src/assets.presentation.residual.test.ts (3 tests) 21ms
+ ✓ src/video-sfx-ports.glm-q.test.ts (3 tests) 18ms
+ ✓ src/pal-gov3-content-doors.test.ts (11 tests) 17ms
+ ✓ src/run-entity-trigger.test.ts (30 tests) 17ms
+ ✓ src/battle/battle-session.selection-flows.test.ts (14 tests) 18ms
+ ✓ src/battle/battle-session.script-flows.test.ts (8 tests) 14ms
+ ✓ src/menu/menu-session.test.ts (24 tests) 15ms
+ ✓ src/world-motion-runtime.residual.test.ts (5 tests) 15ms
+ ✓ src/battle/battle-session.terminal-flows.test.ts (6 tests) 15ms
+ ✓ src/battle/battle-session.writeback-flows.test.ts (6 tests) 15ms
+ ✓ src/file-source.test.ts (8 tests) 13ms
+ ✓ src/script-runner.c85-arms.test.ts (32 tests) 13ms
+ ✓ src/runtime-project-view.boundaries.test.ts (5 tests) 12ms
+ ✓ src/project-loader.current-boundaries.test.ts (7 tests) 13ms
+ ✓ src/file-source.cancel-windows.test.ts (3 tests) 12ms
+ ✓ src/project-loader.test.ts (12 tests) 12ms
+ ✓ src/engine-chrome/registry.test.ts (3 tests) 13ms
+ ✓ src/battle/battle-session.round-flows.test.ts (6 tests) 12ms
+ ✓ src/text/glyph.glm-runtime-resource.test.ts (6 tests) 12ms
+ ✓ src/dialog/dialog-assets.test.ts (2 tests) 11ms
+ ✓ src/pal-gov3-content-world-wait.test.ts (1 test) 13ms
+ ✓ src/script-host-adapter.c85-arms.test.ts (21 tests) 11ms
+ ✓ src/battle/battle-session.action-flows.test.ts (6 tests) 11ms
+ ✓ src/engine-chrome/registry.glm-runtime-resource.test.ts (1 test) 10ms
+ ✓ src/motion-runtime-wiring.test.ts (22 tests) 8ms
+ ✓ src/automatic-target-command.test.ts (7 tests) 9ms
+ ✓ src/script-runner-core.gates.glm-q.test.ts (10 tests) 9ms
+ ✓ src/script-chunk-store.cursor-boundaries.test.ts (1 test) 9ms
+ ✓ src/sprite-anim.test.ts (22 tests) 9ms
+ ✓ src/battle/battle-anim.test.ts (21 tests) 9ms
+ ✓ src/script-project-core.wave2.test.ts (11 tests) 20ms
+ ✓ src/menu/item-list.glm-runtime-resource.test.ts (5 tests) 9ms
+ ✓ src/battle/r13-six-b-battle.test.ts (10 tests) 8ms
+ ✓ src/battle/battle-casualty.test.ts (16 tests) 8ms
+ ✓ src/save/current-structure.test.ts (61 tests) 8ms
+ ✓ src/battle/battle-session.glm-next-wave.test.ts (4 tests) 8ms
+ ✓ src/battle/battle-session.flow-residual.test.ts (2 tests) 8ms
+ ✓ src/item-use-executor.test.ts (17 tests) 8ms
+ ✓ src/battle/battle-core.glm-next-wave.test.ts (4 tests) 8ms
+ ✓ src/runtime-input-router.test.ts (22 tests) 8ms
+ ✓ src/battle-trial-prepare.wave2.test.ts (7 tests) 8ms
+ ✓ src/audio/sfx.test.ts (12 tests) 8ms
+ ✓ src/pal-gov3-content-proximity.test.ts (2 tests) 8ms
+ ✓ src/menu/reward-gain-queue.boundaries.test.ts (5 tests) 7ms
+ ✓ src/script-continuation.kimi-mid-1.test.ts (24 tests) 8ms
+ ✓ src/item-script-identity.test.ts (5 tests) 9ms
+ ✓ src/audio/sfx.staged-failures.test.ts (5 tests) 7ms
+ ✓ src/script-activity-lineage.test.ts (18 tests) 8ms
+ ✓ src/pal-gov3-content-caught.test.ts (1 test) 8ms
+ ✓ src/entity-motion.c85-arms.test.ts (11 tests) 8ms
+ ✓ src/world-motion-runtime.runtime-session-1.test.ts (8 tests) 7ms
+ ✓ src/menu/magic-box.glm-runtime-resource.test.ts (5 tests) 7ms
+ ✓ src/runtime-script-project.test.ts (7 tests) 7ms
+ ✓ src/battle/battle-enemy-confused.test.ts (13 tests) 7ms
+ ✓ src/battle/battle-core.c85-branches.test.ts (8 tests) 7ms
+ ✓ src/menu/menu-session.glm-next-wave.test.ts (6 tests) 6ms
+ ✓ src/battle-trial-config.test.ts (30 tests) 7ms
+ ✓ src/menu/save-browser-box.glm-runtime-resource.test.ts (5 tests) 7ms
+ ✓ src/script-world.test.ts (12 tests) 6ms
+ ✓ src/dither-transition.test.ts (11 tests) 7ms
+ ✓ src/project-image-cache.inflight-dispose.test.ts (2 tests) 7ms
+ ✓ src/project-map.test.ts (13 tests) 6ms
+ ✓ src/pal-inn-kitchen.test.ts (7 tests) 7ms
+ ✓ src/script-world.c85-arms.test.ts (15 tests) 6ms
+ ✓ src/world-motion-runtime.test.ts (10 tests) 6ms
+ ✓ src/project-save-state.test.ts (24 tests) 6ms
+ ✓ src/entity-action-player.boundaries.test.ts (9 tests) 6ms
+ ✓ src/entity-action-player.test.ts (13 tests) 6ms
+ ✓ src/dither-next2.glm-q.test.ts (14 tests) 6ms
+ ✓ src/battle/battle-command-selection.test.ts (10 tests) 6ms
+ ✓ src/script-host-adapter.wave2.test.ts (6 tests) 6ms
+ ✓ src/battle/battle-command-selection.residual.test.ts (6 tests) 6ms
+ ✓ src/entity-walk.test.ts (21 tests) 6ms
+ ✓ src/script-host-adapter.test.ts (6 tests) 6ms
+ ✓ src/script-confirm-modal.glm-q.test.ts (12 tests) 6ms
+ ✓ src/audio/midi-preview.lifecycle-boundaries.test.ts (8 tests) 6ms
+ ✓ src/battle/battle-ui.residual.test.ts (5 tests) 5ms
+ ✓ src/menu/reward-gain-queue.test.ts (5 tests) 6ms
+ ✓ src/run-entity-trigger-root.test.ts (2 tests) 6ms
+ ✓ src/script-confirm-lifecycle.kimi-mid-2.test.ts (8 tests) 5ms
+ ✓ src/battle/battle-session.c85-arms.test.ts (8 tests) 6ms
+ ✓ src/menu/use-box.glm-runtime-resource.test.ts (3 tests) 5ms
+ ✓ src/battle/battle-session.enemy-flee-residual.test.ts (1 test) 5ms
+ ✓ src/audio/sfx-readiness.test.ts (9 tests) 5ms
+ ✓ src/project-loader.image-cache-binding.test.ts (1 test) 5ms
+ ✓ src/battle/present-battle.residual.test.ts (4 tests) 5ms
+ ✓ src/world-camera.test.ts (11 tests) 5ms
+ ✓ src/runtime-frame-session.test.ts (15 tests) 5ms
+ ✓ src/menu/system-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/project-map.glm-n.test.ts (9 tests) 5ms
+ ✓ src/menu/equip-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/script-host-adapter.current-dispatch.test.ts (5 tests) 9ms
+ ✓ src/project-map-stamp-resize.glm-q.test.ts (9 tests) 5ms
+ ✓ src/menu/shop-box.residual.test.ts (4 tests) 5ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/world-scene-presentation.test.ts (5 tests) 5ms
+ ✓ src/save/scope.test.ts (29 tests) 5ms
+ ✓ src/script-host-adapter.host-lifecycle-1.test.ts (6 tests) 5ms
+ ✓ src/script-chunk-store.glm-large-wave.test.ts (5 tests) 5ms
+ ✓ src/battle/battle-turn-readiness.test.ts (8 tests) 5ms
+ ✓ src/collision.test.ts (6 tests) 5ms
+ ✓ src/follower.test.ts (14 tests) 4ms
+ ✓ src/save/current-save.current-characterization.test.ts (8 tests) 5ms
+ ✓ src/magic-menu-state.test.ts (21 tests) 4ms
+ ✓ src/script-runner.host-lifecycle-1.test.ts (7 tests) 5ms
+ ✓ src/script-chunk-store.test.ts (5 tests) 4ms
+ ✓ src/use-menu-state.navigation-boundaries.test.ts (6 tests) 4ms
+ ✓ src/cutscene-controller.test.ts (6 tests) 4ms
+ ✓ src/world-scene-presentation.residual.test.ts (7 tests) 4ms
+ ✓ src/runtime-script-compiler.boundaries.test.ts (5 tests) 5ms
+ ✓ src/script-lineage-lifecycle.kimi-mid-2.test.ts (8 tests) 5ms
+ ✓ src/script-runner.conditions.residual.test.ts (4 tests) 4ms
+ ✓ src/dialog/layout.test.ts (11 tests) 5ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+ ✓ src/asset-resolver.io-boundaries.test.ts (6 tests) 5ms
+ ✓ src/script-world.wave2.test.ts (8 tests) 4ms
+ ✓ src/motion-runtime-coordinator.test.ts (9 tests) 4ms
+ ✓ src/battle/battle-anim.summon.residual.test.ts (4 tests) 4ms
+ ✓ src/battle-trial-config.wave2.test.ts (6 tests) 4ms
+ ✓ src/script-compiler-core.test.ts (3 tests) 4ms
+ ✓ src/battle/settlement.glm-runtime-resource.test.ts (4 tests) 4ms
+ ✓ src/input.keyboard-boundaries.test.ts (13 tests) 4ms
+ ✓ src/fsa-source.test.ts (6 tests) 4ms
+ ✓ src/battle/battle-settlement-presentation.test.ts (12 tests) 4ms
+ ✓ src/project-image-cache.lifecycle.test.ts (6 tests) 4ms
+ ✓ src/fade-driver.test.ts (6 tests) 4ms
+ ✓ src/magic-menu-state.glm-boundaries.test.ts (12 tests) 4ms
+ ✓ src/audio/midi-preview.glm-audio-lifecycle.test.ts (2 tests) 4ms
+ ✓ src/entity-motion.glm-next-wave.test.ts (4 tests) 4ms
+ ✓ src/script-chunk-store.residual.test.ts (2 tests) 4ms
+ ✓ src/world-scene-presentation.glm-next-wave.test.ts (3 tests) 4ms
+ ✓ src/pal-gov3-content-cinematic.test.ts (1 test) 4ms
+ ✓ src/battle/battle-settlement.residual.test.ts (3 tests) 4ms
+ ✓ src/entity-lifecycle.test.ts (8 tests) 4ms
+ ✓ src/quantize.glm-runtime-resource.test.ts (7 tests) 4ms
+ ✓ src/runtime-project-view.test.ts (5 tests) 4ms
+ ✓ src/scene-entry-session.test.ts (9 tests) 3ms
+ ✓ src/pal-meal-author.test.ts (5 tests) 3ms
+ ✓ src/battle/battle-anim.attack-all.residual.test.ts (3 tests) 4ms
+ ✓ src/render.glm-next-wave.test.ts (4 tests) 4ms
+ ✓ src/battle/battle-action-presentation-scheduler.test.ts (5 tests) 3ms
+ ✓ src/actor-condition-lifecycle.test.ts (6 tests) 3ms
+ ✓ src/battle/enemy-hook-runtime.test.ts (4 tests) 3ms
+ ✓ src/equip-menu-state.navigation-boundaries.test.ts (3 tests) 3ms
+ ✓ src/audio/sfx-readiness.collections.test.ts (5 tests) 3ms
+ ✓ src/battle/battle-anim.coop.residual.test.ts (2 tests) 3ms
+ ✓ src/cutscene-controller.dispatch-boundaries.test.ts (4 tests) 3ms
+ ✓ src/script-confirm-modal.test.ts (4 tests) 3ms
+ ✓ src/text/text-render.glm-runtime-resource.test.ts (7 tests) 3ms
+ ✓ src/pal-script-names.test.ts (4 tests) 3ms
+ ✓ src/battle/battle-anim.glm-n.test.ts (5 tests) 3ms
+ ✓ src/project-image-cache.decode-lifecycle.test.ts (3 tests) 3ms
+ ✓ src/magic-menu-state.boundaries.test.ts (4 tests) 4ms
+ ✓ src/battle/battle-player-input.test.ts (2 tests) 4ms
+ ✓ src/battle/battle-positions.glm-runtime-resource.test.ts (4 tests) 3ms
+ ✓ src/use-menu-state.test.ts (7 tests) 3ms
+ ✓ src/screen-fx.residual.test.ts (2 tests) 3ms
+ ✓ src/menu-state.navigation-boundaries.test.ts (4 tests) 3ms
+ ✓ src/scene-map.test.ts (2 tests) 3ms
+ ✓ src/audio/bgm.dispose.test.ts (2 tests) 3ms
+ ✓ src/battle/battle-command-selection.glm-next-wave.test.ts (4 tests) 3ms
+ ✓ src/asset-resolver.test.ts (3 tests) 3ms
+ ✓ src/battle/battle-anim.glm-runtime-resource.test.ts (4 tests) 3ms
+ ✓ src/save/ops.test.ts (4 tests) 3ms
+ ✓ src/menu/item-use-session.test.ts (3 tests) 3ms
+ ✓ src/motion-batch.test.ts (8 tests) 3ms
+ ✓ src/use-menu-state.glm-boundaries.test.ts (8 tests) 3ms
+ ✓ src/system-menu-state.test.ts (9 tests) 3ms
+ ✓ src/battle/battle-anim.enemy-cast.residual.test.ts (2 tests) 3ms
+ ✓ src/menu/shop-box.test.ts (6 tests) 3ms
+ ✓ src/menu-state.test.ts (8 tests) 3ms
+ ✓ src/save/browser-state.test.ts (6 tests) 3ms
+ ✓ src/enemy-closure.glm-q.test.ts (6 tests) 3ms
+ ✓ src/fsa-source.cancel-windows.test.ts (3 tests) 3ms
+ ✓ src/opening-menu.test.ts (2 tests) 3ms
+ ✓ src/render.test.ts (1 test) 3ms
+ ✓ src/save/store.test.ts (3 tests) 3ms
+ ✓ src/screen-hold-transaction.test.ts (7 tests) 3ms
+ ✓ src/deferred-trigger.test.ts (6 tests) 3ms
+ ✓ src/entity-lifecycle-command.test.ts (5 tests) 3ms
+ ✓ src/dev-preset.test.ts (3 tests) 3ms
+ ✓ src/scene-transition.test.ts (7 tests) 3ms
+ ✓ src/render-scene.test.ts (2 tests) 3ms
+ ✓ src/equip-menu-state.test.ts (7 tests) 3ms
+ ✓ src/world-motion-runtime.motion-transition-1.test.ts (3 tests) 3ms
+ ✓ src/project-image-cache.test.ts (1 test) 3ms
+ ✓ src/system-menu-state.boundaries.test.ts (4 tests) 3ms
+ ✓ src/magic-menu-state.glm-next-wave.test.ts (3 tests) 2ms
+ ✓ src/equip-menu-state.glm-boundaries.test.ts (7 tests) 3ms
+ ✓ src/quantize.test.ts (3 tests) 3ms
+ ✓ src/screen-hold-transaction.boundaries.test.ts (2 tests) 3ms
+ ✓ src/system-menu-state.glm-boundaries.test.ts (7 tests) 2ms
+ ✓ src/startup-entry.test.ts (5 tests) 3ms
+ ✓ src/ambience-compositor.test.ts (4 tests) 3ms
+ ✓ src/asset-resolver.failure-causes.test.ts (2 tests) 3ms
+ ✓ src/screen-fx.glm-next-wave.test.ts (1 test) 2ms
+ ✓ src/battle-trial-config.glm-runtime-resource.test.ts (4 tests) 3ms
+ ✓ src/audio/midi-preview.glm-n.test.ts (3 tests) 3ms
+ ✓ src/audio/sfx-readiness.glm-audio-lifecycle.test.ts (3 tests) 2ms
+ ✓ src/scene-entry-session.boundaries.test.ts (2 tests) 2ms
+ ✓ src/async-intent.test.ts (3 tests) 3ms
+ ✓ src/actor-condition-runtime.test.ts (2 tests) 2ms
+ ✓ src/battle/battle-icon-color.test.ts (2 tests) 3ms
+ ✓ src/frame-animation-presentation.test.ts (5 tests) 2ms
+ ✓ src/project-map.cursor-boundaries.test.ts (1 test) 2ms
+ ✓ src/battle/present-battle.test.ts (2 tests) 2ms
+ ✓ src/screen-fx.test.ts (4 tests) 3ms
+ ✓ src/deferred-trigger.world-lifecycle-1.test.ts (2 tests) 2ms
+ ✓ src/text/typewriter.test.ts (7 tests) 2ms
+ ✓ src/screen-wave.test.ts (3 tests) 2ms
+ ✓ src/entity-proximity.test.ts (8 tests) 2ms
+ ✓ src/text/palette-color.test.ts (2 tests) 2ms
+ ✓ src/item-use-placement.test.ts (2 tests) 2ms
+ ✓ src/movement.test.ts (4 tests) 2ms
+ ✓ src/dialog/slot.test.ts (6 tests) 2ms
+ ✓ src/project-map.glm-runtime-resource.test.ts (2 tests) 2ms
+ ✓ src/runtime-frame-session.runtime-session-1.test.ts (2 tests) 2ms
+ ✓ src/gameplay-clock.test.ts (2 tests) 2ms
+ ✓ src/async-intent.world-lifecycle-1.test.ts (1 test) 2ms
+ ✓ src/menu/item-use-result.test.ts (2 tests) 2ms
+ ✓ src/dialog/narration-scroll.test.ts (2 tests) 2ms
+ ✓ src/runtime-input-router.runtime-session-1.test.ts (1 test) 2ms
+ ✓ src/battle/battle-result.test.ts (2 tests) 2ms
+ ✓ src/game-over-dialog.test.ts (1 test) 2ms
+ ✓ src/gameplay-clock.world-lifecycle-1.test.ts (1 test) 2ms
+ ✓ src/dialogue.test.ts (3 tests) 2ms
+ ✓ src/battle/battle-last-action.test.ts (1 test) 1ms
+ ✓ src/dialog/dialog-box.test.ts (1 test) 1ms
+
+ Test Files  1 failed | 348 passed (349)
+      Tests  1 failed | 8772 passed (8773)
+   Start at  23:52:45
+   Duration  52.83s (transform 8.88s, setup 0ms, import 30.41s, tests 34.04s, environment 18.07s)
+
+
+stderr | src/pal-meal-shell.test.ts > stationary normal item menu immediately awaits the entire NPC gift, once, and restores movement
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-meal-shell.test.ts > normal item cancellation and invalid wine position preserve inventory and never enter the gift
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-meal-shell.test.ts > slow kitchen dialogue keeps the aunt facing down and restores up only after the instruction
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-meal-shell.test.ts > normal manual save and fresh current-codec restore retain the actual carried tray
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-meal-shell.test.ts > normal manual save and fresh current-codec restore retain the actual carried tray
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-meal-shell.test.ts > a normal landing executes the actual serving body, restores the persistent sprite and grants wine once
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > commit consumes live inventory after preparation settles without losing intervening changes
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host commits real victory once, then hooks, scene sounds and music in order
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > session release and real world writeback are atomic to queued observers
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after cancel invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after runner invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after world invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > a delayed old decode and its finally cannot repaint or hide a superseding held request
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after script invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > pre-aborted battle request changes neither frame mode nor resource IO
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > new launch invalidates older preparation while preserving the new live session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > clear during slow first decode releases its owned black and prevents resurrection
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > real author clear between movie and world does not leave a held layer through the following command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > old session finally cannot clear a new session published in the same turn
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > running cancellation consumes the real session and never restores or writes old world state
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > a legal SAVE11 restore resets held cinematic state rather than replaying its pixels
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > fatal session failure restores scene resources and retains original failure even if restoration fails
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > stale fatal recovery cannot play music or clear the replacement session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > a real scene commit clears held cinematic pixels while its own scene fade stays authoritative
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > defeated script failure propagates after world writeback and scene recovery
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > world replacement after session completion blocks final writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > readiness diagnostics deduplicate by error identity text across launches, not by stage
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.frame-animation-owner.test.ts > author clear does not remove a later ordinary fade that belongs to the surrounding script
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.frame-animation-owner.test.ts > author clear does not remove a later ordinary fade that belongs to the surrounding script
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a paused command inside one ordinary step remains saveable when hidden before F5, then resumes without replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a paused command inside one ordinary step remains saveable when suspended before F5, then resumes without replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > the ordinary save menu snapshots a queued auto stepEntity without waiting for a frozen world tick
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > the ordinary save menu snapshots a queued auto chasePlayer without waiting for a frozen world tick
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.auto-save-flows.test.ts > the ordinary save menu snapshots a queued auto chasePlayer without waiting for a frozen world tick
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a committed auto stepEntity is saved before its deferred ack and never applies its relative movement twice after F9
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.auto-save-flows.test.ts > a committed auto stepEntity is saved before its deferred ack and never applies its relative movement twice after F9
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a committed auto chasePlayer is saved before its deferred ack and never applies its relative movement twice after F9
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 restores a self chase contact claim before hostile scanning can steal its pacing window
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 restores a shared-suspended-owner chase contact claim before hostile scanning can steal its pacing window
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 restores a between-chase-leaves chase contact claim before hostile scanning can steal its pacing window
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 restores a self-hidden-owner chase contact claim before hostile scanning can steal its pacing window
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 restores a shared-hidden-target chase contact claim before hostile scanning can steal its pacing window
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.save-flows.test.ts > H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a committed cross-target auto step suspended at its owner is immediately saveable and resumes without a second step
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a committed cross-target auto step suspended at its target is immediately saveable and resumes without a second step
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a completed chase-trigger interaction is saved during its pacing wait and never rewards twice after F9
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a chase terminal held by the manual-save menu remains pending in the real slot and fires once after restoring that slot
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F5 during the actual one-step aunt route at first-target captures the in-flight pose immediately, and F9 resumes that command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.save-flows.test.ts > H5 empty slot preserves world and shows the absent message, not load success
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F5 during the actual one-step aunt route at stairs captures the in-flight pose immediately, and F9 resumes that command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.save-flows.test.ts > H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 during the actual aunt multi-command route cancels every remaining move and final trigger switch
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > a real diagonal target leg saves without waiting for its endpoint and resumes without reward replay after F9
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > F9 cancels a real in-flight diagonal move without late position, reward or behavior selection
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > ordinary auto completion (next) commits after self state0, permitting F5/F9 without replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > ordinary auto completion (direct) commits after self state0, permitting F5/F9 without replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.save-flows.test.ts > H5 two actual quick-save requests commit monotonically without consuming an extra count
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > ordinary auto completion (branch) commits after self state0, permitting F5/F9 without replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-save-flows.test.ts > the actual kitchen departure hides the hall aunt, settles and survives F5/F9
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.save-flows.test.ts > H5 delayed old IDB read cannot replace a newer restore or its success message
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > ordinary first cue uses UI time despite accumulated long-frame lag: false
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > ordinary first cue uses UI time despite accumulated long-frame lag: true
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > world single-step pause does not pause dialogue typing, input or the next script effect
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > world pause keeps legal skip and automatic tail timing on the same UI clock
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > ordinary page skip and next-page typing retain real-time start after a lagged first cue
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 标题读档入口:标题菜单选读档后从真实存档完成开局
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > normal dither keeps its forced zero frame and all 72 time-derived steps before resolving
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > dither UI progress agrees with real output and finishes while gameplay lags or pauses: false
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 标题入口视频:选中入口先播 intro 视频再进世界
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > dither UI progress agrees with real output and finishes while gameplay lags or pauses: true
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > palette preparation cost is excluded from the existing 720ms dither budget
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > canceling a real detached dialog rejects its awaited effect and never executes the tail
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock.test.ts > canceling a real detached dither rejects its awaited effect and never executes the tail
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播
+[sfx] AudioContext 不可用，音效播放器停用
+
+Not implemented: HTMLMediaElement's play() method
+stderr | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[auto] cinema TypeError: Cannot read properties of undefined (reading 'then')
+    at tryPlay (/Users/zhangxu/illegal/type-pal/packages/reforge/src/video-player.ts:100:15)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/video-player.ts:128:5
+    at new Promise (<anonymous>)
+    at playVideo (/Users/zhangxu/illegal/type-pal/packages/reforge/src/video-player.ts:33:10)
+    at playVideoAsset (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:481:11)
+    at CutsceneController.run (/Users/zhangxu/illegal/type-pal/packages/reforge/src/cutscene-controller.ts:66:9)
+    at executeScriptHostEffect (/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-host-adapter.ts:298:7)
+    at executeProjectScriptEffect (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:3205:5)
+    at BaseProjectScriptRuntimeHost.execute (/Users/zhangxu/illegal/type-pal/packages/reforge/src/script-project-core.ts:312:5)
+    at ProjectScriptRuntimeHost.execute (/Users/zhangxu/illegal/type-pal/packages/reforge/src/runtime-script-project.ts:177:7)
+
+stderr | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[save] 初始存档浏览缓存加载失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at processImmediate (node:internal/timers:452:9)
+
+stderr | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换
+[sfx] AudioContext 不可用，音效播放器停用
+
+Not implemented: navigation to another Document
+stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > automatic 'setEntityFacing' waits for the actual target owner, including a different automatic caller
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > automatic 'setEntityFrame' waits for the actual target owner, including a different automatic caller
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > automatic 'animEntity' waits for the actual target owner, including a different automatic caller
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > automatic 'playEntityAction' waits for the actual target owner, including a different automatic caller
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > automatic 'stopEntityAction' waits for the actual target owner, including a different automatic caller
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > an already playing automatic action keeps its exact phase while its target is held and resumes after release
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > a taken target pauses only its automatic page action while another page continues
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > a foreground awaited action still finishes on a target it has explicitly taken
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > switching the automatic binding while a pose waits invalidates the old owner and never writes its old frame or reward
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > a new scene with the same entity id cannot receive the previous scene automatic pose or tail
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > a foreground action with the same binding replaces a paused automatic waiter and still completes
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.auto-pose-authority.test.ts > a foreground action with the same binding replaces a paused automatic waiter and still completes
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.auto-pose-authority.test.ts > restoring the same scene invalidates the old held automatic activation before its pose can write
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 实体状态、朝向、图层和屏幕波纹从正式 onEnter 走到持久世界与活场景
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 全队资源同加按上限钳制，半钱只取当前钱数，不改变原入口 seed
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 编外跟随精灵经真实资源准备后提交一次世界态；当前已有队员仍保持身份
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 实体隐藏与恢复经同一脚本状态表实时投影，下一条命令仍能继续
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 只扣 MP 到零而 HP 不变；正式换队保留成员实例与顺序
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 编外跟随从非空清空后不保留旧资源引用，也不改变队员本体
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 当前角色形象在合法精灵/战斗资源准备后写入持久实例，定义和素材输入不变
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 全队恢复跳过阵亡者，复活仅作用阵亡者且按最大体力十分比结算
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-inn-door-save.test.ts > untouched doors remain closed after real F5/F9 while ordinary transient frames are cleared
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 批量实体显隐先持久写两个场景，切场后第二个实体才由当前场景投影隐藏
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 显式场景与落点只覆盖启动位置，不偷换所选入口世界或重放 onEnter 奖励
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 显式场景与落点只覆盖启动位置，不偷换所选入口世界或重放 onEnter 奖励
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-inn-door-save.test.ts > actual e73 opening survives real F5/F9 without frame Map persistence or reward replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.effect-flows.residual.test.ts > 当前 Reforge 主壳的作者脚本效果链 > 开发期 give 参数只给已登记物品五件，保持正常入口脚本和独立素材闭包
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-inn-door-save.test.ts > actual e74 opening survives real F5/F9 without frame Map persistence or reward replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-inn-door-save.test.ts > actual e60 opening survives real F5/F9 without frame Map persistence or reward replay
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-inn-door-save.test.ts > existing page/state model restores hidden doors without inventing a canonical close storyline
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-inn-door-save.test.ts > existing page/state model restores closed doors without inventing a canonical close storyline
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-flows.test.ts > H1 normal boot executes the real current project pipeline and first world frame
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-flows.test.ts > H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-flows.test.ts > H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 medicine repeats on the real target and returns to list only after last consumption
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-flows.test.ts > H1 title selection completes ordinary boot with the selected world, not the default world
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 explicit failed item gate keeps item and menu, with a visible failure message
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 explicit failed item gate keeps item and menu, with a visible failure message
+[script] itemUse(tonic): 没有产生效果
+
+stderr | src/main.item-flows.test.ts > H8 all-allies item uses direct route, heals both and consumes only once
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 item target cancellation preserves bag, and a close-after-use item really releases the menu
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 actual item private script blocks duplicate input and preserves its money on consumption
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 unavailable teleport hook refuses consumption and restores the same usable menu
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 unavailable teleport hook refuses consumption and restores the same usable menu
+[script] itemUse(orb): No exit here
+
+stderr | src/main.item-flows.test.ts > H8 running item script owns exploration input until completion, then scene navigation works
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.item-flows.test.ts > H8 item private script changes scene and closes the old menu while preserving its new world
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.ts:4889:17
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.scene-flows.test.ts > H6 public next/previous scene input commits complete scenes and preserves party identity
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.scene-flows.test.ts > H6 failed scene IO leaves the original world operable; repairing the same source permits retry
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 'absolute' entity position reaches both durable state and live projection before continuation
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.scene-flows.test.ts > H6 old in-flight scene response cannot overwrite a newer complete round trip
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 'party-relative' entity position reaches both durable state and live projection before continuation
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 authored move waits for exact endpoint and persists it without mutating scene definition
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 hide then restore keeps entity identity and resumes the next authored command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 authored loadScene uses 'default' arrival and continues after the actual map commit
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 authored loadScene uses 'explicit' arrival and continues after the actual map commit
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.entity-host-flows.test.ts > H10 authored loadScene uses 'explicit' arrival and continues after the actual map commit
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-host-flows.test.ts > H10 script movement owns keyboard until completion; exploration menu opens afterwards
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.entity-host-flows.test.ts > H10 script movement owns keyboard until completion; exploration menu opens afterwards
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 top author dialogue blocks menu, then closes before its next real command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 bottom author dialogue blocks menu, then closes before its next real command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 narration author dialogue blocks menu, then closes before its next real command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 center author dialogue blocks menu, then closes before its next real command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 wait resumes from gameplay frames and ignored menu input cannot bypass the wait
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 multi-page dialogue retains its real runner until the last displayed page is acknowledged
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 confirm yes consumes keyboard and resumes exactly its current branch
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.dialog-flows.test.ts > H4 confirm no consumes keyboard and resumes exactly its current branch
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 status panel cycles both real party members and returns through hub without changing world
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 real magic route selects caster and target, heals only target, charges caster once, and backs out
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 empty caster list cannot cast and returns to the same hub
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 music switch commits explicit silence; cancellation preserves stored preferences and world
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 empty equip panel rejects confirm without closing hub or mutating inventory
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-flows.test.ts > H3 empty use panel rejects confirm without closing hub or mutating inventory
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip confirmation can be cancelled without changing the actual world or author input
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip empty slot commits only selected equipment and removes exactly one bag item
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip occupied slot swaps back through the same confirmation panel without losing inventory
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowRight' ] commits 'w1', not the original cursor
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowDown' ] commits 'w3', not the original cursor
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowDown', 'ArrowUp' ] commits 'w0', not the original cursor
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.equipment-flows.test.ts > H7 equip keyboard navigation [ 'ArrowRight', 'ArrowLeft' ] commits 'w0', not the original cursor
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-host-flows.test.ts > H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-host-flows.test.ts > H9 author startBattle waits for real victory then runs the following command exactly once
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-host-flows.test.ts > H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-host-flows.test.ts > H9 thrown inventory is consumed by real battle and reaches the host world after victory
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-host-flows.test.ts > H9 missing enemy team rejects before any active session and leaves menu operable
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-host-flows.test.ts > H9 delayed battle sprite cannot commit a battle after the scene owner has changed
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.menu-storage-flows.test.ts > menu storage ports write the selected real slot, retain rejected load UI, then restore and close on success
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-shell.glm-q.test.ts > Q01 无偏好存储：音乐/音效默认全开，标题带工程名
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-shell.glm-q.test.ts > Q01 显式双关偏好落盘：setEnabled(false) 各一次
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-shell.glm-q.test.ts > Q01 半开关偏好只关音乐：缺省 sound 键按开启解析
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-shell.glm-q.test.ts > Q01 坏偏好 JSON 静默回退全开，不抛出
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-shell.glm-q.test.ts > Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.boot-shell.glm-q.test.ts > Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.c85-boot.test.ts > C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.c85-boot.test.ts > C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.c85-boot.test.ts > C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.c85-boot.test.ts > C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/boot-page-shell.glm-q.test.ts > Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设置标题
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/boot-page-shell.glm-q.test.ts > Q01 加载失败：错误画屏绘制 reforge ERR 文本并 console.error，模块导入不 reject
+[reforge] TypeError: object.stream is not a function
+    at extractBody (node:internal/deps/undici/undici:5644:25)
+    at new Response (node:internal/deps/undici/undici:9473:41)
+    at compressGzip (/Users/zhangxu/illegal/type-pal/packages/reforge/src/assets.ts:584:16)
+    at Module.shellProject (/Users/zhangxu/illegal/type-pal/packages/reforge/src/__tests__/runtime-shell/project.ts:242:11)
+    at Object.wired.loader (/Users/zhangxu/illegal/type-pal/packages/reforge/src/boot-page-shell.glm-q.test.ts:54:13)
+    at boot (/Users/zhangxu/illegal/type-pal/packages/reforge/src/boot.ts:11:19)
+
+stderr | src/main.party-nudge-flows.test.ts > nonzero authored nudge keeps actual gait during its wait and settles after script ownership ends
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.party-nudge-flows.test.ts > a zero nudge preserves pose and phase; explicit leader pose supersedes preceding gait
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.party-nudge-flows.test.ts > an already pending real load cancels a nudge wait without late movement or rewards
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-swimming.test.ts > s252水中入口：李逍遥不在初始队伍仍在setParty后持久化sprite531，切到s250等价场景并SAVE11仍保留
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-swimming.test.ts > s251离开水域：吴侯进reserve仍恢复本体，李逍遥临时sprite193后持久本体
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-swimming.test.ts > s149上岸演出：李逍遥的sprite232只存于当前演出，灵儿reserve保留sprite512/portrait91/battleSprite5
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle-trial-host.glm-next-wave.test.ts > F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并回调 onResult(胜利)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-swimming.test.ts > s144水中队伍：三名队员的持久泳装形象随SAVE11恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle-trial-host.glm-next-wave.test.ts > 停止按钮：abort 取消真实会话、runBattleTrial 兑现、restart 复位并回调 onRestart
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle-trial-host.glm-next-wave.test.ts > onRestart 抛错时错误消息回显状态栏（错误恢复臂）
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.glm-n.test.ts > N05 显式 options.music 直接成为战斗曲目，不经角色解析
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.glm-n.test.ts > N05 指定战场号读取常驻波、索引背景与投掷特效精灵
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.glm-n.test.ts > N05 未知战场号缺省 24 号且黑底（无背景资产 IO）
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.glm-n.test.ts > N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.glm-n.test.ts > N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.glm-n.test.ts > N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.glm-n.test.ts > N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.glm-n.test.ts > N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.observation.test.ts > runtime observation is detached/read-only and preserves actual world and player state
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.observation.test.ts > real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.observation.test.ts > real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-preview.glm-q.test.ts > Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-preview.glm-q.test.ts > Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-preview.glm-q.test.ts > Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-preview.glm-q.test.ts > Q01 缺 enemies 参数：默认取工程敌表前 3 项
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.battle-preview.glm-q.test.ts > Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-portal-shell.test.ts > s025 canonical 600/600 profile keeps source scene until commit and fades in target
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-portal-shell.test.ts > s145 canonical 1200/600 profile keeps source scene until commit and fades in target
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/pal-gov3-content-portal-shell.test.ts > s145 canonical 1200/600 profile keeps source scene until commit and fades in target
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.ts:4889:17
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4787:42)
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.presentation-clock-root.test.ts > Root counter: a genuine long frame cannot turn 720ms dither into gameplay-clock catch-up
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.presentation-clock-root.test.ts > Root counter: the first ordinary cue keeps its real 24ms typewriter after a long frame
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/pal-gov3-content-door-shell.test.ts > s047/e757真实Main：石门三段帧→open页，F5/F9恢复帧3且不回默认页
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > preparation retains all five canonical slots and snapshots inventory independently without publishing
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > DEV explicit enemy override is capped at five and never compacts missing slots
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > invalid missing encounter rejects without sound preparation
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > invalid empty encounter rejects without sound preparation
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > explicit silence and optional flags survive preparation; source options remain untouched
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > fatal base readiness failure retains error identity and prevents session publication
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-launch-preparation.test.ts > turn readiness reuses the complete base set without mutating the submitted action snapshot
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.entity-proximity.test.ts > two real moving instances cross the strict half-grid boundary, including a hidden different-height target
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | scripts/battle-trial-host.test.ts > real host enters BattleSession, rejects F5/F9 and releases its run without constructing any SaveStore
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+Not implemented: HTMLMediaElement's pause() method
+stderr | src/menu/reward-gain-queue.boundaries.test.ts > F6 竞争单次兑现与输入语义 > 输入语义：Enter/空格消费并推进；Escape 不吞交还外层；其它键消费不推进；inactive 不吞
+Promise returned by `expect(actual).resolves.toBeUndefined()` was not awaited. Vitest currently auto-awaits hanging assertions at the end of the test, but this will cause the test to fail in the next Vitest major. Please remember to await the assertion.
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts:100:24
+
+stderr | src/audio/sfx.staged-failures.test.ts > fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）
+Promise returned by `expect(actual).resolves.toBeUndefined()` was not awaited. Vitest currently auto-awaits hanging assertions at the end of the test, but this will cause the test to fail in the next Vitest major. Please remember to await the assertion.
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/audio/sfx.staged-failures.test.ts:31:41
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-core.enemy-cast-residual.test.ts > BCS-3 敌方状态术：applyEnemySkill applyStatus 对玩家写入 sleep 回合并留痕
+AssertionError: expected +0 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ src/battle/battle-core.enemy-cast-residual.test.ts:123:38
+    121|   })
+    122|   runUntilEnemyActed(s)
+    123|   expect(s.players[0]?.status.sleep).toBe(3)
+       |                                      ^
+    124|   expect(s.log).toContain('bcs-hexer 对 bcs-hero 施加 sleep 3 回合')
+    125|   expect(s.players[0]?.hp).toBe(100) // 状态术无伤害
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
