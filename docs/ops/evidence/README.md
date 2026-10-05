@@ -28,5 +28,6 @@
 - [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 交付证据](TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md)（r2 候选：7 文件排重账 + player-roles 2 新合同 + runner v2 严格反控（JSON reporter 判据/fullName 精确相等/执行集 identity/13 自测反例）+ 全包 417/417，待 Codex 二审）。
 - [TEST-GLM-MIGRATE-ASSET-SUPPLY-1 交付证据](TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md)（r1 候选：15 资产供应/所有权合同 + 13 针 identity 反控 + 合成 YJ2 特效链，待 Codex 二审）。
 - [TEST-GLM-REFORGE-MOTION-TRANSITION-1 交付证据](TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md)（r2 候选：world-motion-runtime 3 残余合同 + identity artifact 严格反控 + 9 自测反例，待 Codex 二审）。
+- [TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 交付证据](TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md)（r1 候选：migration plan/transaction/write-plan 2 净新合同 + 2/2 identity 反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 交付证据](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md)（r1 候选：battle core/session 排重后 6 残余合同（敌方施法三门/复活无保底/敌逃战果会计/AI 敌逃回执）+ identity TSV 全量反控 6/6 + 11 自测反例，待 Codex 独立验收）。
 - [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 交付证据](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md)（r1 候选：main 宿主编排排重后 5 残余合同（入场揭幕/触发脚本错误恢复/试打终局与错误回执/存档失败计数与队列）+ identity TSV 全量反控 5/5 + 11 自测反例 + D-1 `?battle-scene=` 投影死路缺陷披露，待 Codex 独立验收）。

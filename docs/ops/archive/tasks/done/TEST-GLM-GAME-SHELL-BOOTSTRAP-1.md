@@ -1,6 +1,6 @@
 # TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap and resource boundary audit
 
-Status: build
+Status: done
 Phase: phase1
 Capability: game / shell bootstrap, loading and resource failure boundaries
 Coding Owner: GLM
@@ -35,7 +35,7 @@ Visual Verification Timing: dev-functional
   bootstrap.ts:191-198 / SB2 揭场 introFade 静默+战斗曲循环 :192-199 / SB3 战斗帧 bus SFX
   drain+explore 不消费 :202-213 / SB4 SW 消息路由 precache-client.ts:67-72 / SB5 storage.persist
   失败容忍 :74-79 / SB6 startRafLoop 帧链自续订+cancel 停链 main-loop.ts:173-180）。
-  证据：[ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/](../evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md)
+  证据：[ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/](../../../evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md)
   （排重账含逐文件 existing-proof 饱和/unreachable/U 账；identity 6/6；反控 6/6 VALID，
   每针红相位 failed 恰 1 且为业务 AssertionError、恢复逐字节、恢复绿 identity 等于原始绿）。
 - 排重结论：fetch-retry / boot-loading / bootstrap-resources / precache-ui / input 五文件 existing-proof
@@ -51,6 +51,12 @@ Visual Verification Timing: dev-functional
   worktree 环境注记：根 `data/extracted`、`data/raw/*`、`packages/game/public/extracted` 三处软链
   补齐后全量方绿（dev-panel.test 直读 data/extracted）。
 - Status 维持 `build`→`review` 转换由 Codex 独立验收决定；覆盖率/例数未作门槛。
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 6/6；strict shell counterproof 6/6 VALID，MUT-01~06 均精确命中业务合同。
+- 独立质量门：Game typecheck、docs、git diff --check 通过；集成全仓 lint 3469 files、0/0/0。
+- U-1 `swc.ready` reject 未处理登记为产品观察，未夹带修复；结论：合入 main，任务归档为 done。
 
 ## 下一位 Agent 提示词
 

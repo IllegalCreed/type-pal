@@ -10,9 +10,6 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
-| TEST-GLM-GAME-SHELL-BOOTSTRAP-1 | [Game shell bootstrap and resource boundary audit](tasks/TEST-GLM-GAME-SHELL-BOOTSTRAP-1.md) | build | GLM / shell bootstrap 审计 | loading、retry、precache、主循环与 listener 生命周期 |
-| TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 | [Reforge main host orchestration boundary audit](tasks/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1.md) | build | GLM / main host 审计 | scene、script、save、world、trial 与 stale async |
-| TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 | [Migrate plan, transaction and publication boundary audit](tasks/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1.md) | build | GLM r1 已交付 / 待 Codex 验收 | 双 manifest 排序门 + 退役 baseline 幻影 delete 2 净新合同；饱和排重账见 evidence |
 
 ## 看板规则
 

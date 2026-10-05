@@ -1,6 +1,6 @@
 # TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 — migration plan, journal and publication boundary audit
 
-Status: build
+Status: done
 Phase: phase2
 Capability: migrate / migration plan, transaction and publication
 Coding Owner: GLM
@@ -35,7 +35,7 @@ Visual Verification Timing: N/A
   `packages/migrate/src/migration-plan-transaction.glm-r1.test.ts`（2 tests）与反控脚本
   `packages/migrate/scripts/mpt1-mutation-counterproof.mjs`；产品/schema/旧测/config/baseline/真实数据零改动。
 - 排重账：7 文件逐轴（source:line × caller × input × oracle × fullName）见
-  [dedup-ledger.md](../evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/dedup-ledger.md)。审计结论：
+  [dedup-ledger.md](../../../evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/dedup-ledger.md)。审计结论：
   transaction/plan/write-plan/project-io 四族被既有四套件 + Kimi/Grokmigrate 波次高度覆盖；
   publication/store-boundary 已由 asset-supply 归档卡收口（判定沿用）；残余净新仅 2 合同：
   1. migration-transaction.ts:198 —— 两个 manifest scope 变更（不同目标）在提交排序门被拒绝且零写盘
@@ -52,7 +52,7 @@ Visual Verification Timing: N/A
 - 反控：2 针 × 严格三态（绿→指定业务红→恢复绿 + rebuilt hash）全 PASS；runner 自测 11 例；
   TSV identity artifact 8 相位（baseline/2×mutant/2×restored/final-replay）集合 sha256 级比较；红相位唯一
   失败 fullName 精确相等 + AssertionError 片段 + console 旁证；mkdtemp 残留前后扫描 0。见
-  [counterproof.json](../evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/counterproof.json)。
+  [counterproof.json](../../../evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/counterproof.json)。
 - 门禁：定向 2/2；相邻 29 文件 294/294；migrate 全量 97 文件 740/740；repo typecheck exit 0；
   lint 0/0/0（3462 文件）；`git diff <base>..HEAD --check` 零输出；docs 门通过（board/index/evidence-README
   三处 content-review pin 按判例外科刷新，同时修复 main 既有 2 处 after-SHA drift）。
@@ -70,3 +70,9 @@ Visual Verification Timing: N/A
 4. 结论写回本卡（accept 或 counter 项）；通过后按流程收口，不改产品、不把覆盖率当门槛。
 不得开始新的实现工作；无下一位实现 Agent，等待你的验收结论。
 ```
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 2/2；strict transaction counterproof 2/2 PASS，TSV identity 与 hash 一致。
+- 独立质量门：Migrate typecheck、docs、git diff --check 通过；集成全仓 lint 3469 files、0/0/0。
+- 结论：plan/transaction/write-plan 两条净新合同满足门禁，合入 main，任务归档为 done。

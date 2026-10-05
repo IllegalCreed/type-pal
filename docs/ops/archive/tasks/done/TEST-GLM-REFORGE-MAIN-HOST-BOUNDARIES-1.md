@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main host orchestration boundary audit
 
-Status: build
+Status: done
 Phase: phase2
 Capability: reforge / main host orchestration and public flow boundaries
 Coding Owner: GLM
@@ -31,7 +31,7 @@ Visual Verification Timing: dev-functional
 
 - 分支/基线：`codex/glm-reforge-main-host-boundaries-r1`，基 `origin/main` `cb12a63e2`；
   产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试/脚本/证据/卡面/证据导航行）。
-- **排重结论**（[dedup-ledger.md](../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/dedup-ledger.md)）：
+- **排重结论**（[dedup-ledger.md](../../../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/dedup-ledger.md)）：
   main orchestration 全域逐轴对账——host 初始化/重入、场景切换成功失败（debug 键族）、
   存档成功链、world mutation 所有权、stale async 主轴均 existing-proof（HOST-LIFECYCLE/H5/H6/
   H9 族、world-async-commit、motion-transition 等）；四相邻模块 module 级饱和不重开。仅补 5 条
@@ -62,7 +62,7 @@ Visual Verification Timing: dev-functional
   不满足恰一红），预核本卡测试同变异下业务红后，正式针换为独占的 `存档失败` 回执移除。
 - **门**：定向 5/5；相邻 49 文件 300/300；Reforge 全量 8778/8778；typecheck exit 0；全仓 lint
   3462 文件 0/0/0；`git diff --check` 干净；docs check PASS（0 issues）。raw 见
-  [gates/](../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/gates/)。
+  [gates/](../../../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/gates/)。
   覆盖率/例数未设门槛；不标 done，等待 Codex 独立验收。
 
 ## 下一位 Agent 提示词（Codex 独立验收）
@@ -87,3 +87,9 @@ counterproof.json + counterproof-raw/ + gates/）。候选分支 codex/glm-refor
    git diff --check。
 裁决 accept/counter/rework；未验收前不合 main、不标 done。
 ```
+
+## Codex 独立验收与收口（2026-10-06）
+
+- 独立复跑：定向 5/5；strict MHB counterproof 5/5 PASS，11 个 selftest 反例全部通过。
+- 独立质量门：Reforge typecheck、docs、git diff --check 通过；集成全仓 lint 3469 files、0/0/0。
+- D-1 `?battle-scene=` 投影死路缺陷保持披露，未夹带产品修复；结论：合入 main，任务归档为 done。

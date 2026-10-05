@@ -13,10 +13,7 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap and resource boundary audit](TEST-GLM-GAME-SHELL-BOOTSTRAP-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 — migration plan, journal and publication boundary audit](TEST-GLM-MIGRATE-PLAN-TRANSACTION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main host orchestration boundary audit](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -292,10 +289,12 @@
 | [TEST-GLM-GAME-EVENT-STATE-OPCODES-1 — event state and opcode business contracts](../archive/tasks/done/TEST-GLM-GAME-EVENT-STATE-OPCODES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-MENU-SAVE-IO-1 — menu, input and save boundary contracts](../archive/tasks/done/TEST-GLM-GAME-MENU-SAVE-IO-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — player opcode residual contracts](../archive/tasks/done/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-SHELL-BOOTSTRAP-1 — shell bootstrap and resource boundary audit](../archive/tasks/done/TEST-GLM-GAME-SHELL-BOOTSTRAP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-ITEM-LOGIC-1 — 物品纯逻辑六组补测](../archive/tasks/done/TEST-GLM-ITEM-LOGIC-1-world-use-residuals.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LARGE-WAVE-4 — 五批大型当前合同补测](../archive/tasks/done/TEST-GLM-LARGE-WAVE-4-five-large-batches.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-LEAF-WORKFLOWS-1 — 三十二组叶层与小界面补测](../archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-MIGRATE-ASSET-SUPPLY-1 — asset supply, ownership and publication boundaries](../archive/tasks/done/TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 — migration plan, journal and publication boundary audit](../archive/tasks/done/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-NEW-F-1 — 编辑器主工作台与预览](../archive/tasks/done/TEST-GLM-NEW-F-1-editor-shell.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-NEW-G-1 — Reforge 战斗与场景宿主边界](../archive/tasks/done/TEST-GLM-NEW-G-1-reforge-host.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-NEW-H-1 — 一阶段战斗当前合同](../archive/tasks/done/TEST-GLM-NEW-H-1-game-battle.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -308,6 +307,7 @@
 | [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 — battle core and session business contracts](../archive/tasks/done/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts](../archive/tasks/done/TEST-GLM-REFORGE-BATTLE-FLOW-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 — Reforge host lifecycle contract wave](../archive/tasks/done/TEST-GLM-REFORGE-HOST-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main host orchestration boundary audit](../archive/tasks/done/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-MOTION-TRANSITION-1 — motion, scene transition and input lifecycle audit](../archive/tasks/done/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts](../archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts](../archive/tasks/done/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
