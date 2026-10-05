@@ -1,0 +1,79 @@
+{
+  "card": "TEST-GLM-GAME-EVENT-STATE-OPCODES-1",
+  "targetFile": "packages/game/src/core/event-system.ts",
+  "testFile": "packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+  "points": [
+    {
+      "id": "MUT-01",
+      "line": 4833,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x7A partyWalkTo 多步走位到达:snap 到目标 + 站立帧 + DL26 相位复位,同 tick 续跑下一条 opcode(script.c:199/scene.c:773-774)",
+      "intent": "走位到达相位复位合同:删 partyWalkTo 到达臂的 DL26 stepFrame 复位赋值 → 到达后 stepFrame 残留 0 → 目标合同 stepFrame===2 断言红",
+      "carrier": "以到达臂唯一注释行(walking = false // PAL_UpdatePartyGestures(FALSE) — 站立)起 4 行块锚定删末行;4822 零距离臂/2434 0x05 臂/1484 frame-wait 臂均不同锚",
+      "find": "    gs.walkingFrame.walking = false // PAL_UpdatePartyGestures(FALSE) — 站立\n    // DL26:走位循环结束调 UpdatePartyGestures(FALSE)(script.c:199)→ scene.c:773-774\n    //   `stepFrame &= 2; ^= 2` 相位复位 —— 紧接下一段走路起步左右脚与 C 同拍。\n    gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2\n",
+      "replaceWith": "    gs.walkingFrame.walking = false // PAL_UpdatePartyGestures(FALSE) — 站立\n    // DL26:走位循环结束调 UpdatePartyGestures(FALSE)(script.c:199)→ scene.c:773-774\n    //   `stepFrame &= 2; ^= 2` 相位复位 —— 紧接下一段走路起步左右脚与 C 同拍。\n"
+    },
+    {
+      "id": "MUT-02",
+      "line": 4779,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x70 零距离走位:立即到达且零副作用(不重写 facing/不污染 trail/不清 pose)(script.c:2125-2130)",
+      "intent": "零距离立即到达合同:dx===0&&dy===0 守卫改 dx===999 永假 → 落常规走位分支(重算 facing right/unshift trail/清 pose)→ 目标合同 facing 断言红",
+      "carrier": "if (dx === 0 && dy === 0) { 全文唯一;骑乘 4864 是 xOffset===0&&yOffset===0 不同锚",
+      "find": "  if (dx === 0 && dy === 0) {",
+      "replaceWith": "  if (dx === 999 && dy === 0) {"
+    },
+    {
+      "id": "MUT-03",
+      "line": 4789,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x7A 走位首步清 0x15 scripted pose(UpdatePartyGestures(TRUE) 覆写 rgParty[*].wFrame,script.c:185-188)",
+      "intent": "走位清 pose 合同:length > 0 改 length < 0 永假 → 0x15 的 pose 残留 → 目标合同 partyScriptedFrame toEqual({}) 断言红",
+      "carrier": "if (Object.keys(gs.partyScriptedFrame).length > 0) { 在 event-system.ts 唯一(scene-system.ts:484 手动走路清 pose 是另一 caller 另一文件)",
+      "find": "  if (Object.keys(gs.partyScriptedFrame).length > 0) {",
+      "replaceWith": "  if (Object.keys(gs.partyScriptedFrame).length < 0) {"
+    },
+    {
+      "id": "MUT-04",
+      "line": 2805,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) loadScene 同场景 guard:不 reload 不置 pendingSceneLoad/sceneLoading,脚本续跑(script.c:1870-1885)",
+      "intent": "同场景 guard 合同:首分支 !== 改 === → 同场景 loadScene 误进 reload 分支(置 pendingSceneLoad/sceneLoading)→ 目标合同 pendingSceneLoad 断言红",
+      "carrier": "gs.wNumScene !== cmd.sceneId 全文唯一;0/越界臂与本针不同轴",
+      "find": "gs.wNumScene !== cmd.sceneId",
+      "replaceWith": "gs.wNumScene === cmd.sceneId"
+    },
+    {
+      "id": "MUT-05",
+      "line": 5089,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) runEnterScript goto 命中:跳到 label 续跑,跳过段 opcode 不执行(与 trigger/auto 同一 labelMap 契约)",
+      "intent": "goto 命中跳转合同:cursor.ip = target 改 target + 1 → 跳过 label 目标行 → 目标合同 party.x===64 断言红",
+      "carrier": "6 空格缩进 + 紧随 continue 的两行块全文唯一(tickEventSystem goto 是 8 空格 + break,runOneAutoOp 是单行 if)",
+      "find": "      cursor.ip = target\n      continue\n",
+      "replaceWith": "      cursor.ip = target + 1\n      continue\n"
+    },
+    {
+      "id": "MUT-06",
+      "line": 5084,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) runEnterScript goto 缺失:warn + fail-stop,后续 opcode 不执行(不抛错不自旋)",
+      "intent": "goto 缺失终止合同:resolveLabelIp 结果 ?? cursor.ip + 1 → 缺失不再终止、落到下一行续跑 → 目标合同 party.x===0 断言红",
+      "carrier": "以 runEnterScript 专有 warn 文本(runEnterScript: goto label)三行块锚定改首行;tickEventSystem goto 的 warn 文本不同(event-system: goto label)",
+      "find": "      const target = resolveLabelIp(cursor, cmd.to)\n      if (target === undefined) {\n        console.warn(`runEnterScript: goto label ${cmd.to} 不在 labelMap`)\n",
+      "replaceWith": "      const target: number | undefined = resolveLabelIp(cursor, cmd.to) ?? cursor.ip + 1\n      if (target === undefined) {\n        console.warn(`runEnterScript: goto label ${cmd.to} 不在 labelMap`)\n"
+    },
+    {
+      "id": "MUT-07",
+      "line": 4949,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x4C 阻挡追击:i+j*2>=48 菱形子格回弹基准双进位(prevx/prevy 各 +1 tile,script.c:356-388)",
+      "intent": "菱形回弹基准双进位合同:删 >=48 子臂内 prevx++/prevy++ → 回弹 x 基准少 1 tile → 目标合同 npc.x===352 断言红",
+      "carrier": "if (i + j * 2 >= 48) { 起三行块全文唯一(闭 } 与 else if 同行,故锚到 prevy++ 为止;else-if 链同形臂用 32 - i 上下文区分)",
+      "find": "      if (i + j * 2 >= 48) {\n        prevx++\n        prevy++\n",
+      "replaceWith": "      if (i + j * 2 >= 48) {\n"
+    },
+    {
+      "id": "MUT-08",
+      "line": 4488,
+      "targetContract": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x90 setObjectScript 稀疏写回:rgwData 不足长度零填充扩展后落值(script.c:2605-2611)",
+      "intent": "稀疏零填充扩展合同:删 while 扩展 → rgwData[9]=774 直接越界赋值产生空洞 → 目标合同 rgwData[7]===0 断言红(undefined !== 0)",
+      "carrier": "while (st.rgwData.length <= idx) st.rgwData.push(0) 全文唯一",
+      "find": "      while (st.rgwData.length <= idx) st.rgwData.push(0)\n",
+      "replaceWith": "      // mutated\n"
+    }
+  ]
+}

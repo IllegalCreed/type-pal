@@ -1,0 +1,50 @@
+{
+  "card": "TEST-GLM-GAME-EVENT-STATE-OPCODES-1",
+  "generatedAt": "2026-10-05T14:54:31.463Z",
+  "command": "pnpm --filter @type-pal/game exec vitest run src/core/event-system.glm-event-state-opcodes.test.ts --reporter=json",
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "tests": [
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x7A partyWalkTo 多步走位到达:snap 到目标 + 站立帧 + DL26 相位复位,同 tick 续跑下一条 opcode(script.c:199/scene.c:773-774)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x7A 走位首步清 0x15 scripted pose(UpdatePartyGestures(TRUE) 覆写 rgParty[*].wFrame,script.c:185-188)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x70 零距离走位:立即到达且零副作用(不重写 facing/不污染 trail/不清 pose)(script.c:2125-2130)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) loadScene 同场景 guard:不 reload 不置 pendingSceneLoad/sceneLoading,脚本续跑(script.c:1870-1885)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) runEnterScript goto 命中:跳到 label 续跑,跳过段 opcode 不执行(与 trigger/auto 同一 labelMap 契约)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) runEnterScript goto 缺失:warn + fail-stop,后续 opcode 不执行(不抛错不自旋)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x4C 阻挡追击:i+j*2>=48 菱形子格回弹基准双进位(prevx/prevy 各 +1 tile,script.c:356-388)",
+      "status": "passed"
+    },
+    {
+      "file": "/private/tmp/tp-event-state-opcodes/packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "fullName": "event-system 状态 opcode 合同(GLM state-opcodes r1) 0x90 setObjectScript 稀疏写回:rgwData 不足长度零填充扩展后落值(script.c:2605-2611)",
+      "status": "passed"
+    }
+  ]
+}
