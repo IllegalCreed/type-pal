@@ -13,6 +13,7 @@
 - [TEST-GLM-GAME-BATTLE-STATE-1 交付证据](TEST-GLM-GAME-BATTLE-STATE-1/README.md)（r1 候选：battle 状态机残余 10 合同 + 10/10 三态反控，待 Codex 验收）。
 - [TEST-GLM-GAME-EVENT-CONTRACTS-1 交付证据](TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
 - [TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 交付证据](TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md)（r1 候选：6 装备效果层/applyAll/抗性边界合同 + 7/7 三态反控，待 Codex 验收）。
+- [TEST-GLM-GAME-MENU-SAVE-IO-1 交付证据](TEST-GLM-GAME-MENU-SAVE-IO-1/README.md)（r1 候选：菜单输入锁/同帧取消/存档真链/坏导入/快存反馈 8 合同 + 8/8 三态反控 + U/B 账，待 Codex 验收）。
 - [TEST-GLM-GAME-TURN-BOUNDARIES-1 交付证据](TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md)（r1 候选：15 回合/结算合同 + 15/15 三态反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-ASSET-RESOLVER-1 交付证据](TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md)（r1 候选：8 资源解析/缓存生命周期合同 + 7/7 三态反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md)（r1 候选：bgm/midi/readiness 6 生命周期残差合同 + 6/6 四态反控，待 Codex 验收）。

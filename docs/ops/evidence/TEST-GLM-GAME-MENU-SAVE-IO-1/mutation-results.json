@@ -1,0 +1,279 @@
+{
+  "card": "TEST-GLM-GAME-MENU-SAVE-IO-1",
+  "testFiles": [
+    "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+    "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
+    "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts"
+  ],
+  "originalGreen": {
+    "exitCode": 0,
+    "tests": 8,
+    "allPassed": true,
+    "identitySha": "3abaee79170838512b30684e8c4ffc5bc4ca861792856a0da18163c803a3e346"
+  },
+  "sourceOriginalSha": {
+    "src/core/menu/menu-stack.ts": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+    "src/core/menu/menu-driver.ts": "ee2eda0c65e20975ad96955b1fe729c29a59126b0513304ca60a21f5c263aaeb",
+    "src/tools/save-io.ts": "41fd3452fd077bad3e4cd89c04dd9dc8243395594a024c48e4faa7991c5476ee",
+    "src/tools/quick-save.ts": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+  },
+  "sourceFinalSha": {
+    "src/core/menu/menu-stack.ts": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+    "src/core/menu/menu-driver.ts": "ee2eda0c65e20975ad96955b1fe729c29a59126b0513304ca60a21f5c263aaeb",
+    "src/tools/save-io.ts": "41fd3452fd077bad3e4cd89c04dd9dc8243395594a024c48e4faa7991c5476ee",
+    "src/tools/quick-save.ts": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+  },
+  "sourceRestoredByteIdentical": true,
+  "verdicts": [
+    {
+      "id": "MUT-01",
+      "target": "A1 菜单 modal 输入锁(openMenu 置 menu 态)",
+      "file": "packages/game/src/core/menu/menu-stack.ts",
+      "find": "  gs.menuStack.push(entry)\n  gs.mode = 'menu'",
+      "replace": "  gs.menuStack.push(entry)",
+      "mutatedSha": "ecba1ea096c28b2b20df4092829817a021909a559c751e7107d28f2b48d033ab",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链) MSIO-A1 菜单打开期间按住右:party 冻结在原地,hub 光标吃掉输入(cursor 0→1)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 'explore' to be 'menu' // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 2
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "378740b9e6884161c570706d394b01feeee79b1fede2164c6e3004c33752c6e2",
+        "restored": "0b4c6748a59bdefdec4ee456afeaca7ad930b77902a72f1e5dc8b96b36ce6822"
+      }
+    },
+    {
+      "id": "MUT-02",
+      "target": "A2 菜单关闭后恢复行走(锁释放)",
+      "file": "packages/game/src/core/menu/menu-stack.ts",
+      "find": "    gs.mode = 'explore'",
+      "replace": "    gs.mode = 'event'",
+      "mutatedSha": "62e6f947016eaf31c16cd84d907916ee766254a7049380aea15113cda2eca5cd",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/shell/menu-input-lock.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链) MSIO-A2 菜单按 Menu 关闭后,下一 tick 起方向输入恢复驱动 party(2 步 East)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 'event' to be 'explore' // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 2
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "84db160fa365d3167c718e2bf6e587d2a7ceadd7f1193176b703aeb04030a38b",
+        "restored": "0b4c6748a59bdefdec4ee456afeaca7ad930b77902a72f1e5dc8b96b36ce6822"
+      }
+    },
+    {
+      "id": "MUT-03",
+      "target": "A3 hub 同帧 Menu 优先于 Confirm",
+      "file": "packages/game/src/core/menu/menu-driver.ts",
+      "find": "  const s = top.state as InGameMenuState\n  if (input.pressed.has('Menu')) {\n    closeTopMenu(gs)\n    return\n  }",
+      "replace": "  const s = top.state as InGameMenuState\n  if (input.pressed.has('Menu')) {\n    closeTopMenu(gs)\n  }",
+      "mutatedSha": "647ada2052ae20115b8e953ead83ad01794797f56b4eeaef38a0eeb453f650cd",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-A3 hub 同帧 Menu+Confirm:取消优先 同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected [ { kind: 'player-status', …(1) } ] to have a length of +0 but got 1"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 2
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "fe93e5529a8ad79005190b3b1bd2acf1427c8b9b48b895e95e88fc64ed10149d",
+        "restored": "8e2e5d40db6dac2d2d0804503f147fd6968598dc2c24fdc3215dd579fcfb92d9"
+      }
+    },
+    {
+      "id": "MUT-04",
+      "target": "C1 dispatcher 跨槽 max+1",
+      "file": "packages/game/src/core/menu/menu-driver.ts",
+      "find": "gs.wSavedTimes = maxSaved + 1",
+      "replace": "gs.wSavedTimes = maxSaved",
+      "mutatedSha": "973fc82585747f8835e40bc756e5fd2f48d295f0b9a005799d85cdd672124fca",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-C1 save-slot dispatcher 跨槽 max+1 真链 slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected 7 to be 8 // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 2
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "4fdbeaa9adbb38191da874fa6f9c186aa0a46e14dd3c07dc044198b6a2a0d548",
+        "restored": "8e2e5d40db6dac2d2d0804503f147fd6968598dc2c24fdc3215dd579fcfb92d9"
+      }
+    },
+    {
+      "id": "MUT-05",
+      "target": "D1 wNumScene 必填守卫臂",
+      "file": "packages/game/src/tools/save-io.ts",
+      "find": "typeof gs.wNumScene !== 'number'",
+      "replace": "false",
+      "mutatedSha": "d3834d1122cfdab726a2b314d7da59b55073cf94c9fb79e1ae1628e6e86e6d73",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected [Function] to throw an error"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 4
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "e19fcefda2b1d205f8f8bd2d00002cbd9effe7ba9fc123b3e2ff2bbdd9d46abe",
+        "restored": "237bcb4bcccc825997be4ded7fc9905ccf43e17a661b6def271ea7661d54c4f5"
+      }
+    },
+    {
+      "id": "MUT-06",
+      "target": "E1 F5 拦浏览器刷新",
+      "file": "packages/game/src/tools/quick-save.ts",
+      "find": "      e.preventDefault() // 拦浏览器刷新\n",
+      "replace": "",
+      "mutatedSha": "6ff5baa1a68fe5c48c93e72f627e8e709fa50226858a36be62ae2013a3b92873",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected false to be true // Object.is equality"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 4
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "f84ac469a9ca8f9cded201bc6a9b7da592b887025dc5a63286bca3f2e9b2bb1a",
+        "restored": "237bcb4bcccc825997be4ded7fc9905ccf43e17a661b6def271ea7661d54c4f5"
+      }
+    },
+    {
+      "id": "MUT-07",
+      "target": "E2 存档失败错误 toast",
+      "file": "packages/game/src/tools/quick-save.ts",
+      "find": "存档失败:",
+      "replace": "存档失败X:",
+      "mutatedSha": "d86b1ea46c74f769e7982809d5270d9dd72716ec271104282536353f36e9e7ba",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected '✗ 存档失败X:磁盘已满' to contain '存档失败:磁盘已满'"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 4
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "b3a445cd42a9c56ab0bae89e9d502167d202db0ee6b1bea629a2df50f389de28",
+        "restored": "237bcb4bcccc825997be4ded7fc9905ccf43e17a661b6def271ea7661d54c4f5"
+      }
+    },
+    {
+      "id": "MUT-08",
+      "target": "E3 F9 空槽/成功反馈",
+      "file": "packages/game/src/tools/quick-save.ts",
+      "find": "已从存档位 ${QUICK_SLOT} 读取",
+      "replace": "已从存档位X ${QUICK_SLOT} 读取",
+      "mutatedSha": "f05f8099d16b22404b2ac4e796107b96702be1478f0b167b8e34a94dd840416f",
+      "verdict": "VALID",
+      "red": {
+        "exitCode": 1,
+        "targetFailed": [
+          {
+            "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+            "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+            "status": "failed"
+          }
+        ],
+        "businessAssertion": true,
+        "failedCount": 1,
+        "firstBusinessAssertion": "AssertionError: expected '✓ 已从存档位X 1 读取' to contain '已从存档位 1 读取'"
+      },
+      "restoredGreen": {
+        "exitCode": 0,
+        "tests": 4
+      },
+      "cleanupRestored": true,
+      "identitySha": {
+        "red": "56e205e8e5c2a4bcb0ecee99b5ecfd11bd2084f80a0767fe8b292f51418d9760",
+        "restored": "237bcb4bcccc825997be4ded7fc9905ccf43e17a661b6def271ea7661d54c4f5"
+      }
+    }
+  ],
+  "validCount": 8,
+  "invalidCount": 0
+}

@@ -1,0 +1,144 @@
+{
+  "numTotalTestSuites": 8,
+  "numPassedTestSuites": 8,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791181204908,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链)"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链) MSIO-A1 菜单打开期间按住右:party 冻结在原地,hub 光标吃掉输入(cursor 0→1)",
+          "status": "passed",
+          "title": "MSIO-A1 菜单打开期间按住右:party 冻结在原地,hub 光标吃掉输入(cursor 0→1)",
+          "duration": 1.8557500000000573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链)"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链) MSIO-A2 菜单按 Menu 关闭后,下一 tick 起方向输入恢复驱动 party(2 步 East)",
+          "status": "passed",
+          "title": "MSIO-A2 菜单按 Menu 关闭后,下一 tick 起方向输入恢复驱动 party(2 步 East)",
+          "duration": 0.6323340000000144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791181205783,
+      "endTime": 1791181205785.6323,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-menu-save-io/packages/game/src/shell/menu-input-lock.glm-msio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+          "status": "passed",
+          "title": "MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+          "duration": 1.2676670000000172,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+          "status": "passed",
+          "title": "MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+          "duration": 33.77858299999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+          "status": "passed",
+          "title": "MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+          "duration": 58.229791999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+          "status": "passed",
+          "title": "MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+          "duration": 104.00700000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791181205390,
+      "endTime": 1791181205587.007,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-menu-save-io/packages/game/src/tools/save-import-quicksave.glm-msio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-A3 hub 同帧 Menu+Confirm:取消优先"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-A3 hub 同帧 Menu+Confirm:取消优先 同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "status": "passed",
+          "title": "同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "duration": 2.0471670000000586,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-C1 save-slot dispatcher 跨槽 max+1 真链"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-C1 save-slot dispatcher 跨槽 max+1 真链 slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "status": "passed",
+          "title": "slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "duration": 1.7849590000000717,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791181205650,
+      "endTime": 1791181205653.785,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-menu-save-io/packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts"
+    }
+  ]
+}

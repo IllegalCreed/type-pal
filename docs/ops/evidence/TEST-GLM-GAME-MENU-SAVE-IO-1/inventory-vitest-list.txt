@@ -1,0 +1,348 @@
+src/shell/main-loop.test.ts > tickN > 跑 N tick,每 tick 调 onPresent
+src/shell/main-loop.test.ts > tickN > Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)
+src/shell/main-loop.test.ts > advanceRafFrame / logicIntervalMs(M1 三不变量) > ① logicIntervalMs:battle 40 / 否则 100
+src/shell/main-loop.test.ts > advanceRafFrame / logicIntervalMs(M1 三不变量) > ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码
+src/shell/main-loop.test.ts > advanceRafFrame / logicIntervalMs(M1 三不变量) > ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢
+src/shell/main-loop.test.ts > advanceRafFrame / logicIntervalMs(M1 三不变量) > ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present
+src/shell/main-loop.test.ts > advanceRafFrame / logicIntervalMs(M1 三不变量) > ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)
+src/shell/main-loop.test.ts > advanceRafFrame / logicIntervalMs(M1 三不变量) > ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)
+src/shell/main-loop.test.ts > 渐变吞键仅限 scene-fade(palette.c 真值边界) > waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)
+src/shell/main-loop.test.ts > 渐变吞键仅限 scene-fade(palette.c 真值边界) > waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)
+src/shell/main-loop.test.ts > 渐变吞键仅限 scene-fade(palette.c 真值边界) > 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)
+src/shell/main-loop.test.ts > 渐变吞键仅限 scene-fade(palette.c 真值边界) > 无渐变 → 不抑制
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A03 未知键的 keydown 不改已按住的 Right
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A04 ControlRight 不是确认键
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A06 clearPressed 不解除方向键的 fade 抑制
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A07 回放耗尽时，空快照的帧号等于本次入参
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A09 录制源返回的就是内层那一个快照对象
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面
+src/shell/input-replay.grok-r1.test.ts > G09-A 输入回放与按键归属 > G09-A11 键盘快照的帧号原样使用主循环传入的帧号
+src/shell/input.boundaries.test.ts > H02 KeyboardInputSource 宿主边界 > 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）
+src/shell/input.boundaries.test.ts > H02 KeyboardInputSource 宿主边界 > 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除
+src/shell/input.boundaries.test.ts > H02 KeyboardInputSource 宿主边界 > detach 后真实事件不再进入
+src/tools/save-io.test.ts > save-io > serializeSave:gs → 带版本头的 JSON 字符串
+src/tools/save-io.test.ts > save-io > parseImportedSave:合法 → 返回 gs;格式错 → 抛
+src/tools/save-io.test.ts > save-io > parseImportedSave:缺必要字段(partyMembers)→ 抛
+src/core/menu/in-game-menu.glm-phase1-leaves.test.ts > L04 InGameMenu 首尾环绕 > cursor 0 Up → 末项 system；末项 Down → 0 status
+src/core/menu/in-game-menu.glm-phase1-leaves.test.ts > L04 InGameMenu 首尾环绕 > 负 defaultCursor 归 0（>0 守卫对负值不生效的合法输入）
+src/core/menu/in-game-menu.glm-phase1-leaves.test.ts > L04 SystemMenu 剩余合同 > cursor 0 Up → quit；quit Down → save（5 项环绕）
+src/core/menu/in-game-menu.glm-phase1-leaves.test.ts > L04 SystemMenu 剩余合同 > defaultCursor 越上界 → 归 0；词表载入取 flat[11..15] 文案
+src/tools/quick-save.test.ts > quick-save > canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false
+src/tools/quick-save.test.ts > quick-save > F5 可存态 → saveSlot(1, gs)
+src/tools/quick-save.test.ts > quick-save > F5 不可存态(战斗) → 不调 saveSlot
+src/tools/quick-save.test.ts > quick-save > F9 → loadSlotIntoGame(1)
+src/core/menu/in-game-menu.boundaries.test.ts > G09 SystemMenu 三阶段状态字段 > EnterConfirm 重置 confirmYes=false；ToggleConfirm 翻转；EnterSwitch 按 id 记目标且高亮当前态
+src/core/menu/in-game-menu.boundaries.test.ts > G09 SystemMenu 三阶段状态字段 > systemMenuChoice 按 label id 映射 choice，不按数组位置猜测
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B02 battleAnim 在未到逻辑间隔时仍 present
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B04 dt 200 结转后余量正好等于间隔，不丢弃
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B05 冻结时不足一个间隔的余量保留，且不 present
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B08 dump 使用调用方给出的 partyWalkFrames 4
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B09 未给 partyWalkFrames 时 dump 使用 3
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B12 tickN(0) 不 present，帧号保持 0
+src/shell/main-loop-gates.grok-r1.test.ts > G09-B 主循环门控 > G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧
+src/shell/input.test.ts > codeToAbstractKey > 方向键映射
+src/shell/input.test.ts > codeToAbstractKey > WASD = sdlpal 原义(input.c:84-90),不是方向
+src/shell/input.test.ts > codeToAbstractKey > 确认 / 菜单(sdlpal input.c:66-74 真值)
+src/shell/input.test.ts > codeToAbstractKey > Numpad 方向键(sdlpal input.c:58-65)
+src/shell/input.test.ts > codeToAbstractKey > 翻页 / Home/End(sdlpal input.c:75-82)
+src/shell/input.test.ts > codeToAbstractKey > 战斗 / 大世界专用键(sdlpal input.c:83-90)
+src/shell/input.test.ts > codeToAbstractKey > 未知键 → null
+src/shell/input.test.ts > KeyboardInputSource > keydown/keyup 维护 held;snapshot 后 pressed 清空
+src/shell/input.test.ts > KeyboardInputSource > clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留
+src/shell/input.test.ts > KeyboardInputSource > last-press priority (sdlpal input.c:180-189) > Up 然后 Down → held Set 末位 = Down
+src/shell/input.test.ts > KeyboardInputSource > last-press priority (sdlpal input.c:180-189) > Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)
+src/shell/input.test.ts > KeyboardInputSource > last-press priority (sdlpal input.c:180-189) > e.repeat=true 不刷新 held order(sdlpal input.c:213)
+src/shell/input.test.ts > KeyboardInputSource > last-press priority (sdlpal input.c:180-189) > repeat 也不污染 pressed(只在初次按下时 add pressed)
+src/shell/input.test.ts > ReplayInputSource > 按帧顺序回放
+src/shell/input.test.ts > ReplayInputSource > 超出序列 → 空快照
+src/shell/input.test.ts > RecordingInputSource > 装饰任意 source,把每帧 snapshot 留档
+src/shell/input.test.ts > DM30:fade 抑制按住的方向键(palette.c:313-316) > suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清
+src/core/menu/in-game-menu.test.ts > 菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) > InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)
+src/core/menu/in-game-menu.test.ts > 菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) > SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]
+src/core/menu/in-game-menu.test.ts > 菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) > 词表载入 → label 取 flat[id](WORD.DAT 单一源)
+src/core/menu/in-game-menu.test.ts > 菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) > choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)
+src/core/menu/in-game-menu.test.ts > InGameMenu(主菜单 — 状态/仙术/物品/系统) > 4 项真值顺序(sdlpal uigame.c:961-966)
+src/core/menu/in-game-menu.test.ts > InGameMenu(主菜单 — 状态/仙术/物品/系统) > 默认 cursor=0 → choice "status"
+src/core/menu/in-game-menu.test.ts > InGameMenu(主菜单 — 状态/仙术/物品/系统) > defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)
+src/core/menu/in-game-menu.test.ts > InGameMenu(主菜单 — 状态/仙术/物品/系统) > Down 推进:状态 → 仙术 → 物品 → 系统
+src/core/menu/in-game-menu.test.ts > InGameMenu(主菜单 — 状态/仙术/物品/系统) > Up 反推
+src/core/menu/in-game-menu.test.ts > InGameMenu(主菜单 — 状态/仙术/物品/系统) > defaultCursor 超出 = noop(防越界 crash)
+src/core/menu/in-game-menu.test.ts > SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) > 5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)
+src/core/menu/in-game-menu.test.ts > SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) > choice 序列:save / load / music / sound / quit
+src/core/menu/in-game-menu.test.ts > SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) > defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)
+src/core/menu/in-game-menu.test.ts > SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) > Up 反推
+src/core/menu/menu-mode.test.ts > M5.6 W0.a tickMenu 骨架 > menuStack 空 → 切回 explore mode
+src/core/menu/menu-mode.test.ts > M5.6 W0.a tickMenu 骨架 > 按 Menu 键 → pop 栈顶 + 栈空时切回 explore
+src/core/menu/menu-mode.test.ts > M5.6 W0.a tickMenu 骨架 > 栈非空 + 无 Menu 键 → mode 保持 menu(等待子菜单 dispatcher)
+src/core/menu/menu-mode.test.ts > M5.6 W0.a tickMenu 骨架 > 栈两层(hub+system)+ Menu 键 → pop 一层(仍在 menu mode;sdlpal SystemMenu CANCELLED 留 hub)
+src/core/menu/menu-mode.test.ts > M5.6 W0.a tickMenu 骨架 > DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)
+src/core/menu/menu-mode.test.ts > openMenu / closeTopMenu > openMenu push + 切 menu mode
+src/core/menu/menu-mode.test.ts > openMenu / closeTopMenu > closeTopMenu pop(不切 mode — 留 tickMenu 下帧处理)
+src/core/menu/save-slot-menu.test.ts > createSaveSlotMenu > 默认 5 slot,label "进度N",mode 透传
+src/core/menu/save-slot-menu.test.ts > createSaveSlotMenu > load mode
+src/core/menu/save-slot-menu.test.ts > createSaveSlotMenu > slotMeta override label
+src/core/menu/save-slot-menu.test.ts > createSaveSlotMenu > 初始 slotMetas 空 Map(fetchSlotMetas 异步填)
+src/core/menu/save-slot-menu.test.ts > saveSlotMenuUp/Down + Current > Down 切下一 slot
+src/core/menu/save-slot-menu.test.ts > saveSlotMenuUp/Down + Current > Up 切上一 slot;边界 wrap(SelectionMenu 默认行为)
+src/core/menu/save-slot-menu.test.ts > saveSlotMenuUp/Down + Current > Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)
+src/core/menu/save-slot-menu.test.ts > fetchSlotMetas + Save IO > fetchSlotMetas 空 slots → slotMetas 仍空
+src/core/menu/save-slot-menu.test.ts > fetchSlotMetas + Save IO > save 后 fetchSlotMetas → slotMetas 含 SlotMeta
+src/core/menu/save-slot-menu.test.ts > fetchSlotMetas + Save IO > 多 slot save → fetchSlotMetas 全 fill
+src/core/menu/save-slot-menu.test.ts > SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值 > savedTimes 从 gs.wSavedTimes 取(extractMeta 真值)
+src/core/menu/save-slot-menu.test.ts > SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值 > sdlpal 真值 cross-slot max + 1 算法验证(dispatcher 模拟)
+src/core/menu/save-slot-menu.test.ts > Save → Load roundtrip > save GameState → loadSlot 取回同字段值
+src/core/menu/save-slot-menu.test.ts > Save → Load roundtrip > save 是 deep clone — loaded 修改不影响 saved
+src/core/menu/save-slot-menu.test.ts > Save → Load roundtrip > loadSlot 不存在 slot → null
+src/core/menu/opening-menu.glm-phase1-leaves.test.ts > L06 OpeningMenu 剩余合同 > choice 映射：cursor 0 → new-game，Down → load-game（uigame.c value 0/1 语义）
+src/core/menu/opening-menu.glm-phase1-leaves.test.ts > L06 OpeningMenu 剩余合同 > 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）
+src/core/menu/opening-menu.glm-phase1-leaves.test.ts > L06 OpeningMenu 剩余合同 > 空表 choice 防御 undefined（直造状态可达）
+src/core/menu/opening-menu.test.ts > opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu > createOpeningMenu 起手:2 项 fixed + cursor=0(新游戏)— sdlpal wDefaultItem=0 真值
+src/core/menu/opening-menu.test.ts > opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu > Down 一次 → cursor=1(读取存档)
+src/core/menu/opening-menu.test.ts > opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu > Down 两次 → wrap 回 cursor=0(sdlpal ui.c:512-515 真值循环)
+src/core/menu/opening-menu.test.ts > opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu > Up 从 cursor=0 → wrap 到 cursor=1(sdlpal ui.c:565-572 真值循环)
+src/core/menu/opening-menu.test.ts > opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu > Down + Up → 来回 0↔1
+src/core/menu/opening-menu.test.ts > opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu > openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)
+src/core/menu/menu-driver.cov85.test.ts > cov85 requireCatalogs 未注入守卫 > setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错
+src/core/menu/menu-driver.cov85.test.ts > cov85 dispatchMenuInput 空栈 > menuStack 空 → 直接返回不炸
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店买菜单(shop-buy) > list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店买菜单(shop-buy) > list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店买菜单(shop-buy) > confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店买菜单(shop-buy) > confirm:Up/Left 也 toggle;Confirm 否 → 不交易
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店买菜单(shop-buy) > confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店卖菜单(shop-sell) > list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店卖菜单(shop-sell) > 不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list
+src/core/menu/menu-driver.cov85.test.ts > cov85 商店卖菜单(shop-sell) > confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动
+src/core/menu/menu-driver.cov85.test.ts > cov85 系统菜单(system) > music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开
+src/core/menu/menu-driver.cov85.test.ts > cov85 系统菜单(system) > sound switch:Up toggle;Menu 取消关整栈(保持当前态)
+src/core/menu/menu-driver.cov85.test.ts > cov85 系统菜单(system) > quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler
+src/core/menu/menu-driver.cov85.test.ts > cov85 系统菜单(system) > save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移
+src/core/menu/menu-driver.cov85.test.ts > cov85 系统菜单(system) > Left/Right 在 menu 阶段也位移(DL21)
+src/core/menu/menu-driver.cov85.test.ts > cov85 物品一级子菜单(inventory-action) > Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory
+src/core/menu/menu-driver.cov85.test.ts > cov85 物品菜单(inventory,use 路由) > list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回
+src/core/menu/menu-driver.cov85.test.ts > cov85 物品菜单(inventory,use 路由) > Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈
+src/core/menu/menu-driver.cov85.test.ts > cov85 物品菜单(inventory,use 路由) > applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return
+src/core/menu/menu-driver.cov85.test.ts > cov85 装备菜单(equip) > list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)
+src/core/menu/menu-driver.cov85.test.ts > cov85 装备菜单(equip) > pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)
+src/core/menu/menu-driver.cov85.test.ts > cov85 装备菜单(equip) > 不可装备角色 Confirm → no-op 留 pick-role
+src/core/menu/menu-driver.cov85.test.ts > cov85 大世界法术菜单(in-game-magic) > 单人队:直接 pick-spell;8 键导航;Menu 关整栈
+src/core/menu/menu-driver.cov85.test.ts > cov85 大世界法术菜单(in-game-magic) > Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单
+src/core/menu/menu-driver.cov85.test.ts > cov85 大世界法术菜单(in-game-magic) > Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回
+src/core/menu/menu-driver.cov85.test.ts > cov85 角色状态屏(player-status) > Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关
+src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening
+src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > load 模式:有 handler → 调用;无 handler → pop 顶 + 警告
+src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本
+src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > 法术菜单 MP 不足禁用项 Confirm → no-op 留 pick-spell(禁用项)
+src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > equip pick-role 确认时 item 已不在 catalog → 错误返回不动状态(错误返回)
+src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > save-slot load 异步 handler:fire-and-forget 不阻塞关栈,promise 照常完成(异步生命周期)
+src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)
+src/core/menu/menu-driver.cov85.test.ts > cov85r3 菜单栈恢复与生命周期 > system switch 阶段 Down/Left 也 toggle(535-536 补臂)
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchInGameMenu hub > Up/Down 移动 selection cursor
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchInGameMenu hub > Menu 键 → 关 hub + 切回 explore
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchInGameMenu hub > Confirm "system" → push system 子菜单
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchInGameMenu hub > Confirm "物品" → push inventory-action(sdlpal uigame.c:878-919 真值修)
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchInGameMenu hub > Confirm "status" → push player-status
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > Up/Down 移动 + Menu 键关闭
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > Confirm "quit" → 进 confirm 阶段(默认 No),**不**清 menuStack
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > confirm 阶段方向键 toggle 是/否
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > confirm 选 否(Confirm@No)→ 关整个菜单回 explore(sdlpal goto out)
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > confirm 按 Menu(取消,等价 PAL_ConfirmMenu CANCELLED→FALSE)→ 同「否」关整个菜单回 explore
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > 选「音乐」(cursor 2)→ switch 阶段(默认高亮当前态);Left 切关 + Confirm 写 gs.fMusicEnabled + 回 menu
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > 选「音效」(cursor 3)→ switch;Menu 取消 → 保持当前态、回 menu(不写)
+src/core/menu/menu-driver.test.ts > M5.6 W0.b dispatchSystemMenu > confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler
+src/core/menu/menu-driver.test.ts > M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu > Menu 键 → close
+src/core/menu/menu-driver.test.ts > M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu > Up/Down 切换装备/使用 + iCurInvActionMenuItem 写回(sdlpal uigame.c:896 static w)
+src/core/menu/menu-driver.test.ts > M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu > Confirm "装备"(cursor=0)→ close action + open equip menu(sdlpal play.c:328-359 PAL_GameEquipItem)
+src/core/menu/menu-driver.test.ts > M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu > Confirm "使用"(cursor=1)→ close action + open inventory(filter=usable,sdlpal play.c:266)
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchInventoryMenu > Menu 键 → close 菜单
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchInventoryMenu > Up/Down → cursor 变 + iCurInvMenuItem 写回
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchInventoryMenu > PgDn → 翻页
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchEquipMenu > Menu 键 → close
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchEquipMenu > 换装后回 list:grid 用当前背包重建(旧装备入列、新装备出列)
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchInGameMagicMenu > Menu 键 → close
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchInGameMagicMenu > L38:pick-spell 阶段 Right 走法术网格逐项移动
+src/core/menu/menu-driver.test.ts > M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值 > Right/Down/Confirm 都 cursor++(sdlpal kKeyRight|kKeyDown|kKeySearch)
+src/core/menu/menu-driver.test.ts > M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值 > Left/Up cursor--,从 0 再 -- → done 关菜单
+src/core/menu/menu-driver.test.ts > M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值 > Menu 键 → 直接 close(sdlpal iCurrent=-1)
+src/core/menu/menu-driver.test.ts > M5.6 T17 dispatchOpeningMenu > Up/Down 切换 new-game / load-game cursor
+src/core/menu/menu-driver.test.ts > M5.6 T17 dispatchOpeningMenu > Confirm new-game → 调 startGameHandler({kind:"new-game"})
+src/core/menu/menu-driver.test.ts > M5.6 T17 dispatchOpeningMenu > Menu(Cancel)键 → 同新游戏(sdlpal uigame.c:129 真值)
+src/core/menu/menu-driver.test.ts > M5.6 T17 dispatchOpeningMenu > Confirm load-game → push save-slot(mode=load)
+src/core/menu/menu-driver.test.ts > M5.6 T17 dispatchOpeningMenu > 未注入 handler 时 Confirm new-game 不抛错(noop)
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Up/Down → cursor 变
+src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+src/core/menu/menu-driver.test.ts > C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) > 用后 phase revert use-target(非 done) — INNER loop picker 不关
+src/core/menu/menu-driver.test.ts > C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) > 用消耗道具:无演出脚本 confirm 当帧跑完回 menu(消除露一帧大世界)— tickByMode 同帧步进
+src/core/menu/menu-driver.test.ts > C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) > count→0 → auto-cancel 回 list(uigame.c:1468)
+src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts > L06 SaveSlotMenu 同步合同 > defaultSlot 指定默认槽号（1-based → cursor=slot-1；uigame.c:225 真值）
+src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts > L06 SaveSlotMenu 同步合同 > 非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id
+src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts > L06 SaveSlotMenu 同步合同 > defaultSlot 不在列表 → 保持建表默认 0（idx<0 分支）
+src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts > L06 SaveSlotMenu 同步合同 > 空列表：current undefined，Up/Down 不抛错（防御）
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > saveSlot / loadSlot:基本 round-trip
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > saveSlot 是深拷贝(后续 mutate gs 不影响存档)
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > loadSlot 不存在的 slot → null
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > listSlots:返回已存槽位 + meta
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > deleteSlot:删后 load null + listSlots 少一条
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > overwrite:同 slot saveSlot 二次覆盖
+src/core/save/__tests__/api.test.ts > S-w0.1 Save API stub > MAX_SAVE_SLOTS 暴露为 5
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） > 确认即记忆；再开菜单默认停回上次施法人；队伍变小越界归 0
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w） > 越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 建表与错相合同 > partyMembers 含 roles 缺失的 id → 建表剔除（!role 过滤分支）
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 建表与错相合同 > 错相 confirmCaster 零请求：pick-spell 相调用不重建 spellMenu
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 建表与错相合同 > 单人队死亡成员仍直进 pick-spell（uigame.c:677-681 快速道不检 HP）
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 空 spellMenu 导航兜底（moveSpellGrid n===0 分支） > 无法术 caster 进 pick-spell 后八向/翻页/Home/End 全不抛错、cursor 恒 0
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 > pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 > pick-caster 相 PageUp/PageDown/Home/End 不动 casterMenu
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 > pick-target 相 Home/End 不动 targetCursor
+src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts > L02 关闭后 refresh / cancel 幂等 > pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）
+src/core/menu/inventory-menu.glm-phase1-leaves.test.ts > L03 createInventoryMenu 起始光标与快照默认 > gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项
+src/core/menu/inventory-menu.glm-phase1-leaves.test.ts > L03 createInventoryMenu 起始光标与快照默认 > 条目缺 inUse 运行时字段 → slot.inUse 默认 0（?? 0 分支，合法 InventoryEntry）
+src/core/menu/inventory-menu.glm-phase1-leaves.test.ts > L03 use-target 相导航委派与 done 相 no-op > use-target：Up/Down 移 targetMenu.cursor 且不动 list cursor；其余六键 no-op
+src/core/menu/inventory-menu.glm-phase1-leaves.test.ts > L03 use-target 相导航委派与 done 相 no-op > done 相：全部移动键 no-op
+src/core/menu/inventory-menu.glm-phase1-leaves.test.ts > L03 cancel 路径 L40 记忆与防御 null > use-target 取消也回写记忆 slot：下次确认默认停回取消时位置
+src/core/menu/inventory-menu.glm-phase1-leaves.test.ts > L03 cancel 路径 L40 记忆与防御 null > use-target 但 selectedItemId 缺失 → confirmTarget 防御 null（直造状态可达）
+src/core/menu/equip-menu.boundaries.test.ts > G08 confirmEquipItem/Role 意图合同 > inUse 耗尽拒绝；party[2,0] 返回 roleId 非 cursor；意图不改装备/钱/库存
+src/core/menu/equip-menu.boundaries.test.ts > G08 confirmEquipItem/Role 意图合同 > cancel 复位 playerCursor/selectedItemId；错 phase 零请求
+src/core/menu/in-game-magic-menu.test.ts > createInGameMagicMenu > phase 起始 pick-caster + casterMenu 含 partyMembers
+src/core/menu/in-game-magic-menu.test.ts > createInGameMagicMenu > L41:单人队伍 → 直接 pick-spell(跳过选施法人,uigame.c:677-681)
+src/core/menu/in-game-magic-menu.test.ts > createInGameMagicMenu > L37:活人无 outside-battle 法术仍可选(林月如),C 只判 HP>0(uigame.c:707-708)
+src/core/menu/in-game-magic-menu.test.ts > createInGameMagicMenu > caster disabled when hp <= 0
+src/core/menu/in-game-magic-menu.test.ts > createInGameMagicMenu > partyMembers snapshot 隔离
+src/core/menu/in-game-magic-menu.test.ts > confirmCaster > Confirm caster → phase=pick-spell,spellMenu 建好
+src/core/menu/in-game-magic-menu.test.ts > confirmCaster > L37:无大世界法术 caster(林月如)选中后仍进 pick-spell(C 进空/全灰列表再取消),非 noop
+src/core/menu/in-game-magic-menu.test.ts > confirmCaster > Confirm 死 caster → noop
+src/core/menu/in-game-magic-menu.test.ts > confirmSpell > Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel
+src/core/menu/in-game-magic-menu.test.ts > confirmSpell > Confirm applyToAll spell(灵儿的五气朝元)→ phase 留 pick-spell,sel.applyToAll=true
+src/core/menu/in-game-magic-menu.test.ts > confirmSpell > Confirm disabled spell(MP 不够)→ 返回 null
+src/core/menu/in-game-magic-menu.test.ts > confirmTarget > 返回 {spellId, casterId, targetRoleId, costMP}
+src/core/menu/in-game-magic-menu.test.ts > confirmTarget > phase!=pick-target → 返回 null
+src/core/menu/in-game-magic-menu.test.ts > cancelInGameMagic > pick-target → pick-spell(保留 caster + spellMenu)
+src/core/menu/in-game-magic-menu.test.ts > cancelInGameMagic > L35:pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)
+src/core/menu/in-game-magic-menu.test.ts > cancelInGameMagic > pick-caster → done(关菜单)
+src/core/menu/in-game-magic-menu.test.ts > inGameMagicMove* on pick-target > Up 边界 noop(不 wrap;sdlpal `if (wPlayer > 0) wPlayer--`)
+src/core/menu/in-game-magic-menu.test.ts > inGameMagicMove* on pick-target > Down 边界 noop(不 wrap;sdlpal `if (wPlayer < wMaxPartyMemberIndex) wPlayer++`)
+src/core/menu/in-game-magic-menu.test.ts > inGameMagicMove* on pick-target > Up 中间 → cursor--
+src/core/menu/in-game-magic-menu.test.ts > inGameMagicMove* on pick-target > Down 中间 → cursor++
+src/core/menu/in-game-magic-menu.test.ts > L38:inGameMagicMove* on pick-spell grid > Up/Down 按 3 列网格移动并 clamp,不 wrap
+src/core/menu/in-game-magic-menu.test.ts > L38:inGameMagicMove* on pick-spell grid > Left/Right 逐项移动并 clamp,不跳 disabled
+src/core/menu/in-game-magic-menu.test.ts > L38:inGameMagicMove* on pick-spell grid > PgUp/PgDn/Home/End 按 magicmenu.c 网格语义 clamp
+src/core/menu/in-game-magic-menu.test.ts > refreshSpellMenu > MP 不足后 spell disabled,保留 cursor 在原 spell
+src/core/menu/in-game-magic-menu.test.ts > outside-battle filter > 飞龙探云手(battle-only)不出现 outside spell list
+src/core/menu/in-game-magic-menu.boundaries.test.ts > G05 in-game-magic-menu 状态机 > 单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId
+src/core/menu/in-game-magic-menu.boundaries.test.ts > G05 in-game-magic-menu 状态机 > 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell
+src/core/menu/inventory-action-menu.test.ts > InventoryActionMenu(物品 / 装备 / 使用) > 2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)
+src/core/menu/inventory-action-menu.test.ts > InventoryActionMenu(物品 / 装备 / 使用) > id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)
+src/core/menu/inventory-action-menu.test.ts > InventoryActionMenu(物品 / 装备 / 使用) > defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)
+src/core/menu/inventory-action-menu.test.ts > InventoryActionMenu(物品 / 装备 / 使用) > Down → use,Up → equip
+src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts > L03 InventoryActionMenu 剩余合同 > defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）
+src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts > L03 InventoryActionMenu 剩余合同 > Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）
+src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts > L03 InventoryActionMenu 剩余合同 > 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）
+src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts > L03 InventoryActionMenu 剩余合同 > 空 selection → choice 防御 undefined（直造状态可达的防御分支）
+src/core/menu/equip-menu.test.ts > createEquipMenu > .list 是 InventoryMenuState(非简版 SelectionMenu)— 防 grid 退化 bug
+src/core/menu/equip-menu.test.ts > createEquipMenu > 非可装备项(观音符 200)仍入列表(sdlpal 全显示,渲染成红色)
+src/core/menu/equip-menu.test.ts > createEquipMenu > 初始 phase=list,playerCursor=0
+src/core/menu/equip-menu.test.ts > createEquipMenu > partyMembers snapshot 不会因 gs.partyMembers 后续变化被改
+src/core/menu/equip-menu.test.ts > confirmEquipItem list → pick-role > 从 list cursor 取 itemId 进 pick-role
+src/core/menu/equip-menu.test.ts > confirmEquipItem list → pick-role > cursor 停在非可装备项(观音符 200,红色)→ Confirm no-op,停 list
+src/core/menu/equip-menu.test.ts > confirmEquipItem list → pick-role > 从空 list noop(防 cursor 越界 crash)
+src/core/menu/equip-menu.test.ts > confirmEquipItem list → pick-role > phase=pick-role 时 confirmEquipItem 不再变 phase
+src/core/menu/equip-menu.test.ts > confirmEquipRole > 返回 {itemId, roleId} 由 dispatcher 跑 scriptOnEquip
+src/core/menu/equip-menu.test.ts > confirmEquipRole > phase=list 时返回 null(防过早调用)
+src/core/menu/equip-menu.test.ts > confirmEquipRole > selectedItemId=undefined 时返回 null
+src/core/menu/equip-menu.test.ts > cancelEquipMenu > pick-role → list,reset selectedItemId + playerCursor(sdlpal Menu key 真值)
+src/core/menu/equip-menu.test.ts > cancelEquipMenu > list → done(关菜单)
+src/core/menu/equip-menu.test.ts > equipMoveUp/Down playerCursor wrap(sdlpal uigame.c:2021-2035) > Up wrap to wMaxPartyMemberIndex
+src/core/menu/equip-menu.test.ts > equipMoveUp/Down playerCursor wrap(sdlpal uigame.c:2021-2035) > Down wrap to 0
+src/core/menu/equip-menu.test.ts > equipMoveUp/Down playerCursor wrap(sdlpal uigame.c:2021-2035) > Up/Down 在 phase=list 时 noop(dispatcher 走 inventoryMove*)
+src/core/menu/equip-menu.test.ts > equipMoveUp/Down playerCursor wrap(sdlpal uigame.c:2021-2035) > 多次 Up/Down 循环 wrap
+src/core/menu/inventory-menu.boundaries.test.ts > G02 confirmInventoryItem 确认门 > count===inUse 拒绝留在 list；少占用正控进 use-target；追加装备 count0/inUse-1 可确认
+src/core/menu/inventory-menu.boundaries.test.ts > G02 confirmInventoryItem 确认门 > party[2,0]：use-target 光标停在第二位时 confirm 返回 roleId 2 而非 cursor 位；错 phase 零请求
+src/core/menu/inventory-menu.boundaries.test.ts > G02 confirmInventoryItem 确认门 > 菜单 slot 不别名实际 gs.inventory；入参 items 数组不变
+src/core/menu/equip-menu.glm-phase1-leaves.test.ts > L04 equip-menu 剩余合同 > createEquipMenu 的 list 固定 filter=equip（equipable 入口合同）
+src/core/menu/equip-menu.glm-phase1-leaves.test.ts > L04 equip-menu 剩余合同 > 库存条目 itemId 不在目录 → confirmEquipItem no-op 留 list（!item 分支）
+src/core/menu/equip-menu.glm-phase1-leaves.test.ts > L04 equip-menu 剩余合同 > done 相：equipMoveUp/Down 与 cancelEquipMenu 零触达
+src/core/menu/equip-menu.glm-phase1-leaves.test.ts > L04 equip-menu 剩余合同 > 单人队 pick-role：Down/Up 环绕自返（wMaxPartyMemberIndex=0）
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > selected + usable + non-equipped → SELECTED_FIRST 闪烁起始
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > selected + usable + equipped → EQUIPPEDITEM 0xC8
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > selected + !usable(filter 不命中)→ SELECTED_INACTIVE 0x1C
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > !selected + usable + non-equipped → MENUITEM_COLOR 0x4F
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > !selected + usable + equipped → EQUIPPEDITEM 0xC8
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > !selected + !usable(filter 不命中)→ INACTIVE 0x18(防 EquipMenu 装备类全红 bug)
+src/core/menu/inventory-menu.test.ts > pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 > selected + flash tick 推进 → cycle 0xF9..0xFE
+src/core/menu/inventory-menu.test.ts > matchesFilter — sdlpal kItemFlag* 真值 > filter='equip' 命中 equipable item
+src/core/menu/inventory-menu.test.ts > matchesFilter — sdlpal kItemFlag* 真值 > filter='usable' 命中 usable item(EquipMenu 不该用此 filter)
+src/core/menu/inventory-menu.test.ts > matchesFilter — sdlpal kItemFlag* 真值 > filter='all' 全命中
+src/core/menu/inventory-menu.test.ts > createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 > filter='equip':非可装备项(观音符)仍入列表,不被剔除
+src/core/menu/inventory-menu.test.ts > createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 > filter='usable':非可用项(木剑)仍入列表 + 渲染成红色 INACTIVE 0x18
+src/core/menu/inventory-menu.test.ts > createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 > L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)
+src/core/menu/inventory-menu.test.ts > createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 > L39:filter='equip' 不追加装备槽物(仅 usable 入口追加,itemmenu.c:352)
+src/core/menu/inventory-menu.test.ts > inventoryMove* navigation > Up = -3(iItemsPerLine);clamp 0
+src/core/menu/inventory-menu.test.ts > inventoryMove* navigation > Down = +3(iItemsPerLine);clamp inventory.length - 1
+src/core/menu/inventory-menu.test.ts > inventoryMove* navigation > Left/Right = ±1
+src/core/menu/inventory-menu.test.ts > inventoryMove* navigation > PgUp/PgDn = ±(3 * 7);clamp [0, length-1]
+src/core/menu/inventory-menu.test.ts > inventoryMove* navigation > Home/End = 0 / length - 1
+src/core/menu/inventory-menu.test.ts > inventoryMove* navigation > inventory 空时 cursor 保 0
+src/core/menu/inventory-menu.test.ts > confirmInventoryItem / cancelInventoryMenu phase > Confirm usable item → phase=use-target,selectedItemId 写;PlayerRoles 缺则 noop
+src/core/menu/inventory-menu.test.ts > confirmInventoryItem / cancelInventoryMenu phase > H2(sdlpal 审查):目标列表不禁选死人 — 死人可选作目标(复活药前提;uigame.c:1383-1495 无 disabled)
+src/core/menu/inventory-menu.test.ts > confirmInventoryItem / cancelInventoryMenu phase > Cancel use-target → 回 list;Cancel list → done
+src/core/menu/magic-select.glm-phase1-leaves.test.ts > L02 createMagicSelectMenu 剩余建表合同 > spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）
+src/core/menu/magic-select.glm-phase1-leaves.test.ts > L02 createMagicSelectMenu 剩余建表合同 > spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）
+src/core/menu/magic-select.glm-phase1-leaves.test.ts > L02 createMagicSelectMenu 剩余建表合同 > costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）
+src/core/menu/magic-select.glm-phase1-leaves.test.ts > L02 createMagicSelectMenu 剩余建表合同 > 全空法术槽（magic 全 0）→ 空表；pageSize 覆写进 state
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成） > pageDown 目标位 disabled → 落到其后第一个可选项
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成） > pageDown 目标位及之后全 disabled → 环绕回前面可选项
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成） > pageUp 目标位 disabled → 落到其后第一个可选项
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 pageUp/pageDown 落点跳过 disabled（findNextSelectable 集成） > 全 disabled 时 pageUp/pageDown 不抛错（findNextSelectable 返回原位兜底）
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 primitives 零散边界 > 负 defaultCursor 归 0（Math.max 下界分支）
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 primitives 零散边界 > 空菜单 getSelected 返回 undefined
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 primitives 零散边界 > createTripleMenu 自定义 defaultSel=2，Down 环绕回 0
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 primitives 零散边界 > createSwitchMenu current 越上界 clamp 到末项
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 primitives 零散边界 > ConfirmMenu 保存原文 message；SwitchMenu 保留非零初始 current
+src/core/menu/primitives.glm-phase1-leaves.test.ts > L01 primitives 零散边界 > primitive 透传 rightText 不消费：getSelected 返回同一 item 对象（identity）
+src/core/menu/magic-select.boundaries.test.ts > G04 createMagicSelectMenu > MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染
+src/core/menu/magic-select.boundaries.test.ts > G04 createMagicSelectMenu > 非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）
+src/core/menu/primitives.boundaries.test.ts > G01 createSelectionMenu 边界 > 空表 cursor/pageOffset 均 0；单项 defaultCursor 越界 clamp 到 0；入参 items 不被改写
+src/core/menu/primitives.boundaries.test.ts > G01 createSelectionMenu 边界 > 跨 page 移动：cursor 越界即推进 pageOffset；窗口内回落不动 offset
+src/core/menu/sell-menu.test.ts > sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) > createSellMenu:grid 含全部库存(sdlpal 全显示),非可卖项渲染成红色,phase=list
+src/core/menu/sell-menu.test.ts > sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) > sellSelectItem:选中 sellable cursor → 进 confirm(默认 No)
+src/core/menu/sell-menu.test.ts > sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) > sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list
+src/core/menu/sell-menu.test.ts > sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) > grid 导航 right 跨列 clamp + confirm 阶段方向键 toggle yes/no
+src/core/menu/sell-menu.test.ts > sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) > sellConfirm yes → 返回 {itemId,yes} + 回 list;sellCancel confirm→back / list→close
+src/core/menu/sell-menu.test.ts > sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) > refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)
+src/core/menu/sell-menu.glm-phase1-leaves.test.ts > L05 sell-menu 剩余合同 > grid 固定 filter=sellable 入口；空库存 !slot 防御不进 confirm
+src/core/menu/sell-menu.glm-phase1-leaves.test.ts > L05 sell-menu 剩余合同 > 错相 sellSelectItem / list 相 sellConfirm 零请求
+src/core/menu/sell-menu.glm-phase1-leaves.test.ts > L05 sell-menu 剩余合同 > 刷新缩表（非空）：prevCursor 越新末项 → clamp 到 length-1
+src/core/menu/sell-menu.boundaries.test.ts > G07 sellSelectItem 确认门与 confirm 期导航 > inUse 耗尽拒绝；少占用正控进 confirm；confirm 期 Page/Home/End 不改 grid
+src/core/menu/sell-menu.boundaries.test.ts > G07 sellSelectItem 确认门与 confirm 期导航 > 刷新：空表归 0、等长保 cursor、增表保 cursor；内容不别名实际库存
+src/core/menu/shop-menu.boundaries.test.ts > G06 shopSelectItem 恰等门与意图收尾 > cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝
+src/core/menu/shop-menu.boundaries.test.ts > G06 shopSelectItem 恰等门与意图收尾 > confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用
+src/core/menu/player-status.test.ts > PlayerStatus state machine > createPlayerStatus 拷贝 partyMembers 数组(不共享引用)
+src/core/menu/player-status.test.ts > PlayerStatus state machine > partyMembers 空 → 立即 done(无可显示成员)
+src/core/menu/player-status.test.ts > PlayerStatus state machine > playerStatusNext cursor++,到末尾后 +1 越界 → done(sdlpal uigame.c:1281)
+src/core/menu/player-status.test.ts > PlayerStatus state machine > playerStatusPrev cursor--,从 0 再 -- → done(sdlpal uigame.c:1276 cursor<0)
+src/core/menu/player-status.test.ts > PlayerStatus state machine > playerStatusCancel(Menu)直接关 — sdlpal uigame.c:1271 iCurrent=-1
+src/core/menu/player-status.test.ts > PlayerStatus state machine > done 后 prev/next 不再 mutate cursor(防 dispatcher 重复触发)
+src/core/menu/shop-menu.test.ts > shop-menu 状态机(sdlpal uigame.c:1615/1755) > createBuyMenu:list = 店铺物品,label=名,rightText=原价
+src/core/menu/shop-menu.test.ts > shop-menu 状态机(sdlpal uigame.c:1615/1755) > shopSelectItem 买得起 → 进 confirm,默认 No(sdlpal PAL_ConfirmMenu nDefault=0)
+src/core/menu/shop-menu.test.ts > shop-menu 状态机(sdlpal uigame.c:1615/1755) > shopSelectItem 买不起(price>cash)→ 不进 confirm,留 list(sdlpal uigame.c:1683)
+src/core/menu/shop-menu.test.ts > shop-menu 状态机(sdlpal uigame.c:1615/1755) > confirm 阶段方向键 toggle yes/no;shopConfirm 返回意图 + 回 list
+src/core/menu/shop-menu.test.ts > shop-menu 状态机(sdlpal uigame.c:1615/1755) > shopCancel:confirm → back(回 list);list → close(关商店)
+src/core/menu/shop-menu.test.ts > shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) > 0x0026 → 开 shop-buy menu + waiting=shop + mode=menu + ip 续到下条
+src/core/menu/shop-menu.test.ts > shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) > 买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包
+src/core/menu/shop-menu.test.ts > shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) > 关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本
+src/core/menu/shop-menu.test.ts > shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) > 买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)
+src/core/menu/shop-menu.test.ts > shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚本) > 卖 1 个:cash += price/2 + item 出包
+src/core/menu/shop-menu.glm-phase1-leaves.test.ts > L05 shop-menu 剩余合同 > 缺 _name 的店铺物品 → label 回退 ?<id>；买菜单 pageSize 固定 8
+src/core/menu/shop-menu.glm-phase1-leaves.test.ts > L05 shop-menu 剩余合同 > 错相 shopSelectItem 零请求；买目录缺该 item → no-op 留 list
+src/core/menu/shop-menu.glm-phase1-leaves.test.ts > L05 shop-menu 剩余合同 > list 相 shopConfirm → null（未进 confirm 无意图）

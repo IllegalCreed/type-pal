@@ -1,0 +1,68 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 3,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 1,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791181212572,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-A3 hub 同帧 Menu+Confirm:取消优先"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-A3 hub 同帧 Menu+Confirm:取消优先 同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "status": "passed",
+          "title": "同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "duration": 1.5810839999999189,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-C1 save-slot dispatcher 跨槽 max+1 真链"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-C1 save-slot dispatcher 跨槽 max+1 真链 slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "status": "failed",
+          "title": "slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "duration": 5.101292000000058,
+          "failureMessages": [
+            "AssertionError: expected 7 to be 8 // Object.is equality\n    at /private/tmp/type-pal-menu-save-io/packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts:74:30\n    at file:///private/tmp/type-pal-menu-save-io/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791181213189,
+      "endTime": 1791181213196.1013,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/type-pal-menu-save-io/packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts"
+    }
+  ]
+}

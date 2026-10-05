@@ -131,3 +131,74 @@ Branch: `codex/glm-game-menu-save-io-r1`
 只写本卡测试、合法 typed fixture、证据与本卡回执；禁止改产品、旧测、配置、baseline、真实存档/提取数据、私有 state、核心 mock、强转、skip、ignore、扩 timeout。每条合同必须有真实业务 oracle；反控必须绿→指定业务红→恢复绿、恰一 AssertionError、完整执行集/hash/清理证据。
 交付定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check、完整 40 位 SHA；覆盖率和测试数量不是完成条件，不得标 done，等待 Codex 独立验收。
 ```
+
+---
+
+## GLM r1 交付回执（2026-10-05，分支 codex/glm-game-menu-save-io-r1，base 53bf97e01）
+
+**结论：348 条旧 fullName 全量排重后补 8 条真实未证明合同（3 个新测试文件），反控 8/8
+VALID（每针红相位 failed-total 恰 1 且首条失败为业务 AssertionError），全门通过；不请求
+done，等待 Codex 独立验收。** 逐合同排重账（NEW/REG/U/BLOCKED 四类 + 3 判例）见
+[evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md](../evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md)。
+
+### 交付物（全部本卡白名单新增，零产品/旧测/配置/baseline/真实存档与提取数据改动）
+
+| 文件 | it | 合同轴（源锚 / oracle） |
+|---|---|---|
+| `src/shell/menu-input-lock.glm-msio.test.ts` | 2 | A1 菜单 modal 输入锁：`tickN` 整链按住右 3 tick，party 冻结 + hub 光标吃输入（menu-stack.ts:24-27/mode.ts:68）；A2 锁释放：`tickMenu` 关栈后 `tickN` 恢复 2 步 East 行走（menu-stack.ts:12-21） |
+| `src/core/menu/menu-save-chain.glm-msio.test.ts` | 2 | A3 hub 同帧 Menu+Confirm 取消优先（menu-driver.ts:459-469，终态栈空可判别）；C1 save-slot dispatcher 跨槽 max+1 真链：slot3 存 7 → 存 slot1 得 8、slot3 不被改写（menu-driver.ts:1008-1021 + api.ts extractMeta） |
+| `src/tools/save-import-quicksave.glm-msio.test.ts` | 4 | D1 坏导入 wNumScene 守卫臂两形拒（save-io.ts:21）；E1 F5/F9 preventDefault 拦浏览器刷新、F6 放行；E2 存档 IO 失败 → 错误 toast 带原因不外抛（真实 DOM oracle）；E3 F9 空槽/成功两臂反馈 |
+
+### 排重结论要点（REG 不新增；开放发现与受阻账不掩盖）
+
+- 输入/主循环/各菜单单键导航/取消/空列表/非法选择/资源回滚（confirm 期钱变少、MP 禁用、
+  inUse 耗尽、catalog 缺项）、slot 覆盖/删除/双向深拷贝、快捷键四臂+explore 侧同帧 Menu
+  优先、battle 态开关菜单回 battle（battle-system.test.ts:1696）—— 全部 REG 登记锚点，零包装。
+- **U-1**：`parseImportedSave` 从不读 `version` 字段（save-io.ts:12-25）——卡面"版本拒绝"在
+  产品中未实现；不写钉住宽松行为的测试，留产品裁决。**U-2**：JSON 导入导出丢 Map 字段
+  （消费点有 revive 兜底）维持登记不钉。
+- **B-1**：`indexed-db.ts` 与 api.ts IDB 分支零测试 — jsdom 无 IDB 且卡面明令禁全局 fake
+  IndexedDB/新增依赖 → blocked 登记（解除条件：受控 IDB 环境授权）。另有 B-2..B-5
+  （不可达空选择/弱 oracle catch 臂/同守卫臂换值/越界删除无公开 caller）。
+
+### 反控三态（mutation-results.json 8/8 VALID；17 份规整日志 = 共享原始绿 + 每针红/恢复）
+
+每针源码单点变异（find 恰 1 次）→ 定向文件全量跑：红 exit≠0 + 目标合同业务 AssertionError
++ failed-total 恰 1；恢复 sha256 与原始一致（sourceRestoredByteIdentical），复绿 8/8。
+raw JSON+log、identity 逐相位 sha 落
+[evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/](../evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/)
+（mutation-logs 的 `*.log` 受 .gitignore 约束已 `git add -f`）。
+
+判例：① MUT-01 初版"menu case 加跑 tickSceneSystem"双绿空转 — scene-system.ts:584 有
+`mode!=='explore'` 守卫，结构性行为的针要打定义点（改删 openMenu 的 `gs.mode='menu'`）；
+② A2 改 tickMenu 关栈 + tickN 走路，保每针 failed 恰 1；③ MUT-03 fall-through 激活
+`requireCatalogs`（menu-driver.ts:472 eager），测试补 bootstrap 同构 catalogs 前置后才是业务红。
+
+### 质量门（env -u NODE_COMPILE_CACHE）
+
+- 定向 3 文件 **8/8**；相邻 core/menu+shell+core/save+tools 四目录 110 文件 **772/772**；
+  game 全量 306 文件 **3484/3484**（worktree 补 data/extracted 软链与 data/raw MKF 逐文件
+  软链后一次全绿，环境处置非仓库改动）。
+- typecheck 0 error；`pnpm lint` 全仓 **0/0/0**（3401 files）；`node scripts/docs/check.mjs`
+  PASS；`git diff --check` 0。diff 仅新增：3 测试文件 + evidence 目录 + evidence README 索引 1 行。
+
+## 下一位 Agent 提示词（Codex 独立验收）
+
+```text
+你是 Codex，负责独立验收 TEST-GLM-GAME-MENU-SAVE-IO-1 的 r1 交付（分支
+codex/glm-game-menu-save-io-r1，回执在本卡上方）。
+先读本卡、AGENTS.md、CLAUDE.md 测试质量验收节、
+docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/（README/dedup-ledger/mutation-results/
+identity/mutation-logs/inventory-vitest-list），再核：
+1) 8 合同的原子性、合法 typed 输入、真实公开 caller（tickN/tickMenu/dispatchMenuInput/
+   parseImportedSave/setupQuickSave）与 oracle 判别力；对照 dedup-ledger 的 REG 锚点是否属实
+   （尤其 battle 分支归 battle-system.test.ts:1696、快捷键四臂归 scene-system.test.ts:275-291、
+   C1 与 cov85 空表/旧"dispatcher 模拟"的实质差异、A3 与 explore 侧同帧 Menu 优先的差异）；
+2) 反控 8 针三态证据（每针 failed 恰 1、业务 AssertionError、identitySha/字节还原）与
+   3 条判例（MUT-01 空转返工、A2 正交重构、MUT-03 catalogs 前置）；
+3) U-1（parseImportedSave 不校验 version）与 B-1（indexed-db 零测试受卡面约束 blocked）
+   的登记处置是否符合"不掩盖、不钉住疑似缺陷"口径，是否需要单开产品卡；
+4) 门禁复算（定向/相邻/game 全量/typecheck/lint 0-0-0/docs/diff --check；worktree 需
+   data/extracted 软链与 data/raw MKF 软链）。
+输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
+```
