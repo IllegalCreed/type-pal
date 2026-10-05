@@ -1,6 +1,6 @@
 # CODE-QUALITY-3p - event player/equipment/poison opcode 逐文件治理
 
-Status: review
+Status: done
 Phase: phase1 game
 Capability: ops / code-quality / phase1-mechanics
 Coding Owner: Codex
@@ -82,7 +82,7 @@ Branch: codex/code-quality-governance
 - 贡献者交付与自验：Codex；定向 7 files/99 tests、game 全包 3403、typecheck 通过；未改实现。
 - Codex 独立复核：accept（script/global primary source、event/equipment/inventory/poison callers、role/slot/SHORT/WORD/fScriptSuccess 合同逐段核对；全仓 check、official ratchet、protected fast、Biome 零诊断通过）。
 - 用户体验/产品验收：N/A（纯 opcode 合同）。
-- done 准入结论：blocked；待提交推送和独立工作树核对；本卡只关闭 event-opcode-player，不代表 event-system/save/schema 或全仓治理完成。
+- done 准入结论：Codex done allowed；提交 `dfec903b3` 已推送，独立 diff/status 核对通过；本卡只关闭 event-opcode-player，不代表 event-system/save/schema 或全仓治理完成。
 
 ## Draft: 设计与风险
 
