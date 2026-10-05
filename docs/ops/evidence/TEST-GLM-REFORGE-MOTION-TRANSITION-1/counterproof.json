@@ -1,0 +1,214 @@
+{
+  "generatedAt": "2026-10-05T12:43:14.996Z",
+  "nodeVersion": "v22.23.2",
+  "executionSet": "pnpm exec vitest run（cwd=packages/reforge，全量，无 -t 过滤）",
+  "baseline": {
+    "exitCode": 0,
+    "summary": "      Tests  8767 passed (8767)",
+    "artifacts": {
+      "console": {
+        "bytes": 112704,
+        "sha256": "6484c7fba8e1772f5c74315eb796137ee9d681d625f153444109f2c649579c9d"
+      }
+    },
+    "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.console"
+  },
+  "injections": [
+    {
+      "id": "MT-CADENCE-CLAMP",
+      "file": "packages/reforge/src/world-motion-runtime.ts",
+      "anchor": "if (this.moveAccumulator > this.stepMs) this.moveAccumulator = 0",
+      "expectedTest": "MT-CADENCE-CLAMP-1",
+      "expectedErrorPart": "expected true to be false",
+      "original": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "baseline": {
+          "exitCode": 0,
+          "summary": "      Tests  8767 passed (8767)",
+          "artifacts": {
+            "console": {
+              "bytes": 112704,
+              "sha256": "6484c7fba8e1772f5c74315eb796137ee9d681d625f153444109f2c649579c9d"
+            }
+          },
+          "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.console"
+        }
+      },
+      "mutant": {
+        "hash": "cecca6193d6aea483d18cc70f1f990ad8ad1647a68bedb660add0b85fe95a514",
+        "exitCode": 1,
+        "numTotalTests": 8767,
+        "executedCount": 8766,
+        "failedCount": 1,
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-CADENCE-CLAMP-1 真积压被钳掉：一帧至多一拍，丢弃的余数不得结转成下一帧的提前拍",
+            "messages": [
+              "AssertionError: expected true to be false // Object.is equality |     at /private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts:26:46 |     at file:///private/tmp/type-pal-motion-transition/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 |     at file:///private/tmp/type-pal-motion-transition/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26"
+            ]
+          }
+        ],
+        "artifacts": {
+          "console": {
+            "bytes": 114061,
+            "sha256": "8ad758cd9a851f156523b4cb7c039db64c096d90652b5dff6b718f00754cbf1f",
+            "path": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.console"
+          }
+        }
+      },
+      "restored": {
+        "exitCode": 0,
+        "summary": "      Tests  8767 passed (8767)",
+        "artifacts": {
+          "console": {
+            "bytes": 112702,
+            "sha256": "7a1c2194bffaf1899acb29049786df06e5a8c4f6588aaffc4e8a68f061e2ac02"
+          }
+        },
+        "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.restored.console",
+        "sourceHash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      },
+      "rebuilt": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "MT-PARTY-COMPLETE-STALE",
+      "file": "packages/reforge/src/world-motion-runtime.ts",
+      "anchor": "if (this.partySlot === slot) this.partySlot.resolve()",
+      "expectedTest": "MT-PARTY-COMPLETE-STALE-1",
+      "expectedErrorPart": "expected true to be false",
+      "original": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "baseline": {
+          "exitCode": 0,
+          "summary": "      Tests  8767 passed (8767)",
+          "artifacts": {
+            "console": {
+              "bytes": 112704,
+              "sha256": "6484c7fba8e1772f5c74315eb796137ee9d681d625f153444109f2c649579c9d"
+            }
+          },
+          "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.console"
+        }
+      },
+      "mutant": {
+        "hash": "42e5eda92d34853df3ecf13596ea3db7b3758717283c08bb2ed87826742425b9",
+        "exitCode": 1,
+        "numTotalTests": 8767,
+        "executedCount": 8766,
+        "failedCount": 1,
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-PARTY-COMPLETE-STALE-1 被替换的旧槽迟到完成不得唤醒新等待者；当前槽完成照常兑现",
+            "messages": [
+              "AssertionError: expected true to be false // Object.is equality |     at /private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts:58:27 |     at processTicksAndRejections (node:internal/process/task_queues:103:5) |     at file:///private/tmp/type-pal-motion-transition/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "artifacts": {
+          "console": {
+            "bytes": 113934,
+            "sha256": "4f247199634f98d1742e65db46f177af2381a2789aca1de7a6a06f367a7a509e",
+            "path": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.console"
+          }
+        }
+      },
+      "restored": {
+        "exitCode": 0,
+        "summary": "      Tests  8767 passed (8767)",
+        "artifacts": {
+          "console": {
+            "bytes": 112703,
+            "sha256": "2a31873f9c6b0b9209acba3104d4247556a3b5ba3fa5fac96f726cd1a6cd9152"
+          }
+        },
+        "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.console",
+        "sourceHash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      },
+      "rebuilt": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "MT-PARTY-RESOLVE-RELEASE",
+      "file": "packages/reforge/src/world-motion-runtime.ts",
+      "anchor": "resolvePartyMove(): void {",
+      "expectedTest": "MT-PARTY-RESOLVE-RELEASE-1",
+      "expectedErrorPart": "to be 'fulfilled'",
+      "original": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b",
+        "baseline": {
+          "exitCode": 0,
+          "summary": "      Tests  8767 passed (8767)",
+          "artifacts": {
+            "console": {
+              "bytes": 112704,
+              "sha256": "6484c7fba8e1772f5c74315eb796137ee9d681d625f153444109f2c649579c9d"
+            }
+          },
+          "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.console"
+        }
+      },
+      "mutant": {
+        "hash": "005219b72b109b771da4141e5d9173815733bef096aa7895db8b989f817d4ca7",
+        "exitCode": 1,
+        "numTotalTests": 8767,
+        "executedCount": 8766,
+        "failedCount": 1,
+        "failed": [
+          {
+            "file": "/private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
+            "fullName": "TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-PARTY-RESOLVE-RELEASE-1 强停收口以 fulfilled 兑现当前在途走位并清槽；结算后迟到 abort 不再改变结果",
+            "messages": [
+              "AssertionError: expected 'pending' to be 'fulfilled' // Object.is equality |     at /private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts:85:19 |     at processTicksAndRejections (node:internal/process/task_queues:103:5) |     at file:///private/tmp/type-pal-motion-transition/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+            ]
+          }
+        ],
+        "artifacts": {
+          "console": {
+            "bytes": 113802,
+            "sha256": "2fc9302ce904ec8d6273edf38579b3e86c9bc28683a2b7ac5205323e35e2a3a3",
+            "path": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.console"
+          }
+        }
+      },
+      "restored": {
+        "exitCode": 0,
+        "summary": "      Tests  8767 passed (8767)",
+        "artifacts": {
+          "console": {
+            "bytes": 112586,
+            "sha256": "57daece5cd4ae9d42323ac61fadd8dd2a815c544756fab0ae3995d37d4136c1c"
+          }
+        },
+        "consolePath": "/private/tmp/type-pal-motion-transition/docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.console",
+        "sourceHash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      },
+      "rebuilt": {
+        "hash": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      },
+      "issues": [],
+      "pass": true
+    }
+  ],
+  "allPass": true,
+  "ownNewPathsExcluded": [
+    "packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
+    "packages/reforge/scripts/mt1-mutation-counterproof.mjs",
+    "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1",
+    "docs/ops/tasks/TEST-GLM-REFORGE-MOTION-TRANSITION-1.md",
+    "docs/ops/evidence/README.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+  ],
+  "tmpTree": {
+    "created": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/mt1-counterproof-YyWwNM",
+    "removedInFinally": true
+  }
+}
