@@ -161,6 +161,15 @@ cov85/GLM/runtime-context、anim/death-fade/dialog/settlement/finalization calle
 protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3s 只关闭 battle-system 与四个直接 lifecycle oracle，
 battle-opcodes、其它 actions/present、save 及账本剩余 2,753 个待核记录仍未关闭。
 
+Q3t 已完成高风险 `battle-opcodes.ts` 逐文件核验：1528 行实现与主/coverage/GLM opcode tests、summon slot reuse、
+cross-module、actions、magic-damage、throw-item、coop-magic、anim-timeline callers/tests 全文读取；逐段对照
+`script.c`/`fight.c`/`battle.c`、`runScript` battle caller 与 `BattleCtx` ownership。目标/状态/伤害/毒、召唤/分裂/变身/
+逃跑、动画/偷窃/战斗结果和 `consumed/newIp` 均有直接证据，未发现直接缺陷；0x2E 的 `>=` 是既有
+`game-mechanics.md` 记录的原版后期产品决策，不回改为 SDL 的 `>`。定向/相邻 470 tests、完整 check、official
+ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3t 关闭 5 条账本记录（1 个 product + 4 个 test），
+当前账本为 2,964 条：已闭合 211、已读待审 5、尚未逐文件核验 2,748；其余 battle actions/present、save 及其它
+pending 文件仍未完成，不得宣布全仓治理收口。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

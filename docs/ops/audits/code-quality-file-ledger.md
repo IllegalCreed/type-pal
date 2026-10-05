@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（`5f13c3010`，含后来新增的两份测试）：2,964。
-当前已闭合核验：206；已读但待审：5；尚未逐文件核验：2,753；合计未闭合：2,758。
+当前已闭合核验：211；已读但待审：5；尚未逐文件核验：2,748；合计未闭合：2,753。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
@@ -207,7 +207,11 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/scene-system-search.ts` | product | 已验证 | CODE-QUALITY-3o；scene-system Confirm caller、play.c:362-510、search tests | 13-cell range、trigger mode 阈值、grid/h/sState/first-hit 合同完整 |
 | `packages/game/src/core/scene-system.ts` | product | 已验证 | CODE-QUALITY-3q；play.c:25-238,423-591、scene.c:512-847、map.c:277-299、res.c:229-301、global.h:75-121；mode/event/bootstrap/dev callers | 662 行逐段核验；131 定向测试、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
 | `packages/game/src/core/event-system.ts` | product | 已验证 | CODE-QUALITY-3r；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；mode/bootstrap/scene/battle/menu/equipment/poison callers | 5110 行逐段核验全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析与移动；定向 370、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷 |
-| `packages/game/src/core/battle/battle-system.ts` | product | 已验证 | CODE-QUALITY-3s；battle.c:565-682,685-988,991-1372,1390-1528,1531-1838；fight.c:740-885,1080-1190,1390-1710,1770-1860；bootstrap/mode/actions/settlement/finalization callers | 3139 行逐段核验 startBattle 资源/敌槽/波场、phase guards、queue/UI、动画/dialog、逃跑/淡出、毒/status/cleanup/resume；定向 242、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷 |
+| `packages/game/src/core/battle/battle-opcodes.ts` | product | 已验证 | CODE-QUALITY-3t；script.c:867-950,1026-1102,1175-1425,1437-1449,1573-1640,1848-2054,2547-2668,2776-2995,3267-3297；fight.c:602-716,2387-2390,4214-4323,5193-5400；battle.c:1397-1434；event-system/actions/battle-system callers | 1528 行逐段核验 dispatch、BattleCtx ownership、目标/状态/伤害/毒、召唤/分裂/变身/逃跑、动画/偷窃/战斗结果与 consumed/newIp；定向/相邻 470 tests、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷；0x2E `>=` 为 game-mechanics 已记录的原版后期产品决策 |
+| `packages/game/src/core/battle/__tests__/battle-opcodes.test.ts` | test | 已验证 | CODE-QUALITY-3t；battle-opcodes 主 oracle，script.c/fight.c 对照，定向/相邻 470 tests | 2386 行逐段读取；合法目标、边界、失败分支、目标缺失、动画/资源副作用与 consumed/newIp 反控；无弱化断言 |
+| `packages/game/src/core/battle/battle-opcodes.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3t；dispatch family branch contracts，定向/相邻 470 tests | 1189 行逐段读取；真实 state/ctx caller 合同、非法/缺资源/满槽/无目标反例；不以 coverage 数量单独验收 |
+| `packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3t；0x05/0x8E dialog clear、0x6B signed blow-away primary contract，定向/相邻 470 tests | 70 行逐段读取；清框只影响下一段对白、SHORT 负值边界与 negative control |
+| `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | CODE-QUALITY-3t；0x9E 空槽复用/对象身份/阵型重算，定向/相邻 470 tests | 203 行逐段读取；活槽不复用、毒/身份清理与阵型锚点反例 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | 已验证 | CODE-QUALITY-3o；13-cell/facing/trigger threshold/first hit contracts | primary search oracle |
