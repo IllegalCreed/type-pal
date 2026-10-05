@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-world-lifecycle/packages/reforge
+
+ ✓ src/deferred-trigger.world-lifecycle-1.test.ts (2 tests | 1 skipped) 2ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+   Start at  15:08:49
+   Duration  100ms (transform 16ms, setup 0ms, import 23ms, tests 2ms, environment 0ms)

@@ -20,3 +20,4 @@
 - [TEST-GLM-REFORGE-BATTLE-FLOW-1 交付证据](TEST-GLM-REFORGE-BATTLE-FLOW-1/README.md)（r1 候选：终局家族/宿主终局/会话残差 12 合同 + 12/12 四态反控 + U-1 零活敌 target 死区发现，待 Codex 验收）。
 - [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
 - [TEST-GLM-REFORGE-RUNTIME-SESSION-1 交付证据](TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md)（15 合同、反控 5/5、排重/非合同/受阻账与基线缺陷披露；待 Codex 独立验收）。
+- [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md)（r1 候选：四家族排重后 4 残差合同 + 4/4 四态反控 + unreachable 登记，待 Codex 独立验收）。

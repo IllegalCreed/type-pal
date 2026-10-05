@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts
 
-Status: build
+Status: review
 Phase: phase2
 Capability: reforge / world, entity and scene lifecycle
 Coding Owner: GLM
@@ -104,10 +104,32 @@ Reforge 世界生命周期必须由显式 typed owner 和可取消事务驱动�
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验: pending（作者证据不代替 Codex）
+- 贡献者交付与自验: r1 已推（2026-10-05，见下方回执；作者证据不代替 Codex）
 - Codex 独立复核: pending
 - 用户体验/产品验收: N/A（测试-only）
 - done 准入结论: blocked；由 Codex 独立复核后决定
+
+## GLM 交付回执（r1，2026-10-05，待 Codex 独立验收）
+
+- 分支/基线: `codex/glm-reforge-world-lifecycle-r1`，基于 `origin/main` `53bf97e01`；business 提交
+  `5d1d197a5`（仅 3 个新增测试文件，产品/schema/API/旧测/config/baseline/真实数据零 diff）。
+- 排重结论: 四家族逐轴排重（[dedup-ledger.md](../evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/dedup-ledger.md)）。
+  卡面轴中 prepare-commit-abort、旧场景隔离、entity phase/reappear、动作 abort、reservation/fairness、
+  输入锁、最新意图取消均 existing-proof，不重复堆叠；仅补 4 条真实未证明合同：
+  - DT-CLEAR-1: `DeferredTouchTrigger.clear()` 原子复位 claim+deliveryFence（caller main.ts:4408 teardown）；
+  - DT-FIRE-DROP-1: drain fire 失败按 'dropped' 收口且不设围栏（模块公开状态机；main.ts wiring 同步窗
+    内自带复检，不宣称 host 当前可自然触达，见 identity.json 可达性注记）；
+  - AI-CAPTURE-1: `AsyncIntentController.capture()` 只读快照（caller main.ts:931-932/1168/1902）；
+  - GC-REGRESS-1: GameplayClock realNow 回退钳 0 + gameplayNow 单调（实测修正真值：恢复帧自重锚点
+    起算受 100ms 钳，非放宽断言）。
+- unreachable 登记: `SceneResources.map()` LRU `oldest === id` 保护分支（插入序下不可触达，防御）。
+- 反控: 4/4 针 VALID——每针红相位 exit 1、恰 1 指定业务 AssertionError（防 `-t` 零匹配假绿守卫）、
+  git 字节还原（sha256 原始=恢复）、还原绿、final-replay 4/4；四态 raw + 逐针原始/变异/恢复 hash +
+  mkdtemp 临时树 finally 移除证明见 [counterproof.json](../evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/counterproof.json)。
+- 门: 定向+相邻 38 文件 356/356（adjacent.raw）；`tsc --noEmit` 0 错；全仓 lint 3385 文件 0/0/0；
+  `check:docs` PASS；`git diff --check` 干净。覆盖率/例数未设门槛；不标 done。
+- 判例: vitest4 `-t` 含 ASCII 括号零匹配全 skipped exit 0；GameplayClock 回退重锚真值；biome
+  format/organizeImports 修正证据脚本后反控整体重跑（回执由最终字节产生）。
 
 ## Draft: 设计与风险
 

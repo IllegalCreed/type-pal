@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-world-lifecycle/packages/reforge
+
+ ❯ src/deferred-trigger.world-lifecycle-1.test.ts (2 tests | 1 failed | 1 skipped) 4ms
+     ↓ clear() 原子复位未决 claim 与 deliveryFence：teardown 后 auto safe-point 屏障立即解除
+     × fire 失败的落点按 dropped 收口：不设 deliveryFence、不保留 claim、不重试 3ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  15:08:50
+   Duration  104ms (transform 17ms, setup 0ms, import 23ms, tests 4ms, environment 0ms)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/deferred-trigger.world-lifecycle-1.test.ts > deferred touch trigger (world-lifecycle-1) > fire 失败的落点按 dropped 收口：不设 deliveryFence、不保留 claim、不重试
+AssertionError: expected 'started' to be 'dropped' // Object.is equality
+
+Expected: "dropped"
+Received: "started"
+
+ ❯ src/deferred-trigger.world-lifecycle-1.test.ts:83:7
+     81|         },
+     82|       }),
+     83|     ).toBe('dropped')
+       |       ^
+     84|     expect(firedTicks).toEqual([12])
+     85|     expect(pending.pending).toBe(false)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

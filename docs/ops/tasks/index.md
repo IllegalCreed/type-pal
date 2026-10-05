@@ -16,7 +16,7 @@
 | [TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 — project persistence, recovery and history contracts](TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-MENU-SAVE-IO-1 — menu, input and save boundary contracts](TEST-GLM-GAME-MENU-SAVE-IO-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts](TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 — world entity and scene lifecycle contracts](TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
