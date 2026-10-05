@@ -188,6 +188,13 @@ actions/anim/formula 相邻 oracle 全文/相关段读取。普通/群攻/DualAt
 oracle，不计入本批关闭。当前账本为 2,964 条：已闭合 221、已读待审 5、尚未逐文件核验 2,738；battle 其它 actions、
 present、save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
 
+Q3w 已完成 `battle-finalization.ts` 与 `battle-settlement.ts` 两个结算/清理文件逐文件核验：313 行实现、`battle.c:991-1373,1822-1857`、
+真实 `tickBattle`/finalize caller、finalization/settlement 专属测试和 progression 相邻 oracle 全文对照。exp/cash/HP-MP 回写、
+结算屏序与 timeout、Phase E 一次性执行、对话 hold、半血恢复、mode/wave/runtime/postBattle resume 清理均有直接证据，未发现直接缺陷。
+定向/相邻 196 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3w 关闭 3 条新增账本记录
+（2 个 product + 1 个 test）；`battle-finalization.test.ts` 沿用 Q3u 历史记录，不重复计数。当前账本为 2,964 条：已闭合 224、已读待审 5、尚未逐文件核验 2,735；其它 battle actions/present、
+save 及其它 pending 文件仍未完成，不得宣布全仓治理收口。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
