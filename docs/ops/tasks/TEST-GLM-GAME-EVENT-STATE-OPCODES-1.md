@@ -134,3 +134,5 @@ onenter-walk-reachability/mutation-lib/runner/selftest/points/results/logs/direc
    同法）与门禁复算（定向/相邻/全量 3506/typecheck/lint 0-0-0/docs/diff --check；worktree 需 data 软链）。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+**r1 工作提交 SHA**：`57bea1d502df8a9768e446e7a958b15b68f69940`（单一 commit 含 8 合同测试 + 证据目录 + evidence 导航行 + review JSON 三 pin 外科刷新 + 回执；本行为 SHA 登记追加笔，base `f4dbd0e3d`）。
