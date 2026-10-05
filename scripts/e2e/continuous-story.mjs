@@ -32,7 +32,7 @@ export const CONTINUOUS_STORY_FRAGMENTS = Object.freeze([
 export const STORY_ONLY_CASES = Object.freeze(['story'])
 
 const CONTINUOUS_SEMANTIC_PHASE_STARTS = Object.freeze({
-  '003': Object.freeze({ aunt: [137, 66], taoist: [137, 73] }),
+  '003': Object.freeze({ aunt: [131, 52], taoist: [137, 73] }),
 })
 
 function continuousPosition(report, grid) {
@@ -163,8 +163,10 @@ export function continuousStoryActions(report) {
     }
     if (input.phase !== undefined && input.phase !== previousPhase) {
       const semanticStart = CONTINUOUS_SEMANTIC_PHASE_STARTS[report.fragment]?.[input.phase]
-      if (semanticStart) target.phaseStart = continuousPosition(report, semanticStart)
-      else if (steps[0]?.to) target.phaseStart = steps[0].to
+      if (semanticStart) {
+        target.phaseStart = continuousPosition(report, semanticStart)
+        target.phaseStartPassive = input.phase === 'aunt'
+      } else if (steps[0]?.to) target.phaseStart = steps[0].to
     }
     previousPhase = input.phase
     routeTargets.set(`${input.kind}:${input.key}:${input.atMs}`, target)
