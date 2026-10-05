@@ -10,6 +10,9 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
+| TEST-GLM-GAME-MENU-SAVE-IO-1 | [Game menu, input and save boundary contracts](tasks/TEST-GLM-GAME-MENU-SAVE-IO-1.md) | build | GLM / menu + save 合同 | 输入路由、菜单栈、资源边界、存档事务与坏输入 |
+| TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 | [Reforge world entity and scene lifecycle contracts](tasks/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1.md) | build | GLM / world lifecycle 合同 | 场景事务、实体生命周期、motion、输入锁与 async |
+| TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 | [Editor project persistence, recovery and history contracts](tasks/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1.md) | build | GLM / persistence + history 合同 | canonical IO、恢复、并发冲突、undo/redo 与导出 |
 
 ## 看板规则
 
