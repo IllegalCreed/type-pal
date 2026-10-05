@@ -200,6 +200,10 @@ tracked 数量和状态汇总漂移均 fail-closed；37 个 quality-tool tests�
 明确不把机器 PASS 当作源码语义审查；新增 `code-quality-ledger.mjs` 与其测试本身已登记为已验证文件。当前 tracked inventory 2,966：
 已闭合 226、review 5、pending 2,735；全仓仍未完成。
 
+随后已把治理分支同步到最新 `origin/main`（merge 后 0 behind）；主线新增的 tracked records 经 ledger integrity gate 重新纳入，均保留
+pending，不作语义审查信用。当前 inventory 为 3,058，已闭合 229、review 5、pending 2,824；分支可继续增量治理，但不应把新增主线
+文件误认为已核验。
+
 Q3x 已完成 `battle-progression.ts` 与两个专属 progression/levelup 测试逐文件核验：306 行实现、`battle.c:991-1373,1226-1328`、
 `global.c:2347-2454`、settlement caller 和 battle-system progression 相邻段均有直接证据。主升级活人 gate、隐藏经验池顺序/截断/
 99 边界与无 cap、主升级 cap、HP/MP 回满时机、法术 level gate/去重/槽写入和 snapshot 有效值均闭合，未发现直接缺陷。定向/相邻
