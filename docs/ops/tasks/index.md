@@ -80,6 +80,7 @@
 | [CODE-QUALITY-3n - game core fade / identity / catalog 逐文件治理](../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3o - game core mode/history/poison/search 逐文件治理](../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3p - event player/equipment/poison opcode 逐文件治理](../archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-3q - game scene-system 移动/碰撞/触发逐文件治理](../archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |

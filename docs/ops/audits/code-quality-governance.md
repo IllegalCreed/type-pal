@@ -140,6 +140,13 @@ Q3p 已完成高风险 event player/equipment/poison opcode 单文件核验：`e
 未发现直接缺陷或需改行为。全仓第二轮 `pnpm check`、official ratchet、protected fast、Biome 零诊断
 均通过；event-system、scene-system、battle-system、save 等大型 core 文件仍待逐文件核验。
 
+Q3q 已完成高风险 `scene-system.ts` 逐文件核验：662 行实现与 2064 行 scene-system tests 全文读取，
+逐段对照 `play.c`/`scene.c`/`map.c`/`res.c`/`global.h` 及 `mode.ts`、`event-system.ts`、bootstrap/dev
+callers；输入顺序、移动步长、trigger/vanish/revive、blocker push、菱形碰撞、camera/trail、loadScene/onEnter
+均有直接 caller/oracle 证据，未发现直接缺陷。定向 131、game 全包 3,403、完整 check、official ratchet、
+protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3q 只关闭这两个 scene-system 文件，event-system、
+battle-system、save 及账本剩余 2,760 个待核记录仍未关闭。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
