@@ -1,0 +1,194 @@
+{
+  "card": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1",
+  "kind": "mutation-criteria-selftest",
+  "generatedAt": "2026-10-05T13:12:36.416Z",
+  "provenance": "合成相位(与 runPhase 同构,makePhase 构造),不 spawn、不触产品源、零临时树",
+  "cleanupProof": {
+    "productShaBefore": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+    "productShaAfter": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
+    "productUntouched": true
+  },
+  "misAcceptProof": {
+    "claim": "下列反例满足 r1 旧判据(旧 runner 判 VALID)但被 r2 新判据拒绝 —— 证明旧判据误收",
+    "casesOldAcceptsNewRejects": [
+      "two-failures",
+      "wrong-contract",
+      "exit-zero",
+      "signal-kill",
+      "spawn-error",
+      "todo-status",
+      "execution-set-drift"
+    ]
+  },
+  "summary": {
+    "cases": 10,
+    "allExpectationsMatched": true,
+    "oldAcceptsNewRejects": 7
+  },
+  "results": [
+    {
+      "case": "sanity-valid",
+      "scenario": "恰目标合同 A 一条 AssertionError 红、exit1、执行集与状态零漂移",
+      "expectNewValid": true,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "two-failures",
+      "scenario": "目标合同 A 与无关合同 B 同时红(各含 AssertionError)",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": [
+          "red-not-exactly-one-failed",
+          "red-not-exactly-one-failed-reporter",
+          "red-status-drift-beyond-target"
+        ]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "wrong-contract",
+      "scenario": "唯一失败是无关合同 B(目标合同 A 仍绿)",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-wrong-target-contract", "red-status-drift-beyond-target"]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "exit-zero",
+      "scenario": "报告 1 失败但进程 exit 0(红相位必须 exit≠0)",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-exit-invalid:0"]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "signal-kill",
+      "scenario": "进程被信号杀死(exit null / signal SIGKILL),stdout 仍带可解析 JSON",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-exit-invalid:null", "red-signal:SIGKILL"]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "spawn-error",
+      "scenario": "spawn 失败(ENOENT),进程未真正执行",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-exit-invalid:null", "red-spawn-error:Error: spawn pnpm ENOENT"]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "pending-plus-fail",
+      "scenario": "目标合同红 + 另一用例 pending(r1 已拒,r2 同样拒绝)",
+      "expectNewValid": false,
+      "expectOldValid": false,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-pending>0", "red-status-drift-beyond-target"]
+      },
+      "oldVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-pending>0"]
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "runtime-collection-error",
+      "scenario": "额外套件 failed 且零断言(collection/runtime error;r1 已拒,r2 同样拒绝)",
+      "expectNewValid": false,
+      "expectOldValid": false,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-runtime-or-collection-error"]
+      },
+      "oldVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-runtime-error"]
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "todo-status",
+      "scenario": "目标合同红 + 另一用例 status=todo 而 numPendingTests 报 0(汇总字段口径盲区)",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-skip-todo", "red-status-drift-beyond-target"]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    },
+    {
+      "case": "execution-set-drift",
+      "scenario": "红相位多出一个原始相位没有的用例 C(执行集漂移)",
+      "expectNewValid": false,
+      "expectOldValid": true,
+      "newVerdict": {
+        "valid": false,
+        "invalidReasons": ["red-execution-set-drift"]
+      },
+      "oldVerdict": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "newMatchesExpectation": true,
+      "oldMatchesExpectation": true
+    }
+  ]
+}

@@ -6,7 +6,8 @@
     {
       "id": "MUT-01",
       "line": 3444,
-      "intent": "resolveConfirmGoto fail-closed 终止合同:删除 fail-closed 块内 gs.eventCursor = undefined,游标残留 → it 1 的 eventCursor 终止断言红",
+      "targetContract": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+      "intent": "resolveConfirmGoto fail-closed 终止合同:删除 fail-closed 块内 gs.eventCursor = undefined,游标残留 → 目标合同的 eventCursor 终止断言红",
       "carrier": "以唯一 warn 行(0x0A goto entry)锚定删除下一行赋值;该路径全仓 0 旧证,不影响其它测试",
       "find": "    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)\n    gs.eventCursor = undefined\n",
       "replaceWith": "    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)\n"
@@ -14,7 +15,8 @@
     {
       "id": "MUT-02",
       "line": 2388,
-      "intent": "0x7F[0,0,0xFFFF] 回正豁免边界:豁免常量 0xffff 改 0xfffe(永不匹配真数据 flag)→ 豁免臂误清屏 → it 2 portrait 90 断言红",
+      "targetContract": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+      "intent": "0x7F[0,0,0xFFFF] 回正豁免边界:豁免常量 0xffff 改 0xfffe(永不匹配真数据 flag)→ 豁免臂误清屏 → 目标合同的 portrait 90 断言红",
       "carrier": "行内 && flag === 0xffff)) 上下文在 2388 唯一(2392 是 !==、3608 是独立 else if);center 臂 flag=0 与 [5,3,0xffff] 旧测行为不变",
       "find": "      if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xffff)) {",
       "replaceWith": "      if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xfffe)) {"

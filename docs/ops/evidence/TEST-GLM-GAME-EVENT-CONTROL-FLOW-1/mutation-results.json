@@ -1,6 +1,7 @@
 {
   "card": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1",
-  "generatedAt": "2026-10-05T11:43:11.301Z",
+  "criteriaRevision": "r2 (Codex 一审返工;判据库 mutation-lib.mjs,自测 mutation-selftest.mjs)",
+  "generatedAt": "2026-10-05T13:12:13.034Z",
   "targetFile": "packages/game/src/core/event-system.ts",
   "testFile": "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
   "targetShaBefore": "sha256:c3332dd087e5b7b3ef5b9056c32a27d342a93d6f087c516b904ec40949868fcb",
@@ -66,7 +67,8 @@
     {
       "id": "MUT-01",
       "line": 3444,
-      "intent": "resolveConfirmGoto fail-closed 终止合同:删除 fail-closed 块内 gs.eventCursor = undefined,游标残留 → it 1 的 eventCursor 终止断言红",
+      "targetContract": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+      "intent": "resolveConfirmGoto fail-closed 终止合同:删除 fail-closed 块内 gs.eventCursor = undefined,游标残留 → 目标合同的 eventCursor 终止断言红",
       "carrier": "以唯一 warn 行(0x0A goto entry)锚定删除下一行赋值;该路径全仓 0 旧证,不影响其它测试",
       "find": "    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)\n    gs.eventCursor = undefined\n",
       "replaceWith": "    console.warn(`event-system: 0x0A goto entry ${entry} 不在 labelMap → 终止脚本`)\n",
@@ -86,8 +88,8 @@
           ],
           "cwd": "/private/tmp/type-pal-event-control",
           "stdout": {
-            "bytes": 1899,
-            "sha256": "sha256:ad428931d3356f4b66e5e38cce6939955a78a4e21e7b384c59c31b7fb86bef5e",
+            "bytes": 1896,
+            "sha256": "sha256:1ad46820d4c5a5740a5db8c20a8eee594290196e02a23042ec2f7f75a05b46ce",
             "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-original.stdout.log"
           },
           "stderr": {
@@ -99,6 +101,38 @@
           "signal": null,
           "spawnError": null,
           "spawnTimedOut": false,
+          "detail": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suites": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertionResults": [
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+                    "status": "passed",
+                    "failureMessages": []
+                  },
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+                    "status": "passed",
+                    "failureMessages": []
+                  }
+                ]
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
           "jsonSummary": {
             "reporterFieldsPresent": true,
             "missingReporterFields": [],
@@ -124,8 +158,12 @@
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
           ],
+          "executionSet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
+          ],
+          "failedAssertions": [],
           "failedFullNames": [],
-          "failedAssertionMessages": [],
           "parseError": null
         },
         "mutated": {
@@ -141,8 +179,8 @@
           ],
           "cwd": "/private/tmp/type-pal-event-control",
           "stdout": {
-            "bytes": 3468,
-            "sha256": "sha256:3f96ed275ef2600f148dfc61b8b7378cbfa2236dc6450df8334ae6411d0dadc0",
+            "bytes": 3465,
+            "sha256": "sha256:6d8e85469aed250bf0a208d00988b1b9739cda248143b82c3388eae4e32f5d87",
             "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-mutated.stdout.log"
           },
           "stderr": {
@@ -154,6 +192,40 @@
           "signal": null,
           "spawnError": null,
           "spawnTimedOut": false,
+          "detail": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suites": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "failed",
+                "assertionResults": [
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+                    "status": "failed",
+                    "failureMessages": [
+                      "AssertionError: expected { commands: [ { …(3) }, …(3) ], …(5) } to be undefined\n    at /private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts:62:28\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                    ]
+                  },
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+                    "status": "passed",
+                    "failureMessages": []
+                  }
+                ]
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
           "jsonSummary": {
             "reporterFieldsPresent": true,
             "missingReporterFields": [],
@@ -179,16 +251,22 @@
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: failed"
           ],
-          "failedFullNames": [
+          "executionSet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
           ],
-          "failedAssertionMessages": [
+          "failedAssertions": [
             {
+              "file": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
               "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
-              "messages": [
+              "status": "failed",
+              "failureMessages": [
                 "AssertionError: expected { commands: [ { …(3) }, …(3) ], …(5) } to be undefined\n    at /private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts:62:28\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
               ]
             }
+          ],
+          "failedFullNames": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
           ],
           "parseError": null
         },
@@ -206,7 +284,7 @@
           "cwd": "/private/tmp/type-pal-event-control",
           "stdout": {
             "bytes": 1898,
-            "sha256": "sha256:5a3dfa975b43db6f290fc145cf6d90244952ca876b42a4a85dc096d8cb1a24fb",
+            "sha256": "sha256:60503218f8aa79e0a780b0102644e976c7557f60210892ff6a3b43148420baf0",
             "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-01-restored.stdout.log"
           },
           "stderr": {
@@ -218,6 +296,38 @@
           "signal": null,
           "spawnError": null,
           "spawnTimedOut": false,
+          "detail": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suites": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertionResults": [
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+                    "status": "passed",
+                    "failureMessages": []
+                  },
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+                    "status": "passed",
+                    "failureMessages": []
+                  }
+                ]
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
           "jsonSummary": {
             "reporterFieldsPresent": true,
             "missingReporterFields": [],
@@ -243,27 +353,38 @@
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
           ],
+          "executionSet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
+          ],
+          "failedAssertions": [],
           "failedFullNames": [],
-          "failedAssertionMessages": [],
           "parseError": null
         }
       },
-      "redFailedFullNames": [
-        "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
-      ],
-      "redFailedAssertionExcerpts": [
+      "redFailedAssertions": [
         {
+          "file": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
           "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
           "firstMessage": "AssertionError: expected { commands: [ { …(3) }, …(3) ], …(5) } to be undefined"
         }
       ],
+      "verdictR2": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "verdictR1RecordedForComparison": {
+        "valid": true,
+        "invalidReasons": []
+      },
       "valid": true,
       "invalidReasons": []
     },
     {
       "id": "MUT-02",
       "line": 2388,
-      "intent": "0x7F[0,0,0xFFFF] 回正豁免边界:豁免常量 0xffff 改 0xfffe(永不匹配真数据 flag)→ 豁免臂误清屏 → it 2 portrait 90 断言红",
+      "targetContract": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+      "intent": "0x7F[0,0,0xFFFF] 回正豁免边界:豁免常量 0xffff 改 0xfffe(永不匹配真数据 flag)→ 豁免臂误清屏 → 目标合同的 portrait 90 断言红",
       "carrier": "行内 && flag === 0xffff)) 上下文在 2388 唯一(2392 是 !==、3608 是独立 else if);center 臂 flag=0 与 [5,3,0xffff] 旧测行为不变",
       "find": "      if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xffff)) {",
       "replaceWith": "      if (!((cx ?? 0) === 0 && (cy ?? 0) === 0 && flag === 0xfffe)) {",
@@ -283,8 +404,8 @@
           ],
           "cwd": "/private/tmp/type-pal-event-control",
           "stdout": {
-            "bytes": 1899,
-            "sha256": "sha256:59af17f641fc89c520aab4914a8d5dbe4aaa63b48485b05b5f659215f337b17b",
+            "bytes": 1896,
+            "sha256": "sha256:1acb45e46dc18ea31f830bc1840de089052a1d3941971061bf424d486bc96b66",
             "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-original.stdout.log"
           },
           "stderr": {
@@ -296,6 +417,38 @@
           "signal": null,
           "spawnError": null,
           "spawnTimedOut": false,
+          "detail": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suites": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertionResults": [
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+                    "status": "passed",
+                    "failureMessages": []
+                  },
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+                    "status": "passed",
+                    "failureMessages": []
+                  }
+                ]
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
           "jsonSummary": {
             "reporterFieldsPresent": true,
             "missingReporterFields": [],
@@ -321,8 +474,12 @@
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
           ],
+          "executionSet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
+          ],
+          "failedAssertions": [],
           "failedFullNames": [],
-          "failedAssertionMessages": [],
           "parseError": null
         },
         "mutated": {
@@ -338,8 +495,8 @@
           ],
           "cwd": "/private/tmp/type-pal-event-control",
           "stdout": {
-            "bytes": 3449,
-            "sha256": "sha256:c557c11936ed4af22a626490c8132003a9b79583cc365659598d256e62dd6009",
+            "bytes": 3447,
+            "sha256": "sha256:903a35158bdaa0c145573650e87bab03cb0a81eabe2471909c0934ae28f944bf",
             "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-mutated.stdout.log"
           },
           "stderr": {
@@ -351,6 +508,40 @@
           "signal": null,
           "spawnError": null,
           "spawnTimedOut": false,
+          "detail": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "success": false,
+            "suites": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "failed",
+                "assertionResults": [
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+                    "status": "passed",
+                    "failureMessages": []
+                  },
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+                    "status": "failed",
+                    "failureMessages": [
+                      "AssertionError: expected undefined to be 90 // Object.is equality\n    at /private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts:113:45\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
           "jsonSummary": {
             "reporterFieldsPresent": true,
             "missingReporterFields": [],
@@ -376,16 +567,22 @@
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: failed",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
           ],
-          "failedFullNames": [
-            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘"
+          "executionSet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
           ],
-          "failedAssertionMessages": [
+          "failedAssertions": [
             {
+              "file": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
               "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
-              "messages": [
+              "status": "failed",
+              "failureMessages": [
                 "AssertionError: expected undefined to be 90 // Object.is equality\n    at /private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts:113:45\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-event-control/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
               ]
             }
+          ],
+          "failedFullNames": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘"
           ],
           "parseError": null
         },
@@ -402,8 +599,8 @@
           ],
           "cwd": "/private/tmp/type-pal-event-control",
           "stdout": {
-            "bytes": 1897,
-            "sha256": "sha256:f2af22ee6aea48e689e62bafa8c1d39026aae30640e01c11a1253a4857c4dd88",
+            "bytes": 1898,
+            "sha256": "sha256:93150e19adc2a50e03393b00a4f7cbb996a2937bb77ee1f9eeaf316224be1374",
             "path": "/private/tmp/type-pal-event-control/docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-logs/MUT-02-restored.stdout.log"
           },
           "stderr": {
@@ -415,6 +612,38 @@
           "signal": null,
           "spawnError": null,
           "spawnTimedOut": false,
+          "detail": {
+            "reporterFieldsPresent": true,
+            "missingReporterFields": [],
+            "numTotalTests": 2,
+            "numPassedTests": 2,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "success": true,
+            "suites": [
+              {
+                "name": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+                "status": "passed",
+                "assertionResults": [
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+                    "status": "passed",
+                    "failureMessages": []
+                  },
+                  {
+                    "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+                    "status": "passed",
+                    "failureMessages": []
+                  }
+                ]
+              }
+            ],
+            "numRuntimeErrorTestSuites": {
+              "presentInReporter": false,
+              "valueFromReporter": null,
+              "derivedFromSuiteStatuses": 0
+            }
+          },
           "jsonSummary": {
             "reporterFieldsPresent": true,
             "missingReporterFields": [],
@@ -440,20 +669,30 @@
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘 :: passed",
             "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支) :: passed"
           ],
+          "executionSet": [
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
+            "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)"
+          ],
+          "failedAssertions": [],
           "failedFullNames": [],
-          "failedAssertionMessages": [],
           "parseError": null
         }
       },
-      "redFailedFullNames": [
-        "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts :: TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘"
-      ],
-      "redFailedAssertionExcerpts": [
+      "redFailedAssertions": [
         {
+          "file": "/private/tmp/type-pal-event-control/packages/game/src/core/event-system.glm-event-control-flow.test.ts",
           "fullName": "TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 0x7F[0,0,0xFFFF] 回正豁免(2388-2391,script.c:2314):唯一不清屏组合 —— 残留 box/立绘保留,后续无 setDialogStyle 对话 append 继承 portrait 90;[0,0,0] 清屏后新建无立绘",
           "firstMessage": "AssertionError: expected undefined to be 90 // Object.is equality"
         }
       ],
+      "verdictR2": {
+        "valid": true,
+        "invalidReasons": []
+      },
+      "verdictR1RecordedForComparison": {
+        "valid": true,
+        "invalidReasons": []
+      },
       "valid": true,
       "invalidReasons": []
     }

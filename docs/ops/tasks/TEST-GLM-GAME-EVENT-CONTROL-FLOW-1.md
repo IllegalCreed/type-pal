@@ -114,3 +114,82 @@ data-reachability*/mutation-points/mutation-results/mutation-logs），再核：
 
 **r1 工作提交 SHA**：`105b20c29ba060c25b530b9032835630fbf41133`（单一 commit 含 2 合同测试 + 证据目录 +
 evidence 导航行 + review JSON 外科刷新 + 回执；本行为 SHA 登记追加笔，base `7a9157ac5`）。
+
+---
+
+## Codex 一审结论（2026-10-05，rework）
+
+2 条业务合同及 typecheck/docs/lint 通过；但 mutation-runner 判据存在误收（不查 exit/signal/spawn、
+不要求恰一失败、不核失败落点是否目标合同、不比对红/原始执行集），禁止标 done。只修反控 runner/证据，
+不改产品/旧测/config/baseline，不新增弱测试。
+
+## GLM r2 交付回执（2026-10-05，同分支返工）
+
+**结论：反控判据按一审 8 项要求重写并自测，2 针按 r2 判据重跑 2/2 VALID，全门复跑通过；
+业务合同、测试文件、产品、旧测、配置、baseline 零改动。不请求 done，等待 Codex 二审。**
+
+### 判据返工（全部在 evidence 目录内）
+
+- **`mutation-lib.mjs`（新）**——判据库化：reporter 解析/执行集（file×fullName×status 全量）/
+  套件-断言两级 digest/runtime-collection 推导 + `validateNeedleR2`（r2 门）与
+  `validateNeedleR1`（r1 旧判据原样转录，只作误收对照与并排记录，不再是门）。
+- **`mutation-runner.mjs`（重写）**——每针 3 相位保留 argv/cwd/env 快照、原始 stdout/stderr 全文
+  （trimEof+恰一换行+bytes/sha256 按落盘字节）、exitCode/signal/spawnError/spawnTimedOut、
+  per-phase `identitySet` 与 `executionSet`、三态目标源 sha、清理证明；结论只取 r2 判据。
+- **`mutation-points.json`**——每针新增 `targetContract`（目标合同精确 fullName，取自 fresh 定向
+  reporter，非手写推断）。
+- r2 判据（对照一审 8 项）：① 三相位进程层门：绿相位 exit===0、红相位 exit 为数字且 ≠0、
+  signal===null、spawnError===null、无 timeout；② 解析完整 file×fullName×status 执行集，
+  三相位 identitySet+executionSet 全落盘；③ 红相位恰一 failed（reporter 数与断言级计数双核对）、
+  零 pending、零 todo/skipped（断言级状态，不依赖汇总字段口径）、零 runtime/collection error
+  （reporter 字段与推导双核对）；④ 唯一失败 fullName 必须精确 === `targetContract` 且
+  failureMessages 含 AssertionError；⑤ 红相位 executionSet 与原始相位逐集合相等，状态差异必须
+  恰为目标合同 passed→failed 一处；⑥ 恢复相位 identitySet 与原始完全一致 + 产品源恢复 sha 与原始
+  相同；⑦ 自测（下）；⑧ 原始日志/快照/三态 hash/清理全保留，selftest 纯内存零临时树（产品源前后
+  sha 相等落盘证明）。
+
+### 判据自测（`mutation-selftest.mjs` / `selftest-results.json`，10/10 符合预期）
+
+10 个合成三相位反例（与 runPhase 产出同构）：sanity-valid（合法针形，r2 通过=不过严）、
+two-failures、wrong-contract（唯一失败是非目标合同）、exit-zero、signal-kill（SIGKILL）、
+spawn-error（ENOENT）、pending-plus-fail、runtime-collection-error、todo-status
+（断言 todo 而汇总 pending=0，r1 口径盲区）、execution-set-drift（红相位多出用例）。
+**误收证明**：其中 7 类（two-failures/wrong-contract/exit-zero/signal-kill/spawn-error/
+todo-status/execution-set-drift）满足 r1 旧判据判 VALID、被 r2 全部拒绝；pending/runtime 两类
+r1 本就拒绝（登记为双拒）。selftest 零 spawn、零临时树、产品源前后 sha 相等。
+
+### 2 针重跑（r2 判据，mutation-results.json 2/2 VALID；12 份规整日志重出）
+
+| 针 | r2 判定 | 红相位 | 唯一失败=目标合同 |
+|---|---|---|---|
+| MUT-01（3444 删 `gs.eventCursor = undefined`） | VALID（0 reasons） | exit1/signal null/spawn null、total2 failed1 pending0 | ✓ resolveConfirmGoto fail-closed 合同，AssertionError |
+| MUT-02（2388 `0xffff`→`0xfffe`） | VALID（0 reasons） | 同上 | ✓ 0x7F[0,0,0xFFFF] 豁免合同，`expected undefined to be 90` |
+
+每针 r1 旧判据并排记录为 VALID（干净针两套判据都过；r1 的缺陷在"会放行什么"，由 selftest 证明）。
+恢复后 event-system.ts sha 与原始 byte-identical（cleanupRestored=true）。
+
+### 质量门（复跑）
+
+- 定向 2/2（directed-vitest.json 重出）；相邻 16 文件 539/539；game 全量 **307 文件 3486/3486**
+  （r1 回执"346 文件"系笔误更正：测试数 3486 与 r1 实测一致，文件数以本次 307 为准）；typecheck 0 error；
+  `pnpm lint` 全仓 0/0/0；`pnpm check:docs` PASS；`git diff --check` 0。
+- diff 范围：仅 evidence 目录（lib/selftest/points/runner/results/logs/README + directed JSON 重出）、
+  review JSON pin 再刷新、本回执；产品/旧测/config/baseline/真实数据零改动。
+
+## 下一位 Agent 提示词（Codex 二审）
+
+```text
+你是 Codex，负责二审 TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 的 r2 返工（分支
+codex/glm-game-event-control-flow-r1，r2 回执在本卡上方）。
+先读本卡 r2 回执与一审结论、docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/
+（README/mutation-lib.mjs/mutation-runner.mjs/mutation-points.json/mutation-results.json/
+mutation-selftest.mjs/selftest-results.json/mutation-logs/），再核：
+1) 判据 8 项逐条对照一审要求：进程层门、完整执行集解析与三相位落盘、恰一失败+零
+   pending/todo/skip/runtime/collection、唯一失败精确命中 targetContract、红/原始执行集
+   集合核对与状态漂移拒绝、恢复 identity 全等+sha 一致、selftest 反例覆盖与 r1 误收证明
+   （7 类旧判据 VALID）、原始日志/快照/清理保留；
+2) 2 针 r2 三态证据复算（可独立重跑 mutation-selftest.mjs 与 mutation-runner.mjs）；
+3) 业务合同与测试文件相对 r1 零改动（105b20c29 之后仅 evidence/卡面/review pin 变化）；
+4) 门禁复算（定向/相邻/全量/typecheck/lint 0-0-0/docs/diff --check）。
+输出 accept（r2 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
+```

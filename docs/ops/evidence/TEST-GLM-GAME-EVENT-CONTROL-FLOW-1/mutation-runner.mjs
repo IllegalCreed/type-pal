@@ -1,15 +1,15 @@
 /**
- * TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 三态反控 runner。
+ * TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 三态反控 runner(r2)。
+ *
+ * r2 返工(Codex 一审:r1 判据误收):进程层门(exit/signal/spawnError/timeout)、
+ * 红相位恰一失败且零 pending/skip/todo/runtime、唯一失败 fullName 必须精确命中
+ * point.targetContract、红相位执行集与状态同原始相位逐集合核对、恢复相位 identity
+ * 与原始完全一致 + 产品源 sha 一致。判据实现与 r1 旧判据都在 mutation-lib.mjs;
+ * 合成反例误收证明见 mutation-selftest.mjs / selftest-results.json。
  *
  * 每注入点 3 相位(原始绿 / 变异红 / 恢复绿),同一 vitest 命令 spawnSync 执行;完整保留
  * argv/cwd/env 快照/stdout/stderr(规整后全文落盘 + bytes/sha256 按落盘字节)/exitCode/
- * signal/spawnError/JSON 摘要/逐套件 status/全量 identitySet(file×fullName×status)。
- *
- * 判据(任一命中即 INVALID)与 TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 同口径:
- *  - reporter 必需字段缺失 → missing-reporter-field(不静默兜底);
- *  - 零执行 / red-json-unparsable / red-pending>0 / red-runtime-error>0 /
- *    red-no-business-assertion(存在失败用例但 failureMessages 无 AssertionError)/
- *    original-not-green / restored-not-green / restore-sha-mismatch / green-identity-drift。
+ * signal/spawnError/JSON 摘要/逐套件 status/全量 identitySet 与 executionSet。
  *
  * 落盘纪律:stdout/stderr trimEof 去尾空白 + 恰好一个换行;bytes/sha256 按规整后落盘字节;
  * mutation-results.json 末尾恰好一个换行。
@@ -20,6 +20,16 @@ import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  digest,
+  executionSet,
+  failedAssertions,
+  identitySet,
+  parseReporter,
+  trimEof,
+  validateNeedleR1,
+  validateNeedleR2,
+} from './mutation-lib.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const repoRoot = join(here, '..', '..', '..', '..')
@@ -32,71 +42,6 @@ const testArg = 'src/core/event-system.glm-event-control-flow.test.ts'
 const logDir = join(here, 'mutation-logs')
 
 const sha256 = (buf) => `sha256:${createHash('sha256').update(buf).digest('hex')}`
-
-/** trimEof:去尾部空白,保留恰好一个换行终止符。 */
-function trimEof(text) {
-  const trimmed = text.replace(/\s+$/u, '')
-  return trimmed.length === 0 ? '' : `${trimmed}\n`
-}
-
-const REQUIRED_FIELDS = [
-  'numTotalTests',
-  'numPassedTests',
-  'numFailedTests',
-  'numPendingTests',
-  'success',
-  'testResults',
-]
-
-function parseReporter(stdout) {
-  const start = stdout.indexOf('{')
-  const end = stdout.lastIndexOf('}')
-  if (start < 0 || end <= start) return { parsed: false, reason: 'no-json-object-in-stdout' }
-  try {
-    return { parsed: true, json: JSON.parse(stdout.slice(start, end + 1)) }
-  } catch (err) {
-    return { parsed: false, reason: `json-parse-error: ${err.message}` }
-  }
-}
-
-function digest(json) {
-  const missing = REQUIRED_FIELDS.filter((f) => json[f] === undefined)
-  const suites = (json.testResults ?? []).map((s) => ({
-    name: s.name,
-    status: s.status,
-    assertionResults: (s.assertionResults ?? []).map((a) => ({
-      fullName: a.fullName,
-      status: a.status,
-      failureMessages: a.failureMessages ?? [],
-    })),
-  }))
-  const derivedRuntimeErrorSuites = suites.filter(
-    (s) => s.status === 'failed' && s.assertionResults.length === 0,
-  ).length
-  return {
-    reporterFieldsPresent: missing.length === 0,
-    missingReporterFields: missing,
-    numTotalTests: json.numTotalTests,
-    numPassedTests: json.numPassedTests,
-    numFailedTests: json.numFailedTests,
-    numPendingTests: json.numPendingTests,
-    success: json.success,
-    suites,
-    numRuntimeErrorTestSuites: {
-      presentInReporter: json.numRuntimeErrorTestSuites !== undefined,
-      valueFromReporter: json.numRuntimeErrorTestSuites ?? null,
-      derivedFromSuiteStatuses: derivedRuntimeErrorSuites,
-    },
-  }
-}
-
-function identitySet(d) {
-  const rows = []
-  for (const s of d.suites) {
-    for (const a of s.assertionResults) rows.push(`${s.name} :: ${a.fullName} :: ${a.status}`)
-  }
-  return rows.sort()
-}
 
 function runPhase(label) {
   const argv = [
@@ -121,7 +66,7 @@ function runPhase(label) {
   writeFileSync(stdoutPath, stdout, 'utf8')
   writeFileSync(stderrPath, stderr, 'utf8')
   const parsed = parseReporter(stdout)
-  const d = parsed.parsed ? digest(parsed.json) : null
+  const detail = parsed.parsed ? digest(parsed.json) : null
   return {
     command: argv,
     cwd: repoRoot,
@@ -139,34 +84,30 @@ function runPhase(label) {
     signal: res.signal,
     spawnError: res.error ? String(res.error) : null,
     spawnTimedOut: res.error?.code === 'ETIMEDOUT',
-    jsonSummary: d && {
-      reporterFieldsPresent: d.reporterFieldsPresent,
-      missingReporterFields: d.missingReporterFields,
-      numTotalTests: d.numTotalTests,
-      numPassedTests: d.numPassedTests,
-      numFailedTests: d.numFailedTests,
-      numPendingTests: d.numPendingTests,
-      success: d.success,
-      suiteStatuses: d.suites.map((s) => ({
+    detail,
+    jsonSummary: detail && {
+      reporterFieldsPresent: detail.reporterFieldsPresent,
+      missingReporterFields: detail.missingReporterFields,
+      numTotalTests: detail.numTotalTests,
+      numPassedTests: detail.numPassedTests,
+      numFailedTests: detail.numFailedTests,
+      numPendingTests: detail.numPendingTests,
+      success: detail.success,
+      suiteStatuses: detail.suites.map((s) => ({
         name: s.name,
         status: s.status,
         assertions: s.assertionResults.length,
       })),
-      numRuntimeErrorTestSuites: d.numRuntimeErrorTestSuites,
+      numRuntimeErrorTestSuites: detail.numRuntimeErrorTestSuites,
     },
-    identitySet: d ? identitySet(d) : [],
-    failedFullNames: d
-      ? d.suites.flatMap((s) =>
+    identitySet: detail ? identitySet(detail) : [],
+    executionSet: detail ? executionSet(detail) : [],
+    failedAssertions: detail ? failedAssertions(detail) : [],
+    failedFullNames: detail
+      ? detail.suites.flatMap((s) =>
           s.assertionResults
             .filter((a) => a.status === 'failed')
             .map((a) => `${s.name} :: ${a.fullName}`),
-        )
-      : [],
-    failedAssertionMessages: d
-      ? d.suites.flatMap((s) =>
-          s.assertionResults
-            .filter((a) => a.status === 'failed')
-            .map((a) => ({ fullName: a.fullName, messages: a.failureMessages })),
         )
       : [],
     parseError: parsed.parsed ? null : parsed.reason,
@@ -180,6 +121,15 @@ const results = []
 let allValid = true
 
 for (const p of points) {
+  if (!p.targetContract) {
+    results.push({
+      id: p.id,
+      valid: false,
+      invalidReasons: ['point-missing-targetContract'],
+    })
+    allValid = false
+    continue
+  }
   const src = readFileSync(targetPath, 'utf8')
   const count = src.split(p.find).length - 1
   if (count !== 1) {
@@ -201,69 +151,28 @@ for (const p of points) {
   const restoredSha = sha256(restoredBytes)
   const restored = runPhase(`${p.id}-restored`)
 
-  const reasons = []
-  if (!original.jsonSummary?.reporterFieldsPresent) reasons.push('original-missing-reporter-field')
-  if (original.parseError) reasons.push(`original-json-unparsable:${original.parseError}`)
-  if (!mutated.parseError && !mutated.jsonSummary?.reporterFieldsPresent)
-    reasons.push('red-missing-reporter-field')
-  if (mutated.parseError) reasons.push(`red-json-unparsable:${mutated.parseError}`)
-  if (restored.parseError) reasons.push(`restored-json-unparsable:${restored.parseError}`)
-  if (
-    original.jsonSummary &&
-    !(
-      original.jsonSummary.success &&
-      original.jsonSummary.numFailedTests === 0 &&
-      original.jsonSummary.numPendingTests === 0 &&
-      original.jsonSummary.numTotalTests > 0
-    )
-  )
-    reasons.push('original-not-green')
-  if (
-    mutated.jsonSummary &&
-    !(mutated.jsonSummary.success === false && mutated.jsonSummary.numFailedTests > 0)
-  )
-    reasons.push('red-not-red')
-  if (mutated.jsonSummary?.numPendingTests > 0) reasons.push('red-pending>0')
-  if ((mutated.jsonSummary?.numRuntimeErrorTestSuites.derivedFromSuiteStatuses ?? 0) > 0)
-    reasons.push('red-runtime-error')
-  if (mutated.jsonSummary && mutated.failedFullNames.length === 0)
-    reasons.push('red-no-failed-test')
-  if (
-    mutated.failedAssertionMessages.length > 0 &&
-    !mutated.failedAssertionMessages.some((f) =>
-      f.messages.some((m) => m.includes('AssertionError')),
-    )
-  )
-    reasons.push('red-no-business-assertion')
-  if (
-    restored.jsonSummary &&
-    !(
-      restored.jsonSummary.success &&
-      restored.jsonSummary.numFailedTests === 0 &&
-      restored.jsonSummary.numPendingTests === 0
-    )
-  )
-    reasons.push('restored-not-green')
-  if (restoredSha !== originalSha) reasons.push('restore-sha-mismatch')
-  if (original.identitySet.length === 0 || restored.identitySet.length === 0)
-    reasons.push('empty-identity-set')
-  if (
-    mutated.failedFullNames.length > 0 &&
-    !mutated.failedFullNames.every((f) => mutated.identitySet.includes(`${f} :: failed`))
-  )
-    reasons.push('red-identity-set-missing-failed')
-  if (
-    original.identitySet.length > 0 &&
-    restored.identitySet.length > 0 &&
-    JSON.stringify(original.identitySet) !== JSON.stringify(restored.identitySet)
-  )
-    reasons.push('green-identity-drift')
+  const verdictR2 = validateNeedleR2({
+    point: p,
+    original,
+    mutated,
+    restored,
+    targetShaOriginal: originalSha,
+    targetShaRestored: restoredSha,
+  })
+  // r1 旧判据只作并排记录(误收对照),不再作为门。
+  const verdictR1 = validateNeedleR1({
+    original,
+    mutated,
+    restored,
+    targetShaOriginal: originalSha,
+    targetShaRestored: restoredSha,
+  })
+  if (!verdictR2.valid) allValid = false
 
-  const valid = reasons.length === 0
-  if (!valid) allValid = false
   results.push({
     id: p.id,
     line: p.line,
+    targetContract: p.targetContract,
     intent: p.intent,
     carrier: p.carrier,
     find: p.find,
@@ -271,19 +180,22 @@ for (const p of points) {
     targetShaOriginal: originalSha,
     targetShaRestored: restoredSha,
     executions: { original, mutated, restored },
-    redFailedFullNames: mutated.failedFullNames,
-    redFailedAssertionExcerpts: mutated.failedAssertionMessages.map((f) => ({
+    redFailedAssertions: mutated.failedAssertions.map((f) => ({
+      file: f.file,
       fullName: f.fullName,
-      firstMessage: f.messages[0]?.split('\n')[0] ?? null,
+      firstMessage: f.failureMessages[0]?.split('\n')[0] ?? null,
     })),
-    valid,
-    invalidReasons: reasons,
+    verdictR2,
+    verdictR1RecordedForComparison: verdictR1,
+    valid: verdictR2.valid,
+    invalidReasons: verdictR2.invalidReasons,
   })
 }
 
 const finalBytes = readFileSync(targetPath)
 const report = {
   card: 'TEST-GLM-GAME-EVENT-CONTROL-FLOW-1',
+  criteriaRevision: 'r2 (Codex 一审返工;判据库 mutation-lib.mjs,自测 mutation-selftest.mjs)',
   generatedAt: new Date().toISOString(),
   targetFile: targetRel,
   testFile: cfg.testFile,
@@ -299,6 +211,6 @@ const report = {
 }
 writeFileSync(join(here, 'mutation-results.json'), `${JSON.stringify(report, null, 2)}\n`, 'utf8')
 console.log(
-  `mutation-results.json: ${report.summary.valid}/${report.summary.points} VALID, cleanupRestored=${report.cleanupProof.targetRestoredToOriginal}`,
+  `mutation-results.json: ${report.summary.valid}/${report.summary.points} VALID (r2 criteria), cleanupRestored=${report.cleanupProof.targetRestoredToOriginal}`,
 )
 process.exitCode = allValid ? 0 : 1

@@ -742,6 +742,12 @@
           },
           {
             "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "content-review-sha-refresh",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
