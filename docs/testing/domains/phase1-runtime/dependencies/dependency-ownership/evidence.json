@@ -14,7 +14,7 @@
       "lines": "33-40",
       "anchor": "export function patchGiveItemZeroBugs",
       "role": "owner",
-      "sha256": "15b8c7b86a9d2125198054a32305b4fb83ef8dff15ccde4865e5af2dc301606b"
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
     },
     {
       "path": "packages/game/src/core/inventory-state.ts",
@@ -56,7 +56,7 @@
       "lines": "26-45",
       "anchor": "describe('D1 shared-state ownership",
       "role": "oracle",
-      "sha256": "21ff3e7739eca1c54ce5d6000300cb82ee08ce8c8c44ddf11014226fb369bf1e"
+      "sha256": "6a514f7752e11dc9fabe9828c954688803060e041ea2898df1753dfc374423ed"
     },
     {
       "path": "packages/game/src/core/cross-module-boundaries.test.ts",

@@ -419,7 +419,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "当前审计与修复依据：这是 audit-report，当前文档状态为 current。全文 11 行、2 个标题；摘要/首段为「这里只放仍在被当前工作消费的审计台账。已归档报告见 archive/audits；文档治理的结果见任务总索引。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "当前审计与修复依据：这是 audit-report，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「这里只放仍在被当前工作消费的审计台账。已归档报告见 archive/audits；文档治理的结果见任务总索引。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
       "truthAnchors": ["docs/ops/audits/README.md:1", "1:当前审计与修复依据", "7:分类入口"],
       "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
@@ -429,7 +429,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
-      "afterSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
+      "afterSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
       "publicCallers": [
         "docs/ops/audits/README.md → ../README.md",
         "docs/ops/audits/README.md → architecture-debt.md",
@@ -452,7 +452,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
+        "implementationSha": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -461,6 +461,12 @@
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "full-text-structured-content-review-after-main-sync",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -468,7 +474,7 @@
         "kind": "content-reading",
         "path": "docs/ops/audits/README.md",
         "sourceSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
-        "lineCount": 11,
+        "lineCount": 12,
         "headings": [
           {
             "line": 1,
@@ -492,7 +498,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-11",
+      "reviewedLines": "1-12",
       "reviewNotes": "当前审计入口只消费未归档台账；历史审计必须留在 archive，不因整理升级为当前缺陷结论。"
     },
     {
@@ -504,7 +510,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "多 Agent 任务看板：这是 governance-index，当前文档状态为 draft。全文 23 行、2 个标题；摘要/首段为「当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "多 Agent 任务看板：这是 governance-index，当前文档状态为 draft。全文 22 行、2 个标题；摘要/首段为「当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
       "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
       "unresolved": [
         "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -523,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+      "afterSha256": "9f1ec52d9c6c9adef74200b537219cfb3c3aa9c42bd4719c0eff740d9222d3ea",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -554,7 +560,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+        "implementationSha": "9f1ec52d9c6c9adef74200b537219cfb3c3aa9c42bd4719c0eff740d9222d3ea",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -605,6 +611,12 @@
             "date": "2026-10-05",
             "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-05",
+            "action": "full-text-structured-content-review-after-main-sync",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -612,7 +624,7 @@
         "kind": "content-reading",
         "path": "docs/ops/board.md",
         "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-        "lineCount": 23,
+        "lineCount": 22,
         "headings": [
           {
             "line": 1,
@@ -633,7 +645,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1"
+        "afterSha256": "9f1ec52d9c6c9adef74200b537219cfb3c3aa9c42bd4719c0eff740d9222d3ea"
       },
       "history": [
         {
@@ -646,7 +658,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-20",
+      "reviewedLines": "1-22",
       "reviewNotes": "当前看板只保留非终态任务，状态必须与任务卡和索引一致；本次文档治理卡仍是 build，不能因机器清单而提前关闭。"
     },
     {
@@ -1339,19 +1351,19 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "任务卡索引：这是 task-card，当前文档状态为 draft。全文 318 行、4 个标题；摘要/首段为「由 `node scripts/docs/check.mjs --print-task-index` 生成；只读取每张卡顶部状态。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "任务卡索引：这是 task-card，当前文档状态为 draft。全文 358 行、4 个标题；摘要/首段为「由 `node scripts/docs/check.mjs --print-task-index` 生成；只读取每张卡顶部状态。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "1:任务卡索引",
         "7:活动任务",
         "21:已完成（historical）",
-        "307:已取消（superseded / historical）"
+        "349:已取消（superseded / historical）"
       ],
       "unresolved": [
-        "正文信号 154:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
-        "正文信号 157:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
-        "正文信号 307:## 已取消（superseded / historical）",
-        "正文信号 316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
+        "正文信号 181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
+        "正文信号 184:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
+        "正文信号 349:## 已取消（superseded / historical）",
+        "正文信号 358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
       ],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
@@ -1360,7 +1372,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "b3f20a11a3bab0df9fe95fe12bd3361195429e338a5001757f5bb79e47b9cf5a",
+      "afterSha256": "893ef7529e4cdb1a9299599336050cd1166b7984c6312ff45bb71ce88b7093c6",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1396,7 +1408,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "b3f20a11a3bab0df9fe95fe12bd3361195429e338a5001757f5bb79e47b9cf5a",
+        "implementationSha": "893ef7529e4cdb1a9299599336050cd1166b7984c6312ff45bb71ce88b7093c6",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1454,7 +1466,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 318,
+        "lineCount": 358,
         "headings": [
           {
             "line": 1,
@@ -1469,17 +1481,17 @@
             "text": "已完成（historical）"
           },
           {
-            "line": 307,
+            "line": 349,
             "text": "已取消（superseded / historical）"
           }
         ],
         "unresolvedSignals": [
-          "154:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
-          "157:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
-          "307:## 已取消（superseded / historical）",
-          "316:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |"
+          "181:| [EDITOR-LEAVE-GUARD-1 - 未保存修改的离开保护](../archive/tasks/done/EDITOR-LEAVE-GUARD-1-unsaved-project-changes.md) | done | 完成证据、历史签字与交接见原卡。 |",
+          "184:| [EDITOR-SAVE-CONFLICT-1 - 编辑器旧快照保存冲突保护](../archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md) | done | 完成证据、历史签字与交接见原卡。 |",
+          "349:## 已取消（superseded / historical）",
+          "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "b3f20a11a3bab0df9fe95fe12bd3361195429e338a5001757f5bb79e47b9cf5a"
+        "afterSha256": "893ef7529e4cdb1a9299599336050cd1166b7984c6312ff45bb71ce88b7093c6"
       },
       "history": [
         {
@@ -1487,12 +1499,18 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "read-and-reviewed-after-main-sync",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-317",
+      "reviewedLines": "1-358",
       "reviewNotes": "任务索引由检查器按卡片顶部状态生成，历史终态说明不改变当前责任；索引本身不是完成证据。"
     },
     {
