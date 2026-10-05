@@ -27,7 +27,58 @@ Visual Verification Timing: dev-functional
 - 反控为绿→指定业务红→恢复绿，恰一业务 AssertionError，保留 JSON/raw/exit/执行集/源/变异/恢复 hash 与 mkdtemp/finally 清理证明。
 - 定向/相邻 Reforge 测试、typecheck、lint 0/0/0、docs、`git diff --check` 通过；不设例数或覆盖率门槛。审计后若无合法新合同，提交饱和档案，不堆弱测。
 
-## 下一位 Agent 提示词
+## GLM 交付回执（r1，2026-10-05，待 Codex 独立验收）
+
+- 分支/基线：`codex/glm-reforge-motion-transition-r1`，基于 `origin/main` `7a9157ac5`；产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试、反控脚本、证据、导航行与 stamp 机械刷新）。
+- 排重结论：8 文件逐轴账见 [dedup-ledger.md](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md)。
+  7 文件全轴 existing-proof 饱和（collision 6 轴、scene-transition 4 轴、scene-entry-session 6 轴、
+  scene-switch-transaction 6 轴、runtime-input-router 9 轴、async-intent 5 轴、entity-motion 全域——
+  卡面重点轴 reservation/terrain/fairness、scene commit-abort-old-world isolation、input lock/latest
+  intent 均旧测已证，与归档 world-lifecycle 卡同判一致）；`world-motion-runtime.ts` 存在 3 条真残余
+  合同，为本卡唯一新增测试文件 `packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts`：
+  - MT-CADENCE-CLAMP-1: 停顿帧（dt≥2×stepMs）真积压被钳掉——一帧至多一拍、丢弃余数不结转成下一帧
+    提前拍（main.ts 走位环「DM31 永不补帧」注释锚；旧测最大非冻结 dt=stepMs 未触达钳行）；
+  - MT-PARTY-COMPLETE-STALE-1: 被替换旧 party 走位槽迟到完成不唤醒新等待者（身份守卫），当前槽
+    照常兑现（可达性注记：宿主同步窗现不产生陈旧引用，按 DT-FIRE-DROP-1 先例钉模块公开 API
+    所有权承诺，见 ledger）；
+  - MT-PARTY-RESOLVE-RELEASE-1: abortScript（main.ts:4568 读档/dev 强停）收口以 fulfilled 兑现
+    在途走位并清槽、迟到 abort 不二次结算（全仓旧测对该行为零覆盖，仅 chain 测试 empty mock）。
+- U 账 4 条：四注册入口尾部 `if (signal.aborted) abort()` 防御臂（同步构造窗内 throwIfAborted
+  已先行拒绝，合法输入不可达），不为过门伪造输入。
+- 反控：3/3 针 VALID（[counterproof.json](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json)，
+  `node packages/reforge/scripts/mt1-mutation-counterproof.mjs` 可再生）。执行集 = reforge 全量套件
+  （无 `-t` 过滤，免疫零匹配假绿）：baseline 8767/8767 绿；每针红相位 exit 1、全包恰 1 failed 且为
+  指定业务 AssertionError；字节恢复后全量 8767/8767 复绿；四态 sha256（orig/mut/restored/rebuilt）
+  逐针入账，orig==restored==rebuilt 且等于当前源；红相位 try/finally 强制恢复 + 脚本内 mkdtemp
+  finally 清理。
+- 门禁（raw 见 [gates/](../evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/)）：定向 3/3；相邻 21 文件
+  192/192（motion/scene/input 家族 + main.scene-flows/main.entity-host-flows）；typecheck exit 0；
+  全仓 lint 3416 文件 0/0/0；`check:docs` PASS 0 issues；`check-content-review --strict` PASS
+  （board/index/evidence-README 三处基线自带 after-SHA drift 按 8494b465c 先例机械刷新：仅
+  afterSha256/implementationSha 对齐 + append-only history，无评审结论改动）；`git diff --check` 干净。
+- 判例：`pnpm --filter` 递归形态在红相位（exit≠0）会把 ERR_PNPM banner 追加进 stdout 污染 json
+  reporter，反控驱动必须用 cwd=pkgRoot 裸 `pnpm exec`；反控驱动运行期间不得并发编辑任何 tracked
+  交付文件（clean 前置检查会拦截自己的交付改动）。
+- 覆盖率/例数未设门槛、未计量；不标 done，等待 Codex 独立验收。
+
+## 下一位 Agent 提示词（Codex 独立验收）
+
+```text
+你是 TEST-GLM-REFORGE-MOTION-TRANSITION-1 的独立验收方（Codex）。先读本卡「GLM 交付回执（r1）」与
+docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/（README/dedup-ledger/counterproof.json +
+counterproof-raw/ + gates/），在 codex/glm-reforge-motion-transition-r1（基 7a9157ac5）上复核：
+1) 抽查 dedup-ledger 的 7 文件 existing-proof 锚与 U 账论证（重点：entity-motion reservation/fairness
+   饱和判定、async-intent 与 world-lifecycle AI-CAPTURE-1 的边界、U-1~U-4 同步窗论证）；
+2) 核 3 条新合同的 caller/oracle 与可达性注记（MT-PARTY-COMPLETE-STALE-1 的模块级交付是否按
+   DT-FIRE-DROP-1 先例成立）；
+3) 复跑 node packages/reforge/scripts/mt1-mutation-counterproof.mjs（应 3/3 PASS 且源恢复）、
+   定向与相邻 21 文件、pnpm --filter @type-pal/reforge run typecheck、pnpm lint、
+   node scripts/docs/check.mjs、node scripts/docs/check-content-review.mjs --strict、git diff --check；
+4) 核 stamp 机械刷新 diff 仅 afterSha256/implementationSha + append-only history。
+裁决 accept/counter/rework；未验收前不合 main、不标 done。
+```
+
+## 下一位 Agent 提示词（dispatch 原文，历史保留）
 
 ```text
 你是 TEST-GLM-REFORGE-MOTION-TRANSITION-1 的 Coding Owner（GLM）。先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/reference/phase1-knowledge-harvest.md、本卡，以及已归档 TEST-GLM-REFORGE-WORLD-LIFECYCLE-1、HOST-LIFECYCLE、RUNTIME-SESSION、BATTLE-FLOW、ASSET-RESOLVER、AUDIO-LIFECYCLE 卡。
