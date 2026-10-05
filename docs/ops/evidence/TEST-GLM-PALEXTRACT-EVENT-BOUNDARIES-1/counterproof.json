@@ -1,0 +1,86 @@
+{
+  "tempTree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/palextract-boundaries-counterproof-AQpUb0",
+  "phases": {
+    "greenBaseline": {
+      "exit": 0,
+      "signal": null,
+      "sha": "f3ccc06ae87d1d245b413e0f9cc247a8d3a54ebdd14987397ec6f35496b243f0",
+      "testsLine": "2 passed (2)",
+      "failedLine": "",
+      "firstFailure": "",
+      "raw": "mutation-logs/green-baseline.raw"
+    },
+    "finalReplay": {
+      "exit": 0,
+      "signal": null,
+      "sha": "420ba8ede4d70c36e639d3be289bd4c13a802ab76f7fe38a69d426b6afc63f88",
+      "testsLine": "2 passed (2)",
+      "failedLine": "",
+      "firstFailure": "",
+      "raw": "mutation-logs/final-replay.raw"
+    }
+  },
+  "needles": [
+    {
+      "id": "N1-name-pointer-clamped",
+      "mutation": "player-roles.ts 名称指针下限钳 0 → 0 哨兵缺省 role 错取 persons[0] 当名（越表尾不受此钳影响）",
+      "expectedFailure": "roles[1]._name 由 undefined 变 李逍遥（_name 映射数组 toEqual 首失）",
+      "file": "src/resources/parsers/player-roles.ts",
+      "productHashes": {
+        "original": "15451b160af99d81ecebc8794184ee5d915c2b9271b8551c157a4f857d006d75",
+        "mutated": "a08dd18752926629edc3b25e8fbcb4c13550d1d23a9885dc6fc873e107eeab4e",
+        "restored": "15451b160af99d81ecebc8794184ee5d915c2b9271b8551c157a4f857d006d75"
+      },
+      "hashRestoredEqualsOriginal": true,
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "testsLine": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected [ '李逍遥', '李逍遥', '林月如', '巫后', …(2) ] to deeply equal [ '李逍遥', undefined, '林月如', '巫后', …(2) ]",
+        "raw": "mutation-logs/N1-name-pointer-clamped.red.raw",
+        "sha": "313e2db4a20d7f9e5a3922c70987ddb1aa6f0a459efb347e98c2a0a2c58dcba7"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "testsLine": "1 passed | 1 skipped (2)",
+        "raw": "mutation-logs/N1-name-pointer-clamped.green.raw",
+        "sha": "6eaf9f180d4e76bf115fce48480fa64d75efd609cfa3ce091a9c930fda77ec6a"
+      }
+    },
+    {
+      "id": "N2-elem-water-earth-transposed",
+      "mutation": "player-roles.ts elemResistance 手写键字面量 water↔earth 行互换",
+      "expectedFailure": "roles[0].elemResistance 变 {water:50, earth:30}（toEqual 首失）",
+      "file": "src/resources/parsers/player-roles.ts",
+      "productHashes": {
+        "original": "15451b160af99d81ecebc8794184ee5d915c2b9271b8551c157a4f857d006d75",
+        "mutated": "bc39ca89f74d192e2aa1fa57447c6d73ba5c0f1a1199fc8a35bb591620ca8c3b",
+        "restored": "15451b160af99d81ecebc8794184ee5d915c2b9271b8551c157a4f857d006d75"
+      },
+      "hashRestoredEqualsOriginal": true,
+      "red": {
+        "exit": 1,
+        "signal": null,
+        "testsLine": "1 failed | 1 skipped (2)",
+        "firstFailure": "AssertionError: expected { wind: +0, thunder: +0, …(3) } to deeply equal { wind: +0, thunder: +0, …(3) }",
+        "raw": "mutation-logs/N2-elem-water-earth-transposed.red.raw",
+        "sha": "14399ffe6f5a52269969bf63a65b43d251aab417280af63b536661bf09866a67"
+      },
+      "restoredGreen": {
+        "exit": 0,
+        "testsLine": "1 passed | 1 skipped (2)",
+        "raw": "mutation-logs/N2-elem-water-earth-transposed.green.raw",
+        "sha": "3b61651b83fd61975be68499d1e5f832f3025f8b8e7e6b54114a39d2aaaca035"
+      }
+    }
+  ],
+  "cleanup": {
+    "porcelainAfterRestore": "?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/\n?? packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+    "tempTree": {
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/palextract-boundaries-counterproof-AQpUb0",
+      "existedBeforeRemoval": true,
+      "removed": true
+    }
+  },
+  "allPhasesValid": true
+}

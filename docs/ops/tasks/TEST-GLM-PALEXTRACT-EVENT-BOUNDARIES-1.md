@@ -37,3 +37,12 @@ Visual Verification Timing: N/A
 只写本卡测试、合法 fixture、证据与回执；禁止产品/旧测/config/baseline/真实数据改动，禁止强转、skip、ignore、扩 timeout、恒真断言。新增针必须绿→指定业务红→恢复绿、恰一业务 AssertionError、完整执行集/hash/清理证明；无新合同就交饱和档案。
 交付定向/相邻测试、typecheck、lint 0/0/0、docs、git diff --check 和完整 SHA。覆盖率/例数不是完成条件，不得标 done，等待 Codex 独立验收。
 ```
+
+## GLM r1 交付记录（2026-10-05，分支 codex/glm-palextract-event-boundaries-r1）
+
+- 排重账：范围内 7 文件逐分支账见 [证据 dedup-ledger.md](../evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md)。events 五文件（annotate/disasm/recompile/slice/roundtrip）与 scene.ts 全轴 `existing-proof / unreachable / blocked`：Kimi R1 与 R06/R04/C2 已覆盖卡面示例轴（具名 raw fallback、unsupported op、末场景/缺对象、chunk 尺寸门），其余未覆盖分支经一手 branch 测量复核为合法 typed 输入不可达（emitRawFallback `??0`、findOpcodeByName、roundtrip 长度分支、slice 两处 `??0`、annotate 三条无载体规则、player-roles cursor 门、dumpAllEventObjects `!scene`——parseSss 恒密集）或 recompile authored-缺省字段政策未定（沿 R04「不为其新增正确绿测」登记，不造绿）。
+- 新合同 2 条（均 player-roles 公开 parser 边界，卡面「名称缺省」轴）：PR-NAME-BOUNDARY-1（rgwName 0 哨兵/越表尾 fail-soft 缺省 + 3/4 对调不受污染）、PR-ELEM-ORDER-1（elemResistance 手写键字面量 water/earth 两键行列判别补全——C2 只判别 3/5 键，water↔earth 互换既有测试不可检）。
+- 反控 2/2 针 VALID（四态 raw + 产品文件原始/变异/恢复 sha256 + mkdtemp 临时树清理证明）：N1 名称指针下限钳 0、N2 water↔earth 键互换；各针红相位 exit 1、恰 1 业务 AssertionError、还原字节=原始、还原绿。
+- 门：定向 2/2、相邻 20 文件 206/206、pal-extract 全包 69 文件 417/417、typecheck exit 0、全仓 lint 0/0/0、check:docs PASS、git diff --check 干净；门 raw 见证据目录。
+- 范围外披露（main 既有，未改动）：rng-frames「全 12 chunk」在 --coverage 全量仪表下超 30s（无 coverage 7.31s/全包 417/417 通过）；board.md/tasks/index.md content-review pin drift（main 7a9157ac5 未刷）按「三 pin drift 随卡修复」判例外科刷新 `20261004-semantic-current-batch.json` 三处 sha + history 头插，不动文档语义。
+- 未标 done；下一步 = Codex 独立验收（反控可经 run-counterproof.mjs 重放）。

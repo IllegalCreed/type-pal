@@ -1,0 +1,37 @@
+{
+  "card": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1",
+  "branch": "codex/glm-palextract-event-boundaries-r1",
+  "owner": "GLM",
+  "generatedAt": "2026-10-05",
+  "contracts": [
+    {
+      "id": "PR-NAME-BOUNDARY-1",
+      "source": "packages/pal-extract/src/resources/parsers/player-roles.ts:265-271",
+      "publicCaller": "parsePlayerRoles(dataMkfBytes, words) — cli.ts:346",
+      "legalInput": "900B DATA.MKF chunk3（rgwName 行 [36,0,38,40,39,41]）+ words.persons 5 词（指针 41→idx5 越表尾）",
+      "businessOracle": "表内命中按指针权威取名（3/4 对调不写反）；0 哨兵与越表尾 role 的 _name 键不存在（fail-soft），不抛、不错取他人名、不污染游标走行（level 照常）",
+      "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 > rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+      "dedup": "C2 反查针全指针在表内全命中；tables 真实数据全命中；no-words 走 words?. 短路——缺省路径无任何既有断言",
+      "needle": {
+        "id": "N1-name-pointer-clamped",
+        "mutation": "personIdx 下限钳 0（Math.max(0, ...)）→ 0 哨兵错取 persons[0]",
+        "firstFailure": "AssertionError: expected [ '李逍遥', '李逍遥', '林月如', '巫后', …(2) ] to deeply equal […]"
+      }
+    },
+    {
+      "id": "PR-ELEM-ORDER-1",
+      "source": "packages/pal-extract/src/resources/parsers/player-roles.ts:159-165,237-243",
+      "publicCaller": "parsePlayerRoles(dataMkfBytes) — cli.ts:346",
+      "legalInput": "900B DATA.MKF chunk3（elemWater row25 r0=30/r3=31、elemEarth row27 r0=50/r3=51）",
+      "businessOracle": "elemResistance 手写键字面量 5 键全判别：water=elemResRows[2]、earth=elemResRows[4]，行×列双轴 toEqual 全对象（含未写键为零）",
+      "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 > elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+      "dedup": "C2 只判别 wind(r0)/thunder(r1)/fire(r2) 三键且 water 断言的是未写默认 0；tables 真实数据仅 toHaveProperty——water↔earth 互换在既有测试下不可检",
+      "needle": {
+        "id": "N2-elem-water-earth-transposed",
+        "mutation": "键字面量 water↔earth 行互换（[2]↔[4]）",
+        "firstFailure": "AssertionError: expected { wind: +0, thunder: +0, …(3) } to deeply equal …"
+      }
+    }
+  ],
+  "notNewRationale": "events/annotate(3 unreachable)/disasm(3 unreachable)/recompile(3 blocked + 其余 existing-proof)/roundtrip(2 unreachable)/slice(2 unreachable)/scene(1 unreachable) 全轴见 dedup-ledger.md；不换数字重测、不为未定政策造绿测、不造恒真。"
+}
