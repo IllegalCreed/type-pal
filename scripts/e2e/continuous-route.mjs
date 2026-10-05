@@ -56,3 +56,8 @@ export function receiptRouteTargets(report) {
   }
   return targets
 }
+
+/** Standalone post-boundary settlements are not authoritative in continuous mode. */
+export function shouldAwaitContinuousSettlement(target) {
+  return Boolean(target?.settled) && !(target.effect && target.startScene !== target.scene)
+}

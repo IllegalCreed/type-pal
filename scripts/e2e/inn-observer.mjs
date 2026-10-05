@@ -195,8 +195,38 @@ export function installInnObserver() {
     structuredClone({ events, pages, restoreCommits, errors, overflow, sources, final })
 }
 
+export function gameRouteActors(npcs = [], allEventObjects = []) {
+  const hiddenNpcIds = new Set(
+    allEventObjects
+      .filter((e) => !(e.sState > 0) || (e.sVanishTime ?? 0) !== 0)
+      .map((e) => e.id),
+  )
+  return npcs
+    .filter(
+      (e) =>
+        e.sState >= 2 &&
+        (e.sVanishTime ?? 0) === 0 &&
+        !hiddenNpcIds.has(e.id),
+    )
+    .map((e) => ({
+      col: (e.x / 16 + e.y / 8) / 2,
+      row: (e.y / 8 - e.x / 16) / 2,
+      collide: true,
+    }))
+}
+
 export function readInnGame() {
   const gs = window.__tpgs
+  const hiddenNpcIds = new Set(
+    (gs?.allEventObjects ?? [])
+      .filter((e) => !(e.sState > 0) || (e.sVanishTime ?? 0) !== 0)
+      .map((e) => e.id),
+  )
+  const hiddenNpcPositions = new Set(
+    (gs?.allEventObjects ?? [])
+      .filter((e) => [59, 60, 61].includes(e.id) && !(e.sState > 0))
+      .map((e) => `${e.x}:${e.y}`),
+  )
   return {
     ready: !!gs,
     scene: gs?.wNumScene,
@@ -233,7 +263,13 @@ export function readInnGame() {
         .map((e) => ({ id: `e${e.id}`, visible: e.sState > 0 })) ?? [],
     routeActors:
       gs?.npcs
-        ?.filter((e) => e.sState >= 2)
+        ?.filter(
+          (e) =>
+            e.sState >= 2 &&
+            (e.sVanishTime ?? 0) === 0 &&
+            !hiddenNpcIds.has(e.id) &&
+            !hiddenNpcPositions.has(`${e.x}:${e.y}`),
+        )
         .map((e) => ({
           col: (e.x / 16 + e.y / 8) / 2,
           row: (e.y / 8 - e.x / 16) / 2,

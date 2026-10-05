@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { continuousRouteReached, receiptRouteTargets } from './continuous-route.mjs'
+import {
+  continuousRouteReached,
+  receiptRouteTargets,
+  shouldAwaitContinuousSettlement,
+} from './continuous-route.mjs'
 
 test('a route cannot finish one cell early or confuse first-stage height with tile coordinates', () => {
   const target = { scene: 's003', position: [1200, 1336, 0] }
@@ -54,5 +58,26 @@ test('input release is separated from the scripted staircase settlement, without
   assert.throws(
     () => receiptRouteTargets({ route: { inputs: [receipt.route.inputs[0]] } }),
     /missing key release/,
+  )
+})
+
+test('cross-scene settlements hand off at the live scene barrier instead of reusing standalone post-load coordinates', () => {
+  assert.equal(
+    shouldAwaitContinuousSettlement({
+      effect: true,
+      startScene: 's001',
+      scene: 's003',
+      settled: { scene: 's003', position: [126, 45] },
+    }),
+    false,
+  )
+  assert.equal(
+    shouldAwaitContinuousSettlement({
+      effect: true,
+      startScene: 's003',
+      scene: 's003',
+      settled: { scene: 's003', position: [131, 52] },
+    }),
+    true,
   )
 })

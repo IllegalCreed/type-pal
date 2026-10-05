@@ -7,6 +7,7 @@ import { assertContinuousCheckpoint, CONTINUOUS_STORY_FRAGMENTS } from './contin
 import { navigateInnRoute } from './inn-navigation.mjs'
 import { readInnGame, readInnReforge } from './inn-observer.mjs'
 import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
+import { shouldAwaitContinuousSettlement } from './continuous-route.mjs'
 
 const args = process.argv.slice(2),
   engine = args.includes('--reforge') ? 'reforge' : 'game',
@@ -92,11 +93,17 @@ const routeTargetReached = (state, target) => {
         : null
   if (!Array.isArray(actual) || actual.length < target.position.length) return false
   // A standalone receipt records the last committed cell, but a continuous
-  // page may enter the same semantic leg with background NPCs one cell apart.
-  // Keep long legs exact; short one/two-step transitions use a bounded local
-  // neighborhood and still require the scene/control barrier below.
+  // page may enter a long semantic leg with background NPCs one cell apart.
+  // Short legs and turns must stay within half a cell or the next direction
+  // starts from the wrong corner and can deadlock the live route.
   const tolerance =
-    engine === 'game' ? (target.effect ? 8 : 24) : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
+    engine === 'game'
+      ? target.effect
+        ? 8
+        : (target.committedSteps ?? 0) <= 5
+          ? 8
+          : 24
+      : 0.2
   return (
     Math.hypot(
       ...target.position.slice(0, 2).map((value, index) => Number(actual[index]) - Number(value)),
@@ -142,16 +149,21 @@ const driveRouteTarget = async (action, _entry, until, health) => {
   if (target.inputKey) {
     await page.keyboard.down(target.inputKey)
     try {
+      const inputGoal = shouldAwaitContinuousSettlement(target) ? target.settled : target
       await until(
         read,
-        (next) => routeTargetReached(next, target) || hasDialogue(next),
+        (next) => routeTargetReached(next, inputGoal) || hasDialogue(next),
         `continuous held route ${target.inputKey}`,
         30000,
       )
     } finally {
       await page.keyboard.up(target.inputKey)
     }
-    if (target.settled) {
+    // A standalone receipt's settled point is captured after its save/load
+    // boundary. Continuous mode keeps the live scene entry state instead, so
+    // a cross-scene route must hand off at the new scene/control barrier and
+    // let the next semantic leg route from that real in-memory position.
+    if (shouldAwaitContinuousSettlement(target)) {
       await until(
         read,
         (next) => routeTargetReached(next, target.settled),
