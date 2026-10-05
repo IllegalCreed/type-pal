@@ -1,0 +1,141 @@
+
+> @type-pal/migrate@0.0.0 test /Users/zhangxu/illegal/type-pal/packages/migrate
+> vitest run --config vitest.config.ts
+
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/migrate
+
+ ✓ |unit| src/pal-assets.glm-o.test.ts (37 tests) 6935ms
+     ✓ 合法合成语料通过全部 census 并产出 378 个登记项  448ms
+     ✓ 调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝  1756ms
+     ✓ 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝  1300ms
+     ✓ portraits manifest count 非正整数 → 精确诊断  619ms
+     ✓ items 数量/零哨兵漂移 → 物品图标哨兵诊断  2064ms
+     ✓ 零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）  592ms
+ ✓ |unit| src/pal-assets.test.ts (16 tests) 9061ms
+     ✓ 全 636 源逐文件物化 byte-exact，二次物化零写入  6361ms
+     ✓ 全 172 源逐文件物化 byte-exact，二次物化零写入  1958ms
+ ✓ |unit| src/pal-assets.palette.test.ts (11 tests) 1052ms
+ ✓ |unit| src/dialogue-project.test.ts (2 tests) 1046ms
+     ✓ 所有 dialog 只使用 cue.rows，引用文本清洁且富文本平衡  1043ms
+ ✓ |unit| src/pal-assets-loaders.kimi-r1.test.ts (23 tests) 816ms
+ ✓ |unit| src/migrate-content-script.kimi-r1.test.ts (3 tests) 5815ms
+   ✓ KIMI-R1 migrate-content --help：usage + exit 0  3368ms
+   ✓ KIMI-R1 migrate-content 未知参数：精确诊断 + 非零退出  1229ms
+   ✓ KIMI-R1 migrate-content 未知参数混入 --write：仍按未知参数拒绝  1217ms
+ ✓ |unit| src/pal-assets.items.test.ts (8 tests) 873ms
+ ✓ |unit| src/pal-assets.backgrounds.test.ts (6 tests) 784ms
+ ✓ |unit| src/pal-assets.portraits.test.ts (7 tests) 659ms
+ ✓ |unit| src/pal-migrate-asset-supply.glm-r1.test.ts (15 tests) 556ms
+ ✓ |unit| src/pal-map-name-boundary.test.ts (2 tests) 466ms
+     ✓ only the phase1 wrapper and migration producer/test consume the authored fixture  395ms
+ ✓ |unit| src/pal-source-io.guards.test.ts (5 tests) 552ms
+ ✓ |unit| src/migration-transaction.test.ts (8 tests) 216ms
+ ✓ |unit| src/migration-write-guard.test.ts (13 tests) 172ms
+ ✓ |unit| src/current-only-product-boundary.test.ts (21 tests) 218ms
+ ✓ |unit| src/migration-write-plan.glm-o.test.ts (14 tests) 218ms
+ ✓ |unit| src/pal-assets.ownership.test.ts (21 tests) 239ms
+ ✓ |unit| src/pal-world-sprite-identity-boundary.test.ts (1 test) 72ms
+ ✓ |unit| src/migration-transaction.boundaries.test.ts (2 tests) 173ms
+ ✓ |unit| src/pal-current-publication.glm-o.test.ts (37 tests) 159ms
+ ✓ |unit| src/migration-transaction.glm-o.test.ts (29 tests) 110ms
+ ✓ |unit| src/pal-assets-paths.test.ts (14 tests) 55ms
+ ✓ |unit| src/pal-content-supply.glm-o.test.ts (10 tests) 52ms
+ ✓ |unit| src/pal-assets.sound-closure.test.ts (13 tests) 50ms
+ ✓ |unit| src/pal-assets.sound-metadata.test.ts (12 tests) 40ms
+ ✓ |unit| src/migration-write-plan.test.ts (12 tests) 40ms
+ ✓ |unit| src/migration-transaction.kimi-r1.test.ts (6 tests) 33ms
+ ✓ |unit| src/pal-assets.retirements.test.ts (6 tests) 32ms
+ ✓ |unit| src/pal-assets-materialize.kimi-r1.test.ts (2 tests) 16ms
+ ✓ |unit| src/engine-chrome-assets.test.ts (2 tests) 16ms
+ ✓ |unit| src/scene-entry-product.test.ts (4 tests) 17ms
+ ✓ |unit| src/migration-baseline.glm-next-wave.test.ts (6 tests) 15ms
+ ✓ |unit| src/pal-item-scheme-labels.test.ts (7 tests) 10ms
+ ✓ |unit| src/migration-project-io.test.ts (6 tests) 17ms
+ ✓ |unit| src/migration-write-plan.boundaries.test.ts (2 tests) 11ms
+ ✓ |unit| src/migration-path.test.ts (9 tests) 9ms
+ ✓ |unit| src/migration-project-io.boundaries.test.ts (3 tests) 10ms
+ ✓ |unit| src/pal-item-scheme-labels.kimi-r1.test.ts (4 tests) 11ms
+ ✓ |unit| src/migration-plan.test.ts (15 tests) 9ms
+ ✓ |unit| src/migration-project-io.glm-o.test.ts (8 tests) 8ms
+ ✓ |unit| src/migration-merge.test.ts (22 tests) 8ms
+ ✓ |unit| src/pal-supply-guards.glm-o.test.ts (27 tests) 8ms
+ ✓ |unit| src/pal-current-publication.glm-next-wave.test.ts (4 tests) 9ms
+ ✓ |unit| src/migration-merge.glm-o.test.ts (28 tests) 12ms
+ ✓ |unit| src/pal-item-scheme-labels.boundaries.test.ts (4 tests) 6ms
+ ✓ |unit| src/migration-plan.glm-o.test.ts (12 tests) 9ms
+ ✓ |unit| src/migration-baseline.test.ts (4 tests) 8ms
+ ✓ |unit| src/migration-plan.boundaries.test.ts (8 tests) 7ms
+ ✓ |unit| src/script-conversion-retirement.test.ts (3 tests) 8ms
+ ✓ |unit| src/migration-baseline-pure.boundaries.test.ts (8 tests) 4ms
+ ✓ |unit| src/pal-world-sprite-layouts.test.ts (3 tests) 9ms
+ ✓ |unit| src/pal-item-message-source.test.ts (6 tests) 4ms
+ ✓ |unit| src/world-sprite-layout-registry.test.ts (11 tests) 5ms
+ ✓ |unit| src/pal-world-sprites.glm-o.test.ts (13 tests) 6ms
+ ✓ |unit| src/migration-merge.boundaries.test.ts (8 tests) 6ms
+ ✓ |unit| src/migration-merge.kimi-r1.test.ts (10 tests) 5ms
+ ✓ |unit| src/migration-project-io.glm-next-wave.test.ts (3 tests) 6ms
+ ✓ |unit| src/shop-author-merge.test.ts (5 tests) 5ms
+ ✓ |unit| src/pal-casualty-scripts.wave2.test.ts (9 tests) 5ms
+ ✓ |unit| src/pal-world-sprite-semantic-alias.test.ts (4 tests) 5ms
+ ✓ |unit| src/pal-role-mapping.test.ts (4 tests) 4ms
+ ✓ |unit| src/migration-write-plan.glm-next-wave.test.ts (4 tests) 5ms
+ ✓ |unit| src/pal-store-boundary.test.ts (11 tests) 5ms
+ ✓ |unit| src/pal-authored-overlays.test.ts (7 tests) 4ms
+ ✓ |unit| src/project-map-converter.test.ts (5 tests) 5ms
+ ✓ |unit| src/project-map-converter.boundaries.test.ts (4 tests) 6ms
+ ✓ |unit| src/demo-project.test.ts (4 tests) 4ms
+ ✓ |unit| src/pal-store-boundary.boundaries.test.ts (3 tests) 5ms
+ ✓ |unit| src/pal-manifest.test.ts (2 tests) 7ms
+ ✓ |unit| src/pal-world-sprite-registry.test.ts (4 tests) 3ms
+ ✓ |unit| src/sound-migration.glm-next-wave.test.ts (3 tests) 3ms
+ ✓ |unit| src/pal-world-sprite-registry.kimi-r1.test.ts (5 tests) 3ms
+ ✓ |unit| src/pal-authored-overlays.boundaries.test.ts (2 tests) 3ms
+ ✓ |unit| src/pal-casualty-scripts.test.ts (5 tests) 5ms
+ ✓ |unit| src/pal-inparty-actor-id-invariant.test.ts (3 tests) 2ms
+ ✓ |unit| src/pal-scene-index.test.ts (2 tests) 2ms
+ ✓ |unit| src/pal-battle-sprites.glm-runtime-resource.test.ts (1 test) 2ms
+ ✓ |unit| src/pal-derived-content.test.ts (1 test) 2ms
+ ✓ |unit| src/pal-sound-assets.test.ts (2 tests) 3ms
+ ✓ |unit| src/pal-assets.glm-next-wave.test.ts (4 tests) 3ms
+ ✓ |unit| src/project-map-converter.glm-runtime-resource.test.ts (1 test) 2ms
+ ✓ |unit| src/bake-indexed-rgba.test.ts (3 tests) 2ms
+ ✓ |unit| src/pal-sprite-report.fast.test.ts (2 tests) 2ms
+ ✓ |unit| src/pal-project.test.ts (1 test) 2ms
+ ✓ |unit| src/source-facts.boundaries.test.ts (1 test) 1ms
+ ✓ |pal| src/pal-current-publication.pal.test.ts (4 tests) 127485ms
+     ✓ publishes merged author scheme names without regenerating them, while rejecting broken item roots  37224ms
+     ✓ accepts merged author shop lifecycle and command changes, retaining the pure generated baseline  39755ms
+     ✓ publishes the current baseline and raw-owned partitions directly as content22/SAVE11  29376ms
+     ✓ rejects invalid poison definitions before publishing a current project  21128ms
+ ✓ |pal| src/pal-content-supply-io.pal.test.ts (13 tests) 59653ms
+     ✓ loads and publishes without skills, enemy AI or scene event inputs, while full modules throw  16897ms
+     ✓ fails when required real source input data/object-players.json is absent  9488ms
+     ✓ fails when required real source input data/music-manifest.json is absent  412ms
+     ✓ fails when required real source input data/stores.json is absent  9257ms
+     ✓ fails when required real source input data/palette is absent  370ms
+     ✓ fails when required real source input asset-manifest.json is absent  8619ms
+     ✓ proves native Node runtime reachability excludes every complete conversion entry  14473ms
+ ✓ |pal| src/pal-content-supply.pal.test.ts (4 tests) 60210ms
+     ✓ matches the current required resource contract, raw scene ids and role-domain definitions  1615ms
+     ✓ does not mutate sources or baseline and stops on map, alias, role, callback and message drift  21658ms
+     ✓ commits only in an isolated repository and replays the same supply with zero changes  18144ms
+     ✓ does not overwrite author changes when both generated and author sides differ from base  6228ms
+ ✓ |pal| src/pal-map-names.pal.test.ts (1 test) 12749ms
+     ✓ closes authored, playable, physical, fallback, and dynamic-map domains exactly  12748ms
+ ✓ |pal| src/pal-store-boundary.pal.test.ts (1 test) 9634ms
+     ✓ protects source-owned inventory and alchemy while retaining current author shop commands  9633ms
+ ✓ |pal| src/pal-item-scheme-labels.pal.test.ts (2 tests) 776ms
+     ✓ canonical baseline and current author content retain the same 49 rooted schemes  623ms
+ ✓ |pal| src/pal-scene-copy-differential.pal.test.ts (1 test) 223ms
+ ✓ |pal| src/pal-inparty-actor-id-invariant.pal.test.ts (1 test) 242ms
+ ✓ |pal| src/pal-world-sprite-semantic-alias.pal.test.ts (2 tests) 43ms
+ ✓ |pal| src/pal-item-message-source.pal.test.ts (7 tests) 5ms
+ ✓ |pal| src/pal-role-mapping.pal.test.ts (4 tests) 4ms
+
+ Test Files  96 passed (96)
+      Tests  738 passed (738)
+   Start at  23:56:48
+   Duration  294.70s (transform 1.66s, setup 0ms, import 6.88s, tests 301.89s, environment 5ms)
+
+exit=0

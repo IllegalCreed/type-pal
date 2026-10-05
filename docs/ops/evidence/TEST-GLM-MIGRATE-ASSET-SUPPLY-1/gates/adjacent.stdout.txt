@@ -1,0 +1,64 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/migrate
+
+ ✓ |unit| src/pal-assets.glm-o.test.ts (37 tests) 6898ms
+     ✓ 合法合成语料通过全部 census 并产出 378 个登记项  458ms
+     ✓ 调色板非 256 色 / 立绘数量漂移 / 图标缺失逐轴拒绝  1878ms
+     ✓ 战场背景尺寸漂移与 R=G=B 违约逐轴拒绝  1351ms
+     ✓ portraits manifest count 非正整数 → 精确诊断  683ms
+     ✓ items 数量/零哨兵漂移 → 物品图标哨兵诊断  1951ms
+     ✓ 零哨兵 id 恰为 277 的正控在语料中成立（防回归锚）  397ms
+ ✓ |unit| src/pal-assets.test.ts (16 tests) 8666ms
+     ✓ 全 636 源逐文件物化 byte-exact，二次物化零写入  6217ms
+     ✓ 全 172 源逐文件物化 byte-exact，二次物化零写入  1714ms
+ ✓ |unit| src/pal-assets.palette.test.ts (11 tests) 1970ms
+     ✓ bakes real PNG palette RGB while transparent pixels become transparent zero  462ms
+     ✓ rejects 'missing' palette cardinality  322ms
+     ✓ rejects 'empty' palette cardinality  312ms
+     ✓ rejects '255 colors' palette cardinality  320ms
+ ✓ |unit| src/pal-assets.backgrounds.test.ts (6 tests) 717ms
+ ✓ |unit| src/pal-assets.items.test.ts (8 tests) 772ms
+ ✓ |unit| src/pal-assets-loaders.kimi-r1.test.ts (23 tests) 825ms
+ ✓ |unit| src/pal-assets.portraits.test.ts (7 tests) 642ms
+ ✓ |unit| src/pal-assets.ownership.test.ts (21 tests) 172ms
+ ✓ |unit| src/pal-migrate-asset-supply.glm-r1.test.ts (15 tests) 564ms
+     ✓ 56 个合法 gzip 特效源推进到冻结 census 并以精确计数拒绝（bytes/frames 闭包）  323ms
+ ✓ |unit| src/pal-current-publication.glm-o.test.ts (37 tests) 123ms
+ ✓ |unit| src/pal-assets-paths.test.ts (14 tests) 55ms
+ ✓ |unit| src/pal-world-sprite-identity-boundary.test.ts (1 test) 154ms
+ ✓ |unit| src/pal-assets.sound-closure.test.ts (13 tests) 43ms
+ ✓ |unit| src/pal-assets.sound-metadata.test.ts (12 tests) 39ms
+ ✓ |unit| src/pal-assets.retirements.test.ts (6 tests) 25ms
+ ✓ |unit| src/pal-assets-materialize.kimi-r1.test.ts (2 tests) 19ms
+ ✓ |unit| src/pal-casualty-scripts.wave2.test.ts (9 tests) 5ms
+ ✓ |unit| src/pal-current-publication.glm-next-wave.test.ts (4 tests) 9ms
+ ✓ |unit| src/project-map-converter.boundaries.test.ts (4 tests) 4ms
+ ✓ |unit| src/project-map-converter.test.ts (5 tests) 4ms
+ ✓ |unit| src/pal-store-boundary.test.ts (11 tests) 5ms
+ ✓ |unit| src/pal-world-sprite-registry.test.ts (4 tests) 3ms
+ ✓ |unit| src/pal-store-boundary.boundaries.test.ts (3 tests) 4ms
+ ✓ |unit| src/pal-authored-overlays.boundaries.test.ts (2 tests) 3ms
+ ✓ |unit| src/pal-casualty-scripts.test.ts (5 tests) 3ms
+ ✓ |unit| src/pal-assets.glm-next-wave.test.ts (4 tests) 2ms
+ ✓ |unit| src/pal-world-sprite-registry.kimi-r1.test.ts (5 tests) 3ms
+ ✓ |unit| src/project-map-converter.glm-runtime-resource.test.ts (1 test) 2ms
+ ✓ |pal| src/pal-store-boundary.pal.test.ts (1 test) 10068ms
+     ✓ protects source-owned inventory and alchemy while retaining current author shop commands  10068ms
+
+ Test Files  29 passed (29)
+      Tests  287 passed (287)
+   Start at  23:56:11
+   Duration  23.17s (transform 890ms, setup 0ms, import 2.10s, tests 31.80s, environment 1ms)
+
+exit=0
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/migrate
+
+ ✓ |unit| src/pal-authored-overlays.test.ts (7 tests) 4ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  23:56:43
+   Duration  102ms (transform 21ms, setup 0ms, import 28ms, tests 4ms, environment 0ms)
+
+exit=0

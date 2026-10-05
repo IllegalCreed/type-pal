@@ -1,0 +1,44 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/migrate
+
+ ❯ |unit| src/pal-migrate-asset-supply.glm-r1.test.ts (15 tests | 1 failed) 490ms
+     ✓ 56 个合法 gzip 特效源推进到冻结 census 并以精确计数拒绝（bytes/frames 闭包） 233ms
+     ✓ 物理特效源 gzip magic 缺陷在首文件精确拒绝（首字节 0x1f、次字节非 0x8b） 214ms
+     ✓ 源 Store0 九档奖励集合漂移（换序）被精确拒绝 2ms
+     ✓ item270 携带两个资源池被精确拒绝（数量 != 1） 2ms
+     ✓ item268 craft 数量与配方数量漂移逐轴精确拒绝 2ms
+     ✓ tilesetIdFromSourceNumber 非正整数被精确拒绝 0ms
+     ✓ encodeProjectMapWord 三域越界（layer0 tile / layer1 tile / height）逐轴精确拒绝 0ms
+     ✓ convertSourceTilemap 源 shape 宽/高非正整数逐轴精确拒绝 0ms
+     ✓ sourceWordFromProjectMap 缺 layer-1 时精确拒绝 1ms
+     × generated 池消息指向 current 缺失物品时 fail-loud 9ms
+     ✓ 姐妹池仅同步带 message 的那条：对位不同步、作者字段保留、current 输入不可变 2ms
+     ✓ 0x05 重绘指令参数非空被精确拒绝（0x06 门两元 operands 合法） 0ms
+     ✓ 伤亡入口角色缺 battler 时 fail-closed 0ms
+     ✓ overlay 精灵被场景引用时以 overlay 证据物化中性 id；异布局场景证据建 -f 变体并报告冲突 1ms
+     ✓ 发布商店引用未知物品时 validateReferences 以精确 where 拒绝 22ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  00:02:17
+   Duration  937ms (transform 303ms, setup 0ms, import 371ms, tests 490ms, environment 0ms)
+
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/pal-migrate-asset-supply.glm-r1.test.ts > MAS1 authored resource-pool message 同步残余臂 > generated 池消息指向 current 缺失物品时 fail-loud
+AssertionError: expected [Function] to throw error including 'PAL generated resource message: curre…' but got 'PAL generated resource message: curre…'
+
+Expected: "PAL generated resource message: current 缺物品 9"
+Received: "PAL generated resource message: current 缺物品! 9"
+
+ ❯ src/pal-migrate-asset-supply.glm-r1.test.ts:397:7
+    395|         [poolItem('9', [poolBase('资源不足')])],
+    396|       ),
+    397|     ).toThrow('PAL generated resource message: current 缺物品 9')
+       |       ^
+    398|   })
+    399|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

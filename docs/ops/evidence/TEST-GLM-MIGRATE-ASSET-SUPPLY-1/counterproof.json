@@ -1,0 +1,2535 @@
+{
+  "generatedAt": "2026-10-05T15:02:40.315Z",
+  "nodeVersion": "v22.23.2",
+  "executionSet": "pnpm exec vitest run --project unit src/pal-migrate-asset-supply.glm-r1.test.ts（cwd=packages/migrate，--reporter=json）",
+  "selfTest": {
+    "cases": [
+      {
+        "case": "valid-red-accept",
+        "expect": "accept",
+        "issueCount": 0,
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "two-failures-reject",
+        "expect": "reject",
+        "issueCount": 2,
+        "ok": true,
+        "issues": ["numFailedTests=2 ≠ 1", "failed 行数 2 ≠ 1"]
+      },
+      {
+        "case": "wrong-fullname-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": [
+          "唯一失败 fullName 不精确等于目标合同：got \"MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 其它合同\""
+        ]
+      },
+      {
+        "case": "exit-zero-reject",
+        "expect": "reject",
+        "issueCount": 2,
+        "ok": true,
+        "issues": ["exit 0（未红/假绿）", "success≠false"]
+      },
+      {
+        "case": "pending-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["numPendingTests=1 ≠ 0"]
+      },
+      {
+        "case": "collection-error-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["collection/runtime error suite: broken.test.ts"]
+      },
+      {
+        "case": "non-assertion-error-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["指定失败非 AssertionError"]
+      },
+      {
+        "case": "signal-failure-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["signal=SIGKILL"]
+      },
+      {
+        "case": "spawn-failure-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["spawnError=spawn pnpm ENOENT"]
+      },
+      {
+        "case": "green-identity-mismatch-reject",
+        "expect": "reject",
+        "issueCount": 1,
+        "ok": true,
+        "issues": ["identity 集合与 baseline 不一致：bbbbbbbbbbbb ≠ aaaaaaaaaaaa"]
+      },
+      {
+        "case": "valid-green-accept",
+        "expect": "accept",
+        "issueCount": 0,
+        "ok": true,
+        "issues": []
+      }
+    ],
+    "allOk": true
+  },
+  "baseline": {
+    "label": "baseline",
+    "argv": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "--project",
+      "unit",
+      "src/pal-migrate-asset-supply.glm-r1.test.ts",
+      "--reporter=json"
+    ],
+    "env": {
+      "nodeVersion": "v22.23.2",
+      "NODE_COMPILE_CACHE": "deleted",
+      "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+    },
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "success": true,
+    "counts": {
+      "numTotalTests": 15,
+      "numPassedTests": 15,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTestSuites": 8,
+      "numFailedTestSuites": 0
+    },
+    "suites": [
+      {
+        "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+        "status": "passed",
+        "assertionCount": 15
+      }
+    ],
+    "identity": {
+      "rows": 15,
+      "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+      "failedRows": [],
+      "artifact": {
+        "path": "counterproof-raw/baseline.identity.tsv",
+        "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+        "bytes": 3363,
+        "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+      }
+    }
+  },
+  "injections": [
+    {
+      "id": "EFFECT-CENSUS",
+      "file": "packages/migrate/src/pal-assets.ts",
+      "anchor": "PAL 特效精灵基线漂移: assets=",
+      "expectedTest": "56 个合法 gzip 特效源推进到冻结 census 并以精确计数拒绝（bytes/frames 闭包）",
+      "expectedFullName": "MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 56 个合法 gzip 特效源推进到冻结 census 并以精确计数拒绝（bytes/frames 闭包）",
+      "expectedErrorPart": "特效精灵基线漂移",
+      "original": {
+        "hash": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+      },
+      "mutant": {
+        "hash": "6140500524d474e6dd34d1efab9c6b05bf789a381caddbb6d952f5531076f901",
+        "phase": {
+          "label": "EFFECT-CENSUS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "2e29a835c1474caf3d5723440b4a8a144627941e124afe60e21bdc42af1611cf",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 56 个合法 gzip 特效源推进到冻结 census 并以精确计数拒绝（bytes/frames 闭包）",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'PAL 特效精灵基线漂移: assets=56 bytes=1792 fr…' but got 'PAL 特效精灵基线漂移!: assets=56 bytes=1792 f…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:222:47\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/EFFECT-CENSUS.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "2e29a835c1474caf3d5723440b4a8a144627941e124afe60e21bdc42af1611cf"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "EFFECT-CENSUS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2843,
+              "sha256": "93f180e57ab2349842c5a4f4506f519d402b62d2233b4c3d7a39af75cc40d350",
+              "path": "counterproof-raw/EFFECT-CENSUS.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "phase": {
+          "label": "EFFECT-CENSUS.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/EFFECT-CENSUS.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+      },
+      "pass": true
+    },
+    {
+      "id": "EFFECT-GZIP-MAGIC",
+      "file": "packages/migrate/src/pal-assets.ts",
+      "anchor": "throw new Error(`${spec.label}: 期望 gzip RLE`)",
+      "expectedTest": "物理特效源 gzip magic 缺陷在首文件精确拒绝（首字节 0x1f、次字节非 0x8b）",
+      "expectedFullName": "MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 物理特效源 gzip magic 缺陷在首文件精确拒绝（首字节 0x1f、次字节非 0x8b）",
+      "expectedErrorPart": "PAL 物理命中特效",
+      "original": {
+        "hash": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+      },
+      "mutant": {
+        "hash": "599424d14692af007bfca3e7347bbce680c82f794d3fca34fc0ac9b28e3214b4",
+        "phase": {
+          "label": "EFFECT-GZIP-MAGIC.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "5d045ded202c45ac7c82fa68f841eb7fd8d680d754ef29aff1a0cb5b19d41227",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 物理特效源 gzip magic 缺陷在首文件精确拒绝（首字节 0x1f、次字节非 0x8b）",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'PAL 物理命中特效: 期望 gzip RLE' but got 'PAL 物理命中特效 期望 gzip RLE'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:229:47\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/EFFECT-GZIP-MAGIC.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "5d045ded202c45ac7c82fa68f841eb7fd8d680d754ef29aff1a0cb5b19d41227"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "EFFECT-GZIP-MAGIC.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2741,
+              "sha256": "87c8e3c7f6c46fa07e81514238620b02a44ae018dfb9a0cf38ee816d5b832fed",
+              "path": "counterproof-raw/EFFECT-GZIP-MAGIC.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8",
+        "phase": {
+          "label": "EFFECT-GZIP-MAGIC.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/EFFECT-GZIP-MAGIC.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+      },
+      "pass": true
+    },
+    {
+      "id": "STORE0-SOURCE-TIERS",
+      "file": "packages/migrate/src/pal-store-boundary.ts",
+      "anchor": "if (!sameStrings(sourceRewards, PAL_STORE0_REWARD_ITEM_IDS))",
+      "expectedTest": "源 Store0 九档奖励集合漂移（换序）被精确拒绝",
+      "expectedFullName": "MAS1 Store0 源所有权残余守卫 源 Store0 九档奖励集合漂移（换序）被精确拒绝",
+      "expectedErrorPart": "源 Store0 九档漂移",
+      "original": {
+        "hash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+      },
+      "mutant": {
+        "hash": "549fa9a0a7d683ff64f6e6a04c4e8a6aac85fec6a69b68c9d41b9704c248f85e",
+        "phase": {
+          "label": "STORE0-SOURCE-TIERS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "3bb19d38986a75266b7df201ff86fa9f54f2cc4e82e6417fc7800533e36138f4",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 Store0 源所有权残余守卫 源 Store0 九档奖励集合漂移（换序）被精确拒绝",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including '源 Store0 九档漂移 105,100,95,112,72,131,9…' but got 'PAL Store0 invariant: item270 奖励档位漂移'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:290:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/STORE0-SOURCE-TIERS.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "3bb19d38986a75266b7df201ff86fa9f54f2cc4e82e6417fc7800533e36138f4"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "STORE0-SOURCE-TIERS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2509,
+              "sha256": "ccb148fbfdc7c30866a523fe0fe0f7182b65f8127e9292cd8ff1f7f093e471f8",
+              "path": "counterproof-raw/STORE0-SOURCE-TIERS.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "phase": {
+          "label": "STORE0-SOURCE-TIERS.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/STORE0-SOURCE-TIERS.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+      },
+      "pass": true
+    },
+    {
+      "id": "GOURD-POOL-COUNT",
+      "file": "packages/migrate/src/pal-store-boundary.ts",
+      "anchor": "item270 resource pool 数量 ${effects.length} != 1",
+      "expectedTest": "item270 携带两个资源池被精确拒绝（数量 != 1）",
+      "expectedFullName": "MAS1 Store0 源所有权残余守卫 item270 携带两个资源池被精确拒绝（数量 != 1）",
+      "expectedErrorPart": "PAL Store0 invariant: item270",
+      "original": {
+        "hash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+      },
+      "mutant": {
+        "hash": "4ed449c39380f05d472d1edb9a57d997a950284e43e2784ea4f28de7012cae90",
+        "phase": {
+          "label": "GOURD-POOL-COUNT.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "ac9135f55d3a2f595139ddc88fbae7e28a62c7348b5c851bfc87d23a92f05c2a",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 Store0 源所有权残余守卫 item270 携带两个资源池被精确拒绝（数量 != 1）",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'PAL Store0 invariant: item270 resourc…' but got 'PAL Store0 invariant: item270 resourc…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:303:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/GOURD-POOL-COUNT.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "ac9135f55d3a2f595139ddc88fbae7e28a62c7348b5c851bfc87d23a92f05c2a"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "GOURD-POOL-COUNT.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2489,
+              "sha256": "cb924f48eeee2715a2d6840caed0e48d8ce479d1347832266c8bd65f212e718d",
+              "path": "counterproof-raw/GOURD-POOL-COUNT.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "phase": {
+          "label": "GOURD-POOL-COUNT.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/GOURD-POOL-COUNT.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+      },
+      "pass": true
+    },
+    {
+      "id": "VESSEL-CRAFT-COUNT",
+      "file": "packages/migrate/src/pal-store-boundary.ts",
+      "anchor": "item268 craftRecipe=${craftEffects.length}/",
+      "expectedTest": "item268 craft 数量与配方数量漂移逐轴精确拒绝",
+      "expectedFullName": "MAS1 Store0 源所有权残余守卫 item268 craft 数量与配方数量漂移逐轴精确拒绝",
+      "expectedErrorPart": "PAL Store0 invariant: item268 craft",
+      "original": {
+        "hash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+      },
+      "mutant": {
+        "hash": "07b4425dcd1fc258a2bc058308d8ef494f937d3097d9d1c2af88322ea470b88b",
+        "phase": {
+          "label": "VESSEL-CRAFT-COUNT.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "99980a4df6820dfbdc41868460866a541d362233d2cb1ad1a2ff1ba1d1046aa7",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 Store0 源所有权残余守卫 item268 craft 数量与配方数量漂移逐轴精确拒绝",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'PAL Store0 invariant: item268 craftRe…' but got 'PAL Store0 invariant: item268 craft=2…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:316:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/VESSEL-CRAFT-COUNT.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "99980a4df6820dfbdc41868460866a541d362233d2cb1ad1a2ff1ba1d1046aa7"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "VESSEL-CRAFT-COUNT.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2547,
+              "sha256": "ed973e7755dfc043bb28e866b052309d81ff22986db61a7f558b93f2b0c6dbd1",
+              "path": "counterproof-raw/VESSEL-CRAFT-COUNT.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3",
+        "phase": {
+          "label": "VESSEL-CRAFT-COUNT.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/VESSEL-CRAFT-COUNT.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "ed7a219b1504e67adde82793e892d45946a87d83f5c103e15b0c74be9ebdf2b3"
+      },
+      "pass": true
+    },
+    {
+      "id": "ENCODE-LAYER0-RANGE",
+      "file": "packages/migrate/src/project-map-converter.ts",
+      "anchor": "layer0 tile 超出旧格式可回编码范围",
+      "expectedTest": "encodeProjectMapWord 三域越界（layer0 tile / layer1 tile / height）逐轴精确拒绝",
+      "expectedFullName": "MAS1 旧地图 word 回编码与形状域守卫 encodeProjectMapWord 三域越界（layer0 tile / layer1 tile / height）逐轴精确拒绝",
+      "expectedErrorPart": "layer0 tile 超出旧格式",
+      "original": {
+        "hash": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3"
+      },
+      "mutant": {
+        "hash": "265d305365412202005ee790dcd379532076d75860b9b386302b4cd21ef7ccea",
+        "phase": {
+          "label": "ENCODE-LAYER0-RANGE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "d1c42bb9d96945d4d0cb25032b87cb5e00a06b5ec7c3f5b9303e684194448293",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 旧地图 word 回编码与形状域守卫 encodeProjectMapWord 三域越界（layer0 tile / layer1 tile / height）逐轴精确拒绝",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'layer0 tile 超出旧格式可回编码范围: 512' but got 'layer0 tile 超出旧格式编码范围: 512'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:341:62\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/ENCODE-LAYER0-RANGE.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "d1c42bb9d96945d4d0cb25032b87cb5e00a06b5ec7c3f5b9303e684194448293"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "ENCODE-LAYER0-RANGE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2699,
+              "sha256": "f6c8d8440661bcc456b3511c33019f1c533f56c0bb2d21f84ba84193c43998de",
+              "path": "counterproof-raw/ENCODE-LAYER0-RANGE.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3",
+        "phase": {
+          "label": "ENCODE-LAYER0-RANGE.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/ENCODE-LAYER0-RANGE.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3"
+      },
+      "pass": true
+    },
+    {
+      "id": "SOURCE-WORD-LAYERS",
+      "file": "packages/migrate/src/project-map-converter.ts",
+      "anchor": "if (!lower || !upper) throw new Error('源图回编码要求 layer-0/layer-1 两层')",
+      "expectedTest": "sourceWordFromProjectMap 缺 layer-1 时精确拒绝",
+      "expectedFullName": "MAS1 旧地图 word 回编码与形状域守卫 sourceWordFromProjectMap 缺 layer-1 时精确拒绝",
+      "expectedErrorPart": "源图回编码要求",
+      "original": {
+        "hash": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3"
+      },
+      "mutant": {
+        "hash": "d02e0bfcb87cccb43d0b5fdc78fbbb14dac6afcd35fcc445a35b2aa203efc396",
+        "phase": {
+          "label": "SOURCE-WORD-LAYERS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "5beec6101d4c127eed7164ac09ea8108b50b262533477603326ca0c54ee6bfe8",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 旧地图 word 回编码与形状域守卫 sourceWordFromProjectMap 缺 layer-1 时精确拒绝",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including '源图回编码要求 layer-0/layer-1 两层' but got 'Cannot read properties of undefined (…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:370:55\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/SOURCE-WORD-LAYERS.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "5beec6101d4c127eed7164ac09ea8108b50b262533477603326ca0c54ee6bfe8"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "SOURCE-WORD-LAYERS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2548,
+              "sha256": "0a93424ae59c2249708e112d59f35708e7c9bb63cfb5354c0b6c561600d65f96",
+              "path": "counterproof-raw/SOURCE-WORD-LAYERS.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3",
+        "phase": {
+          "label": "SOURCE-WORD-LAYERS.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/SOURCE-WORD-LAYERS.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "bbe0dad12fb1e0cd1b5bcdbd4076fa1b5c719ccb22089209fa7d8e37b17e35c3"
+      },
+      "pass": true
+    },
+    {
+      "id": "POOL-MESSAGE-MISSING-CURRENT",
+      "file": "packages/migrate/src/pal-authored-overlays.ts",
+      "anchor": "PAL generated resource message: current 缺物品",
+      "expectedTest": "generated 池消息指向 current 缺失物品时 fail-loud",
+      "expectedFullName": "MAS1 authored resource-pool message 同步残余臂 generated 池消息指向 current 缺失物品时 fail-loud",
+      "expectedErrorPart": "PAL generated resource message",
+      "original": {
+        "hash": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a"
+      },
+      "mutant": {
+        "hash": "01b42fd5e1cc73d97f1db9ab967a9951866676bde1fca4dce8fe955ec7553782",
+        "phase": {
+          "label": "POOL-MESSAGE-MISSING-CURRENT.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "cdcf540a203a61f6572457d0c6e3bc4245a2d5f587cb78bfbdca19e6abaf9397",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 authored resource-pool message 同步残余臂 generated 池消息指向 current 缺失物品时 fail-loud",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'PAL generated resource message: curre…' but got 'PAL generated resource message: curre…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:397:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/POOL-MESSAGE-MISSING-CURRENT.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "cdcf540a203a61f6572457d0c6e3bc4245a2d5f587cb78bfbdca19e6abaf9397"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "POOL-MESSAGE-MISSING-CURRENT.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2522,
+              "sha256": "0fcdd0e8ca50afb7a202b86090417bb33744b458b0478e1414f495ca62bed1b9",
+              "path": "counterproof-raw/POOL-MESSAGE-MISSING-CURRENT.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a",
+        "phase": {
+          "label": "POOL-MESSAGE-MISSING-CURRENT.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/POOL-MESSAGE-MISSING-CURRENT.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a"
+      },
+      "pass": true
+    },
+    {
+      "id": "POOL-MESSAGE-SYNC",
+      "file": "packages/migrate/src/pal-authored-overlays.ts",
+      "anchor": "const currentPool = currentPools[index]",
+      "expectedTest": "姐妹池仅同步带 message 的那条：对位不同步、作者字段保留、current 输入不可变",
+      "expectedFullName": "MAS1 authored resource-pool message 同步残余臂 姐妹池仅同步带 message 的那条：对位不同步、作者字段保留、current 输入不可变",
+      "expectedErrorPart": "资源不足",
+      "original": {
+        "hash": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a"
+      },
+      "mutant": {
+        "hash": "0ad6ac0c77edaa992b2e7e39dea87e3bf549560145dcc2699159dcc06681bbd9",
+        "phase": {
+          "label": "POOL-MESSAGE-SYNC.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "3ea4ec5ca953dd587343de96cce731f1f47689582100cb69e42bad60aea06aac",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 authored resource-pool message 同步残余臂 姐妹池仅同步带 message 的那条：对位不同步、作者字段保留、current 输入不可变",
+                "messages": [
+                  "AssertionError: expected undefined to be '资源不足' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:408:39\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/POOL-MESSAGE-SYNC.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "3ea4ec5ca953dd587343de96cce731f1f47689582100cb69e42bad60aea06aac"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "POOL-MESSAGE-SYNC.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2607,
+              "sha256": "15f9f5f79334819eca24bceb10eeff413cc1a6344cdc7ed99a65431b2a59705e",
+              "path": "counterproof-raw/POOL-MESSAGE-SYNC.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a",
+        "phase": {
+          "label": "POOL-MESSAGE-SYNC.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/POOL-MESSAGE-SYNC.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "93bfb3a4ff7bb89112578ba9044e62e357f654b9a1836056dda370b243145d8a"
+      },
+      "pass": true
+    },
+    {
+      "id": "CASUALTY-0x05-OPERANDS",
+      "file": "packages/migrate/src/pal-casualty-scripts.ts",
+      "anchor": "0x05 参数非空",
+      "expectedTest": "0x05 重绘指令参数非空被精确拒绝（0x06 门两元 operands 合法）",
+      "expectedFullName": "MAS1 伤亡脚本残余 fail-closed 臂 0x05 重绘指令参数非空被精确拒绝（0x06 门两元 operands 合法）",
+      "expectedErrorPart": "0x05 参数非空",
+      "original": {
+        "hash": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005"
+      },
+      "mutant": {
+        "hash": "831a0a8babc781a405dd0a440919e18ceda80bc8c15e634c49a736699332bd50",
+        "phase": {
+          "label": "CASUALTY-0x05-OPERANDS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "f685a98883ac4ceeee8920d36e6a9b001063674be45ccecc719305464672b2c9",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 伤亡脚本残余 fail-closed 臂 0x05 重绘指令参数非空被精确拒绝（0x06 门两元 operands 合法）",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'B11-1 casualty: branch @3 0x05 参数非空 […' but got 'B11-1 casualty: branch @3 0x05 参数非空X …'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:456:60\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/CASUALTY-0x05-OPERANDS.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "f685a98883ac4ceeee8920d36e6a9b001063674be45ccecc719305464672b2c9"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "CASUALTY-0x05-OPERANDS.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2627,
+              "sha256": "5213acd3a2585b9343808cda9de28f7e7d129a3a12aea863a1d8cc47668c10a7",
+              "path": "counterproof-raw/CASUALTY-0x05-OPERANDS.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
+        "phase": {
+          "label": "CASUALTY-0x05-OPERANDS.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/CASUALTY-0x05-OPERANDS.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005"
+      },
+      "pass": true
+    },
+    {
+      "id": "CASUALTY-BATTLER-GUARD",
+      "file": "packages/migrate/src/pal-casualty-scripts.ts",
+      "anchor": "if (!actor?.battler) throw new Error(`B11-1 casualty: 角色 ${roleIndex} 缺 battler`)",
+      "expectedTest": "伤亡入口角色缺 battler 时 fail-closed",
+      "expectedFullName": "MAS1 伤亡脚本残余 fail-closed 臂 伤亡入口角色缺 battler 时 fail-closed",
+      "expectedErrorPart": "缺 battler",
+      "original": {
+        "hash": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005"
+      },
+      "mutant": {
+        "hash": "7a315b9831ba9acc5daeb3f7f1e7f299eec52e9ca642c31a25b7536113726e6a",
+        "phase": {
+          "label": "CASUALTY-BATTLER-GUARD.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "db18d1566a552afa284b4f6e1a1321a03e6a8bbfe399bbe87fd606febae3c744",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 伤亡脚本残余 fail-closed 臂 伤亡入口角色缺 battler 时 fail-closed",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'B11-1 casualty: 角色 2 缺 battler' but got 'Cannot read properties of undefined (…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:480:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/CASUALTY-BATTLER-GUARD.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "db18d1566a552afa284b4f6e1a1321a03e6a8bbfe399bbe87fd606febae3c744"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "CASUALTY-BATTLER-GUARD.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2471,
+              "sha256": "c6365200ce2a9c2ed3c26fc49a824704cb6f5f8771dc07ab6cb3b49e1cbe8af0",
+              "path": "counterproof-raw/CASUALTY-BATTLER-GUARD.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005",
+        "phase": {
+          "label": "CASUALTY-BATTLER-GUARD.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/CASUALTY-BATTLER-GUARD.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "92a83f96eeae92dcd2f4f645ffb96c75b9add59edd3a1aeb6aff14343327d005"
+      },
+      "pass": true
+    },
+    {
+      "id": "OVERLAY-EVIDENCE-SOURCE",
+      "file": "packages/migrate/src/pal-world-sprite-registry.ts",
+      "anchor": "source: 'pal-overlay',",
+      "expectedTest": "overlay 精灵被场景引用时以 overlay 证据物化中性 id；异布局场景证据建 -f 变体并报告冲突",
+      "expectedFullName": "MAS1 大世界精灵 overlay-primary 物化身份 overlay 精灵被场景引用时以 overlay 证据物化中性 id；异布局场景证据建 -f 变体并报告冲突",
+      "expectedErrorPart": "pal-overlay",
+      "original": {
+        "hash": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361"
+      },
+      "mutant": {
+        "hash": "995fc84772342b9abd6004ac730ee56c0b800b99b73c05f417497c7183a6b2e4",
+        "phase": {
+          "label": "OVERLAY-EVIDENCE-SOURCE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "60a50efcd6b1e8084d3a51fb2124f6e929da54f4171035a66d41a14afe636961",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 大世界精灵 overlay-primary 物化身份 overlay 精灵被场景引用时以 overlay 证据物化中性 id；异布局场景证据建 -f 变体并报告冲突",
+                "messages": [
+                  "AssertionError: expected 'scene' to be 'pal-overlay' // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:503:55\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/OVERLAY-EVIDENCE-SOURCE.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "60a50efcd6b1e8084d3a51fb2124f6e929da54f4171035a66d41a14afe636961"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "OVERLAY-EVIDENCE-SOURCE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2602,
+              "sha256": "88a42500d3451390ea390ca0ff1998df7e9fb137b6bb82a276002d34b7ec8ab0",
+              "path": "counterproof-raw/OVERLAY-EVIDENCE-SOURCE.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361",
+        "phase": {
+          "label": "OVERLAY-EVIDENCE-SOURCE.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/OVERLAY-EVIDENCE-SOURCE.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "06acc8fb9520778b17082669d3ce26a0af662a4dd404c73b9338db2baeac8361"
+      },
+      "pass": true
+    },
+    {
+      "id": "PUBLICATION-REFERENCE-GATE",
+      "file": "packages/migrate/src/pal-current-publication.ts",
+      "anchor": "PAL current 跨引用失败",
+      "expectedTest": "发布商店引用未知物品时 validateReferences 以精确 where 拒绝",
+      "expectedFullName": "MAS1 current publication 跨引用 error 汇总门 发布商店引用未知物品时 validateReferences 以精确 where 拒绝",
+      "expectedErrorPart": "PAL current 跨引用失败",
+      "original": {
+        "hash": "2073d2b7719a3fe494c254cb0abb12fc228c8a51d9e57d0e64811db76fdc04f3"
+      },
+      "mutant": {
+        "hash": "f889746bc0bab1422df96626e0c4a5646d4092bea82c3563553529d5ffdd6adc",
+        "phase": {
+          "label": "PUBLICATION-REFERENCE-GATE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 14,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 2
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "failed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "01bcf45975369bb8e4d6482429d056c4807d1d43c695b2f5be0280f4250b7dee",
+            "failedRows": [
+              {
+                "file": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+                "fullName": "MAS1 current publication 跨引用 error 汇总门 发布商店引用未知物品时 validateReferences 以精确 where 拒绝",
+                "messages": [
+                  "AssertionError: expected [Function] to throw error including 'PAL current 跨引用失败:\\nshops[0](1).items…' but got 'PAL current 跨引用失败X:\\nshops[0](1).item…'\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts:559:7\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                ]
+              }
+            ],
+            "artifact": {
+              "path": "counterproof-raw/PUBLICATION-REFERENCE-GATE.mutant.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "01bcf45975369bb8e4d6482429d056c4807d1d43c695b2f5be0280f4250b7dee"
+            }
+          }
+        },
+        "consolePhase": {
+          "label": "PUBLICATION-REFERENCE-GATE.mutant",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "artifacts": {
+            "console": {
+              "bytes": 2576,
+              "sha256": "ae333c5c851a239b3721d92cc062e2573dfb2f8bd10f26cf5ee55fe315301216",
+              "path": "counterproof-raw/PUBLICATION-REFERENCE-GATE.mutant.console"
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "2073d2b7719a3fe494c254cb0abb12fc228c8a51d9e57d0e64811db76fdc04f3",
+        "phase": {
+          "label": "PUBLICATION-REFERENCE-GATE.restored",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "--project",
+            "unit",
+            "src/pal-migrate-asset-supply.glm-r1.test.ts",
+            "--reporter=json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted",
+            "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 15,
+            "numPassedTests": 15,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 8,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+              "status": "passed",
+              "assertionCount": 15
+            }
+          ],
+          "identity": {
+            "rows": 15,
+            "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+            "failedRows": [],
+            "artifact": {
+              "path": "counterproof-raw/PUBLICATION-REFERENCE-GATE.restored.identity.tsv",
+              "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+              "bytes": 3363,
+              "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+            }
+          }
+        },
+        "issues": []
+      },
+      "rebuilt": {
+        "hash": "2073d2b7719a3fe494c254cb0abb12fc228c8a51d9e57d0e64811db76fdc04f3"
+      },
+      "pass": true
+    }
+  ],
+  "finalReplay": {
+    "phase": {
+      "label": "final-replay",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "--project",
+        "unit",
+        "src/pal-migrate-asset-supply.glm-r1.test.ts",
+        "--reporter=json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/Users/zhangxu/illegal/type-pal/packages/migrate"
+      },
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "success": true,
+      "counts": {
+        "numTotalTests": 15,
+        "numPassedTests": 15,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "numTotalTestSuites": 8,
+        "numFailedTestSuites": 0
+      },
+      "suites": [
+        {
+          "name": "/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+          "status": "passed",
+          "assertionCount": 15
+        }
+      ],
+      "identity": {
+        "rows": 15,
+        "identitySha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827",
+        "failedRows": [],
+        "artifact": {
+          "path": "counterproof-raw/final-replay.identity.tsv",
+          "format": "tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)",
+          "bytes": 3363,
+          "sha256": "1f484d03c2bd4b32b8f15943e315a52982a87612909049f27c7f1836eddb7827"
+        }
+      }
+    },
+    "issues": []
+  },
+  "tmpTree": {
+    "fixturePrefix": "mas1-supply-",
+    "residueBefore": [],
+    "residueAfter": [],
+    "clean": true,
+    "runnerTmp": {
+      "created": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/mas1-counterproof-2DKtuT",
+      "removedInFinally": true
+    }
+  },
+  "allPass": true,
+  "ownNewPathsExcluded": [
+    "packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+    "packages/migrate/scripts/mas1-mutation-counterproof.mjs",
+    "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1",
+    "docs/ops/tasks/TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md",
+    "docs/ops/evidence/README.md"
+  ],
+  "concurrentForeignWork": {
+    "note": "并行卡（reforge 侧）同树在途交付；按前缀豁免 clean 判定，逐相位披露，与本卡目标源/交付零交集",
+    "excludedPrefixes": ["packages/reforge/", "docs/ops/evidence/TEST-GLM-REFORGE-"],
+    "gateExclusions": [
+      {
+        "tag": "pre",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "pre",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "pre",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "pre",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "pre",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "pre",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "targets",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "targets",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "targets",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "targets",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "targets",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "targets",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-EFFECT-CENSUS",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-EFFECT-CENSUS",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-EFFECT-CENSUS",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-EFFECT-CENSUS",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-EFFECT-CENSUS",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-EFFECT-CENSUS",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-EFFECT-GZIP-MAGIC",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-EFFECT-GZIP-MAGIC",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-EFFECT-GZIP-MAGIC",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-EFFECT-GZIP-MAGIC",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-EFFECT-GZIP-MAGIC",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-EFFECT-GZIP-MAGIC",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-STORE0-SOURCE-TIERS",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-STORE0-SOURCE-TIERS",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-STORE0-SOURCE-TIERS",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-STORE0-SOURCE-TIERS",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-STORE0-SOURCE-TIERS",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-STORE0-SOURCE-TIERS",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-GOURD-POOL-COUNT",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-GOURD-POOL-COUNT",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-GOURD-POOL-COUNT",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-GOURD-POOL-COUNT",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-GOURD-POOL-COUNT",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-GOURD-POOL-COUNT",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-VESSEL-CRAFT-COUNT",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-VESSEL-CRAFT-COUNT",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-VESSEL-CRAFT-COUNT",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-VESSEL-CRAFT-COUNT",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-VESSEL-CRAFT-COUNT",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-VESSEL-CRAFT-COUNT",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-ENCODE-LAYER0-RANGE",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-ENCODE-LAYER0-RANGE",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-ENCODE-LAYER0-RANGE",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-ENCODE-LAYER0-RANGE",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-ENCODE-LAYER0-RANGE",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-ENCODE-LAYER0-RANGE",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-SOURCE-WORD-LAYERS",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-SOURCE-WORD-LAYERS",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-SOURCE-WORD-LAYERS",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-SOURCE-WORD-LAYERS",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-SOURCE-WORD-LAYERS",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-SOURCE-WORD-LAYERS",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-MISSING-CURRENT",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-MISSING-CURRENT",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-MISSING-CURRENT",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-MISSING-CURRENT",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-MISSING-CURRENT",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-MISSING-CURRENT",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-SYNC",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-SYNC",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-SYNC",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-SYNC",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-SYNC",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-POOL-MESSAGE-SYNC",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-CASUALTY-0x05-OPERANDS",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-CASUALTY-0x05-OPERANDS",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-CASUALTY-0x05-OPERANDS",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-CASUALTY-0x05-OPERANDS",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-CASUALTY-0x05-OPERANDS",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-CASUALTY-0x05-OPERANDS",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-CASUALTY-BATTLER-GUARD",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-CASUALTY-BATTLER-GUARD",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-CASUALTY-BATTLER-GUARD",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-CASUALTY-BATTLER-GUARD",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-CASUALTY-BATTLER-GUARD",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-CASUALTY-BATTLER-GUARD",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-OVERLAY-EVIDENCE-SOURCE",
+        "path": "packages/reforge/src/battle/battle-session.ts"
+      },
+      {
+        "tag": "post-OVERLAY-EVIDENCE-SOURCE",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-OVERLAY-EVIDENCE-SOURCE",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-OVERLAY-EVIDENCE-SOURCE",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-OVERLAY-EVIDENCE-SOURCE",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-OVERLAY-EVIDENCE-SOURCE",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      },
+      {
+        "tag": "post-PUBLICATION-REFERENCE-GATE",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/"
+      },
+      {
+        "tag": "post-PUBLICATION-REFERENCE-GATE",
+        "path": "packages/reforge/scripts/bcs1-identity-status.mjs"
+      },
+      {
+        "tag": "post-PUBLICATION-REFERENCE-GATE",
+        "path": "packages/reforge/scripts/bcs1-mutation-counterproof.mjs"
+      },
+      {
+        "tag": "post-PUBLICATION-REFERENCE-GATE",
+        "path": "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts"
+      },
+      {
+        "tag": "post-PUBLICATION-REFERENCE-GATE",
+        "path": "packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts"
+      }
+    ]
+  }
+}

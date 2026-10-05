@@ -1,0 +1,16 @@
+Scope: 7 of 8 workspace projects
+packages/content typecheck$ tsc --noEmit
+packages/shared typecheck$ tsc --noEmit
+packages/shared typecheck: Done
+packages/content typecheck: Done
+packages/game typecheck$ tsc --noEmit
+packages/pal-extract typecheck$ tsc --noEmit
+packages/reforge typecheck$ tsc --noEmit
+packages/pal-extract typecheck: Done
+packages/game typecheck: Done
+packages/reforge typecheck: Done
+packages/migrate typecheck$ tsc --noEmit
+packages/editor typecheck$ tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json
+packages/migrate typecheck: Done
+packages/editor typecheck: Done
+exit=0

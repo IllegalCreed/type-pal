@@ -1,0 +1,15 @@
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 Store0 源所有权残余守卫 item268 craft 数量与配方数量漂移逐轴精确拒绝	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 Store0 源所有权残余守卫 item270 携带两个资源池被精确拒绝（数量 != 1）	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 Store0 源所有权残余守卫 源 Store0 九档奖励集合漂移（换序）被精确拒绝	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 authored resource-pool message 同步残余臂 generated 池消息指向 current 缺失物品时 fail-loud	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 authored resource-pool message 同步残余臂 姐妹池仅同步带 message 的那条：对位不同步、作者字段保留、current 输入不可变	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 current publication 跨引用 error 汇总门 发布商店引用未知物品时 validateReferences 以精确 where 拒绝	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 56 个合法 gzip 特效源推进到冻结 census 并以精确计数拒绝（bytes/frames 闭包）	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 effect-sprites 分区闭包（经 loadPalAssets 公开入口） 物理特效源 gzip magic 缺陷在首文件精确拒绝（首字节 0x1f、次字节非 0x8b）	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 伤亡脚本残余 fail-closed 臂 0x05 重绘指令参数非空被精确拒绝（0x06 门两元 operands 合法）	failed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 伤亡脚本残余 fail-closed 臂 伤亡入口角色缺 battler 时 fail-closed	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 大世界精灵 overlay-primary 物化身份 overlay 精灵被场景引用时以 overlay 证据物化中性 id；异布局场景证据建 -f 变体并报告冲突	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 旧地图 word 回编码与形状域守卫 convertSourceTilemap 源 shape 宽/高非正整数逐轴精确拒绝	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 旧地图 word 回编码与形状域守卫 encodeProjectMapWord 三域越界（layer0 tile / layer1 tile / height）逐轴精确拒绝	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 旧地图 word 回编码与形状域守卫 sourceWordFromProjectMap 缺 layer-1 时精确拒绝	passed
+/Users/zhangxu/illegal/type-pal/packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts	MAS1 旧地图 word 回编码与形状域守卫 tilesetIdFromSourceNumber 非正整数被精确拒绝	passed

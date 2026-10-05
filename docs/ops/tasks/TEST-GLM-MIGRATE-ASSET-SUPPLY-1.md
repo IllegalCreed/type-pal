@@ -1,6 +1,6 @@
 # TEST-GLM-MIGRATE-ASSET-SUPPLY-1 — asset supply, ownership and publication boundaries
 
-Status: build
+Status: review
 Phase: phase2
 Capability: migrate / asset supply and publication
 Coding Owner: GLM
@@ -27,7 +27,53 @@ Visual Verification Timing: N/A
 - 反控严格绿→指定业务红→恢复绿，唯一 AssertionError、完整 JSON/raw/exit/signal/spawn、file×fullName identity、源/变异/恢复 hash 和临时树清理。
 - 定向/相邻/migrate 全量、typecheck、lint 0/0/0、docs、diff 通过；coverage 只作最终 main 并集统计，不作单卡门槛。
 
-## 下一位 Agent 提示词
+
+## 交付记录
+
+### r1（2026-10-05，GLM）
+
+- 分支 `codex/glm-migrate-asset-supply-r1`（基线 `origin/main` `f4dbd0e3d`），唯一新增测试文件
+  `packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts`（15 tests）与反控脚本
+  `packages/migrate/scripts/mas1-mutation-counterproof.mjs`；产品/schema/旧测/config/baseline/
+  真实数据零改动。
+- 排重账：7 文件逐轴（source:line × caller × 输入 × oracle × 判定）见
+  [dedup-ledger.md](../evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md)；15 净新合同 +
+  unreachable/product-counter 账（含 :1154 经 validateAssetCatalog 前缀/路径门证明为防御重复、
+  :533 经 sentinel-only 块一手实探）。
+- 关键修正：kimi-r1 ledger 判 loadPalEffectSprites 合成不可达（「合法 YJ2 只能由 pal-extract
+  fixture 产生」）——本卡以一手推导修正：YJ2 初始平衡树（yj2.ts:74-81）路径可确定性构造单字面量
+  合法位流，frameAnimations 12 段合成全过，effect-sprites 分区（fast 0%）首次合成可达并补
+  census/magic 两合同。
+- 反控：13 针 × 严格四态（绿→指定业务红→字节恢复绿→rebuilt hash）全 PASS；runner 自测 11 例
+  （9 拒收反例 + 2 放行正例）；完整 file×fullName×status TSV identity artifact（28 phase，集合
+  sha256 级比较）；红相位唯一失败 fullName 精确相等 + AssertionError 片段 + console 旁证；
+  mkdtemp 残留前后扫描 0。见
+  [counterproof.json](../evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/counterproof.json)。
+- 门禁：定向 15/15；相邻 30 文件 294/294；migrate 全量 738/738；repo typecheck exit 0；
+  lint 0/0/0（3449 文件）；`git diff --cached --check` 零输出；docs 门主树 2 红项均为并行卡
+  在途目录（非本卡文件），本卡分支干净 worktree 复跑全绿。
+- 并行披露：交付期间另一卡（reforge 侧 bcs1）同工作树在途；反控 runner 加分支稳定门 + 目标源
+  index hash 门，外来未跟踪按前缀豁免并逐相位披露（回执 concurrentForeignWork）。
+- 覆盖率未按单卡统计（卡面口径：只作最终 main 并集统计）。
+
+## 下一位 Agent 提示词（Codex 独立验收）
+
+```text
+你是 TEST-GLM-MIGRATE-ASSET-SUPPLY-1 的独立验收人（Codex）。工作树分支应为
+codex/glm-migrate-asset-supply-r1（基线 origin/main f4dbd0e3d）。先读任务卡
+docs/ops/tasks/TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md、
+docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/{README.md,dedup-ledger.md,counterproof.json}
+与测试文件 packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts。
+验收点：1) 排重账真实性（抽核 existing-proof/unreachable 判定的一手锚，尤其 :1154 防御重复、
+:533 sentinel 实探、YJ2 位流推导是否成立）；2) 15 合同的 caller/输入/oracle 是否钉定义点且与
+旧 fullName 不重复；3) 反控四态与 identity TSV 是否可复核（node
+packages/migrate/scripts/mas1-mutation-counterproof.mjs 约 5 分钟，要求工作树对 7 个目标源
+clean）；4) 门禁复跑（定向/相邻/migrate 全量/typecheck/lint/diff --check）；5) 并行卡同树
+交付的隔离是否成立（回执 concurrentForeignWork + 分支稳定门）。
+不得改实现文件；验收结论（accept/counter + 理由）写回本卡并按当前模式收口或返工。
+```
+
+## 历史：r1 开卡提示词（已被上方交付记录的验收提示词取代）
 
 ```text
 你是 TEST-GLM-MIGRATE-ASSET-SUPPLY-1 的 Coding Owner（GLM）。先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/archive/audits/、coverage85-kimi-extract-migrate-r1、GLM-O asset 证据及本卡。
