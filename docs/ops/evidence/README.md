@@ -22,4 +22,4 @@
 - [TEST-GLM-REFORGE-HOST-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md)（已集成 main，Codex quality closure 见历史任务卡）。
 - [TEST-GLM-REFORGE-RUNTIME-SESSION-1 交付证据](TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md)（15 合同、反控 5/5、排重/非合同/受阻账与基线缺陷披露；待 Codex 独立验收）。
 - [TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 交付证据](TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/README.md)（r1 候选：四家族排重后 4 残差合同 + 4/4 四态反控 + unreachable 登记，待 Codex 独立验收）。
-- [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 交付证据](TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md)（r1 候选：7 文件逐分支排重账 + player-roles 2 新合同 + 2/2 四态反控 + 全包 417/417，待 Codex 独立验收）。
+- [TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 交付证据](TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md)（r2 候选：7 文件排重账 + player-roles 2 新合同 + runner v2 严格反控（JSON reporter 判据/fullName 精确相等/执行集 identity/13 自测反例）+ 全包 417/417，待 Codex 二审）。

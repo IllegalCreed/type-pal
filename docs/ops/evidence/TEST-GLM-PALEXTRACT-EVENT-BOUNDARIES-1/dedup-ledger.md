@@ -117,4 +117,4 @@ branch coverage（20 个 events/scene/player-roles 相邻测试文件，2026-10-
 ## 结论
 
 - 新合同 2 条（PR-NAME-BOUNDARY-1、PR-ELEM-ORDER-1，均在 player-roles.ts 公开 parser 边界），events/annotate/disasm/recompile/slice/roundtrip 与 scene 全轴 existing-proof 或 unreachable/blocked——**不新增测试不造数字**。
-- 针 2 枚全 VALID（见 [counterproof.json](counterproof.json)）：N1 名称指针下限钳 0、N2 water↔earth 键互换；各针红相位 exit 1、恰 1 业务 AssertionError、还原字节=原始、还原绿。
+- 针 2 枚全 VALID（见 [counterproof.json](counterproof.json)，r2 runner v2）：N1 名称指针下限钳 0、N2 water↔earth 键互换。判据全部来自 vitest `--reporter=json` 机读 JSON：红相位 exit!==0 && signal===null && spawnError===null && numFailedTests===1 && numPendingTests===0 && numTodoTests===0，唯一失败 fullName 精确 === 目标合同 fullName（original 执行集按 title 提取），failureMessages 恰 1 条含指定 AssertionError 子串；restored/final 执行集与 original 逐三元组一致；产品源原始==恢复；另含 13 例 runner 自测反例（两失败/错误 fullName/exit 0/pending/todo/runtime/collection error/signal/spawn 失败全拒收，canonical 正控接收，identity 漂移检出）。

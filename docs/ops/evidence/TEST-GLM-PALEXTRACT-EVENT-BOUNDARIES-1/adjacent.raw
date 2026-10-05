@@ -6,41 +6,41 @@
 
  Test Files  1 passed (1)
       Tests  2 passed (2)
-   Start at  20:30:22
-   Duration  180ms (transform 62ms, setup 0ms, import 81ms, tests 3ms, environment 0ms)
+   Start at  22:10:25
+   Duration  139ms (transform 50ms, setup 0ms, import 64ms, tests 3ms, environment 0ms)
 
 exit=0
 === adjacent: events + scene + player-roles + tables family ===
 
  RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
 
- ✓ src/resources/scene.glm-runtime-resource.test.ts (5 tests) 4ms
+ ✓ src/events/opcodes.test.ts (21 tests) 4ms
+ ✓ src/events/slice.kimi-r1.test.ts (8 tests) 3ms
  ✓ src/events/slice.test.ts (12 tests) 5ms
- ✓ src/events/opcodes.test.ts (21 tests) 6ms
- ✓ src/events/slice.kimi-r1.test.ts (8 tests) 5ms
- ✓ src/events/annotate.test.ts (9 tests) 8ms
- ✓ src/events/disasm.kimi-r1.test.ts (5 tests) 5ms
- ✓ src/events/disasm.test.ts (13 tests) 6ms
- ✓ src/events/disasm.boundaries.test.ts (2 tests) 3ms
- ✓ src/events/roundtrip.kimi-r1.test.ts (2 tests) 18ms
- ✓ src/events/disasm.glm-runtime-resource.test.ts (6 tests) 3ms
- ✓ src/events/slice.boundaries.test.ts (5 tests) 3ms
- ✓ src/events/recompile.test.ts (3 tests) 3ms
- ✓ src/events/annotate.glm-runtime-resource.test.ts (6 tests) 3ms
- ✓ src/events/recompile.boundaries.test.ts (2 tests) 6ms
+ ✓ src/events/recompile.boundaries.test.ts (2 tests) 4ms
+ ✓ src/events/disasm.test.ts (13 tests) 5ms
+ ✓ src/resources/scene.glm-runtime-resource.test.ts (5 tests) 11ms
+ ✓ src/events/annotate.glm-runtime-resource.test.ts (6 tests) 5ms
  ✓ src/events/recompile.glm-runtime-resource.test.ts (4 tests) 3ms
+ ✓ src/events/disasm.glm-runtime-resource.test.ts (6 tests) 3ms
+ ✓ src/events/slice.boundaries.test.ts (5 tests) 5ms
+ ✓ src/events/recompile.test.ts (3 tests) 3ms
+ ✓ src/events/annotate.test.ts (9 tests) 5ms
+ ✓ src/events/roundtrip.kimi-r1.test.ts (2 tests) 16ms
+ ✓ src/events/disasm.kimi-r1.test.ts (5 tests) 9ms
+ ✓ src/resources/parsers/__tests__/player-roles.boundaries.test.ts (4 tests) 5ms
+ ✓ src/events/disasm.boundaries.test.ts (2 tests) 3ms
  ✓ src/resources/scene.test.ts (5 tests) 3ms
  ✓ src/events/slice.glm-runtime-resource.test.ts (3 tests) 2ms
- ✓ src/events/roundtrip.test.ts (1 test) 154ms
- ✓ src/resources/parsers/__tests__/player-roles.boundaries.test.ts (4 tests) 5ms
 stderr | src/resources/tables.test.ts > parseEnemyTeams (M3 T7) > M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn
 [parseEnemyTeams] team 0 slot OBJECT index 999 不在 OBJECT_ENEMY 段映射中,标空
 
- ✓ src/resources/tables.test.ts (90 tests) 55ms
+ ✓ src/resources/tables.test.ts (90 tests) 42ms
+ ✓ src/events/roundtrip.test.ts (1 test) 136ms
 
  Test Files  20 passed (20)
       Tests  206 passed (206)
-   Start at  20:30:23
-   Duration  539ms (transform 1.11s, setup 0ms, import 1.63s, tests 301ms, environment 2ms)
+   Start at  22:10:25
+   Duration  486ms (transform 1.06s, setup 0ms, import 1.56s, tests 273ms, environment 1ms)
 
 exit=0

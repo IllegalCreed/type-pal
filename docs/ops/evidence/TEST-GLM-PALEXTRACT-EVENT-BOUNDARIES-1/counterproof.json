@@ -1,24 +1,95 @@
 {
-  "tempTree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/palextract-boundaries-counterproof-AQpUb0",
+  "card": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1",
+  "schema": "vitest-json-reporter-v2",
+  "tempTree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/palextract-boundaries-counterproof-Xgfz69",
   "phases": {
-    "greenBaseline": {
+    "original": {
       "exit": 0,
       "signal": null,
-      "sha": "f3ccc06ae87d1d245b413e0f9cc247a8d3a54ebdd14987397ec6f35496b243f0",
-      "testsLine": "2 passed (2)",
-      "failedLine": "",
-      "firstFailure": "",
-      "raw": "mutation-logs/green-baseline.raw"
+      "spawnError": null,
+      "counts": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "pending": 0,
+        "todo": 0
+      },
+      "executionSet": [
+        [
+          "player-roles.event-boundaries-1.test.ts",
+          "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "passed"
+        ],
+        [
+          "player-roles.event-boundaries-1.test.ts",
+          "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "passed"
+        ]
+      ],
+      "executionSetSha": "55c68280d1a2135e3747b5d7150fedf8f4e105ffd504732f1a61a35fcc38be2a",
+      "runtimeErrors": [],
+      "failedEntries": [],
+      "assertions": [
+        {
+          "file": "player-roles.event-boundaries-1.test.ts",
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "title": "rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "status": "passed"
+        },
+        {
+          "file": "player-roles.event-boundaries-1.test.ts",
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "title": "elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "status": "passed"
+        }
+      ],
+      "raw": "mutation-logs/original.raw",
+      "json": "mutation-logs/original.json"
     },
     "finalReplay": {
       "exit": 0,
       "signal": null,
-      "sha": "420ba8ede4d70c36e639d3be289bd4c13a802ab76f7fe38a69d426b6afc63f88",
-      "testsLine": "2 passed (2)",
-      "failedLine": "",
-      "firstFailure": "",
-      "raw": "mutation-logs/final-replay.raw"
-    }
+      "spawnError": null,
+      "counts": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "pending": 0,
+        "todo": 0
+      },
+      "executionSet": [
+        [
+          "player-roles.event-boundaries-1.test.ts",
+          "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "passed"
+        ],
+        [
+          "player-roles.event-boundaries-1.test.ts",
+          "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "passed"
+        ]
+      ],
+      "executionSetSha": "55c68280d1a2135e3747b5d7150fedf8f4e105ffd504732f1a61a35fcc38be2a",
+      "runtimeErrors": [],
+      "failedEntries": [],
+      "assertions": [
+        {
+          "file": "player-roles.event-boundaries-1.test.ts",
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "title": "rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "status": "passed"
+        },
+        {
+          "file": "player-roles.event-boundaries-1.test.ts",
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "title": "elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "status": "passed"
+        }
+      ],
+      "raw": "mutation-logs/final-replay.raw",
+      "json": "mutation-logs/final-replay.json"
+    },
+    "finalReplayIdentitySetEqualsOriginal": true
   },
   "needles": [
     {
@@ -26,6 +97,11 @@
       "mutation": "player-roles.ts 名称指针下限钳 0 → 0 哨兵缺省 role 错取 persons[0] 当名（越表尾不受此钳影响）",
       "expectedFailure": "roles[1]._name 由 undefined 变 李逍遥（_name 映射数组 toEqual 首失）",
       "file": "src/resources/parsers/player-roles.ts",
+      "target": {
+        "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+        "title": "rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+        "assertionSubstring": "AssertionError: expected [ '李逍遥', '李逍遥',"
+      },
       "productHashes": {
         "original": "15451b160af99d81ecebc8794184ee5d915c2b9271b8551c157a4f857d006d75",
         "mutated": "a08dd18752926629edc3b25e8fbcb4c13550d1d23a9885dc6fc873e107eeab4e",
@@ -35,16 +111,68 @@
       "red": {
         "exit": 1,
         "signal": null,
-        "testsLine": "1 failed | 1 skipped (2)",
-        "firstFailure": "AssertionError: expected [ '李逍遥', '李逍遥', '林月如', '巫后', …(2) ] to deeply equal [ '李逍遥', undefined, '林月如', '巫后', …(2) ]",
+        "spawnError": null,
+        "counts": {
+          "total": 2,
+          "passed": 1,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0
+        },
+        "failedEntries": [
+          {
+            "file": "player-roles.event-boundaries-1.test.ts",
+            "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+            "failureMessageHeads": [
+              "AssertionError: expected [ '李逍遥', '李逍遥', '林月如', '巫后', …(2) ] to deeply equal [ '李逍遥', undefined, '林月如', '巫后', …(2) ]\n    at /Users/zhangxu/illegal/type-pal/pack"
+            ]
+          }
+        ],
+        "problems": [],
+        "executionSet": [
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+            "passed"
+          ],
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+            "failed"
+          ]
+        ],
+        "executionSetSha": "97527a7fe83b0daf316d6d7b43c417c1a74075d64c40870935974674ff482136",
         "raw": "mutation-logs/N1-name-pointer-clamped.red.raw",
-        "sha": "313e2db4a20d7f9e5a3922c70987ddb1aa6f0a459efb347e98c2a0a2c58dcba7"
+        "json": "mutation-logs/N1-name-pointer-clamped.red.json"
       },
       "restoredGreen": {
         "exit": 0,
-        "testsLine": "1 passed | 1 skipped (2)",
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "total": 2,
+          "passed": 2,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0
+        },
+        "problems": [],
+        "executionSet": [
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+            "passed"
+          ],
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+            "passed"
+          ]
+        ],
+        "executionSetSha": "55c68280d1a2135e3747b5d7150fedf8f4e105ffd504732f1a61a35fcc38be2a",
+        "identitySetEqualsOriginal": true,
         "raw": "mutation-logs/N1-name-pointer-clamped.green.raw",
-        "sha": "6eaf9f180d4e76bf115fce48480fa64d75efd609cfa3ce091a9c930fda77ec6a"
+        "json": "mutation-logs/N1-name-pointer-clamped.green.json"
       }
     },
     {
@@ -52,6 +180,11 @@
       "mutation": "player-roles.ts elemResistance 手写键字面量 water↔earth 行互换",
       "expectedFailure": "roles[0].elemResistance 变 {water:50, earth:30}（toEqual 首失）",
       "file": "src/resources/parsers/player-roles.ts",
+      "target": {
+        "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+        "title": "elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+        "assertionSubstring": "AssertionError: expected { wind: +0, thunder: +0, …(3) } to deeply equal"
+      },
       "productHashes": {
         "original": "15451b160af99d81ecebc8794184ee5d915c2b9271b8551c157a4f857d006d75",
         "mutated": "bc39ca89f74d192e2aa1fa57447c6d73ba5c0f1a1199fc8a35bb591620ca8c3b",
@@ -61,23 +194,155 @@
       "red": {
         "exit": 1,
         "signal": null,
-        "testsLine": "1 failed | 1 skipped (2)",
-        "firstFailure": "AssertionError: expected { wind: +0, thunder: +0, …(3) } to deeply equal { wind: +0, thunder: +0, …(3) }",
+        "spawnError": null,
+        "counts": {
+          "total": 2,
+          "passed": 1,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0
+        },
+        "failedEntries": [
+          {
+            "file": "player-roles.event-boundaries-1.test.ts",
+            "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+            "failureMessageHeads": [
+              "AssertionError: expected { wind: +0, thunder: +0, …(3) } to deeply equal { wind: +0, thunder: +0, …(3) }\n    at /Users/zhangxu/illegal/type-pal/packages/pal-ext"
+            ]
+          }
+        ],
+        "problems": [],
+        "executionSet": [
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+            "failed"
+          ],
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+            "passed"
+          ]
+        ],
+        "executionSetSha": "8aae333c8b7b87a7aef087ab5e33335477673cc7be6322a7a586e3a4bb12a32f",
         "raw": "mutation-logs/N2-elem-water-earth-transposed.red.raw",
-        "sha": "14399ffe6f5a52269969bf63a65b43d251aab417280af63b536661bf09866a67"
+        "json": "mutation-logs/N2-elem-water-earth-transposed.red.json"
       },
       "restoredGreen": {
         "exit": 0,
-        "testsLine": "1 passed | 1 skipped (2)",
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "total": 2,
+          "passed": 2,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0
+        },
+        "problems": [],
+        "executionSet": [
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+            "passed"
+          ],
+          [
+            "player-roles.event-boundaries-1.test.ts",
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+            "passed"
+          ]
+        ],
+        "executionSetSha": "55c68280d1a2135e3747b5d7150fedf8f4e105ffd504732f1a61a35fcc38be2a",
+        "identitySetEqualsOriginal": true,
         "raw": "mutation-logs/N2-elem-water-earth-transposed.green.raw",
-        "sha": "3b61651b83fd61975be68499d1e5f832f3025f8b8e7e6b54114a39d2aaaca035"
+        "json": "mutation-logs/N2-elem-water-earth-transposed.green.json"
       }
     }
   ],
+  "selfTest": [
+    {
+      "case": "two-failures",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["numFailedTests=2", "failed-entries=2"]
+    },
+    {
+      "case": "wrong-fullname",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["failed-fullName=\"d other\" != target-fullName"]
+    },
+    {
+      "case": "red-exit-zero",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["exit=0"]
+    },
+    {
+      "case": "pending-test",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["numPendingTests=1"]
+    },
+    {
+      "case": "todo-test",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["numTodoTests=1"]
+    },
+    {
+      "case": "runtime-error",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["runtimeErrors=[\"f.test.ts: Cannot find module\"]"]
+    },
+    {
+      "case": "collection-error-empty-assertions",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["runtimeErrors=[\"f.test.ts: collection-error-empty-assertions\"]"]
+    },
+    {
+      "case": "signal-failure",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["signal=SIGTERM"]
+    },
+    {
+      "case": "spawn-failure",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["spawnError=ENOENT"]
+    },
+    {
+      "case": "green-phase-with-failure",
+      "expected": "rejected",
+      "rejected": true,
+      "problems": ["exit=1", "numFailedTests=1", "non-passed-entry-in-execution-set"]
+    },
+    {
+      "case": "canonical-red-accepted",
+      "expected": "accepted",
+      "rejected": false,
+      "problems": []
+    },
+    {
+      "case": "canonical-green-accepted",
+      "expected": "accepted",
+      "rejected": false,
+      "problems": []
+    },
+    {
+      "case": "identity-drift-detected",
+      "expected": "detected",
+      "rejected": true,
+      "problems": []
+    }
+  ],
   "cleanup": {
-    "porcelainAfterRestore": "?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/\n?? packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+    "porcelainAfterRestore": "M docs/ops/board.md\n M docs/ops/evidence/README.md\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/adjacent.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/counterproof.json\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/docs-gate.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/full-suite.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/identity.json\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/lint.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N1-name-pointer-clamped.green.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N1-name-pointer-clamped.red.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N2-elem-water-earth-transposed.green.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N2-elem-water-earth-transposed.red.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/final-replay.raw\n D docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/green-baseline.raw\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/run-counterproof.mjs\n M docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/typecheck.raw\n M docs/ops/tasks/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N1-name-pointer-clamped.green.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N1-name-pointer-clamped.red.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N2-elem-water-earth-transposed.green.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N2-elem-water-earth-transposed.red.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/final-replay.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/original.json\n?? docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/original.raw",
     "tempTree": {
-      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/palextract-boundaries-counterproof-AQpUb0",
+      "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/palextract-boundaries-counterproof-Xgfz69",
       "existedBeforeRemoval": true,
       "removed": true
     }

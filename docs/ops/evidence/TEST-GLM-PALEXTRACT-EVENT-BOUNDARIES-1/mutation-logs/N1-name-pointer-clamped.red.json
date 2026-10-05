@@ -1,0 +1,66 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 1,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791205968212,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射"
+          ],
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "status": "failed",
+          "title": "rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "duration": 9.203040999999985,
+          "failureMessages": [
+            "AssertionError: expected [ '李逍遥', '李逍遥', '林月如', '巫后', …(2) ] to deeply equal [ '李逍遥', undefined, '林月如', '巫后', …(2) ]\n    at /Users/zhangxu/illegal/type-pal/packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts:46:39\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射"
+          ],
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "status": "passed",
+          "title": "elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "duration": 0.5210830000000328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791205968529,
+      "endTime": 1791205968538.521,
+      "status": "failed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts"
+    }
+  ]
+}
