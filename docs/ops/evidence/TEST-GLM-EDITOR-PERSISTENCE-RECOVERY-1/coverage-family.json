@@ -1,0 +1,103 @@
+{
+  "kind": "family-tests branch coverage (46 family test files)",
+  "provider": "v8",
+  "scopeFiles": 19,
+  "perFile": {
+    "author-disk-baseline.ts": {
+      "branchGroups": 34,
+      "coveredTotal": "67/71",
+      "summaryPct": 94.36
+    },
+    "author-save-journal.ts": {
+      "branchGroups": 146,
+      "coveredTotal": "274/297",
+      "summaryPct": 92.25
+    },
+    "author-save-plan.ts": {
+      "branchGroups": 41,
+      "coveredTotal": "86/87",
+      "summaryPct": 98.85
+    },
+    "author-save-prefix.ts": {
+      "branchGroups": 15,
+      "coveredTotal": "31/31",
+      "summaryPct": 100
+    },
+    "author-save-store.ts": {
+      "branchGroups": 32,
+      "coveredTotal": "102/102",
+      "summaryPct": 100
+    },
+    "edit-session.ts": {
+      "branchGroups": 134,
+      "coveredTotal": "191/276",
+      "summaryPct": 69.2
+    },
+    "editor-history-coordinator.ts": {
+      "branchGroups": 27,
+      "coveredTotal": "50/54",
+      "summaryPct": 92.59
+    },
+    "editor-history-participant.ts": {
+      "branchGroups": 0,
+      "coveredTotal": "0/0",
+      "summaryPct": 100
+    },
+    "export-zip.ts": {
+      "branchGroups": 16,
+      "coveredTotal": "32/33",
+      "summaryPct": 96.96
+    },
+    "file-system-access.ts": {
+      "branchGroups": 3,
+      "coveredTotal": "5/6",
+      "summaryPct": 83.33
+    },
+    "fsa-copy.ts": {
+      "branchGroups": 3,
+      "coveredTotal": "6/6",
+      "summaryPct": 100
+    },
+    "handle-store.ts": {
+      "branchGroups": 19,
+      "coveredTotal": "39/39",
+      "summaryPct": 100
+    },
+    "load-play-project.ts": {
+      "branchGroups": 1,
+      "coveredTotal": "2/2",
+      "summaryPct": 100
+    },
+    "open-actions.ts": {
+      "branchGroups": 54,
+      "coveredTotal": "106/108",
+      "summaryPct": 98.14
+    },
+    "project-copy-source.ts": {
+      "branchGroups": 10,
+      "coveredTotal": "17/20",
+      "summaryPct": 85
+    },
+    "project-diagnostics.ts": {
+      "branchGroups": 117,
+      "coveredTotal": "214/240",
+      "summaryPct": 89.16
+    },
+    "project-io.ts": {
+      "branchGroups": 120,
+      "coveredTotal": "218/242",
+      "summaryPct": 90.08
+    },
+    "project-read-lock.ts": {
+      "branchGroups": 3,
+      "coveredTotal": "9/9",
+      "summaryPct": 100
+    },
+    "workspace-persistence.ts": {
+      "branchGroups": 206,
+      "coveredTotal": "415/427",
+      "summaryPct": 97.18
+    }
+  },
+  "conclusion": "0-count arms are classified in dedup-ledger.md (existing proofs elsewhere / v8 artifacts / defense layers)"
+}

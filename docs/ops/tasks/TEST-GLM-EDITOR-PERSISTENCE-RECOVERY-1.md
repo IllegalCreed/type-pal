@@ -104,10 +104,67 @@ Editor 的 canonical 工程保存必须是可验证、可恢复、可重放的�
 
 ### 进入 done 前：独立验收
 
-- 贡献者交付与自验: pending（作者证据不代替 Codex）
+- 贡献者交付与自验: done（GLM r1 饱和档案已交付推送，见下方 r1 交付记录；作者证据不代替 Codex）
 - Codex 独立复核: pending
 - 用户体验/产品验收: N/A（测试-only）
 - done 准入结论: blocked；由 Codex 独立复核后决定
+
+## r1 交付记录（GLM，2026-10-05，branch `codex/glm-editor-persistence-recovery-r1`，base `53bf97e01` = origin/main）
+
+**交付结论：五族饱和档案，零新增测试、零产品改动。** 按本卡 Draft「若一族已饱和，只写
+existing-proof，不新增包装测试」与 AGENTS.md（2026-10-03 测试少而精），本轮不造换包装用例；
+证据只放 [`docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/`](../evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/README.md)。
+
+### 方法与核心证据
+
+1. **轴级排重**：42 个家族测试文件（project-io*/admission/read-admission/save-route/open-workflows、
+   author-save-plan/prefix/journal/store/conflict、save-batch-*、editor-history-*、edit-session、
+   project-copy/transfer/zip/fsa-copy/file-system-access/leave-guard + workspace*/open-actions/clone 等）
+   逐条清出 fullName×caller×input×oracle（约 900+ 用例）；卡面每个轴都有多条带精确 oracle 的既有合同，
+   四个代表场景（prefix 恢复/stale writer 拒/配对失败零发布/导出坏资源零下载）全部有具名证明
+   （dedup-ledger.md 第一、二节）。
+2. **分支级核验**：19 个范围源文件（卡面族名对应全部真实源码，含 open-actions/workspace-persistence/
+   handle-store/author-disk-baseline/load-play-project）三口径 v8 覆盖率：仅家族 46 文件
+   （`coverage-family.json`）、全仓 564 文件/4429 测试全绿（`coverage-fullsuite.json`）。
+   家族口径 158 个真实 0 计数臂逐类归位：具名既有测试已证的 throw/条件另一侧、消息格式子臂、
+   良性回退子臂、防御层（kimi 波/cov85 卡同裁定）、v8 臂序伪影（ledger 第三节分类表）。
+3. **候选解剖**：两个深挖候选——首存 0 字节 save-state 占位恢复（journal L516 真分支在
+   `resolves interrupted marker publication pending-before` 单测下恰命中 1 次，`[1,57]`）、
+   世界精灵资源 ZIP 导出（blank 项目自带 `sprite.generated.starter`，transfer-validation 导出正控
+   已整链走通）——均已有证明，不新增。
+
+### 反控申报
+
+本轮零新增断言，无反控注入点。饱和结论的证据=排重账+三口径覆盖率+候选解剖；Codex 复核若指认
+任一行号为真实业务缺口，返工按缺口补合同并补齐绿→指定业务红→恢复绿/恰一业务 AssertionError/
+执行集/三态 hash/清理证明的完整反控（README「反控申报」节）。
+
+### fresh 执行与质量门（本卡范围）
+
+- 定向+相邻 52 文件 **823/823 全绿**（`directed-fresh.json`：file×fullName×status；复现
+  `node docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/run-evidence.mjs`）。
+- 全仓（排除两项 main 既有红，见下）4429/4429 全绿；`pnpm --filter @type-pal/editor typecheck` 0 error；
+  全仓 `pnpm lint` 3385 files 0/0/0；`node scripts/docs/check.mjs` PASS（本卡 evidence 导航行已登记）；
+  `git diff --check` 干净。
+- 改动面：仅本证据目录（6 文件）+ 卡面本记录 + evidence/README 导航行；产品/旧测/共享配置/
+  baseline/真实 `projects/pal` 零改动。
+
+### main 既有红登记（非本卡引入，worktree 与主 worktree 同提交双验）
+
+- `project-reference.pal.test.ts`：22663 ≠ 22666（PAL 数据漂移 vs 硬编码计数；在干净 main@53bf97e01
+  单跑同样红；不属本卡范围，未动）。
+- `src/ui/design-system/*` adoption 门在覆盖率负载下 30s 超时漂移（GLM wave L 已登记的已知项）。
+- vitest 在存在失败测试时不写 coverage 报告——附录口径因此排除上述两项后取证。
+
+### 未闭合风险 / 移交 Codex
+
+1. `branch-inventory.json`/`coverage-fullsuite.json` 的 0 计数臂未逐臂写独立证明（分类表覆盖代表项
+   与分类原则）；Codex 可按行号指认，任何被判真实缺口的臂按反控申报节返工。
+2. 产品观察（非缺陷）：`validateProjectZipEntries` 对 `kind:'sprite'` 只做通用 bytes/sha256 校验
+   （保存侧 preflight 会整体解码 sprite）——导出=快照、保存=写入门的深度不对称可自洽；如需统一
+   深度请裁决，本卡不动产品。
+3. 全仓既有 drift（evidence/README、tasks/index 的 after-SHA）沿用 data-battle 卡登记，留 Codex
+   集中清理。
 
 ## Draft: 设计与风险
 
@@ -122,12 +179,10 @@ Editor 的 canonical 工程保存必须是可验证、可恢复、可重放的�
 - 风险: 巨大现有测试文件可能让 GLM 重复已有合同。
   - 缓解: 先生成旧 fullName×caller×input×oracle ledger；若一族已饱和，只写 existing-proof，不新增包装测试。
 
-## 下一位 Agent 提示词
+## 下一位 Agent 提示词（覆盖卡内旧提示词）
 
-```text
-你是 TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 的 Coding Owner（GLM）。先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/reference/phase1-knowledge-harvest.md、本卡、归档 TEST-COVERAGE85-GLM-EDITOR-1 与 TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1。
-只在 codex/glm-editor-persistence-recovery-r1 工作；先对 project-io/project-diagnostics/project-open/read-admission/save-route、author-save-plan/prefix/journal/store/conflict、save-batch-*、editor-history-*、edit-session、project-copy/export-zip/file-system-access 的旧 fullName/caller/input/oracle 排重。
-只补真实未证明的 admission/serialization、receipt/prefix/recovery/lock、partial write/foreign drift、history paired atomicity/redo branch、copy/export zero-write/zero-download 合同；不要重复刚收口的 DataMode/BattleField/Enemy/Item/Poison UI 卡，也不要夹带产品或 schema 修复。
-只写本卡测试、合法 typed fixture、证据与本卡回执；禁止私有 execute/DB 直写、核心 mock、强转、skip、ignore、扩大 timeout、旧版本 fallback、真实用户目录或共享配置改动。
-反控必须绿→指定业务红→恢复绿、恰一业务 AssertionError、完整执行集/hash/清理证明；交付定向/相邻 test、typecheck、lint 0/0/0、docs、git diff --check 和完整 SHA。覆盖率/例数不是完成条件，不得标 done，等待 Codex 独立验收。
-```
+无下一位 Agent 提示词，等待 Codex 独立验收（验收入口：本卡 r1 交付记录 +
+`docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/` 全部 6 文件；复跑
+`node docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/run-evidence.mjs`）。
+Codex 若按 `branch-inventory.json`/`coverage-fullsuite.json` 行号指认出真实业务缺口，开返工指令
+由 GLM 按「反控申报」节补合同与三态反控。
