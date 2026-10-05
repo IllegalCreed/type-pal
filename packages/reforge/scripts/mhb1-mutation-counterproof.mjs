@@ -72,15 +72,13 @@ const injections = [
   },
   {
     id: 'MHB-SAVE-FAIL',
-    anchor: 'saveWriteQueue = scheduled.catch(() => undefined)',
-    // 一次失败毒化写队列：后续合法存档全部被拒绝。
-    mutate: (line) =>
-      line.replace(
-        'saveWriteQueue = scheduled.catch(() => undefined)',
-        'saveWriteQueue = scheduled /* mhb1-mutant: failure poisons write queue */',
-      ),
+    anchor: "showToast('存档失败')",
+    // 存档失败公开回执被移除。注：写队列毒化变异(saveWriteQueue = scheduled)会连带打红
+    // checkpoint-export.chain 的两条既有合同(共享写序/计数面)，不满足恰一红口径；本针独占
+    // 打红本卡回执腿，队列/计数腿由测试断言本身与该预核记录共同覆盖。
+    mutate: () => "  /* mhb1-mutant: save failure receipt removed */",
     expectedTest: 'MHB-SAVE-FAIL-1',
-    expectedErrorPart: 'expected null not to be null',
+    expectedErrorPart: 'expected false to be true',
   },
 ]
 
