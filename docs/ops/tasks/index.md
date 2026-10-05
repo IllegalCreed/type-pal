@@ -15,7 +15,7 @@
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-EVENT-STATE-OPCODES-1 — event state and opcode business contracts](TEST-GLM-GAME-EVENT-STATE-OPCODES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-MIGRATE-ASSET-SUPPLY-1 — asset supply, ownership and publication boundaries](TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [TEST-GLM-MIGRATE-ASSET-SUPPLY-1 — asset supply, ownership and publication boundaries](TEST-GLM-MIGRATE-ASSET-SUPPLY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 — battle core and session business contracts](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -359,3 +359,4 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
+
