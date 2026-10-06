@@ -1,0 +1,74 @@
+# TEST-GAME-MEDIA-LIFECYCLE-1 — 视频与RNG异步收尾及资源所有权
+
+Status: build
+Owner: GLM（独立对话A，唯一写入者）
+Reviewer: Codex（独立验收）
+Phase: phase1
+Capability: shell-media / async-lifecycle
+Visual Verification Timing: N/A（本卡核异步与资源合同，不宣称浏览器自动播放或剧情观感验收）
+
+## 目标与有限范围
+
+核查真实媒体调用链中迟到的播放结果、重试、输入与缓存所有权；只给旧测尚未充分证明的合法合同补原子测试。本卡不设用例数量、反控数量或覆盖率增量指标。以下清单逐项有裁决即结束，不滚动追加其它模块。
+
+| 轴 | 本轮必须回答的问题 | 合法入口与可观察证据 |
+|---|---|---|
+| M1 | 视频已经 ended/error/按正常跳过键完成后，原 play Promise 才 reject，是否重新产生重试层或残留监听？ | `playAvi`、真实DOM事件、延迟媒体IO Promise；Promise完成与DOM/监听收尾 |
+| M2 | 首次播放被拒绝，用户重试成功但播放结果迟于结束，重试层是否仍正确退休？ | overlay真实click、真实ended/error；不直接调用内部cleanup |
+| M3 | 用户第一次重试仍被拒绝时，后续真实click是否仍有可用重试入口？ | 连续合法媒体拒绝与实际click；如产品不满足，交隔离反例，不写“坏行为应如此”的绿测 |
+| M4 | 默认跳过键的延迟收尾期间收到重复按键/ended/error，会不会重复完成、遗留定时器，或干扰下一段顺序视频？ | bootstrap的顺序await调用；不得制造无真实caller的并发双播放器契约 |
+| M5 | 前一视频的迟到结果与下一视频的音量设置/DOM所有权是否隔离？ | 顺序`playAvi`与公开`setVideoVolume`；当前视频实际volume与层数量 |
+| M6 | 同一RNG chunk的并发读取有一份真实IO，失败后可重试；不同chunk不会共享失败或帧数据？ | 公开fetchManifest/fetchFrame边界，真实解码/帧渲染；先对照已有缓存合同 |
+| M7 | 请求帧部分失败、成功帧迟到时，是否保持成功帧的顺序与最后帧内容，并归还输入监听？ | 合法manifest/frame输入、真实framebuffer内容与监听；不mock解码业务 |
+| M8 | warm-up的resolve/reject迟到时，是否清理自己的临时video且不触及正式播放的video？ | `main.ts`手势调用+公开warm-up；仅IO调度可控，不把jsdom当自动播放权限实测 |
+
+每轴标 `existing-proof / new-contract / product-counter / unreachable / blocked`。existing-proof必须给旧文件fullName和实际断言行；unreachable必须给caller和输入约束。M6的同chunk去重/失败后重试、普通跳过/error/音量钳制已有测试，不准换名称或值重复计新。
+
+## 路由与白名单
+
+- 工作树：`/private/tmp/type-pal-game-media-lifecycle`。
+- 分支：`codex/glm-game-media-lifecycle-r1`。
+- 派发产品基点/冻结：`2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d`；在含本卡的派发提交上工作。交付写全40位base/testCandidate/receiptHead并用Git对象核实；后续docs-only区间单列，不rebase到漂移产品。
+- 仅可写：本卡贡献者交付/自验块；`packages/game/src/shell/avi-player.async-lifecycle.test.ts`、`packages/game/src/shell/rng-player.io-lifecycle.test.ts`；新专属fixture目录`packages/game/src/shell/__tests__/media-lifecycle/`；`docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/`。
+- 产品、旧测、共享fixture、配置、依赖/锁文件、官方基线、真实PAL资产与用户数据、共享索引/看板均只读。不写其它卡。不合main、不标done、不删分支。
+- 缺陷只能在专属证据目录放按需运行的隔离复现工具；工具在mkdtemp树生成临时测试并真实调用产品。不得把预期失败纳入默认test，不得skip/xfail，不得以复刻算法代替产品执行。
+
+## 前提与锚点
+
+Codex已读真实实现及旧测。此卡不改变第一阶段机制、媒体键语义或用户行为，故原版公式/剧情真值N/A；涉及新行为取舍或产品修复即停受影响轴交Codex。
+
+- [项目纪律](../../../CLAUDE.md)、[一阶段经验](../../phase1/engineering-notes.md)、[测试质量验收](../agent-workflow.md)。
+- `packages/game/src/shell/avi-player.ts`：`playAvi`的settled收尾、play结果及一次性click重试；`warmUpVideoAutoplay`、`setVideoVolume`。
+- `packages/game/src/shell/rng-player.ts`：公开IO端口、chunk Promise缓存、失败驱逐、帧预取与finally收尾。
+- caller：`packages/game/src/main.ts:52`；`bootstrap.ts:980,1266,1414,1463,1607,1751,1847`。
+- 先完整排重：`avi-player.test.ts`、`avi-player.glm-next-wave.test.ts`、`rng-player.test.ts`、`rng-player.glm-next-wave.test.ts`及同目录其它相关测试/已接收候选；不得只搜索测试标题。
+- 标准`ServiceWorker.ready`不会reject（[规范](https://w3c.github.io/ServiceWorker/#navigator-service-worker-ready)），不属于本卡，不伪造该拒绝“补覆盖”。
+
+| 冻结源 | SHA256 |
+|---|---|
+| `packages/game/src/shell/avi-player.ts` | `3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b` |
+| `packages/game/src/shell/rng-player.ts` | `551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae` |
+| `packages/game/src/shell/bootstrap.ts` | `3dd355d3d9314bbd42e48ec6965bc04d48942f2dbd60ca7a536fe997438fa596` |
+| `packages/game/src/main.ts` | `f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64` |
+
+## 交付与验证
+
+- 专属证据入口`README.md`，合同账`contract-ledger.tsv`：轴、源码条件/caller、输入、旧file/fullName/断言、精确oracle、处置、新测试file/fullName；不要模板占位或数量充账。允许全部existing-proof而零新增。
+- 一个it只验证一个可证伪合同；同合同必要结果可联断，不拼多条独立输入。只控制DOM/网络/媒体IO与时间，typed spy；无业务核心mock、双桥、ignore、私有状态/新增后门、扩timeout。
+- 有新增合同时，按独立行为边界选择最小业务变异。三态JSON/raw、退出码/signal/spawn、完整file×fullName多重执行集、指定单一AssertionError与恢复绿、源/测试/mutant/恢复hash齐备。全态执行集相同，零pending/todo/skip/collection/runtime/unhandled；无新合同不造针。先核判据真实拒收反例，不能只看exit/count。
+- 变异只在本次mkdtemp隔离树进行，finally仅清本次树，记录清理证明；不得在贡献者树修改冻结产品后声称已恢复。相同合同不为每个数字重复变异，不每针跑全仓。
+- 每阶段跑新测试和相邻媒体旧测，输出JSON与stderr；交付前一次`env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game test`与`typecheck`、根`pnpm lint`（完整error/warning/info=0）、`pnpm check:docs`、`git diff --check`。未知警告不得压制；先记录基点同命令对照。
+- 复现缺陷的故意红输出独立命名`repro-*`，与绿门分列，不冒称全部通过。遗留产品问题不授权夹修。全量源码diff核产品/旧测零改动；覆盖仅可作定位附件，不是accept依据，不更新官方基线。
+
+## 当前模式推进记录
+
+- 2026-10-06 Codex：有限M1–M8、真实入口与排重前提已核；**build allowed仅限测试/隔离诊断白名单**。实现产品/媒体行为改动未准入。
+- 贡献者交付/自验：pending。
+- Codex独立验收：pending；done准入：blocked（待独立核合同、证据与质量门）。
+- 用户产品裁决：N/A（本轮无产品行为变化）；发现新取舍另列counter。
+
+## 下一位Agent提示词
+
+```text
+你是TEST-GAME-MEDIA-LIFECYCLE-1唯一执行方。只在/private/tmp/type-pal-game-media-lifecycle、codex/glm-game-media-lifecycle-r1工作。先读AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md和docs/ops/tasks/TEST-GAME-MEDIA-LIFECYCLE-1.md，再逐字读卡内源码/caller与旧断言。只完成M1-M8，先排重分类，真正缺失的合法合同才补少而精的原子测试；产品不满足就交隔离真实红反例，不修产品或把坏行为写成绿测。按白名单、冻结、typed IO、严格三态与清理证明交付；零诊断，完整SHA提交推送。所有轴有证据即停，卡面只写你的交付块；不合main、不done、不扩围。返回候选SHA、逐轴结论、门禁/缺陷及剩余风险，等待Codex验收。
+```

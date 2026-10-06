@@ -510,7 +510,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "多 Agent 任务看板：这是 governance-index，当前文档状态为 draft。全文 22 行、2 个标题；摘要/首段为「当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "当前行动看板：新增三个有限、测试/隔离诊断准入的GLM独立工作包。产品缺陷卡仍draft，不因测试build授权产品实现；既有任务状态未改。",
       "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
       "unresolved": [
         "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+      "afterSha256": "82bb96b18399f99f6a66621ec6a447787f50e3c8af9fe8d4fce979b9f0e3169d",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -560,10 +560,18 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+        "implementationSha": "82bb96b18399f99f6a66621ec6a447787f50e3c8af9fe8d4fce979b9f0e3169d",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
+            "date": "2026-10-06",
+            "action": "finite-test-dispatch-navigation-review",
+            "scope": "docs/ops/board.md",
+            "previousSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
@@ -676,7 +684,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "任务专属证据：这是 evidence-receipt，当前文档状态为 current。全文 14 行、2 个标题；摘要/首段为「进行中任务的 tracked 证据按卡分目录存放；关闭后随任务卡一并归档或按验收结论处理。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "任务证据导航：核实battle-registry目录命名规范化后的链接；含历史交付入口，旧待验/覆盖续跑描述不是当前accept、done或继续授权，任务卡顶部与Codex审核是权威。",
       "truthAnchors": ["docs/ops/evidence/README.md:1", "1:任务专属证据", "8:当前证据"],
       "unresolved": [
         "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
@@ -688,7 +696,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "a50eb04431c32f351593ce07602655483d48cf736a250be3c59504404a46d26d",
+      "afterSha256": "213b70ada4d6cd6632de904fc91fb676edf7a46a6625bbd8075ff7016b652e4c",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -718,10 +726,18 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "a50eb04431c32f351593ce07602655483d48cf736a250be3c59504404a46d26d",
+        "implementationSha": "213b70ada4d6cd6632de904fc91fb676edf7a46a6625bbd8075ff7016b652e4c",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
+            "date": "2026-10-06",
+            "action": "finite-test-dispatch-navigation-review",
+            "scope": "docs/ops/evidence/README.md",
+            "previousSha256": "a50eb04431c32f351593ce07602655483d48cf736a250be3c59504404a46d26d",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
@@ -1375,7 +1391,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "任务卡索引：这是 task-card，当前文档状态为 draft。全文 358 行、4 个标题；摘要/首段为「由 `node scripts/docs/check.mjs --print-task-index` 生成；只读取每张卡顶部状态。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "由任务卡顶部状态机械生成的导航，不是交付验收。新增三个build任务，历史行保持不变；主入口仍为当前看板。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "1:任务卡索引",
@@ -1396,7 +1412,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "ad172f46760e4342344dccbefb0e2bdf0d64c0211a47dcea82fff56d36ac009b",
+      "afterSha256": "ba722599307e54ee84dba7d05acea2a7df4279791f32cfb59f3c2736208931f9",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1432,10 +1448,18 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "ad172f46760e4342344dccbefb0e2bdf0d64c0211a47dcea82fff56d36ac009b",
+        "implementationSha": "ba722599307e54ee84dba7d05acea2a7df4279791f32cfb59f3c2736208931f9",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
+            "date": "2026-10-06",
+            "action": "finite-test-dispatch-navigation-review",
+            "scope": "docs/ops/tasks/index.md",
+            "previousSha256": "ad172f46760e4342344dccbefb0e2bdf0d64c0211a47dcea82fff56d36ac009b",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
