@@ -94,3 +94,27 @@ O1–O8 不扩围。保留原公开存储、合法 PNG、IO 拒绝与已有八�
 ```text
 你是 TEST-REFORGE-OPENING-IO-LIFECYCLE-1 原 Owner，只在 /private/tmp/type-pal-reforge-opening-io、codex/glm-reforge-opening-io-r1。git fetch origin 后只读 git show origin/main:docs/ops/tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md 的 2026-10-07 Codex 一审，不rebase漂移产品。r1 HEAD c774634332b8850ddc5635e11fdfd4e38ec5df0b，原冻结/白名单/O1-O8不变。一次闭合 O-R1-01～05：移除绿测中两份重复IO/退出后继续解码等缺陷预期、删除错误可执行N1，历史只留退役身份原因；O5保留真实在途及退休业务稳定并 finally 释放gate；O6 用真实store更新后可见新数据证明刷新，或据旧证排重，不用IO数量凑合同；修正rowsList层级、身份与status分离、四相位同一非空完整file/fullName多重集合，拒收隐藏skip/换身份/harness与signal/spawn并自测；诊断runner也核每条精确身份与错误形状，TypeA保留恰一指定公开IO未处理拒绝、拒收额外错误；保留真实相位JSON/raw/hash；隔离树复制lock/frozen依赖图，准备失败及最终清理实际举证；恢复两项越界共享文件到派发 a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8。保留合法IO缺陷诊断，不修产品/旧测/配置/共享文档。只重采受影响证据，重算合法合同账，不强保四例四针。完成原卡定向相邻/全包/typecheck/零诊断/docs/diff，docs仅登记自己目录缺共享导航这一项；只写自己的交付块，完整SHA提交推送，不合main、不done、不扩围，等待二审。
 ```
+
+## Codex 独立二审与最后判据窄返工（2026-10-07）
+
+**counter，仅剩 O-R2-01；未集成。** 固定 r2 工作提交 `e04007b159e91b01b15ced4084d6e05f10fbba15`、含回执 HEAD `89dbb9a6f74b202b2fd514ba2de785d631b912b8`；尾巴仅本卡贡献者回执。分支/远端一致、树干净；4/4 冻结源独立复算相同。两项共享文件已逐字恢复到派发 `a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8`；最终 diff 白名单成立。
+
+已核关闭：O-R1-01 的重复IO/退出后继续解码坏绿oracle删除与N1退役；O-R1-02 的O5真实在途/业务退休/finally、O6真实store更新后实际显示新港且无旧港；O-R1-04 的frozen lock与准备/最终清理；O-R1-05 的两共享文件恢复。O-R1-03 的rowsList位置/完整身份/隐藏状态/额外零断言suite已修，但额外运行错误仍会误收，以下不是新增测试范围。
+
+Codex 独占复制树保持候选产品/新测字节，独立运行原反控工具：整文件3/3基线与恢复、三针业务指定单红、末次3/3、工具exit0；原诊断工具八条产品反例按其判据8/8、清理成立。D-Q01-1与其它已报缺陷方向保留，不把这个工具返回0当严格门已通过。作者全包/typecheck/lint/docs保留为作者证据，本审因决定性counter不重复重门。
+
+| 编号 | 实际反例与源码锚点（该候选） | 最后有限改动 |
+|---|---|---|
+| O-R2-01 | `run-counterproof.mjs:115-120` 只拒零断言failed suite，解析器丢掉suite.message；`:171` 只搜索Unhandled Rejection。独立实际Vitest三例（两绿一指定AssertionError红）+ `afterAll` 抛Error，报告total3/pass2/fail1、suite.message非空；实际 `validateRedPhase` 返回 `[]`。异步uncaught原始默认reporter明确报 `Errors 1 error / Uncaught Exception / CODEX_EXTRA_RUNTIME_ERROR`，仍返回 `[]`。`run-repros.mjs:543-566` 实际 `validateTypeB` 对一例目标红叠同样两种错误也返回 `issues=[]`。 | 保留并核suite.message、所有逐行/计数、唯一纯业务AssertionError、同次子进程完整原始诊断。统一拒收额外hook/runtime/global错误，不仅拒Unhandled Rejection；这两种真实Vitest反例入同判据自测，纯红仍接受。TypeA故意指定产品拒绝独立保留，但也不能叠加其它错误。 |
+
+最小探针与实际结果：指定 `expect(1).toBe(0)` 红（反控再加两例独立passed以保持三行），分别追加 `afterAll(() => { throw new Error('CODEX_EXTRA_HOOK_ERROR') })` 或 `afterAll(async () => { setTimeout(() => { throw new Error('CODEX_EXTRA_RUNTIME_ERROR') },0); await new Promise(resolve => setTimeout(resolve,30)) })`。JSON+默认reporter实跑均exit1；身份、单目标红保持，额外hook/global错误真实出现，但上述两个候选判据都接受。不是手工伪造计数，也不是产品缺陷针。
+
+JSON reporter单独运行隐藏全局异常详情；若JSON和console分开两次运行，不能据后一进程的健康断言前一进程无额外错误。每相位同次native JSON+完整原始诊断联判（双reporter或等价方法），不要求raw逐字重印全部fullName。现有材料足以严格重判的保留；缺少该次诊断的相位重采，业务针与八项产品诊断不新增、不重造。产品卡仍draft，不夹修。
+
+本次**审核记录**质量门独立通过：`pnpm check:docs` 全部子门、根 `pnpm lint`（3474 文件，0 error/warning/info）、`git diff --check`。仅审核文档收口，非候选统一质量门或集成 accept。
+
+### 下一位 Agent 提示词（r3，人工选 GLM-5.3）
+
+```text
+你是 TEST-REFORGE-OPENING-IO-LIFECYCLE-1 原 Owner，继续 /private/tmp/type-pal-reforge-opening-io、codex/glm-reforge-opening-io-r1。先 git fetch origin，只读 origin/main 本卡最新二审，不rebase漂移产品。r2 HEAD 89dbb9a6f74b202b2fd514ba2de785d631b912b8。原冻结/白名单/O1-O8不变；缺陷绿预期/N1退役、O5在途与收尾/O6真实store刷新、锁与清理、越界恢复已核关闭，不重开、不增正常测试。只修 O-R2-01：反控解析器保留suite.message并由唯一判据拒收目标AssertionError之外的hook/runtime/collection/Uncaught Exception/Unhandled Errors等错误，诊断TypeB同步；逐相位同时核完整JSON身份/状态/所有计数及纯单一AssertionError。实际Vitest“目标单红+afterAll抛Error”和“目标单红+异步uncaught”必须拒收，纯业务红须接受。不能只搜Unhandled Rejection；JSON单reporter看不到全局错误，采集同次子进程native JSON+完整诊断（可双reporter）避免两个进程互证遗漏。TypeA仍保留恰一指定公开IO未处理拒绝的独立真值，但拒收额外hook/runtime错误，别把TypeA改成零unhandled。保留八个产品缺陷方向及三枚业务针，材料足以严判的只重判，诊断采集不足的才重采；不重造业务合同。mkdtemp/frozen lock/finally保持。按卡完成定向相邻/全包/typecheck、lint格式0/0/0、docs/diff；只允许原缺共享导航项，不写共享文档。完整SHA提交推送、docs-only单列，不合main、不done、不修产品、不扩围，待Codex终审。
+```

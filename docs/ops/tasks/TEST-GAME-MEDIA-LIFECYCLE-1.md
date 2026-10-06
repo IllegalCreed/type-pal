@@ -95,3 +95,35 @@ M1–M8 有限范围不增加；现有排重与 M3 缺陷诊断方向保留，�
 ```text
 你是 TEST-GAME-MEDIA-LIFECYCLE-1 原 Owner，继续原树 /private/tmp/type-pal-game-media-lifecycle、原分支 codex/glm-game-media-lifecycle-r1。先 git fetch origin，然后只读 git show origin/main:docs/ops/tasks/TEST-GAME-MEDIA-LIFECYCLE-1.md 的 2026-10-07 Codex 一审；不要 rebase 到漂移产品。固定 r1 HEAD 8fe49e9980990249de0d24cc1dfc71e5bb973168，原冻结/白名单/M1-M8不变。一次闭合 A-R1-01～04：真 2D context+typed spy；media 原型与提前失败时播放器/deferred/监听/计时器真实恢复；唯一判据拒收信号、spawn、额外 collection/runtime、隐藏状态及执行身份漂移，并有同判据拒收自测；保留完整三态 JSON/raw/失败文本/执行身份/argv/cwd/env/hash，M3 单列红反例，建树失败也 finally 清本次树。保留已有业务合同与排重，不堆用例，不修产品/旧测/配置/共享文档。源或测试变化只重采受影响针；最终定向+相邻、全包/typecheck、lint/格式0/0/0、docs/diff完整交付。只写自己的交付块，提交推送完整候选SHA及docs-only区间；不合main、不done、不扩围，等待Codex二审。
 ```
+
+## Codex 独立二审与最后判据窄返工（2026-10-07）
+
+**counter，仅剩 A-R2-01；未集成。** 固定 r2 测试/证据提交 `4fb3edabfd0047a32422a0fa8cfa02b61030e24a`，含回执 HEAD `33db7a932dd4bf257c4bb9da7d238c3df4548864`。分支/远端一致、树干净；尾巴仅 identity.json。全 diff 在白名单，4/4 冻结源独立复算相同；产品、旧测、共享配置零改动。
+
+已核关闭：A-R1-01 的真实 jsdom 2D context、typed passthrough spy；A-R1-02 的 typed media 原型恢复与 AVI deferred/事件/计时器收尾；A-R1-04 的持久三态 JSON/raw、完整身份/错误文本/哈希与隔离建树失败清理。A-R1-03 的 signal/spawn/空集/额外 collection suite/身份部分已修，但“无额外运行错误”仍未闭合，不把18个自测全绿当完整证明。已有业务合同、排重与 M3 缺陷方向不重开。
+
+Codex 在本次独占复制树保持候选产品/测试字节，独立跑原反控工具：基线7/7、七针各指定业务单红与恢复7/7、末次7/7，工具退出0、临时树 removed=true；M3 实跑 exit1、0 passed/1 failed/1 total、指定入口断言红且 removed=true。上述是业务变异/产品反例可复现，不是严格判据 accept。未重复全包/typecheck/候选lint/docs重门；作者回执仍标作者证据。
+
+| 编号 | 实际反例与根因 | 最后有限改动 |
+|---|---|---|
+| A-R2-01 | `lib-isolated-tree.mjs` 的 `judgeCommon` 仅以 failed suite 是否有 failed assertion 判健康，不读取非空 `suite.message`。独立实际 Vitest：一个指定 `expect(1).toBe(0)` 红，再在 `afterAll` 抛 `Error('CODEX_EXTRA_HOOK_ERROR')`；exit1、total1/failed1、suite.message=`CODEX_EXTRA_HOOK_ERROR`，调用候选实际 `judgeRed` 得 `problems=[]`。另异步 uncaught 同样被收；JSON reporter 原始输出仅“JSON report written”，没有未处理异常详情，`:161` 的 raw regex 无法证明零unhandled。 | 唯一判据保留并拒收 suite/hook/runtime 错误；每次实际子进程采集可识别全局异常的原始诊断并与该次 native JSON 联判，不依赖纯JSON reporter静默。新增这两种实际 Vitest 拒收自测，纯业务红仍须接受。M3同步用同门，不改产品/正常测试/针的业务合同。 |
+
+最小判据探针（不是业务新测，只在 Codex 仓库外复制树生成；原工具函数逐字读取后调用）：
+
+```ts
+import { test, expect, afterAll } from 'vitest'
+test('CODEX target', () => { expect(1).toBe(0) })
+afterAll(() => { throw new Error('CODEX_EXTRA_HOOK_ERROR') })
+// 第二次用此行替换 afterAll，等待异常实际被Vitest记录：
+// afterAll(async () => { setTimeout(() => { throw new Error('CODEX_EXTRA_RUNTIME_ERROR') }, 0); await new Promise(resolve => setTimeout(resolve, 30)) })
+```
+
+JSON reporter未包含全局错误字段这一事实本审实测成立；不能通过读取不存在的字段修门，也不能把退出码1当“业务红且无其它错误”。可同一子进程双reporter或等价完整诊断采集；不要求raw复制所有fullName，完整身份仍以native JSON为准。因采集改变重出相关相位，不重新扩张七针/七合同数量。原冻结、白名单、范围及产品停止线不变。
+
+本次**审核记录**质量门独立通过：`pnpm check:docs` 全部子门、根 `pnpm lint`（3474 文件，0 error/warning/info）、`git diff --check`。仅审核文档收口，非候选统一质量门或集成 accept。
+
+### 下一位 Agent 提示词（r3，人工选 GLM-5.3）
+
+```text
+你是 TEST-GAME-MEDIA-LIFECYCLE-1 原 Owner，使用原树 /private/tmp/type-pal-game-media-lifecycle、分支 codex/glm-game-media-lifecycle-r1。先 git fetch origin，只读 origin/main 本卡最新二审；不要 rebase 漂移产品。r2 HEAD 33db7a932dd4bf257c4bb9da7d238c3df4548864。原冻结/白名单/M1-M8不变；真实context、typed媒体spy及收尾、三态JSON持久化已核，不重开、不加正常测试。只修 A-R2-01：judgeCommon 必须保留并拒收非空 suite.message/额外hook或runtime错误；JSON reporter 单独运行看不到全局未捕获异常，不得据静默raw声称零unhandled。为每次实际子进程同时保留native JSON和能揭示hook/Unhandled Errors/Uncaught Exception/Unhandled Rejection的原始诊断（可同进程双reporter），同一唯一判据核完整身份/计数/状态/唯一目标AssertionError并拒额外错误。用实际Vitest验证“目标单红+afterAll抛Error”和“目标单红+afterAll内异步uncaught”都拒收，正常纯红仍接受；M3也用同门。保留合同/fullName/业务针不变，只因诊断采集变化重出7针及M3受影响相位，清理仍仅本次mkdtemp。最后按卡跑定向相邻/全包/typecheck、lint格式0/0/0、docs/diff；docs仅允许原缺共享导航项，禁止改共享文件。完整SHA提交推送并列docs-only尾巴，不合main、不done、不扩围，等待Codex终审。
+```

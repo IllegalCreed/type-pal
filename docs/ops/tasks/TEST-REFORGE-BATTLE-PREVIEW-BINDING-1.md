@@ -89,3 +89,34 @@ B1/B7 排重与 B6 未定策略停止线保留；B2/B3 同根因不展开更多�
 ```text
 你是 TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 原 Owner，继续 /private/tmp/type-pal-reforge-battle-preview-binding、codex/glm-reforge-battle-preview-binding-r1。git fetch origin 后只读 git show origin/main:docs/ops/tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md 的 2026-10-07 Codex 一审，不rebase漂移产品。r1 HEAD f00115e819532c68549875c9e965688e1bc3f36f，原冻结/白名单/B1-B7不变。Codex已真实复现 CONTROL绿+试打遭遇音效目标单红，D-1方向保留；不需要新增正常测试。只闭合 B-R1-01～03：唯一严格判据+拒收自测，JSON parse失败必须非零，精确两例身份/状态/计数与指定AssertionError，拒收spawn/signal/skip/pending/todo/额外collection/runtime/unhandled/冻结漂移；仓库外mkdtemp完整隔离产品树，准备及执行失败都有 finally 精确清理，不向活动packages写临时红测试；B4读记录在主动loadScene验证前取证并排除预加载归因，或诚实降为源码域证据，别把自己读取冒称试打读取。保存完整JSON/raw/argv/cwd/env/hash/成功与失败清理证明，重采变化的这条诊断，修README/账。保留其余排重与策略blocked，不修产品、不加后门或搜索策略。原卡最终定向相邻/全包/typecheck/零诊断/docs/diff；只写自己交付块，完整SHA提交推送，不合main、不done、不扩围，等待二审。
 ```
+
+## Codex 独立二审与最后判据窄返工（2026-10-07）
+
+**counter，仅剩 B-R2-01；未集成，不要求新增正常测试。** 固定 r2 证据提交 `e3ab833b1780ba284e791fbbaf69ff106bc20ad9`，含回执 HEAD `d4ec0c051e76d6c2420debe366065304b866a708`；尾巴仅本卡贡献者回执。分支/远端一致、树干净；4/4 冻结源独立复算相同，产品/旧测零改动，白名单成立。
+
+已核关闭：B-R1-02 仓库外完整产品复制树、准备/执行finally与成功/失败清理演练；B-R1-03 主动loadScene读记录误归因已撤回，B4准确降为源码域证据，预载caller锚点成立。B-R1-01 的parse失败/精确两例身份/逐行状态/单一failureMessage/suite.message等已修；下面仅核还未覆盖的额外全局运行错误。
+
+Codex 独占复制树独立运行原 `run-d1-repro.mjs`：工具exit0，真实CONTROL passed、REPRO唯一指定AssertionError failed（两例1绿1红）、17个判据自测通过，实际及成功/提前失败清理均成立。**D-1真实缺陷方向保留**。这不等于判据已能拒收全部污染；作者全包/typecheck/lint/docs保留为作者证据，counter未闭合不重复重门。
+
+| 编号 | 实际反例与根因 | 最后有限改动 |
+|---|---|---|
+| B-R2-01 | `judgeReproRun:160-236` 只消费JSON/进程/冻结，不接收raw全局错误。独立实际Vitest使用相同CONTROL/REPRO fullName：CONTROL passed，REPRO数组 `toContain('♪ 音效 sfx-encounter')` 指定AssertionError failed，再在afterAll用setTimeout抛 `CODEX_EXTRA_RUNTIME_ERROR` 并等待实际发生。native JSON仍total2/pass1/fail1、suite.message空；候选实际judge返回 `accept=true,reasons=[]`。同源默认reporter明确显示 `Errors 1 error / Uncaught Exception`。纯JSON reporter原始stdout仅report written，无法从其静默推出零unhandled。 | 将该次真实子进程全局错误诊断纳入唯一判据；同次native JSON+完整raw采集并拒额外uncaught/harness/runtime错误。增加这个实际Vitest拒收样本，正确纯CONTROL绿+REPRO红仍须接受。保留已正确的suite.message检查（本审hook污染已被拒）与其它严格条件。 |
+
+判据最小输入（只用于独占审查树，不是D-1业务repro或新增绿测）：两个fullName逐字等于工具CONTROL_NAME/REPRO_NAME，CONTROL断言1=1；REPRO断言 `expect(['actual']).toContain('♪ 音效 sfx-encounter')`；附加：
+
+```ts
+afterAll(async () => {
+  setTimeout(() => { throw new Error('CODEX_EXTRA_RUNTIME_ERROR') }, 0)
+  await new Promise(resolve => setTimeout(resolve, 30))
+})
+```
+
+该样本真实exit1、signal null、spawnError null、pending/todo0；sole REPRO failureMessages仍为指定AssertionError。全局异常不落suite.message，所以增加合成suite.message自测不能闭合。可同一子进程双reporter/等价完整诊断；不要求raw包含全部fullName，身份仍以native JSON为准。只重采这一条D-1诊断，不增加正常test/产品counter数量。B1/B7排重、B2/B3同根因和B6策略blocked不重开，产品修复仍另行准入。
+
+本次**审核记录**质量门独立通过：`pnpm check:docs` 全部子门、根 `pnpm lint`（3474 文件，0 error/warning/info）、`git diff --check`。仅审核文档收口，非候选统一质量门或集成 accept。
+
+### 下一位 Agent 提示词（r3，人工选 GLM-5.3）
+
+```text
+你是 TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 原 Owner，继续 /private/tmp/type-pal-reforge-battle-preview-binding、codex/glm-reforge-battle-preview-binding-r1。先 git fetch origin，只读 origin/main 本卡最新二审，不rebase漂移产品。r2 HEAD d4ec0c051e76d6c2420debe366065304b866a708。原冻结/白名单/B1-B7不变；仓库外复制树/finally清理、B4诚实降为源码域、精确身份和parse拒收均已核，不重开，零新增正常测试仍可接受。只修 B-R2-01：judgeReproRun 必须把该次子进程全局错误诊断纳入唯一判据；当前JSON reporter不暴露Unhandled/Uncaught Exception，native JSON两例一绿一目标红并不能排除额外错误。采集同次native JSON和完整raw（可同时default+json reporter），拒收CONTROL绿+REPRO指定AssertionError红再叠异步uncaught或其它非目标错误；保留当前suite.message/身份/单一failureMessages/冻结/进程检查。用实际Vitest证明污染形状拒收、纯CONTROL绿+REPRO红仍接受；不要只添加合成suite.message自测。重采唯一D-1诊断并保存JSON/raw/argv/cwd/env/hash/cleanup，README账同步，不新增反例数量。D-1真实业务红和B6策略停止线保留，不修产品、不决定搜索或多匹配策略。按原卡定向相邻/全包/typecheck、lint格式0/0/0、docs/diff；docs仅允许原缺共享导航项，不改共享文件。完整SHA提交推送、docs-only单列，不合main、不done、不扩围，待Codex终审。
+```

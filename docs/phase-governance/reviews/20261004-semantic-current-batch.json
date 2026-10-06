@@ -510,7 +510,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "当前行动看板：三个有限媒体/标题IO/试打接线测试包已独立一审counter，状态rework，下一步各自限于卡内列明返工。产品缺陷卡仍draft，既有其它任务状态未改；定向绿与真实缺陷红不是集成accept。",
+      "coreConclusion": "当前行动看板：三个有限媒体/标题IO/试打接线测试包已独立二审，fixture/oracle/隔离等一审项已修，仅额外hook或全局异常误收判据仍counter，状态rework。范围不扩大，不追加数量；产品缺陷卡仍draft，其它任务状态未改，业务反例重放不是集成accept。",
       "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
       "unresolved": [
         "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "dc07063ee98c81d3e7574c25d6de23a6cfe237e8c3be32ae2569bf6f302767d7",
+      "afterSha256": "f4df3257ce22af476f68a65877e4d482e7130b0b34660d4fd2b48dd9ea0dcd4c",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -560,10 +560,18 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "dc07063ee98c81d3e7574c25d6de23a6cfe237e8c3be32ae2569bf6f302767d7",
-        "contentVersion": 22,
+        "implementationSha": "f4df3257ce22af476f68a65877e4d482e7130b0b34660d4fd2b48dd9ea0dcd4c",
+        "contentVersion": 23,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "c78380e391fd40b6013acf6661aa5e0dc0c14d4a",
+            "date": "2026-10-07",
+            "action": "finite-test-r2-counter-navigation-review",
+            "scope": "docs/ops/board.md",
+            "previousSha256": "dc07063ee98c81d3e7574c25d6de23a6cfe237e8c3be32ae2569bf6f302767d7",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
           {
             "revision": "a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8",
             "date": "2026-10-07",
@@ -681,7 +689,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-22",
-      "reviewNotes": "增量核对三个测试卡一审counter、有限返工编号与看板/索引状态；未接受交付、不关闭产品缺陷卡，其它行及历史签字保持不变。"
+      "reviewNotes": "增量核对三个测试卡二审剩余判据counter及已关闭项，有限范围与看板/索引rework一致；真实业务重放不替代严格判据验收。未集成、不关闭产品缺陷卡，不改其它行与历史签字。"
     },
     {
       "path": "docs/ops/evidence/README.md",
