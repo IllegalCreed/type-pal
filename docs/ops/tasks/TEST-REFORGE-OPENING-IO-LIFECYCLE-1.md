@@ -1,6 +1,6 @@
 # TEST-REFORGE-OPENING-IO-LIFECYCLE-1 — 标题读档IO与缩略图生命周期
 
-Status: build
+Status: rework
 Owner: GLM（独立对话B，唯一写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -63,8 +63,34 @@ Visual Verification Timing: dev-functional（有实际界面缺陷时登记最�
 - 贡献者交付/自验：pending；Codex独立验收：pending；done准入：blocked。
 - 用户产品裁决：本卡N/A；任何错误提示/重试策略另交产品卡。
 
-## 下一位Agent提示词
+## 初始派发提示词（历史，当前以文末返工为准）
 
 ```text
 你是TEST-REFORGE-OPENING-IO-LIFECYCLE-1唯一执行方。仅在/private/tmp/type-pal-reforge-opening-io、codex/glm-reforge-opening-io-r1工作。先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、docs/ops/tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md和REFORGE-OPENING-LOAD-ERROR-1.md，再核卡内源码与旧断言。只裁决O1-O8，真实current存档/PNG/菜单入口，排重后补少而精的正常合同；D-Q01-1/竞态/位图缺陷交按需隔离真实红反例，不夹修产品、不让默认suite红或skip、不把缺陷写成绿预期。严格执行冻结/白名单/IO边界/三态身份与清理证明，完成门禁、完整SHA提交推送。所有轴有证据即停，只写本卡你的交付块；不合main、不done、不扩围。返回逐轴裁决、候选SHA、正常门禁与故意红反例分列，待Codex验收。
+```
+
+## Codex 独立一审与有限返工（2026-10-07）
+
+**counter，尚未集成。** 固定测试/证据提交 `97f4973eb82013232bc751b440a5b9b0cb4a1638`，含回执 HEAD `c774634332b8850ddc5635e11fdfd4e38ec5df0b`。本节代码行属候选；分支/远端一致、树干净。4/4 冻结源独立复算一致，产品与旧测未改；但存在两项共享文件越界。
+
+独立复跑：在 Codex 独占临时复制树运行候选新文件，**4/4 passed、exit 0、pending/todo 0**。复制保持候选产品/测试字节，使用现有安装依赖，未运行作者无锁安装工具或写其活动树。这证明可执行，不证明错误 oracle 合法。全包/typecheck/lint/docs 作者回执保留为作者证据，本审因 counter 不重复重门。
+
+| 编号 | 候选问题与独立证据 | 有限返工 |
+|---|---|---|
+| O-R1-01 | 新文件`:136-154` 要求重复输入产生两份 meta/thumb IO 和两张 bitmap；N1 把 single-flight 去重当“错误”注入。这不是已拍板业务合同，也与本包 R4 重复 IO/旧结果覆盖诊断矛盾。`:156-206` 把退出后仍解码一张位图写进绿断言，同时 R5b 指为缺陷。 | 删除这些坏行为绿 oracle，退役 N1 并注明原因。O4 只保留实际未重复的合法业务结果/所有权合同，否则改诊断或 existing-proof；O5 保留退休后结果、rAF/键/绘制稳定，证明 IO 已真实在途，不要求退出后继续解码。坏事实仅在诊断/隔离红反例中。 |
+| O-R1-02 | O6 `:208-228` 只重复计 IO/位图与普通 Escape；没有证明重新进入消费的是新存档业务数据。 | 用真实 store 在两次访问间更新 current meta/合法数据，再核实际显示/选择的新数据；与旧 Escape 断言排重。无法构成净新合同则 existing-proof，不强保四例四针。O5 finally 即使中途失败也释放本次 gate，收妥菜单与 IO。 |
+| O-R1-03 | 实际判据`:114` 查 `phase.identity.rowsList`，解析器`:420` 放的是 `phase.rowsList`，状态校验为空跑；红态只核 4 行、不比身份，末次绿与自己 hash 比较。独立调用同一源函数，**同数不同身份、红态隐藏 skipped、绿态隐藏 skipped** 三例均 `issues=[]` 被误收。 | 身份 hash 只含规范化 file×fullName 多重集合，status 分列；基线/红/恢复/末次与同一非空声明集合比较。查真实 rowsList，核逐行状态及所有计数、suite/JSON/raw harness 错误、signal/spawn；上述反例同判据自测必须拒收。保存相位 JSON 与 raw，不只 TSV/count。 |
+| O-R1-04 | `tools/prepare-tree.mjs:15,40` 没复制 pnpm-lock，却用非 frozen install；“同 lockfile”叙述不实。copy/install 在函数返回前失败时，外层 finally 拿不到 tree。两 runner 在 cleanup 前写回执，缺最终删树证明。 | 复制现行 lock 与所需配置，frozen 安装或明确只读复用同图；禁止重新解析依赖图。准备函数内部失败清理，外层 finally 精确清本次树后记录实际 cleanup 证明和失败路径。复核冻结，不改配置/锁。 |
+| O-R1-05 | diff 越界：`docs/ops/evidence/README.md` 与 `docs/phase-governance/reviews/20261004-semantic-current-batch.json`。作者改 Codex review pin 不构成独立审核。 | 将两文件恢复到派发 `a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8` 字节。共享导航/审核 pin 由 Codex 集成时处理，贡献者 docs 门仅允许精确登记自身证据缺导航这一项，不新增 ignore/豁免。 |
+
+O-R1-03 同时覆盖诊断 runner：独立调用 `tools/run-repros.mjs:513` 的实际 `validateTypeB`，错误 fullName 加额外零 assertion 的 collection failed suite仍 `issues=[]`。需核**每条诊断预先声明的执行身份与错误形状**，不能只看一个 failed 计数/消息片段。Type A 是故意证明公开 IO 的指定未处理拒绝：保留其业务单例全绿、恰一指定产品拒绝的独立判据，不能套普通反控“无 unhandled”规则抹掉这个缺陷，也不能容忍额外 harness/runtime 错误。旧相位材料不变时可以重新审判，不要求八条业务全部重跑。
+
+O1–O8 不扩围。保留原公开存储、合法 PNG、IO 拒绝与已有八个产品诊断，不因普通错误绿断言失败就重造全部反例；诊断的原相位材料不变可沿用，工具真实性/cleanup 仍须闭合。移除 N1 的错误可执行注入，历史仅留退役身份/原因，不再计有效。最终按新合法合同选择最少针，变化的最终执行集/测试 hash 必须真实重采，原卡全包与零诊断门保留。`REFORGE-OPENING-LOAD-ERROR-1` 仍 draft，不夹修产品或决定错误 UX。
+
+本次**审核记录**门已独立通过：`pnpm check:docs`（全部子门）、`pnpm lint`（3474 文件、0 error/warning/info）及 `git diff --check`；不是候选产品测试包 accept。
+
+### 下一位 Agent 提示词（r2，人工选 GLM-5.3）
+
+```text
+你是 TEST-REFORGE-OPENING-IO-LIFECYCLE-1 原 Owner，只在 /private/tmp/type-pal-reforge-opening-io、codex/glm-reforge-opening-io-r1。git fetch origin 后只读 git show origin/main:docs/ops/tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md 的 2026-10-07 Codex 一审，不rebase漂移产品。r1 HEAD c774634332b8850ddc5635e11fdfd4e38ec5df0b，原冻结/白名单/O1-O8不变。一次闭合 O-R1-01～05：移除绿测中两份重复IO/退出后继续解码等缺陷预期、删除错误可执行N1，历史只留退役身份原因；O5保留真实在途及退休业务稳定并 finally 释放gate；O6 用真实store更新后可见新数据证明刷新，或据旧证排重，不用IO数量凑合同；修正rowsList层级、身份与status分离、四相位同一非空完整file/fullName多重集合，拒收隐藏skip/换身份/harness与signal/spawn并自测；诊断runner也核每条精确身份与错误形状，TypeA保留恰一指定公开IO未处理拒绝、拒收额外错误；保留真实相位JSON/raw/hash；隔离树复制lock/frozen依赖图，准备失败及最终清理实际举证；恢复两项越界共享文件到派发 a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8。保留合法IO缺陷诊断，不修产品/旧测/配置/共享文档。只重采受影响证据，重算合法合同账，不强保四例四针。完成原卡定向相邻/全包/typecheck/零诊断/docs/diff，docs仅登记自己目录缺共享导航这一项；只写自己的交付块，完整SHA提交推送，不合main、不done、不扩围，等待二审。
 ```

@@ -1,6 +1,6 @@
 # TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与canonical脚本接线
 
-Status: build
+Status: rework
 Owner: GLM（独立对话C，唯一写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -62,8 +62,30 @@ Visual Verification Timing: N/A（调用链/真实业务结果取证；不验剧
 - 贡献者交付/自验：pending；Codex独立验收：pending；done准入：blocked。
 - 用户产品裁决：本卡N/A；多匹配/错误提示/搜索域改变须另行裁决。
 
-## 下一位Agent提示词
+## 初始派发提示词（历史，当前以文末返工为准）
 
 ```text
 你是TEST-REFORGE-BATTLE-PREVIEW-BINDING-1唯一执行方。仅在/private/tmp/type-pal-reforge-battle-preview-binding、codex/glm-reforge-battle-preview-binding-r1工作。先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md和docs/ops/tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md，再核D-1原证据、当前canonical加载/投影/试打链及旧测试实际断言。只裁决B1-B7，真实typed工程与公开bootGame；少而精补正常未重复合同，D-1交最小隔离正向红反例，不把缺陷写成绿测，不修产品/加旧scriptStore/私有后门/擅定多匹配策略。同根因变体记域证据不堆测试。严格冻结/白名单/三态身份/零诊断/清理，完整SHA提交推送。轴全部裁决即停，只写本卡你的交付块，不合main、不done、不扩围。返回逐轴账、候选SHA、绿门与红反例分列及未决产品点，待Codex验收。
+```
+
+## Codex 独立一审与有限返工（2026-10-07）
+
+**counter，仅返工诊断工具/证据；零新增正常测试可以接受，不要求补数量。** 固定候选 `156462453b1c59ebb89530a4955fc160832e0ad3`、含回执 HEAD `f00115e819532c68549875c9e965688e1bc3f36f`；分支/远端一致、树干净。白名单成立、4/4 冻结源独立复算一致，未改产品/旧测。以下源码行属该候选。
+
+独立在 Codex 本次复制树复跑真实 repro：一文件两例，**CONTROL passed、REPRO 唯一 failed，Vitest exit 1/signal null/spawnError null**。目标 AssertionError 为实际 battleLog `hero 攻击 foe 造成 169、胜利` 不含 `♪ 音效 sfx-encounter`；因此 **D-1 真实缺陷方向确认**，不撤回诊断，也不授权修产品。临时生成测试已删除。第一次包装器末尾 Biome 因 Codex 复制树缺 `.gitignore` 非零，属本次审查准备问题，不归罪候选；补齐后，下述畸形输入试验真实完成。
+
+| 编号 | 候选问题及独立证据 | 有限返工 |
+|---|---|---|
+| B-R1-01 | `run-d1-repro.mjs:197-236` JSON parse catch 没 checks，最后 `Object.values(checks ?? {}).every(Boolean)` 空集真。在本次独占复制树，仅将子进程 pnpm IO 替身设为输出非 JSON、exit 1，**原工具实际 exit 0、allChecksPass=true**；不是只推演源码。另 no-pending 只查 suite 状态，未查 assertion 状态/身份。 | 提取唯一严格判据供工具/自测共用。parse/spawn/harness/信号失败一律非零；完整且恰为 CONTROL+REPRO 的非空 file/fullName 多重集合，CONTROL passed、唯一目标 AssertionError failed、计数与逐行状态一致，拒收 skip/pending/todo/额外 collection/runtime/unhandled；冻结漂移拒收。上述及身份/额外错误反例须同判据自测。 |
+| B-R1-02 | `:125` mkdtemp 在活动 `packages/reforge` 内，生成默认 runner 可发现的故意红测试；`:128-143` 建树/写文件/执行在 cleanup 保护外，`:206` rm 非 finally。 | 改为仓库外独占 mkdtemp 完整产品复制树，真实运行冻结产品；准备开始即有失败清理保护，不向贡献者活动 packages 写临时红测试。finally 只清本次树，核成功及提前失败清理，保存实际 argv/cwd/env/身份/raw/hash。 |
+| B-R1-03 | REPRO `:98-110` 先主动 `loadScene(project,'b')`，再断言 `fixture.reads` 含 b；读记录已被这次验证调用污染，不能归因于试打 caller。README/账 B4 却写“试打实际读取闭环”。 | 分离运行期读记录与独立 canonical 验证。若用 runtime 证据，须在主动 loadScene 前取证并排除正常预加载，给同输入对照/可归因差分；否则准确降为源码/域证据，不冒称运行闭环。D-1 已有业务红保留，不为 B4 另堆测试。 |
+
+B1/B7 排重与 B6 未定策略停止线保留；B2/B3 同根因不展开更多反例。纠正文档和最终生成测试 hash，对变化的这条诊断真实重采即可。全包/typecheck/lint/docs 作者证据不是本审重跑；counter 闭合后再跑原卡最终门禁，不因零新增测试免除证据质量。原冻结/白名单/B1–B7 不增加，策略及产品接线修复另行准入。
+
+本次**审核记录**门已独立通过：`pnpm check:docs`（全部子门）、`pnpm lint`（3474 文件、0 error/warning/info）及 `git diff --check`；不是候选产品测试包 accept。
+
+### 下一位 Agent 提示词（r2，人工选 GLM-5.3）
+
+```text
+你是 TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 原 Owner，继续 /private/tmp/type-pal-reforge-battle-preview-binding、codex/glm-reforge-battle-preview-binding-r1。git fetch origin 后只读 git show origin/main:docs/ops/tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md 的 2026-10-07 Codex 一审，不rebase漂移产品。r1 HEAD f00115e819532c68549875c9e965688e1bc3f36f，原冻结/白名单/B1-B7不变。Codex已真实复现 CONTROL绿+试打遭遇音效目标单红，D-1方向保留；不需要新增正常测试。只闭合 B-R1-01～03：唯一严格判据+拒收自测，JSON parse失败必须非零，精确两例身份/状态/计数与指定AssertionError，拒收spawn/signal/skip/pending/todo/额外collection/runtime/unhandled/冻结漂移；仓库外mkdtemp完整隔离产品树，准备及执行失败都有 finally 精确清理，不向活动packages写临时红测试；B4读记录在主动loadScene验证前取证并排除预加载归因，或诚实降为源码域证据，别把自己读取冒称试打读取。保存完整JSON/raw/argv/cwd/env/hash/成功与失败清理证明，重采变化的这条诊断，修README/账。保留其余排重与策略blocked，不修产品、不加后门或搜索策略。原卡最终定向相邻/全包/typecheck/零诊断/docs/diff；只写自己交付块，完整SHA提交推送，不合main、不done、不扩围，等待二审。
 ```

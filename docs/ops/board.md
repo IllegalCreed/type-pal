@@ -10,9 +10,9 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
-| TEST-GAME-MEDIA-LIFECYCLE-1 | [视频与RNG异步收尾及资源所有权](tasks/TEST-GAME-MEDIA-LIFECYCLE-1.md) | build | GLM对话A / M1–M8有限合同 | 合法IO竞态，排重后补测；产品缺陷只交反例 |
-| TEST-REFORGE-OPENING-IO-LIFECYCLE-1 | [标题读档IO与缩略图生命周期](tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | build | GLM对话B / O1–O8有限取证 | D-Q01-1重核；不授权产品修复 |
-| TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 | [试打场景演出与canonical脚本接线](tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | build | GLM对话C / B1–B7有限取证 | D-1最小真实反例；不擅定搜索策略 |
+| TEST-GAME-MEDIA-LIFECYCLE-1 | [视频与RNG异步收尾及资源所有权](tasks/TEST-GAME-MEDIA-LIFECYCLE-1.md) | rework | GLM对话A / A-R1-01～04 | 7/7独立绿；真实context、恢复、严格判据与原相位JSON待补 |
+| TEST-REFORGE-OPENING-IO-LIFECYCLE-1 | [标题读档IO与缩略图生命周期](tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | rework | GLM对话B / O-R1-01～05 | 4/4独立绿但有缺陷绿oracle；判据/冻结依赖/越界待改 |
+| TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 | [试打场景演出与canonical脚本接线](tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | rework | GLM对话C / B-R1-01～03 | D-1真实红确认；parse误收、隔离与B4归因待补 |
 
 ## 看板规则
 
