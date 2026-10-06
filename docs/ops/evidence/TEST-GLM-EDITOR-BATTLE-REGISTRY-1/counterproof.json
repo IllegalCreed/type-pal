@@ -3,12 +3,12 @@
   "suite": "定向三文件（BattleSpriteLibrary / SpriteFrameDeletion / EnemyTeamTab .glm-battle-registry）",
   "replay": "run-counterproof.mjs 以最终交付测试文件重放全部三态（基线绿 + 4 针红/绿 + 产品零残留）",
   "command": "pnpm exec vitest run <files> [-t <fullName 子串>]（cwd=packages/editor）",
-  "cwd": "/private/tmp/type-pal-battle-registry/packages/editor",
+  "cwd": "/Users/zhangxu/illegal/type-pal/packages/editor",
   "node": "v22.23.2",
   "pnpm": "10.29.2",
   "baseline": {
     "file": "mutation-logs/green-baseline.raw",
-    "sha256": "3921c41606472d42a46407187d1f5b48d64deb9db41a5c4a199273dcf3097cfa",
+    "sha256": "b2297d2c91d01db23ddbd3cc93cafc434e63abc390907adc0dc09eefec8f23f5",
     "tests": "4 passed (4)",
     "actWarnings": 0
   },
@@ -20,7 +20,7 @@
       "red": {
         "exit": 1,
         "file": "mutation-logs/N1-beginusage-proof-gate.red.raw",
-        "sha256": "0fbe9c1e881457d800f8d01fa3eeab6a0d151ef96bb6e4a8fd17e299e458be01",
+        "sha256": "4c07074159c96acea660ddb1a9adea12f2dc31ad7c68576ccd1f2c0d79c89043",
         "tests": "1 failed | 1 skipped (2)",
         "firstFailure": "AssertionError: expected '上传的战斗精灵至少需要 1 帧' to be '帧源尚未完成解码校验，请稍后再新增用途。' // Object.is equality",
         "actWarnings": 0
@@ -28,7 +28,7 @@
       "restoredGreen": {
         "exit": 0,
         "file": "mutation-logs/N1-beginusage-proof-gate.green.raw",
-        "sha256": "1a06f2fa5ecc0983099a5aa6354051b698dea4ce2e5a838bc41ddc9b933efcd2",
+        "sha256": "47bea118fb12ee1a6a0c25f3590f8efbc99f586488446cc397bd5515b67de852",
         "tests": "1 passed | 1 skipped (2)",
         "actWarnings": 0
       }
@@ -40,7 +40,7 @@
       "red": {
         "exit": 1,
         "file": "mutation-logs/N2-delete-fail-closed-on-missing-bytes.red.raw",
-        "sha256": "4bfb6630ff8129780140dce3d5a58a667df35557d56a537bb916d668a7090fbb",
+        "sha256": "d0d32f3837f6b1722c5a22b5b87997533eef4d2b2a234660d90606dfe489758d",
         "tests": "1 failed | 1 skipped (2)",
         "firstFailure": "AssertionError: expected undefined to be defined",
         "actWarnings": 0
@@ -48,7 +48,7 @@
       "restoredGreen": {
         "exit": 0,
         "file": "mutation-logs/N2-delete-fail-closed-on-missing-bytes.green.raw",
-        "sha256": "e2140a5a8205730720db79660908bbdd8f9b3c75fa736006c9cff2e1cb79a604",
+        "sha256": "94d107f657f7ddfbc39ca0e288d63f9d812c90f5311c5aaf4c5485f28425fef5",
         "tests": "1 passed | 1 skipped (2)",
         "actWarnings": 0
       }
@@ -60,7 +60,7 @@
       "red": {
         "exit": 1,
         "file": "mutation-logs/N3-frame-deletion-plan-guard.red.raw",
-        "sha256": "bf8147cc8567e4baa27effbf3fedeca72f5d5d5182c7cce1126ad839eee108e3",
+        "sha256": "52236832825c54ea20658eb161905b988aed757dfac2027bad1db872ee54aef9",
         "tests": "1 failed (1)",
         "firstFailure": "AssertionError: expected [Function] to throw an error",
         "actWarnings": 0
@@ -68,7 +68,7 @@
       "restoredGreen": {
         "exit": 0,
         "file": "mutation-logs/N3-frame-deletion-plan-guard.green.raw",
-        "sha256": "fa774ca720c58d206e9995dd37e44073b7db5be522ab9584904c92f09359021f",
+        "sha256": "11a42cb988f6e6ba2165c44dd51302a80948409630e96784cda83897c13704a2",
         "tests": "1 passed (1)",
         "actWarnings": 0
       }
@@ -80,7 +80,7 @@
       "red": {
         "exit": 1,
         "file": "mutation-logs/N4-teamtab-deeplink-sync.red.raw",
-        "sha256": "15a13ac33532c386fe60fecf29fe6dbde93610e48c3f64ec9b2b5f2ec879f36f",
+        "sha256": "4df9ebbbe456e31e888d8e1ac39e8f48492e04c9fbaf0c21db54659d60e12fbd",
         "tests": "1 failed (1)",
         "firstFailure": "AssertionError: expected <section …(1)>…(5)</section> to be null",
         "actWarnings": 0
@@ -88,7 +88,7 @@
       "restoredGreen": {
         "exit": 0,
         "file": "mutation-logs/N4-teamtab-deeplink-sync.green.raw",
-        "sha256": "0eacaa0815e525a095305630dab6fae44cbe5fee338c814611a81ea3f92e1f6a",
+        "sha256": "bb59abeabcd8eac25c41741aad282dae6144c65b79cb7a034a32a50f86ba551f",
         "tests": "1 passed (1)",
         "actWarnings": 0
       }

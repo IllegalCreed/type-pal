@@ -8,9 +8,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 
-const root = path.resolve(import.meta.dirname, '../../../../..')
+const root = path.resolve(import.meta.dirname, '../../../../')
 const editor = path.join(root, 'packages/editor')
-const ev = path.join(root, 'docs/ops/tasks/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1')
+const ev = path.join(root, 'docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1')
 const logs = path.join(ev, 'mutation-logs')
 
 const L_FILE = 'src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx'

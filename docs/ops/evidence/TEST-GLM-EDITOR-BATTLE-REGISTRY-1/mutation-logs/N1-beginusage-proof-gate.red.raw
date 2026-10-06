@@ -1,14 +1,13 @@
 
- RUN  v4.1.7 /private/tmp/type-pal-battle-registry/packages/editor
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/editor
 
- ❯ src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx (2 tests | 1 failed | 1 skipped) 118ms
-   × BR-01 注册门：解码证明未就绪时新增用途被拒且零提交；证明绑定后同入口入库并过保存门 118ms
-   ↓ BR-02 缺失回落：源字节读取失败时预览报错、用途门拒绝、删除 fail-closed，目录与历史保持
+ ❯ src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx (2 tests | 1 failed | 1 skipped) 104ms
+   × BR-01 注册门：解码证明未就绪时新增用途被拒且零提交；证明绑定后同入口入库并过保存门 103ms
 
  Test Files  1 failed (1)
       Tests  1 failed | 1 skipped (2)
-   Start at  02:47:36
-   Duration  2.13s (transform 1.31s, setup 0ms, import 1.60s, tests 118ms, environment 328ms)
+   Start at  09:50:24
+   Duration  2.02s (transform 1.23s, setup 0ms, import 1.51s, tests 104ms, environment 332ms)
 
 
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯

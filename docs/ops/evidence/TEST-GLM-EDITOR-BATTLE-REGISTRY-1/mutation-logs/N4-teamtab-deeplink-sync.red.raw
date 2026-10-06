@@ -1,13 +1,13 @@
 
- RUN  v4.1.7 /private/tmp/type-pal-battle-registry/packages/editor
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/editor
 
- ❯ src/ui/EnemyTeamTab.glm-battle-registry.test.tsx (1 test | 1 failed) 90ms
-     × 创建卡打开时深链跳转既有敌队：卡关闭、选择跟随、零提交；陈旧深链不偷换选择 89ms
+ ❯ src/ui/EnemyTeamTab.glm-battle-registry.test.tsx (1 test | 1 failed) 84ms
+     × 创建卡打开时深链跳转既有敌队：卡关闭、选择跟随、零提交；陈旧深链不偷换选择 83ms
 
  Test Files  1 failed (1)
       Tests  1 failed (1)
-   Start at  02:47:50
-   Duration  2.16s (transform 1.29s, setup 0ms, import 1.59s, tests 90ms, environment 399ms)
+   Start at  09:50:37
+   Duration  1.88s (transform 1.13s, setup 0ms, import 1.39s, tests 84ms, environment 329ms)
 
 
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯

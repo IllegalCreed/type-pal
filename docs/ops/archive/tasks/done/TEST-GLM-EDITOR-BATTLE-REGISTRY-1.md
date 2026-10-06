@@ -43,7 +43,7 @@ Visual Verification Timing: dev-functional
   residual:74 直测。applyDefinitionDraft not-ready 报错被按钮 disabled 封死（1647）。
   EnemyTeamTab nextTeamId 空洞语义与 K11 预选同 caller 同 oracle，按排重不另立。
 
-验证与证据（`docs/ops/tasks/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/`）：
+验证与证据（`docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/`）：
 
 - 定向 4/4 绿、零 act 警告（directed.raw，sha256 09e165f8…）；相邻 17 文件 141/141 绿
   （adjacent.raw，sha256 9c6fc40a…；其中 act 警告为旧 cursor/kimi 文件基线，非本卡）。
@@ -73,3 +73,7 @@ Visual Verification Timing: dev-functional
 ## Codex quality closure (2026-10-05)
 
 候选 `02b2e04493028db3868d42eb3debd1ebd66f21ec` 已独立验收：4/4 定向测试、4/4 反控、typecheck、lint 0/0/0、docs、phase/lore 通过；content review 已同步最新 main，diff 干净。本卡已集成 main，原候选分支进入退休清理。
+
+## Codex integration correction (2026-10-06)
+
+复核发现原收口文字先于实际 Git 集成落盘：`origin/main` 当时没有三份新增测试或对应证据，候选分支仍保留未合入提交和两个 worktree。Codex 已将已验收测试与 canonical `docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/` 证据集成当前 main；本次修正不引入产品或旧测改动，随后退休候选分支与 worktree。
