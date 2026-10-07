@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-N02-empty-skill-id.VVElRY/packages/reforge
+
+ ❯ src/save/current-codec.contracts.test.ts (7 tests | 1 failed) 6ms
+     ✓ 空角色 ID 拒绝 2ms
+     × 空技能 ID 拒绝 2ms
+     ✓ 负数计数拒绝（非负条件） 0ms
+     ✓ 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全） 0ms
+     ✓ skillUseCounts/entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变 1ms
+     ✓ remainingMs=0 拒绝（期望正有限毫秒） 0ms
+     ✓ vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  16:40:56
+   Duration  310ms (transform 191ms, setup 0ms, import 234ms, tests 6ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-runs/N02-empty-skill-id.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/current-codec.contracts.test.ts > current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） > 空技能 ID 拒绝
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/save/current-codec.contracts.test.ts:109:67
+    107|     raw.world.skillUseCounts = { hero: { '': 1 } }
+    108|     const resolver = await currentResolver(raw)
+    109|     expect(() => normalizeCurrentSave(raw, resolver, references)).toTh…
+       |                                                                   ^
+    110|   })
+    111|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

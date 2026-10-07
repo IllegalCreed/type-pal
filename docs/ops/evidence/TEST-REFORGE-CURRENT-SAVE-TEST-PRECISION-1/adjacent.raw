@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-save-test-precision/packages/content
+
+ ✓ src/entity-lifecycle.test.ts (9 tests) 4ms
+ ✓ src/rewards-lifecycle.glm-o.test.ts (3 tests) 2ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  16:39:24
+   Duration  159ms (transform 95ms, setup 0ms, import 118ms, tests 7ms, environment 0ms)
+

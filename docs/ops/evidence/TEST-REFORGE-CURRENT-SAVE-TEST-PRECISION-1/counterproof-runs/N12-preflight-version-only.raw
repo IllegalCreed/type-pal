@@ -1,0 +1,31 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-N12-preflight-version-only.dMrn1P/packages/reforge
+
+ ❯ src/save/current-save.current-characterization.test.ts (6 tests | 1 failed) 6ms
+     ✓ round-trips the current envelope without mutating input or resetting world values 2ms
+     × rejects non-current SAVE10/content22 before normalization 2ms
+     ✓ rejects non-current SAVE11/content21 before normalization 0ms
+     ✓ rejects non-current SAVE10/content21 before normalization 0ms
+     ✓ rejects a resolver whose identity does not match the payload before cloning 0ms
+     ✓ rejects malformed or dangling current lifecycle references 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  16:41:03
+   Duration  313ms (transform 196ms, setup 0ms, import 239ms, tests 6ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-runs/N12-preflight-version-only.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/current-save.current-characterization.test.ts > current SAVE11/content22 contract > rejects non-current SAVE10/content22 before normalization
+AssertionError: SAVE10/content22 必须被拒收: expected null to be an instance of Error
+ ❯ src/save/current-save.current-characterization.test.ts:114:68
+    112|       (thrown: unknown) => thrown,
+    113|     )
+    114|     expect(error, `SAVE${version}/content${contentVersion} 必须被拒收`).toB…
+       |                                                                    ^
+    115|     expect((error as Error).message).toMatch(
+    116|       new RegExp(`只接受 SAVE${SAVE_VERSION}/content${CONTENT_VERSION}`),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

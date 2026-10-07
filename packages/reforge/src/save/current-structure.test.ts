@@ -3,16 +3,25 @@
  * 字段清单以 save/types.ts CurrentSavePayload + content/character.ts
  * WorldState/CharacterInstance 现行类型为真源；可选子树缺席合法、存在时按形状检查；
  * 数值叶只验有限数，不加上限/取整/非负；坐标允许有限分数。
+ *
+ * TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 重铸：
+ * - 坏形状一律在 unknown 外部对象上构造后直传公开 `assertCurrentSaveStructure(value:
+ *   unknown)`（经 IO 形状的 JSON 往返视图），不再用 `as unknown as` 双桥/假枚举把坏数据
+ *   塞进 typed 通道；合法正边界仍用 buildWorld/builder 产物。
+ * - 跨合同用例拆成原子行；同检查同 oracle 的数字/形状拒收只留真实不同条件代表
+ *   （before→after 逐条映射见 docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/）。
+ * - 深层语义（skillUseCounts 安全整数、hostileAwareness 正数性、script 内容）由
+ *   current-codec.contracts.test.ts 在 codec 层证明，此处只验外层形状。
  */
 
-import { buildWorld } from '@type-pal/content'
+import { buildWorld, HIDDEN_STAT_KEYS } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   assertCurrentSaveStructure,
   CurrentSaveStructureError,
   SAVE_STRUCTURE_TOAST_TEXT,
 } from './current-structure.js'
-import type { CurrentSavePayload } from './types.js'
+import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 const actor = {
   id: 'hero',
@@ -38,17 +47,37 @@ const actor = {
 }
 
 const validPayload = (): CurrentSavePayload => ({
-  version: 11,
+  version: SAVE_VERSION,
   projectId: 'proj',
   contentVersion: 22,
   world: buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor }),
   position: { sceneId: 's001', pos: { col: 1.5, row: -2.25, height: 0 }, facing: 'down' },
 })
 
-const rejects = (mutate: (p: CurrentSavePayload) => void, pattern: RegExp) => () => {
-  const payload = validPayload()
-  mutate(payload)
-  expect(() => assertCurrentSaveStructure(payload)).toThrow(pattern)
+/** 运行时核验的收窄助手（测试夹具用，非类型后门：形状不符即抛）。 */
+function asRecord(value: unknown): Record<string, unknown> {
+  const isRecordLike = (v: unknown): v is Record<string, unknown> =>
+    typeof v === 'object' && v !== null && !Array.isArray(v)
+  if (!isRecordLike(value)) throw new Error('test fixture: 期望对象')
+  return value
+}
+
+function asList(value: unknown): unknown[] {
+  if (!Array.isArray(value)) throw new Error('test fixture: 期望数组')
+  return value
+}
+
+/** IO 形状的 unknown 视图：合法 builder 产物经 JSON 往返成为可变 Record，坏形状只在
+ * 视图上构造并直传公开 guard——与真实读档入口（结构化数据 → unknown 断言）同边界。 */
+function unknownView(): Record<string, unknown> {
+  return JSON.parse(JSON.stringify(validPayload()))
+}
+
+/** 负边界 mutator：在合法载荷的 unknown 视图上构造坏形状后断言拒收。 */
+const rejectsView = (mutate: (view: Record<string, unknown>) => void, pattern: RegExp) => () => {
+  const view = unknownView()
+  mutate(view)
+  expect(() => assertCurrentSaveStructure(view)).toThrow(pattern)
 }
 
 describe('current-structure · 合法载荷（正边界）', () => {
@@ -56,96 +85,69 @@ describe('current-structure · 合法载荷（正边界）', () => {
     expect(() => assertCurrentSaveStructure(validPayload())).not.toThrow()
   })
 
-  test('全部可选子树缺席合法（reserve/skillUseCounts/ambience/collectValue/resources/audio/hostileAwareness/script/entityLifecycles + 实例级可选项）', () => {
+  test('全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法）', () => {
     const payload = validPayload()
     delete payload.world.reserve
-    // buildWorld 产物可能不含这些键；显式确保缺席
-    const world = payload.world as unknown as Record<string, unknown>
+    delete payload.world.skillUseCounts
+    delete payload.world.ambience
+    delete payload.world.collectValue
+    delete payload.world.resources
+    delete payload.world.audio
+    delete payload.world.hostileAwareness
+    delete payload.world.script
+    delete payload.world.entityLifecycles
     for (const key of [
-      'reserve',
-      'skillUseCounts',
-      'ambience',
-      'collectValue',
-      'resources',
-      'audio',
-      'hostileAwareness',
-      'script',
-      'entityLifecycles',
-    ])
-      delete world[key]
-    for (const optionalKey of [
       'hiddenExp',
       'poisons',
       'extraStatuses',
       'extraPoisonRes',
       'appearance',
-    ])
-      delete (payload.world.party[0] as unknown as Record<string, unknown>)[optionalKey]
+    ] as const)
+      delete payload.world.party[0]![key]
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
   })
 
-  test('合法边界值：HP=0、空 equipment/tags/inventory、空 learnedSkills Record、显式静音 audio.currentMusic=null、空 reserve/skillUseCounts/entityLifecycles 容器', () => {
+  test('合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles', () => {
     const payload = validPayload()
     payload.world.party[0]!.hp = 0
     payload.world.party[0]!.equipment = {}
     payload.world.party[0]!.tags = []
     payload.world.inventory = []
     payload.world.learnedSkills = {}
-    payload.world.audio = { currentMusic: null }
     payload.world.reserve = []
     payload.world.skillUseCounts = {}
     payload.world.entityLifecycles = {}
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
   })
 
-  test('hiddenExp 合法七个属性键 + appearance 三可选字段（portrait 为字符串 AssetId）', () => {
+  test('audio.currentMusic=null 为显式静音，合法', () => {
     const payload = validPayload()
-    payload.world.party[0]!.hiddenExp = {
-      maxHP: { exp: 1.5, level: 2 },
-      luck: { exp: 0, level: 0 },
-    }
-    payload.world.party[0]!.appearance = { portrait: 'portrait.hero' }
+    payload.world.audio = { currentMusic: null }
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
   })
 
-  test('R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过', () => {
-    const sparseInventory = validPayload()
-    sparseInventory.world.inventory = new Array(1) as unknown as { itemId: string; count: number }[]
-    expect(() => assertCurrentSaveStructure(sparseInventory)).toThrow(/inventory\[0\]/)
-
-    const sparseTags = validPayload()
-    sparseTags.world.party[0]!.tags = new Array(1) as unknown as string[]
-    expect(() => assertCurrentSaveStructure(sparseTags)).toThrow(/tags\[0\]/)
-
-    const sparseStatuses = validPayload()
-    sparseStatuses.world.party[0]!.extraStatuses = new Array(1) as unknown as {
-      status: 'protect'
-      turns: number
-    }[]
-    expect(() => assertCurrentSaveStructure(sparseStatuses)).toThrow(/extraStatuses\[0\]/)
-
-    const sparsePoisons = validPayload()
-    sparsePoisons.world.party[0]!.poisons = new Array(1) as unknown as {
-      poisonId: number
-      tickIndex: number
-    }[]
-    expect(() => assertCurrentSaveStructure(sparsePoisons)).toThrow(/poisons\[0\]/)
+  test('hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）', () => {
+    const payload = validPayload()
+    payload.world.party[0]!.hiddenExp = Object.fromEntries(
+      HIDDEN_STAT_KEYS.map((key) => [key, { exp: 1.5, level: 2 }]),
+    )
+    expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
   })
 
-  test('R3：CarriedStatus.status 复用 content 枚举真源——合法 id 通过、未知 id 拒绝', () => {
+  test('appearance 三可选字段全为字符串 AssetId 通过', () => {
+    const payload = validPayload()
+    payload.world.party[0]!.appearance = {
+      spriteId: 'sprite.alt',
+      portrait: 'portrait.hero',
+      battleSprite: 'battle.alt',
+    }
+    expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
+  })
+
+  test('extraStatuses 合法可携带状态 id（protect）通过', () => {
     const payload = validPayload()
     payload.world.party[0]!.extraStatuses = [{ status: 'protect', turns: 3 }]
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
-
-    const bogus = validPayload()
-    bogus.world.party[0]!.extraStatuses = [{ status: 'not-a-status' as 'protect', turns: 3 }]
-    expect(() => assertCurrentSaveStructure(bogus)).toThrow(/可携带状态枚举/)
-  })
-
-  test('R3：appearance.portrait=null 不在合同内（AssetId | undefined），拒绝', () => {
-    const payload = validPayload()
-    payload.world.party[0]!.appearance = { portrait: null as unknown as string }
-    expect(() => assertCurrentSaveStructure(payload)).toThrow(/portrait/)
   })
 
   test('R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）', () => {
@@ -243,202 +245,183 @@ describe('current-structure · Envelope / world / position（负边界）', () =
     )
   })
 
-  test('null / 数组 / 缺 world / 缺 position 拒绝', () => {
-    expect(() => assertCurrentSaveStructure(null)).toThrow(/载荷/)
-    expect(() => assertCurrentSaveStructure([validPayload()])).toThrow(/载荷/)
-    expect(() => assertCurrentSaveStructure({ ...validPayload(), world: undefined })).toThrow(
-      /载荷\.world/,
-    )
-    expect(() => assertCurrentSaveStructure({ ...validPayload(), position: undefined })).toThrow(
-      /载荷\.position/,
-    )
-  })
-
-  test('version 非 8 / projectId 非字符串 / contentVersion 非数字拒绝', () => {
-    expect(() => assertCurrentSaveStructure({ ...validPayload(), version: 7 })).toThrow(/version/)
-    expect(() => assertCurrentSaveStructure({ ...validPayload(), projectId: '' })).toThrow(
-      /projectId/,
-    )
-    expect(() => assertCurrentSaveStructure({ ...validPayload(), contentVersion: '20' })).toThrow(
+  test.each([
+    ['载荷=null', () => null, /载荷/],
+    ['载荷=数组', () => [validPayload()], /载荷/],
+    ['world 缺席', () => ({ ...validPayload(), world: undefined }), /载荷\.world/],
+    ['position 缺席', () => ({ ...validPayload(), position: undefined }), /载荷\.position/],
+    [
+      'version 非当前 SAVE 常量',
+      () => ({ ...validPayload(), version: SAVE_VERSION - 1 }),
+      /version/,
+    ],
+    ['projectId 空串', () => ({ ...validPayload(), projectId: '' }), /projectId/],
+    [
+      'contentVersion 非数字',
+      () => ({ ...validPayload(), contentVersion: '20' }),
       /contentVersion/,
-    )
+    ],
+  ])('Envelope 坏形状 %s 带路径拒绝', (_name, build, pattern) => {
+    expect(() => assertCurrentSaveStructure(build())).toThrow(pattern)
   })
 
   test.each([
     [
       'money=字符串',
-      (p: CurrentSavePayload) => {
-        ;(p.world as unknown as Record<string, unknown>).money = 'not-money'
+      (world: Record<string, unknown>) => {
+        world.money = 'not-money'
       },
       /world\.money/,
     ],
     [
-      'money=NaN',
-      (p: CurrentSavePayload) => {
-        p.world.money = Number.NaN
+      'money=NaN（有限数条件代表；Infinity 同层同 oracle）',
+      (world: Record<string, unknown>) => {
+        world.money = Number.NaN
       },
       /world\.money/,
     ],
     [
-      'money=Infinity',
-      (p: CurrentSavePayload) => {
-        p.world.money = Number.POSITIVE_INFINITY
-      },
-      /world\.money/,
-    ],
-    [
-      'party=null',
-      (p: CurrentSavePayload) => {
-        ;(p.world as unknown as Record<string, unknown>).party = null
-      },
-      /world\.party/,
-    ],
-    [
-      'party=对象',
-      (p: CurrentSavePayload) => {
-        ;(p.world as unknown as Record<string, unknown>).party = {}
+      'party=null（数组条件代表）',
+      (world: Record<string, unknown>) => {
+        world.party = null
       },
       /world\.party/,
     ],
     [
       'learnedSkills 值非数组',
-      (p: CurrentSavePayload) => {
-        p.world.learnedSkills = { hero: 'fire' as unknown as string[] }
+      (world: Record<string, unknown>) => {
+        world.learnedSkills = { hero: 'fire' }
       },
       /learnedSkills/,
     ],
     [
       'inventory 元素缺 itemId',
-      (p: CurrentSavePayload) => {
-        p.world.inventory = [{ count: 1 } as unknown as { itemId: string; count: number }]
+      (world: Record<string, unknown>) => {
+        world.inventory = [{ count: 1 }]
       },
       /inventory\[0\]\.itemId/,
     ],
     [
       'inventory count=NaN',
-      (p: CurrentSavePayload) => {
-        p.world.inventory = [{ itemId: 'herb', count: Number.NaN }]
+      (world: Record<string, unknown>) => {
+        world.inventory = [{ itemId: 'herb', count: Number.NaN }]
       },
       /inventory\[0\]\.count/,
     ],
-  ])('world 坏形状 %s 带路径拒绝', (_name, mutate, pattern) => rejects(mutate, pattern)())
+  ])('world 坏形状 %s 带路径拒绝', (_name, mutate, pattern) =>
+    rejectsView((view) => mutate(asRecord(view.world)), pattern)())
 
   test.each([
     [
       'sceneId 空串',
-      (p: CurrentSavePayload) => {
-        p.position.sceneId = ''
+      (position: Record<string, unknown>) => {
+        position.sceneId = ''
       },
       /sceneId/,
     ],
     [
       'pos 非对象',
-      (p: CurrentSavePayload) => {
-        ;(p.position as Record<string, unknown>).pos = null
+      (position: Record<string, unknown>) => {
+        position.pos = null
       },
       /position\.pos/,
     ],
     [
       'pos.col=NaN',
-      (p: CurrentSavePayload) => {
-        p.position.pos = { col: Number.NaN, row: 0, height: 0 }
+      (position: Record<string, unknown>) => {
+        position.pos = { col: Number.NaN, row: 0, height: 0 }
       },
       /pos\.col/,
     ],
     [
-      'pos.row=字符串',
-      (p: CurrentSavePayload) => {
-        p.position.pos = { col: 0, row: '1' as unknown as number, height: 0 }
+      'pos.row=字符串（有限数条件代表；缺 height 同层同 oracle）',
+      (position: Record<string, unknown>) => {
+        position.pos = { col: 0, row: '1', height: 0 }
       },
       /pos\.row/,
     ],
     [
-      '缺 height',
-      (p: CurrentSavePayload) => {
-        p.position.pos = { col: 0, row: 0 } as unknown as {
-          col: number
-          row: number
-          height: number
-        }
-      },
-      /pos\.height/,
-    ],
-    [
-      'facing=sideways',
-      (p: CurrentSavePayload) => {
-        p.position.facing = 'sideways' as unknown as 'down'
+      'facing=sideways（四方向枚举条件代表）',
+      (position: Record<string, unknown>) => {
+        position.facing = 'sideways'
       },
       /facing/,
     ],
+  ])('position 坏形状 %s 带路径拒绝', (_name, mutate, pattern) =>
+    rejectsView((view) => mutate(asRecord(view.position)), pattern)())
+
+  test.each([
     [
-      'facing=undefined',
-      (p: CurrentSavePayload) => {
-        ;(p.position as Record<string, unknown>).facing = undefined
+      'inventory[0]（记录型元素数组代表；extraStatuses/poisons 空洞同 eachIndex 语义）',
+      (view: Record<string, unknown>) => {
+        asRecord(view.world).inventory = new Array(1)
       },
-      /facing/,
+      /inventory\[0\]/,
     ],
-  ])('position 坏形状 %s 带路径拒绝', (_name, mutate, pattern) => rejects(mutate, pattern)())
+    [
+      'tags[0]（字符串元素数组代表）',
+      (view: Record<string, unknown>) => {
+        asRecord(asList(asRecord(view.world).party)[0]!).tags = new Array(1)
+      },
+      /tags\[0\]/,
+    ],
+  ])('R3：稀疏空洞逐下标拒绝：%s，不被 forEach 跳过', (_name, mutate, pattern) =>
+    rejectsView(mutate, pattern)())
 })
 
 describe('current-structure · 可选子树存在时的形状检查', () => {
   test.each([
     [
-      'resources 值非有限数',
-      (p: CurrentSavePayload) => {
-        p.world.resources = { pool: Number.NaN }
+      'resources 值非有限数（record 有限数代表）',
+      (world: Record<string, unknown>) => {
+        world.resources = { pool: Number.NaN }
       },
       /resources/,
     ],
     [
       'audio.currentMusic=数字',
-      (p: CurrentSavePayload) => {
-        p.world.audio = { currentMusic: 3 as unknown as string }
+      (world: Record<string, unknown>) => {
+        world.audio = { currentMusic: 3 }
       },
       /audio\.currentMusic/,
     ],
     [
-      'hostileAwareness.rangeMultiplier=1',
-      (p: CurrentSavePayload) => {
-        p.world.hostileAwareness = { rangeMultiplier: 1 as 0 | 3, remainingMs: 100 }
+      'hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同）',
+      (world: Record<string, unknown>) => {
+        world.hostileAwareness = { rangeMultiplier: 1, remainingMs: 100 }
       },
       /rangeMultiplier/,
     ],
     [
-      'hostileAwareness.remainingMs=Infinity',
-      (p: CurrentSavePayload) => {
-        p.world.hostileAwareness = { rangeMultiplier: 3, remainingMs: Number.POSITIVE_INFINITY }
+      'hostileAwareness.remainingMs=Infinity（外层有限数）',
+      (world: Record<string, unknown>) => {
+        world.hostileAwareness = { rangeMultiplier: 3, remainingMs: Number.POSITIVE_INFINITY }
       },
       /remainingMs/,
     ],
     [
-      'script=数组（深层语义留给 codec guard，外层形状仍拒）',
-      (p: CurrentSavePayload) => {
-        p.world.script = [] as unknown as CurrentSavePayload['world']['script']
+      'script=数组（深层语义留给 codec，外层形状仍拒）',
+      (world: Record<string, unknown>) => {
+        world.script = []
       },
       /world\.script/,
     ],
     [
       'ambience=数字',
-      (p: CurrentSavePayload) => {
-        p.world.ambience = 2 as unknown as string
+      (world: Record<string, unknown>) => {
+        world.ambience = 2
       },
       /ambience/,
     ],
     [
-      'collectValue=NaN',
-      (p: CurrentSavePayload) => {
-        p.world.collectValue = Number.NaN
+      'collectValue=NaN（标量有限数代表）',
+      (world: Record<string, unknown>) => {
+        world.collectValue = Number.NaN
       },
       /collectValue/,
     ],
-    [
-      'skillUseCounts 内层值非有限数',
-      (p: CurrentSavePayload) => {
-        p.world.skillUseCounts = { hero: { fire: 'x' as unknown as number } }
-      },
-      /skillUseCounts/,
-    ],
-  ])('可选子树 %s 拒绝', (_name, mutate, pattern) => rejects(mutate, pattern)())
+  ])('可选子树 %s 拒绝', (_name, mutate, pattern) =>
+    rejectsView((view) => mutate(asRecord(view.world)), pattern)())
 })
 
 describe('current-structure · CharacterInstance（party 与 reserve 同型）', () => {
@@ -458,18 +441,11 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
       /\.template/,
     ],
     [
-      'hp=NaN',
+      'hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表）',
       (i: Record<string, unknown>) => {
         i.hp = Number.NaN
       },
       /\.hp/,
-    ],
-    [
-      'maxMP=Infinity',
-      (i: Record<string, unknown>) => {
-        i.maxMP = Number.POSITIVE_INFINITY
-      },
-      /\.maxMP/,
     ],
     [
       'luck=字符串',
@@ -500,16 +476,9 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
       /隐藏成长属性键/,
     ],
     [
-      'hiddenExp.exp=NaN',
-      (i: Record<string, unknown>) => {
-        i.hiddenExp = { luck: { exp: Number.NaN, level: 1 } }
-      },
-      /\.hiddenExp\["luck"\]\.exp/,
-    ],
-    [
       'poisons 元素缺 tickIndex',
       (i: Record<string, unknown>) => {
-        i.poisons = [{ poisonId: 1 } as unknown as { poisonId: number; tickIndex: number }]
+        i.poisons = [{ poisonId: 1 }]
       },
       /\.poisons\[0\]\.tickIndex/,
     ],
@@ -521,44 +490,35 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
       /\.extraStatuses\[0\]\.turns/,
     ],
     [
+      'extraStatuses 未知状态 id（复用 content 枚举真源）',
+      (i: Record<string, unknown>) => {
+        i.extraStatuses = [{ status: 'not-a-status', turns: 3 }]
+      },
+      /可携带状态枚举/,
+    ],
+    [
       'extraPoisonRes=字符串',
       (i: Record<string, unknown>) => {
         i.extraPoisonRes = '3'
       },
       /\.extraPoisonRes/,
     ],
-    [
-      'appearance.spriteId=数字',
-      (i: Record<string, unknown>) => {
-        i.appearance = { spriteId: 2 }
-      },
-      /\.appearance\.spriteId/,
-    ],
-    [
-      'appearance.portrait=数字',
-      (i: Record<string, unknown>) => {
-        i.appearance = { portrait: 2 }
-      },
-      /\.appearance\.portrait/,
-    ],
-    [
-      'appearance.battleSprite=null（非可选 null）',
-      (i: Record<string, unknown>) => {
-        i.appearance = { battleSprite: null }
-      },
-      /\.appearance\.battleSprite/,
-    ],
   ])('实例坏形状 %s 带路径拒绝', (_name, mutate, pattern) => {
-    const payload = validPayload()
-    mutate(payload.world.party[0] as unknown as Record<string, unknown>)
-    expect(() => assertCurrentSaveStructure(payload)).toThrow(pattern)
+    const view = unknownView()
+    mutate(asRecord(asList(asRecord(view.world).party)[0]!))
+    expect(() => assertCurrentSaveStructure(view)).toThrow(pattern)
   })
 
-  test('reserve 元素坏形状同样拒绝（路径含 reserve）', () => {
-    const payload = validPayload()
-    const template = payload.world.party[0]!
-    payload.world.reserve = [structuredClone(template)]
-    ;(payload.world.reserve[0]! as unknown as Record<string, unknown>).level = Number.NaN
-    expect(() => assertCurrentSaveStructure(payload)).toThrow(/world\.reserve\[0\]\.level/)
+  test('appearance.portrait=null 不在合同内（AssetId | undefined；三可选字段同一检查，null 为代表）', () =>
+    rejectsView((view) => {
+      asRecord(asList(asRecord(view.world).party)[0]!).appearance = { portrait: null }
+    }, /portrait/)())
+
+  test('reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）', () => {
+    const view = unknownView()
+    const world = asRecord(view.world)
+    const hero = asRecord(asList(world.party)[0]!)
+    world.reserve = [{ ...structuredClone(hero), level: Number.NaN }]
+    expect(() => assertCurrentSaveStructure(view)).toThrow(/world\.reserve\[0\]\.level/)
   })
 })

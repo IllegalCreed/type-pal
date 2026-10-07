@@ -1,0 +1,53 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-save-test-precision/packages/reforge
+
+ ✓ src/save/current-codec.contracts.test.ts (7 tests) 4ms
+ ✓ src/save/restore-preflight.chain.test.ts (20 tests) 210ms
+stderr | src/main.save-flows.test.ts > H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.save-flows.test.ts > H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.save-flows.test.ts > H5 empty slot preserves world and shows the absent message, not load success
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.save-flows.test.ts > H5 empty slot preserves world and shows the absent message, not load success
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.save-flows.test.ts > H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.save-flows.test.ts > H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.save-flows.test.ts > H5 two actual quick-save requests commit monotonically without consuming an extra count
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.save-flows.test.ts > H5 two actual quick-save requests commit monotonically without consuming an extra count
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/save-lineage.chain.test.ts (3 tests) 147ms
+stderr | src/main.save-flows.test.ts > H5 delayed old IDB read cannot replace a newer restore or its success message
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.save-flows.test.ts > H5 delayed old IDB read cannot replace a newer restore or its success message
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/save/store.isolation.test.ts (18 tests) 21ms
+ ✓ src/main.save-flows.test.ts (5 tests) 1430ms
+   ✓ H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated  892ms
+ ✓ src/automatic-target-command.test.ts (7 tests) 10ms
+ ✓ src/save/current-structure.test.ts (60 tests) 8ms
+ ✓ src/save/scope.test.ts (29 tests) 5ms
+ ✓ src/save/current-save.current-characterization.test.ts (6 tests) 4ms
+ ✓ src/save/ops.test.ts (4 tests) 3ms
+ ✓ src/save/browser-state.test.ts (6 tests) 3ms
+ ✓ src/save/store.test.ts (3 tests) 3ms
+
+ Test Files  12 passed (12)
+      Tests  168 passed (168)
+   Start at  16:39:20
+   Duration  2.78s (transform 1.87s, setup 0ms, import 2.36s, tests 1.85s, environment 461ms)
+
+JSON report written to /tmp/save-precision-candidate.json

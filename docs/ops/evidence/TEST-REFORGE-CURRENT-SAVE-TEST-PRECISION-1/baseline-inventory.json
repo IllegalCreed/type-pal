@@ -1,0 +1,278 @@
+[
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract round-trips the current envelope without mutating input or resetting world values"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects non-current SAVE9/content21 before normalization"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects non-current SAVE10/content19 before normalization"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects non-current SAVE8/content20 before normalization"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects non-current SAVE7/content19 before normalization"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects non-current SAVE8/content18 before normalization"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects non-current SAVE9/content19 before normalization"
+  },
+  {
+    "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+    "fullName": "current SAVE11/content22 contract rejects malformed or dangling current lifecycle references"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） 现行保存器产物通过；分数坐标/负坐标原样放行"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） 全部可选子树缺席合法（reserve/skillUseCounts/ambience/collectValue/resources/audio/hostileAwareness/script/entityLifecycles + 实例级可选项）"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） 合法边界值：HP=0、空 equipment/tags/inventory、空 learnedSkills Record、显式静音 audio.currentMusic=null、空 reserve/skillUseCounts/entityLifecycles 容器"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） hiddenExp 合法七个属性键 + appearance 三可选字段（portrait 为字符串 AssetId）"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） R3：CarriedStatus.status 复用 content 枚举真源——合法 id 通过、未知 id 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） R3：appearance.portrait=null 不在合同内（AssetId | undefined），拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 合法载荷（正边界） guard 通过后输入与原对象无别名关系（不修改输入）"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） automatic chase claims retain only stable addresses and behavior IDs"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: undefined"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":null,\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"\"}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\",\"epoch\":1},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\",\"commandEpoch\":1}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） null / 数组 / 缺 world / 缺 position 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） version 非 8 / projectId 非字符串 / contentVersion 非数字拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=NaN 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=Infinity 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 party=null 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 party=对象 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 learnedSkills 值非数组 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 inventory 元素缺 itemId 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 inventory count=NaN 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 sceneId 空串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos 非对象 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos.col=NaN 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 缺 height 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 facing=sideways 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 facing=undefined 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 audio.currentMusic=数字 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.rangeMultiplier=1 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.remainingMs=Infinity 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 script=数组（深层语义留给 codec guard，外层形状仍拒） 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 ambience=数字 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 collectValue=NaN 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 skillUseCounts 内层值非有限数 拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 id 空串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 template 非字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hp=NaN 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 luck=字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 equipment 值非字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 tags 元素非字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hiddenExp 未知键 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hiddenExp.exp=NaN 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 poisons 元素缺 tickIndex 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses.turns=Infinity 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraPoisonRes=字符串 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.spriteId=数字 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.portrait=数字 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.battleSprite=null（非可选 null） 带路径拒绝"
+  },
+  {
+    "file": "packages/reforge/src/save/current-structure.test.ts",
+    "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） reserve 元素坏形状同样拒绝（路径含 reserve）"
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 5,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791358864696,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract round-trips the current envelope without mutating input or resetting world values",
+          "status": "passed",
+          "title": "round-trips the current envelope without mutating input or resetting world values",
+          "duration": 2.450375000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects non-current SAVE10/content22 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE10/content22 before normalization",
+          "duration": 0.290916999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects non-current SAVE11/content21 before normalization",
+          "status": "failed",
+          "title": "rejects non-current SAVE11/content21 before normalization",
+          "duration": 1.6547500000000355,
+          "failureMessages": [
+            "AssertionError: SAVE11/content21 必须被拒收: expected null to be an instance of Error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1386:15)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-N13-preflight-content-only.dp34fL/packages/reforge/src/save/current-save.current-characterization.test.ts:114:68\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects non-current SAVE10/content21 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE10/content21 before normalization",
+          "duration": 0.19766600000002654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects a resolver whose identity does not match the payload before cloning",
+          "status": "passed",
+          "title": "rejects a resolver whose identity does not match the payload before cloning",
+          "duration": 0.33483400000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects malformed or dangling current lifecycle references",
+          "status": "passed",
+          "title": "rejects malformed or dangling current lifecycle references",
+          "duration": 0.20166699999998627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791358865007,
+      "endTime": 1791358865012.3347,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-save-precision-N13-preflight-content-only.dp34fL/packages/reforge/src/save/current-save.current-characterization.test.ts"
+    }
+  ]
+}
