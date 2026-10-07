@@ -1,0 +1,9 @@
+旧file/fullName	处置	新file/fullName	剩余oracle说明
+battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0	保留（等待器迁移）	battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0	断言原样（result/events 全序/hp=0/money=50）；仅 untilActive 由固定 100 轮改为默认期限 vi.waitFor（R2），终局业务 oracle 零变化
+battle-host.finalization.test.ts :: BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)	拆分为两个独立输入合同（R4 原子性）	battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静	基点 rich harness 断言原样（victoryAssets [true]/plays [victory-boss,false,300]/events.at(-1) music:stop/money 57）；exp=0 断言移出本合同
+battle-host.finalization.test.ts :: BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)	拆分为两个独立输入合同（R4 原子性）	battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响	基点 broke harness 断言原样（victoryAssets []/plays []/money 57）；独立 harness 独立 start，与 exp>0 输入互不污染
+battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复	保留（等待器迁移）	battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复	断言原样（playerFled/events 全序含尾随 music:stop/money 50）；真菜单 'q' 提交逃跑主体保留；仅等待器迁移
+（无对应旧测）	新增收尾纪律合同	battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原	R6 路径①：consume start Promise/active 清空/fetch 身份复原/DOM 复原
+（无对应旧测）	新增收尾纪律合同	battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原	R6 路径②：真实 IO 拒绝被消费、events 恰 ['exitFrame']、world.money 50、复原事实
+（无对应旧测）	新增收尾纪律合同	battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原	R6 路径③（CI 37560425624 同形确定性化）：断言红文本恰 'expected null not to be null'、close 后 AbortError 消费、gate entered 且放行、复原事实
+（无对应旧测）	新增收尾纪律合同	battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原	R6 路径④：取消消费/槽清空/复原事实；业务 no-write/no-restore oracle 不重复 battle-host.test.ts:160（existing-proof）

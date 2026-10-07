@@ -1,0 +1,1486 @@
+{
+  "card": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1",
+  "mode": "formal",
+  "argv": [
+    "/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/run-counterproof.mjs",
+    "formal"
+  ],
+  "cwd": "/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1",
+  "node": "v22.23.2",
+  "bakedMarkers": {
+    "N1-BF08-defeat-still-restores-music": "…(5) ] to deeply equal [ 'exitFrame', 'music:stop', …(4) ]",
+    "N2-BF09a-boss-flag-not-passed": "expected [ false ] to deeply equal [ true ]",
+    "N3-BF09b-exp-gate-always-open": "expected [ true ] to deeply equal []",
+    "N4-BF10-flee-runs-defeated-hooks": "…(6) ] to deeply equal [ 'exitFrame', 'music:stop', …(5) ]",
+    "N5-H3-hold-gate-never-blocks": "expected 'undefined' to contain 'expected null not to be null'",
+    "N6-H1-close-skips-restore": "expected [AsyncFunction] to be [AsyncFunction] // Object.is equality"
+  },
+  "selfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message alongside target red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "cascade: accepts exact expected failed set (all AssertionError)",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "cascade: rejects unexpected extra failed",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "judgeProbes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": [],
+      "raw": {
+        "file": "counterproof/mutation-logs/probe-pure-business-red-accepted.raw",
+        "sha256": "7e3d64a9e0e54dd30469075317fec76d05f71ab104abae26a487c74c91819144"
+      },
+      "json": {
+        "file": "counterproof/mutation-logs/probe-pure-business-red-accepted.json",
+        "sha256": "f540543557c7f4efe4f79e2bd55b7f9d07c163352237f67fe0f35ac9d55221b4"
+      }
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ],
+      "raw": {
+        "file": "counterproof/mutation-logs/probe-red-plus-afterall-hook-error-rejected.raw",
+        "sha256": "777650d82d0dd256c4952f5ead34ca7fe6b4a07bd2f128c50e24069440b1d1e0"
+      },
+      "json": {
+        "file": "counterproof/mutation-logs/probe-red-plus-afterall-hook-error-rejected.json",
+        "sha256": "1eabb0e275229c745f3965febebb308d33450d538747d4aeb62d418855c8bdb7"
+      }
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"],
+      "raw": {
+        "file": "counterproof/mutation-logs/probe-red-plus-async-uncaught-rejected.raw",
+        "sha256": "edc81610eeb7c325b667f6adff2864f0e6781e8cb624c65b4e8981d1647145ef"
+      },
+      "json": {
+        "file": "counterproof/mutation-logs/probe-red-plus-async-uncaught-rejected.json",
+        "sha256": "571d21464d1e7ad074c1e2f9709ffbc39c758c7db38a69a7d2a099ffced5a2d3"
+      }
+    }
+  ],
+  "baselines": {
+    "singleFile": {
+      "process": {
+        "exit": 0,
+        "signal": null,
+        "pid": 22195,
+        "spawnError": null,
+        "argv": [
+          "node",
+          "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/battle/battle-host.finalization.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/baseline.singlefile-green.json"
+        ],
+        "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+        "env": {
+          "inherited": true,
+          "unset": ["NODE_COMPILE_CACHE"],
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        }
+      },
+      "counts": {
+        "numTotalTests": 8,
+        "numPassedTests": 8,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "success": true
+      },
+      "unhandledInOutput": false,
+      "executionSet": [
+        "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+        "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+        "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+        "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+        "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+        "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+        "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+        "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+      ],
+      "raw": {
+        "file": "counterproof/mutation-logs/baseline.singlefile-green.raw",
+        "sha256": "a4a484804c5ead6e836d8f9a0f35a2badd195edbbf29c163b361d798e3cd66e6"
+      },
+      "json": {
+        "file": "counterproof/mutation-logs/baseline.singlefile-green.json",
+        "sha256": "8cf058d7851888f441097af11ba1db976c7b74286556c20d567ef376aec55e97"
+      }
+    },
+    "threeFile": {
+      "process": {
+        "exit": 0,
+        "signal": null,
+        "pid": 22225,
+        "spawnError": null,
+        "argv": [
+          "node",
+          "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/battle/battle-host.finalization.test.ts",
+          "src/battle/battle-host.test.ts",
+          "src/battle/battle-finalization.world-result.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/baseline.threefile-green.json"
+        ],
+        "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+        "env": {
+          "inherited": true,
+          "unset": ["NODE_COMPILE_CACHE"],
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        }
+      },
+      "counts": {
+        "numTotalTests": 31,
+        "numPassedTests": 31,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "success": true
+      },
+      "unhandledInOutput": false,
+      "executionSet": [
+        "src/battle/battle-finalization.world-result.test.ts :: BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界",
+        "src/battle/battle-finalization.world-result.test.ts :: BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+        "src/battle/battle-finalization.world-result.test.ts :: BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后",
+        "src/battle/battle-finalization.world-result.test.ts :: BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱",
+        "src/battle/battle-finalization.world-result.test.ts :: BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动",
+        "src/battle/battle-finalization.world-result.test.ts :: BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界",
+        "src/battle/battle-finalization.world-result.test.ts :: BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加",
+        "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+        "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+        "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+        "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+        "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+        "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+        "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+        "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+        "src/battle/battle-host.test.ts :: battle host commits real victory once, then hooks, scene sounds and music in order",
+        "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after cancel invalidation with zero music or writeback",
+        "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after runner invalidation with zero music or writeback",
+        "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after script invalidation with zero music or writeback",
+        "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after world invalidation with zero music or writeback",
+        "src/battle/battle-host.test.ts :: commit consumes live inventory after preparation settles without losing intervening changes",
+        "src/battle/battle-host.test.ts :: defeated script failure propagates after world writeback and scene recovery",
+        "src/battle/battle-host.test.ts :: fatal session failure restores scene resources and retains original failure even if restoration fails",
+        "src/battle/battle-host.test.ts :: new launch invalidates older preparation while preserving the new live session",
+        "src/battle/battle-host.test.ts :: old session finally cannot clear a new session published in the same turn",
+        "src/battle/battle-host.test.ts :: pre-aborted battle request changes neither frame mode nor resource IO",
+        "src/battle/battle-host.test.ts :: readiness diagnostics deduplicate by error identity text across launches, not by stage",
+        "src/battle/battle-host.test.ts :: running cancellation consumes the real session and never restores or writes old world state",
+        "src/battle/battle-host.test.ts :: session release and real world writeback are atomic to queued observers",
+        "src/battle/battle-host.test.ts :: stale fatal recovery cannot play music or clear the replacement session",
+        "src/battle/battle-host.test.ts :: world replacement after session completion blocks final writeback"
+      ],
+      "raw": {
+        "file": "counterproof/mutation-logs/baseline.threefile-green.raw",
+        "sha256": "96bc13fccf255eff458b2a1c2b15608ff8a4fdca4d33efde6667ee39702a0509"
+      },
+      "json": {
+        "file": "counterproof/mutation-logs/baseline.threefile-green.json",
+        "sha256": "486594d487e14595c24af26571eafee19596ee3f781824d6371f52cb2c9066ba"
+      }
+    }
+  },
+  "needles": [
+    {
+      "id": "N1-BF08-defeat-still-restores-music",
+      "file": "src/battle/battle-host.ts",
+      "target": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+      "mutation": {
+        "find": "    if (result !== 'defeat') restoreMusic()",
+        "replace": "    if (true) restoreMusic()",
+        "beforeSha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+        "mutantSha256": "6f35c5a220ce2df0b8860f0abd59c67b62aecd899a649d6ecbe25bad5a68068d"
+      },
+      "red": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 22396,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.red.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 7,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.red.raw",
+          "sha256": "08197729c8c3004ffc64e1038a75b1bb3846d193d639a323cefca704a6ae29ac"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.red.json",
+          "sha256": "b4b325cc95c3589e02c0ab4ea492feb29ae90b7db1439a9f63e19c451a51b218"
+        },
+        "failureMessages": [
+          "AssertionError: expected [ 'exitFrame', 'music:stop', …(5) ] to deeply equal [ 'exitFrame', 'music:stop', …(4) ]\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:32:22\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "judge": "accepted"
+      },
+      "restoredSha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+      "restoredGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 22433,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.restored-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.restored-green.raw",
+          "sha256": "dddccafc8c5fc94107d84571360507eb603bd122441e5bb7322b83fe33d73fc4"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.restored-green.json",
+          "sha256": "9230996a76cb336ba80792f24d4bb7c950b716893ba7e2c257ecd350ae1925fb"
+        }
+      },
+      "replayGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 22526,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.replay-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.replay-green.raw",
+          "sha256": "7e49cf4d57c9fb60e39cec9d5dfbc7f297118bc9fa0a1f38af3b957968341599"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.replay-green.json",
+          "sha256": "24f3f7fadd70343d2d6890dd9de011d5aba98025280fdaa7bd26fd5a6a8c8b5c"
+        }
+      }
+    },
+    {
+      "id": "N2-BF09a-boss-flag-not-passed",
+      "file": "src/battle/battle-host.ts",
+      "target": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+      "mutation": {
+        "find": "this.music.victory(!!options?.boss),",
+        "replace": "this.music.victory(false),",
+        "beforeSha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+        "mutantSha256": "81ef5cff98d7f6e6a245c2df2e5cbb53da95123101caf4590add86d22074a333"
+      },
+      "red": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 22557,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.red.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 7,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.red.raw",
+          "sha256": "dce3a3a3e0e037c6e81ffedbea8300c1c831692548aabc0819d356d805b2948b"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.red.json",
+          "sha256": "a821e1adbf91db6fe7ab0af91c751762ae26dd78e567e3c355d7eea1ffa850af"
+        },
+        "failureMessages": [
+          "AssertionError: expected [ false ] to deeply equal [ true ]\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:54:29\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "judge": "accepted"
+      },
+      "restoredSha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+      "restoredGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 22639,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.restored-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.restored-green.raw",
+          "sha256": "8530dba548a783501f4c02a62e635a76232aa6efeb4fe276fd008e2710565730"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.restored-green.json",
+          "sha256": "4c3889851baac2d39597437ae6d71bf56eb28664e77bf40698c276a689db5b86"
+        }
+      },
+      "replayGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 22666,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.replay-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.replay-green.raw",
+          "sha256": "3642fcf032fd0a5b22a354a6eb9eb83e4d87a30c9cb629845c815b64f7b77ebd"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N2-BF09a-boss-flag-not-passed.replay-green.json",
+          "sha256": "4449f085c2c942962bbf99bf0b172f7a196e4fbb7c2007ccf72c614580c03673"
+        }
+      }
+    },
+    {
+      "id": "N3-BF09b-exp-gate-always-open",
+      "file": "src/battle/battle-world-result.ts",
+      "target": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+      "mutation": {
+        "find": "if (rewards.exp > 0) onExpReward()",
+        "replace": "if (true) onExpReward()",
+        "beforeSha256": "ebf23d84f68739fb15a46defde2a3016177d71130ed5a230afda8b827bd92050",
+        "mutantSha256": "785d39bc9bbf13f912d9b2f64bc9f66a88d504d0dc1dfbb2097f677ed4e0a4e0"
+      },
+      "red": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 22730,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.red.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 7,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.red.raw",
+          "sha256": "d8763e7416ce237d6edaf99856463b0f3ff039d58a764f5d6cabe1cc674c752c"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.red.json",
+          "sha256": "ba956278633d5068939c137712f9c1b94dc314115b1457c7a55cee9f94939ffd"
+        },
+        "failureMessages": [
+          "AssertionError: expected [ true ] to deeply equal []\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:70:29\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "judge": "accepted"
+      },
+      "cascade": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 22788,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "src/battle/battle-host.test.ts",
+            "src/battle/battle-finalization.world-result.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.cascade-threefile.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 31,
+          "numPassedTests": 27,
+          "numFailedTests": 4,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-finalization.world-result.test.ts :: BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界",
+          "src/battle/battle-finalization.world-result.test.ts :: BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+          "src/battle/battle-finalization.world-result.test.ts :: BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后",
+          "src/battle/battle-finalization.world-result.test.ts :: BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱",
+          "src/battle/battle-finalization.world-result.test.ts :: BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动",
+          "src/battle/battle-finalization.world-result.test.ts :: BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界",
+          "src/battle/battle-finalization.world-result.test.ts :: BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加",
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "src/battle/battle-host.test.ts :: battle host commits real victory once, then hooks, scene sounds and music in order",
+          "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after cancel invalidation with zero music or writeback",
+          "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after runner invalidation with zero music or writeback",
+          "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after script invalidation with zero music or writeback",
+          "src/battle/battle-host.test.ts :: battle host refuses delayed preparation after world invalidation with zero music or writeback",
+          "src/battle/battle-host.test.ts :: commit consumes live inventory after preparation settles without losing intervening changes",
+          "src/battle/battle-host.test.ts :: defeated script failure propagates after world writeback and scene recovery",
+          "src/battle/battle-host.test.ts :: fatal session failure restores scene resources and retains original failure even if restoration fails",
+          "src/battle/battle-host.test.ts :: new launch invalidates older preparation while preserving the new live session",
+          "src/battle/battle-host.test.ts :: old session finally cannot clear a new session published in the same turn",
+          "src/battle/battle-host.test.ts :: pre-aborted battle request changes neither frame mode nor resource IO",
+          "src/battle/battle-host.test.ts :: readiness diagnostics deduplicate by error identity text across launches, not by stage",
+          "src/battle/battle-host.test.ts :: running cancellation consumes the real session and never restores or writes old world state",
+          "src/battle/battle-host.test.ts :: session release and real world writeback are atomic to queued observers",
+          "src/battle/battle-host.test.ts :: stale fatal recovery cannot play music or clear the replacement session",
+          "src/battle/battle-host.test.ts :: world replacement after session completion blocks final writeback"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.cascade-threefile.raw",
+          "sha256": "540b7af958e1afd54463974317dcb76b7e01269310e559083fcc7e40ee343220"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.cascade-threefile.json",
+          "sha256": "d09021af88b771d7610a1cd0701feac859f34bf8653c312466e8613f95f7db21"
+        },
+        "expectedFailed": [
+          "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+          "battle host commits real victory once, then hooks, scene sounds and music in order",
+          "world replacement after session completion blocks final writeback"
+        ],
+        "judge": "accepted"
+      },
+      "restoredSha256": "ebf23d84f68739fb15a46defde2a3016177d71130ed5a230afda8b827bd92050",
+      "restoredGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 22868,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.restored-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.restored-green.raw",
+          "sha256": "38567702c85e1016d7180e3667cc0391fba2f391d0392967334172ad0e032b03"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.restored-green.json",
+          "sha256": "7efef23312b33aaec8a831697a387d1a908a3b02360a0da7dee4f662f49715ff"
+        }
+      },
+      "replayGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 22903,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.replay-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.replay-green.raw",
+          "sha256": "6ea679cb58a441f549722453a9c6c8827070069974174eb5d0bed55bf770a656"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.replay-green.json",
+          "sha256": "e0a95bd63822b1864220da2ebab80ac722b235404a72e6ff027eb064b88de90a"
+        }
+      }
+    },
+    {
+      "id": "N4-BF10-flee-runs-defeated-hooks",
+      "file": "src/battle/battle-host.ts",
+      "target": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+      "mutation": {
+        "find": "      if (result === 'victory')",
+        "replace": "      if (result !== 'defeat')",
+        "beforeSha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+        "mutantSha256": "877680e3aef751d0b4cbdbe0665e0ba2e4426b80a086dc8db99486a7aee646fe"
+      },
+      "red": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 22930,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.red.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 7,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.red.raw",
+          "sha256": "18ef929305125fdd4d25db04432cca581925f469dda8552a3c4f086f542ed56f"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.red.json",
+          "sha256": "1f54e7cf0d49f9b7145421d69f4fdb3bbbb47a4029439ea5c1b66ec9635a5937"
+        },
+        "failureMessages": [
+          "AssertionError: expected [ 'exitFrame', 'music:stop', …(6) ] to deeply equal [ 'exitFrame', 'music:stop', …(5) ]\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:91:22\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "judge": "accepted"
+      },
+      "restoredSha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+      "restoredGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 23024,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.restored-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.restored-green.raw",
+          "sha256": "6622716827a6ef34493e7da100f8ccbfa9a135348968e1835eea4a0813277089"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.restored-green.json",
+          "sha256": "395fb47c62b0ae9b4a623d8458f339187e68c9140abbd9e3bb1a8bac2eb470e7"
+        }
+      },
+      "replayGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 23051,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.replay-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.replay-green.raw",
+          "sha256": "e393b0addd42ea4495ddb08b3479748aad5d409c69cb3c9cc27aa20e661399e9"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N4-BF10-flee-runs-defeated-hooks.replay-green.json",
+          "sha256": "fb2cbbd706d0f05861ea9bb740d6b413b4d063843cf89f877799ed6982ac6249"
+        }
+      }
+    },
+    {
+      "id": "N5-H3-hold-gate-never-blocks",
+      "file": "src/__tests__/battle-finalization-reliability/battle-finalization-host-harness.ts",
+      "target": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+      "mutation": {
+        "find": "        await promise",
+        "replace": "        void promise",
+        "beforeSha256": "e27b8bf9a1ffaeca19d76d04cba4ab0b3b070fe9f514a5d9bff149373d481841",
+        "mutantSha256": "ecaabebccf1e0a530d8b2f6fb102a883d7f33d779e5c6ecd0075817e02a2f197"
+      },
+      "red": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 23133,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.red.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 7,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.red.raw",
+          "sha256": "8360bc5490fc54fa9d6db79df98ba2640627490d6808c762b71e8763c4dd4162"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.red.json",
+          "sha256": "9c43e4744295f9bc98708e7fcc1cd8cb9bb26fbf6455be492d11aca9e1b259e4"
+        },
+        "failureMessages": [
+          "AssertionError: expected 'undefined' to contain 'expected null not to be null'\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:154:52\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "judge": "accepted"
+      },
+      "restoredSha256": "e27b8bf9a1ffaeca19d76d04cba4ab0b3b070fe9f514a5d9bff149373d481841",
+      "restoredGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 23160,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.restored-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.restored-green.raw",
+          "sha256": "fb5455007973a6bf96c586f1e8bf40b74e7fc900670ff5ab701e3ae13ca14ba1"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.restored-green.json",
+          "sha256": "181570bff3592ba8d0befb5ad8f0add93a1e16499193f82a927ee3e72ca8536f"
+        }
+      },
+      "replayGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 23209,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.replay-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.replay-green.raw",
+          "sha256": "0e8a8eedc85670b7c43efb2d1091ff99d7f24c9a391c9ca511d8e39846cfef32"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.replay-green.json",
+          "sha256": "b9977d9e9a0158d21eeee77f6cae727813a74cdd7028da2e7557430f0b380f76"
+        }
+      }
+    },
+    {
+      "id": "N6-H1-close-skips-restore",
+      "file": "src/__tests__/battle-finalization-reliability/battle-finalization-host-harness.ts",
+      "target": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+      "mutation": {
+        "find": "    await browser.close()",
+        "replace": "    await Promise.resolve()",
+        "beforeSha256": "e27b8bf9a1ffaeca19d76d04cba4ab0b3b070fe9f514a5d9bff149373d481841",
+        "mutantSha256": "480d010b2f60aedced8eadf18f7fb5e5301ad62eb63f1edbae225ad9552994d5"
+      },
+      "red": {
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 23283,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.red.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 4,
+          "numFailedTests": 4,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": false
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N6-H1-close-skips-restore.red.raw",
+          "sha256": "193b8ca92f2b001cd4ca1813967a9caeb936142270e1c188c391ac0c27c07fd2"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N6-H1-close-skips-restore.red.json",
+          "sha256": "94856bbb3003e530dbf1b2246674183e9fddd55859f688b48bc2e4f62579c9a6"
+        },
+        "failureMessages": [
+          "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:118:28\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+          "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:136:28\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+          "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:157:28\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20",
+          "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:173:28\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "judge": "accepted"
+      },
+      "restoredSha256": "e27b8bf9a1ffaeca19d76d04cba4ab0b3b070fe9f514a5d9bff149373d481841",
+      "restoredGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 23311,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.restored-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N6-H1-close-skips-restore.restored-green.raw",
+          "sha256": "3403f63e666d3ea9743b3188bc59f68d004ae0d6858aa7a5238e55bcac9f52fa"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N6-H1-close-skips-restore.restored-green.json",
+          "sha256": "d3f0847aecde7d2f9e087bafbd2a37cdfa8ca92ff0f96615ffa9ffba9bc224b1"
+        }
+      },
+      "replayGreen": {
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 23393,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-reforge-battle-test-reliability/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/battle/battle-host.finalization.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.replay-green.json"
+          ],
+          "cwd": "/tmp/tp-bhtr-formal.VpNRAD/packages/reforge",
+          "env": {
+            "inherited": true,
+            "unset": ["NODE_COMPILE_CACHE"],
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "numTotalTests": 8,
+          "numPassedTests": 8,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "success": true
+        },
+        "unhandledInOutput": false,
+        "executionSet": [
+          "src/battle/battle-host.finalization.test.ts :: BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "src/battle/battle-host.finalization.test.ts :: BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "src/battle/battle-host.finalization.test.ts :: BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "src/battle/battle-host.finalization.test.ts :: BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "src/battle/battle-host.finalization.test.ts :: BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原"
+        ],
+        "raw": {
+          "file": "counterproof/mutation-logs/N6-H1-close-skips-restore.replay-green.raw",
+          "sha256": "dacd2db35700afec16591bf01719a8018bee6093ed9f35621ea904df021c8c44"
+        },
+        "json": {
+          "file": "counterproof/mutation-logs/N6-H1-close-skips-restore.replay-green.json",
+          "sha256": "97dbd58affd1643dc5c20e90fdb59fd8b6a222e03ea3b73f0605755033ae21c6"
+        }
+      }
+    }
+  ],
+  "cleanup": "removed=true path=/tmp/tp-bhtr-formal.VpNRAD"
+}

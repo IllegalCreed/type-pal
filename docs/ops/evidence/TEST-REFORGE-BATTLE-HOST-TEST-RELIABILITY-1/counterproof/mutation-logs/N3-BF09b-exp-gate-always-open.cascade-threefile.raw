@@ -1,0 +1,210 @@
+
+ RUN  v4.1.7 /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge
+
+ ❯ src/battle/battle-host.finalization.test.ts (8 tests | 1 failed) 530ms
+   ✓ BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0 97ms
+   ✓ BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静 68ms
+   × BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响 78ms
+   ✓ BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复 69ms
+   ✓ BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原 71ms
+   ✓ BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原 15ms
+   ✓ BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原 64ms
+   ✓ BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原 66ms
+ ❯ src/battle/battle-finalization.world-result.test.ts (7 tests | 1 failed) 144ms
+   ✓ BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界 42ms
+   × BF-02 零经验胜利：经验门关、金钱照入账、无结算屏 19ms
+   ✓ BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后 19ms
+   ✓ BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱 17ms
+   ✓ BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动 15ms
+   ✓ BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界 15ms
+   ✓ BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加 17ms
+ ❯ src/battle/battle-host.test.ts (16 tests | 2 failed) 1515ms
+   ✓ commit consumes live inventory after preparation settles without losing intervening changes 93ms
+   × battle host commits real victory once, then hooks, scene sounds and music in order 78ms
+   ✓ session release and real world writeback are atomic to queued observers 73ms
+   ✓ battle host refuses delayed preparation after cancel invalidation with zero music or writeback 121ms
+   ✓ battle host refuses delayed preparation after runner invalidation with zero music or writeback 122ms
+   ✓ battle host refuses delayed preparation after world invalidation with zero music or writeback 117ms
+   ✓ battle host refuses delayed preparation after script invalidation with zero music or writeback 116ms
+   ✓ pre-aborted battle request changes neither frame mode nor resource IO 14ms
+   ✓ new launch invalidates older preparation while preserving the new live session 116ms
+   ✓ old session finally cannot clear a new session published in the same turn 116ms
+   ✓ running cancellation consumes the real session and never restores or writes old world state 66ms
+   ✓ fatal session failure restores scene resources and retains original failure even if restoration fails 64ms
+   ✓ stale fatal recovery cannot play music or clear the replacement session 168ms
+   ✓ defeated script failure propagates after world writeback and scene recovery 66ms
+   × world replacement after session completion blocks final writeback 67ms
+   ✓ readiness diagnostics deduplicate by error identity text across launches, not by stage 117ms
+
+ Test Files  3 failed (3)
+      Tests  4 failed | 27 passed (31)
+   Start at  16:49:08
+   Duration  2.35s (transform 795ms, setup 0ms, import 1.02s, tests 2.19s, environment 887ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N3-BF09b-exp-gate-always-open.cascade-threefile.json
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > commit consumes live inventory after preparation settles without losing intervening changes
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host commits real victory once, then hooks, scene sounds and music in order
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > session release and real world writeback are atomic to queued observers
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after cancel invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after runner invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after world invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after script invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > pre-aborted battle request changes neither frame mode nor resource IO
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > new launch invalidates older preparation while preserving the new live session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > old session finally cannot clear a new session published in the same turn
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > running cancellation consumes the real session and never restores or writes old world state
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > fatal session failure restores scene resources and retains original failure even if restoration fails
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > stale fatal recovery cannot play music or clear the replacement session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > defeated script failure propagates after world writeback and scene recovery
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > world replacement after session completion blocks final writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > readiness diagnostics deduplicate by error identity text across launches, not by stage
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-finalization.world-result.test.ts > BF-02 零经验胜利：经验门关、金钱照入账、无结算屏
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/battle/battle-finalization.world-result.test.ts:307:44
+    305|     await drive(h, settled, 'attack')
+    306|     expect(settled()).toBe('victory')
+    307|     expect(h.observables.onExpRewardCalls).toBe(0) // exp=0 → 经验提示/胜利曲…
+       |                                            ^
+    308|     expect(h.world.money).toBe(50 + 7)
+    309|     expect(h.world.party[0]!.exp).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响
+AssertionError: expected [ true ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   true,
++ ]
+
+ ❯ src/battle/battle-host.finalization.test.ts:70:29
+     68|     await h.pumpUntilSettled(op)
+     69|     expect(op.state.result).toBe('victory')
+     70|     expect(h.victoryAssets).toEqual([]) // exp=0：经验门关 → 胜利曲回调零触发
+       |                             ^
+     71|     expect(h.plays).toEqual([])
+     72|     expect(h.world.money).toBe(50 + 7) // 金钱不受经验门影响
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/battle/battle-host.test.ts > battle host commits real victory once, then hooks, scene sounds and music in order
+AssertionError: expected [ 'music:stop', 'publish', …(7) ] to deeply equal [ 'music:stop', 'publish', …(6) ]
+
+- Expected
++ Received
+
+@@ -1,9 +1,10 @@
+  [
+    "music:stop",
+    "publish",
+    "settlement",
++   "music:play",
+    "clear",
+    "write:victory",
+    "defeated",
+    "restore",
+    "music:stop",
+
+ ❯ src/battle/battle-host.test.ts:49:20
+     47|   expected.party[0]!.mp = 35
+     48|   expect(f.world()).toEqual(expected)
+     49|   expect(f.events).toEqual([
+       |                    ^
+     50|     'music:stop',
+     51|     'publish',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/battle/battle-host.test.ts > world replacement after session completion blocks final writeback
+AssertionError: expected [ 'music:stop', 'publish', …(3) ] to deeply equal [ 'music:stop', 'publish', …(2) ]
+
+- Expected
++ Received
+
+  [
+    "music:stop",
+    "publish",
+    "settlement",
++   "music:play",
+    "clear",
+  ]
+
+ ❯ src/battle/battle-host.test.ts:249:20
+    247|   expect(operation.state).toMatchObject({ settled: true, error: { name…
+    248|   expect(f.world()).toEqual(before)
+    249|   expect(f.events).toEqual(['music:stop', 'publish', 'settlement', 'cl…
+       |                    ^
+    250| })
+    251|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯

@@ -1,205 +1,22 @@
 // @vitest-environment jsdom
 /**
- * TEST-GLM-REFORGE-BATTLE-FLOW-1：宿主终局流（battle-host.ts，BF-08..BF-10）。
- * 排重：battle-host.test.ts 16 例覆盖 victory 单景/取消/失效/恢复竞态，无 defeat 与
- * playerFled 终局分配、无胜利曲经验门与 boss 旗传递合同。本文件以与
- * battle-host-fixture 同构的真实装配（scenarioProject 真工程 + 真 BattleLaunchPreparation
- * + 真 BattleHost + 真 settle/finish 端口接线）补三条终局流。
+ * TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1：宿主终局流（battle-host.ts，BF-08..BF-10）。
+ * 排重：battle-host.test.ts 16 例覆盖宿主生命周期（提交原子性/失效拒绝/取消/恢复竞态/
+ * 就绪去重），无 defeat 与 playerFled 终局分配、无胜利曲经验门与 boss 旗传递合同；
+ * battle-finalization.world-result.test.ts BF-01..BF-07 覆盖 settle/finish 纯函数层。
+ * 本文件以真实装配（真 prepare + 真 BattleHost + 真 settle/finish 端口接线）合同化
+ * 宿主层终局编排；装配与收尾纪律见
+ * ../__tests__/battle-finalization-reliability/battle-finalization-host-harness.ts。
+ *
+ * CI 37560425624 / 37585132871：BF-08/BF-09 曾在 untilActive 以固定 100 轮事件循环
+ * 轮数作 IO 同步原语而随机红（同次运行中走同一 prepare 链、用 vi.waitFor 的
+ * battle-host.test.ts 16 例全绿）。现一律条件 + 默认期限同步。
  */
-
-import type { AuthorEnemyDef } from '@type-pal/content'
-import { buildWorld } from '@type-pal/content'
 import { expect, test } from 'vitest'
-import { drain } from '../__tests__/runtime-shell/driver.js'
-import { shellActor } from '../__tests__/runtime-shell/project.js'
 import {
-  combatActor,
-  installShellHost,
-  opponent,
-  scenarioProject,
-} from '../__tests__/runtime-shell/scenarios.js'
-import { loadStandardPalette } from '../assets.js'
-import { SfxPlayer } from '../audio/sfx.js'
-import { projectItemsView } from '../runtime-project-view.js'
-import { BattleHost, type BattleHostPorts } from './battle-host.js'
-import { BattleLaunchPreparation } from './battle-launch-preparation.js'
-import type { BattleResult } from './battle-result.js'
-import { finishBattleWorldState, settleBattleVictory } from './battle-world-result.js'
-
-/** 完整敌属性（同文件 1：opponent 顶层浅覆盖，stats 整块替换）。 */
-function foeWith(stats: Partial<AuthorEnemyDef['stats']>) {
-  return opponent({
-    stats: {
-      health: 1,
-      level: 1,
-      exp: 0,
-      cash: 7,
-      attackStrength: 1,
-      magicStrength: 0,
-      defense: 0,
-      dexterity: 1,
-      fleeRate: 0,
-      physicalResistance: 0,
-      poisonResistance: 0,
-      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      dualMove: false,
-      collectValue: 0,
-      ...stats,
-    },
-  })
-}
-
-interface HostScenario {
-  enemy: AuthorEnemyDef
-  /** 覆盖 hero 演员（如 luck 100 的逃跑者）。 */
-  heroOverrides?: (actor: ReturnType<typeof combatActor>) => void
-}
-
-/** 与 battle-host-fixture 同构的真实宿主装配（可参数化敌与演员；端口按 main 语义接真 settle/finish）。 */
-async function hostHarness(scenario: HostScenario) {
-  const browser = await installShellHost()
-  const fixture = await scenarioProject({
-    enemies: [scenario.enemy],
-    actors: (() => {
-      const hero = combatActor()
-      scenario.heroOverrides?.(hero)
-      return [hero, shellActor('friend')]
-    })(),
-    items: [],
-    inventory: [],
-  })
-  const project = fixture.project
-  const start = project.manifest.entryPoints[0]?.startWorld
-  if (!start) throw new Error('fixture 缺入口 startWorld')
-  const world = buildWorld(start, project.actorsById)
-  world.audio = { currentMusic: null }
-  const content = { ...project, items: projectItemsView(project.items) }
-  const events: string[] = []
-  const sessions: import('./battle-session.js').BattleSession[] = []
-  const plays: Array<{ asset: string; loop: boolean; fadeMs: number }> = []
-  const victoryAssets: boolean[] = []
-  const bgm = {
-    play: (asset: string, loop: boolean, fadeMs: number) => {
-      plays.push({ asset, loop, fadeMs })
-      events.push(`music:play:${asset}`)
-    },
-    stop: () => {
-      events.push('music:stop')
-    },
-  }
-  const palette = await loadStandardPalette(project.assetBase)
-  const sfx = new SfxPlayer(project.assetResolver)
-  const prep = new BattleLaunchPreparation(
-    content,
-    {
-      assetBase: project.assetBase,
-      reader: project.assetResolver,
-      imageCache: project.imageCache,
-      spriteCache: project.battleSpriteCache,
-      soundRoles: project.manifest.assets.roles,
-      portraits: new Map(),
-      faces: new Map(),
-      palette: () => palette,
-      chrome: { glyphs: { has: () => false, get: () => undefined } },
-      sfx,
-      loadEffect: async () => undefined,
-    },
-    {
-      readWorld: () => world,
-      readScene: () => project.entryScene,
-      debugLeaders: () => ({ dualLeader: null, allLeader: null }),
-    },
-  )
-  const ports: BattleHostPorts = {
-    readWorld: () => world,
-    exitFrameStep: () => {
-      events.push('exitFrame')
-    },
-    captureScriptOwner: () => () => {},
-    settleVictory: (session, playVictory) => {
-      events.push('settlement')
-      return settleBattleVictory(session, world, project, playVictory)
-    },
-    finishWorld: (session, result) => {
-      events.push(`write:${result}`)
-      finishBattleWorldState(session, result, world, project)
-    },
-    runDefeated: async () => {
-      events.push('defeated')
-    },
-    restoreSceneSounds: async () => {
-      events.push('restore')
-    },
-    publishDebug: (session) => {
-      if (session) sessions.push(session)
-      events.push(session ? 'publish' : 'clear')
-    },
-    reportReadiness: () => {
-      events.push('report')
-    },
-    reportRestoreFailure: () => {
-      events.push('restoreFailed')
-    },
-  }
-  const host = new BattleHost(prep, ports, {
-    bgm,
-    locale: project.locale,
-    victory: (boss) => {
-      victoryAssets.push(boss)
-      return boss ? 'victory-boss' : 'victory'
-    },
-  })
-  /** 逐拍推进至宿主收口（有界；Enter 兼作结算屏放行）。 */
-  async function pumpUntilSettled(
-    observe: { state: { settled: boolean; result?: BattleResult; error?: unknown } },
-    keys: readonly string[] = ['Enter'],
-    maxTicks = 400,
-  ) {
-    for (let i = 0; i < maxTicks && !observe.state.settled; i += 1) {
-      if (host.active) host.active.tick(100, new Set(keys))
-      await drain()
-      await browser.settleIO()
-    }
-    expect(observe.state.settled).toBe(true)
-  }
-  const observe = (promise: Promise<BattleResult>) => {
-    const state: { settled: boolean; result?: BattleResult; error?: unknown } = { settled: false }
-    promise.then(
-      (result) => {
-        state.result = result
-        state.settled = true
-      },
-      (error) => {
-        state.error = error
-        state.settled = true
-      },
-    )
-    return { state }
-  }
-  const untilActive = async () => {
-    for (let i = 0; i < 100 && host.active === null; i += 1) {
-      await drain()
-      await browser.settleIO()
-    }
-    expect(host.active).not.toBeNull()
-  }
-  return {
-    host,
-    events,
-    sessions,
-    plays,
-    victoryAssets,
-    world,
-    observe,
-    untilActive,
-    pumpUntilSettled,
-    close: async () => {
-      host.cancel()
-      host.active?.cancel()
-      await browser.close()
-    },
-  }
-}
+  foeWith,
+  hostHarness,
+} from '../__tests__/battle-finalization-reliability/battle-finalization-host-harness.js'
 
 test('BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0', async () => {
   const h = await hostHarness({ enemy: foeWith({ health: 5000, attackStrength: 200 }) })
@@ -209,6 +26,9 @@ test('BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但�
     await h.pumpUntilSettled(op)
     expect(op.state.result).toBe('defeat')
     // 终局分配：defeat 不触发 settleVictory、不跑 onDefeated 战后脚本、不还原大世界音乐。
+    // 序列每项都是公开端口事件：exitFrame=退出步进模式、music:stop=进场静音、publish/clear=
+    // 会话发布/释放（同续原子）、write:defeat=世界写回、restore=场景音恢复；无尾随
+    // music:stop 即 defeat 分支跳过 restoreMusic（battle-host.ts finishEncounter）。
     expect(h.events).toEqual([
       'exitFrame',
       'music:stop',
@@ -224,31 +44,34 @@ test('BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但�
   }
 })
 
-test('BF-09 胜利曲经验门与 boss 旗：exp>0 才奏、options.boss 直传 victory(boss)', async () => {
-  const rich = await hostHarness({ enemy: foeWith({ exp: 15, cash: 7 }) })
+test('BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静', async () => {
+  const h = await hostHarness({ enemy: foeWith({ exp: 15, cash: 7 }) })
   try {
-    const op = rich.observe(rich.host.start('encounter', { auto: true, boss: true }))
-    await rich.untilActive()
-    await rich.pumpUntilSettled(op)
+    const op = h.observe(h.host.start('encounter', { auto: true, boss: true }))
+    await h.untilActive()
+    await h.pumpUntilSettled(op)
     expect(op.state.result).toBe('victory')
-    expect(rich.victoryAssets).toEqual([true]) // boss 旗恰一次直达 victory(boss)
-    expect(rich.plays).toEqual([{ asset: 'victory-boss', loop: false, fadeMs: 300 }])
-    expect(rich.events.at(-1)).toBe('music:stop') // playedVictory 后大世界静音态仍收 stop
-    expect(rich.world.money).toBe(50 + 7)
+    expect(h.victoryAssets).toEqual([true]) // boss 旗恰一次直达 victory(boss)
+    expect(h.plays).toEqual([{ asset: 'victory-boss', loop: false, fadeMs: 300 }])
+    expect(h.events.at(-1)).toBe('music:stop') // playedVictory 后大世界静音态仍收 stop
+    expect(h.world.money).toBe(50 + 7)
   } finally {
-    await rich.close()
+    await h.close()
   }
-  const broke = await hostHarness({ enemy: foeWith({ exp: 0, cash: 7 }) })
+})
+
+test('BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响', async () => {
+  const h = await hostHarness({ enemy: foeWith({ exp: 0, cash: 7 }) })
   try {
-    const op = broke.observe(broke.host.start('encounter', { auto: true, boss: true }))
-    await broke.untilActive()
-    await broke.pumpUntilSettled(op)
+    const op = h.observe(h.host.start('encounter', { auto: true, boss: true }))
+    await h.untilActive()
+    await h.pumpUntilSettled(op)
     expect(op.state.result).toBe('victory')
-    expect(broke.victoryAssets).toEqual([]) // exp=0：经验门关 → 胜利曲回调零触发
-    expect(broke.plays).toEqual([])
-    expect(broke.world.money).toBe(50 + 7) // 金钱不受经验门影响
+    expect(h.victoryAssets).toEqual([]) // exp=0：经验门关 → 胜利曲回调零触发
+    expect(h.plays).toEqual([])
+    expect(h.world.money).toBe(50 + 7) // 金钱不受经验门影响
   } finally {
-    await broke.close()
+    await h.close()
   }
 })
 
@@ -262,7 +85,7 @@ test('BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱
   try {
     const op = h.observe(h.host.start('encounter'))
     await h.untilActive()
-    h.host.active!.tick(100, new Set(['q'])) // 菜单提交逃跑
+    h.host.active!.tick(100, new Set(['q'])) // 真实指令菜单提交逃跑（q=逃跑项）
     await h.pumpUntilSettled(op)
     expect(op.state.result).toBe('playerFled')
     expect(h.events).toEqual([
@@ -278,4 +101,75 @@ test('BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱
   } finally {
     await h.close()
   }
+})
+
+test('BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原', async () => {
+  const h = await hostHarness({ enemy: foeWith({ exp: 0 }) })
+  let op: Awaited<ReturnType<typeof h.observe>> | undefined
+  try {
+    op = h.observe(h.host.start('encounter', { auto: true }))
+    await h.untilActive()
+    await h.pumpUntilSettled(op)
+  } finally {
+    await h.close()
+  }
+  expect(op!.state).toEqual({ settled: true, result: 'victory' }) // 本次 start Promise 已消费
+  expect(h.host.active).toBeNull() // 会话槽已释放
+  expect(globalThis.fetch).toBe(h.restoreProbe.fetch) // stub 的全局按身份复原
+  expect(document.getElementById('screen')).toBeNull() // DOM 已复原
+})
+
+test('BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原', async () => {
+  const h = await hostHarness({ enemy: foeWith({}) })
+  h.failSpriteRead() // 真实外部 IO 故障（非业务 mock）：fighter.rle 读取 NotFoundError
+  let op: Awaited<ReturnType<typeof h.observe>> | undefined
+  try {
+    op = h.observe(h.host.start('encounter'))
+    await op.consumed // prepare 真实拒绝兑现
+  } finally {
+    await h.close()
+  }
+  expect(op!.state.settled).toBe(true) // 拒绝已被消费，无未处理拒绝
+  expect(op!.state.error).toBeTruthy()
+  expect(h.events).toEqual(['exitFrame']) // 未建会话：零音乐/发布/写回副作用
+  expect(h.world.money).toBe(50)
+  expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
+  expect(document.getElementById('screen')).toBeNull()
+})
+
+test('BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原', async () => {
+  const h = await hostHarness({ enemy: foeWith({}) })
+  const hold = h.blockSpriteRead() // 真实外部 IO 持定：prepare 停在精灵读处
+  const op = h.observe(h.host.start('encounter'))
+  let earlyFailure: unknown
+  try {
+    // CI 同形：断言在 prepare 仍在途时失败（active 不可能建立 → 必然红）
+    await h.until(() => hold.entered() > 0)
+    expect(h.host.active).not.toBeNull()
+  } catch (error) {
+    earlyFailure = error
+  } finally {
+    await h.close()
+  }
+  expect(String((earlyFailure as Error)?.message)).toContain('expected null not to be null')
+  expect(op.state).toMatchObject({ settled: true, error: { name: 'AbortError' } }) // 关闭消费了本次 start
+  expect(hold.entered()).toBeGreaterThan(0) // 持定的 IO 确已进入并被放行
+  expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
+  expect(document.getElementById('screen')).toBeNull()
+})
+
+test('BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原', async () => {
+  const h = await hostHarness({ enemy: foeWith({ exp: 0 }) })
+  const op = h.observe(h.host.start('encounter', { auto: true }))
+  try {
+    await h.untilActive()
+    h.host.cancel() // 会话存活期取消
+    await op.consumed
+  } finally {
+    await h.close()
+  }
+  expect(op.state).toMatchObject({ settled: true, error: { name: 'AbortError' } })
+  expect(h.host.active).toBeNull()
+  expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
+  expect(document.getElementById('screen')).toBeNull()
 })

@@ -1,0 +1,160 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+{"probe":"P1-idle-rounds","samples":[{"rounds":7,"ms":3},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":1},{"rounds":7,"ms":0},{"rounds":7,"ms":0}],"min":7,"max":7,"budget100Exceeded":false}
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it
+{"probe":"P2-saturated","ciShape":{"activeStillNull":false,"prepareRejected":false,"settled":false,"events":["exitFrame","music:stop","publish"],"assetReads":["assets/index.json","assets/index.json","assets/generated/effect-sprite.pal.magic.000.rle","assets/generated/fighter.rle","assets/generated/palette.json","assets/generated/sprite.rle","assets/generated/tiles.rle","assets/generated/palette.json","assets/generated/fighter.rle","assets/generated/effect-sprite.pal.magic.000.rle"],"roundsUsed":7,"ms":1},"waitForMs":0,"totalMs":2,"business":{"result":"victory","money":57,"settlementEvent":true,"writeVictory":true}}
+
+(node:24573) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 149)
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24573) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 150)
+(node:24573) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 151)
+(node:24573) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 152)
+ ✓ src/__tests__/battle-finalization-reliability/probe-r1.test.ts (2 tests) 239ms
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 4 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: object.stream is not a function
+ ❯ extractBody node:internal/deps/undici/undici:5644:25
+ ❯ new Response node:internal/deps/undici/undici:9473:41
+ ❯ compressGzip src/assets.ts:584:16
+    582|   if (typeof CompressionStream === 'undefined') throw new Error('refor…
+    583|   const cs = new CompressionStream('gzip')
+    584|   const body = new Response(
+       |                ^
+    585|     new Blob([
+    586|       bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.by…
+ ❯ src/__tests__/battle-finalization-reliability/probe-r1.test.ts:214:7
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+ ❯ runWithCancel ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+
+This error originated in "src/__tests__/battle-finalization-reliability/probe-r1.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: object.stream is not a function
+ ❯ extractBody node:internal/deps/undici/undici:5644:25
+ ❯ new Response node:internal/deps/undici/undici:9473:41
+ ❯ compressGzip src/assets.ts:584:16
+    582|   if (typeof CompressionStream === 'undefined') throw new Error('refor…
+    583|   const cs = new CompressionStream('gzip')
+    584|   const body = new Response(
+       |                ^
+    585|     new Blob([
+    586|       bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.by…
+ ❯ src/__tests__/battle-finalization-reliability/probe-r1.test.ts:214:7
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+ ❯ runWithCancel ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+
+This error originated in "src/__tests__/battle-finalization-reliability/probe-r1.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: object.stream is not a function
+ ❯ extractBody node:internal/deps/undici/undici:5644:25
+ ❯ new Response node:internal/deps/undici/undici:9473:41
+ ❯ compressGzip src/assets.ts:584:16
+    582|   if (typeof CompressionStream === 'undefined') throw new Error('refor…
+    583|   const cs = new CompressionStream('gzip')
+    584|   const body = new Response(
+       |                ^
+    585|     new Blob([
+    586|       bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.by…
+ ❯ src/__tests__/battle-finalization-reliability/probe-r1.test.ts:214:7
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+ ❯ runWithCancel ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+
+This error originated in "src/__tests__/battle-finalization-reliability/probe-r1.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: object.stream is not a function
+ ❯ extractBody node:internal/deps/undici/undici:5644:25
+ ❯ new Response node:internal/deps/undici/undici:9473:41
+ ❯ compressGzip src/assets.ts:584:16
+    582|   if (typeof CompressionStream === 'undefined') throw new Error('refor…
+    583|   const cs = new CompressionStream('gzip')
+    584|   const body = new Response(
+       |                ^
+    585|     new Blob([
+    586|       bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.by…
+ ❯ src/__tests__/battle-finalization-reliability/probe-r1.test.ts:214:7
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+ ❯ runWithCancel ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10
+ ❯ ../../node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+
+This error originated in "src/__tests__/battle-finalization-reliability/probe-r1.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+     Errors  4 errors
+   Start at  16:16:23
+   Duration  1.22s (transform 402ms, setup 0ms, import 476ms, tests 239ms, environment 429ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/probe-r1.json

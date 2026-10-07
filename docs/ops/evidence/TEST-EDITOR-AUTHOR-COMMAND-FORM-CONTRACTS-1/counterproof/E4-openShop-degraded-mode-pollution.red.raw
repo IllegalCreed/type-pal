@@ -1,0 +1,48 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor
+
+ ❯ src/ui/CommandForm.author-control-contracts.test.tsx (3 tests | 1 failed) 112ms
+     × E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号 78ms
+     ✓ E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交 17ms
+     ✓ E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交 16ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  16:39:25
+   Duration  1.63s (transform 966ms, setup 0ms, import 1.17s, tests 112ms, environment 286ms)
+
+JSON report written to /private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E4-openShop-degraded-mode-pollution.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/CommandForm.author-control-contracts.test.tsx > 当前作者命令 control 表单合同（E4/E6） > E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号
+AssertionError: expected "vi.fn()" to be called once with arguments: [ [ { kind: 'openShop', …(2) } ] ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+    [
+      {
+        "kind": "openShop",
+-       "mode": "sell",
++       "mode": "buy",
+        "shop": 7,
+      },
+    ],
+  ]
+
+
+Number of calls: 1
+
+ ❯ Object.finish src/ui/__tests__/author-command-contracts/author-command-form-fixture.ts:197:22
+    195|     checkAuthorCommands([expected], 'author-contracts.form.expected', …
+    196|     await click('完成')
+    197|     expect(onChange).toHaveBeenCalledExactlyOnceWith([expected])
+       |                      ^
+    198|     const output = onChange.mock.calls[0]?.[0]
+    199|     checkAuthorCommands(output, 'author-contracts.form.output', { root…
+ ❯ src/ui/CommandForm.author-control-contracts.test.tsx:27:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,31 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor
+
+ ❯ src/ui/CommandForm.author-world-contracts.test.tsx (2 tests | 1 failed) 125ms
+     ✓ 选择真实 portrait 资产保留角色、世界精灵与战斗形象 95ms
+     × 用 (无) 清空 portrait 保留其余三个身份字段 29ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  16:39:51
+   Duration  2.05s (transform 1.25s, setup 0ms, import 1.54s, tests 125ms, environment 311ms)
+
+JSON report written to /private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-clear-swallowed.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/CommandForm.author-world-contracts.test.tsx > 当前作者命令 world 表单合同（E9） > 用 (无) 清空 portrait 保留其余三个身份字段
+AssertionError: expected "vi.fn()" to be called once with arguments: [ [ { …(5) } ] ]
+
+Number of calls: 0
+
+ ❯ Object.finish src/ui/__tests__/author-command-contracts/author-command-form-fixture.ts:197:22
+    195|     checkAuthorCommands([expected], 'author-contracts.form.expected', …
+    196|     await click('完成')
+    197|     expect(onChange).toHaveBeenCalledExactlyOnceWith([expected])
+       |                      ^
+    198|     const output = onChange.mock.calls[0]?.[0]
+    199|     checkAuthorCommands(output, 'author-contracts.form.output', { root…
+ ❯ src/ui/CommandForm.author-world-contracts.test.tsx:54:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

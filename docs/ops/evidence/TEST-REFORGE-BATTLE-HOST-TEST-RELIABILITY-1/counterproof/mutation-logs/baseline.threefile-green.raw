@@ -1,0 +1,84 @@
+
+ RUN  v4.1.7 /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge
+
+ ✓ src/battle/battle-finalization.world-result.test.ts (7 tests) 140ms
+ ✓ src/battle/battle-host.finalization.test.ts (8 tests) 520ms
+ ✓ src/battle/battle-host.test.ts (16 tests) 1541ms
+
+ Test Files  3 passed (3)
+      Tests  31 passed (31)
+   Start at  16:48:53
+   Duration  2.38s (transform 756ms, setup 0ms, import 994ms, tests 2.20s, environment 915ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/baseline.threefile-green.json
+stderr | src/battle/battle-host.test.ts > commit consumes live inventory after preparation settles without losing intervening changes
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host commits real victory once, then hooks, scene sounds and music in order
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > session release and real world writeback are atomic to queued observers
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after cancel invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after runner invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after world invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after script invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > pre-aborted battle request changes neither frame mode nor resource IO
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > new launch invalidates older preparation while preserving the new live session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > old session finally cannot clear a new session published in the same turn
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > running cancellation consumes the real session and never restores or writes old world state
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > fatal session failure restores scene resources and retains original failure even if restoration fails
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > stale fatal recovery cannot play music or clear the replacement session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > defeated script failure propagates after world writeback and scene recovery
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > world replacement after session completion blocks final writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > readiness diagnostics deduplicate by error identity text across launches, not by stage
+[sfx] AudioContext 不可用，音效播放器停用

@@ -1,0 +1,1000 @@
+{
+  "generatedAt": "2026-10-07T07:39:20.369Z",
+  "command": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node /private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/run-counterproof.mjs",
+  "cwd": "/private/tmp/type-pal-editor-author-command-contracts",
+  "node": "v22.23.2",
+  "testFiles": [
+    "src/ui/CommandForm.author-control-contracts.test.tsx",
+    "src/ui/CommandForm.author-world-contracts.test.tsx"
+  ],
+  "judgeSelfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "judgeProbes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": []
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor/src/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ]
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"]
+    }
+  ],
+  "baseline": {
+    "tag": "baseline-green",
+    "argv": [
+      "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/ui/CommandForm.author-control-contracts.test.tsx",
+      "src/ui/CommandForm.author-world-contracts.test.tsx",
+      "--config=vitest.isolated.config.ts",
+      "--reporter=json",
+      "--reporter=default",
+      "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/baseline-green.json"
+    ],
+    "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+    "env": {
+      "inherited": true,
+      "node": "v22.23.2",
+      "NODE_OPTIONS": null,
+      "NODE_ENV": null,
+      "TZ": null
+    },
+    "exit": 0,
+    "signal": null,
+    "pid": 88652,
+    "spawnError": null,
+    "unhandledInOutput": false,
+    "counts": {
+      "numTotalTests": 5,
+      "numPassedTests": 5,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numFailedTestSuites": 0
+    },
+    "raw": {
+      "file": "baseline-green.raw",
+      "sha256": "40dabe8b55ef7721ad92fc150c872b3edd4bd6460585c3f94b7405061b1fa75d"
+    },
+    "json": {
+      "file": "baseline-green.json",
+      "sha256": "b7a1e5abe83a717790e3953aaf6a33fb2152a23164ac8350dc6338fb7bf299fe"
+    },
+    "rows": [
+      "src/ui/CommandForm.author-control-contracts.test.tsx :: 当前作者命令 control 表单合同（E4/E6） E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号",
+      "src/ui/CommandForm.author-control-contracts.test.tsx :: 当前作者命令 control 表单合同（E4/E6） E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交",
+      "src/ui/CommandForm.author-control-contracts.test.tsx :: 当前作者命令 control 表单合同（E4/E6） E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交",
+      "src/ui/CommandForm.author-world-contracts.test.tsx :: 当前作者命令 world 表单合同（E9） 用 (无) 清空 portrait 保留其余三个身份字段",
+      "src/ui/CommandForm.author-world-contracts.test.tsx :: 当前作者命令 world 表单合同（E9） 选择真实 portrait 资产保留角色、世界精灵与战斗形象"
+    ],
+    "judge": []
+  },
+  "needles": [
+    {
+      "id": "E4-openShop-degraded-mode-pollution",
+      "defect": "空店铺降级数值输入把模式重置回 buy",
+      "mutatedFile": "src/ui/command-form-control.tsx",
+      "find": "<Num value={cmd.shop} onChange={(n) => set({ shop: n })} />",
+      "replace": "<Num value={cmd.shop} onChange={(n) => set({ shop: n, mode: 'buy' })} />",
+      "expectedRed": "当前作者命令 control 表单合同（E4/E6） E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号",
+      "marker": "mode",
+      "hashes": {
+        "before": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+        "mutant": "08c989a83979656d852f7c1aaa29d32f556994be677b15b447c5c2bed43c5dd2",
+        "restored": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df"
+      },
+      "greenOriginal": {
+        "tag": "E4-openShop-degraded-mode-pollution.green-original",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E4-openShop-degraded-mode-pollution.green-original.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 88715,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 3,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E4-openShop-degraded-mode-pollution.green-original.raw",
+          "sha256": "020895da48d3aa709b03d2688c471192f08de2c9cedb77d95aa7e9dcc5386fb2"
+        },
+        "json": {
+          "file": "E4-openShop-degraded-mode-pollution.green-original.json",
+          "sha256": "b1ebde7e107e38aa3b8d22de5dc3b1b07bdfeb27fbbdfd3955cbf1539ee4aa1e"
+        },
+        "judge": []
+      },
+      "red": {
+        "tag": "E4-openShop-degraded-mode-pollution.red",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E4-openShop-degraded-mode-pollution.red.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 1,
+        "signal": null,
+        "pid": 88787,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 2,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 2
+        },
+        "raw": {
+          "file": "E4-openShop-degraded-mode-pollution.red.raw",
+          "sha256": "cce4cd38447c21ebb002dbd338b9a0ed61d8d89a03dc1919f9e87fa0698f4be7"
+        },
+        "json": {
+          "file": "E4-openShop-degraded-mode-pollution.red.json",
+          "sha256": "a3eb754f30e9875797301285845a40f48102527d3c8650a559693ee42a7046f2"
+        },
+        "failedFullNames": [
+          "当前作者命令 control 表单合同（E4/E6） E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号"
+        ],
+        "judge": []
+      },
+      "greenRestored": {
+        "tag": "E4-openShop-degraded-mode-pollution.green-restored",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E4-openShop-degraded-mode-pollution.green-restored.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 88821,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 3,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E4-openShop-degraded-mode-pollution.green-restored.raw",
+          "sha256": "2fc94c743e32fa409105b19cc3d2b204a07c82fda3d3a6de5185042b740b3c31"
+        },
+        "json": {
+          "file": "E4-openShop-degraded-mode-pollution.green-restored.json",
+          "sha256": "ac86ed12773cbc2a0667f7ed65213d502776e3bf46aa70a6e194ca0b6e24c0ef"
+        },
+        "judge": []
+      }
+    },
+    {
+      "id": "E6-playSound-clear-guard-removed",
+      "defect": "playSound 叶子清空守卫移除,undefined 提交进草稿",
+      "mutatedFile": "src/ui/command-form-control.tsx",
+      "find": "          <SoundPicker\n            value={cmd.asset}\n            onChange={(asset) => {\n              if (asset) set({ asset })\n            }}",
+      "replace": "          <SoundPicker\n            value={cmd.asset}\n            onChange={(asset) => {\n              set({ asset })\n            }}",
+      "expectedRed": "当前作者命令 control 表单合同（E4/E6） E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交",
+      "marker": "to contain 'sound-bell'",
+      "hashes": {
+        "before": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+        "mutant": "cf780274a1730e2cd39447a621e4933dddf4416cdb12b13e18782168afa2d1d0",
+        "restored": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df"
+      },
+      "greenOriginal": {
+        "tag": "E6-playSound-clear-guard-removed.green-original",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playSound-clear-guard-removed.green-original.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89123,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 3,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E6-playSound-clear-guard-removed.green-original.raw",
+          "sha256": "143e574cdc93c6d75798b9c41a8fa540e5f18d9b29edc6c9e41a6412487b5514"
+        },
+        "json": {
+          "file": "E6-playSound-clear-guard-removed.green-original.json",
+          "sha256": "2086a19294244c4afe990fbe1ab3a23c5e380eb3e9ccc21b0a23b1fc9ede3df6"
+        },
+        "judge": []
+      },
+      "red": {
+        "tag": "E6-playSound-clear-guard-removed.red",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playSound-clear-guard-removed.red.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 1,
+        "signal": null,
+        "pid": 89164,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 2,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 2
+        },
+        "raw": {
+          "file": "E6-playSound-clear-guard-removed.red.raw",
+          "sha256": "398ac1bcc4c50b87ec6cf0289ace80869f5672c0fc645a811b50c6e32ce3dec2"
+        },
+        "json": {
+          "file": "E6-playSound-clear-guard-removed.red.json",
+          "sha256": "c1cfecbd89205b42958d60c421576b25fa4cd41cc1bbd5cfda30b4d32195e6ff"
+        },
+        "failedFullNames": [
+          "当前作者命令 control 表单合同（E4/E6） E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交"
+        ],
+        "judge": []
+      },
+      "greenRestored": {
+        "tag": "E6-playSound-clear-guard-removed.green-restored",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playSound-clear-guard-removed.green-restored.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89237,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 3,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E6-playSound-clear-guard-removed.green-restored.raw",
+          "sha256": "37c09a6dad0abd07e4e878b21edf73e029b9d4e87dc01de2d4c04649e2d3a36d"
+        },
+        "json": {
+          "file": "E6-playSound-clear-guard-removed.green-restored.json",
+          "sha256": "6d55737a2ced234ed02a2ee82bfc1cdb819cbd42ff2b0ee162e81bd015d9906c"
+        },
+        "judge": []
+      }
+    },
+    {
+      "id": "E6-playMusic-clear-guard-removed",
+      "defect": "playMusic 叶子清空守卫移除,undefined 提交进草稿",
+      "mutatedFile": "src/ui/command-form-control.tsx",
+      "find": "if (typeof asset === 'string') set({ asset })",
+      "replace": "set({ asset })",
+      "expectedRed": "当前作者命令 control 表单合同（E4/E6） E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交",
+      "marker": "to contain 'music-theme'",
+      "hashes": {
+        "before": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+        "mutant": "9f4d0f38caad798a318675f6067a4ff4d252faec9d516b228d29229d5784e1c4",
+        "restored": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df"
+      },
+      "greenOriginal": {
+        "tag": "E6-playMusic-clear-guard-removed.green-original",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playMusic-clear-guard-removed.green-original.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89304,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 3,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E6-playMusic-clear-guard-removed.green-original.raw",
+          "sha256": "607c74381f80293b826acf0de39906d47ba4779092988824cc0559df5e28b145"
+        },
+        "json": {
+          "file": "E6-playMusic-clear-guard-removed.green-original.json",
+          "sha256": "6833034accca2867fa40c054ff0d1e157ae7af78898ac12beaf16e7bf8cf4b5e"
+        },
+        "judge": []
+      },
+      "red": {
+        "tag": "E6-playMusic-clear-guard-removed.red",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playMusic-clear-guard-removed.red.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 1,
+        "signal": null,
+        "pid": 89367,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 2,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 2
+        },
+        "raw": {
+          "file": "E6-playMusic-clear-guard-removed.red.raw",
+          "sha256": "e9e9ba05526429d9680933baaa208304dee9509906997dd1c5b47b2f4574068b"
+        },
+        "json": {
+          "file": "E6-playMusic-clear-guard-removed.red.json",
+          "sha256": "db24c65c5328e27b7690009c0d699922a426669b7ccf5e726ea2753980eb4930"
+        },
+        "failedFullNames": [
+          "当前作者命令 control 表单合同（E4/E6） E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交"
+        ],
+        "judge": []
+      },
+      "greenRestored": {
+        "tag": "E6-playMusic-clear-guard-removed.green-restored",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-control-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playMusic-clear-guard-removed.green-restored.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89418,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 3,
+          "numPassedTests": 3,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E6-playMusic-clear-guard-removed.green-restored.raw",
+          "sha256": "aefbc8aa17f52aa1404d0b2f183f17936973e233cba8a515214802acb23fc2b2"
+        },
+        "json": {
+          "file": "E6-playMusic-clear-guard-removed.green-restored.json",
+          "sha256": "24299a35e8e8c46190e69050fdfed74538dbe561a8beb2eed396dba7202d8e74"
+        },
+        "judge": []
+      }
+    },
+    {
+      "id": "E9-portrait-select-erases-battlesprite",
+      "defect": "选择立绘时顺带清空战斗形象(清空路径不受影响)",
+      "mutatedFile": "src/ui/command-form-world.tsx",
+      "find": "onChange={(portrait) => set({ portrait })}",
+      "replace": "onChange={(portrait) => set({ portrait, ...(portrait ? { battleSprite: undefined } : {}) })}",
+      "expectedRed": "当前作者命令 world 表单合同（E9） 选择真实 portrait 资产保留角色、世界精灵与战斗形象",
+      "marker": "starter-fighter",
+      "hashes": {
+        "before": "49246a679b5c8f532bcdbc26cf70ccd0e5aba7c8cb7c0468c8e03fa3463cd4a7",
+        "mutant": "cdc44fe9d63abc1ea7be445f0203eee27ab3732e245e09f501b9f446373014d2",
+        "restored": "49246a679b5c8f532bcdbc26cf70ccd0e5aba7c8cb7c0468c8e03fa3463cd4a7"
+      },
+      "greenOriginal": {
+        "tag": "E9-portrait-select-erases-battlesprite.green-original",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-world-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-select-erases-battlesprite.green-original.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89493,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 2,
+          "numPassedTests": 2,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E9-portrait-select-erases-battlesprite.green-original.raw",
+          "sha256": "a21a0c69652bb595435dfc2b681afec5dc9e609cc9d9e40e9f0b876512b89647"
+        },
+        "json": {
+          "file": "E9-portrait-select-erases-battlesprite.green-original.json",
+          "sha256": "d2a415c285548be7b91aad58efdf736252689316fc33b17e265e4a5f1e6f3fdf"
+        },
+        "judge": []
+      },
+      "red": {
+        "tag": "E9-portrait-select-erases-battlesprite.red",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-world-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-select-erases-battlesprite.red.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 1,
+        "signal": null,
+        "pid": 89581,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 2,
+          "numPassedTests": 1,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 2
+        },
+        "raw": {
+          "file": "E9-portrait-select-erases-battlesprite.red.raw",
+          "sha256": "eadfba7c14a34c5119a3c90e66a6a4a4a04802d9e17345e4e57251b2cf8dd0d5"
+        },
+        "json": {
+          "file": "E9-portrait-select-erases-battlesprite.red.json",
+          "sha256": "5b4cf4363ddcb8f2fb11d0d439a37226ad448b6d252d1a9685576d6f5d0adcfa"
+        },
+        "failedFullNames": [
+          "当前作者命令 world 表单合同（E9） 选择真实 portrait 资产保留角色、世界精灵与战斗形象"
+        ],
+        "judge": []
+      },
+      "greenRestored": {
+        "tag": "E9-portrait-select-erases-battlesprite.green-restored",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-world-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-select-erases-battlesprite.green-restored.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89641,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 2,
+          "numPassedTests": 2,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E9-portrait-select-erases-battlesprite.green-restored.raw",
+          "sha256": "26d8398fda05c5d36a6b4f27d18b6e51117d5469d0f434e1cf0ab4436f2eddc6"
+        },
+        "json": {
+          "file": "E9-portrait-select-erases-battlesprite.green-restored.json",
+          "sha256": "9b55f45f6c4000c9ffc7d3139b1d117c68a2f1279842b56af52daa345085eecb"
+        },
+        "judge": []
+      }
+    },
+    {
+      "id": "E9-portrait-clear-swallowed",
+      "defect": "清空 portrait 被 if 守卫吞掉,aggregate 完成时零提交",
+      "mutatedFile": "src/ui/command-form-world.tsx",
+      "find": "onChange={(portrait) => set({ portrait })}",
+      "replace": "onChange={(portrait) => { if (portrait) set({ portrait }) }}",
+      "expectedRed": "当前作者命令 world 表单合同（E9） 用 (无) 清空 portrait 保留其余三个身份字段",
+      "marker": "Number of calls: 0",
+      "hashes": {
+        "before": "49246a679b5c8f532bcdbc26cf70ccd0e5aba7c8cb7c0468c8e03fa3463cd4a7",
+        "mutant": "e3e445491e1d539a4959562575cedade3a542b6789e7d13714a1e0018b9b185f",
+        "restored": "49246a679b5c8f532bcdbc26cf70ccd0e5aba7c8cb7c0468c8e03fa3463cd4a7"
+      },
+      "greenOriginal": {
+        "tag": "E9-portrait-clear-swallowed.green-original",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-world-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-clear-swallowed.green-original.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89725,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 2,
+          "numPassedTests": 2,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E9-portrait-clear-swallowed.green-original.raw",
+          "sha256": "36302314b3226b385a3f2c0ee1ac415cafe4fb6312cc0886b3e49bf9757bd66f"
+        },
+        "json": {
+          "file": "E9-portrait-clear-swallowed.green-original.json",
+          "sha256": "c815bda94385ad2f690e8fd2476abf695d0debf449906ade3a77ece10c16eaa1"
+        },
+        "judge": []
+      },
+      "red": {
+        "tag": "E9-portrait-clear-swallowed.red",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-world-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-clear-swallowed.red.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 1,
+        "signal": null,
+        "pid": 89785,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 2,
+          "numPassedTests": 1,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 2
+        },
+        "raw": {
+          "file": "E9-portrait-clear-swallowed.red.raw",
+          "sha256": "a829f156407894c61ef90d65394b91a8bd329900fafd702a8a374021e1587782"
+        },
+        "json": {
+          "file": "E9-portrait-clear-swallowed.red.json",
+          "sha256": "54cd84bafb34bdae2bba603cffe983293f79bb05df85e174ec543dbe243227a0"
+        },
+        "failedFullNames": [
+          "当前作者命令 world 表单合同（E9） 用 (无) 清空 portrait 保留其余三个身份字段"
+        ],
+        "judge": []
+      },
+      "greenRestored": {
+        "tag": "E9-portrait-clear-swallowed.green-restored",
+        "argv": [
+          "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/CommandForm.author-world-contracts.test.tsx",
+          "--config=vitest.isolated.config.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E9-portrait-clear-swallowed.green-restored.json"
+        ],
+        "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "exit": 0,
+        "signal": null,
+        "pid": 89856,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "counts": {
+          "numTotalTests": 2,
+          "numPassedTests": 2,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numFailedTestSuites": 0
+        },
+        "raw": {
+          "file": "E9-portrait-clear-swallowed.green-restored.raw",
+          "sha256": "ab92b452df8b713c30207ca8546058ef4d72f82510db36ed5e149a952a430165"
+        },
+        "json": {
+          "file": "E9-portrait-clear-swallowed.green-restored.json",
+          "sha256": "771873036023b4b1fb35ac07866d80ab6cd11a2cf7b7e11ccaad4bb2a426f0b9"
+        },
+        "judge": []
+      }
+    }
+  ],
+  "finalReplay": {
+    "tag": "final-replay-green",
+    "argv": [
+      "/private/tmp/type-pal-editor-author-command-contracts/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/ui/CommandForm.author-control-contracts.test.tsx",
+      "src/ui/CommandForm.author-world-contracts.test.tsx",
+      "--config=vitest.isolated.config.ts",
+      "--reporter=json",
+      "--reporter=default",
+      "--outputFile.json=/private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/final-replay-green.json"
+    ],
+    "cwd": "/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor",
+    "env": {
+      "inherited": true,
+      "node": "v22.23.2",
+      "NODE_OPTIONS": null,
+      "NODE_ENV": null,
+      "TZ": null
+    },
+    "exit": 0,
+    "signal": null,
+    "pid": 89920,
+    "spawnError": null,
+    "unhandledInOutput": false,
+    "counts": {
+      "numTotalTests": 5,
+      "numPassedTests": 5,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numFailedTestSuites": 0
+    },
+    "raw": {
+      "file": "final-replay-green.raw",
+      "sha256": "4a68547e65986be82f31185e0e0fc89f7b42c8ba23dafdf0032344d1f718f1d7"
+    },
+    "json": {
+      "file": "final-replay-green.json",
+      "sha256": "ddbf3da7f330f6dbc71add0686c0ca568935f6dc1085385f32b661d63bfda7d7"
+    },
+    "judge": []
+  },
+  "cleanup": "removed=true path=/tmp/tp-editor-author-contracts-r1.D9YYHm",
+  "contributorTreeUnchanged": {
+    "before": {
+      "src/ui/CommandForm.tsx": "be02bf5a67b18e9f92901ec25013f4c7e16b36a24aeadc608d0b057bb042c3bb",
+      "src/ui/ScriptEditor.tsx": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "src/ui/command-form-control.tsx": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+      "src/ui/command-form-world.tsx": "49246a679b5c8f532bcdbc26cf70ccd0e5aba7c8cb7c0468c8e03fa3463cd4a7",
+      "src/ui/command-form-contract.ts": "26494bbaa2c026946ab52478df97367121f123329b414f417d9485b1964c7062",
+      "src/ui/command-form-controls.tsx": "fa8df924864a6d423e4276ad4ed7c0bd2c81cca2e3b05202d197e3c755c094bd",
+      "src/core/script-reference-catalog.ts": "4673a96d9f85574136174d25f17051ffcd46e174743e3c1e0c712cf71a524601"
+    },
+    "after": {
+      "src/ui/CommandForm.tsx": "be02bf5a67b18e9f92901ec25013f4c7e16b36a24aeadc608d0b057bb042c3bb",
+      "src/ui/ScriptEditor.tsx": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "src/ui/command-form-control.tsx": "e38402d7fc20ccb842c69aa95fef4237ec508a227e7d1f5f36e18e95156c88df",
+      "src/ui/command-form-world.tsx": "49246a679b5c8f532bcdbc26cf70ccd0e5aba7c8cb7c0468c8e03fa3463cd4a7",
+      "src/ui/command-form-contract.ts": "26494bbaa2c026946ab52478df97367121f123329b414f417d9485b1964c7062",
+      "src/ui/command-form-controls.tsx": "fa8df924864a6d423e4276ad4ed7c0bd2c81cca2e3b05202d197e3c755c094bd",
+      "src/core/script-reference-catalog.ts": "4673a96d9f85574136174d25f17051ffcd46e174743e3c1e0c712cf71a524601"
+    },
+    "allMatch": true,
+    "matchesFrozenCard": true
+  },
+  "verdict": "ALL-VALID",
+  "problems": []
+}

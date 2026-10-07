@@ -1,0 +1,368 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 31,
+  "numPassedTests": 31,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791359333577,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界",
+          "status": "passed",
+          "title": "BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界",
+          "duration": 43.09791700000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+          "status": "passed",
+          "title": "BF-02 零经验胜利：经验门关、金钱照入账、无结算屏",
+          "duration": 16.843833000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后",
+          "status": "passed",
+          "title": "BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名按 settle 真值、升级回满在写回之后",
+          "duration": 17.127416999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱",
+          "status": "passed",
+          "title": "BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱",
+          "duration": 16.364708000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动",
+          "status": "passed",
+          "title": "BF-05 战败后 finish：HP 精确 0、零结算、毒三件套照清、金钱不动",
+          "duration": 14.897207999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界",
+          "status": "passed",
+          "title": "BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入大世界",
+          "duration": 15.59379100000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加",
+          "status": "passed",
+          "title": "BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加",
+          "duration": 15.38029199999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791359334408,
+      "endTime": 1791359334547.3804,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-finalization.world-result.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "status": "passed",
+          "title": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "duration": 97.61816699999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "status": "passed",
+          "title": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "duration": 68.83108300000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "status": "passed",
+          "title": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "duration": 68.44399999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "status": "passed",
+          "title": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "duration": 66.64200000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "status": "passed",
+          "title": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "duration": 68.212042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "status": "passed",
+          "title": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "duration": 17.683124999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "status": "passed",
+          "title": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "duration": 66.7411249999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "status": "passed",
+          "title": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "duration": 64.82816700000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791359335002,
+      "endTime": 1791359335521.8281,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "commit consumes live inventory after preparation settles without losing intervening changes",
+          "status": "passed",
+          "title": "commit consumes live inventory after preparation settles without losing intervening changes",
+          "duration": 92.61079199999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle host commits real victory once, then hooks, scene sounds and music in order",
+          "status": "passed",
+          "title": "battle host commits real victory once, then hooks, scene sounds and music in order",
+          "duration": 72.43858399999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "session release and real world writeback are atomic to queued observers",
+          "status": "passed",
+          "title": "session release and real world writeback are atomic to queued observers",
+          "duration": 72.00100000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle host refuses delayed preparation after cancel invalidation with zero music or writeback",
+          "status": "passed",
+          "title": "battle host refuses delayed preparation after cancel invalidation with zero music or writeback",
+          "duration": 117.43595800000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle host refuses delayed preparation after runner invalidation with zero music or writeback",
+          "status": "passed",
+          "title": "battle host refuses delayed preparation after runner invalidation with zero music or writeback",
+          "duration": 121.13979100000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle host refuses delayed preparation after world invalidation with zero music or writeback",
+          "status": "passed",
+          "title": "battle host refuses delayed preparation after world invalidation with zero music or writeback",
+          "duration": 116.85716700000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle host refuses delayed preparation after script invalidation with zero music or writeback",
+          "status": "passed",
+          "title": "battle host refuses delayed preparation after script invalidation with zero music or writeback",
+          "duration": 118.70345799999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "pre-aborted battle request changes neither frame mode nor resource IO",
+          "status": "passed",
+          "title": "pre-aborted battle request changes neither frame mode nor resource IO",
+          "duration": 14.694666000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "new launch invalidates older preparation while preserving the new live session",
+          "status": "passed",
+          "title": "new launch invalidates older preparation while preserving the new live session",
+          "duration": 116.02691700000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "old session finally cannot clear a new session published in the same turn",
+          "status": "passed",
+          "title": "old session finally cannot clear a new session published in the same turn",
+          "duration": 114.14666599999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "running cancellation consumes the real session and never restores or writes old world state",
+          "status": "passed",
+          "title": "running cancellation consumes the real session and never restores or writes old world state",
+          "duration": 67.77245799999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "fatal session failure restores scene resources and retains original failure even if restoration fails",
+          "status": "passed",
+          "title": "fatal session failure restores scene resources and retains original failure even if restoration fails",
+          "duration": 66.95012500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stale fatal recovery cannot play music or clear the replacement session",
+          "status": "passed",
+          "title": "stale fatal recovery cannot play music or clear the replacement session",
+          "duration": 170.432542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "defeated script failure propagates after world writeback and scene recovery",
+          "status": "passed",
+          "title": "defeated script failure propagates after world writeback and scene recovery",
+          "duration": 83.58416699999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "world replacement after session completion blocks final writeback",
+          "status": "passed",
+          "title": "world replacement after session completion blocks final writeback",
+          "duration": 72.68912499999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "readiness diagnostics deduplicate by error identity text across launches, not by stage",
+          "status": "passed",
+          "title": "readiness diagnostics deduplicate by error identity text across launches, not by stage",
+          "duration": 122.22675000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791359334420,
+      "endTime": 1791359335960.2268,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+axis	contract	disposition	public caller / input	existing proof (file:line / fullName)	new anchor	oracle	needle
+E1	bridge 接纳共享作者子集、custom kinds 留在 CanonicalCommandForm	existing-proof	ScriptEditor.tsx:1910-1943 真实 caller（context + bridge + showRawJson=false）	command-form-contract.test.ts:9/20/28/36（bridge 四例）	—	bridge commit 保 kind/对话身份	—
+E1	旧 runtime 方言臂（jumpScript/setEntityAuto/setEntityTrigger/setSceneOnEnter/setSceneOnTeleport）当前作者不可达	unreachable	command-form-control.tsx:353-424；kind 不在 AuthorCommand（author-script-core.ts:146-176 ReplacedAuthorCommandKind 未回加）	command-form-control.glm-large-wave.test.tsx 头注:8-11 已登记同一结论	—	作者树无法产生该输入；不造非法输入	—
+E1	WorldCommandForm 实体臂（moveEntity/setEntityState/setEntityFacing/setEntityFrame/playEntityAction/stopEntityAction/stepEntity/animEntity/nudgeEntity/takeEntity/releaseEntity）不经 bridge	unreachable	command-form-world.tsx:214/236/252/268/284/395/414/430/441/716/727；全部在 AUTHOR_CUSTOM_COMMAND_KINDS（command-form-contract.ts:33-53）	ScriptEditor.coverage-workflows-2:138 等 canonical 专用表单已覆盖实体定位等作者入口	—	bridge 返回 undefined → 走 CanonicalCommandForm 专用表单	—
+E1	ControlCommandForm default 臂对共享作者 kind 显示结构化提示而非 JSON	existing-proof	control.tsx:510-516（showRawJson=false）	所有 current-* 测试经 fixture 断言无「应用 JSON」（command-form-current-fixture.ts:207）	—	showRawJson=false 不暴露 JSON 兜底	—
+E2	setFlag flag picker + boolean 聚合单提交、打开引用身份	existing-proof	ScriptEditor aggregate → ControlCommandForm	control.tsx:96-116；CommandForm.current-data.test.tsx:8-14「flag reference and boolean are edited together…」	—	finish 单次提交精确 payload + onOpenWorldVariable('ready')	—
+E2	setVar/addVar number 身份 + 精确有符号 payload	existing-proof	control.tsx:117-150	current-data.test.tsx:15-39（test.each setVar/addVar）	—	finish({var:'count',value/delta:-5})	—
+E2	flag/number 登记过滤（picker 只列对应 kind）	existing-proof	command-form-controls.tsx:85-123	current-characterization.test.tsx:287-293（flag picker 不列 number 变量）	—	同 leaf 同 oracle 不复制	—
+E2	未登记变量修复上下文 → 合法 ID	existing-proof	control.tsx:117-150	current-data.test.tsx:62-68	—	未登记提示可见，选择 score 后单次精确提交	—
+E3	giveItem 命名物品→不透明 ID + count 默认1/显式>1 形状	existing-proof	control.tsx:335-352	current-data.test.tsx:51-56（count 3 显式）+ ScriptTree.coverage-batch.test.tsx:91/302（插入默认形状）	—	finish({itemId:'trial-sword',count:3})；count ?? 1 显示	—
+E3	loseItem 回 1 省略 optional count	existing-proof	control.tsx:349	current-data.test.tsx:57-61	—	count: undefined 不改 kind	—
+E3	NamedIdPicker 身份（名称/id、悬空不伪装）	existing-proof	NamedIdPicker.tsx	NamedIdPicker.test.tsx:44/60/98	—	组件层已证，叶子不复制	—
+E4	openShop 有表 Sel 臂：数字身份 + buy→sell	existing-proof	control.tsx:268-292	current-data.test.tsx:45-50	—	finish({shop:9,mode:'sell'})	—
+E4	openShop 合法空店铺项目数值降级臂：数字身份输入 + 模式不污染店铺号	new-contract	control.tsx:279-281（shops?.length false → Num）；输入 {kind:'openShop',shop:3,mode:'buy'} + shops:[]（validateShops([]) 合法，shop.ts:17-32）	无（旧测试只有 Sel 臂）	CommandForm.author-control-contracts.test.tsx:17-23「E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号」	先选卖再输 7 → 单次聚合提交 {shop:7,mode:'sell'}；行内无 combobox	E4-openShop-degraded-mode-pollution（marker: mode）
+E5	setAmbience 有表 picker 臂 / 空表 Txt 降级臂	existing-proof	control.tsx:293-308	command-form-control.glm-large-wave.test.tsx:79-92 / 94-105	—	同 leaf 同 oracle；NamedIdPicker 底层不复制	—
+E6	playSound 选择 + onOpenSound 稳定 id / 缺失提示 / 空目录选项存在	existing-proof	control.tsx:241-254	command-form-control.glm-large-wave.test.tsx:22-39 / 41-50 / 52-62	—	真实 picker 提交与委派	—
+E6	playMusic 选择提交	existing-proof	control.tsx:255-267	command-form-control.glm-large-wave.test.tsx:64-77	—	—	—
+E6	picker 层 UNSET→undefined 发射	existing-proof	SoundPicker.tsx:174 / MusicPicker.tsx:134	SoundPicker.glm-leaf-wave:95-99 / MusicPicker.glm-leaf-wave:100	—	组件层已证	—
+E6	playSound 叶子清空守卫：空目录占位项零提交	new-contract	control.tsx:246-248 if(asset)；输入 {kind:'playSound',asset:'sound-bell'} 空音效目录（合法修复态，同 command-form-control.glm-large-wave.test.tsx:52-62 口径）	无（旧测试列出选项未点选）	CommandForm.author-control-contracts.test.tsx:25-31「E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交」	点选占位项后 onChange 零调用、行文本仍锚定 sound-bell	E6-playSound-clear-guard-removed（marker: to contain 'sound-bell'）
+E6	playMusic 叶子清空守卫：空目录占位项零提交	new-contract	control.tsx:260-262 typeof string；输入 {kind:'playMusic',asset:'music-theme'} 空音乐目录	无	CommandForm.author-control-contracts.test.tsx:33-39「E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交」	同上，行文本仍锚定 music-theme	E6-playMusic-clear-guard-removed（marker: to contain 'music-theme'）
+E7	teleportParty 单坐标保兄弟坐标/height/facing	existing-proof	world.tsx:168-185	current-movement.test.tsx:35-47 / 102-108	—	精确 payload 排重数字矩阵	—
+E7	moveParty 单坐标保兄弟/height/speed	existing-proof	world.tsx:200-213	current-movement.test.tsx:63-75 / 114-120	—	—	—
+E7	nudgeParty dx/dy/layer	existing-proof	world.tsx:460-473	current-movement.test.tsx:76-82	—	—	—
+E8	wait/fade/ditherScreen 时长（含 optional 默认显示）	existing-proof	world.tsx:119-167	current-movement.test.tsx:12-33	—	fade 无 ms→300、dither 无 ms→720 显示后精确提交	—
+E8	fade 方向 select 保 ms	existing-proof	world.tsx:126-138	current-characterization.test.tsx:294-303	—	—	—
+E8	setPartyFacing facing + gesture 规范形状	existing-proof	world.tsx:186-199	current-movement.test.tsx:49-61 / 109-113	—	gesture>0 保留、0→undefined	—
+E8	holdScreen/revealScreen readonly token	existing-proof	world.tsx:140-161	current-movement.test.tsx:136-145	—	readOnly + 零提交	—
+E9	setActorSprite actor/sprite 稳定身份	existing-proof	world.tsx:474-504	current-identity.test.tsx:8-13	—	—	—
+E9	setActorAppearance spriteId 覆写/清除与 battleSprite/actor 互不抹除	existing-proof	world.tsx:505-579	current-identity.test.tsx:14-29 / 30-46 / 47-65	—	—	—
+E9	setActorAppearance 对话立绘选择真实 portrait 保留 actor/spriteId/battleSprite	new-contract	world.tsx:554-566（ImageAssetPicker allowUnset）；输入含三身份字段 + 目录增补两张真实 portrait 资产	无（portrait 臂无任何 UI 级合同）	CommandForm.author-world-contracts.test.tsx:19-34「选择真实 portrait 资产保留角色、世界精灵与战斗形象」	finish 含 portrait:'author-portrait-firm' 且三字段原值	E9-portrait-select-erases-battlesprite（marker: starter-fighter）
+E9	setActorAppearance 对话立绘 (无) 清空保留其余身份	new-contract	world.tsx:564 + ImageAssetPicker UNSET	无	CommandForm.author-world-contracts.test.tsx:36-51「用 (无) 清空 portrait 保留其余三个身份字段」	finish portrait:undefined + 三字段原值	E9-portrait-clear-swallowed（marker: Number of calls: 0）
+E9	输入不 mutate（body/scene/catalog 快照）	existing-proof	aggregate 只写 draft	current-fixture.ts:208-211 unchanged() 在每个 finish 断言；本卡 fixture 同构保留	—	—	—
+E10	loadScene default/entry/pos 互斥清理	existing-proof	world.tsx:580-677	current-scene.test.tsx:76-87（pos→entry）/ 88-94（重选保留）/ 95-99（entry→pos 播种）/ 116-126（pos→default）	—	—	—
+E10	换 scene 清旧落点保 facing/transition	existing-proof	world.tsx:589-603 + retargetLoadScene	current-scene.test.tsx:65-75	—	—	—
+E10	facing 保持/显式 + 真项目存取 roundtrip	existing-proof	world.tsx:678-696	current-scene.test.tsx:18-64	—	—	—
+E10	无命名落点禁用命名模式 + 零高默认	existing-proof	world.tsx:614-623/626-639	current-scene.test.tsx:145-152	—	—	—
+E10	悬挂 entryId『缺失』提示	不伪造	合法操作无法产生悬挂 entryId（换 scene 即 retarget 清落点，world.tsx:602）	—	—	无合法 repair 入口不构造非法输入（卡面）	—
+E11	pos 复制不 alias 目标 entry	existing-proof	临时坐标按钮 → rebuild → makeLoadScene（world.tsx:630-639 → :44-45 深拷贝）	CommandForm.test.ts:16-20 + command-form-world.glm-large-wave.test.tsx:48-59（makeLoadScene pos 深拷贝后变异不泄漏）	—	唯一写路径必经已证纯函数；UI 层 alias 无公开可观察差异	—
+E11	retarget 不携带旧落点 + 输入不 mutate	existing-proof	retargetLoadScene（world.tsx:49-51）	command-form-world.glm-large-wave.test.tsx:79-108	—	—	—
+E11	source→现代 transition 清理	existing-proof	world.tsx:697-712	current-scene.test.tsx:127-144	—	transition:undefined 其余不动	—
+E12	完成只提交最终整条 draft 一次	existing-proof	ScriptEditor.tsx:3699-3733（完成按钮单次 commit）	current-fixture.ts:216-225（finish: 恰一次 + 输出过 checkAuthorCommands + data 未动 + 弹窗关闭）；多字段单提交 current-data:8-14	—	—	—
+E12	编辑中取消零 history/dirty、重开无草稿泄漏	existing-proof	ScriptEditor.tsx:3702 onClose	current-dialog.test.tsx:82-90（草稿已改后取消零 onChange）+ App.glm-next-wave.test.tsx:101-141（App 链路零历史零 dirty、重开原值）	—	—	—
+E12	弹窗 unmount 后 IO/act 恢复（重开可用）	existing-proof	DsDialog unmount	App.glm-next-wave.test.tsx:130-139（取消后重开弹窗回显并继续操作）	—	—	—

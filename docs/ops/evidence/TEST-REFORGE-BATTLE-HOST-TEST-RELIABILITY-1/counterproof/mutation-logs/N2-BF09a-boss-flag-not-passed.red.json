@@ -1,0 +1,122 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 7,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791359341819,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "status": "passed",
+          "title": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "duration": 93.72587499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "status": "failed",
+          "title": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "duration": 70.96629099999996,
+          "failureMessages": [
+            "AssertionError: expected [ false ] to deeply equal [ true ]\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:54:29\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "status": "passed",
+          "title": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "duration": 71.06633299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "status": "passed",
+          "title": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "duration": 67.4381249999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "status": "passed",
+          "title": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "duration": 74.10562499999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "status": "passed",
+          "title": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "duration": 18.773124999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "status": "passed",
+          "title": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "duration": 67.67433400000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "status": "passed",
+          "title": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "duration": 68.51295899999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791359342664,
+      "endTime": 1791359343196.513,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts"
+    }
+  ]
+}

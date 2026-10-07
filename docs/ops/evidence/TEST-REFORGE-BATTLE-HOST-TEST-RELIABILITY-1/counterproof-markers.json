@@ -1,0 +1,8 @@
+{
+  "N1-BF08-defeat-still-restores-music": "…(5) ] to deeply equal [ 'exitFrame', 'music:stop', …(4) ]",
+  "N2-BF09a-boss-flag-not-passed": "expected [ false ] to deeply equal [ true ]",
+  "N3-BF09b-exp-gate-always-open": "expected [ true ] to deeply equal []",
+  "N4-BF10-flee-runs-defeated-hooks": "…(6) ] to deeply equal [ 'exitFrame', 'music:stop', …(5) ]",
+  "N5-H3-hold-gate-never-blocks": "expected 'undefined' to contain 'expected null not to be null'",
+  "N6-H1-close-skips-restore": "expected [AsyncFunction] to be [AsyncFunction] // Object.is equality"
+}

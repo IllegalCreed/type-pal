@@ -1,0 +1,60 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791357383051,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "P1 idle rounds-until-active distribution (12 fresh harnesses)",
+          "status": "passed",
+          "title": "P1 idle rounds-until-active distribution (12 fresh harnesses)",
+          "duration": 186.61275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it",
+          "status": "passed",
+          "title": "P2 saturated-pool reproduces CI shape and default-deadline waitFor completes it",
+          "duration": 51.48174999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791357384040,
+      "endTime": 1791357384277.4817,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge/src/__tests__/battle-finalization-reliability/probe-r1.test.ts"
+    }
+  ]
+}

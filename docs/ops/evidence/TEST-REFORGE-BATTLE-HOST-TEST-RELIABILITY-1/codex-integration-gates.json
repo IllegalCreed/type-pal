@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-07",
+  "reviewer": "Codex",
+  "acceptedCandidates": [
+    {
+      "task": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1",
+      "head": "b28ba0d81b21f6e5e17599b4b2efd8e6ed40d8b2",
+      "testCommit": "9e902846df6a850d3fde9c32cbfd56277a0c981a"
+    },
+    {
+      "task": "TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1",
+      "head": "80a9c5c6baf8b015ceca95502c0e32629d605ee4",
+      "testCommit": "f43359781217bdc8c4ab4496272eeda92ce424d8"
+    }
+  ],
+  "excludedCandidate": {
+    "task": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1",
+    "head": "1b89e3eb843f67d0c3c305e53a3d2b0a58991877",
+    "verdict": "counter",
+    "reasons": [
+      "four independent field wiring oracles deleted",
+      "shared documentation whitelist violation"
+    ]
+  },
+  "productionFreeze": "ce808b42e06dcd85999c1f10a5f1ca0b9009580b",
+  "protectedBaseRef": "d84b3db236c35d2f7e2671741f4320b904f5c58c",
+  "gates": [
+    {
+      "order": 1,
+      "command": "env -u NODE_COMPILE_CACHE pnpm check",
+      "exitCode": 0,
+      "rawSha256": "81b002c9464fb9cf15b7f1dfeb7a09e69cb9fd147067b6f23a500a2ce188d264",
+      "packages": [
+        {
+          "id": "content",
+          "files": 149,
+          "tests": 1490,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "shared",
+          "files": 16,
+          "tests": 131,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "game",
+          "files": 311,
+          "tests": 3519,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "pal-extract",
+          "files": 70,
+          "tests": 423,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "reforge",
+          "files": 351,
+          "tests": 8786,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "editor",
+          "files": 625,
+          "tests": 4906,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "migrate",
+          "files": 97,
+          "tests": 740,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        }
+      ],
+      "lint": {
+        "files": 3607,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "docs": "passed",
+      "note": "Package tests may retain disclosed old runtime console messages; static zero diagnostics is not a claim that all old runtime console output is empty."
+    },
+    {
+      "order": 2,
+      "command": "env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=d84b3db236c35d2f7e2671741f4320b904f5c58c pnpm coverage:ratchet",
+      "exitCode": 0,
+      "rawSha256": "9f4dcce07cd02a1e131e193a39c8634e7056ab2641b447604e57a39af1f5e0e7"
+    },
+    {
+      "order": 3,
+      "command": "env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=d84b3db236c35d2f7e2671741f4320b904f5c58c pnpm coverage:fast",
+      "exitCode": 0,
+      "rawSha256": "371c6f19a4d47be651da74aafac582d00d2a322c3fbdde6901cb5092f80dfb8b",
+      "comparedToCurrentBaseline": "no regression; no metric improvement"
+    }
+  ],
+  "officialUnion": {
+    "profile": "fast",
+    "provider": "v8",
+    "vitest": "4.1.7",
+    "sourceFiles": 726,
+    "executedTests": 19585,
+    "branches": {
+      "covered": 50113,
+      "total": 60209,
+      "percent": 83.23
+    },
+    "denominatorUnchanged": true,
+    "baselineBeforeSha256": "a0944043bb879e2e545c961775453ae14bf57c237449d7aca652804fe9269916",
+    "baselineAfterSha256": "0b061ae28b698b1f915aa93b8ffc32e0f8a9f64b50de117cbdfcd2dd56b16f61",
+    "note": "Final local main union includes previously accepted main tests awaiting ratchet; do not attribute the whole union increase to A/C or sum author-private deltas."
+  },
+  "authorLogWhitespaceNormalization": [
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/instrumentation.raw.txt",
+      "authorOriginalSha256": "2d296c3caccf15dd7b5a33534d93a7cdb530fb8ba14786613bb0e6be41078a84",
+      "integratedSha256": "d71765e8958279d49a21d1907aa96fd9788373d7b30cd065604b7e2a71493d89",
+      "operation": "Remove trailing ASCII spaces/tabs and redundant terminal empty lines only; no line or diagnostic removed."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.raw.txt",
+      "authorOriginalSha256": "4e85060c08319e2c84c424d736ff801a4710f73132387db6bed74df58df80c53",
+      "integratedSha256": "d2ef0d8da53711521976b30fc026203af6a401ff662290a7d16f39294566d36d",
+      "operation": "Remove trailing ASCII spaces/tabs and redundant terminal empty lines only; no line or diagnostic removed."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/directed-card-command.raw",
+      "authorOriginalSha256": "770a68be60a6cae57098df20bdf69e8b44ddbe11134039346397d32e8178dcd1",
+      "integratedSha256": "27082956eb3f45c8470dc79108869fcc11cd21155618912b90aed55dc00cd00f",
+      "operation": "Remove trailing ASCII spaces/tabs and redundant terminal empty lines only; no line or diagnostic removed."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/full-package-test.raw",
+      "authorOriginalSha256": "9eebefd6e86e8bc6e53325cad5f63a3764b69d1f6c8bcd84bdabb7cfabb47455",
+      "integratedSha256": "34e3ac08e563f42cd4ec1806eade02d4c089887fbe636d24ec8eb8d7a6bcacdf",
+      "operation": "Remove trailing ASCII spaces/tabs and redundant terminal empty lines only; no line or diagnostic removed."
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/typecheck.raw",
+      "authorOriginalSha256": "73290d07f505c7a4b6b9d318aefa80efb20043d2956405302712ed8209958065",
+      "integratedSha256": "4f58d4c4caecb12881415d189d5cba4c747588d440845b3116ec527ea55d4405",
+      "operation": "Remove trailing ASCII spaces/tabs and redundant terminal empty lines only; no line or diagnostic removed."
+    }
+  ],
+  "authorRawGitSnapshot": "b28ba0d81b21f6e5e17599b4b2efd8e6ed40d8b2; original bytes retained in accepted contributor ancestry, not represented as byte-identical to normalized logs",
+  "localLogDirectory": "/private/tmp/type-pal-codex-acceptance-D758mP",
+  "postClosure": {
+    "docs": "passed; zero issues after task relocation and index refresh",
+    "lint": { "files": 3608, "errors": 0, "warnings": 0, "infos": 0 },
+    "diffCheck": "passed",
+    "codeQualityLedger": "inventory passed; 229 closed / 5 review / 2850 pending, not a claim of complete semantic audit"
+  },
+  "githubCi": {
+    "status": "not asserted by local gates",
+    "note": "Inspect the new pushed main workflow by exact head SHA; prior main failure is not this candidate verdict."
+  }
+}

@@ -1,6 +1,6 @@
 # TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界
 
-Status: build
+Status: rework
 Owner: GLM（新对话B，唯一测试写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -76,12 +76,16 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
 ## 当前模式推进记录
 
 - 2026-10-07 Codex：unknown边界、旧测双桥与多合同问题已核。build allowed仅两旧测及专属新增测试白名单；存档schema/实现不变。
-- 贡献者交付/自验：pending。
-- Codex独立验收：pending；done准入：blocked。
+- 贡献者r1已交付：候选`1b89e3eb843f67d0c3c305e53a3d2b0a58991877`，测试提交`d731f0f493c997637cf9e33b963db1e6d730d4ba`；作者自验不代替下列独立counter，未集成main。
+- 2026-10-07 Codex独立验收：counter，B-R1-01/02待修；见[独立审核](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md)。不得合main/done。
 - 用户产品裁决：N/A（不变更产品行为，出现新取舍另卡）。
+
+## Codex r1 返工裁决
+
+四个独立字段/子树接线的原断言被误删：height缺席、spriteId数字、battleSprite null、skillUseCounts内层非数值。候选73/73漏报，原61例对照四红；共享helper不构成等价证明。两个缺席补空合同拆开。共享导航和review pin越界改动恢复派发值，保留其它已关闭项；精确证据见上述独立审核。模型由用户手工选择GLM-5.3。
 
 ## 下一位 Agent 提示词
 
 ```text
-你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 唯一执行方，新对话B。只在 /private/tmp/type-pal-reforge-save-test-precision、codex/glm-reforge-save-test-precision-r1 工作。先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md。产品冻结 ce808b42e06dcd85999c1f10a5f1ca0b9009580b。完成S1-S9：两旧测强转清零、unknown边界坏输入、原子拆分/排重、版本标题与常量、稀疏/optional/精确路径、真实codec safe-integer/clone/resolver/lifecycle缺口补证。保留有效旧轴，不按数字复制；先确认实际拒绝层。只改卡面两旧测、可选新codec文件和专属fixture/证据，不修产品或加兼容层；交before-after映射。 按卡完成严格三态最小反控、同进程JSON/raw/执行身份/hash和精确清理，定向相邻、全包/typecheck、lint完整0/0/0、docs/diff。基点失败分列不越界修。所有有限轴有裁决即停，允许零新增，不追例数或覆盖率；只写自己的回执，完整真实SHA提交推送，不合main不done，等待Codex独立验收。
+你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 原会话B的唯一实现方，只在 /private/tmp/type-pal-reforge-save-test-precision、codex/glm-reforge-save-test-precision-r1 工作。先只读 /Users/zhangxu/illegal/type-pal/docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md 的Codex r1审核及 /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md；远端同步后也可从origin/main只读取审核，不rebase或替换产品冻结，不写主树。候选 1b89e3eb843f67d0c3c305e53a3d2b0a58991877 未accept。只做两项有限r2：1）修复误删合同：height缺席、appearance.spriteId数字、battleSprite null、skillUseCounts内层非数值必须各自有unknown边界精确拒收oracle；共享helper不能代替字段接线证明，复核其它删除映射，保留已成立的去重。skillUseCounts/entityLifecycles缺席补空拆成原子身份，保留输入不变证明。2）恢复共享evidence README和phase-governance review JSON至派发 d84b3db236c35d2f7e2671741f4320b904f5c58c 值，只写原卡白名单。反控保留未变证据，执行集变化只重采受影响针的原始绿/指定恰一AssertionError红/真正恢复绿/最终重放，登记源、测试、mutant与restored hash；补能识别上述四种漏接线的最小有效反控。产品冻结 ce808b42e06dcd85999c1f10a5f1ca0b9009580b 不变，不改产品/旧测白名单外/配置/基准。跑定向相邻、Reforge/content typecheck与Reforge全包、lint完整0/0/0、docs/diff；如共享导航恢复使docs门有登记缺口，如实列明由Codex修，不越界。更新真实before-after/逐合同账和计数，完整真实SHA提交推送，所有有限项闭合即停止，不追用例/针数/覆盖率，不合main、不done。
 ```

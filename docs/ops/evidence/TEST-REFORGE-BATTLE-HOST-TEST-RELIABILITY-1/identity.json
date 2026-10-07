@@ -1,0 +1,111 @@
+{
+  "card": "TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1",
+  "owner": "GLM",
+  "status": "codex-accepted-local-gates-passed",
+  "authorOriginalStatus": "candidate-awaiting-codex-review",
+  "dispatchHead": "d84b3db236c35d2f7e2671741f4320b904f5c58c",
+  "frozenProductBase": "ce808b42e06dcd85999c1f10a5f1ca0b9009580b",
+  "testCandidate": "9e902846df6a850d3fde9c32cbfd56277a0c981a",
+  "branch": "codex/glm-reforge-battle-test-reliability-r1",
+  "worktree": "/private/tmp/type-pal-reforge-battle-test-reliability",
+  "frozenSourcesVerified": {
+    "packages/reforge/src/battle/battle-host.ts": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b",
+    "packages/reforge/src/battle/battle-launch-preparation.ts": "c13c54d7e6cad926432e810cbd028661fc216b3f04e538e371e792e9710a7c20",
+    "packages/reforge/src/battle/battle-world-result.ts": "ebf23d84f68739fb15a46defde2a3016177d71130ed5a230afda8b827bd92050",
+    "packages/reforge/src/battle/battle-session.ts": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+  },
+  "deliveredSources": {
+    "packages/reforge/src/battle/battle-host.finalization.test.ts": "a421eb77c2f84933cb9a20faccf398b4d627fde94a8f2fc7cf8b06e942049574",
+    "packages/reforge/src/__tests__/battle-finalization-reliability/battle-finalization-host-harness.ts": "e27b8bf9a1ffaeca19d76d04cba4ab0b3b070fe9f514a5d9bff149373d481841"
+  },
+  "counterproofReceiptSha256": "c6d185a132c089e817dd132e00d2e51e7122ce9f8a106233318f5b21cc8417f0",
+  "authorCounterproofReceiptSha256": "7b49b63c2e43ea31066d5d710a06e0df063752851c2d83c3aac2cfe33639d73c",
+  "codexReceiptCorrection": "Only six probe relative paths corrected during integration; original artifacts and business evidence unchanged.",
+  "gates": [
+    {
+      "name": "directed+adjacent(卡面三文件,双reporter)",
+      "evidence": "directed/adjacent-r1.raw.txt",
+      "exit": 0,
+      "result": "31/31"
+    },
+    {
+      "name": "instrumentation(v8 coverage 独占目录)",
+      "evidence": "directed/instrumentation-r1.raw.txt",
+      "exit": 0,
+      "result": "31/31(coverageMap 蒸馏,见README)"
+    },
+    {
+      "name": "repeat-2",
+      "evidence": "directed/repeat-2.raw.txt",
+      "exit": 0,
+      "result": "31/31"
+    },
+    {
+      "name": "repeat-3",
+      "evidence": "directed/repeat-3.raw.txt",
+      "exit": 0,
+      "result": "31/31"
+    },
+    {
+      "name": "card-exact-directed(env -u NODE_COMPILE_CACHE pnpm --filter)",
+      "evidence": "gates/directed-card-command.raw",
+      "exit": 0,
+      "result": "31/31"
+    },
+    {
+      "name": "reforge-full-package(pnpm --filter @type-pal/reforge run test)",
+      "evidence": "gates/full-package-test.raw",
+      "exit": 0,
+      "result": "8786/8786"
+    },
+    {
+      "name": "typecheck(pnpm --filter @type-pal/reforge run typecheck)",
+      "evidence": "gates/typecheck.raw",
+      "exit": 0,
+      "result": "0 错"
+    },
+    {
+      "name": "lint(根 pnpm lint 完整零诊断)",
+      "evidence": "gates/lint.raw",
+      "exit": 0,
+      "result": "3575 files 0/0/0"
+    },
+    {
+      "name": "check:docs(根)",
+      "evidence": "gates/check-docs.raw",
+      "exit": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "basepoint-directed(基点单文件)",
+      "evidence": "basepoint/adjacent.json",
+      "exit": 0,
+      "result": "3/3 old finalization identities passed within recorded adjacent 26/26; standalone directed raw was not delivered"
+    },
+    {
+      "name": "basepoint-adjacent(基点三文件)",
+      "evidence": "basepoint/adjacent.raw.txt",
+      "exit": 0,
+      "result": "26/26"
+    },
+    {
+      "name": "basepoint-instrumentation(基点)",
+      "evidence": "basepoint/instrumentation.raw.txt",
+      "exit": 0,
+      "result": "26/26(coverageMap 蒸馏)"
+    },
+    {
+      "name": "basepoint-fullsuite-ci-exact(基点 CI 同参全包 coverage)",
+      "evidence": "basepoint/fullsuite-ci-exact.raw.txt",
+      "exit": 0,
+      "result": "8781/8781(file级蒸馏)"
+    },
+    {
+      "name": "git-diff-check",
+      "evidence": null,
+      "exit": 0,
+      "result": "clean"
+    }
+  ],
+  "productChanges": "none(4 冻结源逐字节未动;反控变异仅存在于 mkdtemp 隔离树并已删除)"
+}

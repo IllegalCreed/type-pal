@@ -1,0 +1,135 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-codex-loss-probe.K8Qphw/packages/reforge
+
+ ❯ src/save/current-structure.test.ts (61 tests | 4 failed) 12ms
+     ✓ 现行保存器产物通过；分数坐标/负坐标原样放行 1ms
+     ✓ 全部可选子树缺席合法（reserve/skillUseCounts/ambience/collectValue/resources/audio/hostileAwareness/script/entityLifecycles + 实例级可选项） 0ms
+     ✓ 合法边界值：HP=0、空 equipment/tags/inventory、空 learnedSkills Record、显式静音 audio.currentMusic=null、空 reserve/skillUseCounts/entityLifecycles 容器 0ms
+     ✓ hiddenExp 合法七个属性键 + appearance 三可选字段（portrait 为字符串 AssetId） 0ms
+     ✓ R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过 0ms
+     ✓ R3：CarriedStatus.status 复用 content 枚举真源——合法 id 通过、未知 id 拒绝 0ms
+     ✓ R3：appearance.portrait=null 不在合同内（AssetId | undefined），拒绝 0ms
+     ✓ R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试） 0ms
+     ✓ guard 通过后输入与原对象无别名关系（不修改输入） 0ms
+     ✓ automatic chase claims retain only stable addresses and behavior IDs 1ms
+     ✓ malformed automatic chase claims are rejected before cloning: null 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: null 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: undefined 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":null,"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":""} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner","epoch":1},"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":"chase","commandEpoch":1} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ null / 数组 / 缺 world / 缺 position 拒绝 0ms
+     ✓ version 非 8 / projectId 非字符串 / contentVersion 非数字拒绝 0ms
+     ✓ world 坏形状 money=字符串 带路径拒绝 0ms
+     ✓ world 坏形状 money=NaN 带路径拒绝 0ms
+     ✓ world 坏形状 money=Infinity 带路径拒绝 0ms
+     ✓ world 坏形状 party=null 带路径拒绝 0ms
+     ✓ world 坏形状 party=对象 带路径拒绝 0ms
+     ✓ world 坏形状 learnedSkills 值非数组 带路径拒绝 0ms
+     ✓ world 坏形状 inventory 元素缺 itemId 带路径拒绝 0ms
+     ✓ world 坏形状 inventory count=NaN 带路径拒绝 0ms
+     ✓ position 坏形状 sceneId 空串 带路径拒绝 0ms
+     ✓ position 坏形状 pos 非对象 带路径拒绝 0ms
+     ✓ position 坏形状 pos.col=NaN 带路径拒绝 0ms
+     ✓ position 坏形状 pos.row=字符串 带路径拒绝 0ms
+     × position 坏形状 缺 height 带路径拒绝 3ms
+     ✓ position 坏形状 facing=sideways 带路径拒绝 0ms
+     ✓ position 坏形状 facing=undefined 带路径拒绝 0ms
+     ✓ 可选子树 resources 值非有限数 拒绝 0ms
+     ✓ 可选子树 audio.currentMusic=数字 拒绝 0ms
+     ✓ 可选子树 hostileAwareness.rangeMultiplier=1 拒绝 0ms
+     ✓ 可选子树 hostileAwareness.remainingMs=Infinity 拒绝 0ms
+     ✓ 可选子树 script=数组（深层语义留给 codec guard，外层形状仍拒） 拒绝 0ms
+     ✓ 可选子树 ambience=数字 拒绝 0ms
+     ✓ 可选子树 collectValue=NaN 拒绝 0ms
+     × 可选子树 skillUseCounts 内层值非有限数 拒绝 0ms
+     ✓ 实例坏形状 id 空串 带路径拒绝 0ms
+     ✓ 实例坏形状 template 非字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 hp=NaN 带路径拒绝 0ms
+     ✓ 实例坏形状 maxMP=Infinity 带路径拒绝 0ms
+     ✓ 实例坏形状 luck=字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 equipment 值非字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 tags 元素非字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 hiddenExp 未知键 带路径拒绝 0ms
+     ✓ 实例坏形状 hiddenExp.exp=NaN 带路径拒绝 0ms
+     ✓ 实例坏形状 poisons 元素缺 tickIndex 带路径拒绝 0ms
+     ✓ 实例坏形状 extraStatuses.turns=Infinity 带路径拒绝 0ms
+     ✓ 实例坏形状 extraPoisonRes=字符串 带路径拒绝 0ms
+     × 实例坏形状 appearance.spriteId=数字 带路径拒绝 0ms
+     ✓ 实例坏形状 appearance.portrait=数字 带路径拒绝 0ms
+     × 实例坏形状 appearance.battleSprite=null（非可选 null） 带路径拒绝 0ms
+     ✓ reserve 元素坏形状同样拒绝（路径含 reserve） 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/current-structure.test.ts > current-structure · Envelope / world / position（负边界） > position 坏形状 缺 height 带路径拒绝
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/save/current-structure.test.ts:51:53
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 57 passed (61)
+   Start at  17:30:44
+   Duration  325ms (transform 189ms, setup 0ms, import 233ms, tests 12ms, environment 0ms)
+
+     49|   const payload = validPayload()
+     50|   mutate(payload)
+     51|   expect(() => assertCurrentSaveStructure(payload)).toThrow(pattern)
+       |                                                     ^
+     52| }
+     53|
+ ❯ src/save/current-structure.test.ts:380:82
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/save/current-structure.test.ts > current-structure · 可选子树存在时的形状检查 > 可选子树 skillUseCounts 内层值非有限数 拒绝
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/save/current-structure.test.ts:51:53
+     49|   const payload = validPayload()
+     50|   mutate(payload)
+     51|   expect(() => assertCurrentSaveStructure(payload)).toThrow(pattern)
+       |                                                     ^
+     52| }
+     53|
+ ❯ src/save/current-structure.test.ts:441:71
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/save/current-structure.test.ts > current-structure · CharacterInstance（party 与 reserve 同型） > 实例坏形状 appearance.spriteId=数字 带路径拒绝
+ FAIL  src/save/current-structure.test.ts > current-structure · CharacterInstance（party 与 reserve 同型） > 实例坏形状 appearance.battleSprite=null（非可选 null） 带路径拒绝
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/save/current-structure.test.ts:554:55
+    552|     const payload = validPayload()
+    553|     mutate(payload.world.party[0] as unknown as Record<string, unknown…
+    554|     expect(() => assertCurrentSaveStructure(payload)).toThrow(pattern)
+       |                                                       ^
+    555|   })
+    556|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+JSON report written to /private/tmp/type-pal-codex-acceptance-D758mP/B-old-loss-oracles.json

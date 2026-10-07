@@ -1,0 +1,13 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-codex-loss-probe.K8Qphw/packages/reforge
+
+ ✓ src/save/current-codec.contracts.test.ts (7 tests) 4ms
+ ✓ src/save/current-structure.test.ts (60 tests) 8ms
+ ✓ src/save/current-save.current-characterization.test.ts (6 tests) 4ms
+
+ Test Files  3 passed (3)
+      Tests  73 passed (73)
+   Start at  17:30:43
+   Duration  428ms (transform 399ms, setup 0ms, import 518ms, tests 16ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-codex-acceptance-D758mP/B-loss-skillUseCounts.json
