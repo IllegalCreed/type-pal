@@ -83,7 +83,7 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
   - 门禁：定向 168/168（基点同命令 164/164 本就全绿，无基点红需单列）、相邻 content lifecycle 12/12、Reforge 全包 8785/8785、typecheck 双 0、根 lint 0/0/0（3562 文件）、check:docs 与 `git diff --check` 过。
   - 反控：判据自证 20 合成反例 + 3 真实 Vitest 探针（纯业务红接受、目标红+afterAll 抛错拒收、+异步 uncaught 拒收）；四态协议（绿 73 行执行集快照 → 14 针逐针红 → 还原绿执行集逐字一致 → 末次重放）全 VALID，恰一指定业务 AssertionError、双 reporter 联判、17 树清理证明；`counterproof.json` sha256 `88f58c56fcaa0418499f04d64e64057544ac83d0c9b8def1f1a35e370d0b9d6b`。两处针设计缺陷被判据拒收后修正（N05 去补空变异使产品先抛普通 Error → 改注入非空由 `toEqual({})` 成红；N12/N13 `rejects.toThrow` 变异时 vitest4 报裸 Error → 改 catch+同步断言，oracle 不变），判据未放宽。
   - 产品零改动（五冻结源 SHA256 逐字一致）；无用户可见行为变化、无产品缺陷新发现、无 blocked/U 账。
-- Codex r1 验收：counter（[codex-review-r1.md](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md)）。B-R1-01 共享 helper 不替代各字段接线（height/spriteId/battleSprite/skillUseCounts 内层四变异下候选全绿）、两容器缺席是独立 normalizer；B-R1-02 越权改共享 evidence 导航与 semantic review 台账。
+- Codex r1 验收：counter（codex-review-r1.md，现存主树，集成后可链接）。B-R1-01 共享 helper 不替代各字段接线（height/spriteId/battleSprite/skillUseCounts 内层四变异下候选全绿）、两容器缺席是独立 normalizer；B-R1-02 越权改共享 evidence 导航与 semantic review 台账。
 - 贡献者 r2 交付（2026-10-07，GLM 会话B，共享文档恢复提交 `e44a2dd34`（docs-only）+ r2 工作提交 `81f205328`）：
   - B-R1-01：四条独立接线合同归还各自原子行（pos.height 缺席、appearance.spriteId=数字、appearance.battleSprite=null、skillUseCounts 内层非有限数，全部 unknown 视图构造，structure 60→64 例）；三处标题失效的「代表」声明修正（pos.row/resources/portrait/sparse-inventory）；容器缺席拆为 skillUseCounts/entityLifecycles 两个独立 oracle 身份、各自保留原件不变断言（codec 7→8 例）。其余删/并按接线维度复核：余 6 条 dropped 全为 Codex 明示保留项（同调用点同谓词值维度重复或更强 oracle 替代）；11 字段循环成员资格与 statuses/poisons 每调用点 hole-skip 的残余暴露面在证据 README 如实登记，不扩为无限清单、不恢复重复数字矩阵。
   - B-R1-02：`docs/ops/evidence/README.md` 与 `docs/phase-governance/reviews/20261004-semantic-current-batch.json` 已 `git checkout d84b3db23` 恢复派发值（docs-only 提交单列）；共享导航/pin 登记缺口如实报告，由 Codex 集成时维护。
@@ -91,11 +91,19 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
   - 账本更新：`before-after.tsv` 4 条 dropped→restored-r2、余 6 条 dropped 附剩余 oracle；`contract-ledger.tsv` 77 条（新增 restored-r2 分型与两条拆分身份）。
   - 门禁：定向 173/173、相邻 content lifecycle 12/12（r1 原件保留，content 未动）、Reforge 全包 8790/8790、reforge/content typecheck 双 0、根 lint 0/0/0（3574 文件）、check:docs PASS（共享文档恢复后 pin 天然匹配）、`git diff --check` 清零。
   - 产品零改动（五冻结源逐字一致）；未处理 Codex 已修的帧动画 CI 问题；无新 blocked/U 账。有限项闭合即停。
-- Codex独立验收（r2）：pending；done准入：blocked。
+- Codex r2 验收：counter（codex-review-r2.md，现存主树，集成后可链接）。B-R2-01 三原合同剩余 oracle 不足（maxMP 字段数组成员、extraStatuses/poisons 各自回调空洞）；B-R2-02 旧 runner 锁 73 行、N05 指向合并身份、N08 旧名称，非当前可重放入口，README 历史计数未标清。
+- 贡献者 r3 交付（2026-10-07，GLM 会话B，工作提交见回执）：
+  - B-R2-01：三原合同归还（structure 64→67 例）：`实例坏形状 maxMP=Infinity（字段数组成员资格）`、`R3：稀疏空洞逐下标拒绝：extraStatuses[0]`、`R3：稀疏空洞逐下标拒绝：poisons[0]`，全部 unknown 视图构造、原子 oracle；未恢复重复数字矩阵（其余 8 个数值字段成员资格仍在证据 README 登记残余暴露面）。
+  - B-R2-02：`run-counterproof.mjs` 对齐为当前反控入口——绿基线 73→81 行断言、N05 fullName 改指 r2 拆分后的 skillUseCounts 独立身份、N08 fullName 改指 r2 更名后的稀疏标题，输出迁至 `counterproof-r3-runs/`+`counterproof-r3.json`（r1/r2 证据保持历史原件不动）；纳入 NRR1–NRR3 共 17 针在 r3 候选整体重采：绿 81 行（20 自测+3 探针复验）→ 17 针全 VALID 恰一指定业务 AssertionError → 真正恢复绿执行集逐字一致 → 末次重放；20 树清理证明；`counterproof-r3.json` sha256 `fd65dc26a3bcbea2308f23d929ac392a6bd133cfab41c0d89ed2106de4889207`。N05 与历史 r2 NR5 同变异不重复计信用（回执注明）。
+  - README 数量按最终实跑统一并标历史：定向 176/176（历史 168/173）、全包 8793/8793（历史 8785/8790）、合同账 80 条、dropped 6→5（maxMP/两空洞转 restored-r3）。
+  - docs 链接门修正：r2 曾以相对链接引用仅存主树的 codex-review-r1.md（且 r2 的 docs-gate.raw 早于该编辑采集而漏检），r3 已改纯文本并在两处注明「现存主树，集成后可链接」，采集顺序修正后 check:docs PASS。
+  - 门禁：定向 176/176、相邻 content lifecycle 12/12、Reforge 全包 8793/8793、reforge/content typecheck 双 0、根 lint 0/0/0（3598 文件）、check:docs PASS、`git diff --check` 清零。
+  - 产品零改动（五冻结源逐字一致）；共享文档维持派发值未动；未处理 Codex 的 MapMode 修复；共享登记缺口（evidence 导航条目、审核文件链接）在证据 README 列明由 Codex 集成时维护。有限项闭合即停。
+- Codex独立验收（r3）：pending；done准入：blocked。
 - 用户产品裁决：N/A（不变更产品行为，出现新取舍另卡）。
 
 ## 下一位 Agent 提示词
 
 ```text
-你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 的独立验收方 Codex（r2 复审）。工作树 /private/tmp/type-pal-reforge-save-test-precision、分支 codex/glm-reforge-save-test-precision-r1，r2 候选：共享文档恢复提交 e44a2dd34（docs-only，恢复 d84b3db23 值）+ r2 工作提交 81f205328（r1 链：1b89e3eb8→工作 d731f0f49，基 d84b3db23，产品冻结 ce808b42e 五源 SHA 逐字一致）。先读 docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md 与你的 codex-review-r1.md。请独立核：① B-R1-01 四条接线合同（缺 height/spriteId=数字/battleSprite=null/skillUseCounts 内层）是否已归位为独立原子行且 unknown 边界构造；容器缺席是否已拆两个 oracle 身份并保留原件不变断言；② 余 6 条 dropped 与 README 登记的两类残余暴露面（11 字段循环成员资格、statuses/poisons 每调用点 hole-skip）你是否接受或需 counter；③ B-R1-02 两个共享文档是否与 d84b3db23 逐字节一致；④ r2 反控 counterproof-r2.json 六针四态与 9 树清理证明（r1 证据保留声明是否属实）；⑤ 复跑定向（env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/save src/main.save-flows.test.ts src/automatic-target-command.test.ts，期望 173/173）与抽核全包/typecheck/lint。共享导航/pin 由你集成时维护。产品/schema 零改动，不合 main 不标 done 由你收口；counter 请按 B-R1-01/02 逐条列出。
+你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 的独立验收方 Codex（r3 复审）。工作树 /private/tmp/type-pal-reforge-save-test-precision、分支 codex/glm-reforge-save-test-precision-r1，r3 候选 = r3 工作提交（回执 SHA 见推进记录，基于 3f925b0d3；r1/r2 链：d731f0f49/1b89e3eb8、e44a2dd34/81f205328；基 d84b3db23，产品冻结 ce808b42e 五源 SHA 逐字一致）。先读 docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md 与你的 codex-review-r2.md。请独立核：① B-R2-01 三原合同（maxMP=Infinity 精确路径、extraStatuses[0]/poisons[0] 空洞）是否已归位且 unknown 边界原子 oracle，NRR1–NRR3 变异是否恰一红；② B-R2-02 对齐后的 run-counterproof.mjs（81 行基线、N05 拆分身份、N08 新名、17 针）能否在你侧重放，r1/r2 历史原件是否未动、N05/NR5 信用不重复计；③ README 数量是否与最终实跑一致（176/8793/80 合同/5 dropped）与历史标记；④ 复跑定向（env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/save src/main.save-flows.test.ts src/automatic-target-command.test.ts，期望 176/176）与抽核全包/typecheck/lint/check:docs。共享导航/pin/审核文件链接由你集成时维护。产品/schema 零改动，不合 main 不标 done 由你收口；counter 请按 B-R2-01/02 逐条列出。
 ```
