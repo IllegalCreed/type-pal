@@ -76,12 +76,18 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
 ## 当前模式推进记录
 
 - 2026-10-07 Codex：unknown边界、旧测双桥与多合同问题已核。build allowed仅两旧测及专属新增测试白名单；存档schema/实现不变。
-- 贡献者交付/自验：pending。
+- 贡献者交付/自验（2026-10-07，GLM 新对话B，工作提交 `d731f0f493c997637cf9e33b963db1e6d730d4ba`，基于 `d84b3db23`）：S1–S9 全轴有裁决，允许的新增均以缺口证据落地。
+  - 两旧测重铸：`as unknown as`/假枚举清零；坏形状一律经 unknown 视图（合法 builder 产物 JSON 往返成 `Record<string, unknown>`，运行时核验收窄助手）直传公开 `assertCurrentSaveStructure`；合法正边界仍走 buildWorld/builder typed 通道。跨合同用例原子拆分；同层同 oracle 数字/形状拒收只留真实不同条件代表（61+8 → 60+6）。
+  - 新增 `current-codec.contracts.test.ts` 7 合同：skillUseCounts 空 actor/skill ID、负数、`MAX_SAFE_INTEGER+1`；可省略容器（skillUseCounts/entityLifecycles）缺席 clone 补空 {} 且原件不变；hostileAwareness `remainingMs=0` 正数性；script vars 非有限数深层接线。输入全部 typed 合法可达，逐条先过结构 guard 才到 codec 语义层（外层形状红不作 codec 证明）。characterization 新增 resolver/payload 身份合同；版本拒收六行（全是两者不同）→ 三条件代表，取 SAVE_VERSION/CONTENT_VERSION 常量，修“version 非 8”标题。
+  - 账本：`before-after.tsv` 69 条旧用例逐条 before→after 身份（kept/reworked/split/merged/dropped），10 dropped 各附剩余 oracle `source:line`；`contract-ledger.tsv` 72 条最终合同分型。
+  - 门禁：定向 168/168（基点同命令 164/164 本就全绿，无基点红需单列）、相邻 content lifecycle 12/12、Reforge 全包 8785/8785、typecheck 双 0、根 lint 0/0/0（3562 文件）、check:docs 与 `git diff --check` 过。
+  - 反控：判据自证 20 合成反例 + 3 真实 Vitest 探针（纯业务红接受、目标红+afterAll 抛错拒收、+异步 uncaught 拒收）；四态协议（绿 73 行执行集快照 → 14 针逐针红 → 还原绿执行集逐字一致 → 末次重放）全 VALID，恰一指定业务 AssertionError、双 reporter 联判、17 树清理证明；`counterproof.json` sha256 `88f58c56fcaa0418499f04d64e64057544ac83d0c9b8def1f1a35e370d0b9d6b`。两处针设计缺陷被判据拒收后修正（N05 去补空变异使产品先抛普通 Error → 改注入非空由 `toEqual({})` 成红；N12/N13 `rejects.toThrow` 变异时 vitest4 报裸 Error → 改 catch+同步断言，oracle 不变），判据未放宽。
+  - 产品零改动（五冻结源 SHA256 逐字一致）；无用户可见行为变化、无产品缺陷新发现、无 blocked/U 账。
 - Codex独立验收：pending；done准入：blocked。
 - 用户产品裁决：N/A（不变更产品行为，出现新取舍另卡）。
 
 ## 下一位 Agent 提示词
 
 ```text
-你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 唯一执行方，新对话B。只在 /private/tmp/type-pal-reforge-save-test-precision、codex/glm-reforge-save-test-precision-r1 工作。先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md。产品冻结 ce808b42e06dcd85999c1f10a5f1ca0b9009580b。完成S1-S9：两旧测强转清零、unknown边界坏输入、原子拆分/排重、版本标题与常量、稀疏/optional/精确路径、真实codec safe-integer/clone/resolver/lifecycle缺口补证。保留有效旧轴，不按数字复制；先确认实际拒绝层。只改卡面两旧测、可选新codec文件和专属fixture/证据，不修产品或加兼容层；交before-after映射。 按卡完成严格三态最小反控、同进程JSON/raw/执行身份/hash和精确清理，定向相邻、全包/typecheck、lint完整0/0/0、docs/diff。基点失败分列不越界修。所有有限轴有裁决即停，允许零新增，不追例数或覆盖率；只写自己的回执，完整真实SHA提交推送，不合main不done，等待Codex独立验收。
+你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 的独立验收方 Codex。工作树 /private/tmp/type-pal-reforge-save-test-precision、分支 codex/glm-reforge-save-test-precision-r1，候选工作提交 d731f0f493c997637cf9e33b963db1e6d730d4ba（基 d84b3db23，产品冻结 ce808b42e 五源 SHA 逐字一致）。先读 docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md 与 docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md。请独立核：① before-after.tsv 69 条映射，特别是 10 条 dropped 的剩余 oracle 是否真实可杀（同检查函数/同文案 source:line）；② 新增 8 合同是否 typed 合法可达且拒绝层确为 codec 语义（非外层 guard 红）；③ 反控 counterproof.json 14 针四态与清理证明、两处针返工记录是否成立；④ 复跑定向（env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/save src/main.save-flows.test.ts src/automatic-target-command.test.ts，期望 168/168）与抽核全包/typecheck/lint。本卡只改两旧测+新 codec 测试+专属证据，产品/schema 零改动，不合 main 不标 done 由你收口；发现 counter 请按卡面轴逐条列出。
 ```
