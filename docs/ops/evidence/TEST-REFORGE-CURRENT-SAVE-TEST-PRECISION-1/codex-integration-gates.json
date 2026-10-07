@@ -138,7 +138,11 @@
   },
   "localLogDirectory": "/private/tmp/type-pal-save-r3-review.3MN5Bh",
   "githubCi": {
-    "status": "Hosted CI is not included in this pre-push local receipt; inspect the exact newly pushed main HEAD before claiming success.",
+    "status": "First pushed integration head failed the quality ledger tracked-inventory bookkeeping check, before typecheck/lint or coverage execution; Codex followup refresh is recorded separately. Future exact hosted HEAD must still be checked.",
+    "firstPushedHead": "b836ad5d48c7f34b1b213b998d9e27c9771586dd",
+    "failedCoverageRun": 37627115259,
+    "passedDocumentationRun": 37627115290,
+    "followup": "ci-tracked-inventory-refresh.json",
     "previousMain": {
       "head": "0de74cc123d7a5671c22bf5d479fb0420003ff6a",
       "coverageRun": 37609327907,

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-07",
+  "owner": "Codex",
+  "task": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1",
+  "failedHead": "b836ad5d48c7f34b1b213b998d9e27c9771586dd",
+  "failedRun": {
+    "id": 37627115259,
+    "url": "https://github.com/IllegalCreed/type-pal/actions/runs/37627115259",
+    "step": "Check types and lint before coverage",
+    "test": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+    "passed": 36,
+    "failed": 1,
+    "rawSha256": "b3ae30bc4f3ab4dfd82be12cf5dbde4a89042ab2151f7b39d9d2f419d14be572",
+    "coverageExecuted": false
+  },
+  "cause": "The inventory CLI uses git ls-files. Codex's earlier whole check preceded staging the new current-codec.contracts.test.ts, so the ledger still declared 3084 tracked code files. The pushed tree contains 3085; CI correctly rejected stale inventory and pending totals. No GLM business test failed.",
+  "correction": {
+    "addedTrackedFile": "packages/reforge/src/save/current-codec.contracts.test.ts",
+    "ledger": "docs/ops/audits/code-quality-file-ledger.md",
+    "before": { "total": 3084, "verified": 229, "review": 5, "pending": 2850, "unclosed": 2855 },
+    "after": { "total": 3085, "verified": 229, "review": 5, "pending": 2851, "unclosed": 2856 },
+    "note": "Machine inventory bookkeeping only; existing semantic review states preserved. New test acceptance is not silently converted into code-quality governance credit. Stage new code files before the final tracked-inventory guard."
+  },
+  "localValidation": {
+    "qualityTools": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm test:quality-tools",
+      "exitCode": 0,
+      "passed": 37,
+      "failed": 0,
+      "rawSha256": "6d6943cf69ddf2de0ea25e79da8a2eeafd767e694091b1d5b19182f3aa8cca4a"
+    },
+    "typecheck": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm typecheck",
+      "exitCode": 0,
+      "packages": 7,
+      "diagnostics": 0,
+      "rawSha256": "5a7d8337ffc5fd58d6b10bc4b228846c88d13ebbcd97a1c20c5fcf92ec75e8e4"
+    },
+    "lint": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm lint",
+      "exitCode": 0,
+      "files": 3690,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "rawSha256": "630a860d3d01e0926a0e55502ad41da168f5af8e969e9657b55e9ae266110d88"
+    },
+    "docs": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm check:docs",
+      "exitCode": 0,
+      "issues": 0,
+      "rawSha256": "8c648face6525c50abcf4b489b9a7010edcd6e4bd603281a19870663d7cfad26"
+    },
+    "diff": "passed"
+  },
+  "unchanged": [
+    "all package sources and tests",
+    "ratcheted baseline SHA256 c8d9448eb92414374a8e1efc1fa85df68d24267ab8c8c3869b0e173e05050318",
+    "quality and coverage rules"
+  ],
+  "cleanup": {
+    "retiredBranch": "codex/glm-reforge-save-test-precision-r1; local and remote deleted",
+    "retiredWorktree": "/private/tmp/type-pal-reforge-save-test-precision; removed after clean-state and ignored-files checks",
+    "reviewWorktree": "/private/tmp/type-pal-save-r3-review.3MN5Bh/type-pal; removed after exporting independent replay logs",
+    "recovery": "Accepted contributor head 1d09128feac5dd479832df4ddb45fdc5e654e47b is reachable as a parent of main merge b836ad5d48c7f34b1b213b998d9e27c9771586dd; no recovery tag created."
+  },
+  "githubCi": "Followup hosted run is not yet available when this local receipt is written; do not claim the future pushed HEAD green."
+}

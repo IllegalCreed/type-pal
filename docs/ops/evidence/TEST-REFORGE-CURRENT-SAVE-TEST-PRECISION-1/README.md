@@ -4,6 +4,8 @@
 
 历史：[二审counter](codex-review-r2.md)、[二审反例](codex-r2-loss/receipt.json)、[二审审计](codex-r2-artifact-audit.json)、[r1记录](codex-review-r1.md)。原counter均已在三审闭合，不重复派发。
 
+托管首跑：`b836ad5d4`的Documentation通过；Coverage在质量台账tracked清单3084/实际3085的登记差异处拒收，尚未执行typecheck/lint或覆盖率。Codex仅同步新增测试的机器总数和待核数，不增加“已审”进度；详见[CI登记修复](ci-tracked-inventory-refresh.json)。后续新CI另按实际HEAD核验。
+
 口径：三文件81次执行，80个唯一标题；两个既有null标题有重数。80行合同账按唯一标题分组，不冒称完整执行行数，完整多重集合以native JSON为准。作者r3全包8793是隔离旧基点数，集成A/C后实跑8798/8798。main正式并集分支83.26%（50132/60209），不与作者私有增量相加。
 
 Codex集成修正：`generate-before-after.mjs`默认读取目录内基线与r3绿态JSON，不依赖固定`/tmp`文件；默认重建69条旧执行映射及80个唯一标题组。完整执行重数由反控native JSON判据核验，唯一标题组不代替执行多重集合。
