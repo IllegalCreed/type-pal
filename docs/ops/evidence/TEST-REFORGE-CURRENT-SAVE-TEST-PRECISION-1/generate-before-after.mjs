@@ -325,9 +325,7 @@ function instanceRows(struct) {
 // 校验：before 锚按重数覆盖旧清单（chase 两行 %j 同名）；kept/reworked/split/merged 的
 // 每个目标必须逐字存在于候选清单。
 const problems = []
-const out = [
-  ['before_file', 'before_fullname', 'disposition', 'after_or_remaining_oracle'],
-]
+const out = [['before_file', 'before_fullname', 'disposition', 'after_or_remaining_oracle']]
 const used = new Map()
 const bump = (key) => used.set(key, (used.get(key) ?? 0) + 1)
 for (const [before, disp, after] of dispositions) {
