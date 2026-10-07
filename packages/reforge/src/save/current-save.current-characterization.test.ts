@@ -1,18 +1,20 @@
 import {
   buildEntityLifecycleReferenceIndex,
+  CONTENT_VERSION,
+  CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   type CurrentManifest,
   type WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { normalizeCurrentSave, preflightCurrentSave } from './current-codec.js'
-import type { CurrentSavePayload } from './types.js'
+import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 function manifest(): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 22,
-    minimumSaveVersion: 11,
+    contentVersion: CONTENT_VERSION,
+    minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
     defaultEntryId: 'new-game',
     entryPoints: [
       {
@@ -64,8 +66,8 @@ function world(): WorldState {
 
 function payload(): CurrentSavePayload {
   return {
-    version: 11,
-    contentVersion: 22,
+    version: SAVE_VERSION,
+    contentVersion: CONTENT_VERSION,
     projectId: 'demo',
     world: world(),
     position: {
@@ -95,17 +97,32 @@ describe('current SAVE11/content22 contract', () => {
     expect(normalized).not.toHaveProperty('defaultEntryId')
   })
 
+  // 版本拒收按真实不同条件留代表：仅 version 不同 / 仅 contentVersion 不同 / 两者不同
+  // （同一 preflight 检查、同一 oracle；旧矩阵六行全是两者不同，未隔离单一条件）。
+  // 拒收以 catch + 同步断言表达：未被拒收时以 AssertionError 报「必须被拒收」，而非
+  // rejects matcher 的裸 Error 文案。
   test.each([
-    [9, 21],
-    [10, 19],
-    [8, 20],
-    [7, 19],
-    [8, 18],
-    [9, 19],
+    [SAVE_VERSION - 1, CONTENT_VERSION],
+    [SAVE_VERSION, CONTENT_VERSION - 1],
+    [SAVE_VERSION - 1, CONTENT_VERSION - 1],
   ])('rejects non-current SAVE%s/content%s before normalization', async (version, contentVersion) => {
     const raw = { ...payload(), version, contentVersion }
-    await expect(preflightCurrentSave({ manifest: manifest(), payload: raw })).rejects.toThrow(
-      /只接受 SAVE11\/content22/,
+    const error: unknown = await preflightCurrentSave({ manifest: manifest(), payload: raw }).then(
+      () => null,
+      (thrown: unknown) => thrown,
+    )
+    expect(error, `SAVE${version}/content${contentVersion} 必须被拒收`).toBeInstanceOf(Error)
+    expect((error as Error).message).toMatch(
+      new RegExp(`只接受 SAVE${SAVE_VERSION}/content${CONTENT_VERSION}`),
+    )
+  })
+
+  test('rejects a resolver whose identity does not match the payload before cloning', async () => {
+    const raw = payload()
+    const resolver = await preflightCurrentSave({ manifest: manifest(), payload: raw })
+    const forged: typeof resolver = { ...resolver, projectId: 'other-project' }
+    expect(() => normalizeCurrentSave(raw, forged, references)).toThrow(
+      /resolver 与 payload 不匹配/,
     )
   })
 

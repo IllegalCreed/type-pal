@@ -1,5 +1,7 @@
 # 当前存档测试精简二审：有限返工
 
+历史r2审核：下列counter已在[三审](codex-review-r3.md)逐项闭合。保留原候选的失败结论，不作为当前候选的重复返工指令。
+
 固定候选 `3f925b0d3c2ebe98742bcb2e01ec6ac703a13859`，测试/证据提交
 `81f20532880cee02c34047929963ff3b7b21e858`；
 该提交之后仅任务卡回执。派发、冻结不变。Codex于2026-10-07独立复核，未写贡献者树。
@@ -43,4 +45,4 @@ inventory的requireRecord/eachIndex也不证明两个独立回调没有跳过空
 
 counter，留rework；B测试不合main，不删其树/分支。下一位仅处理三原合同及上述工具/账，
 已关闭项不重开；无产品/配置/基准改动，model由用户手工选择GLM-5.3。
-提示词在[任务卡](../../tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md)。
+历史提示词保存在[归档任务卡](../../archive/tasks/done/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md)，不重复派发。

@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-07",
+  "reviewer": "Codex",
+  "acceptedCandidate": {
+    "task": "TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1",
+    "head": "1d09128feac5dd479832df4ddb45fdc5e654e47b",
+    "testCommit": "7249e4604deef59362c7e587a783d5ab8ae4187d",
+    "docsOnlyInterval": "7249e4604deef59362c7e587a783d5ab8ae4187d..1d09128feac5dd479832df4ddb45fdc5e654e47b; task-card receipt only"
+  },
+  "productionFreeze": "ce808b42e06dcd85999c1f10a5f1ca0b9009580b",
+  "protectedBaseRef": "0de74cc123d7a5671c22bf5d479fb0420003ff6a",
+  "independentAcceptance": {
+    "counters": {
+      "valid": 17,
+      "selftests": 20,
+      "realHarnessProbes": 3,
+      "artifactHashesChecked": 46,
+      "mutantsRebuilt": 17,
+      "coreExecutionMultiset": 81,
+      "uniqueTitles": 80,
+      "cleanupTrees": 20,
+      "audit": "codex-r3-artifact-audit.json"
+    },
+    "directed": {
+      "files": 12,
+      "tests": 176,
+      "passed": 176,
+      "jsonSha256": "989ba19d80b6578c74e47dd943c55350d3d36ab546ffcf081bde31c2812f7e70",
+      "rawSha256": "bcf82f6073989d2bbca08e08e1cc645cf5ada357907ff7f984c43388d1dec747"
+    },
+    "contentAdjacent": {
+      "tests": 12,
+      "passed": 12,
+      "jsonSha256": "39daa851fe3218afa8d227e8dcfc747513d5b5d8af5670aab3bbfbcdc3c05e67",
+      "rawSha256": "f5ea0e7a071f39c08d78168719295f44c49444ef693bd2f368339543e7f98fcc"
+    },
+    "typecheck": ["reforge zero diagnostics", "content zero diagnostics"],
+    "unchangedFrozenSources": 5,
+    "testsByteIdenticalToCandidate": true,
+    "withdrawnHypothesis": "Suspected chase parameter-table gap was disproved by an actual inner scene-wiring mutation producing exactly one business AssertionError. Experimental test edits were reverted; no new rework or credited counter was invented."
+  },
+  "integrationAdjustments": [
+    {
+      "file": "generate-before-after.mjs",
+      "change": "Default inputs are stored baseline-inventory.json and current r3 green.json; no dependency on fixed /tmp files. Default replay produced 69 old mappings and 80 unique-title groups. Execution verification remains a multiset, not this unique-title grouping."
+    },
+    {
+      "file": "scripts/coverage/approved-test-retirements.mjs",
+      "change": "Exact approved 8-to-6 version-combination snapshot keyed by file, old/new counts, old/new identity digests and final file SHA256; no general removal waiver or weakened rule."
+    }
+  ],
+  "gates": [
+    {
+      "order": 1,
+      "command": "env -u NODE_COMPILE_CACHE pnpm check",
+      "exitCode": 0,
+      "rawSha256": "3c736c2e3318bdcaa29922b82a233a47f416d4568bc0a1d2acd7069ef0a1d4c0",
+      "packages": [
+        {
+          "id": "content",
+          "files": 149,
+          "tests": 1490,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "shared",
+          "files": 16,
+          "tests": 131,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "game",
+          "files": 311,
+          "tests": 3519,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "pal-extract",
+          "files": 70,
+          "tests": 423,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "reforge",
+          "files": 352,
+          "tests": 8798,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "editor",
+          "files": 625,
+          "tests": 4906,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        },
+        {
+          "id": "migrate",
+          "files": 97,
+          "tests": 740,
+          "status": "passed",
+          "typecheck": "zero-diagnostics"
+        }
+      ],
+      "lint": {
+        "files": 3688,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "docs": "passed; zero issues",
+      "note": "Author's isolated 8793 count is historical; integrated Reforge count is 8798. Old runtime console messages are not represented as absent."
+    },
+    {
+      "order": 2,
+      "command": "env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=0de74cc123d7a5671c22bf5d479fb0420003ff6a pnpm coverage:ratchet --allow-scope-removal",
+      "exitCode": 0,
+      "rawSha256": "da59cc47f99db45730690561ca90d176a7e4d879f95850e3e9fb0c8b7c3416ee",
+      "note": "Explicit scope confirmation for independently audited version-combination test retirement only. Production source scope unchanged; protected baseline comparison remains enabled."
+    },
+    {
+      "order": 3,
+      "command": "env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=0de74cc123d7a5671c22bf5d479fb0420003ff6a pnpm coverage:fast",
+      "exitCode": 0,
+      "rawSha256": "f77c55536fa274c4f8d41603d522ce963d26b6306a2eb201b6e005585f72e0da",
+      "comparedToCurrentBaseline": "no regression; no scope changes; protected 8-to-6 retirement accepted"
+    }
+  ],
+  "initialIntegrationGateAttempt": {
+    "exitCode": 1,
+    "rawSha256": "b56c6e1c20d058d4ab7101b3cd93b8a6a36b1a1e0d07d187b82b37d8ea6b6223",
+    "reason": "Coverage-tool tests still expected 12 retirement entries and 38 retired executions after the exact new authorization. Codex updated the manifest count assertions and made the invalid-count fixture truly invalid; final whole check was rerun and passed. Not a GLM business-test failure."
+  },
+  "localLogDirectory": "/private/tmp/type-pal-save-r3-review.3MN5Bh",
+  "githubCi": {
+    "status": "Hosted CI is not included in this pre-push local receipt; inspect the exact newly pushed main HEAD before claiming success.",
+    "previousMain": {
+      "head": "0de74cc123d7a5671c22bf5d479fb0420003ff6a",
+      "coverageRun": 37609327907,
+      "docsRun": 37609327952,
+      "conclusion": "success"
+    }
+  },
+  "officialUnion": {
+    "profile": "fast",
+    "provider": "v8",
+    "vitest": "4.1.7",
+    "sourceFiles": 726,
+    "executedTests": 19597,
+    "branches": {
+      "covered": 50132,
+      "total": 60209,
+      "percent": 83.26
+    },
+    "denominatorUnchanged": true,
+    "baselineBeforeSha256": "0b061ae28b698b1f915aa93b8ffc32e0f8a9f64b50de117cbdfcd2dd56b16f61",
+    "baselineAfterSha256": "c8d9448eb92414374a8e1efc1fa85df68d24267ab8c8c3869b0e173e05050318",
+    "note": "Whole-main union includes prior accepted IO/focus test maintenance after the earlier ratchet. The whole increase is not attributed to B; author-private deltas are not summed."
+  },
+  "initialProtectedFastAttempt": {
+    "exitCode": 1,
+    "rawSha256": "0a60ec2b4c609ae19611b0868139fe0cf4e777e4e3840bcb69e1bc2bd06ffdc9",
+    "reason": "All fast tests and coverage metrics passed, but Codex's precomputed new identity digest did not match canonical coverage inventory. Registry corrected to actual cf8fc4b33d31182258a66a795db02590d18e497ee54f25985b08087c9c384d23. No business test or product change; no relaxed predicate."
+  },
+  "retirementRegistryProof": {
+    "previousCount": 8,
+    "currentCount": 6,
+    "previousIdentityDigest": "32bcd877b5a9d4376e45c3b2514dcb6c9618b8e2969b9eff2b5581b806444db1",
+    "currentIdentityDigest": "cf8fc4b33d31182258a66a795db02590d18e497ee54f25985b08087c9c384d23",
+    "fileSha256": "ef558dde1c1fa027c448666aefd8e05a63e3c4e96ff0e4642618fccf49805ddc",
+    "actualProtectedSnapshotAccepted": true,
+    "changedIdentityRejected": true,
+    "focusedToolTests": {
+      "passed": 58,
+      "failed": 0,
+      "exitCode": 0,
+      "rawSha256": "3e9716450afc200400ab81c54f00e48991cf97a650b823f98eb8493cf19b4ee5"
+    },
+    "note": "Whole-package checks and official ratchet preceded protected fast. Only Codex registry metadata was corrected between failed and final protected replay; package sources/tests and ratcheted baseline remain unchanged.",
+    "focusedLint": {
+      "exitCode": 0,
+      "files": 3688,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "rawSha256": "5d83ffd25b16240d055fe9178f0c5284d06359e61c33489fb28bc8405021c5ac"
+    }
+  },
+  "frozenSources": [
+    {
+      "path": "packages/reforge/src/save/current-codec.ts",
+      "sha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de"
+    },
+    {
+      "path": "packages/reforge/src/save/current-structure.ts",
+      "sha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331"
+    },
+    {
+      "path": "packages/reforge/src/save/types.ts",
+      "sha256": "856ba7ac63a7d0a314ac6189b4c2ec9b3e5c8130b03485e700a0ec38566f41bf"
+    },
+    {
+      "path": "packages/reforge/src/save/ops.ts",
+      "sha256": "dca51545dedd6da907e12f57f4c5d8793562dfb1b33b19afed68b44cdde82d80"
+    },
+    {
+      "path": "packages/content/src/entity-lifecycle.ts",
+      "sha256": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e"
+    }
+  ],
+  "postClosure": {
+    "status": "passed",
+    "docs": {
+      "exitCode": 0,
+      "issues": 0,
+      "markdownFiles": 1183,
+      "localLinks": 6427,
+      "tasks": 350,
+      "rawSha256": "931daba03f73f8bcdfd1948e125e53e0c620afaa51ffe9fc6e826d31f00b358c"
+    },
+    "lint": {
+      "exitCode": 0,
+      "files": 3689,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "rawSha256": "42031b2f400a4b79dcd88128e760bc4887d23f4d0eaf0a59a659fff2acbfac9c"
+    },
+    "diffCheck": "passed",
+    "note": "Only task relocation, navigation, review pins and this receipt were edited after final protected fast; package sources/tests and ratcheted baseline unchanged."
+  }
+}

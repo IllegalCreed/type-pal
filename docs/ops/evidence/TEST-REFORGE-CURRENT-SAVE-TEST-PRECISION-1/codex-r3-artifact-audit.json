@@ -1,0 +1,160 @@
+{
+  "candidate": "1d09128feac5dd479832df4ddb45fdc5e654e47b",
+  "testCommit": "7249e4604deef59362c7e587a783d5ab8ae4187d",
+  "authorReceiptSha256": "fd65dc26a3bcbea2308f23d929ac392a6bd133cfab41c0d89ed2106de4889207",
+  "ownReplaySha256": "fe4a5d473a64b7007f2681b32e8115e5468af1f81ff78c8c9faecde473679c5a",
+  "tests": [
+    {
+      "path": "packages/reforge/src/save/current-structure.test.ts",
+      "sha256": "8ddd06ed18948e5e7e26ca430c7aeaf3f84e5aa4ac0ab83ff1c8a3a0648cc392"
+    },
+    {
+      "path": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+      "sha256": "ef558dde1c1fa027c448666aefd8e05a63e3c4e96ff0e4642618fccf49805ddc"
+    },
+    {
+      "path": "packages/reforge/src/save/current-codec.contracts.test.ts",
+      "sha256": "8ce8644851db71d72a17b0a60f9391abade5fd707c3054dcb5f0a00ac7f80e3f"
+    }
+  ],
+  "artifactHashesChecked": 46,
+  "seventeenMutantsRebuilt": true,
+  "phases": [
+    {
+      "phase": "green",
+      "identities": 81,
+      "valid": true
+    },
+    {
+      "phase": "restoredGreen",
+      "identities": 81,
+      "valid": true
+    },
+    {
+      "phase": "N01-empty-actor-id",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "422b0d138019f3395ad7cf6e7c86bd5568750aaa8323e64d4b992b701a5029d5"
+    },
+    {
+      "phase": "N02-empty-skill-id",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "13b62f8375ff7d08bf549183816a8a765152e69847f63cf22be6372da68c2e9b"
+    },
+    {
+      "phase": "N03-negative-count",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "148aee19ea005b598740d673a83a5ea63ec0aec882a3049b250b11ee26fbfc40"
+    },
+    {
+      "phase": "N04-unsafe-integer-count",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "cdba7ab99b9b10786445a57fa58495eb1b129b3921bd3410a9a54a86e2f4a648"
+    },
+    {
+      "phase": "N05-omit-container-fill",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "331eab8fedb2ff97bebecdd29fefa65583fcb51fc78ae936201febff47c41f33"
+    },
+    {
+      "phase": "N06-hostile-zero-ms",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "50af7407e5f9869acc0d4fbdc676c690bf65c18b98e91930120c29e27bd88eab"
+    },
+    {
+      "phase": "N07-script-deep-wiring",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "9b05597595c6925f32e296a2155003887b537c2ae3db6868fe9170be27e1c369"
+    },
+    {
+      "phase": "N08-sparse-inventory-hole",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "b6524db3a4bdec1461cbab6228edf425af41c8b6d28e67df8675b1515a37e1f1"
+    },
+    {
+      "phase": "N09-sparse-tags-hole",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "dca0185bf198dda0a5e63f70bc9d264da618025f31ec0f0f71f5670bda34b17b"
+    },
+    {
+      "phase": "N10-hiddenexp-full-keyset",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "c7a30885f6804acd45f1a1af7df034d3cd548e29f4d33e3636e5d3b5c88f082f"
+    },
+    {
+      "phase": "N11-envelope-version-guard",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "525c2bdc45b093805c25e02f1336880f0c1f92d92a06b95f58398a2e50566cc3"
+    },
+    {
+      "phase": "N12-preflight-version-only",
+      "identities": 6,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "d2a7d2fbb5c027ddd681ee26f2eb5a2fe328c82dd22379026a3b440e7e267ff9"
+    },
+    {
+      "phase": "N13-preflight-content-only",
+      "identities": 6,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "e221b16d7ce04a212c08ca81cf0f8b443a95e54c0c54062e6b9a5a597aa4c8be"
+    },
+    {
+      "phase": "N14-resolver-identity",
+      "identities": 6,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "b84ce570e7e469451038d83931a70c87c53cd3aa994fbe4d1960485358daf8d9"
+    },
+    {
+      "phase": "NRR1-maxmp-field-membership",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "1cf3dc66396cab5e5fd67b78122794ec68cbded009b5c60b932b7e3d0f46e6ce"
+    },
+    {
+      "phase": "NRR2-extrastatuses-hole-callback",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "af945a09f2cd9ff60c2279b8e341d296c7ebe49bfdd7f6cd87fcf71c106a1cea"
+    },
+    {
+      "phase": "NRR3-poisons-hole-callback",
+      "identities": 67,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "6cfe0da44bb6c302963047b0bdf33d05aed64204db46877c2f64b26dc28aa601"
+    },
+    {
+      "phase": "finalReplay",
+      "valid": true
+    }
+  ],
+  "executionIdentities": 81,
+  "uniqueExecutionIdentities": 80,
+  "duplicateIdentityNote": "Two null-rendered titles were compared as a multiset, not silently deduplicated. Independent removal of the inner address.scene check caused exactly one original business failure; the suspected argument-unwrapping execution gap was disproved and no test edit was retained."
+}

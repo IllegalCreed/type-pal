@@ -23,11 +23,11 @@ const proof = (approval) => ({
 })
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
-  assert.equal(approvedTestRetirements.length, 12)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 12)
+  assert.equal(approvedTestRetirements.length, 13)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 13)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    38,
+    40,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {
@@ -55,7 +55,10 @@ const refusals = [
   ['其它旧数量', { ...exact, removal: { ...exact.removal, previous: exact.removal.previous + 1 } }],
   ['旧身份摘要漂移', { ...exact, previous: { ...exact.previous, identityDigest: 'different' } }],
   ['同数替换新身份', { ...exact, current: { ...exact.current, identityDigest: 'different' } }],
-  ['候选数量伪造', { ...exact, current: { ...exact.current, testCount: 6 } }],
+  [
+    '候选数量伪造',
+    { ...exact, current: { ...exact.current, testCount: exact.current.testCount + 1 } },
+  ],
   ['旧数量伪造', { ...exact, previous: { ...exact.previous, testCount: 10 } }],
   ['旧文件不相同', { ...exact, previous: { ...exact.previous, file: 'different.test.ts' } }],
   ['新文件不相同', { ...exact, current: { ...exact.current, file: 'different.test.ts' } }],

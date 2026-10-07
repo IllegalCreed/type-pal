@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-07T09:05:04.331Z",
+  "generatedAt": "2026-10-07T12:46:44.501Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 726,
-  "testCount": 19585,
+  "testCount": 19597,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2333,8 +2333,8 @@
       ],
       "scopeDigest": "61cae1c7643764853bb8c3615b56a1b844c2eef7ed9552d0ab7e87a1cd76152a",
       "fastTests": {
-        "testCount": 8786,
-        "testFileCount": 351,
+        "testCount": 8798,
+        "testFileCount": 352,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2610,6 +2610,7 @@
           "packages/reforge/src/runtime-script-project.test.ts",
           "packages/reforge/src/save-lineage.chain.test.ts",
           "packages/reforge/src/save/browser-state.test.ts",
+          "packages/reforge/src/save/current-codec.contracts.test.ts",
           "packages/reforge/src/save/current-save.current-characterization.test.ts",
           "packages/reforge/src/save/current-structure.test.ts",
           "packages/reforge/src/save/ops.test.ts",
@@ -4060,14 +4061,19 @@
             "identityDigest": "96e7c6052a074b9d18351924a88958ef43f09f96a45a1823da16f1d84cb1b4ea"
           },
           {
-            "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+            "file": "packages/reforge/src/save/current-codec.contracts.test.ts",
             "testCount": 8,
-            "identityDigest": "32bcd877b5a9d4376e45c3b2514dcb6c9618b8e2969b9eff2b5581b806444db1"
+            "identityDigest": "a765adda9d71c8156ea6c55e7b02587bac23af0d43f2f6b10fd6ca73a3788fc0"
+          },
+          {
+            "file": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+            "testCount": 6,
+            "identityDigest": "cf8fc4b33d31182258a66a795db02590d18e497ee54f25985b08087c9c384d23"
           },
           {
             "file": "packages/reforge/src/save/current-structure.test.ts",
-            "testCount": 61,
-            "identityDigest": "1b69c463de1d70a4930b64db6fa724bd6b730674f59e4906e8a55b17fb1facce"
+            "testCount": 67,
+            "identityDigest": "b4a80a76322ebdcb49cb4674b020270d981e147869a4c81edf62dbcf6131b6bd"
           },
           {
             "file": "packages/reforge/src/save/ops.test.ts",
@@ -4445,17 +4451,17 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "1323fc14f5c675cd41d475c359f8abca11f240632e1621f8a06abf47b10f48b3",
+        "identityDigest": "fab46679ca3babb632b67e3dfadb588030a88f443f1043408598917b2a331e65",
         "duplicateIdentityCount": 3,
-        "executionDigest": "22388ef38b9957fe6c270aeb60931d89c4cbecff5d41c651f5ea638e7555f73c"
+        "executionDigest": "3f84e4c2f1984c318e7b2fb917c150033657a91a7234161b2510910b574c57fa"
       },
       "metrics": {
         "statements": {
-          "covered": 15996,
+          "covered": 16011,
           "total": 17939
         },
         "branches": {
-          "covered": 9909,
+          "covered": 9928,
           "total": 12166
         },
         "functions": {
@@ -4463,7 +4469,7 @@
           "total": 2916
         },
         "lines": {
-          "covered": 14330,
+          "covered": 14343,
           "total": 15662
         }
       }
@@ -10463,11 +10469,11 @@
   },
   "total": {
     "statements": {
-      "covered": 69194,
+      "covered": 69209,
       "total": 77410
     },
     "branches": {
-      "covered": 50113,
+      "covered": 50132,
       "total": 60209
     },
     "functions": {
@@ -10475,7 +10481,7 @@
       "total": 14710
     },
     "lines": {
-      "covered": 61849,
+      "covered": 61862,
       "total": 67775
     }
   }

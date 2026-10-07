@@ -14,7 +14,6 @@
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -335,6 +334,7 @@
 | [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](../archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 — 战斗宿主终局测试确定性与原子性](../archive/tasks/done/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与canonical脚本接线](../archive/tasks/done/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界](../archive/tasks/done/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 — 标题读档IO与缩略图生命周期](../archive/tasks/done/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](../archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](../archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | done | 完成证据、历史签字与交接见原卡。 |

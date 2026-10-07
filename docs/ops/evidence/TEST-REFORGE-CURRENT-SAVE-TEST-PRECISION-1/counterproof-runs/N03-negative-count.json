@@ -1,0 +1,114 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 6,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791358857288,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝",
+          "status": "passed",
+          "title": "空角色 ID 拒绝",
+          "duration": 1.545583000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空技能 ID 拒绝",
+          "status": "passed",
+          "title": "空技能 ID 拒绝",
+          "duration": 0.24754199999995308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 负数计数拒绝（非负条件）",
+          "status": "failed",
+          "title": "负数计数拒绝（非负条件）",
+          "duration": 2.310625000000016,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-N03-negative-count.yeBfDJ/packages/reforge/src/save/current-codec.contracts.test.ts:116:67\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+          "status": "passed",
+          "title": "超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+          "duration": 0.2932079999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省）"],
+          "fullName": "current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts/entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变",
+          "status": "passed",
+          "title": "skillUseCounts/entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变",
+          "duration": 0.6452499999999759,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝）"
+          ],
+          "fullName": "current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remainingMs=0 拒绝（期望正有限毫秒）",
+          "status": "passed",
+          "title": "remainingMs=0 拒绝（期望正有限毫秒）",
+          "duration": 0.1925420000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · script 深层语义接线（结构层只验 record）"],
+          "fullName": "current-codec · script 深层语义接线（结构层只验 record） vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script",
+          "status": "passed",
+          "title": "vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script",
+          "duration": 0.16583300000002055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791358857594,
+      "endTime": 1791358857599.1926,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-save-precision-N03-negative-count.yeBfDJ/packages/reforge/src/save/current-codec.contracts.test.ts"
+    }
+  ]
+}

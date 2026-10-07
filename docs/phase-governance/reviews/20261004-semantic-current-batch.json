@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "75ddcf4d20d9e182cf161491c38d39e39b0a2f316f8e36aad131bc96b3e292bb",
+      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -684,22 +684,22 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "75ddcf4d20d9e182cf161491c38d39e39b0a2f316f8e36aad131bc96b3e292bb",
+        "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
         "currentReading": {
           "date": "2026-10-07",
-          "sha256": "75ddcf4d20d9e182cf161491c38d39e39b0a2f316f8e36aad131bc96b3e292bb",
-          "lineCount": 20,
+          "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+          "lineCount": 19,
           "headings": [
             {
               "line": 1,
               "text": "多 Agent 任务看板"
             },
             {
-              "line": 15,
+              "line": 14,
               "text": "看板规则"
             }
           ],
-          "scope": "A/C remain closed; B r2 counter and finite r3 navigation only; unchanged historical task conclusions are not re-adjudicated."
+          "scope": "A/C remain closed; B r3 independently accepted and locally integrated after serial check, official ratchet and protected fast. This reading pins current closeout navigation only; unchanged historical conclusions are not re-adjudicated and future hosted CI is not claimed green."
         }
       },
       "history": [
@@ -713,8 +713,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-20",
-      "reviewNotes": "本轮三卡、候选body/旧oracle及独立反控已直接核验；两张终态卡迁移、导航与机器索引同步。保留原source SHA、历史阅读证据与旧结论；currentReading钉本次导航字节，不将其它历史候选自动升级为accept。"
+      "reviewedLines": "1-19",
+      "reviewNotes": "本轮B候选、旧oracle映射及17针独立重放已核，三道本地集成门通过后归档有限卡并同步导航。原source SHA、旧阅读证据与旧counter结论保留为历史；currentReading钉当前收口字节，不升级其它候选或提前声称托管CI通过。"
     },
     {
       "path": "docs/ops/evidence/README.md",
@@ -737,7 +737,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "5434cb2a142aacf8b4cb316f72861a1a7361aedf6a223dbd4041776d3b9fc5b1",
+      "afterSha256": "70e8da571281455a362fd660704e5ac9d970fe99c4bd3002c251990cab7d5092",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -856,10 +856,10 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "5434cb2a142aacf8b4cb316f72861a1a7361aedf6a223dbd4041776d3b9fc5b1",
+        "afterSha256": "70e8da571281455a362fd660704e5ac9d970fe99c4bd3002c251990cab7d5092",
         "currentReading": {
           "date": "2026-10-07",
-          "sha256": "5434cb2a142aacf8b4cb316f72861a1a7361aedf6a223dbd4041776d3b9fc5b1",
+          "sha256": "70e8da571281455a362fd660704e5ac9d970fe99c4bd3002c251990cab7d5092",
           "lineCount": 40,
           "headings": [
             {
@@ -871,7 +871,7 @@
               "text": "当前证据"
             }
           ],
-          "scope": "A/C remain closed; B r2 counter and finite r3 navigation only; unchanged historical task conclusions are not re-adjudicated."
+          "scope": "A/C remain closed; B r3 independently accepted and locally integrated after serial check, official ratchet and protected fast. This reading pins current closeout navigation only; unchanged historical conclusions are not re-adjudicated and future hosted CI is not claimed green."
         }
       },
       "history": [
@@ -886,7 +886,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-40",
-      "reviewNotes": "本轮三卡、候选body/旧oracle及独立反控已直接核验；两张终态卡迁移、导航与机器索引同步。保留原source SHA、历史阅读证据与旧结论；currentReading钉本次导航字节，不将其它历史候选自动升级为accept。"
+      "reviewNotes": "本轮B候选、旧oracle映射及17针独立重放已核，三道本地集成门通过后归档有限卡并同步导航。原source SHA、旧阅读证据与旧counter结论保留为历史；currentReading钉当前收口字节，不升级其它候选或提前声称托管CI通过。"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -1478,7 +1478,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "5f4edd4bad17c93e22f44151056e5b862b0c0e0acffe4fa1290c61179d5702e5",
+      "afterSha256": "8deab7bab403a28b7ad6dbc748b8c8611f9e4e148e2b39ce5c85354f57f34aad",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1628,10 +1628,10 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "5f4edd4bad17c93e22f44151056e5b862b0c0e0acffe4fa1290c61179d5702e5",
+        "afterSha256": "8deab7bab403a28b7ad6dbc748b8c8611f9e4e148e2b39ce5c85354f57f34aad",
         "currentReading": {
           "date": "2026-10-07",
-          "sha256": "5f4edd4bad17c93e22f44151056e5b862b0c0e0acffe4fa1290c61179d5702e5",
+          "sha256": "8deab7bab403a28b7ad6dbc748b8c8611f9e4e148e2b39ce5c85354f57f34aad",
           "lineCount": 370,
           "headings": [
             {
@@ -1643,7 +1643,7 @@
               "text": "活动任务"
             },
             {
-              "line": 19,
+              "line": 18,
               "text": "已完成（historical）"
             },
             {
@@ -1651,7 +1651,7 @@
               "text": "已取消（superseded / historical）"
             }
           ],
-          "scope": "A/C finite task closure and B r1 counter navigation only; unchanged historical task conclusions are not re-adjudicated."
+          "scope": "A/C remain closed; B r3 independently accepted and locally integrated after serial check, official ratchet and protected fast. This reading pins current closeout navigation only; unchanged historical conclusions are not re-adjudicated and future hosted CI is not claimed green."
         }
       },
       "history": [
@@ -1672,7 +1672,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-370",
-      "reviewNotes": "本轮三卡、候选body/旧oracle及独立反控已直接核验；两张终态卡迁移、导航与机器索引同步。保留原source SHA、历史阅读证据与旧结论；currentReading钉本次导航字节，不将其它历史候选自动升级为accept。"
+      "reviewNotes": "本轮B候选、旧oracle映射及17针独立重放已核，三道本地集成门通过后归档有限卡并同步导航。原source SHA、旧阅读证据与旧counter结论保留为历史；currentReading钉当前收口字节，不升级其它候选或提前声称托管CI通过。"
     },
     {
       "path": "docs/ops/tasks/README.md",

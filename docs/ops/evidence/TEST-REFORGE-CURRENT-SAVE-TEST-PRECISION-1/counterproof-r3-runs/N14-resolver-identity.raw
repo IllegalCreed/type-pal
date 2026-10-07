@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-N14-resolver-identity.LyaUhu/packages/reforge
+
+ ❯ src/save/current-save.current-characterization.test.ts (6 tests | 1 failed) 6ms
+     ✓ round-trips the current envelope without mutating input or resetting world values 2ms
+     ✓ rejects non-current SAVE10/content22 before normalization 0ms
+     ✓ rejects non-current SAVE11/content21 before normalization 0ms
+     ✓ rejects non-current SAVE10/content21 before normalization 0ms
+     × rejects a resolver whose identity does not match the payload before cloning 2ms
+     ✓ rejects malformed or dangling current lifecycle references 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  19:54:48
+   Duration  296ms (transform 183ms, setup 0ms, import 222ms, tests 6ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N14-resolver-identity.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/current-save.current-characterization.test.ts > current SAVE11/content22 contract > rejects a resolver whose identity does not match the payload before cloning
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/save/current-save.current-characterization.test.ts:124:65
+    122|     const resolver = await preflightCurrentSave({ manifest: manifest()…
+    123|     const forged: typeof resolver = { ...resolver, projectId: 'other-p…
+    124|     expect(() => normalizeCurrentSave(raw, forged, references)).toThro…
+       |                                                                 ^
+    125|       /resolver 与 payload 不匹配/,
+    126|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

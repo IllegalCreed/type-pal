@@ -1,6 +1,6 @@
 # TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界
 
-Status: rework
+Status: done
 Owner: GLM（新对话B，唯一测试写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -18,7 +18,7 @@ Visual Verification Timing: N/A（无UI变更，不宣称像素/剧情观感验�
 
 Codex直接读current-codec.ts及current-save.current-characterization.test.ts、current-structure.test.ts全文。旧结构测试多处as unknown as将故意坏形状塞进CurrentSavePayload；null/array/missing、多个稀疏/optional子树也被塞在多合同用例。公开assertCurrentSaveStructure(value: unknown)已是合法外部边界，不需要双桥。codec的空ID、安全整数与normalize行为不能与外层同字段形状检查混为一谈。
 
-- 必读 [第二阶段纪律](../../phase2/READ-FIRST.md)、[测试质量验收](../agent-workflow.md)、[结构guard原卡](../archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
+- 必读 [第二阶段纪律](../../../../phase2/READ-FIRST.md)、[测试质量验收](../../../agent-workflow.md)、[结构guard原卡](SAVE-PREFLIGHT-1-current-save-restore-preflight.md)。
 - 只变测试，不变save/schema或格式，产品前提真值门N/A。唯一SAVE11/content22不兼容旧开发档；不授权转换器/sidecar/存档修复。
 - current-structure.ts:104-245,280-288：unknown guard、optional、稀疏、party/reserve、追逐声明及路径；current-codec.ts:24-58,61-127：语义校验、preflight、clone和lifecycle。
 - save/types.ts:74-91、ops.ts:37-43是当前envelope/builder；main.ts:4927-4931是真preflight→normalize caller。
@@ -77,7 +77,7 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
 
 - 2026-10-07 Codex：unknown边界、旧测双桥与多合同问题已核。build allowed仅两旧测及专属新增测试白名单；存档schema/实现不变。
 - 贡献者r1已交付：候选`1b89e3eb843f67d0c3c305e53a3d2b0a58991877`，测试提交`d731f0f493c997637cf9e33b963db1e6d730d4ba`；作者自验不代替下列独立counter，未集成main。
-- 2026-10-07 Codex独立验收：counter，B-R1-01/02待修；见[独立审核](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md)。不得合main/done。
+- 2026-10-07 Codex独立验收（历史r1）：counter，B-R1-01/02待修；见[独立审核](../../../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md)。当时不得合main/done；已在下文r3闭合。
 - 用户产品裁决：N/A（不变更产品行为，出现新取舍另卡）。
 
 ## Codex r1 返工裁决
@@ -94,11 +94,21 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
 
 - 固定候选 `3f925b0d3c2ebe98742bcb2e01ec6ac703a13859`，测试/证据 `81f20532880cee02c34047929963ff3b7b21e858`，其后仅卡面回执；对象和共享文档恢复区间已核。
 - 原r1四接线与两容器拆分闭合，独立六针全valid、定向173/173、双typecheck零诊断；冻结未变。
-- counter：maxMP数组成员及extraStatuses/poisons两个稀疏空洞原合同仍丢失，三个独立变异各漏报78/78，原61例各恰一业务红。详见[二审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md)。
+- 历史r2 counter：maxMP数组成员及extraStatuses/poisons两个稀疏空洞原合同仍丢失，三个独立变异各漏报78/78，原61例各恰一业务红。详见[二审](../../../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md)；已在下文r3闭合。
 - 原14针只保留历史口径；当前工具的73行硬数及两个旧身份、README数量需与最终代码统一。只补三合同及受影响工具/账，不扩为新任务，不重开已闭合项。
 
-## 下一位 Agent 提示词
+## 历史 r2 → r3 提示词（已执行，不重复派发）
 
 ```text
 你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 原会话B的唯一实现方。只在 /private/tmp/type-pal-reforge-save-test-precision、codex/glm-reforge-save-test-precision-r1 工作。先只读主树 /Users/zhangxu/illegal/type-pal/docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md 的Codex r2审核及 /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md。候选 3f925b0d3c2ebe98742bcb2e01ec6ac703a13859 未accept；r1要求的四接线及两容器拆分已独立通过，不重开。有限r3仅：补回maxMP数值字段成员校验、extraStatuses[0]稀疏空洞拒收、poisons[0]稀疏空洞拒收三个被删原合同，各用独立unknown边界、精确路径oracle；不是恢复重复数字矩阵。用审核中三个逐字变异证明恰一指定业务AssertionError，保持原始绿/真正恢复绿/最终重放及最终file×fullName多重集、JSON/raw/退出码/源与测试/mutant/restored哈希。复核本次before-after的剩余oracle；保留已成立去重。维护可执行的当前反控入口：旧73行硬数、旧N05合并身份和旧N08名称已过期；旧14针只记历史，仍认可的受影响针映射到最终源码与身份后重采，未变证据保留，N05与NR5不重复计信用，不放宽判据。README中的77/78及168/173混用按最终实跑统一，完整候选与docs-only区间必须是真Git对象。只改原白名单；两个共享文档继续保持派发 d84b3db236c35d2f7e2671741f4320b904f5c58c 值，冻结 ce808b42e06dcd85999c1f10a5f1ca0b9009580b 不变，不rebase、不写main、不改产品/其它旧测/配置/基准，不处理Codex的MapMode CI小修。跑定向相邻、Reforge/content typecheck、Reforge全包、lint完整0/0/0、docs/diff；提交推送完整SHA，有限项闭合即停，不追数量/覆盖率、不合main、不done。
 ```
+
+## Codex r3 独立验收与集成
+
+- 固定候选 `1d09128feac5dd479832df4ddb45fdc5e654e47b`，工作 `7249e4604deef59362c7e587a783d5ab8ae4187d`；docs-only区间仅卡面回执，真实Git对象和远端一致。
+- B-R1-01/02与B-R2-01/02全部闭合；三原合同及当前17针独立重放有效，46原件hash、17重建mutant与最终执行身份逐一核验。
+- 定向176/176、相邻12/12、Reforge/content typecheck零诊断；五冻结源未变。80个唯一标题与81次执行以多重集合分列，未按Set冒充执行数。
+- 独立accept；串行全仓check→官方ratchet→受保护fast均退出0。七包test/typecheck通过，Reforge集成后8798/8798，全仓check的lint完整3688文件0/0/0；收口导航再验docs/lint/diff通过（最终lint3689文件0/0/0）。精确8→6版本组合退役按身份与文件hash登记，不降低规则。
+- 正式main并集50132/60209分支（83.26%），726源码、19597次fast执行；不把此前main测试维护的提升全部归给本卡，不追数量或百分比。
+- S1–S9有限范围结束，任务done并归档；无下一位实现方提示词，不继续扩围。GitHub新CI按实际推送HEAD另核，不将本地门冒充托管CI通过。
+- 详见[三审](../../../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)与[串行集成门](../../../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-integration-gates.json)。

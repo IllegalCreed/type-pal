@@ -1,0 +1,13 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-restored-green.zyPmQV/packages/reforge
+
+ ✓ src/save/current-codec.contracts.test.ts (8 tests) 4ms
+ ✓ src/save/current-structure.test.ts (67 tests) 8ms
+ ✓ src/save/current-save.current-characterization.test.ts (6 tests) 4ms
+
+ Test Files  3 passed (3)
+      Tests  81 passed (81)
+   Start at  19:54:51
+   Duration  371ms (transform 343ms, setup 0ms, import 446ms, tests 16ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/restored-green.json

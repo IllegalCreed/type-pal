@@ -1,0 +1,712 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 67,
+  "numPassedTests": 66,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791370486030,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） 现行保存器产物通过；分数坐标/负坐标原样放行",
+          "status": "passed",
+          "title": "现行保存器产物通过；分数坐标/负坐标原样放行",
+          "duration": 1.2042500000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） 全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法）",
+          "status": "passed",
+          "title": "全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法）",
+          "duration": 0.21833300000002964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） 合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles",
+          "status": "passed",
+          "title": "合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles",
+          "duration": 0.12379099999998289,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） audio.currentMusic=null 为显式静音，合法",
+          "status": "passed",
+          "title": "audio.currentMusic=null 为显式静音，合法",
+          "duration": 0.15449999999998454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）",
+          "status": "failed",
+          "title": "hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）",
+          "duration": 3.0339160000000334,
+          "failureMessages": [
+            "AssertionError: expected [Function] to not throw an error but 'CurrentSaveStructureError: 存档 载荷.worl…' was thrown\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-N10-hiddenexp-full-keyset.9jbgDH/packages/reforge/src/save/current-structure.test.ts:138:59\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） appearance 三可选字段全为字符串 AssetId 通过",
+          "status": "passed",
+          "title": "appearance 三可选字段全为字符串 AssetId 通过",
+          "duration": 0.16037499999998772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） extraStatuses 合法可携带状态 id（protect）通过",
+          "status": "passed",
+          "title": "extraStatuses 合法可携带状态 id（protect）通过",
+          "duration": 0.16687500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）",
+          "status": "passed",
+          "title": "R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）",
+          "duration": 0.2750829999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） guard 通过后输入与原对象无别名关系（不修改输入）",
+          "status": "passed",
+          "title": "guard 通过后输入与原对象无别名关系（不修改输入）",
+          "duration": 0.4002909999999815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） automatic chase claims retain only stable addresses and behavior IDs",
+          "status": "passed",
+          "title": "automatic chase claims retain only stable addresses and behavior IDs",
+          "duration": 0.5870830000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: null",
+          "duration": 0.2073750000000132,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {}",
+          "duration": 0.10887500000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: null",
+          "duration": 0.06475000000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: undefined",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: undefined",
+          "duration": 0.05320799999998371,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":null,\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":null,\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.08787499999999682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.05095900000003439,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"\"}",
+          "duration": 0.04462499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\",\"epoch\":1},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\",\"epoch\":1},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.05183399999998528,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\",\"commandEpoch\":1}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\",\"commandEpoch\":1}",
+          "duration": 0.04495800000000827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.11879100000004428,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 载荷=null 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 载荷=null 带路径拒绝",
+          "duration": 0.055999999999983174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 载荷=数组 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 载荷=数组 带路径拒绝",
+          "duration": 0.043250000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 world 缺席 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 world 缺席 带路径拒绝",
+          "duration": 0.0504579999999919,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 position 缺席 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 position 缺席 带路径拒绝",
+          "duration": 0.04591699999997445,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝",
+          "duration": 0.0464579999999728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 projectId 空串 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 projectId 空串 带路径拒绝",
+          "duration": 0.042792000000019925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 contentVersion 非数字 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 contentVersion 非数字 带路径拒绝",
+          "duration": 0.04095799999998917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 money=字符串 带路径拒绝",
+          "duration": 0.10379199999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=NaN（有限数条件代表；Infinity 同层同 oracle） 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 money=NaN（有限数条件代表；Infinity 同层同 oracle） 带路径拒绝",
+          "duration": 0.050957999999980075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 party=null（数组条件代表） 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 party=null（数组条件代表） 带路径拒绝",
+          "duration": 0.04579100000000835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 learnedSkills 值非数组 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 learnedSkills 值非数组 带路径拒绝",
+          "duration": 0.05562499999996362,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 inventory 元素缺 itemId 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 inventory 元素缺 itemId 带路径拒绝",
+          "duration": 0.057375000000035925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 inventory count=NaN 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 inventory count=NaN 带路径拒绝",
+          "duration": 0.05204100000003109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 sceneId 空串 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 sceneId 空串 带路径拒绝",
+          "duration": 0.056708000000014636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos 非对象 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 pos 非对象 带路径拒绝",
+          "duration": 0.047250000000019554,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos.col=NaN 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 pos.col=NaN 带路径拒绝",
+          "duration": 0.05220800000000736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 pos.row=字符串 带路径拒绝",
+          "duration": 0.05375000000003638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝",
+          "duration": 0.05054199999995035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 facing=sideways（四方向枚举条件代表） 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 facing=sideways（四方向枚举条件代表） 带路径拒绝",
+          "duration": 0.04641699999996263,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过",
+          "duration": 0.08291600000001154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过",
+          "duration": 0.058875000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "duration": 0.05699999999995953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "duration": 0.15041700000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数 拒绝",
+          "status": "passed",
+          "title": "可选子树 resources 值非有限数 拒绝",
+          "duration": 0.08683300000001282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝",
+          "status": "passed",
+          "title": "可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝",
+          "duration": 0.07991699999996627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 audio.currentMusic=数字 拒绝",
+          "status": "passed",
+          "title": "可选子树 audio.currentMusic=数字 拒绝",
+          "duration": 0.06462499999997817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同） 拒绝",
+          "status": "passed",
+          "title": "可选子树 hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同） 拒绝",
+          "duration": 0.06791699999996581,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.remainingMs=Infinity（外层有限数） 拒绝",
+          "status": "passed",
+          "title": "可选子树 hostileAwareness.remainingMs=Infinity（外层有限数） 拒绝",
+          "duration": 0.059041999999976724,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 script=数组（深层语义留给 codec，外层形状仍拒） 拒绝",
+          "status": "passed",
+          "title": "可选子树 script=数组（深层语义留给 codec，外层形状仍拒） 拒绝",
+          "duration": 0.05662499999999682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 ambience=数字 拒绝",
+          "status": "passed",
+          "title": "可选子树 ambience=数字 拒绝",
+          "duration": 0.05704100000002654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 collectValue=NaN（标量有限数代表） 拒绝",
+          "status": "passed",
+          "title": "可选子树 collectValue=NaN（标量有限数代表） 拒绝",
+          "duration": 0.06083300000000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 id 空串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 id 空串 带路径拒绝",
+          "duration": 0.06791699999996581,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 template 非字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 template 非字符串 带路径拒绝",
+          "duration": 0.04929099999998243,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表） 带路径拒绝",
+          "duration": 0.05624999999997726,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝",
+          "duration": 0.05925000000002001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 luck=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 luck=字符串 带路径拒绝",
+          "duration": 0.04691700000000765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 equipment 值非字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 equipment 值非字符串 带路径拒绝",
+          "duration": 0.051375000000007276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 tags 元素非字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 tags 元素非字符串 带路径拒绝",
+          "duration": 0.04599999999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hiddenExp 未知键 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 hiddenExp 未知键 带路径拒绝",
+          "duration": 0.051040999999997894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 poisons 元素缺 tickIndex 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 poisons 元素缺 tickIndex 带路径拒绝",
+          "duration": 0.04950000000002319,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses.turns=Infinity 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 extraStatuses.turns=Infinity 带路径拒绝",
+          "duration": 0.055749999999989086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses 未知状态 id（复用 content 枚举真源） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 extraStatuses 未知状态 id（复用 content 枚举真源） 带路径拒绝",
+          "duration": 0.045250000000010004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraPoisonRes=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 extraPoisonRes=字符串 带路径拒绝",
+          "duration": 0.04633400000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.spriteId=数字（独立接线，B-R1-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 appearance.spriteId=数字（独立接线，B-R1-01 归还） 带路径拒绝",
+          "duration": 0.04766599999999244,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
+          "duration": 0.04504199999996672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）",
+          "status": "passed",
+          "title": "appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）",
+          "duration": 0.053124999999965894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）",
+          "status": "passed",
+          "title": "reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）",
+          "duration": 0.0767919999999549,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791370486312,
+      "endTime": 1791370486322.077,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-save-precision-N10-hiddenexp-full-keyset.9jbgDH/packages/reforge/src/save/current-structure.test.ts"
+    }
+  ]
+}

@@ -101,6 +101,18 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '736f547d102e1581733d3aadae0328e7ce3d33d9f66d3383a97936a27601a7fe',
       fileSha256: 'e51a7c04e5236379f98f7ed851e45d9079cd4a09b645169546649b2f0bf2c93b',
     },
+    // 2026-10-07 Codex accepted TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.
+    // Six old rows all exercised both version conditions; three independent
+    // representatives retain those oracles and isolate the two conditions.
+    // Exact authorized test-precision snapshot, not a general removal waiver.
+    {
+      file: 'packages/reforge/src/save/current-save.current-characterization.test.ts',
+      previous: 8,
+      current: 6,
+      previousIdentityDigest: '32bcd877b5a9d4376e45c3b2514dcb6c9618b8e2969b9eff2b5581b806444db1',
+      currentIdentityDigest: 'cf8fc4b33d31182258a66a795db02590d18e497ee54f25985b08087c9c384d23',
+      fileSha256: 'ef558dde1c1fa027c448666aefd8e05a63e3c4e96ff0e4642618fccf49805ddc',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 
