@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-07",
+  "owner": "Codex",
+  "scope": "Post-integration main maintenance of one pre-existing test file; not an extra GLM A/C task, not B r2 scope.",
+  "ciFailure": {
+    "run": 37600496568,
+    "url": "https://github.com/IllegalCreed/type-pal/actions/runs/37600496568",
+    "head": "0a9cb8331136ff62d47e75fa8e2263fe4670efd1",
+    "failure": "main.frame-animation-owner.test.ts:216 expected [] to equal [17,29]",
+    "battleFinalization": "8/8 passed in the same hosted run"
+  },
+  "premise": "Twenty setImmediate turns do not establish completion of genuine native TPFS decoding. The supersede test had not proven the first frame was presented before starting its successor.",
+  "counterExplanation": "Platform scheduling amplification is not directly measured. Normal local original passed; a legal 80ms fixture read delay reproduces the exact sole failure with real bytes, decoder and render host.",
+  "change": "Three fixed-turn loops replaced with default vi.waitFor on exact presented frames; original finish/hold/black/payload oracles retained, old first-frame phase explicitly established. No timeout expansion, sleeps in committed tests, product/config/baseline change or new case.",
+  "localStatus": "normal adjacent and full Reforge instrumentation/typecheck passed; new hosted CI pending",
+  "phases": [
+    {
+      "name": "ci-frame-original",
+      "exitCode": 0,
+      "passed": 8,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "identities": [
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed"
+        }
+      ],
+      "artifacts": {
+        "json": {
+          "file": "ci-frame-original.json",
+          "sha256": "0aaeb71254b16156ca7916d204732ac8ac035f5249741d7c15f2561daed2ce2c"
+        },
+        "raw": {
+          "file": "ci-frame-original.raw",
+          "sha256": "e0d42dd1dc1f18457212b5e1a33584aaf58aca95071dbbfdcbc6692f9e2e74be"
+        }
+      },
+      "globalErrorSignals": false
+    },
+    {
+      "name": "ci-frame-delayed-original",
+      "exitCode": 1,
+      "passed": 7,
+      "failed": 1,
+      "pending": 0,
+      "todo": 0,
+      "identities": [
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "failed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed"
+        }
+      ],
+      "artifacts": {
+        "json": {
+          "file": "ci-frame-delayed-original.json",
+          "sha256": "5e47ee0f5aedcef4a58d048aec07475b0864d3ba790a60380ee982fa3ab40367"
+        },
+        "raw": {
+          "file": "ci-frame-delayed-original.raw",
+          "sha256": "3f7bbbd8d69eca4beb67df303fa958ae8ae9793f68f1eedf855c1507e665a3d0"
+        }
+      },
+      "globalErrorSignals": false
+    },
+    {
+      "name": "ci-frame-delayed-fixed",
+      "exitCode": 0,
+      "passed": 8,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "identities": [
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed"
+        }
+      ],
+      "artifacts": {
+        "json": {
+          "file": "ci-frame-delayed-fixed.json",
+          "sha256": "1b5c41663c4da3522e62ff9a0dcece1fbdd89f3d4f4f0cff73b9be298dc25a04"
+        },
+        "raw": {
+          "file": "ci-frame-delayed-fixed.raw",
+          "sha256": "0aae4c4a15587db54b93debd876e5c91bb6f3dbc4fa67c5cd6a6125f4fdc719d"
+        }
+      },
+      "globalErrorSignals": false
+    },
+    {
+      "name": "ci-frame-adjacent",
+      "exitCode": 0,
+      "passed": 31,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "identities": [
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D1 容器首读失败→修复→成功 失败 Promise 不永久缓存；同 reader 重试真正读取并解码出实际字节",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D2 block inflate 首败→重试 inflight 回零后同 block 重读成功；合法字节真实 decode",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D3 frameLimit 与帧索引守卫 frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D4 invalidate 选择性清除（双 asset + 同 id 换字节） invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证 命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 主断言失败仍释放实际读取并消费原播放，保留最初断言错误",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.boundaries.test.ts",
+          "fullName": "D7 非目标 key 与在途 skip 非目标 key 不吞；目标 key 消费并结束；onFrame 抛错也清监听",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "FrameSequenceReader 容器 Promise 在 await 前缓存，并发读取只访问一次文件",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "FrameSequenceReader 同 block 并发 seek 只解压一次，完整帧 LRU 不超过 64 张",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "playFrameAnimation 首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "playFrameAnimation 按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "playFrameAnimation 越界区间与加载失败均 fail-loud",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "playFrameAnimation 剧情默认不可用空格跳过，仍输出完整帧序列",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "playFrameAnimation 开发预览显式声明 skipKeys 后才允许空格提前结束",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-player.test.ts",
+          "fullName": "playFrameAnimation runner signal 取消会立即终止等待且不再提交后续帧",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-presentation.test.ts",
+          "fullName": "FrameAnimationPresentationState 播放帧走 Cinematic Layer，播完只缓存，对话时重新显示在 World Layer 上方",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-presentation.test.ts",
+          "fullName": "FrameAnimationPresentationState 连续动画在新首帧前保持旧画面，新帧替换后由场景边界统一清除",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-presentation.test.ts",
+          "fullName": "FrameAnimationPresentationState 新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧动画",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-presentation.test.ts",
+          "fullName": "FrameAnimationPresentationState 明确保持成功末帧，直到显式reset，旧owner不能复活已清层",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/frame-animation-presentation.test.ts",
+          "fullName": "FrameAnimationPresentationState 旧decode和finally不能覆盖新播放，失败不能保持本次或旧fallback",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed"
+        },
+        {
+          "file": "packages/reforge/src/main.frame-animation-owner.test.ts",
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed"
+        }
+      ],
+      "artifacts": {
+        "json": {
+          "file": "ci-frame-adjacent.json",
+          "sha256": "9b4378b5812e84d5ed173ed772480b5819d47ccae7440fac09eada346e06faa2"
+        },
+        "raw": {
+          "file": "ci-frame-adjacent.raw",
+          "sha256": "687574214491202049f9a5326bcacc358cbcb7dd8bf73618294e02db1c52e45d"
+        }
+      },
+      "globalErrorSignals": false
+    }
+  ],
+  "sameEightIdentities": true,
+  "testSource": {
+    "beforeSha256": "baa8ca693c7e72ee16d94bff0dfe767eb37a68626cb9be69fd32fa9464ad1017",
+    "afterSha256": "527087c1f4c180588055c4e21eefaa07ef804ab25e6293952c41bd5ab11358b5"
+  },
+  "products": [
+    {
+      "path": "packages/reforge/src/main.ts",
+      "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
+      "unchangedFromAcceptedHead": true
+    },
+    {
+      "path": "packages/reforge/src/frame-animation-player.ts",
+      "sha256": "7035ba27076e412eef57656ec76212dc9c04c938fcac86e14a4c8e2ec65e6fe1",
+      "unchangedFromAcceptedHead": true
+    },
+    {
+      "path": "packages/reforge/src/frame-animation-presentation.ts",
+      "sha256": "0d7260df368bf8364e53bd4eb5d8658d6b46253674fe8e3310a31fecee57c2e1",
+      "unchangedFromAcceptedHead": true
+    }
+  ],
+  "reforgeCoverage": {
+    "lines": {
+      "total": 15662,
+      "covered": 14330,
+      "skipped": 0,
+      "pct": 91.49
+    },
+    "statements": {
+      "total": 17939,
+      "covered": 15996,
+      "skipped": 0,
+      "pct": 89.16
+    },
+    "functions": {
+      "total": 2916,
+      "covered": 2592,
+      "skipped": 0,
+      "pct": 88.88
+    },
+    "branches": {
+      "total": 12166,
+      "covered": 9909,
+      "skipped": 0,
+      "pct": 81.44
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "fullRefForgeGate": {
+    "files": 351,
+    "passedTests": 8786,
+    "exitCode": 0,
+    "productionCoverageSameAsAcceptedBaseline": true
+  },
+  "staticGates": {
+    "typecheck": "Reforge exit 0, no diagnostics",
+    "lint": "3613 files; 0 errors / 0 warnings / 0 infos; complete report",
+    "docs": "0 issues; testing docs 0 issues; phase/lore 184 documents; content 570 reviewed documents",
+    "diff": "git diff --check exit 0; staged full diff checked before commit"
+  },
+  "baselineUnchangedSha256": "0b061ae28b698b1f915aa93b8ffc32e0f8a9f64b50de117cbdfcd2dd56b16f61",
+  "diagnosticPatch": "Only in mkdtemp clone: in superseding test, obtain f from boot; f.hooks.read awaits node:timers native setTimeout(resolve,80) for .tpfs paths. No production mock or main data access. Delay not committed to the live test."
+}

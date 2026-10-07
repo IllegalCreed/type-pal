@@ -1,0 +1,66 @@
+
+ RUN  v4.1.7 /private/tmp/tp-bhtr-frame-io.go8c08/packages/reforge
+
+stderr | src/main.frame-animation-owner.test.ts > explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > a delayed old decode and its finally cannot repaint or hide a superseding held request
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > a delayed old decode and its finally cannot repaint or hide a superseding held request
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > clear during slow first decode releases its owned black and prevents resurrection
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > clear during slow first decode releases its owned black and prevents resurrection
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > real author clear between movie and world does not leave a held layer through the following command
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > real author clear between movie and world does not leave a held layer through the following command
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > a legal SAVE11 restore resets held cinematic state rather than replaying its pixels
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > a legal SAVE11 restore resets held cinematic state rather than replaying its pixels
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > a real scene commit clears held cinematic pixels while its own scene fade stays authoritative
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > a real scene commit clears held cinematic pixels while its own scene fade stays authoritative
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.frame-animation-owner.test.ts > author clear does not remove a later ordinary fade that belongs to the surrounding script
+[save] 存档已写入，但浏览缓存刷新失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/private/tmp/tp-bhtr-frame-io.go8c08/packages/reforge/src/main.ts:4787:42)
+    at /private/tmp/tp-bhtr-frame-io.go8c08/packages/reforge/src/main.ts:4886:9
+
+stderr | src/main.frame-animation-owner.test.ts > author clear does not remove a later ordinary fade that belongs to the surrounding script
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.frame-animation-owner.test.ts > author clear does not remove a later ordinary fade that belongs to the surrounding script
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.frame-animation-owner.test.ts (8 tests) 2174ms
+   ✓ explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear  591ms
+   ✓ a real scene commit clears held cinematic pixels while its own scene fade stays authoritative  454ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  18:43:17
+   Duration  2.94s (transform 659ms, setup 0ms, import 284ms, tests 2.17s, environment 404ms)
+
+JSON report written to /private/tmp/type-pal-codex-acceptance-D758mP/frame-fixed-delayed.json

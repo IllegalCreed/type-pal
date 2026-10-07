@@ -1,0 +1,377 @@
+{
+  "numTotalTestSuites": 14,
+  "numPassedTestSuites": 14,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 31,
+  "numPassedTests": 31,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791366385004,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D1 容器首读失败→修复→成功"],
+          "fullName": "D1 容器首读失败→修复→成功 失败 Promise 不永久缓存；同 reader 重试真正读取并解码出实际字节",
+          "status": "passed",
+          "title": "失败 Promise 不永久缓存；同 reader 重试真正读取并解码出实际字节",
+          "duration": 2.851666999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D2 block inflate 首败→重试"],
+          "fullName": "D2 block inflate 首败→重试 inflight 回零后同 block 重读成功；合法字节真实 decode",
+          "status": "passed",
+          "title": "inflight 回零后同 block 重读成功；合法字节真实 decode",
+          "duration": 0.6101659999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 frameLimit 与帧索引守卫"],
+          "fullName": "D3 frameLimit 与帧索引守卫 frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
+          "status": "passed",
+          "title": "frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
+          "duration": 0.5993330000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D4 invalidate 选择性清除（双 asset + 同 id 换字节）"],
+          "fullName": "D4 invalidate 选择性清除（双 asset + 同 id 换字节） invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容",
+          "status": "passed",
+          "title": "invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容",
+          "duration": 0.9354999999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证"],
+          "fullName": "D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证 命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确",
+          "status": "passed",
+          "title": "命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确",
+          "duration": 0.47116700000000833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交",
+          "status": "passed",
+          "title": "sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交",
+          "duration": 4.695999999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 主断言失败仍释放实际读取并消费原播放，保留最初断言错误",
+          "status": "passed",
+          "title": "sequence 主断言失败仍释放实际读取并消费原播放，保留最初断言错误",
+          "duration": 4.202542000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行",
+          "status": "passed",
+          "title": "frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行",
+          "duration": 53.11112499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧",
+          "status": "passed",
+          "title": "wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧",
+          "duration": 51.558625000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D7 非目标 key 与在途 skip"],
+          "fullName": "D7 非目标 key 与在途 skip 非目标 key 不吞；目标 key 消费并结束；onFrame 抛错也清监听",
+          "status": "passed",
+          "title": "非目标 key 不吞；目标 key 消费并结束；onFrame 抛错也清监听",
+          "duration": 52.115125000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791366385659,
+      "endTime": 1791366385831.1152,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/frame-animation-player.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["FrameSequenceReader"],
+          "fullName": "FrameSequenceReader 容器 Promise 在 await 前缓存，并发读取只访问一次文件",
+          "status": "passed",
+          "title": "容器 Promise 在 await 前缓存，并发读取只访问一次文件",
+          "duration": 2.357416999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameSequenceReader"],
+          "fullName": "FrameSequenceReader 同 block 并发 seek 只解压一次，完整帧 LRU 不超过 64 张",
+          "status": "passed",
+          "title": "同 block 并发 seek 只解压一次，完整帧 LRU 不超过 64 张",
+          "duration": 53.564666999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧",
+          "status": "passed",
+          "title": "首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧",
+          "duration": 102.42149999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧",
+          "status": "passed",
+          "title": "按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧",
+          "duration": 0.5586250000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 越界区间与加载失败均 fail-loud",
+          "status": "passed",
+          "title": "越界区间与加载失败均 fail-loud",
+          "duration": 0.8802500000000464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 剧情默认不可用空格跳过，仍输出完整帧序列",
+          "status": "passed",
+          "title": "剧情默认不可用空格跳过，仍输出完整帧序列",
+          "duration": 0.410082999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 开发预览显式声明 skipKeys 后才允许空格提前结束",
+          "status": "passed",
+          "title": "开发预览显式声明 skipKeys 后才允许空格提前结束",
+          "duration": 0.2517080000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation runner signal 取消会立即终止等待且不再提交后续帧",
+          "status": "passed",
+          "title": "runner signal 取消会立即终止等待且不再提交后续帧",
+          "duration": 52.08804199999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791366385328,
+      "endTime": 1791366385541.0881,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/frame-animation-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 播放帧走 Cinematic Layer，播完只缓存，对话时重新显示在 World Layer 上方",
+          "status": "passed",
+          "title": "播放帧走 Cinematic Layer，播完只缓存，对话时重新显示在 World Layer 上方",
+          "duration": 0.9457500000000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 连续动画在新首帧前保持旧画面，新帧替换后由场景边界统一清除",
+          "status": "passed",
+          "title": "连续动画在新首帧前保持旧画面，新帧替换后由场景边界统一清除",
+          "duration": 0.2674999999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧动画",
+          "status": "passed",
+          "title": "新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧动画",
+          "duration": 0.08387500000000614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 明确保持成功末帧，直到显式reset，旧owner不能复活已清层",
+          "status": "passed",
+          "title": "明确保持成功末帧，直到显式reset，旧owner不能复活已清层",
+          "duration": 0.09487500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 旧decode和finally不能覆盖新播放，失败不能保持本次或旧fallback",
+          "status": "passed",
+          "title": "旧decode和finally不能覆盖新播放，失败不能保持本次或旧fallback",
+          "duration": 0.1039999999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791366385908,
+      "endTime": 1791366385910.104,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/frame-animation-presentation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed",
+          "title": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "duration": 697.125833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed",
+          "title": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "duration": 179.86987499999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed",
+          "title": "clear during slow first decode releases its owned black and prevents resurrection",
+          "duration": 54.09637499999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "passed",
+          "title": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "duration": 141.34008399999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed",
+          "title": "real author clear between movie and world does not leave a held layer through the following command",
+          "duration": 186.22633300000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed",
+          "title": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "duration": 225.6450830000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed",
+          "title": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "duration": 442.31270799999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed",
+          "title": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "duration": 266.7795420000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791366385811,
+      "endTime": 1791366388004.7795,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/reforge/src/main.frame-animation-owner.test.ts"
+    }
+  ]
+}

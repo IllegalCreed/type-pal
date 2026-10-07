@@ -17,3 +17,7 @@
 全仓check退出0：七包全部test/typecheck通过（其中Reforge8786、Editor4906）；根lint完整3607文件0/0/0，docs/格式/diff通过。随后官方ratchet、以派发d84b3db236c35d2f7e2671741f4320b904f5c58c为保护基点的fast均退出0，指标完全相同。主树并集分支50113/60209=83.23%，726个生产源，分母与冻结未缩；包含此前main尚未结算的已接收合同，不能把总增益全归本卡。详见[唯一集成门回执](codex-integration-gates.json)。仅A/C合入，B counter不夹带；远端新CI状态另核。
 
 暂存区全量diff检查补发现五份非反控日志的表格尾随空格/EOF空行；只移除这些排版空白，完整诊断与有效内容不删，前后SHA逐份登记于集成回执，原始字节保留在作者固定提交。48份反控raw/JSON原件未改变。另修identity八个缺后缀/缺失路径：基点单文件3/3只有作者自述、无独立原件，改为有原件的相邻26/26内三条旧身份通过，不虚构单文件原件。上述均为Codex证据整理，不替换业务复跑。
+
+## 新CI与主树小修（不扩大GLM卡）
+
+[0a9cb833的CI](https://github.com/IllegalCreed/type-pal/actions/runs/37600496568)文档、typecheck/lint通过，A终局8/8通过；整门仍因旧main.frame-animation-owner.test.ts:216一例红而失败。Codex维护仅该旧测试的三个20轮IO等待：原生解压没有完成即开始替代请求，未进入声明的首帧淡入相位；使用默认vi.waitFor+真实精确首帧条件，未改产品、扩timeout、增例或降低oracle。正常旧8/8、隔离真读IO延迟80ms旧7/8（恰同[]→[17,29]红）、同身份修后8/8、主树相邻31/31，完整Reforge8786与typecheck全过；生产覆盖9909/12166与已接收baseline完全一致。完整原件/hash见[帧动画IO同步对照](ci-frame-animation-io-sync.json)。这是Codex主树维护，不重开A/C，不让B越界修；新 hosted CI结果另核。

@@ -1,0 +1,120 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791366197806,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed",
+          "title": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "duration": 591.411334,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed",
+          "title": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "duration": 164.90754100000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed",
+          "title": "clear during slow first decode releases its owned black and prevents resurrection",
+          "duration": 38.352833000000146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "passed",
+          "title": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "duration": 236.75037500000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed",
+          "title": "real author clear between movie and world does not leave a held layer through the following command",
+          "duration": 196.539125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed",
+          "title": "a legal SAVE11 restore resets held cinematic state rather than replaying its pixels",
+          "duration": 235.48941600000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed",
+          "title": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "duration": 453.5517090000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed",
+          "title": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "duration": 255.58579199999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791366198570,
+      "endTime": 1791366200742.5857,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-frame-io.go8c08/packages/reforge/src/main.frame-animation-owner.test.ts"
+    }
+  ]
+}

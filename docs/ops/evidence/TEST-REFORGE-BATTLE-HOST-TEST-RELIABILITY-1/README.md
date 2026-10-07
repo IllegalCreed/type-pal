@@ -53,3 +53,5 @@ vitest JSON reporter 在 coverage 开启时内嵌 2.1MB `coverageMap`、全包 8
 ## Codex独立审核（2026-10-07）
 
 见[独立审核记录](codex-review-r1.md)及[串行集成门回执](codex-integration-gates.json)。合同accept、全仓check/official ratchet/受保护fast全过；GitHub新CI需按具体运行另核，不冒称已通过。
+
+新CI发现的旧帧动画等待问题由Codex主树维护，[真实慢IO对照与窄修](ci-frame-animation-io-sync.json)保留原始正常、单红、修后及相邻原件；不扩大GLM有限卡。A终局在失败的同次CI中已8/8通过，整门失败不可改写为通过。

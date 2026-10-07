@@ -107,11 +107,12 @@ test('explicit initial reveal owns black from alpha0, presents first frame, comp
   const playing = movie().play('movie-a', { initialFadeInMs: 600, holdLastFrame: true })
   await drain()
   expect(movie().black).toBe(1)
-  for (let turn = 0; turn < 20 && frames.mock.calls.length === 0; turn++) {
+  // Native decompression completion is an IO condition, not an event-loop turn budget.
+  await vi.waitFor(async () => {
     await h.settleIO()
     await drain()
-  }
-  expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17])
+    expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17])
+  })
   expect(movie().visible).toBe(true)
   for (let turn = 0; turn < 5; turn++) {
     h.frame(100)
@@ -200,20 +201,21 @@ test('superseding during first-frame fade cannot let the old fade callback or fi
   const frames = vi.spyOn(FrameAnimationPresentationState.prototype, 'present')
   const old = movie().play('movie-a', { initialFadeInMs: 600, holdLastFrame: true })
   const rejected = expect(old).rejects.toMatchObject({ name: 'AbortError' })
-  for (let i = 0; i < 20 && frames.mock.calls.length < 1; i++) {
+  await vi.waitFor(async () => {
     await h.settleIO()
     await drain()
-  }
+    expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17])
+  })
   h.frame(100)
   await drain()
   const next = movie().play('movie-b', { initialFadeInMs: 600, holdLastFrame: true })
   await rejected
   expect(movie().black).toBe(1)
-  for (let i = 0; i < 20 && frames.mock.calls.length < 2; i++) {
+  await vi.waitFor(async () => {
     await h.settleIO()
     await drain()
-  }
-  expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17, 29])
+    expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17, 29])
+  })
   for (let i = 0; i < 6; i++) {
     h.frame(100)
     await drain()

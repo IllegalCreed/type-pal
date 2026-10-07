@@ -162,7 +162,10 @@
     "codeQualityLedger": "inventory passed; 229 closed / 5 review / 2850 pending, not a claim of complete semantic audit"
   },
   "githubCi": {
-    "status": "not asserted by local gates",
-    "note": "Inspect the new pushed main workflow by exact head SHA; prior main failure is not this candidate verdict."
+    "status": "0a9cb833 hosted coverage failed outside A/C; narrow Codex test-only maintenance recorded separately",
+    "run": 37600496568,
+    "head": "0a9cb8331136ff62d47e75fa8e2263fe4670efd1",
+    "note": "Documentation and types/lint passed; A finalization 8/8 passed. Sole failure was pre-existing main.frame-animation-owner.test.ts:216. New hosted CI must be inspected by its exact future head; not yet claimed green.",
+    "followup": "ci-frame-animation-io-sync.json"
   }
 }
