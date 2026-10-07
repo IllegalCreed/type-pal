@@ -73,7 +73,13 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/ba
 ## 当前模式推进记录
 
 - 2026-10-07 Codex：真实CI失败位置和等待器对照已核；根因由R1证伪。build allowed仅测试治理白名单，产品修复未授权。
-- 贡献者交付/自验：pending。
+- 2026-10-07 GLM（r1 候选交付，待 Codex 独立验收；SHA 由 git rev-parse 核实）：
+  - dispatch `d84b3db236c35d2f7e2671741f4320b904f5c58c` / 冻结产品基点 `ce808b42e06dcd85999c1f10a5f1ca0b9009580b`；testCandidate `9e902846df6a850d3fde9c32cbfd56277a0c981a`（测试重写+专属 harness）、证据 docs 提交 `dab130ed133e42d7bb17ecf11604f0659235fed6`（identity.json 另记 dispatch/evidence/testCandidate/冻结与交付源 sha256/门表）；receiptHead=本回执提交的推送头（GLM 最终回执同步报告，git rev-parse 可核）。分支 `codex/glm-reforge-battle-test-reliability-r1` 已推送，未合 main，不标 done。
+  - R1：本地四条件（定向/相邻/instrumentation/CI 同参全包 coverage）均不复现，如实记录；CI 真红两次实录（37560425624 BF-08+09 双红、37585132871 BF-09@:231 单红），同签名 untilActive:184。
+  - R2 根因：固定 100 轮事件循环预算≠原生 DecompressionStream 完成（判别证据=同次 CI 运行内走同一 prepare 链、用 vi.waitFor 的 battle-host.test.ts 16 例全绿而固定轮数等待器红）；等待器统一为条件+默认期限 vi.waitFor，不扩 timeout、不 sleep。遗留 U-1：CI 侧预算不足的精确调度放大源未本地钉死（不影响判别与修复结论）。
+  - R3–R6：BF-08/BF-10 终局 oracle 原样保留（事件序列逐项复核均为公开端口事件）；BF-09 拆 exp>0/exp=0 两个独立输入合同；新增 BF-H1..H4 四条收尾纪律合同（正常/准备拒绝/断言提前失败/取消）；零产品改动（4 冻结源逐字节核验未动）。
+  - R7–R8：contract-ledger 31 行+before-after 映射；反控=判据自测 22 例+3 真实探针+N1–N5 恰一针四态+N6 家族探针（H1..H4 同面四红，不冒充恰一）+N3 级联诚实披露（共享 settle exp 门真实波及 4 例跨两层）；mkdtemp 隔离树变异+整树清理证明。门：定向/相邻 31/31、instrumentation 绿、全包 8786/8786、typecheck 0 错、根 lint 完整 0/0/0（3575 文件）、check:docs、git diff --check 全过。
+  - 证据全目录：`docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/`（README/identity.json/counterproof/ledgers）。
 - Codex独立验收：pending；done准入：blocked。
 - 用户产品裁决：N/A（不变更产品行为，出现新取舍另卡）。
 
