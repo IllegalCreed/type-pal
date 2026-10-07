@@ -326,7 +326,7 @@ function instanceRows(struct) {
 // 每个目标必须逐字存在于候选清单。
 const problems = []
 const out = [
-  ['before_file', 'before_fullname', 'disposition', 'after_or_remaining_oracle', 'axis_note'],
+  ['before_file', 'before_fullname', 'disposition', 'after_or_remaining_oracle'],
 ]
 const used = new Map()
 const bump = (key) => used.set(key, (used.get(key) ?? 0) + 1)
@@ -338,9 +338,9 @@ for (const [before, disp, after] of dispositions) {
   if (hits === 0) problems.push(`before 缺失: ${before}`)
   bump(`${file} :: ${fullName}`)
   const targets = Array.isArray(after) ? after : disp === 'dropped' ? [] : [after]
-  if (disp === 'dropped') out.push([file, fullName, disp, after, ''])
+  if (disp === 'dropped') out.push([file, fullName, disp, after])
   else {
-    out.push([file, fullName, disp, targets.join(' ⊕ '), ''])
+    out.push([file, fullName, disp, targets.join(' ⊕ ')])
     for (const target of targets) {
       const tIdx = target.indexOf(' :: ')
       if (!newFullNames.has(target.slice(tIdx + 4))) problems.push(`after 不存在于候选: ${target}`)
