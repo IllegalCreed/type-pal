@@ -7,6 +7,9 @@
 
 ## 当前证据
 
+- [战斗宿主终局测试确定性与原子性](TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md)（2026-10-07新派发，待交付）。
+- [当前存档校验测试精简与输入边界](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md)（2026-10-07新派发，待交付）。
+- [当前作者命令表单引用与草稿合同](TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md)（2026-10-07新派发，待交付）。
 - [TEST-GAME-MEDIA-LIFECYCLE-1 交付证据](TEST-GAME-MEDIA-LIFECYCLE-1/README.md)（已集成 main；r3 媒体生命周期 7 合同、严格四态反控与污染判据探针；M3 产品缺陷另行登记）。
 - [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据](TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md)（已集成 main；r3 标题读档 IO 3 合同、3 针反控与 8 条产品诊断；D-Q01-1 不夹修）。
 - [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 交付证据](TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md)（已集成 main；r3 D-1 试打接线真实反例、污染判据与清理证明；产品修复另卡裁决）。
