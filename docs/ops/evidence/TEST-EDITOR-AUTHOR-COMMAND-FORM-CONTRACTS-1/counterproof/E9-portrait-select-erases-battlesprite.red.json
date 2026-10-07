@@ -1,0 +1,62 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 1,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791358784743,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前作者命令 world 表单合同（E9）"],
+          "fullName": "当前作者命令 world 表单合同（E9） 选择真实 portrait 资产保留角色、世界精灵与战斗形象",
+          "status": "failed",
+          "title": "选择真实 portrait 资产保留角色、世界精灵与战斗形象",
+          "duration": 84.36091699999997,
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to be called once with arguments: [ [ { …(5) } ] ]\n\nReceived:\n\n  1st vi.fn() call:\n\n@@ -1,10 +1,10 @@\n  [\n    [\n      {\n        \"actor\": \"hero\",\n-       \"battleSprite\": \"starter-fighter\",\n+       \"battleSprite\": undefined,\n        \"kind\": \"setActorAppearance\",\n        \"portrait\": \"author-portrait-firm\",\n        \"spriteId\": \"hero\",\n      },\n    ],\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-editor-author-command-contracts/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1504:10)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-editor-author-command-contracts/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-editor-author-command-contracts/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at Object.finish (/private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor/src/ui/__tests__/author-command-contracts/author-command-form-fixture.ts:197:22)\n    at /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor/src/ui/CommandForm.author-world-contracts.test.tsx:33:5\n    at file:///private/tmp/type-pal-editor-author-command-contracts/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前作者命令 world 表单合同（E9）"],
+          "fullName": "当前作者命令 world 表单合同（E9） 用 (无) 清空 portrait 保留其余三个身份字段",
+          "status": "passed",
+          "title": "用 (无) 清空 portrait 保留其余三个身份字段",
+          "duration": 27.819375000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791358786528,
+      "endTime": 1791358786639.8193,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor/src/ui/CommandForm.author-world-contracts.test.tsx"
+    }
+  ]
+}

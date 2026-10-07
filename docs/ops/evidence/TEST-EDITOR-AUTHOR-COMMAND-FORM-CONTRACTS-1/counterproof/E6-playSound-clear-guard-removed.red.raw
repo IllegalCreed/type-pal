@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor
+
+ ❯ src/ui/CommandForm.author-control-contracts.test.tsx (3 tests | 1 failed) 128ms
+     ✓ E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号 86ms
+     × E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交 23ms
+     ✓ E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交 18ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  16:39:31
+   Duration  2.19s (transform 1.30s, setup 0ms, import 1.59s, tests 128ms, environment 389ms)
+
+JSON report written to /private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playSound-clear-guard-removed.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/CommandForm.author-control-contracts.test.tsx > 当前作者命令 control 表单合同（E4/E6） > E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交
+AssertionError: expected '音效项目没有可用音效未选择音效' to contain 'sound-bell'
+
+Expected: "sound-bell"
+Received: "音效项目没有可用音效未选择音效"
+
+ ❯ src/ui/CommandForm.author-control-contracts.test.tsx:33:35
+     31|     const f = await authorCommandForm({ kind: 'playSound', asset: 'sou…
+     32|     await choose('音效', '项目没有可用音效')
+     33|     expect(row('音效').textContent).toContain('sound-bell')
+       |                                   ^
+     34|     f.pending()
+     35|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,32 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor
+
+ ❯ src/ui/CommandForm.author-control-contracts.test.tsx (3 tests | 1 failed) 123ms
+     ✓ E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号 81ms
+     ✓ E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交 18ms
+     × E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交 24ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  16:39:38
+   Duration  1.76s (transform 1.03s, setup 0ms, import 1.26s, tests 123ms, environment 307ms)
+
+JSON report written to /private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E6-playMusic-clear-guard-removed.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/CommandForm.author-control-contracts.test.tsx > 当前作者命令 control 表单合同（E4/E6） > E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交
+AssertionError: expected '音乐项目没有可用音乐试听 ' to contain 'music-theme'
+
+Expected: "music-theme"
+Received: "音乐项目没有可用音乐试听 "
+
+ ❯ src/ui/CommandForm.author-control-contracts.test.tsx:40:35
+     38|     const f = await authorCommandForm({ kind: 'playMusic', asset: 'mus…
+     39|     await choose('音乐', '项目没有可用音乐')
+     40|     expect(row('音乐').textContent).toContain('music-theme')
+       |                                   ^
+     41|     f.pending()
+     42|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

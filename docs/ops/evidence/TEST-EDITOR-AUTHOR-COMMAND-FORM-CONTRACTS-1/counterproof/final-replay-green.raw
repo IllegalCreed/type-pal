@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor
+
+ ✓ src/ui/CommandForm.author-world-contracts.test.tsx (2 tests) 125ms
+ ✓ src/ui/CommandForm.author-control-contracts.test.tsx (3 tests) 133ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  16:39:55
+   Duration  2.11s (transform 2.56s, setup 0ms, import 3.14s, tests 259ms, environment 658ms)
+
+JSON report written to /private/tmp/type-pal-editor-author-command-contracts/docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/final-replay-green.json

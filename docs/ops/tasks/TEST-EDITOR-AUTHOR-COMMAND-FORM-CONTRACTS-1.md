@@ -78,7 +78,7 @@ Codex已读CommandForm.tsx、command-form-control/world/contract全文件，核S
 ## 当前模式推进记录
 
 - 2026-10-07 Codex：真实current author bridge分流、公开caller与旧证明已核。build allowed仅合法作者叶子补测；旧runtime低覆盖臂不授权造输入。
-- 贡献者交付/自验：pending。
+- 2026-10-07 GLM（新对话C）r1 交付/自验：E1–E12 全轴裁决完毕，[逐合同排重账](../evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/contract-ledger.tsv)落盘。仅 5 真实缺口新增（均真实 caller aggregate 链）：E4 空店铺数值降级臂（模式不污染店铺号）、E6 playSound/playMusic 叶子清空守卫（空目录占位项零提交）、E9 setActorAppearance 对话立绘选择/(无)清空两臂（保留 actor/spriteId/battleSprite）；E2/E3/E5/E7/E8/E10/E11/E12 existing-proof（含 E11 clone=makeLoadScene 已证纯函数路径、E12 取消零history/dirty=current-dialog+App F01）、E1 runtime/实体臂 unreachable、悬挂 entryId 不伪造。新两测试文件+专属 fixture（真实 React 控件、typed fixture、无核心 mock/私有 draft/act 过滤/timeout 扩大）。定向 17 文件 127/127 且新文件 0 stderr/0 act/0 console.error（act 警告均属未改动旧文件 App.glm-next-wave，基点既有）；反控 `ALL-VALID`（判据自测 19+真实 hook/uncaught 探针 3、5 针四态恰一业务 AssertionError、恢复字节一致、mkdtemp 整树清理、贡献者树产品 7 源前后=卡面冻结 SHA）；全包 4906/4906、typecheck 0、根 lint 0/0/0、check:docs PASS、diff --check clean。首次全包红 1 例为编辑器禁词门（fixture 注释「工程」→「项目」，白名单内修复）。证据与验证记录见 [evidence README](../evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md)。不合 main、不标 done，待 Codex 独立验收。
 - Codex独立验收：pending；done准入：blocked。
 - 用户产品裁决：N/A（不变更产品行为，出现新取舍另卡）。
 

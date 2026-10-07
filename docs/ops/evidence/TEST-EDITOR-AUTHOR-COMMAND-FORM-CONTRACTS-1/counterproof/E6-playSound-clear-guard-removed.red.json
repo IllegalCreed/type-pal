@@ -1,0 +1,72 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 3,
+  "numPassedTests": 2,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791358771867,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前作者命令 control 表单合同（E4/E6）"],
+          "fullName": "当前作者命令 control 表单合同（E4/E6） E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号",
+          "status": "passed",
+          "title": "E4 合法空店铺工程：openShop 降级为数值身份输入，改模式不污染店铺号",
+          "duration": 86.23829099999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前作者命令 control 表单合同（E4/E6）"],
+          "fullName": "当前作者命令 control 表单合同（E4/E6） E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交",
+          "status": "failed",
+          "title": "E6 空音效目录选「项目没有可用音效」占位项不产生任何草稿提交",
+          "duration": 23.323041999999987,
+          "failureMessages": [
+            "AssertionError: expected '音效项目没有可用音效未选择音效' to contain 'sound-bell'\n    at /private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor/src/ui/CommandForm.author-control-contracts.test.tsx:33:35\n    at file:///private/tmp/type-pal-editor-author-command-contracts/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前作者命令 control 表单合同（E4/E6）"],
+          "fullName": "当前作者命令 control 表单合同（E4/E6） E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交",
+          "status": "passed",
+          "title": "E6 空音乐目录选「项目没有可用音乐」占位项不产生任何草稿提交",
+          "duration": 17.530917000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791358773934,
+      "endTime": 1791358774061.531,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-editor-author-contracts-r1.D9YYHm/packages/editor/src/ui/CommandForm.author-control-contracts.test.tsx"
+    }
+  ]
+}
