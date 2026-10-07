@@ -1,0 +1,90 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 5,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791368727529,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复",
+          "status": "passed",
+          "title": "cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复",
+          "duration": 232.22895800000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C2 Escape 清选区后 Delete 零提交",
+          "status": "passed",
+          "title": "cov85-map C2 Escape 清选区后 Delete 零提交",
+          "duration": 50.624874999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C3 无选区时移动/重复菜单项禁用（按钮级门禁），地图零变化",
+          "status": "passed",
+          "title": "cov85-map C3 无选区时移动/重复菜单项禁用（按钮级门禁），地图零变化",
+          "duration": 32.61766699999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C4 有选区时右键菜单键盘 Home/End 导航",
+          "status": "passed",
+          "title": "cov85-map C4 有选区时右键菜单键盘 Home/End 导航",
+          "duration": 48.94858299999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C5 工具状态行：默认平移，切选择后活动层选择",
+          "status": "passed",
+          "title": "cov85-map C5 工具状态行：默认平移，切选择后活动层选择",
+          "duration": 26.722709000000123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791368729348,
+      "endTime": 1791368729739.7227,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/editor/src/ui/MapMode.cov85.test.tsx"
+    }
+  ]
+}

@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "832794aebd31ab9a36e7b7bd90143291f57882cfa385a1e734a8ad7da645a37b",
+      "afterSha256": "75ddcf4d20d9e182cf161491c38d39e39b0a2f316f8e36aad131bc96b3e292bb",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -684,10 +684,10 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "832794aebd31ab9a36e7b7bd90143291f57882cfa385a1e734a8ad7da645a37b",
+        "afterSha256": "75ddcf4d20d9e182cf161491c38d39e39b0a2f316f8e36aad131bc96b3e292bb",
         "currentReading": {
           "date": "2026-10-07",
-          "sha256": "832794aebd31ab9a36e7b7bd90143291f57882cfa385a1e734a8ad7da645a37b",
+          "sha256": "75ddcf4d20d9e182cf161491c38d39e39b0a2f316f8e36aad131bc96b3e292bb",
           "lineCount": 20,
           "headings": [
             {
@@ -699,7 +699,7 @@
               "text": "看板规则"
             }
           ],
-          "scope": "A/C finite task closure and B r1 counter navigation only; unchanged historical task conclusions are not re-adjudicated."
+          "scope": "A/C remain closed; B r2 counter and finite r3 navigation only; unchanged historical task conclusions are not re-adjudicated."
         }
       },
       "history": [
@@ -737,7 +737,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "3d446e3f32eafab43c7658e493f0f45e4048c2281d555f3f5db405c18fae6afc",
+      "afterSha256": "5434cb2a142aacf8b4cb316f72861a1a7361aedf6a223dbd4041776d3b9fc5b1",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -856,10 +856,10 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "3d446e3f32eafab43c7658e493f0f45e4048c2281d555f3f5db405c18fae6afc",
+        "afterSha256": "5434cb2a142aacf8b4cb316f72861a1a7361aedf6a223dbd4041776d3b9fc5b1",
         "currentReading": {
           "date": "2026-10-07",
-          "sha256": "3d446e3f32eafab43c7658e493f0f45e4048c2281d555f3f5db405c18fae6afc",
+          "sha256": "5434cb2a142aacf8b4cb316f72861a1a7361aedf6a223dbd4041776d3b9fc5b1",
           "lineCount": 40,
           "headings": [
             {
@@ -871,7 +871,7 @@
               "text": "当前证据"
             }
           ],
-          "scope": "A/C finite task closure and B r1 counter navigation only; unchanged historical task conclusions are not re-adjudicated."
+          "scope": "A/C remain closed; B r2 counter and finite r3 navigation only; unchanged historical task conclusions are not re-adjudicated."
         }
       },
       "history": [

@@ -1,0 +1,79 @@
+{
+  "candidate": "3f925b0d3c2ebe98742bcb2e01ec6ac703a13859",
+  "authorReceiptSha256": "36904623dee7b2b7dabcab2ade33aa54c210c9014cb8dff3cbff14373a4fd48b",
+  "ownReplaySha256": "051e28203732b9ade95923df07e2cd1f8770389a4f5c32ac0e89b7aea9c1ac9d",
+  "tests": [
+    {
+      "path": "packages/reforge/src/save/current-structure.test.ts",
+      "sha256": "6b47d6d56cbbfb5191b926876ef7e5d7451d3783df0be5187d4ed89c254ec73e"
+    },
+    {
+      "path": "packages/reforge/src/save/current-save.current-characterization.test.ts",
+      "sha256": "ef558dde1c1fa027c448666aefd8e05a63e3c4e96ff0e4642618fccf49805ddc"
+    },
+    {
+      "path": "packages/reforge/src/save/current-codec.contracts.test.ts",
+      "sha256": "8ce8644851db71d72a17b0a60f9391abade5fd707c3054dcb5f0a00ac7f80e3f"
+    }
+  ],
+  "artifactHashesChecked": 18,
+  "sixMutantsRebuilt": true,
+  "phases": [
+    {
+      "phase": "green",
+      "identities": 78,
+      "valid": true
+    },
+    {
+      "phase": "restoredGreen",
+      "identities": 78,
+      "valid": true
+    },
+    {
+      "phase": "NR1-gridpos-height-wiring",
+      "identities": 64,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "5f64decb371830e9fd9af980730ce3494b7e218d5dcef6c3828c66845650616a"
+    },
+    {
+      "phase": "NR2-appearance-spriteid-wiring",
+      "identities": 64,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "6135b21b578d9040c5d148bcf94ede0ee807179b5c8b35a6092ccaace137238e"
+    },
+    {
+      "phase": "NR3-appearance-battlesprite-wiring",
+      "identities": 64,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "4b390c5be9dff1250ea3c40665154e820efa65b71c21bf8bfb74bf10c8478a73"
+    },
+    {
+      "phase": "NR4-skillusecounts-inner-wiring",
+      "identities": 64,
+      "valid": true,
+      "originalHash": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+      "mutantHash": "e4b58f9902115b6efd6e88fe636195ba2a27b53e33e588bb709aec23e6877511"
+    },
+    {
+      "phase": "NR5-skillusecounts-absence-fill",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "331eab8fedb2ff97bebecdd29fefa65583fcb51fc78ae936201febff47c41f33"
+    },
+    {
+      "phase": "NR6-entitylifecycles-absence-fill",
+      "identities": 8,
+      "valid": true,
+      "originalHash": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+      "mutantHash": "e290c6abce40dbf13555a6213ce870ad3307253b4c733865e7108f7cdceb68ab"
+    },
+    {
+      "phase": "finalReplay",
+      "valid": true
+    }
+  ]
+}

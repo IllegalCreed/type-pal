@@ -311,27 +311,32 @@ test('cov85-map C4 有选区时右键菜单键盘 Home/End 导航', async () => 
   await act(async () => {
     pointer(canvas, 'contextmenu', { clientX: 5, clientY: 5, button: 2 })
   })
+  // opening effect 在首个真实动画帧取得焦点；先确认该阶段完成，再验证键盘导航。
+  const menuRoot = document.querySelector<HTMLElement>('.map-canvas-context-menu')
+  expect(menuRoot).not.toBeNull()
   const items = [
-    ...document.querySelectorAll<HTMLButtonElement>('[role^="menuitem"]:not(:disabled)'),
+    ...menuRoot!.querySelectorAll<HTMLButtonElement>('[role^="menuitem"]:not(:disabled)'),
   ]
   expect(items.length).toBeGreaterThan(1)
-  void items
-  // 键盘事件派发到菜单容器（onCanvasContextMenuKeyDown 的绑定元素）。
-  const menuRoot = document.querySelector<HTMLElement>('.map-canvas-context-menu')
-  expect(menuRoot).toBeDefined()
+  await vi.waitFor(() => {
+    expect(document.activeElement).toBe(items[0])
+    expect(document.activeElement?.textContent).toContain('复制')
+  })
   await act(async () => {
     keydown(menuRoot!, 'ArrowDown')
   })
-  // handler 的可聚焦集合从「复制」开始（视图子菜单触发器被其选择器排除）。
-  expect((document.activeElement as HTMLElement).textContent).toContain('复制')
-  await act(async () => {
-    keydown(menuRoot!, 'ArrowDown')
-  })
-  expect((document.activeElement as HTMLElement).textContent).toContain('剪切')
+  expect(document.activeElement).toBe(items[1])
+  expect(document.activeElement?.textContent).toContain('剪切')
   await act(async () => {
     keydown(menuRoot!, 'Home')
   })
-  expect((document.activeElement as HTMLElement).textContent).toContain('复制')
+  expect(document.activeElement).toBe(items[0])
+  expect(document.activeElement?.textContent).toContain('复制')
+  await act(async () => {
+    keydown(menuRoot!, 'End')
+  })
+  expect(document.activeElement).toBe(items.at(-1))
+  expect(document.activeElement?.textContent).toContain('删除')
 })
 
 test('cov85-map C5 工具状态行：默认平移，切选择后活动层选择', async () => {

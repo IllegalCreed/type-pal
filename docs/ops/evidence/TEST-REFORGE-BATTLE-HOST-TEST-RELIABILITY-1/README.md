@@ -1,5 +1,7 @@
 # TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 交付证据
 
+主树后续CI维护（不扩本卡）：`1ef3a9ef4` 上战斗8/8、帧动画8/8及C卡表单5/5均通过；唯一失败是旧MapMode首帧焦点竞态。Codex独立复现、默认条件同步及相邻89/89证据见[菜单焦点维护](ci-map-menu-focus-sync.json)，新CI结果以新推送实测为准。
+
 - 卡:[TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1](../../archive/tasks/done/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1.md) · Owner: GLM · 状态: Codex独立accept，本地集成门通过，done
 - 工作树 `/private/tmp/type-pal-reforge-battle-test-reliability` · 分支 `codex/glm-reforge-battle-test-reliability-r1` · 冻结产品基点 `ce808b42e06dcd85999c1f10a5f1ca0b9009580b` · 派发提交 `d84b3db236c35d2f7e2671741f4320b904f5c58c`
 - 40 位 SHA 全表见 `identity.json`；冻结源 sha256 建树时逐文件核验（4/4 与卡面一致，见 `counterproof-lib.mjs` FROZEN_SOURCES）。

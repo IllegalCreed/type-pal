@@ -8,7 +8,7 @@
 ## 当前证据
 
 - [战斗宿主终局测试确定性与原子性](TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md)（独立accept；本地三道集成门通过，卡已归档；反控工具与原件保留）。
-- [当前存档精简证据](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md)（r1 counter：四处误删与共享文档越界，原B会话窄返工）。
+- [当前存档精简证据](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md)与[二审](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md)（r1返工已闭合；r3仅补三条丢失原合同及工具/账，原B会话有限返工）。
 - [当前作者命令表单引用与草稿合同](TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md)（独立accept；本地三道集成门通过，卡已归档；反控工具与原件保留）。
 - [TEST-GAME-MEDIA-LIFECYCLE-1 交付证据](TEST-GAME-MEDIA-LIFECYCLE-1/README.md)（已集成 main；r3 媒体生命周期 7 合同、严格四态反控与污染判据探针；M3 产品缺陷另行登记）。
 - [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据](TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md)（已集成 main；r3 标题读档 IO 3 合同、3 针反控与 8 条产品诊断；D-Q01-1 不夹修）。

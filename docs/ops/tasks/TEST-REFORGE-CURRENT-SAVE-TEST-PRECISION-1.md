@@ -84,8 +84,21 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/sa
 
 四个独立字段/子树接线的原断言被误删：height缺席、spriteId数字、battleSprite null、skillUseCounts内层非数值。候选73/73漏报，原61例对照四红；共享helper不构成等价证明。两个缺席补空合同拆开。共享导航和review pin越界改动恢复派发值，保留其它已关闭项；精确证据见上述独立审核。模型由用户手工选择GLM-5.3。
 
-## 下一位 Agent 提示词
+## 历史 r1 → r2 提示词（已执行，不重复派发）
 
 ```text
 你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 原会话B的唯一实现方，只在 /private/tmp/type-pal-reforge-save-test-precision、codex/glm-reforge-save-test-precision-r1 工作。先只读 /Users/zhangxu/illegal/type-pal/docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md 的Codex r1审核及 /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r1.md；远端同步后也可从origin/main只读取审核，不rebase或替换产品冻结，不写主树。候选 1b89e3eb843f67d0c3c305e53a3d2b0a58991877 未accept。只做两项有限r2：1）修复误删合同：height缺席、appearance.spriteId数字、battleSprite null、skillUseCounts内层非数值必须各自有unknown边界精确拒收oracle；共享helper不能代替字段接线证明，复核其它删除映射，保留已成立的去重。skillUseCounts/entityLifecycles缺席补空拆成原子身份，保留输入不变证明。2）恢复共享evidence README和phase-governance review JSON至派发 d84b3db236c35d2f7e2671741f4320b904f5c58c 值，只写原卡白名单。反控保留未变证据，执行集变化只重采受影响针的原始绿/指定恰一AssertionError红/真正恢复绿/最终重放，登记源、测试、mutant与restored hash；补能识别上述四种漏接线的最小有效反控。产品冻结 ce808b42e06dcd85999c1f10a5f1ca0b9009580b 不变，不改产品/旧测白名单外/配置/基准。跑定向相邻、Reforge/content typecheck与Reforge全包、lint完整0/0/0、docs/diff；如共享导航恢复使docs门有登记缺口，如实列明由Codex修，不越界。更新真实before-after/逐合同账和计数，完整真实SHA提交推送，所有有限项闭合即停止，不追用例/针数/覆盖率，不合main、不done。
+```
+
+## Codex r2 独立审核
+
+- 固定候选 `3f925b0d3c2ebe98742bcb2e01ec6ac703a13859`，测试/证据 `81f20532880cee02c34047929963ff3b7b21e858`，其后仅卡面回执；对象和共享文档恢复区间已核。
+- 原r1四接线与两容器拆分闭合，独立六针全valid、定向173/173、双typecheck零诊断；冻结未变。
+- counter：maxMP数组成员及extraStatuses/poisons两个稀疏空洞原合同仍丢失，三个独立变异各漏报78/78，原61例各恰一业务红。详见[二审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md)。
+- 原14针只保留历史口径；当前工具的73行硬数及两个旧身份、README数量需与最终代码统一。只补三合同及受影响工具/账，不扩为新任务，不重开已闭合项。
+
+## 下一位 Agent 提示词
+
+```text
+你是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 原会话B的唯一实现方。只在 /private/tmp/type-pal-reforge-save-test-precision、codex/glm-reforge-save-test-precision-r1 工作。先只读主树 /Users/zhangxu/illegal/type-pal/docs/ops/tasks/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md 的Codex r2审核及 /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r2.md。候选 3f925b0d3c2ebe98742bcb2e01ec6ac703a13859 未accept；r1要求的四接线及两容器拆分已独立通过，不重开。有限r3仅：补回maxMP数值字段成员校验、extraStatuses[0]稀疏空洞拒收、poisons[0]稀疏空洞拒收三个被删原合同，各用独立unknown边界、精确路径oracle；不是恢复重复数字矩阵。用审核中三个逐字变异证明恰一指定业务AssertionError，保持原始绿/真正恢复绿/最终重放及最终file×fullName多重集、JSON/raw/退出码/源与测试/mutant/restored哈希。复核本次before-after的剩余oracle；保留已成立去重。维护可执行的当前反控入口：旧73行硬数、旧N05合并身份和旧N08名称已过期；旧14针只记历史，仍认可的受影响针映射到最终源码与身份后重采，未变证据保留，N05与NR5不重复计信用，不放宽判据。README中的77/78及168/173混用按最终实跑统一，完整候选与docs-only区间必须是真Git对象。只改原白名单；两个共享文档继续保持派发 d84b3db236c35d2f7e2671741f4320b904f5c58c 值，冻结 ce808b42e06dcd85999c1f10a5f1ca0b9009580b 不变，不rebase、不写main、不改产品/其它旧测/配置/基准，不处理Codex的MapMode CI小修。跑定向相邻、Reforge/content typecheck、Reforge全包、lint完整0/0/0、docs/diff；提交推送完整SHA，有限项闭合即停，不追数量/覆盖率、不合main、不done。
 ```

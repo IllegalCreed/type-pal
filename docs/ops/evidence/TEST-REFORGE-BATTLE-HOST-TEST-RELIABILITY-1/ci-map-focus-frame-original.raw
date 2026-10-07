@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/editor
+
+ ❯ src/ui/MapMode.cov85.test.tsx (5 tests | 1 failed) 428ms
+   ✓ cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复 250ms
+   ✓ cov85-map C2 Escape 清选区后 Delete 零提交 54ms
+   ✓ cov85-map C3 无选区时移动/重复菜单项禁用（按钮级门禁），地图零变化 32ms
+   × cov85-map C4 有选区时右键菜单键盘 Home/End 导航 63ms
+   ✓ cov85-map C5 工具状态行：默认平移，切选择后活动层选择 29ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/MapMode.cov85.test.tsx > cov85-map C4 有选区时右键菜单键盘 Home/End 导航
+AssertionError: expected '复制⌘C' to contain '剪切'
+
+Expected: "剪切"
+Received: "复制⌘C"
+
+ ❯ src/ui/MapMode.cov85.test.tsx:332:63
+    330|     await new Promise<void>((resolve) => requestAnimationFrame(() => r…
+    331|   })
+    332|   expect((document.activeElement as HTMLElement).textContent).toContai…
+       |                                                               ^
+    333|   await act(async () => {
+    334|     keydown(menuRoot!, 'Home')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  19:27:32
+   Duration  2.66s (transform 1.33s, setup 0ms, import 1.63s, tests 428ms, environment 500ms)
+
+JSON report written to /private/tmp/type-pal-codex-acceptance-D758mP/map-focus-frame-original.json
+undefined
+/Users/zhangxu/illegal/type-pal/packages/editor:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/ui/MapMode.cov85.test.tsx --reporter=default --reporter=json --outputFile.json=/private/tmp/type-pal-codex-acceptance-D758mP/map-focus-frame-original.json

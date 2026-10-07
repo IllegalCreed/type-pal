@@ -1,0 +1,253 @@
+{
+  "candidate": "3f925b0d3c2ebe98742bcb2e01ec6ac703a13859",
+  "diagnostic": "Candidate 78 identities vs dispatch 61 structure identities. Not a same-execution-set business three-state receipt.",
+  "selftests": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "probes": [
+    {
+      "id": "maxMP-membership",
+      "from": "    'maxMP',\n",
+      "to": "",
+      "phases": [
+        {
+          "phase": "candidate",
+          "originalSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+          "mutantSha256": "1cf3dc66396cab5e5fd67b78122794ec68cbded009b5c60b932b7e3d0f46e6ce",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "total": 78,
+          "passed": 78,
+          "failed": [],
+          "json": "maxMP-membership-candidate.json",
+          "jsonSha256": "442dced33848ff455273275d473aef6b18c1e9cbab1e0baa1447819c78e25060",
+          "raw": "maxMP-membership-candidate.raw",
+          "rawSha256": "40c33a5e23f7aba509de9d64d894c6203fcc2c2a30e9b7809f5ff9e1e939a1fd",
+          "unhandled": false,
+          "cleanup": "removed=true path=/tmp/tp-save-precision-codex-r2-loss-maxMP-membership-candidate.MpUZpk"
+        },
+        {
+          "phase": "dispatch",
+          "originalSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+          "mutantSha256": "1cf3dc66396cab5e5fd67b78122794ec68cbded009b5c60b932b7e3d0f46e6ce",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "total": 61,
+          "passed": 60,
+          "failed": [
+            {
+              "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity 带路径拒绝",
+              "failureMessages": [
+                "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-codex-r2-loss-maxMP-membership-dispatch.0G76pe/packages/reforge/src/save/current-structure.test.ts:554:55\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2025:60\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+              ]
+            }
+          ],
+          "json": "maxMP-membership-dispatch.json",
+          "jsonSha256": "9ffe7d619946a9a140953d4a120299672034459e7248be07bc38d0d66ae566aa",
+          "raw": "maxMP-membership-dispatch.raw",
+          "rawSha256": "09ec7c18e6f8c893e56e7e9dbf5d6c951036b485592205551a1844248245c6a2",
+          "unhandled": false,
+          "cleanup": "removed=true path=/tmp/tp-save-precision-codex-r2-loss-maxMP-membership-dispatch.0G76pe"
+        }
+      ]
+    },
+    {
+      "id": "extraStatuses-hole",
+      "from": "    const status = requireRecord(entry, p)",
+      "to": "    if (entry === undefined) return\n    const status = requireRecord(entry, p)",
+      "phases": [
+        {
+          "phase": "candidate",
+          "originalSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+          "mutantSha256": "af945a09f2cd9ff60c2279b8e341d296c7ebe49bfdd7f6cd87fcf71c106a1cea",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "total": 78,
+          "passed": 78,
+          "failed": [],
+          "json": "extraStatuses-hole-candidate.json",
+          "jsonSha256": "cf386e6bb6c92ea8c4a979a2b3b697cbccefbb78bc8927dd7e3f699bb475dd7e",
+          "raw": "extraStatuses-hole-candidate.raw",
+          "rawSha256": "8cfe6a89ec366e33686d138479313dd0e94ee0cea511be5f4821c85a3b4e71d9",
+          "unhandled": false,
+          "cleanup": "removed=true path=/tmp/tp-save-precision-codex-r2-loss-extraStatuses-hole-candidate.M4R2IT"
+        },
+        {
+          "phase": "dispatch",
+          "originalSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+          "mutantSha256": "af945a09f2cd9ff60c2279b8e341d296c7ebe49bfdd7f6cd87fcf71c106a1cea",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "total": 61,
+          "passed": 60,
+          "failed": [
+            {
+              "fullName": "current-structure · 合法载荷（正边界） R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过",
+              "failureMessages": [
+                "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-codex-r2-loss-extraStatuses-hole-dispatch.4vrnLB/packages/reforge/src/save/current-structure.test.ts:125:62\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+              ]
+            }
+          ],
+          "json": "extraStatuses-hole-dispatch.json",
+          "jsonSha256": "c9c16cdd956f00dac50202a00c3e338b91e38fc189ca2c4373ab0a36770d6307",
+          "raw": "extraStatuses-hole-dispatch.raw",
+          "rawSha256": "8ed67ae71785257258fca6abdf7349a36e7be36b0dc89d87d44cfa22233c3300",
+          "unhandled": false,
+          "cleanup": "removed=true path=/tmp/tp-save-precision-codex-r2-loss-extraStatuses-hole-dispatch.4vrnLB"
+        }
+      ]
+    },
+    {
+      "id": "poisons-hole",
+      "from": "    const poison = requireRecord(entry, p)",
+      "to": "    if (entry === undefined) return\n    const poison = requireRecord(entry, p)",
+      "phases": [
+        {
+          "phase": "candidate",
+          "originalSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+          "mutantSha256": "6cfe0da44bb6c302963047b0bdf33d05aed64204db46877c2f64b26dc28aa601",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "total": 78,
+          "passed": 78,
+          "failed": [],
+          "json": "poisons-hole-candidate.json",
+          "jsonSha256": "490892bc7c25aacc6b4afb7769957221c6c11e2fd3e63e64ed7cdb3b39b0cdff",
+          "raw": "poisons-hole-candidate.raw",
+          "rawSha256": "d70b29dda44eadc6c2c1e3cad0028e3a70f23f9815e9ca421639ff4f84705ce0",
+          "unhandled": false,
+          "cleanup": "removed=true path=/tmp/tp-save-precision-codex-r2-loss-poisons-hole-candidate.MEw08m"
+        },
+        {
+          "phase": "dispatch",
+          "originalSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+          "mutantSha256": "6cfe0da44bb6c302963047b0bdf33d05aed64204db46877c2f64b26dc28aa601",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "total": 61,
+          "passed": 60,
+          "failed": [
+            {
+              "fullName": "current-structure · 合法载荷（正边界） R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过",
+              "failureMessages": [
+                "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-codex-r2-loss-poisons-hole-dispatch.OyC1uM/packages/reforge/src/save/current-structure.test.ts:132:61\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+              ]
+            }
+          ],
+          "json": "poisons-hole-dispatch.json",
+          "jsonSha256": "e911e1bedef3b42b0496eb5a737300356a9e9738e4b5e899ac9a5a0719fb77db",
+          "raw": "poisons-hole-dispatch.raw",
+          "rawSha256": "ea8fce10dbe6e2deb412e6b1fe0a3721aa74540bbdabc1299e9f758ff11e6844",
+          "unhandled": false,
+          "cleanup": "removed=true path=/tmp/tp-save-precision-codex-r2-loss-poisons-hole-dispatch.OyC1uM"
+        }
+      ]
+    }
+  ],
+  "jsonFormatting": "Native JSON formatted to repository Biome style; artifact hashes below refer to final persisted bytes, raw unchanged."
+}

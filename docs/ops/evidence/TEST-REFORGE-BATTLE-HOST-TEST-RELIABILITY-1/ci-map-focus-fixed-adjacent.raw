@@ -1,0 +1,16 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/editor
+
+ ✓ src/ui/MapMode.catalog-coverage.test.tsx (5 tests) 335ms
+ ✓ src/ui/MapMode.cov85.test.tsx (5 tests) 635ms
+   ✓ cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复  376ms
+ ✓ src/ui/MapMode.kimi-workflows.test.tsx (5 tests) 1106ms
+     ✓ cells 选区→复制→粘贴预览→越界拒绝→冲突弹窗返回调整→覆盖粘贴→undo/redo 全链  608ms
+ ✓ src/ui/MapMode.test.tsx (74 tests) 2528ms
+
+ Test Files  4 passed (4)
+      Tests  89 passed (89)
+   Start at  19:31:31
+   Duration  5.26s (transform 6.39s, setup 0ms, import 8.35s, tests 4.60s, environment 2.24s)
+
+JSON report written to /private/tmp/type-pal-codex-acceptance-D758mP/map-focus-fixed-adjacent.json

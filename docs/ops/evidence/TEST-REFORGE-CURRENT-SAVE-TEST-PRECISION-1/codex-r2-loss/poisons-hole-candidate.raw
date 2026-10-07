@@ -1,0 +1,13 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-codex-r2-loss-poisons-hole-candidate.MEw08m/packages/reforge
+
+ ✓ src/save/current-codec.contracts.test.ts (8 tests) 5ms
+ ✓ src/save/current-structure.test.ts (64 tests) 8ms
+ ✓ src/save/current-save.current-characterization.test.ts (6 tests) 4ms
+
+ Test Files  3 passed (3)
+      Tests  78 passed (78)
+   Start at  19:25:28
+   Duration  408ms (transform 382ms, setup 0ms, import 501ms, tests 17ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-save-r2-review.EjHUwA/remaining-wiring/poisons-hole-candidate.json

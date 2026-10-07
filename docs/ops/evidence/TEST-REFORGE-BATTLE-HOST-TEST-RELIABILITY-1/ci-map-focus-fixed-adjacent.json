@@ -1,0 +1,957 @@
+{
+  "numTotalTestSuites": 7,
+  "numPassedTestSuites": 7,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 89,
+  "numPassedTests": 89,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791369091811,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前合法工程的地图目录工作流"],
+          "fullName": "当前合法工程的地图目录工作流 新建地图只追加稳定索引和空白地图，保留起始场景引用及原图字节",
+          "status": "passed",
+          "title": "新建地图只追加稳定索引和空白地图，保留起始场景引用及原图字节",
+          "duration": 111.49979200000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前合法工程的地图目录工作流"],
+          "fullName": "当前合法工程的地图目录工作流 复制当前地图建立新的资产身份，地图正文独立且原项目入口不漂移",
+          "status": "passed",
+          "title": "复制当前地图建立新的资产身份，地图正文独立且原项目入口不漂移",
+          "duration": 58.87895800000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前合法工程的地图目录工作流"],
+          "fullName": "当前合法工程的地图目录工作流 目录重命名只改作者显示名，稳定 ID、文件路径、场景引用与地图内容不变",
+          "status": "passed",
+          "title": "目录重命名只改作者显示名，稳定 ID、文件路径、场景引用与地图内容不变",
+          "duration": 53.79079200000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前合法工程的地图目录工作流"],
+          "fullName": "当前合法工程的地图目录工作流 仅无引用副本允许二次确认删除；首次点击零写，确认后回选起始地图",
+          "status": "passed",
+          "title": "仅无引用副本允许二次确认删除；首次点击零写，确认后回选起始地图",
+          "duration": 80.53808299999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前合法工程的地图目录工作流"],
+          "fullName": "当前合法工程的地图目录工作流 正式起始场景仍引用 start 地图时，目录删除禁用且没有会话写入",
+          "status": "passed",
+          "title": "正式起始场景仍引用 start 地图时，目录删除禁用且没有会话写入",
+          "duration": 29.230332999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791369094555,
+      "endTime": 1791369094889.2302,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/editor/src/ui/MapMode.catalog-coverage.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复",
+          "status": "passed",
+          "title": "cov85-map C1 单选格→Delete 恰好删除该格瓦片并可 undo 恢复",
+          "duration": 376.31616699999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C2 Escape 清选区后 Delete 零提交",
+          "status": "passed",
+          "title": "cov85-map C2 Escape 清选区后 Delete 零提交",
+          "duration": 64.8755000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C3 无选区时移动/重复菜单项禁用（按钮级门禁），地图零变化",
+          "status": "passed",
+          "title": "cov85-map C3 无选区时移动/重复菜单项禁用（按钮级门禁），地图零变化",
+          "duration": 40.65737500000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C4 有选区时右键菜单键盘 Home/End 导航",
+          "status": "passed",
+          "title": "cov85-map C4 有选区时右键菜单键盘 Home/End 导航",
+          "duration": 118.07449999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cov85-map C5 工具状态行：默认平移，切选择后活动层选择",
+          "status": "passed",
+          "title": "cov85-map C5 工具状态行：默认平移，切选择后活动层选择",
+          "duration": 33.99887499999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791369094555,
+      "endTime": 1791369095188.9988,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/editor/src/ui/MapMode.cov85.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["K12 MapMode 真实地图变换工作流"],
+          "fullName": "K12 MapMode 真实地图变换工作流 cells 选区→复制→粘贴预览→越界拒绝→冲突弹窗返回调整→覆盖粘贴→undo/redo 全链",
+          "status": "passed",
+          "title": "cells 选区→复制→粘贴预览→越界拒绝→冲突弹窗返回调整→覆盖粘贴→undo/redo 全链",
+          "duration": 607.5686249999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["K12 MapMode 真实地图变换工作流"],
+          "fullName": "K12 MapMode 真实地图变换工作流 预览进行中锁定/隐藏活动层：Enter 提交被 permission 拒绝零写，剪贴板保全且解锁后可提交",
+          "status": "passed",
+          "title": "预览进行中锁定/隐藏活动层：Enter 提交被 permission 拒绝零写，剪贴板保全且解锁后可提交",
+          "duration": 100.97716600000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["K12 MapMode 真实地图变换工作流"],
+          "fullName": "K12 MapMode 真实地图变换工作流 组合放置：活动层锁定时 commitStamp 整组拒绝零写，解锁后真实放置可撤销",
+          "status": "passed",
+          "title": "组合放置：活动层锁定时 commitStamp 整组拒绝零写，解锁后真实放置可撤销",
+          "duration": 110.45049999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["K12 MapMode 真实地图变换工作流"],
+          "fullName": "K12 MapMode 真实地图变换工作流 整组移动预览期间地图被外部改写：过期拒绝零写且选区保全，重做移动成功",
+          "status": "passed",
+          "title": "整组移动预览期间地图被外部改写：过期拒绝零写且选区保全，重做移动成功",
+          "duration": 153.74391699999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["K12 MapMode 真实地图变换工作流"],
+          "fullName": "K12 MapMode 真实地图变换工作流 键盘全选/删除/不变粘贴与指针取消：计数真实、撤销对称、中断零提交",
+          "status": "passed",
+          "title": "键盘全选/删除/不变粘贴与指针取消：计数真实、撤销对称、中断零提交",
+          "duration": 132.04695900000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791369094561,
+      "endTime": 1791369095666.0469,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/editor/src/ui/MapMode.kimi-workflows.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 顶部优先的可视图层索引严格映射到反向 canonical 存储索引",
+          "status": "passed",
+          "title": "顶部优先的可视图层索引严格映射到反向 canonical 存储索引",
+          "duration": 1.3185410000000957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 地图目录搜索覆盖命中、空结果与清空恢复，且不会偷换当前地图",
+          "status": "passed",
+          "title": "地图目录搜索覆盖命中、空结果与清空恢复，且不会偷换当前地图",
+          "duration": 116.69641600000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 共享 Inspector Tab 完整键盘合同仍触发原有打开与组合按需访问副作用",
+          "status": "passed",
+          "title": "共享 Inspector Tab 完整键盘合同仍触发原有打开与组合按需访问副作用",
+          "duration": 86.380584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 地图与选中图层使用同级 Inspector 分区",
+          "status": "passed",
+          "title": "地图与选中图层使用同级 Inspector 分区",
+          "duration": 24.97912499999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 右栏三 Tab 关联完整且键盘循环，切换不改地图、选区或组合筛选状态",
+          "status": "passed",
+          "title": "右栏三 Tab 关联完整且键盘循环，切换不改地图、选区或组合筛选状态",
+          "duration": 102.58962500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 右栏选择组合即进入直接放置态，不出现映射或确认面板",
+          "status": "passed",
+          "title": "右栏选择组合即进入直接放置态，不出现映射或确认面板",
+          "duration": 56.52920899999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 工具栏只保留主工具，选区命令进入右键菜单，画布显示进入视图菜单",
+          "status": "passed",
+          "title": "工具栏只保留主工具，选区命令进入右键菜单，画布显示进入视图菜单",
+          "duration": 65.64733300000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入",
+          "status": "passed",
+          "title": "笔刷面积用横向图标托盘选择并按 2 × 2 一笔写入",
+          "duration": 54.942833000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 从选择切回平移时清空内容选区并恢复地图属性",
+          "status": "passed",
+          "title": "从选择切回平移时清空内容选区并恢复地图属性",
+          "duration": 30.333665999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合",
+          "status": "passed",
+          "title": "Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合",
+          "duration": 58.14975000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 左侧承载层高控件，瓦片/组合在右栏绘制页上下挂载，中央画布无 DOM 遮挡",
+          "status": "passed",
+          "title": "左侧承载层高控件，瓦片/组合在右栏绘制页上下挂载，中央画布无 DOM 遮挡",
+          "duration": 25.68120799999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 显示高度与绘制高度分离，所有图层都允许实例高度",
+          "status": "passed",
+          "title": "显示高度与绘制高度分离，所有图层都允许实例高度",
+          "duration": 41.79508299999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 笔刷 使用工具栏选择的绘制高度",
+          "status": "passed",
+          "title": "笔刷 使用工具栏选择的绘制高度",
+          "duration": 21.576125000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 矩形 使用工具栏选择的绘制高度",
+          "status": "passed",
+          "title": "矩形 使用工具栏选择的绘制高度",
+          "duration": 21.98299999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 填充 使用工具栏选择的绘制高度",
+          "status": "passed",
+          "title": "填充 使用工具栏选择的绘制高度",
+          "duration": 23.29429200000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 图层管理统一使用共享控件，不在列表重复暴露内部深度类型",
+          "status": "passed",
+          "title": "图层管理统一使用共享控件，不在列表重复暴露内部深度类型",
+          "duration": 10.64908400000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 [reorder-family:layer-stack] 反向图层栈经 handle 单命令排序并可 undo/redo",
+          "status": "passed",
+          "title": "[reorder-family:layer-stack] 反向图层栈经 handle 单命令排序并可 undo/redo",
+          "duration": 27.29125000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand",
+          "status": "passed",
+          "title": "图层动作组上移按稳定 ID 只派发一条 MoveProjectMapLayerCommand",
+          "duration": 22.13824999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图",
+          "status": "passed",
+          "title": "600 个组合只挂载首批 60 个，真实画布 hover 不重渲染缩略图",
+          "duration": 49.56966700000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 候选与变换自动回到右侧属性，不在画布内生成浮层",
+          "status": "passed",
+          "title": "候选与变换自动回到右侧属性，不在画布内生成浮层",
+          "duration": 61.08570800000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 点击成员选择完整放置组，Enter/Esc 两级进退，解组保留矩阵且可撤销",
+          "status": "passed",
+          "title": "点击成员选择完整放置组，Enter/Esc 两级进退，解组保留矩阵且可撤销",
+          "duration": 49.57216700000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 Ctrl 对完整放置组追加或移除，相邻同款按 placementId 不串组",
+          "status": "passed",
+          "title": "Ctrl 对完整放置组追加或移除，相邻同款按 placementId 不串组",
+          "duration": 32.96083399999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 整组移动把视觉、高度、碰撞和 placement ID 作为一步历史提交",
+          "status": "passed",
+          "title": "整组移动把视觉、高度、碰撞和 placement ID 作为一步历史提交",
+          "duration": 86.75424999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 画布点击即冻结并放下移动目标，无冲突时不再要求去右栏二次提交",
+          "status": "passed",
+          "title": "画布点击即冻结并放下移动目标，无冲突时不再要求去右栏二次提交",
+          "duration": 67.49758299999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 普通冲突在落点冻结后弹窗确认，移出画布不漂移，返回调整零写且覆盖可撤销",
+          "status": "passed",
+          "title": "普通冲突在落点冻结后弹窗确认，移出画布不漂移，返回调整零写且覆盖可撤销",
+          "duration": 83.20270800000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 整组复制粘贴保留来源并生成新 ID，显式 collision 始终同行",
+          "status": "passed",
+          "title": "整组复制粘贴保留来源并生成新 ID，显式 collision 始终同行",
+          "duration": 38.48041600000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 整组重复自动建立相邻预览，碰撞通道不可排除且提交仍是一条历史",
+          "status": "passed",
+          "title": "整组重复自动建立相邻预览，碰撞通道不可排除且提交仍是一条历史",
+          "duration": 32.905125000000226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 整组删除走单条原子命令；整组剪切只提示使用移动且零写",
+          "status": "passed",
+          "title": "整组删除走单条原子命令；整组剪切只提示使用移动且零写",
+          "duration": 32.61695899999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 整组目标命中其他 placement 是硬冲突，不出现覆盖入口",
+          "status": "passed",
+          "title": "整组目标命中其他 placement 是硬冲突，不出现覆盖入口",
+          "duration": 25.966292000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内编辑与整组变换互斥，按钮和 Inspector 都不能制造交叉状态",
+          "status": "passed",
+          "title": "组内编辑与整组变换互斥，按钮和 Inspector 都不能制造交叉状态",
+          "duration": 31.548667000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 Alt 对同组跨层命中去重；hidden 不命中、locked 仅能显式选为只读整组",
+          "status": "passed",
+          "title": "Alt 对同组跨层命中去重；hidden 不命中、locked 仅能显式选为只读整组",
+          "duration": 25.32091700000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 双击 fresh placement hit 直接进入组内，不依赖上一次 selection render",
+          "status": "passed",
+          "title": "双击 fresh placement hit 直接进入组内，不依赖上一次 selection render",
+          "duration": 16.530499999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内双击其他放置组不会绕过隔离切换编辑目标",
+          "status": "passed",
+          "title": "组内双击其他放置组不会绕过隔离切换编辑目标",
+          "duration": 19.84716600000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内 cells 可单选当前层成员，Inspector 只修改该子选区，Ctrl+A 恢复全组",
+          "status": "passed",
+          "title": "组内 cells 可单选当前层成员，Inspector 只修改该子选区，Ctrl+A 恢复全组",
+          "duration": 36.87762500000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 活动层普通逻辑槽不被非活动层 placement 的透明逻辑命中劫持",
+          "status": "passed",
+          "title": "活动层普通逻辑槽不被非活动层 placement 的透明逻辑命中劫持",
+          "duration": 35.81420800000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 活动层普通不透明像素优先于非活动层 placement 的不透明像素",
+          "status": "passed",
+          "title": "活动层普通不透明像素优先于非活动层 placement 的不透明像素",
+          "duration": 20.02729200000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 活动层普通视觉命中优先于同坐标 placement collision ownership",
+          "status": "passed",
+          "title": "活动层普通视觉命中优先于同坐标 placement collision ownership",
+          "duration": 24.045791999999892,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 活动层空视觉槽不会压住 placement collision 的直接整组选中",
+          "status": "passed",
+          "title": "活动层空视觉槽不会压住 placement collision 的直接整组选中",
+          "duration": 19.012125000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 切换到同 mapId / placementId 的另一项目会话会清空组选择与组内上下文",
+          "status": "passed",
+          "title": "切换到同 mapId / placementId 的另一项目会话会清空组选择与组内上下文",
+          "duration": 29.26062499999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内 Alt 与普通剪贴板快捷键不能打开外部候选或变换",
+          "status": "passed",
+          "title": "组内 Alt 与普通剪贴板快捷键不能打开外部候选或变换",
+          "duration": 41.49912500000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 切换 EditSession 会清掉旧项目正在进行的变换预览与剪贴板",
+          "status": "passed",
+          "title": "切换 EditSession 会清掉旧项目正在进行的变换预览与剪贴板",
+          "duration": 35.19891699999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 切换同 mapId 的 EditSession 会清掉旧项目删除二次确认",
+          "status": "passed",
+          "title": "切换同 mapId 的 EditSession 会清掉旧项目删除二次确认",
+          "duration": 23.40374999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 checking 引用状态不冒充精确零引用并禁用删除",
+          "status": "passed",
+          "title": "checking 引用状态不冒充精确零引用并禁用删除",
+          "duration": 14.539415999999619,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 stale 引用状态不冒充精确零引用并禁用删除",
+          "status": "passed",
+          "title": "stale 引用状态不冒充精确零引用并禁用删除",
+          "duration": 13.762791999999536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 failed 引用状态不冒充精确零引用并禁用删除",
+          "status": "passed",
+          "title": "failed 引用状态不冒充精确零引用并禁用删除",
+          "duration": 15.092499999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 current 但引用索引缺失时按失败态关闭删除",
+          "status": "passed",
+          "title": "current 但引用索引缺失时按失败态关闭删除",
+          "duration": 15.72070900000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 引用状态或 revision 更新会撤销旧的删除二次确认",
+          "status": "passed",
+          "title": "引用状态或 revision 更新会撤销旧的删除二次确认",
+          "duration": 19.569541999999274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 二次确认后live 引用新增仍保持地图并显示错误",
+          "status": "passed",
+          "title": "二次确认后live 引用新增仍保持地图并显示错误",
+          "duration": 18.88983399999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 二次确认后provider 失败仍保持地图并显示错误",
+          "status": "passed",
+          "title": "二次确认后provider 失败仍保持地图并显示错误",
+          "duration": 16.603124999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 笔刷 命中组成员整笔零写并提示进入组内或解组",
+          "status": "passed",
+          "title": "笔刷 命中组成员整笔零写并提示进入组内或解组",
+          "duration": 16.22950000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 矩形 命中组成员整笔零写并提示进入组内或解组",
+          "status": "passed",
+          "title": "矩形 命中组成员整笔零写并提示进入组内或解组",
+          "duration": 13.779625000000124,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 填充 命中组成员整笔零写并提示进入组内或解组",
+          "status": "passed",
+          "title": "填充 命中组成员整笔零写并提示进入组内或解组",
+          "duration": 15.62041599999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 擦除 命中组成员整笔零写并提示进入组内或解组",
+          "status": "passed",
+          "title": "擦除 命中组成员整笔零写并提示进入组内或解组",
+          "duration": 15.34100000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 普通碰撞标记 命中组成员整笔零写",
+          "status": "passed",
+          "title": "普通碰撞标记 命中组成员整笔零写",
+          "duration": 16.88816599999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 普通碰撞清除 命中组成员整笔零写",
+          "status": "passed",
+          "title": "普通碰撞清除 命中组成员整笔零写",
+          "duration": 15.41716600000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 普通 fill 即使写回同值也先报告 ownership，不被 helper no-op 吞掉",
+          "status": "passed",
+          "title": "普通 fill 即使写回同值也先报告 ownership，不被 helper no-op 吞掉",
+          "duration": 15.611041999999543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内 fill 从组外起点零写，且普通格不能桥接两个组成员",
+          "status": "passed",
+          "title": "组内 fill 从组外起点零写，且普通格不能桥接两个组成员",
+          "duration": 38.57074999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内 Inspector 只改活动层；collision=0/非零均保留身份，显式移出只删身份",
+          "status": "passed",
+          "title": "组内 Inspector 只改活动层；collision=0/非零均保留身份，显式移出只删身份",
+          "duration": 32.93208299999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组内碰撞控件在任一 placement 视觉层锁定时只读",
+          "status": "passed",
+          "title": "组内碰撞控件在任一 placement 视觉层锁定时只读",
+          "duration": 41.0595000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 选择与取样状态隔离：取样后保留地图选区并转回笔刷",
+          "status": "passed",
+          "title": "选择与取样状态隔离：取样后保留地图选区并转回笔刷",
+          "duration": 64.21050000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 Alt 候选按面板自上而下，方向键移动焦点，Esc 关闭并回到画布",
+          "status": "passed",
+          "title": "Alt 候选按面板自上而下，方向键移动焦点，Esc 关闭并回到画布",
+          "duration": 41.02191700000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 活动层锁定或隐藏后，笔刷与 Inspector 写操作禁用并显示原因",
+          "status": "passed",
+          "title": "活动层锁定或隐藏后，笔刷与 Inspector 写操作禁用并显示原因",
+          "duration": 51.73712499999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 Escape 清选更新通知且不修改地图或历史",
+          "status": "passed",
+          "title": "Escape 清选更新通知且不修改地图或历史",
+          "duration": 20.365874999999505,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 Inspector 清选更新通知且不修改地图或历史",
+          "status": "passed",
+          "title": "Inspector 清选更新通知且不修改地图或历史",
+          "duration": 21.39445799999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 变换预览锁定 Inspector，切回平移后取消预览、清空选区并恢复地图属性",
+          "status": "passed",
+          "title": "变换预览锁定 Inspector，切回平移后取消预览、清空选区并恢复地图属性",
+          "duration": 39.603125000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 组合模板与既有选区正交，当前层自动承接组合底层且不出现映射面板",
+          "status": "passed",
+          "title": "组合模板与既有选区正交，当前层自动承接组合底层且不出现映射面板",
+          "duration": 33.599583000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 同 ID 项目更换 EditSession 时清空组合放置态与最近使用",
+          "status": "passed",
+          "title": "同 ID 项目更换 EditSession 时清空组合放置态与最近使用",
+          "duration": 33.64141699999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 跨层 ghost hover 零写；有效点击一次原子放置，undo 同时恢复矩阵与身份",
+          "status": "passed",
+          "title": "跨层 ghost hover 零写；有效点击一次原子放置，undo 同时恢复矩阵与身份",
+          "duration": 28.034458999999515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 普通内容冲突随直接放置原子覆盖且可撤销，既有组合 ownership 仍阻止覆盖",
+          "status": "passed",
+          "title": "普通内容冲突随直接放置原子覆盖且可撤销，既有组合 ownership 仍阻止覆盖",
+          "duration": 26.957374999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 删层影响放置组时先零写确认；取消零变化，解组与删层只占一步撤销",
+          "status": "passed",
+          "title": "删层影响放置组时先零写确认；取消零变化，解组与删层只占一步撤销",
+          "duration": 30.12158400000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 删除受影响整组会清理所有层成员和 collision，再原子删层",
+          "status": "passed",
+          "title": "删除受影响整组会清理所有层成员和 collision，再原子删层",
+          "duration": 22.814000000000306,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 缩图结构确认取消后恢复真实表单值",
+          "status": "passed",
+          "title": "缩图结构确认取消后恢复真实表单值",
+          "duration": 19.35058299999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 确认期间地图变化会刷新影响清单，第一次过期确认绝不执行",
+          "status": "passed",
+          "title": "确认期间地图变化会刷新影响清单，第一次过期确认绝不执行",
+          "duration": 25.94483300000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapMode 地图内容选择交互"],
+          "fullName": "MapMode 地图内容选择交互 受影响组合的任一视觉层锁定时，两种确认路线都零写",
+          "status": "passed",
+          "title": "受影响组合的任一视觉层锁定时，两种确认路线都零写",
+          "duration": 21.333999999999833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791369094559,
+      "endTime": 1791369097087.334,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/editor/src/ui/MapMode.test.tsx"
+    }
+  ]
+}
