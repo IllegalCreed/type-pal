@@ -1,6 +1,6 @@
 # TEST-REFORGE-OPENING-IO-LIFECYCLE-1 — 标题读档IO与缩略图生命周期
 
-Status: rework
+Status: done
 Owner: GLM（独立对话B，唯一写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -30,11 +30,11 @@ Visual Verification Timing: dev-functional（有实际界面缺陷时登记最�
 - 产品基点/冻结`2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d`；从含本卡的派发提交开始，不更新产品基点。候选/回执SHA须核Git对象、docs-only尾巴单列。
 - 可写：本卡你的交付块；新`packages/reforge/src/opening-menu.io-lifecycle.test.ts`、专属`packages/reforge/src/__tests__/opening-io-lifecycle/`；专属`docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/`。
 - 旧测/共享runtime-shell fixture、`opening-menu.ts/main.ts/save/**`产品、schema、配置、依赖/锁文件、官方baseline、真实工程/档/PAL数据、共享文档全部只读。与对话C无共同写文件；反控在各自mkdtemp树，不修改活动工作树产品。
-- **不得修D-Q01-1、选择错误提示/重试UI方案、加公共接口/取消协议。**原[产品卡](REFORGE-OPENING-LOAD-ERROR-1.md)仍draft，本卡是测试与前提取证build，不是save/产品build准入。
+- **不得修D-Q01-1、选择错误提示/重试UI方案、加公共接口/取消协议。**原[产品卡](../../../tasks/REFORGE-OPENING-LOAD-ERROR-1.md)仍draft，本卡是测试与前提取证build，不是save/产品build准入。
 
 ## 前提真值与锚点
 
-- 先读[READ-FIRST](../../phase2/READ-FIRST.md)、[测试质量验收](../agent-workflow.md)、产品卡与其原反例历史。不沿用旧SAVE版本fixture，当前`save/types.ts:8`为SAVE11。
+- 先读[READ-FIRST](../../../../phase2/READ-FIRST.md)、[测试质量验收](../../../agent-workflow.md)、产品卡与其原反例历史。不沿用旧SAVE版本fixture，当前`save/types.ts:8`为SAVE11。
 - primary：`opening-menu.ts:99-163`的真实enterLoad、void调用与cleanup；`save/store.ts:116-139`的真实IndexedDB读取可拒绝；`main.ts`标题真实runOpeningMenu调用链。
 - 替代解释：非法旧档/坏PNG/产品已经修复。用`buildCurrentSavePayload`、真实Memory/IndexedDbSaveStore、`putSlot`、有效PNG和直接源核对证伪；不要把伪Promise“拒绝”当所有浏览器API均合法。
 - phase1机制/存档格式修改N/A：本卡不定义新格式、不改UX；现状→目标是取证与缺口测试，无产品行为变化。若拟修产品必须另走完整产品卡与前提/设计准入。
@@ -60,7 +60,7 @@ Visual Verification Timing: dev-functional（有实际界面缺陷时登记最�
 ## 当前模式推进记录
 
 - 2026-10-06 Codex：O1–O8、合法存储拒绝及真实菜单入口已直接核；**build allowed仅限白名单测试与隔离前提诊断**；产品卡仍draft。
-- 贡献者交付/自验：pending；Codex独立验收：pending；done准入：blocked。
+- 贡献者交付/自验：GLM r3 已交付（候选 HEAD `d676f5a684b623d95519ce3763474cbf168e4c24`）。Codex独立验收：r3 passed；done准入：待主分支 Git 集成与推送。
 - 用户产品裁决：本卡N/A；任何错误提示/重试策略另交产品卡。
 
 ## 初始派发提示词（历史，当前以文末返工为准）
@@ -68,6 +68,10 @@ Visual Verification Timing: dev-functional（有实际界面缺陷时登记最�
 ```text
 你是TEST-REFORGE-OPENING-IO-LIFECYCLE-1唯一执行方。仅在/private/tmp/type-pal-reforge-opening-io、codex/glm-reforge-opening-io-r1工作。先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md、docs/ops/tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md和REFORGE-OPENING-LOAD-ERROR-1.md，再核卡内源码与旧断言。只裁决O1-O8，真实current存档/PNG/菜单入口，排重后补少而精的正常合同；D-Q01-1/竞态/位图缺陷交按需隔离真实红反例，不夹修产品、不让默认suite红或skip、不把缺陷写成绿预期。严格执行冻结/白名单/IO边界/三态身份与清理证明，完成门禁、完整SHA提交推送。所有轴有证据即停，只写本卡你的交付块；不合main、不done、不扩围。返回逐轴裁决、候选SHA、正常门禁与故意红反例分列，待Codex验收。
 ```
+
+## Codex 独立三审记录（2026-10-07，r3）
+
+候选分支 `codex/glm-reforge-opening-io-r1` HEAD `d676f5a684b623d95519ce3763474cbf168e4c24`，对应 r3 测试提交 `fcd7838fd9b9cce3f445a3a35c1eeb4ae89a3226`。独立核对 4/4 冻结源 hash、白名单与共享文件恢复；判据自测、真实 pure-red/afterAll hook/async uncaught 探针均按预期，3 针四态与末次重放通过，8 条诊断复现全通过且清理 `removed=true`。独立定向 3/3、typecheck 通过；根 lint 3537 文件 0/0/0、docs/diff 通过。O-R2-01 已闭合，候选可集成；D-Q01-1 产品卡仍不夹修。
 
 ## Codex 独立一审与有限返工（2026-10-07）
 

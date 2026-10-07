@@ -1,0 +1,27 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge
+
+ ❯ src/__tests__/opening-io-lifecycle/R6-reentry-bitmap-not-closed.test.ts (1 test | 1 failed) 235ms
+   × R6 O6 重进读档相位: 旧批缩略图位图未释放(无close) 234ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  02:33:27
+   Duration  1.47s (transform 621ms, setup 0ms, import 593ms, tests 235ms, environment 507ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R6-reentry-bitmap-not-closed.json
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/opening-io-lifecycle/R6-reentry-bitmap-not-closed.test.ts > R6 O6 重进读档相位: 旧批缩略图位图未释放(无close)
+AssertionError: expected "vi.fn()" to be called at least once
+ ❯ src/__tests__/opening-io-lifecycle/R6-reentry-bitmap-not-closed.test.ts:135:32
+    133|   expect(o.snapshots.at(-1)?.phase).toBe('load')
+    134|   expect(o.thumbBitmaps()).toHaveLength(2)
+    135|   expect(firstBatch[0]!.close).toHaveBeenCalled() // 旧批退役应释放; 实际从不close
+       |                                ^
+    136| })
+    137|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

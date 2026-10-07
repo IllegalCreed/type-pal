@@ -13,10 +13,7 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GAME-MEDIA-LIFECYCLE-1 — 视频与RNG异步收尾及资源所有权](TEST-GAME-MEDIA-LIFECYCLE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与canonical脚本接线](TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 — 标题读档IO与缩略图生命周期](TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -273,6 +270,7 @@
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](../archive/tasks/done/TEST-FROZEN-CLOSE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-HOST-BOUNDARIES-1 - 第一阶段宿主、隐私与计时补测（TB-09）](../archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GAME-MEDIA-LIFECYCLE-1 — 视频与RNG异步收尾及资源所有权](../archive/tasks/done/TEST-GAME-MEDIA-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GAME-MENU-BOUNDARIES-1 - 第一阶段菜单导航与请求补测（TB-08）](../archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归](../archive/tasks/done/TEST-GEMINI-PHASE1-STATS-1-effective-readouts.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测](../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -333,6 +331,8 @@
 | [TEST-NONVISUAL-COVERAGE-2 - 六领域非视觉测试覆盖率第二波](../archive/tasks/done/TEST-NONVISUAL-COVERAGE-2-six-domain-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-PAL-TABLES-COVERAGE-1 - 原版表格与文本自包含补测（TB-04）](../archive/tasks/done/TEST-PAL-TABLES-COVERAGE-1-self-contained-inputs.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-ASSET-IO-1 - 资源读取、缓存与音效准备补测（队列 TB-02）](../archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与canonical脚本接线](../archive/tasks/done/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 — 标题读档IO与缩略图生命周期](../archive/tasks/done/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](../archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](../archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | done | 完成证据、历史签字与交接见原卡。 |

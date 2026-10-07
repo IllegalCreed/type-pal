@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge
+
+ ✓ src/__tests__/opening-io-lifecycle/R3-decode-reject-dangling.test.ts (1 test) 383ms
+   ✓ R3 O3 有效PNG解码拒绝: 悬空发生在浏览器解码边界  383ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+     Errors  1 error
+   Start at  02:33:17
+   Duration  2.10s (transform 1.12s, setup 0ms, import 997ms, tests 383ms, environment 630ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R3-decode-reject-dangling.json
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: R3: 浏览器解码拒绝(有效PNG, 解码边界)
+ ❯ src/__tests__/opening-io-lifecycle/R3-decode-reject-dangling.test.ts:122:17
+    120|         'createImageBitmap',
+    121|         async () => {
+    122|           throw new Error('R3: 浏览器解码拒绝(有效PNG, 解码边界)')
+       |                 ^
+    123|         },
+    124|       )
+ ❯ enterLoad src/opening-menu.ts:127:46
+
+This error originated in "src/__tests__/opening-io-lifecycle/R3-decode-reject-dangling.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "R3 O3 有效PNG解码拒绝: 悬空发生在浏览器解码边界". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯

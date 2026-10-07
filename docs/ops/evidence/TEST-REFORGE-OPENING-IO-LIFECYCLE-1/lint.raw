@@ -1,0 +1,6 @@
+
+> type-pal@ lint /private/tmp/type-pal-reforge-opening-io
+> node scripts/quality/lint-zero.mjs
+
+lint: PASS — 3501 files; 0 errors / 0 warnings / 0 infos; complete report
+exit=0

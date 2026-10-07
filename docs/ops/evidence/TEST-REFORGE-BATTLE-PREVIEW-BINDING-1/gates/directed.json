@@ -1,0 +1,504 @@
+{
+  "numTotalTestSuites": 8,
+  "numPassedTestSuites": 8,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 41,
+  "numPassedTests": 41,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791307490043,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory",
+          "status": "passed",
+          "title": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory",
+          "duration": 144.84833299999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 author startBattle waits for real victory then runs the following command exactly once",
+          "status": "passed",
+          "title": "H9 author startBattle waits for real victory then runs the following command exactly once",
+          "duration": 36.851541999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation",
+          "status": "passed",
+          "title": "H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation",
+          "duration": 40.208167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 thrown inventory is consumed by real battle and reaches the host world after victory",
+          "status": "passed",
+          "title": "H9 thrown inventory is consumed by real battle and reaches the host world after victory",
+          "duration": 35.23162500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 missing enemy team rejects before any active session and leaves menu operable",
+          "status": "passed",
+          "title": "H9 missing enemy team rejects before any active session and leaves menu operable",
+          "duration": 27.437416999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 delayed battle sprite cannot commit a battle after the scene owner has changed",
+          "status": "passed",
+          "title": "H9 delayed battle sprite cannot commit a battle after the scene owner has changed",
+          "duration": 34.1629999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307491782,
+      "endTime": 1791307492101.163,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/main.battle-host-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24",
+          "status": "passed",
+          "title": "Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24",
+          "duration": 114.12904100000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24",
+          "status": "passed",
+          "title": "Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24",
+          "duration": 27.915458000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24",
+          "status": "passed",
+          "title": "Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24",
+          "duration": 26.026125000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 缺 enemies 参数：默认取工程敌表前 3 项",
+          "status": "passed",
+          "title": "Q01 缺 enemies 参数：默认取工程敌表前 3 项",
+          "duration": 21.384249999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回",
+          "status": "passed",
+          "title": "Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回",
+          "duration": 21.079166999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307492539,
+      "endTime": 1791307492750.079,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/main.battle-preview.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性",
+          "status": "passed",
+          "title": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性",
+          "duration": 122.426042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
+          "status": "passed",
+          "title": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
+          "duration": 28.78895799999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
+          "status": "passed",
+          "title": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
+          "duration": 28.02666700000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
+          "status": "passed",
+          "title": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
+          "duration": 78.394542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307492016,
+      "endTime": 1791307492273.3945,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/main.c85-boot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧",
+          "status": "passed",
+          "title": "N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧",
+          "duration": 528.2180410000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环",
+          "status": "passed",
+          "title": "N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环",
+          "duration": 30.807833000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧",
+          "status": "passed",
+          "title": "N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧",
+          "duration": 25.92337499999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入",
+          "status": "passed",
+          "title": "N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入",
+          "duration": 35.74537499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面",
+          "status": "passed",
+          "title": "N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面",
+          "duration": 22.048250000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307490714,
+      "endTime": 1791307491357.0483,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/main.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：入场事务显式 fade 揭幕后才执行 onEnter 正文",
+          "status": "passed",
+          "title": "MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：入场事务显式 fade 揭幕后才执行 onEnter 正文",
+          "duration": 564.9815409999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功",
+          "status": "passed",
+          "title": "MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功",
+          "duration": 108.64270800000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-TRIAL-DONE-1 ?battle= 试打开场：跳过入口 onEnter 演出，真实战斗经公开宿主启动，终局试打结束回执且战果入账",
+          "status": "passed",
+          "title": "MHB-TRIAL-DONE-1 ?battle= 试打开场：跳过入口 onEnter 演出，真实战斗经公开宿主启动，终局试打结束回执且战果入账",
+          "duration": 42.756624999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-TRIAL-ERROR-1 ?battle= 非法敌队：试打失败公开回执、零战斗会话、宿主保持可操作",
+          "status": "passed",
+          "title": "MHB-TRIAL-ERROR-1 ?battle= 非法敌队：试打失败公开回执、零战斗会话、宿主保持可操作",
+          "duration": 79.37358300000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-SAVE-FAIL-1 F5 缩略图外部 IO 失败：存档失败公开回执、savedTimes 不消费、写队列不毒化，重试成功得首号",
+          "status": "passed",
+          "title": "MHB-SAVE-FAIL-1 F5 缩略图外部 IO 失败：存档失败公开回执、savedTimes 不消费、写队列不毒化，重试成功得首号",
+          "duration": 87.38079199999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307490718,
+      "endTime": 1791307491601.3809,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/main.host-boundaries-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection completed owners lose executable bindings while their page animation and live fields survive",
+          "status": "passed",
+          "title": "completed owners lose executable bindings while their page animation and live fields survive",
+          "duration": 1.4369580000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection projects canonical page/behavior/hook selection without copying script bodies",
+          "status": "passed",
+          "title": "projects canonical page/behavior/hook selection without copying script bodies",
+          "duration": 0.4043750000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection adapts stable shared and item-private refs only inside the runtime shell",
+          "status": "passed",
+          "title": "adapts stable shared and item-private refs only inside the runtime shell",
+          "duration": 0.29579200000000583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection flattens only the active scene into a non-persistent scratch view",
+          "status": "passed",
+          "title": "flattens only the active scene into a non-persistent scratch view",
+          "duration": 0.35608300000001236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection keeps the default-entry scene projection read-only and never writes startup mirrors",
+          "status": "passed",
+          "title": "keeps the default-entry scene projection read-only and never writes startup mirrors",
+          "duration": 0.2635830000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307492794,
+      "endTime": 1791307492796.3562,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/runtime-project-view.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "scene resource owner seeds the real entry and caches successful canonical reads only",
+          "status": "passed",
+          "title": "scene resource owner seeds the real entry and caches successful canonical reads only",
+          "duration": 35.70374999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene failure is not cached and a fresh request can recover",
+          "status": "passed",
+          "title": "scene failure is not cached and a fresh request can recover",
+          "duration": 8.897166999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "map failure is not cached and a fresh request can recover",
+          "status": "passed",
+          "title": "map failure is not cached and a fresh request can recover",
+          "duration": 9.981916999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "palette has one project-scoped promise and repeated successful callers share its value",
+          "status": "passed",
+          "title": "palette has one project-scoped promise and repeated successful callers share its value",
+          "duration": 7.141875000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "palette rejection keeps the existing memo policy and exact error",
+          "status": "passed",
+          "title": "palette rejection keeps the existing memo policy and exact error",
+          "duration": 4.729332999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "references rejection keeps the existing memo policy and exact error",
+          "status": "passed",
+          "title": "references rejection keeps the existing memo policy and exact error",
+          "duration": 2.613540999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "complete reference loading warms all canonical scenes without changing its returned index",
+          "status": "passed",
+          "title": "complete reference loading warms all canonical scenes without changing its returned index",
+          "duration": 7.443125000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "map LRU touches hits and evicts the least recent key at the seventeenth completed map",
+          "status": "passed",
+          "title": "map LRU touches hits and evicts the least recent key at the seventeenth completed map",
+          "duration": 11.284375000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cold concurrent scene reads preserve completion-order caching rather than inventing coalescing",
+          "status": "passed",
+          "title": "cold concurrent scene reads preserve completion-order caching rather than inventing coalescing",
+          "duration": 3.3845420000000104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cold concurrent map reads preserve completion-order caching rather than inventing coalescing",
+          "status": "passed",
+          "title": "cold concurrent map reads preserve completion-order caching rather than inventing coalescing",
+          "duration": 4.69541700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "separate project owners never reuse another project scene or map cache",
+          "status": "passed",
+          "title": "separate project owners never reuse another project scene or map cache",
+          "duration": 12.764125000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307492584,
+      "endTime": 1791307492692.7642,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-battle-preview-binding/packages/reforge/src/scene-resources.test.ts"
+    }
+  ]
+}

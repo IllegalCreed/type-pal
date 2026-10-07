@@ -1,0 +1,72 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 3,
+  "numPassedTests": 2,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791307976511,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+          "status": "passed",
+          "title": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+          "duration": 138.99254199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+          "status": "failed",
+          "title": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+          "duration": 25.583665999999994,
+          "failureMessages": [
+            "AssertionError: expected 'load' to be 'menu' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts:211:39\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+          "status": "passed",
+          "title": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+          "duration": 23.253624999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307977174,
+      "endTime": 1791307977362.2537,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts"
+    }
+  ]
+}

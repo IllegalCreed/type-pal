@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge
+
+ ❯ src/opening-menu.io-lifecycle.test.ts (3 tests | 1 failed) 188ms
+   ✓ O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制 139ms
+   × O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档 26ms
+   ✓ O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码 23ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:32:56
+   Duration  845ms (transform 311ms, setup 0ms, import 284ms, tests 188ms, environment 302ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N4-escape-no-longer-exits-load.mutant.json
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/opening-menu.io-lifecycle.test.ts > O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档
+AssertionError: expected 'load' to be 'menu' // Object.is equality
+
+Expected: "menu"
+Received: "load"
+
+ ❯ src/opening-menu.io-lifecycle.test.ts:211:39
+    209|     expect(spanTextsSince(o.h, 0)).toContain('旧港') // 场景前置：第一访看到旧数据
+    210|     await key(o.h, 'Escape') // 退回标题（光标仍停在读取进度）
+    211|     expect(o.snapshots.at(-1)?.phase).toBe('menu')
+       |                                       ^
+    212|     await o.seed(metaOf('m01', '新港', 2000)) // 期间经产品写路径更新真实 store
+    213|     const mark = o.h.text.mock.calls.length
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

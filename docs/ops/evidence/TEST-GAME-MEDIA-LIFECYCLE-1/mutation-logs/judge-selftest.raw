@@ -1,0 +1,20 @@
+ok accepts clean green accepted=true want=true
+ok rejects green exit!=0 accepted=false want=false
+ok accepts single exact red accepted=true want=true
+ok rejects non-empty suite.message (A-R2-01 hook error alongside target red) accepted=false want=false
+ok rejects green with non-empty suite.message accepted=false want=false
+ok rejects red with signal SIGTERM (Codex A-R1-03 counterexample #1) accepted=false want=false
+ok rejects green with signal SIGTERM accepted=false want=false
+ok rejects extra failed collection suite (Codex A-R1-03 counterexample #2) accepted=false want=false
+ok rejects spawnError accepted=false want=false
+ok rejects count/detail drift (numTotalTests != details) accepted=false want=false
+ok rejects duplicate suite entry for same file accepted=false want=false
+ok rejects two failed accepted=false want=false
+ok rejects wrong fullName accepted=false want=false
+ok rejects missing marker accepted=false want=false
+ok rejects non-AssertionError failure accepted=false want=false
+ok rejects exit=0 red accepted=false want=false
+ok rejects execution-set drift accepted=false want=false
+ok rejects empty execution set accepted=false want=false
+ok rejects pending test accepted=false want=false
+ok rejects unhandled in output accepted=false want=false

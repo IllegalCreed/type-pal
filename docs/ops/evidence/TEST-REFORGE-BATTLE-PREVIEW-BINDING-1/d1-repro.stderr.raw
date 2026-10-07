@@ -1,0 +1,20 @@
+stderr | repro-d1-r3/d1-repro.test.ts > CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | repro-d1-r3/d1-repro.test.ts > REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  repro-d1-r3/d1-repro.test.ts > REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography
+AssertionError: battleLog 观测=["hero 攻击 foe 造成 161","胜利"]: expected [ 'hero 攻击 foe 造成 161', '胜利' ] to include '♪ 音效 sfx-encounter'
+ ❯ repro-d1-r3/d1-repro.test.ts:81:64
+     79|   // D-1 目标合同（红）：试打绑定的遭遇演出应被真实战斗消费。
+     80|   const observed = await collectBattleLog()
+     81|   expect(observed, `battleLog 观测=${JSON.stringify(observed)}`).toConta…
+       |                                                                ^
+     82| })
+     83|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

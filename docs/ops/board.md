@@ -10,9 +10,6 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
-| TEST-GAME-MEDIA-LIFECYCLE-1 | [视频与RNG异步收尾及资源所有权](tasks/TEST-GAME-MEDIA-LIFECYCLE-1.md) | rework | GLM对话A / A-R2-01 | 7合同与7针/M3独立重放；只补额外hook/global错误误收 |
-| TEST-REFORGE-OPENING-IO-LIFECYCLE-1 | [标题读档IO与缩略图生命周期](tasks/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | rework | GLM对话B / O-R2-01 | 坏oracle已删、3合同/3针/8诊断重放；只补额外错误误收 |
-| TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 | [试打场景演出与canonical脚本接线](tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | rework | GLM对话C / B-R2-01 | D-1重放成立、B4已降级；只补全局uncaught误收，零新增 |
 
 ## 看板规则
 

@@ -1,0 +1,133 @@
+{
+  "card": "TEST-GAME-MEDIA-LIFECYCLE-1",
+  "revision": "r2(A-R1-02/04:typed spyOn 原型+事件收尾;红形状 JSON 单列持久)",
+  "axis": "M3 product-counter:重试点击入口在第一次重试被拒后死亡",
+  "expected": "故意红(repro-*),与绿门分列;不进默认 test,不计覆盖率",
+  "command": "node docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/run-repro-m3.mjs",
+  "process": {
+    "exit": 1,
+    "signal": null,
+    "pid": 64053,
+    "spawnError": null,
+    "argv": [
+      "node",
+      "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+      "run",
+      "src/shell/__repro__/repro-m3-dead-retry-entry.test.ts",
+      "--reporter=json",
+      "--reporter=default",
+      "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/repro-logs/repro-m3.dead-retry.json"
+    ],
+    "cwd": "/tmp/tp-media-lifecycle-repro-m3.3v3vTc/packages/game",
+    "env": {
+      "inherited": true,
+      "node": "v22.23.2",
+      "NODE_OPTIONS": null,
+      "NODE_ENV": null,
+      "TZ": null
+    }
+  },
+  "frozenCheck": "avi-player.ts sha256 与任务卡冻结值一致(建树时由 lib-isolated-tree 校验)",
+  "tests": "0 passed / 1 failed / 1 total",
+  "failedTest": {
+    "fullName": "repro-m3 隔离复现 连续 autoplay 拒绝后第二次真实 click 应仍有可用重试入口",
+    "status": "failed",
+    "failureMessages": [
+      "AssertionError: repro-m3: 第二次真实 click 后应仍有可用重试入口(再次发起 play()): expected 2 to be greater than or equal to 3\n    at /private/tmp/tp-media-lifecycle-repro-m3.3v3vTc/packages/game/src/shell/__repro__/repro-m3-dead-retry-entry.test.ts:45:7\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+    ]
+  },
+  "judgeProblems": [],
+  "judgeProbes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": [],
+      "raw": {
+        "file": "repro-logs/probe-pure-business-red-accepted.raw",
+        "sha256": "2628ce0e7a15bbf430d7930e62c96dfed2ab87e3907852d8e544ceea60ed3260"
+      },
+      "json": {
+        "file": "repro-logs/probe-pure-business-red-accepted.json",
+        "sha256": "a2324c35ca2463cecdbcac3c5d061d076fbcde9da44cea702f2dc7be989a5fe1"
+      }
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-media-lifecycle-repro-m3.3v3vTc/packages/game/src/shell/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ],
+      "raw": {
+        "file": "repro-logs/probe-red-plus-afterall-hook-error-rejected.raw",
+        "sha256": "dfc4bc9cabc85a968a48dd66c0b3b869cf3dccda84e81cd3e6e67ada2992fb2a"
+      },
+      "json": {
+        "file": "repro-logs/probe-red-plus-afterall-hook-error-rejected.json",
+        "sha256": "5bdb9391fdaab14bcd46e9881b6e0a3ff8e40a2f8a00d959604bead38e6a0f2d"
+      }
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"],
+      "raw": {
+        "file": "repro-logs/probe-red-plus-async-uncaught-rejected.raw",
+        "sha256": "feec96366a51bc78905264da7ae055955fb7b4a12e91b27c7036f1d45492f452"
+      },
+      "json": {
+        "file": "repro-logs/probe-red-plus-async-uncaught-rejected.json",
+        "sha256": "b24ffcf2916ec1aa10a75cc3f44e75f5d3d573665f7f53de170944848970cc7b"
+      }
+    }
+  ],
+  "verdict": "real-red-confirmed",
+  "raw": {
+    "file": "repro-logs/repro-m3.dead-retry.raw",
+    "sha256": "427e50d009efce056a75c839be7d9663ce717734709fbf1b04e6b550f91fede0"
+  },
+  "json": {
+    "file": "repro-logs/repro-m3.dead-retry.json",
+    "sha256": "b65e3e72aaa9b61679fbb75c6f4456d0c940d02b7940360d04409a211033f006"
+  },
+  "reproTestSha256": "c7caca9ee9689d72aec5a3c832ac785aa12f06e8a82ab0e12fd18add1a3fbfd7",
+  "cleanup": "removed=true path=/tmp/tp-media-lifecycle-repro-m3.3v3vTc"
+}

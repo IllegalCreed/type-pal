@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game
+
+ ❯ src/shell/avi-player.async-lifecycle.test.ts (5 tests | 1 failed) 40ms
+     ✓ M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 15ms
+     ✓ M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 15ms
+     × M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 6ms
+     ✓ M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 2ms
+     ✓ M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video 1ms
+ ✓ src/shell/rng-player.io-lifecycle.test.ts (2 tests) 124ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 6 passed (7)
+   Start at  02:28:04
+   Duration  773ms (transform 266ms, setup 34ms, import 286ms, tests 164ms, environment 601ms)
+
+JSON report written to /private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M4-cleanup-not-idempotent.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/avi-player.async-lifecycle.test.ts > avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 > M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频
+AssertionError: M4: 收尾清理只执行一次(重复键定时器不得重复 pause): expected [ <video …(2)></video>, …(2) ] to have a length of 1 but got 3
+
+- Expected
++ Received
+
+- 1
++ 3
+
+ ❯ src/shell/avi-player.async-lifecycle.test.ts:224:7
+    222|       port.paused.filter((el) => el === video1),
+    223|       'M4: 收尾清理只执行一次(重复键定时器不得重复 pause)',
+    224|     ).toHaveLength(1)
+       |       ^
+    225|     expect(
+    226|       port.paused.some((el) => el === video2),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

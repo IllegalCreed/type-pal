@@ -1,0 +1,52 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 1,
+  "numPassedTests": 0,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791307676738,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["judge probe"],
+          "fullName": "judge probe probe target",
+          "status": "failed",
+          "title": "probe target",
+          "duration": 2.9465000000000146,
+          "failureMessages": [
+            "AssertionError: PROBE: expected 1 to be 0: expected 1 to be +0 // Object.is equality\n    at /private/tmp/tp-media-lifecycle-repro-m3.3v3vTc/packages/game/src/shell/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts:5:44\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307677116,
+      "endTime": 1791307677118.9465,
+      "status": "failed",
+      "message": "CODEX_EXTRA_HOOK_ERROR",
+      "name": "/private/tmp/tp-media-lifecycle-repro-m3.3v3vTc/packages/game/src/shell/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  repro-d1-r3-pollution/pollution.test.ts > REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography
+AssertionError: expected [ 'actual' ] to include '♪ 音效 sfx-encounter'
+ ❯ repro-d1-r3-pollution/pollution.test.ts:9:22
+      7|
+      8| test('REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBat…
+      9|   expect(['actual']).toContain('♪ 音效 sfx-encounter')
+       |                      ^
+     10| })
+     11|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+Error: CODEX_EXTRA_RUNTIME_ERROR
+ ❯ Timeout._onTimeout repro-d1-r3-pollution/pollution.test.ts:14:11
+     12| afterAll(async () => {
+     13|   setTimeout(() => {
+     14|     throw new Error('CODEX_EXTRA_RUNTIME_ERROR')
+       |           ^
+     15|   }, 0)
+     16|   await new Promise((resolve) => setTimeout(resolve, 30))
+ ❯ listOnTimeout node:internal/timers:585:17
+ ❯ processTimers node:internal/timers:521:7
+
+This error originated in "repro-d1-r3-pollution/pollution.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯

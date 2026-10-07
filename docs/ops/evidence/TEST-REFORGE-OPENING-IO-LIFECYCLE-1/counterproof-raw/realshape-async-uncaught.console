@@ -1,0 +1,57 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge
+
+ ❯ src/__tests__/opening-io-lifecycle/realshape-async-uncaught.test.ts (3 tests | 1 failed) 35ms
+   ✓ green one 1ms
+   × target red 2ms
+   ✓ green two 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+     Errors  1 error
+   Start at  02:32:37
+   Duration  116ms (transform 8ms, setup 0ms, import 13ms, tests 35ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/realshape-async-uncaught.json
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/opening-io-lifecycle/realshape-async-uncaught.test.ts > target red
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/__tests__/opening-io-lifecycle/realshape-async-uncaught.test.ts:6:13
+      4| })
+      5| test('target red', () => {
+      6|   expect(1).toBe(0)
+       |             ^
+      7| })
+      8| test('green two', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+Error: CODEX_EXTRA_RUNTIME_ERROR
+ ❯ Timeout._onTimeout src/__tests__/opening-io-lifecycle/realshape-async-uncaught.test.ts:13:11
+     11| afterAll(async () => {
+     12|   setTimeout(() => {
+     13|     throw new Error('CODEX_EXTRA_RUNTIME_ERROR')
+       |           ^
+     14|   }, 0)
+     15|   await new Promise((resolve) => setTimeout(resolve, 30))
+ ❯ listOnTimeout node:internal/timers:585:17
+ ❯ processTimers node:internal/timers:521:7
+
+This error originated in "src/__tests__/opening-io-lifecycle/realshape-async-uncaught.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯

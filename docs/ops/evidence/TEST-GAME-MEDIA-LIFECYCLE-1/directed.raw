@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-game-media-lifecycle/packages/game
+
+ ✓ src/shell/avi-player.async-lifecycle.test.ts (5 tests) 37ms
+ ✓ src/shell/rng-player.io-lifecycle.test.ts (2 tests) 124ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  02:26:53
+   Duration  768ms (transform 256ms, setup 31ms, import 279ms, tests 161ms, environment 606ms)
+

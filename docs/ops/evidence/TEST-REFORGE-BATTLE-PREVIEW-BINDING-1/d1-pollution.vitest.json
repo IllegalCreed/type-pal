@@ -1,0 +1,62 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 1,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791307598077,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志",
+          "status": "passed",
+          "title": "CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志",
+          "duration": 0.7324169999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography",
+          "status": "failed",
+          "title": "REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography",
+          "duration": 1.8930000000000007,
+          "failureMessages": [
+            "AssertionError: expected [ 'actual' ] to include '♪ 音效 sfx-encounter'\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1319:15)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge/repro-d1-r3-pollution/pollution.test.ts:9:22\n    at file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307598169,
+      "endTime": 1791307598170.893,
+      "status": "failed",
+      "message": "",
+      "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge/repro-d1-r3-pollution/pollution.test.ts"
+    }
+  ]
+}

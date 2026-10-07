@@ -1,0 +1,669 @@
+{
+  "generatedAt": "2026-10-06T17:33:30.893Z",
+  "nodeVersion": "v22.23.2",
+  "mode": "pinned（正式门）",
+  "treePolicy": "mkdtemp 拷贝树（lock+frozen）内生成临时测试并调用真实产品；回执在最终删树取证后写入，不触碰活动工作树",
+  "subprocessPolicy": "每条 repro 一次子进程双 reporter 联判：native JSON（outputFile）与完整原始诊断（stdout+stderr）同进程采集（O-R2-01；JSON 单跑隐藏全局错误，双进程互证无效）",
+  "pollutionPolicy": "Type B 拒收 suite.message 非空/Failed Suites/Unhandled Rejection/Uncaught Exception/Unhandled Errors 段/Errors N 摘要行；Type A 保留恰一指定公开 IO 未处理拒绝，但叠加 Uncaught Exception/hook 错误即拒收（两种真实 Vitest 污染形态入自测）",
+  "jsonSuccessWarning": "vitest 4.1.7 实证：未处理拒绝下 JSON reporter success 仍为 true、无 unhandledErrors 字段；Type A 判据组合 exit=1 + 默认 reporter stderr 证据（恰一注入标记+产品栈锚），不信任 json success",
+  "identityPolicy": "每条 repro 预声明执行身份（file+fullName 精确相等）；恰一 suite、零断言失败套件拒收、计数与行数互核、隐藏 skip 拒收",
+  "selfTest": {
+    "cases": [
+      {
+        "case": "typeA-valid-accept",
+        "expect": "accept",
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "typeA-json-success-true-not-trusted",
+        "expect": "accept",
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "typeA-exit-zero-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["exit=0 ≠ 1"]
+      },
+      {
+        "case": "typeA-business-failed-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["业务断言必须全绿(1/1): passed=0 failed=1"]
+      },
+      {
+        "case": "typeA-missing-rejection-evidence-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "未处理拒绝计数 0 ≠ 1（恰一指定产品拒绝，额外错误拒收）",
+          "未处理拒绝不含注入标记 R1: 存储listMeta读取拒绝",
+          "未处理拒绝无产品栈锚(opening-menu.ts)",
+          "同次 stdout 摘要无恰一 Errors 1 error 行"
+        ]
+      },
+      {
+        "case": "typeA-wrong-marker-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["未处理拒绝不含注入标记 R9: 不存在的标记"]
+      },
+      {
+        "case": "typeA-no-product-frame-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["未处理拒绝无产品栈锚(opening-menu.ts)"]
+      },
+      {
+        "case": "typeA-extra-unhandled-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "未处理拒绝计数 2 ≠ 1（恰一指定产品拒绝，额外错误拒收）",
+          "同次 stdout 摘要无恰一 Errors 1 error 行"
+        ]
+      },
+      {
+        "case": "typeA-with-uncaught-exception-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "Type A 叠加 'Uncaught Exception'（额外运行错误拒收）",
+          "同次 stdout 摘要无恰一 Errors 1 error 行"
+        ]
+      },
+      {
+        "case": "typeA-hook-error-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "suite.message 非空（hook/collection 层额外错误，拒收）: /tmp/tree/packages/reforge/src/__tests__/opening-io-lifecycle/x.test.ts → Error: CODEX_EXTRA_HOOK_ERROR",
+          "执行身份漂移: fullName=\"R4 O4 逆序完成: 旧批次metas覆盖新批次(后到旧结果胜出)\" ≠ 声明 \"R1 O1 listMeta拒绝: 菜单Promise悬空+进程级未处理拒绝(D-Q01-1重核)\"",
+          "Type A 叠加 'Failed Suites'（额外 hook 错误拒收）"
+        ]
+      },
+      {
+        "case": "typeA-pending-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["存在 pending/todo（隐藏 skip 拒收）"]
+      },
+      {
+        "case": "typeA-fullname-drift-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "执行身份漂移: fullName=\"R1 O1 listMeta拒绝: 菜单Promise悬空+进程级未处理拒绝(D-Q01-1重核)\" ≠ 声明 \"R8 不存在的测试名\""
+        ]
+      },
+      {
+        "case": "typeA-file-drift-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "执行文件身份漂移: /tmp/tree/packages/reforge/src/__tests__/opening-io-lifecycle/other.test.ts 不以 src/__tests__/opening-io-lifecycle/x.test.ts 结尾"
+        ]
+      },
+      {
+        "case": "typeB-valid-accept",
+        "expect": "accept",
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "typeB-hook-error-via-suite-message-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "suite.message 非空（hook/collection 层额外错误，拒收）: /tmp/tree/packages/reforge/src/__tests__/opening-io-lifecycle/x.test.ts → Error: CODEX_EXTRA_HOOK_ERROR",
+          "numFailedTests=0 ≠ 1",
+          "诊断含 'Failed Suites'（hook 层错误）"
+        ]
+      },
+      {
+        "case": "typeB-runtime-uncaught-via-diagnostics-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "诊断含 'Uncaught Exception'",
+          "诊断含 'Unhandled Errors' 段（进程级错误存在）",
+          "stdout 含 'Errors  N' 摘要行（进程级错误存在）"
+        ]
+      },
+      {
+        "case": "typeB-wrong-fullname-plus-collection-suite-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "numTotalTestSuites=2 ≠ 1",
+          "collection/runtime error suite（零断言失败套件）: /tmp/tree/packages/reforge/src/__tests__/opening-io-lifecycle/broken.test.ts",
+          "suite 数 2 ≠ 1"
+        ]
+      },
+      {
+        "case": "typeB-two-failures-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "断言数 2 ≠ 1",
+          "numTotalTests=2 ≠ 1",
+          "numFailedTests=2 ≠ 1",
+          "失败消息不含指定片段: to include '新港'"
+        ]
+      },
+      {
+        "case": "typeB-unhandled-contamination-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["诊断含 'Unhandled Rejection'"]
+      }
+    ],
+    "allOk": true
+  },
+  "repros": [
+    {
+      "id": "R1-listMeta-reject-dangling",
+      "type": "A",
+      "axis": "O1",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R1-listMeta-reject-dangling.test.ts",
+        "fullName": "R1 O1 listMeta拒绝: 菜单Promise悬空+进程级未处理拒绝(D-Q01-1重核)"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R1-listMeta-reject-dangling.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R1-listMeta-reject-dangling.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R1-listMeta-reject-dangling.test.ts",
+      "sourceSha256": "82df24e0034069d43146c420ce1db0ca616571f1012a01e164741cdd42213800",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R1 O1 listMeta拒绝: 菜单Promise悬空+进程级未处理拒绝(D-Q01-1重核)', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  const o = await menu(\n    real,\n    (r, reads) => ({\n      putSlot: (m, p, t) => r.putSlot(m, p, t),\n      getPayload: (s) => r.getPayload(s),\n      getThumb: (s) => r.getThumb(s),\n      listMeta: async () => {\n        reads.push('meta')\n        await r.listMeta()\n        throw new Error('R1: 存储listMeta读取拒绝(公开存储边界)')\n      },\n    }),\n  )\n  await press(o.host, 'ArrowUp')\n  await press(o.host, 'Enter')\n  await settle()\n  await settle()\n  expect(o.reads).toEqual(['meta'])\n  expect(o.state.value).toBeUndefined()\n  expect(o.host.frames.size).toBe(1)\n  await press(o.host, 'ArrowDown')\n  expect(o.snapshots.at(-1)?.selectedId).toBe('first')\n  await press(o.host, 'Enter')\n  expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n})\n",
+      "expectedErrorPart": null,
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 0
+        },
+        "jsonSuccess": true,
+        "parseable": true,
+        "artifact": {
+          "bytes": 1390,
+          "sha256": "c9da1436a18c58aee94c1a7d64ff79df0dc91d4e8327a675c27366e61358baf7",
+          "path": "repro-raw/R1-listMeta-reject-dangling.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 2043,
+          "sha256": "c1823eedb7b0ab4b3cd918c045fee085a5eb94e5475ee8f3e517832f38ddd38a",
+          "path": "repro-raw/R1-listMeta-reject-dangling.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R2-getThumb-reject-dangling",
+      "type": "A",
+      "axis": "O2",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R2-getThumb-reject-dangling.test.ts",
+        "fullName": "R2 O2 仅getThumb拒绝: 合法档在库, 悬空仍在enterLoad链(故障位置区分O1)"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R2-getThumb-reject-dangling.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R2-getThumb-reject-dangling.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R2-getThumb-reject-dangling.test.ts",
+      "sourceSha256": "f0e96a95cace1643ccf68df96db2f2f8b20480e6bfade80de31515d649eeb507",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R2 O2 仅getThumb拒绝: 合法档在库, 悬空仍在enterLoad链(故障位置区分O1)', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  const o = await menu(\n    real,\n    (r, reads) => ({\n      putSlot: (m, p, t) => r.putSlot(m, p, t),\n      getPayload: (s) => r.getPayload(s),\n      getThumb: async (s) => {\n        reads.push('thumb:' + s)\n        await r.getThumb(s)\n        throw new Error('R2: 存储getThumb读取拒绝(公开存储边界)')\n      },\n      listMeta: async () => {\n        reads.push('meta')\n        return r.listMeta()\n      },\n    }),\n  )\n  await seedSlot(real, metaOf('m01', '旧港'))\n  await press(o.host, 'ArrowUp')\n  await press(o.host, 'Enter')\n  await settle()\n  await settle()\n  expect(o.reads).toEqual(['meta', 'thumb:m01'])\n  expect(o.state.value).toBeUndefined()\n  expect(o.snapshots.at(-1)?.phase).toBe('menu')\n  await press(o.host, 'ArrowDown')\n  await press(o.host, 'Enter')\n  expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n})\n",
+      "expectedErrorPart": null,
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 0
+        },
+        "jsonSuccess": true,
+        "parseable": true,
+        "artifact": {
+          "bytes": 1404,
+          "sha256": "f31a8c2e1054991895d9d5bfd32bef2d18cdb8885ebce21ee6c21b7779c20368",
+          "path": "repro-raw/R2-getThumb-reject-dangling.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1911,
+          "sha256": "ddf055df30b86456c631065419ef21efe689b5f7102a7da7e3a4b138e7ed2f15",
+          "path": "repro-raw/R2-getThumb-reject-dangling.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R3-decode-reject-dangling",
+      "type": "A",
+      "axis": "O3",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R3-decode-reject-dangling.test.ts",
+        "fullName": "R3 O3 有效PNG解码拒绝: 悬空发生在浏览器解码边界"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R3-decode-reject-dangling.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R3-decode-reject-dangling.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R3-decode-reject-dangling.test.ts",
+      "sourceSha256": "924543854047cb899b85ab8a71cd439aa65bf0f806f14aa2fcfb72fcea551930",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R3 O3 有效PNG解码拒绝: 悬空发生在浏览器解码边界', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  const o = await menu(real, tracing, {\n    stubDecode: () => {\n      vi.stubGlobal(\n        'createImageBitmap',\n        async () => {\n          throw new Error('R3: 浏览器解码拒绝(有效PNG, 解码边界)')\n        },\n      )\n    },\n  })\n  await seedSlot(real, metaOf('m01', '旧港'))\n  await press(o.host, 'ArrowUp')\n  await press(o.host, 'Enter')\n  await settle()\n  await settle()\n  expect(o.reads).toEqual(['meta', 'thumb:m01'])\n  expect(o.state.value).toBeUndefined()\n  expect(o.snapshots.at(-1)?.phase).toBe('menu')\n  await press(o.host, 'ArrowDown')\n  await press(o.host, 'Enter')\n  expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n})\n",
+      "expectedErrorPart": null,
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 0
+        },
+        "jsonSuccess": true,
+        "parseable": true,
+        "artifact": {
+          "bytes": 1355,
+          "sha256": "51e8ab5289a6255d797fca42cc676b0580ae5a1f51e0c8ceb4c6844ac8ba75a6",
+          "path": "repro-raw/R3-decode-reject-dangling.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1918,
+          "sha256": "27616e1a52c87e077c530a18b6866e59abf99b3c39a218c31614b4a5997ddcb0",
+          "path": "repro-raw/R3-decode-reject-dangling.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R4-reverse-order-stale-overwrite",
+      "type": "B",
+      "axis": "O4",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R4-reverse-order-stale-overwrite.test.ts",
+        "fullName": "R4 O4 逆序完成: 旧批次metas覆盖新批次(后到旧结果胜出)"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R4-reverse-order-stale-overwrite.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R4-reverse-order-stale-overwrite.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R4-reverse-order-stale-overwrite.test.ts",
+      "sourceSha256": "a5895ff77d8a1bfbccb5c4e2607ded2bd5385a9eae2229966c79f0d64273f0d3",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R4 O4 逆序完成: 旧批次metas覆盖新批次(后到旧结果胜出)', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  let releaseFirst!: () => void\n  const gate = new Promise<void>((resolve) => {\n    releaseFirst = resolve\n  })\n  let calls = 0\n  const o = await menu(real, (r, reads) => ({\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      calls++\n      reads.push('meta')\n      const metas = await r.listMeta()\n      if (calls === 1) await gate\n      return metas\n    },\n  }))\n  await seedSlot(real, metaOf('m01', '旧港', 1000))\n  await press(o.host, 'ArrowUp')\n  o.host.key('Enter') // 第一读(旧快照), 送达被门控\n  await settle()\n  await seedSlot(real, metaOf('m01', '新港', 2000)) // 期间存档被更新\n  o.host.key('Enter') // 第二读(新快照), 立即送达\n  await settle()\n  await settle()\n  o.host.frame(100)\n  expect(spanTexts(o.host)).toContain('新港') // 第二读先完成: 当前显示新档\n  const mark = o.host.text.mock.calls.length\n  releaseFirst() // 第一读(旧)迟到送达\n  await settle()\n  await settle()\n  o.host.frame(100)\n  const late = o.host.text.mock.calls\n    .slice(mark)\n    .flatMap((call) => call[1].map((span) => span.text))\n  expect(late).toContain('新港') // 期望最新结果保留; 实际被旧批次覆盖\n  expect(late).not.toContain('旧港')\n})\n",
+      "expectedErrorPart": "expected [ 'menu.system.load', '1/10', …(8) ] to include '新港'",
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 1
+        },
+        "jsonSuccess": false,
+        "parseable": true,
+        "artifact": {
+          "bytes": 2470,
+          "sha256": "df6c428e37e445b54f438f8e2521600aa3997f590150c87ba03405591a70a35b",
+          "path": "repro-raw/R4-reverse-order-stale-overwrite.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1392,
+          "sha256": "a7e384daa6ce06dbbf9502dd3485b4d6fbf5612ed83c6f507a9fd2d7be7b8603",
+          "path": "repro-raw/R4-reverse-order-stale-overwrite.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R5a-late-reject-after-exit",
+      "type": "A",
+      "axis": "O5",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R5a-late-reject-after-exit.test.ts",
+        "fullName": "R5a O5 退出后迟到IO拒绝: 悬空拒绝发生在菜单退休之后"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R5a-late-reject-after-exit.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R5a-late-reject-after-exit.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R5a-late-reject-after-exit.test.ts",
+      "sourceSha256": "ecd901d55360ec867eef1e4b9ece5e8f2c5a319fec8d4fd13ca073937447c724",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R5a O5 退出后迟到IO拒绝: 悬空拒绝发生在菜单退休之后', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  let releaseGate!: () => void\n  const gate = new Promise<void>((resolve) => {\n    releaseGate = resolve\n  })\n  const o = await menu(\n    real,\n    (r, reads) => ({\n      putSlot: (m, p, t) => r.putSlot(m, p, t),\n      getPayload: (s) => r.getPayload(s),\n      getThumb: async (s) => {\n        reads.push('thumb:' + s)\n        return r.getThumb(s)\n      },\n      listMeta: async () => {\n        reads.push('meta')\n        await r.listMeta()\n        await gate\n        throw new Error('R5a: 退出后迟到的listMeta拒绝(公开存储边界)')\n      },\n    }),\n  )\n  await seedSlot(real, metaOf('m01', '旧港'))\n  await press(o.host, 'ArrowUp')\n  o.host.key('Enter') // listMeta 已调用, 送达被门控\n  await settle()\n  await press(o.host, 'ArrowDown')\n  await press(o.host, 'Enter') // 选新局退出: cleanup + resolve\n  expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n  expect(o.host.frames.size).toBe(0)\n  releaseGate() // 迟到送达=拒绝(错误在enterLoad链上构造)\n  await settle()\n  await settle()\n  expect(o.reads).toEqual(['meta'])\n  expect(o.host.frames.size).toBe(0) // 业务面保持绿: 退休不被复活\n})\n",
+      "expectedErrorPart": null,
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 0
+        },
+        "jsonSuccess": true,
+        "parseable": true,
+        "artifact": {
+          "bytes": 1369,
+          "sha256": "d954a6b60313fb38c071b2c5af2aef44e93cf31fb5a6db4be593fbecdaadcd0a",
+          "path": "repro-raw/R5a-late-reject-after-exit.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1953,
+          "sha256": "ac6710612cb04a98bc91e3d48e90d58703185f29befa9c29f3e6df469ba9eef8",
+          "path": "repro-raw/R5a-late-reject-after-exit.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R5b-late-decode-after-exit",
+      "type": "B",
+      "axis": "O5",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R5b-late-decode-after-exit.test.ts",
+        "fullName": "R5b O5 退出后迟到IO仍解码位图: 退出不取消在途装载"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R5b-late-decode-after-exit.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R5b-late-decode-after-exit.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R5b-late-decode-after-exit.test.ts",
+      "sourceSha256": "57907df14a3daf406fb479493ad02aae12a5998c8b1e6906e7f864e2f987bd88",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R5b O5 退出后迟到IO仍解码位图: 退出不取消在途装载', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  let releaseGate!: () => void\n  const gate = new Promise<void>((resolve) => {\n    releaseGate = resolve\n  })\n  const o = await menu(real, (r, reads) => ({\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      const metas = await r.listMeta()\n      await gate\n      return metas\n    },\n  }))\n  await seedSlot(real, metaOf('m01', '旧港'))\n  await press(o.host, 'ArrowUp')\n  o.host.key('Enter') // 读取进度: 送达被门控\n  await settle()\n  await press(o.host, 'ArrowDown')\n  await press(o.host, 'Enter') // 选新局退出\n  expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n  const before = o.thumbBitmaps().length\n  releaseGate()\n  await settle()\n  await settle()\n  await settle()\n  expect(o.reads).toEqual(['meta', 'thumb:m01']) // 迟到链完整执行(绿事实)\n  expect(o.thumbBitmaps().length).toBe(before) // 退出后不应再解码; 实际仍创建\n})\n",
+      "expectedErrorPart": "expected 1 to be +0 // Object.is equality",
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 1
+        },
+        "jsonSuccess": false,
+        "parseable": true,
+        "artifact": {
+          "bytes": 1827,
+          "sha256": "eae827ef71b5e31854499bd440c4bc596be639628efd7a5629eb6b48857f6d23",
+          "path": "repro-raw/R5b-late-decode-after-exit.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1378,
+          "sha256": "ebf1574a66f1cca0123202e54a54bec658a2db7fe6abdb92b4cda9bff34bcd52",
+          "path": "repro-raw/R5b-late-decode-after-exit.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R6-reentry-bitmap-not-closed",
+      "type": "B",
+      "axis": "O6",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R6-reentry-bitmap-not-closed.test.ts",
+        "fullName": "R6 O6 重进读档相位: 旧批缩略图位图未释放(无close)"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R6-reentry-bitmap-not-closed.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R6-reentry-bitmap-not-closed.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R6-reentry-bitmap-not-closed.test.ts",
+      "sourceSha256": "4492f4dfd3ac8ed625f3c6f0485a541a957658897e57501b20df57704387f79a",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R6 O6 重进读档相位: 旧批缩略图位图未释放(无close)', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  const o = await menu(real, tracing)\n  await seedSlot(real, metaOf('m01', '旧港'))\n  await press(o.host, 'ArrowUp')\n  await press(o.host, 'Enter')\n  await settle()\n  await settle()\n  o.host.frame(100) // 快照只在帧上刷新\n  expect(o.snapshots.at(-1)?.phase).toBe('load')\n  const firstBatch = o.thumbBitmaps()\n  expect(firstBatch).toHaveLength(1)\n  await press(o.host, 'Escape')\n  expect(o.snapshots.at(-1)?.phase).toBe('menu')\n  await press(o.host, 'Enter') // 重新进入\n  await settle()\n  await settle()\n  o.host.frame(100)\n  expect(o.snapshots.at(-1)?.phase).toBe('load')\n  expect(o.thumbBitmaps()).toHaveLength(2)\n  expect(firstBatch[0]!.close).toHaveBeenCalled() // 旧批退役应释放; 实际从不close\n})\n",
+      "expectedErrorPart": "expected \"vi.fn()\" to be called at least once",
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 1
+        },
+        "jsonSuccess": false,
+        "parseable": true,
+        "artifact": {
+          "bytes": 2431,
+          "sha256": "59fc893d11329791bd5b9e00fea3a86bfbb6119d683d96113e192e9caec11227",
+          "path": "repro-raw/R6-reentry-bitmap-not-closed.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1342,
+          "sha256": "0bc3a5c12ca0dc759eeb7140f54ec4dd45d6160c8ed5ba3151c30771289078b1",
+          "path": "repro-raw/R6-reentry-bitmap-not-closed.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    },
+    {
+      "id": "R7-completion-bitmap-not-closed",
+      "type": "B",
+      "axis": "O7",
+      "declaredIdentity": {
+        "file": "src/__tests__/opening-io-lifecycle/R7-completion-bitmap-not-closed.test.ts",
+        "fullName": "R7 O7 正常完成读档: 已创建缩略图位图未被释放"
+      },
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/__tests__/opening-io-lifecycle/R7-completion-bitmap-not-closed.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R7-completion-bitmap-not-closed.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted",
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge"
+      },
+      "file": "src/__tests__/opening-io-lifecycle/R7-completion-bitmap-not-closed.test.ts",
+      "sourceSha256": "82128f3f41653360c5a5b8c497cfeea99903834c710b9d9ce54fc4a2dc94f51f",
+      "sourceText": "// @vitest-environment jsdom\nimport { expect, test, vi } from 'vitest'\nimport { buildWorld } from '@type-pal/content'\nimport { chromePng, installShellHost, type ShellHost } from '../runtime-shell/dom-host.js'\nimport { shellProject } from '../runtime-shell/project.js'\nimport type { OpeningDecision, OpeningMenuObservation } from '../../opening-menu.js'\nimport { buildCurrentSavePayload } from '../../save/ops.js'\nimport { MemorySaveStore, type SaveStore } from '../../save/store.js'\nimport { type SaveMeta, type SlotId, slotKind } from '../../save/types.js'\n\nasync function seedSlot(store: SaveStore, meta: SaveMeta): Promise<void> {\n  const fixture = await shellProject()\n  const entry = fixture.project.manifest.entryPoints[0]!\n  const payload = buildCurrentSavePayload(\n    buildWorld(entry.startWorld, fixture.project.actorsById),\n    { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },\n    'shell-project',\n  )\n  await store.putSlot(meta, payload, new Blob([chromePng().slice().buffer], { type: 'image/png' }))\n}\n\nfunction metaOf(slotId: SlotId, mapName: string, savedAt = 1000): SaveMeta {\n  return {\n    slotId,\n    kind: slotKind(slotId),\n    party: [{ name: 'Hero', level: 1 }],\n    mapName,\n    savedAt,\n  }\n}\n\nfunction tracing(r: SaveStore, reads: string[]): SaveStore {\n  return {\n    putSlot: (m, p, t) => r.putSlot(m, p, t),\n    getPayload: (s) => r.getPayload(s),\n    getThumb: async (s) => {\n      reads.push('thumb:' + s)\n      return r.getThumb(s)\n    },\n    listMeta: async () => {\n      reads.push('meta')\n      return r.listMeta()\n    },\n  }\n}\n\ninterface MenuHandle {\n  host: ShellHost\n  state: { value?: OpeningDecision }\n  done: Promise<OpeningDecision>\n  reads: string[]\n  snapshots: OpeningMenuObservation[]\n  thumbBitmaps: () => ImageBitmap[]\n}\n\nasync function menu(\n  real: SaveStore,\n  decorate: (real: SaveStore, reads: string[]) => SaveStore,\n  options: { stubDecode?: () => void } = {},\n): Promise<MenuHandle> {\n  const host = await installShellHost()\n  const fixture = await shellProject()\n  const { loadMenuAssets } = await import('../../menu/menu-box.js')\n  const { projectItemsView } = await import('../../runtime-project-view.js')\n  const { loadGlyphs } = await import('../../text/glyph.js')\n  const { runOpeningMenu } = await import('../../opening-menu.js')\n  const menuAssets = await loadMenuAssets(\n    projectItemsView(fixture.project.items),\n    fixture.project.imageCache,\n  )\n  const reads: string[] = []\n  const canvas = document.querySelector('canvas')!\n  const ctx = canvas.getContext('2d')!\n  const bg = await createImageBitmap(new Blob([chromePng().slice().buffer]))\n  const bitmapsBefore = host.bitmaps.length\n  options.stubDecode?.()\n  const snapshots: OpeningMenuObservation[] = []\n  const done = runOpeningMenu({\n    ctx,\n    glyphs: await loadGlyphs(),\n    bg,\n    items: [\n      { id: 'first', label: 'A' },\n      { id: 'second', label: 'AA' },\n    ],\n    worldScale: 4,\n    locale: {},\n    menuAssets,\n    saveStore: decorate(real, reads),\n    observe: (snapshot) => snapshots.push(snapshot),\n  })\n  const state: { value?: OpeningDecision } = {}\n  void done.then((value) => {\n    state.value = value\n  })\n  host.frame()\n  return { host, state, done, reads, snapshots, thumbBitmaps: () => host.bitmaps.slice(bitmapsBefore) }\n}\n\nasync function press(host: ShellHost, keyValue: string): Promise<void> {\n  host.key(keyValue)\n  host.frame(100)\n  host.release(keyValue)\n  for (let i = 0; i < 20; i++) await Promise.resolve()\n}\n\nasync function settle(): Promise<void> {\n  await new Promise<void>((resolve) => setImmediate(resolve))\n}\n\nfunction spanTexts(host: ShellHost): string[] {\n  return host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))\n}\n\ntest('R7 O7 正常完成读档: 已创建缩略图位图未被释放', async () => {\n  const real = new MemorySaveStore({ kind: 'project', projectId: 'shell-project' })\n  const o = await menu(real, tracing)\n  await seedSlot(real, metaOf('m01', '旧港'))\n  await press(o.host, 'ArrowUp')\n  await press(o.host, 'Enter')\n  await settle()\n  await settle()\n  o.host.frame(100) // 快照只在帧上刷新\n  expect(o.snapshots.at(-1)?.phase).toBe('load')\n  await press(o.host, 'ArrowDown')\n  await press(o.host, 'ArrowDown')\n  await press(o.host, 'Enter')\n  expect(await o.done).toEqual({ kind: 'load', slotId: 'm01' })\n  const thumbs = o.thumbBitmaps()\n  expect(thumbs).toHaveLength(1)\n  expect(thumbs[0]!.close).toHaveBeenCalled() // 完成收尾应释放; 实际从不close\n})\n",
+      "expectedErrorPart": "expected \"vi.fn()\" to be called at least once",
+      "jsonPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "counts": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numTodoTests": 0,
+          "numTotalTestSuites": 1,
+          "numFailedTestSuites": 1
+        },
+        "jsonSuccess": false,
+        "parseable": true,
+        "artifact": {
+          "bytes": 2429,
+          "sha256": "128e1e38121431eb17e854c04a4e759d50d653e492e570145d0d1148ee6501af",
+          "path": "repro-raw/R7-completion-bitmap-not-closed.json"
+        }
+      },
+      "defaultPhase": {
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "artifact": {
+          "bytes": 1313,
+          "sha256": "e9f70dcf4236a8d941b038e3135c8ec3c1b32a84c330491fe737a7bbfd94ea10",
+          "path": "repro-raw/R7-completion-bitmap-not-closed.console"
+        }
+      },
+      "issues": [],
+      "pass": true
+    }
+  ],
+  "cleanup": {
+    "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E",
+    "removed": true,
+    "policy": "成功路径删树后 existsSync=false 取证；准备失败路径在 prepareTree 内部清理并在异常信息携带证明"
+  },
+  "allPass": true
+}

@@ -1,0 +1,514 @@
+
+> @type-pal/game@1.0.0 test /private/tmp/type-pal-game-media-lifecycle/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /private/tmp/type-pal-game-media-lifecycle/packages/game
+
+ ✓ src/present/screen-wave-mirror.grok-r1.test.ts (8 tests) 253ms
+ ✓ src/assets/dialog-assets.glm-phase1-leaves.test.ts (2 tests) 212ms
+ ✓ src/shell/boot-loading-host.grok-r1.test.ts (11 tests) 407ms
+ ✓ src/tools/tools-panel.test.ts (15 tests) 519ms
+     ✓ 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘  344ms
+ ✓ src/assets/load-all-bounds.grok-r1.test.ts (10 tests) 255ms
+ ✓ src/assets/load-all-recover.grok-r1.test.ts (10 tests) 256ms
+ ✓ src/shell/fbp-player.test.ts (7 tests) 672ms
+ ✓ src/assets/png.test.ts (1 test) 243ms
+ ✓ src/shell/fbp-scroll.grok-r1.test.ts (6 tests) 875ms
+ ✓ src/assets/load-all-assemble.grok-r1.test.ts (10 tests) 284ms
+stderr | src/shell/avi-player.test.ts > playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) > video error 事件触发 → Promise 仍 resolve(不抛)
+[avi-player] video load/decode failed: /extracted/videos/nonexistent.mp4
+
+ ✓ src/shell/avi-player.test.ts (12 tests) 2059ms
+     ✓ Space 键跳过 → Promise resolve + element 移除  503ms
+     ✓ Enter 键跳过  503ms
+     ✓ Escape 键跳过  503ms
+     ✓ 自定义 skipKeys 覆盖默认  513ms
+ ✓ src/shell/splash-fallback.glm-next-wave.test.ts (1 test) 327ms
+     ✓ 未跳过的前 3 帧:title 只画 dy=0..2;dy=5 仍未画(fake timers 逐帧停点)  326ms
+ ✓ src/core/rng.test.ts (7 tests) 293ms
+ ✓ src/assets/rng-blob-snapshot.test.ts (13 tests) 2034ms
+     ✓ chunk 1: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)  377ms
+     ✓ chunk 3: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)  327ms
+     ✓ chunk 9: blob 解出帧 == 原 RNG.MKF chunk 解出帧(逐字节)  444ms
+ ✓ src/present/dialog-box-pixels.grok-r1.test.ts (11 tests) 245ms
+ ✓ src/shell/rng-player.test.ts (14 tests) 413ms
+ ✓ src/shell/trademark-splash.grok-r1.test.ts (6 tests) 827ms
+     ✓ G10-B06 卷轴停在 iImgPos 1，底行仍是下图  333ms
+ ✓ src/assets/png-decode.grok-r1.test.ts (5 tests) 412ms
+     ✓ G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R  405ms
+ ✓ src/assets/png.glm-phase1-leaves.test.ts (2 tests) 197ms
+ ✓ src/present/battle/battle-effect-num-pixels.grok-r1.test.ts (7 tests) 191ms
+ ✓ src/tools/minimap.glm-phase1-leaves.test.ts (4 tests) 293ms
+ ✓ src/present/present-hold.grok-r1.test.ts (9 tests) 186ms
+ ✓ src/present/__tests__/grok-composition/p14-battle-fades.test.ts (3 tests) 305ms
+ ✓ src/shell/ending-player.glm-next-wave.test.ts (4 tests) 337ms
+     ✓ skipKeys:播中 Space 被拦截并提前退出(刷帧数远小于 frameCount),finally 释放监听  315ms
+ ✓ src/present/screen-wave.test.ts (5 tests) 318ms
+ ✓ src/tools/tools-panel.glm-phase1-leaves.test.ts (2 tests) 428ms
+     ✓ 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案  395ms
+ ✓ src/assets/dialog-icons.grok-r1.test.ts (14 tests) 272ms
+ ✓ src/assets/dialog-resources.grok-mid-1.test.ts (4 tests) 324ms
+     ✓ 单张头像失败仍保留成功头像与图标第 0 帧  311ms
+ ✓ src/present/present.test.ts (58 tests) 253ms
+ ✓ src/tools/save-import-quicksave.glm-msio.test.ts (4 tests) 207ms
+ ✓ src/present/menu/inventory-list-pixels.grok-r1.test.ts (12 tests) 356ms
+     ✓ G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E  328ms
+ ✓ src/shell/precache-ui-host.grok-r1.test.ts (20 tests) 463ms
+     ✓ G09-D01 总字节为 0 时小组件百分比和条宽都是 0  391ms
+ ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 104ms
+stderr | src/shell/avi-player.glm-next-wave.test.ts > playAvi autoplay 拒绝 → click-to-start 降级边界 > play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理
+[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: play() failed (autoplay policy)
+
+ ✓ src/present/menu/shop-preview-pixels.grok-r1.test.ts (13 tests) 382ms
+     ✓ G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E  342ms
+ ✓ src/shell/avi-player.glm-next-wave.test.ts (3 tests) 232ms
+ ✓ src/present/screen-shake.test.ts (6 tests) 164ms
+stdout | src/dev/dev-panel.glm-next-wave.test.ts > setupDevPanel 显式控制与释放(DEV-only debug overlay)
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+ ✓ src/present/dialog-box.test.ts (69 tests) 152ms
+ ✓ src/present/__tests__/grok-present/p10-indexed-png.test.ts (2 tests) 326ms
+     ✓ P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer  317ms
+ ✓ src/dev/dev-panel.glm-next-wave.test.ts (3 tests) 284ms
+ ✓ src/shell/ending-avi-host.grok-r1.test.ts (6 tests) 624ms
+     ✓ G10-D01 省略跳过键时 Space 不截断结局  314ms
+stdout | src/core/event-system.test.ts > EventSystem > 梦境序列:`~` 收尾的 center/bottom 三句遇 0x05/0x8E/end 全程不等键、自动推进(sdlpal nCurrentDialogLine=0)
+event-system: skip raw opcode=0x008e [ 0, 0, 0 ]
+
+stderr | src/core/event-system.test.ts > goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 labelMap 解析) > shared# label 全局不存在 → warn + skip(不抛错,不死循环)
+event-system: goto label shared#L_DOES_NOT_EXIST 不在全局 labelMap → 终止脚本
+
+stderr | src/core/event-system.test.ts > 特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed) > 0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)
+event-system: setObjectPos 无 currentEventObjectId(可能从 runEnterScript 跑),跳过
+
+ ✓ src/core/event-system.test.ts (326 tests) 194ms
+ ✓ src/analytics/install-analytics.test.ts (2 tests) 111ms
+ ✓ src/shell/boot-loading.test.ts (9 tests) 179ms
+ ✓ src/present/screen-wave.glm-phase1-leaves.test.ts (4 tests) 165ms
+ ✓ src/shell/trademark-fallback.test.ts (2 tests) 189ms
+ ✓ src/tools/speedrun/index.test.ts (11 tests) 161ms
+ ✓ src/tools/speedrun/overlay.glm-phase1-leaves.test.ts (2 tests) 65ms
+ ✓ src/core/battle/__tests__/battle-system.test.ts (184 tests) 104ms
+ ✓ src/shell/precache-ui.test.ts (7 tests) 147ms
+ ✓ src/tools/toast.test.ts (4 tests) 95ms
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=1: 452 tiles, 216960 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=6: 209 tiles, 100320 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=12: 323 tiles, 155040 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=50: 348 tiles, 167040 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=100: 322 tiles, 154560 pixels, 0 diff ✓
+
+stdout | src/assets/tileset-blob-snapshot.test.ts > S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) > mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出
+[S5] mapNum=200: 495 tiles, 237600 pixels, 0 diff ✓
+
+ ✓ src/assets/tileset-blob-snapshot.test.ts (6 tests) 68ms
+ ✓ src/present/__tests__/grok-composition/p13-battle-commands.test.ts (2 tests) 156ms
+stderr | src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A07 默认块地址是 rng-07.rle
+[rng-player] frame 0 fetch fail, skip: Error: rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)
+    at fetchAndDecodeRngChunk (/private/tmp/type-pal-game-media-lifecycle/packages/game/src/shell/rng-player.ts:100:22)
+
+ ✓ src/shell/rng-window.grok-r1.test.ts (7 tests) 324ms
+ ✓ src/tools/speedrun/index.glm-phase1-leaves.test.ts (2 tests) 54ms
+ ✓ src/shell/rng-player.glm-next-wave.test.ts (2 tests) 366ms
+     ✓ 窗口 [1,2]:fetchFrame 恰被调 2 次(frame 1、2),窗外帧 0/3 零请求,末屏 = frame 2  359ms
+stderr | src/core/scene-system.test.ts > P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > contact NPC(triggerMode >= 4)不阻挡走路 → walking=true
+scene-system: triggerLabel L_42 不在全局 labelMap(NPC id=7)
+
+stderr | src/core/scene-system.test.ts > P0.e wScriptOnEnter 真跑 > setSceneObjectState opcode 不报错(no-op, M5+ field)
+event-system: setSceneObjectState id(1-based)=1 → idx=0 不在当前 scene 也不在全局表,跳过
+
+ ✓ src/core/scene-system.test.ts (110 tests) 49ms
+ ✓ src/shell/rng-player.io-lifecycle.test.ts (2 tests) 396ms
+     ✓ M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串  387ms
+ ✓ src/analytics/analytics-consent-ui.test.ts (3 tests) 92ms
+ ✓ src/present/__tests__/grok-present/p06-magic.test.ts (4 tests) 64ms
+ ✓ src/tools/toast.glm-phase1-leaves.test.ts (2 tests) 86ms
+ ✓ src/present/__tests__/grok-composition/p16-dialog.test.ts (3 tests) 61ms
+ ✓ src/assets/sprite-blob-snapshot.test.ts (5 tests) 72ms
+ ✓ src/tools/speedrun/overlay.test.ts (3 tests) 127ms
+ ✓ src/present/menu/opening-confirm-pixels.grok-r1.test.ts (7 tests) 114ms
+ ✓ src/shell/ending-player.test.ts (3 tests) 77ms
+ ✓ src/tools/quick-save.test.ts (4 tests) 116ms
+ ✓ src/tools/fps-overlay.test.ts (8 tests) 99ms
+ ✓ src/present/__tests__/grok-composition/p11-world-layers.test.ts (2 tests) 108ms
+ ✓ src/core/battle/battle-state-machine.glm-battle.test.ts (10 tests) 11ms
+ ✓ src/core/event-opcode-player.glm-next-wave.test.ts (8 tests) 24ms
+ ✓ src/tools/speedrun/countdown.glm-phase1-leaves.test.ts (2 tests) 28ms
+ ✓ src/present/menu/inventory-desc-filter.grok-r1.test.ts (10 tests) 22ms
+stdout | src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+[save] saved to slot 1(times=1)
+
+ ✓ src/core/menu/menu-driver.cov85.test.ts (35 tests) 33ms
+ ✓ src/tools/display-scale.glm-phase1-leaves.test.ts (6 tests) 45ms
+ ✓ src/shell/main-loop-gates.grok-r1.test.ts (13 tests) 7ms
+ ✓ src/present/battle/__tests__/present-battle.test.ts (25 tests) 29ms
+ ✓ src/analytics/google-analytics.test.ts (8 tests) 28ms
+ ✓ src/present/menu/status-vitals-pixels.grok-r1.test.ts (15 tests) 35ms
+ ✓ src/tools/display-scale.test.ts (8 tests) 14ms
+ ✓ src/core/battle/__tests__/actions.test.ts (89 tests) 32ms
+ ✓ src/shell/avi-player.async-lifecycle.test.ts (5 tests) 91ms
+ ✓ src/present/__tests__/grok-present/p05-menu-stack.test.ts (4 tests) 52ms
+ ✓ src/present/battle/__tests__/draw-battle-ui.test.ts (31 tests) 21ms
+ ✓ src/present/__tests__/grok-present/p01-inventory-list.test.ts (4 tests) 43ms
+ ✓ src/core/event-opcode-player.cov85.test.ts (41 tests) 14ms
+ ✓ src/core/battle/__tests__/coop-magic.test.ts (15 tests) 9ms
+ ✓ src/present/__tests__/grok-present/p07-status.test.ts (1 test) 21ms
+ ✓ src/shell/main-loop.test.ts (12 tests) 15ms
+ ✓ src/present/__tests__/grok-present/p02-inventory-target.test.ts (3 tests) 63ms
+ ✓ src/present/__tests__/grok-present/p03-equip.test.ts (2 tests) 41ms
+ ✓ src/shell/input.boundaries.test.ts (3 tests) 5ms
+ ✓ src/core/battle/__tests__/battle-opcodes.test.ts (158 tests) 43ms
+ ✓ src/present/menu/draw-menu.glm-phase1-leaves.test.ts (5 tests) 29ms
+ ✓ src/present/__tests__/grok-present/p08-settlement.test.ts (1 test) 22ms
+ ✓ src/tools/speedrun/countdown.test.ts (2 tests) 32ms
+ ✓ src/present/menu/box-shadow-pixels.grok-r1.test.ts (12 tests) 7ms
+ ✓ src/core/battle/battle-opcodes.cov85.test.ts (56 tests) 46ms
+ ✓ src/assets/tileset-blob.test.ts (15 tests) 22ms
+ ✓ src/assets/snapshot-input-boundaries.test.ts (25 tests) 12725ms
+   ✓ 'effect-control' → 'pass' (real resource test runner)  698ms
+   ✓ 'missing-effect' → 'fail' (real resource test runner)  480ms
+   ✓ 'empty-enemy' → 'fail' (real resource test runner)  625ms
+   ✓ 'empty-player' → 'fail' (real resource test runner)  557ms
+   ✓ 'empty-fire' → 'fail' (real resource test runner)  507ms
+   ✓ 'empty-npc' → 'fail' (real resource test runner)  579ms
+   ✓ 'absent-sprite' → 'skip' (real resource test runner)  541ms
+   ✓ 'absent-sprite-extracted' → 'skip' (real resource test runner)  672ms
+   ✓ 'absent-rng' → 'skip' (real resource test runner)  610ms
+   ✓ 'absent-rng-directory' → 'skip' (real resource test runner)  694ms
+   ✓ 'absent-tileset' → 'skip' (real resource test runner)  622ms
+   ✓ 'absent-tileset-directory' → 'skip' (real resource test runner)  662ms
+   ✓ 'rng-control' → 'pass' (real resource test runner)  699ms
+   ✓ 'missing-rng-blob' → 'fail' (real resource test runner)  737ms
+   ✓ 'empty-rng-chunk' → 'pass' (real resource test runner)  652ms
+   ✓ 'zero-rng-chunks' → 'fail' (real resource test runner)  567ms
+   ✓ 'tileset-control' → 'pass' (real resource test runner)  668ms
+   ✓ 'missing-tileset' → 'fail' (real resource test runner)  755ms
+   ✓ 'denied-rng' → 'denied' (real resource test runner)  674ms
+   ✓ 'denied-tileset' → 'denied' (real resource test runner)  716ms
+ ✓ src/shell/splash-fallback.test.ts (6 tests) 11584ms
+     ✓ Space 跳过 → 补完渐变 + 0.5s delay + resolve  1901ms
+     ✓ Enter / Escape 也跳过  1893ms
+     ✓ 自定义 skipKeys 覆盖默认  1920ms
+     ✓ 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)  2007ms
+     ✓ L44:早跳过时标题补满完整高度(底部行也被画上)  1906ms
+     ✓ L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)  1953ms
+stderr | src/core/event-system.glm-event-k06.test.ts > K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全局表 → false 且零状态副作用 > scriptOnUse=0 与 L_<n> 缺失都拒绝启动;成功对照 = true + mode=event + pendingItemConsume 记账
+[item-use] scriptOnUse=0 for itemId=5,不可用
+[item-use] L_1 不在全局 labelMap(itemId=5)
+
+ ✓ src/core/event-system.glm-event-k06.test.ts (6 tests) 12ms
+ ✓ src/shell/fetch-retry.test.ts (5 tests) 19ms
+ ✓ src/core/game-state.test.ts (61 tests) 22ms
+ ✓ src/shell/fetch-retry.boundaries.test.ts (10 tests) 39ms
+ ✓ src/present/menu/draw-opening-menu.test.ts (7 tests) 17ms
+ ✓ src/core/event-opcodes.cov85.test.ts (21 tests) 12ms
+stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+ ✓ src/core/menu/menu-driver.test.ts (37 tests) 23ms
+ ✓ src/core/battle/battle-turn-boundaries.glm-turn.test.ts (15 tests) 43ms
+ ✓ src/battle-action-error-arms.glm-q.test.ts (13 tests) 18ms
+ ✓ src/core/battle/__tests__/battle-state.test.ts (14 tests) 11ms
+ ✓ src/core/battle/battle-system.cov85.test.ts (14 tests) 20ms
+ ✓ src/present/menu/draw-magic.glm-phase1-leaves.test.ts (4 tests) 9ms
+ ✓ src/core/event-system.glm-event-contracts.test.ts (22 tests) 35ms
+ ✓ src/status-poison-equip.glm-q.test.ts (11 tests) 10ms
+ ✓ src/core/menu/equip-menu.test.ts (17 tests) 12ms
+ ✓ src/core/battle/__tests__/magic-damage.test.ts (23 tests) 6ms
+ ✓ src/core/battle/__tests__/anim-timeline.test.ts (110 tests) 22ms
+ ✓ src/present/menu/magic-menu-pixels.grok-r1.test.ts (15 tests) 28ms
+stderr | src/core/event-system.glm-event-control-flow.test.ts > TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 > resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)
+event-system: 0x0A goto entry 9 不在 labelMap → 终止脚本
+
+ ✓ src/core/event-system.glm-event-control-flow.test.ts (2 tests) 13ms
+ ✓ src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts (9 tests) 10ms
+ ✓ src/present/menu/equip-role-pixels.grok-r1.test.ts (11 tests) 26ms
+ ✓ src/analytics/google-analytics.boundaries.test.ts (4 tests) 19ms
+stderr | src/core/menu/magic-script.test.ts > runMagicScriptSync - 流程控制 > label 不存在 → 返回 false
+runMagicScriptSync: L_99999 不在全局 labelMap
+
+stderr | src/core/menu/magic-script.test.ts > castOverworldMagic - 双层 script > scriptOnUse 失败 → 不跑 scriptOnSuccess
+runMagicScriptSync: L_99999 不在全局 labelMap
+
+ ✓ src/core/menu/magic-script.test.ts (28 tests) 19ms
+stdout | src/dev/state-dump.glm-phase1-leaves.test.ts > L08 initStateDump 控制器 > ?tp_dump=1：push 进 __tpDumpBuffer 且帧号从 0 递增；download 句柄暴露（不点击）
+type-pal: state dump enabled. Run __tpDumpDownload() to save.
+
+ ✓ src/dev/state-dump.glm-phase1-leaves.test.ts (5 tests) 17ms
+ ✓ src/assets/tileset-gzip.grok-r1.test.ts (9 tests) 16ms
+ ✓ src/present/battle/battle-ui-pixels.grok-r1.test.ts (17 tests) 33ms
+ ✓ src/present/__tests__/grok-present/p04-shop.test.ts (2 tests) 17ms
+ ✓ src/core/battle/battle-settlement.glm-next-wave.test.ts (5 tests) 6ms
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > 选敌 + 队员 + level=7 + 全道具 → 临时 team 90000 启战 / 仙术按等级 / 道具×99
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > 再开一次:旧临时 team 被替换不堆积(filter id===90000 + push)
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > 连续自定义不同等级:属性从原始基线重算,不从上一场 level 累加
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > allItems=false → inventory 空
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > 重复敌人 → 战斗含多个同种怪实例(user 2026-06-05:5 个同种怪)
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > autoBattle=true → gs.fAutoBattle 置位 + 战斗 fAutoBattle 生效(AI 控我方)
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) > autoBattle 缺省/false → fAutoBattle 关(正常手动战斗)
+[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长老) > party=[4,5,4] + fAutoBattle + 真 team37(石长老)+ 战场23,不 god-mode override
+[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍) > teamId=21 + members=[0] → 起真 team 21(林月如一)战 / 队伍 god-mode lv99 全仙术 / 全道具
+[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyFixture —— 对话 / 升级 fixture 数据级验证 > fixture-dialog:敌人 scriptOnTurnStart 设上(林月如一嘲讽能触发,team 21 → enemyId 82 → 41368)
+[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyFixture —— 对话 / 升级 fixture 数据级验证 > fixture-levelup:gs.Exp 设 6000 + runtime hydrate(lv1/30HP override)→ 打赢能升级
+[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyFixture —— 对话 / 升级 fixture 数据级验证 > fixture-levelup 端到端:applyFixture → 打赢 → 真升级 + 学法术(我之前没测的全流程)
+[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyFixture —— 对话 / 升级 fixture 数据级验证 > ★菜单可见性回归:打赢升到 lv10+ → 大世界仙术菜单出现升级新学的「凝神归元」(298),不再只剩气疗术
+[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)
+
+stdout | src/dev/dev-panel.pure.test.ts > applyFixture —— 对话 / 升级 fixture 数据级验证 > ★结算演出序列:打赢建 settlement screens —— exp-cash → 升级 box(lv1→12 / 8 属性 old→cur)→ 练成屏
+[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)
+
+ ✓ src/dev/dev-panel.pure.test.ts (29 tests) 21ms
+stderr | src/core/__tests__/stats/e4-run-equip-script.test.ts > E4: 装备脚本执行器 runEquipScript > E4-03 scriptOnEquip === 0 或 labelMap 未命中时安全返回
+runEquipScriptSync: L_99999 不在全局 labelMap
+
+ ✓ src/core/__tests__/stats/e4-run-equip-script.test.ts (5 tests) 5ms
+ ✓ src/assets/scene-cache.grok-r1.test.ts (10 tests) 9ms
+ ✓ src/assets/tileset-load.grok-r1.test.ts (8 tests) 16ms
+ ✓ src/present/menu/draw-shop.glm-phase1-leaves.test.ts (4 tests) 20ms
+ ✓ src/core/battle/__tests__/battle-dialog.test.ts (13 tests) 6ms
+ ✓ src/present/menu/draw-menu.test.ts (6 tests) 14ms
+ ✓ src/core/event-system.cov85.test.ts (26 tests) 47ms
+ ✓ src/present/__tests__/grok-composition/p15-battle-ui.test.ts (5 tests) 14ms
+ ✓ src/core/battle/__tests__/battle-levelup.test.ts (11 tests) 7ms
+ ✓ src/core/battle/__tests__/magic-inline-damage.test.ts (33 tests) 22ms
+ ✓ src/core/menu/primitives.glm-phase1-leaves.test.ts (10 tests) 7ms
+ ✓ src/shell/bootstrap-resources.grok-mid-1.test.ts (9 tests) 7ms
+ ✓ src/present/menu/draw-player-status.test.ts (3 tests) 12ms
+ ✓ src/shell/menu-input-lock.glm-msio.test.ts (2 tests) 3ms
+ ✓ src/core/battle/battle-state.glm-next-wave.test.ts (4 tests) 3ms
+stderr | src/core/battle/battle-system.glm-next-wave.test.ts > scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) > turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)
+[battle] startBattle: enemy id 101 not in enemies.json, kept as empty slot
+
+ ✓ src/core/battle/battle-system.glm-next-wave.test.ts (3 tests) 10ms
+ ✓ src/core/menu/opening-menu.test.ts (6 tests) 10ms
+ ✓ src/tools/speedrun/timer.test.ts (14 tests) 16ms
+ ✓ src/present/menu/draw-player-status.glm-phase1-leaves.test.ts (4 tests) 13ms
+ ✓ src/core/battle/__tests__/battle-anim-integration.test.ts (4 tests) 26ms
+ ✓ src/core/battle/__tests__/throw-item.test.ts (6 tests) 14ms
+stderr | src/shell/precache-client.test.ts > registerPrecache > register 抛错 → onUnavailable 触发,不向上抛
+[precache] SW register failed, fallback to on-demand fetch: Error: boom
+    at /private/tmp/type-pal-game-media-lifecycle/packages/game/src/shell/precache-client.test.ts:70:54
+    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+ ✓ src/shell/precache-client.test.ts (7 tests) 6ms
+ ✓ src/core/menu/inventory-menu.test.ts (23 tests) 6ms
+ ✓ src/core/cross-module-boundaries.test.ts (4 tests) 24ms
+ ✓ src/core/menu/in-game-magic-menu.test.ts (25 tests) 7ms
+ ✓ src/core/dependency-ownership.test.ts (11 tests) 16ms
+ ✓ src/core/battle/__tests__/death-fade.test.ts (16 tests) 55ms
+ ✓ src/core/event-system.glm-event-k05.test.ts (3 tests) 6ms
+ ✓ src/core/menu/shop-menu.test.ts (10 tests) 15ms
+ ✓ src/present/menu/draw-inventory.glm-phase1-leaves.test.ts (3 tests) 7ms
+stderr | src/core/mode.test.ts > tickByMode autoScript gate (P2#6a) > event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)
+event-system: ip 1 越界 → 切回 explore / menu
+
+ ✓ src/core/mode.test.ts (10 tests) 10ms
+ ✓ src/battle-magic-fizzle-audio.glm-q.test.ts (2 tests) 12ms
+ ✓ src/shell/input.test.ts (17 tests) 29ms
+ ✓ src/present/battle/battle-sprite-pixels.grok-r1.test.ts (15 tests) 9ms
+ ✓ src/tools/speedrun/detectors.test.ts (8 tests) 3ms
+ ✓ src/shell/bootstrap.glm-next-wave.test.ts (2 tests) 8ms
+ ✓ src/shell/shell-bootstrap.glm-shell.test.ts (6 tests) 27ms
+ ✓ src/present/battle/battle-settlement-pixels.grok-r1.test.ts (5 tests) 7ms
+ ✓ src/analytics/analytics-consent.test.ts (3 tests) 4ms
+ ✓ src/present/battle/__tests__/draw-battle-sprites.test.ts (51 tests) 9ms
+ ✓ src/shell/fetch-retry.glm-phase1-leaves.test.ts (2 tests) 11ms
+ ✓ src/core/event-opcode-player.test.ts (6 tests) 10ms
+ ✓ src/core/battle/battle-opcodes.glm-next-wave.test.ts (5 tests) 11ms
+ ✓ src/core/menu/menu-mode.test.ts (7 tests) 7ms
+ ✓ src/core/battle/__tests__/turn-queue.test.ts (9 tests) 4ms
+ ✓ src/core/menu/magic-script.glm-next-wave.test.ts (4 tests) 6ms
+ ✓ src/tools/minimap.test.ts (14 tests) 10ms
+ ✓ src/present/battle/__tests__/draw-battle-bg.test.ts (3 tests) 11ms
+ ✓ src/core/menu/__tests__/item-magic-select.test.ts (11 tests) 4ms
+ ✓ src/present/menu/draw-magic.test.ts (2 tests) 9ms
+ ✓ src/core/battle/__tests__/casualty-sounds.test.ts (11 tests) 7ms
+ ✓ src/core/menu/save-slot-menu.test.ts (15 tests) 8ms
+ ✓ src/core/menu/in-game-menu.test.ts (14 tests) 6ms
+ ✓ src/core/palette-fade.test.ts (16 tests) 34ms
+ ✓ src/assets/scene-cache.grok-mid-1.test.ts (6 tests) 11ms
+ ✓ src/core/battle/actions/coop-magic.glm-next-wave.test.ts (3 tests) 10ms
+ ✓ src/core/__tests__/stats/i1-party-status-readouts.test.ts (4 tests) 9ms
+stdout | src/core/event-dialogue-pagination.test.ts > event dialogue page continuation > 分页后接 'raw'/142 完整消费，后续副作用仅一次
+event-system: skip raw opcode=0x008e [ 0, 0, 0 ]
+
+ ✓ src/core/event-dialogue-pagination.test.ts (10 tests) 14ms
+ ✓ src/shell/audio.glm-phase1-leaves.test.ts (3 tests) 3ms
+ ✓ src/core/event-system.glm-event-k04.test.ts (2 tests) 5ms
+stderr | src/core/__tests__/stats/e2-equipment-effects.test.ts > E2: 装备效果层字段写入与卸下保真 > E2-03 越界部位索引与未知行静默安全退出，无关域保持纯净
+writeEquipmentEffectField: row 999 未支持(装备 effect 真值)
+
+ ✓ src/core/__tests__/stats/e2-equipment-effects.test.ts (3 tests) 12ms
+ ✓ src/core/battle/actions/magic.glm-next-wave.test.ts (3 tests) 22ms
+ ✓ src/core/battle/__tests__/enemy-ai.test.ts (14 tests) 4ms
+ ✓ src/core/inspect/battle-inspect.test.ts (5 tests) 15ms
+ ✓ src/present/draw-tilemap.test.ts (9 tests) 12ms
+ ✓ src/core/battle/__tests__/attack-mate.test.ts (7 tests) 9ms
+ ✓ src/core/menu/shop-menu.glm-phase1-leaves.test.ts (3 tests) 3ms
+ ✓ src/core/save/__tests__/api.test.ts (8 tests) 6ms
+ ✓ src/core/dialog-bug2-skip.test.ts (4 tests) 7ms
+ ✓ src/core/battle/battle-progression.glm-next-wave.test.ts (5 tests) 4ms
+ ✓ src/present/framebuffer.test.ts (3 tests) 14ms
+ ✓ src/present/font.test.ts (15 tests) 6ms
+ ✓ src/core/menu/__tests__/inventory-menu.test.ts (8 tests) 4ms
+ ✓ src/present/font-width.grok-r1.test.ts (14 tests) 12ms
+ ✓ src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts (4 tests) 10ms
+ ✓ src/core/equip-effect.test.ts (36 tests) 24ms
+ ✓ src/core/event-opcode-player.glm-opcode-residual.test.ts (6 tests) 10ms
+ ✓ src/core/battle/actions/attack.glm-next-wave.test.ts (2 tests) 6ms
+ ✓ src/tools/speedrun/timer.boundaries.test.ts (6 tests) 7ms
+ ✓ src/present/follower-render.test.ts (6 tests) 5ms
+ ✓ src/present/draw-number-slots.grok-r1.test.ts (5 tests) 11ms
+ ✓ src/core/event-dialogue-pagination.glm-contracts.test.ts (6 tests) 9ms
+ ✓ src/core/equipment-state.glm-next-wave.test.ts (5 tests) 3ms
+ ✓ src/shell/audio-volume.boundaries.test.ts (3 tests) 8ms
+ ✓ src/core/menu/sell-menu.boundaries.test.ts (2 tests) 7ms
+stderr | src/core/event-system.glm-event-state-opcodes.test.ts > event-system 状态 opcode 合同(GLM state-opcodes r1) > runEnterScript goto 缺失:warn + fail-stop,后续 opcode 不执行(不抛错不自旋)
+runEnterScript: goto label L_MISSING 不在 labelMap
+
+ ✓ src/core/event-system.glm-event-state-opcodes.test.ts (8 tests) 10ms
+ ✓ src/present/menu/draw-confirm.glm-phase1-leaves.test.ts (3 tests) 8ms
+ ✓ src/__tests__/e2e-battle.test.ts (2 tests) 8ms
+ ✓ src/core/event-system.glm-event-k02.test.ts (5 tests) 5ms
+ ✓ src/shell/bootstrap-resources.test.ts (3 tests) 8ms
+ ✓ src/present/menu/draw-equip.glm-phase1-leaves.test.ts (3 tests) 10ms
+ ✓ src/core/battle/__tests__/runscript-rearm.test.ts (5 tests) 7ms
+ ✓ src/present/dialog-box-chrome.grok-r1.test.ts (13 tests) 13ms
+ ✓ src/present/font.glm-phase1-leaves.test.ts (4 tests) 6ms
+ ✓ src/core/menu/inventory-menu.boundaries.test.ts (3 tests) 6ms
+ ✓ src/core/event-system.glm-event-k03.test.ts (2 tests) 10ms
+ ✓ src/present/menu/draw-box.test.ts (5 tests) 5ms
+ ✓ src/core/menu/player-status.test.ts (6 tests) 3ms
+ ✓ src/present/draw-sprite.test.ts (6 tests) 4ms
+ ✓ src/assets/rle-decode.test.ts (6 tests) 6ms
+ ✓ src/present/battle/__tests__/draw-battle-effect.test.ts (7 tests) 7ms
+ ✓ src/battle-magic-e2-target-semantics.glm-q.test.ts (3 tests) 6ms
+ ✓ src/tools/speedrun/store.glm-phase1-leaves.test.ts (2 tests) 4ms
+ ✓ src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts (3 tests) 6ms
+ ✓ src/core/battle/battle-runtime-context.test.ts (3 tests) 6ms
+ ✓ src/core/battle/battle-finalization.test.ts (2 tests) 8ms
+ ✓ src/core/menu/equip-menu.boundaries.test.ts (2 tests) 5ms
+ ✓ src/battle-magic-e2-autodefend-poses.glm-q.test.ts (2 tests) 10ms
+ ✓ src/tools/speedrun/store.test.ts (4 tests) 3ms
+ ✓ src/core/menu/equip-menu.glm-phase1-leaves.test.ts (4 tests) 4ms
+ ✓ src/core/equip-effect.glm-next-wave.test.ts (4 tests) 6ms
+ ✓ src/core/menu/in-game-menu.glm-phase1-leaves.test.ts (4 tests) 4ms
+ ✓ src/present/dither-fade-nibble.grok-r1.test.ts (6 tests) 3ms
+ ✓ src/core/battle/__tests__/battle-anim-driver.test.ts (24 tests) 10ms
+ ✓ src/tools/speedrun/snapshot.test.ts (7 tests) 7ms
+ ✓ src/present/dialog-box.glm-next-wave.test.ts (13 tests) 7ms
+ ✓ src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts (3 tests) 4ms
+ ✓ src/core/menu/menu-save-chain.glm-msio.test.ts (2 tests) 7ms
+ ✓ src/core/__tests__/stats/e1-effective-stats.test.ts (3 tests) 6ms
+ ✓ src/core/menu/in-game-magic-menu.boundaries.test.ts (2 tests) 4ms
+ ✓ src/core/menu/magic-select.glm-phase1-leaves.test.ts (4 tests) 5ms
+ ✓ src/core/game-state.glm-next-wave.test.ts (4 tests) 3ms
+ ✓ src/present/follower-pos.test.ts (10 tests) 3ms
+ ✓ src/present/battle/__tests__/draw-battle-num.test.ts (6 tests) 8ms
+ ✓ src/core/menu/sell-menu.glm-phase1-leaves.test.ts (3 tests) 6ms
+ ✓ src/shell/audio.test.ts (17 tests) 8ms
+ ✓ src/core/menu/opening-menu.glm-phase1-leaves.test.ts (3 tests) 5ms
+ ✓ src/core/menu/shop-menu.boundaries.test.ts (2 tests) 3ms
+ ✓ src/tools/speedrun/time-format.test.ts (4 tests) 5ms
+ ✓ src/core/menu/inventory-menu.glm-phase1-leaves.test.ts (6 tests) 4ms
+ ✓ src/present/draw-number.test.ts (8 tests) 8ms
+ ✓ src/e2e.test.ts (1 test) 5ms
+ ✓ src/core/menu/primitives.boundaries.test.ts (2 tests) 3ms
+ ✓ src/tools/save-io.test.ts (3 tests) 8ms
+ ✓ src/core/__tests__/stats/i2-enemy-field-readouts.test.ts (4 tests) 9ms
+ ✓ src/tools/map-names.test.ts (3 tests) 4ms
+ ✓ src/tools/speedrun/detectors.glm-phase1-leaves.test.ts (4 tests) 2ms
+ ✓ src/present/draw-tilemap-pixels.grok-r1.test.ts (11 tests) 4ms
+ ✓ src/shell/input-replay.grok-r1.test.ts (11 tests) 13ms
+ ✓ src/present/follower-pos-axis.grok-r1.test.ts (10 tests) 7ms
+ ✓ src/analytics/analytics-consent.boundaries.test.ts (3 tests) 10ms
+ ✓ src/tools/speedrun/timer.glm-phase1-leaves.test.ts (2 tests) 5ms
+ ✓ src/shell/bootstrap-load.test.ts (1 test) 4ms
+ ✓ src/core/menu/inventory-action-menu.test.ts (4 tests) 2ms
+ ✓ src/core/menu/magic-select.boundaries.test.ts (2 tests) 7ms
+ ✓ src/present/__tests__/grok-present/p09-background.test.ts (2 tests) 8ms
+ ✓ src/core/menu/sell-menu.test.ts (6 tests) 4ms
+ ✓ src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts (10 tests) 13ms
+ ✓ src/assets/loader.test.ts (7 tests) 10ms
+ ✓ src/battle-summon-slot-reuse.glm-q.test.ts (4 tests) 4ms
+ ✓ src/core/event-system.glm-event-k01.test.ts (2 tests) 4ms
+ ✓ src/present/menu/draw-box.glm-phase1-leaves.test.ts (5 tests) 3ms
+ ✓ src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts (3 tests) 8ms
+ ✓ src/core/battle/__tests__/formulas.test.ts (28 tests) 4ms
+ ✓ src/tools/speedrun/checkpoints.test.ts (3 tests) 15ms
+ ✓ src/core/menu/__tests__/primitives.test.ts (18 tests) 6ms
+ ✓ src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts (4 tests) 2ms
+ ✓ src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts (4 tests) 8ms
+ ✓ src/core/__tests__/stats/e5-update-all-equipments.test.ts (2 tests) 6ms
+ ✓ src/tools/speedrun/time-format.glm-phase1-leaves.test.ts (2 tests) 4ms
+ ✓ src/core/menu/item-select.glm-phase1-leaves.test.ts (8 tests) 3ms
+ ✓ src/core/scene-system-search.test.ts (10 tests) 8ms
+ ✓ src/present/follower-render-gap.grok-r1.test.ts (4 tests) 10ms
+ ✓ src/shell/audio-volume.test.ts (3 tests) 6ms
+ ✓ src/core/menu/in-game-menu.boundaries.test.ts (2 tests) 2ms
+ ✓ src/present/draw-sprite-clip.grok-r1.test.ts (8 tests) 7ms
+ ✓ src/core/command-bus.test.ts (6 tests) 9ms
+ ✓ src/core/menu/script-desc.test.ts (6 tests) 8ms
+ ✓ src/core/battle/anim-timeline.glm-next-wave.test.ts (5 tests) 6ms
+ ✓ src/shell/precache-client.glm-phase1-leaves.test.ts (2 tests) 6ms
+ ✓ src/core/dialog-history.test.ts (7 tests) 5ms
+ ✓ src/present/framebuffer.glm-phase1-leaves.test.ts (3 tests) 7ms
+ ✓ src/core/__tests__/stats/e3-player-stat-rows.test.ts (3 tests) 4ms
+ ✓ src/dev/dev-panel.test.ts (2 tests) 3ms
+ ✓ src/core/battle/__tests__/status.test.ts (7 tests) 7ms
+ ✓ src/present/battle/__tests__/draw-battle-settlement.test.ts (2 tests) 4ms
+ ✓ src/tools/speedrun/time-format.boundaries.test.ts (3 tests) 3ms
+ ✓ src/present/screen-shake-bounds.grok-r1.test.ts (6 tests) 2ms
+ ✓ src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts (2 tests) 2ms
+ ✓ src/core/word-lookup.test.ts (3 tests) 2ms
+ ✓ src/present/dither-fade.test.ts (3 tests) 2ms
+ ✓ src/shell/bootstrap-audio.test.ts (1 test) 2ms
+
+ Test Files  311 passed (311)
+      Tests  3519 passed (3519)
+   Start at  02:27:08
+   Duration  31.50s (transform 9.80s, setup 6.64s, import 28.19s, tests 48.10s, environment 188.84s)
+

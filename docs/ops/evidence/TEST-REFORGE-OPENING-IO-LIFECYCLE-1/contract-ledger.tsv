@@ -1,0 +1,9 @@
+轴	裁决	载体	证据锚点	一句话合同/反例
+O1	product-counter（D-Q01-1 仍成立）	repro R1（隔离红反例）	repro-raw/R1-listMeta-reject-dangling.*	真实键选读档后 listMeta 在公开存储边界拒绝：业务断言全绿（菜单 Promise 悬空、rAF/键仍持有、仍可选新局收口）+ 恰一指定产品未处理拒绝 + exit 1；json success=true 不可信
+O2	product-counter（同 D-Q01-1 形状，故障位置=缩略图读取）	repro R2	repro-raw/R2-getThumb-reject-dangling.*	合法 current 档经真实 MemorySaveStore putSlot 全量入库、有效 PNG，仅 getThumb 外部 IO 拒绝：metas 已真实到达（reads=['meta','thumb:m01']）仍悬空，读档相位从未打开
+O3	product-counter（同 D-Q01-1 形状，故障位置=浏览器解码）	repro R3	repro-raw/R3-decode-reject-dangling.*	合法 PNG 交 createImageBitmap、仅解码边界拒绝（非坏内容输入）：悬空同形，区分浏览器解码失败与非法输入
+O4	existing-proof + product-counter	flows H2（opening-menu.flows.test.ts:139-169）+ repro R4	repro-raw/R4-*	r1 曾立"重复输入=双份 IO/解码"绿合同，一审 O-R1-01 判为把产品缺陷写成绿预期（与本包 R4 诊断矛盾）已删除；单次正常读档归 flows H2 existing-proof；重复输入的 IO 放大/逆序旧盖新只作 R4 红反例诊断
+O5	new-contract + product-counter	new 合同 io-lifecycle.test.ts:138；repro R5a/R5b	io-lifecycle.test.ts:138-200；repro-raw/R5a-*、R5b-*	绿：IO 已真实在途（门控下达前 reads=['meta']）时选新局退出，退休后迟到送达（wrapper 送达标记自证）不复活 rAF/键/绘制/结果；不要求退出后继续解码（r1 位图断言已删，退出后解码只作 R5b 红反例）；finally 幂等释放 gate 并收妥菜单与在途 IO。红反例：退出后迟到拒绝仍悬空（R5a）、退出后仍解码迟到位图（R5b）
+O6	new-contract + product-counter	new 合同 io-lifecycle.test.ts:202；repro R6	io-lifecycle.test.ts:202-227；repro-raw/R6-*	绿：第一访见旧快照（旧港）→ Esc 退回 → 真实 store 经产品写路径 putSlot 更新（新港/新时间）→ 重进消费新快照（迟到帧含新港不含旧港）并完成读档；不用 IO/位图数量凑合同（r1 计数断言已删）。红反例：旧批缩略图位图退役无 close（thumbs.clear() 不释放所有权）
+O7	existing-proof + product-counter	flows H2（opening-menu.flows.test.ts:92-118）+ repro R7	repro-raw/R7-*	帧/键收尾已有证明（H2 完成时 frames.size=0、绘制停止、cleanup 黑屏）；位图释放独立核=完成读档后已创建位图从不 close（红反例登记，释放方案归产品卡）
+O8	new-contract	new 合同 io-lifecycle.test.ts:229	io-lifecycle.test.ts:229-284	真实 IndexedDbSaveStore 链上一槽有图一槽无图（getThumb=null 是公开合同合法值）：无图槽 meta 仍渲染（占位不依赖位图）、有图槽照画缩略图、选无图槽完成读档=选档独立于解码

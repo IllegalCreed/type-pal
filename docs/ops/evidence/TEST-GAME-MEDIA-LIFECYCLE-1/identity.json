@@ -1,0 +1,91 @@
+{
+  "card": "TEST-GAME-MEDIA-LIFECYCLE-1",
+  "role": "GLM r3 contributor rework (closes Codex 2026-10-07 second review A-R2-01; awaiting final review)",
+  "base": {
+    "frozenProductBase": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
+    "dispatchCommit": "a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8",
+    "r1Candidate": "24b35f4bccafca5422e3d4133834c439451b8194",
+    "r1ReceiptHead": "8fe49e9980990249de0d24cc1dfc71e5bb973168",
+    "r2TestCandidate": "4fb3edabfd0047a32422a0fa8cfa02b61030e24a",
+    "receiptHead": "本回执提交自身(自引用 SHA 不可内嵌;以 git log -1 codex/glm-game-media-lifecycle-r1 与最终回复为准,提交后可用 git 对象核实)",
+    "r2ReceiptHead": "33db7a932dd4bf257c4bb9da7d238c3df4548864",
+    "r3TestCandidate": "cbfa02d043ee0a1d836bcc034170e86e7f80e202"
+  },
+  "frozenSourcesSha256": {
+    "packages/game/src/shell/avi-player.ts": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b",
+    "packages/game/src/shell/rng-player.ts": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae"
+  },
+  "deliverables": {
+    "tests": {
+      "packages/game/src/shell/avi-player.async-lifecycle.test.ts": "fc990ecbdfc19eb2c6761d2256bb0bde1756e8b6fcfc0a953c2aebfca02374d1",
+      "packages/game/src/shell/rng-player.io-lifecycle.test.ts": "20b26965a72562dc41f741dc303229da1ecbe14b3ef21d40603ea0e17252f4ae"
+    },
+    "receipts": {
+      "counterproof.json": "436066bcbdc7a30fa09ed4bcf5c178eaf60b1dc0ed7d510256df4942c1513e41",
+      "repro-m3.json": "d64bfd322455b5de6fe3579307a899f3de5aa05b710235fcefd8ca564be3ba68"
+    }
+  },
+  "executionIdentity": [
+    {
+      "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放",
+      "axis": "M1",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放",
+      "axis": "M2",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频",
+      "axis": "M4",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权",
+      "axis": "M5",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video",
+      "axis": "M8",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+      "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串",
+      "axis": "M6",
+      "status": "passed"
+    },
+    {
+      "file": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+      "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听",
+      "axis": "M7",
+      "status": "passed"
+    }
+  ],
+  "axes": {
+    "M1": "new-contract",
+    "M2": "new-contract",
+    "M3": "product-counter(real-red-confirmed,隔离复现 run-repro-m3.mjs)",
+    "M4": "new-contract",
+    "M5": "new-contract",
+    "M6": "new-contract",
+    "M7": "new-contract",
+    "M8": "new-contract"
+  },
+  "gates": {
+    "directed": "7/7 (directed.raw)",
+    "adjacent": "9 files 58/58 (adjacent.raw)",
+    "gameFullTest": "311 files 3519/3519 (full-test.raw)",
+    "gameTypecheck": "0 errors (typecheck.raw)",
+    "rootLint": "3505 files 0/0/0 (lint.raw)",
+    "checkDocs": "恰 1 项 FAIL=共享索引导航尾巴(docs/ops/evidence/README.md 为只读白名单外文件 vs 本卡目录已跟踪的导航门冲突;r1 时目录 untracked 故 PASS;与 TEST-GLM-REFORGE-BATTLE-PREVIEW-BINDING-1 同款先例,留 Codex 集成时一行登记收口) (docs-gate.raw)",
+    "gitDiffCheck": "clean"
+  }
+}

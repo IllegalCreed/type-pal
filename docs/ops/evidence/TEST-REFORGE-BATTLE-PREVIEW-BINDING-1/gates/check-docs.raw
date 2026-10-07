@@ -1,0 +1,310 @@
+
+> type-pal@ check:docs /private/tmp/type-pal-reforge-battle-preview-binding
+> pnpm test:docs-tools && node scripts/docs/check.mjs && pnpm check:testing-docs && node scripts/docs/check-phase-lore-governance.mjs && node scripts/docs/check-content-review.mjs --strict
+
+
+> type-pal@ test:docs-tools /private/tmp/type-pal-reforge-battle-preview-binding
+> node --test scripts/docs/*.test.mjs
+
+TAP version 13
+# Subtest: paired canonical/source evidence passes only when all three contracts agree
+ok 1 - paired canonical/source evidence passes only when all three contracts agree
+  ---
+  duration_ms: 4.733458
+  type: 'test'
+  ...
+# Subtest: source drift is rejected even when catalog and evidence claim the same hash
+ok 2 - source drift is rejected even when catalog and evidence claim the same hash
+  ---
+  duration_ms: 3.724042
+  type: 'test'
+  ...
+# Subtest: a positive claim cannot cite an undeclared source or disguise source inspection as runtime execution
+ok 3 - a positive claim cannot cite an undeclared source or disguise source inspection as runtime execution
+  ---
+  duration_ms: 1.888917
+  type: 'test'
+  ...
+# Subtest: invalid claim JSON produces a diagnostic instead of crashing the audit
+ok 4 - invalid claim JSON produces a diagnostic instead of crashing the audit
+  ---
+  duration_ms: 1.060958
+  type: 'test'
+  ...
+# Subtest: catalog validation rejects duplicate ids, missing fields, and expired entries
+ok 5 - catalog validation rejects duplicate ids, missing fields, and expired entries
+  ---
+  duration_ms: 2.399292
+  type: 'test'
+  ...
+# Subtest: catalog validation rejects unsafe paths, malformed dates, and duplicate canonical paths
+ok 6 - catalog validation rejects unsafe paths, malformed dates, and duplicate canonical paths
+  ---
+  duration_ms: 1.546
+  type: 'test'
+  ...
+# Subtest: generated indexes are deterministic and expose multiple dimensions
+ok 7 - generated indexes are deterministic and expose multiple dimensions
+  ---
+  duration_ms: 0.816375
+  type: 'test'
+  ...
+# Subtest: testing metadata is machine-readable and keeps history separate from claims
+ok 8 - testing metadata is machine-readable and keeps history separate from claims
+  ---
+  duration_ms: 0.118709
+  type: 'test'
+  ...
+# Subtest: orphan stage/evidence files and old semantic paths are rejected
+ok 9 - orphan stage/evidence files and old semantic paths are rejected
+  ---
+  duration_ms: 1.940541
+  type: 'test'
+  ...
+# Subtest: links handle nested labels, code labels, spaces, balanced paths, titles and references
+ok 10 - links handle nested labels, code labels, spaces, balanced paths, titles and references
+  ---
+  duration_ms: 1.337042
+  type: 'test'
+  ...
+# Subtest: fenced, quoted-fenced, inline code and escaped examples do not become live links
+ok 11 - fenced, quoted-fenced, inline code and escaped examples do not become live links
+  ---
+  duration_ms: 0.193708
+  type: 'test'
+  ...
+# Subtest: prose after array brackets and incomplete destinations are not parsed as valid links
+ok 12 - prose after array brackets and incomplete destinations are not parsed as valid links
+  ---
+  duration_ms: 0.240834
+  type: 'test'
+  ...
+# Subtest: local links decode paths and reject external URLs from file checks
+ok 13 - local links decode paths and reject external URLs from file checks
+  ---
+  duration_ms: 0.348333
+  type: 'test'
+  ...
+# Subtest: task status comes only from the top, preserving historical alternate spelling for known closed cards
+ok 14 - task status comes only from the top, preserving historical alternate spelling for known closed cards
+  ---
+  duration_ms: 0.303666
+  type: 'test'
+  ...
+# Subtest: current versions are checked in a bounded contract, leaving historical formats intact
+ok 15 - current versions are checked in a bounded contract, leaving historical formats intact
+  ---
+  duration_ms: 0.866708
+  type: 'test'
+  ...
+# Subtest: clean document tree and task index pass without generated assets or node_modules
+ok 16 - clean document tree and task index pass without generated assets or node_modules
+  ---
+  duration_ms: 4.43325
+  type: 'test'
+  ...
+# Subtest: missing files, unindexed documents and active task absent from board fail independently
+ok 17 - missing files, unindexed documents and active task absent from board fail independently
+  ---
+  duration_ms: 0.777875
+  type: 'test'
+  ...
+# Subtest: closed card left on board and stale generated index fail
+ok 18 - closed card left on board and stale generated index fail
+  ---
+  duration_ms: 0.51175
+  type: 'test'
+  ...
+# Subtest: board row and top-level card state must agree
+ok 19 - board row and top-level card state must agree
+  ---
+  duration_ms: 0.940542
+  type: 'test'
+  ...
+# Subtest: exceptions are exact and require reasons; stale exceptions fail
+ok 20 - exceptions are exact and require reasons; stale exceptions fail
+  ---
+  duration_ms: 0.683958
+  type: 'test'
+  ...
+# Subtest: archived task remains indexed and cannot silently disappear from the census
+ok 21 - archived task remains indexed and cannot silently disappear from the census
+  ---
+  duration_ms: 1.557584
+  type: 'test'
+  ...
+# Subtest: phase2 mixed folders and top-level topic drift are rejected
+ok 22 - phase2 mixed folders and top-level topic drift are rejected
+  ---
+  duration_ms: 0.531
+  type: 'test'
+  ...
+# Subtest: rejecting an old content version is not a declaration of the current version
+ok 23 - rejecting an old content version is not a declaration of the current version
+  ---
+  duration_ms: 0.324209
+  type: 'test'
+  ...
+# Subtest: a local OS metadata file cannot make a non-checkout document link pass
+ok 24 - a local OS metadata file cannot make a non-checkout document link pass
+  ---
+  duration_ms: 0.801042
+  type: 'test'
+  ...
+# Subtest: legacy classification keeps agent provenance out of canonical target
+ok 25 - legacy classification keeps agent provenance out of canonical target
+  ---
+  duration_ms: 1.162292
+  type: 'test'
+  ...
+# Subtest: unmigrated files are classified by domain and capability
+ok 26 - unmigrated files are classified by domain and capability
+  ---
+  duration_ms: 0.428291
+  type: 'test'
+  ...
+# Subtest: a bounded current section accepts content and SAVE while ignoring map and catalog axes
+ok 27 - a bounded current section accepts content and SAVE while ignoring map and catalog axes
+  ---
+  duration_ms: 0.887584
+  type: 'test'
+  ...
+# Subtest: a missing start marker is reported once and does not scan the rest of the document
+ok 28 - a missing start marker is reported once and does not scan the rest of the document
+  ---
+  duration_ms: 0.107667
+  type: 'test'
+  ...
+# Subtest: repeated current-section version mismatches are reported once per distinct message
+ok 29 - repeated current-section version mismatches are reported once per distinct message
+  ---
+  duration_ms: 0.092958
+  type: 'test'
+  ...
+# Subtest: Chinese multiline fences and comments keep real link lines and positions on the original input
+ok 30 - Chinese multiline fences and comments keep real link lines and positions on the original input
+  ---
+  duration_ms: 1.406834
+  type: 'test'
+  ...
+# Subtest: an inapplicable deeper mapping must not hide the still-valid parent rewrite
+ok 31 - an inapplicable deeper mapping must not hide the still-valid parent rewrite
+  ---
+  duration_ms: 0.788709
+  type: 'test'
+  ...
+# Subtest: suffix-distinct document paths validate and the entries array stays intact
+ok 32 - suffix-distinct document paths validate and the entries array stays intact
+  ---
+  duration_ms: 0.670458
+  type: 'test'
+  ...
+# Subtest: a parent directory mapping rewrites a hyphenated child that is not under a deeper key
+ok 33 - a parent directory mapping rewrites a hyphenated child that is not under a deeper key
+  ---
+  duration_ms: 0.222375
+  type: 'test'
+  ...
+# Subtest: repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes
+ok 34 - repository path rewrite prefers the longest valid key and preserves SHA and unmatched suffixes
+  ---
+  duration_ms: 0.246667
+  type: 'test'
+  ...
+# Subtest: link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces
+ok 35 - link rewrite changes destinations only, encoding bare spaces and keeping angle-bracket spaces
+  ---
+  duration_ms: 0.779459
+  type: 'test'
+  ...
+# Subtest: absolute, backslash, empty, and .git path segments fail before any write
+ok 36 - absolute, backslash, empty, and .git path segments fail before any write
+  ---
+  duration_ms: 1.017709
+  type: 'test'
+  ...
+# Subtest: existing destination and overlapping swaps fail on an isolated tree with zero writes
+ok 37 - existing destination and overlapping swaps fail on an isolated tree with zero writes
+  ---
+  duration_ms: 2.499833
+  type: 'test'
+  ...
+# Subtest: scheme and protocol-relative destinations stay out of local file checks
+ok 38 - scheme and protocol-relative destinations stay out of local file checks
+  ---
+  duration_ms: 0.182916
+  type: 'test'
+  ...
+# Subtest: local targets keep repo-root, encoded, query and directory forms and leave inputs unchanged
+ok 39 - local targets keep repo-root, encoded, query and directory forms and leave inputs unchanged
+  ---
+  duration_ms: 1.496208
+  type: 'test'
+  ...
+# Subtest: checkout ancestor sets include the repo root and do not mutate the file list
+ok 40 - checkout ancestor sets include the repo root and do not mutate the file list
+  ---
+  duration_ms: 0.102125
+  type: 'test'
+  ...
+# Subtest: task documents are only cards in the active, done, and cancelled directories
+ok 41 - task documents are only cards in the active, done, and cancelled directories
+  ---
+  duration_ms: 0.530334
+  type: 'test'
+  ...
+# Subtest: a missing top title falls back to the file name and later status text does not replace Status
+ok 42 - a missing top title falls back to the file name and later status text does not replace Status
+  ---
+  duration_ms: 0.55325
+  type: 'test'
+  ...
+# Subtest: a mixed task index sorts, escapes title pipes, and does not mutate the input array
+ok 43 - a mixed task index sorts, escapes title pipes, and does not mutate the input array
+  ---
+  duration_ms: 6.347791
+  type: 'test'
+  ...
+# Subtest: relocation edits only destinations, preserving formula text, labels, titles and code
+ok 44 - relocation edits only destinations, preserving formula text, labels, titles and code
+  ---
+  duration_ms: 1.0945
+  type: 'test'
+  ...
+# Subtest: reference definitions are rewritten once and keep explanation and all usages
+ok 45 - reference definitions are rewritten once and keep explanation and all usages
+  ---
+  duration_ms: 0.291125
+  type: 'test'
+  ...
+# Subtest: repository paths update once and preserve Git historical object identities
+ok 46 - repository paths update once and preserve Git historical object identities
+  ---
+  duration_ms: 0.1805
+  type: 'test'
+  ...
+# Subtest: unsafe, colliding and overlapping paths fail before writes
+ok 47 - unsafe, colliding and overlapping paths fail before writes
+  ---
+  duration_ms: 1.381875
+  type: 'test'
+  ...
+# Subtest: dry-run preserves files and write keeps every payload while rebasing links
+ok 48 - dry-run preserves files and write keeps every payload while rebasing links
+  ---
+  duration_ms: 1.522667
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.780083
+docs: 1169 Markdown / 6350 local links / 347 tasks / content22 SAVE11
+docs/ops/evidence/README.md:1: 子目录未进入导航：docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1
+docs: FAIL (1 issues)
+ ELIFECYCLE  Command failed with exit code 1.

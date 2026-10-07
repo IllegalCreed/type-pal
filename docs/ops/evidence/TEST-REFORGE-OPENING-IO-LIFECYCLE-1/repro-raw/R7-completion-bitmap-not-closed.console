@@ -1,0 +1,27 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge
+
+ ❯ src/__tests__/opening-io-lifecycle/R7-completion-bitmap-not-closed.test.ts (1 test | 1 failed) 216ms
+   × R7 O7 正常完成读档: 已创建缩略图位图未被释放 216ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  02:33:29
+   Duration  1.07s (transform 436ms, setup 0ms, import 388ms, tests 216ms, environment 377ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R7-completion-bitmap-not-closed.json
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/opening-io-lifecycle/R7-completion-bitmap-not-closed.test.ts > R7 O7 正常完成读档: 已创建缩略图位图未被释放
+AssertionError: expected "vi.fn()" to be called at least once
+ ❯ src/__tests__/opening-io-lifecycle/R7-completion-bitmap-not-closed.test.ts:131:28
+    129|   const thumbs = o.thumbBitmaps()
+    130|   expect(thumbs).toHaveLength(1)
+    131|   expect(thumbs[0]!.close).toHaveBeenCalled() // 完成收尾应释放; 实际从不close
+       |                            ^
+    132| })
+    133|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge
+
+ ❯ src/__tests__/opening-io-lifecycle/realshape-pure-red.test.ts (3 tests | 1 failed) 8ms
+   ✓ green one 2ms
+   × target red 5ms
+   ✓ green two 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:32:36
+   Duration  162ms (transform 19ms, setup 0ms, import 28ms, tests 8ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/realshape-pure-red.json
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/opening-io-lifecycle/realshape-pure-red.test.ts > target red
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/__tests__/opening-io-lifecycle/realshape-pure-red.test.ts:6:13
+      4| })
+      5| test('target red', () => {
+      6|   expect(1).toBe(0)
+       |             ^
+      7| })
+      8| test('green two', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game
+
+ ✓ src/shell/avi-player.async-lifecycle.test.ts (5 tests) 37ms
+ ✓ src/shell/rng-player.io-lifecycle.test.ts (2 tests) 123ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  02:28:09
+   Duration  774ms (transform 259ms, setup 33ms, import 281ms, tests 160ms, environment 608ms)
+
+JSON report written to /private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json

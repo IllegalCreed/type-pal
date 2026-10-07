@@ -1,0 +1,1172 @@
+{
+  "card": "TEST-GAME-MEDIA-LIFECYCLE-1",
+  "revision": "r2(闭合 Codex 一审 A-R1-03/04:唯一判据拒收 signal/spawn/collection/身份漂移并自测;三态 JSON/raw/执行身份/完整失败文本/argv/cwd/env 持久化)",
+  "suite": "定向两文件(src/shell/avi-player.async-lifecycle.test.ts + src/shell/rng-player.io-lifecycle.test.ts),执行集 7 合同(file×fullName 逐字锁定)",
+  "command": "node node_modules/vitest/vitest.mjs run <两文件> --reporter=json --outputFile.json=<证据目录 mutation-logs/*.json>(cwd=mkdtemp 隔离树 packages/game)",
+  "isolation": "变异只落 mkdtemp 树(建树校验冻结源 sha256;建树任一步失败也先删本次树);finally 删树;贡献者树两冻结源 git status 零残留",
+  "node": "v22.23.2",
+  "testFileSha256": {
+    "src/shell/avi-player.async-lifecycle.test.ts": "fc990ecbdfc19eb2c6761d2256bb0bde1756e8b6fcfc0a953c2aebfca02374d1",
+    "src/shell/rng-player.io-lifecycle.test.ts": "20b26965a72562dc41f741dc303229da1ecbe14b3ef21d40603ea0e17252f4ae"
+  },
+  "judgeSelfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (A-R2-01 hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM (Codex A-R1-03 counterexample #1)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite (Codex A-R1-03 counterexample #2)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "judgeProbes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": [],
+      "raw": {
+        "file": "mutation-logs/probe-pure-business-red-accepted.raw",
+        "sha256": "45a63c92500923c465aa6dde2e0e8b1cc7befececf0fa44f3df31c30b78676d1"
+      },
+      "json": {
+        "file": "mutation-logs/probe-pure-business-red-accepted.json",
+        "sha256": "c450ab20eb74284a21f93448bbf5c66e36a8460e05d1cefc44513431d4c6aa6a"
+      }
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ],
+      "raw": {
+        "file": "mutation-logs/probe-red-plus-afterall-hook-error-rejected.raw",
+        "sha256": "7cc1a835e79a713bd50147661d85cba48507972e7b84ac95aeaee9e2ca2dc73e"
+      },
+      "json": {
+        "file": "mutation-logs/probe-red-plus-afterall-hook-error-rejected.json",
+        "sha256": "ca05485c567445c16093da0c3d79d4efa9c04c01a3f60ff81a5ece616d4dca99"
+      }
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"],
+      "raw": {
+        "file": "mutation-logs/probe-red-plus-async-uncaught-rejected.raw",
+        "sha256": "720649ead1c60378e3a77857189c1edc192782260d4d7c1b93ec2402dce48db1"
+      },
+      "json": {
+        "file": "mutation-logs/probe-red-plus-async-uncaught-rejected.json",
+        "sha256": "90ec273d847e69a576dacc1ae007fa79236cc941faf3c0a3901fb1c56a14ff2c"
+      }
+    }
+  ],
+  "baseline": {
+    "state": "clean-baseline(第一态)",
+    "process": {
+      "exit": 0,
+      "signal": null,
+      "pid": 64559,
+      "spawnError": null,
+      "argv": [
+        "node",
+        "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/shell/avi-player.async-lifecycle.test.ts",
+        "src/shell/rng-player.io-lifecycle.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/green-baseline.json"
+      ],
+      "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      }
+    },
+    "counts": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "suites": 4,
+      "failedSuites": 0
+    },
+    "executionIdentity": [
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+      "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+      "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+    ],
+    "raw": {
+      "file": "mutation-logs/green-baseline.raw",
+      "sha256": "fc4d2505f59f72626b83c2f9f03fbccbac189da6f2c8010829410e2224c5a370"
+    },
+    "json": {
+      "file": "mutation-logs/green-baseline.json",
+      "sha256": "62d6bec61ea24c101d83b10078f7180d4344bda7bac1804ed678414a4ec0982a"
+    }
+  },
+  "needles": [
+    {
+      "id": "N-M1-late-reject-rebuilds-overlay",
+      "mutation": "src/shell/avi-player.ts: tryPlay catch 移除 settled 早退 → ended 收尾后的迟到 reject 重建点击重试层",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/avi-player.ts)",
+      "hashes": {
+        "sourcePristine": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b",
+        "mutant": "585137183a4646d5793e74d9ae4b051e949b8acc7bdcc65728896bb3502a98c6",
+        "restored": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 64606,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: failed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "failedTest": {
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M1: settled 后迟到 reject 不得重建点击重试层: expected 1 to be +0 // Object.is equality\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/avi-player.async-lifecycle.test.ts:168:64\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M1-late-reject-rebuilds-overlay.red.raw",
+          "sha256": "8db4a6a90112a631d7f4f95d3b5e1d99496e291ac07488cbcbf1d3c0f6fc076f"
+        },
+        "json": {
+          "file": "mutation-logs/N-M1-late-reject-rebuilds-overlay.red.json",
+          "sha256": "8c0cde80b809a8f0f46984f2402199b270ef37725032045e078ba0db724aadbb"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 64634,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M1-late-reject-rebuilds-overlay.green.raw",
+          "sha256": "eddb1f504dbf21e8283772f143c0400866f1ba6e7cec5d482537613a9f98ad18"
+        },
+        "json": {
+          "file": "mutation-logs/N-M1-late-reject-rebuilds-overlay.green.json",
+          "sha256": "08e580ac8280b3ea0b915e59916bd0768a3a955b3fefe856587de54a03600511"
+        }
+      }
+    },
+    {
+      "id": "N-M2-cleanup-keeps-overlay",
+      "mutation": "src/shell/avi-player.ts: cleanup 移除 removeClickOverlay() 调用 → 重试结果未定期间 ended 收尾后 overlay 残留",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/avi-player.ts)",
+      "hashes": {
+        "sourcePristine": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b",
+        "mutant": "12662c1f636ca1927ed0721883898026a6a93940e2f4eb4c6132a110c17d1ded",
+        "restored": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 64662,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: failed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "failedTest": {
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M2: ended 收尾必须移除点击重试层: expected 1 to be +0 // Object.is equality\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/avi-player.async-lifecycle.test.ts:189:53\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M2-cleanup-keeps-overlay.red.raw",
+          "sha256": "00a0746a57b081ede38795fe080fbc6256dccadac58c14dabc35b98a080dee6c"
+        },
+        "json": {
+          "file": "mutation-logs/N-M2-cleanup-keeps-overlay.red.json",
+          "sha256": "09f9b8ed60fbbe5ff49f6b0947d2b9ac1fbef675ca84802ee7dccef589c63b15"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 64742,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M2-cleanup-keeps-overlay.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M2-cleanup-keeps-overlay.green.raw",
+          "sha256": "bb45da0ecc52d91f5f3f5688b3f4eb8f76b1e699615eb69ba8491e0479d5de4e"
+        },
+        "json": {
+          "file": "mutation-logs/N-M2-cleanup-keeps-overlay.green.json",
+          "sha256": "ad433d738404b3e1e1af0bf34d23b5a4d583271604cf29e8bc1a6153222f9be8"
+        }
+      }
+    },
+    {
+      "id": "N-M4-cleanup-not-idempotent",
+      "mutation": "src/shell/avi-player.ts: cleanup 移除 settled 幂等守卫 → 跳过窗口内重复键定时器 + ended 各自完整收尾(重复 pause)",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/avi-player.ts)",
+      "hashes": {
+        "sourcePristine": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b",
+        "mutant": "3c504706be37ea30c5ed3e03a224bdd9efa9355ee3f2986cb9f0dee0484ff3b1",
+        "restored": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 64802,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M4-cleanup-not-idempotent.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: failed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "failedTest": {
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M4: 收尾清理只执行一次(重复键定时器不得重复 pause): expected [ <video …(2)></video>, …(2) ] to have a length of 1 but got 3\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/avi-player.async-lifecycle.test.ts:224:7\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M4-cleanup-not-idempotent.red.raw",
+          "sha256": "c7634c165527022a7a51e623dca5a0369ab5ce955e726d257b27133049984607"
+        },
+        "json": {
+          "file": "mutation-logs/N-M4-cleanup-not-idempotent.red.json",
+          "sha256": "0927881929e99aa12075a0f1c4984d10b03b3768b171bcfae42746d04420988b"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 64831,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M4-cleanup-not-idempotent.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M4-cleanup-not-idempotent.green.raw",
+          "sha256": "9bcb127216cb4c49de29f0104070413e07b6e41b4fbebe2e41a5248cb32b4001"
+        },
+        "json": {
+          "file": "mutation-logs/N-M4-cleanup-not-idempotent.green.json",
+          "sha256": "e6faf6232fca91b3a7615ea916ce760d4bf57e04e0a2636df96c0f59377df8c3"
+        }
+      }
+    },
+    {
+      "id": "N-M5-tracking-never-set",
+      "mutation": "src/shell/avi-player.ts: 移除 curVideoEl = video 跟踪赋值 → 下一段视频不被登记为音量所有者",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/avi-player.ts)",
+      "hashes": {
+        "sourcePristine": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b",
+        "mutant": "e2f897f794439db1c1993e46c6524ff07502d452cf6cd82cfb9ffb770b09811f",
+        "restored": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 64859,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M5-tracking-never-set.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: failed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "failedTest": {
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M5: 下一段视频是当前音量所有者: expected 1 to be 0.4 // Object.is equality\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/avi-player.async-lifecycle.test.ts:255:48"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M5-tracking-never-set.red.raw",
+          "sha256": "5a418e54930e0cdfaa502fe634ccfd3e7c8c05def60b4204696db44a55c15715"
+        },
+        "json": {
+          "file": "mutation-logs/N-M5-tracking-never-set.red.json",
+          "sha256": "7f86831fe96ae013333db7662cac051b708a8e9a960756f54f2e1739e5f42a5d"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 64928,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M5-tracking-never-set.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M5-tracking-never-set.green.raw",
+          "sha256": "5e178920a0a24d8446f0887d532e75c5aedb122bd345dac115d5be51fa33474d"
+        },
+        "json": {
+          "file": "mutation-logs/N-M5-tracking-never-set.green.json",
+          "sha256": "21ea5f922041774ab314f62873e51ef78165a8f2c1e694ab4eddd7deb07646cc"
+        }
+      }
+    },
+    {
+      "id": "N-M8-warmup-forgets-pause",
+      "mutation": "src/shell/avi-player.ts: warmUpVideoAutoplay 成功分支移除 v.pause() → 迟到 resolve 不再清理自己的临时 video",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/avi-player.ts)",
+      "hashes": {
+        "sourcePristine": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b",
+        "mutant": "4d21f173ecb88a00561e52dc8aa070dc4a0a8a939ee0230c1cf4e79965b66077",
+        "restored": "3f2160c810d1205295af465410d730442b1ee06eed2b9750a28181d9cf61796b"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 64973,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: failed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "failedTest": {
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M8: 迟到 resolve 只 pause warm-up 自己的临时 video: expected [] to deeply equal [ <video …(3)></video> ]\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/avi-player.async-lifecycle.test.ts:283:71\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M8-warmup-forgets-pause.red.raw",
+          "sha256": "3e2c754f02b30ef3046ef12e0500d311f8090df2994d5b849271a75eeecd7565"
+        },
+        "json": {
+          "file": "mutation-logs/N-M8-warmup-forgets-pause.red.json",
+          "sha256": "89719ff4f2a0a5dbc3b06a6e8bedae43526a6aa782d11e6d2ad1f78757509276"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 65204,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M8-warmup-forgets-pause.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M8-warmup-forgets-pause.green.raw",
+          "sha256": "cd0998f7bc90355dd78f8e410ea3a46bd2049711b18d671d4dd7b943da68330c"
+        },
+        "json": {
+          "file": "mutation-logs/N-M8-warmup-forgets-pause.green.json",
+          "sha256": "a8fd0ab4780bd0019650169179b4eb05b2876c931c587d1277773aa06c54be7d"
+        }
+      }
+    },
+    {
+      "id": "N-M6-failure-evicts-all-chunks",
+      "mutation": "src/shell/rng-player.ts: 失败驱逐从按 chunk delete 改为整表 clear → chunk A 失败连带驱逐 chunk B 成功缓存",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/rng-player.ts)",
+      "hashes": {
+        "sourcePristine": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae",
+        "mutant": "8a3c1d43403299d2d8d8c6f70d0511298c825bd161fd5c7658b0fbbd4de9b0ca",
+        "restored": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 65243,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M6-failure-evicts-all-chunks.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: failed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "failedTest": {
+          "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M6: chunk A 失败不得驱逐 chunk B 的成功缓存(复播 B 不重载): expected [ 6, 6 ] to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/rng-player.io-lifecycle.test.ts:113:7\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M6-failure-evicts-all-chunks.red.raw",
+          "sha256": "c81502b831a4220f13c1538f005d0bd1b17bfa470a5d8bd2b14307159df87688"
+        },
+        "json": {
+          "file": "mutation-logs/N-M6-failure-evicts-all-chunks.red.json",
+          "sha256": "5d84b864214a0d01276eb69ce58b74d88e9bdd0725d3b339a45865e03ee03194"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 65316,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M6-failure-evicts-all-chunks.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M6-failure-evicts-all-chunks.green.raw",
+          "sha256": "511a76c9f5cde2715650eccf375fc5cb2a5da2f02c7b94bd8cbaca7741a9a6ac"
+        },
+        "json": {
+          "file": "mutation-logs/N-M6-failure-evicts-all-chunks.green.json",
+          "sha256": "5545691388f8c029e6ad76a89ac46062bdcdf5ccb5748bb04c2e3b533e99c5a1"
+        }
+      }
+    },
+    {
+      "id": "N-M7-listener-never-returned",
+      "mutation": "src/shell/rng-player.ts: playRng finally 移除 keydown removeEventListener → 播放结束后跳过键监听泄漏(继续被消费)",
+      "execution": "node node_modules/vitest/vitest.mjs run src/shell/avi-player.async-lifecycle.test.ts src/shell/rng-player.io-lifecycle.test.ts --reporter=json --outputFile.json=...(cwd=隔离树 ../../../../../../../tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game,变异 src/shell/rng-player.ts)",
+      "hashes": {
+        "sourcePristine": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae",
+        "mutant": "ae7aa8effc67498e6da1326d5ead922dc6ecaa0f7d2f7357e2f5231778bac82c",
+        "restored": "551dde0f5f3e8d90d8c3f260dad37e50239b81fc12185ac81944a3f833b039ae"
+      },
+      "red": {
+        "state": "red(第二态:恰一指定业务 AssertionError)",
+        "process": {
+          "exit": 1,
+          "signal": null,
+          "pid": 65354,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 6,
+          "failed": 1,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 2
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: failed"
+        ],
+        "failedTest": {
+          "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: M7: 结束后跳过键监听已归还(不再被消费): expected true to be false // Object.is equality\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/rng-player.io-lifecycle.test.ts:161:62\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        "raw": {
+          "file": "mutation-logs/N-M7-listener-never-returned.red.raw",
+          "sha256": "a19e73a1515d82d01ebf20011c90117b8a378fa70d93e3f360bb34ab20325c9b"
+        },
+        "json": {
+          "file": "mutation-logs/N-M7-listener-never-returned.red.json",
+          "sha256": "7acccda6ecdc07be2d98b756910a5356abe1a8fcf1ece21b0134c0b8bf1983c3"
+        }
+      },
+      "restoredGreen": {
+        "state": "restored-green(第三态)",
+        "process": {
+          "exit": 0,
+          "signal": null,
+          "pid": 65382,
+          "spawnError": null,
+          "argv": [
+            "node",
+            "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+            "run",
+            "src/shell/avi-player.async-lifecycle.test.ts",
+            "src/shell/rng-player.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.green.json"
+          ],
+          "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+          "env": {
+            "inherited": true,
+            "node": "v22.23.2",
+            "NODE_OPTIONS": null,
+            "NODE_ENV": null,
+            "TZ": null
+          }
+        },
+        "counts": {
+          "total": 7,
+          "passed": 7,
+          "failed": 0,
+          "pending": 0,
+          "todo": 0,
+          "suites": 4,
+          "failedSuites": 0
+        },
+        "executionIdentity": [
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+          "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+          "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+        ],
+        "raw": {
+          "file": "mutation-logs/N-M7-listener-never-returned.green.raw",
+          "sha256": "818eb74ea915deeaa75de77d282d508cda4832996dc2ad2d8f94211d0dedd3ed"
+        },
+        "json": {
+          "file": "mutation-logs/N-M7-listener-never-returned.green.json",
+          "sha256": "7b075be540be0a194ca6dab907d6bfd8d9d3b37fa09e0d4b6504f29fc32ee986"
+        }
+      }
+    }
+  ],
+  "finalState": {
+    "state": "final-replay(第四态:全部针还原后两文件整套重放)",
+    "process": {
+      "exit": 0,
+      "signal": null,
+      "pid": 65410,
+      "spawnError": null,
+      "argv": [
+        "node",
+        "/private/tmp/type-pal-game-media-lifecycle/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/shell/avi-player.async-lifecycle.test.ts",
+        "src/shell/rng-player.io-lifecycle.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/final-replay.json"
+      ],
+      "cwd": "/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      }
+    },
+    "counts": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "pending": 0,
+      "todo": 0,
+      "suites": 4,
+      "failedSuites": 0
+    },
+    "executionIdentity": [
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权 :: passed",
+      "src/shell/avi-player.async-lifecycle.test.ts :: avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video :: passed",
+      "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 :: passed",
+      "src/shell/rng-player.io-lifecycle.test.ts :: rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 :: passed"
+    ],
+    "raw": {
+      "file": "mutation-logs/final-replay.raw",
+      "sha256": "bf43daf1670790172bb287efc2d124672953b383ada8ae647360c7419348947d"
+    },
+    "json": {
+      "file": "mutation-logs/final-replay.json",
+      "sha256": "275a94c84a998f97fd00eac6f6e3ee432f77240a4e8ad2a5269434867e1ee659"
+    }
+  },
+  "residue": "clean(贡献者树 avi-player.ts / rng-player.ts git status 零改动;变异全程在隔离树)",
+  "earlyFailureCleanup": {
+    "normalPath": "基线/还原绿/末次重放:用例内自 settle,afterEach 兜底对空集 no-op",
+    "earlyFailurePath": "各针红态 = 断言中途失败且资源在途的真实采样;N-M2 失败点带在途重试 deferred+overlay,N-M8 带在途正式播放器+未 settle warm-up deferred",
+    "guarantees": "判据(四态同门)强制:零 unhandled 输出、零零断言 failed suite、其余 6 测试同进程全绿、执行集无漂移"
+  },
+  "cleanup": "removed=true path=/tmp/tp-media-lifecycle-counterproof.nHtmio"
+}

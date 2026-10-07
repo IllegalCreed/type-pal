@@ -1,0 +1,88 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-opening-io/packages/reforge
+
+ ✓ src/opening-menu.io-lifecycle.test.ts (3 tests) 558ms
+   ✓ O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制  392ms
+stderr | src/main.host-lifecycle-1.test.ts > 标题读档入口:标题菜单选读档后从真实存档完成开局
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/main.host-lifecycle-1.test.ts > 标题入口视频:选中入口先播 intro 视频再进世界
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 标题入口视频:选中入口先播 intro 视频再进世界
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.host-lifecycle-1.test.ts > 启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.host-lifecycle-1.test.ts > 播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/opening-menu.glm-q.test.ts (5 tests) 226ms
+stderr | src/main.host-lifecycle-1.test.ts > 资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+Not implemented: HTMLMediaElement's play() method
+stderr | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[auto] cinema TypeError: Cannot read properties of undefined (reading 'then')
+    at tryPlay (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/video-player.ts:100:15)
+    at /private/tmp/type-pal-reforge-opening-io/packages/reforge/src/video-player.ts:128:5
+    at new Promise (<anonymous>)
+    at playVideo (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/video-player.ts:33:10)
+    at playVideoAsset (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/main.ts:481:11)
+    at CutsceneController.run (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/cutscene-controller.ts:66:9)
+    at executeScriptHostEffect (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/script-host-adapter.ts:298:7)
+    at executeProjectScriptEffect (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/main.ts:3205:5)
+    at BaseProjectScriptRuntimeHost.execute (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/script-project-core.ts:312:5)
+    at ProjectScriptRuntimeHost.execute (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/runtime-script-project.ts:177:7)
+
+stderr | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[save] 初始存档浏览缓存加载失败: ReferenceError: createImageBitmap is not defined
+    at refreshSaveMetas (/private/tmp/type-pal-reforge-opening-io/packages/reforge/src/main.ts:4787:42)
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at processImmediate (node:internal/timers:452:9)
+
+stderr | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stderr | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+Not implemented: navigation to another Document
+stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ✓ src/main.host-lifecycle-1.test.ts (8 tests) 1684ms
+   ✓ 标题读档入口:标题菜单选读档后从真实存档完成开局  1081ms
+ ✓ src/opening-menu.flows.test.ts (4 tests) 165ms
+ ✓ src/opening-menu.observation.test.ts (1 test) 120ms
+ ✓ src/save/store.test.ts (3 tests) 3ms
+ ✓ src/save/store.isolation.test.ts (18 tests) 26ms
+ ✓ src/save/ops.test.ts (4 tests) 5ms
+ ✓ src/save/browser-state.test.ts (6 tests) 3ms
+ ✓ src/opening-menu.test.ts (2 tests) 3ms
+
+ Test Files  10 passed (10)
+      Tests  54 passed (54)
+   Start at  02:33:43
+   Duration  3.79s (transform 2.14s, setup 0ms, import 1.67s, tests 2.79s, environment 2.19s)
+
+exit=0

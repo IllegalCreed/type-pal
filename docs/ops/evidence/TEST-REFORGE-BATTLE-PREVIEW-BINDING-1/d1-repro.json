@@ -1,0 +1,322 @@
+{
+  "tool": "run-d1-repro.mjs (r3)",
+  "expected": "D-1 red shape: CONTROL green + REPRO exactly-one AssertionError red, with same-run global-error diagnostics (out-of-repo copy tree)",
+  "r3Rework": [
+    "B-R2-01 判据纳入同次子进程完整全局错误诊断（default reporter raw），拒收叠加的异步 uncaught/unhandled",
+    "同次双 reporter：native JSON（身份）+ 完整 raw（全局错误）",
+    "真实 Vitest 污染样本（afterAll setTimeout 异步抛）被唯一拒收，且唯一拒收原因即全局错误"
+  ],
+  "gitHead": "d4ec0c051e76d6c2420debe366065304b866a708",
+  "mainRun": {
+    "label": "main",
+    "ok": true,
+    "failure": null,
+    "phaseReached": "judge-pollution",
+    "treeRemovedAfterRun": true,
+    "judgment": {
+      "accept": true,
+      "reasons": []
+    },
+    "details": {
+      "run": {
+        "argv": [
+          "/private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.bin/vitest",
+          "run",
+          "repro-d1-r3/d1-repro.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/d1.vitest.json"
+        ],
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge",
+        "env": {
+          "NODE_COMPILE_CACHE": "''（空串，禁用编译缓存）",
+          "nodeVersion": "v22.23.2",
+          "envFingerprint": "0d2b4a5cffeeaf1f42cabf24eaa31c0051dd7c3b3a300ec9c8125b4da7e7b00d"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutSha256": "7aa75f8cb485cbf306954a01d4bbb41f41b71bfe771e02d4e735182519fd4c0c",
+        "stderrSha256": "b1b18267f7f62a566fc4e688ddaa4e48155e451f8d8c7d10c14bbb875b141cce",
+        "nativeJson": {
+          "totals": {
+            "files": 1,
+            "tests": 2,
+            "passed": 1,
+            "failed": 1
+          },
+          "identity": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge/repro-d1-r3/d1-repro.test.ts",
+              "fullName": "CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge/repro-d1-r3/d1-repro.test.ts",
+              "fullName": "REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography",
+              "status": "failed"
+            }
+          ]
+        }
+      },
+      "pollution": {
+        "argv": [
+          "/private/tmp/type-pal-reforge-battle-preview-binding/node_modules/.bin/vitest",
+          "run",
+          "repro-d1-r3-pollution/pollution.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/pollution.vitest.json"
+        ],
+        "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge",
+        "env": {
+          "NODE_COMPILE_CACHE": "''（空串，禁用编译缓存）",
+          "nodeVersion": "v22.23.2",
+          "envFingerprint": "0d2b4a5cffeeaf1f42cabf24eaa31c0051dd7c3b3a300ec9c8125b4da7e7b00d"
+        },
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutSha256": "bebe7afd2feea1223304abde679bf38885b8c579306f7ae08a30cf702130416d",
+        "stderrSha256": "89cd861c9b449b2f58d81a6ad15ee8c2cdfb3d5c0b0203ee52b7190fd74c6ce2",
+        "nativeJson": {
+          "totals": {
+            "files": 1,
+            "tests": 2,
+            "passed": 1,
+            "failed": 1
+          },
+          "identity": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge/repro-d1-r3-pollution/pollution.test.ts",
+              "fullName": "CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge/repro-d1-r3-pollution/pollution.test.ts",
+              "fullName": "REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography",
+              "status": "failed"
+            }
+          ]
+        },
+        "judgment": {
+          "accept": false,
+          "reasons": [
+            "global-error:unhandled-errors-section",
+            "global-error:uncaught-exception",
+            "global-error:errors-summary-line"
+          ]
+        },
+        "soleReasonGlobalError": true
+      },
+      "productCopy": {
+        "tree": "reforge-d1-repro-r3-QCLSP9",
+        "mode": "仓库外 mkdtemp：根配置+全 packages/* 真实拷贝（去 node_modules）+根/包级 node_modules 软链",
+        "frozen": [
+          {
+            "path": "packages/reforge/src/main.ts",
+            "expected": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
+            "actual": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28",
+            "match": true
+          },
+          {
+            "path": "packages/reforge/src/runtime-project-view.ts",
+            "expected": "1c7ed7ca473734f1bc12f6c4b6b2f14cf5bff8dad96a9674398e9eb24022b1e2",
+            "actual": "1c7ed7ca473734f1bc12f6c4b6b2f14cf5bff8dad96a9674398e9eb24022b1e2",
+            "match": true
+          },
+          {
+            "path": "packages/reforge/src/project-loader.ts",
+            "expected": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+            "actual": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+            "match": true
+          },
+          {
+            "path": "packages/content/src/author-script-core.ts",
+            "expected": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058",
+            "actual": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058",
+            "match": true
+          }
+        ],
+        "testFile": "packages/reforge/repro-d1-r3/d1-repro.test.ts",
+        "testSha256": "b93aba2e521acf6d96060b9b336e840c65c1b46a77e34f07f02f3be8bc0c4ec8",
+        "pollutionFile": "packages/reforge/repro-d1-r3-pollution/pollution.test.ts",
+        "pollutionSha256": "6e0555ca57fedff53ccf83a20796d1e99ad52525b7191d721255a7d4dfe97236"
+      }
+    }
+  },
+  "selftest": {
+    "cases": [
+      {
+        "name": "正确形状（含干净 raw）必须 accept",
+        "expectAccept": true,
+        "actualAccept": true,
+        "reasons": [],
+        "pass": true
+      },
+      {
+        "name": "json 解析失败拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["json-unparseable"],
+        "pass": true
+      },
+      {
+        "name": "spawn 错误拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["spawn-error:ENOENT"],
+        "pass": true
+      },
+      {
+        "name": "signal 非空拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["signal:SIGTERM"],
+        "pass": true
+      },
+      {
+        "name": "raw 含 Unhandled Errors 段拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["global-error:unhandled-errors-section"],
+        "pass": true
+      },
+      {
+        "name": "raw 含 Uncaught Exception 拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["global-error:uncaught-exception"],
+        "pass": true
+      },
+      {
+        "name": "raw 含 Unhandled Rejection 拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["global-error:unhandled-rejection"],
+        "pass": true
+      },
+      {
+        "name": "raw 含 Errors 汇总行拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["global-error:errors-summary-line"],
+        "pass": true
+      },
+      {
+        "name": "exit 0 拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": [
+          "exit-code:0",
+          "passed:2",
+          "failed:0",
+          "repro-status:passed",
+          "repro-failure-count:0"
+        ],
+        "pass": true
+      },
+      {
+        "name": "缺 CONTROL 拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["identity-multiset", "control-missing"],
+        "pass": true
+      },
+      {
+        "name": "CONTROL 红拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["passed:0", "failed:2", "control-status:failed", "control-failure-messages"],
+        "pass": true
+      },
+      {
+        "name": "REPRO 绿拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["passed:2", "failed:0", "repro-status:passed", "repro-failure-count:0"],
+        "pass": true
+      },
+      {
+        "name": "额外第三例拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["total:3", "passed:2", "assertion-count:3", "identity-multiset"],
+        "pass": true
+      },
+      {
+        "name": "needle 不符拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["repro-needle-missing"],
+        "pass": true
+      },
+      {
+        "name": "双 failureMessages 拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["repro-failure-count:2"],
+        "pass": true
+      },
+      {
+        "name": "非 AssertionError 拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["repro-not-assertion-error"],
+        "pass": true
+      },
+      {
+        "name": "todo 状态拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["assertion-status:todo", "control-status:todo"],
+        "pass": true
+      },
+      {
+        "name": "suite 级 runtime 错误拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["suite-runtime-error"],
+        "pass": true
+      },
+      {
+        "name": "计数不符拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["total:3"],
+        "pass": true
+      },
+      {
+        "name": "冻结漂移拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["frozen-drift:packages/reforge/src/main.ts"],
+        "pass": true
+      },
+      {
+        "name": "file 与 expectedFile 不符拒收",
+        "expectAccept": false,
+        "actualAccept": false,
+        "reasons": ["suite-file-mismatch"],
+        "pass": true
+      }
+    ],
+    "allPass": true
+  },
+  "cleanupDrills": [
+    {
+      "label": "prep-failure-drill",
+      "ok": false,
+      "failure": "Error: simulated preparation failure",
+      "phaseReached": "init",
+      "treeRemovedAfterRun": true
+    },
+    {
+      "label": "success-cleanup-drill",
+      "ok": true,
+      "failure": null,
+      "phaseReached": "init",
+      "treeRemovedAfterRun": true
+    }
+  ]
+}

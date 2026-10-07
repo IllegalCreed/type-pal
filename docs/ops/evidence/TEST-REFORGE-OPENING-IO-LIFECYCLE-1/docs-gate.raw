@@ -1,0 +1,10 @@
+# duration_ms 104.589791
+--- testing-docs
+testing docs: PASS (0 issues)
+--- phase-lore
+phase/lore governance: PASS (184 documents)
+--- content-review
+content review: PASS (570 documents; {"content-reviewed":570})
+--- main docs check
+docs/ops/evidence/README.md:1: 子目录未进入导航：docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1
+docs: FAIL (1 issues)

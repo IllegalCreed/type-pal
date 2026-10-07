@@ -7,6 +7,9 @@
 
 ## 当前证据
 
+- [TEST-GAME-MEDIA-LIFECYCLE-1 交付证据](TEST-GAME-MEDIA-LIFECYCLE-1/README.md)（已集成 main；r3 媒体生命周期 7 合同、严格四态反控与污染判据探针；M3 产品缺陷另行登记）。
+- [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据](TEST-REFORGE-OPENING-IO-LIFECYCLE-1/README.md)（已集成 main；r3 标题读档 IO 3 合同、3 针反控与 8 条产品诊断；D-Q01-1 不夹修）。
+- [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 交付证据](TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/README.md)（已集成 main；r3 D-1 试打接线真实反例、污染判据与清理证明；产品修复另卡裁决）。
 - [TEST-GLM-GAME-SHELL-BOOTSTRAP-1 交付证据](TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md)（r1 候选：shell bootstrap 排重账 + syncShellAudio 战斗臂/SW 消息路由/persist 容忍/startRafLoop 帧链 6 新合同 + 6/6 三态反控 + U-1 swc.ready 拒绝悬空登记，待 Codex 验收）。
 - [TEST-GLM-GAME-EVENT-STATE-OPCODES-1 交付证据](TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md)（r1 候选：状态 opcode 臂级排重账（两轮 coverage 并集）+ 走位到达/清 pose/零距离/同场景 guard/onEnter goto/菱形回弹/稀疏写回 8 新合同 + 8/8 三态反控（复用已验收 r2 判据库），待 Codex 验收）。
 - [TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 交付证据](coverage85-kimi-extract-migrate-r1/README.md)（已集成 main，Codex quality closure 见历史任务卡）：原始机账、反控件与生成器见 [coverage85-kimi-extract-migrate-r1/](coverage85-kimi-extract-migrate-r1)。

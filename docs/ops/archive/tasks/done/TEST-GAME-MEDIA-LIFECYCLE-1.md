@@ -1,6 +1,6 @@
 # TEST-GAME-MEDIA-LIFECYCLE-1 — 视频与RNG异步收尾及资源所有权
 
-Status: rework
+Status: done
 Owner: GLM（独立对话A，唯一写入者）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -37,7 +37,7 @@ Visual Verification Timing: N/A（本卡核异步与资源合同，不宣称浏�
 
 Codex已读真实实现及旧测。此卡不改变第一阶段机制、媒体键语义或用户行为，故原版公式/剧情真值N/A；涉及新行为取舍或产品修复即停受影响轴交Codex。
 
-- [项目纪律](../../../CLAUDE.md)、[一阶段经验](../../phase1/engineering-notes.md)、[测试质量验收](../agent-workflow.md)。
+- [项目纪律](../../../../../CLAUDE.md)、[一阶段经验](../../../../phase1/engineering-notes.md)、[测试质量验收](../../../agent-workflow.md)。
 - `packages/game/src/shell/avi-player.ts`：`playAvi`的settled收尾、play结果及一次性click重试；`warmUpVideoAutoplay`、`setVideoVolume`。
 - `packages/game/src/shell/rng-player.ts`：公开IO端口、chunk Promise缓存、失败驱逐、帧预取与finally收尾。
 - caller：`packages/game/src/main.ts:52`；`bootstrap.ts:980,1266,1414,1463,1607,1751,1847`。
@@ -63,8 +63,8 @@ Codex已读真实实现及旧测。此卡不改变第一阶段机制、媒体键
 ## 当前模式推进记录
 
 - 2026-10-06 Codex：有限M1–M8、真实入口与排重前提已核；**build allowed仅限测试/隔离诊断白名单**。实现产品/媒体行为改动未准入。
-- 贡献者交付/自验：pending。
-- Codex独立验收：pending；done准入：blocked（待独立核合同、证据与质量门）。
+- 贡献者交付/自验：GLM r3 已交付（候选 HEAD `da4a3343133d2cb56156b51b582cee6c2ce7a68c`）。
+- Codex独立验收：r3 passed；done准入：待主分支 Git 集成与推送。
 - 用户产品裁决：N/A（本轮无产品行为变化）；发现新取舍另列counter。
 
 ## 初始派发提示词（历史，当前以文末返工为准）
@@ -72,6 +72,10 @@ Codex已读真实实现及旧测。此卡不改变第一阶段机制、媒体键
 ```text
 你是TEST-GAME-MEDIA-LIFECYCLE-1唯一执行方。只在/private/tmp/type-pal-game-media-lifecycle、codex/glm-game-media-lifecycle-r1工作。先读AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md和docs/ops/tasks/TEST-GAME-MEDIA-LIFECYCLE-1.md，再逐字读卡内源码/caller与旧断言。只完成M1-M8，先排重分类，真正缺失的合法合同才补少而精的原子测试；产品不满足就交隔离真实红反例，不修产品或把坏行为写成绿测。按白名单、冻结、typed IO、严格三态与清理证明交付；零诊断，完整SHA提交推送。所有轴有证据即停，卡面只写你的交付块；不合main、不done、不扩围。返回候选SHA、逐轴结论、门禁/缺陷及剩余风险，等待Codex验收。
 ```
+
+## Codex 独立三审记录（2026-10-07，r3）
+
+候选分支 `codex/glm-game-media-lifecycle-r1` HEAD `da4a3343133d2cb56156b51b582cee6c2ce7a68c`，对应 r3 测试提交 `cbfa02d043ee0a1d836bcc034170e86e7f80e202`。独立核对 4/4 冻结源 hash、白名单与产品/旧测零改动；在独占复制树复跑判据：20/20 自测、纯业务红接受、hook/异步 uncaught 污染红拒收、7 针四态 7/7、末次 7/7、M3 真实红、清理 `removed=true`。独立定向 7/7、typecheck 通过；根 lint 3537 文件 0/0/0、docs/diff 通过。A-R2-01 已闭合，候选可集成；产品 M3 缺陷仍只登记，不夹修。
 
 ## Codex 独立一审与有限返工（2026-10-07）
 

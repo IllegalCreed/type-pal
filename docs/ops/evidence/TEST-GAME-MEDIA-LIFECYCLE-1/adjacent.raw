@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-game-media-lifecycle/packages/game
+
+stderr | src/shell/avi-player.glm-next-wave.test.ts > playAvi autoplay 拒绝 → click-to-start 降级边界 > play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理
+[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: play() failed (autoplay policy)
+
+ ✓ src/shell/avi-player.glm-next-wave.test.ts (3 tests) 235ms
+ ✓ src/shell/rng-player.glm-next-wave.test.ts (2 tests) 130ms
+stderr | src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A07 默认块地址是 rng-07.rle
+[rng-player] frame 0 fetch fail, skip: Error: rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)
+    at fetchAndDecodeRngChunk (/private/tmp/type-pal-game-media-lifecycle/packages/game/src/shell/rng-player.ts:100:22)
+
+ ✓ src/shell/rng-window.grok-r1.test.ts (7 tests) 141ms
+ ✓ src/shell/trademark-fallback.test.ts (2 tests) 176ms
+ ✓ src/shell/ending-avi-host.grok-r1.test.ts (6 tests) 236ms
+ ✓ src/shell/rng-player.test.ts (14 tests) 381ms
+ ✓ src/shell/trademark-splash.grok-r1.test.ts (6 tests) 386ms
+stderr | src/shell/avi-player.test.ts > playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) > video error 事件触发 → Promise 仍 resolve(不抛)
+[avi-player] video load/decode failed: /extracted/videos/nonexistent.mp4
+
+ ✓ src/shell/avi-player.test.ts (12 tests) 2068ms
+     ✓ Space 键跳过 → Promise resolve + element 移除  502ms
+     ✓ Enter 键跳过  505ms
+     ✓ Escape 键跳过  504ms
+     ✓ 自定义 skipKeys 覆盖默认  514ms
+ ✓ src/shell/splash-fallback.test.ts (6 tests) 11482ms
+     ✓ Space 跳过 → 补完渐变 + 0.5s delay + resolve  1869ms
+     ✓ Enter / Escape 也跳过  1900ms
+     ✓ 自定义 skipKeys 覆盖默认  1907ms
+     ✓ 画屏后 fb 含 bitmapUp 或 bitmapDown 像素(滚动 bitmap blit 真的运行)  2017ms
+     ✓ L44:早跳过时标题补满完整高度(底部行也被画上)  1877ms
+     ✓ L42:splash 结束做 PAL_FadeOut(1) 淡黑(最终帧全黑)  1910ms
+
+ Test Files  9 passed (9)
+      Tests  58 passed (58)
+   Start at  02:26:54
+   Duration  12.67s (transform 2.32s, setup 340ms, import 2.73s, tests 15.23s, environment 6.02s)
+

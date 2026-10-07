@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-repros-do3q0E/packages/reforge
+
+ ✓ src/__tests__/opening-io-lifecycle/R5a-late-reject-after-exit.test.ts (1 test) 381ms
+   ✓ R5a O5 退出后迟到IO拒绝: 悬空拒绝发生在菜单退休之后  380ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+     Errors  1 error
+   Start at  02:33:22
+   Duration  1.79s (transform 806ms, setup 0ms, import 694ms, tests 381ms, environment 593ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R5a-late-reject-after-exit.json
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: R5a: 退出后迟到的listMeta拒绝(公开存储边界)
+ ❯ Object.listMeta src/__tests__/opening-io-lifecycle/R5a-late-reject-after-exit.test.ts:134:15
+    132|         await r.listMeta()
+    133|         await gate
+    134|         throw new Error('R5a: 退出后迟到的listMeta拒绝(公开存储边界)')
+       |               ^
+    135|       },
+    136|     }),
+ ❯ enterLoad src/opening-menu.ts:123:21
+
+This error originated in "src/__tests__/opening-io-lifecycle/R5a-late-reject-after-exit.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "R5a O5 退出后迟到IO拒绝: 悬空拒绝发生在菜单退休之后". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯

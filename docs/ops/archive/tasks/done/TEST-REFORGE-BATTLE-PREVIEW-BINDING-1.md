@@ -1,6 +1,6 @@
 # TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与canonical脚本接线
 
-Status: rework
+Status: done
 Owner: GLM（独立对话C，唯一写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -33,7 +33,7 @@ Visual Verification Timing: N/A（调用链/真实业务结果取证；不验剧
 
 ## 前提真值与直接锚点
 
-- 先读[READ-FIRST](../../phase2/READ-FIRST.md)、[测试质量验收](../agent-workflow.md)、[原D-1披露](../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/dedup-ledger.md)。作者回执不替代当前一手核验。
+- 先读[READ-FIRST](../../../../phase2/READ-FIRST.md)、[测试质量验收](../../../agent-workflow.md)、[原D-1披露](../../../evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/dedup-ledger.md)。作者回执不替代当前一手核验。
 - `main.ts:263-280`接受唯一current工程；`:364-366`getSceneDef经runtimeSceneView；`:5855-5889`递归findChoreo与startBattle接线。
 - `project-loader.ts:464-495`真实loadAuthorScene/校验/对话解析；`runtime-project-view.ts:39-46,164-177,197-204`投影空stage正文及渲染场景，不是存储权威。
 - `content/src/author-script-core.ts`合法命令、stage/hook/sharedScript域。当前不存在可写旧scriptStore，不能以旧schema冒充canonical fixture。
@@ -59,7 +59,7 @@ Visual Verification Timing: N/A（调用链/真实业务结果取证；不验剧
 ## 当前模式推进记录
 
 - 2026-10-06 Codex：B1–B7、canonical与投影链及旧D-1直接锚点已核；**build allowed仅限白名单测试/隔离诊断**。D-1产品修复/策略未准入。
-- 贡献者交付/自验：pending；Codex独立验收：pending；done准入：blocked。
+- 贡献者交付/自验：GLM r3 已交付（候选 HEAD `bd5f115b5c93a2aaad17da05214850e3bf545b05`）。Codex独立验收：r3 passed；done准入：待主分支 Git 集成与推送。
 - 用户产品裁决：本卡N/A；多匹配/错误提示/搜索域改变须另行裁决。
 
 ## 初始派发提示词（历史，当前以文末返工为准）
@@ -67,6 +67,10 @@ Visual Verification Timing: N/A（调用链/真实业务结果取证；不验剧
 ```text
 你是TEST-REFORGE-BATTLE-PREVIEW-BINDING-1唯一执行方。仅在/private/tmp/type-pal-reforge-battle-preview-binding、codex/glm-reforge-battle-preview-binding-r1工作。先读AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/agent-workflow.md和docs/ops/tasks/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md，再核D-1原证据、当前canonical加载/投影/试打链及旧测试实际断言。只裁决B1-B7，真实typed工程与公开bootGame；少而精补正常未重复合同，D-1交最小隔离正向红反例，不把缺陷写成绿测，不修产品/加旧scriptStore/私有后门/擅定多匹配策略。同根因变体记域证据不堆测试。严格冻结/白名单/三态身份/零诊断/清理，完整SHA提交推送。轴全部裁决即停，只写本卡你的交付块，不合main、不done、不扩围。返回逐轴账、候选SHA、绿门与红反例分列及未决产品点，待Codex验收。
 ```
+
+## Codex 独立三审记录（2026-10-07，r3）
+
+候选分支 `codex/glm-reforge-battle-preview-binding-r1` HEAD `bd5f115b5c93a2aaad17da05214850e3bf545b05`，对应 r3 工具提交 `480cd970c5af922ca3a628025c67b4afdfeb7ec1`。独立核对 4/4 冻结源 hash、白名单、产品/旧测零改动；D-1 主诊断 CONTROL 绿 + REPRO 指定 AssertionError 红被接受，污染样本仅因同次 global-error 被拒收，21/21 自测与成功/失败清理演练通过。D-1 工具 exit 0、清理证明成立；零新增正常测试符合卡面。候选可集成；D-1 产品修复与 B6 搜索策略仍另卡裁决。
 
 ## Codex 独立一审与有限返工（2026-10-07）
 

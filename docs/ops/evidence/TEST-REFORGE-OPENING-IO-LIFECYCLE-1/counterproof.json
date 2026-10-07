@@ -1,0 +1,860 @@
+{
+  "generatedAt": "2026-10-06T17:33:00.485Z",
+  "nodeVersion": "v22.23.2",
+  "mode": "pinned（正式门）",
+  "executionSet": "pnpm exec vitest run（cwd=mkdtemp 树 packages/reforge，定向整文件 src/opening-menu.io-lifecycle.test.ts，--reporter=json --reporter=default --outputFile.json；-t 过滤会致 pending/skip，不用）",
+  "identityPolicy": "四相位（baseline/mutant/restored/final-replay）与同一非空声明集合（= baseline 身份 sha）比较；identitySha256 只含 file×fullName 多重集合，status 逐行分列校验",
+  "subprocessPolicy": "每相位一次子进程双 reporter 联判：native JSON（outputFile）与完整原始诊断（stdout+stderr）同进程采集（O-R2-01；JSON 单跑隐藏全局错误，双进程互证无效）",
+  "pollutionPolicy": "拒收 suite.message 非空（afterAll/hook 错误实测落此字段）、Failed Suites、Unhandled Rejection、Uncaught Exception、Unhandled Errors 段、stdout Errors N 摘要行——不能只搜 Unhandled Rejection（O-R2-01；异步 uncaught 实测只出现在默认 reporter）",
+  "treePolicy": "mkdtemp 拷贝树内变异/还原；活动工作树产品零触碰；回执在最终删树取证后写入",
+  "selfTest": {
+    "cases": [
+      {
+        "case": "valid-red-accept",
+        "expect": "accept",
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "red-hook-error-via-suite-message-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "suite.message 非空（hook/collection 层额外错误，拒收）: x.test.ts → Error: CODEX_EXTRA_HOOK_ERROR"
+        ]
+      },
+      {
+        "case": "red-runtime-uncaught-via-diagnostics-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "诊断含 'Uncaught Exception'",
+          "诊断含 'Unhandled Errors' 段（进程级错误存在）",
+          "stdout 含 'Errors  N' 摘要行（进程级错误存在）",
+          "同次诊断原文无 AssertionError 旁证"
+        ]
+      },
+      {
+        "case": "green-hook-error-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "suite.message 非空（hook/collection 层额外错误，拒收）: x.test.ts → Error: CODEX_EXTRA_HOOK_ERROR",
+          "exit=1 ≠ 0",
+          "success≠true"
+        ]
+      },
+      {
+        "case": "green-runtime-uncaught-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "诊断含 'Uncaught Exception'",
+          "诊断含 'Unhandled Errors' 段（进程级错误存在）",
+          "stdout 含 'Errors  N' 摘要行（进程级错误存在）",
+          "exit=1 ≠ 0",
+          "success≠true"
+        ]
+      },
+      {
+        "case": "red-unhandled-rejection-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["诊断含 'Unhandled Rejection'"]
+      },
+      {
+        "case": "same-count-different-identity-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "红相位执行集身份与 baseline 不一致（同数不同身份/漏跑拒收）: 39aada39eff7 ≠ 9173b6523c81"
+        ]
+      },
+      {
+        "case": "red-hidden-skipped-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["执行集含非 passed/failed 状态行（隐藏 skip/todo 拒收）: 1 行"]
+      },
+      {
+        "case": "green-hidden-skipped-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": [
+          "exit=1 ≠ 0",
+          "success≠true",
+          "执行集含非 passed/failed 状态行（隐藏 skip/todo 拒收）: 1 行"
+        ]
+      },
+      {
+        "case": "two-failures-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["numFailedTests=2 ≠ 1", "failed 计数 2 与行级 failed 1 不一致"]
+      },
+      {
+        "case": "wrong-fullname-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["唯一失败 fullName 不精确等于目标合同：got \"DESC 其它合同\""]
+      },
+      {
+        "case": "exit-zero-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["exit 0（未红/假绿）", "success≠false"]
+      },
+      {
+        "case": "pending-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["numPendingTests=1 ≠ 0"]
+      },
+      {
+        "case": "collection-error-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["collection/runtime error suite（零断言失败套件）: broken.test.ts"]
+      },
+      {
+        "case": "non-assertion-error-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["指定失败非 AssertionError"]
+      },
+      {
+        "case": "signal-failure-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["signal=SIGKILL"]
+      },
+      {
+        "case": "spawn-failure-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["spawnError=spawn pnpm ENOENT"]
+      },
+      {
+        "case": "count-row-mismatch-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["行数 3 与 numTotalTests=2 不一致"]
+      },
+      {
+        "case": "green-valid-accept",
+        "expect": "accept",
+        "ok": true,
+        "issues": []
+      },
+      {
+        "case": "green-identity-mismatch-reject",
+        "expect": "reject",
+        "ok": true,
+        "issues": ["绿相位执行集身份与 baseline 不一致: 39aada39eff7 ≠ 9173b6523c81"]
+      }
+    ],
+    "allOk": true
+  },
+  "realShapeSelfCheck": {
+    "policy": "真实 Vitest 探针（2 绿+1 指定 AssertionError 红，叠加 afterAll throw / 异步 uncaught）在同一 mkdtemp 树经同一 dualPhase+validateRedPhase 管线实跑：纯红须接受、两种污染须拒收（O-R2-01）",
+    "cases": [
+      {
+        "id": "realshape-pure-red",
+        "expect": "accept",
+        "issues": [],
+        "ok": true
+      },
+      {
+        "id": "realshape-afterall-hook-error",
+        "expect": "reject",
+        "issues": [
+          "suite.message 非空（hook/collection 层额外错误，拒收）: /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/__tests__/opening-io-lifecycle/realshape-afterall-hook-error.test.ts → CODEX_EXTRA_HOOK_ERROR",
+          "诊断含 'Failed Suites'（hook 层错误）",
+          "红相位执行集身份与 baseline 不一致（同数不同身份/漏跑拒收）: c76d84cd6f85 ≠ d911f6cc9a50"
+        ],
+        "ok": true
+      },
+      {
+        "id": "realshape-async-uncaught",
+        "expect": "reject",
+        "issues": [
+          "诊断含 'Uncaught Exception'",
+          "诊断含 'Unhandled Errors' 段（进程级错误存在）",
+          "stdout 含 'Errors  N' 摘要行（进程级错误存在）",
+          "红相位执行集身份与 baseline 不一致（同数不同身份/漏跑拒收）: 67055e8840f4 ≠ d911f6cc9a50"
+        ],
+        "ok": true
+      }
+    ],
+    "allOk": true
+  },
+  "source": {
+    "file": "packages/reforge/src/opening-menu.ts",
+    "sha256": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172"
+  },
+  "declaredSet": {
+    "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+    "rows": 3
+  },
+  "retiredInjections": [
+    {
+      "id": "N1-duplicate-load-deduped",
+      "retiredAt": "2026-10-07",
+      "reason": "O-R1-01：该针把 single-flight 去重当\"错误\"注入，其目标合同（O4 重复输入产生两份 meta/thumb IO 与两张位图）是把产品缺陷写成绿预期，且与本包 R4 重复 IO/旧结果覆盖诊断矛盾。r2 已删除该合同（O4 单次正常读档归 flows H2 existing-proof），针随之退役，不计有效。"
+    }
+  ],
+  "injections": [
+    {
+      "id": "N2-exit-raf-not-cancelled",
+      "file": "packages/reforge/src/opening-menu.ts",
+      "anchor": ["    const cleanup = (): void => {\n      cancelAnimationFrame(raf)\n"],
+      "expectedTest": "O5 读档IO在途时选新局退出",
+      "expectedFullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+      "expectedErrorPart": "expected 1 to be +0 // Object.is equality",
+      "pinnedErrorPartMatch": true,
+      "directed": ["src/opening-menu.io-lifecycle.test.ts"],
+      "original": {
+        "hash": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172"
+      },
+      "mutant": {
+        "hash": "e13b7296c296c45c364e038bd56885d4bf9a2170ad459c3025f5bdaf732e6645",
+        "phase": {
+          "label": "N2-exit-raf-not-cancelled.mutant",
+          "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/opening-menu.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N2-exit-raf-not-cancelled.mutant.json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 1,
+            "numFailedTestSuites": 1
+          },
+          "suites": [
+            {
+              "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+              "status": "failed",
+              "assertionCount": 3,
+              "message": ""
+            }
+          ],
+          "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ❯ src/opening-menu.io-lifecycle.test.ts (3 tests | 1 failed) 172ms\n   × O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制 125ms\n   ✓ O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档 23ms\n   ✓ O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码 24ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 2 passed (3)\n   Start at  02:32:48\n   Duration  795ms (transform 280ms, setup 0ms, import 257ms, tests 172ms, environment 297ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N2-exit-raf-not-cancelled.mutant.json\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/opening-menu.io-lifecycle.test.ts > O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制\nAssertionError: expected 1 to be +0 // Object.is equality\n\n- Expected\n+ Received\n\n- 0\n+ 1\n\n ❯ src/opening-menu.io-lifecycle.test.ts:173:29\n    171|     await key(o.h, 'Enter') // 选新局：cleanup + resolve，菜单退休\n    172|     expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })\n    173|     expect(o.h.frames.size).toBe(0) // rAF 已退休\n       |                             ^\n    174|     const drawsAtExit = o.h.draws.length\n    175|     o.h.key('ArrowDown') // 退休键无主：输入无副作用\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+          "identity": {
+            "rowsList": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "status": "failed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "status": "passed"
+              }
+            ],
+            "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+            "failedRows": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "messages": [
+                  "AssertionError: expected 1 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts:173:29\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+                ]
+              }
+            ],
+            "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+            "artifacts": {
+              "phaseJson": {
+                "bytes": 2761,
+                "sha256": "ce89cf5e1f08282ea40cd48c1f65a0f4d94fad32bd875dd7f57bdc7b446c5f34",
+                "path": "counterproof-raw/N2-exit-raf-not-cancelled.mutant.json"
+              },
+              "identityTsv": {
+                "bytes": 723,
+                "sha256": "c8f0482a923b925c9d2aae2980c39593e904ba4436ef1750f1ee24a2e3b986ca",
+                "path": "counterproof-raw/N2-exit-raf-not-cancelled.mutant.identity.tsv"
+              },
+              "console": {
+                "bytes": 1658,
+                "sha256": "1e0027fba7384b3705f9139c2f022154ed84578e878b143a29b3ceb6dcc29ea3",
+                "path": "counterproof-raw/N2-exit-raf-not-cancelled.mutant.console"
+              }
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172",
+        "phase": {
+          "label": "N2-exit-raf-not-cancelled.restored",
+          "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/opening-menu.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N2-exit-raf-not-cancelled.restored.json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 1,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+              "status": "passed",
+              "assertionCount": 3,
+              "message": ""
+            }
+          ],
+          "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ✓ src/opening-menu.io-lifecycle.test.ts (3 tests) 170ms\n\n Test Files  1 passed (1)\n      Tests  3 passed (3)\n   Start at  02:32:50\n   Duration  803ms (transform 285ms, setup 0ms, import 260ms, tests 170ms, environment 305ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N2-exit-raf-not-cancelled.restored.json\n\n",
+          "identity": {
+            "rowsList": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "status": "passed"
+              }
+            ],
+            "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+            "failedRows": [],
+            "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+            "artifacts": {
+              "phaseJson": {
+                "bytes": 2239,
+                "sha256": "ce05ece1c4d7099e4a4852d868e037a5d4b6a6a93301ac7fa755929813b0a422",
+                "path": "counterproof-raw/N2-exit-raf-not-cancelled.restored.json"
+              },
+              "identityTsv": {
+                "bytes": 723,
+                "sha256": "3b5fb9816bb7c4febff48d583367a020242eef04585886580c53a539f99fba87",
+                "path": "counterproof-raw/N2-exit-raf-not-cancelled.restored.identity.tsv"
+              },
+              "console": {
+                "bytes": 524,
+                "sha256": "8d8e4eb7aa0c9806ec3e37b7a446b945833433576c7ab8e5eb03d1fe6736835a",
+                "path": "counterproof-raw/N2-exit-raf-not-cancelled.restored.console"
+              }
+            }
+          }
+        },
+        "issues": []
+      },
+      "pass": true
+    },
+    {
+      "id": "N3-selection-requires-thumb",
+      "file": "packages/reforge/src/opening-menu.ts",
+      "anchor": ["        if (r.action?.kind === 'load') {"],
+      "expectedTest": "O8 一槽有图一槽无图",
+      "expectedFullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+      "expectedErrorPart": "expected undefined to deeply equal { kind: 'load', slotId: 'm01' }",
+      "pinnedErrorPartMatch": true,
+      "directed": ["src/opening-menu.io-lifecycle.test.ts"],
+      "original": {
+        "hash": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172"
+      },
+      "mutant": {
+        "hash": "69860690d34dc729ff12c09d4f33f3e1beaa53b5cc6d3a02b33e6a7c58e2435f",
+        "phase": {
+          "label": "N3-selection-requires-thumb.mutant",
+          "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/opening-menu.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N3-selection-requires-thumb.mutant.json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 1,
+            "numFailedTestSuites": 1
+          },
+          "suites": [
+            {
+              "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+              "status": "failed",
+              "assertionCount": 3,
+              "message": ""
+            }
+          ],
+          "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ❯ src/opening-menu.io-lifecycle.test.ts (3 tests | 1 failed) 178ms\n   ✓ O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制 121ms\n   ✓ O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档 21ms\n   × O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码 35ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 2 passed (3)\n   Start at  02:32:52\n   Duration  804ms (transform 278ms, setup 0ms, import 256ms, tests 178ms, environment 301ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N3-selection-requires-thumb.mutant.json\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/opening-menu.io-lifecycle.test.ts > O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码\nAssertionError: expected undefined to deeply equal { kind: 'load', slotId: 'm01' }\n\n- Expected:\n{\n  \"kind\": \"load\",\n  \"slotId\": \"m01\",\n}\n\n+ Received:\nundefined\n\n ❯ src/opening-menu.io-lifecycle.test.ts:278:27\n    276|       await o.h.settleIO()\n    277|     }\n    278|     expect(o.state.value).toEqual({ kind: 'load', slotId: 'm01' }) // …\n       |                           ^\n    279|     await o.consumed\n    280|   } finally {\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+          "identity": {
+            "rowsList": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "status": "failed"
+              }
+            ],
+            "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+            "failedRows": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "messages": [
+                  "AssertionError: expected undefined to deeply equal { kind: 'load', slotId: 'm01' }\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts:278:27\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+                ]
+              }
+            ],
+            "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+            "artifacts": {
+              "phaseJson": {
+                "bytes": 2710,
+                "sha256": "ea983a5cbdd8259a43548c5495f20f467491b37e23cf8b903ff356ae75f8a291",
+                "path": "counterproof-raw/N3-selection-requires-thumb.mutant.json"
+              },
+              "identityTsv": {
+                "bytes": 723,
+                "sha256": "514b16849b5803d56fc1ef941ee7eb9962dfdffa7baa5336f814f30e4fb963f1",
+                "path": "counterproof-raw/N3-selection-requires-thumb.mutant.identity.tsv"
+              },
+              "console": {
+                "bytes": 1575,
+                "sha256": "8f1df1b716d0fb84a47e3e8794c03f9679f3d7c3234a3bb1b75bcf3b7db19b92",
+                "path": "counterproof-raw/N3-selection-requires-thumb.mutant.console"
+              }
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172",
+        "phase": {
+          "label": "N3-selection-requires-thumb.restored",
+          "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/opening-menu.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N3-selection-requires-thumb.restored.json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 1,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+              "status": "passed",
+              "assertionCount": 3,
+              "message": ""
+            }
+          ],
+          "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ✓ src/opening-menu.io-lifecycle.test.ts (3 tests) 166ms\n\n Test Files  1 passed (1)\n      Tests  3 passed (3)\n   Start at  02:32:53\n   Duration  785ms (transform 277ms, setup 0ms, import 256ms, tests 166ms, environment 296ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N3-selection-requires-thumb.restored.json\n\n",
+          "identity": {
+            "rowsList": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "status": "passed"
+              }
+            ],
+            "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+            "failedRows": [],
+            "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+            "artifacts": {
+              "phaseJson": {
+                "bytes": 2241,
+                "sha256": "0fa6db408edf208acc96bc3dc8ebb3db496469060f4eced7ff3eefc86da21ea7",
+                "path": "counterproof-raw/N3-selection-requires-thumb.restored.json"
+              },
+              "identityTsv": {
+                "bytes": 723,
+                "sha256": "3b5fb9816bb7c4febff48d583367a020242eef04585886580c53a539f99fba87",
+                "path": "counterproof-raw/N3-selection-requires-thumb.restored.identity.tsv"
+              },
+              "console": {
+                "bytes": 526,
+                "sha256": "59078a440014048d8a44e7921823e09ae275f25ab10f0ea0230e9920b3bb936a",
+                "path": "counterproof-raw/N3-selection-requires-thumb.restored.console"
+              }
+            }
+          }
+        },
+        "issues": []
+      },
+      "pass": true
+    },
+    {
+      "id": "N4-escape-no-longer-exits-load",
+      "file": "packages/reforge/src/opening-menu.ts",
+      "anchor": ["        phase = 'menu' // 退回菜单列表(空槽/改主意)"],
+      "expectedTest": "O6 退出读档相位后重新进入",
+      "expectedFullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+      "expectedErrorPart": "expected 'load' to be 'menu' // Object.is equality",
+      "pinnedErrorPartMatch": true,
+      "directed": ["src/opening-menu.io-lifecycle.test.ts"],
+      "original": {
+        "hash": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172"
+      },
+      "mutant": {
+        "hash": "fc49c9b6d26f270fa484b148cbb5ac42c617c441b894e5433e90797fcf364fbb",
+        "phase": {
+          "label": "N4-escape-no-longer-exits-load.mutant",
+          "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/opening-menu.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N4-escape-no-longer-exits-load.mutant.json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted"
+          },
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "success": false,
+          "counts": {
+            "numTotalTests": 3,
+            "numPassedTests": 2,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 1,
+            "numFailedTestSuites": 1
+          },
+          "suites": [
+            {
+              "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+              "status": "failed",
+              "assertionCount": 3,
+              "message": ""
+            }
+          ],
+          "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ❯ src/opening-menu.io-lifecycle.test.ts (3 tests | 1 failed) 188ms\n   ✓ O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制 139ms\n   × O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档 26ms\n   ✓ O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码 23ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 2 passed (3)\n   Start at  02:32:56\n   Duration  845ms (transform 311ms, setup 0ms, import 284ms, tests 188ms, environment 302ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N4-escape-no-longer-exits-load.mutant.json\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/opening-menu.io-lifecycle.test.ts > O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档\nAssertionError: expected 'load' to be 'menu' // Object.is equality\n\nExpected: \"menu\"\nReceived: \"load\"\n\n ❯ src/opening-menu.io-lifecycle.test.ts:211:39\n    209|     expect(spanTextsSince(o.h, 0)).toContain('旧港') // 场景前置：第一访看到旧数据\n    210|     await key(o.h, 'Escape') // 退回标题（光标仍停在读取进度）\n    211|     expect(o.snapshots.at(-1)?.phase).toBe('menu')\n       |                                       ^\n    212|     await o.seed(metaOf('m01', '新港', 2000)) // 期间经产品写路径更新真实 store\n    213|     const mark = o.h.text.mock.calls.length\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+          "identity": {
+            "rowsList": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "status": "failed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "status": "passed"
+              }
+            ],
+            "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+            "failedRows": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "messages": [
+                  "AssertionError: expected 'load' to be 'menu' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts:211:39\n    at file:///private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+                ]
+              }
+            ],
+            "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+            "artifacts": {
+              "phaseJson": {
+                "bytes": 2694,
+                "sha256": "c6f71438ba28253233f8176787a53db07a0b1fd1eb20f59b5b09ea1cd912562e",
+                "path": "counterproof-raw/N4-escape-no-longer-exits-load.mutant.json"
+              },
+              "identityTsv": {
+                "bytes": 723,
+                "sha256": "f38ed656ebe7d715c0b7099034bf2396568b8388806d33c793864c04372984fd",
+                "path": "counterproof-raw/N4-escape-no-longer-exits-load.mutant.identity.tsv"
+              },
+              "console": {
+                "bytes": 1754,
+                "sha256": "8a3c0e82447a5c4ff71178b101271c08992f3c2316b09d57f3a9f5cce4d97c16",
+                "path": "counterproof-raw/N4-escape-no-longer-exits-load.mutant.console"
+              }
+            }
+          }
+        },
+        "issues": []
+      },
+      "restored": {
+        "sourceHash": "8f3dd8ab719487f82c0c37773f047d5f67500f7f2343c2335725408239012172",
+        "phase": {
+          "label": "N4-escape-no-longer-exits-load.restored",
+          "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+          "argv": [
+            "pnpm",
+            "exec",
+            "vitest",
+            "run",
+            "src/opening-menu.io-lifecycle.test.ts",
+            "--reporter=json",
+            "--reporter=default",
+            "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N4-escape-no-longer-exits-load.restored.json"
+          ],
+          "env": {
+            "nodeVersion": "v22.23.2",
+            "NODE_COMPILE_CACHE": "deleted"
+          },
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "success": true,
+          "counts": {
+            "numTotalTests": 3,
+            "numPassedTests": 3,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0,
+            "numTotalTestSuites": 1,
+            "numFailedTestSuites": 0
+          },
+          "suites": [
+            {
+              "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+              "status": "passed",
+              "assertionCount": 3,
+              "message": ""
+            }
+          ],
+          "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ✓ src/opening-menu.io-lifecycle.test.ts (3 tests) 170ms\n\n Test Files  1 passed (1)\n      Tests  3 passed (3)\n   Start at  02:32:57\n   Duration  797ms (transform 283ms, setup 0ms, import 258ms, tests 170ms, environment 302ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N4-escape-no-longer-exits-load.restored.json\n\n",
+          "identity": {
+            "rowsList": [
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+                "status": "passed"
+              },
+              {
+                "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+                "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+                "status": "passed"
+              }
+            ],
+            "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+            "failedRows": [],
+            "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+            "artifacts": {
+              "phaseJson": {
+                "bytes": 2241,
+                "sha256": "86e8cdb0a4fe487bd732d1c1802c553666e254cecb5909d5c8221b28f32719db",
+                "path": "counterproof-raw/N4-escape-no-longer-exits-load.restored.json"
+              },
+              "identityTsv": {
+                "bytes": 723,
+                "sha256": "3b5fb9816bb7c4febff48d583367a020242eef04585886580c53a539f99fba87",
+                "path": "counterproof-raw/N4-escape-no-longer-exits-load.restored.identity.tsv"
+              },
+              "console": {
+                "bytes": 529,
+                "sha256": "fb0d8ffdbceafcb2940db0c85d70893be3a6889dc5cfc8f86542b4e1d5dde91b",
+                "path": "counterproof-raw/N4-escape-no-longer-exits-load.restored.console"
+              }
+            }
+          }
+        },
+        "issues": []
+      },
+      "pass": true
+    }
+  ],
+  "finalReplay": {
+    "phase": {
+      "label": "final-replay",
+      "subprocess": "single（--reporter=json --reporter=default --outputFile.json，JSON 与诊断同进程）",
+      "argv": [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "src/opening-menu.io-lifecycle.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/final-replay.json"
+      ],
+      "env": {
+        "nodeVersion": "v22.23.2",
+        "NODE_COMPILE_CACHE": "deleted"
+      },
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "success": true,
+      "counts": {
+        "numTotalTests": 3,
+        "numPassedTests": 3,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "numTotalTestSuites": 1,
+        "numFailedTestSuites": 0
+      },
+      "suites": [
+        {
+          "name": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+          "status": "passed",
+          "assertionCount": 3,
+          "message": ""
+        }
+      ],
+      "diagnostics": "\n RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge\n\n ✓ src/opening-menu.io-lifecycle.test.ts (3 tests) 178ms\n\n Test Files  1 passed (1)\n      Tests  3 passed (3)\n   Start at  02:32:59\n   Duration  816ms (transform 296ms, setup 0ms, import 274ms, tests 178ms, environment 297ms)\n\nJSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/final-replay.json\n\n",
+      "identity": {
+        "rowsList": [
+          {
+            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+            "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+            "status": "passed"
+          },
+          {
+            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+            "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+            "status": "passed"
+          },
+          {
+            "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge/src/opening-menu.io-lifecycle.test.ts",
+            "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+            "status": "passed"
+          }
+        ],
+        "identitySha256": "1baa3aabecadf67c27704b16bd1118c757e134b5407ffcadf6b50f8c25a08c83",
+        "failedRows": [],
+        "format": "identitySha256 = sha256(sorted \"file\\tfullName\" rows, status 不参与);人工 TSV 另含 status 列",
+        "artifacts": {
+          "phaseJson": {
+            "bytes": 2241,
+            "sha256": "8bc3ce7fa265205a4aa2b9f0bc31c2d32e7693fe584256b9e53da05d4eb52eb5",
+            "path": "counterproof-raw/final-replay.json"
+          },
+          "identityTsv": {
+            "bytes": 723,
+            "sha256": "3b5fb9816bb7c4febff48d583367a020242eef04585886580c53a539f99fba87",
+            "path": "counterproof-raw/final-replay.identity.tsv"
+          },
+          "console": {
+            "bytes": 502,
+            "sha256": "b231e38af1b7374d92df986c4d0487dd081c4442d861a0797c423e7c290b077c",
+            "path": "counterproof-raw/final-replay.console"
+          }
+        }
+      }
+    },
+    "issues": []
+  },
+  "cleanup": {
+    "tree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF",
+    "removed": true,
+    "policy": "成功路径删树后 existsSync=false 取证；准备失败路径在 prepareTree 内部清理并在异常信息携带证明"
+  },
+  "allPass": true
+}

@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game
+
+ ✓ src/shell/avi-player.async-lifecycle.test.ts (5 tests) 38ms
+ ❯ src/shell/rng-player.io-lifecycle.test.ts (2 tests | 1 failed) 130ms
+     × M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 125ms
+     ✓ M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 5ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 6 passed (7)
+   Start at  02:28:10
+   Duration  804ms (transform 273ms, setup 33ms, import 300ms, tests 168ms, environment 620ms)
+
+JSON report written to /private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M6-failure-evicts-all-chunks.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/rng-player.io-lifecycle.test.ts > rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 > M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串
+AssertionError: M6: chunk A 失败不得驱逐 chunk B 的成功缓存(复播 B 不重载): expected [ 6, 6 ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ src/shell/rng-player.io-lifecycle.test.ts:113:7
+    111|       loads.filter((c) => c === 6),
+    112|       'M6: chunk A 失败不得驱逐 chunk B 的成功缓存(复播 B 不重载)',
+    113|     ).toHaveLength(1)
+       |       ^
+    114|     expect(fbB2.indices[0], 'M6: 复播 B 仍显示同一帧').toBe(42)
+    115|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

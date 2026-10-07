@@ -1,0 +1,35 @@
+
+ RUN  v4.1.7 /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game
+
+ ✓ src/shell/avi-player.async-lifecycle.test.ts (5 tests) 40ms
+ ❯ src/shell/rng-player.io-lifecycle.test.ts (2 tests | 1 failed) 127ms
+     ✓ M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串 119ms
+     × M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听 7ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 6 passed (7)
+   Start at  02:28:12
+   Duration  804ms (transform 288ms, setup 38ms, import 313ms, tests 167ms, environment 603ms)
+
+JSON report written to /private/tmp/type-pal-game-media-lifecycle/docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M7-listener-never-returned.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/rng-player.io-lifecycle.test.ts > rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 > M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听
+AssertionError: M7: 结束后跳过键监听已归还(不再被消费): expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/shell/rng-player.io-lifecycle.test.ts:161:62
+    159|     const event = new KeyboardEvent('keydown', { code: 'Space', cancel…
+    160|     window.dispatchEvent(event)
+    161|     expect(event.defaultPrevented, 'M7: 结束后跳过键监听已归还(不再被消费)').toBe(fals…
+       |                                                              ^
+    162|   })
+    163| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

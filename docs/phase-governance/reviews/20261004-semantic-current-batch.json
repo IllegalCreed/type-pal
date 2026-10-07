@@ -510,7 +510,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "当前行动看板：三个有限媒体/标题IO/试打接线测试包已独立二审，fixture/oracle/隔离等一审项已修，仅额外hook或全局异常误收判据仍counter，状态rework。范围不扩大，不追加数量；产品缺陷卡仍draft，其它任务状态未改，业务反例重放不是集成accept。",
+      "coreConclusion": "当前行动看板：三个有限媒体/标题IO/试打接线测试包已完成独立三审并集成 main，任务卡已归档 done；产品缺陷与策略停止线仍由各自产品卡管理，其它活动任务状态未改。",
       "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
       "unresolved": [
         "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "f4df3257ce22af476f68a65877e4d482e7130b0b34660d4fd2b48dd9ea0dcd4c",
+      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -688,8 +688,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-22",
-      "reviewNotes": "增量核对三个测试卡二审剩余判据counter及已关闭项，有限范围与看板/索引rework一致；真实业务重放不替代严格判据验收。未集成、不关闭产品缺陷卡，不改其它行与历史签字。"
+      "reviewedLines": "1-19",
+      "reviewNotes": "增量核对三个测试卡三审判据、独立门禁与归档状态；三卡已集成 main 并从活动看板移入历史，不改变产品缺陷卡与其它任务状态。"
     },
     {
       "path": "docs/ops/evidence/README.md",
@@ -712,7 +712,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "213b70ada4d6cd6632de904fc91fb676edf7a46a6625bbd8075ff7016b652e4c",
+      "afterSha256": "ad0ad2631438c57f2121f83350765a7a0f72e3252a4afc965d59e7deea94dd32",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -822,7 +822,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "a50eb04431c32f351593ce07602655483d48cf736a250be3c59504404a46d26d"
+        "afterSha256": "ad0ad2631438c57f2121f83350765a7a0f72e3252a4afc965d59e7deea94dd32"
       },
       "history": [
         {
@@ -835,8 +835,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-16",
-      "reviewNotes": "活动任务证据按卡分目录，已关闭证据归档；证据材料服务于当前任务但不自动证明运行时或覆盖率结果。"
+      "reviewedLines": "1-37",
+      "reviewNotes": "活动任务证据按卡分目录，已关闭证据归档；本轮新增三张有限生命周期卡导航，证据材料服务于当前任务但不自动证明运行时或覆盖率结果。"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -1407,7 +1407,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "由任务卡顶部状态机械生成的导航，不是交付验收。三个有限测试任务由build转rework，与当前看板一致；其它行和历史终态保持不变。",
+      "coreConclusion": "由任务卡顶部状态机械生成的导航，不是交付验收。三个有限测试任务已完成独立三审、集成 main 并归档 done；其它行和历史终态保持不变。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "1:任务卡索引",
@@ -1428,7 +1428,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "8cd6e61a8018be99fdd132cca657ff80d3194f111966354466164d2cdb662928",
+      "afterSha256": "252deaf1b7c1801df67303854e445f332a6a05cade54f9c9e5bbb618ebaa7616",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1464,7 +1464,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "8cd6e61a8018be99fdd132cca657ff80d3194f111966354466164d2cdb662928",
+        "implementationSha": "252deaf1b7c1801df67303854e445f332a6a05cade54f9c9e5bbb618ebaa7616",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1544,7 +1544,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 358,
+        "lineCount": 367,
         "headings": [
           {
             "line": 1,
@@ -1555,7 +1555,7 @@
             "text": "活动任务"
           },
           {
-            "line": 21,
+            "line": 18,
             "text": "已完成（historical）"
           },
           {
@@ -1569,7 +1569,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "ad172f46760e4342344dccbefb0e2bdf0d64c0211a47dcea82fff56d36ac009b"
+        "afterSha256": "252deaf1b7c1801df67303854e445f332a6a05cade54f9c9e5bbb618ebaa7616"
       },
       "history": [
         {

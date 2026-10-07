@@ -1,0 +1,121 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 6,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791307690830,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放",
+          "status": "passed",
+          "title": "M1 视频已 ended 收尾后原 play() 才 reject — 不重建重试层、不再次播放",
+          "duration": 15.571332999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放",
+          "status": "passed",
+          "title": "M2 重试 play 结果迟于 ended — 收尾自行退休重试层,迟到结果不重建 overlay 也不再播放",
+          "duration": 15.386416999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频",
+          "status": "passed",
+          "title": "M4 跳过 500ms 收尾窗口内的重复跳过键与 ended 只完成一次,残留定时器不触及下一段顺序视频",
+          "duration": 3.6048749999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权",
+          "status": "passed",
+          "title": "M5 前段视频的迟到 play() reject 不抢下段视频的音量与 DOM 所有权",
+          "duration": 1.5419579999999655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "avi-player 迟到结果与跨视频所有权 TEST-GAME-MEDIA-LIFECYCLE-1 M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video",
+          "status": "passed",
+          "title": "M8 warm-up play() resolve 迟到 — 只清理自己的临时 video,不触及正式播放的 video",
+          "duration": 1.053875000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307691254,
+      "endTime": 1791307691291.054,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/avi-player.async-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串",
+          "status": "failed",
+          "title": "M6 chunk A 加载失败不驱逐 chunk B 成功缓存 — 复播 B 不重载、帧数据不串",
+          "duration": 125.16312500000004,
+          "failureMessages": [
+            "AssertionError: M6: chunk A 失败不得驱逐 chunk B 的成功缓存(复播 B 不重载): expected [ 6, 6 ] to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/rng-player.io-lifecycle.test.ts:113:7\n    at file:///private/tmp/type-pal-game-media-lifecycle/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1"],
+          "fullName": "rng-player IO 生命周期 TEST-GAME-MEDIA-LIFECYCLE-1 M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听",
+          "status": "passed",
+          "title": "M7 成功帧乱序迟到 + 中间帧失败 — 顺序保持、末屏为最后成功帧、结束后归还输入监听",
+          "duration": 4.637000000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791307691510,
+      "endTime": 1791307691639.637,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-media-lifecycle-counterproof.nHtmio/packages/game/src/shell/rng-player.io-lifecycle.test.ts"
+    }
+  ]
+}

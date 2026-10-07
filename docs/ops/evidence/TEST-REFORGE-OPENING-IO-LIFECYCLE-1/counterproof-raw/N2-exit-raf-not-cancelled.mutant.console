@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/opening-io-counterproof-uROSVF/packages/reforge
+
+ ❯ src/opening-menu.io-lifecycle.test.ts (3 tests | 1 failed) 172ms
+   × O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制 125ms
+   ✓ O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档 23ms
+   ✓ O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码 24ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  02:32:48
+   Duration  795ms (transform 280ms, setup 0ms, import 257ms, tests 172ms, environment 297ms)
+
+JSON report written to /private/tmp/type-pal-reforge-opening-io/docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N2-exit-raf-not-cancelled.mutant.json
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/opening-menu.io-lifecycle.test.ts > O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/opening-menu.io-lifecycle.test.ts:173:29
+    171|     await key(o.h, 'Enter') // 选新局：cleanup + resolve，菜单退休
+    172|     expect(await o.done).toEqual({ kind: 'new', entryId: 'first' })
+    173|     expect(o.h.frames.size).toBe(0) // rAF 已退休
+       |                             ^
+    174|     const drawsAtExit = o.h.draws.length
+    175|     o.h.key('ArrowDown') // 退休键无主：输入无副作用
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

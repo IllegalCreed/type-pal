@@ -1,0 +1,14 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge
+
+ ❯ repro-d1-r3-pollution/pollution.test.ts (2 tests | 1 failed) 35ms
+   ✓ CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志 1ms
+   × REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography 2ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+     Errors  1 error
+   Start at  02:26:38
+   Duration  122ms (transform 9ms, setup 0ms, import 14ms, tests 35ms, environment 0ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/pollution.vitest.json

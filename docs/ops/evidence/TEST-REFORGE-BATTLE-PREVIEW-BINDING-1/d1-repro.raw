@@ -1,0 +1,19 @@
+
+ RUN  v4.1.7 /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/packages/reforge
+
+stdout | repro-d1-r3/d1-repro.test.ts > CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+stdout | repro-d1-r3/d1-repro.test.ts > REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography
+[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话
+
+ ❯ repro-d1-r3/d1-repro.test.ts (2 tests | 1 failed) 705ms
+   ✓ CONTROL 作者 startBattle.choreography 经正常脚本 caller 呈现遭遇音效日志  666ms
+   × REPRO ?battle=encounter&battle-scene=b 试打消费场景 canonical startBattle.choreography 38ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  02:26:36
+   Duration  1.51s (transform 733ms, setup 0ms, import 279ms, tests 705ms, environment 461ms)
+
+JSON report written to /var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/reforge-d1-repro-r3-QCLSP9/d1.vitest.json
