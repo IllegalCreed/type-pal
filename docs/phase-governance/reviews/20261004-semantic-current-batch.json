@@ -712,7 +712,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "064104e2a68ba0cdd855497c950f4816dd893effd48eba32e0e86be3d919bf54",
+      "afterSha256": "215976a956ec8c329e7003dca76eec9a8060b5229aaf7f32bf15139c334ba550",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -822,7 +822,7 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "064104e2a68ba0cdd855497c950f4816dd893effd48eba32e0e86be3d919bf54"
+        "afterSha256": "215976a956ec8c329e7003dca76eec9a8060b5229aaf7f32bf15139c334ba550"
       },
       "history": [
         {
