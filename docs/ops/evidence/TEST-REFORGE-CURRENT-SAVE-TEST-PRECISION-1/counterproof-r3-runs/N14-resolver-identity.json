@@ -1,0 +1,102 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 5,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791370488796,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract round-trips the current envelope without mutating input or resetting world values",
+          "status": "passed",
+          "title": "round-trips the current envelope without mutating input or resetting world values",
+          "duration": 2.3509169999999813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects non-current SAVE10/content22 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE10/content22 before normalization",
+          "duration": 0.2871250000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects non-current SAVE11/content21 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE11/content21 before normalization",
+          "duration": 0.08125000000001137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects non-current SAVE10/content21 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE10/content21 before normalization",
+          "duration": 0.06766599999997425,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects a resolver whose identity does not match the payload before cloning",
+          "status": "failed",
+          "title": "rejects a resolver whose identity does not match the payload before cloning",
+          "duration": 2.209374999999966,
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/tmp/tp-save-precision-N14-resolver-identity.LyaUhu/packages/reforge/src/save/current-save.current-characterization.test.ts:124:65\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE11/content22 contract"],
+          "fullName": "current SAVE11/content22 contract rejects malformed or dangling current lifecycle references",
+          "status": "passed",
+          "title": "rejects malformed or dangling current lifecycle references",
+          "duration": 0.21325000000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791370489093,
+      "endTime": 1791370489098.2131,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-save-precision-N14-resolver-identity.LyaUhu/packages/reforge/src/save/current-save.current-characterization.test.ts"
+    }
+  ]
+}

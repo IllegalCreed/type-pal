@@ -5,7 +5,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const oldRows = JSON.parse(readFileSync('/tmp/old-inventory.json', 'utf8'))
-const cand = JSON.parse(readFileSync('/tmp/save-precision-candidate-r2.json', 'utf8'))
+const cand = JSON.parse(readFileSync('/tmp/save-precision-candidate-r3.json', 'utf8'))
 const newFullNames = new Set()
 for (const s of cand.testResults) {
   if (
@@ -98,6 +98,8 @@ const dispositions = [
     [
       `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过`,
       `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过`,
+      `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过`,
+      `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过`,
     ],
   ],
   [
@@ -287,10 +289,7 @@ function instanceRows(struct) {
     'id 空串': ['kept', 'id 空串'],
     'template 非字符串': ['kept', 'template 非字符串'],
     'hp=NaN': ['reworked', 'hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表）'],
-    'maxMP=Infinity': [
-      'dropped',
-      'remaining-oracle: 实例坏形状 hp=NaN 行——同一条 11 字段有限数循环（current-structure.ts:164-177），Number.isFinite=false 条件同层同文案',
-    ],
+    'maxMP=Infinity': ['restored-r3', 'maxMP=Infinity（字段数组成员资格，B-R2-01 归还）'],
     'luck=字符串': ['kept', 'luck=字符串'],
     'equipment 值非字符串': ['kept', 'equipment 值非字符串'],
     'tags 元素非字符串': ['kept', 'tags 元素非字符串'],
@@ -425,6 +424,9 @@ const ledgerTypes = [
   ['new-contract', /空技能 ID 拒绝/],
   ['new-contract', /负数计数拒绝/],
   ['new-contract', /超出安全整数边界拒绝/],
+  ['restored-r3', /maxMP=Infinity（字段数组成员资格/],
+  ['restored-r3', /extraStatuses\[0\]（独立回调接线/],
+  ['restored-r3', /poisons\[0\]（独立回调接线/],
   ['restored-r2', /缺 height（独立接线/],
   ['restored-r2', /appearance\.spriteId=数字（独立接线/],
   ['restored-r2', /battleSprite=null（非可选 null；独立接线/],

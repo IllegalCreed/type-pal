@@ -1,0 +1,1266 @@
+{
+  "protocol": "green → per-needle red (fresh isolated tree each) → restored green → final replay",
+  "createdAt": "2026-10-07T10:54:37.970Z",
+  "judgeCriteria": "四态同判据:进程层(exit/signal/spawnError) + 非空 file×fullName 执行集逐字锁定 + 计数/明细一致 + 非空 suite.message 拒收 + 零断言 failed suite 拒收 + stdout/stderr 无 unhandled + 红态恰一指定业务 AssertionError",
+  "judgeSelfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "frozenSources": {
+    "packages/content/src/entity-lifecycle.ts": "eba9caaf60260067ddae40b769dbec9f1afe631a18f7e7ff2e81b718ad86054e",
+    "note": "reforge 四源由 buildIsolatedTree 逐树校验,见每针 treeFrozenVerified"
+  },
+  "green": {
+    "process": {
+      "exit": 0,
+      "signal": null,
+      "pid": 81945,
+      "spawnError": null,
+      "argvTail": [
+        "src/save/current-codec.contracts.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/green.json"
+      ],
+      "cwd": "/tmp/tp-save-precision-green.jLM2t4/packages/reforge",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      },
+      "unhandledInOutput": false,
+      "numTotalTests": 81,
+      "numPassedTests": 81,
+      "numFailedTests": 0,
+      "raw": {
+        "file": "counterproof-r3-runs/green.raw",
+        "sha256": "c9f3e614294cd9cb961de401effc14bcefa827bd1bab18115eac4d7b4a0523e2"
+      },
+      "json": {
+        "file": "counterproof-r3-runs/green.json",
+        "sha256": "364b2d343fb4bb43e2815955552252b0f7c102ddd4f9c7e87abfdd168bf38a36"
+      }
+    },
+    "executionSet": [
+      "src/save/current-codec.contracts.test.ts :: current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remainingMs=0 拒绝（期望正有限毫秒）",
+      "src/save/current-codec.contracts.test.ts :: current-codec · script 深层语义接线（结构层只验 record） vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script",
+      "src/save/current-codec.contracts.test.ts :: current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空技能 ID 拒绝",
+      "src/save/current-codec.contracts.test.ts :: current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝",
+      "src/save/current-codec.contracts.test.ts :: current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 负数计数拒绝（非负条件）",
+      "src/save/current-codec.contracts.test.ts :: current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+      "src/save/current-codec.contracts.test.ts :: current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变",
+      "src/save/current-codec.contracts.test.ts :: current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变",
+      "src/save/current-save.current-characterization.test.ts :: current SAVE11/content22 contract rejects a resolver whose identity does not match the payload before cloning",
+      "src/save/current-save.current-characterization.test.ts :: current SAVE11/content22 contract rejects malformed or dangling current lifecycle references",
+      "src/save/current-save.current-characterization.test.ts :: current SAVE11/content22 contract rejects non-current SAVE10/content21 before normalization",
+      "src/save/current-save.current-characterization.test.ts :: current SAVE11/content22 contract rejects non-current SAVE10/content22 before normalization",
+      "src/save/current-save.current-characterization.test.ts :: current SAVE11/content22 contract rejects non-current SAVE11/content21 before normalization",
+      "src/save/current-save.current-characterization.test.ts :: current SAVE11/content22 contract round-trips the current envelope without mutating input or resetting world values",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.spriteId=数字（独立接线，B-R1-01 归还） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 equipment 值非字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraPoisonRes=字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses 未知状态 id（复用 content 枚举真源） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses.turns=Infinity 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hiddenExp 未知键 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 id 空串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 luck=字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 poisons 元素缺 tickIndex 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 tags 元素非字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 template 非字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 contentVersion 非数字 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 position 缺席 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 projectId 空串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 world 缺席 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 载荷=null 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） Envelope 坏形状 载荷=数组 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） automatic chase claims retain only stable addresses and behavior IDs",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: undefined",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":null,\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\",\"epoch\":1},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"\"}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\",\"commandEpoch\":1}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {}",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） position 坏形状 facing=sideways（四方向枚举条件代表） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） position 坏形状 pos 非对象 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） position 坏形状 pos.col=NaN 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） position 坏形状 sceneId 空串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） world 坏形状 inventory count=NaN 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） world 坏形状 inventory 元素缺 itemId 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） world 坏形状 learnedSkills 值非数组 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） world 坏形状 money=NaN（有限数条件代表；Infinity 同层同 oracle） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） world 坏形状 money=字符串 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · Envelope / world / position（负边界） world 坏形状 party=null（数组条件代表） 带路径拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 ambience=数字 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 audio.currentMusic=数字 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 collectValue=NaN（标量有限数代表） 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同） 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.remainingMs=Infinity（外层有限数） 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 script=数组（深层语义留给 codec，外层形状仍拒） 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 可选子树存在时的形状检查 可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） appearance 三可选字段全为字符串 AssetId 通过",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） audio.currentMusic=null 为显式静音，合法",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） extraStatuses 合法可携带状态 id（protect）通过",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） guard 通过后输入与原对象无别名关系（不修改输入）",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） 全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法）",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） 合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles",
+      "src/save/current-structure.test.ts :: current-structure · 合法载荷（正边界） 现行保存器产物通过；分数坐标/负坐标原样放行"
+    ]
+  },
+  "greenProcess": {
+    "problems": [],
+    "rows": 81
+  },
+  "judgeProbes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": [],
+      "raw": {
+        "file": "counterproof-r3-runs/probe-pure-business-red-accepted.raw",
+        "sha256": "7f3bc868f00fb0f8e5c10c2ce386634d533fdbbf8d51eea4abe5f7cff2c01ce9"
+      },
+      "json": {
+        "file": "counterproof-r3-runs/probe-pure-business-red-accepted.json",
+        "sha256": "01adca96e6ff99741d1de22a992f60e3da90ff045a90b29cd89848e9aa9469ff"
+      }
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-save-precision-green.jLM2t4/packages/reforge/src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ],
+      "raw": {
+        "file": "counterproof-r3-runs/probe-red-plus-afterall-hook-error-rejected.raw",
+        "sha256": "5fd209e79a16c6d2eeff3056422fc5d23b2a517edb2bb6c595bb0baa06e9794a"
+      },
+      "json": {
+        "file": "counterproof-r3-runs/probe-red-plus-afterall-hook-error-rejected.json",
+        "sha256": "4741735a378def9d2aacc58526cf086cd3b103a3e23f212ad13d080bd8239d82"
+      }
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"],
+      "raw": {
+        "file": "counterproof-r3-runs/probe-red-plus-async-uncaught-rejected.raw",
+        "sha256": "7397e33faf9afc0d31874852f85aa22691d76ffda939bf5508ec8439809380ac"
+      },
+      "json": {
+        "file": "counterproof-r3-runs/probe-red-plus-async-uncaught-rejected.json",
+        "sha256": "f67006b048828f2494dae1a0d0f9d42542856d5e5b311a10ec8261829858df04"
+      }
+    }
+  ],
+  "greenCleanup": "removed=true path=/tmp/tp-save-precision-green.jLM2t4",
+  "needles": [
+    {
+      "id": "N01-empty-actor-id",
+      "axis": "S6 空角色 ID 由 codec 拒绝(current-codec.ts:49)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "if (!actorId) throw",
+        "to": "if (false && !actorId) throw",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "422b0d138019f3395ad7cf6e7c86bd5568750aaa8323e64d4b992b701a5029d5"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82056,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N01-empty-actor-id.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N01-empty-actor-id.ZQyacf/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N01-empty-actor-id.raw",
+          "sha256": "869db74a33d9aded8e0fe655b9aef398bd833019b3278d0cad10e02dfb9eaf2f"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N01-empty-actor-id.json",
+          "sha256": "3dd7a847c99ba51f560e71d02a08ad5bd6931d30d23dccf759dba202101c8130"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N01-empty-actor-id.ZQyacf"
+    },
+    {
+      "id": "N02-empty-skill-id",
+      "axis": "S6 空技能 ID 由 codec 拒绝(current-codec.ts:52)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "if (!skillId) throw",
+        "to": "if (false && !skillId) throw",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "13b62f8375ff7d08bf549183816a8a765152e69847f63cf22be6372da68c2e9b"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空技能 ID 拒绝"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82090,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N02-empty-skill-id.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N02-empty-skill-id.p5N7Bd/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N02-empty-skill-id.raw",
+          "sha256": "5e76a7820805d7aa7a6399c667de2045c6fe7bd29d141015bdb88fcda486e216"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N02-empty-skill-id.json",
+          "sha256": "ce1b06a63087a52e20f9e00b7893500cb8451322293219dd60979c278fdd8a88"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N02-empty-skill-id.p5N7Bd"
+    },
+    {
+      "id": "N03-negative-count",
+      "axis": "S6 非负条件(current-codec.ts:53)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "Number(rawCount) < 0",
+        "to": "Number(rawCount) < -1",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "148aee19ea005b598740d673a83a5ea63ec0aec882a3049b250b11ee26fbfc40"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 负数计数拒绝（非负条件）"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82128,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N03-negative-count.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N03-negative-count.WCLEEv/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N03-negative-count.raw",
+          "sha256": "30bb3bc817151de48b2f1e36c28ac6156a7504145e0d0dd27ca35d9d317d55d9"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N03-negative-count.json",
+          "sha256": "a3c2a2e3e4f6f2b9a356102e66ba775c7dbfcfe618062c37ffacd4dd7472886c"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N03-negative-count.WCLEEv"
+    },
+    {
+      "id": "N04-unsafe-integer-count",
+      "axis": "S6 safe-integer 条件(current-codec.ts:53)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "Number.isSafeInteger(rawCount)",
+        "to": "Number.isInteger(rawCount)",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "cdba7ab99b9b10786445a57fa58495eb1b129b3921bd3410a9a54a86e2f4a648"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82212,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N04-unsafe-integer-count.GlF9eF/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N04-unsafe-integer-count.raw",
+          "sha256": "ae3790a227f12ec7e5cf901c0442e4fceca852e5c5a1ab32232dde40a902dfdd"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N04-unsafe-integer-count.json",
+          "sha256": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N04-unsafe-integer-count.GlF9eF"
+    },
+    {
+      "id": "N05-omit-container-fill",
+      "axis": "S6 缺席只在 clone 补空(current-codec.ts:46)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "worldRecord.skillUseCounts = {}",
+        "to": "worldRecord.skillUseCounts = { hero: { fire: 1 } }",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "331eab8fedb2ff97bebecdd29fefa65583fcb51fc78ae936201febff47c41f33"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变"
+      ],
+      "failureExcerpt": "AssertionError: expected { hero: { fire: 1 } } to deeply equal {}\n    at /private/tmp/tp-save-precision-N05-omit-container-fill.Ug3ckk/packages/reforge/src/save/current-codec.contracts.test.ts:137:45\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82253,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N05-omit-container-fill.Ug3ckk/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N05-omit-container-fill.raw",
+          "sha256": "b3179386c651724ee6d98bf9868fce4ea9753a5e2f68861b85cb1c83f29e3814"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N05-omit-container-fill.json",
+          "sha256": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N05-omit-container-fill.Ug3ckk"
+    },
+    {
+      "id": "N06-hostile-zero-ms",
+      "axis": "S7 codec 正数性(current-codec.ts:40)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "Number(awareness.remainingMs) <= 0",
+        "to": "Number(awareness.remainingMs) < 0",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "50af7407e5f9869acc0d4fbdc676c690bf65c18b98e91930120c29e27bd88eab"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remainingMs=0 拒绝（期望正有限毫秒）"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82491,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N06-hostile-zero-ms.7ei9Lt/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N06-hostile-zero-ms.raw",
+          "sha256": "ad1a4f346aada350e5e43c4a610f3b88f3e3a60aa36454e0f2ca0ab97703fccb"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N06-hostile-zero-ms.json",
+          "sha256": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N06-hostile-zero-ms.7ei9Lt"
+    },
+    {
+      "id": "N07-script-deep-wiring",
+      "axis": "S7 checkWorldScriptState 接线(current-codec.ts:107-108)",
+      "testFile": "src/save/current-codec.contracts.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "if (payload.world.script !== undefined)",
+        "to": "if (false && payload.world.script !== undefined)",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "9b05597595c6925f32e296a2155003887b537c2ae3db6868fe9170be27e1c369"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-codec · script 深层语义接线（结构层只验 record） vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82525,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-codec.contracts.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N07-script-deep-wiring.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N07-script-deep-wiring.i6uVSH/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 8,
+        "numPassedTests": 7,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N07-script-deep-wiring.raw",
+          "sha256": "bac840245fb34b0f6e467b3a05acaaae5669a0033cc44dbf2019da910726842d"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N07-script-deep-wiring.json",
+          "sha256": "d2cb5e7cdc30e942c1bef6381995a1bb37784c4929110e8a7871e41b27b06bc5"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N07-script-deep-wiring.i6uVSH"
+    },
+    {
+      "id": "N08-sparse-inventory-hole",
+      "axis": "S4 稀疏空洞逐下标(current-structure.ts:194-197)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "const slot = requireRecord(entry, p)",
+        "to": "if (entry === undefined) return\n    const slot = requireRecord(entry, p)",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "b6524db3a4bdec1461cbab6228edf425af41c8b6d28e67df8675b1515a37e1f1"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82559,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N08-sparse-inventory-hole.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N08-sparse-inventory-hole.xBJZQG/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N08-sparse-inventory-hole.raw",
+          "sha256": "572d10b78a2667c8018f7fac99fc997604d7efc196d7898776dcc4e5600beca5"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N08-sparse-inventory-hole.json",
+          "sha256": "f5316efaf895b5842d88acd2b7ff70408cad9a515a841e2442474e988653f495"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N08-sparse-inventory-hole.xBJZQG"
+    },
+    {
+      "id": "N09-sparse-tags-hole",
+      "axis": "S4 字符串数组稀疏空洞(current-structure.ts:85-87)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "if (typeof entry !== 'string') fail(p, '必须为字符串')",
+        "to": "if (entry === undefined) return\n    if (typeof entry !== 'string') fail(p, '必须为字符串')",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "dca0185bf198dda0a5e63f70bc9d264da618025f31ec0f0f71f5670bda34b17b"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82615,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N09-sparse-tags-hole.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N09-sparse-tags-hole.Y1lOWb/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N09-sparse-tags-hole.raw",
+          "sha256": "f0f562a30a95c6e564c6a646e8f05f62e078c7c03299cf3e97a5e1a4ea16dc53"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N09-sparse-tags-hole.json",
+          "sha256": "e1f4653d187c7da626e2ebb872931b301693e71b3acb8773f9068a4dc201465b"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N09-sparse-tags-hole.Y1lOWb"
+    },
+    {
+      "id": "N10-hiddenexp-full-keyset",
+      "axis": "S1 hiddenExp 全键集正边界(current-structure.ts:138)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "if (!HIDDEN_KEYS.has(key)) fail",
+        "to": "if (!HIDDEN_KEYS.has(key) || key === 'speed') fail",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "c7a30885f6804acd45f1a1af7df034d3cd548e29f4d33e3636e5d3b5c88f082f"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · 合法载荷（正边界） hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to not throw an error but 'CurrentSaveStructureError: 存档 载荷.worl…' was thrown\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+ex",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82682,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N10-hiddenexp-full-keyset.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N10-hiddenexp-full-keyset.9jbgDH/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N10-hiddenexp-full-keyset.raw",
+          "sha256": "e1873f18c6bab93d2f0052c22037601397f6b3561bd0eeece4b4e0db04f0a29c"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N10-hiddenexp-full-keyset.json",
+          "sha256": "3ec2ad7f86c6aa27a773a203054bf7da61e27ba615eff40d6bcc16c792b53828"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N10-hiddenexp-full-keyset.9jbgDH"
+    },
+    {
+      "id": "N11-envelope-version-guard",
+      "axis": "S3 版本常量拒收(current-structure.ts:282)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "if (payload.version !== SAVE_VERSION) fail",
+        "to": "if (payload.version !== SAVE_VERSION && payload.version !== SAVE_VERSION - 1) fail",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "525c2bdc45b093805c25e02f1336880f0c1f92d92a06b95f58398a2e50566cc3"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · Envelope / world / position（负边界） Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82716,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N11-envelope-version-guard.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N11-envelope-version-guard.iNOMf7/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N11-envelope-version-guard.raw",
+          "sha256": "fdb094da1ea9ebeaf964a45576e30d42833cdeac5eccf8c4551073fc2f23116a"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N11-envelope-version-guard.json",
+          "sha256": "0fb323e5355e03fe1b22294a044063e1cab6720e19c174c245372025213bac64"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N11-envelope-version-guard.iNOMf7"
+    },
+    {
+      "id": "N12-preflight-version-only",
+      "axis": "S3 仅 version 不同条件隔离(current-codec.ts:74)",
+      "testFile": "src/save/current-save.current-characterization.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "args.payload.version !== SAVE_VERSION || ",
+        "to": "",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "d2a7d2fbb5c027ddd681ee26f2eb5a2fe328c82dd22379026a3b440e7e267ff9"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current SAVE11/content22 contract rejects non-current SAVE10/content22 before normalization"
+      ],
+      "failureExcerpt": "AssertionError: SAVE10/content22 必须被拒收: expected null to be an instance of Error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1386:15)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/e",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82751,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-save.current-characterization.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N12-preflight-version-only.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N12-preflight-version-only.kaccyk/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N12-preflight-version-only.raw",
+          "sha256": "e96953e1f956cdb577f1132433d6d7a17b8e8cf1fe6001fe1f899d9faddf7442"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N12-preflight-version-only.json",
+          "sha256": "95576684a2ed52b1cbc58369081c6617d0a8580d74a32ea4e9ef77acd42185cf"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N12-preflight-version-only.kaccyk"
+    },
+    {
+      "id": "N13-preflight-content-only",
+      "axis": "S3 仅 contentVersion 不同条件隔离(current-codec.ts:74)",
+      "testFile": "src/save/current-save.current-characterization.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": " || args.payload.contentVersion !== CONTENT_VERSION)",
+        "to": ")",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "e221b16d7ce04a212c08ca81cf0f8b443a95e54c0c54062e6b9a5a597aa4c8be"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current SAVE11/content22 contract rejects non-current SAVE11/content21 before normalization"
+      ],
+      "failureExcerpt": "AssertionError: SAVE11/content21 必须被拒收: expected null to be an instance of Error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1386:15)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/e",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82794,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-save.current-characterization.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N13-preflight-content-only.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N13-preflight-content-only.k3SXUu/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N13-preflight-content-only.raw",
+          "sha256": "ff1fd972f41de7326e8a965a19e8f2bfe029b5f272a824643a7dd4fd289ced68"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N13-preflight-content-only.json",
+          "sha256": "fd5ecf111ea2a46321fc3769db61c1a993a38d6e155b18293faef7a0b7fbe6cd"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N13-preflight-content-only.k3SXUu"
+    },
+    {
+      "id": "N14-resolver-identity",
+      "axis": "S8 resolver/payload 身份一致(current-codec.ts:101)",
+      "testFile": "src/save/current-save.current-characterization.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-codec.ts",
+        "from": "input.projectId !== resolver.projectId ||",
+        "to": "false ||",
+        "frozenSha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de",
+        "mutantSha256": "b84ce570e7e469451038d83931a70c87c53cd3aa994fbe4d1960485358daf8d9"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current SAVE11/content22 contract rejects a resolver whose identity does not match the payload before cloning"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82840,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-save.current-characterization.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N14-resolver-identity.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-N14-resolver-identity.LyaUhu/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 6,
+        "numPassedTests": 5,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/N14-resolver-identity.raw",
+          "sha256": "597985d9efb7b421a85b879a7a330a687eb686dd09ef609cd9e549cc42476f05"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/N14-resolver-identity.json",
+          "sha256": "d62a7076d225acae53108bfa65c9bd2d75677863deda9aa0aeddcc5da9265aa1"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-N14-resolver-identity.LyaUhu"
+    },
+    {
+      "id": "NRR1-maxmp-field-membership",
+      "axis": "r3 B-R2-01:maxMP 在 11 字段有限数循环数组成员内(current-structure.ts:164-177)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "    'maxMP',\n",
+        "to": "",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "1cf3dc66396cab5e5fd67b78122794ec68cbded009b5c60b932b7e3d0f46e6ce"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82917,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/NRR1-maxmp-field-membership.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-NRR1-maxmp-field-membership.WU8yPb/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/NRR1-maxmp-field-membership.raw",
+          "sha256": "042f7b229dca27b9db9d5f48e8bb2a94a1c74687f6eb0163af9bdd6d30988f7c"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/NRR1-maxmp-field-membership.json",
+          "sha256": "cfc185e3dd84300e3ae192b15f7ca8e9f4af440ba32b8760239fc9dea2d5cd6f"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-NRR1-maxmp-field-membership.WU8yPb"
+    },
+    {
+      "id": "NRR2-extrastatuses-hole-callback",
+      "axis": "r3 B-R2-01:assertCarriedStatuses 回调不跳过空洞(current-structure.ts:119-123)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "const status = requireRecord(entry, p)",
+        "to": "if (entry === undefined) return\n    const status = requireRecord(entry, p)",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "af945a09f2cd9ff60c2279b8e341d296c7ebe49bfdd7f6cd87fcf71c106a1cea"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 82963,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/NRR2-extrastatuses-hole-callback.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-NRR2-extrastatuses-hole-callback.rwSaTO/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/NRR2-extrastatuses-hole-callback.raw",
+          "sha256": "81b1ee3fb6859d9d4c4d64576cfe396b440ff98a68fe9536f60f61733c5ee558"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/NRR2-extrastatuses-hole-callback.json",
+          "sha256": "b6eb483cdc069c886889768b26b006c8b19e6f37e012ad1e62449ffc59a480d4"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-NRR2-extrastatuses-hole-callback.rwSaTO"
+    },
+    {
+      "id": "NRR3-poisons-hole-callback",
+      "axis": "r3 B-R2-01:assertActivePoisons 回调不跳过空洞(current-structure.ts:126-131)",
+      "testFile": "src/save/current-structure.test.ts",
+      "mutation": {
+        "file": "packages/reforge/src/save/current-structure.ts",
+        "from": "const poison = requireRecord(entry, p)",
+        "to": "if (entry === undefined) return\n    const poison = requireRecord(entry, p)",
+        "frozenSha256": "fd69938c815f33728a5fc7003b34d562a0f533900faf48acaf3135ae0680c331",
+        "mutantSha256": "6cfe0da44bb6c302963047b0bdf33d05aed64204db46877c2f64b26dc28aa601"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过"
+      ],
+      "failureExcerpt": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///private/tmp/type-pal-reforge-save-test-precision/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 83200,
+        "spawnError": null,
+        "argvTail": [
+          "src/save/current-structure.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/NRR3-poisons-hole-callback.json"
+        ],
+        "cwd": "/tmp/tp-save-precision-NRR3-poisons-hole-callback.jfZIi1/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 67,
+        "numPassedTests": 66,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counterproof-r3-runs/NRR3-poisons-hole-callback.raw",
+          "sha256": "6b6f0b6278334cb1d02df441d2b5fd411d7c1d6b798a97eaa0dd9810e60c8135"
+        },
+        "json": {
+          "file": "counterproof-r3-runs/NRR3-poisons-hole-callback.json",
+          "sha256": "3a95a60f40f0517fcee9c8b8a1ba8586acb559d58ce78dbcfcb433196b088433"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-save-precision-NRR3-poisons-hole-callback.jfZIi1"
+    }
+  ],
+  "restoredGreen": {
+    "process": {
+      "exit": 0,
+      "signal": null,
+      "pid": 83238,
+      "spawnError": null,
+      "argvTail": [
+        "src/save/current-codec.contracts.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/restored-green.json"
+      ],
+      "cwd": "/tmp/tp-save-precision-restored-green.zyPmQV/packages/reforge",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      },
+      "unhandledInOutput": false,
+      "numTotalTests": 81,
+      "numPassedTests": 81,
+      "numFailedTests": 0,
+      "raw": {
+        "file": "counterproof-r3-runs/restored-green.raw",
+        "sha256": "822cc538a1b4b0be52c9d25b25a52413e681a66a5559fc837ebdc39f9663932e"
+      },
+      "json": {
+        "file": "counterproof-r3-runs/restored-green.json",
+        "sha256": "982e79cedd26b7426d9cf4f90c4c4fba041808b89b3e6ab8851c38870078e40f"
+      }
+    },
+    "executionSetIdentical": true,
+    "problems": []
+  },
+  "restoredGreenCleanup": "removed=true path=/tmp/tp-save-precision-restored-green.zyPmQV",
+  "finalReplay": {
+    "needle": "N01-empty-actor-id",
+    "judge": "VALID",
+    "process": {
+      "exit": 1,
+      "signal": null,
+      "pid": 83267,
+      "spawnError": null,
+      "argvTail": [
+        "src/save/current-codec.contracts.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/final-replay.json"
+      ],
+      "cwd": "/tmp/tp-save-precision-final-replay.PxUrrx/packages/reforge",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      },
+      "unhandledInOutput": false,
+      "numTotalTests": 8,
+      "numPassedTests": 7,
+      "numFailedTests": 1,
+      "raw": {
+        "file": "counterproof-r3-runs/final-replay.raw",
+        "sha256": "0f6d70fd788307a3ccd8e65114dbc30c9e48d3777961579e099fcc46f35a0c59"
+      },
+      "json": {
+        "file": "counterproof-r3-runs/final-replay.json",
+        "sha256": "b706524d396e6212aafce6bb86a6f30fb4625e5852ea8421edf2256977f90ce0"
+      }
+    }
+  },
+  "finalReplayCleanup": "removed=true path=/tmp/tp-save-precision-final-replay.PxUrrx",
+  "summary": {
+    "selfTestCases": 20,
+    "probes": 3,
+    "greenRows": 81,
+    "needles": 17,
+    "allValid": true,
+    "executionSetIdenticalAfterRestore": true
+  }
+}

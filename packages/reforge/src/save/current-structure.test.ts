@@ -11,7 +11,9 @@
  * - 跨合同用例拆成原子行；同一调用点同谓词的值维度重复（money NaN/Infinity、party
  *   null/对象、portrait number/null）与被更强 oracle 替代者可去重；但共享 helper 不证明
  *   各字段接线——pos.height、appearance.spriteId/battleSprite、skillUseCounts 内层四条
- *   独立接线合同 r2 已归还各自原子行（before→after 逐条映射见证据目录）。
+ *   独立接线合同 r2 已归还各自原子行（B-R1-01）；r3 按 B-R2-01 再归还三条原合同：
+ *   maxMP 字段数组成员资格、extraStatuses/poisons 各自回调的稀疏空洞逐下标拒收
+ *   （before→after 逐条映射见证据目录）。
  * - 深层语义（skillUseCounts 安全整数、hostileAwareness 正数性、script 内容）由
  *   current-codec.contracts.test.ts 在 codec 层证明，此处只验外层形状。
  */
@@ -374,6 +376,20 @@ describe('current-structure · Envelope / world / position（负边界）', () =
       },
       /tags\[0\]/,
     ],
+    [
+      'extraStatuses[0]（独立回调接线，B-R2-01 归还）',
+      (view: Record<string, unknown>) => {
+        asRecord(asList(asRecord(view.world).party)[0]!).extraStatuses = new Array(1)
+      },
+      /extraStatuses\[0\]/,
+    ],
+    [
+      'poisons[0]（独立回调接线，B-R2-01 归还）',
+      (view: Record<string, unknown>) => {
+        asRecord(asList(asRecord(view.world).party)[0]!).poisons = new Array(1)
+      },
+      /poisons\[0\]/,
+    ],
   ])('R3：稀疏空洞逐下标拒绝：%s，不被 forEach 跳过', (_name, mutate, pattern) =>
     rejectsView(mutate, pattern)())
 })
@@ -462,6 +478,13 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
         i.hp = Number.NaN
       },
       /\.hp/,
+    ],
+    [
+      'maxMP=Infinity（字段数组成员资格，B-R2-01 归还）',
+      (i: Record<string, unknown>) => {
+        i.maxMP = Number.POSITIVE_INFINITY
+      },
+      /\.maxMP/,
     ],
     [
       'luck=字符串',

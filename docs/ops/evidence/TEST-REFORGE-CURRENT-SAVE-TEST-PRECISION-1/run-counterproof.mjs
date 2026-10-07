@@ -1,4 +1,10 @@
 // TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 严格三态反控 runner(证据工具,不进默认 runner)。
+// r3 对齐(B-R2-02):本 runner 为当前候选唯一有效反控入口——绿基线 81 行、N05 指向 r2 拆分
+// 后的 skillUseCounts 独立身份、N08 指向 r2 更名后的稀疏 inventory 标题,并纳入 B-R2-01 三条
+// 归还合同的新针 NRR1-NRR3,共 17 针。输出指向 counterproof-r3-runs//counterproof-r3.json;
+// r1(counterproof.json/counterproof-runs)与 r2(counterproof-r2.json/counterproof-r2-runs)为
+// 历史原件保持不动:r1 见 codex-review-r1 审计,r2 六针经 codex-review-r2 独立复跑确认。
+// N05 与 r2 NR5 是同一变异(补空注入非空),信用不重复计。
 //
 // 协议:判据自证(judgeSelfTest 合成反例 + 真实 Vitest 探针:纯业务红接受、目标红+afterAll
 // 同步抛错拒收、目标红+异步 uncaught 拒收) → 原始绿(三文件执行集快照) → 逐针红(每针独立
@@ -22,7 +28,7 @@ import {
 } from './lib-isolated-tree.mjs'
 
 const EVIDENCE_DIR = import.meta.dirname
-const RUNS_DIR = path.join(EVIDENCE_DIR, 'counterproof-runs')
+const RUNS_DIR = path.join(EVIDENCE_DIR, 'counterproof-r3-runs')
 
 const STRUCTURE_TEST = 'src/save/current-structure.test.ts'
 const CHAR_TEST = 'src/save/current-save.current-characterization.test.ts'
@@ -87,7 +93,7 @@ const NEEDLES = [
     to: 'worldRecord.skillUseCounts = { hero: { fire: 1 } }',
     testFile: CODEC_TEST,
     fullName:
-      'current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts/entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变',
+      'current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变',
     marker: M_EQUAL,
     axis: 'S6 缺席只在 clone 补空(current-codec.ts:46)',
   },
@@ -120,7 +126,7 @@ const NEEDLES = [
     to: 'if (entry === undefined) return\n    const slot = requireRecord(entry, p)',
     testFile: STRUCTURE_TEST,
     fullName:
-      'current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表；extraStatuses/poisons 空洞同 eachIndex 语义），不被 forEach 跳过',
+      'current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过',
     marker: M_THROW,
     axis: 'S4 稀疏空洞逐下标(current-structure.ts:194-197)',
   },
@@ -190,6 +196,39 @@ const NEEDLES = [
     marker: M_THROW,
     axis: 'S8 resolver/payload 身份一致(current-codec.ts:101)',
   },
+  {
+    id: 'NRR1-maxmp-field-membership',
+    file: 'src/save/current-structure.ts',
+    from: "    'maxMP',\n",
+    to: '',
+    testFile: STRUCTURE_TEST,
+    fullName:
+      'current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝',
+    marker: M_THROW,
+    axis: 'r3 B-R2-01:maxMP 在 11 字段有限数循环数组成员内(current-structure.ts:164-177)',
+  },
+  {
+    id: 'NRR2-extrastatuses-hole-callback',
+    file: 'src/save/current-structure.ts',
+    from: 'const status = requireRecord(entry, p)',
+    to: 'if (entry === undefined) return\n    const status = requireRecord(entry, p)',
+    testFile: STRUCTURE_TEST,
+    fullName:
+      'current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过',
+    marker: M_THROW,
+    axis: 'r3 B-R2-01:assertCarriedStatuses 回调不跳过空洞(current-structure.ts:119-123)',
+  },
+  {
+    id: 'NRR3-poisons-hole-callback',
+    file: 'src/save/current-structure.ts',
+    from: 'const poison = requireRecord(entry, p)',
+    to: 'if (entry === undefined) return\n    const poison = requireRecord(entry, p)',
+    testFile: STRUCTURE_TEST,
+    fullName:
+      'current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过',
+    marker: M_THROW,
+    axis: 'r3 B-R2-01:assertActivePoisons 回调不跳过空洞(current-structure.ts:126-131)',
+  },
 ]
 
 function rel(file) {
@@ -252,7 +291,8 @@ try {
   const greenRows = executionSetOf(greenRun, TEST_FILES)
   const greenProblems = judgeGreen(greenRun, greenRows, TEST_FILES)
   if (greenProblems.length) fail(`green 判据失败: ${greenProblems.join('; ')}`)
-  if (greenRows.length !== 73) fail(`green 执行集 ${greenRows.length} 行,预期 73(60+6+7)`)
+  if (greenRows.length !== 81)
+    fail(`green 执行集 ${greenRows.length} 行,预期 81(67 structure + 8 codec + 6 characterization)`)
   receipt.green = { process: runSummary(greenRun), executionSet: greenRows }
   receipt.greenProcess = { problems: greenProblems, rows: greenRows.length }
   // 探针复用同一棵原始树(探针文件用后即删)。
@@ -268,7 +308,7 @@ for (const file of TEST_FILES)
 // Phase 2:逐针红(增量落盘回执,失败时保留现场证据)。
 receipt.needles = []
 const persistReceipt = () => {
-  persistJson(path.join(EVIDENCE_DIR, 'counterproof.json'), JSON.stringify(receipt, null, 2))
+  persistJson(path.join(EVIDENCE_DIR, 'counterproof-r3.json'), JSON.stringify(receipt, null, 2))
 }
 for (const needle of NEEDLES) {
   const tree = buildIsolatedTree(needle.id)
@@ -387,9 +427,9 @@ receipt.summary = {
   executionSetIdenticalAfterRestore: true,
 }
 const sha = persistJson(
-  path.join(EVIDENCE_DIR, 'counterproof.json'),
+  path.join(EVIDENCE_DIR, 'counterproof-r3.json'),
   JSON.stringify(receipt, null, 2),
 )
 console.log(
-  `OK needles=${receipt.summary.needles} allValid=${receipt.summary.allValid} counterproof.json sha256=${sha}`,
+  `OK needles=${receipt.summary.needles} allValid=${receipt.summary.allValid} counterproof-r3.json sha256=${sha}`,
 )
