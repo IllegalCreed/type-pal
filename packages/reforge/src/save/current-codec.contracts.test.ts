@@ -125,17 +125,28 @@ describe('current-codec · skillUseCounts 语义（结构层只验有限数，�
 })
 
 describe('current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省）', () => {
-  test('skillUseCounts/entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变', async () => {
+  // B-R1-01：两个容器是独立 normalizer（normalizeAndValidateSkillUseCounts 的补空 vs
+  // normalizeEntityLifecycleTable(undefined)），拆为各自 oracle 身份，各自保留原件不变断言。
+  test('skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变', async () => {
     const raw = payload()
     delete raw.world.skillUseCounts
-    delete raw.world.entityLifecycles
     const before = structuredClone(raw)
     const resolver = await currentResolver(raw)
     const normalized = normalizeCurrentSave(raw, resolver, references)
 
     expect(normalized.world.skillUseCounts).toEqual({})
-    expect(normalized.world.entityLifecycles).toEqual({})
     expect('skillUseCounts' in raw.world).toBe(false)
+    expect(raw).toEqual(before)
+  })
+
+  test('entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变', async () => {
+    const raw = payload()
+    delete raw.world.entityLifecycles
+    const before = structuredClone(raw)
+    const resolver = await currentResolver(raw)
+    const normalized = normalizeCurrentSave(raw, resolver, references)
+
+    expect(normalized.world.entityLifecycles).toEqual({})
     expect('entityLifecycles' in raw.world).toBe(false)
     expect(raw).toEqual(before)
   })

@@ -4,12 +4,14 @@
  * WorldState/CharacterInstance 现行类型为真源；可选子树缺席合法、存在时按形状检查；
  * 数值叶只验有限数，不加上限/取整/非负；坐标允许有限分数。
  *
- * TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 重铸：
+ * TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 重铸（r2 按 Codex B-R1-01 修正）：
  * - 坏形状一律在 unknown 外部对象上构造后直传公开 `assertCurrentSaveStructure(value:
  *   unknown)`（经 IO 形状的 JSON 往返视图），不再用 `as unknown as` 双桥/假枚举把坏数据
  *   塞进 typed 通道；合法正边界仍用 buildWorld/builder 产物。
- * - 跨合同用例拆成原子行；同检查同 oracle 的数字/形状拒收只留真实不同条件代表
- *   （before→after 逐条映射见 docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/）。
+ * - 跨合同用例拆成原子行；同一调用点同谓词的值维度重复（money NaN/Infinity、party
+ *   null/对象、portrait number/null）与被更强 oracle 替代者可去重；但共享 helper 不证明
+ *   各字段接线——pos.height、appearance.spriteId/battleSprite、skillUseCounts 内层四条
+ *   独立接线合同 r2 已归还各自原子行（before→after 逐条映射见证据目录）。
  * - 深层语义（skillUseCounts 安全整数、hostileAwareness 正数性、script 内容）由
  *   current-codec.contracts.test.ts 在 codec 层证明，此处只验外层形状。
  */
@@ -334,11 +336,18 @@ describe('current-structure · Envelope / world / position（负边界）', () =
       /pos\.col/,
     ],
     [
-      'pos.row=字符串（有限数条件代表；缺 height 同层同 oracle）',
+      'pos.row=字符串',
       (position: Record<string, unknown>) => {
         position.pos = { col: 0, row: '1', height: 0 }
       },
       /pos\.row/,
+    ],
+    [
+      '缺 height（独立接线，B-R1-01 归还）',
+      (position: Record<string, unknown>) => {
+        position.pos = { col: 0, row: 0 }
+      },
+      /pos\.height/,
     ],
     [
       'facing=sideways（四方向枚举条件代表）',
@@ -352,7 +361,7 @@ describe('current-structure · Envelope / world / position（负边界）', () =
 
   test.each([
     [
-      'inventory[0]（记录型元素数组代表；extraStatuses/poisons 空洞同 eachIndex 语义）',
+      'inventory[0]（记录型元素数组代表）',
       (view: Record<string, unknown>) => {
         asRecord(view.world).inventory = new Array(1)
       },
@@ -372,11 +381,18 @@ describe('current-structure · Envelope / world / position（负边界）', () =
 describe('current-structure · 可选子树存在时的形状检查', () => {
   test.each([
     [
-      'resources 值非有限数（record 有限数代表）',
+      'resources 值非有限数',
       (world: Record<string, unknown>) => {
         world.resources = { pool: Number.NaN }
       },
       /resources/,
+    ],
+    [
+      'skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还）',
+      (world: Record<string, unknown>) => {
+        world.skillUseCounts = { hero: { fire: 'x' } }
+      },
+      /skillUseCounts/,
     ],
     [
       'audio.currentMusic=数字',
@@ -503,13 +519,27 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
       },
       /\.extraPoisonRes/,
     ],
+    [
+      'appearance.spriteId=数字（独立接线，B-R1-01 归还）',
+      (i: Record<string, unknown>) => {
+        i.appearance = { spriteId: 2 }
+      },
+      /\.appearance\.spriteId/,
+    ],
+    [
+      'appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还）',
+      (i: Record<string, unknown>) => {
+        i.appearance = { battleSprite: null }
+      },
+      /\.appearance\.battleSprite/,
+    ],
   ])('实例坏形状 %s 带路径拒绝', (_name, mutate, pattern) => {
     const view = unknownView()
     mutate(asRecord(asList(asRecord(view.world).party)[0]!))
     expect(() => assertCurrentSaveStructure(view)).toThrow(pattern)
   })
 
-  test('appearance.portrait=null 不在合同内（AssetId | undefined；三可选字段同一检查，null 为代表）', () =>
+  test('appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）', () =>
     rejectsView((view) => {
       asRecord(asList(asRecord(view.world).party)[0]!).appearance = { portrait: null }
     }, /portrait/)())

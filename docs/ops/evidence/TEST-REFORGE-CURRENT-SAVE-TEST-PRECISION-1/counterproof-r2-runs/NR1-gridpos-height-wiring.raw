@@ -1,0 +1,97 @@
+
+ RUN  v4.1.7 /private/tmp/tp-save-precision-NR1-gridpos-height-wiring.Fs94I9/packages/reforge
+
+ ❯ src/save/current-structure.test.ts (64 tests | 1 failed) 11ms
+     ✓ 现行保存器产物通过；分数坐标/负坐标原样放行 1ms
+     ✓ 全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法） 0ms
+     ✓ 合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles 0ms
+     ✓ audio.currentMusic=null 为显式静音，合法 0ms
+     ✓ hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验） 0ms
+     ✓ appearance 三可选字段全为字符串 AssetId 通过 0ms
+     ✓ extraStatuses 合法可携带状态 id（protect）通过 0ms
+     ✓ R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试） 0ms
+     ✓ guard 通过后输入与原对象无别名关系（不修改输入） 0ms
+     ✓ automatic chase claims retain only stable addresses and behavior IDs 1ms
+     ✓ malformed automatic chase claims are rejected before cloning: null 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: null 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: undefined 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":null,"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":""} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner","epoch":1},"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":"chase","commandEpoch":1} 0ms
+     ✓ malformed automatic chase claims are rejected before cloning: {"owner":{"scene":"s001","entity":"owner"},"target":{"scene":"s001","entity":"npc"},"behavior":"chase"} 0ms
+     ✓ Envelope 坏形状 载荷=null 带路径拒绝 0ms
+     ✓ Envelope 坏形状 载荷=数组 带路径拒绝 0ms
+     ✓ Envelope 坏形状 world 缺席 带路径拒绝 0ms
+     ✓ Envelope 坏形状 position 缺席 带路径拒绝 0ms
+     ✓ Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝 0ms
+     ✓ Envelope 坏形状 projectId 空串 带路径拒绝 0ms
+     ✓ Envelope 坏形状 contentVersion 非数字 带路径拒绝 0ms
+     ✓ world 坏形状 money=字符串 带路径拒绝 0ms
+     ✓ world 坏形状 money=NaN（有限数条件代表；Infinity 同层同 oracle） 带路径拒绝 0ms
+     ✓ world 坏形状 party=null（数组条件代表） 带路径拒绝 0ms
+     ✓ world 坏形状 learnedSkills 值非数组 带路径拒绝 0ms
+     ✓ world 坏形状 inventory 元素缺 itemId 带路径拒绝 0ms
+     ✓ world 坏形状 inventory count=NaN 带路径拒绝 0ms
+     ✓ position 坏形状 sceneId 空串 带路径拒绝 0ms
+     ✓ position 坏形状 pos 非对象 带路径拒绝 0ms
+     ✓ position 坏形状 pos.col=NaN 带路径拒绝 0ms
+     ✓ position 坏形状 pos.row=字符串 带路径拒绝 0ms
+     × position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝 3ms
+     ✓ position 坏形状 facing=sideways（四方向枚举条件代表） 带路径拒绝 0ms
+     ✓ R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过 0ms
+     ✓ R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过 0ms
+     ✓ 可选子树 resources 值非有限数 拒绝 0ms
+     ✓ 可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝 0ms
+     ✓ 可选子树 audio.currentMusic=数字 拒绝 0ms
+     ✓ 可选子树 hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同） 拒绝 0ms
+     ✓ 可选子树 hostileAwareness.remainingMs=Infinity（外层有限数） 拒绝 0ms
+     ✓ 可选子树 script=数组（深层语义留给 codec，外层形状仍拒） 拒绝 0ms
+     ✓ 可选子树 ambience=数字 拒绝 0ms
+     ✓ 可选子树 collectValue=NaN（标量有限数代表） 拒绝 0ms
+     ✓ 实例坏形状 id 空串 带路径拒绝 0ms
+     ✓ 实例坏形状 template 非字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表） 带路径拒绝 0ms
+     ✓ 实例坏形状 luck=字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 equipment 值非字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 tags 元素非字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 hiddenExp 未知键 带路径拒绝 0ms
+     ✓ 实例坏形状 poisons 元素缺 tickIndex 带路径拒绝 0ms
+     ✓ 实例坏形状 extraStatuses.turns=Infinity 带路径拒绝 0ms
+     ✓ 实例坏形状 extraStatuses 未知状态 id（复用 content 枚举真源） 带路径拒绝 0ms
+     ✓ 实例坏形状 extraPoisonRes=字符串 带路径拒绝 0ms
+     ✓ 实例坏形状 appearance.spriteId=数字（独立接线，B-R1-01 归还） 带路径拒绝 0ms
+     ✓ 实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝 0ms
+     ✓ appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线） 0ms
+     ✓ reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve） 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 63 passed (64)
+   Start at  19:17:17
+   Duration  303ms (transform 181ms, setup 0ms, import 220ms, tests 11ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-save-test-precision/docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR1-gridpos-height-wiring.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/current-structure.test.ts > current-structure · Envelope / world / position（负边界） > position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/save/current-structure.test.ts:82:50
+     80|   const view = unknownView()
+     81|   mutate(view)
+     82|   expect(() => assertCurrentSaveStructure(view)).toThrow(pattern)
+       |                                                  ^
+     83| }
+     84|
+ ❯ src/save/current-structure.test.ts:360:67
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

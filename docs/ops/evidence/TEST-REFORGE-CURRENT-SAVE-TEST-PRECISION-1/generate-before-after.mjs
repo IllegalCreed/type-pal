@@ -5,7 +5,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const oldRows = JSON.parse(readFileSync('/tmp/old-inventory.json', 'utf8'))
-const cand = JSON.parse(readFileSync('/tmp/save-precision-candidate.json', 'utf8'))
+const cand = JSON.parse(readFileSync('/tmp/save-precision-candidate-r2.json', 'utf8'))
 const newFullNames = new Set()
 for (const s of cand.testResults) {
   if (
@@ -96,7 +96,7 @@ const dispositions = [
     `${STRUCT} :: current-structure · 合法载荷（正边界） R3：稀疏数组空洞逐下标拒绝（inventory/tags/extraStatuses/poisons），不被 forEach 跳过`,
     'split',
     [
-      `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表；extraStatuses/poisons 空洞同 eachIndex 语义），不被 forEach 跳过`,
+      `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过`,
       `${STRUCT} :: current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过`,
     ],
   ],
@@ -111,7 +111,7 @@ const dispositions = [
   [
     `${STRUCT} :: current-structure · 合法载荷（正边界） R3：appearance.portrait=null 不在合同内（AssetId | undefined），拒绝`,
     'reworked',
-    `${STRUCT} :: current-structure · CharacterInstance（party 与 reserve 同型） appearance.portrait=null 不在合同内（AssetId | undefined；三可选字段同一检查，null 为代表）`,
+    `${STRUCT} :: current-structure · CharacterInstance（party 与 reserve 同型） appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）`,
   ],
   [
     `${STRUCT} :: current-structure · 合法载荷（正边界） R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）`,
@@ -207,12 +207,12 @@ const dispositions = [
   [
     `${STRUCT} :: current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串 带路径拒绝`,
     'reworked',
-    `${STRUCT} :: current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串（有限数条件代表；缺 height 同层同 oracle） 带路径拒绝`,
+    `${STRUCT} :: current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串 带路径拒绝`,
   ],
   [
     `${STRUCT} :: current-structure · Envelope / world / position（负边界） position 坏形状 缺 height 带路径拒绝`,
-    'dropped',
-    `remaining-oracle: position 坏形状 pos.row=字符串 行——同 requireFiniteNumber typeof 失败（current-structure.ts:73-76），missing-key 与 wrong-type 在拒绝层同检查同文案 必须为有限数`,
+    'restored-r2',
+    `${STRUCT} :: current-structure · Envelope / world / position（负边界） position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝`,
   ],
   [
     `${STRUCT} :: current-structure · Envelope / world / position（负边界） position 坏形状 facing=sideways 带路径拒绝`,
@@ -228,7 +228,7 @@ const dispositions = [
   [
     `${STRUCT} :: current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数 拒绝`,
     'reworked',
-    `${STRUCT} :: current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数（record 有限数代表） 拒绝`,
+    `${STRUCT} :: current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数 拒绝`,
   ],
   [
     `${STRUCT} :: current-structure · 可选子树存在时的形状检查 可选子树 audio.currentMusic=数字 拒绝`,
@@ -262,8 +262,8 @@ const dispositions = [
   ],
   [
     `${STRUCT} :: current-structure · 可选子树存在时的形状检查 可选子树 skillUseCounts 内层值非有限数 拒绝`,
-    'dropped',
-    `remaining-oracle: 可选子树 resources 值非有限数 行（同 requireFiniteNumberRecord 语义，current-structure.ts:97-102 经 assertSkillUseCounts:207-211 与 resources 直连同一 callee）+ ${CODEC} 新增真实 skillUseCounts 语义（空 ID/负数/非安全整数，current-codec.ts:44-57 typed 合法可达）`,
+    'restored-r2',
+    `${STRUCT} :: current-structure · 可选子树存在时的形状检查 可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝`,
   ],
   // ---- 实例 ----
   ...instanceRows(STRUCT),
@@ -303,16 +303,16 @@ function instanceRows(struct) {
     'extraStatuses.turns=Infinity': ['kept', 'extraStatuses.turns=Infinity'],
     'extraPoisonRes=字符串': ['kept', 'extraPoisonRes=字符串'],
     'appearance.spriteId=数字': [
-      'dropped',
-      'remaining-oracle: appearance.portrait=null 行——appearance 三可选字段共用同一 typeof v !== "string" 检查（current-structure.ts:147-157），null 代表同时钉住 null-不在合同语义',
+      'restored-r2',
+      'appearance.spriteId=数字（独立接线，B-R1-01 归还）',
     ],
     'appearance.portrait=数字': [
       'dropped',
-      'remaining-oracle: appearance.portrait=null 行（同上，三字段同检查）',
+      'remaining-oracle: appearance.portrait=null 行——portrait 自有 optional 闭包上 number/null 同谓词同接线（current-structure.ts:150-154），Codex r1 裁决明示保留',
     ],
     'appearance.battleSprite=null（非可选 null）': [
-      'dropped',
-      'remaining-oracle: appearance.portrait=null 行（同上，三字段同检查）',
+      'restored-r2',
+      'appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还）',
     ],
   }
   return Object.entries(map).map(([oldName, [disp, newName]]) => [
@@ -425,7 +425,12 @@ const ledgerTypes = [
   ['new-contract', /空技能 ID 拒绝/],
   ['new-contract', /负数计数拒绝/],
   ['new-contract', /超出安全整数边界拒绝/],
-  ['new-contract', /skillUseCounts\/entityLifecycles 缺席/],
+  ['restored-r2', /缺 height（独立接线/],
+  ['restored-r2', /appearance\.spriteId=数字（独立接线/],
+  ['restored-r2', /battleSprite=null（非可选 null；独立接线/],
+  ['restored-r2', /skillUseCounts 内层值非有限数（独立接线/],
+  ['new-contract', /skillUseCounts 缺席：clone 内补空/],
+  ['new-contract', /entityLifecycles 缺席：clone 内补空/],
   ['new-contract', /remainingMs=0 拒绝/],
   ['new-contract', /vars 非有限数由 checkWorldScriptState 拒绝/],
 ]
@@ -442,13 +447,17 @@ const axisOf = (name) =>
             ? 'S8 resolver/payload 身份'
             : name.includes('rejects non-current')
               ? 'S3 版本条件隔离'
-              : name.includes('稀疏空洞')
-                ? 'S4 稀疏空洞'
-                : name.includes('hiddenExp 全部七个')
-                  ? 'S1 hiddenExp 全键集'
-                  : name.includes('version 非当前')
-                    ? 'S3 版本常量'
-                    : 'S1-S5/S8 结构与表征轴'
+              : name.includes('独立接线，B-R1-01 归还')
+                ? 'r2 B-R1-01 接线归还'
+                : name.includes('缺席：clone 内补空')
+                  ? 'r2 B-R1-01 缺席拆身份'
+                  : name.includes('稀疏空洞')
+                    ? 'S4 稀疏空洞'
+                    : name.includes('hiddenExp 全部七个')
+                      ? 'S1 hiddenExp 全键集'
+                      : name.includes('version 非当前')
+                        ? 'S3 版本常量'
+                        : 'S1-S5/S8 结构与表征轴'
 const ledgerRows = [['id', 'file', 'fullName', 'type', 'axis', 'oracle']]
 let idx = 1
 for (const name of [...newFullNames]) {
