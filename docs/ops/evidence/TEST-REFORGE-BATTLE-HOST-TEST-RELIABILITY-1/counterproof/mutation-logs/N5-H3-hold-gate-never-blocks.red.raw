@@ -1,0 +1,61 @@
+
+ RUN  v4.1.7 /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge
+
+ ❯ src/battle/battle-host.finalization.test.ts (8 tests | 1 failed) 533ms
+   ✓ BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0 93ms
+   ✓ BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静 68ms
+   ✓ BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响 71ms
+   ✓ BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复 70ms
+   ✓ BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原 71ms
+   ✓ BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原 19ms
+   × BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原 70ms
+   ✓ BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原 70ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  16:49:18
+   Duration  1.34s (transform 381ms, setup 0ms, import 454ms, tests 533ms, environment 284ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N5-H3-hold-gate-never-blocks.red.json
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+AssertionError: expected 'undefined' to contain 'expected null not to be null'
+
+Expected: "expected null not to be null"
+Received: "undefined"
+
+ ❯ src/battle/battle-host.finalization.test.ts:154:52
+    152|     await h.close()
+    153|   }
+    154|   expect(String((earlyFailure as Error)?.message)).toContain('expected…
+       |                                                    ^
+    155|   expect(op.state).toMatchObject({ settled: true, error: { name: 'Abor…
+    156|   expect(hold.entered()).toBeGreaterThan(0) // 持定的 IO 确已进入并被放行
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

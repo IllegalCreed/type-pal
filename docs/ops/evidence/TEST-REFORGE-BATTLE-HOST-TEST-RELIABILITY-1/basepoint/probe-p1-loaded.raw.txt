@@ -1,0 +1,51 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+[sfx] AudioContext 不可用，音效播放器停用
+
+stdout | src/__tests__/battle-finalization-reliability/probe-r1.test.ts > P1 idle rounds-until-active distribution (12 fresh harnesses)
+{"probe":"P1-idle-rounds","samples":[{"rounds":9,"ms":6},{"rounds":7,"ms":2},{"rounds":7,"ms":2},{"rounds":7,"ms":2},{"rounds":7,"ms":3},{"rounds":7,"ms":2},{"rounds":7,"ms":2},{"rounds":9,"ms":3},{"rounds":7,"ms":3},{"rounds":7,"ms":2},{"rounds":7,"ms":1},{"rounds":7,"ms":1}],"min":7,"max":9,"budget100Exceeded":false}
+
+ ✓ src/__tests__/battle-finalization-reliability/probe-r1.test.ts (2 tests | 1 skipped) 523ms
+   ✓ P1 idle rounds-until-active distribution (12 fresh harnesses)  523ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+   Start at  16:20:25
+   Duration  2.45s (transform 1.09s, setup 0ms, import 1.29s, tests 523ms, environment 532ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/probe-p1-loaded.json

@@ -1,0 +1,128 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 4,
+  "numFailedTests": 4,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791359363068,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "status": "passed",
+          "title": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "duration": 91.45433400000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "status": "passed",
+          "title": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "duration": 67.20129199999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "status": "passed",
+          "title": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "duration": 71.609375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "status": "passed",
+          "title": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "duration": 71.51270900000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "status": "failed",
+          "title": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "duration": 74.34312499999987,
+          "failureMessages": [
+            "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:118:28\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "status": "failed",
+          "title": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "duration": 18.61091600000009,
+          "failureMessages": [
+            "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:136:28\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "status": "failed",
+          "title": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "duration": 65.60287500000004,
+          "failureMessages": [
+            "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:157:28\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "status": "failed",
+          "title": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "duration": 67.85579199999984,
+          "failureMessages": [
+            "AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality\n    at /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts:173:28\n    at file:///private/tmp/type-pal-reforge-battle-test-reliability/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791359363874,
+      "endTime": 1791359364401.8557,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts"
+    }
+  ]
+}

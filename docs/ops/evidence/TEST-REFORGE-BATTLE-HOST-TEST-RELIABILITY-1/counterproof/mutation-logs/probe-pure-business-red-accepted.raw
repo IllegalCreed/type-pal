@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge
+
+ ❯ src/__judge_probe__/probe-pure-business-red-accepted.test.ts (1 test | 1 failed) 3ms
+     × probe target 3ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  16:48:56
+   Duration  81ms (transform 8ms, setup 0ms, import 12ms, tests 3ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/probe-pure-business-red-accepted.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__judge_probe__/probe-pure-business-red-accepted.test.ts > judge probe > probe target
+AssertionError: PROBE: expected 1 to be 0: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/__judge_probe__/probe-pure-business-red-accepted.test.ts:5:44
+      3| describe('judge probe', () => {
+      4|   it('probe target', () => {
+      5|     expect(1, 'PROBE: expected 1 to be 0').toBe(0)
+       |                                            ^
+      6|   })
+      7| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

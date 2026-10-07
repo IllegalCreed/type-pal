@@ -1,0 +1,105 @@
+
+ RUN  v4.1.7 /private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge
+
+ ❯ src/battle/battle-host.finalization.test.ts (8 tests | 4 failed) 529ms
+   ✓ BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0 91ms
+   ✓ BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静 67ms
+   ✓ BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响 72ms
+   ✓ BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复 72ms
+   × BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原 74ms
+   × BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原 19ms
+   × BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原 66ms
+   × BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原 68ms
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 4 passed (8)
+   Start at  16:49:23
+   Duration  1.33s (transform 378ms, setup 0ms, import 451ms, tests 529ms, environment 283ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N6-H1-close-skips-restore.red.json
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原
+AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality
+
+Compared values have no visual difference.
+
+ ❯ src/battle/battle-host.finalization.test.ts:118:28
+    116|   expect(op!.state).toEqual({ settled: true, result: 'victory' }) // 本…
+    117|   expect(h.host.active).toBeNull() // 会话槽已释放
+    118|   expect(globalThis.fetch).toBe(h.restoreProbe.fetch) // stub 的全局按身份复原
+       |                            ^
+    119|   expect(document.getElementById('screen')).toBeNull() // DOM 已复原
+    120| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原
+AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality
+
+Compared values have no visual difference.
+
+ ❯ src/battle/battle-host.finalization.test.ts:136:28
+    134|   expect(h.events).toEqual(['exitFrame']) // 未建会话：零音乐/发布/写回副作用
+    135|   expect(h.world.money).toBe(50)
+    136|   expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
+       |                            ^
+    137|   expect(document.getElementById('screen')).toBeNull()
+    138| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality
+
+Compared values have no visual difference.
+
+ ❯ src/battle/battle-host.finalization.test.ts:157:28
+    155|   expect(op.state).toMatchObject({ settled: true, error: { name: 'Abor…
+    156|   expect(hold.entered()).toBeGreaterThan(0) // 持定的 IO 确已进入并被放行
+    157|   expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
+       |                            ^
+    158|   expect(document.getElementById('screen')).toBeNull()
+    159| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/battle/battle-host.finalization.test.ts > BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原
+AssertionError: expected [AsyncFunction] to be [AsyncFunction] // Object.is equality
+
+Compared values have no visual difference.
+
+ ❯ src/battle/battle-host.finalization.test.ts:173:28
+    171|   expect(op.state).toMatchObject({ settled: true, error: { name: 'Abor…
+    172|   expect(h.host.active).toBeNull()
+    173|   expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
+       |                            ^
+    174|   expect(document.getElementById('screen')).toBeNull()
+    175| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯

@@ -1,0 +1,1770 @@
+{
+  "numTotalTestSuites": 779,
+  "numTotalTests": 8781,
+  "numPassedTests": 8781,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "success": true,
+  "testFiles": [
+    {
+      "name": "scripts/battle-trial-assets.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "scripts/battle-trial-host.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "scripts/battle-trial-session.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "scripts/battle-trial-workflow.test.ts",
+      "status": "passed",
+      "tests": 14
+    },
+    {
+      "name": "src/__tests__/main-api-fixture.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/active-scene.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/actor-condition-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/actor-condition-runtime.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/ambience-compositor.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/asset-resolver.failure-causes.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/asset-resolver.io-boundaries.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/asset-resolver.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/assets-decode-gates.glm-q.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/assets.battle-bg.residual.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/assets.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/assets.presentation.residual.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/assets.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/async-intent.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/async-intent.world-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/audio-spessa-runtime.glm-q.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/audio/bgm.dispose.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/audio/bgm.glm-audio-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/audio/bgm.glm-n.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/audio/bgm.runtime-boundaries.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/audio/bgm.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/audio/midi-preview.glm-audio-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/audio/midi-preview.glm-n.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/audio/midi-preview.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/audio/midi-preview.lifecycle-boundaries.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/audio/midi-preview.play-guards.glm-n.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/audio/midi-preview.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/audio/sfx-readiness.collections.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/audio/sfx-readiness.glm-audio-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/audio/sfx-readiness.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/audio/sfx.staged-failures.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/audio/sfx.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/automatic-target-command.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/battle-trial-assets.glm-n.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/battle-trial-assets.wave2.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/battle-trial-config.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle-trial-config.test.ts",
+      "status": "passed",
+      "tests": 30
+    },
+    {
+      "name": "src/battle-trial-config.wave2.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle-trial-host.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle-trial-prepare.wave2.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/battle/battle-action-presentation-scheduler.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/battle/battle-anim.attack-all.residual.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/battle/battle-anim.coop.residual.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/battle-anim.enemy-cast.residual.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/battle-anim.glm-n.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/battle/battle-anim.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-anim.summon.residual.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-anim.test.ts",
+      "status": "passed",
+      "tests": 21
+    },
+    {
+      "name": "src/battle/battle-casualty.test.ts",
+      "status": "passed",
+      "tests": 16
+    },
+    {
+      "name": "src/battle/battle-command-selection.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-command-selection.residual.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-command-selection.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/battle/battle-core.c85-branches.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/battle/battle-core.enemy-cast-residual.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/battle/battle-core.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-core.test.ts",
+      "status": "passed",
+      "tests": 115
+    },
+    {
+      "name": "src/battle/battle-enemy-confused.test.ts",
+      "status": "passed",
+      "tests": 13
+    },
+    {
+      "name": "src/battle/battle-finalization.world-result.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/battle/battle-fire-readiness.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-host.finalization.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/battle/battle-host.test.ts",
+      "status": "passed",
+      "tests": 16
+    },
+    {
+      "name": "src/battle/battle-icon-color.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/battle-last-action.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/battle/battle-launch-preparation.glm-n.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/battle/battle-launch-preparation.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/battle/battle-player-input.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/battle-positions.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-result.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/battle-session.action-flows.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-session.c85-arms.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/battle/battle-session.enemy-flee-residual.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/battle/battle-session.flow-residual.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/battle-session.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-session.round-flows.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-session.script-flows.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/battle/battle-session.selection-flows.test.ts",
+      "status": "passed",
+      "tests": 14
+    },
+    {
+      "name": "src/battle/battle-session.terminal-flows.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-session.test.ts",
+      "status": "passed",
+      "tests": 43
+    },
+    {
+      "name": "src/battle/battle-session.writeback-flows.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-settlement-presentation.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/battle/battle-settlement.residual.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/battle/battle-sprite-readiness.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/battle-turn-readiness.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/battle/battle-ui.glm-n.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/battle/battle-ui.residual.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/battle/enemy-hook-runtime.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/present-battle.residual.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/battle/present-battle.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/battle/r13-six-b-battle.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/battle/settlement.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/boot-page-shell.glm-q.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/checkpoint-export.chain.test.ts",
+      "status": "passed",
+      "tests": 17
+    },
+    {
+      "name": "src/collision.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/cutscene-controller.dispatch-boundaries.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/cutscene-controller.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/debug-tools.battle.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/debug-tools.commands.test.ts",
+      "status": "passed",
+      "tests": 24
+    },
+    {
+      "name": "src/debug-tools.failures.test.ts",
+      "status": "passed",
+      "tests": 13
+    },
+    {
+      "name": "src/debug-tools.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/debug-tools.inspect.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/debug-tools.navigation.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/debug-tools.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/debug-tools.triggers.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/deferred-trigger.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/deferred-trigger.world-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/dev-preset.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/dialog/dialog-assets.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/dialog/dialog-box.glm-large-wave.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/dialog/dialog-box.observation.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/dialog/dialog-box.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/dialog/layout.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/dialog/narration-scroll.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/dialog/slot.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/dialogue.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/dither-next2.glm-q.test.ts",
+      "status": "passed",
+      "tests": 14
+    },
+    {
+      "name": "src/dither-transition.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/enemy-closure.glm-q.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/engine-chrome/registry.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/engine-chrome/registry.lifecycle.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/engine-chrome/registry.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/entity-action-player.boundaries.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/entity-action-player.test.ts",
+      "status": "passed",
+      "tests": 13
+    },
+    {
+      "name": "src/entity-lifecycle-command.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/entity-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/entity-motion.c85-arms.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/entity-motion.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/entity-motion.test.ts",
+      "status": "passed",
+      "tests": 45
+    },
+    {
+      "name": "src/entity-proximity.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/entity-walk.test.ts",
+      "status": "passed",
+      "tests": 21
+    },
+    {
+      "name": "src/equip-menu-state.glm-boundaries.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/equip-menu-state.navigation-boundaries.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/equip-menu-state.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/fade-driver.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/file-source.cancel-windows.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/file-source.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/follower.test.ts",
+      "status": "passed",
+      "tests": 14
+    },
+    {
+      "name": "src/frame-animation-player.boundaries.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/frame-animation-player.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/frame-animation-presentation.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/fsa-source.cancel-windows.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/fsa-source.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/game-over-dialog.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/gameplay-clock.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/gameplay-clock.world-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/input.keyboard-boundaries.test.ts",
+      "status": "passed",
+      "tests": 13
+    },
+    {
+      "name": "src/item-script-identity.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/item-use-executor.test.ts",
+      "status": "passed",
+      "tests": 17
+    },
+    {
+      "name": "src/item-use-placement.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/latest-snapshot-transaction.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/magic-menu-state.boundaries.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/magic-menu-state.glm-boundaries.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/magic-menu-state.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/magic-menu-state.test.ts",
+      "status": "passed",
+      "tests": 21
+    },
+    {
+      "name": "src/main.auto-pose-authority.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/main.auto-save-flows.test.ts",
+      "status": "passed",
+      "tests": 24
+    },
+    {
+      "name": "src/main.battle-host-flows.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/main.battle-preview.glm-q.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/main.boot-flows.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/main.boot-shell.glm-q.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/main.c85-boot.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/main.dialog-flows.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/main.effect-flows.residual.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/main.entity-host-flows.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/main.entity-proximity.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/main.equipment-flows.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/main.frame-animation-owner.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/main.glm-n.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/main.host-boundaries-1.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/main.host-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/main.item-flows.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/main.menu-flows.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/main.menu-storage-flows.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/main.observation.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/main.party-nudge-flows.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/main.presentation-clock-root.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/main.presentation-clock.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/main.save-flows.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/main.scene-flows.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/menu-state.navigation-boundaries.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/menu-state.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/menu/equip-box.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/menu/item-list.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/menu/item-use-result.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/menu/item-use-session.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/menu/magic-box.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/menu/menu-box.glm-n.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/menu/menu-box.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/menu/menu-box.residual.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/menu/menu-box.status-residual.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/menu/menu-session.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/menu/menu-session.test.ts",
+      "status": "passed",
+      "tests": 24
+    },
+    {
+      "name": "src/menu/reward-gain-queue.boundaries.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/menu/reward-gain-queue.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/menu/save-browser-box.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/menu/shop-box.residual.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/menu/shop-box.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/menu/system-box.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/menu/use-box.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/motion-batch.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/motion-runtime-coordinator.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/motion-runtime-wiring.test.ts",
+      "status": "passed",
+      "tests": 22
+    },
+    {
+      "name": "src/movement.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/opening-menu.flows.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/opening-menu.glm-q.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/opening-menu.io-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/opening-menu.observation.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/opening-menu.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/pal-confirm-script-governance.test.ts",
+      "status": "passed",
+      "tests": 16
+    },
+    {
+      "name": "src/pal-errand-author.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/pal-gov3-content-caught.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/pal-gov3-content-cinematic.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/pal-gov3-content-door-shell.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/pal-gov3-content-doors.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/pal-gov3-content-portal-shell.test.ts",
+      "status": "passed",
+      "tests": 35
+    },
+    {
+      "name": "src/pal-gov3-content-presentation.test.ts",
+      "status": "passed",
+      "tests": 280
+    },
+    {
+      "name": "src/pal-gov3-content-proximity.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/pal-gov3-content-swimming.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/pal-gov3-content-world-recovery.test.ts",
+      "status": "passed",
+      "tests": 72
+    },
+    {
+      "name": "src/pal-gov3-content-world-wait.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/pal-gov3-content.test.ts",
+      "status": "passed",
+      "tests": 50
+    },
+    {
+      "name": "src/pal-gov3-motion-actions.test.ts",
+      "status": "passed",
+      "tests": 101
+    },
+    {
+      "name": "src/pal-gov3-motion-arena.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/pal-gov3-motion.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/pal-inn-choreography.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/pal-inn-door-save.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/pal-inn-kitchen.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/pal-inn-stairs-target.test.ts",
+      "status": "passed",
+      "tests": 18
+    },
+    {
+      "name": "src/pal-linear-script-governance.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/pal-meal-author.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/pal-meal-shell.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/pal-script-names.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/pal-script-payment-governance.test.ts",
+      "status": "passed",
+      "tests": 48
+    },
+    {
+      "name": "src/pal-script-successor-governance.test.ts",
+      "status": "passed",
+      "tests": 31
+    },
+    {
+      "name": "src/pal-unified-steps-content.test.ts",
+      "status": "passed",
+      "tests": 5414
+    },
+    {
+      "name": "src/project-image-cache.decode-lifecycle.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/project-image-cache.inflight-dispose.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/project-image-cache.lifecycle.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/project-image-cache.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/project-loader.current-boundaries.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/project-loader.image-cache-binding.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/project-loader.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/project-map-stamp-resize.glm-q.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/project-map.cursor-boundaries.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/project-map.glm-n.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/project-map.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/project-map.test.ts",
+      "status": "passed",
+      "tests": 13
+    },
+    {
+      "name": "src/project-save-state.test.ts",
+      "status": "passed",
+      "tests": 24
+    },
+    {
+      "name": "src/quantize.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/quantize.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/render-occlusion.test.ts",
+      "status": "passed",
+      "tests": 21
+    },
+    {
+      "name": "src/render-scene.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/render.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/render.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/run-entity-trigger-root.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/run-entity-trigger.test.ts",
+      "status": "passed",
+      "tests": 30
+    },
+    {
+      "name": "src/runnable-project-loader.glm-q.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/runtime-auto-checkpoint.test.ts",
+      "status": "passed",
+      "tests": 37
+    },
+    {
+      "name": "src/runtime-frame-session.runtime-session-1.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/runtime-frame-session.test.ts",
+      "status": "passed",
+      "tests": 15
+    },
+    {
+      "name": "src/runtime-host.c85-arms.test.ts",
+      "status": "passed",
+      "tests": 19
+    },
+    {
+      "name": "src/runtime-input-router.runtime-session-1.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/runtime-input-router.test.ts",
+      "status": "passed",
+      "tests": 22
+    },
+    {
+      "name": "src/runtime-project-view.boundaries.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/runtime-project-view.runtime-session-1.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/runtime-project-view.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/runtime-save-lineage.test.ts",
+      "status": "passed",
+      "tests": 22
+    },
+    {
+      "name": "src/runtime-script-compiler.boundaries.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/runtime-script-project.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/save-lineage.chain.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/save/browser-state.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/save/current-save.current-characterization.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/save/current-structure.test.ts",
+      "status": "passed",
+      "tests": 61
+    },
+    {
+      "name": "src/save/ops.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/save/restore-preflight.chain.test.ts",
+      "status": "passed",
+      "tests": 20
+    },
+    {
+      "name": "src/save/scope.test.ts",
+      "status": "passed",
+      "tests": 29
+    },
+    {
+      "name": "src/save/store.isolation.test.ts",
+      "status": "passed",
+      "tests": 18
+    },
+    {
+      "name": "src/save/store.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/scene-entry-session.boundaries.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/scene-entry-session.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/scene-map.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/scene-preflight.chain.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/scene-preparer.test.ts",
+      "status": "passed",
+      "tests": 14
+    },
+    {
+      "name": "src/scene-resources.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/scene-switch-transaction.test.ts",
+      "status": "passed",
+      "tests": 23
+    },
+    {
+      "name": "src/scene-transition.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/screen-fx.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/screen-fx.residual.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/screen-fx.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/screen-hold-transaction.boundaries.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/screen-hold-transaction.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/screen-wave.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/script-activity-lineage.test.ts",
+      "status": "passed",
+      "tests": 18
+    },
+    {
+      "name": "src/script-chunk-store.cursor-boundaries.test.ts",
+      "status": "passed",
+      "tests": 1
+    },
+    {
+      "name": "src/script-chunk-store.glm-large-wave.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/script-chunk-store.residual.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/script-chunk-store.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/script-compiler-core.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/script-confirm-lifecycle.kimi-mid-2.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/script-confirm-modal.glm-q.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/script-confirm-modal.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/script-continuation.kimi-mid-1.test.ts",
+      "status": "passed",
+      "tests": 24
+    },
+    {
+      "name": "src/script-host-adapter.c85-arms.test.ts",
+      "status": "passed",
+      "tests": 21
+    },
+    {
+      "name": "src/script-host-adapter.current-dispatch.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/script-host-adapter.host-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/script-host-adapter.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/script-host-adapter.wave2.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/script-project-core.wave2.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/script-runner-core.gates.glm-q.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/script-runner-core.host-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/script-runner-core.test.ts",
+      "status": "passed",
+      "tests": 15
+    },
+    {
+      "name": "src/script-runner.c85-arms.test.ts",
+      "status": "passed",
+      "tests": 32
+    },
+    {
+      "name": "src/script-runner.conditions.residual.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/script-runner.dispatch-residual.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/script-runner.host-lifecycle-1.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/script-runner.test.ts",
+      "status": "passed",
+      "tests": 49
+    },
+    {
+      "name": "src/script-world.c85-arms.test.ts",
+      "status": "passed",
+      "tests": 15
+    },
+    {
+      "name": "src/script-world.test.ts",
+      "status": "passed",
+      "tests": 12
+    },
+    {
+      "name": "src/script-world.wave2.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/shop-trial.glm-q.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/shop-trial.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/sprite-anim.test.ts",
+      "status": "passed",
+      "tests": 22
+    },
+    {
+      "name": "src/startup-entry.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/system-menu-state.boundaries.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "name": "src/system-menu-state.glm-boundaries.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/system-menu-state.test.ts",
+      "status": "passed",
+      "tests": 9
+    },
+    {
+      "name": "src/text/glyph.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/text/glyph.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/text/palette-color.test.ts",
+      "status": "passed",
+      "tests": 2
+    },
+    {
+      "name": "src/text/text-render.glm-runtime-resource.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/text/typewriter.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/unified-script-core.test.ts",
+      "status": "passed",
+      "tests": 18
+    },
+    {
+      "name": "src/use-menu-state.glm-boundaries.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/use-menu-state.navigation-boundaries.test.ts",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "name": "src/use-menu-state.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/video-player.glm-n.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/video-sfx-ports.glm-q.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/world-async-commit.test.ts",
+      "status": "passed",
+      "tests": 35
+    },
+    {
+      "name": "src/world-camera.test.ts",
+      "status": "passed",
+      "tests": 11
+    },
+    {
+      "name": "src/world-motion-runtime.motion-transition-1.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/world-motion-runtime.residual.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/world-motion-runtime.runtime-session-1.test.ts",
+      "status": "passed",
+      "tests": 8
+    },
+    {
+      "name": "src/world-motion-runtime.test.ts",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "name": "src/world-runtime-ownership.test.ts",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "name": "src/world-scene-presentation.glm-next-wave.test.ts",
+      "status": "passed",
+      "tests": 3
+    },
+    {
+      "name": "src/world-scene-presentation.residual.test.ts",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "name": "src/world-scene-presentation.test.ts",
+      "status": "passed",
+      "tests": 5
+    }
+  ],
+  "distillation": {
+    "note": "全包 8781 测试逐 fullName 明细 7.1MB 超 1MiB 上限,按 TEST-GAME-MEDIA-LIFECYCLE-1 全包留 raw 判例蒸馏为 file 级;进程原始输出保全 fullsuite-ci-exact.raw;原文件 sha256 见下",
+    "originalFileSha256": "ae0d52098be5fc56330d051bcee189f48024790cd3c7dcbca595783deb9f3493"
+  }
+}

@@ -1,0 +1,255 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-battle-test-reliability/packages/reforge
+      Coverage enabled with v8
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > commit consumes live inventory after preparation settles without losing intervening changes
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host commits real victory once, then hooks, scene sounds and music in order
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > session release and real world writeback are atomic to queued observers
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after cancel invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after runner invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.finalization.test.ts > BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after world invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+ ✓ src/battle/battle-host.finalization.test.ts (8 tests) 533ms
+stderr | src/battle/battle-host.test.ts > battle host refuses delayed preparation after script invalidation with zero music or writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > pre-aborted battle request changes neither frame mode nor resource IO
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > new launch invalidates older preparation while preserving the new live session
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > old session finally cannot clear a new session published in the same turn
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > running cancellation consumes the real session and never restores or writes old world state
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > fatal session failure restores scene resources and retains original failure even if restoration fails
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > stale fatal recovery cannot play music or clear the replacement session
+[sfx] AudioContext 不可用，音效播放器停用
+
+ ✓ src/battle/battle-finalization.world-result.test.ts (7 tests) 157ms
+stderr | src/battle/battle-host.test.ts > defeated script failure propagates after world writeback and scene recovery
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > world replacement after session completion blocks final writeback
+[sfx] AudioContext 不可用，音效播放器停用
+
+stderr | src/battle/battle-host.test.ts > readiness diagnostics deduplicate by error identity text across launches, not by stage
+[sfx] AudioContext 不可用，音效播放器停用
+
+ ✓ src/battle/battle-host.test.ts (16 tests) 1535ms
+
+ Test Files  3 passed (3)
+      Tests  31 passed (31)
+   Start at  16:34:49
+   Duration  2.73s (transform 897ms, setup 0ms, import 1.19s, tests 2.22s, environment 951ms)
+
+JSON report written to /private/tmp/type-pal-reforge-battle-test-reliability/docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed/instrumentation-r1.json
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   31.94 |    24.74 |   39.12 |   33.99 |                   
+ src               |   17.41 |    11.72 |   19.35 |    19.3 |                   
+  ...-lifecycle.ts |   46.66 |    64.28 |   33.33 |      50 | 6,31-43           
+  ...t-resolver.ts |   61.76 |       50 |   63.63 |   63.63 | 23,28,55-70,79-84 
+  assets.ts        |   36.09 |    28.88 |   41.46 |   38.55 | ...42,476-577,599 
+  async-intent.ts  |     100 |      100 |     100 |     100 |                   
+  defined.ts       |   66.66 |       75 |     100 |     100 | 3                 
+  dialogue.ts      |       0 |        0 |       0 |       0 | 14-25             
+  file-source.ts   |       0 |        0 |       0 |       0 | 21-53             
+  hash.ts          |      80 |       50 |     100 |     100 | 2                 
+  ...mage-cache.ts |   13.79 |        0 |   16.66 |   15.38 | 22-63             
+  ...ect-loader.ts |   67.48 |    51.19 |   61.53 |   73.75 | ...73-374,461-531 
+  project-map.ts   |       0 |        0 |       0 |       0 | 44-462            
+  ...save-state.ts |   53.84 |    20.83 |      80 |      52 | 16-30,45-51,62,74 
+  render.ts        |    1.98 |        0 |       0 |    2.26 | 35-614            
+  ...oject-view.ts |   11.53 |     4.87 |      20 |   13.23 | ...9,60,62,93-287 
+  screen-fx.ts     |    6.97 |        0 |       0 |     8.1 | 22-36,57-99       
+  script-world.ts  |       0 |        0 |       0 |       0 | 69-834            
+ src/__tests__     |   69.56 |    73.33 |   83.33 |   70.87 |                   
+  ...st-fixture.ts |   69.56 |    73.33 |   83.33 |   70.87 | 32-65,84,102,144  
+ ...on-reliability |    94.5 |    68.75 |   89.47 |   96.29 |                   
+  ...st-harness.ts |    94.5 |    68.75 |   89.47 |   96.29 | 105,139-142       
+ ...ttle-workflows |    8.69 |        0 |    5.55 |    9.09 |                   
+  catalog.ts       |    6.25 |        0 |    8.33 |    6.45 | 48-219,235-265    
+  controlled-io.ts |   14.28 |        0 |       0 |   15.38 | 13-16,22-23,34-39 
+ .../runtime-shell |   51.61 |    40.67 |   43.93 |   55.06 |                   
+  dom-host.ts      |   36.92 |     2.56 |   14.81 |   40.67 | ...97,205-214,219 
+  driver.ts        |   18.75 |        0 |      25 |    7.69 | 14-18,24-34       
+  project.ts       |   87.71 |    86.66 |      85 |   90.38 | 30-31,70,301-302  
+  scenarios.ts     |   56.57 |    53.84 |   46.66 |    62.5 | 168-220           
+ src/audio         |   18.24 |    11.21 |   18.47 |   19.86 |                   
+  bgm.ts           |     0.6 |        0 |       0 |    0.72 | 67-296            
+  sfx-readiness.ts |   35.53 |    15.15 |   63.15 |    39.5 | ...53-362,372,374 
+  sfx.ts           |   17.76 |    19.51 |   13.88 |   18.79 | ...43-276,285-291 
+  ...er-runtime.ts |       0 |        0 |       0 |       0 | 18-41             
+ src/battle        |   38.04 |    30.97 |   52.29 |   40.06 |                   
+  ...-scheduler.ts |   77.77 |    61.53 |   83.33 |   77.27 | 16,41-44          
+  battle-anim.ts   |   36.47 |     26.1 |   27.77 |   37.06 | ...1455,1505-1788 
+  ...-selection.ts |   41.47 |    34.27 |      60 |   46.74 | ...16-456,465-466 
+  battle-core.ts   |   29.79 |    29.23 |   48.73 |   31.11 | ...2701,2729-2753 
+  battle-host.ts   |   88.17 |    69.44 |   78.94 |   92.59 | 85,88,95-102      
+  ...reparation.ts |   83.83 |    54.23 |   77.14 |   86.66 | ...59,279,293,315 
+  ...ayer-input.ts |      80 |    65.21 |      60 |      80 | 26,50             
+  ...-positions.ts |     100 |    66.66 |     100 |     100 | 82                
+  ...le-session.ts |   41.41 |    33.16 |    56.8 |   43.21 | ...2083,2102-2591 
+  ...esentation.ts |   86.66 |    85.71 |      50 |   88.46 | 27-36             
+  ...-readiness.ts |   83.05 |       55 |     100 |   97.72 | 71                
+  ...-readiness.ts |   70.45 |    59.09 |   78.57 |      75 | ...85,107,114-128 
+  battle-ui.ts     |    14.2 |        0 |       0 |   16.78 | 123-243,278-416   
+  ...rld-result.ts |     100 |       80 |     100 |     100 | 34-35,51          
+  enemy-closure.ts |   46.34 |    28.57 |      60 |   55.88 | ...23-28,45,59-61 
+  ...ok-runtime.ts |    9.23 |     9.43 |      20 |    8.62 | 37,52,54-174      
+  ...ent-battle.ts |       5 |        0 |       0 |    5.95 | 62-195            
+  settlement.ts    |   16.81 |     4.65 |    6.66 |   17.14 | ...91-115,123-329 
+ src/dialog        |       0 |        0 |       0 |       0 |                   
+  ...ion-scroll.ts |       0 |        0 |       0 |       0 | 3-21              
+ src/engine-chrome |      25 |        0 |      25 |      25 |                   
+  registry.ts      |      25 |        0 |      25 |      25 | 69-82,91-109      
+ ...-chrome/assets |       0 |        0 |       0 |       0 |                   
+  ...cons-raw.json |       0 |        0 |       0 |       0 |                   
+ ...sets/ui/battle |       0 |        0 |       0 |       0 |                   
+  icon-attack.png  |       0 |        0 |       0 |       0 |                   
+  icon-coop.png    |       0 |        0 |       0 |       0 |                   
+  icon-magic.png   |       0 |        0 |       0 |       0 |                   
+  icon-misc.png    |       0 |        0 |       0 |       0 |                   
+ .../assets/ui/box |       0 |        0 |       0 |       0 |                   
+  frame-00.png     |       0 |        0 |       0 |       0 |                   
+  frame-01.png     |       0 |        0 |       0 |       0 |                   
+  frame-02.png     |       0 |        0 |       0 |       0 |                   
+  frame-03.png     |       0 |        0 |       0 |       0 |                   
+  frame-04.png     |       0 |        0 |       0 |       0 |                   
+  frame-05.png     |       0 |        0 |       0 |       0 |                   
+  frame-06.png     |       0 |        0 |       0 |       0 |                   
+  frame-07.png     |       0 |        0 |       0 |       0 |                   
+  frame-08.png     |       0 |        0 |       0 |       0 |                   
+ ...ets/ui/box-red |       0 |        0 |       0 |       0 |                   
+  frame-00.png     |       0 |        0 |       0 |       0 |                   
+  frame-01.png     |       0 |        0 |       0 |       0 |                   
+  frame-02.png     |       0 |        0 |       0 |       0 |                   
+  frame-03.png     |       0 |        0 |       0 |       0 |                   
+  frame-04.png     |       0 |        0 |       0 |       0 |                   
+  frame-05.png     |       0 |        0 |       0 |       0 |                   
+  frame-06.png     |       0 |        0 |       0 |       0 |                   
+  frame-07.png     |       0 |        0 |       0 |       0 |                   
+  frame-08.png     |       0 |        0 |       0 |       0 |                   
+ ...sets/ui/cursor |       0 |        0 |       0 |       0 |                   
+  down.png         |       0 |        0 |       0 |       0 |                   
+  grid.png         |       0 |        0 |       0 |       0 |                   
+  settle-arrow.png |       0 |        0 |       0 |       0 |                   
+  up-red.png       |       0 |        0 |       0 |       0 |                   
+  up.png           |       0 |        0 |       0 |       0 |                   
+ ...ets/ui/itembox |       0 |        0 |       0 |       0 |                   
+  frame-00.png     |       0 |        0 |       0 |       0 |                   
+  frame-01.png     |       0 |        0 |       0 |       0 |                   
+  frame-02.png     |       0 |        0 |       0 |       0 |                   
+  frame-03.png     |       0 |        0 |       0 |       0 |                   
+  frame-04.png     |       0 |        0 |       0 |       0 |                   
+  frame-05.png     |       0 |        0 |       0 |       0 |                   
+  frame-06.png     |       0 |        0 |       0 |       0 |                   
+  frame-07.png     |       0 |        0 |       0 |       0 |                   
+  frame-08.png     |       0 |        0 |       0 |       0 |                   
+ ...ssets/ui/magic |       0 |        0 |       0 |       0 |                   
+  playerbox.png    |       0 |        0 |       0 |       0 |                   
+ .../assets/ui/num |       0 |        0 |       0 |       0 |                   
+  0.png            |       0 |        0 |       0 |       0 |                   
+  1.png            |       0 |        0 |       0 |       0 |                   
+  2.png            |       0 |        0 |       0 |       0 |                   
+  3.png            |       0 |        0 |       0 |       0 |                   
+  4.png            |       0 |        0 |       0 |       0 |                   
+  5.png            |       0 |        0 |       0 |       0 |                   
+  6.png            |       0 |        0 |       0 |       0 |                   
+  7.png            |       0 |        0 |       0 |       0 |                   
+  8.png            |       0 |        0 |       0 |       0 |                   
+  9.png            |       0 |        0 |       0 |       0 |                   
+  slash.png        |       0 |        0 |       0 |       0 |                   
+ ...ts/ui/num-blue |       0 |        0 |       0 |       0 |                   
+  0.png            |       0 |        0 |       0 |       0 |                   
+  1.png            |       0 |        0 |       0 |       0 |                   
+  2.png            |       0 |        0 |       0 |       0 |                   
+  3.png            |       0 |        0 |       0 |       0 |                   
+  4.png            |       0 |        0 |       0 |       0 |                   
+  5.png            |       0 |        0 |       0 |       0 |                   
+  6.png            |       0 |        0 |       0 |       0 |                   
+  7.png            |       0 |        0 |       0 |       0 |                   
+  8.png            |       0 |        0 |       0 |       0 |                   
+  9.png            |       0 |        0 |       0 |       0 |                   
+ ...ts/ui/num-cyan |       0 |        0 |       0 |       0 |                   
+  0.png            |       0 |        0 |       0 |       0 |                   
+  1.png            |       0 |        0 |       0 |       0 |                   
+  2.png            |       0 |        0 |       0 |       0 |                   
+  3.png            |       0 |        0 |       0 |       0 |                   
+  4.png            |       0 |        0 |       0 |       0 |                   
+  5.png            |       0 |        0 |       0 |       0 |                   
+  6.png            |       0 |        0 |       0 |       0 |                   
+  7.png            |       0 |        0 |       0 |       0 |                   
+  8.png            |       0 |        0 |       0 |       0 |                   
+  9.png            |       0 |        0 |       0 |       0 |                   
+ ...sets/ui/scroll |       0 |        0 |       0 |       0 |                   
+  frame-00.png     |       0 |        0 |       0 |       0 |                   
+  frame-01.png     |       0 |        0 |       0 |       0 |                   
+  frame-02.png     |       0 |        0 |       0 |       0 |                   
+  frame-03.png     |       0 |        0 |       0 |       0 |                   
+  frame-04.png     |       0 |        0 |       0 |       0 |                   
+  frame-05.png     |       0 |        0 |       0 |       0 |                   
+  frame-06.png     |       0 |        0 |       0 |       0 |                   
+  frame-07.png     |       0 |        0 |       0 |       0 |                   
+  frame-08.png     |       0 |        0 |       0 |       0 |                   
+ ...sets/ui/status |       0 |        0 |       0 |       0 |                   
+  bg.png           |       0 |        0 |       0 |       0 |                   
+  slot.png         |       0 |        0 |       0 |       0 |                   
+ ...tus/equip-demo |       0 |        0 |       0 |       0 |                   
+  accessory.png    |       0 |        0 |       0 |       0 |                   
+  amulet.png       |       0 |        0 |       0 |       0 |                   
+  body.png         |       0 |        0 |       0 |       0 |                   
+  feet.png         |       0 |        0 |       0 |       0 |                   
+  head.png         |       0 |        0 |       0 |       0 |                   
+  weapon.png       |       0 |        0 |       0 |       0 |                   
+ src/menu          |    13.3 |        0 |    3.12 |   14.93 |                   
+  menu-box.ts      |    13.6 |        0 |    3.33 |   15.31 | ...74,293,363-643 
+  reward-gain.ts   |       0 |      100 |       0 |       0 | 21-40             
+ src/text          |    5.35 |        0 |       0 |    6.25 |                   
+  glyph.ts         |    1.31 |        0 |       0 |    1.61 | 22-87,95-116      
+  palette-color.ts |      80 |      100 |       0 |      80 | 25                
+  text-render.ts   |    3.22 |        0 |       0 |    3.44 | 33-70             
+-------------------|---------|----------|---------|---------|-------------------

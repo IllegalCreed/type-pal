@@ -1,0 +1,120 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791359352160,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "status": "passed",
+          "title": "BF-08 宿主战败终局：无结算无战后脚本、恢复场景音但不还原音乐、HP 写回 0",
+          "duration": 91.318625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "status": "passed",
+          "title": "BF-09 胜利曲经验门（exp>0）：options.boss 直传 victory(boss)、胜利曲恰奏一次、奏后归静",
+          "duration": 68.537958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "status": "passed",
+          "title": "BF-09 零经验胜利（exp=0）：经验门关胜利曲零奏、金钱不受经验门影响",
+          "duration": 71.03070800000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "status": "passed",
+          "title": "BF-10 宿主逃跑终局：playerFled 不结算不跑战后脚本、金钱零变化、场景音恢复",
+          "duration": 71.83637499999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "status": "passed",
+          "title": "BF-H1 正常收尾：start Promise 兑现后关闭——active 槽清空、spy/global/DOM 复原",
+          "duration": 71.351584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "status": "passed",
+          "title": "BF-H2 准备拒绝收尾：真实精灵 IO 拒绝被消费、零端口副作用、spy/global/DOM 复原",
+          "duration": 19.040457999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "status": "passed",
+          "title": "BF-H3 断言提前失败收尾：IO 受持期断言红后关闭——start Promise 消费、持定 IO 释放、复原",
+          "duration": 67.22354099999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "status": "passed",
+          "title": "BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 AbortError 消费、active 槽清空、复原",
+          "duration": 69.69370800000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791359352974,
+      "endTime": 1791359353504.6936,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-bhtr-formal.VpNRAD/packages/reforge/src/battle/battle-host.finalization.test.ts"
+    }
+  ]
+}
