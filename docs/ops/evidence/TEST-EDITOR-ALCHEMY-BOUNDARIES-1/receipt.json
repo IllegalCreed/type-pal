@@ -1,0 +1,42 @@
+{
+  "task": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1",
+  "receiptDate": "2026-10-08",
+  "branch": "codex/glm-editor-alchemy-boundaries-r1",
+  "worktree": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal",
+  "dispatch": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "testCandidate": "9e9fab94c5bb3a5186cf962054fe5fa46dadb564",
+  "testCandidateContents": "8 边界合同 + 专属夹具 + 全部证据原件（README/contract-ledger/directed/adjacent/counterproof 及 28 份相位原件/gates/门 raw）",
+  "receiptHead": "a07c8685728489c410f0696404744b9baea88c7a",
+  "docsOnlyRange": "9e9fab94c5bb3a5186cf962054fe5fa46dadb564..HEAD（C2=任务卡 GLM 贡献者回执；C3=本 receipt pin；两提交均零代码/测试改动）",
+  "shaVerification": {
+    "dispatch": "git cat-file -t = commit",
+    "productionFreeze": "git cat-file -t = commit",
+    "testCandidate": "git cat-file -t = commit",
+    "receiptHead": "git cat-file -t = commit",
+    "note": "全部为当前分支真实对象；C3 为 docs-only pin，不承诺其自身 SHA"
+  },
+  "diffCheck": {
+    "command": "git diff --check 91aac75c5..a07c8685",
+    "exit": 0,
+    "note": "含 testCandidate 与 C2；C3 自身为单一新增文本文件，提交后另行复核无空白错误"
+  },
+  "frozenSourcesVerified": {
+    "packages/editor/src/ui/ItemAlchemyTab.tsx": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+    "packages/editor/src/ui/ItemAlchemyEditors.tsx": "c9fbfeab816f463c3adce633b4a26a06351de5b1e80a3dbcfd1bd0dcda92ee31",
+    "packages/editor/src/core/item-alchemy.ts": "4ee30c2305583bd902a1b026acfde6e53a527615e361b43a30fb446e487c5470",
+    "packages/editor/src/ui/DataMode.tsx": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f",
+    "verification": "工作树逐文件 shasum 复核 + 反控每棵隔离树建树时逐文件校验（counterproof.json 每针 treeFrozenVerified）"
+  },
+  "newFiles": [
+    "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+    "packages/editor/src/ui/__tests__/item-alchemy-boundaries/kit.ts"
+  ],
+  "counterproofReceipt": "counterproof.json（8 针全 VALID、judgeSelfTest 20 例、探针 3 例、还原绿逐字一致、末次重放、每针 mkdtemp 清理证明）",
+  "handedToCodex": [
+    "共享导航 docs/ops/evidence/README.md 未登记本卡证据目录（docs-check.raw 精确诊断；白名单外不越界修）",
+    "tracked 质量台账 count mismatch：declared 3085 / actual 3087（+2 = 本卡测试与夹具；tracked-inventory.raw 精确诊断，共享台账由 Codex 集成时同步）",
+    "基点托管 CI 已知失败（第一阶段 Game p12-overlays 超时，run 37744699839）不在本卡范围"
+  ],
+  "status": "交付 review 即停：不改 Status、不合 main、不 done，待 Codex 独立验收"
+}
