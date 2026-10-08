@@ -85,7 +85,13 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/pr
 
 ## GLM贡献者回执
 
-待交付。不以自验替代Codex验收。
+2026-10-08 GLM新对话C交付（r1，待 Codex 独立验收；不以自验替代验收）：
+
+- C1–C10 全轴裁定并落锚（[证据目录](../evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md)）：C1 existing-proof（分层旧测双向证明，版本门/读取锁/indexed path/initialMagic 登记不复刻）；C2/C3/C4/C6/C7/C8/C9/C10 new-contract 共 9 新测 + 专属合成 fixture；C5 unreachable（typed 作者面无合法条件命令宿主，三联合类型 + AuthorCondition/AiCond 无毒变体逐个举证；enemies root 校验只对 schema 逃逸输入生效，探针实证未入库）。
+- product-counter ×2：project-loader.ts:280 ambiences 裸 cast（malformed 逐字穿过 loadCurrentProjectFrom/assembleCurrentProject，探针实证）；validate.ts:1448 enemy 顶层多余键逃过 validateEnemies。均不固化成绿测。
+- 反控 10 针全 VALID（四相同判据：自证 20 合成反例 + 3 真实探针、执行集 9 行逐字锁定、恰一 marker AssertionError、还原绿一致、末次重放、每针独立 mkdtemp 树冻结源核验与清理证明）。
+- 门：定向 65/65 双 reporter、本包全包 354 文件 8807/8807、typecheck 0 错、根 lint 3715 文件 0/0/0、check:docs 全过；基点 CI 失败为派发文档既列白名单外项。
+- 全部输入为隔离合成工程；产品/旧测/配置/共享文档/真实数据零改动；未合 main、未改 Status、未 done。
 
 ## 下一位Agent提示词
 
