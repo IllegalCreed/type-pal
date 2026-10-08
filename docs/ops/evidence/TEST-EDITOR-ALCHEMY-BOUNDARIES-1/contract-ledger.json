@@ -1,0 +1,164 @@
+{
+  "task": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1",
+  "dispositionSummary": {
+    "existing-proof": ["B1", "B3"],
+    "new-contract": ["B2", "B4", "B5", "B6", "B7", "B8", "B9", "B10"],
+    "unreachable": ["B10-catchall-branch"],
+    "blocked": [],
+    "product-counter": []
+  },
+  "axes": [
+    {
+      "axis": "B1",
+      "title": "排重与可表达边界",
+      "disposition": "existing-proof",
+      "evidence": [
+        {
+          "claim": "零 owner fail-loud 不退化成机制列表",
+          "proof": "packages/editor/src/ui/ItemAlchemyTab.test.tsx:688-698（'项目缺少炼蛊皿机制'、.outliner 为 null）"
+        },
+        {
+          "claim": "多 owner fail-loud",
+          "proof": "ItemAlchemyTab.test.tsx:697-719（'炼蛊皿机制检测到 2 个 owner'、'不会把多个物品伪装成机制列表'）"
+        },
+        {
+          "claim": "单物品重复 effect 拒绝",
+          "proof": "ItemAlchemyTab.test.tsx:721-728（'物品 268 重复 2 个 craftRecipe effect'）；core 层 item-alchemy.test.ts:63-65 与 item-alchemy.boundaries.test.ts:66-77（'物品 y 重复 2 个 drawFromResourcePool effect'）"
+        },
+        {
+          "claim": "复合配方/多产物 fail-loud 不截断不产生命令",
+          "proof": "ItemAlchemyTab.test.tsx:645-667（精确文案、列表不渲染、history 不变、输入不被改写）；item-alchemy.test.ts:84-112（四形状 toThrow）"
+        },
+        {
+          "claim": "增删改单命令与 undo 只登记不重测",
+          "proof": "ItemAlchemyTab.test.tsx:434-499（增删档 +1/undo/redo）、:501-532（数量步进）、:600-643（配方物品/数量/删除单命令）、:534-598（重排 no-op 0 命令/有效 1 命令/undo/redo）"
+        },
+        {
+          "claim": "core 拒绝与隔离（缺 surface/改 kind/mutator 抛错/同值 no-dispatch/resize 独立副本/1..999 门）",
+          "proof": "item-alchemy.boundaries.test.ts:57-141；item-alchemy.test.ts:114-157"
+        },
+        {
+          "claim": "扩缩档、自动 owner 回报、提示清空",
+          "proof": "ItemAlchemyTab.glm-data-authoring.test.tsx:173-235、:237-273；ItemAlchemyTab.glm-m.test.tsx:134-203"
+        },
+        {
+          "claim": "typed 合法数据与损坏内容域分开、不伪造 effect kind/resource",
+          "proof": "本卡全部新合同经真实 loader（loadLegalUiProject 保存门自证）+ 生产命令播种，零强转、零伪造 effect"
+        }
+      ],
+      "newTests": []
+    },
+    {
+      "axis": "B2",
+      "title": "深链目标删除",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "旧 ItemAlchemyTab.test.tsx:669-686 是『目标存在但非 owner』（branch 4）；本合同是 canonical owner 仍在而 focusObjectId 指向真实已删除对象（branch 3，ItemAlchemyTab.tsx:213-217），旧测零覆盖。",
+      "caller": "DataMode.tsx:302-315 深链 focusObjectId 可指向任意 id；目标物品被 DeleteItemCommand 公开删除后父级订阅重渲染，props.items 不再含该 id。",
+      "input": "合法项目 + plain 非owner 物品作深链目标 + DeleteItemCommand('plain-b2', collectCurrentProjectReferenceIndex)（无引用阻断，真实命令路径）。",
+      "oracle": "精确空态标题/描述（'机制承载物品已被删除'、'深链目标 plain-b2 已不在当前物品表。'）、hero 不渲染、inspector '机制未就绪'、onObjectFocus 零调用（不自动跳 owner）、history 恰为删除命令的 1、owner 集合仍恰 1（不生成第二 owner）。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B2",
+      "needle": "N-B2-deleted-deeplink-empty-state"
+    },
+    {
+      "axis": "B3",
+      "title": "引用状态降级",
+      "disposition": "existing-proof",
+      "evidence": [
+        {
+          "claim": "current 但缺 referenceIndex 必须降级 failed",
+          "proof": "ItemAlchemyTab.test.tsx:163-173（referenceStatus='current' 且不传 referenceIndex → '物品引用检查失败'；对应 ItemAlchemyTab.tsx:129-132 降级逻辑）"
+        },
+        {
+          "claim": "checking/stale/failed 可观察状态与引用计数分列",
+          "proof": "ItemAlchemyTab.test.tsx:117-161（current+index → '物品引用1 处'；checking/stale/failed 各自标签 '正在检查'/'结果待刷新'/'检查失败'）"
+        },
+        {
+          "claim": "真实 ProjectReferenceIndex，无假接口强转",
+          "proof": "ItemAlchemyTab.test.tsx:119-130 经 buildProjectReferenceSnapshot + createProjectReferenceIndex 构造真实索引"
+        },
+        {
+          "claim": "referenceStatus 缺省 → 'checking' 默认格未单独测试",
+          "proof": "真实 caller DataMode 恒传 projectReferenceStatus（DataMode.tsx:312/328），缺省格无合法 caller 产生；不属本轴有限清单，登记不造（本批纪律：不滚动扩围）"
+        }
+      ],
+      "newTests": []
+    },
+    {
+      "axis": "B4",
+      "title": "材料/产物缺引用",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "旧 ItemAlchemyTab.test.tsx:731-746 只证 spirit-gourd 奖励单缺引用（单处缺席、select 警告）；crafting 材料/产物多位置重复缺席 + Inspector 缺失集合 Set 去重（ItemAlchemyTab.tsx:138-142）+ 配方不被自动修复未证。不枚举数字。",
+      "caller": "ItemAlchemyTab.tsx:135-142（references/missingReferences）与 ItemAlchemyEditors.tsx:26-33（itemOptions '⚠ 未找到'）。",
+      "input": "合法项目 + craft owner 三条配方：ghost-b4 出现在配方1材料/配方2材料/配方2产物共 3 处，phantom-b4 出现在配方3产物 1 处（schema 内 itemId 为字符串，缺席引用是合法损坏内容域输入）。",
+      "oracle": "Inspector '缺失引用' 行值恰 'ghost-b4、phantom-b4'（去重且保序）；配方1材料与配方3产物 combobox 显示 '⚠ 未找到 …'；session 零派发、原配方逐字节不被自动修复。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B4",
+      "needle": "N-B4-missing-reference-dedup"
+    },
+    {
+      "axis": "B5",
+      "title": "最新会话权威及错误传播",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "旧测无任何 commit 失败路径触发；reportError 的双通道（localError alert + onStatusNotice）从未被断言。",
+      "windowLegality": "机制页组件自身不订阅 session（ItemAlchemyTab.tsx 无 useSyncExternalStore），props.items 是父级快照；EditSession 公开命令可在任意时点派发（同会话他页/撤销），commit 时 mutateItemAlchemyEffect 从 session 读最新 item（item-alchemy.ts:81-85,116-118）——『props 停留在派发前、commit 依据最新 state』是合法可形成窗口，非伪造。",
+      "input": "公开 UpdateItemCommand 把 owner 的 use 换成 healHp effect（合法 typed 输入）后，blur 提交 '材料不足提示' 草稿。",
+      "oracle": "精确拒绝文案 '物品 vessel-b5 缺 craftRecipe effect' 同时出现在 p[role=alert] 与 onStatusNotice({kind:'error'})（各恰一次）；history 不因拒绝增加（不误派发）；会话内 owner 数据保持最新（不吞错也不回写旧 effect）。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B5",
+      "needle": "N-B5-commit-rejection-propagation"
+    },
+    {
+      "axis": "B6",
+      "title": "材料不足提示草稿（crafting 专属）",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "旧 ItemAlchemyTab.glm-m.test.tsx:167-203 证的是 spirit-gourd caller（commitPool、draftKey *:spirit-gourd:unavailable）；crafting '材料不足提示'（commitCraft、ItemAlchemyTab.tsx:232-240、draftKey *:crafting:unavailable）是不同 caller，按轴不引用 gourd 合同冒充，也不复制整套字段矩阵。",
+      "oracle": "'  原料不足  ' trim 后精确落账 unavailableMessage='原料不足'（单命令 +1，过保存门）；清空提交回 undefined 删键（+1）；undo 精确还原。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B6",
+      "needle": "N-B6-craft-unavailable-trim"
+    },
+    {
+      "axis": "B7",
+      "title": "消耗者唯一材料限制",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "旧 glm-leaf-wave:37-48 纯函数输入域是 [117,148]+owner268（存在非 owner 材料）与空列表；『仅 owner 自身 + consuming=true → undefined』未证；UI 禁用态与公开恢复未证。",
+      "caller": "appendCraftRecipe（ItemAlchemyEditors.tsx:216-235）+ 追加按钮 disabled（ItemAlchemyTab.tsx:250-261）；两层门在同一测试原子证明（纯函数层 + UI 层），不点禁用按钮冒充执行。",
+      "input": "consuming=true 的 craft owner 为唯一物品（合法 schema 输入）；恢复用公开 AddItemCommand 引入材料。",
+      "oracle": "纯函数返回 undefined + 按钮禁用 + 零历史；AddItemCommand 后按钮恢复可点，追加配方精确为 {ingredients:[{itemId:'material-b7',count:1}], products:[{itemId:'vessel-b7',count:1}]}（items[0] 为 owner，appendCraftRecipe 同一真值），history 2 条（增物 + 追加）。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B7",
+      "needle": "N-B7-unique-material-gate"
+    },
+    {
+      "axis": "B8",
+      "title": "灵葫上限边界（999 档）",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "一般 maxRoll 扩缩已证（glm-data-authoring:173-235、item-alchemy.test.ts:68-82 含 1000 拒绝）；999 档位的追加禁用门（ItemAlchemyTab.tsx:347 maxRoll>=999）与合法降档恢复未证。",
+      "input": "真实 999 档数据（rewards 999 项、maxRoll 999，过保存门）；降档走真实 '单次最高消耗' 字段提交链。",
+      "oracle": "999 档追加按钮禁用且零历史漂移；降 3 档（截断保序）后按钮恢复，追加档克隆降档后末档（maxRoll 4、第 4 档 count 3）；history 恰 2。不建 999 独立用例、不扩 timeout。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B8",
+      "needle": "N-B8-tier-999-append-cap"
+    },
+    {
+      "axis": "B9",
+      "title": "引用/对象重渲染（草稿身份切换）",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "旧测只证已提交后的 undo 重锚（glm-data-authoring:222-234）；『在途（未 blur）草稿遇 syncToken 推进被丢弃不落账』与『surface 公开切换后新字段回自身 canonical』从未被 UI 层证明。未加任何私有 state 钩子。",
+      "caller": "draft 身份 = draftKey\\0syncToken\\0canonical（draft-input-state.ts:26-47）；订阅父级（真实 DataMode 形态）在公开命令后带新 historyVersion 重渲染。",
+      "oracle": "typeDraft '途中草稿' 后公开 UpdateItemCommand 改名（+1）：字段显示回 canonical ''（草稿丢弃）、blur 不落账、effect.unavailableMessage 保持 undefined；切 spirit-gourd 后 '不可用提示' 为 ''、'单次最高消耗' 为 '3'，blur 零写。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B9",
+      "needle": "N-B9-draft-identity-discard（Tab 层 syncToken 接线冻结为 0；draft-input-state 内部 effect+fallback 双保险单层不可观察，不作为针）"
+    },
+    {
+      "axis": "B10",
+      "title": "承载跳转及拒绝收尾",
+      "disposition": "new-contract",
+      "distinctionFromExisting": "正确 owner/onOpenItem 身份的成功已证（glm-data-authoring:237-273）；降级（onOpenItem 缺席 → 跳转按钮不渲染）与拒绝后恢复提交的收尾未证。",
+      "oracle": "无 onOpenItem 时 hero 仍标识 owner 但无 '打开承载物品' 按钮且零写；B5 同窗拒绝后（history 停 1）恢复 effect、重新提交 '恢复提示' 精确落账（history 3）。收尾解除 root/spies/globals（destroyBoundaryHost：unmount+host.remove+restoreAllMocks+unstubAllGlobals）。",
+      "test": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx::B10",
+      "needle": "N-B10-open-item-degradation"
+    },
+    {
+      "axis": "B10-catchall-branch",
+      "title": "『页面与 effect 类型不匹配』最后 catch-all",
+      "disposition": "unreachable",
+      "proof": "ItemAlchemyTab.tsx:379-384 分支要求走到 5/6 之前的守卫全通过：selectedItem.id === canonicalOwner.id（:218 branch 4 已保证）且 effect 存在；而 effect = findItemAlchemyEffect(selectedItem, surface) 按 effectKind(surface) 过滤（item-alchemy.ts:15-17,36-44）——selectedItem 即 canonical owner 时其 effect.kind 必等于 surface kind，:223/:295 的 kind 判断恒真；spirit-gourd resource != collectValue 也在 :107-113 先转 derivationError。合法 props 无法构造到达 :380 的输入，按协议登记不伪造。"
+    }
+  ]
+}

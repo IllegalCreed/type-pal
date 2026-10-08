@@ -1,0 +1,395 @@
+{
+  "numTotalTestSuites": 12,
+  "numPassedTestSuites": 12,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 31,
+  "numPassedTests": 31,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791464211529,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["S06 mutateItemAlchemyEffect 拒绝与隔离"],
+          "fullName": "S06 mutateItemAlchemyEffect 拒绝与隔离 缺 surface / 重复 effect / 改另一 kind 精确拒绝且零派发",
+          "status": "passed",
+          "title": "缺 surface / 重复 effect / 改另一 kind 精确拒绝且零派发",
+          "duration": 1.634375000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S06 mutateItemAlchemyEffect 拒绝与隔离"],
+          "fullName": "S06 mutateItemAlchemyEffect 拒绝与隔离 mutator 原地改克隆再抛错：session 状态与派发历史不变；同值 no-dispatch",
+          "status": "passed",
+          "title": "mutator 原地改克隆再抛错：session 状态与派发历史不变；同值 no-dispatch",
+          "duration": 0.5907499999998436,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S06 mutateItemAlchemyEffect 拒绝与隔离"],
+          "fullName": "S06 mutateItemAlchemyEffect 拒绝与隔离 resize 扩容：末档复制彼此独立、空表才用 fallbackItemId、输入不变、maxRoll 门精确",
+          "status": "passed",
+          "title": "resize 扩容：末档复制彼此独立、空表才用 fallbackItemId、输入不变、maxRoll 门精确",
+          "duration": 0.24349999999958527,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464213796,
+      "endTime": 1791464213798.2434,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor/src/core/item-alchemy.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["item alchemy canonical owner"],
+          "fullName": "item alchemy canonical owner derives independent crafting and spirit-gourd owners and fails on duplicate effects",
+          "status": "passed",
+          "title": "derives independent crafting and spirit-gourd owners and fails on duplicate effects",
+          "duration": 1.6555419999999685,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["item alchemy canonical owner"],
+          "fullName": "item alchemy canonical owner resizes reward tiers exactly in one immutable effect value",
+          "status": "passed",
+          "title": "resizes reward tiers exactly in one immutable effect value",
+          "duration": 0.9149999999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["item alchemy canonical owner"],
+          "fullName": "item alchemy canonical owner accepts PAL one-in-one-out recipes and rejects composite shapes without rewriting them",
+          "status": "passed",
+          "title": "accepts PAL one-in-one-out recipes and rejects composite shapes without rewriting them",
+          "duration": 0.4382500000001528,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["item alchemy canonical owner"],
+          "fullName": "item alchemy canonical owner mutates the latest item through exactly one UpdateItemCommand and preserves other effects",
+          "status": "passed",
+          "title": "mutates the latest item through exactly one UpdateItemCommand and preserves other effects",
+          "duration": 1.0136669999997139,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464213817,
+      "endTime": 1791464213821.0137,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor/src/core/item-alchemy.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+          "status": "passed",
+          "title": "B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+          "duration": 47.507666999999856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写",
+          "status": "passed",
+          "title": "B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写",
+          "duration": 34.3606249999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B5 草稿提交以最新会话为准：目标 effect 已被公开命令移除时精确拒绝并传播，不吞错不误派发",
+          "status": "passed",
+          "title": "B5 草稿提交以最新会话为准：目标 effect 已被公开命令移除时精确拒绝并传播，不吞错不误派发",
+          "duration": 29.461624999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销",
+          "status": "passed",
+          "title": "B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销",
+          "duration": 24.91191600000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B7 消耗者唯一材料门：仅 owner 自身时纯函数与 UI 双层禁用，物品数组公开变化后恢复合法追加",
+          "status": "passed",
+          "title": "B7 消耗者唯一材料门：仅 owner 自身时纯函数与 UI 双层禁用，物品数组公开变化后恢复合法追加",
+          "duration": 23.279749999999694,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档",
+          "status": "passed",
+          "title": "B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档",
+          "duration": 1144.0465,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B9 草稿身份切换：外部版本推进丢弃在途草稿不落账，surface 切换不串旧提示/数量",
+          "status": "passed",
+          "title": "B9 草稿身份切换：外部版本推进丢弃在途草稿不落账，surface 切换不串旧提示/数量",
+          "duration": 20.12474999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界"],
+          "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B10 拒绝收尾与跳转降级：无 onOpenItem 不渲染跳转按钮，拒绝后恢复提交精确落账",
+          "status": "passed",
+          "title": "B10 拒绝收尾与跳转降级：无 onOpenItem 不渲染跳转按钮，拒绝后恢复提交精确落账",
+          "duration": 14.799874999999702,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464214028,
+      "endTime": 1791464215366.7998,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab"],
+          "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销",
+          "status": "passed",
+          "title": "「单次最高消耗」直改：扩张克隆末档补齐、截断裁剪保序，单命令可精确撤销",
+          "duration": 105.39408299999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab"],
+          "fullName": "TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1 ItemAlchemyTab 机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id",
+          "status": "passed",
+          "title": "机制页身份：无深链挂载自动回报 canonical owner，「打开承载物品」传出 owner id",
+          "duration": 26.282208000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464214017,
+      "endTime": 1791464214148.2822,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor/src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M02 ItemAlchemyTab 提交边界"],
+          "fullName": "M02 ItemAlchemyTab 提交边界 「添加对应关系」经真实会话追加缺省配方：单命令落账，undo 精确移除",
+          "status": "passed",
+          "title": "「添加对应关系」经真实会话追加缺省配方：单命令落账，undo 精确移除",
+          "duration": 73.15433299999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M02 ItemAlchemyTab 提交边界"],
+          "fullName": "M02 ItemAlchemyTab 提交边界 紫金葫芦「不可用提示」blur 提交；清空回空串删除 unavailableMessage 键",
+          "status": "passed",
+          "title": "紫金葫芦「不可用提示」blur 提交；清空回空串删除 unavailableMessage 键",
+          "duration": 36.65670799999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464214017,
+      "endTime": 1791464214126.6567,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor/src/ui/ItemAlchemyTab.glm-m.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 机制摘要只在 current 索引下显示精确物品引用数",
+          "status": "passed",
+          "title": "机制摘要只在 current 索引下显示精确物品引用数",
+          "duration": 142.5879170000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 唯一配方与唯一奖励档位的禁用删除显示可读原因",
+          "status": "passed",
+          "title": "唯一配方与唯一奖励档位的禁用删除显示可读原因",
+          "duration": 19.83437499999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 炼蛊皿是单一机制工作台，五条配方以材料到产物和运行时优先级呈现",
+          "status": "passed",
+          "title": "炼蛊皿是单一机制工作台，五条配方以材料到产物和运行时优先级呈现",
+          "duration": 102.9682499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 紫金葫芦逐行显示消耗 1..9 灵葫值与奖励，不出现商店价格文案",
+          "status": "passed",
+          "title": "紫金葫芦逐行显示消耗 1..9 灵葫值与奖励，不出现商店价格文案",
+          "duration": 36.239750000000186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 增加与删除实际消耗值各产生一条可撤销命令，并严格同步长度",
+          "status": "passed",
+          "title": "增加与删除实际消耗值各产生一条可撤销命令，并严格同步长度",
+          "duration": 27.133624999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 奖励数量使用带标签的标准步进器，并保持单命令与撤销边界",
+          "status": "passed",
+          "title": "奖励数量使用带标签的标准步进器，并保持单命令与撤销边界",
+          "duration": 17.49154200000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 [reorder-family:item-alchemy-details] 配方与灵葫奖励移动都满足 no-op 0 命令、有效移动 1 命令和 undo/redo",
+          "status": "passed",
+          "title": "[reorder-family:item-alchemy-details] 配方与灵葫奖励移动都满足 no-op 0 命令、有效移动 1 命令和 undo/redo",
+          "duration": 36.43495900000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 配方物品、数量与删除分别保持单命令并可撤销",
+          "status": "passed",
+          "title": "配方物品、数量与删除分别保持单命令并可撤销",
+          "duration": 22.262249999999767,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 复合材料或多产物 shape 明确 fail-loud，不截断成第一项也不产生命令",
+          "status": "passed",
+          "title": "复合材料或多产物 shape 明确 fail-loud，不截断成第一项也不产生命令",
+          "duration": 2.386250000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 深链 owner 仍在但 effect 缺席时显示精确空态，不跳到其他 owner",
+          "status": "passed",
+          "title": "深链 owner 仍在但 effect 缺席时显示精确空态，不跳到其他 owner",
+          "duration": 1.4671250000001237,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 零 owner 与多 owner 都 fail-loud，不退化成机制对象列表",
+          "status": "passed",
+          "title": "零 owner 与多 owner 都 fail-loud，不退化成机制对象列表",
+          "duration": 2.91012499999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["[reorder-family:item-alchemy-details] 双炼化工作台"],
+          "fullName": "[reorder-family:item-alchemy-details] 双炼化工作台 奖励物品引用丢失时在机制 Inspector 明示稳定 id",
+          "status": "passed",
+          "title": "奖励物品引用丢失时在机制 Inspector 明示稳定 id",
+          "duration": 16.24629099999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464214022,
+      "endTime": 1791464214450.2463,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor/src/ui/ItemAlchemyTab.test.tsx"
+    }
+  ]
+}

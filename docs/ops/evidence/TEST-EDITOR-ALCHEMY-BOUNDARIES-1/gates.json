@@ -1,0 +1,72 @@
+{
+  "task": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1",
+  "dispatch": "91aac75c5",
+  "gateDate": "2026-10-08",
+  "directed": {
+    "command": "node ../../node_modules/vitest/vitest.mjs run <6 files> --reporter=json --reporter=default --outputFile.json=directed.json (cwd packages/editor, env -u NODE_COMPILE_CACHE)",
+    "files": 6,
+    "exit": 0,
+    "tests": { "total": 31, "passed": 31, "failed": 0 },
+    "newFileActWarnings": 0,
+    "newFileConsoleErrors": 0,
+    "adjacentOldDiagnostics": {
+      "file": "src/ui/ItemAlchemyTab.glm-m.test.tsx",
+      "actWarnings": 8,
+      "note": "基点既有（派发 91aac75c5 即存在，与 DsDraftNumberControl 相关），旧测只读不改；分列不冒称整干净"
+    },
+    "evidence": ["directed.json", "directed.raw"]
+  },
+  "adjacent": {
+    "command": "同 directed，另加 ItemAlchemyTab.glm-leaf-wave.test.tsx 与 DataMode.item-alchemy.test.tsx",
+    "files": 8,
+    "exit": 0,
+    "tests": { "total": 37, "passed": 37, "failed": 0 },
+    "actWarnings": 8,
+    "actWarningsSource": "同为旧 ItemAlchemyTab.glm-m.test.tsx",
+    "evidence": ["adjacent.json", "adjacent.raw"]
+  },
+  "packageTest": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor test",
+    "exit": 0,
+    "files": 626,
+    "tests": { "total": 4914, "passed": 4914, "failed": 0 },
+    "evidence": ["full-test.raw"]
+  },
+  "typecheck": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor typecheck",
+    "exit": 0,
+    "errors": 0,
+    "evidence": ["typecheck.raw"]
+  },
+  "lint": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm lint",
+    "exit": 0,
+    "result": "PASS — 3713 files; 0 errors / 0 warnings / 0 infos; complete report",
+    "evidence": ["lint.raw"]
+  },
+  "docs": {
+    "steps": {
+      "test:docs-tools": 0,
+      "scripts/docs/check.mjs": 1,
+      "check:testing-docs": 0,
+      "check-phase-lore-governance.mjs": 0,
+      "check-content-review.mjs --strict": 0
+    },
+    "onlyFailure": {
+      "issue": "docs/ops/evidence/README.md:1: 子目录未进入导航：docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1",
+      "disposition": "共享导航 README 在本卡白名单之外（任务卡『共享导航缺口由 Codex 集成登记，不越界修』）；交付精确诊断，不改共享文档",
+      "evidence": ["docs-check.raw"]
+    }
+  },
+  "baselineKnownFailure": {
+    "scope": "基点托管 CI，非本卡范围",
+    "run": "https://github.com/IllegalCreed/type-pal/actions/runs/37744699839",
+    "failure": "第一阶段 Game 旧测 present/__tests__/grok-composition/p12-overlays.test.ts:21 5000ms 超时（Documentation 通过）",
+    "logLocal": "/private/tmp/type-pal-glm-dispatch-base-ci-20261008.raw",
+    "logSha256": "2c16d22637c0fa9520dbda6eb03e04d7e1d04f267749ad248076b813a53ec4ec"
+  },
+  "diffCheck": {
+    "command": "git diff --check 91aac75c5..HEAD（分提交后最终执行并回填 receipt）",
+    "status": "见 receipt.json docs-only 区间记录"
+  }
+}
