@@ -1,0 +1,48 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-script-interaction-baseline.PHu9sC/packages/editor
+
+ ❯ src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts (1 test | 1 failed) 5ms
+     × probe target 3ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  22:01:29
+   Duration  97ms (transform 10ms, setup 0ms, import 15ms, tests 5ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/counters/probes/probe-red-plus-afterall-hook-error-rejected.json
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts [ src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts ]
+Error: CODEX_EXTRA_HOOK_ERROR
+ ❯ src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts:9:9
+      7| })
+      8| afterAll(() => {
+      9|   throw new Error('CODEX_EXTRA_HOOK_ERROR')
+       |         ^
+     10| })
+     11|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts > judge probe > probe target
+AssertionError: PROBE: expected 1 to be 0: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts:5:44
+      3| describe('judge probe', () => {
+      4|   it('probe target', () => {
+      5|     expect(1, 'PROBE: expected 1 to be 0').toBe(0)
+       |                                            ^
+      6|   })
+      7| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯

@@ -1,0 +1,145 @@
+{
+  "task": "TEST-EDITOR-SCRIPT-INTERACTION-1",
+  "capability": "editor / canonical script interaction",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "frozenSources": {
+    "packages/editor/src/ui/ScriptEditor.tsx": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+    "packages/editor/src/core/author-command-edit.ts": "58827d36cc7530478da0752d6bf73ec4a32ffe08db98bd79c68b8242660da63b",
+    "packages/editor/src/ui/SharedScriptTab.tsx": "0cf43c2b0d98971cf12d9c504ad475985b07e6658bb4b43fabae50c687ec2aad"
+  },
+  "axes": [
+    {
+      "axis": "A1 当前正文拒绝协议",
+      "disposition": "existing-proof",
+      "evidence": [
+        "CanonicalScriptBodyEditor.onChange 是 (body)=>void，唯一拒绝协议是 caller 在 onChange 内 throw、由 commit 的 try/catch 转 onError 并返回 false（ScriptEditor.tsx:3429、3547-3557）；CanonicalScriptFlowEditor.onChange 是 (flow)=>boolean 的另一协议（ScriptEditor.tsx:3984，applied === false 检查），二者不混淆。",
+        "真实 canonical caller SharedScriptTab.updateBody 为 void、直接 dispatch（SharedScriptTab.tsx:167-169），挂载点 309-319；不存在『返回 false』的 BodyEditor 调用路径，不虚构。",
+        "核心 helper 合同由 author-command-edit.test.ts（14 例：嵌套 get/insert/move/remove/copy 递归清新 id/-1 sentinel/no-op 原引用）与 author-command-edit.boundaries.test.ts（4 例：七类子键/parse 抛错/越界副本/move 边界原引用/克隆不别名）全量持有，本卡不重写；白名单文件 author-command-edit.interaction-boundaries.test.ts 真实无缺口，不建空文件。"
+      ],
+      "newContract": null
+    },
+    {
+      "axis": "A2 定位帧淘汰",
+      "disposition": "new-contract",
+      "sourceCondition": "定位 effect 在 RAF 回调内以 lastAppliedFocusRevisionRef.current !== props.focusRevision 淘汰过期帧，且刻意不取消帧（ScriptEditor.tsx:3535-3545 注释：外壳测量宽度会立刻替换 body 引用）。",
+      "oldTests": [
+        "ScriptEditor.test.tsx:1194-1286 每 revision 定位一次/旧 path fail-closed：RAF mock 为同步执行（callback(0) 立即跑），不存在『旧帧尚未执行时新 revision 到达』的交错相位。",
+        "ScriptEditor.test.tsx:1288-1332 同值新引用重渲染不丢待执行定位帧（同 revision 11，单帧），证明的是保帧不是淘汰。"
+      ],
+      "newContract": {
+        "file": "packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+        "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+        "input": "两行合法正文；focusRevision 1→2、focusCommandPath '0'→'1'，body 引用不变；外部控制 RAF 队列（spy 捕获两帧）。",
+        "oracle": "flush 旧帧后 scrollIntoView 零调用且 activeElement 不是旧行；flush 新帧后 scrollIntoView 恰一次作用于新行、activeElement 是新行；onError 零调用。真实 focus/scroll 为准，不手写组件算法。",
+        "needle": "A2-stale-raf-guard（删 RAF 回调内 revision 守卫行）"
+      }
+    },
+    {
+      "axis": "A3 外部替换时编辑草稿撤销",
+      "disposition": "existing-proof",
+      "evidence": [
+        "architecture-lab/script-draft.test.tsx G04-04（:115-152）：编辑草稿已翻转值后外部替换 body → 旧草稿弹层收口、onChange 零写回、重开草稿编辑的是新 body 对象并写回新形，完整证明『旧编辑草稿不能提交到新命令』。",
+        "机制单点：外部 bodyChanged && !locallyOwned → setEditingDraft(undefined)（ScriptEditor.tsx:3499-3502）。『同位置不同命令』变体走同一行同一 oracle 家族（G04-04 的 oracle 逐项覆盖），按同 caller+同 oracle 排重不另立。",
+        "undo/共享脚本切换路径：SharedScriptTab 经 UpdateSharedScriptCommand 换 body 引用（SharedScriptTab.tsx:167-169），与 G04-04 的 props 替换同机制；ScriptEditor.test.tsx:479-525 已证 undo 形态下选择清理。定位 pending 与草稿撤销的分开（explicitFocusPending 只抑制 epoch 不抑制草稿清理，3503-3506）无独立用户可判别 oracle，登记不另测。"
+      ],
+      "newContract": null
+    },
+    {
+      "axis": "A4 外部替换时插入面板撤销",
+      "disposition": "new-contract",
+      "sourceCondition": "同一外部清理块 setInsertPath(undefined)（ScriptEditor.tsx:3502）撤销插入面板；同值新引用因 fingerprint 相等整体跳过清理（3483-3499），面板必须存活。",
+      "oldTests": [
+        "ScriptEditor.cov85.test.tsx:297-361 只证插入菜单禁用项/空态/关闭零提交；无外部替换交错的插入面板合同。"
+      ],
+      "newContract": [
+        {
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+          "input": "打开行 0 的插入面板后，外部把行 0 换成不同命令（wait→setFlag，真值变化）。",
+          "oracle": "添加指令弹层为 null、onChange 零调用、行数不变且行 0 呈现新命令。",
+          "needle": "A4a-insert-discard（删清理块内 setInsertPath(undefined) 行）"
+        },
+        {
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+          "input": "打开插入面板后 replaceBody(structuredClone(body))（新引用同 JSON）。",
+          "oracle": "弹层仍在；随后点『等待』选项真实提交 [flag, wait200, wait100]（面板仍指向当前正文，非过期 path），提交后弹层收口。",
+          "needle": "A4b-insert-survives-same-value（bodyChanged 恒真，同值重渲染被误判为变化）"
+        }
+      ]
+    },
+    {
+      "axis": "A5 被拒复制",
+      "disposition": "new-contract",
+      "sourceCondition": "onCopy 仅在 commit 成功后才 setSelectedPath(commandPathAfterInsert)（ScriptEditor.tsx:3619-3623）；commit 拒绝时 caller 正文不变。",
+      "oldTests": ["ScriptEditor.test.tsx:468-472 仅证复制成功路径（saved 2 条、第 2 条等值）。"],
+      "newContract": {
+        "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+        "input": "合法 caller 首次提交 throw Error('正文保存被拒绝：会话已切到其它脚本')（BodyEditor throw 协议），重试接受并应用。",
+        "oracle": "被拒后 onError 恰一次且消息逐字、被拒提交内容本身合法（3 条含副本）、行数仍 2、选择仍在 '0' 不跳虚假副本位；重试后 onChange 第 2 笔 [first, first, second]、行数 3、选择 '1'。",
+        "needle": "A5-rejected-copy（onCopy 去 if 守卫，拒绝后仍改选）"
+      }
+    },
+    {
+      "axis": "A6 被拒删除",
+      "disposition": "new-contract",
+      "sourceCondition": "onRemove 仅在 commit 成功后才清选择与编辑草稿（ScriptEditor.tsx:3633-3638）；行删除按钮在草稿打开时仍可用（reorderDisabled 只禁重排）。",
+      "oldTests": ["ScriptEditor.test.tsx:473-476 仅证删除成功路径。"],
+      "newContract": {
+        "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+        "input": "选中行 1 并打开其编辑草稿（dblclick），点行 1 删除，首次提交 throw，重试接受。",
+        "oracle": "被拒后编辑弹层仍在（aria-label 含 编辑：）、选择仍在 '1'、行数仍 2、onError 恰一次逐字；重试后行数 1、无 .sel、弹层 null。不用 mock 调用数充当业务 oracle，全部 DOM 可见状态断言。",
+        "needle": "A6-rejected-remove（onRemove 去 if 守卫，拒绝后仍清选择/草稿）"
+      }
+    },
+    {
+      "axis": "A7 被拒重排",
+      "disposition": "new-contract（成功/undo 为 existing-proof）",
+      "sourceCondition": "BodyEditor onReorder commit 失败返回 false（ScriptEditor.tsx:3624-3632）；CommandRows 包装层仅 changed 才 reorderKeys.move（1133-1137）；DsReorderCollection 收到 false 时公告『顺序未改变』并把焦点还给原位（design-system/reorder.tsx commit 分支）。",
+      "oldTests": [
+        "ScriptEditor.test.tsx:479-525 嵌套重排成功（选择重映射 0/then/1）+ 外部 undo/redo 清选择——成功与 undo 保持 existing-proof。",
+        "ScriptEditor.test.tsx:527-655 对话行内重排本地暂存 + 单笔提交 + 真实 undo/redo。"
+      ],
+      "newContract": {
+        "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+        "input": "branch.then [wait100, wait200] 嵌套 scope，选中 0/then/0，点其真实 DsReorderMoveButton（aria-label 前缀 下移），首次提交 throw。",
+        "oracle": "onError 恰一次逐字；被拒提交内容为合法重排结果（then [200,100]）；正文行 path 序列不变 ['0','0/then/0','0/then/1']；选择仍 0/then/0；嵌套集合 data-item-key 序列与点击前一致；aria-live 公告含『顺序未改变』。",
+        "needle": "A7-rejected-nested-reorder（onReorder 把 setSelectedPath 重映射提到 commit 检查之前，拒绝后仍改选）。干跑判例：变异包装层 if (changed) reorderKeys.move 无效——useDsReorderKeys 每渲染按对象身份调和，body 未变时内部 key 自动复位；『key 不移动』由调和机制结构性保证，测试断言保留但不作针位。"
+      }
+    },
+    {
+      "axis": "A8 键盘事件域",
+      "disposition": "new-contract",
+      "sourceCondition": "行 onKeyDown 以 event.currentTarget !== event.target 提前返回，仅行自身 Enter/Space 触发选择（ScriptEditor.tsx:1158-1163）；行内按钮键盘事件冒泡到行时 target 是按钮非行。",
+      "oldTests": [
+        "全库无 cmd-row 键盘事件合同：ScriptEditor.test.tsx 只用 click/dblclick；:600-602/:630-632 的键盘序列发在编辑弹层内 DsReorderItem 手柄（Space 拿起/方向移动/Enter 放下），不是正文行。"
+      ],
+      "newContract": {
+        "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+        "input": "真实 DOM：行 0 派发 keydown Enter、行 1 派发 keydown Space（target=行自身）；再向行 0 的删除按钮派发 keydown Enter（bubbles，target=按钮）。",
+        "oracle": "Enter/Space 后对应行获得 .sel 且互斥；按钮 Enter 冒泡后行 0 不被选中（选择仍在行 1）、行数不变（无误触发删除）、onChange 零调用。不调用私有 handler。",
+        "needle": "A8-keyboard-domain-guard（删 currentTarget!==target 守卫行）"
+      }
+    },
+    {
+      "axis": "A9 嵌套 identity 与当前 body",
+      "disposition": "existing-proof（三分臂各有旧证；消失分支无独立可判别 oracle）",
+      "evidence": [
+        "同 path 身份改变 → 清选择：ScriptEditor.test.tsx:521-524（restoreInitial/restoreMoved 后 .cmd-row.sel 为 null）。",
+        "无关命令变化 → 选择保留：ScriptEditor.test.tsx:1227-1242（选中行 0 后外部追加第三条，rows[0] 仍 .sel）。",
+        "相同 body 副本 → 不清（含定位帧存活）：ScriptEditor.test.tsx:1288-1332。",
+        "本地已接受 body → 不清、选择按重排映射更新：ScriptEditor.test.tsx:515-519（commit 成功后 sel 落在 0/then/1）。",
+        "消失分支（ScriptEditor.tsx:3510-3511）：任何合法 caller 流里删除所选命令的外部替换同时使 selectedIdentityChanged 为真（3500 先清），该行无独立用户可见判别点，登记为防御纵深、不另立合同。"
+      ],
+      "newContract": null
+    },
+    {
+      "axis": "A10 终止与资源清理",
+      "disposition": "registration + 新测试自身卫生",
+      "evidence": [
+        "编辑弹层关闭零提交：ScriptEditor.test.tsx:785-786、:913-914；G04-03（script-draft.test.tsx:94-113）。",
+        "插入弹层关闭零提交：ScriptEditor.cov85.test.tsx:307、:360。",
+        "新测试自身：RAF spy mockRestore、scrollIntoView 原型补丁删除、root/DOM afterEach 统一卸载（harness unmountAllMountedEditors）；不静音 console。已有合同不重复建针。"
+      ],
+      "newContract": null
+    }
+  ]
+}

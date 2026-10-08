@@ -1,0 +1,690 @@
+{
+  "numTotalTestSuites": 11,
+  "numPassedTestSuites": 11,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 60,
+  "numPassedTests": 60,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791464483508,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["S01 七类子键 get 与 parse"],
+          "fullName": "S01 七类子键 get 与 parse get 按 kind 命中；错配 kind/越界/缺下标 undefined",
+          "status": "passed",
+          "title": "get 按 kind 命中；错配 kind/越界/缺下标 undefined",
+          "duration": 2.733125000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S01 七类子键 get 与 parse"],
+          "fullName": "S01 七类子键 get 与 parse parse：合法键/下标；非法段抛错",
+          "status": "passed",
+          "title": "parse：合法键/下标；非法段抛错",
+          "duration": 0.5956670000000202,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S01 顶层叶越界与 move 边界"],
+          "fullName": "S01 顶层叶越界与 move 边界 越界 update/remove 返回等值副本（非原引用）；合法 update 克隆不别名调用方 command",
+          "status": "passed",
+          "title": "越界 update/remove 返回等值副本（非原引用）；合法 update 克隆不别名调用方 command",
+          "duration": 0.5219160000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["S01 顶层叶越界与 move 边界"],
+          "fullName": "S01 顶层叶越界与 move 边界 move 边界（首上移/尾下移/非法路径）返回原数组引用；合法移动重排",
+          "status": "passed",
+          "title": "move 边界（首上移/尾下移/非法路径）返回原数组引用；合法移动重排",
+          "duration": 0.18504200000000992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464483756,
+      "endTime": 1791464483760.185,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor/src/core/author-command-edit.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit parses and reaches nested canonical loop bodies",
+          "status": "passed",
+          "title": "parses and reaches nested canonical loop bodies",
+          "duration": 1.1095829999999296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit updates, inserts, moves and removes immutably",
+          "status": "passed",
+          "title": "updates, inserts, moves and removes immutably",
+          "duration": 0.5541249999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit moves across a nested sibling body and preserves the original reference for no-ops",
+          "status": "passed",
+          "title": "moves across a nested sibling body and preserves the original reference for no-ops",
+          "duration": 0.3117500000000746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit inserts the first command through the -1 sentinel",
+          "status": "passed",
+          "title": "inserts the first command through the -1 sentinel",
+          "duration": 0.4268339999999853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '顶层正文' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '顶层正文' through the common current-command path",
+          "duration": 1.3315830000000233,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '条件分支' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '条件分支' through the common current-command path",
+          "duration": 0.42887500000006185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '条件循环' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '条件循环' through the common current-command path",
+          "duration": 0.40079100000002654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '是否询问的同意分支' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '是否询问的同意分支' through the common current-command path",
+          "duration": 0.34045900000000984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '固定次数重复' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '固定次数重复' through the common current-command path",
+          "duration": 0.9238750000000664,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '是否询问的否分支' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '是否询问的否分支' through the common current-command path",
+          "duration": 0.7765419999999494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '战斗失败分支' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '战斗失败分支' through the common current-command path",
+          "duration": 0.4099579999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit edits all four entity-state commands in '战斗逃跑分支' through the common current-command path",
+          "status": "passed",
+          "title": "edits all four entity-state commands in '战斗逃跑分支' through the common current-command path",
+          "duration": 0.23162500000000819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit copy remaps named loops and their internal continues without changing the original",
+          "status": "passed",
+          "title": "copy remaps named loops and their internal continues without changing the original",
+          "duration": 0.46124999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author command edit"],
+          "fullName": "canonical author command edit copying an inner loop preserves its reference to an external ancestor",
+          "status": "passed",
+          "title": "copying an inner loop preserves its reference to an external ancestor",
+          "duration": 0.25279199999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464484337,
+      "endTime": 1791464484345.4612,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor/src/core/author-command-edit.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+          "status": "passed",
+          "title": "A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+          "duration": 52.45916699999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+          "status": "passed",
+          "title": "A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+          "duration": 55.148833000000195,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+          "status": "passed",
+          "title": "A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+          "duration": 56.22191699999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+          "status": "passed",
+          "title": "A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+          "duration": 23.027791999999863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+          "status": "passed",
+          "title": "A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+          "duration": 32.36879100000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+          "status": "passed",
+          "title": "A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+          "duration": 27.68308300000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+          "status": "passed",
+          "title": "A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+          "duration": 19.75812500000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464485808,
+      "endTime": 1791464486075.758,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation single-step details choose completion or repetition without manufacturing another step",
+          "status": "passed",
+          "title": "single-step details choose completion or repetition without manufacturing another step",
+          "duration": 78.17404099999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation names a selected step through a draft field without changing playback identity or commands",
+          "status": "passed",
+          "title": "names a selected step through a draft field without changing playback identity or commands",
+          "duration": 37.005583000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps a zero-command single step visible without creating or rewriting author data",
+          "status": "passed",
+          "title": "keeps a zero-command single step visible without creating or rewriting author data",
+          "duration": 4.885541999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation has an author-facing Chinese name for every enabled canonical command kind",
+          "status": "passed",
+          "title": "has an author-facing Chinese name for every enabled canonical command kind",
+          "duration": 3.624499999999898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation renders command rows in the existing Chinese script-tree language",
+          "status": "passed",
+          "title": "renders command rows in the existing Chinese script-tree language",
+          "duration": 11.33658400000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps the command list full width and edits or inserts through dialogs",
+          "status": "passed",
+          "title": "keeps the command list full width and edits or inserts through dialogs",
+          "duration": 58.403957999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation copies, reorders and removes an entity-state command through shared row actions",
+          "status": "passed",
+          "title": "copies, reorders and removes an entity-state command through shared row actions",
+          "duration": 27.68887500000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation inserts, retargets, copies and deletes an explicit invocation while preserving stable entity IDs",
+          "status": "passed",
+          "title": "inserts, retargets, copies and deletes an explicit invocation while preserving stable entity IDs",
+          "duration": 57.61225000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation [reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity",
+          "status": "passed",
+          "title": "[reorder-family:script-siblings] nested reorder follows locally, then external undo/redo clears path identity",
+          "duration": 57.36999999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation [reorder-family:command-arrays] canonical dialogue reorder stays local until one commit and restores through real undo/redo",
+          "status": "passed",
+          "title": "[reorder-family:command-arrays] canonical dialogue reorder stays local until one commit and restores through real undo/redo",
+          "duration": 78.57483400000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation branch groups expose readable labels and explicit count badges",
+          "status": "passed",
+          "title": "branch groups expose readable labels and explicit count badges",
+          "duration": 13.88516699999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation inserts and edits an entity-state command with the shared localized form",
+          "status": "passed",
+          "title": "inserts and edits an entity-state command with the shared localized form",
+          "duration": 83.17729199999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation 角色当前状态命令可从空脚本插入并复用中文聚合表单",
+          "status": "passed",
+          "title": "角色当前状态命令可从空脚本插入并复用中文聚合表单",
+          "duration": 26.26608299999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation 无可参战角色时禁用状态指令，无毒定义时默认使用护体",
+          "status": "passed",
+          "title": "无可参战角色时禁用状态指令，无毒定义时默认使用护体",
+          "duration": 23.538958999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation edits entity state through Chinese semantic choices without rewriting an existing raw value",
+          "status": "passed",
+          "title": "edits entity state through Chinese semantic choices without rewriting an existing raw value",
+          "duration": 10.66583300000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation uses the same semantic state selector for batch entity commands",
+          "status": "passed",
+          "title": "uses the same semantic state selector for batch entity commands",
+          "duration": 10.348457999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps trigger zones out of entity-facing insertion and edit targets",
+          "status": "passed",
+          "title": "keeps trigger zones out of entity-facing insertion and edit targets",
+          "duration": 18.971832999999606,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation focuses a referenced command once per revision and fails closed for stale paths",
+          "status": "passed",
+          "title": "focuses a referenced command once per revision and fails closed for stale paths",
+          "duration": 19.001459000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps a pending reference focus when the shell rerenders before the next frame",
+          "status": "passed",
+          "title": "keeps a pending reference focus when the shell rerenders before the next frame",
+          "duration": 11.176832999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation opens hostile battle-loss scripts in the common editor and switches modes canonically",
+          "status": "passed",
+          "title": "opens hostile battle-loss scripts in the common editor and switches modes canonically",
+          "duration": 13.566041999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps raw JSON out of canonical command dialogs",
+          "status": "passed",
+          "title": "keeps raw JSON out of canonical command dialogs",
+          "duration": 13.970000000000255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation startBattle 只能从项目战场表选择 fieldId，并可跳转打开定义",
+          "status": "passed",
+          "title": "startBattle 只能从项目战场表选择 fieldId，并可跳转打开定义",
+          "duration": 9.213874999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation resolves current actor identity in canonical command summaries",
+          "status": "passed",
+          "title": "resolves current actor identity in canonical command summaries",
+          "duration": 1.7590000000000146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation separates trigger-stage creation, details, and deletion while preserving body tabs",
+          "status": "passed",
+          "title": "separates trigger-stage creation, details, and deletion while preserving body tabs",
+          "duration": 24.926707999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation selects the referenced execution step without pulling the author back after edits",
+          "status": "passed",
+          "title": "selects the referenced execution step without pulling the author back after edits",
+          "duration": 9.635583999999653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation rewrites initial and incoming next links atomically when a trigger stage is removed",
+          "status": "passed",
+          "title": "rewrites initial and incoming next links atomically when a trigger stage is removed",
+          "duration": 0.8372910000002776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation keeps development-save protection out of author-facing stage controls",
+          "status": "passed",
+          "title": "keeps development-save protection out of author-facing stage controls",
+          "duration": 4.834374999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalScriptEditor author presentation"],
+          "fullName": "CanonicalScriptEditor author presentation preserves preparation tabs for ordinary scene-entry steps",
+          "status": "passed",
+          "title": "preserves preparation tabs for ordinary scene-entry steps",
+          "duration": 5.518916999999874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464485809,
+      "endTime": 1791464486526.5188,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor/src/ui/ScriptEditor.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab reads the canonical library and mounts the shared body editor",
+          "status": "passed",
+          "title": "reads the canonical library and mounts the shared body editor",
+          "duration": 30.968166999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab 目录搜索覆盖命中、空结果与清空恢复，且不偷换被过滤的脚本",
+          "status": "passed",
+          "title": "目录搜索覆盖命中、空结果与清空恢复，且不偷换被过滤的脚本",
+          "duration": 50.79991699999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab opens creation from the list header and creates through a dedicated dialog",
+          "status": "passed",
+          "title": "opens creation from the list header and creates through a dedicated dialog",
+          "duration": 66.12754099999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab metadata uses field commits without a redundant local save action",
+          "status": "passed",
+          "title": "metadata uses field commits without a redundant local save action",
+          "duration": 38.232792000000245,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab delete rechecks a main-session item binding that appeared after the derived snapshot",
+          "status": "passed",
+          "title": "delete rechecks a main-session item binding that appeared after the derived snapshot",
+          "duration": 23.343624999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab does not invent a scene owner or mount playback in the project-level library",
+          "status": "passed",
+          "title": "does not invent a scene owner or mount playback in the project-level library",
+          "duration": 4.979291999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CanonicalSharedScriptTab"],
+          "fullName": "CanonicalSharedScriptTab empty workbench keeps the single header add action without a duplicate body button",
+          "status": "passed",
+          "title": "empty workbench keeps the single header add action without a duplicate body button",
+          "duration": 6.196166000000176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464485998,
+      "endTime": 1791464486219.196,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor/src/ui/SharedScriptTab.test.tsx"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "task": "TEST-EDITOR-SCRIPT-INTERACTION-1",
+  "dispatch": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "frozenSourceCheck": "隔离树逐文件 sha256 与任务卡一致（ScriptEditor.tsx/author-command-edit.ts/SharedScriptTab.tsx），见 counter-receipt.json frozenSources 与各针 sourceSha256==restoredSha256==冻结值",
+  "directed": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run src/ui/ScriptEditor.interaction-boundaries.test.tsx src/ui/ScriptEditor.test.tsx src/core/author-command-edit.test.ts src/core/author-command-edit.boundaries.test.ts src/ui/SharedScriptTab.test.tsx",
+    "note": "卡面命令中的 author-command-edit.interaction-boundaries.test.ts 未创建（A1 裁决真实无缺口，不建空文件）；其余相邻扩展见 README",
+    "result": "60/60 passed, exit 0, 同进程 default+native JSON 双 reporter（directed.json/directed.raw/directed-summary.json）"
+  },
+  "adjacentExtra": {
+    "command": "vitest run src/__tests__/architecture-lab/script-draft.test.tsx src/ui/ScriptEditor.cov85.test.tsx src/ui/ScriptEditor.unified-steps.test.tsx src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+    "result": "44/44 passed"
+  },
+  "counterproof": {
+    "needles": "7/7 accepted（A2/A4a/A4b/A5/A6/A7/A8），每针四相位：原始绿→恰一指定业务 AssertionError 红→字节级恢复绿→末次重放；judgeSelfTest 20 例自洽；真实 Vitest 探针 3 例（纯业务红受、afterAll hook 错误拒、异步 uncaught 拒）",
+    "receipt": "counter-receipt.json"
+  },
+  "typecheck": {
+    "command": "pnpm --filter @type-pal/editor typecheck",
+    "result": "PASS（tsc --noEmit + scripts/tsconfig.author-check.json 双段零错）"
+  },
+  "packageTest": {
+    "command": "pnpm --filter @type-pal/editor test",
+    "result": "4913/4913 passed, exit 0（旧 4906 + 本卡新增 7）；中途一次 1 红（design-system adoption 门 pin 101→102）已归因修复：harness.tsx 非 test 后缀被门计入，折叠进 .test.tsx 后回到 101，未改任何旧测/共享门"
+  },
+  "lint": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm lint",
+    "result": "PASS — 3723 files; 0 errors / 0 warnings / 0 infos（lint-zero 完整报告）"
+  },
+  "checkDocs": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm check:docs",
+    "result": "PASS（docs 1191/6539 链接 0 issues；testing-docs 0 issues；phase/lore 184；content-review 570）"
+  },
+  "qualityLedger": {
+    "command": "node scripts/quality/code-quality-ledger.mjs（先 stage 全部新增代码文件后执行）",
+    "result": "FAIL（预期共享登记缺口，交 Codex 集成）：inventory count mismatch: declared 3,085, actual 3086; status count mismatch: declared 229/5/2851/2856, actual 229/5/2852/2857",
+    "diagnosisForCodex": "新增 tracked 文件恰一个：packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.ts（category=test）。台账需 +1 行（pending 待审）并把 declared 总数 3,085→3,086、pending 2,851→2,852（closed 229/review 5 不变，2,856→2,857 为状态合计口径）。贡献者按共同协议不改共享台账。"
+  },
+  "whitespace": "git diff --check 91aac75c5...HEAD = 见 receipt.json（提交后核验）"
+}

@@ -1,0 +1,126 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 6,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791464511638,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+          "status": "passed",
+          "title": "A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+          "duration": 47.541958999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+          "status": "passed",
+          "title": "A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+          "duration": 42.96183300000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+          "status": "passed",
+          "title": "A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+          "duration": 41.39091600000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+          "status": "failed",
+          "title": "A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+          "duration": 17.01154100000008,
+          "failureMessages": [
+            "AssertionError: A5 被拒复制不得改选到虚假副本位: expected false to be true // Object.is equality\n    at /private/tmp/tp-editor-script-interaction-A5-rejected-copy.NjCf9e/packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx:265:7\n    at file:///private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+          "status": "passed",
+          "title": "A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+          "duration": 16.66562500000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+          "status": "passed",
+          "title": "A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+          "duration": 18.535959000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1）"
+          ],
+          "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+          "status": "passed",
+          "title": "A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+          "duration": 10.001957999999831,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464513224,
+      "endTime": 1791464513418.002,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-editor-script-interaction-A5-rejected-copy.NjCf9e/packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx"
+    }
+  ]
+}

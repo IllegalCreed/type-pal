@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-script-interaction-A7-rejected-nested-reorder.Uy8mLJ/packages/editor
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests | 1 failed) 223ms
+     ✓ A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行 51ms
+     ✓ A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交 53ms
+     ✓ A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交 43ms
+     ✓ A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功 17ms
+     ✓ A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口 22ms
+     × A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察 25ms
+     ✓ A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选 11ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  22:02:04
+   Duration  1.95s (transform 1.02s, setup 0ms, import 1.25s, tests 223ms, environment 404ms)
+
+JSON report written to /private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/counters/A7-rejected-nested-reorder/red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ScriptEditor.interaction-boundaries.test.tsx > CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察
+AssertionError: A7 被拒重排不得把选择重映射到新位置: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx:376:7
+    374|       commandRow(editor.host, '0/then/0').classList.contains('sel'),
+    375|       'A7 被拒重排不得把选择重映射到新位置',
+    376|     ).toBe(true)
+       |       ^
+    377|     expect(commandRow(editor.host, '0/then/1').classList.contains('sel…
+    378|     const keysAfter = [...nestedCollection.querySelectorAll('[data-ds-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
