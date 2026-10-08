@@ -1,2 +1,6 @@
 # Preserve verbatim upstream license bytes, including line endings and trailing spaces.
 packages/reforge/src/engine-chrome/assets/licenses/* binary
+
+# Vendored reference tree. reference/sdlpal is an upstream C snapshot used as a
+# spec, not this project's language. Mark it so GitHub's language bar counts TypeScript.
+reference/** linguist-vendored

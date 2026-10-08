@@ -1,77 +1,74 @@
 # Type PAL
 
-《仙剑奇侠传》的浏览器 TypeScript 实现，以及围绕现代内容格式构建的 Reforge 运行时、可视化编辑器和 PAL 内容迁移工具。
+[简体中文](README.md) | [English](README.en.md)
 
-- 第一阶段在线试玩：<https://pal.illegalscreed.cn/>
-- 当前开发主线：**第二阶段 Reforge（新运行时 + 内容编辑器 + 迁移器）**
-- 本页最近核对：**2026-09-27**；实时进度以能力地图、任务看板和机器可读覆盖率基线为准。
-- 完整原版游戏数据不在仓库中；运行 PAL 内容需要自行准备合法取得的原版数据。现有 demo / 回归 fixture 含少量入库的 PAL 派生素材，不代表版权清理或用户种子已经完成。
+用 TypeScript 从零写成的浏览器版《仙剑奇侠传》（1995，亦称 PAL）：第一阶段可以在线玩到结局，第二阶段在做新运行时和可视化编辑器。
 
-## 仓库里有什么
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/demo-pal.illegalscreed.cn-c45c26)](https://pal.illegalscreed.cn/)
+[![TypeScript](https://img.shields.io/badge/language-TypeScript-3178c6)](https://www.typescriptlang.org/)
 
-| 应用 | 包 | 用途 | 本地端口 |
-|---|---|---|---:|
-| 第一阶段运行时 | [`@type-pal/game`](packages/game) | 已上线的忠实还原版浏览器游戏；继续接受保真重构与缺陷修复，也是第二阶段的行为/UX 参考。 | 6005 |
-| Reforge | [`@type-pal/reforge`](packages/reforge) | 读取现代内容工程的新运行时，负责场景、脚本、战斗、存档、音频和预览。 | 6050 / 6051 |
-| 编辑器 | [`@type-pal/editor`](packages/editor) | 可视化编辑地图、场景、剧情、角色、物品、战斗、资源和项目设置。 | 6010 / 6011 |
+**[▶ 在线试玩](https://pal.illegalscreed.cn/)**
 
-## 项目路线
+![从改地图到试玩：地图编辑、场景编辑、NPC 脚本，再到编辑器内试玩](docs/screenshots/editor-to-play.gif)
 
-项目分三阶段推进，第一阶段与第二阶段的工程目标和判断标准不能混用：
+改地图、改场景、写 NPC 脚本，然后在编辑器里试玩。
 
-1. **第一阶段 · 忠实还原（v1.0.0 已上线）**
-   以原版数据和实际行为为首要事实来源，参考 sdlpal 与一阶段考证，在 TypeScript 中重建游戏。`@type-pal/game` 是已发布产品、一阶段知识库和第二阶段 UX 参考；行为不漂移的结构治理与确认缺陷的修复仍可继续。
-2. **第二阶段 · Reforge（活跃开发）**
-   从现代内容契约出发重写运行时和编辑器，让作者能创建、编辑和运行自有内容工程，并补齐自包含分发地基。PAL 是试炼场、迁移样本和第一份内容包，不是新架构的实现模板；无需源码仓库的独立可玩包仍是本阶段收口项，尚未完成。
-3. **第三阶段 · 产品化（规划中）**
-   规划[构件化地图重建与拆房脚本迁移](docs/phase3/map-reconstruction.md)，并按发行范围替换版权资源，建设官网、离线桌面发行、用户系统、在线工程托管与本地化工作台。MMO 和深度玩法属于更远期设想，不是第三阶段当前承诺。
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/gameplay-dialogue.png" alt="余杭客栈对话" width="100%"><br>第一阶段 · 余杭客栈对话</td>
+<td width="50%"><img src="docs/screenshots/gameplay-battle.png" alt="回合制战斗" width="100%"><br>第一阶段 · 回合战斗</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/tools-panel.png" alt="开发者工具面板" width="100%"><br>第一阶段 · 场景、坐标与剧本工具</td>
+<td><img src="docs/screenshots/tools-speedrun-timer.png" alt="速通计时" width="100%"><br>第一阶段 · 速通计时</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-map-suzhou.png" alt="苏州城地图" width="100%"><br>第二阶段 · 苏州城地图</td>
+<td><img src="docs/screenshots/editor-character.png" alt="角色属性" width="100%"><br>第二阶段 · 角色属性</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-battle-simulator.png" alt="战斗模拟器" width="100%"><br>第二阶段 · 战斗模拟器</td>
+<td><img src="docs/screenshots/editor-references.png" alt="引用诊断" width="100%"><br>第二阶段 · 引用诊断</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-play-preview.png" alt="编辑器内试玩" width="100%"><br>第二阶段 · 编辑器内试玩</td>
+<td></td>
+</tr>
+</table>
 
-开始工作前请先选对阶段：
+## 它是什么
 
-| 需要了解什么 | 权威入口 |
-|---|---|
-| 第一阶段状态与机制 | [`docs/phase1/README.md`](docs/phase1/README.md)、[`docs/phase1/game-mechanics.md`](docs/phase1/game-mechanics.md) |
-| 第二阶段开工边界 | [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md) |
-| 第二阶段当前完成度 | [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md) |
-| 第二阶段产品路线 | [`docs/phase2/roadmap.md`](docs/phase2/roadmap.md) |
-| 第三阶段规划 | [`docs/phase3/README.md`](docs/phase3/README.md) |
-| 正在进行的任务 | [`docs/ops/board.md`](docs/ops/board.md) |
-| 多 Agent 协作规则 | [`AGENTS.md`](AGENTS.md) |
+| 阶段 | 状态 | 内容 |
+|---|---|---|
+| 第一阶段 · 忠实复刻 | [v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) 已上线 | 浏览器运行时 [`@type-pal/game`](packages/game)。主线可以端到端玩通：打败拜月教主，结局演出正确。这个版本标记的是「首次完整可通关」，不是「无 bug 稳定版」。 |
+| 第二阶段 · Reforge | 正在开发 | 新运行时 [`@type-pal/reforge`](packages/reforge)、React 可视化编辑器 [`@type-pal/editor`](packages/editor)、离线迁移器 [`@type-pal/migrate`](packages/migrate)。 |
+| 第三阶段 · 产品化 | 规划中 | 按发行范围替换版权资源，并规划官网、离线桌面发行等。见 [`docs/phase3/README.md`](docs/phase3/README.md)。 |
 
-能力格数量、任务状态和 canonical 格式版本会持续变化；根 README 不复制这些活账，以上述状态文档和迁移器说明为准。
+第一阶段已经做到的，来自 [v1.0.0 发布说明](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) 和仓库里的实现说明：
 
-## 当前开发状态
+- 用 [`@type-pal/pal-extract`](packages/pal-extract) 从原版 MKF 归档解包数据表、精灵和事件字节码。YJ1 解压对应参考树里的 `yj1.c`（见 [`reference/README.md`](reference/README.md)）。
+- TypeScript 事件字节码解释器驱动对话、过场、场景切换和战斗触发。
+- 320×200 索引色软件帧缓冲：位图存调色板下标，blit 时上色。
+- 回合制战斗：行动队列、伤害公式、法术、状态、敌方 AI、动画时间线。
+- 原版 MIDI 在浏览器里用 SpessaSynth 合成。音色库是 TimGM6mb，许可见下文。
 
-第二阶段已具备可运行自包含内容工程的 Reforge，以及场景、地图、剧情、角色、物品、战斗、资源和
-工程设置等编辑器工作台。本地工程打开/保存、撤销/重做、引用诊断、试玩和独立战斗模拟器已落地。
-PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、工程和存档只接受当前 canonical 版本。
+第二阶段已经落地的部分（细节以 [能力地图](docs/phase2/capability-map.md) 和 [任务看板](docs/ops/board.md) 为准）：
 
-第一、第二阶段首轮代码审计见[审计总报告](docs/ops/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
-不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)
-和[零诊断质量门](docs/testing/archive/legacy/batches/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
-双引擎 [001 开场 E2E](docs/testing/e2e/stages/001-opening/report.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
-这**不是**完整剧情通关、完整视觉/音轨验收或可直接用于宣传的录像链。
+- 编辑场景、地图、剧情、角色、物品、战斗、资源和工程设置。
+- 本地工程打开/保存、撤销/重做、引用诊断、试玩，以及独立战斗模拟器。
+- PAL 内容用事务发布和三方合并迁进当前内容工程。
+- 不依赖源码仓库的独立可玩包仍是本阶段收口项，尚未完成。
 
-全生产源码的 Vitest/V8 fast/full 覆盖率和只升不降门禁已建立；口径见
-[`docs/testing/coverage.md`](docs/testing/archive/legacy/quality/quality-gates/coverage.md)，最新入库 fast 数字以
-[`scripts/coverage/baseline.fast.json`](scripts/coverage/baseline.fast.json)为准。覆盖率不替代业务断言与 E2E。
-`pnpm check:docs` 检查本地链接、索引、任务状态和现行合同版本；完整文档导航见[文档首页](docs/README.md)。
+## 和 sdlpal 的 WebAssembly 移植有什么不同
 
-接下来继续 R4 分段 E2E 与必要缺陷修复，再按[路线图](docs/phase2/roadmap.md)处理窄版意图式脚本、
-完整剧情/战斗专项、编辑器综合工作流、录制适配，以及最后的预制工程与独立可玩包。
-正在执行的单卡以[任务看板](docs/ops/board.md)为准。
-
-第二阶段暂不处理真实时间/天气、随机笔刷、时间旅行调试、无障碍设置、完整对话/演出专用工作台及
-版权资源批量替换；2026-09-28追加的构件化地图重建/拆房迁移也归第三阶段。这些不应从旧文档或历史任务误判为当前欠项。
+[`reference/sdlpal/`](reference/sdlpal) 是 [sdlpal](https://github.com/sdlpal/sdlpal) 的 C 源码副本，只作引擎逻辑的参考规格，在本仓库里不编译、不运行。解包、脚本虚拟机、320×200 调色板渲染、战斗系统和编辑器都是 TypeScript 实现。原版数据和行为是第一阶段的首要事实来源；sdlpal 是参考实现。
 
 ## 快速开始
 
-需要本地安装 Node.js 22、pnpm 和 Git。完整 PAL 路线还需要合法取得的原版数据；
-demo、空白工程和自包含回归工程可跳过提取与迁移。
+需要 Node.js 22、pnpm 和 Git。
 
-### 无需本地原版数据：运行 demo 或创建空白工程
-
-[`projects/demo/`](projects/demo) 的运行依赖已随工程自包含，因此不需要本地 `data/raw/`；其中仍含少量 PAL 派生示例素材：
+不准备原版数据时，可以跑自包含 demo，或在编辑器里新建空白工程。demo 的运行依赖已随工程入库，其中仍有少量 PAL 派生示例素材：
 
 ```sh
 pnpm install
@@ -83,9 +80,7 @@ pnpm --filter @type-pal/reforge dev      # http://localhost:6050
 pnpm --filter @type-pal/editor dev:demo  # http://localhost:6011
 ```
 
-### 使用 PAL 开发工程
-
-先把原版数据放入 [`data/raw/`](data/raw)，文件清单见 [`data/raw/README.md`](data/raw/README.md)。原始文件、提取结果和迁移后的二进制资产不会全部进入 Git，因此 fresh clone 必须完成提取和工程物化：
+跑完整 PAL 内容时，把合法取得的原版数据放进 [`data/raw/`](data/raw)（文件清单见 [`data/raw/README.md`](data/raw/README.md)），再提取并迁移：
 
 ```sh
 pnpm install
@@ -93,7 +88,7 @@ pnpm extract
 pnpm --filter @type-pal/migrate migrate:content --write
 ```
 
-之后按需要启动一个应用：
+然后按需要启动：
 
 ```sh
 pnpm --filter @type-pal/editor dev      # 编辑器 + PAL，http://localhost:6010
@@ -101,139 +96,55 @@ pnpm --filter @type-pal/reforge dev:pal # Reforge + PAL，http://localhost:6051
 pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localhost:6005
 ```
 
-迁移命令默认 dry-run；只有显式传入 `--write` 才会事务性更新 `projects/pal`。迁移与资源物化细节见 [`packages/migrate/README.md`](packages/migrate/README.md)。
+迁移命令默认 dry-run；只有 `--write` 会更新 `projects/pal`。第一阶段 dev 使用本地自签 HTTPS，浏览器第一次打开 6005 需要手动确认证书。更多命令、调试入口和开发边界见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-第一阶段 dev 使用本地自签 HTTPS 证书，浏览器首次访问 6005 时需要手动确认。
+## 仓库里有什么
 
-## 编辑器工作区模式
+| 应用 | 包 | 用途 | 本地端口 |
+|---|---|---|---:|
+| 第一阶段运行时 | [`@type-pal/game`](packages/game) | 已上线的忠实还原版浏览器游戏，也是第二阶段的行为/UX 参考。 | 6005 |
+| Reforge | [`@type-pal/reforge`](packages/reforge) | 读取现代内容工程的新运行时。 | 6050 / 6051 |
+| 编辑器 | [`@type-pal/editor`](packages/editor) | 可视化编辑地图、场景、剧情、角色、物品、战斗、资源和项目设置。 | 6010 / 6011 |
 
-| 模式 | 入口 | 保存语义 |
+其余包：[`packages/shared`](packages/shared)（共享类型与解码）、[`packages/pal-extract`](packages/pal-extract)（离线提取）、[`packages/content`](packages/content)（第二阶段内容契约）、[`packages/migrate`](packages/migrate)（离线迁移）。文档入口是 [`docs/README.md`](docs/README.md)。
+
+## 进度看哪里
+
+能力格、任务状态和内容格式版本会变，本页不复制这些活账。
+
+| 需要了解什么 | 入口 |
+|---|---|
+| 第一阶段 | [`docs/phase1/README.md`](docs/phase1/README.md) |
+| 第二阶段开工边界 | [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md) |
+| 第二阶段完成度 | [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md) |
+| 第二阶段路线 | [`docs/phase2/roadmap.md`](docs/phase2/roadmap.md) |
+| 第三阶段规划 | [`docs/phase3/README.md`](docs/phase3/README.md) |
+| 正在做的任务 | [`docs/ops/board.md`](docs/ops/board.md) |
+
+## 开发方式
+
+这个仓库是和维护者一起工作的 AI 编程助手写出来的。协作规则在 [`AGENTS.md`](AGENTS.md)：任务卡、同一份实现文件同一时间只有一个编码负责人、独立验收。当前是分派 / 执行 / 独立验收；文件里还留着更早的三方会签记录，那些记录不自动变成新任务的门禁。
+
+## 许可与声明
+
+**非官方同人项目。** 与大宇、软星以及《仙剑奇侠传》的权利人无关，未获官方授权或认可。请支持正版。
+
+- 本仓库为这个项目编写的代码，按 [GNU General Public License v3.0](LICENSE) 授权，与参考实现 sdlpal 的 GPLv3 一致。
+- 完整原版游戏数据不在 Git 里。在线试玩是托管构建；在本机跑完整 PAL 内容，需要自己准备合法取得的原版数据。
+- 已入库的 demo、回归 fixture，以及 Reforge 默认界面里的一部分贴图，含少量 PAL 派生素材。它们不是已经完成版权清理、可以独立发行的资源，也不会因为代码采用 GPL 就变成可以再授权的原版美术。来源说明见 [`PROVENANCE.md`](packages/reforge/src/engine-chrome/assets/PROVENANCE.md)。
+- 第三方组件保留各自的许可。仓库根上的 GPL-3.0 不改写这些许可。
+
+### 第三方许可
+
+| 来源 | 许可 | 说明 |
 |---|---|---|
-| PAL 开发基线 | `http://localhost:6010/` | 首次保存必须手动选择并通过校验的真实 `projects/pal` 目录；绑定后才允许正式回写。 |
-| 评审 / 沙盒 | `http://localhost:6010/?ui_samples=1` | 首次保存到新建 / 空目录；之后可保存和重开，但绝不回写 `projects/pal`。 |
-| 独立启动页 | `http://localhost:6011/` | `dev:demo` 只使用独立端口，不会自动载入 `projects/demo`；可新建空白工程、打开本地当前格式工程或从 PAL 开发快照创建副本。 |
+| [`reference/sdlpal/`](reference/sdlpal) | GPL-3.0（[`LICENSE`](reference/sdlpal/LICENSE)） | 上游源码副本，只作参考。 |
+| `reference/sdlpal/timidity/` | [`COPYING`](reference/sdlpal/timidity/COPYING) 是 Artistic License；同目录 README 写明上游允许在 GPL、LGPL、Artistic 中选择 | 只在参考树里，不参与本仓库的构建。 |
+| `reference/sdlpal/adplug/` | [`NOTES/COPYING`](reference/sdlpal/adplug/NOTES/COPYING) 为 LGPL-2.1 | 说明文字写的是随附的旧版 LGPL OPL 模拟器。同一份说明提到的、限制商业再分发的较新 MAME 许可版本，不是这份副本所附的那一版。 |
+| `reference/sdlpal/overlay/` | CC BY 4.0（[`COPYING`](reference/sdlpal/overlay/COPYING)） | libretro 叠层素材，只在参考树里。 |
+| GNU Unifont | OFL-1.1，或 GPL-2.0-or-later 加字体嵌入例外 | 见 [`PROVENANCE.md`](packages/reforge/src/engine-chrome/assets/PROVENANCE.md)、[`OFL-1.1.txt`](packages/reforge/src/engine-chrome/assets/licenses/OFL-1.1.txt)、[`COPYING`](packages/reforge/src/engine-chrome/assets/licenses/COPYING)。 |
+| TimGM6mb 音色库 | 仓库内说明写的是 GPL-2，并链接 GPL version 2 文本，没有 “or later” | [`packages/game/public/soundfont-LICENSE.txt`](packages/game/public/soundfont-LICENSE.txt) 与 Reforge 里的同文副本。音色库仍按该说明分发，根目录 GPL-3.0 不把它改成 GPL-3.0。 |
 
-`projects/pal` 目前是持续变化的**开发快照**，不是稳定的用户初始种子。不要把评审沙盒中的修改误当成 PAL 基线改动。
+## 维护者
 
-## Reforge 开发调试
-
-### 编辑器战斗模拟器（首批已验收）
-
-一级菜单 **战斗模拟器** 提供“试打方案 / 我方预设 / 敌方预设 / 背包预设”。方案可直接配置，也可复用预设；
-命名配置随项目保存，本场临时调整不反写原定义。先保存作者改动，再从方案“开始试打”，或由技能、敌队、敌人原入口带入对象。
-实际运行Reforge战斗；我方1～3人、敌方5槽，停止/重新试打不保留战斗消耗或奖励，独立入口不读写正常存档。
-范围、验证及限制见[实施记录](docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)，最终状态以[归档任务卡](docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)为准。
-
-### 普通开发调试面板
-
-开发构建可在 URL 加 `?debug` 打开调试面板：
-
-```text
-http://localhost:6051/?debug
-```
-
-面板提供控制台、检视器、触发器、战斗构建器、图层和运行态位置控制权信息。按 `Esc` 隐藏，按反引号
-重新打开；该工具只存在于开发构建，不进入生产包。完整说明见
-[`docs/phase2/guides/debug-tools.md`](docs/phase2/guides/debug-tools.md)。
-
-## 数据流
-
-```text
-data/raw
-  └─ @type-pal/pal-extract ─> data/extracted
-                                ├─> @type-pal/game
-                                └─> @type-pal/migrate ─> projects/pal
-                                                          ├─> @type-pal/editor
-                                                          └─> @type-pal/reforge
-
-projects/demo ────────────────────────────────────────────> editor / reforge
-```
-
-- `data/raw/` 是用户提供的原版输入，不入库。
-- `data/extracted/` 是 `pal-extract` 的可再生输出，不手工修改。
-- `@type-pal/migrate` 是第一阶段提取数据进入第二阶段内容工程的唯一离线桥。
-- `projects/pal` 的迁移分区出现问题时，先修提取器、迁移器或 overlay，再重新发布；不要只给生成结果打补丁。
-- `projects/demo` 和 [`projects/e2e-own/`](projects/e2e-own) 无需本地 `data/raw/` 即可运行，分别用于内置 demo 与最小内容链路回归；两者目前仍含少量 PAL 派生素材。
-
-## 常用命令
-
-```sh
-# 全仓门禁
-pnpm check          # 完整维护者门禁；迁移器完整测试需要本地 PAL 提取数据
-pnpm typecheck      # 全 workspace TypeScript 检查
-pnpm test           # 全 workspace 测试；其中 migrate PAL 项需要本地提取数据
-pnpm lint           # 全仓 Biome 零诊断门；error/warning/info 均不可留存
-pnpm check:docs     # 文档链接、索引、任务状态与现行版本；无需 PAL 素材
-pnpm coverage:fast  # 全生产源码 V8 覆盖率 + 每包/全仓只升不降门禁
-pnpm coverage:full  # 在 fast 基础上加入 PAL 真数据 Vitest 测试
-pnpm coverage:ratchet # 维护者在完整验证后只升不降地更新 fast 基线
-pnpm test:e2e-tools # 无游戏资产/浏览器的 E2E 执行器合同测试
-
-# 格式化
-pnpm format         # 只格式化相对 HEAD 的已改文件
-pnpm format:all     # 格式化整个仓库
-
-# PAL 数据与当前内容工程
-pnpm extract
-pnpm --filter @type-pal/migrate migrate:content          # dry-run
-pnpm --filter @type-pal/migrate migrate:content --write  # 发布到 projects/pal
-
-# 维护者：从 data/extracted 重建 reforge engine-chrome 默认 UI（不写 projects/pal）
-pnpm bake
-
-# 单包验证示例
-pnpm --filter @type-pal/editor check
-pnpm --filter @type-pal/editor audit:design-system
-pnpm --filter @type-pal/reforge check
-pnpm --filter @type-pal/migrate test:fast
-pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数据的较重验证
-```
-
-已落地的开场 E2E 可在具备 Chrome 和本地 PAL 资产的环境中运行 `pnpm e2e:001:both`；
-它自建隔离服务、分别运行两引擎并生成检查点，不使用已打开的 6005/6051 开发页。
-有/无窗口模式和目前覆盖边界见[001 执行说明](docs/testing/e2e/stages/001-opening/report.md)。
-
-视觉、音频、浏览器文件系统、长剧情和完整游玩路线不能只靠单元测试判断，仍需按相应任务的浏览器 / E2E 验收记录执行。
-覆盖率口径、基线更新规则和长期目标见 [`docs/testing/coverage.md`](docs/testing/archive/legacy/quality/quality-gates/coverage.md)。
-
-## Workspace 结构
-
-| 包 | 作用 |
-|---|---|
-| [`packages/shared`](packages/shared) | 底层 PAL 数据、资源类型和解码能力；由提取器、旧运行时以及部分二阶段工具复用。 |
-| [`packages/pal-extract`](packages/pal-extract) | 把原版输入离线提取为 `data/extracted/` 中的结构化数据和网页可用资源。 |
-| [`packages/game`](packages/game) | 第一阶段 Vite 浏览器运行时。 |
-| [`packages/content`](packages/content) | 第二阶段 canonical 内容契约、校验、typed 引用规则和纯数据逻辑。 |
-| [`packages/reforge`](packages/reforge) | 第二阶段运行时与编辑器预览能力。 |
-| [`packages/editor`](packages/editor) | React 可视化编辑器、本地工程工作流、统一设计系统、撤销/重做、诊断和试玩入口。 |
-| [`packages/migrate`](packages/migrate) | 从提取数据生成并事务发布当前 `projects/pal` 的离线迁移器，负责增量三方合并与重迁零计划验证。运行时和编辑器不依赖它。 |
-
-| 工程 | 作用 |
-|---|---|
-| [`projects/demo`](projects/demo) | 入库的自包含示例工程；无需本地原版数据，但仍含少量 PAL 派生素材。 |
-| [`projects/e2e-own`](projects/e2e-own) | 最小内容链路回归 fixture，覆盖地图、瓦片、碰撞与角色；无需本地原版数据，但并非完全自有素材。 |
-| [`projects/pal`](projects/pal) | 从 PAL 数据生成并持续编辑的开发工程；不是稳定发行种子。 |
-
-其他入口：
-
-| 路径 | 内容 |
-|---|---|
-| [`docs/`](docs) | 分阶段设计、状态、审计与验收文档。 |
-| [`docs/ops/tasks/`](docs/ops/tasks) | 活动任务卡、证据与交接；当前由 Codex 分派并独立验收，历史三方签字原样保留。 |
-| [`reference/sdlpal/`](reference/sdlpal) | sdlpal 源码副本；是一阶段的重要参考实现，不替代原版实际行为这一首要事实来源。 |
-| [`scripts/`](scripts) | 仓库维护与辅助脚本；部分命令仅供维护者使用。 |
-
-## 开发边界
-
-- **先判断阶段。** 第一阶段关注忠实还原；第二阶段关注现代、解耦、可创作的 canonical 架构，同时复用一阶段已经验证的机制与 UX 知识。
-- **开发期 current-only。** 正式上线前，编辑器、Reforge、PAL 工程和开发期存档只支持当前 canonical 版本；旧版本由 Git 保存，不在产品代码里长期保留 upgrader、fallback 或双读写。
-- **生成真源优先。** 提取或迁移缺陷修上游并重新生成，不能把 `data/extracted/` 或 `projects/pal` 的局部手改当成最终修复。
-- **工程必须自包含。** 新内容工程不应在运行时偷偷读取仓库级 `data/extracted/` 或其他工程的资源。
-- **提交前跑合适的门禁。** `pnpm check` 是全仓基线；功能性界面、音频和完整路线还要补最小浏览器或 E2E 证据。
-- **协作状态落库。** 任务状态、设计裁决、验收和交接以 [`docs/ops/`](docs/ops) 为准；当前分派/验收模式以 [`AGENTS.md`](AGENTS.md) 为准，不把历史三签要求当成新任务门禁。
-
-## 资产说明
-
-本仓库不包含可替代正版游戏的完整原版数据。`data/raw/`、`data/extracted/` 及 `projects/pal` 中被忽略的派生二进制资源都应在本地按上述流程生成；运行完整 PAL 内容时，请仅使用自己合法取得的数据并遵守适用条款。
-
-仓库当前的 demo 和回归 fixture 为开发测试入库了少量 PAL 派生素材。这些素材不应被理解为已经完成版权清理、可独立发行，或已经成为面向用户的稳定初始种子。
+命令、调试入口、数据流和开发边界在 [CONTRIBUTING.md](CONTRIBUTING.md)。多 Agent 协议在 [`AGENTS.md`](AGENTS.md)。
