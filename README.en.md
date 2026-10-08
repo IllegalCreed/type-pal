@@ -109,7 +109,7 @@ The repository is written with AI coding agents working with the maintainer. The
 
 ## License and disclaimer
 
-**Unofficial fan project.** Not affiliated with, endorsed by, or authorized by Softstar, DOMO Studio (大宇资讯), or the rights holders of *The Legend of Sword and Fairy*. Please support the official game.
+**Unofficial fan project.** Not affiliated with, endorsed by, or authorized by Softstar (大宇 / 软星) or the other rights holders of *The Legend of Sword and Fairy*. Please support the official game.
 
 - Code written for this project is released under the [GNU General Public License v3.0](LICENSE), the same license as the sdlpal reference.
 - The full original game data is not in Git. The live demo is a hosted build. Running the full PAL content locally requires your own legally obtained copy.
