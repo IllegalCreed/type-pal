@@ -83,7 +83,10 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run src/ui/
 
 ## GLM贡献者回执
 
-待交付。不以自验替代Codex验收。
+- 2026-10-08 GLM新对话B：B1–B10 有限清单逐轴裁决完毕——existing-proof：B1（逐条旧断言锚点见 ledger）、B3（ItemAlchemyTab.test.tsx:117-174 证 current 缺 referenceIndex→failed 与各状态分列）；new-contract：B2/B4/B5/B6/B7/B8/B9/B10 共 8 合同（`packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx` + 专属夹具 `__tests__/item-alchemy-boundaries/kit.ts`）；unreachable：B10 尾部 catch-all 分支带守卫链证明登记（contract-ledger.json）；无 blocked/product-counter。`ItemAlchemyEditors.boundary-contracts.test.tsx` 未创建：B4 可反证 oracle（Inspector Set 去重）与观察点全在 Tab 层，editors 共享 itemOptions 的针会跨文件打红旧测 :731，真实无缺口不建空文件（卡面明示允许）。
+- 反控：判据库只读移植 save-precision r2 定稿（未放宽）+ judgeSelfTest 20 合成反例 + 真实 Vitest 探针 3 例（纯业务红接受 / afterAll 同步抛错拒收 / 异步 uncaught 拒收）；8 针四态全 VALID，红相位跑**全定向集**（6 文件）证恰一业务 AssertionError 且跨文件无附带红；每针独立 mkdtemp 树 + 冻结源逐文件核验 + 清理证明；还原绿执行集逐字一致、针目标文件字节回工作树；末次重放再现首针红。N-B9 针打 Tab 层 syncToken 接线（draft-input-state 内部 effect+fallback 双保险单层不可观察，实测后弃用该变异）。
+- 门：定向 6 文件 31/31（新文件零 act/console.error；相邻旧 ItemAlchemyTab.glm-m.test.tsx 基点既有 8 条 act 警告，分列 gates.json 不冒称整仓干净）、相邻 8 文件 37/37、本包全包 626 文件 4914/4914、typecheck 0 错、根 lint 完整 0/0/0、`git diff --check 91aac75c5..HEAD` 清洁。docs 门唯一 FAIL 为共享导航 `docs/ops/evidence/README.md` 未登记本卡新证据目录（白名单外共享文档，按卡面交精确诊断由 Codex 集成时维护，不越界修）。基点已知失败（第一阶段 Game p12-overlays 超时，CI 37744699839）不在本卡范围。
+- 产品、全部旧测、共享 fixture、配置/依赖、官方 baseline、共享导航/看板/协议/targets、真实数据零改动；四个冻结源 SHA256 逐字节复核一致。证据：`docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/`（README、contract-ledger、directed/adjacent 双 reporter JSON+raw、counterproof 回执与 28 份相位原件、gates、receipt）。有限清单闭合即停，不追例数/针数/覆盖率；不改 Status、不合 main、不 done，待 Codex 独立验收。
 
 ## 下一位Agent提示词
 
