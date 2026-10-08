@@ -10,11 +10,32 @@
 
 **[▶ 在线试玩](https://pal.illegalscreed.cn/)**
 
-![编辑器帧动画工作台](docs/ops/archive/evidence/A7-3/editor-frame-workbench-desktop.png)
+![从改地图到试玩：地图编辑、场景编辑、NPC 脚本，再到编辑器内试玩](docs/screenshots/editor-to-play.gif)
 
-上图是仓库里已有的编辑器帧动画工作台截图（[`docs/ops/archive/evidence/A7-3/README.md`](docs/ops/archive/evidence/A7-3/README.md)）。
+改地图、改场景、写 NPC 脚本，然后在编辑器里试玩。
 
-> **TODO（实机 GIF）：** 仓库里还没有适合放在首页的游戏画面 GIF。补一张「标题 → 行走/对话 → 战斗」的实机 GIF 后再换掉这行说明。
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/gameplay-dialogue.png" alt="余杭客栈对话" width="100%"><br>第一阶段 · 余杭客栈对话</td>
+<td width="50%"><img src="docs/screenshots/gameplay-battle.png" alt="回合制战斗" width="100%"><br>第一阶段 · 回合战斗</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/tools-panel.png" alt="开发者工具面板" width="100%"><br>第一阶段 · 场景、坐标与剧本工具</td>
+<td><img src="docs/screenshots/tools-speedrun-timer.png" alt="速通计时" width="100%"><br>第一阶段 · 速通计时</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-map-suzhou.png" alt="苏州城地图" width="100%"><br>第二阶段 · 苏州城地图</td>
+<td><img src="docs/screenshots/editor-character.png" alt="角色属性" width="100%"><br>第二阶段 · 角色属性</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-battle-simulator.png" alt="战斗模拟器" width="100%"><br>第二阶段 · 战斗模拟器</td>
+<td><img src="docs/screenshots/editor-references.png" alt="引用诊断" width="100%"><br>第二阶段 · 引用诊断</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-play-preview.png" alt="编辑器内试玩" width="100%"><br>第二阶段 · 编辑器内试玩</td>
+<td></td>
+</tr>
+</table>
 
 ## 它是什么
 

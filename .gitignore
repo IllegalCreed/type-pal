@@ -37,8 +37,9 @@ output/playwright/
 # 临时截图(本机 dev 验证用,版权 + 临时性质)
 # 规范:dev verify 截图请保存到 build/dev-screenshots/(build/ 整目录已 gitignored)
 # 下方规则保底兜根目录残留(M3 期遗留 m3-*.png,M3.5 t17-*.png 等)
+# t*-*.png 必须锚在仓库根。不带前导斜杠会匹配任意目录，把 docs/screenshots/tools-*.png 也忽略掉。
 m3-*.png
-t*-*.png
+/t*-*.png
 *-dev-verify*.png
 
 # Playwright L2 baseline PNG(版权,含原版游戏画面,本机生成不入库)

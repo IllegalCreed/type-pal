@@ -12,11 +12,32 @@ A from-scratch TypeScript rewrite of the 1995 RPG *The Legend of Sword and Fairy
 
 The live demo’s game text is Chinese.
 
-![Editor frame-animation workbench](docs/ops/archive/evidence/A7-3/editor-frame-workbench-desktop.png)
+![From editing a map to playing it: map, scene, NPC script, then in-editor play](docs/screenshots/editor-to-play.gif)
 
-The picture above is an existing screenshot of the editor’s frame-animation workbench ([`docs/ops/archive/evidence/A7-3/README.md`](docs/ops/archive/evidence/A7-3/README.md)).
+Map editing, scene editing, an NPC script, then play preview. The burned-in captions are Chinese.
 
-> **TODO (gameplay GIF):** This repo does not yet have a gameplay GIF suitable for the front page. Replace this note when there is a short capture of the title screen, walking/dialogue, and a battle.
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/gameplay-dialogue.png" alt="Dialogue in the Yuhang inn" width="100%"><br>Phase 1 · Dialogue in the Yuhang inn</td>
+<td width="50%"><img src="docs/screenshots/gameplay-battle.png" alt="Turn-based battle" width="100%"><br>Phase 1 · Turn-based battle</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/tools-panel.png" alt="Developer tools panel" width="100%"><br>Phase 1 · Scene, coordinates, and scripts</td>
+<td><img src="docs/screenshots/tools-speedrun-timer.png" alt="Speedrun timer" width="100%"><br>Phase 1 · Speedrun timer</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-map-suzhou.png" alt="Suzhou city map" width="100%"><br>Phase 2 · Suzhou city map</td>
+<td><img src="docs/screenshots/editor-character.png" alt="Character stats" width="100%"><br>Phase 2 · Character stats</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-battle-simulator.png" alt="Battle simulator" width="100%"><br>Phase 2 · Battle simulator</td>
+<td><img src="docs/screenshots/editor-references.png" alt="Reference diagnostics" width="100%"><br>Phase 2 · Reference diagnostics</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/editor-play-preview.png" alt="In-editor play preview" width="100%"><br>Phase 2 · In-editor play preview</td>
+<td></td>
+</tr>
+</table>
 
 ## What it is
 
