@@ -1,0 +1,18 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (5 tests) 13ms
+ ✓ src/file-source.test.ts (8 tests) 14ms
+ ✓ src/project-save-state.test.ts (24 tests) 7ms
+ ✓ src/project-loader.test.ts (12 tests) 13ms
+ ✓ src/project-loader.current-boundaries.test.ts (7 tests) 14ms
+ ✓ src/project-loader.io-boundaries.test.ts (4 tests) 10ms
+ ✓ src/runnable-project-loader.glm-q.test.ts (4 tests) 208ms
+ ✓ src/project-loader.image-cache-binding.test.ts (1 test) 5ms
+
+ Test Files  8 passed (8)
+      Tests  65 passed (65)
+   Start at  21:55:09
+   Duration  1.22s (transform 616ms, setup 0ms, import 949ms, tests 284ms, environment 511ms)
+
+JSON report written to /tmp/lb-directed.json

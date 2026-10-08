@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /private/tmp/tp-loading-boundaries-green.5vQp5H/packages/reforge
+
+ ✓ src/project-loader.io-boundaries.test.ts (4 tests) 9ms
+ ✓ src/project-loader.reference-boundaries.test.ts (5 tests) 12ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  21:54:58
+   Duration  385ms (transform 481ms, setup 0ms, import 591ms, tests 21ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/green.json

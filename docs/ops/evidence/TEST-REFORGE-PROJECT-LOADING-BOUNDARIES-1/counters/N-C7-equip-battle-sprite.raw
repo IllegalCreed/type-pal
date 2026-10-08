@@ -1,0 +1,34 @@
+
+ RUN  v4.1.7 /private/tmp/tp-loading-boundaries-N-C7-equip-battle-sprite.YXZFPC/packages/reforge
+
+ ❯ src/project-loader.reference-boundaries.test.ts (5 tests | 1 failed) 14ms
+     ✓ mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿 5ms
+     ✓ apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿 2ms
+     ✓ 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿 2ms
+     ✓ shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真 1ms
+     × 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿 3ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  21:55:03
+   Duration  359ms (transform 227ms, setup 0ms, import 273ms, tests 14ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C7-equip-battle-sprite.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.reference-boundaries.test.ts > C7 装备战斗精灵引用接线 > 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿
+AssertionError: C7-equip-battle-sprite: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.reference-boundaries.test.ts:237:30
+    235|       ),
+    236|     )
+    237|     expect(red.kind, marker).toBe('rejected')
+       |                              ^
+    238|     expect(red.message, marker).toContain(
+    239|       'items[0](sword-1).equip.effects[0].byActor.actor.hero: 战斗精灵 "bs…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

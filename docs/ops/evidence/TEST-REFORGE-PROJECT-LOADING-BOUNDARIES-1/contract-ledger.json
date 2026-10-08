@@ -1,0 +1,176 @@
+{
+  "task": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1",
+  "date": "2026-10-08",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "newTests": [
+    "packages/reforge/src/project-loader.reference-boundaries.test.ts (5 tests)",
+    "packages/reforge/src/project-loader.io-boundaries.test.ts (4 tests)",
+    "packages/reforge/src/__tests__/project-loading-boundaries/fixture.ts (test-only fixture)"
+  ],
+  "axes": [
+    {
+      "axis": "C1 公开入口层划分",
+      "disposition": "existing-proof",
+      "account": "assembleCurrentProject(manifest, jsons) 是纯组装（签名不含 FileSource，project-loader.ts:176-322）；loadCurrentProjectFrom(source) 是唯一真实 IO 入口，经 withStableProjectRead 包住 loadCurrentProjectContents（project-loader.ts:324-458；project-save-state.ts:67-76）。分层由既有测试双向证明：project-loader.test.ts:214-229 直接以内存 jsons 调 assembleCurrentProject（无 source），:266-270 经 memorySource 走 loadCurrentProjectFrom。",
+      "registeredOldContracts": [
+        "版本门（load 级）: project-loader.test.ts:385-390（/contentVersion: 期望 22/），assemble 级双门 project-loader.ts:180-187 与 :331-334",
+        "runtime 版本门: runnable-project-loader.glm-q.test.ts:16-43（含匿名回退文案与 httpSource projects/<id>/manifest.json 接线）",
+        "读取锁/中断保存: project-loader.test.ts:176-189（pending 先拒绝且零内容读取）与 :191-213（读取期间换代拒绝）",
+        "indexed path: project-loader.test.ts:272-285（入口与惰性场景只走 SceneIndex 显式路径）",
+        "initialMagic: project-loader.test.ts:237-264（角色出厂技能悬空 skill id）"
+      ],
+      "newContract": false
+    },
+    {
+      "axis": "C2 场景 mapId 引用接线",
+      "disposition": "new-contract",
+      "contract": "仅 scene.mapId 悬空（场景与地图索引本身全合法）时：入口装配在 manifest.entryPoints[id].scene(sceneId) 路径、惰性 loadAuthorScene 在 indexed path 精确拒绝；登记 mapId 的同构链路绿。",
+      "test": "project-loader.reference-boundaries.test.ts > C2 场景 mapId 引用接线 > mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:162-163（validateAuthorScene 地图索引校验）",
+        "packages/reforge/src/project-loader.ts:216-222（入口场景经此校验）",
+        "packages/reforge/src/project-loader.ts:471-477（惰性 loadAuthorScene 同一校验，path 为 indexed asset.path）"
+      ],
+      "dedup": [
+        "'不在地图索引' 全仓测试零命中（本卡前）",
+        "content 局部 validator 的 '不在 map index'（validate-refs.ts:1219-1224）是 ContentBundle 局部红，不经 loader；validate-refs.contracts.test.ts:139 / validate-refs.test.ts:1587 为局部断言",
+        "scene-map.test.ts:70-73 是 loadSceneMap 自己的门（另入口），loadProjectMapById/loadAuthorScene 的接线未被它证明"
+      ],
+      "redReachesTarget": "断言消息逐字等于 project-loader.ts:163 的目标分支消息（manifest.entryPoints[new-game].scene(s001): mapId \"map-ghost\" 不在地图索引 / content/scenes/s002.json: mapId \"map-ghost\" 不在地图索引）；场景正文过 validateAuthorScenes schema 后才到达该分支，非前置 schema 红。",
+      "needle": "N-C2-scene-map-ref VALID"
+    },
+    {
+      "axis": "C3 入口场景条件引用接线",
+      "disposition": "new-contract",
+      "contract": "合法 applyActorCondition 经场景 schema（含 checkActorConditionCommandShape）后，入口场景引用缺 actor 或缺毒分别被 loader 级条件校验以入口场景路径拒收；apply+clear 闭合同链绿且 author 正文保真。",
+      "test": "project-loader.reference-boundaries.test.ts > C3 入口场景条件引用接线 > apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:171-172（validateAuthorScene 内条件校验接线）",
+        "packages/content/src/validate-refs.ts:921-954（command-actor-condition 与毒引用两分支）"
+      ],
+      "arms": [
+        "缺 actor: actor.ghost 不在 actors（毒 7 已登记，只坏 actor 边）→ …body[0].actor: 角色 \"actor.ghost\" 不在 actors",
+        "缺毒: actor.hero 在 actors 且有 battler（避免 actor 分支抢先 masking）、毒 9 未登记 → …body[0].condition.poisonId: 毒 9 不在 poisons"
+      ],
+      "dedup": [
+        "reforge 内 applyActorCondition 命中均为 script-runner/adapter 运行时派发测，不经 loader",
+        "content actor-condition 系测为纯函数（applyActorCondition/applyActorConditionSeed），非 loader 接线",
+        "project-loader.test.ts 旧 9 测无任何条件引用断言"
+      ],
+      "redReachesTarget": "毒臂的 actor 选有 battler 的 actor.hero，保证第一循环（actor 分支）零 issue、红落在毒分支；两臂消息均为 validateActorConditionCommandReferences 的 where/message，非 schema 门。",
+      "needle": "N-C3-scene-condition VALID"
+    },
+    {
+      "axis": "C4 items 条件接线",
+      "disposition": "new-contract",
+      "contract": "合法作者 item（use.effects 唯一 itemPrivateScript，body 过 checkBaseAuthorCommands）过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合同输入绿且运行时投影保真携带私有脚本。",
+      "test": "project-loader.reference-boundaries.test.ts > C4 item-private 使用脚本条件接线 > 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:236-243（[authorItems,'items'] root 接线）",
+        "packages/content/src/author-item-core.ts:15-16（itemPrivateScript 合法宿主）",
+        "packages/content/src/validate.ts:1457-1467（私有脚本 body 走 checkBaseAuthorCommands）"
+      ],
+      "callerDifference": "loader 级 where 为裸下标前缀 items[0].use.effects[0].script.body[0].actor；content 局部 validateReferences 用 items[i](id) 注解（validate-refs.ts:1700-1704）。本合同断言 loader 自己的 where，不抄局部 validator 断言。",
+      "dedup": [
+        "content 局部 validator 旧测（含 validate-refs.test.ts 系）不经 loadCurrentProjectFrom",
+        "migrate pal-content-supply 为迁移管线，非 loader 公开入口"
+      ],
+      "needle": "N-C4-items-condition VALID"
+    },
+    {
+      "axis": "C5 enemies 条件接线",
+      "disposition": "unreachable",
+      "premise": "typed 作者面无法合法产生含 apply/clearActorCondition 或毒条件的敌人：EnemyHookCommand 联合（enemy-script.ts:42-51：setFallback|effect|BattleChoreographyAction）、BattleChoreographyAction 联合（battle-choreography.ts:7-28：dialog|wait|playSound|playMusic|fleeBattle|endBattle|revivePartyAll|increaseHpMp|stopMusic|applyActorGrowth|playActorCastEffect）、EnemyOnDefeatedLeaf（enemy-script.ts:80-101）与 branch cond AuthorCondition（author-script-core.ts:107-125，无 poison 变体）、AiCond（enemy-ai-condition-guard.ts，无 poison；playerInParty 属 enemy-condition-player-in-party 类，被 validateActorConditionCommandReferences 显式跳过 validate-refs.ts:930-934）都不含条件命令。各嵌套位置 schema 守卫全严格（exactKeys/default-throw），合法宿主内塞条件命令会在 schema 层先红。",
+      "probeEvidence": "未入库探针（scratch，运行后删除）：enemy 顶层多余键 smuggled:{kind:'applyActorCondition',actor:'actor.ghost',…} 逃过 validateEnemies（validate.ts:1448-1449 只 requireKeys 不 requireOnlyKeys）后被 loader 条件校验拒绝：enemies[0].smuggled.actor: 角色 \"actor.ghost\" 不在 actors。证明 loader 的 enemies root 调用（project-loader.ts:238-242）对 typed 合法输入是不可达后置 guard，只对 schema 逃逸输入生效。",
+      "dispositionDetail": "按卡面'冗余后置guard仅登记caller证据，不建坏产品输入'：不造 typed 不可达输入为合同；enemy 顶层多余键 schema 洞另列 product-counter。"
+    },
+    {
+      "axis": "C6 sharedScripts 条件接线",
+      "disposition": "new-contract",
+      "contract": "合法 shared 脚本（无任何 dialog）actor/poison 条件经实际组装拒收；闭合同链绿且运行时库保真。与 dialog 身份缺表情（project-loader.test.ts:231-235）和 initialMagic（:237-264）旧合同分轴。",
+      "test": "project-loader.reference-boundaries.test.ts > C6 sharedScripts 条件接线 > shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:239（[authorSharedScripts,'sharedScripts'] root 接线）",
+        "packages/content/src/author-script.ts:154-158（checkAuthorScriptLibrary）"
+      ],
+      "arms": "缺 actor（sharedScripts.talisman.body[0].actor: 角色 \"actor.ghost\" 不在 actors）与缺毒（…condition.poisonId: 毒 9 不在 poisons）两臂，各带正对照。",
+      "dedup": "旧 sharedScripts 断言只有 dialog 身份（project-loader.test.ts:214-235）与 runtime 投影形态（current-boundaries D1），无条件引用接线。",
+      "needle": "N-C6-shared-condition VALID"
+    },
+    {
+      "axis": "C7 装备战斗精灵引用",
+      "disposition": "new-contract",
+      "contract": "合法 item/actor/equip（actor.hero 有 battler 且在 equipableBy、equip 形状合法、battleSprites 表本身合法）全部过前置门后，byActor 指到的悬空 battle sprite 在组装后置接线精确拒收；同输入补登记即绿且装备边/注册表保真。",
+      "test": "project-loader.reference-boundaries.test.ts > C7 装备战斗精灵引用接线 > 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:271-272（组装后置接线，位于 locale/sprites/battleSprites 校验之后）",
+        "packages/content/src/validate-refs.ts:230-281（byActor 角色域/equipableBy/注册表/profile 联合校验）"
+      ],
+      "redReachesTarget": "唯一 issue 是 bs.ghost 不在注册表（actor/equipableBy/profile 边全闭合），错误 where/message 为 validator 原文 items[0](sword-1).equip.effects[0].byActor.actor.hero: 战斗精灵 \"bs.ghost\" 不在 battleSprites 注册表；非 equip 形状 schema 红。",
+      "dedup": [
+        "content validate-refs.test.ts:1157 与 validate-refs.data-refs.test.ts:140 为局部 validator 直调",
+        "migrate/src/pal-content-supply.glm-o.test.ts:143 为迁移管线",
+        "reforge loader 侧（loadCurrentProjectFrom→assembleCurrentProject→:271）此前无 wiring 测试"
+      ],
+      "needle": "N-C7-equip-battle-sprite VALID"
+    },
+    {
+      "axis": "C8 入口 IO 错误上下文",
+      "disposition": "new-contract (非 Error 臂) + existing-proof (Error 臂/缺文件)",
+      "contract": "FileSource 对入口场景 readJson 抛非 Error 值（合法外部 IO 域）时，entry id、scene index 登记路径与 String(error) detail 全保留且整批拒绝（无半个 project）；与 Error 臂共享同一上下文合同，不另设文案矩阵。",
+      "test": "project-loader.io-boundaries.test.ts > C8 入口场景 IO 错误上下文 > 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:370-377（入口读取 try/catch 包装）",
+        "packages/reforge/src/project-loader.ts:373（detail = error instanceof Error ? error.message : String(error)）"
+      ],
+      "registeredOldContracts": [
+        "Error 臂与缺文件上下文: project-loader.test.ts:366-383（entryPoints[missing-scene-entry] + 无法读取 + 底层 detail）"
+      ],
+      "indexedPathProof": "入口场景登记于 scene index 显式路径 content/authored/main-scene.json（非拼接默认），断言证明报错引用的是 indexed path。",
+      "needle": "N-C8-entry-non-error-detail VALID"
+    },
+    {
+      "axis": "C9 地图公开入口闭环",
+      "disposition": "new-contract",
+      "contract": "loadProjectMapById 未登记 mapId 在任何 IO 之前精确拒绝（零 IO 轨迹）；已登记 mapId 经真实 loadProjectMap 读 indexed path 并过同一加载边界校验；loadAllProjectMaps 在乱序完成下仍按稳定 id 归位、单个 IO 拒绝整批拒绝不返回部分成功。",
+      "test": "project-loader.io-boundaries.test.ts > C9 地图公开入口闭环（两测：by-id 门/真实加载；乱序归位/整批拒绝）",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:525-532（loadProjectMapById 门与真实加载）",
+        "packages/reforge/src/project-loader.ts:513-523（loadAllProjectMaps Promise.all 稳定 id 归位）",
+        "packages/reforge/src/assets.ts:53-55（loadProjectMap 唯一加载边界）"
+      ],
+      "dedup": [
+        "editor 测试（project-io-admission/actor-references.glm-p/ProjectWorkbenchTab 等 8 文件）只把 loadAllProjectMaps 当 happy-path 工具，无门/归位/整批断言",
+        "assets.test.ts:68-105 证明 loadProjectMap 本体（含 schema 门与版本门），非 loader 公开入口",
+        "scene-map.test.ts:56-78 证明 loadSceneMap 的门，另一公开入口",
+        "current-boundaries D2 证明 loadAllAuthorScenes 整批拒绝，非地图批"
+      ],
+      "timingControl": "map-b 读取经 gate promise 闸至 map-a/map-c 完成后放行（外部 IO 时序控制，非业务 mock）。",
+      "needles": "N-C9a-unregistered-gate VALID; N-C9b-registered-real-load VALID; N-C9c-stable-id-placement VALID"
+    },
+    {
+      "axis": "C10 optional 表与冻结隔离",
+      "disposition": "new-contract (保真) + product-counter (ambiences 裸 cast)",
+      "contract": "可缺表（enemies/enemyTeams/battleFields/poisons/ambiences/shops/migrationDiagnostics）缺席时工程公开字段为空默认；提供合法非空表时逐表保真（poisons 原序+byId、enemyTeams 稳定键、battleFields/shops/ambiences 原样、migrationDiagnostics）。",
+      "test": "project-loader.io-boundaries.test.ts > C10 optional 表保真 > 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+      "sourceAnchors": [
+        "packages/reforge/src/project-loader.ts:273-286（可选表缺省与校验分发）",
+        "packages/reforge/src/project-loader.ts:312-315（返回字段保真）"
+      ],
+      "productCounters": [
+        {
+          "id": "PC-1 ambiences 无 validator 裸 cast",
+          "anchor": "packages/reforge/src/project-loader.ts:280（Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []）",
+          "evidence": "未入库探针实证：[{id:'night',tint:'garbage'}]（缺 name、tint 非 [r,g,b]）经 loadCurrentProjectFrom 与 assembleCurrentProject 均原样落进 project.ambiences。按卡面只交 product-counter，不把宽松行为固化成绿测。"
+        },
+        {
+          "id": "PC-2 enemy 顶层多余键逃过 validateEnemies",
+          "anchor": "packages/content/src/validate.ts:1448-1449（requireKeys 无 requireOnlyKeys；对照 ai/choreography/onDefeated 内层全 exactKeys）",
+          "evidence": "未入库探针实证：enemy 顶层 smuggled 键过 schema 后才被 loader 条件校验拒绝（enemies[0].smuggled.actor: 角色 \"actor.ghost\" 不在 actors）。typed 作者面不可产生（C5 unreachable），属 schema 宽松疑点，交 Codex/product 裁决。"
+        }
+      ],
+      "freezerIsolation": "本卡全部输入为合成工程（fixture.ts，全部数据构造，不读 data/、projects/pal、存档或 migrate 产物）。",
+      "needle": "N-C10-poisons-field VALID"
+    }
+  ]
+}
