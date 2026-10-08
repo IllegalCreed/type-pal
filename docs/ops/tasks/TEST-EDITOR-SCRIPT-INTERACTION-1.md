@@ -82,7 +82,11 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run src/ui/
 
 ## GLM贡献者回执
 
-待交付。不以自验替代Codex验收。
+- 2026-10-08 GLM新对话A 交付（review，不合 main 不 done）：新增测试文件恰一个 `packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx`（7 原子合同 + 文件内 harness，sha256 `83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f`）。白名单另两项真实无缺口未建：`author-command-edit.interaction-boundaries.test.ts`（helper 全量合同旧测已持，A1 登记）；`__tests__/script-interaction-boundaries/` 曾放 harness.tsx，因 design-system adoption 门按非 test 的 .tsx 计数使旧门 pin 101→102 漂移，折叠进 .test.tsx 并删除（未改任何旧测/共享门）。
+- 裁决终态：A2/A4(×2)/A5/A6/A7/A8 七条 new-contract；A1/A3/A9/A10 existing-proof/registration，逐轴锚点、旧 fullName、oracle 与针位见 `docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/contract-ledger.json`。A3 依赖 script-draft G04-04；A9 四臂各有旧证、消失分支（ScriptEditor.tsx:3510）无独立可判别 oracle。
+- 反控：7/7 针四相位 accepted（判据库只读复用 + judgeSelfTest 20 例 + 真实 Vitest 探针 3 例；每针独立 mkdtemp 树、冻结源逐文件校验、恢复字节==冻结字节、finally 整树删除留证）。判例两枚：A7 首选针（包装层 if(changed) reorderKeys.move）无效——useDsReorderKeys 每渲染按对象身份调和自愈，换"拒绝路径仍重映射选择"针；隔离树需树内 wrapper vite.config 追加 fs.allow。
+- 门：定向+相邻 60/60、扩展相邻 44/44、本包 typecheck 双段零错、全包 4913/4913、根 lint 0/0/0、check:docs PASS。共享登记缺口如实上报：stage 全部新增文件后 `code-quality-ledger.mjs` FAIL（inventory 3,086 vs 台账 3,085，恰为本卡 1 个新 tracked test 文件），精确修复建议在 gates.json，按共同协议留 Codex 集成。
+- 提交：testCandidate `21ea2436102d1c210cf26685633849dc07c6a1ee`（代码+证据）；其后 docs-only 回执提交（receipt.json + 本小节）区间 `testCandidate..` 该提交，见 `docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/receipt.json`。以待 Codex 独立验收。
 
 ## 下一位Agent提示词
 
