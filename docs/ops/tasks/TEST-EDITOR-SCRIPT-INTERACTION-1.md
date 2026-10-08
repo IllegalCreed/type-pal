@@ -1,0 +1,91 @@
+# TEST-EDITOR-SCRIPT-INTERACTION-1 — 当前脚本编辑器交互与草稿生命周期
+
+Status: build
+Owner: GLM（新对话A，唯一测试写入者）
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: editor / canonical script interaction
+Visual Verification Timing: N/A（代码/DOM合同，不改布局，不宣称截图/像素或剧情E2E验收）
+
+## 目标和路由
+
+当前脚本编辑器交互与草稿生命周期。仅本卡A1–A10，每轴有直接证据和裁决即停止；不滚动扩围，不设例数、针数或覆盖率目标。
+
+- 工作树 `/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal`；分支 `codex/glm-editor-script-interaction-r1`。本卡派发文档提交建树，产品冻结 `797a46a097640206a12b8f61dc014c8db277e457`。
+- 推荐执行模型GLM-5.3，用户手工选择；贡献者不得自行切换套餐/权限。无需视觉模型。
+- 先读[共同交付协议](../evidence/TEST-CONTRACT-BATCH-20261008/README.md)和[冻结及白名单](../evidence/TEST-CONTRACT-BATCH-20261008/targets.json)、[第二阶段纪律](../../phase2/READ-FIRST.md)、[测试质量验收](../agent-workflow.md)。
+
+## 前提与源码锚点
+
+产品/schema/UX不改变，原版机制前提门N/A；本卡只检查当前实现的公开合同。编码前核源码条件与旧实际断言；最强替代解释是旧测已证、前置guard抢先拒绝或caller无法合法产生输入。任一成立则登记而不造新测试。
+
+- ScriptEditor.tsx:1100–1248 当前CommandRows，键盘/行操作、嵌套scope、重排意图；:3427–3645 CanonicalScriptBodyEditor，外部内容身份、草稿、定位token与commit拒绝。
+- SharedScriptTab.tsx:309–319 真实canonical caller，onChange由当前会话保存；CanonicalScriptBodyEditor的onChange是void，不把“返回false”虚构成拒绝协议；真实拒绝必须throw。CanonicalScriptFlowEditor的boolean协议另列，不混淆。
+- ScriptEditor.test.tsx:479–525已证嵌套重排及外部undo/redo清选择；:1194–1286已证每revision定位/旧path；:1288–1332已证同值重渲染不丢待执行定位。以上只登记existing-proof，不复刻。
+- author-command-edit.test.ts / .boundaries.test.ts、ScriptEditor.cov85 / unified-steps / coverage-workflows-2与SharedScriptTab旧测全文排重。
+- ScriptTree旧组件没有成为本卡新增合同的current caller；只允许读取摘要辅助函数，不为保覆盖率补旧runtime命令视图。
+
+## 有限工作清单
+
+| 轴 | 合同域 | 必须完成的裁决 |
+|---|---|---|
+| A1 | 当前正文拒绝协议 | 区分void/throw的BodyEditor与boolean的FlowEditor；调用路径/合法输入/旧断言账。核心helper已有合同只登记。 |
+| A2 | 定位帧淘汰 | 同一正文在旧RAF尚未执行时收到新revision，旧帧不得覆盖新定位；控制外部RAF队列，实际focus/scroll/选择为oracle，不手写组件算法。 |
+| A3 | 外部替换时编辑草稿撤销 | 公开props替换同位置不同命令时，旧编辑草稿不能提交到新命令；合法共享脚本切换/undo路径与定位pending分开。 |
+| A4 | 外部替换时插入面板撤销 | 打开插入后外部内容真正变化，不向过期path插入；与同值新引用重渲染区分，后者不能误当变化。 |
+| A5 | 被拒复制 | onChange真实抛错时不选择虚假的复制结果、不改变原body，精确onError；重试合法成功另有输入身份。 |
+| A6 | 被拒删除 | 删除提交被拒时原选择/草稿与正文不误消失，错误可观察；不用只断言mock调用数。 |
+| A7 | 被拒重排 | nested scope下拒绝commit，不能移动内部reorder key或错误映射选择；用真实Ds控件，保留已证成功/undo为existing-proof。 |
+| A8 | 键盘事件域 | 行本身Enter/Space选择，与子按钮/选择器事件不冒泡误选；真实当前DOM，别调用私有handler。 |
+| A9 | 嵌套identity与当前body | 同一path更新但所选命令身份改变/消失时处理选择；相同body副本、其它命令变化和本地已接受body不能被误当同一轴。只补独立未证部分。 |
+| A10 | 终止与资源清理 | 新测试RAF/DOM/root/global与spy恢复；菜单/编辑关闭路径不制造提交。新增或实质新oracle最小有效变异，已有合同不重复建针。 |
+
+## 独占白名单
+
+仅可新增：
+- `packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx`。
+- `packages/editor/src/core/author-command-edit.interaction-boundaries.test.ts`。
+- `packages/editor/src/ui/__tests__/script-interaction-boundaries/`。
+- `docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/`：README、逐合同ledger、fresh JSON/raw、反控runner/原件/receipt；以共同协议命名。
+- 本卡“GLM贡献者回执”小节（只写自己的记录，不改顶部Status和Codex准入）。
+
+全部产品、所有旧测试、共享fixture、配置/依赖/官方基准、真实数据、共享导航/看板/协议/targets及其它卡只读。白名单目标已有或其它Owner占用，停止该文件并通知Codex，不覆盖。可写新测不是保证每文件必须产生新用例；真实无缺口不建空文件。
+
+## 冻结源
+
+| 产品/调用源 | SHA256 |
+|---|---|
+| packages/editor/src/ui/ScriptEditor.tsx | 880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441 |
+| packages/editor/src/core/author-command-edit.ts | 58827d36cc7530478da0752d6bf73ec4a32ffe08db98bd79c68b8242660da63b |
+| packages/editor/src/ui/SharedScriptTab.tsx | 0cf43c2b0d98971cf12d9c504ad475985b07e6658bb4b43fabae50c687ec2aad |
+
+冻结变化只停受影响轴举证；不改产品、不rebase漂移、不用新接口或fallback解锁死分支。
+
+## 验证与停止条件
+
+定向（仅给已创建文件；零新增文件不强行跑不存在的名字）：
+
+```bash
+env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run src/ui/ScriptEditor.interaction-boundaries.test.tsx src/core/author-command-edit.interaction-boundaries.test.ts src/ui/ScriptEditor.test.tsx src/core/author-command-edit.test.ts src/core/author-command-edit.boundaries.test.ts src/ui/SharedScriptTab.test.tsx
+```
+
+新增UI定向需零act/console.error/未处理异常；相邻旧日志如有原始诊断分列。每批定向+typecheck，最终一次本包test/typecheck、根lint完整0/0/0、docs/diff；不每针重复全仓门。贡献者不跑官方ratchet，覆盖只由Codex最终main并集结算。
+
+反控/隔离/排重、执行身份多重集合与证据原件按共同协议；不用标题Set冒充运行次数。若白名单共享导航缺登记导致docs问题，只交精确诊断由Codex维护，不越界。
+
+## 当前模式推进记录
+
+- 2026-10-08 Codex：当前源、公开caller、代表旧断言及残余条件已直接读取；上述最强替代解释与停止线成立。build allowed仅新测试白名单。
+- Coding Owner：GLM新对话A；三卡新测试/fixture/证据互斥，避开活动Game turn、E2E及质量治理产品Owner。
+- 贡献者交付：pending；Codex独立验收：pending；done准入：blocked。
+- 有限清单闭合后交付review即停，Codex自行接受/返工、必要串行check→官方ratchet→受保护fast、合并推送与退休树清理。
+
+## GLM贡献者回执
+
+待交付。不以自验替代Codex验收。
+
+## 下一位Agent提示词
+
+```text
+你是 TEST-EDITOR-SCRIPT-INTERACTION-1 的唯一Coding Owner，GLM新对话A。只在 /private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal、分支 codex/glm-editor-script-interaction-r1 工作，禁止写main。先读AGENTS.md、docs/phase2/READ-FIRST.md、docs/ops/tasks/TEST-EDITOR-SCRIPT-INTERACTION-1.md及docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md和targets.json；冻结 797a46a097640206a12b8f61dc014c8db277e457 不rebase，按卡面A1–A10有限清单核当前源码/caller/合法typed输入/旧fullName与实际断言/oracle，已有合同只登记，优先A2/A3/A4及拒绝提交的实际选择/草稿变化；已有焦点成功、复制成功、重排undo与插入菜单缺角色合同不重写。 仅原卡精确新测试/专属fixture/证据可写，产品/所有旧测/配置/官方baseline/共享文档/真实数据只读。禁止强转、私有state、核心mock、skip/ignore/扩timeout；只控外部IO，DOM/React act及全局清理真实闭环。每条新增合同原子且有最小有效反控，保留同进程native JSON/raw、执行身份多重集合、exit/signal/spawn、恰一业务AssertionError、真正恢复绿、最终源/测试/mutant/restored hash及mkdtemp清理。逐轴existing-proof/new-contract/unreachable/blocked/product-counter裁决，全部有锚即停，不追例数/针数/覆盖率。跑定向相邻与本包全包/typecheck、lint完整0/0/0、docs/diff；基点红如实对照，不越界修。共享导航缺口由Codex集成登记，不为docs过门改白名单外。完整真实testCandidate/receiptHead和docs-only区间提交推送，只维护自己的贡献者回执，不改Status、不合main、不done，待Codex独立验收。
+```

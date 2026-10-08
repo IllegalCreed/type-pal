@@ -7,6 +7,7 @@
 
 ## 当前证据
 
+- [2026年10月8日有限合同派发](TEST-CONTRACT-BATCH-20261008/README.md)（脚本编辑器 / 炼化机制 / 工程加载三张有限卡；产品与旧测只读，待贡献者交付及Codex独立验收）。
 - [战斗宿主终局测试确定性与原子性](TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md)（独立accept；本地三道集成门通过，卡已归档；反控工具与原件保留）。
 - [当前存档精简证据](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md)与[三审](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)（r3独立accept；本地三道集成门通过，卡已归档；17针独立重放有效，不继续派发）。
 - [当前作者命令表单引用与草稿合同](TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md)（独立accept；本地三道集成门通过，卡已归档；反控工具与原件保留）。

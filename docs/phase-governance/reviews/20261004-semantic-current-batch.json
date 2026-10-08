@@ -510,7 +510,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-07独立验收A/C并完成串行全仓check、official ratchet、受保护fast；两卡done并归档。B因四个字段接线误删与共享文档越界counter/rework。其它Owner与历史结论不变，远端新CI另核。",
+      "coreConclusion": "2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。",
       "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
       "unresolved": [
         "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+      "afterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -684,22 +684,22 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+        "afterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
         "currentReading": {
-          "date": "2026-10-07",
-          "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
-          "lineCount": 19,
+          "date": "2026-10-08",
+          "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+          "lineCount": 22,
           "headings": [
             {
               "line": 1,
               "text": "多 Agent 任务看板"
             },
             {
-              "line": 14,
+              "line": 17,
               "text": "看板规则"
             }
           ],
-          "scope": "A/C remain closed; B r3 independently accepted and locally integrated after serial check, official ratchet and protected fast. This reading pins current closeout navigation only; unchanged historical conclusions are not re-adjudicated and future hosted CI is not claimed green."
+          "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
         }
       },
       "history": [
@@ -713,8 +713,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-19",
-      "reviewNotes": "本轮B候选、旧oracle映射及17针独立重放已核，三道本地集成门通过后归档有限卡并同步导航。原source SHA、旧阅读证据与旧counter结论保留为历史；currentReading钉当前收口字节，不升级其它候选或提前声称托管CI通过。"
+      "reviewedLines": "1-22",
+      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。"
     },
     {
       "path": "docs/ops/evidence/README.md",
@@ -725,7 +725,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-07独立验收A/C并完成串行全仓check、official ratchet、受保护fast；两卡done并归档。B因四个字段接线误删与共享文档越界counter/rework。其它Owner与历史结论不变，远端新CI另核。",
+      "coreConclusion": "2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。",
       "truthAnchors": ["docs/ops/evidence/README.md:1", "1:任务专属证据", "8:当前证据"],
       "unresolved": [
         "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
@@ -737,7 +737,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "70e8da571281455a362fd660704e5ac9d970fe99c4bd3002c251990cab7d5092",
+      "afterSha256": "4e3a5bace8006514e10b8712dc4b2f7aa74c3bf2408404ad9017edd23bd00244",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -856,11 +856,11 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "70e8da571281455a362fd660704e5ac9d970fe99c4bd3002c251990cab7d5092",
+        "afterSha256": "4e3a5bace8006514e10b8712dc4b2f7aa74c3bf2408404ad9017edd23bd00244",
         "currentReading": {
-          "date": "2026-10-07",
-          "sha256": "70e8da571281455a362fd660704e5ac9d970fe99c4bd3002c251990cab7d5092",
-          "lineCount": 40,
+          "date": "2026-10-08",
+          "sha256": "4e3a5bace8006514e10b8712dc4b2f7aa74c3bf2408404ad9017edd23bd00244",
+          "lineCount": 41,
           "headings": [
             {
               "line": 1,
@@ -871,7 +871,7 @@
               "text": "当前证据"
             }
           ],
-          "scope": "A/C remain closed; B r3 independently accepted and locally integrated after serial check, official ratchet and protected fast. This reading pins current closeout navigation only; unchanged historical conclusions are not re-adjudicated and future hosted CI is not claimed green."
+          "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
         }
       },
       "history": [
@@ -885,8 +885,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-40",
-      "reviewNotes": "本轮B候选、旧oracle映射及17针独立重放已核，三道本地集成门通过后归档有限卡并同步导航。原source SHA、旧阅读证据与旧counter结论保留为历史；currentReading钉当前收口字节，不升级其它候选或提前声称托管CI通过。"
+      "reviewedLines": "1-41",
+      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -1457,7 +1457,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-07独立验收A/C并完成串行全仓check、official ratchet、受保护fast；两卡done并归档。B因四个字段接线误删与共享文档越界counter/rework。其它Owner与历史结论不变，远端新CI另核。",
+      "coreConclusion": "2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "1:任务卡索引",
@@ -1478,7 +1478,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "8deab7bab403a28b7ad6dbc748b8c8611f9e4e148e2b39ce5c85354f57f34aad",
+      "afterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1628,11 +1628,11 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "8deab7bab403a28b7ad6dbc748b8c8611f9e4e148e2b39ce5c85354f57f34aad",
+        "afterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
         "currentReading": {
-          "date": "2026-10-07",
-          "sha256": "8deab7bab403a28b7ad6dbc748b8c8611f9e4e148e2b39ce5c85354f57f34aad",
-          "lineCount": 370,
+          "date": "2026-10-08",
+          "sha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+          "lineCount": 373,
           "headings": [
             {
               "line": 1,
@@ -1643,15 +1643,15 @@
               "text": "活动任务"
             },
             {
-              "line": 18,
+              "line": 21,
               "text": "已完成（historical）"
             },
             {
-              "line": 361,
+              "line": 364,
               "text": "已取消（superseded / historical）"
             }
           ],
-          "scope": "A/C remain closed; B r3 independently accepted and locally integrated after serial check, official ratchet and protected fast. This reading pins current closeout navigation only; unchanged historical conclusions are not re-adjudicated and future hosted CI is not claimed green."
+          "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
         }
       },
       "history": [
@@ -1671,8 +1671,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-370",
-      "reviewNotes": "本轮B候选、旧oracle映射及17针独立重放已核，三道本地集成门通过后归档有限卡并同步导航。原source SHA、旧阅读证据与旧counter结论保留为历史；currentReading钉当前收口字节，不升级其它候选或提前声称托管CI通过。"
+      "reviewedLines": "1-373",
+      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。"
     },
     {
       "path": "docs/ops/tasks/README.md",

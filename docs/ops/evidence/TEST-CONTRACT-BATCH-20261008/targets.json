@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "batch": "TEST-CONTRACT-BATCH-20261008",
+  "date": "2026-10-08",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "dispatch": "each branch begins at the first main commit containing these three task cards; verify rev-parse at checkout",
+  "rule": "Finite contract dispositions, no case/mutation/coverage quota; read-only product and old tests; source drift stops affected axis only.",
+  "routes": [
+    {
+      "task": "TEST-EDITOR-SCRIPT-INTERACTION-1",
+      "owner": "GLM script",
+      "worktree": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal",
+      "branch": "codex/glm-editor-script-interaction-r1",
+      "card": "docs/ops/tasks/TEST-EDITOR-SCRIPT-INTERACTION-1.md",
+      "newTestsAndFixtures": [
+        "packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+        "packages/editor/src/core/author-command-edit.interaction-boundaries.test.ts",
+        "packages/editor/src/ui/__tests__/script-interaction-boundaries/"
+      ],
+      "evidence": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/",
+      "frozenSources": [
+        {
+          "path": "packages/editor/src/ui/ScriptEditor.tsx",
+          "sha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441"
+        },
+        {
+          "path": "packages/editor/src/core/author-command-edit.ts",
+          "sha256": "58827d36cc7530478da0752d6bf73ec4a32ffe08db98bd79c68b8242660da63b"
+        },
+        {
+          "path": "packages/editor/src/ui/SharedScriptTab.tsx",
+          "sha256": "0cf43c2b0d98971cf12d9c504ad475985b07e6658bb4b43fabae50c687ec2aad"
+        }
+      ]
+    },
+    {
+      "task": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1",
+      "owner": "GLM alchemy",
+      "worktree": "/private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal",
+      "branch": "codex/glm-editor-alchemy-boundaries-r1",
+      "card": "docs/ops/tasks/TEST-EDITOR-ALCHEMY-BOUNDARIES-1.md",
+      "newTestsAndFixtures": [
+        "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+        "packages/editor/src/ui/ItemAlchemyEditors.boundary-contracts.test.tsx",
+        "packages/editor/src/ui/__tests__/item-alchemy-boundaries/"
+      ],
+      "evidence": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/",
+      "frozenSources": [
+        {
+          "path": "packages/editor/src/ui/ItemAlchemyTab.tsx",
+          "sha256": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22"
+        },
+        {
+          "path": "packages/editor/src/ui/ItemAlchemyEditors.tsx",
+          "sha256": "c9fbfeab816f463c3adce633b4a26a06351de5b1e80a3dbcfd1bd0dcda92ee31"
+        },
+        {
+          "path": "packages/editor/src/core/item-alchemy.ts",
+          "sha256": "4ee30c2305583bd902a1b026acfde6e53a527615e361b43a30fb446e487c5470"
+        },
+        {
+          "path": "packages/editor/src/ui/DataMode.tsx",
+          "sha256": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f"
+        }
+      ]
+    },
+    {
+      "task": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1",
+      "owner": "GLM loader",
+      "worktree": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal",
+      "branch": "codex/glm-reforge-project-loading-r1",
+      "card": "docs/ops/tasks/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md",
+      "newTestsAndFixtures": [
+        "packages/reforge/src/project-loader.reference-boundaries.test.ts",
+        "packages/reforge/src/project-loader.io-boundaries.test.ts",
+        "packages/reforge/src/__tests__/project-loading-boundaries/"
+      ],
+      "evidence": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/",
+      "frozenSources": [
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/file-source.ts",
+          "sha256": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2"
+        },
+        {
+          "path": "packages/reforge/src/project-save-state.ts",
+          "sha256": "6f41421ff160a02ff971e72f547aa2e88a7691121c27c78f6e673e41358c1655"
+        },
+        {
+          "path": "packages/reforge/src/assets.ts",
+          "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/author-io.ts",
+          "sha256": "8a6581ed536484bba48c3ccb1ab5bd5c316c940ceed8df742c545925948d3643"
+        }
+      ]
+    }
+  ]
+}
