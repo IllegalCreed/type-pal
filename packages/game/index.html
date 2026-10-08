@@ -58,6 +58,12 @@
       #boot-loading.boot-loading-error #boot-loading-status { color: #e06c5a; }
       #boot-loading.boot-loading-error #boot-loading-fill { background: #8a2a2a; }
       .boot-loading-hint { color: #4a4036; font-size: 11px; margin-top: 18px; font-family: monospace; }
+      .boot-loading-meta {
+        color: #8a7a62; font-size: 11px; line-height: 1.6; margin-top: 14px;
+        font-family: "Songti SC", "SimSun", serif;
+      }
+      .boot-loading-meta a { color: #d8b365; text-decoration: none; }
+      .boot-loading-meta a:hover { text-decoration: underline; }
     </style>
   </head>
   <body>
@@ -75,6 +81,10 @@
           <button id="boot-loading-enter-btn" type="button">▶ 进入游戏</button>
         </div>
         <div class="boot-loading-hint">越过虚线即可进入;竞速玩家可等满 100%(进游戏后零网络卡顿)</div>
+        <div class="boot-loading-meta">
+          <a href="https://github.com/IllegalCreed/type-pal" target="_blank" rel="noopener noreferrer">GitHub</a>
+          · 非官方同人项目，与权利人无关，请支持正版
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
