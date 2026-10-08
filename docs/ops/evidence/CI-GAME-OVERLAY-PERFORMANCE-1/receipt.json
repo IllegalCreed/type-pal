@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-08",
+  "owner": "Codex",
+  "kind": "same-owner narrow test performance maintenance",
+  "base": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+  "file": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+  "previousTestSha256": "29bece30bc1f118a839f8f1fe8e7b72dba8178e5cd37df5bb4ad6dc810ec5048",
+  "currentTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+  "onlyTestBodyChanged": true,
+  "unchangedExecutionIdentityMultiset": true,
+  "testCountBefore": 4,
+  "testCountAfter": 4,
+  "unchangedFrozenSources": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "sha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "sha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "sha256": "c812217641915bd0a39935cf4992757e091770859ecd40ab0aa518e5d8487b2c"
+    }
+  ],
+  "measured": {
+    "before": {
+      "plain": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "--config",
+          "vitest.config.ts",
+          "--passWithNoTests",
+          "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "--exclude",
+          "node_modules/**",
+          "--exclude",
+          "dist/**",
+          "--exclude",
+          "build/**",
+          "--exclude",
+          "coverage/**",
+          "--exclude",
+          "**/*.pal.test.js",
+          "--exclude",
+          "**/*.pal.test.jsx",
+          "--exclude",
+          "**/*.pal.test.ts",
+          "--exclude",
+          "**/*.pal.test.tsx",
+          "--exclude",
+          "**/*.pal.test.mjs",
+          "--exclude",
+          "**/*.pal.test.mts",
+          "--exclude",
+          "**/*.pal.test.cjs",
+          "--exclude",
+          "**/*.pal.test.cts",
+          "--exclude",
+          "src/__tests__/e2e-battle.test.ts",
+          "--exclude",
+          "src/assets/rng-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/sprite-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/tileset-blob-snapshot.test.ts",
+          "--exclude",
+          "src/dev/dev-panel.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/tmp/type-pal-ci-p12-diagnosis.m6tp97/p12-plain.json"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal",
+        "env": {
+          "CI": "true",
+          "NODE_COMPILE_CACHE": "unset",
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "TYPE_PAL_COVERAGE_PROFILE": "fast"
+        },
+        "exit": 0,
+        "files": 1,
+        "tests": 4,
+        "passed": 4,
+        "failed": 0,
+        "rows": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+            "status": "passed",
+            "durationMs": 54.18612500000006
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+            "status": "passed",
+            "durationMs": 4.966832999999951
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+            "status": "passed",
+            "durationMs": 18.802958999999873
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+            "status": "passed",
+            "durationMs": 3.7787909999999556
+          }
+        ],
+        "jsonSha256": "804827afc8614e62f87ef635bbb4035e093b21ea3e4aaef7afe6b7a0d12dc366",
+        "rawSha256": "540e16ae71015668a684c9ec09972af73109eee9828ae56a38fb0bedc52b8520"
+      },
+      "coverage": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "--config",
+          "vitest.config.ts",
+          "--passWithNoTests",
+          "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "--exclude",
+          "node_modules/**",
+          "--exclude",
+          "dist/**",
+          "--exclude",
+          "build/**",
+          "--exclude",
+          "coverage/**",
+          "--exclude",
+          "**/*.pal.test.js",
+          "--exclude",
+          "**/*.pal.test.jsx",
+          "--exclude",
+          "**/*.pal.test.ts",
+          "--exclude",
+          "**/*.pal.test.tsx",
+          "--exclude",
+          "**/*.pal.test.mjs",
+          "--exclude",
+          "**/*.pal.test.mts",
+          "--exclude",
+          "**/*.pal.test.cjs",
+          "--exclude",
+          "**/*.pal.test.cts",
+          "--exclude",
+          "src/__tests__/e2e-battle.test.ts",
+          "--exclude",
+          "src/assets/rng-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/sprite-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/tileset-blob-snapshot.test.ts",
+          "--exclude",
+          "src/dev/dev-panel.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/tmp/type-pal-ci-p12-diagnosis.m6tp97/p12-coverage.json",
+          "--coverage",
+          "--coverage.provider=v8",
+          "--coverage.reportsDirectory=/private/tmp/type-pal-ci-p12-diagnosis.m6tp97/p12-coverage-coverage",
+          "--coverage.reporter=text-summary",
+          "--coverage.reporter=json-summary",
+          "--coverage.reporter=html",
+          "--coverage.reporter=lcov",
+          "--coverage.include",
+          "src/**/*.{ts,tsx}",
+          "--coverage.exclude",
+          "**/__tests__/**",
+          "--coverage.exclude",
+          "**/*.test.ts",
+          "--coverage.exclude",
+          "**/*.test.tsx",
+          "--coverage.exclude",
+          "**/*.spec.ts",
+          "--coverage.exclude",
+          "**/*.spec.tsx",
+          "--coverage.exclude",
+          "**/*.d.ts"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal",
+        "env": {
+          "CI": "true",
+          "NODE_COMPILE_CACHE": "unset",
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "TYPE_PAL_COVERAGE_PROFILE": "fast"
+        },
+        "exit": 0,
+        "files": 1,
+        "tests": 4,
+        "passed": 4,
+        "failed": 0,
+        "rows": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+            "status": "passed",
+            "durationMs": 966.6665830000001
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+            "status": "passed",
+            "durationMs": 86.01345900000001
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+            "status": "passed",
+            "durationMs": 325.3827920000001
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+            "status": "passed",
+            "durationMs": 42.050624999999854
+          }
+        ],
+        "jsonSha256": "776111f533b0a04f79fe340348e72b070a10661d0818b0121d3c84a52b9b0868",
+        "rawSha256": "bb30961ab4e7f6a9159481ffb7cbecd5b6d8ba405a808c1fc47b13fbaeb5b682"
+      }
+    },
+    "after": {
+      "plain": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "--config",
+          "vitest.config.ts",
+          "--passWithNoTests",
+          "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "--exclude",
+          "node_modules/**",
+          "--exclude",
+          "dist/**",
+          "--exclude",
+          "build/**",
+          "--exclude",
+          "coverage/**",
+          "--exclude",
+          "**/*.pal.test.js",
+          "--exclude",
+          "**/*.pal.test.jsx",
+          "--exclude",
+          "**/*.pal.test.ts",
+          "--exclude",
+          "**/*.pal.test.tsx",
+          "--exclude",
+          "**/*.pal.test.mjs",
+          "--exclude",
+          "**/*.pal.test.mts",
+          "--exclude",
+          "**/*.pal.test.cjs",
+          "--exclude",
+          "**/*.pal.test.cts",
+          "--exclude",
+          "src/__tests__/e2e-battle.test.ts",
+          "--exclude",
+          "src/assets/rng-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/sprite-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/tileset-blob-snapshot.test.ts",
+          "--exclude",
+          "src/dev/dev-panel.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/p12-plain.json"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal",
+        "env": {
+          "CI": "true",
+          "NODE_COMPILE_CACHE": "unset",
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "TYPE_PAL_COVERAGE_PROFILE": "fast"
+        },
+        "exit": 0,
+        "files": 1,
+        "tests": 4,
+        "passed": 4,
+        "failed": 0,
+        "rows": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+            "status": "passed",
+            "durationMs": 16.25816700000007
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+            "status": "passed",
+            "durationMs": 11.741250000000036
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+            "status": "passed",
+            "durationMs": 6.32833299999993
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+            "status": "passed",
+            "durationMs": 3.6512500000000045
+          }
+        ],
+        "jsonSha256": "6c79cd450998d2ca7d748c3650852ea3524bfa50af78853e6b4c3a97a6a172cc",
+        "rawSha256": "4c1b11f9746d83d1646a932ea58ed7ca4fbee1dcec4d8af9962b3fbade8f9af4"
+      },
+      "coverage": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "--config",
+          "vitest.config.ts",
+          "--passWithNoTests",
+          "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+          "--exclude",
+          "node_modules/**",
+          "--exclude",
+          "dist/**",
+          "--exclude",
+          "build/**",
+          "--exclude",
+          "coverage/**",
+          "--exclude",
+          "**/*.pal.test.js",
+          "--exclude",
+          "**/*.pal.test.jsx",
+          "--exclude",
+          "**/*.pal.test.ts",
+          "--exclude",
+          "**/*.pal.test.tsx",
+          "--exclude",
+          "**/*.pal.test.mjs",
+          "--exclude",
+          "**/*.pal.test.mts",
+          "--exclude",
+          "**/*.pal.test.cjs",
+          "--exclude",
+          "**/*.pal.test.cts",
+          "--exclude",
+          "src/__tests__/e2e-battle.test.ts",
+          "--exclude",
+          "src/assets/rng-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/sprite-blob-snapshot.test.ts",
+          "--exclude",
+          "src/assets/tileset-blob-snapshot.test.ts",
+          "--exclude",
+          "src/dev/dev-panel.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/p12-coverage.json",
+          "--coverage",
+          "--coverage.provider=v8",
+          "--coverage.reportsDirectory=/private/tmp/type-pal-p12-optimization.gZiXUj/p12-coverage-coverage",
+          "--coverage.reporter=text-summary",
+          "--coverage.reporter=json-summary",
+          "--coverage.reporter=html",
+          "--coverage.reporter=lcov",
+          "--coverage.include",
+          "src/**/*.{ts,tsx}",
+          "--coverage.exclude",
+          "**/__tests__/**",
+          "--coverage.exclude",
+          "**/*.test.ts",
+          "--coverage.exclude",
+          "**/*.test.tsx",
+          "--coverage.exclude",
+          "**/*.spec.ts",
+          "--coverage.exclude",
+          "**/*.spec.tsx",
+          "--coverage.exclude",
+          "**/*.d.ts"
+        ],
+        "cwd": "/Users/zhangxu/illegal/type-pal",
+        "env": {
+          "CI": "true",
+          "NODE_COMPILE_CACHE": "unset",
+          "NODE_DISABLE_COMPILE_CACHE": "1",
+          "TYPE_PAL_COVERAGE_PROFILE": "fast"
+        },
+        "exit": 0,
+        "files": 1,
+        "tests": 4,
+        "passed": 4,
+        "failed": 0,
+        "rows": [
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+            "status": "passed",
+            "durationMs": 52.724500000000035
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+            "status": "passed",
+            "durationMs": 82.90508399999999
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+            "status": "passed",
+            "durationMs": 16.555624999999964
+          },
+          {
+            "file": "/Users/zhangxu/illegal/type-pal/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+            "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+            "status": "passed",
+            "durationMs": 42.27979099999993
+          }
+        ],
+        "jsonSha256": "81db867ea545aa21c68132a40f99626f3480e9c5d5926ae7ed9158dc56a2b96c",
+        "rawSha256": "772744ce0e287a98168e9e943864e5d6211c19a75689ec6b27bed138eeac14ca"
+      }
+    },
+    "note": "Single-run local timing comparison; native JSON suite counts are not mistaken for file counts. No timing assertion or new timeout was added."
+  },
+  "preservedOracles": [
+    "wave amplitude and progression",
+    "false does not advance wave phase",
+    "original row-8 pixel coordinates 196/210/218/230",
+    "sprite drawn after wave at 16/20",
+    "party/camera and every actual input bitmap unchanged",
+    "scene remap before dialog with dialog color retained",
+    "real seam repair wiring and repair-before-wave ordering"
+  ],
+  "addedOracle": "Second true frame distinguishes logical phase advance from amplitude-only change using edge pixels 245 and 212; still within the same existing wave contract.",
+  "counters": {
+    "valid": 7,
+    "syntheticJudgeTests": 20,
+    "realPhases": 16,
+    "executionsPerPhase": 4,
+    "artifact": "counterproof.json",
+    "nativeBytesEmbedded": true,
+    "worktreeRemoved": true
+  },
+  "gates": [
+    {
+      "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game exec vitest run src/present/__tests__/grok-composition src/present/draw-tilemap.test.ts src/present/draw-tilemap-pixels.grok-r1.test.ts src/present/screen-wave.test.ts --reporter=default --reporter=json",
+      "exitCode": 0,
+      "files": 9,
+      "tests": 44,
+      "passed": 44,
+      "jsonSha256": "e62f06c6cf45fa2d41ddfa2afe22f15d5334f08e661354066299ebe7da29d89b",
+      "rawSha256": "e2827c90d944f2eae3646c90d60d857c2f987d009561f90d0d31c6f3f21d947d"
+    },
+    {
+      "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game test",
+      "exitCode": 0,
+      "files": 311,
+      "tests": 3519,
+      "passed": 3519,
+      "rawSha256": "f26d59567b409f84821e9c6eac61db9c8cf145d0d9ce36783faeec109285992e"
+    },
+    {
+      "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/game typecheck",
+      "exitCode": 0,
+      "diagnostics": 0,
+      "rawSha256": "a855d4a3602a15c992f3d1f1ea4b27a5fc9b2410919519082f62e780aed03ee2"
+    }
+  ],
+  "protectedFast": {
+    "status": "passed",
+    "command": "env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=91aac75c54c2afa82e7ccb6ee295485b73a14aa7 pnpm coverage:fast",
+    "exitCode": 0,
+    "rawSha256": "34f5006eb2fca01946b415adac5348dab392efb2952a4fb25a3d26e93d552976",
+    "sourceFiles": 726,
+    "executedTests": 19597,
+    "branches": { "covered": 50132, "total": 60209, "percent": 83.26 },
+    "noRegression": true,
+    "noScopeOrIdentityChanges": true,
+    "baselineAfterSha256": "c8d9448eb92414374a8e1efc1fa85df68d24267ab8c8c3869b0e173e05050318",
+    "ratchet": "Not needed: metrics and source/test identity scope are unchanged; official baseline was not rewritten.",
+    "protectedBase": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+    "baselineBeforeSha256": "c8d9448eb92414374a8e1efc1fa85df68d24267ab8c8c3869b0e173e05050318"
+  },
+  "staticCloseout": {
+    "status": "passed",
+    "docs": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm check:docs",
+      "exitCode": 0,
+      "issues": 0,
+      "rawSha256": "7acab083de55282b908d0062ef04b5df083132edaa9e3afb6288f1269a064156"
+    },
+    "lint": {
+      "command": "env -u NODE_COMPILE_CACHE pnpm lint",
+      "exitCode": 0,
+      "files": 3693,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "rawSha256": "66dfa475bbca1a14c4f009c51212f375534520003b2d25013fd224f977d2a5c4"
+    },
+    "diff": "passed",
+    "trackedQualityInventory": "3085 files; 229 closed / 5 review / 2851 pending; no semantic governance credit added"
+  },
+  "githubCi": {
+    "status": "new integration commit not yet pushed; do not claim green",
+    "previousSuccessfulHead": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+    "previousRun": 37774256927
+  },
+  "logs": "/private/tmp/type-pal-p12-optimization.gZiXUj; before diagnostics /private/tmp/type-pal-ci-p12-diagnosis.m6tp97",
+  "noChanges": [
+    "product implementation",
+    "workflow/package config",
+    "timeout budgets",
+    "coverage/test exclusions",
+    "official baseline",
+    "other contributors' trees"
+  ]
+}

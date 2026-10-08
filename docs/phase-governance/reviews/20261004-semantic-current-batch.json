@@ -725,7 +725,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。",
+      "coreConclusion": "2026-10-08三张有限测试卡维持原白名单build，既有三卡已收口。Codex同Owner的P12叠层测试维护已通过定向、全包/typecheck、7反控、受保护fast和零诊断静态门；保留原像素及真实接缝/水波顺序，覆盖/基准不变。新托管CI仍按实际推送HEAD另核，不把文档登记当托管验收。",
       "truthAnchors": ["docs/ops/evidence/README.md:1", "1:任务专属证据", "8:当前证据"],
       "unresolved": [
         "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
@@ -737,7 +737,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "4e3a5bace8006514e10b8712dc4b2f7aa74c3bf2408404ad9017edd23bd00244",
+      "afterSha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -856,11 +856,11 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "4e3a5bace8006514e10b8712dc4b2f7aa74c3bf2408404ad9017edd23bd00244",
+        "afterSha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
         "currentReading": {
           "date": "2026-10-08",
-          "sha256": "4e3a5bace8006514e10b8712dc4b2f7aa74c3bf2408404ad9017edd23bd00244",
-          "lineCount": 41,
+          "sha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
+          "lineCount": 42,
           "headings": [
             {
               "line": 1,
@@ -871,7 +871,7 @@
               "text": "当前证据"
             }
           ],
-          "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
+          "scope": "Finite dispatch remains unchanged; additionally pins Codex narrow P12 overlay test performance evidence and real counter replay. No new contribution acceptance or future hosted CI claim."
         }
       },
       "history": [
@@ -885,8 +885,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-41",
-      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。"
+      "reviewedLines": "1-42",
+      "reviewNotes": "直接核P12夹具、像素oracle、普通/V8对照和7项反控后补维护导航；不改三卡Owner、白名单或历史裁决。保留原source SHA与历史阅读；currentReading仅钉当前入口，不以目录或静态门替代集成/托管验证。"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",

@@ -1,0 +1,733 @@
+{
+  "schemaVersion": 1,
+  "base": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+  "testSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+  "selftests": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "identities": [
+    "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+    "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+    "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+    "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+  ],
+  "mutations": [
+    {
+      "id": "N1-no-logical-wave-advance",
+      "file": "src/present/present.ts",
+      "from": "applyScreenWave(fb.indices, gs, advanceEffects)",
+      "to": "applyScreenWave(fb.indices, gs, false)",
+      "target": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "originalSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "mutantSha256": "051386dcedce1a49edd0518bc7bbd3c68865b8f355f25d23befb97dfaf3434b5",
+      "restoredSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N1-no-logical-wave-advance-red",
+      "restored": "N1-no-logical-wave-advance-restored"
+    },
+    {
+      "id": "N2-interpolation-advances-phase",
+      "file": "src/present/screen-wave.ts",
+      "from": "if (advance) s_waveIndex = (s_waveIndex + 1) % 32",
+      "to": "s_waveIndex = (s_waveIndex + 1) % 32",
+      "target": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "originalSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "mutantSha256": "1e7b3e152ec771f42e8e0723e8ab8ce320ee8dcd318a2c99439ce9806f2720aa",
+      "restoredSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N2-interpolation-advances-phase-red",
+      "restored": "N2-interpolation-advances-phase-restored"
+    },
+    {
+      "id": "N3-logical-phase-frozen",
+      "file": "src/present/screen-wave.ts",
+      "from": "if (advance) s_waveIndex = (s_waveIndex + 1) % 32",
+      "to": "if (false) s_waveIndex = (s_waveIndex + 1) % 32",
+      "target": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "originalSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "mutantSha256": "630a842d914c9d9ffa751aadbe3525567620d8d4aa86bf245b0d58b922c0aad8",
+      "restoredSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N3-logical-phase-frozen-red",
+      "restored": "N3-logical-phase-frozen-restored"
+    },
+    {
+      "id": "N4-wave-bypassed",
+      "file": "src/present/present.ts",
+      "from": "applyScreenWave(fb.indices, gs, advanceEffects)",
+      "to": "void advanceEffects",
+      "target": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "originalSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "mutantSha256": "6b034739752dc8633649cb5f061c264ff83c724b4a708d1efd8160ad26c2e83b",
+      "restoredSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N4-wave-bypassed-red",
+      "restored": "N4-wave-bypassed-restored"
+    },
+    {
+      "id": "N5-scene-remap-bypassed",
+      "file": "src/present/present.ts",
+      "from": "if (gs.paletteFadeState?.remap) {\n    const { from, to } = gs.paletteFadeState.remap\n    const px = fb.indices //",
+      "to": "if (false && gs.paletteFadeState?.remap) {\n    const { from, to } = gs.paletteFadeState.remap\n    const px = fb.indices //",
+      "target": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+      "originalSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "mutantSha256": "6fddeffb5294fdf4119182b4cf54d7747ad9d68118d175390775692883cf283b",
+      "restoredSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N5-scene-remap-bypassed-red",
+      "restored": "N5-scene-remap-bypassed-restored"
+    },
+    {
+      "id": "N6-wave-seam-repair-bypassed",
+      "file": "src/present/present.ts",
+      "from": "repairTilemapSeams(fb, seamCoverage)",
+      "to": "if (gs.wScreenWave === 0) repairTilemapSeams(fb, seamCoverage)",
+      "target": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "originalSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "mutantSha256": "e43a24da34f2d6102ae8307af0a60122f211390ddb0935886d1f69a9e40726cf",
+      "restoredSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N6-wave-seam-repair-bypassed-red",
+      "restored": "N6-wave-seam-repair-bypassed-restored"
+    },
+    {
+      "id": "N7-seam-repair-after-wave",
+      "file": "src/present/present.ts",
+      "edits": [
+        {
+          "from": "  repairTilemapSeams(fb, seamCoverage)\n",
+          "to": ""
+        },
+        {
+          "from": "    applyScreenWave(fb.indices, gs, advanceEffects)\n  }",
+          "to": "    applyScreenWave(fb.indices, gs, advanceEffects)\n  }\n  repairTilemapSeams(fb, seamCoverage)"
+        }
+      ],
+      "target": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+      "originalSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "mutantSha256": "be4a2658934ad3ba844533ff98e883a358a705f3957c8a7253457b571b305b80",
+      "restoredSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "finalTestSha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972",
+      "verdict": "VALID",
+      "red": "N7-seam-repair-after-wave-red",
+      "restored": "N7-seam-repair-after-wave-restored"
+    }
+  ],
+  "phases": [
+    {
+      "id": "green",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/green.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "bcdb1373a606144e7d1f910c8f86cf80fd5f1e52e5c6f0f63f2a2d6eacebe457",
+      "jsonSha256": "cfe8facea0f56ecfce9d06b757c38cabf453e22db01fcc2d877b61b5efa33e9c",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 32ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:35\n   Duration  996ms (transform 305ms, setup 24ms, import 346ms, tests 32ms, environment 520ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/green.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465155492,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":13.705749999999966,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":8.450040999999942,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.614292000000091,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.405917000000045,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465156463,\"endTime\":1791465156494.406,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N1-no-logical-wave-advance-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N1-no-logical-wave-advance-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "7bbcecc83fe64a885e605db9eac8e55cbe986f081b42eee7fc8fb7e06a01c25a",
+      "jsonSha256": "76b46e6e15c386c2dfa46394ba8c6e7f1c697d96312edec06980ca4d7379ed1d",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 36ms\n     × P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 16ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 8ms\n     ✓ P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 8ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 4ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:36\n   Duration  1.76s (transform 699ms, setup 54ms, import 779ms, tests 36ms, environment 745ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N1-no-logical-wave-advance-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\nAssertionError: expected 128 to be 120 // Object.is equality\n\n- Expected\n+ Received\n\n- 120\n+ 128\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:78:28\n     76|     // 本帧先把波幅加上 progression，相位仍是 0。波幅 120 时左移 118，原瓦片到 (218,8)。\n     77|     // (230,8) 进入新卷动带，(196,8) 离开。\n     78|     expect(gs.wScreenWave).toBe(120)\n       |                            ^\n     79|     expect(gs.sWaveProgression).toBe(-8)\n     80|     expect(fb.indices[8 * 320 + 218]).toBe(TILE)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465156672,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"failed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":16.44270800000004,\"failureMessages\":[\"AssertionError: expected 128 to be 120 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:78:28\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":8.107167000000118,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":7.5431670000000395,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.5742910000001302,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465158397,\"endTime\":1791465158432.5742,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N1-no-logical-wave-advance-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N1-no-logical-wave-advance-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "43aa525f29d360a492579f734dcafcb1ff21fc089e6d59c26e412b9e07348d71",
+      "jsonSha256": "34f494debc4cf49cd5a30724dd2c94a68a9c088601ac7118d27d407938aaeb35",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 34ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:38\n   Duration  880ms (transform 347ms, setup 22ms, import 397ms, tests 34ms, environment 338ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N1-no-logical-wave-advance-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465158650,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":16.02004199999999,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":8.974500000000035,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.170208000000002,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.1762919999999895,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465159505,\"endTime\":1791465159538.1763,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N2-interpolation-advances-phase-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N2-interpolation-advances-phase-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "2424388e115e2a1e15fdfed8620a3109cb1a440f89b32f0ea7d9fdf19e160e86",
+      "jsonSha256": "3d51e3658264ba7c70f0e047800d4c2141c25eb9f02b4790d6d30d00586d1de2",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 35ms\n     × P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 14ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 9ms\n     ✓ P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 7ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 4ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:39\n   Duration  873ms (transform 354ms, setup 21ms, import 410ms, tests 35ms, environment 324ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N2-interpolation-advances-phase-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\nAssertionError: expected +0 to be 33 // Object.is equality\n\n- Expected\n+ Received\n\n- 33\n+ 0\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:72:39\n     70|     expect(gs.sWaveProgression).toBe(-8)\n     71|     expect(fb.indices[8 * 320 + 210]).toBe(TILE)\n     72|     expect(fb.indices[8 * 320 + 196]).toBe(TILE)\n       |                                       ^\n     73|     expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n     74|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465159736,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"failed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":14.433042,\"failureMessages\":[\"AssertionError: expected +0 to be 33 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:72:39\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":8.624874999999975,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":7.098082999999974,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.613166999999976,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465160579,\"endTime\":1791465160612.6133,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N2-interpolation-advances-phase-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N2-interpolation-advances-phase-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "b904279dfd59c9ad52a8da8b80a3e4e18b1f0a709f762a3056faf09f4f844436",
+      "jsonSha256": "0ec36f9e0f5e51d6cba6d1fffe16999d6c5b6be9b6a2e5df38249b25947d6393",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 33ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:40\n   Duration  817ms (transform 314ms, setup 19ms, import 362ms, tests 33ms, environment 316ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N2-interpolation-advances-phase-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465160814,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":15.722792000000027,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":8.600041999999917,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.185916999999904,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.2169999999999845,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465161609,\"endTime\":1791465161642.217,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N3-logical-phase-frozen-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N3-logical-phase-frozen-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "77be8b8c394f2bba330754a2a5a8eb022bd15c6dfb39e0501c3135e42617e284",
+      "jsonSha256": "1333e6de7fed8c8dc8f3b890ddea0fbd25237f0dae4c1adb17cea92169ee6daf",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 34ms\n     × P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 17ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 8ms\n     ✓ P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 5ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 3ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:41\n   Duration  759ms (transform 274ms, setup 18ms, import 314ms, tests 34ms, environment 319ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N3-logical-phase-frozen-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\nAssertionError: expected +0 to be 33 // Object.is equality\n\n- Expected\n+ Received\n\n- 33\n+ 0\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:90:39\n     88|     expect(gs.wScreenWave).toBe(112)\n     89|     expect(gs.sWaveProgression).toBe(-8)\n     90|     expect(fb.indices[8 * 320 + 245]).toBe(TILE)\n       |                                       ^\n     91|     expect(fb.indices[8 * 320 + 212]).not.toBe(TILE)\n     92|     expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465161846,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"failed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":16.90295900000001,\"failureMessages\":[\"AssertionError: expected +0 to be 33 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:90:39\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.8570419999999785,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.023249999999962,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.250541999999996,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465162577,\"endTime\":1791465162609.2505,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N3-logical-phase-frozen-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N3-logical-phase-frozen-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "16d9c89b56e41b82e588adb5536ee1742e51a19fe4070dfe0129f94672949a9c",
+      "jsonSha256": "cc5badf8a8098dffb8db451f496685254a0e3fd484fea0622fe4bfd1607aeb79",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 30ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:42\n   Duration  723ms (transform 273ms, setup 19ms, import 309ms, tests 30ms, environment 297ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N3-logical-phase-frozen-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465162785,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":13.919624999999996,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.585917000000109,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":4.851083000000017,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.0425840000000335,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465163487,\"endTime\":1791465163516.0425,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N4-wave-bypassed-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N4-wave-bypassed-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "4469fa7926563eda40be233ebad9ad054d7280e283a907337290f589699d59af",
+      "jsonSha256": "f7069f6e6eaf0700f1173441e198822140afa1f14ef3d0f9315d2db2f8b49184",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 26ms\n     × P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 9ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 7ms\n     ✓ P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 6ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 3ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:43\n   Duration  720ms (transform 265ms, setup 17ms, import 304ms, tests 26ms, environment 298ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N4-wave-bypassed-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\nAssertionError: expected +0 to be 33 // Object.is equality\n\n- Expected\n+ Received\n\n- 33\n+ 0\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:63:39\n     61|     expect(gs.wScreenWave).toBe(128)\n     62|     expect(gs.sWaveProgression).toBe(-8)\n     63|     expect(fb.indices[8 * 320 + 210]).toBe(TILE)\n       |                                       ^\n     64|     expect(fb.indices[8 * 320 + 196]).toBe(TILE)\n     65|     expect(fb.indices[8 * 320 + 230]).not.toBe(TILE)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465163693,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"failed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":9.419708000000014,\"failureMessages\":[\"AssertionError: expected +0 to be 33 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:63:39\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.351249999999936,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.721833000000061,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.187249999999949,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465164392,\"endTime\":1791465164417.1873,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N4-wave-bypassed-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N4-wave-bypassed-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "0b6cb8ff3badfdb8a47ee266c949082e744454a24b5568c0d01d8eb7f6a77141",
+      "jsonSha256": "1905f4cbb740b59c01cf6a38813e61f311b7ec7d24eb9272c31ea9fd08c8af26",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 31ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:44\n   Duration  708ms (transform 257ms, setup 18ms, import 296ms, tests 31ms, environment 294ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N4-wave-bypassed-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465164602,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":14.306957999999895,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.612333999999919,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.043000000000006,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.223707999999988,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465165287,\"endTime\":1791465165317.2236,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N5-scene-remap-bypassed-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N5-scene-remap-bypassed-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "8670d1052522e7651325177bdf6bb16d8de77d1b2f73310aa297510111d4d4e3",
+      "jsonSha256": "35c4f05ad897ff8ea4d540d3a689579bd989285a7850140e8dce16daced64a49",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 33ms\n     ✓ P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 14ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 8ms\n     × P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 7ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 3ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:45\n   Duration  744ms (transform 275ms, setup 18ms, import 315ms, tests 33ms, environment 306ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N5-scene-remap-bypassed-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\nAssertionError: expected 79 to be 78 // Object.is equality\n\n- Expected\n+ Received\n\n- 78\n+ 79\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:167:38\n    165|\n    166|     // 瓦片在对话框之前被 0x4F→0x4E。正文仍用 0x4F。旁边的精灵不是 0x4F，保持 0x11。\n    167|     expect(fb.indices[8 * 320 + 16]).toBe(0x4e)\n       |                                      ^\n    168|     expect(fb.indices[126 * 320 + 44]).toBe(DIALOG)\n    169|     expect(fb.indices[20 * 320 + 16]).toBe(0x11)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465165491,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":14.291291999999999,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.731042000000002,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"failed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":7.210125000000062,\"failureMessages\":[\"AssertionError: expected 79 to be 78 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:167:38\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.23275000000001,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465166208,\"endTime\":1791465166240.2327,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N5-scene-remap-bypassed-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N5-scene-remap-bypassed-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "e5154addc861e2917d7909a28b0ad62409bcfacefb64cb5a476232bba2685f0c",
+      "jsonSha256": "5a30f9cc28dfd75334c9ba161b8e20ff7ce37ff8ea7773d91fe1bc74d3abc8f9",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 30ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:46\n   Duration  727ms (transform 267ms, setup 17ms, import 306ms, tests 30ms, environment 304ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N5-scene-remap-bypassed-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465166411,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":13.984290999999985,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.505042000000003,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.068167000000017,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.145750000000021,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465167115,\"endTime\":1791465167145.1458,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N6-wave-seam-repair-bypassed-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N6-wave-seam-repair-bypassed-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "b032569b3bdd9059ef1aef577ecbe9aad0b2b2c91839e92a541362391242d4b9",
+      "jsonSha256": "de4fcb7532e57fd46d818b47af0e9b0cfe33703ab2e5e8d6285faef9202bb31e",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 26ms\n     × P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 8ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 7ms\n     ✓ P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 7ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 3ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:47\n   Duration  706ms (transform 260ms, setup 16ms, import 296ms, tests 26ms, environment 293ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N6-wave-seam-repair-bypassed-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\nAssertionError: expected +0 to be 33 // Object.is equality\n\n- Expected\n+ Received\n\n- 33\n+ 0\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:63:39\n     61|     expect(gs.wScreenWave).toBe(128)\n     62|     expect(gs.sWaveProgression).toBe(-8)\n     63|     expect(fb.indices[8 * 320 + 210]).toBe(TILE)\n       |                                       ^\n     64|     expect(fb.indices[8 * 320 + 196]).toBe(TILE)\n     65|     expect(fb.indices[8 * 320 + 230]).not.toBe(TILE)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465167325,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"failed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":8.313916999999947,\"failureMessages\":[\"AssertionError: expected +0 to be 33 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:63:39\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.05174999999997,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":6.928916000000072,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.491583999999989,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465168010,\"endTime\":1791465168035.4917,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N6-wave-seam-repair-bypassed-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N6-wave-seam-repair-bypassed-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "7f40757beb6820e72fc01f203c28c24840369b398277bff53a0f651fc08e749e",
+      "jsonSha256": "09310064f600309ea9285dfca2c1468a1cea8fb97d52ae24894b4b44dcde97a4",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 30ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:48\n   Duration  708ms (transform 259ms, setup 17ms, import 297ms, tests 30ms, environment 292ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N6-wave-seam-repair-bypassed-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465168217,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":13.698624999999993,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.636209000000008,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.026084000000083,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.079291000000012,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465168904,\"endTime\":1791465168933.0793,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N7-seam-repair-after-wave-red",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N7-seam-repair-after-wave-red.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "943dab5bb8fa3993e7f268f1c7f36d89a70890f04f7637b4ddfac83bb047e204",
+      "jsonSha256": "3d927b51aa6eb9587916a575f6ffc7aab1fd4e2f3062cfc83d506d9e74ccf0f6",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests | 1 failed) 27ms\n     × P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道 10ms\n     ✓ P12 偶数震屏补帧不减计数，再推进后改为上移 8ms\n     ✓ P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F 6ms\n     ✓ P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在 3ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 3 passed (4)\n   Start at  22:12:49\n   Duration  714ms (transform 260ms, setup 18ms, import 301ms, tests 27ms, environment 294ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N7-seam-repair-after-wave-red.json\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/present/__tests__/grok-composition/p12-overlays.test.ts > P12 大世界叠层与补帧 > P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\nAssertionError: expected +0 to be 33 // Object.is equality\n\n- Expected\n+ Received\n\n- 33\n+ 0\n\n ❯ src/present/__tests__/grok-composition/p12-overlays.test.ts:63:39\n     61|     expect(gs.wScreenWave).toBe(128)\n     62|     expect(gs.sWaveProgression).toBe(-8)\n     63|     expect(fb.indices[8 * 320 + 210]).toBe(TILE)\n       |                                       ^\n     64|     expect(fb.indices[8 * 320 + 196]).toBe(TILE)\n     65|     expect(fb.indices[8 * 320 + 230]).not.toBe(TILE)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":3,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465169107,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"failed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":9.695291999999995,\"failureMessages\":[\"AssertionError: expected +0 to be 33 // Object.is equality\\n    at /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts:63:39\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\\n    at new Promise (<anonymous>)\\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64\"],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.618291999999997,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.7024169999999685,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.424624999999992,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465169800,\"endTime\":1791465169826.4246,\"status\":\"failed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "N7-seam-repair-after-wave-restored",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N7-seam-repair-after-wave-restored.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "3de954eb9ce754c2cc1f57133c1fb05f3fcface60888b5bd0dc0b47d0ee24bc4",
+      "jsonSha256": "67d68e7b1eac3d9e396ad3f34e84d79c78cf73af5780198346e91ff3d54aa23a",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 31ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:50\n   Duration  730ms (transform 268ms, setup 17ms, import 310ms, tests 31ms, environment 303ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/N7-seam-repair-after-wave-restored.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465170003,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":14.546125000000075,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.770708000000013,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":5.053416999999968,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.2137500000000045,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465170709,\"endTime\":1791465170739.2139,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    },
+    {
+      "id": "final",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/illegal/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/final-green.json"
+      ],
+      "cwd": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game",
+      "env": {
+        "CI": "true",
+        "NODE_COMPILE_CACHE": "unset",
+        "NODE_DISABLE_COMPILE_CACHE": "1"
+      },
+      "identities": [
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+        "src/present/__tests__/grok-composition/p12-overlays.test.ts :: P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "rawSha256": "4e3d1eeaf9f46bb6265ee25d39da35bbc0b7630a52d116285895d52dea01fadc",
+      "jsonSha256": "75e38d27f968d7be30ca026b853925e97a0d572aa871abf9cb2cf31361bb3b08",
+      "rawNativeText": "\n RUN  v4.1.7 /private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game\n\n ✓ src/present/__tests__/grok-composition/p12-overlays.test.ts (4 tests) 31ms\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  22:12:50\n   Duration  746ms (transform 279ms, setup 19ms, import 320ms, tests 31ms, environment 307ms)\n\nJSON report written to /private/tmp/type-pal-p12-optimization.gZiXUj/counters-final/final-green.json\n",
+      "jsonNativeText": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1791465170917,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"status\":\"passed\",\"title\":\"P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道\",\"duration\":14.203125,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移\",\"status\":\"passed\",\"title\":\"P12 偶数震屏补帧不减计数，再推进后改为上移\",\"duration\":7.728207999999995,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"status\":\"passed\",\"title\":\"P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F\",\"duration\":4.976750000000038,\"failureMessages\":[],\"meta\":{},\"tags\":[]},{\"ancestorTitles\":[\"P12 大世界叠层与补帧\"],\"fullName\":\"P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"status\":\"passed\",\"title\":\"P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在\",\"duration\":3.1029170000000477,\"failureMessages\":[],\"meta\":{},\"tags\":[]}],\"startTime\":1791465171640,\"endTime\":1791465171670.103,\"status\":\"passed\",\"message\":\"\",\"name\":\"/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts\"}]}"
+    }
+  ],
+  "sourcesRestored": true,
+  "nativeByteStorage": "Native JSON and stdout/stderr are UTF-8 strings. Decode exact string bytes to reproduce each SHA256; enclosing JSON formatting does not rewrite native artifacts.",
+  "cleanup": {
+    "temporaryParent": "/private/tmp/type-pal-p12-optimization.gZiXUj",
+    "isolatedWorktree": "/private/tmp/type-pal-p12-optimization.gZiXUj/counter-tree",
+    "productAndTestRestoredBeforeRemoval": true,
+    "onlyRemainingUntrackedPaths": [
+      "node_modules",
+      "packages/game/node_modules",
+      "packages/shared/node_modules"
+    ],
+    "worktreeRemoved": true,
+    "scope": "Only the current detached counter worktree was removed; original logs and accepted native bytes remain."
+  }
+}
