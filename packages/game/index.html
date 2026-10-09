@@ -13,14 +13,28 @@
       /* ── 启动 loading 覆盖层(boot-loading.ts 驱动进度;静态内联保证 JS 未就绪时已可见)── */
       #boot-loading {
         position: fixed; inset: 0; z-index: 10;
-        display: grid; place-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: safe center;
+        box-sizing: border-box;
+        padding: 16px;
+        overflow: auto;
         background: #111;
         opacity: 1; transition: opacity 0.5s ease;
         font-family: "Songti SC", "SimSun", serif;
         user-select: none;
       }
+      /* 矮屏时访问统计条会盖住居中声明，改为顶对齐并留出底边。 */
+      @media (max-height: 680px) {
+        #boot-loading {
+          justify-content: flex-start;
+          padding-top: 20px;
+          padding-bottom: 120px;
+        }
+      }
       #boot-loading.boot-loading-done { opacity: 0; pointer-events: none; }
-      .boot-loading-box { width: 320px; text-align: center; }
+      .boot-loading-box { width: min(320px, 100%); text-align: center; }
       .boot-loading-title {
         color: #d8b365; font-size: 34px; letter-spacing: 10px; margin-bottom: 6px;
         text-shadow: 0 0 18px rgba(160, 30, 30, 0.8);
@@ -64,6 +78,23 @@
       }
       .boot-loading-meta a { color: #d8b365; text-decoration: none; }
       .boot-loading-meta a:hover { text-decoration: underline; }
+      .boot-loading-disclaimer {
+        width: min(440px, 100%);
+        margin: 18px 0 0;
+        color: #cbb892;
+        font-size: 13px;
+        line-height: 1.65;
+        text-align: center;
+        font-family: "Songti SC", "SimSun", serif;
+      }
+      .boot-loading-disclaimer-en {
+        display: block;
+        margin-top: 4px;
+        color: #a89474;
+        font-size: 12px;
+        line-height: 1.5;
+        font-family: Palatino, "Palatino Linotype", "Songti SC", serif;
+      }
     </style>
   </head>
   <body>
@@ -83,9 +114,12 @@
         <div class="boot-loading-hint">越过虚线即可进入;竞速玩家可等满 100%(进游戏后零网络卡顿)</div>
         <div class="boot-loading-meta">
           <a href="https://github.com/IllegalCreed/type-pal" target="_blank" rel="noopener noreferrer">GitHub</a>
-          · 非官方同人项目，与权利人无关，请支持正版
         </div>
       </div>
+      <p class="boot-loading-disclaimer">
+        非官方同人项目，与大宇、软星及《仙剑奇侠传》权利人无关。原版资源仅供学习交流，权利人如有要求将立即下架。请支持正版。
+        <span class="boot-loading-disclaimer-en" lang="en">Unofficial fan project. Not affiliated with Softstar. For study only; removed on request. Please support the official game.</span>
+      </p>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

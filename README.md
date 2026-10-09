@@ -127,7 +127,9 @@ pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localh
 
 ## 许可与声明
 
-**非官方同人项目。** 与大宇、软星以及《仙剑奇侠传》的权利人无关，未获官方授权或认可。请支持正版。
+**非官方同人项目。** 与大宇、软星以及《仙剑奇侠传》的权利人无关，未获官方授权或认可。原版资源与在线试玩仅供学习交流；权利人如有要求，将立即下架。请支持正版。
+
+权利问题或下架请求，请在本仓库开 [GitHub Issue](https://github.com/IllegalCreed/type-pal/issues/new/choose)。
 
 - 本仓库为这个项目编写的代码，按 [GNU General Public License v3.0](LICENSE) 授权，与参考实现 sdlpal 的 GPLv3 一致。
 - 完整原版游戏数据不在 Git 里。在线试玩是托管构建；在本机跑完整 PAL 内容，需要自己准备合法取得的原版数据。

@@ -130,7 +130,9 @@ The repository is written with AI coding agents working with the maintainer. The
 
 ## License and disclaimer
 
-**Unofficial fan project.** Not affiliated with, endorsed by, or authorized by Softstar (大宇 / 软星) or the other rights holders of *The Legend of Sword and Fairy*. Please support the official game.
+**Unofficial fan project.** Not affiliated with, endorsed by, or authorized by Softstar (大宇 / 软星) or the other rights holders of *The Legend of Sword and Fairy*. Original assets and the live demo are for study and exchange only, and will be taken down on request. Please support the official game.
+
+For a takedown or other rights request, open a [GitHub issue](https://github.com/IllegalCreed/type-pal/issues/new/choose) in this repository.
 
 - Code written for this project is released under the [GNU General Public License v3.0](LICENSE), the same license as the sdlpal reference.
 - The full original game data is not in Git. The live demo is a hosted build. Running the full PAL content locally requires your own legally obtained copy.
