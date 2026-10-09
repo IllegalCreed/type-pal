@@ -25,6 +25,14 @@
         font-family: "Songti SC", "SimSun", serif;
         user-select: none;
       }
+      /* 矮屏时访问统计条会盖住居中声明，改为顶对齐并留出底边。 */
+      @media (max-height: 680px) {
+        #boot-loading {
+          justify-content: flex-start;
+          padding-top: 20px;
+          padding-bottom: 120px;
+        }
+      }
       #boot-loading.boot-loading-done { opacity: 0; pointer-events: none; }
       .boot-loading-box { width: min(320px, 100%); text-align: center; }
       .boot-loading-title {
