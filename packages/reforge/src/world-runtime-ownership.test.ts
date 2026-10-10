@@ -92,7 +92,7 @@ describe('A3 world runtime ownership', () => {
       'runTouch:',
       'runPostContact:',
       'queueContinuations:',
-      'setTimeout',
+      'motionContinuations.push',
     ])
   })
 
@@ -109,7 +109,7 @@ describe('A3 world runtime ownership', () => {
       'drawCinematicLayer()',
       'drawFadeCurtain()',
       'if (shop)',
-      'if (dialogBox.active)',
+      'if (dialogBox.visible)',
       'if (menus.active)',
       'applyAmbienceTint()',
       'const dither = ditherTransition.active',

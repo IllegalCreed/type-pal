@@ -1,8 +1,12 @@
 # 编辑器架构与工作台合同
 
-类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/editor-design.md)，不作为当前执行入口。
+
+SAVE12的`sceneRuntime`仅是游戏存档与离场现场：保存NPC姿势、动作时间轴和自动续跑进度，
+不回写作者工程，也不在编辑器新增状态方案、剧情阶段或第二套脚本模型。作者Page/Behavior/Hook与场景预览
+仍沿用现有合同；这次现场恢复不宣称提供“选择状态方案预览”的新能力。版本与恢复边界见[当前存档合同](save-system.md)。
 
 ## 模式即插件的外壳(第三根)
 

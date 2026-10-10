@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
-import type { Dialogue } from '@type-pal/content'
+import { type Dialogue, resolveAuthorDialogueCue, validateAuthorScenes } from '@type-pal/content'
 import { afterEach, expect, test } from 'vitest'
+import authorInn from '../../../../projects/pal/content/scenes/s003.json' with { type: 'json' }
 import { installShellHost, type ShellHost } from '../__tests__/runtime-shell/dom-host.js'
 
 let host: ShellHost | undefined
@@ -108,5 +109,31 @@ test('narration becomes input-ready only after its actual render', async () => {
   ui.render(0)
   expect(ui.observe()).toMatchObject({ slot: 'narration', phase: 'waiting-input' })
   ui.advance(1)
+  expect(ui.observe()).toBeNull()
+})
+
+test('canonical inn reward is fully shown then closes after 1400ms without another confirmation', async () => {
+  const { ui, startDialogue } = await box()
+  const flow = validateAuthorScenes([structuredClone(authorInn)])[0]?.entities.find(
+    (entity) => entity.id === 'e56',
+  )?.behaviors?.trigger?.default?.flow
+  if (flow?.kind !== 'stages') throw new Error('missing canonical inn flow')
+  const command = flow.stages
+    .find((stage) => stage.id === flow.initial)
+    ?.body.find(
+      (entry) => entry.kind === 'dialog' && entry.cue.rows.some((row) => row.text === 'dlg.51'),
+    )
+  if (command?.kind !== 'dialog') throw new Error('missing canonical reward cue')
+  const cue = resolveAuthorDialogueCue(command.cue, {})
+  ui.open(startDialogue({ id: 'inn-reward', cues: [cue] }), 100)
+  ui.render(100)
+  expect(ui.observe()).toMatchObject({
+    slot: 'narration',
+    phase: 'auto-advance',
+    rowTextIds: ['dlg.51'],
+  })
+  ui.render(1499)
+  expect(ui.observe()?.phase).toBe('auto-advance')
+  ui.render(1500)
   expect(ui.observe()).toBeNull()
 })

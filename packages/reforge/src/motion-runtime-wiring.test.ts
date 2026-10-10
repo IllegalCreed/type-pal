@@ -7,6 +7,8 @@ import {
   type DeferredOneShotSlot,
   type DurableEndpointSlot,
   finishDurableMotionContinuation,
+  partyBodyContactDistance,
+  partyBodyOverlaps,
   runtimeMotionCollision,
   settleDeferredOneShotMotion,
   teardownMotionRuntime,
@@ -62,6 +64,12 @@ function lifecycleHooks(active: Map<string, number>) {
 }
 
 describe('production motion runtime wiring', () => {
+  test('legacy contact matches the first-stage weighted pixel footprint', () => {
+    expect(partyBodyContactDistance({ col: 125.75, row: 45 }, { col: 126, row: 45 })).toBe(8)
+    expect(partyBodyOverlaps({ col: 125.75, row: 45 }, { col: 126, row: 45 })).toBe(true)
+    expect(partyBodyOverlaps({ col: 125.75, row: 45 }, { col: 126, row: 46 })).toBe(false)
+  })
+
   test.each([
     ['move', 'scriptedBypass'],
     ['step', 'scriptedBypass'],

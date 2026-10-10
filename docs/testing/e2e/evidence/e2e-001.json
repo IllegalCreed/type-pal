@@ -4,24 +4,21 @@
   "kind": "document-audit",
   "status": "verified",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": {
-    "content": 22,
-    "minimumSave": 11
-  },
+  "versions": { "content": 22, "minimumSave": 11 },
   "sourceRefs": [
     {
       "path": "scripts/e2e/game-opening.mjs",
-      "lines": "28-32",
+      "lines": "21-29",
       "anchor": "const openingContract = await readOpeningContract",
       "role": "caller",
-      "sha256": "fab7df7504b750e0554884470e6814cf46f716f667aa0fcf2ebff53a844d2585"
+      "sha256": "248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"
     },
     {
       "path": "scripts/e2e/opening-matrix.mjs",
-      "lines": "76-93",
+      "lines": "76-114",
       "anchor": "export function assertOpeningMatrix(",
       "role": "oracle",
-      "sha256": "a2c9116df25e1e8d96e097fdf340540645bcdedb3db876c229515e68636ffb10"
+      "sha256": "de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"
     },
     {
       "path": "scripts/e2e/opening-handoff.mjs",
@@ -35,7 +32,28 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+    },
+    {
+      "path": "scripts/e2e/opening-matrix-observer.mjs",
+      "lines": "11-125",
+      "anchor": "const worldRenderLimit = 60_000",
+      "role": "collector",
+      "sha256": "aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"
+    },
+    {
+      "path": "scripts/e2e/opening-trace-plugin.mjs",
+      "lines": "164-178",
+      "anchor": "count('worldDrawCompleted')",
+      "role": "render collector insertion",
+      "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+    },
+    {
+      "path": "scripts/e2e/opening-trace.test.mjs",
+      "lines": "515-630",
+      "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+      "role": "real transformed caller oracle",
+      "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
     }
   ],
   "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -58,10 +76,13 @@
       "id": "e2e-001-source-contract",
       "result": "source-backed",
       "evidence": [
-        "scripts/e2e/game-opening.mjs:28-32",
-        "scripts/e2e/opening-matrix.mjs:76-93",
+        "scripts/e2e/game-opening.mjs:21-29",
+        "scripts/e2e/opening-matrix.mjs:76-114",
         "scripts/e2e/opening-handoff.mjs:52-67",
-        "packages/content/src/character.ts:168-170"
+        "packages/content/src/character.ts:168-170",
+        "scripts/e2e/opening-matrix-observer.mjs:11-125",
+        "scripts/e2e/opening-trace-plugin.mjs:164-178",
+        "scripts/e2e/opening-trace.test.mjs:515-630"
       ]
     }
   ],
@@ -71,6 +92,12 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
+    "2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。",
+    "2026-10-06 Game绘制插桩执行域源核验：已直接生成并核读真实presentFrame的转换结果，render:world位于完整entries循环闭合之后，每次完成世界绘制只记录一次；循环内只绘制并递增drawOrder。既有真实多entry回归同时断言两个NPC的实际资源/绘制顺序及后一个draw抛错时不发布新世界绘制证据。本项仅核当前源码与断言，不给修正前的采集结果补发渲染信用，也不宣布正在重录的SAVE12链通过。",
+    "2026-10-06 采集/消费合同源核验：assertOpeningMatrix 按sceneVisit/scene/id检查实体连续性；相邻相同scene的实例重建开启新状态链，但不伪造路线跳转。actors/renders/controls/pages/worldRenders统一核order与atMs，worldRenders单列核seq；绘制时钟独立60,000条容量，不挤占原actor/control上限，超限仍失败。本文仅刷新源码证据，未据此宣布新SAVE12独立实跑或双轨比较通过。",
+    "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。",
+    "2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。",
     "历史 2026-09-28 二阶段回执是 content20/SAVE8；原文后加的 content21/SAVE10 不是该次执行版本。当前 22/11 链由 current-checkpoints 单独登记。"
   ],
   "artifacts": [],

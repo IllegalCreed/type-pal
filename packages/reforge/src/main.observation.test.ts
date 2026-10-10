@@ -35,7 +35,7 @@ async function boot(query = '', payload?: StoredSavePayload) {
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   return host
 }
 
@@ -75,7 +75,7 @@ test('real checkpoint restore reports loaded; rejected input is explicitly faile
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   expect(probe().readBoot().checkpointLoad).toBe('failed')
   expect(warn.mock.calls.some((row) => String(row[0]).includes('[e2e-load] 恢复失败'))).toBe(true)
 })

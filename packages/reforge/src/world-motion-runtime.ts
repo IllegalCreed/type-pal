@@ -16,8 +16,22 @@ import { MotionCompletionRecord } from './motion-batch.js'
 import { MotionRuntimeCoordinator } from './motion-runtime-coordinator.js'
 import { teardownMotionRuntime } from './motion-runtime-wiring.js'
 import type { MoveEntityCommitControl } from './script-project-core.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 export type EntityMoveSource = 'script' | 'auto'
+
+/** Semantic locomotion phase only; promises, authority epochs and scene tokens are rebuilt. */
+export interface EntityMotionSnapshot {
+  gait?: { phase: number; source: MotionSource; owner?: string }
+  explicitAnimation?: number
+  move?: {
+    owner: string
+    to: GridPos
+    speed: WalkSpeed
+    slowRestPending: boolean
+    slowCadence: boolean
+  }
+}
 
 export type MotionAuthority =
   | { kind: 'script' }
@@ -27,6 +41,8 @@ export interface EntityMotionSlotBase {
   source: EntityMoveSource
   commandEpoch: number
   sceneSessionId: string
+  /** One-shot motion is no longer eligible for another planner tick after its live commit. */
+  readonly committed?: boolean
   activationOwnerId?: string
   activationEpoch?: number
   resolve(): void
@@ -44,6 +60,10 @@ export interface EntityMoveSlot extends EntityMotionSlotBase {
   blockedAttempts: number
   nextBlockedReportAt: number
   slowRestPending: boolean
+  /** Mounted rides keep their authored speed every world tick; ordinary slow moves keep the rest. */
+  slowCadence: boolean
+  /** A ride translates its carrier; unlike walking it does not turn that carrier. */
+  preserveFacing: boolean
   commitSettlement(): void
 }
 
@@ -103,6 +123,8 @@ interface RegisterMoveInput {
   signal?: AbortSignal
   activation?: ActivationStamp
   commitControl?: MoveEntityCommitControl
+  slowCadence?: boolean
+  preserveFacing?: boolean
 }
 
 interface RegisterAutoStepInput {
@@ -151,8 +173,20 @@ export class WorldMotionRuntime {
   private ticksInFrame = 0
   private readonly walkPhases = new Map<string, number>()
   private readonly gaitOwners = new Map<string, { source: MotionSource; epoch: number }>()
+  private readonly gaitActivationOwners = new Map<string, string>()
   private readonly lastMovedTicks = new Map<string, number>()
+  private readonly scriptGaitHandoffs = new Map<
+    string,
+    {
+      phase: number
+      pos: GridPos
+      sceneSessionId: string
+      authorityEpoch: number
+      activation: { ownerId: string; epoch: number }
+    }
+  >()
   private readonly explicitAnimations = new Map<string, number>()
+  private readonly restoredMoves = new Map<string, NonNullable<EntityMotionSnapshot['move']>>()
   private sideSticks: SideStick[] = []
   private readonly fairnessClock = new MotionFairnessClock()
   private readonly traces: MotionTraceEntry[] = []
@@ -165,7 +199,11 @@ export class WorldMotionRuntime {
         this.clearStick({ kind: 'party' })
         this.playerEpoch++
       } else {
-        this.clearGait(id)
+        // Taking/releasing an entity pauses an automatic owner; it does not restart its walk.
+        // Script/hostile gaits still end with their authority. Auto completion/lifecycle owns
+        // clearing the retained phase, and the presentation adapter hides it while taken.
+        if (this.hasGait(id) && this.gaitOwner(id)?.source !== 'auto') this.clearGait(id)
+        if (this.coordinator.authority.has(id)) this.scriptGaitHandoffs.delete(id)
         this.clearStick({ kind: 'entity', id })
       }
     })
@@ -199,6 +237,7 @@ export class WorldMotionRuntime {
     this.moveAccumulator -= this.stepMs
     if (this.moveAccumulator > this.stepMs) this.moveAccumulator = 0
     this.ticksInFrame = 1
+    this.scriptGaitHandoffs.clear()
     this.tick++
     return true
   }
@@ -212,7 +251,7 @@ export class WorldMotionRuntime {
   }
 
   schedulePartyMove(to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       signal?.throwIfAborted()
       let settled = false
       const entry: OwnedPartyMoveSlot = {
@@ -249,7 +288,7 @@ export class WorldMotionRuntime {
   }
 
   registerMove(input: RegisterMoveInput): Promise<number> {
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<number>(input.signal, (resolve, reject) => {
       const { source, id, signal } = input
       signal?.throwIfAborted()
       const registry =
@@ -272,6 +311,8 @@ export class WorldMotionRuntime {
         blockedAttempts: 0,
         nextBlockedReportAt: 20,
         slowRestPending: false,
+        slowCadence: input.slowCadence ?? true,
+        preserveFacing: input.preserveFacing ?? false,
         commandEpoch: this.nextCommandEpoch(),
         sceneSessionId: this.currentSceneSessionId(input.sceneId),
         ...(input.activation
@@ -285,6 +326,21 @@ export class WorldMotionRuntime {
         resolve: (): void => void completion.resolve(),
         cancel: (message: string): void => void completion.cancel(message),
       }
+      const resumed = this.restoredMoves.get(id)
+      this.restoredMoves.delete(id)
+      if (
+        resumed &&
+        source === 'auto' &&
+        input.activation?.ownerId === resumed.owner &&
+        input.to.col === resumed.to.col &&
+        input.to.row === resumed.to.row &&
+        input.to.height === resumed.to.height &&
+        input.speed === resumed.speed
+      ) {
+        entry.slowRestPending = resumed.slowRestPending
+        entry.slowCadence = resumed.slowCadence
+        if (this.hasGait(id)) this.gaitOwners.set(id, { source: 'auto', epoch: entry.commandEpoch })
+      }
       registry.get(id)?.cancel(`实体 ${id} 的旧 ${source} 走位已被新走位替换`)
       registry.set(id, entry)
       signal?.addEventListener('abort', abort, { once: true })
@@ -293,7 +349,7 @@ export class WorldMotionRuntime {
   }
 
   registerAutoStep(input: RegisterAutoStepInput): Promise<AutoStepAck> {
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<AutoStepAck>(input.signal, (resolve, reject) => {
       const { id, signal } = input
       signal.throwIfAborted()
       if (this.coordinator.authority.has(id)) {
@@ -324,6 +380,9 @@ export class WorldMotionRuntime {
       entry = {
         kind: 'step',
         source: 'auto',
+        get committed() {
+          return committed
+        },
         dir: input.dir,
         commandEpoch: this.nextCommandEpoch(),
         sceneSessionId: this.currentSceneSessionId(input.sceneId),
@@ -350,7 +409,7 @@ export class WorldMotionRuntime {
   }
 
   registerChase(input: RegisterChaseInput): Promise<AutoOneShotAck> {
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<AutoOneShotAck>(input.signal, (resolve, reject) => {
       const { source, id, signal } = input
       signal.throwIfAborted()
       const registry =
@@ -382,6 +441,9 @@ export class WorldMotionRuntime {
       entry = {
         kind: 'chase',
         source,
+        get committed() {
+          return committed
+        },
         range: input.range,
         floating: input.floating,
         commandEpoch: this.nextCommandEpoch(),
@@ -422,12 +484,67 @@ export class WorldMotionRuntime {
     return this.walkPhases.get(id)
   }
 
+  captureEntity(id: string): EntityMotionSnapshot {
+    const phase = this.walkPhases.get(id),
+      owner = this.gaitOwners.get(id)
+    const explicitAnimation = this.explicitAnimations.get(id)
+    const slot = this.coordinator.autoSlots.get(id)
+    const move =
+      slot?.kind === 'move' && slot.activationOwnerId
+        ? {
+            owner: slot.activationOwnerId,
+            to: { ...slot.to },
+            speed: slot.speed,
+            slowRestPending: slot.slowRestPending,
+            slowCadence: slot.slowCadence,
+          }
+        : this.restoredMoves.get(id)
+    return structuredClone({
+      ...(phase !== undefined && owner
+        ? {
+            gait: {
+              phase,
+              source: owner.source,
+              ...(this.gaitActivationOwners.has(id)
+                ? { owner: this.gaitActivationOwners.get(id) }
+                : {}),
+            },
+          }
+        : {}),
+      ...(explicitAnimation !== undefined ? { explicitAnimation } : {}),
+      ...(move ? { move } : {}),
+    })
+  }
+
+  restoreEntity(id: string, saved: EntityMotionSnapshot): void {
+    this.clearGait(id)
+    this.clearExplicitAnimation(id)
+    this.restoredMoves.delete(id)
+    if (saved.gait) {
+      this.walkPhases.set(id, saved.gait.phase)
+      this.gaitOwners.set(id, { source: saved.gait.source, epoch: this.nextCommandEpoch() })
+      if (saved.gait.owner) this.gaitActivationOwners.set(id, saved.gait.owner)
+      this.lastMovedTicks.set(id, this.tick)
+    }
+    if (saved.explicitAnimation !== undefined)
+      this.explicitAnimations.set(id, saved.explicitAnimation)
+    if (saved.move) this.restoredMoves.set(id, structuredClone(saved.move))
+  }
+
+  discardRestoredMove(id: string): void {
+    this.restoredMoves.delete(id)
+  }
+
   hasGait(id: string): boolean {
     return this.walkPhases.has(id)
   }
 
   gaitOwner(id: string): { source: MotionSource; epoch: number } | undefined {
     return this.gaitOwners.get(id)
+  }
+
+  gaitActivationOwner(id: string): string | undefined {
+    return this.gaitActivationOwners.get(id)
   }
 
   gaitIds(): string[] {
@@ -441,16 +558,74 @@ export class WorldMotionRuntime {
   clearGait(id: string, expected?: { source: MotionSource; epoch: number }): void {
     const owner = this.gaitOwners.get(id)
     if (expected && (owner?.source !== expected.source || owner.epoch !== expected.epoch)) return
+    this.scriptGaitHandoffs.delete(id)
     this.walkPhases.delete(id)
     this.gaitOwners.delete(id)
+    this.gaitActivationOwners.delete(id)
     this.lastMovedTicks.delete(id)
   }
 
   markGait(id: string, source: MotionSource, epoch: number): void {
+    this.scriptGaitHandoffs.delete(id)
+    // Game keeps one wCurrentFrameNum for set-frame, one-step and animate-object.
+    // Preserve that phase when a scripted animation is followed by a step; otherwise
+    // the first step silently restarts at phase 0 in Reforge.
+    const previous = this.explicitAnimations.get(id) ?? this.walkPhases.get(id)
     this.explicitAnimations.delete(id)
-    this.walkPhases.set(id, (this.walkPhases.get(id) ?? 0) + 1)
+    this.walkPhases.set(id, (previous ?? 0) + 1)
     this.gaitOwners.set(id, { source, epoch })
+    const slot = this.coordinator.autoSlots.get(id)
+    if (source === 'auto' && slot?.commandEpoch === epoch && slot.activationOwnerId)
+      this.gaitActivationOwners.set(id, slot.activationOwnerId)
+    else this.gaitActivationOwners.delete(id)
     this.lastMovedTicks.set(id, this.tick)
+  }
+
+  /** A real arrival step, kept only until this frame is presented; never a visible idle gait. */
+  rememberScriptGaitHandoff(
+    id: string,
+    pos: GridPos,
+    sceneSessionId: string,
+    activation: { ownerId: string; epoch: number },
+  ): void {
+    const phase = (this.walkPhases.get(id) ?? 0) + 1
+    this.clearGait(id)
+    this.scriptGaitHandoffs.set(id, {
+      phase,
+      pos: { ...pos },
+      sceneSessionId,
+      authorityEpoch: this.coordinator.epoch(id),
+      activation: { ...activation },
+    })
+  }
+
+  adoptScriptGaitHandoff(id: string, pos: GridPos, slot: EntityMoveSlot): void {
+    const handoff = this.scriptGaitHandoffs.get(id)
+    this.scriptGaitHandoffs.delete(id)
+    if (
+      !handoff ||
+      slot.source !== 'auto' ||
+      this.coordinator.autoSlots.get(id) !== slot ||
+      this.coordinator.authority.has(id) ||
+      this.coordinator.epoch(id) !== handoff.authorityEpoch + 1 ||
+      slot.sceneSessionId !== handoff.sceneSessionId ||
+      slot.activationOwnerId !== handoff.activation.ownerId ||
+      slot.activationEpoch !== handoff.activation.epoch ||
+      pos.col !== handoff.pos.col ||
+      pos.row !== handoff.pos.row ||
+      pos.height !== handoff.pos.height ||
+      (pos.col === slot.to.col && pos.row === slot.to.row && pos.height === slot.to.height)
+    )
+      return
+    this.walkPhases.set(id, handoff.phase)
+    this.gaitOwners.set(id, { source: 'auto', epoch: slot.commandEpoch })
+    if (slot.activationOwnerId) this.gaitActivationOwners.set(id, slot.activationOwnerId)
+    this.lastMovedTicks.set(id, this.tick)
+  }
+
+  clearScriptGaitHandoffs(id?: string): void {
+    if (id === undefined) this.scriptGaitHandoffs.clear()
+    else this.scriptGaitHandoffs.delete(id)
   }
 
   explicitAnimation(id: string): number | undefined {
@@ -462,7 +637,25 @@ export class WorldMotionRuntime {
   }
 
   advanceExplicitAnimation(id: string): void {
-    this.explicitAnimations.set(id, (this.explicitAnimations.get(id) ?? 0) + 1)
+    this.scriptGaitHandoffs.delete(id)
+    // 0x87 advances the same current-frame register used by 0x0F/0x14/0x6C.
+    // A gait phase must therefore hand off to the next explicit frame instead of
+    // leaving the renderer's gait branch active or restarting from zero.
+    const previous = this.explicitAnimations.get(id) ?? this.walkPhases.get(id)
+    this.walkPhases.delete(id)
+    this.gaitOwners.delete(id)
+    this.gaitActivationOwners.delete(id)
+    this.lastMovedTicks.delete(id)
+    this.explicitAnimations.set(id, (previous ?? 0) + 1)
+  }
+
+  setExplicitAnimation(id: string, frame: number): void {
+    this.scriptGaitHandoffs.delete(id)
+    this.walkPhases.delete(id)
+    this.gaitOwners.delete(id)
+    this.gaitActivationOwners.delete(id)
+    this.lastMovedTicks.delete(id)
+    this.explicitAnimations.set(id, frame)
   }
 
   clearExplicitAnimation(id: string): void {
@@ -575,8 +768,11 @@ export class WorldMotionRuntime {
     })
     this.walkPhases.clear()
     this.gaitOwners.clear()
+    this.gaitActivationOwners.clear()
     this.lastMovedTicks.clear()
+    this.scriptGaitHandoffs.clear()
     this.explicitAnimations.clear()
+    this.restoredMoves.clear()
     this.sideSticks = []
     this.fairnessClock.clear()
   }

@@ -1,5 +1,5 @@
 import type { WorldState } from '@type-pal/content'
-import { expect } from 'vitest'
+import { expect, vi } from 'vitest'
 import type { ShellHost } from './dom-host.js'
 
 export interface ShellObservation {
@@ -18,17 +18,21 @@ export function observation(): ShellObservation {
   return value as ShellObservation
 }
 export async function drain() {
-  for (let i = 0; i < 20; i++) await Promise.resolve()
+  // Let the real asynchronous frame finish; a fixed number of Promise hops is not a frame receipt.
+  const { setImmediate } = await vi.importActual<{ setImmediate(callback: () => void): unknown }>(
+    'node:timers',
+  )
+  await new Promise<void>((resolve) => setImmediate(resolve))
 }
 export async function key(host: ShellHost, value: string, dt = 100) {
   host.key(value)
-  host.frame(dt)
-  host.release(value)
+  await host.frame(dt)
   await drain()
+  host.release(value)
 }
 export async function until(host: ShellHost, condition: () => boolean, limit = 80) {
   for (let i = 0; i < limit && !condition(); i++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
   }
   expect(condition()).toBe(true)

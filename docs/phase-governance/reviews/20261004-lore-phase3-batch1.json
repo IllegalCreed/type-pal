@@ -89,9 +89,9 @@
       "unresolved": [
         "external source authority and later-series details remain author-review items",
         "the actor who uses the Nine-Turn Resurrection Pearl, Yi Ru's exact death wording, and Han Zhongxi's death mechanism remain pending",
-        "several ⚠/❓ claims must not be used as canonical without author adjudication"
+        "several \u26a0/❓ claims must not be used as canonical without author adjudication"
       ],
-      "nextStep": "Use the ✅ entries and explicit redlines as guarded reference; keep ⚠/❓ entries blocked until a primary source or author decision resolves them.",
+      "nextStep": "Use the ✅ entries and explicit redlines as guarded reference; keep \u26a0/❓ entries blocked until a primary source or author decision resolves them.",
       "phase": "lore",
       "module": "characters.md",
       "capability": "lore-characters",
@@ -228,12 +228,12 @@
       "truthAnchors": [
         "Pal 1 Five Orb origin is preferred for this project",
         "Shu Mountain generation numbers are hard constraints",
-        "Nuwa birth/death and reincarnation claims remain ⚠/❓"
+        "Nuwa birth/death and reincarnation claims remain \u26a0/❓"
       ],
       "unresolved": [
         "six-realm details, Orb acquisition sequence, lock tower mechanics, geographic detail, and Nuwa death wording remain to verify"
       ],
-      "nextStep": "Do not use ⚠/❓ claims as plot causality until versions/source review is complete.",
+      "nextStep": "Do not use \u26a0/❓ claims as plot causality until versions/source review is complete.",
       "phase": "lore",
       "module": "world-rules.md",
       "capability": "lore-world-rules",
@@ -375,7 +375,7 @@
       "unresolved": [
         "some hard labels rely on non-primary/fan sources and need source-quality review before being called official"
       ],
-      "nextStep": "Use as a gate, but keep source confidence and author decisions visible; do not silently harden ⚠/❓ items.",
+      "nextStep": "Use as a gate, but keep source confidence and author decisions visible; do not silently harden \u26a0/❓ items.",
       "phase": "lore",
       "module": "taboos.md",
       "capability": "lore-taboos",
@@ -649,7 +649,7 @@
     {
       "path": "docs/lore/timeline.md",
       "contentReviewStatus": "content-reviewed",
-      "coreConclusion": "Combines an early rolling route for 001–005 with a 21-chapter historical overview and explicit warnings that later chapters are not fully reverified for current E2E routing.",
+      "coreConclusion": "2026-10-04 原复核：Combines an early rolling route for 001–005 with a 21-chapter historical overview and explicit warnings that later chapters are not fully reverified for current E2E routing. 2026-10-11 集成增量：001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
       "truthAnchors": [
         "early route is the current detailed slice",
         "later chapter overview preserves historical source and confidence labels",
@@ -665,7 +665,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
-      "afterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+      "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/lore/timeline.md"],
       "businessOracle": {
@@ -681,16 +681,26 @@
         "notes": "Content review record; no runtime/E2E/coverage credit."
       },
       "revision": {
-        "currentSha": "6a5675efade246f0332fa9333b0729532a5545d8",
-        "implementationSha": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
             "date": "2026-10-04",
             "action": "content-deep-review-batch-1",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+            "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+            "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -704,6 +714,16 @@
           "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+          "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+          "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -714,8 +734,25 @@
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
-      "reviewDepth": "deep-semantic"
+      "readMethod": "full-text-read + integration-delta-read-20261011",
+      "reviewDepth": "deep-semantic",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+        "conclusion": "001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
+        "truthAnchors": [
+          "docs/lore/timeline.md:35",
+          "docs/lore/timeline.md:61",
+          "docs/lore/timeline.md:78",
+          "docs/lore/timeline.md:141",
+          "docs/lore/timeline.md:150",
+          "docs/lore/timeline.md:154"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/lore/ideas/README.md",

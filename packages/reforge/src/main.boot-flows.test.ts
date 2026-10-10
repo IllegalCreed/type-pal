@@ -17,7 +17,7 @@ test('H1 normal boot executes the real current project pipeline and first world 
   const inputBefore = structuredClone(projectData(fixture.project))
   const { bootGame } = await import('./main.js')
   await bootGame(fixture.project, { kind: 'project', projectId: fixture.project.manifest.id })
-  host.frame()
+  await host.frame()
   expect(observation().sceneId).toBe('a')
   expect(observation().world.party.map((p) => p.template)).toEqual(['hero', 'friend'])
   expect(observation().world.money).toBe(50)
@@ -40,7 +40,7 @@ test.each([
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   expect(observation().sceneId).toBe(scene)
   expect(observation().world.party.map((x) => x.template)).toEqual(party)
   expect(observation().world.money).toBe(money)
@@ -107,7 +107,7 @@ test('H1 failed chrome read rejects the real boot; repaired source boots on a fr
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   expect(observation().sceneId).toBe('a')
 })
 
@@ -132,7 +132,7 @@ test('H1 title selection completes ordinary boot with the selected world, not th
     await key(host, 'ArrowDown')
     await key(host, 'Enter')
     await pending
-    host.frame()
+    await host.frame()
     expect(observation().sceneId).toBe('b')
     expect(observation().world.party.map((p) => p.template)).toEqual(['friend'])
     expect(observation().world.money).toBe(90)

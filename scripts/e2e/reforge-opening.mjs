@@ -1,12 +1,18 @@
 import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { assertActorRecording } from './actor-recording-contract.mjs'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { assertInputLedger, pressRecordedKey } from './input-ledger.mjs'
+import { npcStoryBoundary } from './npc-story-scope.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { assertOpeningHandoff, installOpeningHandoffObserver } from './opening-handoff.mjs'
 import { assertOpeningMatrix, readOpeningContract } from './opening-matrix.mjs'
+import { openingCausalObserverScript } from './opening-matrix-observer.mjs'
 import { appendBounded } from './opening-policy.mjs'
 import { openingTiming } from './opening-timing.mjs'
+import { installOpeningTrace } from './opening-trace.mjs'
+import { producerExtraInputs } from './producer-inputs.mjs'
 import {
   assertReforgeOpening,
   openingSaveView,
@@ -33,8 +39,10 @@ await runBrowserJourney({
   packageName: '@type-pal/reforge',
   environment: { VITE_PROJECT_ID: 'pal' },
   traceConfig: 'scripts/e2e/reforge-trace.config.mts',
-  initScripts: [installOpeningHandoffObserver],
+  initScripts: [installOpeningTrace, openingCausalObserverScript(), installOpeningHandoffObserver],
   sources: [
+    ...producerExtraInputs('001', 'reforge'),
+    ...Object.keys(openingContract.hashes),
     'projects/pal/manifest.json',
     'projects/pal/assets/index.json',
     'projects/pal/content/locale.json',
@@ -42,13 +50,33 @@ await runBrowserJourney({
     'packages/reforge/src/dialog/dialog-box.ts',
     'packages/reforge/src/opening-menu.ts',
     'scripts/e2e/reforge-opening.mjs',
+    'scripts/e2e/input-ledger.mjs',
+    'scripts/e2e/actor-recording-contract.mjs',
+    'scripts/e2e/npc-story-scope.mjs',
     'scripts/e2e/reforge-opening-policy.mjs',
     'scripts/e2e/browser-journey.mjs',
     'scripts/e2e/opening-trace.mjs',
     'scripts/e2e/opening-trace-plugin.mjs',
+    'scripts/e2e/opening-causal-instrumentation.mjs',
+    'scripts/e2e/script-causal-observer.mjs',
+    'packages/reforge/src/runtime-frame-session.ts',
+    'packages/reforge/src/world-motion-runtime.ts',
+    'packages/reforge/src/script-runner-core.ts',
+    'packages/reforge/src/script-execution-gate.ts',
+    'packages/reforge/src/latest-snapshot-transaction.ts',
+    'packages/reforge/src/script-work-queue.ts',
+    'scripts/e2e/scene-lifecycle-trace.mjs',
+    'packages/game/src/shell/bootstrap.ts',
+    'scripts/e2e/reforge-render-evidence.mjs',
+    'packages/reforge/src/world-scene-presentation.ts',
+    'packages/reforge/src/render.ts',
     'scripts/e2e/opening-timing.mjs',
     'scripts/e2e/opening-matrix-observer.mjs',
     'scripts/e2e/opening-matrix.mjs',
+    'scripts/e2e/opening-hold-intent.mjs',
+    'scripts/e2e/script-terminal-intent.mjs',
+    'scripts/e2e/opening-terminal-motion.mjs',
+    'scripts/e2e/npc-transition-contract.mjs',
     'scripts/e2e/opening-frame.mjs',
     'scripts/e2e/opening-handoff.mjs',
     'scripts/e2e/reforge-trace.config.mts',
@@ -72,11 +100,13 @@ await runBrowserJourney({
         appendBounded(report.events, { key, atMs: Date.now(), state })
       return state
     }
-    const press = async (key, reason) => {
-      appendBounded(report.actions, { key, reason }, 240)
+    const press = async (key, reason, scope = 'story') => {
       console.log(`[reforge-001] ${key}: ${reason}`)
-      await page.keyboard.down(key)
-      await page.keyboard.up(key)
+      await pressRecordedKey({
+        keyboard: page.keyboard,
+        action: { key, reason, scope },
+        record: (input) => appendBounded(report.actions, input, 240),
+      })
     }
     const autoplay = async () => {
       const overlay = page.getByText('点击屏幕开始 / Click to start', { exact: true })
@@ -89,7 +119,7 @@ await runBrowserJourney({
         const s = await snapshot()
         if (s.video) {
           assert(preludes.includes(s.video), `unexpected prelude ${s.video}`)
-          await press('Enter', `skip title prelude outside 001: ${s.video}`)
+          await press('Enter', `skip title prelude outside 001: ${s.video}`, 'boundary')
           await until(snapshot, (next) => next.video !== s.video, 'prelude closes')
           return null
         }
@@ -108,6 +138,9 @@ await runBrowserJourney({
     await page.evaluate((path) => window.__openingHandoff.arm(path), introPath)
     if (capture.enabled)
       await capture.arm(page, { event: 'new-story-selected', state: await snapshot() }, introPath)
+    report.storyScope = {
+      start: npcStoryBoundary(await page.evaluate(() => window.__readOpeningMatrix())),
+    }
     await press('Enter', '新的故事')
     await until(snapshot, (s) => s.video === introPath, 'native entry video starts')
     const videoEvidence = await until(
@@ -184,6 +217,8 @@ await runBrowserJourney({
     )
     await writeFile(resolve(out, 'npc-trace.json'), `${JSON.stringify(report.npcTrace, null, 2)}\n`)
     report.matrix = await page.evaluate(() => window.__readOpeningMatrix())
+    report.actorRecording = assertActorRecording(report.matrix, 'reforge')
+    report.storyScope.end = npcStoryBoundary(report.matrix)
     await writeFile(resolve(out, 'matrix.json'), JSON.stringify(report.matrix, null, 2))
     assert.deepEqual(
       (await readOpeningContract(repoRoot)).hashes,
@@ -192,6 +227,7 @@ await runBrowserJourney({
     )
     report.matrixVerdict = assertOpeningMatrix(report.matrix, 'reforge', openingContract)
     report.timing = openingTiming(report.npcTrace, 'reforge')
+    assertInputLedger(report.actions, { requireReceipts: true })
     if (capture.enabled) {
       assert.equal(report.timing.status, 'passed', '001 semantic timing failed')
       report.endFrame = await waitForOpeningFrame(page, until)
@@ -203,9 +239,9 @@ await runBrowserJourney({
       report.pending = ['002 and subsequent fragments; full-series capture readiness']
       return
     }
-    await press('Escape', 'prove actual menu control')
+    await press('Escape', 'prove actual menu control', 'boundary')
     await until(snapshot, (s) => s.runtime?.menuActive, 'menu opens')
-    await press('Escape', 'return to room')
+    await press('Escape', 'return to room', 'boundary')
     await until(snapshot, (s) => reforgeRoomReady(s.runtime), 'menu closes')
     report.endFrame = await waitForOpeningFrame(page, until)
     await page.screenshot({ path: resolve(out, '001-end.png') })
@@ -234,20 +270,21 @@ await runBrowserJourney({
         )
         return s.boot?.checkpointLoad === 'loaded' && reforgeRoomReady(s.runtime)
       },
-      'formal SAVE11 checkpoint restored',
+      'formal SAVE12 checkpoint restored',
       60_000,
     )
     const restored = await page.evaluate(() => window.__tpE2e.dumpSave())
     await writeFile(resolve(out, '001.restored.save.json'), JSON.stringify(restored))
     report.restoredWorldHash = sha256(JSON.stringify(openingSaveView(restored)))
     assert.equal(report.restoredWorldHash, report.endWorldHash, 'restored persistent state differs')
-    await press('Escape', 'restored control opens menu')
+    await press('Escape', 'restored control opens menu', 'boundary')
     await until(snapshot, (s) => s.runtime?.menuActive, 'restored menu opens')
-    await press('Escape', 'restored control returns to room')
+    await press('Escape', 'restored control returns to room', 'boundary')
     await until(snapshot, (s) => reforgeRoomReady(s.runtime), 'restored menu closes')
     report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
     await page.screenshot({ path: resolve(out, '001-restored.png') })
     if (report.timing.status !== 'passed')
       throw new Error('001 dialogue/movement ordering differs; inspect npc-trace.json')
+    assertInputLedger(report.actions, { requireReceipts: true })
   },
 })

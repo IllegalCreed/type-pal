@@ -40,6 +40,7 @@ import type {
 import {
   areEntityPositionsNear,
   executeScriptHostEffect,
+  interactionFacingToward,
   type RuntimeScriptRunner,
   ScriptProjectRuntime,
   ScriptRunner,
@@ -193,6 +194,7 @@ export class Playback {
       case 'nudgeEntity':
       case 'animEntity':
       case 'setEntityFacing':
+      case 'faceEntityToParty':
       case 'setEntityFrame':
       case 'playEntityAction':
       case 'stopEntityAction':
@@ -359,6 +361,11 @@ export class Playback {
         beforeStep: () => this.waitForCommandGate(ac),
         onStep: (event, owner) => recordStep(event, owner),
         executeEffect: (command, context, signal, commitControl) => {
+          if (command.kind === 'setEntityPos') {
+            if (command.target.scene === runtimeScene.id && this.entityPos(command.target.entity))
+              this.ov(command.target.entity).pos = { ...command.pos }
+            return
+          }
           if (
             command.kind === 'suspendEntity' ||
             command.kind === 'hideEntity' ||
@@ -820,6 +827,12 @@ export class Playback {
     },
     setEntityFacing: (id, fc) => {
       this.ov(id).facing = fc
+    },
+    faceEntityToParty: (id) => {
+      const from = this.entityPos(id)
+      const to = this.view.player.pos
+      if (from && (from.col !== to.col || from.row !== to.row))
+        this.ov(id).facing = interactionFacingToward(from, to)
     },
     setEntityFrame: (id, frame) => {
       this.ov(id).frame = frame

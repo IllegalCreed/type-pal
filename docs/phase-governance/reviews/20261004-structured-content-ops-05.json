@@ -3415,9 +3415,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "E2E-006-1 — 回客栈求药与张四出海上仙灵岛：这是 task-card，当前文档状态为 rework。全文 84 行、12 个标题；摘要/首段为「Status: rework」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "此前复核：E2E-006-1 — 回客栈求药与张四出海上仙灵岛：这是 task-card，当前文档状态为 rework。全文 84 行、12 个标题；摘要/首段为「Status: rework」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：006 停止点扩至落地道谢与张四叮嘱结束、恢复控制；原卡 rework 与旧回执保持历史边界，最终主线验收由已归档 E2E-CONTINUOUS 卡负责。",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "1:E2E-006-1 — 回客栈求药与张四出海上仙灵岛",
@@ -3441,7 +3441,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "2437eb511d020c29dcee6d70b551dcf1e9e04f6faaf731698eff99f94782f7d9",
-      "afterSha256": "2437eb511d020c29dcee6d70b551dcf1e9e04f6faaf731698eff99f94782f7d9",
+      "afterSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
       "publicCallers": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md → ../../phase2/READ-FIRST.md",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md → ../../lore/timeline.md"
@@ -3467,15 +3467,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "2437eb511d020c29dcee6d70b551dcf1e9e04f6faaf731698eff99f94782f7d9",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "2437eb511d020c29dcee6d70b551dcf1e9e04f6faaf731698eff99f94782f7d9",
+            "afterSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+            "reviewedRanges": ["16-16", "58-58", "72-73"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -3550,12 +3560,36 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "2437eb511d020c29dcee6d70b551dcf1e9e04f6faaf731698eff99f94782f7d9",
+          "afterSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
+          "reviewedRanges": ["16-16", "58-58", "72-73"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-84"
+      "reviewedLines": "1-84",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["16-16", "58-58", "72-73"],
+        "conclusion": "006 停止点扩至落地道谢与张四叮嘱结束、恢复控制；原卡 rework 与旧回执保持历史边界，最终主线验收由已归档 E2E-CONTINUOUS 卡负责。",
+        "truthAnchors": [
+          "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:16",
+          "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:58",
+          "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:72"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",

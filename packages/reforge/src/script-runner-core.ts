@@ -26,10 +26,14 @@ import {
 } from './script-continuation.js'
 
 import { ScriptExecutionBudget } from './script-execution-budget.js'
+import {
+  atScriptExecutionGate,
+  ScriptGateStopped as ScriptStopped,
+} from './script-execution-gate.js'
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
-export type ScriptGateBoundary = { kind: 'settlement' }
+export type ScriptGateBoundary = { kind: 'settlement'; committed?: boolean }
 
 export interface ScriptRuntimeContext {
   self?: EntityAddress
@@ -61,6 +65,7 @@ export interface ScriptRuntimeHostLike<RuntimeLeafCommand> {
     signal: AbortSignal,
     boundary?: ScriptGateBoundary,
   ): void | SafePointDecision | Promise<void> | Promise<SafePointDecision | undefined>
+  gateOpen?(signal: AbortSignal, boundary?: ScriptGateBoundary): boolean
   execute(
     command: RuntimeLeafCommand,
     context: Readonly<ScriptRuntimeContext>,
@@ -125,12 +130,6 @@ export interface RunBaseScriptFlowOptions {
   allowSceneEntry?: boolean
   runSceneEntry?: boolean
   self?: EntityAddress
-}
-
-class ScriptStopped extends Error {
-  constructor() {
-    super('script activation lost its cursor ownership')
-  }
 }
 
 function throwIfAborted(signal: AbortSignal): void {
@@ -297,7 +296,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         else throw error
       }
       throwIfAborted(this.signal)
-      await this.awaitGate({ kind: 'settlement' })
+      await this.awaitGate({ kind: 'settlement', committed: true })
       const cursor: FlowCursor =
         next.kind === 'complete'
           ? { kind: 'completed' }
@@ -339,15 +338,22 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           await this.awaitGate(metadataOnly ? { kind: 'settlement' } : undefined)
           await this.beforeStep({ path: commandPath, command })
         }
-        if (command.kind === 'finishStep' || command.kind === 'returnScript') {
-          await this.beginCheckpointMutation()
-          await this.awaitGate({ kind: 'settlement' })
-        } else {
-          await this.awaitGate(metadataOnly ? { kind: 'settlement' } : undefined)
-          await this.beginCheckpointMutation()
-        }
-        this.onStep?.({ path: commandPath, command })
-        await this.runCommand(command, commandPath)
+        await atScriptExecutionGate(
+          this.host,
+          this.signal,
+          metadataOnly ? { kind: 'settlement' } : undefined,
+          () => {
+            this.onStep?.({ path: commandPath, command })
+            return this.runCommand(command, commandPath)
+          },
+          {
+            ready: () => {
+              this.checkpoint(true)
+            },
+            beginMutation: () => this.beginCheckpointMutation(),
+            terminal: command.kind === 'finishStep' || command.kind === 'returnScript',
+          },
+        )
         throwIfAborted(this.signal)
         frame.index = index + 1
         delete frame.control
@@ -549,12 +555,23 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       while (true) {
         await this.consumeWork()
         if (command.kind === 'loop' && control.kind === 'loop' && control.phase === 'test') {
-          await this.beginCheckpointMutation()
           if (command.mode === 'forever') throw new Error('forever loop cannot resume at test')
-          const selected = this.host.evalCondition(command.cond, {
-            self: this.self,
-            timing: this.runningTiming,
-          })
+          const selected = await atScriptExecutionGate(
+            this.host,
+            this.signal,
+            { kind: 'settlement' },
+            () =>
+              this.host.evalCondition(command.cond, {
+                self: this.self,
+                timing: this.runningTiming,
+              }),
+            {
+              ready: () => {
+                this.checkpoint(true)
+              },
+              beginMutation: () => this.beginCheckpointMutation(),
+            },
+          )
           if (command.mode === 'while' ? !selected : selected) return
           control.phase = 'body'
           this.checkpoint(true)
@@ -566,13 +583,27 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           if (!(error instanceof LoopContinued) || (error.loop && error.loop !== command.id))
             throw error
         }
-        await this.beginCheckpointMutation()
-        if (command.kind === 'repeat' && control.kind === 'repeat') {
-          if (control.iteration >= command.count) return
-          control.iteration++
-        } else if (command.kind === 'loop' && control.kind === 'loop') {
-          control.phase = command.mode === 'forever' ? 'body' : 'test'
-        } else throw new Error('ScriptRunnerCore: 循环控制帧类型不匹配')
+        const completed = await atScriptExecutionGate(
+          this.host,
+          this.signal,
+          { kind: 'settlement' },
+          () => {
+            if (command.kind === 'repeat' && control.kind === 'repeat') {
+              if (control.iteration >= command.count) return true
+              control.iteration++
+            } else if (command.kind === 'loop' && control.kind === 'loop') {
+              control.phase = command.mode === 'forever' ? 'body' : 'test'
+            } else throw new Error('ScriptRunnerCore: 循环控制帧类型不匹配')
+            return false
+          },
+          {
+            ready: () => {
+              this.checkpoint(true)
+            },
+            beginMutation: () => this.beginCheckpointMutation(),
+          },
+        )
+        if (completed) return
         this.checkpoint(true)
       }
     } finally {

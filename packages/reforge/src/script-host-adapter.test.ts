@@ -22,6 +22,7 @@ function host(): ScriptHost {
     fleeBattle: vi.fn(),
     setEntityState: vi.fn(),
     setEntityFacing: vi.fn(),
+    faceEntityToParty: vi.fn(),
     setEntityFrame: vi.fn(),
     playEntityAction: vi.fn(async () => undefined),
     stopEntityAction: vi.fn(),
@@ -75,6 +76,23 @@ function host(): ScriptHost {
 }
 
 describe('current script host adapter', () => {
+  test('faceEntityToParty cannot turn a namesake in a different scene or take control implicitly', async () => {
+    const target = host()
+    const signal = new AbortController().signal
+    for (const scene of ['s002', 's001'])
+      await executeScriptHostEffect(
+        target,
+        { kind: 'faceEntityToParty', target: { scene, entity: 'npc' } },
+        {},
+        signal,
+        { currentSceneId: () => 's001' },
+      )
+    expect(target.faceEntityToParty).toHaveBeenCalledExactlyOnceWith('npc')
+    expect(target.setEntityFrame).not.toHaveBeenCalled()
+    expect(target.takeEntity).not.toHaveBeenCalled()
+    expect(target.releaseEntity).not.toHaveBeenCalled()
+  })
+
   test('forwards actor condition commands to the canonical gameplay host', async () => {
     const target = host()
     const signal = new AbortController().signal

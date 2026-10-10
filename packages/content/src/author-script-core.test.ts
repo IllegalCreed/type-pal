@@ -12,6 +12,19 @@ import {
 const target = { scene: 's001', entity: 'e1' }
 
 describe('canonical author script schema', () => {
+  test('faceEntityToParty has only a canonical entity address, not a fixed facing or bare id', () => {
+    expect(() =>
+      checkBaseAuthorCommands([{ kind: 'faceEntityToParty', target }], 'body'),
+    ).not.toThrow()
+    for (const command of [
+      { kind: 'faceEntityToParty' },
+      { kind: 'faceEntityToParty', entity: 'e1' },
+      { kind: 'faceEntityToParty', target: { entity: 'e1' } },
+      { kind: 'faceEntityToParty', target, facing: 'down' },
+    ])
+      expect(() => checkBaseAuthorCommands([command], 'body')).toThrow(/body\[0\]/)
+  })
+
   test('step names are optional author metadata, but supplied names must be non-empty strings', () => {
     const flow = {
       kind: 'stages',

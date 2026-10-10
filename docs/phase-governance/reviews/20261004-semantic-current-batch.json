@@ -1027,7 +1027,7 @@
         "30:一阶段 · 仙剑本体(game)"
       ],
       "unresolved": [
-        "正文信号 4:> game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+        "正文信号 4:> game 用 **6005**(\u26a0 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
         "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
         "正文信号 99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行"
       ],
@@ -1112,7 +1112,7 @@
           }
         ],
         "unresolvedSignals": [
-          "4:> game 用 **6005**(⚠ 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+          "4:> game 用 **6005**(\u26a0 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
           "20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
           "99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行"
         ]
@@ -1455,9 +1455,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
+      "readMethod": "full-text-read + integration-delta-read-20261011",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。",
+      "coreConclusion": "此前复核：2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。 2026-10-11 集成增量：仅增加已归档 E2E-CONTINUOUS-001-006 的 done 导航；既有测试治理任务状态与未决项不变，生成索引与实际顶部状态相符。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "1:任务卡索引",
@@ -1478,7 +1478,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+      "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1513,10 +1513,10 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "a1810148639c78d2307228672c7e3faf3124b2d9c15ce2a914b1c3cdbf9bf53d",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
@@ -1596,6 +1596,16 @@
             "date": "2026-10-05",
             "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+            "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+            "reviewedRanges": ["123-123"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -1666,13 +1676,33 @@
           "action": "read-and-reviewed-after-main-sync",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+          "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+          "reviewedRanges": ["123-123"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-373",
-      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。"
+      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["123-123"],
+        "conclusion": "仅增加已归档 E2E-CONTINUOUS-001-006 的 done 导航；既有测试治理任务状态与未决项不变，生成索引与实际顶部状态相符。",
+        "truthAnchors": ["docs/ops/tasks/index.md:123"],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/ops/tasks/README.md",
@@ -2796,9 +2826,9 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
+      "readMethod": "full-text-read + integration-delta-read-20261011",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "脚本库与可复用脚本作者手册：这是 guide-runbook，当前文档状态为 draft。全文 141 行、10 个标题；摘要/首段为「> 适用版本：contentVersion 22 / SAVE11。脚本模型不带产品版本后缀；作者内容直接使用」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：脚本库与可复用脚本作者手册：这是 guide-runbook，当前文档状态为 draft。全文 141 行、10 个标题；摘要/首段为「> 适用版本：contentVersion 22 / SAVE11。脚本模型不带产品版本后缀；作者内容直接使用」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：SAVE12 保存现场及自动续跑余时；离场暂停、返回恢复、读档不重跑 onEnter；不增加作者状态方案或第二套脚本模型。",
       "truthAnchors": [
         "docs/phase2/guides/shared-script-author-guide.md:1",
         "1:脚本库与可复用脚本作者手册",
@@ -2824,7 +2854,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
-      "afterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+      "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
       "publicCallers": [
         "docs/phase2/guides/shared-script-author-guide.md → ../design-backlog.md#n6b-强类型脚本模式库"
       ],
@@ -2850,15 +2880,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+            "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+            "reviewedRanges": ["3-3", "104-115"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -2927,13 +2967,36 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+          "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+          "reviewedRanges": ["3-3", "104-115"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-141",
-      "reviewNotes": "共享脚本只承载稳定业务语义的多调用逻辑；实体行为、hook、物品私有脚本和模板各有边界，N6b 参数化仍是未实现的未来工作。"
+      "reviewNotes": "共享脚本只承载稳定业务语义的多调用逻辑；实体行为、hook、物品私有脚本和模板各有边界，N6b 参数化仍是未实现的未来工作。",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "104-115"],
+        "conclusion": "SAVE12 保存现场及自动续跑余时；离场暂停、返回恢复、读档不重跑 onEnter；不增加作者状态方案或第二套脚本模型。",
+        "truthAnchors": [
+          "docs/phase2/guides/shared-script-author-guide.md:3",
+          "docs/phase2/guides/shared-script-author-guide.md:104"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     }
   ]
 }

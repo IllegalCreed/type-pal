@@ -13,7 +13,7 @@ const manifest = (): CurrentManifest => ({
   id: 'demo',
   name: 'Demo',
   contentVersion: 22,
-  minimumSaveVersion: 11,
+  minimumSaveVersion: 12,
   defaultEntryId: 'second',
   entryPoints: [
     { id: 'first', label: '第一', scene: 's1', startWorld: world(['a']) },

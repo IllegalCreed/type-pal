@@ -44,6 +44,7 @@ function recorderHost(): { host: ScriptHost; calls: Call[] } {
       fleeBattle: record('fleeBattle'),
       setEntityState: record('setEntityState'),
       setEntityFacing: record('setEntityFacing'),
+      faceEntityToParty: record('faceEntityToParty'),
       setEntityFrame: record('setEntityFrame'),
       playEntityAction: recordAsync('playEntityAction'),
       stopEntityAction: record('stopEntityAction'),

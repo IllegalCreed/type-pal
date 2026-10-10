@@ -51,7 +51,7 @@ const palManifest = {
   id: 'pal',
   name: 'PAL',
   contentVersion: 22,
-  minimumSaveVersion: 11,
+  minimumSaveVersion: 12,
   defaultEntryId: 'main',
   assets: { catalog: 'assets/index.json', roles: {} },
   content: { scenes: 'content/scenes/', maps: 'content/maps/index.json' },
@@ -265,7 +265,7 @@ describe('project creation and Save As target policy', () => {
       'manifest.json': {
         version: 1,
         contentVersion: 22,
-        minimumSaveVersion: 11,
+        minimumSaveVersion: 12,
         id: 'blank',
         name: 'Blank',
         defaultEntryId: 'main',

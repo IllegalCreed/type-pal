@@ -67,6 +67,7 @@ function world(): WorldState {
 function payload(): CurrentSavePayload {
   return {
     version: SAVE_VERSION,
+    sceneRuntime: {},
     contentVersion: CONTENT_VERSION,
     projectId: 'demo',
     world: world(),
@@ -80,7 +81,7 @@ function payload(): CurrentSavePayload {
 
 const references = buildEntityLifecycleReferenceIndex([{ id: 's001', entities: [{ id: 'e001' }] }])
 
-describe('current SAVE11/content22 contract', () => {
+describe('current SAVE12/content22 contract', () => {
   test('round-trips the current envelope without mutating input or resetting world values', async () => {
     const raw = payload()
     const before = structuredClone(raw)

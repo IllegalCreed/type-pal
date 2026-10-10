@@ -1,11 +1,19 @@
 import assert from 'node:assert/strict'
-import { readFile, writeFile } from 'node:fs/promises'
+import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { readCaptureWorld } from './capture-local.mjs'
+import {
+  committedRouteReceipt,
+  installCommittedRoutePlayback,
+  recordFacingInput,
+  replayCommittedRoute,
+} from './committed-route.mjs'
+import { writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { readWorld } from './game-observer.mjs'
 import { assertInnRestoreCommitted } from './inn-contract.mjs'
-import { committedInnMoves, navigateInnRoute, partitionInnMoves } from './inn-navigation.mjs'
+import { committedInnMoves, partitionInnMoves } from './inn-navigation.mjs'
+import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import {
   assertKitchenDialogue,
   assertKitchenEndPayload,
@@ -20,31 +28,22 @@ import {
   readKitchenContract,
   readKitchenPredecessor,
 } from './kitchen-contract.mjs'
-import { installKitchenObserver, readKitchenGame, readKitchenReforge } from './kitchen-observer.mjs'
+import { kitchenInputPlan } from './kitchen-input-plan.mjs'
+import {
+  kitchenCausalObserverScript,
+  readKitchenGame,
+  readKitchenReforge,
+} from './kitchen-observer.mjs'
+import { npcStoryBoundary } from './npc-story-scope.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { appendBounded } from './opening-policy.mjs'
+import { producerExtraInputs } from './producer-inputs.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
 
 export async function runKitchenJourney(engine) {
   const options = kitchenArguments(process.argv.slice(2)),
     predecessor = await readKitchenPredecessor(options['--from'], engine),
     contract = await readKitchenContract()
-  const maps = Object.fromEntries(
-    await Promise.all(
-      ['s001', 's003'].map(async (id) => [
-        id,
-        JSON.parse(
-          await readFile(
-            resolve(
-              repoRoot,
-              `projects/pal/content/maps/map-${id === 's001' ? '012' : '010'}.json`,
-            ),
-            'utf8',
-          ),
-        ),
-      ]),
-    ),
-  )
   await runBrowserJourney({
     name: `${engine}-003`,
     packageName: `@type-pal/${engine}`,
@@ -54,8 +53,21 @@ export async function runKitchenJourney(engine) {
       ...(options.capture ? ['--capture'] : []),
     ],
     traceConfig: `scripts/e2e/kitchen-${engine}.config.mts`,
-    initScripts: [installKitchenObserver],
-    sources: Object.keys(contract.hashes),
+    initScripts: [kitchenCausalObserverScript(), installCommittedRoutePlayback],
+    sources: [
+      ...producerExtraInputs('003', engine),
+      'scripts/e2e/evidence-artifact.mjs',
+      ...Object.keys(contract.hashes),
+      'scripts/e2e/npc-story-scope.mjs',
+      'scripts/e2e/kitchen-input-plan.mjs',
+      'scripts/e2e/fixed-route-plan.mjs',
+      'scripts/e2e/committed-route.mjs',
+      'scripts/e2e/script-causal-observer.mjs',
+      'scripts/e2e/opening-causal-instrumentation.mjs',
+      'scripts/e2e/opening-hold-intent.mjs',
+      'scripts/e2e/kitchen-timing-intent.mjs',
+      'scripts/e2e/npc-transition-contract.mjs',
+    ],
     journey: async ({ newPage, baseURL, out, report, until, health, capture }) => {
       report.fragment = '003'
       report.engine = engine
@@ -82,20 +94,17 @@ export async function runKitchenJourney(engine) {
         }
         return state
       }
-      const press = async (key, reason) => {
-        appendBounded(report.actions, { key, reason, phase }, 320)
+      const press = async (key, reason, scope = 'story') => {
         console.log(`[${engine}-003] ${key}: ${reason}`)
-        try {
-          await page.keyboard.down(key)
-        } finally {
-          await page.keyboard.up(key)
-        }
+        await pressRecordedKey({
+          keyboard: page.keyboard,
+          action: canonicalInput({ key, reason, phase, scope }),
+          record: (action) => appendBounded(report.actions, action, 320),
+        })
       }
       const evidence = () => page.evaluate(() => window.__readKitchenEvidence())
-      const evidenceOrder = async () => {
-        const t = await evidence()
-        return Math.max(-1, ...[...t.events, ...t.pages, ...t.frames].map((e) => e.order))
-      }
+      const progress = () => page.evaluate(() => window.__readKitchenProgress())
+      const evidenceOrder = () => page.evaluate(() => window.__readKitchenProgress().order)
       const ready = (s) => kitchenReady(s, engine)
       const inScene = (s, sid) => kitchenScene(s, engine, sid)
       const bootstrap = async (label, bytes) => {
@@ -136,7 +145,7 @@ export async function runKitchenJourney(engine) {
                     video.endsWith(path),
                   ),
                 )
-                await press('Enter', 'close title prelude outside 003')
+                await press('Enter', 'close title prelude outside 003', 'boundary')
                 await until(
                   () => page.evaluate(() => document.querySelector('video')?.currentSrc ?? null),
                   (next) => next !== video,
@@ -162,58 +171,64 @@ export async function runKitchenJourney(engine) {
             return serializeSave(await Save.loadSlot(1))
           }, bytes)
           assert.equal(sha256(staged), sha256(bytes), 'staged save bytes changed')
-          await press('ArrowDown', 'select 旧的回忆')
+          await press('ArrowDown', 'select 旧的回忆', 'boundary')
           await until(
             snapshot,
             (s) => s.menu?.kind === 'opening' && s.menu.cursor === 1,
             'load selection',
           )
-          await press('Enter', 'open formal slot menu')
+          await press('Enter', 'open formal slot menu', 'boundary')
           await until(snapshot, (s) => s.menu?.kind === 'save-slot', 'slot menu')
           assert.equal((await snapshot()).menu.cursor, 0)
-          await press('Enter', 'load actual slot1')
+          await press('Enter', 'load actual slot1', 'boundary')
           await until(snapshot, ready, 'formal game checkpoint restore', 60000)
         }
       }
-      const navigate = async (sid, destination, finished) => {
-        const startOrder = await evidenceOrder()
-        await navigateInnRoute({
-          engine,
-          keyboard: page.keyboard,
-          map: maps[sid],
-          read: snapshot,
-          until,
+      const navigate = async (sid, finished) => {
+        const startOrder = await evidenceOrder(),
+          routeId = report.route.legs.length
+        const plan = kitchenInputPlan(engine, routeId, phase)
+        assert.equal(plan.steps[0].scene, sid, '003 input plan scene mismatch')
+        await replayCommittedRoute({
+          page,
+          route: plan,
           health,
-          onReplan: (value) => {
-            report.route.replans ??= []
-            report.route.replans.push({ scene: sid, ...value })
-          },
-          grid: (s) => kitchenGrid(s.position, engine),
-          inScene: (s) => inScene(s, sid),
-          ready,
-          destination,
-          finished,
           onInput: (input) => {
-            const action = { scene: sid, phase, atMs: Date.now(), ...input }
+            const action = canonicalInput({
+              scene: sid,
+              phase,
+              routeId,
+              atMs: Date.now(),
+              ...input,
+            })
             appendBounded(report.route.inputs, action, 320)
             appendBounded(report.actions, action, 320)
           },
-          onProgress: (step) =>
-            appendBounded(
-              report.route.steps,
-              { scene: sid, phase, atMs: Date.now(), ...step },
-              320,
-            ),
         })
+        const endOrder = await evidenceOrder(),
+          end = await snapshot()
+        assert(finished(end), '003 fixed input ended before the independent story condition')
         report.route.legs.push({
           scene: sid,
           phase,
+          inputPlan: plan,
           startOrder,
-          endOrder: await evidenceOrder(),
+          endOrder,
+          replay: committedRouteReceipt({
+            inputCount: report.route.inputs.filter((input) => input.routeId === routeId).length,
+            id: routeId,
+            engine,
+            trace: await page.evaluate(() => window.__readKitchenRouteEvidence()),
+            startOrder,
+            endOrder,
+            scene: sid,
+            end,
+            ready: ready(end),
+          }),
           moveSources:
             engine === 'game'
               ? ['commit:tickSceneInput', 'commit:pushPartyAwayFromBlockingNpcs']
-              : ['commit:player.pos'],
+              : ['commit:player.input'],
         })
       }
       const finishDialogue = async (sid, expectedLast) => {
@@ -222,7 +237,7 @@ export async function runKitchenJourney(engine) {
           const s = await snapshot()
           assert(inScene(s, sid), 'dialogue left expected scene')
           assert.equal(s.cash, 500)
-          const trace = await evidence(),
+          const trace = await progress(),
             shown = assertKitchenDialogue(trace, engine, contract, false)
           const dialog = engine === 'game' ? s.dialog : s.runtime?.dialogue
           if (ready(s)) {
@@ -274,7 +289,6 @@ export async function runKitchenJourney(engine) {
         const near = (col, row) => Math.abs(col - tc) + Math.abs(row - tr) === 1
         await navigate(
           sid,
-          near,
           (s) => ready(s) && inScene(s, sid) && near(...kitchenGrid(s.position, engine)),
         )
         const [col, row] = kitchenGrid((await snapshot()).position, engine)
@@ -282,26 +296,21 @@ export async function runKitchenJourney(engine) {
         const key = { right: 'ArrowRight', left: 'ArrowLeft', down: 'ArrowDown', up: 'ArrowUp' }[
           facing
         ]
-        try {
-          await page.keyboard.down(key)
-          await until(
-            snapshot,
-            (s) => s.facing === facing,
-            'normal facing toward interaction actor',
-            5000,
-          )
-        } finally {
-          await page.keyboard.up(key)
-        }
+        await recordFacingInput({
+          id: `face:${report.actions.length}`,
+          page,
+          key,
+          facing: facing,
+          onInput: (input) => report.actions.push(canonicalInput({ phase, ...input })),
+        })
         await press('Enter', `normal interaction ${id}`)
         await until(snapshot, (s) => !ready(s), 'normal interaction starts')
       }
       report.route = {
         status: 'running',
-        steps: [],
         inputs: [],
         legs: [],
-        stepKind: 'observed progress; actual input/passive route commits are separately classified',
+        strategy: 'fixed-input-plan',
       }
       report.milestones = {}
       try {
@@ -309,6 +318,7 @@ export async function runKitchenJourney(engine) {
         const start = await snapshot()
         assert(inScene(start, 's003'))
         assert.equal(start.cash, 500)
+        report.storyScope = { start: npcStoryBoundary(await evidence()) }
         report.route.startOrder = await evidenceOrder()
         report.route.start = start
         if (capture.enabled) {
@@ -319,14 +329,13 @@ export async function runKitchenJourney(engine) {
         report.stairs = { startOrder: await evidenceOrder() }
         await navigate(
           's003',
-          (c, r) => c === 122 && r === 49,
           (s) =>
             ready(s) &&
             inScene(s, 's003') &&
             JSON.stringify(kitchenGrid(s.position, engine)) === '[131,52]',
         )
         await until(
-          evidence,
+          progress,
           (t) =>
             t.final?.control === true &&
             JSON.stringify(kitchenGrid(t.final.actors.party.position, engine)) === '[131,52]',
@@ -338,15 +347,7 @@ export async function runKitchenJourney(engine) {
         phase = 'aunt'
         const aunt = (await snapshot()).actors.e56
         assert(aunt.visible)
-        const [ac, ar] = kitchenGrid(aunt.position, engine)
-        await navigate(
-          's003',
-          (c, r) =>
-            engine === 'game'
-              ? Math.abs(16 * (c - r - (ac - ar))) + 2 * Math.abs(8 * (c + r - (ac + ar))) < 80
-              : Math.max(Math.abs(c - ac), Math.abs(r - ar)) <= 2,
-          (s) => (engine === 'game' ? !!s.dialog : !!s.runtime?.dialogue),
-        )
+        await navigate('s003', (s) => (engine === 'game' ? !!s.dialog : !!s.runtime?.dialogue))
         await finishDialogue('s003', 58)
         phase = 'taoist'
         await interact('e62', 's003')
@@ -354,28 +355,19 @@ export async function runKitchenJourney(engine) {
         phase = 'aunt-handoff'
         report.auntHandoff = (
           await until(
-            evidence,
+            progress,
             kitchenHandoffReady,
             'actual kitchen aunt activation and hall aunt disappearance',
           )
         ).final
         phase = 'kitchen-entry'
-        await navigate(
-          's003',
-          (c, r) =>
-            engine === 'game'
-              ? Math.abs(c - 123) + Math.abs(r - 61) <= 1
-              : Math.max(Math.abs(c - 123), Math.abs(r - 61)) <= 1,
-          (s) => inScene(s, 's001') && ready(s),
-        )
+        await navigate('s003', (s) => inScene(s, 's001') && ready(s))
         phase = 'kitchen'
         await interact('e19', 's001')
         await finishDialogue('s001', 127)
-        const trace = await until(
-          evidence,
-          kitchenEndPresented,
-          'actual kitchen final render/control',
-        )
+        await until(progress, kitchenEndPresented, 'actual kitchen final render/control')
+        const trace = await evidence()
+        report.storyScope.end = npcStoryBoundary(trace)
         report.route.committedMoves = committedInnMoves(trace, report.route.startOrder)
         const partition = partitionInnMoves(report.route.committedMoves, report.route.legs)
         report.route.committedSteps = partition.steps
@@ -386,7 +378,7 @@ export async function runKitchenJourney(engine) {
           report.captureEndWorld = await readCaptureWorld(page, engine)
           assertKitchenStoryEnd(report.captureEndWorld, engine, predecessor.payload, contract)
           report.endFrame = await waitForOpeningFrame(page, until)
-          await writeFile(resolve(out, 'kitchen-trace.json'), JSON.stringify(trace, null, 2))
+          report.contextTraces = [await writeEvidenceArtifact(out, 'kitchen-trace.json', trace)]
           await capture.finish(page, {
             event: 'aunt-orders-serving-food-not-taken',
             frame: report.endFrame,
@@ -396,13 +388,13 @@ export async function runKitchenJourney(engine) {
           return
         }
         phase = 'save'
-        await press('Escape', 'prove normal control menu')
+        await press('Escape', 'prove normal control menu', 'boundary')
         await until(
           snapshot,
           (s) => (engine === 'game' ? !!s.menu : !!s.runtime?.menuActive),
           'menu opens',
         )
-        await press('Escape', 'close actual menu')
+        await press('Escape', 'close actual menu', 'boundary')
         await until(snapshot, ready, 'menu closes')
         const formalSnapshot = async (label) => {
           const began = Date.now(),
@@ -433,7 +425,7 @@ export async function runKitchenJourney(engine) {
         let payload, bytes
         if (engine === 'game') {
           report.endWorld = await page.evaluate(readWorld)
-          await press('F5', 'formal 003 quick-save')
+          await press('F5', 'formal 003 quick-save', 'boundary')
           bytes = await until(
             () =>
               page.evaluate(async () => {
@@ -461,7 +453,7 @@ export async function runKitchenJourney(engine) {
           sha256: sha256(bytes),
           source: `this 003 normal route/dialogue, no pickup / ${engine === 'game' ? 'F5 Save.loadSlot/serialize' : 'production barrier dumpSave'}`,
         }
-        await writeFile(resolve(out, 'kitchen-trace.json'), JSON.stringify(trace, null, 2))
+        report.contextTraces = [await writeEvidenceArtifact(out, 'kitchen-trace.json', trace)]
         phase = 'restore'
         await bootstrap('003-real-restore', bytes)
         const restoredTrace = await evidence()

@@ -2,6 +2,7 @@ import {
   type AuthorItemCoreMap,
   type BaseSceneDef,
   type BaseSceneEntity,
+  type BehaviorCursor,
   type EntityAddress,
   type EntityLifecycleCommand,
   type EntityLifecycleReferenceIndex,
@@ -17,6 +18,7 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
+import type { EntityActionTrackSnapshot } from './entity-action-player.js'
 import {
   commitEntityEntityLifecycleCommand,
   type EntityLifecycleCommandCommit,
@@ -30,12 +32,14 @@ import {
 } from './runtime-script-compiler.js'
 import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
 import type { StoredAutomaticChaseClaim } from './save/types.js'
+import type { SceneRuntimeState } from './scene-runtime-state.js'
 import {
   registeredScriptActivityLease,
   withRegisteredScriptActivityLineage,
   withScriptActivityLineage,
 } from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
+import type { ScriptContinuationLocation } from './script-continuation.js'
 import { ScriptExecutionBudgets } from './script-execution-budget.js'
 import {
   type BaseProjectScriptHostOptions,
@@ -105,6 +109,32 @@ function runtimeCommand(command: BaseRuntimeLeafCommand): RuntimeLeafCommand {
   return command as unknown as RuntimeLeafCommand
 }
 
+/** Persistence object key order is immaterial; continuation frames and control values are not. */
+function sameBehaviorCursor(left: BehaviorCursor, right: BehaviorCursor | undefined): boolean {
+  if (!right || left.behavior !== right.behavior || left.at?.kind !== right.at.kind) return false
+  if (left.at.kind === 'stage' && right.at.kind === 'stage' && left.at.stage !== right.at.stage)
+    return false
+  if (!left.resume || !right.resume) return left.resume === right.resume
+  if (
+    left.resume.digest !== right.resume.digest ||
+    left.resume.frames.length !== right.resume.frames.length
+  )
+    return false
+  return left.resume.frames.every((frame, index) => {
+    const other = right.resume?.frames[index]
+    if (!other || frame.index !== other.index) return false
+    if (!frame.control || !other.control) return frame.control === other.control
+    const entries = Object.entries(frame.control),
+      otherEntries = Object.entries(other.control)
+    return (
+      entries.length === otherEntries.length &&
+      entries.every(([key, value]) =>
+        otherEntries.some(([otherKey, otherValue]) => key === otherKey && value === otherValue),
+      )
+    )
+  })
+}
+
 /**
  * 当前 canonical world authority。基础 script 字段由共享 host 维护；四个 lifecycle leaf
  * 在同一 execute commit point 原子替换 world.entityLifecycles，再通知画面投影刷新。
@@ -156,6 +186,10 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     boundary?: ScriptGateBoundary,
   ): ReturnType<NonNullable<ScriptRuntimeHost['gate']>> {
     return this.retainedHost.gate(signal, boundary)
+  }
+
+  gateOpen(signal: AbortSignal, boundary?: ScriptGateBoundary): boolean {
+    return this.retainedHost.gateOpen(signal, boundary)
   }
 
   async execute(
@@ -787,6 +821,145 @@ export class ScriptProjectRuntime {
       if (active?.behaviorId !== claim.behavior)
         throw new Error('auto chase claim: owner方案未选中')
       if (offstage(claim.owner)) throw new Error('auto chase claim: owner已离场')
+    }
+  }
+
+  /** Restore preflight for the transient resources retained by an inactive scene. */
+  async validateSceneRuntimeContinuations(
+    world: WorldState,
+    signal: AbortSignal,
+    sceneId: string,
+    savedScene: SceneRuntimeState,
+  ): Promise<void> {
+    signal.throwIfAborted()
+    const scene = await this.hostScene(sceneId)
+    signal.throwIfAborted()
+    if (scene.id !== sceneId) throw new Error('scene runtime: scene地址不匹配')
+    for (const [id, saved] of Object.entries(savedScene.automatic)) {
+      entityAt(scene, { scene: sceneId, entity: id })
+      if (
+        !sameBehaviorCursor(
+          saved.cursor,
+          world.script?.behaviors.entities?.[sceneId]?.[id]?.auto?.cursor,
+        )
+      )
+        throw new Error(`scene runtime: ${sceneId}/${id} cursor与world不一致`)
+    }
+    const owners = new Map<
+      string,
+      {
+        cursor: BehaviorCursor
+        location: ScriptContinuationLocation<RuntimeLeafCommand>
+      }
+    >()
+    const ownerAt = async (id: string | undefined, incomplete: boolean) => {
+      signal.throwIfAborted()
+      if (!id) throw new Error('scene runtime: 缺少automatic owner')
+      let state = owners.get(id)
+      if (!state) {
+        const target = { scene: sceneId, entity: id }
+        const entity = entityAt(scene, target)
+        const saved = savedScene.automatic[id]
+        if (!saved || !world.script) throw new Error('scene runtime: owner没有保存cursor')
+        const active = resolveRuntimeEntityBehavior(entity, world.script, target, 'auto')
+        if (active?.behaviorId !== saved.cursor.behavior)
+          throw new Error('scene runtime: owner方案未选中')
+        const phase = world.entityLifecycles?.[sceneId]?.[id]?.phase
+        if (phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed')
+          throw new Error('scene runtime: owner已离场')
+        const location = saved.cursor.resume
+          ? await new RuntimeScriptRunner(this.host, signal, this.shared).validateContinuation(
+              compileRuntimeScriptFlow(active.behavior.flow, {
+                canonicalContentDigest: this.canonicalContentDigest,
+                timing: 'auto',
+              }),
+              saved.cursor.at,
+              saved.cursor.resume,
+              target,
+            )
+          : {}
+        state = { cursor: saved.cursor, location }
+        owners.set(id, state)
+      }
+      if (incomplete && state.cursor.at.kind === 'completed')
+        throw new Error('scene runtime: completed owner不能保留未完成进度')
+      return state.location
+    }
+    for (const [id, pose] of Object.entries(savedScene.entities)) {
+      entityAt(scene, { scene: sceneId, entity: id })
+      const { move, gait } = pose.motion
+      if (gait?.source === 'auto') await ownerAt(gait.owner, true)
+      if (!move) continue
+      const { leaf } = await ownerAt(move.owner, true)
+      if (
+        leaf?.kind !== 'moveEntity' ||
+        leaf.target.scene !== sceneId ||
+        leaf.target.entity !== id ||
+        leaf.speed !== move.speed ||
+        leaf.to.col !== move.to.col ||
+        leaf.to.row !== move.to.row ||
+        leaf.to.height !== move.to.height
+      )
+        throw new Error('scene runtime: move与当前moveEntity命令不一致')
+    }
+    for (const [id, saved] of Object.entries(savedScene.automatic)) {
+      const wait = saved.wait
+      if (!wait) continue
+      const { leaf, control, self } = await ownerAt(id, true)
+      if (wait.kind === 'command') {
+        if (leaf?.kind !== 'wait' || leaf.ms !== wait.durationMs)
+          throw new Error('scene runtime: wait与当前wait命令不一致')
+        continue
+      }
+      if (
+        leaf?.kind !== 'chasePlayer' ||
+        control?.kind !== 'leaf' ||
+        !self ||
+        self.scene !== sceneId
+      )
+        throw new Error('scene runtime: chase等待没有对应的已提交追逐命令')
+      entityAt(scene, self)
+      // A rejected motion intent commits done but retains the same pacing delay as an attempt.
+      const expected =
+        wait.kind === 'chase-pacing'
+          ? Math.max(80, 480 / Math.max(1, leaf.speed ?? 4))
+          : wait.kind === 'chase-terminal'
+            ? 320
+            : wait.kind === 'chase-range'
+              ? 240
+              : 200
+      if (
+        wait.durationMs !== expected ||
+        (wait.kind !== 'chase-pacing' && control.phase !== 'done')
+      )
+        throw new Error('scene runtime: chase等待类型/时长与命令相位不一致')
+    }
+    const actionAt = async (id: string, track: EntityActionTrackSnapshot, receipt: boolean) => {
+      if (track.source !== 'automatic') return
+      if (track.awaited && track.binding.loop)
+        throw new Error('scene runtime: 循环动作不能保留awaited进度')
+      if (receipt && !track.awaited)
+        throw new Error('scene runtime: completed动作收据必须属于awaited命令')
+      const { leaf } = await ownerAt(track.owner, track.awaited)
+      // Background actions outlive their invoking leaf (and possibly the whole behavior).
+      if (!track.awaited) return
+      if (
+        leaf?.kind !== 'playEntityAction' ||
+        leaf.target.scene !== sceneId ||
+        leaf.target.entity !== id ||
+        !(leaf.wait ?? !leaf.loop) ||
+        leaf.sprite !== track.binding.sprite ||
+        leaf.action !== track.binding.action ||
+        leaf.loop !== track.binding.loop ||
+        (leaf.startAtMs ?? 0) !== (track.binding.startAtMs ?? 0)
+      )
+        throw new Error('scene runtime: action与当前playEntityAction命令不一致')
+    }
+    for (const action of savedScene.actions) {
+      entityAt(scene, { scene: sceneId, entity: action.entity })
+      // The page's base track has no script continuation or behavior owner.
+      if (action.override) await actionAt(action.entity, action.override, false)
+      for (const receipt of action.completed ?? []) await actionAt(action.entity, receipt, true)
     }
   }
 

@@ -291,7 +291,7 @@ const manifest = {
   id: 'pal',
   name: 'PAL',
   contentVersion: 22,
-  minimumSaveVersion: 11,
+  minimumSaveVersion: 12,
   defaultEntryId: 'main',
   content: {
     scenes: 'content/scenes/',

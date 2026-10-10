@@ -138,6 +138,7 @@ describe('WorldScenePresentation sprite ownership', () => {
         occlusionTrigger: false,
       }),
     ])
+    expect(instance.renderedEntityFrame('npc')).toBe(5)
   })
 
   test('party, party followers and extra followers retain source order and depth tie-breaks', () => {

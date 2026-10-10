@@ -21,6 +21,7 @@ function payload(): CurrentSavePayload {
   }
   return {
     version: SAVE_VERSION,
+    sceneRuntime: {},
     projectId: 'demo',
     contentVersion: 22,
     world,

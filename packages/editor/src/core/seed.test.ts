@@ -7,7 +7,7 @@ const manifest = {
   id: 'pal',
   name: 'PAL',
   contentVersion: 22,
-  minimumSaveVersion: 11,
+  minimumSaveVersion: 12,
   defaultEntryId: 'main',
   content: {
     actors: 'content/actors.json',
@@ -126,7 +126,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     expect(m.contentVersion).toBe(22)
     expect(m.content.worldVariables).toBe('content/world-variables.json')
     expect(files['content/world-variables.json']).toEqual({})
-    expect(m.minimumSaveVersion).toBe(11)
+    expect(m.minimumSaveVersion).toBe(12)
     expect(m.defaultEntryId).toBe('new-game')
     expect(m.entryPoints[0]?.scene).toBe('start')
     expect(m).not.toHaveProperty('entryScene')

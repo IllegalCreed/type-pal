@@ -85,7 +85,7 @@ function state(): EditorState {
       id: 'test',
       name: 'test',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },
       assets: { catalog: 'assets/index.json', roles: {} },

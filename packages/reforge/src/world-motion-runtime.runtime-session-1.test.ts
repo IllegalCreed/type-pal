@@ -5,7 +5,7 @@
  * owner 清理、party epoch、trace 克隆/上限淘汰、teardown 全量取消与 session 换代、
  * one-shot authority 丢弃、侧避锁保留、阻挡原因记录。本文件补:在途走位的中止署名消息
  * 与注册表清理、预中止信号的全注册入口拒绝、在途单步中止、同目标重复注册的替换接管、
- * 实体 authority 接管的步态/侧避锁清空、attempted/取消后的迟到回执静默、scene token
+ * 实体 authority 接管的 script 步态/侧避锁清空、attempted/取消后的迟到回执静默、scene token
  * 注册时快照与 teardown 失效语义。
  */
 import { describe, expect, test, vi } from 'vitest'
@@ -179,10 +179,12 @@ describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换', () => {
     await expect(step).resolves.toMatchObject({ outcome: 'attempted' })
   })
 
-  test('实体 authority 接管清空旧 owner 的步态与侧避锁', () => {
+  test('实体 authority 接管清空旧 script owner 的步态与侧避锁', () => {
     const motion = new WorldMotionRuntime(100)
     motion.advanceCadence(100, false)
-    motion.markGait('npc', 'auto', 4)
+    // Automatic gait is paused and retained; main.auto-pose-authority exercises its actual
+    // standing presentation and resumed phase. This caller covers the script cleanup boundary.
+    motion.markGait('npc', 'script', 4)
     expect(motion.hasGait('npc')).toBe(true)
     const npcStick: SideStick = {
       actor: { kind: 'entity', id: 'npc' },

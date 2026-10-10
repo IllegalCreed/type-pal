@@ -5,7 +5,7 @@ import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { shellScene } from './__tests__/runtime-shell/project.js'
 import { bootScenario, installShellHost, state } from './__tests__/runtime-shell/scenarios.js'
-import type { DialogueObservation } from './dialog/dialog-box.js'
+import type { DialogueObservation, DialogueSlotObservation } from './dialog/dialog-box.js'
 
 let host: ShellHost | undefined
 afterEach(() => {
@@ -26,6 +26,17 @@ function dialogue(): DialogueObservation | null {
     throw new Error('real runtime observation missing')
   // Detached product observation only; no input or world mutation through this diagnostic.
   return observer.readRuntime().dialogue
+}
+function visibleDialogue(): readonly DialogueSlotObservation[] {
+  const observer: unknown = Reflect.get(window, '__tpObserve')
+  if (
+    !observer ||
+    typeof observer !== 'object' ||
+    !('readRuntime' in observer) ||
+    typeof observer.readRuntime !== 'function'
+  )
+    throw new Error('real runtime observation missing')
+  return observer.readRuntime().dialogueSlots
 }
 function dither(): { active: boolean; step: number; pr: number; prepareMs: number | null } {
   return Reflect.get(window, '__rfDither')
@@ -50,7 +61,7 @@ async function harness(body: AuthorCommand[], debug = false) {
     wall += dt
     const elapsed = wall - raf
     raf = wall
-    present(elapsed)
+    return present(elapsed)
   }
   // External Canvas data adapter. Blank pixels cannot establish visual correctness; these
   // cases assert actual production step calls, dialogue phase and awaited script completion.
@@ -111,7 +122,7 @@ async function harness(body: AuthorCommand[], debug = false) {
       wall += ms
     },
     frame: async (dt: number) => {
-      h.frame(dt)
+      await h.frame(dt)
       await drain()
       await h.settleIO()
     },
@@ -131,6 +142,131 @@ const cue: AuthorCommand = {
   },
 }
 const tail: AuthorCommand = { kind: 'giveMoney', delta: 7 }
+
+test('real script retains confirmed top/bottom draws until replacement, clear and root completion', async () => {
+  if (cue.kind !== 'dialog') throw new Error('ordinary dialogue fixture missing')
+  const top: AuthorCommand = {
+    ...cue,
+    cue: { ...cue.cue, slot: 'top', rows: [{ text: 'AA', speed: 0 }] },
+  }
+  const r = await harness([
+    top,
+    { kind: 'wait', ms: 100 },
+    cue,
+    { kind: 'wait', ms: 100 },
+    { ...top, cue: { ...top.cue, rows: [{ text: 'AAAA', speed: 0 }] } },
+    { kind: 'clearDialog' },
+    { kind: 'wait', ms: 100 },
+    top,
+    tail,
+  ])
+  const bodyDraws = () =>
+    r.h.text.mock.calls
+      .filter((call) => call[2] === 44 && (call[3] === 26 || call[3] === 126))
+      .map((call) => ({ text: call[1].map((span) => span.text).join(''), y: call[3] }))
+  await r.start()
+  await r.frame(0)
+  const firstId = visibleDialogue()[0]?.presentationId
+  await key(r.h, 'Enter', 0)
+  r.h.text.mockClear()
+  await r.frame(0)
+  expect(dialogue()).toBeNull()
+  expect(state().script.running).toBe(true)
+  expect(visibleDialogue()).toMatchObject([
+    { slot: 'top', active: false, phase: 'retained', visibleText: 'AA', presentationId: firstId },
+  ])
+  expect(bodyDraws()).toEqual([{ text: 'AA', y: 26 }])
+  await r.frame(100)
+  r.h.text.mockClear()
+  await r.frame(300)
+  expect(dialogue()).toMatchObject({ slot: 'bottom', phase: 'typing' })
+  expect(visibleDialogue()).toMatchObject([
+    { slot: 'bottom', active: true, visibleText: 'AAA' },
+    { slot: 'top', active: false, visibleText: 'AA', presentationId: firstId },
+  ])
+  expect(bodyDraws()).toEqual([
+    { text: 'AAAAAAAA', y: 126 },
+    { text: 'AA', y: 26 },
+  ])
+  await key(r.h, 'Enter', 0) // finish typing only
+  await key(r.h, 'Enter', 0) // finish bottom command only
+  await r.frame(100)
+  await r.frame(0)
+  expect(visibleDialogue()).toMatchObject([
+    { slot: 'bottom', active: false, visibleText: 'AAAAAAAA' },
+    { slot: 'top', active: true, visibleText: 'AAAA' },
+  ])
+  expect(visibleDialogue()[1]?.presentationId).not.toBe(firstId)
+  await key(r.h, 'Enter', 0)
+  r.h.text.mockClear()
+  await r.frame(0)
+  expect(state().script.running).toBe(true)
+  expect(visibleDialogue()).toEqual([])
+  expect(bodyDraws()).toEqual([])
+  await r.frame(100)
+  await r.frame(0)
+  expect(dialogue()?.slot).toBe('top')
+  await key(r.h, 'Enter', 0)
+  await r.frame(0)
+  expect(state().world.money).toBe(57)
+  expect(state().script.running).toBe(false)
+  expect(visibleDialogue()).toEqual([])
+  r.fixture.assertInputUnchanged()
+})
+
+test('canceling a root after confirmation clears retained draws while a real wait is pending', async () => {
+  if (cue.kind !== 'dialog') throw new Error('ordinary dialogue fixture missing')
+  const r = await harness(
+    [
+      { ...cue, cue: { ...cue.cue, rows: [{ text: 'AA', speed: 0 }] } },
+      { kind: 'wait', ms: 1000 },
+      tail,
+    ],
+    true,
+  )
+  const run = [...document.querySelectorAll<HTMLButtonElement>('.tpd-trigger-button')].find(
+    (button) => button.textContent?.includes('shared/cancelFilm'),
+  )
+  if (!run) throw new Error('real shared presentation trigger missing')
+  run.click()
+  await drain()
+  await r.frame(0)
+  await key(r.h, 'Enter', 0)
+  await r.frame(0)
+  expect(dialogue()).toBeNull()
+  expect(visibleDialogue()).toMatchObject([{ active: false, visibleText: 'AA' }])
+  const cancel = [...document.querySelectorAll<HTMLButtonElement>('.tpd-trigger-button')].find(
+    (button) => button !== run && button.textContent?.includes('shared/cancelFilm'),
+  )
+  if (!cancel) throw new Error('real running presentation cancellation button missing')
+  cancel.click()
+  await drain()
+  await r.frame(2000)
+  expect(visibleDialogue()).toEqual([])
+  expect(state().world.money).toBe(50)
+  r.fixture.assertInputUnchanged()
+})
+
+test('a real scene switch clears source dialogue before the same root continues waiting', async () => {
+  if (cue.kind !== 'dialog') throw new Error('ordinary dialogue fixture missing')
+  const r = await harness([
+    { ...cue, cue: { ...cue.cue, rows: [{ text: 'AA', speed: 0 }] } },
+    { kind: 'loadScene', scene: 'b', pos: { col: 3, row: 2, height: 0 } },
+    { kind: 'wait', ms: 1000 },
+    tail,
+  ])
+  await r.start()
+  await r.frame(0)
+  await key(r.h, 'Enter', 0)
+  await r.h.settleIO()
+  for (let frame = 0; frame < 6; frame++) await r.frame(100)
+  expect(state().sceneId).toBe('b')
+  expect(state().script.running).toBe(true)
+  expect(visibleDialogue()).toEqual([])
+  for (let frame = 0; frame < 10; frame++) await r.frame(100)
+  expect(state().world.money).toBe(57)
+  r.fixture.assertInputUnchanged()
+})
 
 test.each([
   false,

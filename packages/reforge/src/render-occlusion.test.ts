@@ -105,7 +105,7 @@ function revealed(pixel: number[], color = red, foreground = wall): void {
   for (let channel = 0; channel < 3; channel++) {
     expect(
       Math.abs(
-        (pixel[channel] ?? 0) - ((color[channel] ?? 0) * 0.65 + (foreground[channel] ?? 0) * 0.35),
+        (pixel[channel] ?? 0) - ((color[channel] ?? 0) * 0.2 + (foreground[channel] ?? 0) * 0.8),
       ),
     ).toBeLessThanOrEqual(1)
   }

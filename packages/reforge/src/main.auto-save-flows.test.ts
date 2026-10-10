@@ -122,14 +122,14 @@ test.each([
   })
   expect(state().world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual(cursor)
   for (let frame = 0; frame < 5; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
   }
   expect(state().world.money).toBe(57)
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let frame = 0; frame < 40 && !(await store.getPayload('quick')); frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -139,7 +139,7 @@ test.each([
   expect(payload?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual(cursor)
   await key(host, 'F9')
   for (let frame = 0; frame < 5; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -220,7 +220,7 @@ test.each([
 test.each([
   'stepEntity',
   'chasePlayer',
-] as const)('a committed auto %s is saved before its deferred ack and never applies its relative movement twice after F9', async (kind) => {
+] as const)('a committed auto %s saved during its following wait never applies its relative movement twice after F9', async (kind) => {
   host = await installShellHost()
   const first = shellScene('a')
   first.entities = [
@@ -243,6 +243,7 @@ test.each([
                   id: 'first',
                   body: [
                     kind === 'stepEntity' ? { kind, target, dir: 'right' } : { kind, range: 8 },
+                    { kind: 'wait', ms: 1000 },
                     { kind: 'giveMoney', delta: 7 },
                   ],
                   next: { kind: 'complete' },
@@ -256,10 +257,19 @@ test.each([
   ]
   const booted = await bootScenario(host, { first })
   await drain()
-  host.frame(100)
+  await host.frame(100)
   const committed = structuredClone(state().entities[0]!.pos)
   expect(committed).not.toEqual({ col: 4, row: 4, height: 0 })
-  // Do not settle the timeout-based motion ack before requesting this real snapshot.
+  const committedGait = motionState().entities.find((entity) => entity.id === 'npc')?.gait
+  // The real frame receipt includes the step acknowledgement. Save at the next authored
+  // wait: this is the first user-accessible post-commit boundary, not an intercepted timeout.
+  for (let tick = 0; tick < 2; tick++) {
+    await host.frame(100)
+    expect(state().entities[0]!.pos).toEqual(committed)
+    expect(motionState().entities.find((entity) => entity.id === 'npc')?.gait).toBe(committedGait)
+    expect(state().world.money).toBe(50)
+  }
+  // Request the snapshot through the ordinary input path during the remaining wait.
   await key(host, 'F5', 1)
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   for (let turn = 0; turn < 20 && !(await store.getPayload('quick')); turn++) {
@@ -270,7 +280,7 @@ test.each([
   expect(saved?.world.money).toBe(50)
   expect(saved?.world.script?.entityPos?.a?.npc).toEqual(committed)
   expect(saved?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.resume?.frames).toEqual([
-    { index: 0, control: { kind: 'leaf', command: kind, phase: 'continuation' } },
+    { index: 1 },
   ])
   await key(host, 'F9', 1)
   for (let turn = 0; turn < 10; turn++) {
@@ -436,7 +446,7 @@ test.each([
   })
   for (let turn = 0; turn < 10 && !motionState().pendingChase.includes('npc'); turn++) await drain()
   expect(motionState().pendingChase).toEqual(['npc'])
-  host.frame(100)
+  await host.frame(100)
   expect(state().entities[0]!.pos).toEqual({ col: 2.25, row: 2, height: 0 })
   if (between)
     await advance(
@@ -475,8 +485,8 @@ test.each([
   )
   expect(motionState().pendingChase).toEqual(hidden ? [] : ['npc'])
   expect(state().renderDebug.inBattle).toBe(false)
-  expect(saved?.automaticChaseClaims).toEqual(
-    hidden ? undefined : [{ owner, target, behavior: 'chase' }],
+  expect(saved?.sceneRuntime.a?.chaseClaims).toEqual(
+    hidden ? [] : [{ owner, target, behavior: 'chase' }],
   )
   // World is deliberately replaced in place; a successful same-scene restore commits fresh
   // scene entities. Rejected preflight leaves this live scene reference unchanged.
@@ -497,7 +507,7 @@ test.each([
     return
   }
   expect(motionState().pendingChase).toEqual(['npc'])
-  host.frame(100)
+  await host.frame(100)
   await drain()
   await host.settleIO()
   expect(state().world.money).toBe(50)
@@ -512,7 +522,7 @@ test.each([
 test.each([
   'owner',
   'target',
-] as const)('a committed cross-target auto step suspended at its %s is immediately saveable and resumes without a second step', async (who) => {
+] as const)('a cross-target auto step followed by a wait suspended at its %s is saveable without replaying the committed step', async (who) => {
   host = await installShellHost()
   const first = shellScene('a')
   const paused = { scene: 'a', entity: who === 'owner' ? 'owner' : 'npc' }
@@ -537,6 +547,7 @@ test.each([
                   id: 'first',
                   body: [
                     { kind: 'stepEntity', target, dir: 'right' },
+                    { kind: 'wait', ms: 1000 },
                     { kind: 'giveMoney', delta: 7 },
                   ],
                   next: { kind: 'complete' },
@@ -588,7 +599,7 @@ test.each([
   ]
   const booted = await bootScenario(host, { first })
   await drain()
-  host.frame(100)
+  await host.frame(100)
   const committed = structuredClone(state().entities[0]!.pos)
   expect(committed.col).toBe(4.25)
   await key(host, 'Enter', 1)
@@ -607,7 +618,7 @@ test.each([
   const saved = await store.getPayload('quick')
   expect(saved?.world.money).toBe(50)
   expect(saved?.world.script?.behaviors.entities?.a?.owner?.auto?.cursor?.resume?.frames).toEqual([
-    { index: 0, control: { kind: 'leaf', command: 'stepEntity', phase: 'continuation' } },
+    { index: 1 },
   ])
   await key(host, 'F9', 1)
   for (let turn = 0; turn < 10; turn++) {
@@ -938,7 +949,7 @@ test.each([
   }
   expect(state().entities[0]!.pos).toEqual(capturedPose)
   for (let frame = 0; frame < 3; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     const position = state().entities[0]!.pos
     if (phase === 'first-target') expect(position.col).toBeLessThanOrEqual(capturedPose.col)
@@ -978,7 +989,7 @@ test('F9 during the actual aunt multi-command route cancels every remaining move
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let frame = 0; frame < 20 && !(await store.getPayload('quick')); frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -989,7 +1000,7 @@ test('F9 during the actual aunt multi-command route cancels every remaining move
   expect(state().entities[0]!.pos.row).toBeLessThan(25)
   await key(host, 'F9')
   for (let frame = 0; frame < 140; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1072,7 +1083,7 @@ test('a real diagonal target leg saves without waiting for its endpoint and resu
   await advance(host, () => state().world.money === 57)
   await key(host, 'F9')
   for (let frame = 0; frame < 20; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1084,7 +1095,7 @@ test('a real diagonal target leg saves without waiting for its endpoint and resu
   expect(state().world.money).toBe(57)
   await key(host, 'F5')
   for (let frame = 0; frame < 20; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1093,7 +1104,7 @@ test('a real diagonal target leg saves without waiting for its endpoint and resu
   ).toEqual({ kind: 'completed' })
   await key(host, 'F9')
   for (let frame = 0; frame < 20; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1208,7 +1219,7 @@ test('F9 cancels a real in-flight diagonal move without late position, reward or
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let frame = 0; frame < 20 && !(await store.getPayload('quick')); frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1220,7 +1231,7 @@ test('F9 cancels a real in-flight diagonal move without late position, reward or
   expect(state().world.money).toBe(50)
   await key(host, 'F9')
   for (let frame = 0; frame < 80; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1296,7 +1307,7 @@ test.each([
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let frame = 0; frame < 40 && !(await store.getPayload('quick')); frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1307,7 +1318,7 @@ test.each([
   expect(payload?.world.script?.behaviors.entities?.a?.npc?.auto?.cursor?.at).toEqual(cursor)
   await key(host, 'F9')
   for (let frame = 0; frame < 12; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1363,7 +1374,7 @@ test('the actual kitchen departure hides the hall aunt, settles and survives F5/
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let frame = 0; frame < 40 && !(await store.getPayload('quick')); frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -1374,7 +1385,7 @@ test('the actual kitchen departure hides the hall aunt, settles and survives F5/
   })
   await key(host, 'F9')
   for (let frame = 0; frame < 20; frame++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }

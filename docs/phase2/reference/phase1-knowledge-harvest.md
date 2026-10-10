@@ -131,7 +131,10 @@
 - **分类**: A 原版真值 + B 通用教训 + C 旧架构特有
 - **锚点**: `engineering-notes.md` §3.7;`5ba288f6`(清整 box)、`eac84532`(只清持久态无效)、`850411d3`(立绘与布局解耦)
 - **一阶段怎么了**: 渲染读 box.portraitIcon（非持久态 currentDialogPortraitIcon）。只清持久态无效——后续 append 进残留 box 复用立绘。复现须真实多行翻页序列。
-- **reforge 现状**: ✅ **免疫**。`DialogueLine.portrait` 显式字段，line 走完即失效。但警惕未来 append 复用路径。
+- **reforge 现状（2026-10-10修复）**: 每槽显式绑定自己的cue/头像；普通脚本确认只结束等待，
+  异侧继续留显、同侧替换。clearDialog、根脚本结束/取消或离场清空全部槽，不能把留显头像
+  按下一次单cue会话的cueIdx重新查找。见`dialog/dialog-box.ts`与主任务卡对白留显修复；
+  narration横卷轴及独立Dialogue保留原有关闭行为。
 
 ### E5. 精灵 blit 规则（脚底中心/每帧自锚/blit y+7）
 - **分类**: A 原版真值（资产级约定）
@@ -144,6 +147,11 @@
 - **锚点**: `engineering-notes.md` §1.2;`event-system.ts:1230-1285`(tickAutoScripts);`5d256f8f`(0x06 fall back)、`bb388ecf`(0x04/0x06 auto 专用语义)
 - **一阶段怎么了**: 手写模拟 0x06 语义两轮算"漂 40px 不出界"，调真实 tickAutoScripts 才炸出 3228px。autoScript 与 triggerScript 是**两套解释器**（0x04/0x06 专用语义不同）。
 - **reforge 现状**: ✅ 架构对路（ScriptRunner + paceMs）。需核 migrate 译出的 0x06 Command 是否带完整概率/重掷/同帧续跑语义。
+
+#### E6.1. 一次性自动步的提交与唤醒边界
+- **真实 caller 回归反例**：`main.auto-save-flows.test.ts` 在 `stepEntity`/`chasePlayer` 已提交、deferred continuation 尚未唤醒时，再调用两次 world frame，复现同一指令重复移动。此反例不等于 004 苗人随从原 E2E 的根因：该实跑的 idle 尾帧发生于行为完成、gait 清理后，同位置未增加移动提交，须分开记录和验证。
+- **通用规则**：motion slot 至少分 `pending → committed → settled`；`committed` 不是“还可以再规划”，而是“位置已落地、只等唤醒”。比较器和存档都要区分这两个边界。
+- **证据/修复**：`packages/reforge/src/world-motion-runtime.ts:39-51,343-378`；`packages/reforge/src/main.ts` planner 的 committed-slot 门；`packages/reforge/src/main.auto-save-flows.test.ts` 的真实 bootGame 反控。不要用轮询间隔、坐标容差或重复输入掩盖这类重复提交。
 
 ### E7. touchFar 死锁（suppressAutoTriggerOnce）
 - **分类**: A 原版真值 + B 通用教训 + C 旧架构特有

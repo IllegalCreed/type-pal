@@ -18,7 +18,7 @@ async function boot() {
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   return { h: host, fixture, store }
 }
@@ -30,7 +30,7 @@ async function saved(store: IndexedDbSaveStore) {
 }
 
 function expectedRestored(world: WorldState): WorldState {
-  // SAVE11 normalization supplies counts and the documented restore step clears transient conditions.
+  // SAVE12 normalization supplies counts and the documented restore step clears transient conditions.
   return {
     ...structuredClone(world),
     audio: {},
@@ -44,13 +44,14 @@ function expectedRestored(world: WorldState): WorldState {
   }
 }
 
-test('H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and scopes remain isolated', async () => {
+test('H5 F5 stores real SAVE12 data, F9 restores after actual menu spell, and scopes remain isolated', async () => {
   const { h, store } = await boot()
   const before = structuredClone(observation().world)
   await key(h, 'F5')
   const payload = await saved(store)
   expect(payload).toEqual({
-    version: 11,
+    sceneRuntime: { a: { entities: {}, automatic: {}, chaseClaims: [], actions: [] } },
+    version: 12,
     contentVersion: 22,
     projectId: 'shell-project',
     world: before,
@@ -76,7 +77,7 @@ test('H5 F5 stores real SAVE11 data, F9 restores after actual menu spell, and sc
   await vi.waitFor(() => expect(observation().world.party[0]?.mp).toBe(30))
   expect(observation().world).toEqual(expectedRestored(before))
   expect(await store.getPayload('quick')).toEqual(payload)
-  h.frame()
+  await h.frame()
   expect(
     h.text.mock.calls.some((call) => call[1].some((span) => span.text === '已读取快速存档')),
   ).toBe(true)
@@ -86,8 +87,8 @@ test('H5 empty slot preserves world and shows the absent message, not load succe
   const { h } = await boot(),
     before = structuredClone(observation().world)
   await key(h, 'F9')
-  await vi.waitFor(() => {
-    h.frame()
+  await vi.waitFor(async () => {
+    await h.frame()
     expect(
       h.text.mock.calls.some((call) => call[1].some((span) => span.text.includes('无快速存档'))),
     ).toBe(true)
@@ -112,7 +113,7 @@ test('H5 corrupt snapshot is rejected without mutation, menu remains usable, the
   await vi.waitFor(() =>
     expect(warning.mock.calls.some((row) => String(row[0]).includes('归一化拒绝'))).toBe(true),
   )
-  h.frame()
+  await h.frame()
   expect(observation().world).toEqual(before)
   expect(
     h.text.mock.calls.some((call) => call[1].some((span) => span.text === '存档损坏，无法读取')),
@@ -122,8 +123,8 @@ test('H5 corrupt snapshot is rejected without mutation, menu remains usable, the
   await key(h, 'Escape')
   await store.putSlot(meta, good, new Blob([chromePng().slice().buffer], { type: 'image/png' }))
   await key(h, 'F9')
-  await vi.waitFor(() => {
-    h.frame()
+  await vi.waitFor(async () => {
+    await h.frame()
     expect(
       h.text.mock.calls.some((call) => call[1].some((span) => span.text === '已读取快速存档')),
     ).toBe(true)
@@ -165,7 +166,7 @@ test('H5 delayed old IDB read cannot replace a newer restore or its success mess
     expect(observation().world).toEqual(committed)
     expect(observation().sceneId).toBe('b')
     h.text.mockClear()
-    h.frame()
+    await h.frame()
     expect(
       h.text.mock.calls.some((call) => call[1].some((span) => span.text === '已读取快速存档')),
     ).toBe(true)

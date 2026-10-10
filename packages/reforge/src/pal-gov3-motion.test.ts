@@ -213,7 +213,7 @@ test('the placed reed raft has a return crossing and comes back to its first ste
   expect(flow.stages[1]?.next).toBe(flow.initial)
 })
 
-test('the actual installed reed crossing survives SAVE11 and alternates destinations three times', async () => {
+test('the actual installed reed crossing survives SAVE12 and alternates destinations three times', async () => {
   const definition = scene('s213')
   const references = buildEntityLifecycleReferenceIndex([definition])
   const manifest = validateCurrentManifestStartup(manifestJson).manifest

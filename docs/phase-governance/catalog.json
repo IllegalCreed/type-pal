@@ -717,14 +717,14 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
-      "afterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+      "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
       "sourceRefs": [
         {
           "path": "docs/lore/timeline.md",
           "lines": "1-1",
           "anchor": "仙剑剧情时间线与流程攻略",
           "role": "document-source",
-          "sha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1"
+          "sha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -743,16 +743,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+            "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+            "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -766,12 +776,39 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
+          "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
+          "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
+        "conclusion": "001–006 当前终点为上岛叮嘱结束并恢复控制，最终验收由 E2E 任务卡绑定；带日期的旧 rework 与后续章节未核结论不升级。",
+        "truthAnchors": [
+          "docs/lore/timeline.md:35",
+          "docs/lore/timeline.md:61",
+          "docs/lore/timeline.md:78",
+          "docs/lore/timeline.md:141",
+          "docs/lore/timeline.md:150",
+          "docs/lore/timeline.md:154"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-lore-versions",
@@ -4173,11 +4210,11 @@
         "`pnpm -F @type-pal/game test scene-system -v",
         "pnpm -F @type-pal/game test scene-system -v",
         "git add packages/shared/src/resources.ts \\",
-        "git commit -m \"feat(M4.P3.T1): SceneAssets 扩 eventCommands+labelMap lazy load(修 M3.5 ⚠️ a9 #8)\"",
+        "git commit -m \"feat(M4.P3.T1): SceneAssets 扩 eventCommands+labelMap lazy load(修 M3.5 \u26a0️ a9 #8)\"",
         "pnpm -F @type-pal/pal-extract test round-trip -v",
         "pnpm -F @type-pal/game test event-system -v",
         "git add packages/pal-extract/src/events/opcodes.ts \\",
-        "git commit -m \"feat(M4.P3.T2): setPalette opcode 真 handler(修 M3.5 ⚠️ palette 跨 scene)\"",
+        "git commit -m \"feat(M4.P3.T2): setPalette opcode 真 handler(修 M3.5 \u26a0️ palette 跨 scene)\"",
         "pnpm extract 2>&1 | grep -E \"(tilesets|scope)\"",
         "pnpm -F @type-pal/game e2e 2>&1 | tail -10",
         "git add packages/pal-extract/src/cli.ts \\",
@@ -4198,7 +4235,7 @@
         "git commit -m \"feat(M4.P3.T7): sdlpal --dump-map 全 295 自动化 diff + KNOWN_DEVIATIONS\"",
         "pnpm -F @type-pal/game e2e a9 2>&1 | tail -20",
         "git add packages/game/e2e/scene/a9-encounter.spec.ts",
-        "git commit -m \"feat(M4.P3.T8): a9 contact→battle 端到端 spec unskip + pass(M3.5 ⚠️ #8 修)\"",
+        "git commit -m \"feat(M4.P3.T8): a9 contact→battle 端到端 spec unskip + pass(M3.5 \u26a0️ #8 修)\"",
         "git or 不入**",
         "git add data/raw/unifont-cn.bdf",
         "git commit -m \"feat(M4.P4.T1): Unifont CN BDF ship 作 build asset(D11 / OFL 入 git)\"",
@@ -4216,7 +4253,7 @@
         "pnpm -F @type-pal/game e2e --update-snapshots 2>&1 | tail -20",
         "pnpm -F @type-pal/game e2e b 2>&1 | tail -10",
         "git add packages/game/e2e/battle/",
-        "git commit -m \"feat(M4.P4.T4): L2 baseline 全部重生(Unifont)+ b* spec 切 sdlpal real baseline(M3.5 ⚠️ 接合)\"",
+        "git commit -m \"feat(M4.P4.T4): L2 baseline 全部重生(Unifont)+ b* spec 切 sdlpal real baseline(M3.5 \u26a0️ 接合)\"",
         "git add packages/game/src/shell/dev-panel.ts",
         "git commit -m \"feat(M4.P4.T5): dev panel 字体测试 sheet 入口\"",
         "git add README.md docs/03-development-plan.md docs/plans/2026-05-24-m4-pal-extract-complete.md",
@@ -4750,7 +4787,7 @@
         "git commit -m \"fix(M5.B-w0.1): sdlpal --dump-battle 50 SIGABRT — 根因(由本 task 实际定位填入)/ 修 patch + spec\"",
         "pnpm check 验**",
         "git add packages",
-        "git commit -m \"fix(M5.B-w0.2): PLAYER_POSITIONS 真值 3(M3.5 ⚠️ #7 修)— sdlpal MAX_PLAYABLE_PLAYER_ROLES\"",
+        "git commit -m \"fix(M5.B-w0.2): PLAYER_POSITIONS 真值 3(M3.5 \u26a0️ #7 修)— sdlpal MAX_PLAYABLE_PLAYER_ROLES\"",
         "git add packages/shared/src packages/game/src/core/battle",
         "git commit -m \"feat(M5.B-w0.3): Status schema 扩 12 种(paralyzed/confused/sleep/silence/puppet/bravery/protect/haste/dual-attack/...)\"",
         "git add packages/pal-extract/scripts",
@@ -5059,7 +5096,7 @@
     {
       "id": "docs-phase1-plans-2026-05-27-m5-6-playability-design",
       "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
-      "title": "M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design",
+      "title": "M5.6 · 基础玩法接通(audit \u26a0️ → 实修)Design",
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-27-m5-6-playability-design",
@@ -5073,7 +5110,7 @@
         {
           "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
           "lines": "1-1",
-          "anchor": "M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design",
+          "anchor": "M5.6 · 基础玩法接通(audit \u26a0️ → 实修)Design",
           "role": "document-source",
           "sha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae"
         }
@@ -5317,7 +5354,7 @@
         "git commit -m \"refactor(M5.6 W2.a): dev-panel CSS 注入 + 4 section 分组(scene jumps / battle fixtures / menu / trigger units)\"",
         "git commit -m \"feat(M5.6 W2.b): dev-panel menu / trigger units 单元一键测试入口\"",
         "git add README.md docs/plans/2026-05-27-m5-5-sdlpal-audit.md",
-        "git commit -m \"docs(M5.6): M5.6 完工 — 48 UI 函数 + scene trigger 路径 ⚠️→✓,基础玩法闭合\""
+        "git commit -m \"docs(M5.6): M5.6 完工 — 48 UI 函数 + scene trigger 路径 \u26a0️→✓,基础玩法闭合\""
       ],
       "legalInputs": [
         "current repository documentation",
@@ -5485,7 +5522,7 @@
       ],
       "publicCallers": [
         "git add docs/feature-status.md docs/plans/2026-05-28-feature-audit-and-replanning.md README.md",
-        "git commit -m \"plan(2026-05-28): feature audit + replan — 停做新功能,逐条核对 ✓/⚠️\""
+        "git commit -m \"plan(2026-05-28): feature audit + replan — 停做新功能,逐条核对 ✓/\u26a0️\""
       ],
       "legalInputs": [
         "current repository documentation",
@@ -9851,7 +9888,7 @@
         }
       ],
       "publicCallers": [
-        "git fix 锚点)→ reforge/migrate 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"
+        "git fix 锚点)→ reforge/migrate 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"
       ],
       "legalInputs": [
         "current repository documentation",
@@ -10077,7 +10114,7 @@
         }
       ],
       "publicCallers": [
-        "git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |",
+        "git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |",
         "git fix 史(sdlpal→一阶段踩坑记录)"
       ],
       "legalInputs": [
@@ -10597,7 +10634,7 @@
           "sha256": "1d9d39cbcf1e5bae560055236abea1fb9f22afc3cdacfc3a200fd801acea6aec"
         }
       ],
-      "publicCallers": ["git fix 锚点)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"],
+      "publicCallers": ["git fix 锚点)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"],
       "legalInputs": [
         "current repository documentation",
         "packages/reforge/src/menu-state.ts:1-1",
@@ -10791,7 +10828,7 @@
         }
       ],
       "publicCallers": [
-        "git fix 锚点)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |",
+        "git fix 锚点)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |",
         "git fix 锚点",
         "git fix 锚点)③ reforge .ts 实现(行号)。孤立来源标\"未交叉验证\"(本次无)。"
       ],
@@ -11353,7 +11390,7 @@
         }
       ],
       "publicCallers": [
-        "git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |",
+        "git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |",
         "git 踩坑"
       ],
       "legalInputs": [
@@ -11437,7 +11474,7 @@
           "sha256": "61232579cf4b584456a1c6f54074b5f6247dac3fc1032e14a2d6fbdd3ac47f5c"
         }
       ],
-      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"],
+      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"],
       "legalInputs": [
         "current repository documentation",
         "packages/game/src/core/event-system.ts:1-1",
@@ -11995,7 +12032,7 @@
           "sha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4"
         }
       ],
-      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/⚠️/❌/✨)→ 缺口 + 风险 + 行动 |"],
+      "publicCallers": ["git log 踩坑)→ reforge 逐函数对照(✅/\u26a0️/❌/✨)→ 缺口 + 风险 + 行动 |"],
       "legalInputs": [
         "current repository documentation",
         "packages/game/src/present/draw-tilemap.ts:1-1",
@@ -17668,14 +17705,14 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
-      "afterSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+      "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
       "sourceRefs": [
         {
           "path": "docs/phase2/capability-map.md",
           "lines": "1-1",
           "anchor": "能力地图（Capability Map）— 第二阶段的进度真值表",
           "role": "document-source",
-          "sha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61"
+          "sha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -17694,16 +17731,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+            "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
+            "reviewedRanges": ["4-5", "7-9"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -17717,12 +17764,32 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+          "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
+          "reviewedRanges": ["4-5", "7-9"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["4-5", "7-9"],
+        "conclusion": "当前 content22 / SAVE12；001–006 新批次已验收，旧批次不升级，局部主线不替代完整 Q1/Q2 或全表复核。",
+        "truthAnchors": ["docs/phase2/capability-map.md:4", "docs/phase2/capability-map.md:7"],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-decisions",
@@ -18390,14 +18457,14 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
-      "afterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+      "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
       "sourceRefs": [
         {
           "path": "docs/phase2/guides/shared-script-author-guide.md",
           "lines": "1-1",
           "anchor": "脚本库与可复用脚本作者手册",
           "role": "document-source",
-          "sha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26"
+          "sha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -18419,16 +18486,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+            "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+            "reviewedRanges": ["3-3", "104-115"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -18442,12 +18519,35 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
+          "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
+          "reviewedRanges": ["3-3", "104-115"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "104-115"],
+        "conclusion": "SAVE12 保存现场及自动续跑余时；离场暂停、返回恢复、读档不重跑 onEnter；不增加作者状态方案或第二套脚本模型。",
+        "truthAnchors": [
+          "docs/phase2/guides/shared-script-author-guide.md:3",
+          "docs/phase2/guides/shared-script-author-guide.md:104"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-read-first",
@@ -18461,7 +18561,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-      "afterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+      "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
       "sourceRefs": [
         {
           "path": "docs/phase1/game-mechanics.md",
@@ -18489,16 +18589,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+            "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+            "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -18512,12 +18622,39 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+          "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+          "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
+        "conclusion": "原有 UX 形态保留，演出按已核意图用显式编排表达；剧情 NPC 选择性接管并及时释放，无关 NPC 与环境动画继续。",
+        "truthAnchors": [
+          "docs/phase2/READ-FIRST.md:9",
+          "docs/phase2/READ-FIRST.md:17",
+          "docs/phase2/READ-FIRST.md:22",
+          "docs/phase2/READ-FIRST.md:34",
+          "docs/phase2/READ-FIRST.md:36",
+          "docs/phase2/READ-FIRST.md:38"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-readme",
@@ -18686,7 +18823,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
-      "afterSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+      "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
       "sourceRefs": [
         {
           "path": "docs/phase1/game-mechanics.md",
@@ -18742,16 +18879,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+            "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
+            "reviewedRanges": ["134-137", "151-155"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -18765,12 +18912,35 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+          "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
+          "reviewedRanges": ["134-137", "151-155"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["134-137", "151-155"],
+        "conclusion": "普通脚本确认结束输入等待，异侧对白继续留显；作者 clear 与结束/取消/离场清槽；一次性运动 committed 与 settled 分轴，不能重复提交。",
+        "truthAnchors": [
+          "docs/phase2/reference/phase1-knowledge-harvest.md:134",
+          "docs/phase2/reference/phase1-knowledge-harvest.md:151"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-reference-readme",
@@ -18939,14 +19109,14 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
-      "afterSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+      "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
       "sourceRefs": [
         {
           "path": "docs/phase2/specs/content-schema.md",
           "lines": "1-1",
           "anchor": "内容工程当前格式",
           "role": "document-source",
-          "sha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe"
+          "sha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -18968,16 +19138,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+            "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
+            "reviewedRanges": ["3-3", "12-16"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -18991,12 +19171,35 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+          "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
+          "reviewedRanges": ["3-3", "12-16"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "12-16"],
+        "conclusion": "content22 与 SAVE12 分轴；sceneRuntime 必需且属于运行时，NPC 坐标唯一存于 world.script.entityPos，不新增作者 schema 或兼容入口。",
+        "truthAnchors": [
+          "docs/phase2/specs/content-schema.md:3",
+          "docs/phase2/specs/content-schema.md:12"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-specs-editor-architecture",
@@ -19010,7 +19213,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
-      "afterSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+      "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
       "sourceRefs": [
         {
           "path": "packages/editor/src/ui/editor-navigation.ts",
@@ -19039,16 +19242,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+            "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+            "reviewedRanges": ["3-3", "7-10"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -19062,12 +19275,35 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+          "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+          "reviewedRanges": ["3-3", "7-10"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "7-10"],
+        "conclusion": "SAVE12 场景现场不回写作者工程、不新增状态方案或剧情阶段；原编辑器 Page/Behavior/Hook 与预览合同保留。",
+        "truthAnchors": [
+          "docs/phase2/specs/editor-architecture.md:3",
+          "docs/phase2/specs/editor-architecture.md:7"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-specs-editor-design-system",
@@ -19152,14 +19388,14 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
-      "afterSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+      "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
       "sourceRefs": [
         {
           "path": "packages/content/src/character.ts",
           "lines": "1-1",
           "anchor": "import type { ActorDef } from './actor.js'",
           "role": "body-source-reference",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -19178,16 +19414,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+            "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
+            "reviewedRanges": ["3-3", "9-9", "14-16"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -19201,12 +19447,36 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+          "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
+          "reviewedRanges": ["3-3", "9-9", "14-16"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "9-9", "14-16"],
+        "conclusion": "唯一 current 格式 content22 / SAVE12；sceneRuntime 同步捕获，正常返回运行 onEnter，读档不重跑；旧开发档重新生成。",
+        "truthAnchors": [
+          "docs/phase2/specs/project-lifecycle.md:3",
+          "docs/phase2/specs/project-lifecycle.md:9",
+          "docs/phase2/specs/project-lifecycle.md:14"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-specs-readme",
@@ -19288,35 +19558,35 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
-      "afterSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+      "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
       "sourceRefs": [
         {
           "path": "packages/reforge/src/save/types.ts",
           "lines": "1-1",
           "anchor": "import type { CONTENT_VERSION, EntityAddress, Facing, GridPos, WorldState } from '@type-pal/content'",
           "role": "body-source-reference",
-          "sha256": "856ba7ac63a7d0a314ac6189b4c2ec9b3e5c8130b03485e700a0ec38566f41bf"
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
         },
         {
           "path": "packages/reforge/src/save/current-codec.ts",
           "lines": "1-1",
           "anchor": "import {",
           "role": "body-source-reference",
-          "sha256": "690491b7c584db3e628f6d590dfe238b45a56ea6eee78d14624fd392347083de"
+          "sha256": "8d73ba4813377d4df01ea02112207cd6adf563e072586e56536775426727db06"
         },
         {
           "path": "packages/reforge/src/save/current-save.current-characterization.test.ts",
           "lines": "1-1",
           "anchor": "import {",
           "role": "body-source-reference",
-          "sha256": "8cb252c256b63b24374c5a5df5547f81b69c8cb73f33058010dcd4ceddcae831"
+          "sha256": "5a311ea757f8df798a787d532808a2dd0a34a8dc756f06f93b9683d2f1856f30"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "1-1",
           "anchor": "import type { ActorDef } from './actor.js'",
           "role": "body-source-reference",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -19341,16 +19611,41 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+            "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+            "reviewedRanges": [
+              "3-3",
+              "7-7",
+              "14-14",
+              "19-19",
+              "32-33",
+              "37-37",
+              "39-40",
+              "43-68",
+              "88-88",
+              "93-93",
+              "97-99",
+              "109-112",
+              "117-117",
+              "119-119"
+            ],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -19364,12 +19659,77 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+          "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+          "reviewedRanges": [
+            "3-3",
+            "7-7",
+            "14-14",
+            "19-19",
+            "32-33",
+            "37-37",
+            "39-40",
+            "43-68",
+            "88-88",
+            "93-93",
+            "97-99",
+            "109-112",
+            "117-117",
+            "119-119"
+          ],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": [
+          "3-3",
+          "7-7",
+          "14-14",
+          "19-19",
+          "32-33",
+          "37-37",
+          "39-40",
+          "43-68",
+          "88-88",
+          "93-93",
+          "97-99",
+          "109-112",
+          "117-117",
+          "119-119"
+        ],
+        "conclusion": "SAVE12 同步保存位置、姿态、运动/动作相位和自动 cursor/余时；先预检后恢复，已兑现动作不重播，旧 SAVE 拒收。",
+        "truthAnchors": [
+          "docs/phase2/specs/save-system.md:3",
+          "docs/phase2/specs/save-system.md:7",
+          "docs/phase2/specs/save-system.md:14",
+          "docs/phase2/specs/save-system.md:19",
+          "docs/phase2/specs/save-system.md:32",
+          "docs/phase2/specs/save-system.md:37",
+          "docs/phase2/specs/save-system.md:39",
+          "docs/phase2/specs/save-system.md:43",
+          "docs/phase2/specs/save-system.md:88",
+          "docs/phase2/specs/save-system.md:93",
+          "docs/phase2/specs/save-system.md:97",
+          "docs/phase2/specs/save-system.md:109",
+          "docs/phase2/specs/save-system.md:117",
+          "docs/phase2/specs/save-system.md:119"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase2-specs-script-system",
@@ -19383,14 +19743,14 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
-      "afterSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+      "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
       "sourceRefs": [
         {
           "path": "packages/content/src/author-script-core.ts",
           "lines": "1-1",
           "anchor": "import { checkActorConditionCommandShape } from './actor-condition.js'",
           "role": "body-source-reference",
-          "sha256": "7ae6f77a42739a2b7343c4a58177f349b024db39b0e1a52a783cb7e7ba510058"
+          "sha256": "a3e43e76ad0939d410e5a1070fd90f748dba188ffaed6a3c5193d1a333c05390"
         }
       ],
       "publicCallers": ["docs navigation"],
@@ -19412,16 +19772,26 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+            "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
+            "reviewedRanges": ["3-3", "100-100", "164-175", "178-186", "197-197"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -19435,12 +19805,38 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+          "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
+          "reviewedRanges": ["3-3", "100-100", "164-175", "178-186", "197-197"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-11",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "100-100", "164-175", "178-186", "197-197"],
+        "conclusion": "take/release 暂停并接续所属自动链，faceEntityToParty 显式转向，SAVE12 现场不成为作者状态；非等待动作安装与叶 cursor 推进原子提交。",
+        "truthAnchors": [
+          "docs/phase2/specs/script-system.md:3",
+          "docs/phase2/specs/script-system.md:100",
+          "docs/phase2/specs/script-system.md:164",
+          "docs/phase2/specs/script-system.md:178",
+          "docs/phase2/specs/script-system.md:197"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "id": "docs-phase3-backlog",

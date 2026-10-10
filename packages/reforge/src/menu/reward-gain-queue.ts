@@ -51,7 +51,7 @@ export class RewardGainQueue {
 
   private presentOne(text: string, signal: AbortSignal): Promise<void> {
     if (signal.aborted) return Promise.reject(rewardGainAbortError())
-    return new Promise<void>((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       const request: ActiveRewardGain = {
         text,
         signal,
@@ -103,3 +103,5 @@ export function handleRewardGainInput(
   if (pressed.has('Escape')) return false
   return true
 }
+
+import { scriptWorkWait } from '../script-work-queue.js'

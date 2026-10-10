@@ -49,7 +49,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
     }
   ],
   "publicCallers": [
@@ -97,7 +97,8 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
-    "Historical browser path was a minimum functional check only; native clipboard and full visual matrix remain explicitly unverified. This source audit preserves that limit."
+    "Historical browser path was a minimum functional check only; native clipboard and full visual matrix remain explicitly unverified. This source audit preserves that limit.",
+    "2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。"
   ],
   "artifacts": [],
   "history": [

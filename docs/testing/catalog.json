@@ -26,14 +26,14 @@
           "lines": "2-9",
           "anchor": "import { spawn }",
           "role": "caller",
-          "sha256": "2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"
+          "sha256": "91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "publicCallers": [
@@ -100,17 +100,17 @@
       "sourceRefs": [
         {
           "path": "scripts/e2e/inn-contract.mjs",
-          "lines": "67-84",
+          "lines": "67-111",
           "anchor": "export function validatePredecessor(",
           "role": "input",
-          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
@@ -160,17 +160,45 @@
       "sourceRefs": [
         {
           "path": "scripts/e2e/errand-contract.mjs",
-          "lines": "295-308",
+          "lines": "346-376",
           "anchor": "export function assertErrandBackground(",
           "role": "oracle",
-          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
-          "lines": "482-499",
+          "lines": "497-518",
           "anchor": "export function assertKitchenTrace(",
           "role": "oracle",
-          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+        },
+        {
+          "path": "scripts/e2e/render-evidence-observer.test.mjs",
+          "lines": "323-398",
+          "anchor": "test('per-frame clocks do not consume state-change budgets and remain bounded'",
+          "role": "oracle",
+          "sha256": "46b89cb0ea998e979d63bfe9d5dbc6fdb4739c3041c0068d67bb282136f032e1"
+        },
+        {
+          "path": "scripts/e2e/npc-transition-contract.mjs",
+          "lines": "262-338",
+          "anchor": "export function renderedPoseEvidence(",
+          "role": "render span consumer",
+          "sha256": "f3e27c26baa9cf9712718dbe54647c86cc5981ef7d3613c11f9202f3ed6cdbeb"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "lines": "164-178",
+          "anchor": "count('worldDrawCompleted')",
+          "role": "render collector insertion",
+          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+        },
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "515-630",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
         }
       ],
       "publicCallers": [
@@ -235,17 +263,17 @@
       "sourceRefs": [
         {
           "path": "scripts/e2e/game-opening.mjs",
-          "lines": "28-32",
+          "lines": "21-29",
           "anchor": "const openingContract = await readOpeningContract",
           "role": "caller",
-          "sha256": "fab7df7504b750e0554884470e6814cf46f716f667aa0fcf2ebff53a844d2585"
+          "sha256": "248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"
         },
         {
           "path": "scripts/e2e/opening-matrix.mjs",
-          "lines": "76-93",
+          "lines": "76-114",
           "anchor": "export function assertOpeningMatrix(",
           "role": "oracle",
-          "sha256": "a2c9116df25e1e8d96e097fdf340540645bcdedb3db876c229515e68636ffb10"
+          "sha256": "de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"
         },
         {
           "path": "scripts/e2e/opening-handoff.mjs",
@@ -259,7 +287,28 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "scripts/e2e/opening-matrix-observer.mjs",
+          "lines": "11-125",
+          "anchor": "const worldRenderLimit = 60_000",
+          "role": "collector",
+          "sha256": "aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "lines": "164-178",
+          "anchor": "count('worldDrawCompleted')",
+          "role": "render collector insertion",
+          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+        },
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "515-630",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -320,31 +369,38 @@
         },
         {
           "path": "scripts/e2e/inn-contract.mjs",
-          "lines": "67-84",
+          "lines": "67-111",
           "anchor": "export function validatePredecessor(",
           "role": "input",
-          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
         },
         {
           "path": "scripts/e2e/inn-contract.mjs",
-          "lines": "337-354",
+          "lines": "340-388",
           "anchor": "export function assertInnEvidence(",
           "role": "oracle",
-          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
         },
         {
           "path": "scripts/e2e/inn-contract.mjs",
-          "lines": "453-464",
+          "lines": "473-488",
           "anchor": "'money not committed between thanks and reward display'",
           "role": "oracle",
-          "sha256": "2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "scripts/e2e/inn-observer.mjs",
+          "lines": "1-115",
+          "anchor": "const worldRenderLimit = 60_000",
+          "role": "collector",
+          "sha256": "34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"
         }
       ],
       "publicCallers": ["pnpm e2e:002", "pnpm e2e:002:reforge", "pnpm e2e:002:both"],
@@ -409,31 +465,45 @@
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
-          "lines": "117-134",
+          "lines": "117-199",
           "anchor": "export function validateKitchenPredecessor(",
           "role": "input",
-          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
-          "lines": "518-532",
+          "lines": "534-557",
           "anchor": "'stairs must commit all twelve authored fragments'",
           "role": "oracle",
-          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
-          "lines": "386-403",
+          "lines": "395-412",
           "anchor": "export function assertKitchenStoryEnd(",
           "role": "oracle",
-          "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "497-518",
+          "anchor": "export function assertKitchenTrace(",
+          "role": "collector consumer",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+        },
+        {
+          "path": "scripts/e2e/kitchen-observer.mjs",
+          "lines": "1-115",
+          "anchor": "const worldRenderLimit = 60_000",
+          "role": "collector",
+          "sha256": "583e846bae766bf04ceb63edd91c1d7bdeb818b10f2b12e7f5904d195454cdca"
         }
       ],
       "publicCallers": ["pnpm e2e:003", "pnpm e2e:003:reforge", "pnpm e2e:003:both"],
@@ -494,31 +564,45 @@
         },
         {
           "path": "scripts/e2e/meal-contract.mjs",
-          "lines": "261-278",
+          "lines": "395-415",
           "anchor": "export function validateMealPredecessor(",
           "role": "input",
-          "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
         },
         {
           "path": "scripts/e2e/meal-contract.mjs",
-          "lines": "182-197",
+          "lines": "302-325",
           "anchor": "export function assertMealSuite(",
           "role": "oracle",
-          "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
         },
         {
           "path": "scripts/e2e/meal-contract.mjs",
-          "lines": "596-613",
+          "lines": "744-769",
           "anchor": "export function assertMealGameSaveInput(",
           "role": "oracle",
-          "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "lines": "685-732",
+          "anchor": "export function assertMealCollector(",
+          "role": "collector consumer",
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
+        },
+        {
+          "path": "scripts/e2e/meal-observer.mjs",
+          "lines": "1-115",
+          "anchor": "const worldRenderLimit = 60_000",
+          "role": "collector",
+          "sha256": "78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63"
         }
       ],
       "publicCallers": ["pnpm e2e:004", "pnpm e2e:004:reforge", "pnpm e2e:004:both"],
@@ -532,7 +616,7 @@
         "assertions": [
           "story/items/saves 六 case 分开",
           "取消/错误 use 不扣酒",
-          "赠酒正文、消失、喊话后恢复移动"
+          "赠酒正文、消失、喊话后恢复控制权"
         ]
       },
       "dedupe": {
@@ -583,31 +667,52 @@
         },
         {
           "path": "scripts/e2e/errand-contract.mjs",
-          "lines": "376-393",
+          "lines": "427-439",
           "anchor": "export function validateErrandPredecessor(",
           "role": "input",
-          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
         },
         {
           "path": "scripts/e2e/errand-contract.mjs",
-          "lines": "253-272",
+          "lines": "304-343",
           "anchor": "export function assertErrandStory(",
           "role": "oracle",
-          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
         },
         {
           "path": "scripts/e2e/errand-contract.mjs",
-          "lines": "295-314",
+          "lines": "346-376",
           "anchor": "export function assertErrandBackground(",
           "role": "oracle",
-          "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "266-298",
+          "anchor": "export function assertErrandCollector(",
+          "role": "collector consumer",
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
+        },
+        {
+          "path": "scripts/e2e/errand-observer.mjs",
+          "lines": "1-126",
+          "anchor": "const worldRenderLimit = 60_000",
+          "role": "collector",
+          "sha256": "803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa"
+        },
+        {
+          "path": "scripts/e2e/evidence-recorder.mjs",
+          "lines": "1-18",
+          "anchor": "worldRenders: 24 * 1024 * 1024",
+          "role": "bounded clock storage",
+          "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963"
         }
       ],
       "publicCallers": ["pnpm e2e:005", "pnpm e2e:005:reforge", "pnpm e2e:005:both"],
@@ -672,22 +777,22 @@
         },
         {
           "path": "scripts/e2e/boat-journey.mjs",
-          "lines": "12-31",
+          "lines": "23-40",
           "anchor": "export async function runBoatJourney(",
           "role": "caller",
-          "sha256": "3737d0004aa6107654c9604b37748840d2c0055b9c90f1a86fe814cb96e5d675"
+          "sha256": "fc976aa809bfca929ec6f09d81cd8b10e16339d2b270b6660e08ff90d30990f4"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "publicCallers": ["node scripts/e2e/boat-reforge.mjs"],
       "legalInputs": [
-        "current SAVE11/content22 001→005 chain",
+        "current SAVE12/content22 001→005 chain",
         "normal movement to boat",
         "current phase1 and reforge NPC logs"
       ],
@@ -695,6 +800,7 @@
         "type": "rework-gated-boat-entry",
         "assertions": [
           "Reforge route reaches s014",
+          "all island closing dialogue is confirmed and control returns",
           "two-stage key NPC logs exist",
           "boat anchor/action/landing visual evidence closes rework"
         ]
@@ -749,7 +855,7 @@
       "businessOracle": {
         "type": "runtime-active-scene",
         "assertions": [
-          "换场清旧 action/baseline/wave 并兑现旧 waiter",
+          "无恢复快照的换场清旧 action/baseline/wave 并兑现旧 waiter",
           "新资源在 boundary cue 前发布，room/bounds 时机保留",
           "pre-abort 不取代旧 pan；reset 不提前采样像素位置"
         ]
@@ -774,24 +880,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "386-393",
+          "lines": "407-414",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
         },
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "425-432",
+          "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
-          "lines": "65-90",
+          "lines": "65-94",
           "anchor": "commit(plan:",
           "role": "contract",
-          "sha256": "b4a09715ebd57eba9062808e667d64466c2e10c1d355d0849a6d9b0b4438890c"
+          "sha256": "fedb0fb7963600a85120ec2cc9a1ee5fe901748ad9ff1eb58d7b97a7a52fbf44"
         },
         {
           "path": "packages/reforge/src/active-scene.test.ts",
@@ -812,7 +918,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -885,24 +991,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "1162-1181",
+          "lines": "1242-1261",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
           "lines": "53-67",
           "anchor": "async start(",
           "role": "contract",
-          "sha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b"
+          "sha256": "e72dd33439b51dba0189a7ed89700d7b18bec0ac4e933e2940ef3ca8d6f12ae4"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
-          "lines": "155-159",
+          "lines": "156-160",
           "anchor": "this.ports.finishWorld(session, result)",
           "role": "contract",
-          "sha256": "38a9dc227a35ac0292ccf25e95cfe59a2f9a8a21686fcef5a6d3e24a52c8cc2b"
+          "sha256": "e72dd33439b51dba0189a7ed89700d7b18bec0ac4e933e2940ef3ca8d6f12ae4"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -916,7 +1022,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -1031,7 +1137,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -1105,45 +1211,45 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "413-424",
+          "lines": "434-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "b7c50edd82faa26bb710dfdb814ea07cff4183bb1729b9738f840707ea303c28"
+          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
-          "lines": "145-168",
+          "lines": "167-193",
           "anchor": "export class WorldMotionRuntime",
           "role": "contract",
-          "sha256": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+          "sha256": "a4088a8995b861377e03e98736ee8992fa018c57b031f377897fc9885dbdb2a6"
         },
         {
           "path": "packages/reforge/src/world-scene-presentation.ts",
           "lines": "71-88",
           "anchor": "export class WorldScenePresentation",
           "role": "contract",
-          "sha256": "708a17ca1c63fc18f636f2a5911b436c70d68df5b35af93c994f1599b090f205"
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.test.ts",
           "lines": "7-30",
           "anchor": "describe('WorldMotionRuntime ownership'",
           "role": "oracle",
-          "sha256": "51076a037f665a57d472ada1af68e91eb8dc08fef3a6619222e507f5d534bbe1"
+          "sha256": "2c8cf4c66b8e685b2a60abe43cf3bc55ce542f4e8dd8745987243cea26913559"
         },
         {
           "path": "packages/reforge/src/world-scene-presentation.test.ts",
           "lines": "82-105",
           "anchor": "describe('WorldScenePresentation sprite ownership'",
           "role": "oracle",
-          "sha256": "f2130f0547be77347d41e8d0548b8a6e62c956dbdae80e8fe168f424e6568a9e"
+          "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -1199,7 +1305,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "current version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         },
         {
           "path": "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
@@ -1337,7 +1443,7 @@
           "lines": "98-113",
           "anchor": "export function createAuthorCommandFormBridge",
           "role": "contract",
-          "sha256": "26494bbaa2c026946ab52478df97367121f123329b414f417d9485b1964c7062"
+          "sha256": "2ed252625cd4909141f6c72feb0d68b947a71e8686611eaae3b2692a3fc8d403"
         },
         {
           "path": "packages/editor/src/ui/command-form-family-ownership.test.ts",
@@ -1358,7 +1464,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -1462,7 +1568,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -1576,7 +1682,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {
@@ -1708,7 +1814,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
         }
       ],
       "revision": {

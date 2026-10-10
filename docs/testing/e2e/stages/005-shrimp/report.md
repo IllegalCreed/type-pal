@@ -5,16 +5,26 @@ evidence: e2e/evidence/e2e-005.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-005","sourceRefs":[{"path":"scripts/e2e/errand-game.mjs","lines":"3-3","anchor":"await runErrandJourney","role":"caller","sha256":"177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7"},{"path":"scripts/e2e/errand-contract.mjs","lines":"376-393","anchor":"export function validateErrandPredecessor(","role":"input","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"scripts/e2e/errand-contract.mjs","lines":"253-272","anchor":"export function assertErrandStory(","role":"oracle","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"scripts/e2e/errand-contract.mjs","lines":"295-314","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:005","pnpm e2e:005:reforge","pnpm e2e:005:both"],"legalInputs":["same-engine current 004 saves report","normal route and dialogue","fresh browser restore context"],"businessOracle":{"type":"errand-news-and-return","assertions":["story/guards/saves 六 case 分开","唯一50文与报信偏序","读回后后台返程与前台控制并存"]},"dedupe":{"result":"reviewed","against":["e2e-004","e2e-006","e2e/stages/005-shrimp/report.md#历史"],"notes":"早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-005.json"}
+{"schemaVersion":2,"id":"e2e-005","sourceRefs":[{"path":"scripts/e2e/errand-game.mjs","lines":"3-3","anchor":"await runErrandJourney","role":"caller","sha256":"177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7"},{"path":"scripts/e2e/errand-contract.mjs","lines":"427-439","anchor":"export function validateErrandPredecessor(","role":"input","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/errand-contract.mjs","lines":"304-343","anchor":"export function assertErrandStory(","role":"oracle","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/errand-contract.mjs","lines":"346-376","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/errand-contract.mjs","lines":"266-298","anchor":"export function assertErrandCollector(","role":"collector consumer","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/errand-observer.mjs","lines":"1-126","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa"},{"path":"scripts/e2e/evidence-recorder.mjs","lines":"1-18","anchor":"worldRenders: 24 * 1024 * 1024","role":"bounded clock storage","sha256":"24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963"}],"publicCallers":["pnpm e2e:005","pnpm e2e:005:reforge","pnpm e2e:005:both"],"legalInputs":["same-engine current 004 saves report","normal route and dialogue","fresh browser restore context"],"businessOracle":{"type":"errand-news-and-return","assertions":["story/guards/saves 六 case 分开","唯一50文与报信偏序","读回后后台返程与前台控制并存"]},"dedupe":{"result":"reviewed","against":["e2e-004","e2e-006","e2e/stages/005-shrimp/report.md#历史"],"notes":"早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-005.json"}
 -->
 
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
+2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
+
 # 005 买虾出门与香兰报信
+
+2026-10-06 采集/消费合同源核验：assertErrandCollector 将worldRenders纳入序号/全局顺序校验；collector绘制时钟独立60,000条/24MiB，原事件与快照字节预算不变，溢出仍失败。Game drawn与Reforge selected/world-pass-only分开；相同姿态span保留持续时钟。唯一50文、报信偏序、同引擎004 saves前驱和恢复后后台返程断言保留，尾部control-move要求已删除。本次仅核源码，旧实跑结论不变。
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。
+
+2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。
 
 ## 2026-10-04 文档深审
 
 98a42d4e 六 case 与其后 22/11 重建链分开；wrapper 启动失败保留，后补 case 不冒称同一次 wrapper 全程成功。
 
-当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
 
 
 ## 验证状态
@@ -25,6 +35,9 @@ evidence: e2e/evidence/e2e-005.json
 后续脚本治理已改变二阶段内容指纹，当前可用的二阶段002至005检查点见
 [治理后的当前检查点](../../../archive/legacy/batches/script-governance/current-checkpoints.md)。下文原六case结论、hash和目录保留为当时证据；
 不能再把其中旧二阶段终档当作治理后的当前前驱。第一阶段入口不变。
+
+
+2026-10-06：按用户要求删除剧情结束后的 `control-move` 测试走位；正文结束并恢复控制时原地收口，终点取执行器完成后的真实世界，不取最后路线采样。存读专项仍独立验证；下文历史回执中的尾部移动仅代表当时执行。
 
 ## 执行入口
 
@@ -44,7 +57,7 @@ pnpm e2e:005:both --game-report /绝对路径/game-004-saves/report.json --refor
 
 | case | 操作与证据 | 是否产出下一段前驱 |
 | --- | --- | --- |
-| story | 连续正常路线，完整40行对白、说话人、唯一50文、报信偏序、真实恢复行走 | 否，只有live结束证据 |
+| story | 连续正常路线，完整40行对白、说话人、唯一50文、报信偏序、恢复控制权 | 否，只有live结束证据 |
 | guards | 正常路线中独立检查大娘复读不重给钱，以及张四的催回店和打渔祈愿 | 否，不混入正常演示 |
 | saves | 正常路线结束后立即正式保存，在fresh空存储上下文正式读回；核完整持久状态和后台返程续跑 | 是，`005.end.save.json` |
 

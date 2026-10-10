@@ -206,7 +206,7 @@ describe('current runtime projection', () => {
       id: 'test',
       name: 'Test',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'second',
       entryPoints: [
         {

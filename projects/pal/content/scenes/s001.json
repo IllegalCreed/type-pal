@@ -1626,7 +1626,75 @@
       },
       "sprite": "sprite-21",
       "facing": "left",
-      "hidden": true
+      "hidden": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "离房演出",
+          "auto": "leave-bedroom"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "leave-bedroom": {
+            "label": "离开逍遥卧房，恢复房门出口",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "leave",
+              "stages": [
+                {
+                  "id": "leave",
+                  "label": "走到房门后离场",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e10"
+                      },
+                      "to": {
+                        "col": 60,
+                      "row": -12,
+                      "height": 0
+                    },
+                    "speed": "normal"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "target": {
+                      "scene": "s001",
+                      "entity": "e3"
+                    },
+                    "state": 1
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e10"
+                      },
+                      "state": 0
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e11",
@@ -1893,6 +1961,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
@@ -1930,6 +2005,9 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "moveParty",
@@ -2012,11 +2090,12 @@
                             "scene": "s001",
                             "entity": "e26"
                           }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
-                    },
-                    {
-                      "kind": "clearDialog"
                     },
                     {
                       "facing": "down",
@@ -2144,6 +2223,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -2158,9 +2240,6 @@
                         "scene": "s001",
                         "entity": "e16"
                       }
-                    },
-                    {
-                      "kind": "clearDialog"
                     },
                     {
                       "facing": "down",
@@ -2249,6 +2328,13 @@
                       "selection": {
                         "kind": "use",
                         "value": "legacy-001"
+                      }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e26"
                       }
                     },
                     {
@@ -2450,6 +2536,21 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
+                    {
                       "cue": {
                         "rows": [
                           {
@@ -2462,6 +2563,22 @@
                         }
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
                     }
                   ],
                   "label": "复读：追问是否赶走道士"
@@ -2480,6 +2597,21 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
+                    {
                       "kind": "dialog",
                       "cue": {
                         "identity": {
@@ -2496,6 +2628,22 @@
                         ],
                         "slot": "top"
                       }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
                     }
                   ],
                   "label": "复读：催逍遥帮忙"
@@ -2513,6 +2661,21 @@
                 {
                   "id": "initial",
                   "body": [
+                    {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -2532,6 +2695,9 @@
                       }
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s001",
@@ -2542,6 +2708,22 @@
                         "kind": "use",
                         "value": "take-dishes"
                       }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
                     }
                   ],
                   "label": "交代把桌上酒菜端给客人"
@@ -2559,6 +2741,21 @@
                 {
                   "id": "stage-1",
                   "body": [
+                    {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -2678,6 +2875,25 @@
                         },
                         "slot": "top"
                       }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
                     }
                   ],
                   "next": "stage-2",
@@ -2686,6 +2902,21 @@
                 {
                   "id": "stage-2",
                   "body": [
+                    {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -2702,6 +2933,22 @@
                           "actor": "li-daniang"
                         }
                       }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e19"
+                      },
+                      "frame": 0
                     }
                   ],
                   "label": "复读：催逍遥帮忙"
@@ -2816,6 +3063,9 @@
                         ],
                         "slot": "top"
                       }
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "setEntityFacing",
@@ -5255,8 +5505,11 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "facing": "down",
@@ -5264,7 +5517,8 @@
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "actor": "li-xiaoyao",
@@ -5277,7 +5531,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {
@@ -5402,11 +5656,15 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "facing": "right",
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -5498,7 +5756,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "cue": {
@@ -5520,12 +5778,16 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "facing": "down",
                     "gesture": 1,
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -5553,6 +5815,9 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "facing": "down",
                     "kind": "setEntityFacing",
                     "target": {
@@ -5570,7 +5835,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "asset": "sound.pal.098",
@@ -5594,7 +5859,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "down",
@@ -5603,7 +5868,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "down",
@@ -5623,7 +5888,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
                     "facing": "down",
@@ -5632,7 +5897,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "facing": "down",
@@ -5652,7 +5917,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "cue": {
@@ -5700,11 +5965,21 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "setEntityState",
                     "state": 0,
                     "target": {
                       "scene": "s001",
                       "entity": "e11"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s001",
+                      "entity": "e10"
                     }
                   },
                   {
@@ -5717,33 +5992,38 @@
                   },
                   {
                     "kind": "moveEntity",
-                    "speed": "normal",
-                    "to": {
-                      "col": 60,
-                      "height": 0,
-                      "row": -18.5
-                    },
                     "target": {
                       "scene": "s001",
                       "entity": "e10"
-                    }
+                    },
+                    "to": {
+                      "col": 60,
+                      "row": -20,
+                      "height": 0
+                    },
+                    "speed": "normal"
                   },
                   {
-                    "kind": "wait",
-                    "ms": 320
-                  },
-                  {
-                    "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
                     "sprite": "li-xiaoyao"
                   },
                   {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
+                    "kind": "setPartyFacing",
+                    "facing": "down"
                   },
                   {
-                    "kind": "wait",
-                    "ms": 160
+                    "kind": "moveEntity",
+                    "target": {
+                      "scene": "s001",
+                      "entity": "e10"
+                    },
+                    "to": {
+                      "col": 60,
+                      "row": -18.5,
+                      "height": 0
+                    },
+                    "speed": "normal"
                   },
                   {
                     "cue": {
@@ -5765,40 +6045,40 @@
                     "kind": "dialog"
                   },
                   {
-                    "kind": "wait",
-                    "ms": 160
+                    "kind": "clearDialog"
                   },
                   {
                     "kind": "moveEntity",
-                    "speed": "normal",
-                    "to": {
-                      "col": 60,
-                      "height": 0,
-                      "row": -17
-                    },
                     "target": {
                       "scene": "s001",
                       "entity": "e10"
-                    }
+                    },
+                    "to": {
+                      "col": 60,
+                      "row": -17,
+                      "height": 0
+                    },
+                    "speed": "normal"
                   },
                   {
-                    "facing": "up",
                     "kind": "setEntityFacing",
                     "target": {
                       "scene": "s001",
                       "entity": "e10"
-                    }
+                    },
+                    "facing": "up"
                   },
                   {
-                    "frame": 0,
                     "kind": "setEntityFrame",
                     "target": {
                       "scene": "s001",
                       "entity": "e10"
-                    }
+                    },
+                    "frame": 0
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -5819,33 +6099,23 @@
                     "kind": "dialog"
                   },
                   {
-                    "kind": "wait",
-                    "ms": 480
+                    "kind": "clearDialog"
                   },
                   {
                     "kind": "moveEntity",
-                    "speed": "normal",
-                    "to": {
-                      "col": 60,
-                      "height": 0,
-                      "row": -12
-                    },
                     "target": {
                       "scene": "s001",
                       "entity": "e10"
-                    }
+                    },
+                    "to": {
+                      "col": 60,
+                      "row": -12.875,
+                      "height": 0
+                    },
+                    "speed": "normal"
                   },
                   {
-                    "kind": "setEntityState",
-                    "state": 1,
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e3"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
+                    "kind": "releaseEntity",
                     "target": {
                       "scene": "s001",
                       "entity": "e10"
@@ -5874,7 +6144,8 @@
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -5898,11 +6169,15 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "facing": "right",
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "facing": "up",
@@ -5910,7 +6185,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "actor": "li-xiaoyao",
@@ -5923,12 +6198,16 @@
                     "kind": "setPartyFacing"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
                     "kind": "repeat",
                     "count": 4,
                     "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
                       {
                         "dx": 4,
                         "dy": 2,
@@ -5944,11 +6223,15 @@
                           "scene": "s001",
                           "entity": "e8"
                         }
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
+                      },
+                      {
+                        "kind": "clearDialog"
                       }
                     ]
-                  },
-                  {
-                    "kind": "clearDialog"
                   },
                   {
                     "cue": {
@@ -5999,6 +6282,9 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
                     "sprite": "li-xiaoyao"
@@ -6009,14 +6295,15 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "facing": "right",
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "facing": "down",
@@ -6024,6 +6311,10 @@
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -6043,11 +6334,15 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "facing": "right",
                     "kind": "setPartyFacing"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "facing": "up",
@@ -6055,7 +6350,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "facing": "right",
@@ -6065,11 +6360,19 @@
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
                     "facing": "down",
                     "kind": "setPartyFacing"
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "cue": {
@@ -6102,11 +6405,19 @@
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
                     "facing": "up",
                     "kind": "setPartyFacing"
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "actor": "li-xiaoyao",
@@ -6140,6 +6451,10 @@
                       },
                       {
                         "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 100
                       }
                     ]
                   },
@@ -6161,7 +6476,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "actor": "li-xiaoyao",
@@ -6174,6 +6489,10 @@
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "facing": "down",

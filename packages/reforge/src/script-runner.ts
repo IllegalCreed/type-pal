@@ -87,6 +87,8 @@ export interface ScriptHost {
   fleeBattle(): void
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
+  /** Explicit one-shot turn using live ground-plane positions; no pose/control changes. */
+  faceEntityToParty(entity: string): void
   setEntityFrame(entity: string, frame: number): void
   /** 播放实体当前精灵的预制动作；单次 Promise 在动作完成/被替换/停止时兑现。 */
   playEntityAction(
@@ -108,7 +110,12 @@ export interface ScriptHost {
   takeEntity(entityId: string): void
   releaseEntity(entityId?: string): void
   /** E7 载具:party 挂上/下载具;ride = 骑行走位(阻塞)。 */
-  mountParty(entityId: string, dx: number, dy: number): void
+  mountParty(
+    entityId: string,
+    dx: number,
+    dy: number,
+    riders?: Array<{ id: string; dx: number; dy: number }>,
+  ): void
   unmountParty(): void
   ride(entityId: string, to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
   /** C7 队伍变更(D22 reserve):members = 角色模板 id 有序表。 */
@@ -693,7 +700,17 @@ export class ScriptRunner {
       case 'releaseEntity':
         return h.releaseEntity(cmd.entity)
       case 'mountParty':
-        return h.mountParty(cmd.entity, cmd.dx ?? 0, cmd.dy ?? 0)
+        if (cmd.riders === undefined) return h.mountParty(cmd.entity, cmd.dx ?? 0, cmd.dy ?? 0)
+        return h.mountParty(
+          cmd.entity,
+          cmd.dx ?? 0,
+          cmd.dy ?? 0,
+          cmd.riders.map((rider) => ({
+            id: rider.entity,
+            dx: rider.dx ?? 0,
+            dy: rider.dy ?? 0,
+          })),
+        )
       case 'unmountParty':
         return h.unmountParty()
       case 'ride':

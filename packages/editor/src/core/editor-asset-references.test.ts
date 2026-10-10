@@ -20,7 +20,7 @@ describe('editor asset reference source', () => {
         id: 'shared-script-reference',
         name: '共享脚本资源引用',
         contentVersion: 22,
-        minimumSaveVersion: 11,
+        minimumSaveVersion: 12,
         defaultEntryId: 'main',
         content: {
           sharedScripts: 'content/shared-scripts.json',
@@ -130,7 +130,7 @@ describe('editor asset reference source', () => {
         id: 'live-reference-state',
         name: '实时引用作者态',
         contentVersion: 22,
-        minimumSaveVersion: 11,
+        minimumSaveVersion: 12,
         defaultEntryId: 'main',
         content: {
           sharedScripts: 'content/shared-scripts.json',

@@ -27,6 +27,7 @@ export {
   type SpriteActionPosition,
 } from './entity-action-player.js'
 export { areEntityPositionsNear } from './entity-proximity.js'
+export { facingToward, interactionFacingToward } from './entity-walk.js'
 export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw, TilesetFrameRegistry }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 

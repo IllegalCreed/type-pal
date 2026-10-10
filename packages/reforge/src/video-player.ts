@@ -30,7 +30,7 @@ export function playVideo(options: PlayVideoOptions): Promise<void> {
   const container = options.containerEl ?? document.body
   const skipKeys = new Set(options.skipKeys ?? ['Space', 'Enter', 'Escape'])
 
-  return new Promise<void>((resolve) => {
+  return scriptWorkWait<void>(options.signal, (resolve) => {
     const video = document.createElement('video')
     video.src = options.src
     video.muted = options.muted ?? false
@@ -128,3 +128,5 @@ export function playVideo(options: PlayVideoOptions): Promise<void> {
     tryPlay()
   })
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

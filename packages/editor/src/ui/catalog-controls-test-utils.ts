@@ -108,7 +108,7 @@ export function catalogControlsEditorState(
       id: 'catalog-controls-test',
       name: '目录控件测试',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       entryPoints: [{ id: 'main', label: '主要入口', scene: 's001', startWorld }],
       content: {},

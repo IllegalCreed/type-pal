@@ -233,7 +233,13 @@ export type Command =
   | { kind: 'releaseEntity'; entity?: string } // 缺省 = 归还全部
   // 载具/挂载(E7,D20「父动子随」契约。原版 0xA1 聚拢+0x3F/0x44/0x97 骑乘的 clean 表达:
   // mountParty 挂上(dx/dy 缺省 0=重叠) → ride 骑行走位(可连发) → unmountParty 下(位置留当下))
-  | { kind: 'mountParty'; entity: string; dx?: number; dy?: number }
+  | {
+      kind: 'mountParty'
+      entity: string
+      dx?: number
+      dy?: number
+      riders?: Array<{ entity: string; dx?: number; dy?: number }>
+    }
   | { kind: 'unmountParty' }
   | { kind: 'ride'; entity: string; to: GridPos; speed: WalkSpeed }
   // 队伍管理(C7,D22 reserve 暂存区。原版 0x75 setParty 的 clean 表达:

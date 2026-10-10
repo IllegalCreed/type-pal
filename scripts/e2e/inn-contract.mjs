@@ -90,7 +90,7 @@ export function validatePredecessor(report, payload, engine, bytes) {
     assert.equal(payload.gs.dwCash, 0)
     assert.deepEqual(payload.gs.partyMembers, [0])
   } else {
-    assert.equal(payload.version, 11)
+    assert.equal(payload.version, 12)
     assert.equal(payload.contentVersion, 22)
     assert.equal(payload.projectId, 'pal')
     assert.deepEqual(payload.position, {
@@ -122,7 +122,7 @@ export async function readPredecessor(path, engine) {
 export function assertInnHandoffPayload(payload, engine) {
   if (engine === 'game') assert.equal(payload.format, 'type-pal-save')
   else {
-    assert.equal(payload.version, 11)
+    assert.equal(payload.version, 12)
     assert.equal(payload.contentVersion, 22)
     assert.equal(payload.projectId, 'pal')
   }
@@ -248,15 +248,23 @@ export async function readInnContract(root = repoRoot) {
     'scripts/e2e/opening-frame.mjs',
     'scripts/e2e/reforge-opening-policy.mjs',
     'scripts/e2e/inn-journey.mjs',
+    'scripts/e2e/inn-input-plan.mjs',
+    'scripts/e2e/fixed-route-plan.mjs',
+    'scripts/e2e/actor-recording-contract.mjs',
     'scripts/e2e/inn-contract.mjs',
+    'scripts/e2e/script-terminal-intent.mjs',
     'scripts/e2e/inn-observer.mjs',
-    'scripts/e2e/inn-route.mjs',
     'scripts/e2e/inn-navigation.mjs',
+    'scripts/e2e/committed-route.mjs',
+    'scripts/e2e/continuous-route.mjs',
+    'scripts/e2e/input-ledger.mjs',
     'scripts/e2e/inn-trace-plugin.mjs',
     'scripts/e2e/inn-both.mjs',
     'scripts/e2e/game-inn.mjs',
     'scripts/e2e/reforge-inn.mjs',
     'scripts/e2e/opening-trace-plugin.mjs',
+    'scripts/e2e/scene-lifecycle-trace.mjs',
+    'scripts/e2e/reforge-render-evidence.mjs',
     'scripts/e2e/opening-policy.mjs',
     'packages/game/src/core/event-system.ts',
     'packages/game/src/core/scene-system.ts',
@@ -268,6 +276,8 @@ export async function readInnContract(root = repoRoot) {
     'packages/reforge/src/runtime-script-project.ts',
     'packages/reforge/src/script-world.ts',
     'packages/reforge/src/script-runner-core.ts',
+    'packages/reforge/src/script-execution-gate.ts',
+    'packages/reforge/src/latest-snapshot-transaction.ts',
     'packages/reforge/src/script-continuation.ts',
     'packages/reforge/src/save/types.ts',
     'packages/reforge/src/save/current-structure.ts',
@@ -346,7 +356,26 @@ export function assertInnEvidence(trace, engine, contract) {
     assert.equal(e.seq, i, 'inn page gap')
     assert(i === 0 || e.order > trace.pages[i - 1].order, 'inn page/global order inversion')
   })
-  const timeline = [...trace.events, ...trace.pages].sort((a, b) => a.order - b.order)
+  assert(Array.isArray(trace.worldRenders), 'missing current world render observations')
+  trace.worldRenders.forEach((e, i) => {
+    assert.equal(e.seq, i, 'inn world render gap')
+  })
+  const causes = trace.causes ?? []
+  causes.forEach((e, i) => {
+    assert.equal(e.seq, i, 'inn causal receipt gap')
+  })
+  const restores = trace.restoreCommits ?? []
+  restores.forEach((event, index) => {
+    assert.equal(event.seq, index, 'inn restore gap')
+  })
+  const timeline = [
+    ...(trace.resources ?? []),
+    ...trace.events,
+    ...trace.pages,
+    ...trace.worldRenders,
+    ...causes,
+    ...restores,
+  ].sort((a, b) => a.order - b.order)
   timeline.forEach((e, i) => {
     assert.equal(e.order, i, 'inn global order gap')
     assert(
@@ -363,7 +392,7 @@ export function assertInnEvidence(trace, engine, contract) {
   for (const e of trace.events) {
     if (e.kind !== 'actor' && e.kind !== 'roomActor') continue
     const prior = e.kind === 'actor' ? priorActors : priorRooms,
-      key = e.kind === 'actor' ? `${e.scene}/${e.id}` : e.id
+      key = e.kind === 'actor' ? `${e.sceneVisit}/${e.scene}/${e.id}` : e.id
     assert.deepEqual(e.before, prior.get(key) ?? null, 'lost actor continuity')
     if (
       e.kind === 'actor' &&

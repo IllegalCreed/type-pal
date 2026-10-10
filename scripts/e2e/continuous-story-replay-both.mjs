@@ -1,0 +1,87 @@
+import assert from 'node:assert/strict'
+import { fork } from 'node:child_process'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { repoRoot } from './browser-journey.mjs'
+import { createContinuousPreflightGate } from './continuous-preflight-gate.mjs'
+
+const args = process.argv.slice(2),
+  hold = args.includes('--hold'),
+  headless = args.includes('--headless'),
+  stopAt = args.includes('--stop-at') ? args[args.indexOf('--stop-at') + 1] : null,
+  tape = resolve(args[args.indexOf('--tape') + 1])
+assert(tape, 'continuous replay requires --tape')
+const output = resolve(
+  repoRoot,
+  'build/e2e',
+  `continuous-both-${new Date().toISOString().replace(/[:.]/g, '-')}`,
+)
+await mkdir(output, { recursive: true })
+const children = new Map(),
+  arrivals = new Map()
+const preflight = createContinuousPreflightGate((engine, message) => {
+  const participant = children.get(engine)
+  if (participant?.connected && participant.exitCode === null) participant.send(message, () => {})
+})
+const start = (engine) => {
+  const child = fork(
+    fileURLToPath(new URL('./continuous-story-replay-engine.mjs', import.meta.url)),
+    [
+      engine === 'game' ? '--game' : '--reforge',
+      headless ? '--headless' : '--headed',
+      ...(stopAt ? ['--stop-at', stopAt] : []),
+      ...(hold ? ['--hold'] : []),
+      '--tape',
+      tape,
+    ],
+    { stdio: ['ignore', 'inherit', 'inherit', 'ipc'] },
+  )
+  children.set(engine, child)
+  child.on('message', (message) => {
+    if (message.preflightReady === true) {
+      preflight.ready(engine)
+      return
+    }
+    if (!message.checkpoint) return
+    const state = arrivals.get(message.checkpoint) ?? new Map()
+    state.set(engine, message.state)
+    arrivals.set(message.checkpoint, state)
+    if (state.size === 2) {
+      if (!(hold && message.checkpoint === '006'))
+        for (const participant of children.values())
+          if (participant.connected && participant.exitCode === null)
+            participant.send({ release: message.checkpoint }, () => {})
+    }
+  })
+  child.on('error', () => {})
+  child.on('exit', (code) => {
+    if (code === 0) return
+    for (const [otherEngine, participant] of children) {
+      if (
+        otherEngine !== engine &&
+        participant.exitCode === null &&
+        participant.signalCode === null
+      )
+        participant.kill('SIGTERM')
+    }
+  })
+  return new Promise((resolveChild) =>
+    child.once('exit', (code, signal) => resolveChild({ engine, code, signal })),
+  )
+}
+const results = await Promise.all(['game', 'reforge'].map(start))
+const receipt = {
+  kind: 'continuous-story-replay',
+  mode: 'story-only',
+  tape,
+  results,
+  preflight: preflight.receipt(),
+  barriers: Object.fromEntries([...arrivals].map(([key, value]) => [key, [...value.keys()]])),
+}
+await writeFile(resolve(output, 'continuous-both.json'), `${JSON.stringify(receipt, null, 2)}\n`)
+assert(
+  results.every((result) => result.code === 0),
+  `continuous story failed: ${JSON.stringify(results)}`,
+)
+console.log(`[continuous both] PASS ${output}`)

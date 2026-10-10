@@ -42,6 +42,7 @@ function recorderHost(overrides: Partial<ScriptHost> = {}): { host: ScriptHost; 
     fleeBattle: record('fleeBattle'),
     setEntityState: record('setEntityState'),
     setEntityFacing: record('setEntityFacing'),
+    faceEntityToParty: record('faceEntityToParty'),
     setEntityFrame: record('setEntityFrame'),
     playEntityAction: recordAsync('playEntityAction'),
     stopEntityAction: record('stopEntityAction'),

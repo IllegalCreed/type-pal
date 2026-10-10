@@ -94,7 +94,7 @@ async function boot(body: AuthorCommand[] = []) {
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame(100)
+  await host.frame(100)
   await drain()
   return { h: host, f, unchanged: () => expect(f.files).toEqual(before) }
 }
@@ -115,12 +115,12 @@ test('explicit initial reveal owns black from alpha0, presents first frame, comp
   })
   expect(movie().visible).toBe(true)
   for (let turn = 0; turn < 5; turn++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
   }
   expect(frames).toHaveBeenCalledTimes(1)
   expect(movie().black).toBeGreaterThan(0)
-  h.frame(100)
+  await h.frame(100)
   await drain()
   expect(movie().black).toBe(0)
   await vi.advanceTimersByTimeAsync(61)
@@ -157,7 +157,7 @@ test('a delayed old decode and its finally cannot repaint or hide a superseding 
   const next = movie().play('movie-b', { holdLastFrame: true })
   await rejected
   for (let turn = 0; turn < 20 && movie().mode !== 'held'; turn++) {
-    h.frame(100)
+    await h.frame(100)
     await h.settleIO()
     await new Promise((resolve) => setTimeout(resolve, 15))
     await drain()
@@ -206,7 +206,7 @@ test('superseding during first-frame fade cannot let the old fade callback or fi
     await drain()
     expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17])
   })
-  h.frame(100)
+  await h.frame(100)
   await drain()
   const next = movie().play('movie-b', { initialFadeInMs: 600, holdLastFrame: true })
   await rejected
@@ -217,7 +217,7 @@ test('superseding during first-frame fade cannot let the old fade callback or fi
     expect(frames.mock.calls.map((call) => call[0].rgba[0])).toEqual([17, 29])
   })
   for (let i = 0; i < 6; i++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
   }
   expect(movie().black).toBe(0)
@@ -237,7 +237,7 @@ test('real author clear between movie and world does not leave a held layer thro
     { kind: 'giveMoney', delta: 9 },
   ])
   await vi.waitFor(async () => {
-    h.frame(100)
+    await h.frame(100)
     await h.settleIO()
     await drain()
     expect(movie().mode).toBe('held')
@@ -250,7 +250,7 @@ test('real author clear between movie and world does not leave a held layer thro
   unchanged()
 })
 
-test('a legal SAVE11 restore resets held cinematic state rather than replaying its pixels', async () => {
+test('a legal SAVE12 restore resets held cinematic state rather than replaying its pixels', async () => {
   const { h, unchanged } = await boot()
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(h, 'F5')
@@ -260,13 +260,13 @@ test('a legal SAVE11 restore resets held cinematic state rather than replaying i
   expect(movie().mode).toBe('held')
   await key(h, 'F9')
   await vi.waitFor(async () => {
-    h.frame(100)
+    await h.frame(100)
     await h.settleIO()
     await drain()
     expect(movie().mode).toBe('idle')
   })
   expect(movie().visible).toBe(false)
-  expect((await store.getPayload('quick'))?.version).toBe(11)
+  expect((await store.getPayload('quick'))?.version).toBe(12)
   unchanged()
 })
 
@@ -278,7 +278,7 @@ test('a real scene commit clears held cinematic pixels while its own scene fade 
     { kind: 'giveMoney', delta: 9 },
   ])
   await vi.waitFor(async () => {
-    h.frame(100)
+    await h.frame(100)
     await h.settleIO()
     await drain()
     expect(state().sceneId).toBe('b')
@@ -308,7 +308,7 @@ test('author clear does not remove a later ordinary fade that belongs to the sur
     { kind: 'giveMoney', delta: 9 },
   ])
   await vi.waitFor(async () => {
-    h.frame(100)
+    await h.frame(100)
     await h.settleIO()
     await drain()
     expect(movie().mode).toBe('idle')

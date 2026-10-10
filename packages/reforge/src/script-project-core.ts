@@ -20,6 +20,7 @@ import {
   compileBaseScriptFlow,
 } from './script-compiler-core.js'
 import { ScriptExecutionBudgets } from './script-execution-budget.js'
+import { atScriptExecutionGate } from './script-execution-gate.js'
 import type {
   BaseScriptRuntimeHost,
   ScriptGateBoundary,
@@ -140,6 +141,10 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
     return this.options.gate?.(signal, boundary)
   }
 
+  gateOpen(signal: AbortSignal, boundary?: ScriptGateBoundary): boolean {
+    return this.options.gateOpen?.(signal, boundary) ?? true
+  }
+
   async execute(
     command: BaseRuntimeLeafCommand,
     context: Readonly<ScriptRuntimeContext>,
@@ -224,8 +229,10 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
         break
       case 'setFollowers':
         await this.options.executeEffect(command, context, signal)
-        this.world.followers = command.sprites.length ? [...command.sprites] : undefined
-        await this.options.worldChanged?.(command, context)
+        await atScriptExecutionGate(this, signal, undefined, () => {
+          this.world.followers = command.sprites.length ? [...command.sprites] : undefined
+          return this.options.worldChanged?.(command, context)
+        })
         return
       case 'setSceneMapOverride': {
         const sceneId = command.scene ?? this.options.currentSceneId()
@@ -271,41 +278,48 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
       case 'selectSceneHooks': {
         const sourceSceneId = this.currentSceneId()
         const sourceSessionId = this.currentSceneSessionId()
-        const scene = await this.options.scene(
-          command.kind === 'selectSceneHooks' ? command.scene : command.target.scene,
+        const scene = await scriptWorkIO(
+          Promise.resolve(
+            this.options.scene(
+              command.kind === 'selectSceneHooks' ? command.scene : command.target.scene,
+            ),
+          ),
+          signal,
         )
-        // This check belongs after the leaf's final await, not inside an awaited resolver helper.
-        signal.throwIfAborted()
-        if (
-          this.currentSceneId() !== sourceSceneId ||
-          this.currentSceneSessionId() !== sourceSessionId
-        )
-          throw new DOMException('selection source session changed', 'AbortError')
-        if (command.kind === 'selectEntityBehavior')
-          selectEntityBehavior(
-            this.world,
-            entityAt(scene, command.target),
-            command.target,
-            command.channel,
-            command.selection,
-            this.coordinator,
+        await atScriptExecutionGate(this, signal, undefined, () => {
+          // This check belongs after the leaf's final await, not inside an awaited resolver helper.
+          signal.throwIfAborted()
+          if (
+            this.currentSceneId() !== sourceSceneId ||
+            this.currentSceneSessionId() !== sourceSessionId
           )
-        else if (command.kind === 'selectEntityPage')
-          selectBaseEntityPage(
-            this.world,
-            entityAt(scene, command.target),
-            command.target,
-            command.selection,
-            this.coordinator,
-          )
-        else if (command.kind === 'setEntityTriggerActivation')
-          setEntityTriggerActivation(
-            this.world,
-            entityAt(scene, command.target),
-            command.target,
-            command.selection,
-          )
-        else selectBaseSceneHooks(this.world, scene, command.selection, this.coordinator)
+            throw new DOMException('selection source session changed', 'AbortError')
+          if (command.kind === 'selectEntityBehavior')
+            selectEntityBehavior(
+              this.world,
+              entityAt(scene, command.target),
+              command.target,
+              command.channel,
+              command.selection,
+              this.coordinator,
+            )
+          else if (command.kind === 'selectEntityPage')
+            selectBaseEntityPage(
+              this.world,
+              entityAt(scene, command.target),
+              command.target,
+              command.selection,
+              this.coordinator,
+            )
+          else if (command.kind === 'setEntityTriggerActivation')
+            setEntityTriggerActivation(
+              this.world,
+              entityAt(scene, command.target),
+              command.target,
+              command.selection,
+            )
+          else selectBaseSceneHooks(this.world, scene, command.selection, this.coordinator)
+        })
         break
       }
     }
@@ -590,3 +604,5 @@ export class BaseScriptProjectRuntime {
     }
   }
 }
+
+import { scriptWorkIO } from './script-work-queue.js'

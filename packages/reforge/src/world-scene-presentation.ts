@@ -70,6 +70,9 @@ type WorldPresentationScene = Pick<
 /** World-only drawing owner: visual overrides, shake, wave phase/canvas and sprite assembly. */
 export class WorldScenePresentation {
   private readonly entityFrames = new Map<string, number>()
+  // Last frame index actually selected by the renderer for each visible entity. Transient command
+  // counters (gait/anim/action) are not the rendered sprite frame and must not be E2E evidence.
+  private readonly renderedEntityFrames = new Map<string, number>()
   private gesture: number | null = null
   private shakeFx: { untilMs: number; level: number } | null = null
   private readonly wave = new WorldWaveRenderer()
@@ -93,6 +96,10 @@ export class WorldScenePresentation {
     return this.entityFrames.get(id)
   }
 
+  renderedEntityFrame(id: string): number | undefined {
+    return this.renderedEntityFrames.get(id)
+  }
+
   hasEntityFrame(id: string): boolean {
     return this.entityFrames.has(id)
   }
@@ -112,7 +119,10 @@ export class WorldScenePresentation {
   sprites(input: WorldSpriteInput): SpriteDraw[] {
     const sprites: SpriteDraw[] = []
     for (const entity of input.entities) {
-      if (!input.visible(entity)) continue
+      if (!input.visible(entity)) {
+        this.renderedEntityFrames.delete(entity.id)
+        continue
+      }
       const definition = input.entitySprite(entity.id)
       const loaded = definition ? input.loadedSprite(definition) : undefined
       const gait = input.entityGait(entity.id)
@@ -151,7 +161,11 @@ export class WorldScenePresentation {
                     )
         : 0
       const frame = definition ? loaded?.frames[frameIndex] : undefined
-      if (!loaded || !frame) continue
+      if (!loaded || !frame) {
+        this.renderedEntityFrames.delete(entity.id)
+        continue
+      }
+      this.renderedEntityFrames.set(entity.id, frameIndex)
       const pixel = gridToPixel(entity.pos)
       // Asset contract: anchor the current frame at its foot centre. Layer affects sort/cover only;
       // renderScene owns the shared +7 landing offset and must not receive it twice.

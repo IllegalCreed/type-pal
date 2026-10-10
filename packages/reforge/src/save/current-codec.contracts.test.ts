@@ -78,6 +78,7 @@ function world(): WorldState {
 function payload(): CurrentSavePayload {
   return {
     version: SAVE_VERSION,
+    sceneRuntime: {},
     contentVersion: CONTENT_VERSION,
     projectId: 'demo',
     world: world(),

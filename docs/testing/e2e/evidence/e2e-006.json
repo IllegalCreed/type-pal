@@ -18,22 +18,22 @@
     },
     {
       "path": "scripts/e2e/boat-journey.mjs",
-      "lines": "12-31",
+      "lines": "23-40",
       "anchor": "export async function runBoatJourney(",
       "role": "caller",
-      "sha256": "3737d0004aa6107654c9604b37748840d2c0055b9c90f1a86fe814cb96e5d675"
+      "sha256": "fc976aa809bfca929ec6f09d81cd8b10e16339d2b270b6660e08ff90d30990f4"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
     }
   ],
   "publicCallers": ["node scripts/e2e/boat-reforge.mjs"],
   "legalInputs": [
-    "current SAVE11/content22 001→005 chain",
+    "current SAVE12/content22 001→005 chain",
     "normal movement to boat",
     "current phase1 and reforge NPC logs"
   ],
@@ -41,6 +41,7 @@
     "type": "rework-gated-boat-entry",
     "assertions": [
       "Reforge route reaches s014",
+      "all island closing dialogue is confirmed and control returns",
       "two-stage key NPC logs exist",
       "boat anchor/action/landing visual evidence closes rework"
     ]
@@ -56,20 +57,34 @@
       "result": "source-backed",
       "evidence": [
         "scripts/e2e/boat-reforge.mjs:3-3",
-        "scripts/e2e/boat-journey.mjs:12-31",
+        "scripts/e2e/boat-journey.mjs:23-40",
         "packages/content/src/character.ts:168-170"
       ]
     }
   ],
   "runtimeExecution": {
-    "performed": false,
-    "rawArtifacts": "not-present-in-isolated-checkout",
-    "claimScope": "historical-publication-only"
+    "performed": true,
+    "rawArtifacts": [
+      "build/e2e/game-006-2026-10-04T18-44-27-288Z",
+      "build/e2e/reforge-006-2026-10-04T19-17-06-374Z",
+      "build/e2e/both-006-2026-10-04T19-18-45-307Z"
+    ],
+    "claimScope": "current isolated worktree independent dual-track execution and comparison"
   },
   "findings": [
-    "真实入口是 node scripts/e2e/boat-reforge.mjs，上一版误引了 005 runner。报告没有完整执行 SHA，缺当前第一阶段 NPC 和船段视觉复验，rework 继续保留。"
+    "2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。",
+    "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。",
+    "2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。",
+    "历史2026-10-04当时报告：两轨独立正文、到达 s014、rider mount、主角锚点、骑乘朝向和 actor state/frame trace 均通过；006 双轨比较曾报收口，不能代替新粒度或完整收尾验收。",
+    "2026-10-07用户纠正006终点：必须完成1886/1888/1889/1890及进场剧情并恢复控制。boat两引擎补齐确认消费等待，独立新报告game-006-2026-10-06T15-10-00-341Z/reforge-006-2026-10-06T15-10-01-878Z均通过完整收尾；旧版本/runtimeExecution/artifacts历史块不改，帧比较及连续验收另见E2E-CONTINUOUS-001-006卡。"
   ],
-  "artifacts": [],
+  "artifacts": [
+    "build/e2e/game-006-2026-10-04T18-44-27-288Z/report.json",
+    "build/e2e/game-006-2026-10-04T18-44-27-288Z/006-state-trace.json",
+    "build/e2e/reforge-006-2026-10-04T19-17-06-374Z/report.json",
+    "build/e2e/reforge-006-2026-10-04T19-17-06-374Z/006-state-trace.json",
+    "build/e2e/both-006-2026-10-04T19-18-45-307Z/comparison.json"
+  ],
   "history": [
     {
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",

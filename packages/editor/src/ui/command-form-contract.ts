@@ -42,6 +42,7 @@ export const AUTHOR_CUSTOM_COMMAND_KINDS = [
   'setEntityPosRelParty',
   'setEntityLayer',
   'setEntityFacing',
+  'faceEntityToParty',
   'setEntityFrame',
   'playEntityAction',
   'stopEntityAction',

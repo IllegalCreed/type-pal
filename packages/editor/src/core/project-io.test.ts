@@ -28,7 +28,7 @@ const manifest: CurrentManifest = {
   id: 'demo',
   name: 'Demo',
   contentVersion: 22,
-  minimumSaveVersion: 11,
+  minimumSaveVersion: 12,
   defaultEntryId: 'main',
   content: {
     actors: 'content/actors.json',

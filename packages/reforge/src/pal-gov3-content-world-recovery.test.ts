@@ -14,20 +14,36 @@ function segment(row: (typeof rows)[number]) {
   const [scene, entity, behavior, stage] = row.key.split('/')
   if (!scene || !entity || !behavior || !stage) throw new Error('invalid receipt key')
   const point = gov3SubBody(gov3Body(scene, entity, behavior, stage), row.beforePath)
-  // Multiple out/recovery pairs in the same source body shift its later offsets.
-  // Find this out by its captured source order, then stop at its exact recorded anchor.
-  const parent = gov3SubBody(gov3Body(scene, entity, behavior, stage), row.beforePath).body
-  const before =
+  // Choreography can insert commands before an old receipt's offset. A stale
+  // locator must resolve to one out/in pair with the independently recorded anchor.
+  const parent = point.body
+  const peers =
     receipts.receipts
       .find((file) => file.scene === scene)
       ?.rows.filter(
         (other) =>
           other.key === row.key &&
           other.beforePath.split('/').slice(0, -1).join('/') ===
-            row.beforePath.split('/').slice(0, -1).join('/') &&
-          Number(other.beforePath.split('/').at(-1)) < point.index,
-      ).length ?? 0
-  const start = point.index + before
+            row.beforePath.split('/').slice(0, -1).join('/'),
+      ) ?? []
+  const before = peers.filter(
+    (other) => Number(other.beforePath.split('/').at(-1)) < point.index,
+  ).length
+  let start = point.index + before
+  const located = parent[start]
+  if (located?.kind !== 'fade' || located.dir !== 'out') {
+    const candidates = parent.flatMap((command, index) => {
+      if (command.kind !== 'fade' || command.dir !== 'out') return []
+      const incoming = parent.findIndex(
+        (next, nextIndex) => nextIndex > index && next.kind === 'fade' && next.dir === 'in',
+      )
+      return incoming >= 0 && JSON.stringify(parent[incoming + 1]) === JSON.stringify(row.anchor)
+        ? [index]
+        : []
+    })
+    expect(candidates, `unique recorded recovery anchor ${row.key}`).toHaveLength(1)
+    start = candidates[0]!
+  }
   const fade = parent[start]
   if (fade?.kind !== 'fade' || fade.dir !== 'out')
     throw new Error(`source out shifted ${row.key}/${row.beforePath}`)

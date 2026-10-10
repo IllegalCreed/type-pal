@@ -180,7 +180,7 @@ export function validateKitchenPredecessor(report, payload, engine, bytes) {
     assert.equal(gs.allEventObjects.find((e) => e.id === 20)?.sState, 0, 'food prematurely active')
     assert.equal(gs.PlayerRolesRuntime.rgwSpriteNum[0], 2)
   } else {
-    assert.equal(payload.version, 11)
+    assert.equal(payload.version, 12)
     assert.equal(payload.contentVersion, 22)
     assert.equal(payload.projectId, 'pal')
     assert.equal(payload.position.sceneId, 's003')
@@ -224,9 +224,20 @@ export async function readKitchenContract(root = repoRoot) {
     'scripts/e2e/kitchen-observer.mjs',
     'scripts/e2e/kitchen-trace-plugin.mjs',
     'scripts/e2e/kitchen-journey.mjs',
+    'scripts/e2e/kitchen-input-plan.mjs',
     'scripts/e2e/kitchen-game.mjs',
     'scripts/e2e/kitchen-reforge.mjs',
     'scripts/e2e/kitchen-both.mjs',
+    'scripts/e2e/kitchen-timing-intent.mjs',
+    'scripts/e2e/kitchen-presentation-intent.mjs',
+    'scripts/e2e/inn-timing-intent.mjs',
+    'scripts/e2e/inn-presentation-intent.mjs',
+    'scripts/e2e/opening-hold-intent.mjs',
+    'scripts/e2e/script-terminal-intent.mjs',
+    'scripts/e2e/npc-transition-contract.mjs',
+    'scripts/e2e/npc-story-scope.mjs',
+    'scripts/e2e/opening-causal-instrumentation.mjs',
+    'scripts/e2e/script-causal-observer.mjs',
     'scripts/e2e/kitchen-game.config.mts',
     'scripts/e2e/kitchen-reforge.config.mts',
     'package.json',
@@ -377,7 +388,7 @@ function flowRows(flow) {
 }
 export function assertKitchenEndPayload(payload, engine, predecessor, contract) {
   if (engine !== 'game') {
-    assert.equal(payload.version, 11)
+    assert.equal(payload.version, 12)
     assert.equal(payload.contentVersion, 22)
   }
   return assertKitchenStoryEnd(payload, engine, predecessor, contract)
@@ -469,23 +480,38 @@ export function assertKitchenStoryEnd(payload, engine, predecessor, contract) {
 
 export function kitchenEndPresented(trace) {
   const f = trace.final
+  const p = trace.presented
   return (
     f?.scene === 's001' &&
     f.control === true &&
     f.money === 500 &&
     f.actors.e19?.visible === true &&
     f.actors.e20?.visible === true &&
-    f.persistent.e56?.state === 0
+    f.persistent.e56?.state === 0 &&
+    p?.scene === 's001' &&
+    p.control === true &&
+    f.actors.e19?.facing === 'up' &&
+    p.actors.e19?.facing === 'up' &&
+    p.renderEvidence?.actors?.e19?.frame === 6
   )
 }
 
 export function assertKitchenTrace(trace, engine, contract, stairs) {
   assert.equal(trace.overflow, false, 'kitchen collector overflow')
   assert.deepEqual(trace.errors, [], 'kitchen collector error')
-  const timeline = [...trace.events, ...trace.pages, ...trace.frames].sort(
-    (a, b) => a.order - b.order,
-  )
-  for (const list of [trace.events, trace.pages, trace.frames])
+  assert(Array.isArray(trace.worldRenders), 'missing current world render observations')
+  assert(Array.isArray(trace.causes), 'missing current causal observations')
+  const lists = [
+    trace.events,
+    trace.pages,
+    trace.frames,
+    trace.worldRenders,
+    trace.causes,
+    trace.restoreCommits ?? [],
+    trace.resources ?? [],
+  ]
+  const timeline = lists.flat().sort((a, b) => a.order - b.order)
+  for (const list of lists)
     list.forEach((e, i) => {
       assert.equal(e.seq, i, 'kitchen sequence gap')
     })
@@ -496,7 +522,7 @@ export function assertKitchenTrace(trace, engine, contract, stairs) {
   const prior = new Map()
   for (const e of trace.events)
     if (e.kind === 'actor') {
-      const key = `${e.scene}/${e.id}`
+      const key = `${e.sceneVisit}/${e.scene}/${e.id}`
       assert.deepEqual(e.before, prior.get(key) ?? null, 'lost kitchen actor continuity')
       prior.set(key, e.state)
     }

@@ -4,10 +4,7 @@
   "kind": "document-audit",
   "status": "verified",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": {
-    "content": 22,
-    "minimumSave": 11
-  },
+  "versions": { "content": 22, "minimumSave": 11 },
   "sourceRefs": [
     {
       "path": "scripts/e2e/meal-game.mjs",
@@ -18,31 +15,45 @@
     },
     {
       "path": "scripts/e2e/meal-contract.mjs",
-      "lines": "261-278",
+      "lines": "395-415",
       "anchor": "export function validateMealPredecessor(",
       "role": "input",
-      "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+      "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
     },
     {
       "path": "scripts/e2e/meal-contract.mjs",
-      "lines": "182-197",
+      "lines": "302-325",
       "anchor": "export function assertMealSuite(",
       "role": "oracle",
-      "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+      "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
     },
     {
       "path": "scripts/e2e/meal-contract.mjs",
-      "lines": "596-613",
+      "lines": "744-769",
       "anchor": "export function assertMealGameSaveInput(",
       "role": "oracle",
-      "sha256": "1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"
+      "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+    },
+    {
+      "path": "scripts/e2e/meal-contract.mjs",
+      "lines": "685-732",
+      "anchor": "export function assertMealCollector(",
+      "role": "collector consumer",
+      "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"
+    },
+    {
+      "path": "scripts/e2e/meal-observer.mjs",
+      "lines": "1-115",
+      "anchor": "const worldRenderLimit = 60_000",
+      "role": "collector",
+      "sha256": "78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63"
     }
   ],
   "publicCallers": ["pnpm e2e:004", "pnpm e2e:004:reforge", "pnpm e2e:004:both"],
@@ -56,7 +67,7 @@
     "assertions": [
       "story/items/saves 六 case 分开",
       "取消/错误 use 不扣酒",
-      "赠酒正文、消失、喊话后恢复移动"
+      "赠酒正文、消失、喊话后恢复控制权"
     ]
   },
   "dedupe": {
@@ -70,10 +81,12 @@
       "result": "source-backed",
       "evidence": [
         "scripts/e2e/meal-game.mjs:3-3",
-        "scripts/e2e/meal-contract.mjs:261-278",
-        "scripts/e2e/meal-contract.mjs:182-197",
-        "scripts/e2e/meal-contract.mjs:596-613",
-        "packages/content/src/character.ts:168-170"
+        "scripts/e2e/meal-contract.mjs:395-415",
+        "scripts/e2e/meal-contract.mjs:302-325",
+        "scripts/e2e/meal-contract.mjs:744-769",
+        "packages/content/src/character.ts:168-170",
+        "scripts/e2e/meal-contract.mjs:685-732",
+        "scripts/e2e/meal-observer.mjs:1-115"
       ]
     }
   ],
@@ -83,6 +96,11 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
+    "2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。",
+    "2026-10-06 采集/消费合同源核验：assertMealCollector 同时核worldRenders、提交/对白/菜单/输入/存读列表的序号和全局顺序；NPC连续性按sceneVisit区分，party连续链保留。collector的世界绘制时钟独立60,000条，稳定姿态保留span，Game drawn与Reforge selected/world-pass-only有别。六case和保存输入断言未被帧证据替代；story/saves以真实storyEndControl收口，不再要求尾部测试走位。本次未新跑E2E。",
+    "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。",
+    "2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。",
     "9a488c02 六 case 是旧版本历史执行；不能把当前 canonical 22/11 倒填到旧回执。receipt-model-only 复核不等于新增实跑。"
   ],
   "artifacts": [],

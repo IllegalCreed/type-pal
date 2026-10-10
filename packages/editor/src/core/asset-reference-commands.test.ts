@@ -12,7 +12,7 @@ function state(): EditorState {
       id: 'asset-delete',
       name: 'asset-delete',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

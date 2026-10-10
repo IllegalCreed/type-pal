@@ -45,7 +45,7 @@ function state(items: ItemData[] = [item()]): EditorState {
       id: 'test',
       name: '测试项目',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},
       entryPoints: [

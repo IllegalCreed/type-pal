@@ -167,7 +167,7 @@
         "137:阶段 A · @type-pal/content（纯数据/解码，node 可测）"
       ],
       "unresolved": [
-        "正文信号 6:> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
+        "正文信号 6:> \u26a0 **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
         "正文信号 171:export interface CollisionLayer { width: number; height: number; blocked: Uint8Array }",
         "正文信号 303:Expected: FAIL（`decodeIndexedPng` 未定义）",
         "正文信号 350:- Produces：`parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable }`。磁盘 JSON 的 `tiles`/`blocked` 是 `number[]`，转 `Int16Array`/`Uint8Array`。坏引用/越界/缺字段 → `",
@@ -343,7 +343,7 @@
           }
         ],
         "unresolvedSignals": [
-          "6:> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
+          "6:> \u26a0 **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
           "171:export interface CollisionLayer { width: number; height: number; blocked: Uint8Array }",
           "303:Expected: FAIL（`decodeIndexedPng` 未定义）",
           "350:- Produces：`parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable }`。磁盘 JSON 的 `tiles`/`blocked` 是 `number[]`，转 `Int16Array`/`Uint8Array`。坏引用/越界/缺字段 → `",
@@ -491,7 +491,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-structured-review",
       "reviewDepth": "structured-content",
-      "coreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
+      "coreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> \u26a0 **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
       "truthAnchors": [
         "docs/phase2/archive/slices/indoor/spec.md:1",
         "1:P1 · 切片 1：室内场景跑通（slice 1 spec）",
@@ -501,11 +501,11 @@
         "91:3. 内容数据模型（content schema 切片子集）"
       ],
       "unresolved": [
-        "正文信号 3:> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
+        "正文信号 3:> \u26a0 **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
         "正文信号 119:blocked: Uint8Array                    // 长度 w*h，0=可走 1=挡。形状留长大成 per-cell 地形记录",
         "正文信号 162:> 磁盘 `scene.json` 用 `number[]` 存 tiles/blocked，载入时转 typed array（`Int16Array`/`Uint8Array`）；`CollisionLayer` 宽高 = `TileMap` 宽高，`validate` 校验一致。",
         "正文信号 204:- **碰撞两类分开**（[D5](../../../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。",
-        "正文信号 222:> ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
+        "正文信号 222:> \u26a0 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
         "正文信号 252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
@@ -644,11 +644,11 @@
           }
         ],
         "unresolvedSignals": [
-          "3:> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
+          "3:> \u26a0 **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
           "119:blocked: Uint8Array                    // 长度 w*h，0=可走 1=挡。形状留长大成 per-cell 地形记录",
           "162:> 磁盘 `scene.json` 用 `number[]` 存 tiles/blocked，载入时转 typed array（`Int16Array`/`Uint8Array`）；`CollisionLayer` 宽高 = `TileMap` 宽高，`validate` 校验一致。",
           "204:- **碰撞两类分开**（[D5](../../../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。",
-          "222:> ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
+          "222:> \u26a0 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
           "252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。"
         ]
       },
@@ -757,9 +757,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "能力地图（Capability Map）— 第二阶段的进度真值表：这是 governance-index，当前文档状态为 draft。全文 347 行、23 个标题；摘要/首段为「> **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：能力地图（Capability Map）— 第二阶段的进度真值表：这是 governance-index，当前文档状态为 draft。全文 347 行、23 个标题；摘要/首段为「> **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：当前 content22 / SAVE12；001–006 新批次已验收，旧批次不升级，局部主线不替代完整 Q1/Q2 或全表复核。",
       "truthAnchors": [
         "docs/phase2/capability-map.md:1",
         "1:能力地图（Capability Map）— 第二阶段的进度真值表",
@@ -769,14 +769,14 @@
         "53:3. 能力地图(8 领域 63 格)"
       ],
       "unresolved": [
-        "正文信号 13:> 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。",
+        "正文信号 13:> 状态符号:`✅done` `\u26a0️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。",
         "正文信号 15:> **「能编」严格判据**(2026-07-05 立):编辑器侧标 ✅ 必须满足——能在编辑器里**真实创建/修改**该能力所需数据,**改动能保存**(dispatch Command → session → 工程文件)、**引擎能消费**。纯展示按钮、灰色 `soon` 占位、`defaultChecked` 假 toggle、空壳标签(点进去\"待做\"",
         "正文信号 47:| **C · 迁移器练手对象** | 翻译成现代 schema,覆盖率可量,未覆盖有账 | 迁移器 pending 项是「翻译待办」,不是「验收欠款」 |",
         "正文信号 69:| W9 | 实体暂离/重现/明雷逃跑冷却 | ✅ | ✅ | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **done（2026-08-12）**：稳定实体地址的四态生命周期与世界 reducer 已替代 `respawnSeconds + host.wait` 临时实现；明雷胜利/玩家逃跑/敌逃走具名 BattleRes",
-        "正文信号 79:| E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。⚠ 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |",
+        "正文信号 79:| E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。\u26a0 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |",
         "正文信号 91:| C2 | 精灵动画与姿势 | ✅ | ✅ | 走/特殊动作 | **C2-ACT done（2026-07-22）**：精灵库预制动作、实例级播放器、场景默认绑定/语义播放命令、引用反跳与严格迁移闭环已完成；PAL 迁移 387 个实例 / 54 场景 / 32 个共享动作。未自动迁移精灵的人工动作语义补标已移交第三阶段，不降级本格。 |",
         "正文信号 108:| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **N6 v1 done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存",
-        "正文信号 120:| B5 | 战斗动画/法术 | ⚠️ | ✅ | 施法演出 | M4d-2/2b:物攻双向/死亡淡出/施法+fire特效+音效。召唤全链落地(2026-07-05):9 召唤补翻+summon 效果+神将演出。**A7-3B done(2026-07-21)**：三方审查和用户验收完成；`BattleSpriteDef.profile` 已退役 `godI",
+        "正文信号 120:| B5 | 战斗动画/法术 | \u26a0️ | ✅ | 施法演出 | M4d-2/2b:物攻双向/死亡淡出/施法+fire特效+音效。召唤全链落地(2026-07-05):9 召唤补翻+summon 效果+神将演出。**A7-3B done(2026-07-21)**：三方审查和用户验收完成；`BattleSpriteDef.profile` 已退役 `godI",
         "正文信号 122:| B8 | 野外遇敌 | ✅ | ✅ | 野怪追人→碰撞开战→胜负回流 | s292 全链实测:追逐(chasePlayer 声明式)→touch 开战→败(渐红+胜败乃兵家常事也+读最近档)/胜(入账+怪消失 80s 重生);未翻译 7390→1947;概率停顿演出细节 lossy;编辑器经通用命令编辑覆盖 |",
         "正文信号 126:| B11 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying） | ✅ | — | 阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白 | **done（2026-08-05）**：content schema `BattlerSpec.casualty?`（friendDeath",
         "正文信号 136:| X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化",
@@ -789,7 +789,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
-      "afterSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+      "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
       "publicCallers": [
         "docs/phase2/capability-map.md → ../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md",
         "docs/phase2/capability-map.md → ../ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
@@ -826,15 +826,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+            "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
+            "reviewedRanges": ["4-5", "7-9"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -939,29 +949,29 @@
           }
         ],
         "unresolvedSignals": [
-          "13:> 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。",
+          "13:> 状态符号:`✅done` `\u26a0️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。",
           "15:> **「能编」严格判据**(2026-07-05 立):编辑器侧标 ✅ 必须满足——能在编辑器里**真实创建/修改**该能力所需数据,**改动能保存**(dispatch Command → session → 工程文件)、**引擎能消费**。纯展示按钮、灰色 `soon` 占位、`defaultChecked` 假 toggle、空壳标签(点进去\"待做\"",
           "47:| **C · 迁移器练手对象** | 翻译成现代 schema,覆盖率可量,未覆盖有账 | 迁移器 pending 项是「翻译待办」,不是「验收欠款」 |",
           "69:| W9 | 实体暂离/重现/明雷逃跑冷却 | ✅ | ✅ | vanishEntity 语义生命周期（暂停自动触碰 vs 隐藏待重现） | **done（2026-08-12）**：稳定实体地址的四态生命周期与世界 reducer 已替代 `respawnSeconds + host.wait` 临时实现；明雷胜利/玩家逃跑/敌逃走具名 BattleRes",
-          "79:| E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。⚠ 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |",
+          "79:| E5 | 实体动画(loop) | ✅ | ✅ | 火把/流水 | 引擎(2026-07-05):loop 布局壁钟自循环 250ms/帧(loopFrameIndex,演出帧覆盖仍优先);编辑器:精灵库布局可编(C1d)。\u26a0 两工程暂无 loop 精灵数据 —— 精灵库切 loop 布局即生效 |",
           "91:| C2 | 精灵动画与姿势 | ✅ | ✅ | 走/特殊动作 | **C2-ACT done（2026-07-22）**：精灵库预制动作、实例级播放器、场景默认绑定/语义播放命令、引用反跳与严格迁移闭环已完成；PAL 迁移 387 个实例 / 54 场景 / 32 个共享动作。未自动迁移精灵的人工动作语义补标已移交第三阶段，不降级本格。 |",
           "108:| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **N6 v1 done**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开均已落地；canonical 库为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不保存",
-          "120:| B5 | 战斗动画/法术 | ⚠️ | ✅ | 施法演出 | M4d-2/2b:物攻双向/死亡淡出/施法+fire特效+音效。召唤全链落地(2026-07-05):9 召唤补翻+summon 效果+神将演出。**A7-3B done(2026-07-21)**：三方审查和用户验收完成；`BattleSpriteDef.profile` 已退役 `godI",
+          "120:| B5 | 战斗动画/法术 | \u26a0️ | ✅ | 施法演出 | M4d-2/2b:物攻双向/死亡淡出/施法+fire特效+音效。召唤全链落地(2026-07-05):9 召唤补翻+summon 效果+神将演出。**A7-3B done(2026-07-21)**：三方审查和用户验收完成；`BattleSpriteDef.profile` 已退役 `godI",
           "122:| B8 | 野外遇敌 | ✅ | ✅ | 野怪追人→碰撞开战→胜负回流 | s292 全链实测:追逐(chasePlayer 声明式)→touch 开战→败(渐红+胜败乃兵家常事也+读最近档)/胜(入账+怪消失 80s 重生);未翻译 7390→1947;概率停顿演出细节 lossy;编辑器经通用命令编辑覆盖 |",
           "126:| B11 | 队友阵亡/濒死战斗脚本（scriptOnFriendDeath / scriptOnDying） | ✅ | — | 阵亡→援护者 friendDeath 台词+增益；濒死→自己 dying 对白 | **done（2026-08-05）**：content schema `BattlerSpec.casualty?`（friendDeath",
           "136:| X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化",
           "155:> **工程自包含铁律**:工程目录是引擎加载时的全部世界,引擎打开工程 = 读这个目录的 manifest + content + assets,不会也不能去别处找素材。故**新建工程选「加载预制」时,预制素材必须从服务器下载并写进工程 `assets/`**——不缓存、不引用、不依赖声明,工程创建后即自包含快照。理由:① 浏览器读不到用户本地共享目录,「",
           "162:| A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，",
           "167:> A1-A5 是第二阶段编辑器侧的素材与分发动作，故 `引擎—`；A6 保留历史格号但已移交第三阶段。A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。A1 保留为第二阶段最后的发布收口门，当前不提前实施；未决子问题（托管/版",
-          "227:> 以上队列同时包含能力格、迁移正确性、编辑器生命周期、E2E 与发布收口，不能再只扫表内 `⚠️/❌`",
+          "227:> 以上队列同时包含能力格、迁移正确性、编辑器生命周期、E2E 与发布收口，不能再只扫表内 `\u26a0️/❌`",
           "228:> 推断“剩余工作”。W1、E2、C3、B10、N7 的旧“待闭合”文字已随对应能力完成而移除。",
-          "235:1. 扫地图,找所有 ⚠️ 半done格 → 有?",
-          "237:无 ⚠️ ↓",
-          "247:1. **先闭合半done(⚠️),而非开新格** —— 半done格回报最高(已有投入兑现成完整能力)。",
-          "265:- 当前表内真实 `⚠️` 只剩 B5（并入Q2专项）；真实 `❌` 只剩最终收口 A1，",
+          "235:1. 扫地图,找所有 \u26a0️ 半done格 → 有?",
+          "237:无 \u26a0️ ↓",
+          "247:1. **先闭合半done(\u26a0️),而非开新格** —— 半done格回报最高(已有投入兑现成完整能力)。",
+          "265:- 当前表内真实 `\u26a0️` 只剩 B5（并入Q2专项）；真实 `❌` 只剩最终收口 A1，",
           "270:完整战斗生命周期五批；B5 并入其中的表现批，不再单独做一轮宽泛盘点。Q2 当前尚未开卡承诺。",
           "274:E2E 的最终段，不是待开发能力。",
-          "314:- **M4 战斗** = B1–B9 战斗格（B2 编辑器侧已 done；剩余重点为 B5 表现精调及表内其他明确 ⚠️ 项）"
+          "314:- **M4 战斗** = B1–B9 战斗格（B2 编辑器侧已 done；剩余重点为 B5 表现精调及表内其他明确 \u26a0️ 项）"
         ]
       },
       "history": [
@@ -970,12 +980,32 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "d14537edc94d669fa7f44aae3ca2ed73f057eab99d4a9347371714db04e52e61",
+          "afterSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
+          "reviewedRanges": ["4-5", "7-9"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-347"
+      "reviewedLines": "1-347",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["4-5", "7-9"],
+        "conclusion": "当前 content22 / SAVE12；001–006 新批次已验收，旧批次不升级，局部主线不替代完整 Q1/Q2 或全表复核。",
+        "truthAnchors": ["docs/phase2/capability-map.md:4", "docs/phase2/capability-map.md:7"],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/decisions.md",
@@ -1002,7 +1032,7 @@
         "正文信号 36:**决定**：第一阶段（v1.0.0，功能无 todo，剩长尾视觉 / 听验）视为可收尾，第二阶段开工；策略 = roadmap §5「骨架先行 + 垂直切片」，不瀑布。",
         "正文信号 46:- **移动 = 意图 → 纯函数碰撞判定 → 结果**，不直接 mutate 坐标 —— 作为**干净可测的设计**保留；原「为 MMO 碰撞权威留口」的理由已随 D5 移交第三阶段，复杂度按内容实际需要定，不为未来过度设计。",
         "正文信号 47:**2026-06-25 修订**：①渲染 API 改为重新评估（见 D4）；②切片应**承载一小段真实 DLC 内容**，而非内容无关的通用房间——避免「为引擎而引擎」的空转。具体内容待定后切片 spec 重写。",
-        "正文信号 139:- ⚠ **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundatio",
+        "正文信号 139:- \u26a0 **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundatio",
         "正文信号 171:- **菜单及后续所有 UI / 美术 / 编辑器长在此地基上**；菜单（[D17](decisions.md)）暂搁待此落地。",
         "正文信号 178:> - 旧碰撞兼容层（`pixelToTile`/`h`/lower-upper）维持、加 GridPos 入口（`isBlockedAt`/`sameGrid`），零行为变化。",
         "正文信号 182:**决定**：菜单设计定调，但**实现暂搁、待 [D16](decisions.md) 渲染地基落地**（菜单直接长在格坐标 + 高清地基上，不返工）。设计要点：",
@@ -1228,24 +1258,24 @@
           "36:**决定**：第一阶段（v1.0.0，功能无 todo，剩长尾视觉 / 听验）视为可收尾，第二阶段开工；策略 = roadmap §5「骨架先行 + 垂直切片」，不瀑布。",
           "46:- **移动 = 意图 → 纯函数碰撞判定 → 结果**，不直接 mutate 坐标 —— 作为**干净可测的设计**保留；原「为 MMO 碰撞权威留口」的理由已随 D5 移交第三阶段，复杂度按内容实际需要定，不为未来过度设计。",
           "47:**2026-06-25 修订**：①渲染 API 改为重新评估（见 D4）；②切片应**承载一小段真实 DLC 内容**，而非内容无关的通用房间——避免「为引擎而引擎」的空转。具体内容待定后切片 spec 重写。",
-          "139:- ⚠ **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundatio",
+          "139:- \u26a0 **不要**用屏幕像素轴 `(col=x/16, row=y/8)` 当坐标——菱形格是斜的、屏幕 x/y 是正的，硬塞会让走一格变成对角（col/row 同时变）且半数坐标非法。正解 = 菱形自己的斜边当轴：`gridToPixel(col,row) = (16(col−row), 8(col+row))`。详见 [render-foundatio",
           "171:- **菜单及后续所有 UI / 美术 / 编辑器长在此地基上**；菜单（[D17](decisions.md)）暂搁待此落地。",
           "178:> - 旧碰撞兼容层（`pixelToTile`/`h`/lower-upper）维持、加 GridPos 入口（`isBlockedAt`/`sameGrid`），零行为变化。",
           "182:**决定**：菜单设计定调，但**实现暂搁、待 [D16](decisions.md) 渲染地基落地**（菜单直接长在格坐标 + 高清地基上，不返工）。设计要点：",
           "185:- **范围**：主菜单四项框架（状态 / 物品 / 武功 / 系统）+ 仅「队伍状态」能用；物品 / 武功 / 系统占位。**存档**（数据模型未定型）、**走出房间**（需编辑器）、**战斗属性改造**（phase3 D9）均后置。",
           "187:**理由**：菜单是\"落地第二阶段最核心数据地基（角色 / 世界态 schema）\"的抓手（roadmap §3.3）；但它依赖 D16（格坐标 + 高清 UI），故**设计先定、实现待地基**。数据驱动动态布局 + schema 留扩展口 = 将来加战斗维度 / 提分辨率都不返工。",
           "190:- 待 D16 落地后，菜单走 brainstorm → spec → plan → 实现；角色 / 世界态 schema 届时首次代码化（[content-schema §9](specs/content-schema.md)）。",
-          "207:- ⚠ **迁移器不进 content** —— roadmap §7 原写「content = 格式 + 迁移」是把数据模型和工具混了 → 独立 `@type-pal/migrate`。",
-          "208:- ⚠ **内容实例不是 content 本体** —— 场景 / 对话数据本质是内容工程数据（JSON 数据目录，editor 产 / reforge fetch）。现 demo 的 `guijieMinjuScene`/`locale` 暂放 content 当 fixture（权宜 TS import），**内容工程化（editor + fetch）后",
+          "207:- \u26a0 **迁移器不进 content** —— roadmap §7 原写「content = 格式 + 迁移」是把数据模型和工具混了 → 独立 `@type-pal/migrate`。",
+          "208:- \u26a0 **内容实例不是 content 本体** —— 场景 / 对话数据本质是内容工程数据（JSON 数据目录，editor 产 / reforge fetch）。现 demo 的 `guijieMinjuScene`/`locale` 暂放 content 当 fixture（权宜 TS import），**内容工程化（editor + fetch）后",
           "252:**背景**：作者反馈「双线并行凌乱、脱离控制、想法混乱、第二阶段目标不清」。brainstorm 定位根因——不是代码乱，是**文档与真实意图打架**：① [roadmap §8](roadmap.md)「100% 复刻 = 验收」与 [铁律 #6](READ-FIRST.md)「现代化优先、不复刻怪癖」直接冲突，每步在「要不要为复刻忍脏」上反复拉扯；② ",
-          "260:3. **下一步选择器**（[capability-map §5](capability-map.md)）：下一步不靠直觉或 Claude 提议，跑选择器读图——三规则（先闭合半done ⚠️ > 开解锁多的新格 > 阶梯底部优先）+ 一轮一承诺纪律。",
+          "260:3. **下一步选择器**（[capability-map §5](capability-map.md)）：下一步不靠直觉或 Claude 提议，跑选择器读图——三规则（先闭合半done \u26a0️ > 开解锁多的新格 > 阶梯底部优先）+ 一轮一承诺纪律。",
           "267:- **MG2 迁移器增量合并** —— 解「迁移器重导覆盖人工修改」冲突。作者定调：**合并是迁移器内部职责，不是引擎/编辑器架构**——迁移器是开发期工具，完成期退役，引擎/编辑器永远只消费一份干净内容工程，不背「合并两层」的永久包袱（纠正了 brainstorm 中一度提出的「运行时分层合并」过度设计）。",
           "281:**背景**：作者提长期悬而未决的问题——「预制素材库到底以什么形式存在、存在哪」。brainstorm 第一版答「本地 presets 目录 + 引用」，被作者一句「用户使用我的编辑器是在线使用的」推翻——暴露了一个之前未显式化的**架构前提**：编辑器是 Web 应用还是本地应用？这决定了所有素材/分发决策。作者定调：**在线 Web 编辑器**。",
           "303:- 未决子问题（A1 素材规模与托管版本 / A2 下载协议与进度 UI / A4 支持的素材格式）留「做 A 领域」那轮 brainstorm 细化，不在本决策范围。",
           "310:**补充（2026-07-04，作者纠正「豁免 = 特殊逻辑」）**：一度提议给 pal/demo 等仓库内开发工程「豁免自包含铁律」（引用 `/extracted` 图开发便利）。作者点破：**豁免就是特殊逻辑**——引擎若为它们区别对待，就破坏了「加载任意工程一视同仁」。正解 **无豁免**：引擎永远只读 `manifest.assets` 指针、按路径",
           "319:2. **C7 离队角色状态 = reserve 暂存区方案**：`WorldState` 加 `reserve: CharacterInstance[]`，setParty 在 party ↔ reserve 间搬实例，等级/装备/HP 不丢 —— 对齐原版（PlayerRoles 全局存活，离队不清数据）。存档向后兼容（新字段缺省空）。否决：离队重置（月",
           "320:3. **MG2 = 立项三方合并**：迁移器还会重跑（未翻脚本继续翻译），重跑不能覆盖手工改动（音乐别名 / 场景编辑等已进 pal 工程）→ 迁移器需三方合并（base=上次迁移产物 / theirs=新迁移产物 / ours=手工现状）。在 MG2 落地前，**重跑迁移器有覆盖风险 —— 严禁顺手重跑**。",
-          "345:| 项目默认 | field 24(dev 惯例)/music **37**(2.RPG@0x10 新档真值;⚠ 3 是胜利曲) | 无 set 场景靠全局残留继承 → 传播静态化 |"
+          "345:| 项目默认 | field 24(dev 惯例)/music **37**(2.RPG@0x10 新档真值;\u26a0 3 是胜利曲) | 无 set 场景靠全局残留继承 → 传播静态化 |"
         ]
       },
       "history": [
@@ -1289,7 +1319,7 @@
         "正文信号 103:剧情固定成长/隐藏经验不变。界面需补实际常宽/窄宽、键盘精确输入和撤销检查；当前未执行改版视觉验收。",
         "正文信号 113:| 5 | 演出 / cutscene 系统 | 黑屏语义纠缠：冻结型（死亡 / 切场景）、遮罩型（借黑屏移精灵）、叙事型（水月宫一夜过去）混用 `blackScreenHold`/`needToFadeIn`/`sceneLoading`/`paletteFadeState`；精灵移动、触发器拼凑式，杂乱 | 拆正交两维（底层冻结与否 × 遮罩层内容）；统",
         "正文信号 169:> 以下保留立项时的设计推导作为背景，不再表示待办；当前完成状态以上方议题表和三张任务卡为准。",
-        "正文信号 177:> ⚠️ 本议题**不阻塞切片 1**。切片 1 已用纯状态机验证了对话这条线。本议题是 P1 引擎核心层的设计任务，等更多子系统在切片中验证后统一 spec。",
+        "正文信号 177:> \u26a0️ 本议题**不阻塞切片 1**。切片 1 已用纯状态机验证了对话这条线。本议题是 P1 引擎核心层的设计任务，等更多子系统在切片中验证后统一 spec。",
         "正文信号 183:| 子项 | 原版外观（第一阶段已忠实复刻，可作真值） | reforge 现状 | 待办 |",
         "正文信号 198:> 2026-06-27 立。切片 1 收口时作者提出:原版 NPC 会自主游走、有碰撞,主角移动中撞上**会动的** NPC 时有错位避让(不硬卡)。reforge 切片 1 的 NPC 是静态的(游魂站着传话),`collide` 字段一度还是死字段(content 填了 `collide:true`、reforge `isBlocked` 没读)。先补"
       ],
@@ -1447,7 +1477,7 @@
           "103:剧情固定成长/隐藏经验不变。界面需补实际常宽/窄宽、键盘精确输入和撤销检查；当前未执行改版视觉验收。",
           "113:| 5 | 演出 / cutscene 系统 | 黑屏语义纠缠：冻结型（死亡 / 切场景）、遮罩型（借黑屏移精灵）、叙事型（水月宫一夜过去）混用 `blackScreenHold`/`needToFadeIn`/`sceneLoading`/`paletteFadeState`；精灵移动、触发器拼凑式，杂乱 | 拆正交两维（底层冻结与否 × 遮罩层内容）；统",
           "169:> 以下保留立项时的设计推导作为背景，不再表示待办；当前完成状态以上方议题表和三张任务卡为准。",
-          "177:> ⚠️ 本议题**不阻塞切片 1**。切片 1 已用纯状态机验证了对话这条线。本议题是 P1 引擎核心层的设计任务，等更多子系统在切片中验证后统一 spec。",
+          "177:> \u26a0️ 本议题**不阻塞切片 1**。切片 1 已用纯状态机验证了对话这条线。本议题是 P1 引擎核心层的设计任务，等更多子系统在切片中验证后统一 spec。",
           "183:| 子项 | 原版外观（第一阶段已忠实复刻，可作真值） | reforge 现状 | 待办 |",
           "198:> 2026-06-27 立。切片 1 收口时作者提出:原版 NPC 会自主游走、有碰撞,主角移动中撞上**会动的** NPC 时有错位避让(不硬卡)。reforge 切片 1 的 NPC 是静态的(游魂站着传话),`collide` 字段一度还是死字段(content 填了 `collide:true`、reforge `isBlocked` 没读)。先补",
           "204:> D15-1 已完成本议题；D15-2 因前提变化取消。历史“等待立项”口径不再生效。",
@@ -1568,9 +1598,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "第二阶段（Reforge）· 开工前必读：这是 governance-index，当前文档状态为 current。全文 54 行、3 个标题；摘要/首段为「> **你现在在做第二阶段。第一阶段的「忠实还原」思维全部作废。**」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：第二阶段（Reforge）· 开工前必读：这是 governance-index，当前文档状态为 current。全文 54 行、3 个标题；摘要/首段为「> **你现在在做第二阶段。第一阶段的「忠实还原」思维全部作废。**」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：原有 UX 形态保留，演出按已核意图用显式编排表达；剧情 NPC 选择性接管并及时释放，无关 NPC 与环境动画继续。",
       "truthAnchors": [
         "docs/phase2/READ-FIRST.md:1",
         "1:第二阶段（Reforge）· 开工前必读",
@@ -1588,7 +1618,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-      "afterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+      "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
       "publicCallers": [
         "docs/phase2/READ-FIRST.md → roadmap.md",
         "docs/phase2/READ-FIRST.md → decisions.md",
@@ -1615,15 +1645,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+            "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+            "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -1658,12 +1698,39 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
+          "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+          "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-54"
+      "reviewedLines": "1-54",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
+        "conclusion": "原有 UX 形态保留，演出按已核意图用显式编排表达；剧情 NPC 选择性接管并及时释放，无关 NPC 与环境动画继续。",
+        "truthAnchors": [
+          "docs/phase2/READ-FIRST.md:9",
+          "docs/phase2/READ-FIRST.md:17",
+          "docs/phase2/READ-FIRST.md:22",
+          "docs/phase2/READ-FIRST.md:34",
+          "docs/phase2/READ-FIRST.md:36",
+          "docs/phase2/READ-FIRST.md:38"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/README.md",
@@ -1783,12 +1850,12 @@
         "34:1. 资产加载（dialog-assets.ts 对应物）"
       ],
       "unresolved": [
-        "正文信号 7:> **⚠ 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。",
-        "正文信号 36:reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**⚠ 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：",
-        "正文信号 37:- **字模**：⚠ **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三",
-        "正文信号 92:### ⚠️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
-        "正文信号 129:### ⚠️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
-        "正文信号 137:> ⚠️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**",
+        "正文信号 7:> **\u26a0 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。",
+        "正文信号 36:reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**\u26a0 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：",
+        "正文信号 37:- **字模**：\u26a0 **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三",
+        "正文信号 92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
+        "正文信号 129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
+        "正文信号 137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**",
         "正文信号 143:普通行（非 `~`）跳字路径 —— `confirmDialog`（dialog-box.ts:527）走 `phase='line-done'` 且**不**设 `lineDoneRenderPending`：",
         "正文信号 146:Tick N+1 line-done → 1820 lineDoneRenderPending? 否 → 1824 ip++ → 跑下一条 showDialog",
         "正文信号 162:**`~` 尾行特例**（比文档旧版说的还卡）：`tickDialog:484` 对 `currentLineEndedWithTilde` 设 `lineDoneRenderPending=true` → 1820-1822 命中 → **额外再 return 一 tick**。即 `~` 尾行行间转换 = 2 个 tick（200ms）。",
@@ -1878,11 +1945,11 @@
           },
           {
             "line": 92,
-            "text": "⚠️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）"
+            "text": "\u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）"
           },
           {
             "line": 129,
-            "text": "⚠️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）"
+            "text": "\u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）"
           },
           {
             "line": 173,
@@ -1902,12 +1969,12 @@
           }
         ],
         "unresolvedSignals": [
-          "7:> **⚠ 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。",
-          "36:reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**⚠ 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：",
-          "37:- **字模**：⚠ **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三",
-          "92:### ⚠️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
-          "129:### ⚠️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
-          "137:> ⚠️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**",
+          "7:> **\u26a0 2026-06-27 修正**：原稿误称字模 = 原版 FONT.MKF。实为 **GNU Unifont CN 简体点阵**（第一阶段实现，见 §1）——原版 FONT.MKF 是繁体 BIG5、简体缺字 + 无 Latin，做不了 ② 的 i18n（zh + 将来 en）。② 字体端口 Unifont，**不碰 FONT.MKF**。",
+          "36:reforge 需要这几类对话资产（第一阶段已有解析逻辑，可端口）。**\u26a0 字模不走 MKF**（见下），头像 / 光标才是原版 MKF：",
+          "37:- **字模**：\u26a0 **不是 FONT.MKF**。第一阶段用 **GNU Unifont CN**（简体点阵 BDF → `data/font/glyphs.json`），端口 `packages/game/src/present/font.ts`（`loadGlyphs` + `renderText` / `renderColoredText`，已含三",
+          "92:### \u26a0️ 打字速度查证（2026-06-26，作者反馈\"第一阶段比原版慢\"）",
+          "129:### \u26a0️ 第二个独立 bug：\"按一下全显\"丢失（作者核心痛点）",
+          "137:> \u26a0️ 本节修正了 1db604b 那版的实证偏差：旧版画的 `lineDoneRenderPending=true → return(1822)` 路径**只对 `~` 尾行成立**（`tickDialog:484` 仅 `currentLineEndedWithTilde` 才设该 flag）。普通行根本不经过 1822。真实根因是两个**独立叠加**",
           "143:普通行（非 `~`）跳字路径 —— `confirmDialog`（dialog-box.ts:527）走 `phase='line-done'` 且**不**设 `lineDoneRenderPending`：",
           "146:Tick N+1 line-done → 1820 lineDoneRenderPending? 否 → 1824 ip++ → 跑下一条 showDialog",
           "162:**`~` 尾行特例**（比文档旧版说的还卡）：`tickDialog:484` 对 `currentLineEndedWithTilde` 设 `lineDoneRenderPending=true` → 1820-1822 命中 → **额外再 return 一 tick**。即 `~` 尾行行间转换 = 2 个 tick（200ms）。",
@@ -1915,7 +1982,7 @@
           "167:- **关键：一次按键的\"连锁瞬显\"必须在同一逻辑步内完成**，不能拆成多个 tick 各自等下一次按键。reforge 应让 advance/advanceAll 在**一次 core tick** 内把「当前页所有未显行」一次性设为瞬显 + 全部入页，而不是每行一个 tick。",
           "171:**这两个 bug 的关系**：打字卡顿（渲染层 10fps）+ 按键要多次（逻辑层等待态）是**独立**的两个问题，原版都没问题所以\"丝滑+按一下全显\"，第一阶段两个都中招所以\"又卡又要按很多遍\"。reforge 要两个都做对。",
           "190:- `~` 尾行字已全显（`charsRevealed >= len`，已进入尾停顿等待）后再按 Confirm → **`return 'noop'`**（不重设 lineStartMs）→ 尾停顿不被无限重置，墙钟自然走到结束。",
-          "196:> ⚠ **2026-06-27 实现回填**:本节是早期草案(fontColor/style/autoDelay 命名)。② 实际定型的字段见 [design §4](../archive/designs/visual-design.md)。下面保留草案作历史对照,**以 design §4 为准**。"
+          "196:> \u26a0 **2026-06-27 实现回填**:本节是早期草案(fontColor/style/autoDelay 命名)。② 实际定型的字段见 [design §4](../archive/designs/visual-design.md)。下面保留草案作历史对照,**以 design §4 为准**。"
         ]
       },
       "history": [
@@ -1938,9 +2005,9 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "一阶段知识测绘（Phase 1 Knowledge Harvest）：这是 reference-canon，当前文档状态为 current。全文 507 行、75 个标题；摘要/首段为「> **缘起**（2026-07-05）：作者批评——reforge 重写各子系统时不读一阶段实现与踩坑史，\"谈何优化\"。一阶段 792 commit / 432 fix 是几十轮打磨的血泪，散落在代码注释、git message、`engineering-notes` 里；reforge 重写时跳过 = 必然重新踩坑（战斗已实证：召唤神双重减锚、音效全缺、屏幕特效整类缺失，全是一阶段修过的）。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：一阶段知识测绘（Phase 1 Knowledge Harvest）：这是 reference-canon，当前文档状态为 current。全文 507 行、75 个标题；摘要/首段为「> **缘起**（2026-07-05）：作者批评——reforge 重写各子系统时不读一阶段实现与踩坑史，\"谈何优化\"。一阶段 792 commit / 432 fix 是几十轮打磨的血泪，散落在代码注释、git message、`engineering-notes` 里；reforge 重写时跳过 = 必然重新踩坑（战斗已实证：召唤神双重减锚、音效全缺、屏幕特效整类缺失，全是一阶段修过的）。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：普通脚本确认结束输入等待，异侧对白继续留显；作者 clear 与结束/取消/离场清槽；一次性运动 committed 与 settled 分轴，不能重复提交。",
       "truthAnchors": [
         "docs/phase2/reference/phase1-knowledge-harvest.md:1",
         "1:一阶段知识测绘（Phase 1 Knowledge Harvest）",
@@ -1951,14 +2018,14 @@
       ],
       "unresolved": [
         "正文信号 7:> **★★★ 一等参考（2026-07-06 补）**：[`docs/phase1/game-mechanics.md`](../../phase1/game-mechanics.md)（1218 行）= **作者亲自逐行核对原版+sdlpal 后总结的底层机制真值**，带源出处行号 + 原版早期 bug vs 后期修复考证 + ts 实现状态。覆盖 20",
-        "正文信号 10:> 1. **三源交叉**：每条来自 ① `engineering-notes` 章节 ② 代码注释（`⚠`/`坑`/`修`/`fix`）③ git log fix message；孤立来源标\"未交叉验证\"。",
-        "正文信号 14:> 5. **标记移植状态**：每条标 ✅ 已移植 / ⚠️ 部分移植 / ❌ 未移植 / — 不适用（新架构免疫）。",
+        "正文信号 10:> 1. **三源交叉**：每条来自 ① `engineering-notes` 章节 ② 代码注释（`\u26a0`/`坑`/`修`/`fix`）③ git log fix message；孤立来源标\"未交叉验证\"。",
+        "正文信号 14:> 5. **标记移植状态**：每条标 ✅ 已移植 / \u26a0️ 部分移植 / ❌ 未移植 / — 不适用（新架构免疫）。",
         "正文信号 57:- **reforge 现状**: ❌ **未免疫，方案不能照搬**。`render.ts:143-195` Canvas2D `drawImage` 无 coverage；baked tile PNG 透明接缝像素同样露底色。需新方案（离屏整图 alpha 合成 / 接缝预填充到 baked tile）。**先复现血池 map76 看是否漏黑**。",
-        "正文信号 64:- **reforge 现状**: ⚠️ bake 阶段固化。`render.ts:116` bakeFrame 烘 RGBA；PNG alpha 天然区分（免疫），但 migrate bake 时须确保 palette-0 实色像素 alpha=255。",
+        "正文信号 64:- **reforge 现状**: \u26a0️ bake 阶段固化。`render.ts:116` bakeFrame 烘 RGBA；PNG alpha 天然区分（免疫），但 migrate bake 时须确保 palette-0 实色像素 alpha=255。",
         "正文信号 84:- **reforge 现状**: ❌ **未免疫，内存压力更大**。baked RGBA canvas 比 index tile 大 4 倍，无 protect/onEvict。**接多场景切换前必照搬三件套**。",
         "正文信号 94:- **reforge 现状**: ❌ **未实现，高危**。`getPalette` 是 async（`main.ts:226-231`），接 RNG/演出调色板时确定性偏色。**必须开机预载**。",
         "正文信号 104:- **reforge 现状**: ✅ 已免疫。string `entity.id`（`main.ts:432`），`script-runner.ts:160` selfId。但 item 上下文 self=role id 二义性待 host 落地时显式判别。",
-        "正文信号 111:- **reforge 现状**: ⚠️ 需核 migrate 是否烘帧数进 EntityDef；idle 取模是否用真实帧数。",
+        "正文信号 111:- **reforge 现状**: \u26a0️ 需核 migrate 是否烘帧数进 EntityDef；idle 取模是否用真实帧数。",
         "正文信号 117:- **reforge 现状**: ❌ **未实现**（`main.ts:549` \"现阶段队伍渲染只有队长\"）。**E 域最大待补**，一阶段 5 个 fix + `follower-pos.ts` 直接可参考。",
         "正文信号 134:- **reforge 现状**: ✅ **免疫**。`DialogueLine.portrait` 显式字段，line 走完即失效。但警惕未来 append 复用路径。",
         "正文信号 180:- **reforge 现状**: 🟡 **部分**。`effectiveStat`（`item.ts:77`）只算 statBonus 累加；attackAll/grantSkill/maxPool 在联合里定义但运行时未消费（注释明示 phase3）。"
@@ -1970,7 +2037,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
-      "afterSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+      "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
       "publicCallers": [
         "docs/phase2/reference/phase1-knowledge-harvest.md → ../../phase1/game-mechanics.md",
         "docs/phase2/reference/phase1-knowledge-harvest.md → ../archive/audits/battle-presentation-audit-2026-07-05.md",
@@ -2001,15 +2068,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+            "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
+            "reviewedRanges": ["134-137", "151-155"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -2323,14 +2400,14 @@
         ],
         "unresolvedSignals": [
           "7:> **★★★ 一等参考（2026-07-06 补）**：[`docs/phase1/game-mechanics.md`](../../phase1/game-mechanics.md)（1218 行）= **作者亲自逐行核对原版+sdlpal 后总结的底层机制真值**，带源出处行号 + 原版早期 bug vs 后期修复考证 + ts 实现状态。覆盖 20",
-          "10:> 1. **三源交叉**：每条来自 ① `engineering-notes` 章节 ② 代码注释（`⚠`/`坑`/`修`/`fix`）③ git log fix message；孤立来源标\"未交叉验证\"。",
-          "14:> 5. **标记移植状态**：每条标 ✅ 已移植 / ⚠️ 部分移植 / ❌ 未移植 / — 不适用（新架构免疫）。",
+          "10:> 1. **三源交叉**：每条来自 ① `engineering-notes` 章节 ② 代码注释（`\u26a0`/`坑`/`修`/`fix`）③ git log fix message；孤立来源标\"未交叉验证\"。",
+          "14:> 5. **标记移植状态**：每条标 ✅ 已移植 / \u26a0️ 部分移植 / ❌ 未移植 / — 不适用（新架构免疫）。",
           "57:- **reforge 现状**: ❌ **未免疫，方案不能照搬**。`render.ts:143-195` Canvas2D `drawImage` 无 coverage；baked tile PNG 透明接缝像素同样露底色。需新方案（离屏整图 alpha 合成 / 接缝预填充到 baked tile）。**先复现血池 map76 看是否漏黑**。",
-          "64:- **reforge 现状**: ⚠️ bake 阶段固化。`render.ts:116` bakeFrame 烘 RGBA；PNG alpha 天然区分（免疫），但 migrate bake 时须确保 palette-0 实色像素 alpha=255。",
+          "64:- **reforge 现状**: \u26a0️ bake 阶段固化。`render.ts:116` bakeFrame 烘 RGBA；PNG alpha 天然区分（免疫），但 migrate bake 时须确保 palette-0 实色像素 alpha=255。",
           "84:- **reforge 现状**: ❌ **未免疫，内存压力更大**。baked RGBA canvas 比 index tile 大 4 倍，无 protect/onEvict。**接多场景切换前必照搬三件套**。",
           "94:- **reforge 现状**: ❌ **未实现，高危**。`getPalette` 是 async（`main.ts:226-231`），接 RNG/演出调色板时确定性偏色。**必须开机预载**。",
           "104:- **reforge 现状**: ✅ 已免疫。string `entity.id`（`main.ts:432`），`script-runner.ts:160` selfId。但 item 上下文 self=role id 二义性待 host 落地时显式判别。",
-          "111:- **reforge 现状**: ⚠️ 需核 migrate 是否烘帧数进 EntityDef；idle 取模是否用真实帧数。",
+          "111:- **reforge 现状**: \u26a0️ 需核 migrate 是否烘帧数进 EntityDef；idle 取模是否用真实帧数。",
           "117:- **reforge 现状**: ❌ **未实现**（`main.ts:549` \"现阶段队伍渲染只有队长\"）。**E 域最大待补**，一阶段 5 个 fix + `follower-pos.ts` 直接可参考。",
           "134:- **reforge 现状**: ✅ **免疫**。`DialogueLine.portrait` 显式字段，line 走完即失效。但警惕未来 append 复用路径。",
           "180:- **reforge 现状**: 🟡 **部分**。`effectiveStat`（`item.ts:77`）只算 statBonus 累加；attackAll/grantSkill/maxPool 在联合里定义但运行时未消费（注释明示 phase3）。",
@@ -2339,12 +2416,12 @@
           "210:- **reforge 现状**: ❌ 未实现。实现时务必扣 HP 不是 MP（字段名 costMP 有迷惑性）。",
           "222:- **oracle 值**: healthy≤1 不是 no-op，是**完整普攻**（含隐藏 exp 写入）。一阶段 direct helper 未传 actor 时兼容 no-op（`:160-168`），但战斗执行端必须退化普攻。",
           "252:- **oracle 值**: 装备可 override 默认合击（武神召唤靠装备 override）。reforge C4 标注 attackAll/grantSkill/coopMagic \"联合里定义但运行时未消费 phase3\"——**合击实现依赖此 override 先落地**。",
-          "257:- **数据**: 李逍遥 obj386 / 灵儿+盖罗娇 obj381 / 月如 obj339（**special=0** 唯一非 99）/ 巫后 obj374（dmg 392 最高）/ 阿奴 obj355 天女散花（attackField 全体）。⚠ roleId 3=巫后、4=阿奴（3/4 名字对调陷阱，C2）。",
+          "257:- **数据**: 李逍遥 obj386 / 灵儿+盖罗娇 obj381 / 月如 obj339（**special=0** 唯一非 99）/ 巫后 obj374（dmg 392 最高）/ 阿奴 obj355 天女散花（attackField 全体）。\u26a0 roleId 3=巫后、4=阿奴（3/4 名字对调陷阱，C2）。",
           "319:> 核心：11 条架构红线（§5）+ P0 bug（§1）+ P1 缺失演出（§2）+ P2 状态系统（§3）+ P3 合体法术（§4）+ 6 条基准裁决（§6）+ 4 条待裁决（§7）。",
-          "324:> **⚠ reforge 整个系统不存在。** 一阶段 **102 commit** 反复调整过的子系统。不是\"漏一两个函数\"——从根上没实现。等毒格（B 域新格）立项时,这里是真值清单。",
+          "324:> **\u26a0 reforge 整个系统不存在。** 一阶段 **102 commit** 反复调整过的子系统。不是\"漏一两个函数\"——从根上没实现。等毒格（B 域新格）立项时,这里是真值清单。",
           "345:- **金刚符等战斗外用 → 战斗内生效**：见 game-mechanics §\"大世界施加的状态如何带入战斗\"——护体/中毒/毒抗共用全局数组，开战只读不重置，战后三件套统一清除（只保一场）。reforge 世界态毒/状态**未建模**。",
           "346:- **盐巴 50% 解毒门**：`gate { chance: 0.5 }`，失败截断后续（reforge `item.ts:42` schema 有 `gate` kind，运行时未核）。",
-          "357:> **⚠ reforge 断线**：schema 有 + 公式有，开战时**写死 ZERO 没传**。几行代码的接线，但没人接。",
+          "357:> **\u26a0 reforge 断线**：schema 有 + 公式有，开战时**写死 ZERO 没传**。几行代码的接线，但没人接。",
           "374:- `setBattleField` 命令（`script.ts:76`）有，**未核实持久 + 开战读取**。"
         ]
       },
@@ -2354,12 +2431,35 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "0d8da2ede7ff8a2e3d713fa0d4ad6787c7fc876064e3a91204d95ddcc866d523",
+          "afterSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
+          "reviewedRanges": ["134-137", "151-155"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-507"
+      "reviewedLines": "1-507",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["134-137", "151-155"],
+        "conclusion": "普通脚本确认结束输入等待，异侧对白继续留显；作者 clear 与结束/取消/离场清槽；一次性运动 committed 与 settled 分轴，不能重复提交。",
+        "truthAnchors": [
+          "docs/phase2/reference/phase1-knowledge-harvest.md:134",
+          "docs/phase2/reference/phase1-knowledge-harvest.md:151"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/reference/README.md",
@@ -2675,9 +2775,9 @@
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "内容工程当前格式：这是 design-spec，当前文档状态为 current。全文 130 行、6 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：内容工程当前格式：这是 design-spec，当前文档状态为 current。全文 130 行、6 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：content22 与 SAVE12 分轴；sceneRuntime 必需且属于运行时，NPC 坐标唯一存于 world.script.entityPos，不新增作者 schema 或兼容入口。",
       "truthAnchors": [
         "docs/phase2/specs/content-schema.md:1",
         "1:内容工程当前格式",
@@ -2697,7 +2797,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
-      "afterSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+      "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
       "publicCallers": [
         "docs/phase2/specs/content-schema.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/content-schema.md → ../archive/designs/content-schema.md"
@@ -2720,15 +2820,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+            "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
+            "reviewedRanges": ["3-3", "12-16"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -2775,12 +2885,35 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "f24e96dbbb746ceac2b6800fa9a0d0ce29968d6fc373a42f2851f4b152524efe",
+          "afterSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
+          "reviewedRanges": ["3-3", "12-16"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-130"
+      "reviewedLines": "1-130",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "12-16"],
+        "conclusion": "content22 与 SAVE12 分轴；sceneRuntime 必需且属于运行时，NPC 坐标唯一存于 world.script.entityPos，不新增作者 schema 或兼容入口。",
+        "truthAnchors": [
+          "docs/phase2/specs/content-schema.md:3",
+          "docs/phase2/specs/content-schema.md:12"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/specs/editor-architecture.md",
@@ -2789,9 +2922,9 @@
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "编辑器架构与工作台合同：这是 design-spec，当前文档状态为 draft。全文 262 行、14 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：编辑器架构与工作台合同：这是 design-spec，当前文档状态为 draft。全文 262 行、14 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：SAVE12 场景现场不回写作者工程、不新增状态方案或剧情阶段；原编辑器 Page/Behavior/Hook 与预览合同保留。",
       "truthAnchors": [
         "docs/phase2/specs/editor-architecture.md:1",
         "1:编辑器架构与工作台合同",
@@ -2821,7 +2954,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
-      "afterSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+      "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
       "publicCallers": [
         "docs/phase2/specs/editor-architecture.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/editor-architecture.md → ../archive/designs/editor-design.md",
@@ -2852,15 +2985,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+            "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+            "reviewedRanges": ["3-3", "7-10"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -2953,12 +3096,35 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "bf3f091f5616ebd6739effa06131e13a0f35debefb5b9c93cd28fa679028f6b9",
+          "afterSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
+          "reviewedRanges": ["3-3", "7-10"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-262"
+      "reviewedLines": "1-262",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "7-10"],
+        "conclusion": "SAVE12 场景现场不回写作者工程、不新增状态方案或剧情阶段；原编辑器 Page/Behavior/Hook 与预览合同保留。",
+        "truthAnchors": [
+          "docs/phase2/specs/editor-architecture.md:3",
+          "docs/phase2/specs/editor-architecture.md:7"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/specs/editor-design-system.md",
@@ -3485,9 +3651,9 @@
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "工程与工作区生命周期：这是 design-spec，当前文档状态为 current。全文 154 行、9 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：工程与工作区生命周期：这是 design-spec，当前文档状态为 current。全文 154 行、9 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：唯一 current 格式 content22 / SAVE12；sceneRuntime 同步捕获，正常返回运行 onEnter，读档不重跑；旧开发档重新生成。",
       "truthAnchors": [
         "docs/phase2/specs/project-lifecycle.md:1",
         "1:工程与工作区生命周期",
@@ -3517,7 +3683,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
-      "afterSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+      "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
       "publicCallers": [
         "docs/phase2/specs/project-lifecycle.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/project-lifecycle.md → ../archive/designs/project-lifecycle-design.md",
@@ -3544,15 +3710,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+            "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
+            "reviewedRanges": ["3-3", "9-9", "14-16"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -3627,12 +3803,36 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "fe54c17f9a360d6fff1da7dd2c66ff491207fe6031e95a6c307fb8954ceef93d",
+          "afterSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
+          "reviewedRanges": ["3-3", "9-9", "14-16"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-154"
+      "reviewedLines": "1-154",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "9-9", "14-16"],
+        "conclusion": "唯一 current 格式 content22 / SAVE12；sceneRuntime 同步捕获，正常返回运行 onEnter，读档不重跑；旧开发档重新生成。",
+        "truthAnchors": [
+          "docs/phase2/specs/project-lifecycle.md:3",
+          "docs/phase2/specs/project-lifecycle.md:9",
+          "docs/phase2/specs/project-lifecycle.md:14"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/specs/README.md",
@@ -3731,9 +3931,9 @@
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "当前存档合同：这是 design-spec，当前文档状态为 current。全文 88 行、5 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：当前存档合同：这是 design-spec，当前文档状态为 current。全文 88 行、5 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：SAVE12 同步保存位置、姿态、运动/动作相位和自动 cursor/余时；先预检后恢复，已兑现动作不重播，旧 SAVE 拒收。",
       "truthAnchors": [
         "docs/phase2/specs/save-system.md:1",
         "1:当前存档合同",
@@ -3757,7 +3957,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
-      "afterSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+      "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
       "publicCallers": [
         "docs/phase2/specs/save-system.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/save-system.md → ../archive/designs/save-system-design.md",
@@ -3782,15 +3982,40 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+            "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+            "reviewedRanges": [
+              "3-3",
+              "7-7",
+              "14-14",
+              "19-19",
+              "32-33",
+              "37-37",
+              "39-40",
+              "43-68",
+              "88-88",
+              "93-93",
+              "97-99",
+              "109-112",
+              "117-117",
+              "119-119"
+            ],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -3837,12 +4062,77 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "30775244c5227efa8b6974a0e1cf435dff4cbe9a4960f3d4c5a0afccf9621c0c",
+          "afterSha256": "613343bd899904145eb03c30c522aa3e7e836dd6769b448c00b02d0573803c53",
+          "reviewedRanges": [
+            "3-3",
+            "7-7",
+            "14-14",
+            "19-19",
+            "32-33",
+            "37-37",
+            "39-40",
+            "43-68",
+            "88-88",
+            "93-93",
+            "97-99",
+            "109-112",
+            "117-117",
+            "119-119"
+          ],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-88"
+      "reviewedLines": "1-88",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": [
+          "3-3",
+          "7-7",
+          "14-14",
+          "19-19",
+          "32-33",
+          "37-37",
+          "39-40",
+          "43-68",
+          "88-88",
+          "93-93",
+          "97-99",
+          "109-112",
+          "117-117",
+          "119-119"
+        ],
+        "conclusion": "SAVE12 同步保存位置、姿态、运动/动作相位和自动 cursor/余时；先预检后恢复，已兑现动作不重播，旧 SAVE 拒收。",
+        "truthAnchors": [
+          "docs/phase2/specs/save-system.md:3",
+          "docs/phase2/specs/save-system.md:7",
+          "docs/phase2/specs/save-system.md:14",
+          "docs/phase2/specs/save-system.md:19",
+          "docs/phase2/specs/save-system.md:32",
+          "docs/phase2/specs/save-system.md:37",
+          "docs/phase2/specs/save-system.md:39",
+          "docs/phase2/specs/save-system.md:43",
+          "docs/phase2/specs/save-system.md:88",
+          "docs/phase2/specs/save-system.md:93",
+          "docs/phase2/specs/save-system.md:97",
+          "docs/phase2/specs/save-system.md:109",
+          "docs/phase2/specs/save-system.md:117",
+          "docs/phase2/specs/save-system.md:119"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     },
     {
       "path": "docs/phase2/specs/script-system.md",
@@ -3851,9 +4141,9 @@
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "full-text-structured-review + integration-delta-read-20261011",
       "reviewDepth": "structured-content",
-      "coreConclusion": "作者脚本与运行时合同：这是 design-spec，当前文档状态为 current。全文 193 行、10 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-04 原复核：作者脚本与运行时合同：这是 design-spec，当前文档状态为 current。全文 193 行、10 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：take/release 暂停并接续所属自动链，faceEntityToParty 显式转向，SAVE12 现场不成为作者状态；非等待动作安装与叶 cursor 推进原子提交。",
       "truthAnchors": [
         "docs/phase2/specs/script-system.md:1",
         "1:作者脚本与运行时合同",
@@ -3882,7 +4172,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
-      "afterSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+      "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
       "publicCallers": [
         "docs/phase2/specs/script-system.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/script-system.md → ../archive/designs/script-system-design.md",
@@ -3907,15 +4197,25 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "implementationSha": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+            "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
+            "reviewedRanges": ["3-3", "100-100", "164-175", "178-186", "197-197"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -3987,12 +4287,38 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+          "date": "2026-10-11",
+          "action": "E2E-integration-delta-review",
+          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+          "previousAfterSha256": "52a7637ad8323bcfa5a43d9daf6908c0ef787a7fe70ed8eee6ae01ec2268ae12",
+          "afterSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
+          "reviewedRanges": ["3-3", "100-100", "164-175", "178-186", "197-197"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-193"
+      "reviewedLines": "1-193",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
+        "reviewedRanges": ["3-3", "100-100", "164-175", "178-186", "197-197"],
+        "conclusion": "take/release 暂停并接续所属自动链，faceEntityToParty 显式转向，SAVE12 现场不成为作者状态；非等待动作安装与叶 cursor 推进原子提交。",
+        "truthAnchors": [
+          "docs/phase2/specs/script-system.md:3",
+          "docs/phase2/specs/script-system.md:100",
+          "docs/phase2/specs/script-system.md:164",
+          "docs/phase2/specs/script-system.md:178",
+          "docs/phase2/specs/script-system.md:197"
+        ],
+        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+      }
     }
   ]
 }

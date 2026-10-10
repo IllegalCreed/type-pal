@@ -8,27 +8,37 @@ export async function commitLatestPreparedSnapshot<TSnapshot, TResource>(hooks: 
   mutate(snapshot: TSnapshot): void
   requiredResources(snapshot: TSnapshot): readonly TResource[]
   prepare(resource: TResource): Promise<void>
+  waitForResources?(pending: Promise<void>): Promise<void>
+  /** Ownership may suspend readiness; take the latest snapshot only inside the open boundary. */
+  runAtBoundary?<T>(action: () => T): Promise<T>
   commit(snapshot: TSnapshot): void
 }): Promise<void> {
   const ready = new Set<TResource>()
 
   while (true) {
-    hooks.assertCurrent()
-    const candidate = hooks.snapshot()
-    hooks.mutate(candidate)
-    const missing = [...new Set(hooks.requiredResources(candidate))].filter(
-      (resource) => !ready.has(resource),
-    )
+    const attempt = () => {
+      hooks.assertCurrent()
+      const candidate = hooks.snapshot()
+      hooks.mutate(candidate)
+      const missing = [...new Set(hooks.requiredResources(candidate))].filter(
+        (resource) => !ready.has(resource),
+      )
+      if (!missing.length) {
+        hooks.assertCurrent()
+        hooks.commit(candidate)
+      }
+      return missing
+    }
+    const missing = hooks.runAtBoundary ? await hooks.runAtBoundary(attempt) : attempt()
 
     if (missing.length > 0) {
-      await Promise.all(missing.map((resource) => hooks.prepare(resource)))
+      const pending = Promise.all(missing.map((resource) => hooks.prepare(resource))).then(() => {})
+      await (hooks.waitForResources ? hooks.waitForResources(pending) : pending)
       hooks.assertCurrent()
       for (const resource of missing) ready.add(resource)
       continue
     }
 
-    hooks.assertCurrent()
-    hooks.commit(candidate)
     return
   }
 }

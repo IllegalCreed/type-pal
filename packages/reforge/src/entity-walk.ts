@@ -54,6 +54,15 @@ export function facingToward(from: GridPos, to: GridPos): Facing {
   return dy < 0 ? (dx < 0 ? 'left' : 'up') : dx < 0 ? 'down' : 'right'
 }
 
+/** PAL interaction-facing (play.c), whose zero-axis ties differ from npcWalkTo. */
+export function interactionFacingToward(from: GridPos, to: GridPos): Facing {
+  const current = gridToPixel(from)
+  const target = gridToPixel(to)
+  const dx = target.x - current.x
+  const dy = target.y - current.y
+  return dx > 0 ? (dy > 0 ? 'right' : 'up') : dy > 0 ? 'down' : 'left'
+}
+
 /**
  * One authored target-movement tick, along the projected ground-plane line.
  * Keep the speed of a diamond-axis step, but never snap an unrelated, distant axis:

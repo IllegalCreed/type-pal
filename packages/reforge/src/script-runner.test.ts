@@ -49,6 +49,7 @@ function fakeHost(calls: string[]): ScriptHost {
     fleeBattle: log('fleeBattle'),
     setEntityState: log('setEntityState'),
     setEntityFacing: log('setEntityFacing'),
+    faceEntityToParty: log('faceEntityToParty'),
     setEntityFrame: log('setEntityFrame'),
     playEntityAction: alog('playEntityAction'),
     stopEntityAction: log('stopEntityAction'),

@@ -1,5 +1,131 @@
+import { evidenceObserverScript } from './evidence-recorder.mjs'
+import { createScriptCausalObserver } from './script-causal-observer.mjs'
+
+export function mealCausalObserverScript() {
+  return evidenceObserverScript(installMealObserver, createScriptCausalObserver)
+}
+
 /** Read-only, bounded observations of actual commits and rendered frames. */
-export function installMealObserver() {
+export function installMealObserver(createCausalObserver, createRecorder) {
+  const sceneLifecyclePhases = {
+    'commit:scene-materialized': 'materialized',
+    'before:scene-projection': 'projecting',
+    'commit:scene-ready': 'ready',
+    'failed:scene-projection': 'failed',
+  }
+  // Independent per-frame clock capacity: 240 seconds at up to 250 draws/second.
+  // State-change list limits stay unchanged; overflow still invalidates the trace.
+  const worldRenderLimit = 60_000
+  const worldRenders = [],
+    renderSpans = new Map()
+  let sceneVisit = 0,
+    observedScene = null,
+    observedInstance,
+    observedTick = null,
+    reportedVisit = 0,
+    nextRenderId = 0,
+    pointRender = null
+  // This boundary runs before scenario filters, so an untracked scene still ends a visit.
+  globalThis.__e2eSceneBoundary = ({ scene, instance, tick }) => {
+    if (
+      scene !== observedScene ||
+      (instance !== undefined &&
+        instance !== null &&
+        observedInstance !== undefined &&
+        instance !== observedInstance)
+    ) {
+      sceneVisit++
+      observedScene = scene
+      observedInstance = instance
+      control = undefined
+      renderSpans.clear()
+    } else if (instance !== undefined && instance !== null) observedInstance = instance
+    observedTick = Number.isFinite(tick) ? tick : null
+  }
+  const startPoint = (source, state) => {
+    globalThis.__e2eSceneBoundary({ scene: state.scene, tick: state.tick })
+    pointRender = null
+    if (source !== 'render:world') return
+    for (const key of renderSpans.keys())
+      if (!Object.hasOwn(state.actors, key.slice(key.indexOf('/') + 1))) renderSpans.delete(key)
+    const previous = worldRenders.at(-1),
+      atMs = state.renderEvidence?.atMs ?? performance.now()
+    const before = worldRenders.length
+    append(
+      worldRenders,
+      {
+        kind: 'world-render',
+        scene: state.scene,
+        source,
+        sceneVisit,
+        renderId: ++nextRenderId,
+        tick: observedTick,
+        atMs,
+        view: state.renderEvidence?.view ?? null,
+        causalFrame: causal?.clock() ?? null,
+        previousRenderId: previous?.renderId ?? null,
+        elapsedSincePreviousRenderMs: previous ? atMs - previous.atMs : null,
+      },
+      worldRenderLimit,
+    )
+    if (worldRenders.length === before) throw new Error('world render evidence overflow')
+    pointRender = worldRenders.at(-1)
+  }
+  const retainRender = (source, state, id, actor) => {
+    if (!pointRender) return
+    const evidence = state.renderEvidence,
+      drawn = evidence?.actors?.[id],
+      hasPass = evidence?.actors !== null && evidence?.actors !== undefined
+    const rendered = {
+      position: drawn?.position ?? actor.position,
+      facing: drawn?.facing ?? actor.facing,
+      visible: actor.visible,
+      geometry: drawn?.geometry ?? evidence?.candidates?.[id]?.geometry ?? null,
+      drawOrder: drawn?.drawOrder ?? null,
+      frame: drawn?.frame ?? null,
+      frameSource: drawn ? 'drawn' : hasPass ? 'none' : 'unknown',
+      drawStatus: drawn ? 'drawn' : hasPass ? 'not-drawn' : 'unknown',
+      ...(drawn
+        ? {
+            assetId: drawn.assetId ?? null,
+            resourceAssetId: drawn.resourceAssetId ?? null,
+            frameResourceId: drawn.frameResourceId ?? null,
+            spriteSource: drawn.spriteSource,
+            fallback: drawn.fallback,
+          }
+        : {}),
+    }
+    const key = `${sceneVisit}/${id}`,
+      previous = renderSpans.get(key)
+    const tail = {
+      throughRenderId: pointRender.renderId,
+      throughAtMs: pointRender.atMs,
+      throughOrder: pointRender.order,
+    }
+    if (previous && JSON.stringify(previous.state) === JSON.stringify(rendered)) {
+      recorder.extend(previous, tail)
+      return
+    }
+    const before = events.length
+    append(
+      events,
+      {
+        kind: 'actor-render',
+        scene: state.scene,
+        id,
+        source,
+        sceneVisit,
+        renderId: pointRender.renderId,
+        tick: pointRender.tick,
+        atMs: pointRender.atMs,
+        ...tail,
+        state: rendered,
+      },
+      8000,
+    )
+    if (events.length > before) renderSpans.set(key, events.at(-1))
+  }
+
   const events = [],
     pages = [],
     frames = [],
@@ -8,11 +134,87 @@ export function installMealObserver() {
     saveCaptures = [],
     saveCompletions = [],
     restoreCommits = [],
+    gameRestores = [],
     inputs = [],
+    phases = [],
     dithers = [],
     errors = []
+  const automaticRuns = new Map(),
+    gameAutoCommands = new Map(),
+    gameAutoSteps = new Map(),
+    renderWaiters = new Set()
+  let lastWorldRender = null
+  const renderedCompletion = (request) => {
+    const actor = final?.actors[request.id],
+      rendered = renderSpans.get(`${sceneVisit}/${request.id}`)?.state
+    if (
+      lastWorldRender?.scene !== request.scene ||
+      lastWorldRender.sceneVisit !== sceneVisit ||
+      !final?.control ||
+      !actor?.visible ||
+      rendered?.drawStatus !== 'drawn' ||
+      JSON.stringify(rendered.position) !== JSON.stringify(request.position) ||
+      rendered.facing !== request.facing ||
+      rendered.frame !== request.frame
+    )
+      return null
+    if (request.engine === 'game') {
+      const terminal = gameAutoSteps.get(request.id)
+      if (
+        actor.autoIp !== request.autoIp ||
+        terminal?.after.ip !== request.autoIp ||
+        terminal.sceneVisit !== sceneVisit ||
+        terminal.order >= lastWorldRender.order
+      )
+        return null
+      const command = gameAutoCommands.get(request.id)
+      if (
+        request.sourceCall &&
+        (!Number.isSafeInteger(request.afterOrder) ||
+          command?.sceneVisit !== sceneVisit ||
+          command.scene !== request.scene ||
+          command.order <= request.afterOrder ||
+          command.order >= terminal.order ||
+          !Number.isSafeInteger(command.autoCallId) ||
+          !Number.isSafeInteger(command.batchId) ||
+          !Number.isSafeInteger(command.runId) ||
+          !Number.isSafeInteger(command.occurrence.id) ||
+          command.autoCallId !== terminal.autoCallId ||
+          command.batchId !== terminal.batchId ||
+          command.runId !== terminal.runId ||
+          command.occurrence.id !== terminal.occurrence?.id ||
+          command.occurrence.ip !== request.sourceCall.ip ||
+          terminal.before?.ip !== request.sourceCall.ip ||
+          JSON.stringify(command.occurrence.command) !== JSON.stringify(request.sourceCall.command))
+      )
+        return null
+      return {
+        ...lastWorldRender,
+        position: rendered.position,
+        frame: rendered.frame,
+        autoIp: actor.autoIp,
+        terminalOrder: terminal.order,
+        ...(request.sourceCall
+          ? { sourceOrder: command.order, autoCallId: command.autoCallId, runId: command.runId }
+          : {}),
+      }
+    }
+    const run = [...automaticRuns.values()].findLast(
+      (run) =>
+        run.scene === request.scene && run.sceneVisit === sceneVisit && run.entity === request.id,
+    )
+    if (run?.behavior !== request.behavior || !run.end || run.end >= lastWorldRender.order)
+      return null
+    return {
+      ...lastWorldRender,
+      position: rendered.position,
+      frame: rendered.frame,
+      runId: run.runId,
+      runEnd: run.end,
+    }
+  }
   const prior = new Map(),
-    pageInstances = new WeakMap()
+    commitOrders = new Map()
   let armedSave = null,
     saveArmId = 0,
     latestMenu = { active: false },
@@ -20,51 +222,128 @@ export function installMealObserver() {
     sample = 0,
     overflow = false,
     final = null,
-    pageInstance = 0,
-    inputPhase = 'bootstrap'
-  const fail = (error) => {
-    if (errors.length < 12) errors.push(String(error))
-    else overflow = true
-  }
-  const append = (list, value, limit) => {
-    if (list.length >= limit) {
-      overflow = true
-      return
-    }
-    list.push({
-      seq: list.length,
-      order: order++,
+    inputPhase = 'bootstrap',
+    control
+  const recorder = createRecorder({
+    // Long multi-scene stories retain full NPC state and causal provenance. The
+    // short-fragment 4 MiB event budget is insufficient even before meal service.
+    // Separate bounded streams still seal the complete trace on any overflow.
+    budgets: {
+      events: 64 * 1024 * 1024,
+      causes: 768 * 1024 * 1024,
+      atomicSnapshots: 32 * 1024 * 1024,
+    },
+    context: (value) => ({
       sample,
-      atMs: performance.now(),
-      ...structuredClone(value),
-    })
+      atMs: pointRender?.atMs ?? performance.now(),
+      ...(['actor', 'actor-render', 'control', 'scene'].includes(value.kind)
+        ? { sceneVisit, tick: observedTick, renderId: pointRender?.renderId ?? null }
+        : {}),
+    }),
+    errors,
+    onOverflow: () => {
+      overflow = true
+    },
+  })
+  const fail = recorder.fail
+  const append = (list, value, limit) => {
+    const event = recorder.append(list, value, limit)
+    order = recorder.nextOrder
+    if (event?.kind === 'cause' && event.engine === 'reforge') {
+      if (event.phase === 'run-started' && event.author?.channel === 'auto')
+        automaticRuns.set(event.runId, {
+          runId: event.runId,
+          scene: event.scene,
+          sceneVisit: event.sceneVisit,
+          entity: event.author.entity,
+          behavior: event.author.behavior,
+        })
+      else if (
+        event.phase === 'run-ended' &&
+        !event.aborted &&
+        event.resolved &&
+        automaticRuns.has(event.runId) &&
+        event.occurrence?.command?.kind === 'finishStep' &&
+        event.occurrence.command.next?.kind === 'complete'
+      ) {
+        const run = automaticRuns.get(event.runId),
+          cursor = event.world?.script?.behaviors?.entities?.[run.scene]?.[run.entity]?.auto?.cursor
+        if (cursor?.behavior === run.behavior && cursor.at?.kind === 'completed')
+          run.end = event.order
+      }
+    }
+    if (event?.kind === 'cause' && event.engine === 'game') {
+      if (event.phase === 'command' && event.channel === 'auto')
+        gameAutoCommands.set(`e${event.actor}`, event)
+      if (event.phase === 'auto-step') gameAutoSteps.set(`e${event.actor}`, event)
+    }
+    return event
   }
   const point = (source, state) => {
     try {
+      startPoint(source, state)
       if (!['s001', 's003'].includes(state.scene)) return
       sample++
-      if (final?.scene !== state.scene)
+      const newVisit = reportedVisit !== sceneVisit
+      if (newVisit) {
+        reportedVisit = sceneVisit
         append(events, { kind: 'scene', source, scene: state.scene }, 8000)
+      }
       for (const [id, actor] of Object.entries(state.actors)) {
         if (!actor.position.every(Number.isFinite)) throw new Error(`invalid meal actor ${id}`)
         // Party identity survives scene switches: exit scripts place it before changing sceneId.
         // Comparing against that scene's last visit would invent an unobserved move on re-entry.
-        const key = id === 'party' ? 'party' : `${state.scene}/${id}`,
+        const key = id === 'party' ? 'party' : `${sceneVisit}/${state.scene}/${id}`,
           before = prior.get(key)
         if (
           before &&
           JSON.stringify(before.position) !== JSON.stringify(actor.position) &&
-          !source.startsWith('commit:')
+          !source.startsWith('commit:') &&
+          !source.startsWith('tick:')
         )
           fail(`unobserved committed move ${key} at ${source}`)
-        if (JSON.stringify(before) !== JSON.stringify(actor)) {
-          append(
+        if ((id === 'party' && newVisit) || JSON.stringify(before) !== JSON.stringify(actor)) {
+          const committed = append(
             events,
             { kind: 'actor', source, scene: state.scene, id, before: before ?? null, state: actor },
             8000,
           )
-          prior.set(key, structuredClone(actor))
+          if (committed) {
+            prior.set(key, structuredClone(actor))
+            commitOrders.set(key, committed.order)
+          }
         }
+        if (source === 'render:world' && id !== 'party') retainRender(source, state, id, actor)
+      }
+      const phase = Object.hasOwn(sceneLifecyclePhases, source)
+        ? sceneLifecyclePhases[source]
+        : null
+      if (phase)
+        append(
+          events,
+          {
+            kind: 'scene-lifecycle',
+            phase,
+            source,
+            scene: state.scene,
+            sceneVisit,
+            tick: observedTick,
+          },
+          8000,
+        )
+      if (control !== state.control) {
+        append(
+          events,
+          {
+            kind: 'control',
+            scene: state.scene,
+            source,
+            before: control ?? null,
+            state: state.control,
+          },
+          8000,
+        )
+        control = state.control
       }
       const progress = {
         money: state.money,
@@ -81,15 +360,30 @@ export function installMealObserver() {
         prior.set('progress', structuredClone(progress))
       }
       final = structuredClone(state)
+      if (pointRender) {
+        lastWorldRender = {
+          order: pointRender.order,
+          renderId: pointRender.renderId,
+          scene: state.scene,
+          sceneVisit,
+        }
+        for (const waiter of renderWaiters) waiter.check()
+      }
+      globalThis.__routeObserve?.(source, { ...state, sceneVisit })
     } catch (error) {
       fail(error)
+    } finally {
+      pointRender = null
     }
   }
   const rendered = (engine, page) => {
     try {
       if (!final || !['s001', 's003'].includes(final.scene)) return
-      if (JSON.stringify(pages.at(-1)?.page) !== JSON.stringify(page))
-        append(pages, { engine, scene: final.scene, page }, 800)
+      if (
+        pages.at(-1)?.sceneVisit !== sceneVisit ||
+        JSON.stringify(pages.at(-1)?.page) !== JSON.stringify(page)
+      )
+        append(pages, { kind: 'page', engine, scene: final.scene, sceneVisit, page }, 800)
     } catch (error) {
       fail(error)
     }
@@ -99,6 +393,35 @@ export function installMealObserver() {
   globalThis.__mealSetInputPhase = (phase) => {
     if (typeof phase !== 'string' || !phase) throw new Error('invalid meal input phase')
     inputPhase = phase
+    return append(
+      phases,
+      {
+        kind: 'phase',
+        edge: 'start',
+        source: 'executor:phase',
+        phase,
+        scene: observedScene,
+        sceneVisit,
+      },
+      400,
+    )
+  }
+  globalThis.__mealFinishPhase = (phase, startOrder) => {
+    if (!phases.some((p) => p.order === startOrder && p.edge === 'start'))
+      throw new Error('meal phase start was not recorded')
+    return append(
+      phases,
+      {
+        kind: 'phase',
+        edge: 'end',
+        source: 'executor:phase',
+        phase,
+        startOrder,
+        scene: observedScene,
+        sceneVisit,
+      },
+      400,
+    )
   }
   for (const type of ['keydown', 'keyup'])
     globalThis.addEventListener?.(type, (event) => {
@@ -207,6 +530,20 @@ export function installMealObserver() {
       return undefined
     }
   }
+  globalThis.__mealGameRestored = (gs) => {
+    try {
+      append(
+        gameRestores,
+        {
+          source: 'commit:loadGameFromSlot',
+          payload: { format: 'type-pal-save', gs: JSON.parse(JSON.stringify(gs)) },
+        },
+        1,
+      )
+    } catch (error) {
+      fail(error)
+    }
+  }
   globalThis.__mealGameSaved = (captureSeq) => {
     try {
       const captured = saveCaptures[captureSeq]
@@ -248,28 +585,40 @@ export function installMealObserver() {
       fail(error)
     }
   }
-  globalThis.__mealRestoreCommitted = (payload) => {
+  globalThis.__mealRestoreCommitted = (payload, inputPayload, loadId) => {
     try {
-      if (restoreCommits.length >= 1) {
-        overflow = true
-        return
-      }
-      restoreCommits.push({
-        seq: restoreCommits.length,
-        atMs: performance.now(),
-        source: 'commit:restorePayload',
-        payload: structuredClone(payload),
-      })
+      append(restoreCommits, { source: 'commit:restorePayload', payload, inputPayload, loadId }, 1)
     } catch (error) {
       fail(error)
     }
   }
-  globalThis.__mealRendered = (page) =>
-    rendered('reforge', page && page.phase !== 'typing' ? page : null)
-  globalThis.__mealGame = (gs, source) => {
+  globalThis.__mealRendered = (page) => {
+    try {
+      rendered('reforge', page && page.phase !== 'typing' ? causal.reforgePage(page) : null)
+    } catch (error) {
+      fail(error)
+    }
+  }
+  globalThis.__mealGame = (gs, source, renderEvidence) => {
+    if (gs)
+      globalThis.__e2eSceneBoundary({
+        scene: `s${String(gs.wNumScene - 1).padStart(3, '0')}`,
+        instance: gs.npcs,
+        tick: gs.frameNum,
+      })
     try {
       if (!gs || ![2, 4].includes(gs.wNumScene)) return
       const scene = gs.wNumScene === 2 ? 's001' : 's003'
+      const facingDir = { down: 0, left: 1, up: 2, right: 3 }
+      const renderedNpcFrame = (e) => {
+        let local = e.scriptedFrame ?? 0
+        const framesPerDir = e.nSpriteFrames
+        if (framesPerDir === 3) {
+          if (local === 2) local = 0
+          else if (local === 3) local = 2
+        }
+        return framesPerDir > 0 ? (facingDir[e.facing] ?? 0) * framesPerDir + local : local
+      }
       const actor = (id) => {
         const e = gs.allEventObjects.find((e) => e.id === id)
         if (!e) throw new Error(`missing meal actor ${id}`)
@@ -279,14 +628,18 @@ export function installMealObserver() {
           visible: e.sState > 0,
           state: e.sState,
           sprite: e.spriteNum,
-          frame: e.scriptedFrame ?? 0,
+          scriptedFrame: e.scriptedFrame ?? 0,
+          frame: renderedNpcFrame(e),
           trigger: e.triggerLabel ?? null,
           resume: e.triggerResume ?? null,
           auto: e.autoLabel ?? null,
+          autoIp: e.autoCursor?.ip ?? null,
           triggerMode: e.triggerMode,
         }
       }
       point(source, {
+        tick: gs.frameNum ?? null,
+        renderEvidence: renderEvidence ?? null,
         scene,
         actors: {
           party: {
@@ -299,12 +652,7 @@ export function installMealObserver() {
             sprite: gs.PlayerRolesRuntime.rgwSpriteNum[gs.partyMembers[0]],
             ip: gs.eventCursor?.ip ?? null,
           },
-          ...Object.fromEntries(
-            (scene === 's003' ? [56, 59, 60, 61, 62] : [15, 16, 19, 20, 24, 25, 26]).map((id) => [
-              `e${id}`,
-              actor(id),
-            ]),
-          ),
+          ...Object.fromEntries(gs.npcs.map((e) => [`e${e.id}`, actor(e.id)])),
         },
         money: gs.dwCash,
         inventory: gs.inventory,
@@ -312,6 +660,7 @@ export function installMealObserver() {
           [15, 16, 19, 20, 24, 25, 26, 56, 59, 60, 61, 62].map((id) => [`e${id}`, actor(id)]),
         ),
         control: gs.mode === 'explore' && !gs.eventCursor && !gs.dialogBox && !gs.sceneLoading,
+        ...globalThis.__routeGameReadiness?.(gs),
       })
     } catch (error) {
       fail(error)
@@ -334,7 +683,6 @@ export function installMealObserver() {
         rendered('game', null)
         return
       }
-      if (!pageInstances.has(d.shownLines)) pageInstances.set(d.shownLines, ++pageInstance)
       const lines = [...d.shownLines]
       if (
         d.currentLineText !== null &&
@@ -345,7 +693,7 @@ export function installMealObserver() {
         'game',
         lines.length
           ? {
-              instance: pageInstances.get(d.shownLines),
+              instance: causal.gamePageId(d),
               lines,
               title: d.titleText ?? null,
               slot: d.style,
@@ -356,9 +704,60 @@ export function installMealObserver() {
       fail(error)
     }
   }
+  const causal = createCausalObserver?.({
+    append,
+    fail,
+    scenes: ['s001', 's003'],
+    snapshotGame: globalThis.__mealGame,
+    context: () => ({
+      scene: observedScene,
+      sceneVisit,
+      tick: observedTick,
+      renderId: worldRenders.at(-1)?.renderId ?? null,
+      poses: Object.fromEntries(
+        [...prior]
+          .filter(([key]) => key === 'party' || key.startsWith(`${sceneVisit}/${observedScene}/`))
+          .map(([key, state]) => [
+            key.split('/').at(-1),
+            { state, commitOrder: commitOrders.get(key) },
+          ]),
+      ),
+    }),
+  })
+  globalThis.__readMealRouteEvidence = () =>
+    structuredClone({
+      events: events.filter((e) => e.kind === 'actor' && e.id === 'party'),
+      errors,
+      overflow,
+    })
+  // Resolve on actual world draws after the native automatic terminal, not on a
+  // sampled coordinate or an arbitrary delay. Arming also checks the latest draw.
+  globalThis.__mealWaitActorRender = (request) =>
+    new Promise((resolve, reject) => {
+      const finish = (error, value) => {
+        clearTimeout(timer)
+        renderWaiters.delete(waiter)
+        if (error) reject(error)
+        else resolve(structuredClone(value))
+      }
+      const waiter = {
+        check: () => {
+          if (overflow || errors.length) return finish(new Error('meal completion observer failed'))
+          const value = renderedCompletion(request)
+          if (value) finish(null, value)
+        },
+      }
+      const timer = setTimeout(
+        () => finish(new Error('automatic return did not complete and render')),
+        5000,
+      )
+      renderWaiters.add(waiter)
+      waiter.check()
+    })
   globalThis.__readMealEvidence = () =>
     structuredClone({
       events,
+      worldRenders,
       pages,
       frames,
       menus,
@@ -367,14 +766,29 @@ export function installMealObserver() {
       saveCompletions,
       latestMenu,
       restoreCommits,
+      gameRestores,
       inputs,
+      phases,
       dithers,
+      causes: causal?.read() ?? [],
+      resources: recorder.resources(),
       errors,
       overflow,
       final,
     })
+  globalThis.__readMealStatus = () =>
+    structuredClone({
+      order: order - 1,
+      taoist: final?.persistent.e62 ?? null,
+      dispatches,
+      errors,
+      overflow,
+    })
+  globalThis.__readMealPhaseEvidence = () =>
+    structuredClone({ order: order - 1, events, pages, frames, phases, errors, overflow })
   // Only the rendered pages needed to decide a confirmation cross the hot-path RPC.
-  // The full tape remains unchanged and is required at every phase closure.
+  // Phase checks read their exact event/page/frame projection; final acceptance still
+  // requires the complete archive, including causal evidence and resource bindings.
   globalThis.__readMealDrive = (afterOrder = order - 1) =>
     structuredClone({
       order: order - 1,

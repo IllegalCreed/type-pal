@@ -616,7 +616,7 @@ export class FlowRuntimeCoordinator {
     while (this.pending) {
       if (signal.aborted) throw new DOMException('script activation aborted', 'AbortError')
       const pending = this.pending
-      await new Promise<void>((resolve, reject) => {
+      await scriptWorkWait<void>(signal, (resolve, reject) => {
         let settled = false
         const finish = (): void => {
           if (settled) return
@@ -719,7 +719,7 @@ export class FlowRuntimeCoordinator {
     const key = ownerKey(owner)
     signal.throwIfAborted()
     if (!this.active.has(key)) return Promise.resolve()
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       const waiters = this.idleWaiters.get(key) ?? new Set<() => void>()
       const cleanup = () => {
         waiters.delete(wake)
@@ -834,3 +834,5 @@ export function evalAuthorCondition(
       return !evalAuthorCondition(condition.cond, args)
   }
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

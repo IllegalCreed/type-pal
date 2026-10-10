@@ -146,7 +146,7 @@ async function bootDoors(caller: string, afterOpening: AuthorCommand[] = []) {
     host,
     () => state().world.script?.behaviors.scenes?.a?.onEnter?.cursor?.at?.kind === 'completed',
   )
-  host.frame(100)
+  await host.frame(100)
   await drain()
   const frame = (id: string): number | undefined => {
     const input = render.mock.calls.at(-1)?.[0]
@@ -170,7 +170,7 @@ async function saveAndRestore(h: ShellHost) {
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(h, 'F5')
   for (let i = 0; i < 40 && !(await store.getPayload('quick')); i++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
     await h.settleIO()
   }
@@ -178,7 +178,7 @@ async function saveAndRestore(h: ShellHost) {
   expect(payload).not.toBeNull()
   await key(h, 'F9')
   for (let i = 0; i < 12; i++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
     await h.settleIO()
   }
@@ -189,7 +189,7 @@ async function saveAndRestore(h: ShellHost) {
   return payload
 }
 
-test('untouched doors remain closed after real F5/F9 while ordinary transient frames are cleared', async () => {
+test('untouched doors remain closed after real F5/F9 while the saved explicit NPC pose is retained', async () => {
   const booted = await bootDoors('e73')
   if (!host) throw new Error('host missing')
   for (const id of doors) expect(booted.frame(id)).toBe(0)
@@ -199,7 +199,7 @@ test('untouched doors remain closed after real F5/F9 while ordinary transient fr
     expect(booted.frame(id)).toBe(0)
     expect(state().world.script?.behaviors.entities?.a?.[id]?.page).toBeUndefined()
   }
-  expect(booted.frame('temporary')).toBe(0)
+  expect(booted.frame('temporary')).toBe(1)
   booted.assertPristine()
 })
 
@@ -207,7 +207,7 @@ test.each([
   'e73',
   'e74',
   'e60',
-])('actual %s opening survives real F5/F9 without frame Map persistence or reward replay', async (caller) => {
+])('actual %s opening survives real F5/F9 with its page and the other NPC pose intact, without reward replay', async (caller) => {
   const booted = await bootDoors(caller)
   if (!host) throw new Error('host missing')
   await key(host, 'Enter')
@@ -222,10 +222,12 @@ test.each([
       'completed',
     )
   }
-  expect(booted.frame('temporary')).toBe(0)
+  expect(booted.frame('temporary')).toBe(1)
   // Same trigger remains interactive after selecting open, including a second actual invocation.
+  const { ScriptRunnerCore } = await import('./script-runner-core.js')
+  const invocations = vi.spyOn(ScriptRunnerCore.prototype, 'runFlow')
   await key(host, 'Enter')
-  expect(state().script.running).toBe(true)
+  expect(invocations).toHaveBeenCalledOnce()
   await advance(host, () => !state().script.running)
   for (const id of doors) expect(booted.frame(id)).toBe(1)
   expect(state().world.money).toBe(57)
@@ -254,7 +256,7 @@ test.each([
   if (!host) throw new Error('host missing')
   await key(host, 'Enter')
   await advance(host, () => !state().script.running)
-  host.frame(100)
+  await host.frame(100)
   await drain()
   for (const id of doors) expect(booted.frame(id)).toBe(mode === 'hidden' ? undefined : 0)
   await saveAndRestore(host)

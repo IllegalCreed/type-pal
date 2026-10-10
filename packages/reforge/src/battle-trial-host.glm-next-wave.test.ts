@@ -52,7 +52,7 @@ const trialOptions = (
 async function pumpUntil(predicate: () => boolean, frames = 400): Promise<void> {
   for (let i = 0; i < frames && !predicate(); i += 1) {
     browser!.key(' ')
-    browser!.frame(100)
+    await browser!.frame(100)
     await browser!.settleIO()
   }
   expect(predicate(), 'trial battle did not finish within frame budget').toBe(true)

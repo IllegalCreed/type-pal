@@ -35,6 +35,7 @@ function recordingHost(log: Call[], overrides: Partial<ScriptHost> = {}): Script
     fleeBattle: sync('fleeBattle'),
     setEntityState: sync('setEntityState'),
     setEntityFacing: sync('setEntityFacing'),
+    faceEntityToParty: sync('faceEntityToParty'),
     setEntityFrame: sync('setEntityFrame'),
     playEntityAction: asyncFn('playEntityAction'),
     stopEntityAction: sync('stopEntityAction'),

@@ -321,6 +321,14 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     origin: '0x0F/0x16',
   },
   {
+    kind: 'faceEntityToParty',
+    icon: '🧭',
+    name: '实体面向主角',
+    group: '实体',
+    params: [['target', '场景 id + 实体 id']],
+    desc: '按执行时实体与队长的实时位置转身；同点保持原朝向。仅作用于当前场景，不改变位置、帧或控制权。',
+  },
+  {
     kind: 'setEntityFrame',
     icon: '🖼',
     name: '实体定帧',

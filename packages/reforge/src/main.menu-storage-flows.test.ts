@@ -24,7 +24,7 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   const before = structuredClone(observation().world)
   for (const value of ['Escape', 'ArrowUp', 'Enter', 'Enter', 'ArrowDown', 'ArrowDown', 'Enter'])
@@ -39,7 +39,8 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   expect(reads).not.toHaveBeenCalled()
   const good = await store.getPayload('m01')
   expect(good).toEqual({
-    version: 11,
+    sceneRuntime: { a: { entities: {}, automatic: {}, chaseClaims: [], actions: [] } },
+    version: 12,
     contentVersion: 22,
     projectId: 'shell-project',
     world: before,
@@ -51,8 +52,8 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   const meta = (await store.listMeta())[0]
   expect(meta).toMatchObject({ slotId: 'm01', savedTimes: 1 })
   if (!meta) throw new Error('manual meta missing')
-  await vi.waitFor(() => {
-    host!.frame()
+  await vi.waitFor(async () => {
+    await host!.frame()
     expect(
       host!.text.mock.calls.some((call) => call[1].some((span) => span.text === 'Shell Project')),
     ).toBe(true)
@@ -86,7 +87,7 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   await vi.waitFor(() =>
     expect(warn.mock.calls.some((call) => String(call[0]).includes('归一化拒绝'))).toBe(true),
   )
-  host.frame()
+  await host.frame()
   expect(observation().world).toEqual(changed)
   expect(observation().renderDebug.menuActive).toBe(true)
   expect(

@@ -274,7 +274,7 @@ async function observe(
 
 test('all current scene scripts use steps; automatic phases are inside one step', () => {
   expect(scenes).toHaveLength(294)
-  expect(autos.size).toBe(1321)
+  expect(autos.size).toBe(1322)
   let flows = 0
   for (const scene of scenes) {
     for (const entity of scene.entities)
@@ -289,7 +289,7 @@ test('all current scene scripts use steps; automatic phases are inside one step'
         expect(hook.flow.kind).toBe('stages')
       }
   }
-  expect(flows).toBe(4655)
+  expect(flows).toBe(4656)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -297,13 +297,32 @@ test('all current scene scripts use steps; automatic phases are inside one step'
   expect(text).not.toContain('maxIterations')
 })
 
-test('the batch preserves all 294 non-script scene definitions', async () => {
+test('the batch preserves non-script definitions outside the approved landed-grain page', async () => {
   const sourceHashes = new Map(Object.entries(ledger.nonScriptSceneHashes))
   for (const scene of scenes) {
     const withoutScripts = {
       ...scene,
       hooks: undefined,
       entities: scene.entities.map(({ behaviors: _behaviors, ...entity }) => entity),
+    }
+    if (scene.id === 's004') {
+      const grain = withoutScripts.entities.find((entity) => entity.id === 'e88')
+      if (!grain) throw new Error('missing landed-grain entity')
+      expect(grain.initialPage).toBe('default')
+      expect(grain.pages).toEqual([
+        {
+          id: 'default',
+          label: '歇息',
+          animation: { sprite: 'sprite-43', action: 'resting', loop: false },
+        },
+      ])
+      // The independently approved idle page is checked above; every other field
+      // still has to match the original non-script snapshot, including this entity.
+      withoutScripts.entities = withoutScripts.entities.map((entity) => {
+        if (entity.id !== grain.id) return entity
+        const { pages: _pages, initialPage: _initialPage, ...original } = entity
+        return original
+      })
     }
     if (!governedSceneIds.has(scene.id))
       expect(await hash(withoutScripts)).toBe(sourceHashes.get(scene.id))

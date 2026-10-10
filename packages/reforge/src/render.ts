@@ -21,7 +21,7 @@ const HALF_W = TILE_W / 2 // 16
 const SUBROW = TILE_H / 2 // 8
 
 /** 局部透视中保留的前景权重；角色像素权重为 1 - OCCLUSION_ALPHA。 */
-export const OCCLUSION_ALPHA = 0.35
+export const OCCLUSION_ALPHA = 0.8
 /** 贴墙边界迟滞：候选短暂消失时只保持当前队伍覆盖区域，防闪烁。 */
 export const OCCLUSION_LATCH_MS = 120
 
@@ -94,9 +94,8 @@ export interface SpriteDraw {
 }
 
 /**
- * 精灵世界域 blit 矩形 —— **+7 资产级下沉的唯一收口**。
- * 语义:脚底中点(anchorX=w/2, anchorY=h)对准格中心,整帧再下沉 7px(原版素材坐标约定,
- * 贴地素材逐像素咬合地图;新素材包届时把 7 参数化归零)。
+ * 精灵世界域 blit 矩形。脚底中点(anchorX=w/2, anchorY=h)对准格中心，
+ * 当前二阶段素材采用统一7px绘制偏移，不要求与Game队伍的4px逐像素一致。
  * 所有画/命中消费点(引擎 blit、编辑器选中框/命中盒)必须走这里 —— 别在调用侧手写
  * `worldY − anchorY + 7`(编辑器曾漏 +7 致选中框偏高,2026-07-07 作者报)。
  */

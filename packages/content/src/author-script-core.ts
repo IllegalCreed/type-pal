@@ -187,6 +187,7 @@ export type BaseAuthorCommand =
   | { kind: 'setEntityPosRelParty'; target: EntityAddress; dcol: number; drow: number }
   | { kind: 'setEntityLayer'; target: EntityAddress; layer: number }
   | { kind: 'setEntityFacing'; target: EntityAddress; facing: Facing }
+  | { kind: 'faceEntityToParty'; target: EntityAddress }
   | { kind: 'setEntityFrame'; target: EntityAddress; frame: number }
   | {
       kind: 'playEntityAction'
@@ -204,7 +205,13 @@ export type BaseAuthorCommand =
   | { kind: 'nudgeEntity'; target: EntityAddress; dx: number; dy: number }
   | { kind: 'takeEntity'; target: EntityAddress }
   | { kind: 'releaseEntity'; target?: EntityAddress }
-  | { kind: 'mountParty'; target: EntityAddress; dx?: number; dy?: number }
+  | {
+      kind: 'mountParty'
+      target: EntityAddress
+      dx?: number
+      dy?: number
+      riders?: Array<{ target: EntityAddress; dx?: number; dy?: number }>
+    }
   | { kind: 'ride'; target: EntityAddress; to: GridPos; speed: WalkSpeed }
   | {
       kind: 'startBattle'
@@ -267,6 +274,7 @@ const RETAINED_RUNTIME_COMMAND_KINDS = Object.fromEntries(
 ) as Record<RuntimeCommandBase['kind'], true>
 
 const AUTHOR_ONLY_COMMAND_KINDS = {
+  faceEntityToParty: true,
   loop: true,
   repeat: true,
   finishStep: true,
@@ -563,6 +571,7 @@ const RETIRED_CONTROL_KINDS = new Set([
 ])
 
 const ENTITY_TARGET_KINDS = new Set([
+  'faceEntityToParty',
   'animEntity',
   'mountParty',
   'moveEntity',
@@ -712,10 +721,31 @@ export function checkBaseAuthorCommands(
       nonEmptyString(command.token, `${commandPath}.token`)
     }
     if (kind === 'dialog') options.checkDialogueCue?.(command.cue, `${commandPath}.cue`)
+    if (kind === 'mountParty' && command.riders !== undefined) {
+      checkEntityAddress(command.target, `${commandPath}.target`)
+      if (!Array.isArray(command.riders)) throw new Error(`${commandPath}.riders: 期望数组`)
+      const seen = new Set([`${command.target.scene}/${command.target.entity}`])
+      for (const [index, value] of command.riders.entries()) {
+        const path = `${commandPath}.riders[${index}]`
+        const rider = record(value, path)
+        exactKeys(rider, ['target', 'dx', 'dy'], path)
+        checkEntityAddress(rider.target, `${path}.target`)
+        if (rider.target.scene !== command.target.scene)
+          throw new Error(`${path}.target: 搭乘实体必须与载具同场景`)
+        const key = `${rider.target.scene}/${rider.target.entity}`
+        if (seen.has(key)) throw new Error(`${path}.target: 重复搭乘实体或载具自身`)
+        seen.add(key)
+        if (rider.dx !== undefined && !Number.isFinite(rider.dx))
+          throw new Error(`${path}.dx: 期望有限数`)
+        if (rider.dy !== undefined && !Number.isFinite(rider.dy))
+          throw new Error(`${path}.dy: 期望有限数`)
+      }
+    }
     if (ENTITY_TARGET_KINDS.has(kind)) {
       if ('entity' in command) throw new Error(`${commandPath}.entity: 当前作者态禁止裸实体 id`)
       checkEntityAddress(command.target, `${commandPath}.target`)
     }
+    if (kind === 'faceEntityToParty') exactKeys(command, ['kind', 'target'], commandPath)
     if (kind === 'vanishEntity' || kind === 'releaseEntity') {
       if ('entity' in command) throw new Error(`${commandPath}.entity: 当前作者态禁止裸实体 id`)
       if (command.target !== undefined) checkEntityAddress(command.target, `${commandPath}.target`)
@@ -1211,7 +1241,7 @@ function checkNestedNumberRecord(
 }
 
 /**
- * SAVE11 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
+ * SAVE12 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
  * cursor 始终携带所属 behavior/hook，避免换槽后把旧位置串到新 flow。
  */
 export function checkWorldScriptState(

@@ -373,6 +373,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "narration"
@@ -801,6 +808,21 @@
                       }
                     },
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "actor",
@@ -820,6 +842,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -836,7 +861,8 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "wait",
@@ -854,6 +880,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
@@ -863,6 +893,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "wait",
@@ -886,6 +920,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "cue": {
@@ -929,6 +967,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "actor",
@@ -951,6 +993,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s003",
@@ -964,7 +1009,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -1004,7 +1049,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 600
+                      "ms": 1500
                     },
                     {
                       "kind": "takeEntity",
@@ -1188,6 +1233,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "narration"
@@ -1197,6 +1246,7 @@
                             "text": "dlg.51"
                           }
                         ],
+                        "autoAdvance": 1400,
                         "slot": "narration"
                       },
                       "kind": "dialog"
@@ -1224,7 +1274,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "facing": "down",
@@ -1232,7 +1282,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "takeEntity",
@@ -1268,6 +1318,9 @@
                         }
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "releaseEntity",
@@ -1341,7 +1394,26 @@
                       }
                     },
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e56"
+                      },
+                      "frame": 0
+                    },
+                    {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "dialog",
@@ -1369,6 +1441,9 @@
                       }
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s003",
@@ -1394,7 +1469,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "kind": "setPartyFacing",
@@ -1402,7 +1477,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "setPartyFacing",
@@ -1410,7 +1485,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     }
                   ],
                   "next": "remind-kitchen",
@@ -2104,6 +2179,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "actor",
@@ -2325,10 +2407,6 @@
                       "speed": "normal"
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "kind": "moveEntity",
                       "target": {
                         "scene": "s003",
@@ -2340,10 +2418,6 @@
                         "height": 0
                       },
                       "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "kind": "moveEntity",
@@ -2875,6 +2949,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
                       "kind": "setEntityPos",
                       "pos": {
                         "col": 122,
@@ -2966,6 +3047,14 @@
                           "on": "interact",
                           "range": 2
                         }
+                      }
+                    },
+                    {
+                      "facing": "left",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
                       }
                     },
                     {
@@ -3370,6 +3459,16 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
                     }
                   ]
                 }
@@ -4836,7 +4935,7 @@
             }
           },
           "legacy-002": {
-            "label": "自动行为 2",
+            "label": "求药说明后：返回客房",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -4844,7 +4943,7 @@
               "stages": [
                 {
                   "id": "routine",
-                  "label": "自动动作编排",
+                  "label": "离开大厅，回到房门并切换房内头领",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -6437,7 +6536,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 180
+                      "ms": 200
                     },
                     {
                       "kind": "moveEntity",
@@ -6447,6 +6546,22 @@
                         "height": 0,
                         "row": 45
                       },
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "right",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
                       "target": {
                         "scene": "s003",
                         "entity": "e60"
@@ -6482,10 +6597,6 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "frame": 0,
                       "kind": "setEntityFrame",
                       "target": {
@@ -6506,20 +6617,12 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
                         "entity": "e73"
                       }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "kind": "selectEntityPage",
@@ -6533,10 +6636,6 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -6545,20 +6644,12 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
                         "entity": "e74"
                       }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "kind": "selectEntityPage",
@@ -8030,7 +8121,7 @@
                   "body": [
                     {
                       "kind": "wait",
-                      "ms": 260
+                      "ms": 400
                     },
                     {
                       "kind": "moveEntity",
@@ -8064,7 +8155,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 280
+                      "ms": 300
                     },
                     {
                       "facing": "up",
@@ -8073,10 +8164,6 @@
                         "scene": "s003",
                         "entity": "e61"
                       }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "frame": 0,
@@ -8088,7 +8175,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 360
+                      "ms": 400
                     },
                     {
                       "kind": "moveEntity",
@@ -8247,6 +8334,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "narration"
@@ -8259,6 +8353,13 @@
                         "slot": "center"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
                     }
                   ],
                   "label": "观察门口醉汉"
@@ -8276,6 +8377,13 @@
                 {
                   "id": "initial",
                   "body": [
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -8313,6 +8421,13 @@
                           }
                         ]
                       }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
                     }
                   ],
                   "label": "拒绝把客人的酒给道士"
@@ -8330,6 +8445,13 @@
                 {
                   "id": "initial",
                   "body": [
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -8446,6 +8568,16 @@
                         ],
                         "slot": "top"
                       }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
                     }
                   ],
                   "next": "ask-again",
@@ -8454,6 +8586,13 @@
                 {
                   "id": "ask-again",
                   "body": [
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -8476,6 +8615,13 @@
                         ],
                         "slot": "top"
                       }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
                     }
                   ],
                   "next": "persistent-begging",
@@ -8484,6 +8630,13 @@
                 {
                   "id": "persistent-begging",
                   "body": [
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
                     {
                       "kind": "dialog",
                       "cue": {
@@ -8521,6 +8674,13 @@
                           }
                         ]
                       }
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
                     }
                   ],
                   "label": "复读：赖着不走继续讨酒"
@@ -8538,6 +8698,13 @@
                 {
                   "id": "initial",
                   "body": [
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
                     {
                       "cue": {
                         "identity": {
@@ -8560,6 +8727,13 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
                     }
                   ],
                   "label": "复读：讨要被客人退回的酒"
@@ -8577,6 +8751,13 @@
                 {
                   "id": "stage-1",
                   "body": [
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
+                      }
+                    },
                     {
                       "kind": "clearDialog"
                     },
@@ -8835,6 +9016,9 @@
                       }
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setPartyFacing",
                       "facing": "left"
                     },
@@ -8845,9 +9029,6 @@
                     {
                       "kind": "setPartyFacing",
                       "facing": "down"
-                    },
-                    {
-                      "kind": "clearDialog"
                     },
                     {
                       "kind": "dialog",
@@ -8872,6 +9053,9 @@
                           }
                         }
                       }
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "wait",
@@ -8907,6 +9091,9 @@
                         },
                         "slot": "top"
                       }
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "setEntityState",
@@ -8962,6 +9149,9 @@
                       }
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "loseItem",
                       "itemId": "272"
                     },
@@ -8986,9 +9176,6 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
-                    },
-                    {
                       "kind": "dialog",
                       "cue": {
                         "rows": [
@@ -9008,11 +9195,11 @@
                       }
                     },
                     {
-                      "kind": "setPartyFacing",
-                      "facing": "left"
+                      "kind": "clearDialog"
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "setPartyFacing",
+                      "facing": "left"
                     },
                     {
                       "kind": "dialog",
@@ -9027,6 +9214,16 @@
                           "speaker": "spk.李逍遥"
                         },
                         "cursorFrame": 2
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "releaseEntity",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e62"
                       }
                     }
                   ],
@@ -9052,13 +9249,13 @@
                   "label": "持续自动动作",
                   "body": [
                     {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
                       "kind": "loop",
                       "mode": "forever",
                       "body": [
-                        {
-                          "kind": "wait",
-                          "ms": 40
-                        },
                         {
                           "facing": "down",
                           "kind": "setEntityFacing",
@@ -9066,10 +9263,6 @@
                             "scene": "s003",
                             "entity": "e62"
                           }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
                         },
                         {
                           "frame": 1,
@@ -9081,7 +9274,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 140
+                          "ms": 200
                         },
                         {
                           "facing": "down",
@@ -9090,10 +9283,6 @@
                             "scene": "s003",
                             "entity": "e62"
                           }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
                         },
                         {
                           "frame": 0,
@@ -9105,7 +9294,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 640
+                          "ms": 1300
                         }
                       ]
                     }

@@ -48,7 +48,7 @@ function state(): EditorState {
       id: 'sprite-refs',
       name: 'sprite-refs',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
       entryPoints: [],

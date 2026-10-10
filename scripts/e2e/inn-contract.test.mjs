@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import ts from 'typescript'
 import { sha256 } from './browser-journey.mjs'
+import { evidenceObserverScript } from './evidence-recorder.mjs'
 import {
   assertInnChoreography,
   assertInnDialogueHolds,
@@ -17,17 +18,65 @@ import {
   validatePredecessor,
 } from './inn-contract.mjs'
 import { installInnObserver } from './inn-observer.mjs'
-import { planInnRoute } from './inn-route.mjs'
 import { INN_TRACE_TARGETS, instrumentInnTrace } from './inn-trace-plugin.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
+import { createScriptCausalObserver } from './script-causal-observer.mjs'
 
 const observer = () => {
   const host = {}
-  new Function('globalThis', 'performance', `(${installInnObserver.toString()})()`)(host, {
+  new Function(
+    'globalThis',
+    'performance',
+    evidenceObserverScript(installInnObserver, createScriptCausalObserver),
+  )(host, {
     now: () => 1,
   })
   return host
 }
+
+test('actual player-input write is distinct from passive yield and mounted derivation', () => {
+  const file = 'packages/reforge/src/main.ts'
+  const result = instrumentInnTrace(readFileSync(file, 'utf8'), file)
+  const ast = ts.createSourceFile(file, result.code, ts.ScriptTarget.Latest, true)
+  const blocks = new Map()
+  const walk = (node) => {
+    if (
+      ts.isExpressionStatement(node) &&
+      ts.isBinaryExpression(node.expression) &&
+      node.expression.left.getText(ast) === 'player.pos'
+    ) {
+      blocks.set(node.expression.right.getText(ast).replace(/\s/g, ''), node.parent.getText(ast))
+    }
+    ts.forEachChild(node, walk)
+  }
+  walk(ast)
+  assert.equal(result.anchors.actualPlayerInput, 1)
+  const input = new Function(
+    'player',
+    'playerOutcome',
+    '__openingPoint',
+    blocks.get('{...playerOutcome.to}'),
+  )
+  for (const [kind, label] of [
+    ['moved', 'input'],
+    ['passive-yield', 'passive-yield'],
+  ]) {
+    const seen = [],
+      player = { pos: { col: 10, row: 10, height: 0 } }
+    input(player, { kind, to: { col: 11, row: 10, height: 0 } }, (source) => seen.push(source))
+    assert.deepEqual(player.pos, { col: 11, row: 10, height: 0 })
+    assert.deepEqual(seen, [`before:player.${label}`, `commit:player.${label}`])
+  }
+  const seen = [],
+    player = { pos: { col: 10, row: 10, height: 0 } }
+  new Function('player', 'pos', '__openingPoint', blocks.get('pos'))(
+    player,
+    { col: 10, row: 9.75, height: 0 },
+    (source) => seen.push(source),
+  )
+  assert.deepEqual(player.pos, { col: 10, row: 9.75, height: 0 })
+  assert.deepEqual(seen, ['before:player.pos', 'commit:player.pos'])
+})
 const state = (position = [0, 0, 0]) => ({
   scene: 's003',
   actors: { e59: { position, visible: true, facing: 'up' } },
@@ -51,7 +100,7 @@ const handoffPayload = (engine) =>
         },
       }
     : {
-        version: 11,
+        version: 12,
         contentVersion: 22,
         projectId: 'pal',
         position: { sceneId: 's003' },
@@ -230,9 +279,9 @@ test('failed predecessor, changed bytes and other fragment cannot become 002 adm
   )
   assert.throws(() => validatePredecessor(r, { ...p, gs: { ...p.gs, dwCash: 500 } }, 'game', bytes))
 })
-test('002 Reforge admission strictly requires the current SAVE11/content22 predecessor', () => {
+test('002 Reforge admission strictly requires the current SAVE12/content22 predecessor', () => {
   const payload = {
-    version: 11,
+    version: 12,
     contentVersion: 22,
     projectId: 'pal',
     position: { sceneId: 's001', pos: { col: 60, height: 0, row: -24 }, facing: 'down' },
@@ -293,11 +342,13 @@ test('restore observation is uniquely after the synchronous real commit and befo
     result = instrumentInnTrace(raw, file)
   assert.equal(result.anchors.restorePayloadCommitted, 1)
   assert.equal(
-    result.code.match(/__innRestoreCommitted\?\.\(captureCurrentSavePayload\(\)\)/g)?.length,
+    result.code.match(
+      /__innRestoreCommitted\?\.\(captureCurrentSavePayload\(\),payload,globalThis\.__openingCauseRuntimeLoadId\?\.\(payload\)\)/g,
+    )?.length,
     1,
   )
   const before = '    replaceWorld(candidate)'
-  const resume = '    startAutoRunners(payload.automaticChaseClaims)\n    return true'
+  const resume = '    startAutoRunners()\n    return true'
   assert(raw.includes(resume), 'negative restore control must match the actual resume call')
   for (const changed of [
     raw.replace(resume, '    return true'),
@@ -309,7 +360,7 @@ test('restore observation is uniquely after the synchronous real commit and befo
     assert.throws(() => instrumentInnTrace(changed, file), /restore commit anchor/)
 })
 
-test('committed restore DTO is separately bounded and detached without changing core event order', () => {
+test('committed restore DTO is detached and precedes scene commits in the same global order', () => {
   const h = observer(),
     payload = { world: { money: 500 } }
   h.__innRestoreCommitted(payload)
@@ -318,7 +369,8 @@ test('committed restore DTO is separately bounded and detached without changing 
   const dto = h.__readInnEvidence()
   assert.equal(dto.restoreCommits[0].payload.world.money, 500)
   assert.equal(dto.restoreCommits[0].source, 'commit:restorePayload')
-  assert.equal(dto.events[0].order, 0)
+  assert.equal(dto.restoreCommits[0].order, 0)
+  assert.equal(dto.events[0].order, 1)
   dto.restoreCommits[0].payload.world.money = 11
   assert.equal(h.__readInnEvidence().restoreCommits[0].payload.world.money, 500)
   h.__innRestoreCommitted(payload)
@@ -328,7 +380,8 @@ test('committed restore DTO is separately bounded and detached without changing 
 })
 
 const restorePayloadFixture = () => ({
-  version: 11,
+  sceneRuntime: {},
+  version: 12,
   contentVersion: 22,
   projectId: 'pal',
   position: { sceneId: 's003', pos: { col: 126, row: 45, height: 0 }, facing: 'down' },
@@ -441,15 +494,29 @@ test('inn door observation reads persistent page base frames without hiding tran
     [undefined, undefined, 0],
   ]) {
     const samples = [],
+      errors = [],
       scope = {
-        globalThis: { __innPoint: (source, value) => samples.push({ source, value }) },
+        globalThis: {
+          __innPoint: (source, value) => samples.push({ source, value }),
+          __innError: (error) => errors.push(error),
+        },
         activeScene,
         player: { pos: { col: 126, row: 45, height: 0 } },
         facing: 'down',
         host: { getEntityState: () => 1 },
-        worldPresentation: { entityFrame: () => override },
+        worldPresentation: { entityFrame: () => override, renderedEntityFrame: () => undefined },
+        motion: {
+          gaitPhase: () => undefined,
+          explicitAnimation: () => undefined,
+          gaitOwner: () => undefined,
+          gaitActivationOwner: () => undefined,
+          lastMovedWorldTick: () => undefined,
+        },
+        motionRuntime: { authority: new Map() },
+        autoMotionSlots: new Map(),
+        scriptMotionSlots: new Map(),
         entityActions: { frame: () => action },
-        world: { money: 500, script: {} },
+        world: { money: 500, party: [], script: {} },
         runner: null,
         dialogBox: { active: false },
         presentation: { busy: () => false },
@@ -459,6 +526,7 @@ test('inn door observation reads persistent page base frames without hiding tran
         `${actualFunction(transformed, '__openingPoint')}\nreturn __openingPoint;`,
       )(...Object.values(scope))
     point('actual door projection')
+    assert.deepEqual(errors, [])
     assert.equal(samples.length, 1)
     for (const id of ['e73', 'e74']) assert.equal(samples[0].value.actors[id].frame, expected)
     assert.deepEqual(activeScene, before)
@@ -474,19 +542,29 @@ test('actual transformed restore reads committed World before real auto call, no
       'utf8',
     ),
     world = { money: 0 },
-    activeScene = { scene: { id: 's000', entities: [] } },
+    activeScene = { scene: { id: 's000', entities: [] }, entitySpriteDefs: new Map() },
     player = { pos: { col: 0, row: 0, height: 0 } },
     h = observer(),
     calls = [],
     payload = restorePayloadFixture()
   const scope = {
+    scriptWorkIO: new Function(
+      'executions',
+      `${actualFunction(readFileSync(new URL('../../packages/reforge/src/script-work-queue.ts', import.meta.url), 'utf8'), 'scriptWorkIO')}\nreturn scriptWorkIO;`,
+    )(new WeakMap()),
+    sceneRuntimeStates: {},
+    autoActivations: new Map(),
+    automaticWaits: new Map(),
+    automaticActions: new Map(),
+    restoredWaits: new Map(),
+    frames: { now: 0 },
     globalThis: h,
     world,
     activeScene,
     player,
     facing: 'down',
     inputProject: { manifest: { id: 'pal' } },
-    SAVE_VERSION: 11,
+    SAVE_VERSION: 12,
     CONTENT_VERSION: 22,
     pendingChaseTerminal: new Map(),
     hasLivePendingChaseTerminal: () => false,
@@ -494,6 +572,8 @@ test('actual transformed restore reads committed World before real auto call, no
     payloadBelongsToProject: () => true,
     clearRestoredWorldActorConditions: () => {},
     prepareSceneSwitch: async () => ({ def: {} }),
+    prepareSceneActions: () => undefined,
+    entityActions: { capture: () => [] },
     loadIntent: { assertCurrent: () => {} },
     assertSceneSwitchPlanCurrent: () => {},
     resolveRestoredMusic: () => ({ action: 'stop' }),
@@ -526,6 +606,7 @@ test('actual transformed restore reads committed World before real auto call, no
     ...Object.keys(scope),
     `${actualFunction(transformed, 'restorePayload')}
      ${actualFunction(raw, 'captureCurrentSavePayload')}
+     ${actualFunction(raw, 'captureSceneRuntime')}
      ${actualFunction(builder, 'buildCurrentSavePayload')}
      const currentWorldSnapshot = () => structuredClone(world);
      return restorePayload;`,
@@ -703,6 +784,7 @@ function evidenceFixture(engine = 'reforge') {
     trace: {
       events,
       pages,
+      worldRenders: [],
       overflow: false,
       errors: [],
       final: { control: true, roomActors: ['e24', 'e25', 'e26'].map((id) => ({ id, state: 2 })) },
@@ -727,6 +809,19 @@ function reindex(trace) {
 test('complete rendered text, shared reward order and exact counterpart lifecycle pass on both engines', () => {
   for (const engine of ['game', 'reforge'])
     assert.equal(assertInnEvidence(evidenceFixture(engine).trace, engine, fixtureContract).rows, 20)
+})
+test('causal receipts participate in the one global order without hiding lost story events', () => {
+  const { trace } = evidenceFixture('reforge')
+  const timeline = [...trace.events, ...trace.pages]
+  const at = 2
+  const previous = timeline.find((event) => event.order === at - 1)
+  for (const event of timeline) if (event.order >= at) event.order++
+  trace.causes = [
+    { kind: 'cause', seq: 0, order: at, atMs: previous.atMs, sample: previous.sample },
+  ]
+  assert.equal(assertInnEvidence(trace, 'reforge', fixtureContract).status, 'passed')
+  trace.causes = []
+  assert.throws(() => assertInnEvidence(trace, 'reforge', fixtureContract), /global order gap/u)
 })
 test('rendered cue replay, duplicate row and accumulated-page rollback cannot be ignored', () => {
   const replay = evidenceFixture()
@@ -929,25 +1024,13 @@ test('inn DTOs detach source state and collector output; overflow rejects rather
   h.__innPoint('commit:move', s)
   s.actors.e59.position[0] = 9
   const dto = h.__readInnEvidence()
-  dto.events[1].state.position[0] = 11
-  assert.equal(h.__readInnEvidence().events[1].state.position[0], 0)
+  const actorEvent = dto.events.find((event) => event.kind === 'actor' && event.id === 'e59')
+  assert(actorEvent)
+  actorEvent.state.position[0] = 11
+  const storedActorEvent = h
+    .__readInnEvidence()
+    .events.find((event) => event.kind === 'actor' && event.id === 'e59')
+  assert.equal(storedActorEvent.state.position[0], 0)
   for (let i = 0; i < 6002; i++) h.__innPoint('commit:move', state([i, 0, 0]))
   assert.equal(h.__readInnEvidence().overflow, true)
-})
-test('normal route planner respects collision and body obstacles without writing map data', () => {
-  const map = {
-      version: 4,
-      width: 4,
-      height: 4,
-      collision: Array.from({ length: 8 }, () => Array(4).fill(0)),
-    },
-    original = structuredClone(map)
-  const path = planInnRoute(map, [4, 2], (c, r) => c === 3 && r === 2, [], 'game')
-  assert.deepEqual(path, ['ArrowLeft'])
-  assert.deepEqual(map, original)
-  map.collision = map.collision.map((r) => r.map(() => 1))
-  assert.throws(
-    () => planInnRoute(map, [4, 2], (c, r) => c === 3 && r === 2, [], 'game'),
-    /no normal/,
-  )
 })

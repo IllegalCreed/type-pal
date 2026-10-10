@@ -169,6 +169,11 @@ export async function executeScriptHostEffect(
       host.giveMoney(-(money - Math.floor(money / 2)))
       return
     }
+    case 'faceEntityToParty': {
+      const entity = activeEntity(command.target, options)
+      if (entity) host.faceEntityToParty(entity)
+      return
+    }
     case 'setEntityFacing': {
       const entity = activeEntity(command.target, options)
       if (entity) host.setEntityFacing(entity, command.facing)
@@ -192,7 +197,10 @@ export async function executeScriptHostEffect(
         },
         signal,
       )
-      if (command.wait ?? !command.loop) await pending
+      if (command.wait ?? !command.loop)
+        await scriptWorkWait<void>(signal, (resolve, reject) => {
+          void pending.then(resolve, reject)
+        })
       else
         void pending.catch((error: unknown) => {
           if (signal.aborted) return
@@ -245,7 +253,19 @@ export async function executeScriptHostEffect(
     }
     case 'mountParty': {
       const entity = activeEntity(command.target, options)
-      if (entity) host.mountParty(entity, command.dx ?? 0, command.dy ?? 0)
+      if (!entity) return
+      if (command.riders === undefined) host.mountParty(entity, command.dx ?? 0, command.dy ?? 0)
+      else
+        host.mountParty(
+          entity,
+          command.dx ?? 0,
+          command.dy ?? 0,
+          command.riders.map((rider) => ({
+            id: rider.target.entity,
+            dx: rider.dx ?? 0,
+            dy: rider.dy ?? 0,
+          })),
+        )
       return
     }
     case 'unmountParty':
@@ -340,3 +360,5 @@ export async function executeScriptHostEffect(
     }
   }
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

@@ -3,17 +3,17 @@ import { execFileSync, spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { once } from 'node:events'
 import { createWriteStream } from 'node:fs'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
-import { resolve } from 'node:path'
+import { relative, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { createJourneyWatchdog, killOwnedBrowser, withDeadline } from './browser-watchdog.mjs'
 import { CAPTURE_BUDGET_MS, CAPTURE_SOURCES, createLocalCapture } from './capture-local.mjs'
+import { recordingDependencies } from './evidence-dependencies.mjs'
 import { installVideoObserver } from './game-observer.mjs'
-import { installOpeningMatrix } from './opening-matrix-observer.mjs'
-import { installOpeningTrace } from './opening-trace.mjs'
+import { assertInputLedger } from './input-ledger.mjs'
 
 export const repoRoot = fileURLToPath(new URL('../../', import.meta.url))
 export const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -26,6 +26,9 @@ export async function runBrowserJourney({
   sources,
   journey,
   traceConfig,
+  browserArgs = [],
+  viewport = { width: 1360, height: 900 },
+  journeyTimeoutMs = 240_000,
   arguments: journeyArguments = process.argv.slice(2),
   initScripts = [],
 }) {
@@ -55,8 +58,22 @@ export async function runBrowserJourney({
     hashes: {},
     profile: args.has('--capture') ? 'capture' : 'verify',
   }
-  for (const file of new Set([...sources, ...CAPTURE_SOURCES, 'scripts/e2e/browser-watchdog.mjs']))
-    report.hashes[file] = sha256(await readFile(resolve(repoRoot, file)))
+  const declaredSources = [
+    ...new Set([
+      ...sources,
+      ...CAPTURE_SOURCES,
+      'scripts/e2e/browser-watchdog.mjs',
+      'scripts/e2e/input-ledger.mjs',
+      'scripts/e2e/evidence-recorder.mjs',
+    ]),
+  ]
+  report.dependencies = await recordingDependencies(repoRoot, {
+    entry: relative(repoRoot, resolve(process.argv[1])),
+    traceConfig,
+    packageName: packageName.replace('@type-pal/', ''),
+    declared: declaredSources,
+  })
+  report.hashes = { ...report.dependencies.hashes }
   const probe = createServer()
   await new Promise((done, reject) => {
     probe.once('error', reject)
@@ -93,7 +110,7 @@ export async function runBrowserJourney({
     browser,
     page
   const contexts = []
-  const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : 240_000)
+  const deadline = Date.now() + (args.has('--capture') ? CAPTURE_BUDGET_MS : journeyTimeoutMs)
   server.on('error', (error) => {
     serverError = error
   })
@@ -151,7 +168,7 @@ export async function runBrowserJourney({
           channel: 'chrome',
           headless: args.has('--headless'),
           timeout: 30_000,
-          ...(args.has('--capture') ? { args: ['--mute-audio'] } : {}),
+          args: [...browserArgs, ...(args.has('--capture') ? ['--mute-audio'] : [])],
         }),
       40_000,
       { onLate: killOwnedBrowser },
@@ -163,15 +180,11 @@ export async function runBrowserJourney({
     report.browser = browser.version()
     const newPage = async (label) => {
       const context = await watchdog.run('owned browser newContext', () =>
-        browser.newContext({ viewport: { width: 1360, height: 900 } }),
+        browser.newContext({ viewport }),
       )
       contexts.push(context)
       await capture.install(context)
       await context.addInitScript(installVideoObserver)
-      if (traceConfig) {
-        await context.addInitScript(installOpeningTrace)
-        await context.addInitScript(installOpeningMatrix)
-      }
       for (const script of initScripts) await context.addInitScript(script)
       page = await context.newPage()
       capture.observe(page)
@@ -184,7 +197,7 @@ export async function runBrowserJourney({
           m.location().url.endsWith('/projects/pal/.type-pal/save-state.json')
         if (
           (m.type() === 'error' && !expectedAbsentState) ||
-          /\[(e2e-load|video-player|script)\].*(失败|failed|Error)/i.test(m.text())
+          /\[(e2e-load|video-player|avi-player|script)\].*(失败|failed|Error)/i.test(m.text())
         )
           error(m.text())
         else if (
@@ -214,6 +227,13 @@ export async function runBrowserJourney({
     )
     capture.assertComplete()
     health()
+    assert.deepEqual(
+      await recordingDependencies(repoRoot, report.dependencies.definition),
+      report.dependencies,
+      'execution/recording/runtime/input sources changed during journey',
+    )
+    assertInputLedger(report.actions, { requireReceipts: true })
+    report.inputExecution = { status: 'passed', actions: report.actions.length }
     report.status = 'passed'
     console.log(`[${name}] PASS\n${out}`)
   } catch (e) {

@@ -1,16 +1,19 @@
 # 工程与工作区生命周期
 
-类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/project-lifecycle-design.md)，不作为当前执行入口。
 
 ## 开发期 current-only 边界
 
-- 当前唯一产品格式为 `contentVersion: 22` / SAVE11 / `minimumSaveVersion: 11`（2026-09-05 起含
+- 当前唯一产品格式为 `contentVersion: 22` / SAVE12 / `minimumSaveVersion: 12`（2026-09-05 起含
   SceneIndex；版本号以 `packages/content/src/character.ts` 为准）。loader、editor、runtime
   和 save codec 只消费这一组 canonical 类型，不按版本选择实现。
 - 本项目尚未正式上线；旧 content/save upgrader、旧类型、fixture、sidecar、产品升级入口和兼容 fallback
   已删除。历史版本轴只由 Git 和归档快照保存，不能作为新代码的输入契约。
+- SAVE12必需`sceneRuntime`，与`world.script.entityPos`同步保存NPC现场及自动续跑进度；正常离场暂停、
+  返回恢复后仍运行当前`onEnter`，读档则不重跑`onEnter`。这是引擎运行态，不新增作者状态方案或剧情阶段；
+  详见[当前存档合同](save-system.md)。旧E2E档必须正常重跑生成，旧回执保留其原版本与结论。
 - `manifest.assets` 只含 catalog 与 roles。HTTP/FSA clone、保存、ZIP、运行和预览都经同一
   `AssetResolver/FileSource` 链；effect sprite 已物化为 56 个 catalog 资产，不再读取 extracted。
 - 当前迁移命令从真实提取输入直接生成 current publication，执行三方 merge 与闭包验证，manifest 最后提交；

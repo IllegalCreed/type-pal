@@ -123,7 +123,7 @@ describe('DataMode dual item mechanism routes', () => {
         id: 'test',
         name: 'test',
         contentVersion: 22,
-        minimumSaveVersion: 11,
+        minimumSaveVersion: 12,
         defaultEntryId: 'main',
         content: {},
         assets: { catalog: 'assets/index.json', roles: {} },

@@ -1,9 +1,12 @@
 import { asyncIntentAbortError } from './async-intent.js'
 import { expectDefined } from './defined.js'
 import { GameplayClock } from './gameplay-clock.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 /** Synchronous frame phases only; no world/project/DOM ownership and no second scheduler. */
 export interface RuntimeFramePorts {
+  afterScriptWork?(action: () => void): Promise<void>
+  settleMotionContinuations?(): void
   activateConfirm(): void
   resumeScriptGates(): void
   gameplayFrozen(): boolean
@@ -24,7 +27,15 @@ export interface RuntimeFramePorts {
 
 interface FrameWait {
   deadline: number
+  pausedRemaining?: number
   settle(error?: Error): void
+}
+
+/** One timer on the existing gameplay clock, controlled by synchronous ownership changes. */
+export interface RuntimeWait {
+  readonly done: Promise<void>
+  readonly remainingMs: number
+  setPaused(paused: boolean): void
 }
 
 /** Owns gameplay time, the single-step intent and waits driven by that time. */
@@ -57,9 +68,16 @@ export class RuntimeFrameSession {
   }
 
   wait(ms: number, signal: AbortSignal): Promise<void> {
-    return new Promise((resolve, reject) => {
-      let settled = false
-      const timer: FrameWait = {
+    return this.scheduleWait(ms, signal).done
+  }
+
+  scheduleWait(ms: number, signal: AbortSignal): RuntimeWait {
+    let settled = false
+    let timer: FrameWait
+    const remaining = () =>
+      settled ? 0 : (timer.pausedRemaining ?? Math.max(0, timer.deadline - this.#now))
+    const done = scriptWorkWait<void>(signal, (resolve, reject) => {
+      timer = {
         deadline: this.#now + ms,
         settle: (error?: Error) => {
           if (settled) return
@@ -76,6 +94,21 @@ export class RuntimeFrameSession {
       signal.addEventListener('abort', abort, { once: true })
       if (signal.aborted) abort()
     })
+    return {
+      done,
+      get remainingMs() {
+        return remaining()
+      },
+      setPaused: (paused) => {
+        if (settled) return
+        if (paused && timer.pausedRemaining === undefined) {
+          timer.pausedRemaining = remaining()
+        } else if (!paused && timer.pausedRemaining !== undefined) {
+          timer.deadline = this.#now + timer.pausedRemaining
+          delete timer.pausedRemaining
+        }
+      },
+    }
   }
 
   /** After parent aborts, the old host resolved any remaining unowned waits; keep that policy. */
@@ -83,37 +116,62 @@ export class RuntimeFrameSession {
     for (const timer of this.#waits.splice(0)) timer.settle()
   }
 
-  tick(realNow: number, ports: RuntimeFramePorts): void {
-    ports.activateConfirm()
-    ports.resumeScriptGates()
-    const frozen = ports.gameplayFrozen()
-    const stepping = this.#stepActive
-    const requested = this.#stepRequested
-    this.#stepRequested = false
-    const clock = this.#clock.advance(realNow, frozen || stepping, requested ? this.stepMs : 0)
-    this.#now = clock.gameplayNow
-    if (!frozen) {
-      // Preserve reverse registration order and remove before settling; never sort deadlines.
-      for (let i = this.#waits.length - 1; i >= 0; i--) {
-        const timer = expectDefined(this.#waits[i])
-        if (this.#now >= timer.deadline) {
-          this.#waits.splice(i, 1)
-          timer.settle()
+  async tick(realNow: number, ports: RuntimeFramePorts): Promise<void> {
+    let dt = 0
+    let pressed: ReadonlySet<string> = new Set()
+    const advance = () => {
+      ports.activateConfirm()
+      ports.resumeScriptGates()
+      const frozen = ports.gameplayFrozen()
+      const stepping = this.#stepActive
+      const requested = this.#stepRequested
+      this.#stepRequested = false
+      const clock = this.#clock.advance(realNow, frozen || stepping, requested ? this.stepMs : 0)
+      this.#now = clock.gameplayNow
+      dt = clock.gameplayDt
+      if (!frozen) {
+        // Timers become ready here, but their continuations follow this world's single commit.
+        // Otherwise a just-shown actor or newly registered move advances before its initial draw.
+        for (let i = this.#waits.length - 1; i >= 0; i--) {
+          const timer = expectDefined(this.#waits[i])
+          if (timer.pausedRemaining === undefined && this.#now >= timer.deadline) {
+            this.#waits.splice(i, 1)
+            timer.settle()
+          }
         }
+        if (!stepping) ports.advanceFade(this.#now)
       }
-      if (!stepping) ports.advanceFade(this.#now)
+      ports.settleClosedDialogue()
+      pressed = ports.consumePressed()
+      if (!frozen && !stepping) {
+        this.advanceWorld(dt, pressed, frozen, stepping, ports)
+        ports.advanceEntityActions(dt)
+      } else if (requested) {
+        this.advanceWorld(dt, pressed, frozen, stepping, ports)
+      } else ports.clearWorldTicks()
     }
-    ports.settleClosedDialogue()
-    const pressed = ports.consumePressed()
-    if (!frozen && !stepping) {
-      this.advanceWorld(clock.gameplayDt, pressed, frozen, stepping, ports)
-      ports.advanceEntityActions(clock.gameplayDt)
-    } else if (requested) {
-      this.advanceWorld(clock.gameplayDt, pressed, frozen, stepping, ports)
-    } else ports.clearWorldTicks()
-    if (ports.presentBattle(clock.gameplayDt, pressed, clock.gameplayNow)) return
-    ports.routeInput(pressed, realNow)
-    ports.presentWorld()
+    if (ports.afterScriptWork) await ports.afterScriptWork(advance)
+    else advance()
+    // A touch runner gets its first real suspension before previous motion owners resume.
+    const settleMotion = () => ports.settleMotionContinuations?.()
+    if (ports.afterScriptWork) await ports.afterScriptWork(settleMotion)
+    else settleMotion()
+    let battlePresented = false
+    const input = () => {
+      battlePresented = ports.presentBattle(dt, pressed, this.#now)
+      if (battlePresented) return
+      ports.routeInput(pressed, realNow)
+      if (ports.afterScriptWork) ports.settleClosedDialogue()
+    }
+    if (ports.afterScriptWork) await ports.afterScriptWork(input)
+    else input()
+    if (battlePresented) return
+    const present = () => {
+      if (ports.afterScriptWork && ports.presentBattle(0, new Set(), this.#now)) return
+      ports.presentWorld()
+    }
+    if (ports.afterScriptWork) await ports.afterScriptWork(present)
+    else present()
   }
 
   private advanceWorld(

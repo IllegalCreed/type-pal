@@ -120,6 +120,7 @@
 | [E2E-004-2 - 连续剧情演示与呈现时钟修正](../archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-1 - 空白工程可玩性:烟测缝隙全清](../archive/tasks/done/E2E-1-blank-project-playable.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-CAPTURE-1 — 001–004本地录制工具与节省空间验证](../archive/tasks/done/E2E-CAPTURE-1-local-001-004-media.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-CONTINUOUS-001-006 — 双轨连续主线演示与演出差异治理](../archive/tasks/done/E2E-CONTINUOUS-001-006.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤](../archive/tasks/done/E2E-SCRIPT-NAMES-1-plot-scheme-and-step-labels.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E6-1 - 实体位置控制权运行态检视与调试面板重开](../archive/tasks/done/E6-1-runtime-authority-inspector.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E9 - 商店/当铺(openShop 全链:UI + 数据 + 结算)](../archive/tasks/done/E9-shop-pawnshop.md) | done | 完成证据、历史签字与交接见原卡。 |

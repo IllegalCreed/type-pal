@@ -54,7 +54,7 @@ test('H8 explicit failed item gate keeps item and menu, with a visible failure m
   await key(host, 'Enter')
   await key(host, 'Enter')
   await advance(host, () => state().renderDebug.menuActive)
-  host.frame()
+  await host.frame()
   expect(state().world).toEqual(before)
   expect(host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))).toContain(
     '没有产生效果',
@@ -165,7 +165,7 @@ test('H8 unavailable teleport hook refuses consumption and restores the same usa
   await enterItems(host, 'use')
   await key(host, 'Enter')
   await advance(host, () => state().renderDebug.menuActive)
-  host.frame()
+  await host.frame()
   expect(state().world).toEqual(before)
   expect(host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))).toContain(
     'No exit here',

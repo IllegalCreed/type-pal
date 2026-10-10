@@ -16,7 +16,7 @@ async function boot() {
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   return { h: host, fixture }
 }
 
@@ -26,8 +26,8 @@ test('H6 public next/previous scene input commits complete scenes and preserves 
   await key(h, ']')
   // A completion toast is emitted for any successfully selected scene. Wait for completion,
   // then assert the identity, so a wrong routing mutation fails by value, not by timeout.
-  await vi.waitFor(() => {
-    h.frame()
+  await vi.waitFor(async () => {
+    await h.frame()
     expect(
       h.text.mock.calls.some((call) => call[1].some((span) => /^[ab]\([12]\/2\)$/.test(span.text))),
     ).toBe(true)
@@ -54,8 +54,8 @@ test('H6 failed scene IO leaves the original world operable; repairing the same 
     }
   }
   await key(h, ']')
-  await vi.waitFor(() => {
-    h.frame()
+  await vi.waitFor(async () => {
+    await h.frame()
     expect(
       h.text.mock.calls.some((call) => call[1].some((span) => span.text.startsWith('切场景失败:'))),
     ).toBe(true)

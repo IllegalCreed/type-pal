@@ -1,8 +1,15 @@
 import assert from 'node:assert/strict'
-import { readFile, writeFile } from 'node:fs/promises'
+import { writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { assertActorRecording } from './actor-recording-contract.mjs'
+import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { readCaptureWorld } from './capture-local.mjs'
+import {
+  committedRouteReceipt,
+  installCommittedRoutePlayback,
+  replayCommittedRoute,
+} from './committed-route.mjs'
+import { writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { readWorld } from './game-observer.mjs'
 import {
   assertInnChoreography,
@@ -16,10 +23,14 @@ import {
   readInnContract,
   readPredecessor,
 } from './inn-contract.mjs'
-import { committedInnMoves, navigateInnRoute, partitionInnMoves } from './inn-navigation.mjs'
-import { installInnObserver, readInnGame, readInnReforge } from './inn-observer.mjs'
+import { innInputPlan } from './inn-input-plan.mjs'
+import { committedInnMoves, partitionInnMoves } from './inn-navigation.mjs'
+import { innCausalObserverScript, readInnGame, readInnReforge } from './inn-observer.mjs'
+import { assertInputLedger, canonicalInput, pressRecordedKey } from './input-ledger.mjs'
+import { npcStoryBoundary } from './npc-story-scope.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 import { appendBounded } from './opening-policy.mjs'
+import { producerExtraInputs } from './producer-inputs.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
 
 const ready = (s, engine) =>
@@ -44,22 +55,6 @@ export async function runInnJourney(engine) {
   const options = innArguments(process.argv.slice(2)),
     predecessor = await readPredecessor(options['--from'], engine),
     contract = await readInnContract()
-  const maps = Object.fromEntries(
-    await Promise.all(
-      ['s001', 's003'].map(async (id) => [
-        id,
-        JSON.parse(
-          await readFile(
-            resolve(
-              repoRoot,
-              `projects/pal/content/maps/map-${id === 's001' ? '012' : '010'}.json`,
-            ),
-            'utf8',
-          ),
-        ),
-      ]),
-    ),
-  )
   await runBrowserJourney({
     name: `${engine}-002`,
     packageName: `@type-pal/${engine}`,
@@ -69,18 +64,39 @@ export async function runInnJourney(engine) {
       ...(options.capture ? ['--capture'] : []),
     ],
     traceConfig: `scripts/e2e/${engine}-inn.config.mts`,
-    initScripts: [installInnObserver],
+    initScripts: [innCausalObserverScript(), installCommittedRoutePlayback],
     sources: [
+      ...producerExtraInputs('002', engine),
+      'scripts/e2e/evidence-artifact.mjs',
       ...Object.keys(contract.hashes),
       'scripts/e2e/inn-journey.mjs',
+      'scripts/e2e/fixed-route-plan.mjs',
+      'scripts/e2e/inn-input-plan.mjs',
+      'scripts/e2e/committed-route.mjs',
+      'scripts/e2e/npc-story-scope.mjs',
       'scripts/e2e/inn-contract.mjs',
       'scripts/e2e/inn-observer.mjs',
-      'scripts/e2e/inn-route.mjs',
+      'scripts/e2e/script-causal-observer.mjs',
+      'scripts/e2e/opening-causal-instrumentation.mjs',
+      'scripts/e2e/opening-hold-intent.mjs',
+      'scripts/e2e/inn-timing-intent.mjs',
+      'scripts/e2e/inn-presentation-intent.mjs',
+      'projects/pal/content/sprites.json',
+      'scripts/e2e/npc-transition-contract.mjs',
       'scripts/e2e/inn-trace-plugin.mjs',
       'scripts/e2e/opening-trace-plugin.mjs',
+      'scripts/e2e/scene-lifecycle-trace.mjs',
+      'packages/game/src/shell/bootstrap.ts',
+      'scripts/e2e/reforge-render-evidence.mjs',
       'packages/game/src/core/event-system.ts',
       'packages/game/src/core/scene-system.ts',
       'packages/reforge/src/main.ts',
+      'packages/reforge/src/script-work-queue.ts',
+      'packages/reforge/src/runtime-frame-session.ts',
+      'packages/reforge/src/world-motion-runtime.ts',
+      'packages/reforge/src/script-runner-core.ts',
+      'packages/reforge/src/dialog/dialog-box.ts',
+      'packages/game/src/core/mode.ts',
     ],
     journey: async ({ newPage, baseURL, out, report, until, health, capture }) => {
       report.fragment = '002'
@@ -114,11 +130,13 @@ export async function runInnJourney(engine) {
         }
         return s
       }
-      const press = async (key, reason) => {
-        appendBounded(report.actions, { key, reason }, 240)
+      const press = async (key, reason, scope = 'story') => {
         console.log(`[${engine}-002] ${key}: ${reason}`)
-        await page.keyboard.down(key)
-        await page.keyboard.up(key)
+        await pressRecordedKey({
+          keyboard: page.keyboard,
+          action: { key, reason, scope },
+          record: (input) => appendBounded(report.actions, input, 240),
+        })
       }
       const bootstrap = async (label, bytes) => {
         page = await newPage(label)
@@ -156,7 +174,7 @@ export async function runInnJourney(engine) {
                     video.endsWith(p),
                   ),
                 )
-                await press('Enter', 'close title prelude outside 002')
+                await press('Enter', 'close title prelude outside 002', 'boundary')
                 await until(
                   () => page.evaluate(() => document.querySelector('video')?.currentSrc ?? null),
                   (next) => next !== video,
@@ -182,16 +200,16 @@ export async function runInnJourney(engine) {
             return serializeSave(await Save.loadSlot(1))
           }, bytes)
           assert.equal(sha256(staged), sha256(bytes), 'staged save bytes changed')
-          await press('ArrowDown', 'select 旧的回忆')
+          await press('ArrowDown', 'select 旧的回忆', 'boundary')
           await until(
             snapshot,
             (s) => s.menu?.kind === 'opening' && s.menu.cursor === 1,
             'load selection',
           )
-          await press('Enter', 'open formal slot menu')
+          await press('Enter', 'open formal slot menu', 'boundary')
           await until(snapshot, (s) => s.menu?.kind === 'save-slot', 'slot menu')
           assert.equal((await snapshot()).menu.cursor, 0)
-          await press('Enter', 'load actual slot1')
+          await press('Enter', 'load actual slot1', 'boundary')
           await until(snapshot, (s) => ready(s, engine), 'formal game checkpoint restore', 60000)
         }
       }
@@ -203,6 +221,9 @@ export async function runInnJourney(engine) {
       if (capture.enabled) {
         const frame = await waitForOpeningFrame(page, until)
         await capture.arm(page, { event: '001-predecessor-restored', state: s, frame })
+      }
+      report.storyScope = {
+        start: npcStoryBoundary(await page.evaluate(() => window.__readInnEvidence())),
       }
       const evidenceOrder = async () =>
         (await page.evaluate(() => window.__readInnEvidence())).events.at(-1)?.order ?? -1
@@ -216,63 +237,50 @@ export async function runInnJourney(engine) {
           'observed progress; committedSteps are actual input/passive route motion; inspect source',
         start: { scene: s.scene, position: s.position },
       }
-      const navigate = async (sid, destination, finished) => {
-        const startOrder = await evidenceOrder()
-        await navigateInnRoute({
-          engine,
-          keyboard: page.keyboard,
-          map: maps[sid],
-          read: snapshot,
-          until,
+      const navigate = async (sid) => {
+        const startOrder = await evidenceOrder(),
+          routeId = report.route.legs.length
+        const plan = innInputPlan(engine, routeId)
+        await replayCommittedRoute({
+          page,
+          route: plan,
           health,
-          onReplan: (value) => {
-            report.route.replans ??= []
-            report.route.replans.push({ scene: sid, ...value })
-          },
-          grid: (state) => grid(state, engine),
-          inScene: (state) => (sid === 's001' ? room(state, engine) : hall(state, engine)),
-          ready: (state) => ready(state, engine),
-          destination,
-          finished,
           onInput: (input) => {
-            const action = { scene: sid, atMs: Date.now(), ...input }
+            const action = canonicalInput({ scene: sid, routeId, atMs: Date.now(), ...input })
             appendBounded(report.route.inputs, action, 240)
             appendBounded(report.actions, action, 240)
           },
-          onProgress: (step) =>
-            appendBounded(report.route.steps, { scene: sid, atMs: Date.now(), ...step }, 240),
         })
+        const endOrder = await evidenceOrder(),
+          end = await snapshot()
         report.route.legs.push({
           scene: sid,
+          inputPlan: plan,
           startOrder,
-          endOrder: await evidenceOrder(),
+          endOrder,
+          replay: committedRouteReceipt({
+            inputCount: report.route.inputs.filter((input) => input.routeId === routeId).length,
+            id: routeId,
+            engine,
+            trace: await page.evaluate(() => window.__readInnEvidence()),
+            startOrder,
+            endOrder,
+            scene: sid,
+            end,
+            ready: ready(end, engine),
+          }),
           // game 0x46 relocates before its scene event; RF spawn commits after the scene event.
           moveSources:
             engine === 'game'
               ? ['commit:tickSceneInput', 'commit:pushPartyAwayFromBlockingNpcs']
-              : ['commit:player.pos'],
+              : ['commit:player.input'],
         })
       }
-      const radius = (col, row, targetCol, targetRow) =>
-        engine === 'game'
-          ? Math.abs(col - targetCol) + Math.abs(row - targetRow) <= 1
-          : Math.max(Math.abs(col - targetCol), Math.abs(row - targetRow)) <= 1
-      await navigate(
-        's001',
-        (c, r) => radius(c, r, 60, -12),
-        (s) => hall(s, engine) && ready(s, engine),
-      )
+      await navigate('s001')
       s = await snapshot()
       assert.deepEqual(grid(s, engine), [143, 45])
       report.route.hallEntry = { scene: s.scene, position: s.position }
-      await navigate(
-        's003',
-        (c, r) =>
-          engine === 'game'
-            ? Math.abs(16 * (c - r - (124 - 45))) + 2 * Math.abs(8 * (c + r - (124 + 45))) < 80
-            : Math.max(Math.abs(c - 124), Math.abs(r - 45)) <= 2,
-        (s) => (engine === 'game' ? !!s.dialog : !!s.runtime?.dialogue),
-      )
+      await navigate('s003')
       report.route.status = 'passed'
       report.route.coreEntry = (await snapshot()).position
       report.route.committedMoves = committedInnMoves(
@@ -303,10 +311,10 @@ export async function runInnJourney(engine) {
             ).includes(dialog.phase),
             'unknown dialogue phase',
           )
-          const evidence = await page.evaluate(() => window.__readInnEvidence())
+          const evidence = await page.evaluate(() => window.__readInnProgress())
           const displayed = evidence.pages.at(-1)?.page
           const text = engine === 'game' ? displayed?.lines.join('\n') : displayed?.pageText
-          if (displayed && (confirm || (engine === 'game' && displayed.slot === 'narration'))) {
+          if (displayed && (confirm || displayed.slot === 'narration')) {
             for (const [id, needle] of [
               ['leader', '这间客栈'],
               ['allowance', '银子你拿去'],
@@ -332,7 +340,7 @@ export async function runInnJourney(engine) {
               const start = {
                 trio: s.trio.map(({ id, visible, position }) => ({ id, visible, position })),
                 dialogue: { phase: dialog.phase, text },
-                order: evidence.events.length + evidence.pages.length,
+                order: evidence.eventCount + evidence.pages.length,
               }
               const authority = () =>
                 page.evaluate(() =>
@@ -354,7 +362,7 @@ export async function runInnJourney(engine) {
               }
               await new Promise((done) => setTimeout(done, 3000))
               const end = await snapshot(),
-                after = await page.evaluate(() => window.__readInnEvidence())
+                after = await page.evaluate(() => window.__readInnProgress())
               const endDialog = engine === 'game' ? end.dialog : end.runtime?.dialogue
               hold.elapsedMs = Date.now() - began
               hold.end = {
@@ -366,7 +374,7 @@ export async function runInnJourney(engine) {
                       ? after.pages.at(-1)?.page?.lines.join('\n')
                       : after.pages.at(-1)?.page?.pageText,
                 },
-                order: after.events.length + after.pages.length,
+                order: after.eventCount + after.pages.length,
               }
               if (engine === 'reforge') hold.end.authority = await authority()
               report.dialogueHolds.push(hold)
@@ -398,12 +406,19 @@ export async function runInnJourney(engine) {
           break
         await new Promise((done) => setTimeout(done, 50))
       }
-      const trace = await until(
-        () => page.evaluate(() => window.__readInnEvidence()),
+      await until(
+        () => page.evaluate(() => window.__readInnProgress()),
         innEndPresented,
         'actual final render control and all three participants hidden',
       )
-      await writeFile(resolve(out, 'inn-trace.json'), JSON.stringify(trace, null, 2))
+      const trace = await page.evaluate(() => window.__readInnEvidence())
+      assert(
+        innEndPresented(trace),
+        'exported final presentation differs from the progress boundary',
+      )
+      report.storyScope.end = npcStoryBoundary(trace)
+      report.contextTraces = [await writeEvidenceArtifact(out, 'inn-trace.json', trace)]
+      report.actorRecording = assertActorRecording(trace, engine)
       assert.deepEqual(
         (await readInnContract()).hashes,
         contract.hashes,
@@ -439,6 +454,7 @@ export async function runInnJourney(engine) {
         atMs: p.atMs,
         page: p.page,
       }))
+      assertInputLedger(report.actions, { requireReceipts: true })
       if (capture.enabled) {
         assert.equal(report.choreography.status, 'passed', report.choreography.failure)
         report.captureEndWorld = await readCaptureWorld(page, engine)
@@ -452,13 +468,13 @@ export async function runInnJourney(engine) {
         report.pending = ['003 and subsequent fragments; full-series capture readiness']
         return
       }
-      await press('Escape', 'prove normal control menu')
+      await press('Escape', 'prove normal control menu', 'boundary')
       await until(
         snapshot,
         (s) => (engine === 'game' ? !!s.menu : !!s.runtime?.menuActive),
         'menu opens',
       )
-      await press('Escape', 'close actual menu')
+      await press('Escape', 'close actual menu', 'boundary')
       await until(snapshot, (s) => ready(s, engine), 'menu closes')
       const formalReforgeSnapshot = async (label) => {
         const started = Date.now(),
@@ -505,7 +521,7 @@ export async function runInnJourney(engine) {
       await page.screenshot({ path: resolve(out, '002-end.png') })
       let bytes
       if (engine === 'game') {
-        await press('F5', 'formal 002 quick-save')
+        await press('F5', 'formal 002 quick-save', 'boundary')
         bytes = await until(
           () =>
             page.evaluate(async () => {
@@ -563,15 +579,16 @@ export async function runInnJourney(engine) {
       }
       report.restoredFrame = await waitForOpeningFrame(page, until, report.endFrame)
       await page.screenshot({ path: resolve(out, '002-restored.png') })
-      await press('Escape', 'restored normal menu')
+      await press('Escape', 'restored normal menu', 'boundary')
       await until(
         snapshot,
         (s) => (engine === 'game' ? !!s.menu : !!s.runtime?.menuActive),
         'restored menu opens',
       )
-      await press('Escape', 'return from restored menu')
+      await press('Escape', 'return from restored menu', 'boundary')
       await until(snapshot, (s) => ready(s, engine), 'restored menu closes')
       assert.equal(report.choreography.status, 'passed', report.choreography.failure)
+      assertInputLedger(report.actions, { requireReceipts: true })
       if (options.holdLeader)
         report.dialogueHoldVerdict = assertInnDialogueHolds(trace, report.dialogueHolds, engine)
     },

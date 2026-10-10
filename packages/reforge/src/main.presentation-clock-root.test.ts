@@ -17,9 +17,9 @@ async function clockHost() {
   let realNow = 0
   vi.spyOn(performance, 'now').mockImplementation(() => realNow)
   const present = h.frame.bind(h)
-  h.frame = (dt = 100) => {
+  h.frame = async (dt = 100) => {
     realNow += dt
-    present(dt)
+    await present(dt)
     h.draws.length = 0
   }
   // Only external browser IO is adapted. Blank pixels are not a visual oracle.
@@ -102,23 +102,24 @@ test('Root counter: a genuine long frame cannot turn 720ms dither into gameplay-
     projectId: 'shell-project',
   })
   screen()
-  h.frame(100)
+  await h.frame(100)
   await drain()
-  h.frame(20000)
+  await h.frame(20000)
   await drain()
   await until(h, ditherRunning)
-  h.frame(16)
-  await drain()
   expect(ditherProgress()).toEqual({ pr: 0, step: 0 })
+  await h.frame(16)
+  await drain()
+  expect(ditherProgress()).toEqual({ pr: 16 / 720, step: 1 })
   for (let i = 0; i < 6; i++) {
-    h.frame(40)
+    await h.frame(40)
     await drain()
   }
   const progress = ditherProgress()
   expect(progress.step).toBe(Math.floor(progress.pr * 72))
-  expect(progress.step).toBe(24)
+  expect(progress.step).toBe(25)
   for (let i = 0; i < 12; i++) {
-    h.frame(40)
+    await h.frame(40)
     await drain()
   }
   expect(ditherRunning()).toBe(false)
@@ -145,12 +146,12 @@ test('Root counter: the first ordinary cue keeps its real 24ms typewriter after 
     kind: 'project',
     projectId: 'shell-project',
   })
-  h.frame(100)
+  await h.frame(100)
   await drain()
-  h.frame(20000)
+  await h.frame(20000)
   await drain()
   await until(h, () => observation().dialogue)
-  h.frame(16)
+  await h.frame(16)
   await drain()
   expect(dialoguePhase()).toBe('typing')
   const firstDraw = h.text.mock.calls.filter((call) =>
@@ -158,7 +159,7 @@ test('Root counter: the first ordinary cue keeps its real 24ms typewriter after 
   )
   expect(firstDraw.length).toBeGreaterThan(0)
   expect(firstDraw.at(-1)?.[4]?.maxChars).toBeLessThan(5)
-  h.frame(120)
+  await h.frame(120)
   await drain()
   expect(dialoguePhase()).toBe('waiting-input')
   await key(h, 'Enter', 16)

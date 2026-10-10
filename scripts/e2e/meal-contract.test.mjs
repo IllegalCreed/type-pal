@@ -2,33 +2,29 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import ts from 'typescript'
+import { assertActorRecording } from './actor-recording-contract.mjs'
 import { sha256 } from './browser-journey.mjs'
-import { navigateInnRoute } from './inn-navigation.mjs'
-import { planInnRoute } from './inn-route.mjs'
+import { evidenceObserverScript } from './evidence-recorder.mjs'
 import {
   assertMealCollector,
   assertMealDialogue,
   assertMealEnd,
   assertMealGameSaveInput,
   assertMealPhase,
+  assertMealRestored,
   mealArguments,
   mealAuthorTextIds,
   mealInventoryCount,
+  mealPhaseWindow,
   mealSaveView,
-  mealServingDestination,
   mealTraceArtifact,
   readMealContract,
   validateMealPredecessor,
 } from './meal-contract.mjs'
-import {
-  mealGameBoundaryCommitted,
-  mealGameServingEntry,
-  mealGameServingStarted,
-  mealGameTouchDestination,
-  navigateMealRoute,
-} from './meal-journey.mjs'
+import { mealGameServingEntry, mealGameServingStarted } from './meal-journey.mjs'
 import { installMealObserver } from './meal-observer.mjs'
 import { instrumentMealTrace, MEAL_TRACE_TARGETS } from './meal-trace-plugin.mjs'
+import { createScriptCausalObserver } from './script-causal-observer.mjs'
 
 const donor = () => {
   const payload = {
@@ -73,28 +69,38 @@ const donor = () => {
   return { report, payload, bytes }
 }
 
-test('004 artifact receipt hashes the exact pretty-printed file bytes and is detached', () => {
+test('004 artifact receipt hashes the exact serialized bytes and is detached', () => {
   const trace = { events: [{ id: 'party', order: 0 }], pages: [] }
   const result = mealTraceArtifact(trace)
-  assert.equal(result.bytes, JSON.stringify(trace, null, 2))
+  assert.equal(result.bytes, `${JSON.stringify(trace)}\n`)
+  assert.equal(result.byteLength, Buffer.byteLength(result.bytes))
   assert.equal(result.sha256, sha256(result.bytes))
   assert.notEqual(result.sha256, sha256(JSON.stringify(trace)))
   trace.events[0].order = 1
   assert.equal(JSON.parse(result.bytes).events[0].order, 0)
 })
-test('004 room entry inside proximity still plans an ordinary step into the actual serving zone', () => {
-  const map = JSON.parse(
-    readFileSync(new URL('../../projects/pal/content/maps/map-012.json', import.meta.url), 'utf8'),
-  )
-  const start = [108, 30]
-  assert(Math.max(Math.abs(start[0] - 108), Math.abs(start[1] - 29)) <= 1)
-  assert.equal(
-    mealServingDestination(...start),
-    false,
-    'proximity must not finish the route without input',
-  )
-  assert.deepEqual(planInnRoute(map, start, mealServingDestination, [], 'game'), ['ArrowUp'])
-  assert.equal(mealServingDestination(108, 29), true)
+test('004 actual load observation is detached and missing/duplicate/wrong restore cannot borrow later world', () => {
+  new Function(evidenceObserverScript(installMealObserver))()
+  try {
+    const { payload } = donor(),
+      expected = mealSaveView(payload, 'game')
+    globalThis.__mealGameRestored(payload.gs)
+    payload.gs.dwCash++
+    const trace = globalThis.__readMealEvidence()
+    assert.deepEqual(assertMealRestored(trace, expected, 'game'), expected)
+    for (const restores of [
+      [],
+      [...trace.gameRestores, ...trace.gameRestores],
+      [{ ...trace.gameRestores[0], payload }],
+    ]) {
+      assert.throws(() =>
+        assertMealRestored({ ...trace, gameRestores: restores }, expected, 'game'),
+      )
+    }
+  } finally {
+    for (const name of Object.keys(globalThis))
+      if (/^__(meal|readMeal|e2e)/.test(name)) delete globalThis[name]
+  }
 })
 test('004 inventory follows actual WorldState array entries, including RF wine1, and rejects map DTOs', () => {
   const file = 'packages/content/src/character.ts'
@@ -215,7 +221,7 @@ test('004 dispatch and rendered-view census fails closed under primary-source an
 test('004 observer copies observations and rejects unobserved moves, overflow and duplicate restore commits', () => {
   const host = {}
   let ms = 0
-  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+  new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(host, {
     now: () => ++ms,
   })
   const state = {
@@ -246,10 +252,58 @@ test('004 observer copies observations and rejects unobserved moves, overflow an
   host.__mealRestoreCommitted({})
   assert.equal(host.__readMealEvidence().overflow, true)
 })
+test('004 native Game actor projection retains automatic cursor changes at the same pose', () => {
+  const host = {}
+  new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(
+    host,
+    performance,
+  )
+  const actors = [15, 16, 19, 20, 24, 25, 26, 56, 59, 60, 61, 62].map((id) => ({
+    id,
+    x: 100,
+    y: 200,
+    facing: 'down',
+    sState: 1,
+    spriteNum: 2,
+    nSpriteFrames: 3,
+    scriptedFrame: 0,
+    triggerMode: 0,
+  }))
+  const npc = actors.find((e) => e.id === 26)
+  npc.autoLabel = 'L_540'
+  npc.autoCursor = { ip: 540 }
+  const gs = {
+    wNumScene: 2,
+    frameNum: 1,
+    npcs: actors.slice(0, 7),
+    allEventObjects: actors,
+    party: { x: 400, y: 400, facing: 'down' },
+    walkingFrame: { walking: false, stepFrame: 0 },
+    PlayerRolesRuntime: { rgwSpriteNum: [2] },
+    partyMembers: [0],
+    wLayer: 0,
+    dwCash: 500,
+    inventory: [],
+    mode: 'explore',
+  }
+  for (const ip of [540, 541, null]) {
+    npc.autoCursor = ip === null ? undefined : { ip }
+    host.__mealGame(gs, 'observe:causal')
+  }
+  const trace = host.__readMealEvidence()
+  assertActorRecording(trace, 'game')
+  assert.deepEqual(
+    trace.events.filter((e) => e.kind === 'actor' && e.id === 'e26').map((e) => e.state.autoIp),
+    [540, 541, null],
+  )
+  const missing = structuredClone(trace)
+  delete missing.events.find((e) => e.kind === 'actor' && e.id === 'e26').state.autoIp
+  assert.throws(() => assertActorRecording(missing, 'game'), /missing actor autoIp/)
+})
 test('004 global party continuity survives a real pre-switch placement and still rejects an uncommitted re-entry move', () => {
   const host = {}
   let clock = 0
-  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+  new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(host, {
     now: () => ++clock,
   })
   const point = (source, scene, position) =>
@@ -371,6 +425,43 @@ test('004 serving and gift phase positive controls use real canonical RF invento
   bad.events[2].state.inventory = { 272: 1 }
   assert.throws(() => assertMealPhase(bad, 'reforge', shown, 'serve', -1), /array/)
 })
+
+test('meal phase windows preserve Game entry-triggered serving and isolate later inventory changes', () => {
+  const raw = {
+    phases: [
+      { phase: 'pickup', edge: 'start', order: 0 },
+      { phase: 'pickup', edge: 'end', order: 5, startOrder: 0 },
+      { phase: 'guest-room', edge: 'start', order: 6 },
+      { phase: 'serve', edge: 'start', order: 9 },
+      { phase: 'serve', edge: 'end', order: 13, startOrder: 6 },
+    ],
+    events: [
+      { kind: 'actor', id: 'e20', order: 2, before: { visible: true }, state: { visible: false } },
+      { kind: 'progress', order: 4, state: { inventory: [] } },
+      { kind: 'actor', id: 'e15', order: 7, before: { visible: true }, state: { visible: false } },
+      { kind: 'progress', order: 12, state: { inventory: [{ itemId: '272', count: 1 }] } },
+    ],
+    pages: [{ order: 1 }, { order: 8 }, { order: 11 }],
+    frames: [{ order: 3, frame: { sprite: 'sprite-208' } }],
+  }
+  const pickup = mealPhaseWindow(raw, 'reforge', 'pickup')
+  assertMealPhase(pickup.trace, 'reforge', new Map([['dlg.142', 1]]), 'pickup', pickup.startOrder)
+  assert.throws(
+    () => assertMealPhase(raw, 'reforge', new Map([['dlg.142', 1]]), 'pickup', 0),
+    /prematurely gave wine/,
+  )
+  assert.deepEqual(
+    mealPhaseWindow(raw, 'game', 'serve').trace.events.map((e) => e.order),
+    [7, 12],
+  )
+  assert.throws(() => mealPhaseWindow(raw, 'reforge', 'serve'), /wrong starting boundary/)
+  const missing = structuredClone(raw)
+  missing.phases.splice(1, 1)
+  assert.throws(() => mealPhaseWindow(missing, 'reforge', 'pickup'), /close boundary/)
+  const wrong = structuredClone(raw)
+  wrong.phases[1].startOrder = 9
+  assert.throws(() => mealPhaseWindow(wrong, 'reforge', 'pickup'), /wrong starting boundary/)
+})
 test('004 end rejects live taoist, carried sprite, missing wine decrement and entered005', () => {
   const { payload } = donor()
   payload.gs.wNumScene = 4
@@ -445,7 +536,7 @@ test('004 observes actual synchronous materialization before player placement an
       'fails',
       `
       const points=[], failure=new Error('actual commit failed'), player={pos:{col:1,row:1}},
-        spriteCache={prune:()=>{}}, resetFrameAnimationPresentation=()=>{},
+        spriteCache={prune:()=>{}}, resetFrameAnimationPresentation=()=>{}, sceneRuntimeStates={},
         activeScene={scene:{id:'old'},commit(plan){this.scene={id:'new'};if(fails)throw failure}},
         seedFormationTrail=()=>[], followerFrozen=[], followerPos=[], followerAuth=new Map(),
         motion={resetCadence:()=>{}}, updateCamera=()=>{}, bgm={stop:()=>{},play:()=>{}},
@@ -473,7 +564,10 @@ test('004 observes actual synchronous materialization before player placement an
   assert.throws(
     () =>
       instrumentMealTrace(
-        source.replace('activeScene.commit(plan)', 'activeScene.changed(plan)'),
+        source.replace(
+          'activeScene.commit(plan, restoreActions)',
+          'activeScene.changed(plan, restoreActions)',
+        ),
         file,
       ),
     /census/,
@@ -481,7 +575,10 @@ test('004 observes actual synchronous materialization before player placement an
   assert.throws(
     () =>
       instrumentMealTrace(
-        source.replace('activeScene.commit(plan)', 'await activeScene.commit(plan)'),
+        source.replace(
+          'activeScene.commit(plan, restoreActions)',
+          'await activeScene.commit(plan, restoreActions)',
+        ),
         file,
       ),
     /asynchronous|parse|census|not a direct statement/,
@@ -490,7 +587,7 @@ test('004 observes actual synchronous materialization before player placement an
 test('004 save input projection is detached at the real clone boundary and separates staging from F5', () => {
   const host = {}
   let clock = 0
-  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+  new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(host, {
     now: () => ++clock,
   })
   const { payload } = donor(),
@@ -538,7 +635,7 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
     }).outputText
     const host = {}
     let ms = 0
-    new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+    new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(host, {
       now: () => ++ms,
     })
     const originalSaving = host.__mealGameSaving,
@@ -622,289 +719,6 @@ test('004 actual Save.saveSlot preserves input/write semantics and emits no succ
     /cloned another source/,
   )
 })
-test('004 target ready -> event-before-dialog transition releases held input and awaits the original full destination', async () => {
-  const map = JSON.parse(
-    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
-  )
-  const exercise = async (navigate) => {
-    const states = [
-      { scene: 's003', position: [133, 44], ready: true, dialog: null },
-      { scene: 's003', position: [133, 43], ready: true, dialog: null },
-      { scene: 's003', position: [133, 43], ready: false, dialog: null, ip: 215 },
-      { scene: 's001', position: [108, 30], ready: true, dialog: null },
-    ]
-    let index = 0
-    const held = new Set(),
-      actions = []
-    const read = async () => states[Math.min(index++, states.length - 1)]
-    const keyboard = {
-      down: async (key) => {
-        held.add(key)
-        actions.push(['down', key])
-      },
-      up: async (key) => {
-        held.delete(key)
-        actions.push(['up', key])
-      },
-    }
-    const until = async (observe, accept) => {
-      for (let n = 0; n < 5; n++) {
-        const state = await observe()
-        if (accept(state)) return state
-      }
-      throw new Error('bounded test endpoint did not settle')
-    }
-    let error
-    try {
-      await navigate({
-        engine: 'game',
-        keyboard,
-        map,
-        read,
-        until,
-        health: () => {},
-        grid: (s) => s.position,
-        inScene: (s) => s.scene === 's003',
-        ready: (s) => s.ready,
-        destination: (c, r) => c === 133 && r === 43,
-        finished: (s) => s.scene === 's001' && s.ready,
-        onInput: () => {},
-        onProgress: () => {},
-      })
-    } catch (caught) {
-      error = caught
-    }
-    return { error, actions, held, index }
-  }
-  const old = await exercise(navigateInnRoute)
-  assert.match(old.error.message, /unexpected script/)
-  const current = await exercise(navigateMealRoute)
-  assert.equal(current.error, undefined)
-  assert.deepEqual(current.actions, [
-    ['down', 'ArrowUp'],
-    ['up', 'ArrowUp'],
-  ])
-  assert.equal(current.held.size, 0)
-  assert.equal(current.index, 4, 'event without dialogue must not count as the full endpoint')
-})
-test('004 rejects a script outside the goal without current-leg ordinary landing proof and leaves all input up', async () => {
-  const map = JSON.parse(
-    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
-  )
-  for (const initiallyBusy of [false, true]) {
-    const start = { scene: 's003', position: [133, 44], ready: !initiallyBusy },
-      outside = { scene: 's003', position: [133, 44], ready: false }
-    let reads = 0
-    const held = new Set()
-    await assert.rejects(
-      navigateMealRoute({
-        engine: 'game',
-        keyboard: { down: async (key) => held.add(key), up: async (key) => held.delete(key) },
-        map,
-        read: async () => (reads++ === 0 ? start : outside),
-        until: async (read, accept) => {
-          const s = await read()
-          assert(accept(s))
-          return s
-        },
-        health: () => {},
-        grid: (s) => s.position,
-        inScene: (s) => s.scene === 's003',
-        ready: (s) => s.ready,
-        destination: (c, r) => c === 133 && r === 43,
-        finished: (s) => s.scene === 's001' && s.ready,
-        onInput: () => {},
-        onProgress: () => {},
-      }),
-      /outside target boundary/,
-    )
-    assert.equal(held.size, 0)
-  }
-})
-test('004 game boundary proof rejects scripted placement, old legs, other scenes and no displacement', () => {
-  const event = {
-    order: 11,
-    kind: 'actor',
-    id: 'party',
-    scene: 's003',
-    source: 'commit:tickSceneInput',
-    before: { position: [1424, 1416] },
-    state: { position: [1440, 1408] },
-  }
-  const goal = (c, r) => c === 133 && r === 43
-  const trace = (value) => ({ events: [value], errors: [], overflow: false })
-  assert.equal(mealGameBoundaryCommitted(trace(event), 10, 's003', goal), true)
-  for (const patch of [
-    { source: 'commit:applyRawOpcode' },
-    { source: 'commit:player.pos' },
-    { order: 10 },
-    { scene: 's001' },
-    { before: event.state },
-  ])
-    assert.equal(mealGameBoundaryCommitted(trace({ ...event, ...patch }), 10, 's003', goal), false)
-})
-test('004 game observed script after a real current-leg landing waits without any further direction input', async () => {
-  const map = JSON.parse(
-    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
-  )
-  const states = [
-    { scene: 's003', position: [133, 44], ready: true },
-    { scene: 's003', position: [134, 43], ready: false },
-    { scene: 's001', position: [108, 30], ready: true },
-  ]
-  const held = new Set(),
-    actions = []
-  let reads = 0,
-    committed = false
-  const read = async () => states[Math.min(reads++, states.length - 1)]
-  await navigateMealRoute({
-    engine: 'game',
-    keyboard: {
-      down: async (key) => {
-        held.add(key)
-        actions.push(['down', key])
-        committed = true
-      },
-      up: async (key) => {
-        held.delete(key)
-        actions.push(['up', key])
-      },
-    },
-    map,
-    read,
-    until: async (observe, accept) => {
-      for (let n = 0; n < 4; n++) {
-        const s = await observe()
-        if (accept(s)) return s
-      }
-      throw new Error('expected endpoint missing')
-    },
-    health: () => {},
-    grid: (s) => s.position,
-    inScene: (s) => s.scene === 's003',
-    ready: (s) => s.ready,
-    destination: (c, r) => c === 133 && r === 43,
-    finished: (s) => s.scene === 's001' && s.ready,
-    onInput: () => {},
-    onProgress: () => {},
-    boundaryCommitted: () => committed,
-  })
-  assert.deepEqual(actions, [
-    ['down', 'ArrowUp'],
-    ['up', 'ArrowUp'],
-  ])
-  assert.equal(held.size, 0)
-})
-test('004 game touch goals use actual primary mode5 footprints including all four diagonal cells', () => {
-  const formula = readFileSync(
-    new URL('../../packages/game/src/core/scene-system.ts', import.meta.url),
-    'utf8',
-  )
-  assert(formula.includes('const threshold = (mode - TRIGGER_MODE_AUTO_MIN) * 32 + 16'))
-  assert(formula.includes('const dyAbs = Math.abs(partyWorldY - anchorY) * 2'))
-  assert(formula.includes('if (dxAbs + dyAbs >= threshold) continue'))
-  for (const [scene, ids] of [
-    ['1', [18, 12, 15]],
-    ['3', [51]],
-  ]) {
-    const data = JSON.parse(
-      readFileSync(
-        new URL(`../../data/extracted/data/scene/${scene}.json`, import.meta.url),
-        'utf8',
-      ),
-    )
-    for (const id of ids) {
-      const npc = data.eventObjects.find((npc) => npc.id === id)
-      assert.equal(npc.triggerMode, 5)
-      const [col, row] = [(npc.x / 16 + npc.y / 8) / 2, (npc.y / 8 - npc.x / 16) / 2],
-        target = { anchor: [npc.x, npc.y], triggerMode: npc.triggerMode, state: 1 }
-      for (let dc = -1; dc <= 1; dc++)
-        for (let dr = -1; dr <= 1; dr++)
-          assert.equal(
-            mealGameTouchDestination(target, col + dc, row + dr),
-            true,
-            `diagonal ${id}/${dc}/${dr} is a true footprint`,
-          )
-      for (const [dc, dr] of [
-        [2, 0],
-        [0, 2],
-        [-2, 0],
-        [0, -2],
-        [2, 2],
-      ])
-        assert.equal(mealGameTouchDestination(target, col + dc, row + dr), false)
-      assert.equal(mealGameTouchDestination({ ...target, state: 0 }, col, row), false)
-      assert.equal(mealGameTouchDestination({ ...target, triggerMode: 4 }, col + 1, row + 1), false)
-    }
-  }
-})
-test('004 game real e18 diagonal ordinary landing is accepted; range-outside and script placements are not', () => {
-  const target = { anchor: [688, 1288], triggerMode: 5, state: 1 },
-    goal = (c, r) => mealGameTouchDestination(target, c, r)
-  assert.equal(goal(101, 60), true)
-  const event = {
-    order: 11,
-    kind: 'actor',
-    id: 'party',
-    scene: 's001',
-    source: 'commit:tickSceneInput',
-    before: { position: [640, 1280] },
-    state: { position: [656, 1288] },
-  }
-  const trace = (event) => ({ events: [event], errors: [], overflow: false })
-  assert.equal(mealGameBoundaryCommitted(trace(event), 10, 's001', goal), true)
-  assert.equal(
-    mealGameBoundaryCommitted(
-      trace({ ...event, source: 'commit:applyRawOpcode' }),
-      10,
-      's001',
-      goal,
-    ),
-    false,
-  )
-  assert.equal(
-    mealGameBoundaryCommitted(
-      trace({ ...event, state: { position: [656, 1304] } }),
-      10,
-      's001',
-      goal,
-    ),
-    false,
-  )
-})
-test('004 game serving already in true radius waits naturally without directional input; RF exact goal is unchanged', async () => {
-  const target = { anchor: [1264, 1096], triggerMode: 5, state: 1 },
-    actions = []
-  assert.equal(mealGameTouchDestination(target, 108, 30), true)
-  assert.equal(mealServingDestination(108, 30), false)
-  let reads = 0
-  await navigateMealRoute({
-    engine: 'game',
-    keyboard: {
-      down: async (key) => actions.push(['down', key]),
-      up: async (key) => actions.push(['up', key]),
-    },
-    map: {},
-    read: async () =>
-      reads++ === 0
-        ? { scene: 's001', position: [108, 30], ready: true, dialog: null }
-        : { scene: 's001', position: [108, 30], ready: false, dialog: true },
-    until: async (read, accept) => {
-      const state = await read()
-      assert(accept(state))
-      return state
-    },
-    health: () => {},
-    grid: (s) => s.position,
-    inScene: (s) => s.scene === 's001',
-    ready: (s) => s.ready,
-    destination: (c, r) => mealGameTouchDestination(target, c, r),
-    finished: (s) => s.dialog === true,
-    onInput: () => {},
-    onProgress: () => {},
-  })
-  assert.deepEqual(actions, [], 'game may trigger naturally inside radius without a synthetic step')
-})
 test('004 first-stage serving evidence begins before room entry so an early first cue cannot be filtered away', async () => {
   const actual = await readMealContract(),
     contract = { ...actual, rows: actual.rows.slice(2, 15) }
@@ -930,110 +744,14 @@ test('004 first-stage serving evidence begins before room entry so an early firs
     /missing\/reordered/,
   )
 })
-test('004 ready held navigation never requests the costly full-trace boundary proof', async () => {
-  const map = JSON.parse(
-    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
-  )
-  let position = [133, 46],
-    proofCalls = 0
-  const held = new Set(),
-    actions = []
-  const read = async () => ({ scene: 's003', position: [...position], ready: true })
-  await navigateMealRoute({
-    engine: 'game',
-    keyboard: {
-      down: async (key) => {
-        held.add(key)
-        actions.push(['down', key])
-      },
-      up: async (key) => {
-        held.delete(key)
-        actions.push(['up', key])
-      },
-    },
-    map,
-    read,
-    until: async (observe, accept) => {
-      if (held.has('ArrowUp')) position = [position[0], position[1] - 1]
-      const state = await observe()
-      assert(accept(state))
-      return state
-    },
-    health: () => {},
-    grid: (s) => s.position,
-    inScene: (s) => s.scene === 's003',
-    ready: (s) => s.ready,
-    destination: (c, r) => c === 133 && r === 43,
-    finished: (s) => s.position[0] === 133 && s.position[1] === 43,
-    onInput: () => {},
-    onProgress: () => {},
-    boundaryCommitted: () => {
-      proofCalls++
-      assert.equal(held.size, 0, 'costly RPC while held would advance past the sampled position')
-      return false
-    },
-  })
-  assert.equal(proofCalls, 0)
-  assert.deepEqual(actions, [
-    ['down', 'ArrowUp'],
-    ['up', 'ArrowUp'],
-  ])
-})
-test('004 busy or scene-exit evidence releases every held direction before a costly boundary proof', async () => {
-  const map = JSON.parse(
-    readFileSync(new URL('../../projects/pal/content/maps/map-010.json', import.meta.url), 'utf8'),
-  )
-  const states = [
-    { scene: 's003', position: [133, 44], ready: true },
-    { scene: 's003', position: [134, 43], ready: false },
-    { scene: 's001', position: [108, 30], ready: true },
-  ]
-  let reads = 0,
-    committed = false
-  const held = new Set(),
-    actions = []
-  const read = async () => states[Math.min(reads++, states.length - 1)]
-  await navigateMealRoute({
-    engine: 'game',
-    keyboard: {
-      down: async (key) => {
-        held.add(key)
-        actions.push('down')
-        committed = true
-      },
-      up: async (key) => {
-        held.delete(key)
-        actions.push('up')
-      },
-    },
-    map,
-    read,
-    until: async (observe, accept) => {
-      const state = await observe()
-      assert(accept(state))
-      return state
-    },
-    health: () => {},
-    grid: (s) => s.position,
-    inScene: (s) => s.scene === 's003',
-    ready: (s) => s.ready,
-    destination: (c, r) => c === 133 && r === 43,
-    finished: (s) => s.scene === 's001' && s.ready,
-    onInput: () => {},
-    onProgress: () => {},
-    boundaryCommitted: () => {
-      if (!committed) return false
-      assert.equal(held.size, 0, 'boundary evidence must not delay key release')
-      actions.push('proof')
-      return true
-    },
-  })
-  assert.deepEqual(actions, ['down', 'up', 'proof'])
-})
 test('004 natural game serving startup requires this-leg hide commit, actual serving IP and owner, not merely inactive state', () => {
   const observer = {}
   let ms = 0
-  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(observer, {
+  new Function(
+    'globalThis',
+    'performance',
+    evidenceObserverScript(installMealObserver, createScriptCausalObserver),
+  )(observer, {
     now: () => ++ms,
   })
   const initial = {
@@ -1048,11 +766,55 @@ test('004 natural game serving startup requires this-leg hide commit, actual ser
   }
   observer.__mealPoint('render:world', initial)
   const startOrder = observer.__readMealEvidence().events.at(-1).order
+  // Native command envelopes are recorded by the real collector. World deltas are separate
+  // adapter inputs, so their sampling hook must not stand in for the invocation identity.
+  const owner = {}
+  const npc = {
+    id: 15,
+    x: 1264,
+    y: 1096,
+    sState: 1,
+    spriteNum: 0,
+    triggerLabel: 'L_469',
+    triggerMode: 5,
+  }
+  const gs = {
+    wNumScene: 2,
+    frameNum: 1,
+    npcs: [npc],
+    allEventObjects: [
+      npc,
+      ...[16, 19, 20, 24, 25, 26, 56, 59, 60, 61, 62].map((id) => ({ ...npc, id, sState: 0 })),
+    ],
+    party: { x: 1248, y: 1104, facing: 'down' },
+    walkingFrame: { walking: false, stepFrame: 0 },
+    PlayerRolesRuntime: { rgwSpriteNum: [208] },
+    partyMembers: [0],
+    wLayer: 0,
+    dwCash: 500,
+    inventory: [],
+    mode: 'event',
+    eventCursor: { ip: 469 },
+  }
+  observer.__openingCauseGame(gs, 'command', owner, {
+    ip: 469,
+    command: { op: 'raw', opcode: 73, operands: [65535, 0, 0] },
+    channel: 'trigger',
+    actor: 15,
+  })
   observer.__mealPoint('commit:applyRawOpcode', {
     ...initial,
     actors: { ...initial.actors, e15: { ...initial.actors.e15, visible: false, state: 0 } },
   })
-  observer.__mealPoint('tick:tickEventSystem', {
+  npc.sState = 0
+  gs.eventCursor.ip = 470
+  observer.__openingCauseGame(gs, 'command', owner, {
+    ip: 470,
+    command: { op: 'setDialogStyleBottom' },
+    channel: 'trigger',
+    actor: 15,
+  })
+  observer.__mealPoint('observe:causal', {
     ...initial,
     actors: {
       party: { ...initial.actors.party, ip: 472 },
@@ -1071,10 +833,15 @@ test('004 natural game serving startup requires this-leg hide commit, actual ser
     'an old leg cannot authorize the handoff',
   )
   // Keep the original collector prefix valid; an inactive entity without an entered body is not a marker.
-  const prefix = { ...trace, events: trace.events.slice(0, -1) }
-  assert.equal(mealGameServingStarted(prefix, startOrder, cursor), false)
+  const prefix = { ...trace, causes: trace.causes.slice(0, -1) }
+  assert.throws(() => mealGameServingStarted(prefix, startOrder, cursor), /order|gap/)
   const beforeHide = { ...trace, events: trace.events.slice(0, 2) }
-  assert.equal(mealGameServingStarted(beforeHide, startOrder, cursor), false)
+  assert.throws(() => mealGameServingStarted(beforeHide, startOrder, cursor), /order|gap/)
+  for (const field of ['runId', 'sceneVisit', 'actor', 'ip']) {
+    const wrong = structuredClone(trace)
+    wrong.causes.at(-1)[field] = -1
+    assert.equal(mealGameServingStarted(wrong, startOrder, cursor), false)
+  }
 })
 test('004 game serving reads cursor and active footprint atomically without a trace RPC between them', async () => {
   const live = {
@@ -1098,14 +865,16 @@ test('004 game serving reads cursor and active footprint atomically without a tr
   assert.deepEqual(calls, ['snapshot'])
   live.target.state = 0
   live.cursor = { scene: 2, owner: 15, ip: 472 }
-  assert.equal(
-    mealGameTouchDestination(entry.target, 108, 30),
-    true,
-    'frozen active footprint survives natural startup after snapshot',
-  )
+  assert.deepEqual(entry.target, {
+    id: 15,
+    scene: 2,
+    state: 1,
+    triggerMode: 5,
+    anchor: [1264, 1096],
+  })
   const host = {}
   let ms = 0
-  new Function('globalThis', 'performance', `(${installMealObserver.toString()})()`)(host, {
+  new Function('globalThis', 'performance', evidenceObserverScript(installMealObserver))(host, {
     now: () => ++ms,
   })
   const noProof = {

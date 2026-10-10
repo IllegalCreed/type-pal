@@ -69,12 +69,11 @@ export class BattleHost {
       if (this.ports.readWorld() !== world)
         throw asyncIntentAbortError(`${team} 战斗启动所属世界已失效`)
     }
-    const prepared = await this.preparation.prepare(
-      team,
-      options,
+    const prepared = await scriptWorkIO(
+      this.preparation.prepare(team, options, signal, assertCurrent, (id, stage, error, fatal) =>
+        this.report(id, stage, error, fatal),
+      ),
       signal,
-      assertCurrent,
-      (id, stage, error, fatal) => this.report(id, stage, error, fatal),
     )
     assertCurrent()
     let playedVictory = false
@@ -131,12 +130,14 @@ export class BattleHost {
     this.ports.publishDebug(session)
     let result: BattleResult
     try {
-      result = await session.done
+      result = await scriptWorkWait<BattleResult>(signal, (resolve, reject) => {
+        void session.done.then(resolve, reject)
+      })
     } catch (error) {
       if (!isBattleAbort(error)) {
-        await this.ports
-          .restoreSceneSounds()
-          .catch((error) => this.ports.reportRestoreFailure(error))
+        await scriptWorkIO(this.ports.restoreSceneSounds(), signal).catch((error) =>
+          this.ports.reportRestoreFailure(error),
+        )
         assertCurrent()
         restoreMusic()
       }
@@ -174,7 +175,7 @@ export class BattleHost {
       failed = true
       failure = error
     }
-    await this.ports.restoreSceneSounds()
+    await scriptWorkIO(this.ports.restoreSceneSounds(), signal)
     assertCurrent()
     if (result !== 'defeat') restoreMusic()
     if (failed) throw failure
@@ -189,3 +190,5 @@ export class BattleHost {
     this.ports.reportReadiness(team, stage, error, fatal)
   }
 }
+
+import { scriptWorkIO, scriptWorkWait } from '../script-work-queue.js'

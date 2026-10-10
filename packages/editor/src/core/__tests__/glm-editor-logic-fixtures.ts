@@ -40,7 +40,7 @@ export function baseState(options: StateOptions = {}): EditorState {
         id: 'editor-boundaries',
         name: 'Editor Boundaries',
         contentVersion: 22,
-        minimumSaveVersion: 11,
+        minimumSaveVersion: 12,
         defaultEntryId: 'main',
         content: { worldVariables: 'content/world-variables.json' },
         assets: { catalog: 'assets/index.json', roles: {} },

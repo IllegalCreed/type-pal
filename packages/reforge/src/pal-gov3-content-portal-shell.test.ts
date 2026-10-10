@@ -235,7 +235,7 @@ for (const row of [cases[0]!, cases[7]!])
       kind: 'project',
       projectId: 'shell-project',
     })
-    host.frame(100)
+    await host.frame(100)
     await key(host, ' ')
     expect(state().sceneId).toBe('a')
     await advance(host, () => state().sceneId === 'b' && !state().script.running, 100)

@@ -84,7 +84,6 @@ export const migrateCoverageFastTestExcludes = Object.freeze([
   'src/dialogue-project.test.ts',
   'src/pal-assets.test.ts',
   'src/pal-casualty-scripts.test.ts',
-  'src/pal-project.test.ts',
   'src/pal-world-sprite-identity-boundary.test.ts',
   'src/scene-entry-product.test.ts',
 ])

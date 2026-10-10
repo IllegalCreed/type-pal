@@ -1,10 +1,12 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
 > **这是一份活文档。** 每做完一格、发现一格、改一格判据,都要更新它。它取代旧的 roadmap §8「复刻覆盖矩阵」当「第二阶段做到哪了」的真值。
-> **最近全表对账：2026-09-05；统一步骤局部对账：2026-10-03。** 当前唯一格式content22 / SAVE11，
-> SCRIPT-GOV-2已独立验收并集成；001–005当前前驱链通过。content21 / SAVE10检查点是上一批历史证据。
+> **最近全表对账：2026-09-05；统一步骤局部对账：2026-10-03。** 当前唯一格式 content22 / SAVE12，
+> SCRIPT-GOV-2已独立验收并集成；此前 001–005 前驱链及 content21 / SAVE10 检查点均为历史批次证据。
 > [后台自动续跑快照](../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)已独立技术验收并合入main，
-> 001→003当前版本链与004存读专项通过；不以局部链替代完整Q1/Q2，也不声称本次重审了全表。
+> 此前 001→003 链与 004 存读专项结论不升级为 SAVE12 通过；2026-10-11 的新 SAVE12 批次已完成
+> 001–006 独立双轨及 headed 连续链验收，见 [E2E-CONTINUOUS-001-006](../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)。
+> 不以源码核验或历史局部链替代完整 Q1/Q2，也不声称本次重审了全表。
 > 入口、角色当前状态与 current-only 架构此前已完成三方审查和用户验收。旧类型、upgrader、sidecar、产品版本分支与 extracted runtime
 > fallback 保持删除；PAL catalog 为 1,934 条，含 56 个 effect sprite。X4/A7 已随
 > `ARCH-CURRENT-ONLY-1` 收口为 ✅。本轮对账见

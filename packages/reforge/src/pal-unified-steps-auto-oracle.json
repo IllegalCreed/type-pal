@@ -67,6 +67,7 @@
     },
     {
       "key": "s001/e26/auto/legacy-003",
+      "note": "2026-10-07: complete source-defined eight-step return, no artificial terminal frame 2. Independent expected trace: eight left normal steps at i*240ms; actual shell verifies all eight rendered movement frames and endpoint [107,24]. See E2E-CONTINUOUS-001-006.",
       "hashes": [
         "5c61b7cc8592a5f7b8ffa0ab417e8ca81e9dc7ae47f4e82dea3a020d6574a190",
         "5c61b7cc8592a5f7b8ffa0ab417e8ca81e9dc7ae47f4e82dea3a020d6574a190",
@@ -95,10 +96,10 @@
     {
       "key": "s003/e56/auto/go-to-kitchen",
       "hashes": [
-        "27c35f41ba95b4a3a3773c8ee1e07e149168558726eac65f00d934c5fa27e59a",
-        "27c35f41ba95b4a3a3773c8ee1e07e149168558726eac65f00d934c5fa27e59a",
-        "27c35f41ba95b4a3a3773c8ee1e07e149168558726eac65f00d934c5fa27e59a",
-        "27c35f41ba95b4a3a3773c8ee1e07e149168558726eac65f00d934c5fa27e59a"
+        "4c4f0cc5f6a9d43d27b5e697c704a2ae690788fd05511ec40f6ef92b82366180",
+        "4c4f0cc5f6a9d43d27b5e697c704a2ae690788fd05511ec40f6ef92b82366180",
+        "4c4f0cc5f6a9d43d27b5e697c704a2ae690788fd05511ec40f6ef92b82366180",
+        "4c4f0cc5f6a9d43d27b5e697c704a2ae690788fd05511ec40f6ef92b82366180"
       ]
     },
     {
@@ -203,10 +204,10 @@
     {
       "key": "s003/e60/auto/legacy-003",
       "hashes": [
-        "440c6fe3abff1a27a12012af2cf0bee029a1833f0553e641b6d3c24b8a085401",
-        "440c6fe3abff1a27a12012af2cf0bee029a1833f0553e641b6d3c24b8a085401",
-        "440c6fe3abff1a27a12012af2cf0bee029a1833f0553e641b6d3c24b8a085401",
-        "440c6fe3abff1a27a12012af2cf0bee029a1833f0553e641b6d3c24b8a085401"
+        "4c93753d68a4e3be87900487718e343c5827f5a153cde518ab12a235195ac9df",
+        "4c93753d68a4e3be87900487718e343c5827f5a153cde518ab12a235195ac9df",
+        "4c93753d68a4e3be87900487718e343c5827f5a153cde518ab12a235195ac9df",
+        "4c93753d68a4e3be87900487718e343c5827f5a153cde518ab12a235195ac9df"
       ]
     },
     {
@@ -239,10 +240,10 @@
     {
       "key": "s003/e61/auto/legacy-003",
       "hashes": [
-        "19df7e566abfa512f28848241823a37db52e1a27930592e181e627acd0707ce3",
-        "19df7e566abfa512f28848241823a37db52e1a27930592e181e627acd0707ce3",
-        "19df7e566abfa512f28848241823a37db52e1a27930592e181e627acd0707ce3",
-        "19df7e566abfa512f28848241823a37db52e1a27930592e181e627acd0707ce3"
+        "359f86b06520c26f4773434b42edbc0435da3d4c2969c01f260587946caead2d",
+        "359f86b06520c26f4773434b42edbc0435da3d4c2969c01f260587946caead2d",
+        "359f86b06520c26f4773434b42edbc0435da3d4c2969c01f260587946caead2d",
+        "359f86b06520c26f4773434b42edbc0435da3d4c2969c01f260587946caead2d"
       ]
     },
     {
@@ -256,11 +257,12 @@
     },
     {
       "key": "s003/e62/auto/default",
+      "note": "2026-10-07: first 200ms wait is outside the loop. Independent Game auto executor gives frame1 at ticks 2/17/32/47 and frame0 at 4/19/34/49. Expected bounded trace has facing/frame effects at 200+1500*k and 400+1500*k, 20 cycles; real compiler/runner and full shell proofs remain separate.",
       "hashes": [
-        "2a0e36328a819e9200fd66fe9e7553f35e3f7abcb534a7fb38f0bfa659ecc649",
-        "2a0e36328a819e9200fd66fe9e7553f35e3f7abcb534a7fb38f0bfa659ecc649",
-        "2a0e36328a819e9200fd66fe9e7553f35e3f7abcb534a7fb38f0bfa659ecc649",
-        "2a0e36328a819e9200fd66fe9e7553f35e3f7abcb534a7fb38f0bfa659ecc649"
+        "9d0c626b0ffb1ff4fa10808171e50d223c0ede21c838aaf7ab05efe24b79fc4d",
+        "9d0c626b0ffb1ff4fa10808171e50d223c0ede21c838aaf7ab05efe24b79fc4d",
+        "9d0c626b0ffb1ff4fa10808171e50d223c0ede21c838aaf7ab05efe24b79fc4d",
+        "9d0c626b0ffb1ff4fa10808171e50d223c0ede21c838aaf7ab05efe24b79fc4d"
       ]
     },
     {
@@ -302,11 +304,12 @@
     {
       "key": "s004/e76/auto/default",
       "hashes": [
-        "c7601ed47237aa689c5e55f68bde455ad8964f50339d0e4c0a68756606adb364",
-        "c7601ed47237aa689c5e55f68bde455ad8964f50339d0e4c0a68756606adb364",
-        "c7601ed47237aa689c5e55f68bde455ad8964f50339d0e4c0a68756606adb364",
-        "c7601ed47237aa689c5e55f68bde455ad8964f50339d0e4c0a68756606adb364"
-      ]
+        "315d4afda0565ebda370841e0fd1bda0300d8ac34ef9e375c11cc1b522b0bb9b",
+        "315d4afda0565ebda370841e0fd1bda0300d8ac34ef9e375c11cc1b522b0bb9b",
+        "315d4afda0565ebda370841e0fd1bda0300d8ac34ef9e375c11cc1b522b0bb9b",
+        "315d4afda0565ebda370841e0fd1bda0300d8ac34ef9e375c11cc1b522b0bb9b"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Approved authored routes and facing, checked by pal-errand-author native callers and independent 005 route/pose receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e76/auto/legacy-001",
@@ -347,110 +350,122 @@
     {
       "key": "s004/e83/auto/default",
       "hashes": [
-        "3a4cec999851f3a062f188a66d8cce7fa8906cdac37cc261ec6b83c0a0c97944",
-        "3a4cec999851f3a062f188a66d8cce7fa8906cdac37cc261ec6b83c0a0c97944",
-        "3a4cec999851f3a062f188a66d8cce7fa8906cdac37cc261ec6b83c0a0c97944",
-        "3a4cec999851f3a062f188a66d8cce7fa8906cdac37cc261ec6b83c0a0c97944"
-      ]
+        "aa3facb6e87006ce4705b733d6cca87ca5072807422db873cc6deb4c346a2a44",
+        "aa3facb6e87006ce4705b733d6cca87ca5072807422db873cc6deb4c346a2a44",
+        "aa3facb6e87006ce4705b733d6cca87ca5072807422db873cc6deb4c346a2a44",
+        "aa3facb6e87006ce4705b733d6cca87ca5072807422db873cc6deb4c346a2a44"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Approved authored routes and facing, checked by pal-errand-author native callers and independent 005 route/pose receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e83/auto/legacy-002",
       "hashes": [
-        "908d69a6ade30d75f304ba9393291eb4a928a22141827aa8de77943ae51e1ad6",
-        "908d69a6ade30d75f304ba9393291eb4a928a22141827aa8de77943ae51e1ad6",
-        "908d69a6ade30d75f304ba9393291eb4a928a22141827aa8de77943ae51e1ad6",
-        "908d69a6ade30d75f304ba9393291eb4a928a22141827aa8de77943ae51e1ad6"
-      ]
+        "d65c857ad95b663e473eb0d52e9ee4b69a8225f8aa3f40543311d415db1aac4c",
+        "d65c857ad95b663e473eb0d52e9ee4b69a8225f8aa3f40543311d415db1aac4c",
+        "d65c857ad95b663e473eb0d52e9ee4b69a8225f8aa3f40543311d415db1aac4c",
+        "d65c857ad95b663e473eb0d52e9ee4b69a8225f8aa3f40543311d415db1aac4c"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Approved authored routes and facing, checked by pal-errand-author native callers and independent 005 route/pose receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e84/auto/default",
       "hashes": [
-        "5785ce5ecbe6b368b923736ee3c63499bb34ec79490388b22834aad4d8ed2bb7",
-        "5785ce5ecbe6b368b923736ee3c63499bb34ec79490388b22834aad4d8ed2bb7",
-        "5785ce5ecbe6b368b923736ee3c63499bb34ec79490388b22834aad4d8ed2bb7",
-        "5785ce5ecbe6b368b923736ee3c63499bb34ec79490388b22834aad4d8ed2bb7"
-      ]
+        "016b0be889b9b10b33f5af83714146a16522de2df9806e9c7960cb787c49a61d",
+        "016b0be889b9b10b33f5af83714146a16522de2df9806e9c7960cb787c49a61d",
+        "016b0be889b9b10b33f5af83714146a16522de2df9806e9c7960cb787c49a61d",
+        "016b0be889b9b10b33f5af83714146a16522de2df9806e9c7960cb787c49a61d"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Approved authored routes and facing, checked by pal-errand-author native callers and independent 005 route/pose receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e85/auto/default",
       "hashes": [
-        "10ca5d5b60892b353bceeea1ac7ba7e00ea3ba8bb27f8ad65d5b4de03da26e18",
-        "10ca5d5b60892b353bceeea1ac7ba7e00ea3ba8bb27f8ad65d5b4de03da26e18",
-        "10ca5d5b60892b353bceeea1ac7ba7e00ea3ba8bb27f8ad65d5b4de03da26e18",
-        "10ca5d5b60892b353bceeea1ac7ba7e00ea3ba8bb27f8ad65d5b4de03da26e18"
-      ]
+        "6ed6c7a536babfa85553c79204627c070be793961e355fd498ad81fb11ce76c6",
+        "6ed6c7a536babfa85553c79204627c070be793961e355fd498ad81fb11ce76c6",
+        "6dd272dca30f1734b05e4a30daa5f0c9044322c135d5aeedb7d7e32e9f6967f1",
+        "6dd272dca30f1734b05e4a30daa5f0c9044322c135d5aeedb7d7e32e9f6967f1"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e86/auto/default",
       "hashes": [
-        "daac24f504a7af88f491a05754d4dcb17ae0edd704331de61a41dd5b970d0c66",
-        "daac24f504a7af88f491a05754d4dcb17ae0edd704331de61a41dd5b970d0c66",
-        "daac24f504a7af88f491a05754d4dcb17ae0edd704331de61a41dd5b970d0c66",
-        "daac24f504a7af88f491a05754d4dcb17ae0edd704331de61a41dd5b970d0c66"
-      ]
+        "155b0d54a406c7c2bd7046f68c7e9fe8758ca3b4838c241456ee8c33d4c08e76",
+        "155b0d54a406c7c2bd7046f68c7e9fe8758ca3b4838c241456ee8c33d4c08e76",
+        "af2c62caf7052a78608219ab5f0fa0657d37b0ef51b414f90235e685fda376bd",
+        "af2c62caf7052a78608219ab5f0fa0657d37b0ef51b414f90235e685fda376bd"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e87/auto/default",
       "hashes": [
-        "d52df3fa0854f49472486a2df616a77bd5b6568a1387d809f6d4d093ecd00656",
-        "d52df3fa0854f49472486a2df616a77bd5b6568a1387d809f6d4d093ecd00656",
-        "59d32d9c3e360fd708d830590c8b939777f9e2ce92442b548c07a9fb09adb498",
-        "59d32d9c3e360fd708d830590c8b939777f9e2ce92442b548c07a9fb09adb498"
-      ]
+        "4713979e3746f5b3b38ed0063fce7b87638e98f17608404435b25cc342d347a3",
+        "4713979e3746f5b3b38ed0063fce7b87638e98f17608404435b25cc342d347a3",
+        "c9b22aef03fb04721f30f347da1b1b93ffb453f639f67303207fcbc0324796cf",
+        "c9b22aef03fb04721f30f347da1b1b93ffb453f639f67303207fcbc0324796cf"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e88/auto/legacy-001",
       "hashes": [
-        "445146de6bf421702f6ece2ef1923d78b6e618125cbacfb8b7e67c9505ce8cce",
-        "445146de6bf421702f6ece2ef1923d78b6e618125cbacfb8b7e67c9505ce8cce",
-        "445146de6bf421702f6ece2ef1923d78b6e618125cbacfb8b7e67c9505ce8cce",
-        "445146de6bf421702f6ece2ef1923d78b6e618125cbacfb8b7e67c9505ce8cce"
-      ]
+        "e89c4e49aee2ce3024830768e30fd1adff9590ea2a8897f0d42563d873a317c3",
+        "e89c4e49aee2ce3024830768e30fd1adff9590ea2a8897f0d42563d873a317c3",
+        "e89c4e49aee2ce3024830768e30fd1adff9590ea2a8897f0d42563d873a317c3",
+        "e89c4e49aee2ce3024830768e30fd1adff9590ea2a8897f0d42563d873a317c3"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e89/auto/default",
       "hashes": [
-        "bf20eba353d7a047fd9a8ad183e29ed0c1a26151586f276b10e4fbd6df5872b9",
-        "bf20eba353d7a047fd9a8ad183e29ed0c1a26151586f276b10e4fbd6df5872b9",
-        "e77efcf6a83cbf6ecdc7e5ab30f6131f854dee06d003f8bf1634a828e557cddc",
-        "e77efcf6a83cbf6ecdc7e5ab30f6131f854dee06d003f8bf1634a828e557cddc"
-      ]
+        "011aaca7a0a9b654a074e20bd9100a536657078fb5d27088bcf6b2fe5dd135eb",
+        "011aaca7a0a9b654a074e20bd9100a536657078fb5d27088bcf6b2fe5dd135eb",
+        "1696429dac98a1f8bd580a1a011c4712714b63d60ce0fe702c609a2f5d0224eb",
+        "1696429dac98a1f8bd580a1a011c4712714b63d60ce0fe702c609a2f5d0224eb"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e90/auto/default",
       "hashes": [
-        "7d2c667de565de35bbc22f60a9c39b846180ec6df58d2cc0eda3bfbdc0feba1d",
-        "7d2c667de565de35bbc22f60a9c39b846180ec6df58d2cc0eda3bfbdc0feba1d",
-        "85badc911d630260630a22e3f5ff9151762fd73a375e0c61c559cba753af7243",
-        "85badc911d630260630a22e3f5ff9151762fd73a375e0c61c559cba753af7243"
-      ]
+        "fd41c28e96121be9ccdbf7cab2173546b2bc943470d6eee8164fac6d567698a7",
+        "fd41c28e96121be9ccdbf7cab2173546b2bc943470d6eee8164fac6d567698a7",
+        "0f7ae793e963e1009dadaf3eb9bb2dda151af73a53b258199654517d55ecb824",
+        "0f7ae793e963e1009dadaf3eb9bb2dda151af73a53b258199654517d55ecb824"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e91/auto/default",
       "hashes": [
-        "fded6595833028baa4f303b43cd884d43aabd39cd33021d235e48f2d115b0d15",
-        "fded6595833028baa4f303b43cd884d43aabd39cd33021d235e48f2d115b0d15",
-        "7b98d52bbfa0530f0dae9f81a7acbaf96656dab60b75c15589867c018ccb6c1e",
-        "7b98d52bbfa0530f0dae9f81a7acbaf96656dab60b75c15589867c018ccb6c1e"
-      ]
+        "2cb8bc8dd7ac48a333f9d231916d2d35b84f2783ee9df04dc409413652cd62c6",
+        "2cb8bc8dd7ac48a333f9d231916d2d35b84f2783ee9df04dc409413652cd62c6",
+        "10905c89d3377c734e8cd5c2d325f9b32ce4bcad76b774926330fb3596a65ff9",
+        "10905c89d3377c734e8cd5c2d325f9b32ce4bcad76b774926330fb3596a65ff9"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e92/auto/default",
       "hashes": [
-        "fbe9648626f30f42c12b15326bdd3e33456332b8ef3dcf89c25103f07d9df79c",
-        "fbe9648626f30f42c12b15326bdd3e33456332b8ef3dcf89c25103f07d9df79c",
-        "1736430ffc2193eafbadc2bdd7ee640d6a0b59abbf6fee1fe9205f4976929077",
-        "1736430ffc2193eafbadc2bdd7ee640d6a0b59abbf6fee1fe9205f4976929077"
-      ]
+        "6440b3c02caa5a5a5f30d74554a922ed36fa1996f279b8181d2276ae3e2a0a3f",
+        "6440b3c02caa5a5a5f30d74554a922ed36fa1996f279b8181d2276ae3e2a0a3f",
+        "120719bf582bcb2c0014a06f6fca3c8fc5a95b8b22b057e330f9c2a4b87b0578",
+        "120719bf582bcb2c0014a06f6fca3c8fc5a95b8b22b057e330f9c2a4b87b0578"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e93/auto/default",
       "hashes": [
-        "dfaec1c9d8151e2d47a5088f03844c7e30160a3b3d8337f9d783a9fefdef00f4",
-        "dfaec1c9d8151e2d47a5088f03844c7e30160a3b3d8337f9d783a9fefdef00f4",
-        "305a2775540374a4654cda5e80fe389cfb2d515115c59f12533970d719559204",
-        "305a2775540374a4654cda5e80fe389cfb2d515115c59f12533970d719559204"
-      ]
+        "04c359aab7f165d0b0354269633cdfd2de17a45a218135b7bc835915a72e401a",
+        "04c359aab7f165d0b0354269633cdfd2de17a45a218135b7bc835915a72e401a",
+        "19a356402c9a0e7fb04779805ec912d05caca4f13328bd0cfaff14260c0cac88",
+        "19a356402c9a0e7fb04779805ec912d05caca4f13328bd0cfaff14260c0cac88"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s004/e101/auto/default",
@@ -509,38 +524,42 @@
     {
       "key": "s005/e116/auto/default",
       "hashes": [
-        "4487092d003a86a222b587ab9573d6447ae33e751edd1110dcffc45a4c9c4b19",
-        "4487092d003a86a222b587ab9573d6447ae33e751edd1110dcffc45a4c9c4b19",
-        "4487092d003a86a222b587ab9573d6447ae33e751edd1110dcffc45a4c9c4b19",
-        "4487092d003a86a222b587ab9573d6447ae33e751edd1110dcffc45a4c9c4b19"
-      ]
+        "8162e23a402d79d9c16164bf4268f0d0563b5ac8f8256a4ffb03ff74f811f5af",
+        "8162e23a402d79d9c16164bf4268f0d0563b5ac8f8256a4ffb03ff74f811f5af",
+        "8162e23a402d79d9c16164bf4268f0d0563b5ac8f8256a4ffb03ff74f811f5af",
+        "8162e23a402d79d9c16164bf4268f0d0563b5ac8f8256a4ffb03ff74f811f5af"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s005/e117/auto/legacy-001",
       "hashes": [
-        "c3a63322a4ba0f410e4d057d482201300e06e4245dff24387b0e4e9da0b9bfa6",
-        "c3a63322a4ba0f410e4d057d482201300e06e4245dff24387b0e4e9da0b9bfa6",
-        "c3a63322a4ba0f410e4d057d482201300e06e4245dff24387b0e4e9da0b9bfa6",
-        "c3a63322a4ba0f410e4d057d482201300e06e4245dff24387b0e4e9da0b9bfa6"
-      ]
+        "492fde0602e2d26a296efbb42d9ea4774ae503921a1d6e4b812d6ab91c9caaef",
+        "492fde0602e2d26a296efbb42d9ea4774ae503921a1d6e4b812d6ab91c9caaef",
+        "492fde0602e2d26a296efbb42d9ea4774ae503921a1d6e4b812d6ab91c9caaef",
+        "492fde0602e2d26a296efbb42d9ea4774ae503921a1d6e4b812d6ab91c9caaef"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary L36147 loop and native 16-tick mounted step/animation contract, checked by automatic-language-contract and independent 006 boat receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s005/e121/auto/default",
       "hashes": [
-        "02ad2cdca62c6050d700868cb188752702352f8b5e74198aa37b57dbcd284256",
-        "02ad2cdca62c6050d700868cb188752702352f8b5e74198aa37b57dbcd284256",
-        "1869abba94702b1b2db8ffca42ec7c2a694731076d7c860160e10c1aa1d692d1",
-        "1869abba94702b1b2db8ffca42ec7c2a694731076d7c860160e10c1aa1d692d1"
-      ]
+        "4ee1e7bdcf07867a5f8c761948591c3cb3711cff3c02498c62bede3dddb4916a",
+        "4ee1e7bdcf07867a5f8c761948591c3cb3711cff3c02498c62bede3dddb4916a",
+        "ec40ec2626f559253f66dd84d8ae65e6183571da0eabde265b625d6abe6bdda7",
+        "ec40ec2626f559253f66dd84d8ae65e6183571da0eabde265b625d6abe6bdda7"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s005/e122/auto/default",
       "hashes": [
-        "c1b2ec3082d5d1d7d0e80d4d081832a350c03476a5a28df8551c6a0cbb86ebaf",
-        "c1b2ec3082d5d1d7d0e80d4d081832a350c03476a5a28df8551c6a0cbb86ebaf",
-        "6ef89e895427740cec45eb74a33818c57b96b5b2d84ed30785ebdee3b234f992",
-        "6ef89e895427740cec45eb74a33818c57b96b5b2d84ed30785ebdee3b234f992"
-      ]
+        "affc81d34f2f8f91d6f1300104e8c0ca4a6f57f645235bea78c485b985931cdb",
+        "affc81d34f2f8f91d6f1300104e8c0ca4a6f57f645235bea78c485b985931cdb",
+        "eaf211c3c49bf960556c83f7ab0aa6e44f40938fcc7e5389f0dcdcd6cdfd18e8",
+        "eaf211c3c49bf960556c83f7ab0aa6e44f40938fcc7e5389f0dcdcd6cdfd18e8"
+      ],
+      "note": "2026-10-11 E2E-CONTINUOUS-001-006 current nominal snapshot. Primary automatic control-flow/effect language and current authors checked by automatic-language-contract, with independent 005/006 cycle, timer, actor-frame and restoration receipts. Recordings: game/reforge 005-story 2026-10-10T15-30-04 and 006 2026-10-10T15-34; both final comparisons passed with zero findings and zero sourceChanges. This bounded compiler/runner hash is not a draw-timing certificate."
     },
     {
       "key": "s005/e127/auto/default",

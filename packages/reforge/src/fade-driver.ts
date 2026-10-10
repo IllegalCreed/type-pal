@@ -51,7 +51,7 @@ export class SupersedingFadeDriver {
       owner,
       signal,
     }
-    const promise = new Promise<void>((resolve, reject) => {
+    const promise = scriptWorkWait<void>(signal, (resolve, reject) => {
       resolveNext = resolve
       rejectNext = reject
     })
@@ -114,3 +114,5 @@ export class SupersedingFadeDriver {
     else effect.resolve()
   }
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

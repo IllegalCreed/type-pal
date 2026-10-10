@@ -162,7 +162,7 @@ const liveVideo = (): HTMLVideoElement | null => document.querySelector('video')
 /** 含真实异步 IO(IDB/位图解码)的有界推进。 */
 async function advance(predicate: () => boolean, frames = 120): Promise<void> {
   for (let i = 0; i < frames && !predicate(); i++) {
-    host?.frame(100)
+    await host?.frame(100)
     await drain()
     await host?.settleIO()
   }
@@ -183,7 +183,7 @@ async function bootAndAwait(fixture: {
   const pending = bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
   // 全程等待 boot 收口(输入口在 __reforge 注册之后才接线),再进一帧。
   await pending
-  host?.frame()
+  await host?.frame()
 }
 
 test('标题读档入口:标题菜单选读档后从真实存档完成开局', async () => {
@@ -279,7 +279,8 @@ test('播放中快速读档:中止在途视频并按存档游标重放,奖励只
 
 test('资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播', async () => {
   host = await installShellHost()
-  await seedSlot('a', 50, seedMeta('quick', Date.now()))
+  // Distinct from the entry's 50: observing 40 proves the real restore has replaced the world.
+  await seedSlot('a', 40, seedMeta('quick', Date.now()))
   const plays = installVideoIo()
   const scene = cinemaScene()
   const fixture = await projectWithVideos({ first: scene, introVideoId: 'video.intro' })
@@ -288,18 +289,26 @@ test('资源解析中取消:视频 urlFor 返回后不再创建视频层,重放�
   const gate = new Promise<void>((resolve) => {
     releaseRead = resolve
   })
+  let readEntered = false
   fixture.hooks.read = (path) => {
-    if (path === videoPath) return gate
+    if (path === videoPath) {
+      readEntered = true
+      return gate
+    }
   }
   await bootAndAwait(fixture)
+  await advance(() => readEntered)
+  expect(observation().world.money).toBe(50)
+  expect(plays).toHaveLength(0)
   await key(host, 'F9')
-  await advance(() => observation().world.money === 50)
+  await advance(() => observation().world.money === 40)
+  expect(plays).toHaveLength(0)
   releaseRead()
   // 原请求在 urlFor 返回后不得开播;只有恢复后的重放开播一次。
   await advance(() => plays.length === 1)
   expect(plays).toEqual([`https://fixture.invalid/${fixture.videos.get('video.intro')}`])
   await endLiveVideo()
-  await advance(() => observation().world.money === 55)
+  await advance(() => observation().world.money === 45)
 })
 
 test('战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开', async () => {
