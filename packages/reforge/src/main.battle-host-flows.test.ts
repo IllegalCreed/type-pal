@@ -58,7 +58,7 @@ test('H9 public battle runs actual settlement and onDefeated before resolving, p
     expected.party[0]!.hp = 90
     expected.party[0]!.mp = 35
     expect(state().world).toEqual(expected)
-    for (let i = 0; i < 10; i++) host.frame()
+    for (let i = 0; i < 10; i++) await host.frame()
     expect(state().world).toEqual(expected)
     await key(host, 'Escape')
     expect(state().renderDebug.menuActive).toBe(true)

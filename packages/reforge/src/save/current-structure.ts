@@ -2,7 +2,7 @@ import { type CharacterInstance, HIDDEN_STAT_KEYS, isCarryableStatusId } from '@
 import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 /**
- * SAVE-PREFLIGHT-1：当前 SAVE11 载荷的确定性结构 guard。
+ * SAVE-PREFLIGHT-1：当前 SAVE12 载荷的确定性结构 guard。
  *
  * 从 unknown 开始先校验再当作类型使用；字段清单以 `save/types.ts` 的 `CurrentSavePayload` 与
  * `content/character.ts` 的 `WorldState`/`CharacterInstance` 现行类型为唯一真源：
@@ -112,6 +112,104 @@ function assertGridPos(value: unknown, path: string): void {
   requireFiniteNumber(pos.col, `${path}.col`)
   requireFiniteNumber(pos.row, `${path}.row`)
   requireFiniteNumber(pos.height, `${path}.height`)
+}
+
+function requireNonNegative(value: unknown, path: string, integer = false): void {
+  const number = requireFiniteNumber(value, path)
+  if (number < 0 || (integer && !Number.isSafeInteger(number)))
+    fail(path, integer ? '必须为非负安全整数' : '必须为非负有限数')
+}
+
+function assertSceneRuntime(value: unknown, path: string): void {
+  for (const [scene, raw] of Object.entries(requireRecord(value, path))) {
+    const p = `${path}.${scene}`,
+      saved = requireRecord(raw, p)
+    requireNonEmptyString(scene, p)
+    for (const [id, rawPose] of Object.entries(requireRecord(saved.entities, `${p}.entities`))) {
+      const q = `${p}.entities.${id}`,
+        pose = requireRecord(rawPose, q)
+      requireNonEmptyString(id, q)
+      optional(pose.facing, `${q}.facing`, (v, at) => {
+        if (typeof v !== 'string' || !FACINGS.has(v)) fail(at, '必须为四向朝向')
+      })
+      optional(pose.fixedFrame, `${q}.fixedFrame`, (v, at) => requireNonNegative(v, at, true))
+      const motion = requireRecord(pose.motion, `${q}.motion`)
+      optional(motion.explicitAnimation, `${q}.motion.explicitAnimation`, (v, at) =>
+        requireNonNegative(v, at, true),
+      )
+      optional(motion.gait, `${q}.motion.gait`, (v, at) => {
+        const gait = requireRecord(v, at)
+        requireNonNegative(gait.phase, `${at}.phase`, true)
+        optional(gait.owner, `${at}.owner`, requireNonEmptyString)
+        if (
+          typeof gait.source !== 'string' ||
+          !['player', 'auto', 'hostile', 'script-chase', 'script'].includes(gait.source)
+        )
+          fail(`${at}.source`, '不是移动来源')
+        if (gait.source === 'auto') requireNonEmptyString(gait.owner, `${at}.owner`)
+      })
+      optional(motion.move, `${q}.motion.move`, (v, at) => {
+        const move = requireRecord(v, at)
+        requireNonEmptyString(move.owner, `${at}.owner`)
+        assertGridPos(move.to, `${at}.to`)
+        if (
+          typeof move.speed !== 'string' ||
+          !['slow', 'normal', 'fast', 'run'].includes(move.speed)
+        )
+          fail(`${at}.speed`, '不是移动速度')
+        for (const key of ['slowRestPending', 'slowCadence'])
+          if (typeof move[key] !== 'boolean') fail(`${at}.${key}`, '必须为布尔值')
+      })
+    }
+    eachIndex(requireArray(saved.actions, `${p}.actions`), `${p}.actions`, (rawAction, at) => {
+      const action = requireRecord(rawAction, at)
+      requireNonEmptyString(action.entity, `${at}.entity`)
+      const track = (rawTrack: unknown, q: string): void => {
+        const value = requireRecord(rawTrack, q)
+        const binding = requireRecord(value.binding, `${q}.binding`)
+        requireNonEmptyString(binding.sprite, `${q}.binding.sprite`)
+        requireNonEmptyString(binding.action, `${q}.binding.action`)
+        if (typeof binding.loop !== 'boolean') fail(`${q}.binding.loop`, '必须为布尔值')
+        optional(binding.startAtMs, `${q}.binding.startAtMs`, requireNonNegative)
+        if (value.source !== 'automatic' && value.source !== 'script')
+          fail(`${q}.source`, '不是动作来源')
+        optional(value.owner, `${q}.owner`, requireNonEmptyString)
+        requireNonNegative(value.stepIndex, `${q}.stepIndex`, true)
+        requireNonNegative(value.elapsedInStepMs, `${q}.elapsedInStepMs`)
+        for (const key of ['finished', 'awaited'])
+          if (typeof value[key] !== 'boolean') fail(`${q}.${key}`, '必须为布尔值')
+        optional(value.pendingLoopStartAtMs, `${q}.pendingLoopStartAtMs`, requireNonNegative)
+      }
+      optional(action.base, `${at}.base`, track)
+      optional(action.override, `${at}.override`, track)
+      optional(action.completed, `${at}.completed`, (value, q) =>
+        eachIndex(requireArray(value, q), q, track),
+      )
+    })
+    for (const [id, rawAutomatic] of Object.entries(
+      requireRecord(saved.automatic, `${p}.automatic`),
+    )) {
+      const q = `${p}.automatic.${id}`,
+        automatic = requireRecord(rawAutomatic, q)
+      requireNonEmptyString(id, q)
+      // The exact continuation is validated against the canonical world's existing cursor guard.
+      requireRecord(automatic.cursor, `${q}.cursor`)
+      optional(automatic.wait, `${q}.wait`, (v, at) => {
+        const wait = requireRecord(v, at)
+        if (
+          typeof wait.kind !== 'string' ||
+          !['command', 'chase-pacing', 'chase-terminal', 'chase-range', 'chase-hidden'].includes(
+            wait.kind,
+          )
+        )
+          fail(`${at}.kind`, '不是自动等待类型')
+        requireNonNegative(wait.durationMs, `${at}.durationMs`)
+        requireNonNegative(wait.remainingMs, `${at}.remainingMs`)
+        if (Number(wait.remainingMs) > Number(wait.durationMs)) fail(at, '剩余等待不能超过原时长')
+      })
+    }
+    assertAutomaticChaseClaims(saved.chaseClaims, `${p}.chaseClaims`)
+  }
 }
 
 function assertCarriedStatuses(value: unknown, path: string): void {
@@ -285,7 +383,7 @@ export function assertCurrentSaveStructure(value: unknown): asserts value is Cur
     fail('载荷.contentVersion', '必须为数字（等值校验由 preflight 负责）')
   assertWorld(payload.world, '载荷.world')
   assertPosition(payload.position, '载荷.position')
-  optional(payload.automaticChaseClaims, '载荷.automaticChaseClaims', assertAutomaticChaseClaims)
+  assertSceneRuntime(payload.sceneRuntime, '载荷.sceneRuntime')
 }
 
 export type { CharacterInstance }

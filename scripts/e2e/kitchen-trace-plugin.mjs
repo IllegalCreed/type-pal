@@ -2,18 +2,14 @@ import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import ts from 'typescript'
 import { INN_TRACE_TARGETS, instrumentInnTrace } from './inn-trace-plugin.mjs'
+import { reforgeActorObservation } from './reforge-actor-observation.mjs'
 
-export const KITCHEN_TRACE_TARGETS = [
-  ...INN_TRACE_TARGETS,
-  'packages/reforge/src/world-scene-presentation.ts',
-]
+export const KITCHEN_TRACE_TARGETS = [...INN_TRACE_TARGETS]
 
 /** Only isolated source insertions; production files and scheduling expressions stay untouched. */
 export function instrumentKitchenTrace(source, file) {
   assert(KITCHEN_TRACE_TARGETS.includes(file), `unexpected kitchen trace source ${file}`)
-  const result = file.endsWith('/world-scene-presentation.ts')
-    ? { code: source, anchors: {} }
-    : instrumentInnTrace(source, file)
+  const result = instrumentInnTrace(source, file)
   for (const name of [
     'Point',
     'Error',
@@ -34,8 +30,12 @@ export function instrumentKitchenTrace(source, file) {
     walk(ast)
     assert.equal(hooks.length, 1, 'kitchen actual commit function anchor changed')
     const hook = hooks[0]
-    const body = `function __openingPoint(source) {
+    const body = `function __openingPoint(source, renderEvidence) {
       try {
+        if(source==='observe:causal') globalThis.__openingCauseWorld?.(world);
+        let tick=null, instance=null;
+        try { tick=motion.worldTick; instance=currentMotionSceneSessionId(); } catch {}
+        globalThis.__e2eSceneBoundary?.({scene:activeScene.scene.id,tick,instance});
         const sid=activeScene.scene.id; if(!['s001','s003'].includes(sid))return;
         const persistent={};
         for(const [scene,ids] of [['s001',['e19','e20','e24','e25','e26']],['s003',['e56','e59','e60','e61','e62']]])
@@ -45,14 +45,11 @@ export function instrumentKitchenTrace(source, file) {
           sprite:world.party[0]?partySpriteDef(world.party[0]).id:null}};
         for(const e of activeScene.scene.entities) {
           const id=e.id;
-          actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,state:host.getEntityState(id),
-            behavior:world.script.behaviors?.entities?.[sid]?.[id]??null,
-            sprite:typeof e.sprite==='string'&&e.sprite.startsWith('sprite-')?Number(e.sprite.slice(7)):e.sprite??e.actor??null,
-            frame:worldPresentation.entityFrame(id)??
-              motion.gaitPhase(id)??motion.explicitAnimation(id)??entityActions.frame(id)??0};
+          actors[id]=${reforgeActorObservation()};
         }
-        globalThis.__kitchenPoint?.(source,{scene:sid,actors,persistent,money:world.money,inventory:world.inventory,
-          control:!runner&&!dialogBox.active&&!presentation.busy()});
+        globalThis.__kitchenPoint?.(source,{tick,renderEvidence:source==='render:world'?{engine:'reforge',...renderEvidence}:null,scene:sid,actors,persistent,money:world.money,inventory:world.inventory,
+          control:!runner&&!dialogBox.active&&!presentation.busy(),
+          ...(globalThis.__routeObserve ? {routeReady:!runner&&!dialogBox.active&&!presentation.busy()&&!menus.active&&!battleHost.active&&fadeDriver.value===0&&ditherTransition.active===null,routeDialogue:dialogBox.active} : {})});
       } catch(error){globalThis.__kitchenError?.(String(error));}
     }`
     result.code = result.code.slice(0, hook.getStart(ast)) + body + result.code.slice(hook.end)
@@ -80,22 +77,6 @@ export function instrumentKitchenTrace(source, file) {
       edits.push({
         at: node.initializer.body.end - 1,
         text: '\n} finally { __openingPoint("commit:nudgeParty"); }\n',
-      })
-    }
-    if (
-      file.endsWith('/reforge/src/main.ts') &&
-      ts.isVariableDeclaration(node) &&
-      node.name.getText(ast) === 'refreshRuntimeProjection'
-    ) {
-      assert(
-        ts.isArrowFunction(node.initializer) && ts.isBlock(node.initializer.body),
-        'kitchen runtime projection shape changed',
-      )
-      anchors.push('actualRuntimeProjection')
-      edits.push({ at: node.initializer.body.getStart(ast) + 1, text: '\ntry {\n' })
-      edits.push({
-        at: node.initializer.body.end - 1,
-        text: '\n} finally { __openingPoint("commit:refreshRuntimeProjection"); }\n',
       })
     }
     if (
@@ -146,7 +127,8 @@ export function instrumentKitchenTrace(source, file) {
     if (
       file.endsWith('/world-scene-presentation.ts') &&
       ts.isExpressionStatement(node) &&
-      node.expression.getText(ast).startsWith('sprites.push(partySprite(leaderFrame,')
+      node.expression.getText(ast).startsWith('sprites.push(') &&
+      node.expression.getText(ast).includes('partySprite(leaderFrame,')
     ) {
       anchors.push('actualReforgePartyFrame')
       edits.push({
@@ -168,7 +150,7 @@ export function instrumentKitchenTrace(source, file) {
       : file.endsWith('/world-scene-presentation.ts')
         ? ['actualReforgePartyFrame']
         : file.endsWith('/reforge/src/main.ts')
-          ? ['actualNudgeParty', 'beforeNudgeParty', 'commitNudgeParty', 'actualRuntimeProjection']
+          ? ['actualNudgeParty', 'beforeNudgeParty', 'commitNudgeParty']
           : [],
     'kitchen actual drawn frame/fragment census changed',
   )

@@ -11,7 +11,7 @@ import { normalizeCurrentSave, preflightCurrentSave } from './save/current-codec
 import { buildCurrentSavePayload, buildMeta } from './save/ops.js'
 import { MemorySaveStore } from './save/store.js'
 
-test('捕获鹿茸后页16跨SAVE11保留，领取触发时只奖励一次并回到显式frame0', async () => {
+test('捕获鹿茸后页16跨SAVE12保留，领取触发时只奖励一次并回到显式frame0', async () => {
   const run = gov3Runtime('s048', { near: true })
   await run.auto('e797')
   const capturedScript = run.world.script

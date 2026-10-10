@@ -5,16 +5,36 @@ evidence: e2e/evidence/e2e-002.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-002","sourceRefs":[{"path":"scripts/e2e/game-inn.mjs","lines":"3-3","anchor":"await runInnJourney","role":"caller","sha256":"aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"},{"path":"scripts/e2e/inn-contract.mjs","lines":"67-84","anchor":"export function validatePredecessor(","role":"input","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"scripts/e2e/inn-contract.mjs","lines":"337-354","anchor":"export function assertInnEvidence(","role":"oracle","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"scripts/e2e/inn-contract.mjs","lines":"453-464","anchor":"'money not committed between thanks and reward display'","role":"oracle","sha256":"2367502c232b46cacff779db6cc24c4757f9fbbd89ce953f00b08973cc48119c"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:002","pnpm e2e:002:reforge","pnpm e2e:002:both"],"legalInputs":["same-engine current 001 end save","normal movement into s003/e56","isolated fresh restore context"],"businessOracle":{"type":"inn-guest-reward-and-restore","assertions":["20行正文/说话人完整","cash 0→500且三苗人真实进房","结束档在新上下文恢复并保留房内状态"]},"dedupe":{"result":"reviewed","against":["e2e-001","e2e-003","docs/testing/e2e/stages/002-inn-guests-and-reward"],"notes":"e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-002.json"}
+{"schemaVersion":2,"id":"e2e-002","sourceRefs":[{"path":"scripts/e2e/game-inn.mjs","lines":"3-3","anchor":"await runInnJourney","role":"caller","sha256":"aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"},{"path":"scripts/e2e/inn-contract.mjs","lines":"67-111","anchor":"export function validatePredecessor(","role":"input","sha256":"e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"},{"path":"scripts/e2e/inn-contract.mjs","lines":"340-388","anchor":"export function assertInnEvidence(","role":"oracle","sha256":"e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"},{"path":"scripts/e2e/inn-contract.mjs","lines":"473-488","anchor":"'money not committed between thanks and reward display'","role":"oracle","sha256":"e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/inn-observer.mjs","lines":"1-115","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"}],"publicCallers":["pnpm e2e:002","pnpm e2e:002:reforge","pnpm e2e:002:both"],"legalInputs":["same-engine current 001 end save","normal movement into s003/e56","isolated fresh restore context"],"businessOracle":{"type":"inn-guest-reward-and-restore","assertions":["20行正文/说话人完整","cash 0→500且三苗人真实进房","结束档在新上下文恢复并保留房内状态"]},"dedupe":{"result":"reviewed","against":["e2e-001","e2e-003","docs/testing/e2e/stages/002-inn-guests-and-reward"],"notes":"e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-002.json"}
 -->
 
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
+2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
+
 # 002 — 客栈路线、住客与赏银核心
+
+## 2026-10-08 当前验收：复用新录制，统一比较器离线通过
+
+当前录制为`game-002-2026-10-07T14-25-54-268Z`及`reforge-002-2026-10-07T14-25-54-280Z`，
+来自两轨14:24真实001存档，20行正文/500赏银/三名苗人进房/正式存读档均已通过。
+本次未重新启动浏览器；`build/e2e/002-offline-frozen-20261008.json`为0未决差异，
+10项逐项有因果解释的既有合理差异。五个有限run的结束与李大娘trigger替换链均核；35/35反例拒绝。
+前驱哈希、复用证明、独立复核及质量门见
+[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-当前结果基础设施离线收口001003统一判定通过)。
+下文原批次结论为历史记录，不追溯改写。
+
+2026-10-06 SAVE12 采集/消费合同源核验：前驱与交接入口只收当前SAVE12；assertInnEvidence 把worldRenders纳入全局顺序，按sceneVisit/scene/id分离实体连续性。collector保留每次世界绘制时钟和相同姿态span，时钟独立60,000条；Game drawn与Reforge selected/world-pass-only分开。20行正文、0→500奖励偏序与三苗人真实进房判据保留。本次只核源码，未新跑或升级旧运行结论。
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 本步已追加冻结后的采集器/消费合同源核验，范围见本页最新说明；动态运行与旧回执不因源码核验升级。
+
+2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。
 
 ## 2026-10-04 文档深审
 
 旧段落混写 content21/SAVE9 与后续 SAVE10，须按每轮历史回执理解。内部实体编号只用于源定位，当前业务名为客栈住客与赏银。
 
-当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
 
 
 ## 用户边界与两块验证

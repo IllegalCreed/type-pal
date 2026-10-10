@@ -104,7 +104,18 @@ test('first-day greeting dispatches independent kitchen movement and first begga
       selection: { kind: 'use', value: 'beggar-first-talk' },
     },
   ])
-  expect(first.commands.filter((c) => c.kind === 'wait').map((c) => c.ms)).toEqual([240, 160, 80])
+  expect(first.commands.filter((c) => c.kind === 'wait').map((c) => c.ms)).toEqual([
+    100, 600, 400, 200,
+  ])
+  expect(first.commands.slice(1, 5)).toEqual([
+    { kind: 'faceEntityToParty', target: { scene: 's003', entity: 'e56' } },
+    { kind: 'setEntityFrame', target: { scene: 's003', entity: 'e56' }, frame: 0 },
+    { kind: 'clearDialog' },
+    { kind: 'wait', ms: 100 },
+  ])
+  expect(first.commands.some((c) => c.kind === 'takeEntity' || c.kind === 'releaseEntity')).toBe(
+    false,
+  )
   expect(first.cursors.at(-1)).toEqual({ kind: 'stage', stage: 'remind-kitchen' })
   expect(
     (await run(flow('s003', 'e56', 'trigger', 'greet-after-guests'), 'remind-kitchen')).rows,
@@ -143,15 +154,13 @@ test('kitchen command sequence moves the hallway mother three times before showi
       [129, 66],
       [129, 61],
       [124, 61],
-    ].flatMap(([col, row]) => [
-      {
-        kind: 'moveEntity',
-        target: { scene: 's003', entity: 'e56' },
-        to: { col, row, height: 0 },
-        speed: 'normal',
-      },
-      { kind: 'wait', ms: 100 },
-    ]),
+    ].map(([col, row]) => ({
+      kind: 'moveEntity',
+      target: { scene: 's003', entity: 'e56' },
+      to: { col, row, height: 0 },
+      speed: 'normal',
+    })),
+    { kind: 'wait', ms: 100 },
     { kind: 'setEntityState', state: 2, target: { scene: 's001', entity: 'e19' } },
     { kind: 'wait', ms: 100 },
     { kind: 'setEntityState', state: 0, target: { scene: 's003', entity: 'e56' } },
@@ -192,12 +201,14 @@ test('first beggar conversation arms serving and dishes between refusal and fina
 test('003 serving instruction arms an executable 004 handoff, but never activates it or grants wine', async () => {
   const result = await run(flow('s001', 'e19', 'trigger', 'serve-guests'))
   expect(result.rows).toEqual(['dlg.126', 'dlg.127'])
-  expect(result.commands.at(-1)).toEqual({
-    kind: 'selectEntityBehavior',
-    target: { scene: 's001', entity: 'e20' },
-    channel: 'trigger',
-    selection: { kind: 'use', value: 'take-dishes' },
-  })
+  expect(result.commands.filter((command) => command.kind === 'selectEntityBehavior')).toEqual([
+    {
+      kind: 'selectEntityBehavior',
+      target: { scene: 's001', entity: 'e20' },
+      channel: 'trigger',
+      selection: { kind: 'use', value: 'take-dishes' },
+    },
+  ])
   expect(
     result.commands.some((c) =>
       ['giveItem', 'setActorAppearance', 'setEntityState'].includes(c.kind),

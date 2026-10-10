@@ -106,7 +106,7 @@ test('two real moving instances cross the strict half-grid boundary, including a
   await advance(host, () => state().world.money === 60)
   expect(state().entities.find((entity) => entity.id === 'walker')!.pos.col).toBeGreaterThan(4.75)
   for (let i = 0; i < 5; i++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
   }
   expect(state().world.money).toBe(60)

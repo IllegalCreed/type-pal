@@ -87,6 +87,8 @@ export interface ScriptHost {
   fleeBattle(): void
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
+  /** Explicit one-shot turn using live ground-plane positions; no pose/control changes. */
+  faceEntityToParty(entity: string): void
   setEntityFrame(entity: string, frame: number): void
   /** 播放实体当前精灵的预制动作；单次 Promise 在动作完成/被替换/停止时兑现。 */
   playEntityAction(

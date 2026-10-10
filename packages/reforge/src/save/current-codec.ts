@@ -113,5 +113,35 @@ export function normalizeCurrentSave(
     references,
     'payload.world.entityLifecycles',
   )
+  for (const [sceneId, saved] of Object.entries(payload.sceneRuntime)) {
+    const ids = references.get(sceneId)
+    if (!ids) throw new Error(`payload.sceneRuntime.${sceneId}: 场景不存在`)
+    for (const [id, pose] of Object.entries(saved.entities)) {
+      if (!ids.has(id)) throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 实体不存在`)
+      if (!payload.world.script?.entityPos?.[sceneId]?.[id])
+        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 缺少同步保存的位置`)
+      if (pose.motion.move && !saved.automatic[pose.motion.move.owner])
+        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 移动缺少自动脚本续跑身份`)
+      if (pose.motion.move && !saved.automatic[pose.motion.move.owner]?.cursor.resume)
+        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 移动缺少正在执行的指令`)
+      if (pose.motion.gait?.owner && !saved.automatic[pose.motion.gait.owner])
+        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 步态缺少自动脚本续跑身份`)
+    }
+    for (const [id, automatic] of Object.entries(saved.automatic)) {
+      const cursor = payload.world.script?.behaviors.entities?.[sceneId]?.[id]?.auto?.cursor
+      if (!ids.has(id) || !cursor || JSON.stringify(cursor) !== JSON.stringify(automatic.cursor))
+        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 自动脚本续跑身份不一致`)
+      if (automatic.wait && !cursor.resume)
+        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 等待缺少正在执行的指令`)
+    }
+    for (const action of saved.actions) {
+      if (!ids.has(action.entity))
+        throw new Error(`payload.sceneRuntime.${sceneId}: 动作实体不存在`)
+      for (const track of [action.override, ...(action.completed ?? [])]) {
+        if (track?.source === 'automatic' && (!track.owner || !saved.automatic[track.owner]))
+          throw new Error(`payload.sceneRuntime.${sceneId}.${action.entity}: 动作缺少自动脚本身份`)
+      }
+    }
+  }
   return payload
 }

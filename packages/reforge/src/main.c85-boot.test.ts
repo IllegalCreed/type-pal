@@ -31,7 +31,7 @@ test('C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性
   const fixture = await shellProject({ first })
   const { bootGame } = await import('./main.js')
   await bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
-  host.frame()
+  await host.frame()
   // 公开观测:runtime observation 的场景 + canvas DEV dataset 的探针(DOM 面)
   expect(observation().sceneId).toBe('a')
   const canvas = document.querySelector<HTMLCanvasElement>('canvas#screen')
@@ -48,7 +48,7 @@ test('C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观
   const fixture = await shellProject()
   const { bootGame } = await import('./main.js')
   await bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
-  host.frame()
+  await host.frame()
   expect(observation().sceneId).toBe('a')
   const canvas = document.querySelector<HTMLCanvasElement>('canvas#screen')
   const probe = JSON.parse(canvas?.dataset.rfMotionEntity ?? '{}') as { present: boolean }
@@ -64,7 +64,7 @@ test('C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开
       kind: 'project',
       projectId: 'shell-project',
     })
-    host.frame()
+    await host.frame()
     expect(observation().sceneId).toBe('a')
   } finally {
     vi.unstubAllGlobals()

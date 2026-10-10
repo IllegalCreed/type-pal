@@ -5,16 +5,26 @@ evidence: e2e/evidence/e2e-004.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-004","sourceRefs":[{"path":"scripts/e2e/meal-game.mjs","lines":"3-3","anchor":"await runMealJourney","role":"caller","sha256":"a922f13f014cb4923e0f3ede5d7ddcacc030d892a75a8aeb86cf202d478aad8f"},{"path":"scripts/e2e/meal-contract.mjs","lines":"261-278","anchor":"export function validateMealPredecessor(","role":"input","sha256":"1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"},{"path":"scripts/e2e/meal-contract.mjs","lines":"182-197","anchor":"export function assertMealSuite(","role":"oracle","sha256":"1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"},{"path":"scripts/e2e/meal-contract.mjs","lines":"596-613","anchor":"export function assertMealGameSaveInput(","role":"oracle","sha256":"1fbbc8118cdd2a5304c40419f6bd3371ad274b1d2771643877d849ee7a8a2182"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:004","pnpm e2e:004:reforge","pnpm e2e:004:both"],"legalInputs":["same-engine current 003 kitchen save","normal menu use","isolated save/restore case"],"businessOracle":{"type":"meal-gift-continuity","assertions":["story/items/saves 六 case 分开","取消/错误 use 不扣酒","赠酒正文、消失、喊话后恢复移动"]},"dedupe":{"result":"reviewed","against":["e2e-003","e2e-005","e2e/stages/004-meal/report.md#历史"],"notes":"旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-004.json"}
+{"schemaVersion":2,"id":"e2e-004","sourceRefs":[{"path":"scripts/e2e/meal-game.mjs","lines":"3-3","anchor":"await runMealJourney","role":"caller","sha256":"a922f13f014cb4923e0f3ede5d7ddcacc030d892a75a8aeb86cf202d478aad8f"},{"path":"scripts/e2e/meal-contract.mjs","lines":"395-415","anchor":"export function validateMealPredecessor(","role":"input","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"scripts/e2e/meal-contract.mjs","lines":"302-325","anchor":"export function assertMealSuite(","role":"oracle","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"scripts/e2e/meal-contract.mjs","lines":"744-769","anchor":"export function assertMealGameSaveInput(","role":"oracle","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/meal-contract.mjs","lines":"685-732","anchor":"export function assertMealCollector(","role":"collector consumer","sha256":"811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad"},{"path":"scripts/e2e/meal-observer.mjs","lines":"1-115","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63"}],"publicCallers":["pnpm e2e:004","pnpm e2e:004:reforge","pnpm e2e:004:both"],"legalInputs":["same-engine current 003 kitchen save","normal menu use","isolated save/restore case"],"businessOracle":{"type":"meal-gift-continuity","assertions":["story/items/saves 六 case 分开","取消/错误 use 不扣酒","赠酒正文、消失、喊话后恢复控制权"]},"dedupe":{"result":"reviewed","against":["e2e-003","e2e-005","e2e/stages/004-meal/report.md#历史"],"notes":"旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-004.json"}
 -->
 
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
+2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
+
 # 004 · 端菜、送菜与使用桂花酒赠道士
+
+2026-10-06 采集/消费合同源核验：assertMealCollector 同时核worldRenders、提交/对白/菜单/输入/存读列表的序号和全局顺序；NPC连续性按sceneVisit区分，party连续链保留。collector的世界绘制时钟独立60,000条，稳定姿态保留span，Game drawn与Reforge selected/world-pass-only有别。六case和保存输入断言未被帧证据替代；story/saves以真实storyEndControl收口，不再要求尾部测试走位。本次未新跑E2E。
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。
+
+2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。
 
 ## 2026-10-04 文档深审
 
 9a488c02 六 case 是旧版本历史执行；不能把当前 canonical 22/11 倒填到旧回执。receipt-model-only 复核不等于新增实跑。
 
-当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
 
 
 ## 当前状态
@@ -24,6 +34,9 @@ evidence: e2e/evidence/e2e-004.json
 当前六份真实case均已passed，同revision/source/各自同003前驱；Root逐项复算原字节和完整存读证据。
 原both比较器曾错误拒绝浏览器advisory，已恢复原factory规则并只读重新汇总六份原回执，不改历史failed报告。
 最新统一质量门与6012交付见下文；录屏/音轨和用户连续观感仍独立验收，历史通过记录不追溯改写。
+
+
+2026-10-06：按用户要求删除剧情结束后的 `control-move` 测试走位；正文结束并恢复控制时原地收口，终点取执行器完成后的真实世界，不取最后路线采样。存读专项仍独立验证；下文历史回执中的尾部移动仅代表当时执行。
 
 ## 独立执行入口
 
@@ -39,7 +52,7 @@ pnpm e2e:004:both --game-report /绝对路径/game-003/report.json --reforge-rep
 
 | case | 独立范围 | 检查点合同 |
 | --- | --- | --- |
-| story | 正常取菜→送菜→菜单赠酒→完整40行→真实恢复移动，不插专项或保存读档 | 仅live结束World/画面，不生成005前驱 |
+| story | 正常取菜→送菜→菜单赠酒→完整40行→恢复控制权，不插专项或保存读档 | 仅live结束World/画面，不生成005前驱 |
 | items | 从真实003正常取菜/送菜，验证取消与错误use不耗酒/不改绑定 | 酒仍1、道士可见；不冒充完整赠酒 |
 | saves | 慢读姿态、端菜208中途存读、完整成功剧情末尾存读 | 唯一产生合法`004.end.save.json`的case |
 

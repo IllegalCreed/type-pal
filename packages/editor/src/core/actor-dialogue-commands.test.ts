@@ -37,7 +37,7 @@ function state(): EditorState {
           startWorld: { party: [], money: 0, inventory: [] },
         },
       ],
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
     },
     scenes: [
       {

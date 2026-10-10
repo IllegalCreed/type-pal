@@ -14,14 +14,14 @@
       "lines": "2-9",
       "anchor": "import { spawn }",
       "role": "caller",
-      "sha256": "2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"
+      "sha256": "91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
     }
   ],
   "publicCallers": [
@@ -65,6 +65,8 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。",
+    "2026-10-06：核读并更新 opening-both 当前调用方哈希；001/003 已补 NPC 帧比较入口，005 已补遗漏人物。独立走通不等于帧对比通过；新实跑的未决差异见 E2E-CONTINUOUS-001-006 任务卡，不升级下方历史验收。",
     "合同硬门中的旧平面报告名应由 catalog canonical 解析。capture、路线、存读与 NPC 演出门分别保留。"
   ],
   "artifacts": [],

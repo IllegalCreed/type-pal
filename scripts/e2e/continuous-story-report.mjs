@@ -1,17 +1,23 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import {
+  assertContinuousTapeBinding,
+  prepareContinuousAcceptance,
+} from './continuous-acceptance.mjs'
 import { continuousStoryActions, continuousStoryPlan } from './continuous-story.mjs'
 
 const args = process.argv.slice(2),
   values = {}
 for (let i = 0; i < args.length; i++) {
   const key = args[i]
-  assert(['--game', '--reforge', '--out'].includes(key), `unknown argument ${key}`)
+  assert(['--game', '--reforge', '--out', '--acceptance'].includes(key), `unknown argument ${key}`)
   assert(args[i + 1] && !args[i + 1].startsWith('--'), `missing value for ${key}`)
   values[key] = resolve(args[++i])
 }
-for (const key of ['--game', '--reforge', '--out']) assert(values[key], `${key} is required`)
+for (const key of ['--game', '--reforge', '--out', '--acceptance'])
+  assert(values[key], `${key} is required`)
 
 const readReports = async (path) => {
   const value = JSON.parse(await readFile(path, 'utf8'))
@@ -37,7 +43,20 @@ const receipt = {
   boundary: { fragmentLoad: false, fragmentSave: false },
   plan,
   actions,
+  acceptance: await Promise.all(
+    JSON.parse(await readFile(values['--acceptance'], 'utf8')).map(async (path) => {
+      const bytes = await readFile(resolve(path))
+      return {
+        fragment: JSON.parse(bytes).fragment,
+        path: resolve(path),
+        sha256: createHash('sha256').update(bytes).digest('hex'),
+      }
+    }),
+  ),
 }
+const { validated, handoffs } = await prepareContinuousAcceptance(receipt.acceptance)
+receipt.handoffs = handoffs
+assertContinuousTapeBinding(receipt, validated, handoffs)
 await mkdir(resolve(values['--out'], '..'), { recursive: true })
 await writeFile(values['--out'], `${JSON.stringify(receipt, null, 2)}\n`)
 console.log(`[continuous story] ${values['--out']}`)

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import ts from 'typescript'
 import { instrumentKitchenTrace, KITCHEN_TRACE_TARGETS } from './kitchen-trace-plugin.mjs'
+import { instrumentGameRestore } from './scene-lifecycle-trace.mjs'
 
 export const MEAL_TRACE_TARGETS = [
   ...KITCHEN_TRACE_TARGETS,
@@ -17,12 +18,16 @@ export function instrumentMealTrace(source, file) {
       ? { code: source, anchors: {} }
       : instrumentKitchenTrace(source, file)
   result.code = result.code.replaceAll('__kitchen', '__meal')
+  if (file.endsWith('/game/src/shell/bootstrap.ts')) {
+    result.code = instrumentGameRestore(result.code, file, '__mealGameRestored')
+    result.anchors.actualGameRestore = 1
+  }
   result.code = result.code
     .replaceAll("['e19','e20','e24','e25','e26']", "['e15','e16','e19','e20','e24','e25','e26']")
     .replaceAll("['e19','e20']", "['e15','e16','e19','e20','e24','e25','e26']")
     .replace(
       'sprite:e.sprite??e.actor??null',
-      'sprite:e.sprite??e.actor??null,frame:worldPresentation.entityFrame(id)??entityActions.frame(id)??0',
+      'sprite:e.sprite??e.actor??null,frame:worldPresentation.renderedEntityFrame?.(id)??worldPresentation.entityFrame(id)??entityActions.frame(id)??0',
     )
   const ast = ts.createSourceFile(file, result.code, ts.ScriptTarget.Latest, true)
   const edits = [],
@@ -142,7 +147,12 @@ export function instrumentMealTrace(source, file) {
       ts.isCallExpression(node) &&
       node.expression.getText(ast) === 'activeScene.commit'
     ) {
-      assert.equal(node.arguments.length, 1, 'meal scene materialization arguments changed')
+      assert.equal(node.arguments.length, 2, 'meal scene materialization arguments changed')
+      assert.equal(
+        node.arguments[1].getText(ast),
+        'restoreActions',
+        'meal scene action restore changed',
+      )
       assert.equal(
         node.arguments[0].getText(ast),
         'plan',

@@ -1,6 +1,7 @@
 import { type GridPos, gridToPixel } from '@type-pal/content'
 import type { SceneViewBounds } from './active-scene.js'
 import { asyncIntentAbortError } from './async-intent.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 interface Pan {
   fromX: number
@@ -49,7 +50,7 @@ export class WorldCamera {
   }
 
   pan(dx: number, dy: number, frames: number, signal: AbortSignal): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       if (signal.aborted) throw asyncIntentAbortError('相机移动所属 runner 已取消')
       let settled = false
       const entry: Pan = {

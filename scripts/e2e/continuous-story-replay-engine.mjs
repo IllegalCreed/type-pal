@@ -1,13 +1,29 @@
 import assert from 'node:assert/strict'
-import { readFile, writeFile } from 'node:fs/promises'
+import { appendFile, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { runBrowserJourney } from './browser-journey.mjs'
-import { assertContinuousCheckpoint, CONTINUOUS_STORY_FRAGMENTS } from './continuous-story.mjs'
-import { navigateInnRoute } from './inn-navigation.mjs'
-import { readInnGame, readInnReforge } from './inn-observer.mjs'
-import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
-import { shouldAwaitContinuousSettlement } from './continuous-route.mjs'
+import { readCaptureWorld } from './capture-local.mjs'
+import {
+  installCommittedRoutePlayback,
+  replayCommittedRoute,
+  replayFacingInput,
+} from './committed-route.mjs'
+import { assertContinuousAcceptance } from './continuous-acceptance.mjs'
+import { continuousJourneyBudget, manualInteractionTarget } from './continuous-action-policy.mjs'
+import {
+  assertContinuousWorldCheckpoint,
+  assertRecordedStoryEndpoint,
+} from './continuous-checkpoint.mjs'
+import { waitContinuousPreflightRelease } from './continuous-preflight-gate.mjs'
+import {
+  assertContinuousCheckpoint,
+  CONTINUOUS_STORY_FRAGMENTS,
+  continuousPlaybackActions,
+} from './continuous-story.mjs'
+import { innCausalObserverScript, readInnGame, readInnReforge } from './inn-observer.mjs'
+import { assertInputLedger, withRecordedInputSession } from './input-ledger.mjs'
+import { readKitchenContract } from './kitchen-contract.mjs'
 
 const args = process.argv.slice(2),
   engine = args.includes('--reforge') ? 'reforge' : 'game',
@@ -17,8 +33,11 @@ const args = process.argv.slice(2),
   tapePath = args[args.indexOf('--tape') + 1]
 assert(tapePath, 'continuous replay requires --tape')
 const tape = JSON.parse(await readFile(resolve(tapePath), 'utf8'))
+const acceptance = await assertContinuousAcceptance(tape)
 assert.equal(tape.mode, 'story-only')
 const entries = tape.actions[engine]
+const contract = await readKitchenContract()
+const worldCheckpoints = new Map()
 assert.deepEqual(
   entries.map((entry) => entry.fragment),
   CONTINUOUS_STORY_FRAGMENTS.map(({ id }) => id),
@@ -27,8 +46,15 @@ assert.deepEqual(
 const read =
   engine === 'game' ? () => page.evaluate(readInnGame) : () => page.evaluate(readInnReforge)
 let page
-let previousAtMs = null
-const report = { engine, mode: 'continuous', storyOnly: true, fragments: [], actions: [] }
+const report = {
+  engine,
+  mode: 'continuous',
+  storyOnly: true,
+  acceptance,
+  fragments: [],
+  actions: [],
+  operations: [],
+}
 const stateKey = (state) =>
   JSON.stringify(
     engine === 'game'
@@ -58,6 +84,8 @@ const isDialogueWaiting = (state) =>
     : state.runtime?.dialogue?.phase === 'waiting-input'
 const isDialogueAction = (action) =>
   /dialogue|confirmation|interact|dialog|full-dialogue|rendered/iu.test(String(action.reason ?? ''))
+const isMenuAction = (action) =>
+  /menu navigation toward|selected wine use|menu cancel/iu.test(String(action.reason ?? ''))
 const isContinuousBoundaryReady = (state) =>
   engine === 'game'
     ? state.ready &&
@@ -76,227 +104,11 @@ const isContinuousBoundaryReady = (state) =>
       !state.runtime.battleActive &&
       state.runtime.fadeBlack === 0 &&
       !state.runtime.ditherActive
-const routeTargetReached = (state, target) => {
-  if (!target) return true
-  const expectedScene = engine === 'game' ? Number(target.scene.slice(1)) + 1 : target.scene
-  const actualScene = engine === 'game' ? state.scene : state.scene
-  const acceptedScenes = (target.acceptScenes ?? [target.scene]).map((scene) =>
-    engine === 'game' ? Number(scene.slice(1)) + 1 : scene,
-  )
-  if (!acceptedScenes.includes(actualScene)) return false
-  if (!target.position) return actualScene === expectedScene
-  const actual =
-    engine === 'game'
-      ? state.position
-      : state.runtime?.position
-        ? [state.runtime.position.col, state.runtime.position.row, state.runtime.position.height]
-        : null
-  if (!Array.isArray(actual) || actual.length < target.position.length) return false
-  // A standalone receipt records the last committed cell, but a continuous
-  // page may enter a long semantic leg with background NPCs one cell apart.
-  // Short legs and turns must stay within half a cell or the next direction
-  // starts from the wrong corner and can deadlock the live route.
-  const tolerance =
-    engine === 'game'
-      ? target.effect
-        ? 8
-        : (target.committedSteps ?? 0) <= 5
-          ? 8
-          : 24
-      : 0.2
-  return (
-    Math.hypot(
-      ...target.position.slice(0, 2).map((value, index) => Number(actual[index]) - Number(value)),
-    ) <= tolerance
-  )
-}
-const SCENE_BOUNDARY_POSITIONS = {
-  s001: { s003: [60, -13] },
-  s002: { s003: [86, 12] },
-  s003: { s001: [124, 62], s004: [137, 76] },
-  s004: { s005: [140, 26] },
-  s005: { s014: [126, 52] },
-}
-const DIRECT_SCENE_BOUNDARY_STARTS = {
-  's003>s001': [124, 62],
-}
-const hasDialogue = (state) => (engine === 'game' ? !!state.dialog : !!state.runtime?.dialogue)
-const driveRouteTarget = async (action, _entry, until, health) => {
-  const target = action.routeTarget
-  if (!target) return
-  let current = await read()
-  if (!isContinuousBoundaryReady(current))
-    current = await until(
-      read,
-      (next) => isContinuousBoundaryReady(next),
-      `continuous route settles before ${action.key}`,
-      30000,
-    )
-  if (routeTargetReached(current, target)) return
-  if (target.phaseStart) {
-    const phaseTarget = { ...target, position: target.phaseStart, phaseStart: undefined }
-    if (target.phaseStartPassive)
-      await until(
-        read,
-        (next) => routeTargetReached(next, phaseTarget),
-        `continuous passive phase start ${_entry.fragment}`,
-        15000,
-      )
-    else await driveRouteTarget({ ...action, routeTarget: phaseTarget }, _entry, until, health)
-    if (hasDialogue(await read())) return
-    if (routeTargetReached(await read(), target)) return
-  }
-  if (target.inputKey) {
-    await page.keyboard.down(target.inputKey)
-    try {
-      const inputGoal = shouldAwaitContinuousSettlement(target) ? target.settled : target
-      await until(
-        read,
-        (next) => routeTargetReached(next, inputGoal) || hasDialogue(next),
-        `continuous held route ${target.inputKey}`,
-        30000,
-      )
-    } finally {
-      await page.keyboard.up(target.inputKey)
-    }
-    // A standalone receipt's settled point is captured after its save/load
-    // boundary. Continuous mode keeps the live scene entry state instead, so
-    // a cross-scene route must hand off at the new scene/control barrier and
-    // let the next semantic leg route from that real in-memory position.
-    if (shouldAwaitContinuousSettlement(target)) {
-      await until(
-        read,
-        (next) => routeTargetReached(next, target.settled),
-        `continuous scripted route settlement ${_entry.fragment}`,
-        15000,
-      )
-    }
-    return
-  }
-  const actualScene =
-    engine === 'game' ? `s${String(current.scene - 1).padStart(3, '0')}` : current.scene
-  const scene = target.scene
-  if (actualScene !== scene && target.position) {
-    const boundary = SCENE_BOUNDARY_POSITIONS[actualScene]?.[scene]
-    if (boundary) {
-      const directStart = DIRECT_SCENE_BOUNDARY_STARTS[`${actualScene}>${scene}`]
-      const currentGrid = kitchenGrid(current.position, engine)
-      if (
-        directStart &&
-        Math.hypot(currentGrid[0] - directStart[0], currentGrid[1] - directStart[1]) <= 2
-      ) {
-        await page.keyboard.down(action.key)
-        try {
-          await until(
-            read,
-            (next) => routeTargetReached(next, target),
-            `continuous scene boundary ${actualScene}->${scene}`,
-            15000,
-          )
-        } finally {
-          await page.keyboard.up(action.key)
-        }
-        return
-      }
-      const mapId =
-        actualScene === 's001' || actualScene === 's002'
-          ? '012'
-          : actualScene === 's003'
-            ? '010'
-            : actualScene === 's004'
-              ? '001'
-              : '002'
-      const map = JSON.parse(
-        await readFile(
-          resolve(process.cwd(), `projects/pal/content/maps/map-${mapId}.json`),
-          'utf8',
-        ),
-      )
-      const boundaryPosition =
-        engine === 'game'
-          ? [16 * (boundary[0] - boundary[1]), 8 * (boundary[0] + boundary[1])]
-          : boundary
-      await navigateInnRoute({
-        engine,
-        keyboard: page.keyboard,
-        map,
-        read,
-        until,
-        health,
-        grid: (state) => kitchenGrid(state.position, engine),
-        inScene: (state) =>
-          state.scene === (engine === 'game' ? Number(actualScene.slice(1)) + 1 : actualScene),
-        ready: (state) => kitchenReady(state, engine),
-        destination: (...position) =>
-          Math.hypot(
-            position[0] - kitchenGrid(boundaryPosition, engine)[0],
-            position[1] - kitchenGrid(boundaryPosition, engine)[1],
-          ) <= (engine === 'game' ? 1.5 : 1),
-        finished: (state) =>
-          routeTargetReached(state, { ...target, position: null }) || hasDialogue(state),
-        onInput: () => {},
-        onProgress: () => {},
-      })
-      return driveRouteTarget(action, _entry, until, health)
-    }
-  }
-  const mapId =
-    {
-      s001: '012',
-      s002: '012',
-      s003: '010',
-      s004: '001',
-      s005: '002',
-    }[scene] ?? null
-  if (!mapId || !target.position) return
-  const map = JSON.parse(
-    await readFile(resolve(process.cwd(), `projects/pal/content/maps/map-${mapId}.json`), 'utf8'),
-  )
-  const targetGrid = kitchenGrid(target.position, engine)
-  const tolerance =
-    engine === 'game' ? (target.effect ? 0.5 : 1.5) : (target.committedSteps ?? 0) <= 2 ? 2.5 : 0.2
-  const routeScenes = target.position ? [scene] : (target.acceptScenes ?? [scene])
-  try {
-    await navigateInnRoute({
-      engine,
-      keyboard: page.keyboard,
-      map,
-      read,
-      until,
-      health,
-      grid: (state) => kitchenGrid(state.position, engine),
-      inScene: (state) =>
-        routeScenes.some(
-          (candidate) =>
-            state.scene === (engine === 'game' ? Number(candidate.slice(1)) + 1 : candidate),
-        ),
-      ready: (state) => kitchenReady(state, engine),
-      destination: (col, row) => Math.hypot(col - targetGrid[0], row - targetGrid[1]) <= tolerance,
-      finished: (state) => routeTargetReached(state, target) || hasDialogue(state),
-      onInput: () => {},
-      onProgress: () => {},
-    })
-  } catch (error) {
-    console.error(
-      '[continuous route failure]',
-      JSON.stringify({ engine, fragment: _entry.fragment, target, state: await read() }),
-    )
-    if (!/no normal collision-safe inn route/u.test(String(error))) throw error
-    await page.keyboard.down(action.key)
-    try {
-      await until(
-        read,
-        (next) => routeTargetReached(next, target),
-        `continuous fallback route ${action.key}`,
-        15000,
-      )
-    } finally {
-      await page.keyboard.up(action.key)
-    }
-  }
-}
 const waitForActionReady = async (action, until) => {
   if (action.key !== 'Enter' || !isDialogueAction(action)) return
+  // Manual interaction is the input that opens the dialogue; waiting for a dialogue first
+  // deadlocks on entities such as e62/e19. Only confirmation presses wait for an existing page.
+  if (manualInteractionTarget(action)) return true
   const state = await until(
     read,
     (next) =>
@@ -324,6 +136,7 @@ const waitForActionProgress = async (before, action, until) => {
     30000,
   )
 }
+
 const waitRelease = (fragment) =>
   new Promise((resolveRelease, reject) => {
     const timer = setTimeout(
@@ -342,6 +155,8 @@ const LAYOUT_STYLE =
   'html,body{margin:0!important;width:100vw!important;height:100vh!important;overflow:hidden!important;background:#111!important;display:grid!important;place-items:center!important}' +
   '#screen{display:block!important;width:100vw!important;height:auto!important;max-width:100vw!important;max-height:100vh!important;aspect-ratio:8/5!important;object-fit:contain!important;image-rendering:pixelated!important}'
 
+await waitContinuousPreflightRelease()
+
 await runBrowserJourney({
   name: `continuous-${engine}`,
   packageName: `@type-pal/${engine}`,
@@ -351,157 +166,282 @@ await runBrowserJourney({
     ? []
     : [`--window-size=756,982`, `--window-position=${engine === 'game' ? 0 : 756},0`],
   viewport: { width: 756, height: 900 },
-  journeyTimeoutMs: hold ? 12 * 60 * 60 * 1000 : 240_000,
-  sources: ['scripts/e2e/continuous-story.mjs', 'scripts/e2e/continuous-story-replay-engine.mjs'],
+  journeyTimeoutMs: continuousJourneyBudget(entries.length, hold),
+  traceConfig:
+    engine === 'game' ? 'scripts/e2e/game-inn.config.mts' : 'scripts/e2e/reforge-inn.config.mts',
+  initScripts: [innCausalObserverScript(), installCommittedRoutePlayback],
+  sources: [
+    'scripts/e2e/continuous-story.mjs',
+    'scripts/e2e/continuous-story-replay-engine.mjs',
+    'scripts/e2e/continuous-story-replay-both.mjs',
+    'scripts/e2e/continuous-preflight-gate.mjs',
+    'scripts/e2e/committed-route.mjs',
+    'scripts/e2e/continuous-action-policy.mjs',
+    'scripts/e2e/continuous-checkpoint.mjs',
+    'scripts/e2e/inn-observer.mjs',
+    'scripts/e2e/opening-trace-plugin.mjs',
+    'scripts/e2e/scene-lifecycle-trace.mjs',
+    'packages/game/src/shell/bootstrap.ts',
+    'scripts/e2e/inn-trace-plugin.mjs',
+    'scripts/e2e/reforge-render-evidence.mjs',
+    'packages/reforge/src/world-scene-presentation.ts',
+    'packages/reforge/src/render.ts',
+  ],
   journey: async ({ newPage, baseURL, out, until, health }) => {
     page = await newPage(`continuous-${engine}`)
-    // Install before navigation so the title menu, boot overlay, video handoff and scene all
-    // share the same half-window geometry; a post-load style briefly exposes the 1280×800 RF
-    // default (and the 960×600 game default) on the main menu.
-    await page.addInitScript((css) => {
-      const install = () => {
-        if (!document.documentElement) return
-        if (document.getElementById('continuous-layout')) return
-        const style = document.createElement('style')
-        style.id = 'continuous-layout'
-        style.textContent = css
-        document.head?.appendChild(style)
-      }
-      install()
-      if (document.documentElement)
-        new MutationObserver(install).observe(document.documentElement, { childList: true })
-      else document.addEventListener('DOMContentLoaded', install, { once: true })
-    }, LAYOUT_STYLE)
-    await page.goto(engine === 'reforge' ? `${baseURL}/?menu` : baseURL)
-    await page.addStyleTag({
-      content: LAYOUT_STYLE,
-    })
-    await until(
-      async () => {
-        const optOut = page.getByRole('button', { name: '拒绝', exact: true })
-        if (await optOut.isVisible()) await optOut.click()
-        const overlay = page.getByText('点击屏幕开始 / Click to start', { exact: true })
-        if (await overlay.isVisible()) await overlay.click()
-        const video = await page.evaluate(() => document.querySelector('video')?.currentSrc ?? null)
-        if (video) {
-          await page.keyboard.press('Enter')
+    try {
+      await withRecordedInputSession({
+        keyboard: page.keyboard,
+        record: (action) => report.actions.push(action),
+        body: async (execute) => {
+          // Install before navigation so the title menu, boot overlay, video handoff and scene all
+          // share the same half-window geometry; a post-load style briefly exposes the 1280×800 RF
+          // default (and the 960×600 game default) on the main menu.
+          await page.addInitScript((css) => {
+            const install = () => {
+              if (!document.documentElement) return
+              if (document.getElementById('continuous-layout')) return
+              const style = document.createElement('style')
+              style.id = 'continuous-layout'
+              style.textContent = css
+              document.head?.appendChild(style)
+            }
+            install()
+            if (document.documentElement)
+              new MutationObserver(install).observe(document.documentElement, { childList: true })
+            else document.addEventListener('DOMContentLoaded', install, { once: true })
+          }, LAYOUT_STYLE)
+          await page.goto(engine === 'reforge' ? `${baseURL}/?menu` : baseURL)
+          await page.addStyleTag({
+            content: LAYOUT_STYLE,
+          })
           await until(
-            () => page.evaluate(() => document.querySelector('video')?.currentSrc ?? null),
-            (next) => next !== video,
-            'continuous title prelude closes',
+            async () => {
+              const optOut = page.getByRole('button', { name: '拒绝', exact: true })
+              if (await optOut.isVisible()) await optOut.click()
+              const overlay = page.getByText('点击屏幕开始 / Click to start', { exact: true })
+              if (await overlay.isVisible()) await overlay.click()
+              const video = await page.evaluate(
+                () => document.querySelector('video')?.currentSrc ?? null,
+              )
+              if (video) {
+                await execute({
+                  key: 'Enter',
+                  scope: 'boundary',
+                  phase: 'bootstrap',
+                  reason: 'close continuous title prelude',
+                })
+                await until(
+                  () => page.evaluate(() => document.querySelector('video')?.currentSrc ?? null),
+                  (next) => next !== video,
+                  'continuous title prelude closes',
+                  60000,
+                )
+                return null
+              }
+              const state = await read()
+              return engine === 'game'
+                ? state.ready && state.menu?.kind === 'opening'
+                : state.boot?.opening?.phase === 'menu' || !!state.runtime
+            },
+            Boolean,
+            'continuous browser boot',
             60000,
           )
-          return null
-        }
-        const state = await read()
-        return engine === 'game'
-          ? state.ready && state.menu?.kind === 'opening'
-          : state.boot?.opening?.phase === 'menu' || !!state.runtime
-      },
-      Boolean,
-      'continuous browser boot',
-      60000,
-    )
-    await page.screenshot({ path: resolve(out, 'continuous-title.png') })
-    for (const entry of entries) {
-      const fragmentReport = {
-        fragment: entry.fragment,
-        actions: entry.actions.length,
-        startedAt: Date.now(),
-        startState: await read(),
-      }
-      report.fragments.push(fragmentReport)
-      let consumedRouteKey = null
-      for (const action of entry.actions) {
-        health()
-        if (Number.isFinite(action.atMs) && previousAtMs !== null) {
-          const gap = Math.max(0, Math.min(3000, action.atMs - previousAtMs))
-          if (gap) await delay(gap)
-        }
-        previousAtMs = Number.isFinite(action.atMs) ? action.atMs : previousAtMs
-        const routeKey = action.routeTarget
-          ? JSON.stringify({ key: action.key, target: action.routeTarget })
-          : null
-        if (action.kind === 'up' && routeKey && routeKey === consumedRouteKey) {
-          report.actions.push({
-            fragment: entry.fragment,
-            ...action,
-            skipped: 'live-route-release',
-          })
-          consumedRouteKey = null
-          continue
-        }
-        const shouldRun = await waitForActionReady(action, until)
-        if (shouldRun === false) {
-          report.actions.push({ fragment: entry.fragment, ...action, skipped: 'already-consumed' })
-          continue
-        }
-        const before = stateKey(await read())
-        if (action.kind === 'down' && action.routeTarget?.position) {
-          await driveRouteTarget(action, entry, until, health)
-          consumedRouteKey = routeKey
-          report.actions.push({ fragment: entry.fragment, ...action, mode: 'live-route' })
-          fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
-          continue
-        }
-        if (action.kind === 'down') await page.keyboard.down(action.key)
-        else if (action.kind === 'up') await page.keyboard.up(action.key)
-        else {
-          await page.keyboard.down(action.key)
-          await page.keyboard.up(action.key)
-        }
-        report.actions.push({ fragment: entry.fragment, ...action })
-        fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
-        if (action.kind === 'up' && action.routeTarget)
-          await driveRouteTarget(action, entry, until, health)
-        if (
-          action.kind === 'up' &&
-          action.routeTarget?.expectDialogue &&
-          !hasDialogue(await read())
-        ) {
-          await page.keyboard.down(action.key)
-          try {
-            await until(read, hasDialogue, `continuous route dialogue ${entry.fragment}`, 15000)
-          } finally {
-            await page.keyboard.up(action.key)
+          await page.screenshot({ path: resolve(out, 'continuous-title.png') })
+          for (const entry of entries) {
+            const fragmentReport = {
+              fragment: entry.fragment,
+              actions: entry.actions.length,
+              startedAt: Date.now(),
+              startState: await read(),
+            }
+            report.fragments.push(fragmentReport)
+            for (const action of continuousPlaybackActions(entry.actions)) {
+              health()
+              const actionIndex = entry.actions.indexOf(action)
+              const actionState = await read(),
+                progress = {
+                  atMs: Date.now(),
+                  engine,
+                  fragment: entry.fragment,
+                  actionIndex,
+                  action,
+                  state: actionState,
+                }
+              await writeFile(
+                resolve(out, 'continuous-progress.json'),
+                `${JSON.stringify(progress, null, 2)}\n`,
+              )
+              await appendFile(
+                resolve(out, 'continuous-progress-history.jsonl'),
+                `${JSON.stringify(progress)}\n`,
+              )
+              if (action.scene && action.kind === 'down') {
+                await until(
+                  read,
+                  (next) =>
+                    next.scene ===
+                    (engine === 'game' ? Number(action.scene.slice(1)) + 1 : action.scene),
+                  `continuous route scene ${action.scene}`,
+                  30000,
+                )
+              }
+              if (action.routeReplay) {
+                try {
+                  await replayCommittedRoute({
+                    page,
+                    route: action.routeReplay,
+                    health,
+                    onInput: (event) =>
+                      report.actions.push({
+                        ...event,
+                        scope: action.scope,
+                        fragment: entry.fragment,
+                        sourceActionIndex: actionIndex,
+                        routeId: action.routeReplay.id,
+                      }),
+                  })
+                } catch (error) {
+                  await writeFile(
+                    resolve(out, 'continuous-route-failure.json'),
+                    JSON.stringify(
+                      {
+                        fragment: entry.fragment,
+                        actionIndex,
+                        action,
+                        error: String(error),
+                        state: await read(),
+                        evidence: await page.evaluate(() => window.__readInnEvidence()),
+                      },
+                      null,
+                      2,
+                    ),
+                  )
+                  throw error
+                }
+                report.operations.push({
+                  fragment: entry.fragment,
+                  sourceActionIndex: actionIndex,
+                  mode: 'committed-route',
+                })
+                fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
+                continue
+              }
+              let shouldRun
+              try {
+                if (action.holdTarget) {
+                  await replayFacingInput(page, action, (event) =>
+                    report.actions.push({
+                      ...event,
+                      scope: action.scope,
+                      fragment: entry.fragment,
+                      sourceActionIndex: actionIndex,
+                    }),
+                  )
+                  report.operations.push({
+                    fragment: entry.fragment,
+                    sourceActionIndex: actionIndex,
+                    mode: 'facing-hold',
+                  })
+                  fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
+                  continue
+                }
+                shouldRun = await waitForActionReady(action, until)
+              } catch (error) {
+                await writeFile(
+                  resolve(out, 'continuous-action-failure.json'),
+                  `${JSON.stringify(
+                    {
+                      engine,
+                      fragment: entry.fragment,
+                      actionIndex,
+                      action,
+                      state: await read(),
+                      innEvidence: await page.evaluate(() => window.__readInnEvidence?.() ?? null),
+                      error: String(error),
+                    },
+                    null,
+                    2,
+                  )}\n`,
+                )
+                throw error
+              }
+              if (shouldRun === false) {
+                report.operations.push({
+                  fragment: entry.fragment,
+                  sourceActionIndex: actionIndex,
+                  skipped: 'already-consumed',
+                })
+                continue
+              }
+              const before = stateKey(await read())
+              await execute({ ...action, fragment: entry.fragment, sourceActionIndex: actionIndex })
+              fragmentReport.actionsApplied = (fragmentReport.actionsApplied ?? 0) + 1
+              await waitForActionProgress(before, action, until)
+              await delay(isMenuAction(action) ? 120 : action.key === 'Enter' ? 80 : 20)
+            }
+            const state = await until(
+              read,
+              (next) => {
+                try {
+                  assertContinuousCheckpoint(entry.fragment, engine, next)
+                  return isContinuousBoundaryReady(next)
+                } catch {
+                  return false
+                }
+              },
+              `continuous ${entry.fragment} semantic boundary`,
+              90000,
+            )
+            const checkpoint = assertContinuousCheckpoint(entry.fragment, engine, state)
+            const independent = tape.plan.fragments.find(
+              (fragment) => fragment.id === entry.fragment,
+            ).engines[engine]
+            const world = await readCaptureWorld(page, engine)
+            await writeFile(
+              resolve(out, `continuous-${entry.fragment}-checkpoint.json`),
+              `${JSON.stringify({ engine, fragment: entry.fragment, state, world }, null, 2)}\n`,
+            )
+            assertRecordedStoryEndpoint(state, engine, independent)
+            assertContinuousWorldCheckpoint({
+              fragment: entry.fragment,
+              engine,
+              payload: world,
+              predecessor: worldCheckpoints.get('002'),
+              contract,
+            })
+            worldCheckpoints.set(entry.fragment, world)
+            fragmentReport.state = state
+            fragmentReport.checkpoint = checkpoint
+            fragmentReport.finishedAt = Date.now()
+            await page.screenshot({
+              path: resolve(out, `continuous-${entry.fragment}-checkpoint.png`),
+            })
+            if (process.send) process.send({ checkpoint: entry.fragment, engine, state })
+            if (stopAt === entry.fragment) {
+              await writeFile(
+                resolve(out, 'continuous-report.json'),
+                `${JSON.stringify(report, null, 2)}\n`,
+              )
+              return
+            }
+            if (entry.fragment !== '006') await waitRelease(entry.fragment)
           }
-        }
-        await waitForActionProgress(before, action, until)
-        await delay(action.key === 'Enter' ? 80 : 20)
-      }
-      const state = await until(
-        read,
-        (next) => {
-          try {
-            assertContinuousCheckpoint(entry.fragment, engine, next)
-            return isContinuousBoundaryReady(next)
-          } catch {
-            return false
-          }
+          if (hold) await waitRelease('finish')
         },
-        `continuous ${entry.fragment} semantic boundary`,
-        90000,
-      )
-      const checkpoint = assertContinuousCheckpoint(entry.fragment, engine, state)
-      fragmentReport.state = state
-      fragmentReport.checkpoint = checkpoint
-      fragmentReport.finishedAt = Date.now()
+      })
+      assertInputLedger(report.actions, { requireReceipts: true })
+      report.status = 'passed'
+    } catch (error) {
+      report.status = 'failed'
+      report.error = String(error)
+      throw error
+    } finally {
       await writeFile(
-        resolve(out, `continuous-${entry.fragment}-checkpoint.json`),
-        `${JSON.stringify({ engine, fragment: entry.fragment, state }, null, 2)}\n`,
+        resolve(out, 'continuous-report.json'),
+        `${JSON.stringify(report, null, 2)}\n`,
       )
-      await page.screenshot({ path: resolve(out, `continuous-${entry.fragment}-checkpoint.png`) })
-      if (process.send) process.send({ checkpoint: entry.fragment, engine, state })
-      if (stopAt === entry.fragment) {
-        await writeFile(
-          resolve(out, 'continuous-report.json'),
-          `${JSON.stringify(report, null, 2)}\n`,
-        )
-        return
-      }
-      if (entry.fragment !== '006') await waitRelease(entry.fragment)
     }
-    if (hold) await waitRelease('finish')
-    await writeFile(resolve(out, 'continuous-report.json'), `${JSON.stringify(report, null, 2)}\n`)
   },
 })

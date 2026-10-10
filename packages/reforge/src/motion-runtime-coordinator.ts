@@ -68,8 +68,7 @@ export class MotionRuntimeCoordinator<
   }
 
   releaseAllAuthority(): void {
-    for (const actorId of [...this.authority.keys()]) this.bumpAuthority(actorId)
-    this.authority.clear()
+    for (const actorId of [...this.authority.keys()]) this.releaseAuthority(actorId)
   }
 
   canCommit(actorId: string, authorityStamp: number): boolean {

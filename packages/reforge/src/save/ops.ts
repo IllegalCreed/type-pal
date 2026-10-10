@@ -1,5 +1,6 @@
 import type { AssetId, CharacterInstance, Facing, GridPos, WorldState } from '@type-pal/content'
 import { CONTENT_VERSION } from '@type-pal/content'
+import type { SceneRuntimeStates } from '../scene-runtime-state.js'
 import {
   type CurrentSavePayload,
   SAVE_VERSION,
@@ -35,8 +36,16 @@ export function buildCurrentSavePayload(
   world: WorldState,
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
+  sceneRuntime: SceneRuntimeStates = {},
 ): CurrentSavePayload {
-  return { version: SAVE_VERSION, projectId, contentVersion: CONTENT_VERSION, world, position }
+  return {
+    version: SAVE_VERSION,
+    projectId,
+    contentVersion: CONTENT_VERSION,
+    world,
+    position,
+    sceneRuntime,
+  }
 }
 
 export interface RestoredMusicDecision {

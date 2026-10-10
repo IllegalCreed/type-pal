@@ -95,7 +95,11 @@ describe('ED-3 PAL project reference index', () => {
 
     // SCRIPT-GOV-2 folds repeated author targets into structural loops. Pin the current census
     // while retaining every deletion blocker and independent collector/index parity gate below.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_666)
+    // Current E2E choreography includes aunt takeover/auto, four exact motion milestones,
+    // explicit ownership and facing. The 002 zero-distance opener adds explicit facing/frame targets.
+    // Current automatic-loop compression and withdrawn island hold change the census.
+    // Recount through the production loader/projection; retain the independent blocker parity below.
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_660)
     expect(
       diagnostics.entityAddressReferences.filter(
         (reference) =>
@@ -150,7 +154,7 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_356)
+    expect(actualEntityBlockers).toHaveLength(4_368)
 
     expect(
       edges.filter(
@@ -451,9 +455,9 @@ describe('ED-3 PAL project reference index', () => {
         relation: { kind: 'world-sprite-use' },
       },
     ])
-    // E2E-002 declares one persistent open-page action on each inn door. Keep exact census and
-    // owner/locator identities, not just the +2 count; all collector/index parity gates below stay.
-    expect(worldSpriteActionEdges).toHaveLength(399)
+    // Inn open pages and the landed-grain idle page contribute author action references.
+    // Keep exact census and owner/locator identities; all collector/index parity gates below stay.
+    expect(worldSpriteActionEdges).toHaveLength(400)
     expect(
       worldSpriteActionEdges
         .filter(
@@ -711,7 +715,7 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_234)
+    ).toBe(4_235)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -723,7 +727,7 @@ describe('ED-3 PAL project reference index', () => {
             : '',
         ),
       ).size,
-    ).toBe(37)
+    ).toBe(38)
     expect(
       index.referencesTo({
         kind: 'world-sprite-action',
@@ -767,7 +771,27 @@ describe('ED-3 PAL project reference index', () => {
       },
     ])
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_450)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_451)
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's001',
+        entityId: 'e10',
+        channel: 'auto',
+        behaviorId: 'leave-bedroom',
+      }),
+    ).toMatchObject([
+      {
+        relation: { kind: 'behavior-reference', use: 'page-binding' },
+        locator: {
+          kind: 'scene-page',
+          sceneId: 's001',
+          entityId: 'e10',
+          pageId: 'default',
+          channel: 'auto',
+        },
+      },
+    ])
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -885,8 +909,8 @@ describe('ED-3 PAL project reference index', () => {
         deletePolicy: 'replace-suggest',
       },
     ])
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_201)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_104)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_215)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_121)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

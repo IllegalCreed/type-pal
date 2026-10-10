@@ -16,6 +16,44 @@ export interface EntityActionSeed extends ResolvedEntityAction {
 
 export type EntityActionSource = 'automatic' | 'script'
 
+/** Logical timeline state only; definitions and runtime owners are resolved again on restore. */
+export interface EntityActionTrackSnapshot {
+  binding: SpriteActionBinding
+  source: EntityActionSource
+  /** Whether the invoking script awaits this command, independently of timeline loop mode. */
+  awaited: boolean
+  /** Stable automatic-behavior owner in this scene, never a runtime activation epoch. */
+  owner?: string
+  stepIndex: number
+  elapsedInStepMs: number
+  finished: boolean
+  pendingLoopStartAtMs?: number
+}
+
+export interface EntityActionSnapshot {
+  entity: string
+  base?: EntityActionTrackSnapshot
+  override?: EntityActionTrackSnapshot
+  /** Normally fulfilled commands awaiting cursor acknowledgement, not necessarily final frames. */
+  completed?: EntityActionTrackSnapshot[]
+}
+
+export interface EntityActionCaptureOptions {
+  /** Only the host knows which fulfilled command still belongs to an awaited continuation. */
+  includeCompleted?(
+    entity: string,
+    binding: Readonly<SpriteActionBinding>,
+    signal: AbortSignal | undefined,
+    owner: string | undefined,
+  ): boolean
+}
+
+export type EntityActionRestoreResolver = (
+  entity: string,
+  binding: SpriteActionBinding,
+  slot: 'base' | 'override' | 'completed',
+) => ResolvedEntityAction
+
 export interface SpriteActionPosition {
   stepIndex: number
   elapsedInStepMs: number
@@ -32,6 +70,8 @@ interface Deferred {
 
 interface ActionTrack extends ResolvedEntityAction {
   source: EntityActionSource
+  awaited: boolean
+  owner?: string
   signal?: AbortSignal
   stepIndex: number
   elapsedInStepMs: number
@@ -40,6 +80,10 @@ interface ActionTrack extends ResolvedEntityAction {
   pendingLoopStartAtMs?: number
   deferred?: Deferred
   detachAbort?: () => void
+  /** An automatic once-action cannot outrun its re-entering continuation. */
+  awaitingRestoredPlay?: boolean
+  /** Permits the scene host to attach the new activation without restarting this timeline. */
+  restoredOwner?: boolean
 }
 
 interface EntityTracks {
@@ -193,6 +237,7 @@ function createTrack(
   resolved: ResolvedEntityAction,
   deferred?: Deferred,
   source: EntityActionSource = 'automatic',
+  awaited = false,
 ): ActionTrack {
   const position = resolveSpriteActionPosition(
     resolved.action,
@@ -203,6 +248,7 @@ function createTrack(
   const loopFrom = resolved.action.loopFrom ?? 0
   return {
     source,
+    awaited,
     binding: { ...resolved.binding },
     action: resolved.action,
     stepIndex: position.stepIndex,
@@ -224,13 +270,203 @@ function sameBinding(left: SpriteActionBinding, right: SpriteActionBinding): boo
   )
 }
 
+function captureTrack(track: ActionTrack): EntityActionTrackSnapshot {
+  return {
+    binding: { ...track.binding },
+    source: track.source,
+    awaited: track.awaited,
+    ...(track.owner !== undefined ? { owner: track.owner } : {}),
+    stepIndex: track.stepIndex,
+    elapsedInStepMs: track.elapsedInStepMs,
+    finished: track.finished,
+    ...(track.pendingLoopStartAtMs !== undefined
+      ? { pendingLoopStartAtMs: track.pendingLoopStartAtMs }
+      : {}),
+  }
+}
+
+function prepareRestoredTrack(
+  entity: string,
+  slot: 'base' | 'override' | 'completed',
+  input: EntityActionTrackSnapshot,
+  resolve: EntityActionRestoreResolver,
+): ActionTrack {
+  const snapshot = { ...input, binding: { ...input.binding } }
+  const resolved = resolve(entity, { ...snapshot.binding }, slot)
+  const fail = (message: string): never => {
+    throw new Error(`sprite action restore: ${entity}.${slot}: ${message}`)
+  }
+  if (!sameBinding(snapshot.binding, resolved.binding)) fail('解析的 binding 不匹配')
+  assertAction(resolved.action)
+  if (snapshot.source !== 'automatic' && snapshot.source !== 'script') fail('未知 source')
+  if (typeof snapshot.awaited !== 'boolean') fail('awaited 必须为 boolean')
+  if (slot === 'base' && snapshot.source !== 'automatic') fail('base 必须属于 automatic')
+  if (slot === 'base' && snapshot.awaited) fail('base 不能被脚本等待')
+  if (
+    snapshot.owner !== undefined &&
+    (typeof snapshot.owner !== 'string' ||
+      snapshot.owner.length === 0 ||
+      snapshot.source !== 'automatic' ||
+      slot === 'base')
+  )
+    fail('owner 必须是 automatic override 的稳定实体 id')
+  if (
+    slot === 'completed' &&
+    (snapshot.source !== 'automatic' || snapshot.binding.loop || !snapshot.awaited)
+  )
+    fail('完成收据必须属于被等待的 automatic 非循环命令')
+  const step = resolved.action.steps[snapshot.stepIndex]
+  if (!Number.isInteger(snapshot.stepIndex) || snapshot.stepIndex < 0 || !step)
+    return fail('stepIndex 越界')
+  if (!Number.isFinite(snapshot.elapsedInStepMs) || snapshot.elapsedInStepMs < 0)
+    fail('elapsedInStepMs 必须为非负有限数')
+  if (typeof snapshot.finished !== 'boolean') fail('finished 必须为 boolean')
+  if (snapshot.finished) {
+    if (
+      snapshot.binding.loop ||
+      snapshot.stepIndex !== resolved.action.steps.length - 1 ||
+      snapshot.elapsedInStepMs !== step.durationMs
+    )
+      fail('结束位置不匹配')
+  } else if (snapshot.elapsedInStepMs >= step.durationMs) fail('活动步骤耗时越界')
+  const introEnd = resolved.action.loopFrom ?? 0
+  if (snapshot.pendingLoopStartAtMs !== undefined) {
+    if (
+      !snapshot.binding.loop ||
+      snapshot.finished ||
+      introEnd <= 0 ||
+      snapshot.stepIndex >= introEnd ||
+      !Number.isFinite(snapshot.pendingLoopStartAtMs) ||
+      snapshot.pendingLoopStartAtMs < 0 ||
+      snapshot.pendingLoopStartAtMs !== (snapshot.binding.startAtMs ?? 0)
+    )
+      fail('待应用循环相位不匹配')
+  } else if (snapshot.binding.loop && snapshot.stepIndex < introEnd)
+    fail('启动段缺少待应用循环相位')
+  return {
+    ...snapshot,
+    action: resolved.action,
+    ...(slot !== 'base' && snapshot.source === 'automatic'
+      ? {
+          restoredOwner: true,
+          ...(snapshot.awaited && !snapshot.binding.loop ? { awaitingRestoredPlay: true } : {}),
+        }
+      : {}),
+  }
+}
+
 /**
  * 每实体一套基础页动作 + 一条剧情覆盖轨。播放器只管理实例时间轴，不读取 DOM 或全局壁钟。
  */
 export class EntityActionPlayer {
   private readonly entities = new Map<string, EntityTracks>()
+  private readonly completed = new Map<string, ActionTrack[]>()
 
   constructor(private readonly onCue: (entity: string, cue: SpriteActionCue) => void = () => {}) {}
+
+  capture(options: EntityActionCaptureOptions = {}): EntityActionSnapshot[] {
+    const snapshots: EntityActionSnapshot[] = []
+    for (const entity of new Set([...this.entities.keys(), ...this.completed.keys()])) {
+      const tracks = this.entities.get(entity)
+      const completed = (this.completed.get(entity) ?? []).filter((track) =>
+        options.includeCompleted?.(entity, { ...track.binding }, track.signal, track.owner),
+      )
+      if (!tracks?.base && !tracks?.override && completed.length === 0) continue
+      snapshots.push({
+        entity,
+        ...(tracks?.base ? { base: captureTrack(tracks.base) } : {}),
+        ...(tracks?.override ? { override: captureTrack(tracks.override) } : {}),
+        ...(completed.length > 0 ? { completed: completed.map(captureTrack) } : {}),
+      })
+    }
+    return snapshots
+  }
+
+  /** Validate every reference/progress before returning a synchronous, one-use scene commit. */
+  prepareRestore(
+    snapshots: readonly EntityActionSnapshot[],
+    resolve: EntityActionRestoreResolver,
+  ): () => void {
+    const prepared = new Map<string, EntityTracks>()
+    const receipts = new Map<string, ActionTrack[]>()
+    for (const snapshot of snapshots) {
+      if (!snapshot.entity || prepared.has(snapshot.entity))
+        throw new Error(`sprite action restore: 无效或重复实体 ${snapshot.entity}`)
+      if (!snapshot.base && !snapshot.override && !snapshot.completed?.length)
+        throw new Error(`sprite action restore: ${snapshot.entity} 没有动作轨道`)
+      prepared.set(snapshot.entity, {
+        ...(snapshot.base
+          ? { base: prepareRestoredTrack(snapshot.entity, 'base', snapshot.base, resolve) }
+          : {}),
+        ...(snapshot.override
+          ? {
+              override: prepareRestoredTrack(
+                snapshot.entity,
+                'override',
+                snapshot.override,
+                resolve,
+              ),
+            }
+          : {}),
+      })
+      if (snapshot.completed?.length)
+        receipts.set(
+          snapshot.entity,
+          snapshot.completed.map((track) =>
+            prepareRestoredTrack(snapshot.entity, 'completed', track, resolve),
+          ),
+        )
+    }
+    let committed = false
+    return () => {
+      if (committed) throw new Error('sprite action restore: 准备结果已提交')
+      committed = true
+      this.clearScene()
+      for (const [entity, tracks] of prepared)
+        if (tracks.base || tracks.override) this.entities.set(entity, tracks)
+      for (const [entity, tracks] of receipts) this.completed.set(entity, tracks)
+      // The saved boundary cue has already been consumed. No historical event is re-emitted.
+    }
+  }
+
+  restore(snapshots: readonly EntityActionSnapshot[], resolve: EntityActionRestoreResolver): void {
+    this.prepareRestore(snapshots, resolve)()
+  }
+
+  /** Caller validates the stable continuation owner; runtime AbortSignals are never persisted. */
+  attachRestoredOwner(entity: string, signal: AbortSignal, owner?: string): boolean {
+    if (signal.aborted) throw abortError()
+    let attached = false
+    const override = this.entities.get(entity)?.override
+    if (override?.restoredOwner && override.source === 'automatic' && override.owner === owner) {
+      this.detachTrack(override)
+      override.signal = signal
+      this.attachAbort(entity, override, signal)
+      attached = true
+    }
+    for (const track of this.completed.get(entity) ?? []) {
+      if (!track.restoredOwner || track.owner !== owner) continue
+      this.detachTrack(track)
+      track.signal = signal
+      this.attachCompletedAbort(entity, track, signal)
+      attached = true
+    }
+    return attached
+  }
+
+  /** Called after the host has closed the checkpoint for the fulfilled awaited command. */
+  acknowledgeCompleted(
+    entity: string,
+    binding: Readonly<SpriteActionBinding>,
+    signal?: AbortSignal,
+  ): boolean {
+    const receipt = this.completed
+      .get(entity)
+      ?.find((track) => track.signal === signal && sameBinding(track.binding, binding))
+    if (!receipt) return false
+    this.deleteCompleted(entity, receipt)
+    return true
+  }
 
   replaceScene(seeds: readonly EntityActionSeed[]): void {
     this.clearScene()
@@ -241,6 +477,35 @@ export class EntityActionPlayer {
       this.entities.set(seed.entity, { base })
       this.emitBoundaryCue(seed.entity, base)
     }
+  }
+
+  /** Refresh page bindings without restarting unchanged timelines or touching override owners. */
+  syncBases(seeds: readonly EntityActionSeed[]): void {
+    const prepared = new Map<string, ActionTrack>()
+    for (const seed of seeds) {
+      if (!seed.entity || prepared.has(seed.entity))
+        throw new Error(`sprite action: 无效或重复实体 ${seed.entity}`)
+      assertAction(seed.action)
+      const current = this.entities.get(seed.entity)?.base
+      prepared.set(
+        seed.entity,
+        current && sameBinding(current.binding, seed.binding) ? current : createTrack(seed),
+      )
+    }
+    const cues: Array<[string, ActionTrack]> = []
+    for (const [entity, tracks] of this.entities) {
+      if (!tracks.base || prepared.has(entity)) continue
+      delete tracks.base
+      if (!tracks.override) this.entities.delete(entity)
+    }
+    for (const [entity, base] of prepared) {
+      const tracks = this.entities.get(entity) ?? {}
+      if (tracks.base === base) continue
+      tracks.base = base
+      this.entities.set(entity, tracks)
+      if (!tracks.override) cues.push([entity, base])
+    }
+    for (const [entity, base] of cues) this.emitBoundaryCue(entity, base)
   }
 
   setBase(entity: string, resolved: ResolvedEntityAction | undefined): void {
@@ -255,32 +520,89 @@ export class EntityActionPlayer {
    * 相同的活动覆盖请求幂等；不同请求兑现旧 waiter 后原子替换。循环请求立即 resolve，
    * 但仍绑定 signal，以便所属脚本中止时清除覆盖态。
    */
+  resumesAwaited(
+    entity: string,
+    binding: SpriteActionBinding,
+    source: EntityActionSource,
+    owner?: string,
+  ): boolean {
+    return [this.entities.get(entity)?.override, ...(this.completed.get(entity) ?? [])].some(
+      (track) =>
+        track?.awaitingRestoredPlay &&
+        track.source === source &&
+        track.owner === owner &&
+        sameBinding(track.binding, binding),
+    )
+  }
+
   play(
     entity: string,
     resolved: ResolvedEntityAction,
     signal?: AbortSignal,
     source: EntityActionSource = 'script',
+    owner?: string,
+    awaited = !resolved.binding.loop,
   ): Promise<void> {
     if (signal?.aborted) return Promise.reject(abortError())
+    const receipt = this.completed
+      .get(entity)
+      ?.find(
+        (track) =>
+          track.awaitingRestoredPlay &&
+          track.source === source &&
+          track.awaited === awaited &&
+          track.owner === owner &&
+          sameBinding(track.binding, resolved.binding),
+      )
+    if (receipt) {
+      this.detachTrack(receipt)
+      delete receipt.awaitingRestoredPlay
+      receipt.signal = signal
+      this.attachCompletedAbort(entity, receipt, signal)
+      return Promise.resolve()
+    }
     const tracks = this.entities.get(entity) ?? {}
+    const restored = tracks.override
+    if (
+      restored?.awaitingRestoredPlay &&
+      restored.source === source &&
+      restored.awaited === awaited &&
+      restored.owner === owner &&
+      sameBinding(restored.binding, resolved.binding)
+    ) {
+      this.detachTrack(restored)
+      delete restored.awaitingRestoredPlay
+      restored.signal = signal
+      const deferred = createDeferred()
+      restored.deferred = deferred
+      this.attachAbort(entity, restored, signal)
+      if (restored.finished) {
+        this.fulfillOverride(entity, restored)
+        tracks.override = undefined
+        if (!tracks.base) this.entities.delete(entity)
+      }
+      return deferred.promise
+    }
     if (
       tracks.override?.source === source &&
+      tracks.override.awaited === awaited &&
+      tracks.override.owner === owner &&
       tracks.override.signal === signal &&
       sameBinding(tracks.override.binding, resolved.binding)
     )
       return tracks.override.deferred?.promise ?? Promise.resolve()
 
-    this.settleTrack(tracks.override)
+    if (tracks.override) this.fulfillOverride(entity, tracks.override)
     const deferred = resolved.binding.loop ? undefined : createDeferred()
-    const override = createTrack(resolved, deferred, source)
+    const override = createTrack(resolved, deferred, source, awaited)
+    if (owner !== undefined) override.owner = owner
     override.signal = signal
     tracks.override = override
     this.entities.set(entity, tracks)
     this.attachAbort(entity, override, signal)
 
     if (override.finished) {
-      deferred?.resolve()
-      this.detachTrack(override)
+      this.fulfillOverride(entity, override)
       tracks.override = undefined
       if (!tracks.base) this.entities.delete(entity)
       return deferred?.promise ?? Promise.resolve()
@@ -293,7 +615,7 @@ export class EntityActionPlayer {
   stop(entity: string, reset: boolean): void {
     const tracks = this.entities.get(entity)
     if (!tracks) return
-    this.settleTrack(tracks.override)
+    if (tracks.override) this.fulfillOverride(entity, tracks.override)
     tracks.override = undefined
     if (reset && tracks.base) {
       tracks.base = createTrack({ binding: tracks.base.binding, action: tracks.base.action })
@@ -306,32 +628,36 @@ export class EntityActionPlayer {
     const tracks = this.entities.get(entity)
     this.settleTrack(tracks?.override)
     this.entities.delete(entity)
+    for (const track of [...(this.completed.get(entity) ?? [])]) this.deleteCompleted(entity, track)
   }
 
   clearScene(): void {
     for (const tracks of this.entities.values()) this.settleTrack(tracks.override)
     this.entities.clear()
+    for (const tracks of this.completed.values())
+      for (const track of tracks) this.detachTrack(track)
+    this.completed.clear()
   }
 
   advance(
     dtMs: number,
-    paused: (entity: string, source: EntityActionSource) => boolean = () => false,
+    paused: (entity: string, source: EntityActionSource, owner?: string) => boolean = () => false,
   ): void {
     if (!Number.isFinite(dtMs) || dtMs < 0) throw new Error('sprite action: dtMs 必须为非负有限数')
     if (dtMs === 0) return
     for (const [entity, tracks] of this.entities) {
       const active = tracks.override ?? tracks.base
-      if (!active || active.finished) continue
-      if (paused(entity, active.source)) continue
+      if (!active || active.finished || active.awaitingRestoredPlay) continue
+      if (paused(entity, active.source, active.owner)) continue
       const remaining = this.advanceTrack(entity, active, dtMs)
       if (tracks.override === active && active.finished) {
-        this.settleTrack(active)
+        this.fulfillOverride(entity, active)
         tracks.override = undefined
         if (
           tracks.base &&
           remaining > 0 &&
           !tracks.base.finished &&
-          !paused(entity, tracks.base.source)
+          !paused(entity, tracks.base.source, tracks.base.owner)
         )
           this.advanceTrack(entity, tracks.base, remaining)
         if (!tracks.base) this.entities.delete(entity)
@@ -417,6 +743,34 @@ export class EntityActionPlayer {
   private detachTrack(track: ActionTrack): void {
     track.detachAbort?.()
     track.detachAbort = undefined
+  }
+
+  private fulfillOverride(entity: string, track: ActionTrack): void {
+    this.settleTrack(track)
+    if (track.source !== 'automatic' || track.binding.loop || !track.awaited) return
+    const receipt: ActionTrack = {
+      ...captureTrack(track),
+      action: track.action,
+      signal: track.signal,
+    }
+    const receipts = this.completed.get(entity) ?? []
+    receipts.push(receipt)
+    this.completed.set(entity, receipts)
+    this.attachCompletedAbort(entity, receipt, receipt.signal)
+  }
+
+  private deleteCompleted(entity: string, track: ActionTrack): void {
+    const remaining = this.completed.get(entity)?.filter((candidate) => candidate !== track)
+    this.detachTrack(track)
+    if (remaining?.length) this.completed.set(entity, remaining)
+    else this.completed.delete(entity)
+  }
+
+  private attachCompletedAbort(entity: string, track: ActionTrack, signal?: AbortSignal): void {
+    if (!signal) return
+    const abort = (): void => this.deleteCompleted(entity, track)
+    signal.addEventListener('abort', abort, { once: true })
+    track.detachAbort = () => signal.removeEventListener('abort', abort)
   }
 
   private settleTrack(track: ActionTrack | undefined): void {

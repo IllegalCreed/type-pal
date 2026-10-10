@@ -160,7 +160,7 @@ async function boot(body: AuthorCommand[], party: string[], second?: AuthorScene
   })
   if (!host) throw new Error('host missing')
   await advance(host, () => !state().script.running)
-  host.frame(100)
+  await host.frame(100)
   await drain()
   return { fixture, project, pristine, render }
 }
@@ -178,7 +178,7 @@ async function saveRestore() {
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let i = 0; i < 40 && !(await store.getPayload('quick')); i++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -186,14 +186,14 @@ async function saveRestore() {
   expect(payload).not.toBeNull()
   await key(host, 'F9')
   for (let i = 0; i < 12; i++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
   expect(state().world.script).toStrictEqual(payload?.world.script)
 }
 
-test('s252水中入口：李逍遥不在初始队伍仍在setParty后持久化sprite531，切到s250等价场景并SAVE11仍保留', async () => {
+test('s252水中入口：李逍遥不在初始队伍仍在setParty后持久化sprite531，切到s250等价场景并SAVE12仍保留', async () => {
   const body: AuthorCommand[] = [...canonicalMutations(s252), { kind: 'loadScene', scene: 'b' }]
   const { pristine, project, render } = await boot(body, ['wu-hou'])
   expect(state().sceneId).toBe('b')
@@ -250,7 +250,7 @@ test('s149上岸演出：李逍遥的sprite232只存于当前演出，灵儿rese
   expect(projectData(project)).toEqual(pristine)
 })
 
-test('s144水中队伍：三名队员的持久泳装形象随SAVE11恢复', async () => {
+test('s144水中队伍：三名队员的持久泳装形象随SAVE12恢复', async () => {
   const body = canonicalMutations(s144)
   const { pristine, project, render } = await boot(body, ['li-xiaoyao', 'zhao-linger', 'lin-yueru'])
   expect(renderedParty(render)).toMatchObject({

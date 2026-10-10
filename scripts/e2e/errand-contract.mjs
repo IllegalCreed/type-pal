@@ -2,6 +2,12 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { repoRoot, sha256 } from './browser-journey.mjs'
+import { readCheckpointInput } from './evidence-artifact.mjs'
+import {
+  LONG_EVIDENCE_MAX_BYTES,
+  longEvidenceArtifact,
+  readLongEvidenceArtifact,
+} from './long-evidence.mjs'
 import {
   assertMealCaseReport,
   assertMealDialogue,
@@ -9,6 +15,7 @@ import {
   readMealContract,
 } from './meal-contract.mjs'
 import { openingFrameMatches } from './opening-frame.mjs'
+import { assertReforgeRestoreInput } from './restore-input-contract.mjs'
 
 export const ERRAND_PHASE_ROWS = {
   aunt: [211, 212, 213, 214, 215, 217, 219, 221, 223],
@@ -17,12 +24,42 @@ export const ERRAND_PHASE_ROWS = {
   zhang: [515, 516, 517, 518, 519, 521, 522],
   news: [282, 283, 284, 286, 288, 289, 290, 292, 293],
 }
-export const ERRAND_TRACE_MAX_BYTES = 16 * 1024 * 1024
+
+/** A runtime-ready flag alone cannot close the story before its first successful draw. */
+export function errandReadyPresentation(trace) {
+  const cleared = trace.pages.at(-1),
+    draw = trace.worldRender,
+    control = trace.control
+  return !!(
+    cleared &&
+    cleared.page === null &&
+    draw &&
+    control?.state === true &&
+    draw.order >= control.order &&
+    cleared.order > control.order &&
+    draw.sceneVisit === control.sceneVisit &&
+    cleared.sceneVisit === draw.sceneVisit
+  )
+}
+
+export function assertErrandStoryBoundary(trace, report) {
+  const end = report.storyScope?.end?.afterOrder
+  assert(Number.isSafeInteger(end), '005 story end missing')
+  assert.equal(end, report.milestones.news.order, '005 scope must bind the ready milestone')
+  const through = (event) => event.order <= end
+  assert(
+    errandReadyPresentation({
+      pages: trace.pages.filter(through),
+      worldRender: trace.worldRenders.findLast(through),
+      control: trace.events.findLast((event) => event.kind === 'control' && through(event)),
+    }),
+    '005 story end lacks a completed control-ready draw and dialogue clear',
+  )
+}
+// Bound the compact physical archive, not its repeatedly expanded snapshot projection.
+export const ERRAND_TRACE_MAX_BYTES = LONG_EVIDENCE_MAX_BYTES
 export function errandTraceArtifact(trace) {
-  const bytes = JSON.stringify(trace),
-    byteLength = Buffer.byteLength(bytes)
-  assert(byteLength <= ERRAND_TRACE_MAX_BYTES, '005 trace exceeds bounded evidence byte budget')
-  return { bytes, byteLength, sha256: sha256(bytes) }
+  return longEvidenceArtifact(trace, ERRAND_TRACE_MAX_BYTES)
 }
 export const ERRAND_GUARD_ROWS = {
   auntRepeat: [129, 130],
@@ -62,7 +99,6 @@ export function assertErrandCaseReport(report) {
   assert.deepEqual(report.core.rows, errandCaseRows(report.case))
   const checks = [
     ...Object.keys(ERRAND_PHASE_ROWS),
-    'controlMove',
     'causality',
     'end',
     ...(report.case === 'guards' ? Object.keys(ERRAND_GUARD_ROWS) : []),
@@ -139,16 +175,21 @@ export function assertErrandEndWorld(world, engine) {
 export async function readErrandReceipt(path, contract) {
   const report = JSON.parse(await readFile(path, 'utf8'))
   assertErrandCaseReport(report)
+  assert.deepEqual(
+    report.contextTraces.map((r) => r.path),
+    report.case === 'saves'
+      ? ['005-before-restore.trace.json', '005-latest.trace.json']
+      : ['005-latest.trace.json'],
+  )
   const traces = []
   for (const artifact of report.contextTraces) {
     assert(
       ['005-before-restore.trace.json', '005-latest.trace.json'].includes(artifact.path),
       'unknown 005 trace path',
     )
-    const bytes = await readFile(resolve(dirname(path), artifact.path), 'utf8')
-    assert.equal(Buffer.byteLength(bytes), artifact.byteLength, 'trace byte count differs')
-    assert.equal(sha256(bytes), artifact.sha256, 'trace bytes changed')
-    const trace = JSON.parse(bytes)
+    const loaded = await readLongEvidenceArtifact(dirname(path), artifact)
+    assert.equal(loaded.binding.status, 'verified')
+    const trace = loaded.value
     assertErrandCollector(trace)
     traces.push(trace)
   }
@@ -157,34 +198,41 @@ export async function readErrandReceipt(path, contract) {
   assert(rows.every(Boolean))
   const shown = assertMealDialogue(story, report.engine, { ...contract, rows })
   assertErrandStory(story, report.engine, shown)
-  const moves = story.events.filter(
-    (event) =>
-      event.kind === 'actor' &&
-      event.id === 'party' &&
-      event.order > shown.get('dlg.293') &&
-      ['commit:tickSceneInput', 'commit:player.pos'].includes(event.source) &&
-      event.before &&
-      JSON.stringify(event.before.position) !== JSON.stringify(event.state.position),
-  )
-  assert(moves.length > 0, 'no actual post-report player movement')
-  assert(
-    story.inputs.some(
-      (input) =>
-        input.order > shown.get('dlg.293') &&
-        input.type === 'keydown' &&
-        input.key.startsWith('Arrow'),
-    ),
-    'post-report move lacks normal input',
-  )
+  assertErrandStoryBoundary(story, report)
+  const predecessor = await readCheckpointInput(report.predecessor, report.engine, '004')
+  assertErrandRestored(story, predecessor.payload, report.engine)
+  if (report.engine === 'reforge') assertReforgeRestoreInput(story, predecessor.payload)
   if (report.case === 'saves') {
     const bytes = await readFile(resolve(dirname(path), '005.end.save.json'), 'utf8')
     assert.equal(sha256(bytes), report.checkpoint.sha256, '005 saved bytes changed')
     const payload = JSON.parse(bytes)
     assert.deepEqual(errandSaveView(payload, report.engine), report.endWorld)
+    if (report.engine === 'game') assertErrandSaved(story, payload, report.saveCapture)
     assertErrandRestored(traces[1], payload, report.engine)
+    if (report.engine === 'reforge') assertReforgeRestoreInput(traces[1], payload)
     assertErrandBackground(traces[1], report.engine, report.backgroundContinuation)
   }
   return report
+}
+
+export function assertErrandSaved(trace, payload, receipt) {
+  assertErrandCollector(trace)
+  // Each fresh context stages one input save, then the journey issues one real F5.
+  assert.equal(trace.saveCaptures.length, 2, 'expected staged input and one final save')
+  assert.equal(trace.saveCompletions.length, 2, 'expected two actual save acknowledgements')
+  const capture = trace.saveCaptures[1],
+    completion = trace.saveCompletions[1]
+  assert.equal(capture.source, 'before:Save.saveSlot:deepClone')
+  assert.equal(completion.source, 'commit:Save.saveSlot')
+  assert.equal(capture.slot, 1)
+  assert.equal(completion.captureSeq, capture.seq)
+  assert(completion.order > capture.order)
+  assert.deepEqual(receipt, { order: capture.order, acknowledgementOrder: completion.order })
+  assert.deepEqual(
+    errandSaveView(capture.payload, 'game'),
+    errandSaveView(payload, 'game'),
+    'save differs from synchronous actual input',
+  )
 }
 export function assertErrandSuite(reports) {
   assert.equal(reports.length, 6, '005 full suite requires six independent cases')
@@ -215,10 +263,13 @@ export function errandSaveView(payload, engine) {
     teleportOverrides: payload.gs.sceneOnTeleportOverride ?? {},
   }
 }
-export function assertErrandCollector(trace) {
-  assert.equal(trace.overflow, false, '005 collector overflow')
-  assert.deepEqual(trace.errors, [], '005 collector error')
+export function assertErrandCollector(trace, fragment = '005') {
+  assert.equal(trace.overflow, false, `${fragment} collector overflow`)
+  assert.deepEqual(trace.errors, [], `${fragment} collector error`)
   const lists = [
+    ...(Object.hasOwn(trace, 'resources') ? ['resources'] : []),
+    ...(Object.hasOwn(trace, 'causes') ? ['causes'] : []),
+    'worldRenders',
     'events',
     'pages',
     'restoreCommits',
@@ -238,7 +289,7 @@ export function assertErrandCollector(trace) {
   ordered
     .sort((a, b) => a.order - b.order)
     .forEach((event, index) => {
-      assert.equal(event.order, index, '005 global event gap')
+      assert.equal(event.order, index, `${fragment} global event gap`)
     })
 }
 export const errandArmed = (state, engine) =>

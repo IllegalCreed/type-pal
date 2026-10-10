@@ -31,10 +31,10 @@ function catalog(): AssetCatalogV1 {
 }
 
 describe('PAL current manifest', () => {
-  test('只生成 canonical content22/SAVE11，且没有旧顶层启动字段或 legacy 通道', () => {
+  test('只生成 canonical content22/SAVE12，且没有旧顶层启动字段或 legacy 通道', () => {
     const manifest = buildPalCurrentManifest(catalog())
     expect(manifest.contentVersion).toBe(22)
-    expect(manifest.minimumSaveVersion).toBe(11)
+    expect(manifest.minimumSaveVersion).toBe(12)
     expect(manifest.defaultEntryId).toBe('new-game')
     expect(manifest.entryPoints).toEqual([
       expect.objectContaining({

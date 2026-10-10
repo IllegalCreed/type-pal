@@ -12,7 +12,7 @@ function manifest(): CurrentManifest {
     id: 'demo',
     name: 'Demo',
     contentVersion: 22,
-    minimumSaveVersion: 11,
+    minimumSaveVersion: 12,
     defaultEntryId: 'new-game',
     entryPoints: [
       {
@@ -64,7 +64,8 @@ function world(): WorldState {
 
 function payload(): CurrentSavePayload {
   return {
-    version: 11,
+    version: 12,
+    sceneRuntime: {},
     contentVersion: 22,
     projectId: 'demo',
     world: world(),
@@ -78,7 +79,7 @@ function payload(): CurrentSavePayload {
 
 const references = buildEntityLifecycleReferenceIndex([{ id: 's001', entities: [{ id: 'e001' }] }])
 
-describe('current SAVE11/content22 contract', () => {
+describe('current SAVE12/content22 contract', () => {
   test('round-trips the current envelope without mutating input or resetting world values', async () => {
     const raw = payload()
     const before = structuredClone(raw)
@@ -105,7 +106,7 @@ describe('current SAVE11/content22 contract', () => {
   ])('rejects non-current SAVE%s/content%s before normalization', async (version, contentVersion) => {
     const raw = { ...payload(), version, contentVersion }
     await expect(preflightCurrentSave({ manifest: manifest(), payload: raw })).rejects.toThrow(
-      /只接受 SAVE11\/content22/,
+      /只接受 SAVE12\/content22/,
     )
   })
 

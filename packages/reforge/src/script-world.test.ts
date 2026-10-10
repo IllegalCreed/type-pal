@@ -389,6 +389,19 @@ describe('canonical script world authority', () => {
       behavior: 'talk',
       at: { kind: 'stage', stage: 'initial' },
     })
+    // Departure may replace the trigger after dialogue has already returned. The old
+    // activation was correctly continued; this later selection must still clear its cursor.
+    selectEntityBehavior(
+      world,
+      definition,
+      target,
+      'trigger',
+      { kind: 'use', value: 'inspect' },
+      coordinator,
+    )
+    expect(world.behaviors.entities?.scene?.entity?.trigger).toEqual({
+      selection: { kind: 'use', value: 'inspect' },
+    })
   })
 
   test('one persistent owner has at most one live activation lease', () => {

@@ -38,7 +38,8 @@ const actor = {
 }
 
 const validPayload = (): CurrentSavePayload => ({
-  version: 11,
+  version: 12,
+  sceneRuntime: {},
   projectId: 'proj',
   contentVersion: 22,
   world: buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor }),
@@ -50,6 +51,32 @@ const rejects = (mutate: (p: CurrentSavePayload) => void, pattern: RegExp) => ()
   mutate(payload)
   expect(() => assertCurrentSaveStructure(payload)).toThrow(pattern)
 }
+
+test.each([
+  'source',
+  'speed',
+] as const)('scene runtime rejects an array masquerading as %s', (field) => {
+  const payload = validPayload()
+  const motion = {
+    gait: { phase: 2, source: 'auto' as const, owner: 'npc' },
+    move: {
+      owner: 'npc',
+      to: { col: 4, row: 5, height: 0 },
+      speed: 'slow' as const,
+      slowRestPending: true,
+      slowCadence: true,
+    },
+  }
+  if (field === 'source') Reflect.set(motion.gait, field, ['auto'])
+  else Reflect.set(motion.move, field, ['slow'])
+  payload.sceneRuntime.s001 = {
+    entities: { npc: { motion } },
+    automatic: {},
+    chaseClaims: [],
+    actions: [],
+  }
+  expect(() => assertCurrentSaveStructure(payload)).toThrow(new RegExp(field))
+})
 
 describe('current-structure · 合法载荷（正边界）', () => {
   test('现行保存器产物通过；分数坐标/负坐标原样放行', () => {
@@ -177,13 +204,20 @@ describe('current-structure · Envelope / world / position（负边界）', () =
   test('automatic chase claims retain only stable addresses and behavior IDs', () => {
     const payload = {
       ...validPayload(),
-      automaticChaseClaims: [
-        {
-          owner: { scene: 's001', entity: 'owner' },
-          target: { scene: 's001', entity: 'npc' },
-          behavior: 'chase',
+      sceneRuntime: {
+        s001: {
+          entities: {},
+          automatic: {},
+          actions: [],
+          chaseClaims: [
+            {
+              owner: { scene: 's001', entity: 'owner' },
+              target: { scene: 's001', entity: 'npc' },
+              behavior: 'chase',
+            },
+          ],
         },
-      ],
+      },
     }
     const before = structuredClone(payload)
     expect(() => assertCurrentSaveStructure(payload)).not.toThrow()
@@ -237,10 +271,13 @@ describe('current-structure · Envelope / world / position（负边界）', () =
         behavior: 'chase',
       },
     ],
-  ])('malformed automatic chase claims are rejected before cloning: %j', (automaticChaseClaims) => {
-    expect(() => assertCurrentSaveStructure({ ...validPayload(), automaticChaseClaims })).toThrow(
-      /automaticChaseClaims/,
-    )
+  ])('malformed automatic chase claims are rejected before cloning: %j', (chaseClaims) => {
+    expect(() =>
+      assertCurrentSaveStructure({
+        ...validPayload(),
+        sceneRuntime: { s001: { entities: {}, automatic: {}, chaseClaims, actions: [] } },
+      }),
+    ).toThrow(/chaseClaims/)
   })
 
   test('null / 数组 / 缺 world / 缺 position 拒绝', () => {

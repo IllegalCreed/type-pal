@@ -83,7 +83,7 @@ export function assertOpeningMatrix(matrix, engine, contract) {
     assert(Number.isInteger(e.sample) && e.sample > 0, 'missing coherent snapshot identity')
     if (seq) assert(e.sample >= matrix.actors[seq - 1].sample, 'snapshot order regressed')
     if (e.kind === 'actor') {
-      const key = `${e.scene}/${e.id}`
+      const key = `${e.sceneVisit}/${e.scene}/${e.id}`
       assert.deepEqual(e.before, lastStates.get(key) ?? null, 'actor state change was lost')
       if (e.before && JSON.stringify(e.before.position) !== JSON.stringify(e.state.position))
         assert(e.source.startsWith('commit:'), 'sample is not a committed move')
@@ -91,10 +91,30 @@ export function assertOpeningMatrix(matrix, engine, contract) {
     } else assert.equal(e.kind, 'scene')
   }
   assert.deepEqual(
-    matrix.actors.filter((e) => e.kind === 'scene').map((e) => e.scene),
+    uniqueChanges(matrix.actors.filter((e) => e.kind === 'scene').map((e) => e.scene)),
     ['s000', 's001'],
     'unexpected scene transition',
   )
+  assert(Array.isArray(matrix.worldRenders), 'missing current world render observations')
+  const timeline = [
+    matrix.actors,
+    matrix.lifecycle ?? [],
+    matrix.renders,
+    matrix.controls,
+    matrix.pages,
+    matrix.worldRenders,
+    matrix.causes ?? [],
+    matrix.resources ?? [],
+  ]
+    .flat()
+    .sort((a, b) => a.order - b.order)
+  for (const [i, event] of timeline.entries()) {
+    assert.equal(event.order, i, 'opening observation order gap')
+    assert(Number.isFinite(event.atMs), 'opening observation missing clock')
+    if (i) assert(event.atMs >= timeline[i - 1].atMs, 'opening observation clock regressed')
+  }
+  for (const [i, event] of matrix.worldRenders.entries())
+    assert.equal(event.seq, i, 'opening world render gap')
   for (const [seq, e] of matrix.pages.entries()) {
     assert.equal(e.seq, seq, 'page event sequence gap')
     assert.equal(e.engine, engine, 'wrong rendered-page engine')

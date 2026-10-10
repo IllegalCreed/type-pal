@@ -73,7 +73,7 @@ async function opening(metas: SaveMeta[] = []) {
   const consumed = done.then((value) => {
     state.value = value
   })
-  host.frame()
+  await host.frame()
   return { h: host, state, done, consumed, reads, snapshots, bitmaps: host.bitmaps }
 }
 
@@ -87,7 +87,7 @@ test('Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动�
   const o = await opening()
   const before = o.snapshots.at(-1)
   const event = press('x')
-  o.h.frame()
+  await o.h.frame()
   await drain()
   expect(event.defaultPrevented).toBe(false)
   expect(o.snapshots.at(-1)?.cursor).toBe(before?.cursor ?? 0)
@@ -108,11 +108,11 @@ test('Q01 末项 ArrowDown 环绕回首项并选定第一入口', async () => {
 test('Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截', async () => {
   const o = await opening()
   const tab = press('Tab')
-  o.h.frame()
+  await o.h.frame()
   expect(tab.defaultPrevented).toBe(false)
   expect(o.snapshots.at(-1)?.selectedId).toBe('first') // 光标仍 0
   const unboundEscape = press('Escape') // 菜单相位 Escape 未注册 → 不拦截
-  o.h.frame()
+  await o.h.frame()
   expect(unboundEscape.defaultPrevented).toBe(false)
   expect(o.state.value).toBeUndefined()
 })
@@ -161,8 +161,8 @@ test('Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store'
   expect(o.reads[0]).toBe('meta')
   expect(o.reads.filter((read) => read === 'thumb:01')).toHaveLength(1)
   expect(o.reads.filter((read) => read === 'thumb:02')).toHaveLength(1)
-  o.h.frame(100)
-  o.h.frame(100)
+  await o.h.frame(100)
+  await o.h.frame(100)
   await drain()
   const totalReads = o.reads.length
   expect(totalReads).toBe(3) // meta + 两次 thumb，帧推进不再触发 store 读

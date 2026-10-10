@@ -1,57 +1,42 @@
 import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { readBoatContract } from './boat-contract.mjs'
-import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
-import { installErrandObserver, readBoatGame } from './errand-observer.mjs'
-import { committedInnMoves } from './inn-navigation.mjs'
+import {
+  assertBoatMotion,
+  assertBoatReport,
+  assertBoatStoryEnd,
+  boatArguments,
+  ISLAND_ARRIVAL_ROWS,
+  readBoatContract,
+} from './boat-contract.mjs'
+import { boatMotionEvidence } from './boat-motion-evidence.mjs'
+import { runBrowserJourney, sha256 } from './browser-journey.mjs'
+import { installCommittedRoutePlayback, recordFacingInput } from './committed-route.mjs'
+import { assertErrandCollector, readErrandContract, readErrandReceipt } from './errand-contract.mjs'
+import { errandCausalObserverScript, readBoatGame } from './errand-observer.mjs'
+import { ERRAND_TRACE_TARGETS } from './errand-trace-plugin.mjs'
+import { writeEvidenceArtifact } from './evidence-artifact.mjs'
+import { guardedEvidenceReader } from './evidence-diagnostics.mjs'
+import { executeFixedRoute } from './fixed-route-plan.mjs'
+import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
+import {
+  encodeLongEvidence,
+  readLongEvidenceArchive,
+  writeLongEvidenceArtifact,
+} from './long-evidence.mjs'
 import { assertMealDialogue } from './meal-contract.mjs'
-import { mealGameTouchDestination, navigateMealRoute } from './meal-journey.mjs'
+import { npcStoryBoundary } from './npc-story-scope.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
+import { producerExtraInputs } from './producer-inputs.mjs'
+import { storyInputPlan } from './story-input-plans.mjs'
 
-const sceneMaps = {
-  s001: 'map-012',
-  s002: 'map-012',
-  s003: 'map-010',
-  s004: 'map-001',
-  s005: 'map-002',
-}
 const sceneNumbers = { s001: 2, s002: 3, s003: 4, s004: 5, s005: 6, s014: 15 }
 const dialogueIds = [
   342, 343, 345, 346, 347, 349, 350, 352, 353, 354, 356, 357, 359, 360, 362, 363, 364, 307, 308,
   310, 311, 312, 314, 316, 318, 319, 321, 322, 323, 325, 327, 328, 330, 331, 332, 334, 336, 337,
   339, 340, 533, 534, 535, 536, 538, 539, 540, 542, 543, 544, 546,
 ]
-const speakerById = {
-  ...Object.fromEntries(
-    [
-      366, 367, 368, 369, 374, 375, 376, 380, 381, 382, 386, 387, 388, 389, 390, 391, 392, 396, 397,
-      398, 399, 400, 401, 405, 406, 408, 409, 410, 414, 415,
-    ].map((id) => [id, '苗人头领']),
-  ),
-  ...Object.fromEntries([371, 372, 378, 384, 394, 403, 412, 417].map((id) => [id, '李逍遥'])),
-  ...Object.fromEntries([418, 419].map((id) => [id, null])),
-  ...Object.fromEntries([342, 343, 349, 350, 356, 357, 362, 363, 364].map((id) => [id, '洪大夫'])),
-  ...Object.fromEntries(
-    [345, 346, 347, 352, 353, 354, 359, 360, 307, 308, 314, 318, 319, 325, 330, 331, 332].map(
-      (id) => [id, '李逍遥'],
-    ),
-  ),
-  ...Object.fromEntries(
-    [310, 311, 312, 316, 321, 322, 323, 327, 328, 334, 336, 337, 339, 340].map((id) => [
-      id,
-      '王小虎',
-    ]),
-  ),
-  ...Object.fromEntries(
-    [533, 534, 535, 536, 542, 543, 544, 546, 1888, 1889, 1890].map((id) => [
-      id,
-      id >= 1888 ? '张四哥' : '张四',
-    ]),
-  ),
-  ...Object.fromEntries([538, 539, 540, 1886].map((id) => [id, '李逍遥'])),
-}
 
 function gameGrid(position) {
   return kitchenGrid(position, 'game')
@@ -61,25 +46,17 @@ function gameScene(state, id) {
   return state.scene === sceneNumbers[id]
 }
 
-function rowsFor(locale, ids) {
-  return ids.map((id) => ({
-    id: `dlg.${id}`,
-    text: locale[`dlg.${id}`],
-    speaker: speakerById[id],
-  }))
-}
-
-function assertRenderedRows(trace, locale, ids) {
-  return assertMealDialogue(trace, 'game', { locale, rows: rowsFor(locale, ids) }, true)
+function assertRenderedRows(trace, dialogue, ids) {
+  const rows = ids.map((id) => dialogue.rows.find((row) => row.id === `dlg.${id}`))
+  assert(rows.every(Boolean), 'boat phase contains an unknown source row')
+  return assertMealDialogue(trace, 'game', { ...dialogue, rows }, true)
 }
 
 export async function runBoatGame() {
-  const args = process.argv.slice(2),
-    mode = args.includes('--headed') ? '--headed' : '--headless',
-    fromIndex = args.indexOf('--from')
-  assert(fromIndex >= 0 && args[fromIndex + 1], '006 game requires --from 005 saves report')
-  const predecessorPath = resolve(args[fromIndex + 1]),
-    predecessor = JSON.parse(await readFile(predecessorPath, 'utf8'))
+  const options = boatArguments(process.argv.slice(2)),
+    mode = options.headless ? '--headless' : '--headed'
+  const predecessorPath = options.from,
+    predecessor = await readErrandReceipt(predecessorPath, await readErrandContract())
   assert.equal(predecessor.fragment, '005')
   assert.equal(predecessor.engine, 'game')
   assert.equal(predecessor.case, 'saves')
@@ -87,10 +64,7 @@ export async function runBoatGame() {
   const checkpointPath = resolve(predecessorPath, '..', predecessor.checkpoint.path),
     checkpointBytes = await readFile(checkpointPath)
   assert.equal(sha256(checkpointBytes), predecessor.checkpoint.sha256)
-  const contract = await readBoatContract(),
-    locale = JSON.parse(
-      await readFile(resolve(repoRoot, 'projects/pal/content/locale.json'), 'utf8'),
-    )
+  const contract = await readBoatContract()
 
   await runBrowserJourney({
     name: 'game-006',
@@ -98,13 +72,31 @@ export async function runBoatGame() {
     environment: { E2E: '1' },
     traceConfig: 'scripts/e2e/errand-game.config.mts',
     arguments: [mode],
-    initScripts: [installErrandObserver],
+    initScripts: [errandCausalObserverScript(), installCommittedRoutePlayback],
     sources: [
+      ...producerExtraInputs('006', 'game'),
+      'scripts/e2e/boat-motion-evidence.mjs',
+      'scripts/e2e/fixed-route-plan.mjs',
+      'scripts/e2e/story-input-plans.mjs',
+      'scripts/e2e/evidence-artifact.mjs',
       ...Object.keys(contract.hashes),
       'projects/pal/content/locale.json',
       'scripts/e2e/boat-contract.mjs',
       'scripts/e2e/boat-game.mjs',
+      'scripts/e2e/npc-story-scope.mjs',
+      'scripts/e2e/committed-route.mjs',
+      'scripts/e2e/input-ledger.mjs',
       'scripts/e2e/errand-observer.mjs',
+      'scripts/e2e/script-causal-observer.mjs',
+      'scripts/e2e/opening-causal-instrumentation.mjs',
+      ...ERRAND_TRACE_TARGETS,
+      'scripts/e2e/opening-trace-plugin.mjs',
+      'scripts/e2e/inn-trace-plugin.mjs',
+      'scripts/e2e/kitchen-trace-plugin.mjs',
+      'scripts/e2e/meal-trace-plugin.mjs',
+      'scripts/e2e/errand-trace-plugin.mjs',
+      'scripts/e2e/reforge-render-evidence.mjs',
+      'scripts/e2e/scene-lifecycle-trace.mjs',
       'scripts/e2e/inn-navigation.mjs',
       'scripts/e2e/kitchen-contract.mjs',
       'scripts/e2e/meal-journey.mjs',
@@ -124,27 +116,38 @@ export async function runBoatGame() {
       let page,
         phase = 'bootstrap',
         phaseOrder = -1
-      const motion = [],
-        stateTrace = [],
-        stateKeys = new Set(),
-        rideScreenshot = { promise: undefined },
+      report.secondaryDiagnostics = []
+      const archive = guardedEvidenceReader({
+        page: () => page,
+        read: readLongEvidenceArchive,
+        diagnostics: report.secondaryDiagnostics,
+      })
+      const stateTrace = [],
+        stateKeys = { previous: null },
         snapshot = async () => {
           const state = await page.evaluate(readBoatGame)
           const key = JSON.stringify(state)
-          if (!stateKeys.has(key)) {
-            stateKeys.add(key)
+          if (stateKeys.previous !== key) {
+            stateKeys.previous = key
             stateTrace.push({ atMs: Date.now(), phase, state })
           }
           return state
         },
-        evidence = () => page.evaluate(() => window.__readErrandEvidence()),
-        drive = () => page.evaluate((after) => window.__readErrandDrive(after), phaseOrder),
+        evidence = archive.read,
+        drive = async () => {
+          const value = await page.evaluate((after) => window.__readErrandDrive(after), phaseOrder)
+          assert.equal(value.overflow, false)
+          assert.deepEqual(value.errors, [])
+          return value
+        },
         ready = (state) => kitchenReady(state, 'game'),
         grid = (state) => gameGrid(state.position),
         press = async (key, reason) => {
-          report.actions.push({ phase, key, reason, atMs: Date.now() })
-          await page.keyboard.down(key)
-          await page.keyboard.up(key)
+          await pressRecordedKey({
+            keyboard: page.keyboard,
+            action: canonicalInput({ phase, key, reason, atMs: Date.now() }),
+            record: (action) => report.actions.push(action),
+          })
         },
         begin = async (label) => {
           phase = label
@@ -209,63 +212,27 @@ export async function runBoatGame() {
           60000,
         )
       }
-      const navigate = async (sid, destination, finished, sample) => {
-        const startOrder = (await drive()).order
-        await navigateMealRoute({
+      const navigate = async (sid, planId, finished) =>
+        executeFixedRoute({
+          page,
           engine: 'game',
-          keyboard: page.keyboard,
-          map: contract.maps[sceneMaps[sid]],
-          read: async () => {
-            const state = await snapshot()
-            sample?.(state)
-            // The original first-stage touch footprint is checked separately;
-            // NPC bodies are not route waypoints and must not make the planner
-            // declare a dead end while approaching the next trigger.
-            return { ...state, routeActors: [] }
-          },
-          until,
-          health,
-          grid,
-          inScene: (state) => gameScene(state, sid),
+          plan: storyInputPlan('006', 'game', planId),
+          scene: sid,
+          id: report.route.legs.length,
+          phase,
+          report,
+          snapshot,
+          evidence: () => page.evaluate(() => window.__readErrandRouteEvidence()),
           ready,
-          destination,
           finished,
-          boundaryCommitted: async () =>
-            committedInnMoves(await evidence(), startOrder).some(
-              (event) =>
-                event.scene === sid &&
-                event.source === 'commit:tickSceneInput' &&
-                destination(...gameGrid(event.state.position)),
-            ),
-          onInput: (input) => report.route.inputs.push({ phase, scene: sid, ...input }),
-          onProgress: (progress) => {
-            report.route.progress ??= []
-            report.route.progress.push({ phase, scene: sid, ...progress })
-          },
-          onReplan: (value) => {
-            report.route.replans ??= []
-            report.route.replans.push({ phase, scene: sid, ...value })
-          },
+          health,
         })
-        report.route.legs.push({ phase, scene: sid, startOrder, endOrder: (await drive()).order })
-      }
-      const touch = async (sid, id, finished, sample) => {
+      const touch = async (sid, id, finished) => {
         const actor = (await snapshot()).actors[id]
         assert(actor?.visible, `missing touch target ${sid}/${id}`)
-        const range = actor.triggerMode >= 4 ? actor.triggerMode - 4 : 1
-        await navigate(
-          sid,
-          (col, row) =>
-            mealGameTouchDestination(actor, col, row) ||
-            Math.max(
-              Math.abs(col - gameGrid(actor.position)[0]),
-              Math.abs(row - gameGrid(actor.position)[1]),
-            ) <= range,
-          finished,
-          sample,
-        )
+        await navigate(sid, `${sid}/${id}`, finished)
       }
-      const interact = async (sid, id) => {
+      const interact = async (sid, id, planId = `${sid}/${id}`) => {
         const actor = (await snapshot()).actors[id]
         assert(actor?.visible, `missing interaction target ${sid}/${id}`)
         const [tc, tr] = gameGrid(actor.position),
@@ -282,15 +249,22 @@ export async function runBoatGame() {
           )
         await navigate(
           sid,
-          near,
+          planId,
           (state) => gameScene(state, sid) && ready(state) && near(...grid(state)),
         )
         const [col, row] = grid(await snapshot()),
           facing = tc > col ? 'right' : tc < col ? 'left' : tr > row ? 'down' : 'up',
           key = { right: 'ArrowRight', left: 'ArrowLeft', down: 'ArrowDown', up: 'ArrowUp' }[facing]
-        await page.keyboard.down(key)
-        await until(snapshot, (state) => state.facing === facing, 'face interaction target')
-        await page.keyboard.up(key)
+        await recordFacingInput({
+          id: `face:${report.actions.length}`,
+          engine: 'game',
+          page,
+          read: snapshot,
+          until,
+          key,
+          facing: facing,
+          onInput: (input) => report.actions.push(canonicalInput({ phase, ...input })),
+        })
         await press('Enter', `interact ${sid}/${id}`)
         await until(snapshot, (state) => !ready(state), 'interaction starts')
       }
@@ -305,8 +279,18 @@ export async function runBoatGame() {
           }
           assert(gameScene(state, sid), `${label} left ${sid}`)
           if (ready(state)) break
-          if (state.dialog && ['waiting-page-key', 'waiting-end-key'].includes(state.dialog.phase))
+          if (
+            state.dialog &&
+            ['waiting-page-key', 'waiting-end-key'].includes(state.dialog.phase)
+          ) {
+            const before = JSON.stringify(state.dialog)
             await press('Enter', `${label} dialogue confirmation`)
+            await until(
+              snapshot,
+              (next) => JSON.stringify(next.dialog) !== before,
+              `${label} confirmation consumed`,
+            )
+          }
           await new Promise((done) => setTimeout(done, 40))
         }
         const phaseTrace = await drive()
@@ -315,44 +299,35 @@ export async function runBoatGame() {
             resolve(out, '006-doctor-debug.json'),
             `${JSON.stringify(phaseTrace, null, 2)}\n`,
           )
-        assertRenderedRows(phaseTrace, locale, ids)
+        assertRenderedRows(phaseTrace, contract.dialogue, ids)
         report.core.rows.push(...ids.map((id) => `dlg.${id}`))
         report.checks[label] = 'passed'
       }
       try {
         await bootstrap()
         assert.equal((await snapshot()).scene, 5)
+        report.storyScope = { start: { afterOrder: (await drive()).order } }
         await begin('return-to-inn')
         await touch('s004', 'e94', (state) => gameScene(state, 's003') && ready(state))
         await touch('s003', 'e49', (state) => gameScene(state, 's002') && ready(state))
         await begin('doctor')
-        await touch('s002', 'e35', (state) => gameScene(state, 's002') && !ready(state))
+        await touch('s002', 'e35', (state) => gameScene(state, 's002') && !!state.dialog)
         await dialogue('doctor', 's002', dialogueIds.slice(0, 17))
         await begin('room')
-        await interact('s002', 'e36')
+        await interact('s002', 'e36', 'room-initial')
         await dialogue('room-initial', 's002', dialogueIds.slice(17, 36))
         await begin('room-repeat-1')
-        if (ready(await snapshot())) await interact('s002', 'e36')
+        if (ready(await snapshot())) await interact('s002', 'e36', 'room-repeat')
         else await until(snapshot, (state) => !!state.dialog, 'room repeat 1 dialogue starts')
         await dialogue('room-repeat-1', 's002', dialogueIds.slice(36, 38))
         await begin('room-repeat-2')
-        if (ready(await snapshot())) await interact('s002', 'e36')
+        if (ready(await snapshot())) await interact('s002', 'e36', 'room-repeat')
         else await until(snapshot, (state) => !!state.dialog, 'room repeat 2 dialogue starts')
         await dialogue('room-repeat-2', 's002', dialogueIds.slice(38, 40))
         report.checks.room = 'passed'
         await begin('miao-leader')
-        await touch('s002', 'e32', (state) => gameScene(state, 's003'))
-        await until(
-          snapshot,
-          (state) => gameScene(state, 's003') && ready(state),
-          'miao leader auto settles',
-        )
-        await touch('s003', 'e59', (state) => gameScene(state, 's003') && !ready(state))
-        await until(
-          snapshot,
-          (state) => gameScene(state, 's003') && !!state.dialog,
-          'miao leader counsel starts',
-        )
+        await touch('s002', 'e32', (state) => gameScene(state, 's003') && ready(state))
+        await touch('s003', 'e59', (state) => gameScene(state, 's003') && !!state.dialog)
         await dialogue(
           'miao-leader',
           's003',
@@ -363,145 +338,71 @@ export async function runBoatGame() {
           ],
         )
         await begin('inn-exit')
-        await touch(
-          's003',
-          'e44',
-          (state) => gameScene(state, 's004') || (gameScene(state, 's003') && !ready(state)),
-        )
-        await until(snapshot, ready, 's004 entry settles')
-        await touch(
-          's004',
-          'e95',
-          (state) => gameScene(state, 's005') || (gameScene(state, 's004') && !ready(state)),
-        )
-        await until(snapshot, ready, 's005 entry settles')
+        await touch('s003', 'e44', (state) => gameScene(state, 's004') && ready(state))
+        await touch('s004', 'e95', (state) => gameScene(state, 's005') && ready(state))
         await begin('boat')
         await interact('s005', 'e123')
         await dialogue('boat', 's005', dialogueIds.slice(40))
         await page.screenshot({ path: resolve(out, '006-before-ride.png') })
-        await touch(
-          's005',
-          'e116',
-          (state) => gameScene(state, 's014'),
-          (state) => {
-            if (!gameScene(state, 's005')) return
-            const sample = {
-              position: state.position,
-              facing: state.facing,
-              e116: state.actors.e116?.position,
-              e117: state.actors.e117?.position,
-              e123: state.actors.e123?.position,
-              e123Visible: state.actors.e123?.visible,
-            }
-            if (JSON.stringify(motion.at(-1)) !== JSON.stringify(sample)) {
-              motion.push(sample)
-              if (!rideScreenshot.promise && motion.length > 30)
-                rideScreenshot.promise = page.screenshot({
-                  path: resolve(out, '006-during-ride.png'),
-                })
-            }
-          },
-        )
-        if (rideScreenshot.promise) await rideScreenshot.promise
+        await begin('island-arrival')
+        await drive()
+        await touch('s005', 'e116', (s) => gameScene(s, 's014') && !!s.dialog)
+        await dialogue('island-arrival', 's014', ISLAND_ARRIVAL_ROWS)
+        const islandState = await snapshot()
+        assertBoatStoryEnd(islandState, 'game')
+        const npcTrace = await evidence()
+        assertErrandCollector(npcTrace, '006')
+        const boarding = report.route.legs.find((leg) => leg.phase === 'island-arrival')
+        assert(boarding, '006 island-arrival route receipt missing')
+        const motion = boatMotionEvidence(npcTrace, boarding.startOrder, Infinity)
         report.checks.island = 'passed'
         await page.screenshot({ path: resolve(out, '006-island-arrival.png') })
         report.endWorld = {
           position: {
             sceneId: 's014',
-            pos: { x: (await snapshot()).position[0], y: (await snapshot()).position[1] },
+            pos: { x: islandState.position[0], y: islandState.position[1] },
+            facing: islandState.facing,
           },
-          arrivalDialogue: [],
+          arrivalDialogue: islandState.dialog ? [islandState.dialog.text] : [],
+          controlReturned: ready(islandState),
         }
         const normalized = motion.map((sample) => ({
-            ...sample,
-            position: gameGrid(sample.position),
-            e116: sample.e116 ? gameGrid(sample.e116) : null,
-            e117: sample.e117 ? gameGrid(sample.e117) : null,
-          })),
-          origin = normalized[0]?.e116,
-          ride = normalized.filter(
-            (sample) =>
-              sample.e116 &&
-              origin &&
-              Math.hypot(sample.e116[0] - origin[0], sample.e116[1] - origin[1]) > 0.01,
-          )
-        assert(ride.length >= 3, 'boat never committed a multi-sample ride')
-        const relativeOffset = ride[0].position.map((value, index) => value - ride[0].e116[index]),
-          companionOffset = ride[0].e117.map((value, index) => value - ride[0].e116[index])
-        for (const sample of ride) {
-          assert.deepEqual(
-            sample.position.map((value, index) => value - sample.e116[index]),
-            relativeOffset,
-            'party detached from boat during ride',
-          )
-          assert.deepEqual(
-            sample.e117.map((value, index) => value - sample.e116[index]),
-            companionOffset,
-            'rower detached from boat during ride',
-          )
-        }
+          ...sample,
+          position: gameGrid(sample.position),
+          e116: sample.e116 ? gameGrid(sample.e116) : null,
+          e117: sample.e117 ? gameGrid(sample.e117) : null,
+        }))
         report.boatMotion = {
-          samples: ride.length,
-          relativeOffset,
-          companionOffset,
-          rideFacings: [...new Set(ride.map((sample) => sample.facing))],
-          partyBoatRelative: 'constant-through-ride',
+          ...assertBoatMotion(normalized),
           final: motion.at(-1) ?? null,
           source: '006-boat-motion.json',
         }
-        await writeFile(
-          resolve(out, '006-boat-motion.json'),
-          `${JSON.stringify(motion, null, 2)}\n`,
+        report.boatMotion.artifact = await writeEvidenceArtifact(
+          out,
+          '006-boat-motion.json',
+          motion,
         )
-        await writeFile(
-          resolve(out, '006-state-trace.json'),
-          `${JSON.stringify(stateTrace, null, 2)}\n`,
-        )
-        report.stateTrace = { path: '006-state-trace.json', samples: stateTrace.length }
-        const npcTrace = await page.evaluate(() =>
-          window.__readErrandNpcTrace?.([
-            'e35',
-            'e36',
-            'e59',
-            'e60',
-            'e61',
-            'e116',
-            'e117',
-            'e123',
-            'e203',
-          ]),
-        )
-        assert(npcTrace, '006 committed NPC trace hook missing')
-        const islandSamples = stateTrace.filter(
-          (entry) => entry.state.scene === sceneNumbers.s014 && entry.state.actors?.e203,
-        )
-        assert(islandSamples.length > 0, '006 island arrival actor e203 was not observed')
-        if (
-          !npcTrace.events.some(
-            (event) => event.kind === 'actor' && event.id === 'e203' && event.scene === 's014',
-          )
-        ) {
-          let before = null
-          for (const [index, entry] of islandSamples.entries()) {
-            const state = entry.state.actors.e203
-            npcTrace.events.push({
-              kind: 'actor',
-              order: npcTrace.order + index,
-              atMs: entry.atMs,
-              scene: 's014',
-              id: 'e203',
-              before,
-              state,
-            })
-            before = state
-          }
+        report.stateTrace = {
+          ...(await writeEvidenceArtifact(out, '006-state-trace.json', stateTrace)),
+          samples: stateTrace.length,
         }
-        assert.deepEqual(npcTrace.errors, [], '006 committed NPC trace lost an observation')
-        await writeFile(
-          resolve(out, '006-npc-trace.json'),
-          `${JSON.stringify(npcTrace, null, 2)}\n`,
+        assert(
+          npcTrace.events.some(
+            (event) =>
+              event.kind === 'actor' &&
+              event.id === 'e203' &&
+              event.scene === 's014' &&
+              event.source,
+          ),
+          '006 island arrival requires actual committed actor evidence',
         )
-        report.contextTraces = [{ path: '006-npc-trace.json' }]
+        assertErrandCollector(npcTrace, '006')
+        report.storyScope.end = npcStoryBoundary(npcTrace)
+        report.boatMotion.interval = {
+          startOrder: boarding.startOrder,
+          endOrder: report.storyScope.end.afterOrder,
+        }
+        report.contextTraces = [await writeLongEvidenceArtifact(out, '006-trace.json', npcTrace)]
         await writeFile(
           resolve(out, '006-end.json'),
           `${JSON.stringify(report.endWorld, null, 2)}\n`,
@@ -509,8 +410,33 @@ export async function runBoatGame() {
         report.core.status = 'passed'
         report.route.status = 'passed'
         report.status = 'passed'
+        assertBoatReport(report)
         report.sourceHashesStable = true
         report.endFrame = await waitForOpeningFrame(page, until)
+      } catch (error) {
+        await archive.diagnoseStatus(async () => {
+          report.collectorFailure = await page.evaluate(() => window.__readErrandStatus())
+          await writeFile(
+            resolve(out, '006-failure-status.json'),
+            JSON.stringify(report.collectorFailure),
+            { flag: 'wx' },
+          )
+        })
+        await archive.diagnose(async () => {
+          await writeFile(
+            resolve(out, '006-failure-state.json'),
+            JSON.stringify({
+              phase,
+              stateTrace,
+              state: await snapshot(),
+              ...(report.contextTraces?.length
+                ? { traceArtifacts: report.contextTraces }
+                : { trace: encodeLongEvidence(await evidence()) }),
+              cursor: await page.evaluate(() => window.__tpgs?.eventCursor ?? null),
+            }),
+          )
+        })
+        throw error
       } finally {
         report.lastPhase = phase
       }

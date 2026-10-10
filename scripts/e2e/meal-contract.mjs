@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { repoRoot, sha256 } from './browser-journey.mjs'
+import { encodeEvidenceArtifact } from './evidence-artifact.mjs'
+import { assertInnRestoreCommitted } from './inn-contract.mjs'
 import { readKitchenContract } from './kitchen-contract.mjs'
 import { openingFrameMatches } from './opening-frame.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
@@ -21,12 +23,10 @@ export function mealInventoryCount(inventory, engine, id = '272') {
 }
 
 /** A scene entry can already be in proximity. Enter the actual zone with ordinary held input. */
-export const mealServingDestination = (col, row) => col === 108 && row === 29
 
 /** Hash the exact bytes written, not a second serialization with different indentation. */
 export function mealTraceArtifact(trace) {
-  const bytes = JSON.stringify(trace, null, 2)
-  return { bytes, sha256: sha256(bytes) }
+  return encodeEvidenceArtifact(trace)
 }
 const normalize = (text) =>
   String(text ?? '')
@@ -91,10 +91,14 @@ export function mealCasePlan(caseName) {
   }
 }
 
-export function assertMealDrive(dto) {
+export function assertMealHealth(dto) {
   assert.equal(dto.overflow, false, 'meal collector overflow')
   assert.deepEqual(dto.errors, [], 'meal observer error')
   assert(Number.isInteger(dto.order) && dto.order >= -1, 'invalid meal drive order')
+}
+
+export function assertMealDrive(dto) {
+  assertMealHealth(dto)
   assert(Array.isArray(dto.pages) && dto.pages.length <= 800, 'invalid bounded meal pages')
   for (let i = 0; i < dto.pages.length; i++) {
     const page = dto.pages[i]
@@ -104,6 +108,138 @@ export function assertMealDrive(dto) {
       assert.equal(page.seq, dto.pages[i - 1].seq + 1, 'lost drive page')
     }
   }
+}
+
+/** This scenario watches the whole finite return, not a coordinate sampled while
+ * leaving the room. Full source/cadence/ownership proofs remain mandatory in parity. */
+export function assertMealAttendantReturn(trace, engine, receipt) {
+  assert(receipt?.scene === 's001', 'missing complete attendant return observation')
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b),
+    position = (p) =>
+      engine === 'game' ? [(p[0] / 16 + p[1] / 8) / 2, (p[1] / 8 - p[0] / 16) / 2] : p.slice(0, 2)
+  assert.deepEqual(position(receipt.position), [107, 24], 'attendant return endpoint differs')
+  const handoffs = trace.causes.filter((event) => {
+    if (
+      event.phase !== 'command' ||
+      event.scene !== 's001' ||
+      event.sceneVisit !== receipt.sceneVisit
+    )
+      return false
+    const command = event.occurrence?.command?.command
+    return engine === 'game'
+      ? event.channel === 'trigger' &&
+          event.occurrence?.command?.opcode === 0x24 &&
+          same(event.occurrence.command.operands, [27, 541, 0])
+      : command?.kind === 'selectEntityBehavior' &&
+          command.target.entity === 'e26' &&
+          command.channel === 'auto' &&
+          same(command.selection, { kind: 'use', value: 'legacy-003' })
+  })
+  assert.equal(handoffs.length, 1, 'attendant return needs its actual unique handoff')
+  const handoff = handoffs[0],
+    moves = trace.events.filter(
+      (event) =>
+        event.kind === 'actor' &&
+        event.id === 'e26' &&
+        event.scene === 's001' &&
+        event.sceneVisit === receipt.sceneVisit &&
+        event.order > handoff.order &&
+        event.order < receipt.order &&
+        event.before &&
+        !same(event.before.position, event.state.position),
+    )
+  assert.equal(moves.length, 8, 'attendant return must show all eight committed steps')
+  for (const [index, move] of moves.entries()) {
+    assert.deepEqual(position(move.before.position), [109 - index / 4, 24])
+    assert.deepEqual(position(move.state.position), [109 - (index + 1) / 4, 24])
+    assert(
+      trace.events.some(
+        (event) =>
+          event.kind === 'actor-render' &&
+          event.id === 'e26' &&
+          event.sceneVisit === receipt.sceneVisit &&
+          event.order > move.order &&
+          (!moves[index + 1] || event.order < moves[index + 1].order) &&
+          event.renderId <= receipt.renderId &&
+          event.state.drawStatus === 'drawn' &&
+          same(position(event.state.position), position(move.state.position)) &&
+          event.state.facing === 'left' &&
+          event.state.frame === [4, 3, 5, 3][index % 4],
+      ),
+      'attendant return lost its actual walking frame',
+    )
+  }
+  const terminal = trace.causes.find(
+    (event) => event.order === (receipt.terminalOrder ?? receipt.runEnd),
+  )
+  assert(
+    terminal && terminal.order > moves.at(-1).order && terminal.order < receipt.order,
+    'attendant return lacks later native completion',
+  )
+  assert.equal(terminal.scene, 's001')
+  assert.equal(terminal.sceneVisit, receipt.sceneVisit)
+  if (engine === 'game') {
+    assert.equal(terminal.phase, 'auto-step')
+    assert.equal(terminal.actor, 26)
+    assert.equal(terminal.after.ip, 543)
+  } else {
+    assert.equal(terminal.phase, 'run-ended')
+    assert.equal(terminal.runId, receipt.runId)
+    assert.equal(terminal.aborted, false)
+    assert.equal(terminal.resolved, true)
+    assert.deepEqual(
+      terminal.occurrence?.command,
+      { kind: 'finishStep', next: { kind: 'complete' } },
+      'attendant must complete, not stop or replace its return',
+    )
+    assert.deepEqual(
+      terminal.world?.script?.behaviors?.entities?.s001?.e26?.auto?.cursor,
+      { behavior: 'legacy-003', at: { kind: 'completed' } },
+      'return cursor is not completed',
+    )
+    const start = trace.causes.find(
+      (event) => event.phase === 'run-started' && event.runId === receipt.runId,
+    )
+    assert(
+      start?.order > handoff.order && start.order < moves[0].order,
+      'attendant return lacks its selected automatic invocation',
+    )
+    assert.equal(start.author?.entity, 'e26')
+    assert.equal(start.author?.channel, 'auto')
+    assert.equal(start.author?.behavior, 'legacy-003')
+  }
+  const exit = trace.phases.find(
+    (event) => event.edge === 'start' && event.phase === 'guest-room-exit',
+  )
+  assert(exit?.order > receipt.order, 'room exit began before complete automatic return')
+  const drawn = trace.worldRenders.find((event) => event.order === receipt.order)
+  assert.equal(drawn?.renderId, receipt.renderId)
+  assert.equal(drawn.sceneVisit, receipt.sceneVisit)
+  assert.equal(drawn.scene, 's001')
+  const control = trace.events.findLast(
+    (event) =>
+      event.kind === 'control' &&
+      event.scene === 's001' &&
+      event.sceneVisit === receipt.sceneVisit &&
+      (event.order < receipt.order || event.renderId === receipt.renderId),
+  )
+  assert.equal(control?.state, true, 'return completion draw lacks restored player control')
+  assert(
+    trace.events.some(
+      (event) =>
+        event.kind === 'actor-render' &&
+        event.id === 'e26' &&
+        event.sceneVisit === receipt.sceneVisit &&
+        event.renderId <= receipt.renderId &&
+        event.throughRenderId >= receipt.renderId &&
+        event.state.drawStatus === 'drawn' &&
+        same(position(event.state.position), [107, 24]) &&
+        event.state.facing === 'left' &&
+        event.state.frame === 3,
+    ),
+    'completion needs an actual final walking-frame draw',
+  )
+  return { handoff: handoff.order, completion: terminal.order, render: receipt.order, steps: 8 }
 }
 
 export function assertMealCaseReport(report) {
@@ -132,12 +268,14 @@ export function assertMealCaseReport(report) {
   const checks = [
     'pickup',
     'serve',
-    ...(plan.itemChecks ? ['cancel', 'invalidUse'] : ['gift', 'end', 'controlMove']),
+    ...(plan.itemChecks ? ['cancel', 'invalidUse'] : ['gift', 'end']),
     ...(plan.saveRestore ? ['pose', 'carryRestore', 'endRestore'] : []),
   ]
   assert.deepEqual(Object.keys(report.checks).sort(), checks.sort(), 'missing/extra case checks')
   for (const check of checks)
     assert.equal(report.checks[check], 'passed', `004 ${check} not verified`)
+  if (!plan.itemChecks)
+    assert.equal(report.storyEndControl, true, '004 closure did not prove restored control')
   assert.equal(report.contexts.length, plan.saveRestore ? 3 : 1, 'case mixed in extra contexts')
   for (const context of report.contexts) assert.deepEqual(context.initialDatabases, [])
   if (plan.saveRestore) {
@@ -256,6 +394,20 @@ export function mealSaveView(payload, engine) {
       ),
     }),
   )
+}
+
+/** A restored world is observed at the successful load commit, before automatic work resumes. */
+export function assertMealRestored(trace, expected, engine) {
+  if (engine === 'reforge') return assertInnRestoreCommitted(trace, expected)
+  assert.equal(trace.overflow, false, 'meal restore collector overflow')
+  assert.deepEqual(trace.errors, [], 'meal restore observer error')
+  assert.equal(trace.gameRestores?.length, 1, 'one actual Game restore commit required')
+  const commit = trace.gameRestores[0]
+  assert.equal(commit.seq, 0)
+  assert.equal(commit.source, 'commit:loadGameFromSlot')
+  const actual = mealSaveView(commit.payload, engine)
+  assert.deepEqual(actual, expected, 'restored committed persistent world differs')
+  return actual
 }
 
 export function validateMealPredecessor(report, payload, engine, bytes) {
@@ -552,10 +704,18 @@ export function assertMealCollector(trace) {
   assert.equal(trace.overflow, false, 'meal collector overflow')
   assert.deepEqual(trace.errors, [], 'meal observer error')
   assert(
-    Array.isArray(trace.inputs) && Array.isArray(trace.dithers),
-    'missing current input/dither observations',
+    Array.isArray(trace.inputs) &&
+      Array.isArray(trace.dithers) &&
+      Array.isArray(trace.worldRenders),
+    'missing current input/dither/world render observations',
   )
   const all = [
+    ...(trace.gameRestores ?? []),
+    ...(trace.resources ?? []),
+    ...(trace.restoreCommits ?? []),
+    ...(trace.causes ?? []),
+    ...(trace.phases ?? []),
+    ...trace.worldRenders,
     ...trace.events,
     ...trace.pages,
     ...trace.frames,
@@ -567,6 +727,12 @@ export function assertMealCollector(trace) {
     ...trace.dithers,
   ].sort((a, b) => a.order - b.order)
   for (const list of [
+    trace.gameRestores ?? [],
+    trace.resources ?? [],
+    trace.restoreCommits ?? [],
+    trace.causes ?? [],
+    trace.phases ?? [],
+    trace.worldRenders,
     trace.events,
     trace.pages,
     trace.frames,
@@ -587,7 +753,7 @@ export function assertMealCollector(trace) {
   const prior = new Map()
   for (const e of trace.events)
     if (e.kind === 'actor') {
-      const key = e.id === 'party' ? 'party' : `${e.scene}/${e.id}`
+      const key = e.id === 'party' ? 'party' : `${e.sceneVisit}/${e.scene}/${e.id}`
       assert.deepEqual(e.before, prior.get(key) ?? null, 'lost meal actor continuity')
       prior.set(key, e.state)
     }
@@ -613,6 +779,32 @@ export function assertMealGameSaveInput(trace, beforeCount, beforeCompletions, a
     'actual saved payload differs from synchronous save input',
   )
   return captured[0]
+}
+
+/** Replay the exact observed check interval; later phases cannot satisfy or contaminate it. */
+export function mealPhaseWindow(trace, engine, phase) {
+  const ends = (trace.phases ?? []).filter((p) => p.edge === 'end' && p.phase === phase)
+  assert.equal(ends.length, 1, `missing or repeated ${phase} close boundary`)
+  const end = ends[0],
+    start = trace.phases.find((p) => p.order === end.startOrder)
+  assert.equal(start?.edge, 'start', 'phase close refers to a non-start observation')
+  assert.equal(
+    start.phase,
+    phase === 'serve' && engine === 'game' ? 'guest-room' : phase,
+    'phase check borrowed the wrong starting boundary',
+  )
+  assert(start.order < end.order, 'phase boundary order reversed')
+  const included = (event) => event.order > start.order && event.order < end.order
+  return {
+    startOrder: start.order,
+    endOrder: end.order,
+    trace: {
+      ...trace,
+      events: trace.events.filter(included),
+      pages: trace.pages.filter(included),
+      frames: trace.frames.filter(included),
+    },
+  }
 }
 
 /** Story dependencies from real commits/pages, not command counts or sampled coordinates. */

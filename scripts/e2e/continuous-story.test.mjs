@@ -122,49 +122,43 @@ test('continuous runner passes one in-memory boundary and disables fragment save
   )
 })
 
-test('continuous action extraction removes every fragment boundary I/O', () => {
+test('continuous action extraction removes boundary I/O and audit wall time while preserving inputs', () => {
   const actions = continuousStoryActions({
     fragment: '002',
     case: 'story',
     actions: [
-      { key: 'Enter', reason: 'load actual slot1' },
-      { key: 'ArrowLeft', kind: 'down', reason: 'normal held route', atMs: 10 },
-      { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary' },
-      { key: 'F5', reason: 'formal quick-save' },
-      { key: 'Enter', reason: 'normal full-dialogue confirmation' },
+      { key: 'Enter', reason: 'load actual slot1', scope: 'boundary' },
+      { key: 'ArrowLeft', kind: 'down', reason: 'normal held route', atMs: 10, scope: 'story' },
+      { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary', scope: 'story' },
+      { key: 'F5', reason: 'formal quick-save', scope: 'boundary' },
+      { key: 'Enter', reason: 'normal full-dialogue confirmation', atMs: 10000, scope: 'story' },
     ],
   })
   assert.deepEqual(actions, [
-    { key: 'ArrowLeft', kind: 'down', reason: 'normal held route', atMs: 10 },
+    { key: 'ArrowLeft', kind: 'down', reason: 'normal held route' },
     { key: 'ArrowLeft', kind: 'up', reason: 'touch/scene boundary' },
     { key: 'Enter', kind: 'press', reason: 'normal full-dialogue confirmation' },
   ])
+  const storyMenu = continuousStoryActions({
+    fragment: '004',
+    case: 'story',
+    actions: [
+      { key: 'Escape', reason: 'normal menu navigation toward scene wine' },
+      { key: 'ArrowDown', reason: 'normal menu navigation toward scene wine' },
+      { key: 'Enter', reason: 'normal menu navigation toward scene wine' },
+      { key: 'Escape', reason: 'close actual menu', scope: 'boundary' },
+    ],
+  })
+  assert.deepEqual(
+    storyMenu.map(({ key, reason }) => ({ key, reason })),
+    [
+      { key: 'Escape', reason: 'normal menu navigation toward scene wine' },
+      { key: 'ArrowDown', reason: 'normal menu navigation toward scene wine' },
+      { key: 'Enter', reason: 'normal menu navigation toward scene wine' },
+    ],
+  )
   assert.throws(
     () => continuousStoryActions({ fragment: '002', case: 'items', actions: [] }),
     /story only/,
   )
-})
-
-test('continuous route actions retain committed-step targets instead of only key presses', () => {
-  const actions = continuousStoryActions({
-    fragment: '002',
-    case: 'story',
-    route: {
-      inputs: [
-        { scene: 's001', kind: 'down', key: 'ArrowDown', atMs: 10 },
-        { scene: 's001', kind: 'up', key: 'ArrowDown', atMs: 30, reason: 'route effect' },
-      ],
-      steps: [
-        { scene: 's001', atMs: 12, to: [60, -23, 0] },
-        { scene: 's001', atMs: 28, to: [60, -13, 0] },
-      ],
-      legs: [{ scene: 's001' }],
-    },
-    actions: [
-      { key: 'ArrowDown', kind: 'down', reason: 'normal held route', atMs: 10 },
-      { key: 'ArrowDown', kind: 'up', reason: 'route effect', atMs: 30 },
-    ],
-  })
-  assert.equal(actions[1].routeTarget.inputKey, 'ArrowDown')
-  assert.deepEqual(actions[1].routeTarget.position, [60, -13, 0])
 })

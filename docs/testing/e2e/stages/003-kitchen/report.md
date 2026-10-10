@@ -5,16 +5,58 @@ evidence: e2e/evidence/e2e-003.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-003","sourceRefs":[{"path":"scripts/e2e/kitchen-game.mjs","lines":"3-3","anchor":"await runKitchenJourney","role":"caller","sha256":"9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"117-134","anchor":"export function validateKitchenPredecessor(","role":"input","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"518-532","anchor":"'stairs must commit all twelve authored fragments'","role":"oracle","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"386-403","anchor":"export function assertKitchenStoryEnd(","role":"oracle","sha256":"326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:003","pnpm e2e:003:reforge","pnpm e2e:003:both"],"legalInputs":["same-engine current 002 report.json","held normal movement","no take-dish shortcut"],"businessOracle":{"type":"stairs-dialogue-kitchen-handoff","assertions":["楼梯真实12次提交","14行正文完整","停止于126/127并恢复控制"]},"dedupe":{"result":"reviewed","against":["e2e-002","e2e-004"],"notes":"004取菜入口只登记，不把源码核读冒充003实跑。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-003.json"}
+{"schemaVersion":2,"id":"e2e-003","sourceRefs":[{"path":"scripts/e2e/kitchen-game.mjs","lines":"3-3","anchor":"await runKitchenJourney","role":"caller","sha256":"9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"117-199","anchor":"export function validateKitchenPredecessor(","role":"input","sha256":"7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"534-557","anchor":"'stairs must commit all twelve authored fragments'","role":"oracle","sha256":"7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"395-412","anchor":"export function assertKitchenStoryEnd(","role":"oracle","sha256":"7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"497-518","anchor":"export function assertKitchenTrace(","role":"collector consumer","sha256":"7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"},{"path":"scripts/e2e/kitchen-observer.mjs","lines":"1-115","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"583e846bae766bf04ceb63edd91c1d7bdeb818b10f2b12e7f5904d195454cdca"}],"publicCallers":["pnpm e2e:003","pnpm e2e:003:reforge","pnpm e2e:003:both"],"legalInputs":["same-engine current 002 report.json","held normal movement","no take-dish shortcut"],"businessOracle":{"type":"stairs-dialogue-kitchen-handoff","assertions":["楼梯真实12次提交","14行正文完整","停止于126/127并恢复控制"]},"dedupe":{"result":"reviewed","against":["e2e-002","e2e-004"],"notes":"004取菜入口只登记，不把源码核读冒充003实跑。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-003.json"}
 -->
 
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
+2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
+
 # 003 · 下楼、道士交谈与厨房交代
+
+## 2026-10-08 当前验收：复用新录制，统一比较器离线通过
+
+当前录制为`game-003-2026-10-07T14-28-05-155Z`及`reforge-003-2026-10-07T14-28-05-138Z`，
+来自两轨14:25真实002存档，14行正文/楼梯12次提交/正式存读档均已通过。
+本次未重新启动浏览器；`build/e2e/003-offline-frozen-20261008.json`为0未决差异、5项既有合理差异，
+包括李大娘末半格匀速、持帧及醉道士逐轮因果对齐。56/56记录域反例拒绝，含错帧/漏draw、时钟与终结。
+首个scoped自动调用无独立初始idle证据，仅验证中段真实前后调用连续，不补造前驱。
+来源复用、独立复核和质量门见
+[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-当前结果基础设施离线收口001003统一判定通过)。
+下文14:12批次保留历史，不代替本批14:28录制。
+
+## 2026-10-07 完整双轨实跑通过
+
+冻结批次为 `build/e2e/both-003-2026-10-07T14-12-13-739Z/comparison.json`：Game
+`game-003-2026-10-07T14-12-14-294Z`、Reforge `reforge-003-2026-10-07T14-12-14-277Z`。
+两轨分别从12:09真实002档进入，正文14行、楼梯12次真实提交、正常保存和全新空存储读回均passed；
+完整NPC/帧/因果比较0 finding、0 violation。每轨95项源码hash与结束时及当前工作树相同。
+
+- 大厅李大娘、醉道士和厨房李大娘覆盖每次实际draw：Game为159/159/77，Reforge为774/774/242；
+  16个固定等待、6组对白消费、三条精确运动目标及全部运动/静止帧均核。不是仅比首尾坐标。
+- 通用交互转向修复了投影零轴的择边，预览与运行时一致；移动本身的朝向公式不变。
+  接管醉道士时暂停整条自动执行及剩余等待，释放后续走，不重头计时或悄悄消耗余时。
+- 5条显式解释涵盖三个实体的已验持帧、大娘末半格匀速和道士逐轮因果对齐，不是5个未修bug。
+  原版47次/RF50次位移的差异只限已批准的末半格；不放宽目标、朝向、步帧或等待判定。
+- 补强真实main头像IO采集，以及所有五个有限NPC/楼梯run的成功终结检查；对原始passed记录制造
+  错帧、漏draw/命令/计时/IO/结束、错owner/visit/clock、无源姿态重置等46针，全部被拒绝。
+  产物为 `build/e2e/003-counterexamples-frozen-20261007.json`；不修改任何原始失败报告。
+- 浏览器errors均空；Game保留1条开场AVI播放被pause中断的warning，RF保留1条可选save-state资源404。
+  这些不冒称控制台零告警，也不与静态门零诊断混记。结束/读回的像素hash各轨完全相同。
+
+独立复核已关闭terminal/IO和帧因果两包counter。具体真值、先红后绿、原始路径与质量收据见
+[连续验证任务](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)。本轮不声明004–006或连续演示完成；
+下列历史revision/runtimeExecution和旧结果保持原义，不追溯升级。
+
+2026-10-06 SAVE12 采集/消费合同源核验：002前驱及003结束档校验切为SAVE12；assertKitchenTrace 计入worldRenders并按sceneVisit隔离实体连续性，仍要求楼梯12次真实提交、逐次实绘步帧与14行正文。collector独立保留至多60,000条世界绘制时钟，NPC的Game drawn与Reforge selected/world-pass-only不混称像素证据。新sourceRefs补齐采集和消费方，不把源码核读或历史运行升级为新版本通过。
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 本步已追加冻结后的采集器/消费合同源核验，范围见本页最新说明；动态运行与旧回执不因源码核验升级。
 
 ## 2026-10-04 文档深审
 
 两份旧实跑使用不同 revision，不能据此写成同 SHA both 汇总；004 取菜/姿态相邻核读不计 003 运行覆盖。
 
-当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
 
 
 ## 可执行入口

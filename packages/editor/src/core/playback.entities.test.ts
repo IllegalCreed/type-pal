@@ -3,6 +3,38 @@ import { describe, expect, test } from 'vitest'
 import { flowOf, preview, settle, target } from './__tests__/playback-canonical-fixtures.js'
 
 describe('Canonical preview entity overlays', () => {
+  test.each<{ col: number; row: number; facing: Facing }>([
+    { col: 8, row: 7, facing: 'up' },
+    { col: 8, row: 9, facing: 'down' },
+    { col: 7, row: 8, facing: 'left' },
+    { col: 9, row: 8, facing: 'right' },
+    { col: 8, row: 8, facing: 'left' },
+    { col: 7, row: 7, facing: 'left' },
+    { col: 9, row: 9, facing: 'down' },
+    { col: 9, row: 7, facing: 'up' },
+    { col: 7, row: 9, facing: 'left' },
+  ])('faceEntityToParty uses the current preview overlays at $col/$row', async ({
+    col,
+    row,
+    facing,
+  }) => {
+    const r = preview()
+    await r.run([
+      { kind: 'setEntityPos', target, pos: { col: 8, row: 8, height: 7 } },
+      { kind: 'setEntityFacing', target, facing: 'left' },
+      { kind: 'setEntityFrame', target, frame: 1 },
+      { kind: 'teleportParty', pos: { col, row, height: 0 }, facing: 'left' },
+      { kind: 'faceEntityToParty', target },
+    ])
+    expect(r.p.view.entity.get('npc')).toEqual({
+      pos: { col: 8, row: 8, height: 7 },
+      facing,
+      frame: 1,
+    })
+    expect(r.p.view.entity.has('other')).toBe(false)
+    r.unchanged()
+  })
+
   test.each<{ dir: Facing; col: number; row: number }>([
     { dir: 'up', col: 2, row: 2.5 },
     { dir: 'down', col: 2, row: 3.5 },

@@ -22,9 +22,11 @@ import {
   type RuntimeScriptBinding,
   removeOwnedItems,
   resolveAmbienceTint,
+  resolveEntitySpriteId,
   type SceneDef,
   type SceneReveal,
   type SceneSpawn,
+  type SpriteActionBinding,
   type SpriteDef,
   sellableItems,
   usableItems,
@@ -91,6 +93,7 @@ import { areEntityPositionsNear } from './entity-proximity.js'
 import {
   consumeScheduledMoveRest,
   facingToward,
+  interactionFacingToward,
   restAfterMoveAttempt,
   SPEED_GRID,
   stepEntityPos,
@@ -148,7 +151,11 @@ import {
 } from './opening-menu.js'
 import { type LoadedCurrentProject, loadAllScenes, loadScene } from './project-loader.js'
 import { Canvas2DRenderer } from './render.js'
-import { type RuntimeFramePorts, RuntimeFrameSession } from './runtime-frame-session.js'
+import {
+  type RuntimeFramePorts,
+  RuntimeFrameSession,
+  type RuntimeWait,
+} from './runtime-frame-session.js'
 import { type RuntimeInputPorts, routeRuntimeInput } from './runtime-input-router.js'
 import type { RuntimeProjectView } from './runtime-project-view.js'
 import {
@@ -180,15 +187,28 @@ import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
 import { type PreparedScene, ScenePreparer } from './scene-preparer.js'
 import { SceneResources } from './scene-resources.js'
+import type {
+  AutomaticWaitKind,
+  AutomaticWaitSnapshot,
+  SceneRuntimeState,
+  SceneRuntimeStates,
+} from './scene-runtime-state.js'
 import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
+import { atScriptExecutionGate } from './script-execution-gate.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
-import type { SafePointDecision, ScriptRuntimeContext } from './script-runner-core.js'
+import type { ScriptGateBoundary, ScriptRuntimeContext } from './script-runner-core.js'
 import { ScriptWakeGate } from './script-wake-gate.js'
+import {
+  inheritScriptWork,
+  ScriptWorkQueue,
+  scriptWorkIO,
+  scriptWorkWait,
+} from './script-work-queue.js'
 import { parseShopTrialParameters, runShopTrial } from './shop-trial.js'
 import { settleWalkAnimation } from './sprite-anim.js'
 import {
@@ -222,7 +242,7 @@ const TILE_H = 16
 const _MARGIN = 32
 
 /** 原版角色号 → 模板 id（来源指令 0x55 的 role 操作数 = 原版 PlayerRoles 表序）。
- *  ⚠ 3=巫后、4=阿奴(原版名字指针 3/4 对调是名字层面,角色号本身照表序)。 */
+ *  ! 3=巫后、4=阿奴(原版名字指针 3/4 对调是名字层面,角色号本身照表序)。 */
 const ORIGINAL_ROLE_TEMPLATES = [
   'li-xiaoyao',
   'zhao-linger',
@@ -258,7 +278,7 @@ let ctx!: CanvasRenderingContext2D
  * 引擎启动(页面无关的可复用入口):调用方备好 `<canvas id="screen">` + 已加载的工程。
  * 独立 reforge 页(boot.ts)传 loadProject(VITE_PROJECT_ID);编辑器 play 页(同源试玩)
  * 传 FSA/HTTP source 装出的工程 —— 本地工程句柄跨不了源,试玩必须同源,这就是拆出本函数的原因。
- * ⚠ 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
+ * ! 模块级严禁碰 DOM/location:barrel 导出后,node 测试环境 import 本模块即执行模块级代码。
  */
 export async function bootGame(
   inputProject: LoadedCurrentProject,
@@ -375,7 +395,7 @@ export async function bootGame(
   }
 
   // M4b-1:?battle-preview=<field>&enemies=1,2,3 战斗**静态摆位**预览(不进主循环)。
-  // ⚠ 原参数名 ?battle 已让位给「真战斗直开」(编辑器 ⚔ 试打,main 内处理)。
+  // ! 原参数名 ?battle 已让位给「真战斗直开」(编辑器 ⚔ 试打,main 内处理)。
   if (params.has('battle-preview')) {
     await renderBattlePreview(project, params)
     return
@@ -422,6 +442,8 @@ export async function bootGame(
   })
   /** D13-1 帧步进(K5):active=冻结墙钟推进,stepRequested=本帧强制一拍(STEP_MS)。 */
   const frames = new RuntimeFrameSession(STEP_MS)
+  const scriptWork = new ScriptWorkQueue()
+  const motionContinuations: (() => void)[] = []
 
   const cameraSession = new WorldCamera(
     () => player.pos,
@@ -477,9 +499,10 @@ export async function bootGame(
   const playVideoAsset = async (asset: string | undefined, signal?: AbortSignal): Promise<void> => {
     if (!asset) return
     if (signal?.aborted) throw asyncIntentAbortError(`视频 ${asset} 所属 runner 已取消`)
-    const src = await project.assetResolver.urlFor(asset, 'video')
+    const src = await scriptWorkIO(project.assetResolver.urlFor(asset, 'video'), signal)
     if (signal?.aborted) throw asyncIntentAbortError(`视频 ${asset} 所属 runner 已取消`)
-    await playVideoOverlay({ src, signal })
+    if (signal) await atScriptMutation(signal, () => playVideoOverlay({ src, signal }))
+    else await playVideoOverlay({ src }) // Startup runs before the gameplay gate exists.
     if (signal?.aborted) throw asyncIntentAbortError(`视频 ${asset} 所属 runner 已取消`)
   }
   const playVideoSequence = async (
@@ -556,6 +579,16 @@ export async function bootGame(
     canonicalProject.worldVariables,
     canonicalProject.poisonsById,
   )
+  let sceneRuntimeStates: SceneRuntimeStates = {}
+  const automaticWaits = new Map<
+    AbortSignal,
+    { kind: AutomaticWaitKind; durationMs: number; timer: RuntimeWait }
+  >()
+  const restoredWaits = new Map<string, AutomaticWaitSnapshot>()
+  const automaticActions = new Map<
+    AbortSignal,
+    { target: string; binding: SpriteActionBinding; awaited: boolean }
+  >()
   const initialScript = world.script ?? emptyWorldScriptState()
   Object.assign(canonicalScript, structuredClone(initialScript))
   world.script = canonicalScript
@@ -576,10 +609,11 @@ export async function bootGame(
     promise: Promise<T>,
     signal: AbortSignal | undefined,
     message: string,
+    io = true,
   ): Promise<T> => {
     if (!signal) return promise
     assertRunnerActive(signal, message)
-    return new Promise<T>((resolve, reject) => {
+    const pending = new Promise<T>((resolve, reject) => {
       let settled = false
       const finish = (result: { value: T } | { error: unknown }): void => {
         if (settled) return
@@ -596,6 +630,7 @@ export async function bootGame(
         (error: unknown) => finish({ error }),
       )
     })
+    return io ? scriptWorkIO(pending, signal) : pending
   }
   const replaceCanonicalScript = (next: WorldScriptState): void => {
     const target = canonicalScript as unknown as Record<string, unknown>
@@ -890,15 +925,48 @@ export async function bootGame(
     scenePreparation.assertCurrent(plan, worldView)
   }
 
+  function prepareSceneActions(
+    scene: SceneDef,
+    sprites: ReadonlyMap<string, SpriteDef>,
+    saved: SceneRuntimeState | undefined,
+  ): (() => void) | undefined {
+    if (!saved) return undefined
+    return entityActions.prepareRestore(saved.actions, (id, binding, slot) => {
+      const entity = scene.entities.find((value) => value.id === id)
+      const sprite = sprites.get(id)
+      if (!entity || !sprite) throw new Error(`scene runtime action: ${scene.id}/${id} 没有精灵`)
+      if (slot === 'base') {
+        const base = entity.pages?.[0]?.animation
+        if (
+          !base ||
+          base.sprite !== binding.sprite ||
+          base.action !== binding.action ||
+          base.loop !== binding.loop ||
+          (base.startAtMs ?? 0) !== (binding.startAtMs ?? 0)
+        )
+          throw new Error(`scene runtime action: ${scene.id}/${id} 页动作不匹配`)
+      }
+      const loaded = spriteCache.get(project.assetResolver, sprite.asset)
+      if (!loaded) throw new Error(`scene runtime action: ${scene.id}/${id} 精灵未预检`)
+      return resolveSpriteActionBinding(
+        sprite,
+        binding,
+        loaded.frames.length,
+        `scene runtime ${scene.id}/${id}`,
+      )
+    })
+  }
+
   /** 所有 await 已结束后的同步提交点；失败预检不会留下新 world + 旧 scene。 */
   function commitSceneSwitch(
     plan: SceneSwitchPlan,
     worldView: typeof world,
     applySceneMusic = true,
+    restoreActions?: () => void,
   ): void {
     spriteCache.prune(plan.neededSprites)
     resetFrameAnimationPresentation()
-    activeScene.commit(plan)
+    activeScene.commit(plan, restoreActions)
     player.pos = plan.spawn.pos
     facing = plan.spawn.facing
     partyLayer = 0
@@ -937,8 +1005,13 @@ export async function bootGame(
     worldMutationIntent.assertCurrent(worldToken, `切场景 ${sceneId} 时所属世界已失效`)
     if (world !== worldView) throw asyncIntentAbortError(`切场景 ${sceneId} 时活动世界已替换`)
     assertSceneSwitchPlanCurrent(plan, worldView)
+    const saved =
+      beforeCommit && sceneId === activeScene.scene.id
+        ? captureSceneRuntime(currentWorldSnapshot())
+        : sceneRuntimeStates[sceneId]
+    const restoreActions = prepareSceneActions(plan.def, plan.entityDefs, saved)
     beforeCommit?.()
-    commitSceneSwitch(plan, worldView)
+    commitSceneSwitch(plan, worldView, true, restoreActions)
   }
 
   // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
@@ -997,6 +1070,12 @@ export async function bootGame(
   const itemUseSession = new ItemUseSession()
   // loadScene preflight 已选定的目标 onEnter 绑定；与 entry 契约同批冻结，当前脚本收尾后再跑。
   let pendingOnEnter: { sceneId: string; binding: RuntimeScriptBinding } | null = null
+  // A scene-entry script owns the first visible setup. Do not let background auto runners
+  // mutate the freshly materialized scene before that entry has completed.
+  let autoRunnersPendingForEntry = false
+  // Retain restored auto poses while the authored no-entry fade is pending.
+  // A restored auto gait is already a valid projected pose during that interval.
+  let autoRunnersGatePending = false
   const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
@@ -1046,6 +1125,9 @@ export async function bootGame(
   }
   const autoWakeGate = new ScriptWakeGate()
   const autoActivations = new Map<string, AutoActivation>()
+  // A background action can outlive its owner's command stream. Its cancellation lifetime
+  // still ends when that selected behavior is replaced, hidden, removed or leaves the scene.
+  const automaticActionOwners = new Map<string, AbortController>()
   const autoActivationBySignal = new WeakMap<AbortSignal, AutoActivation>()
   let nextAutoActivationEpoch = 1
   const canActivateScriptConfirm = (): boolean =>
@@ -1065,7 +1147,7 @@ export async function bootGame(
   }
   const waitForScriptModal = (signal: AbortSignal): Promise<void> | void => {
     if (!scriptConfirmModal.active) return
-    return new Promise<void>((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       const waiter = {
         signal,
         resolve,
@@ -1083,44 +1165,41 @@ export async function bootGame(
       if (signal.aborted) waiter.abort()
     })
   }
-  const waitForScriptGameplay = async (
-    signal: AbortSignal,
-  ): Promise<SafePointDecision | undefined> => {
-    await waitForScriptModal(signal)
+  const scriptExecutionGateOpen = (signal: AbortSignal, boundary?: ScriptGateBoundary): boolean => {
+    signal.throwIfAborted()
+    if (scriptConfirmModal.active) return false
     const activation = autoActivationBySignal.get(signal)
-    if (!activation) return
+    if (!activation) return true
     const ownerId = activation.entityId
-    // W9 suspend pauses an activation at every command/safe-point without aborting its cursor or
-    // pending move. hide/remove abort the owner elsewhere, so this loop cannot resurrect it.
-    while (true) {
-      await waitForScriptModal(signal)
-      signal.throwIfAborted()
-      if (autoActivations.get(ownerId) !== activation)
-        throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
-      const entity = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
-      if (!entity) throw asyncIntentAbortError(`auto 实体 ${ownerId} 已离场`)
-      if (
+    if (autoActivations.get(ownerId) !== activation)
+      throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
+    const entity = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
+    if (!entity) throw asyncIntentAbortError(`auto 实体 ${ownerId} 已离场`)
+    return (
+      (boundary?.committed === true || authority.get(ownerId)?.kind !== 'script') &&
+      (boundary?.kind === 'settlement' ||
         autoActivationSafePointOpen(
           entityLifecycleGates(entity, { hasAuto: true }).autoAllowed,
           pendingTouchTrigger.blocksAutoSafePoint,
-        )
-      )
-        return
-      await autoWakeGate.wait(signal, () => {
-        if (autoActivations.get(ownerId) !== activation)
-          throw asyncIntentAbortError('automatic activation replaced while suspended')
-        const current = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
-        if (!current) throw asyncIntentAbortError('automatic owner left scene')
-        return (
-          !scriptConfirmModal.active &&
-          autoActivationSafePointOpen(
-            entityLifecycleGates(current, { hasAuto: true }).autoAllowed,
-            pendingTouchTrigger.blocksAutoSafePoint,
-          )
-        )
-      })
-    }
+        ))
+    )
   }
+  const waitForScriptGameplay = (
+    signal: AbortSignal,
+    boundary?: ScriptGateBoundary,
+  ): Promise<void> | void => {
+    if (!autoActivationBySignal.has(signal)) return waitForScriptModal(signal)
+    return autoWakeGate.wait(signal, () => scriptExecutionGateOpen(signal, boundary))
+  }
+  const atScriptMutation = <T>(signal: AbortSignal | undefined, action: () => T): Promise<T> =>
+    signal
+      ? atScriptExecutionGate(
+          { gate: waitForScriptGameplay, gateOpen: scriptExecutionGateOpen },
+          signal,
+          undefined,
+          action,
+        )
+      : Promise.resolve(action())
   // WorldScenePresentation owns 0x87 frame overrides, party gesture, shake and wave draw state.
   const battlePreparation = new BattleLaunchPreparation(
     {
@@ -1208,7 +1287,7 @@ export async function bootGame(
   //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
   //    速度 = 原版速度码 px/拍(scene.c:887-888 NPCWalkOneStep x±2s,y±1s;本 grid 1 格
   //    = 16/8px → s/8 格/拍)。迁移器 SPEED 表 2/3/4/8 → slow/normal/fast/run 1:1。
-  //    ⚠ 曾「半格/SPEED_MS」:0.5 格=8/4px 量子≠原版 6/3px,注释还把半格错标成 16/8px。
+  //    ! 曾「半格/SPEED_MS」:0.5 格=8/4px 量子≠原版 6/3px,注释还把半格错标成 16/8px。
   const runInlineEntityTrigger = async (
     entityId: string,
     signal: AbortSignal,
@@ -1351,6 +1430,7 @@ export async function bootGame(
     if (!entity || !pos) return
     entity.pos = { ...pos }
     clearEntityGait(id)
+    motion.discardRestoredMove(id)
     clearMotionStick({ kind: 'entity', id })
   }
 
@@ -1358,6 +1438,30 @@ export async function bootGame(
   function applyWorldToScene(): void {
     applyWorldEntityGatesToScene()
     for (const entity of activeScene.scene.entities) applyWorldEntityPositionToScene(entity.id)
+    worldPresentation.clearEntityFrames()
+    restoredWaits.clear()
+    const saved = sceneRuntimeStates[activeScene.scene.id]
+    if (!saved) return
+    const matchingOwner = (id: string): boolean =>
+      JSON.stringify(saved.automatic[id]?.cursor) ===
+      JSON.stringify(canonicalScript.behaviors.entities?.[activeScene.scene.id]?.[id]?.auto?.cursor)
+    for (const entity of activeScene.scene.entities) {
+      const pose = saved.entities[entity.id]
+      if (!pose) continue
+      if (pose.facing !== undefined) entity.facing = pose.facing
+      if (pose.fixedFrame !== undefined)
+        worldPresentation.setEntityFrame(entity.id, pose.fixedFrame)
+      const motionPose = structuredClone(pose.motion)
+      if (motionPose.gait?.owner && !matchingOwner(motionPose.gait.owner)) delete motionPose.gait
+      if (motionPose.move && !matchingOwner(motionPose.move.owner)) {
+        delete motionPose.move
+        delete motionPose.gait
+      }
+      motion.restoreEntity(entity.id, motionPose)
+    }
+    for (const [id, automatic] of Object.entries(saved.automatic))
+      if (automatic.wait && matchingOwner(id))
+        restoredWaits.set(id, structuredClone(automatic.wait))
   }
 
   function hostFade(
@@ -1403,7 +1507,7 @@ export async function bootGame(
     const pending = begin()
     const owned = ditherTransition.active
     try {
-      await awaitRunner(pending, signal, message)
+      await awaitRunner(pending, signal, message, false)
     } catch (error) {
       if (ditherTransition.active === owned) ditherTransition.cancel()
       throw error
@@ -1421,7 +1525,7 @@ export async function bootGame(
           ditherZeroFrameMatchesBackup = null
           ditherZeroFrameDiffersFromTarget = null
           await awaitOwnedDither(
-            () => ditherTransition.beginEntry(entry.sourceFrame, reveal.ms),
+            () => ditherTransition.beginEntry(entry.sourceFrame, reveal.ms, {}, signal),
             signal,
             '场景入场抖动呈现所属 runner 已取消',
           )
@@ -1467,20 +1571,30 @@ export async function bootGame(
   const autoMotionSlots = motionRuntime.autoSlots
   const setAuthority = (id: string, value: MotionAuthority): void => {
     motionRuntime.setAuthority(id, value)
+    syncAutomaticWaitAuthority(id)
     autoWakeGate.notify()
   }
   const releaseAuthority = (id: string): void => {
     motionRuntime.releaseAuthority(id)
+    syncAutomaticWaitAuthority(id)
     autoWakeGate.notify()
   }
   const releaseAllAuthority = (): void => {
     if (authority.get('party')?.kind === 'mount') dismountParty()
     motionRuntime.releaseAllAuthority()
+    for (const id of autoActivations.keys()) syncAutomaticWaitAuthority(id)
     autoWakeGate.notify()
   }
   const takeByScript = (id: string): void => {
     if (id === 'party' && authority.get('party')?.kind === 'mount') dismountParty()
     setAuthority(id, { kind: 'script' })
+  }
+  function syncAutomaticWaitAuthority(id: string): void {
+    const activation = autoActivations.get(id)
+    if (activation)
+      automaticWaits
+        .get(activation.controller.signal)
+        ?.timer.setPaused(authority.get(id)?.kind === 'script')
   }
 
   // Motion lifetime follows scene/world replacement, not unrelated same-world mutations (dialogue,
@@ -1517,7 +1631,7 @@ export async function bootGame(
     speed: WalkSpeed,
     signal?: AbortSignal,
     commitControl?: MoveEntityCommitControl,
-    slowCadence = true,
+    policy: { slowCadence?: boolean; preserveFacing?: boolean } = {},
   ): Promise<number> {
     try {
       signal?.throwIfAborted()
@@ -1538,7 +1652,7 @@ export async function bootGame(
       const hiddenTarget = abortAutoActivationForHiddenTarget(id, activation)
       if (hiddenTarget) return Promise.reject(hiddenTarget)
     }
-    return motion.registerMove({
+    const pending = motion.registerMove({
       source,
       id,
       to,
@@ -1549,8 +1663,14 @@ export async function bootGame(
         ? { activation: { ownerId: activation.entityId, epoch: activation.epoch } }
         : {}),
       ...(commitControl ? { commitControl } : {}),
-      slowCadence,
+      slowCadence: policy.slowCadence ?? true,
+      preserveFacing: policy.preserveFacing ?? false,
     })
+    const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
+    const slot = autoMotionSlots.get(id)
+    if (source === 'auto' && entity && slot?.kind === 'move')
+      motion.adoptScriptGaitHandoff(id, entity.pos, slot)
+    return pending
   }
 
   function scheduleAutoStep(
@@ -1688,7 +1808,13 @@ export async function bootGame(
     if (entityMotionPermanentlyRemoved(entityId))
       throw asyncIntentAbortError(`追逐实体 ${entityId} 已永久移除`)
     const activation = source === 'auto' ? autoActivationBySignal.get(signal) : undefined
-    if (checkpoint?.phase === 'done') return
+    const wait = (ms: number, kind: AutomaticWaitKind): Promise<void> =>
+      source === 'auto' ? waitAutomaticDelay(ms, kind, signal) : host.wait(ms, signal)
+    if (checkpoint?.phase === 'done') {
+      const restored = activation ? restoredWaits.get(activation.entityId) : undefined
+      if (restored) await wait(restored.durationMs, restored.kind)
+      return
+    }
     if (checkpoint?.phase === 'continuation') {
       if (source === 'auto') {
         if (!activation || autoActivations.get(activation.entityId) !== activation)
@@ -1708,7 +1834,7 @@ export async function bootGame(
           })
       }
       await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
-      await host.wait(Math.max(80, 480 / Math.max(1, speed)), signal)
+      await wait(Math.max(80, 480 / Math.max(1, speed)), 'chase-pacing')
       return
     }
     if (source === 'auto') {
@@ -1728,7 +1854,7 @@ export async function bootGame(
     }
     if (!e || !entityLifecycleGates(e).visible) {
       checkpoint?.settle('done')
-      await host.wait(200, signal)
+      await wait(200, 'chase-hidden')
       return
     }
     if (source === 'auto' && authority.has(entityId)) {
@@ -1846,7 +1972,7 @@ export async function bootGame(
           throw error
         }
       }
-      await host.wait(320, signal)
+      await wait(320, 'chase-terminal')
       if (currentMotionSceneSessionId() !== continuationSceneToken)
         throw asyncIntentAbortError(`追逐 ${entityId} 的 terminal wait 已切换场景`)
       return
@@ -1854,14 +1980,37 @@ export async function bootGame(
     if (dist > range) {
       checkpoint?.settle('done')
       pendingChaseTerminal.delete(entityId)
-      await host.wait(240, signal)
+      await wait(240, 'chase-range')
       return
     }
     pendingChaseTerminal.delete(entityId)
     const outcome = await scheduleChaseMotion(source, entityId, range, floating, signal, checkpoint)
     if (source === 'auto' && outcome === 'attempted')
       await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
-    await host.wait(Math.max(80, 480 / Math.max(1, speed)), signal)
+    await wait(Math.max(80, 480 / Math.max(1, speed)), 'chase-pacing')
+  }
+
+  function waitAutomaticDelay(
+    ms: number,
+    kind: AutomaticWaitKind,
+    signal: AbortSignal,
+  ): Promise<void> {
+    const activation = autoActivationBySignal.get(signal)
+    if (!activation) throw asyncIntentAbortError('automatic wait has no live activation')
+    const resumed = restoredWaits.get(activation.entityId)
+    if (resumed && (resumed.kind !== kind || resumed.durationMs !== ms))
+      throw new Error('automatic wait does not match restored continuation')
+    restoredWaits.delete(activation.entityId)
+    const remainingMs = resumed?.remainingMs ?? ms
+    const timer: RuntimeWait =
+      remainingMs === 0
+        ? { done: Promise.resolve(), remainingMs: 0, setPaused: () => {} }
+        : frames.scheduleWait(remainingMs, signal)
+    automaticWaits.set(signal, { kind, durationMs: ms, timer })
+    timer.setPaused(authority.get(activation.entityId)?.kind === 'script')
+    // Keep a zero-remaining receipt until the leaf closes its save checkpoint. Otherwise a
+    // snapshot between Promise completion and cursor advancement would restart the full wait.
+    return timer.done
   }
 
   async function waitForAutoMotionContinuation(
@@ -1887,7 +2036,9 @@ export async function bootGame(
             !!target && entityLifecycleGates(target, { hasAuto: true }).autoAllowed,
           ownerLifecycleAllowed:
             !!owner && entityLifecycleGates(owner, { hasAuto: true }).autoAllowed,
-          authorityHeld: authority.has(entityId),
+          authorityHeld:
+            authority.has(entityId) ||
+            (!!activation && authority.get(activation.entityId)?.kind === 'script'),
           deferredTouchBarrier: pendingTouchTrigger.blocksAutoSafePoint,
         }
       },
@@ -1912,33 +2063,39 @@ export async function bootGame(
             '对话肖像加载所属 runner 已取消',
           ),
         )
-      assertRunnerActive(signal, '对话所属 runner 已取消')
-      scriptMutationIntent.assertCurrent(scriptMutationToken, '旧场景对话加载已失效')
-      scriptDialogResolve?.()
-      scriptDialogResolve = null
-      return new Promise((resolve, reject) => {
-        let settled = false
-        const finish = (error?: Error): void => {
-          if (settled) return
-          settled = true
-          signal.removeEventListener('abort', abort)
-          if (error) reject(error)
-          else resolve()
-        }
-        const settleDialog = (): void => finish()
-        const abort = (): void => {
-          if (scriptDialogResolve === settleDialog) {
-            scriptDialogResolve = null
-            dialogBox.close()
+      return atScriptMutation(signal, () => {
+        assertRunnerActive(signal, '对话所属 runner 已取消')
+        scriptMutationIntent.assertCurrent(scriptMutationToken, '旧场景对话加载已失效')
+        scriptDialogResolve?.()
+        scriptDialogResolve = null
+        return scriptWorkWait<void>(signal, (resolve, reject) => {
+          let settled = false
+          const finish = (error?: Error): void => {
+            if (settled) return
+            settled = true
+            signal.removeEventListener('abort', abort)
+            if (error) reject(error)
+            else resolve()
           }
-          finish(asyncIntentAbortError('对话所属 runner 已取消'))
-        }
-        preserveClosedDialogFrame = false
-        frameAnimationPresentation.enterDialogue()
-        dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), performance.now())
-        scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
-        signal.addEventListener('abort', abort, { once: true })
-        if (signal.aborted) abort()
+          const settleDialog = (): void => finish()
+          const abort = (): void => {
+            if (scriptDialogResolve === settleDialog) {
+              scriptDialogResolve = null
+              dialogBox.close()
+            }
+            finish(asyncIntentAbortError('对话所属 runner 已取消'))
+          }
+          preserveClosedDialogFrame = false
+          frameAnimationPresentation.enterDialogue()
+          dialogBox.open(
+            startDialogue({ id: '__script', cues: [cue] }),
+            performance.now(),
+            'script',
+          )
+          scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
+          signal.addEventListener('abort', abort, { once: true })
+          if (signal.aborted) abort()
+        })
       })
     },
     clearDialog: () => {
@@ -1954,6 +2111,7 @@ export async function bootGame(
       frameAnimationAbortCleanup = null
       frameAnimationPlaybackAbort?.abort()
       const controller = new AbortController()
+      const detachWork = inheritScriptWork(signal, controller.signal)
       frameAnimationPlaybackAbort = controller
       const owner = beginFrameAnimationPlayback()
       const fadeOwner = {}
@@ -1962,6 +2120,7 @@ export async function bootGame(
         if (frameAnimationPresentation.isCurrent(owner)) resetFrameAnimationPresentation()
       }
       const detachAbort = (): void => {
+        detachWork()
         signal.removeEventListener('abort', abort)
         fadeDriver.cancelOwned(fadeOwner, 0)
       }
@@ -2028,7 +2187,7 @@ export async function bootGame(
     wait: (ms, signal) => frames.wait(ms, signal),
     resetPresentation: () => {
       // K3 复位语义逐项等价:fade→cancel(0) 回透明 / camera→(0,0) / dialog→close / 动画→reset。
-      if (dialogBox.active) dialogBox.close()
+      dialogBox.close()
       const r = scriptDialogResolve
       scriptDialogResolve = null
       r?.()
@@ -2126,10 +2285,13 @@ export async function bootGame(
       const fromSceneId = activeScene.scene.id
       const plan = await prepareAndCommitSceneSwitch({
         prepare: () =>
-          prepareSceneSwitch(sceneId, worldView, {
-            ...spawn,
-            inheritFacing: inheritedFacing,
-          }),
+          scriptWorkIO(
+            prepareSceneSwitch(sceneId, worldView, {
+              ...spawn,
+              inheritFacing: inheritedFacing,
+            }),
+            signal,
+          ),
         assertCurrent: (prepared) => {
           assertRequestCurrent()
           assertSceneSwitchPlanCurrent(prepared, worldView)
@@ -2141,10 +2303,11 @@ export async function bootGame(
           markSceneLoad(fromSceneId, sceneId, 'preflight')
           ditherTransition.cancel()
           sceneEntrySession.cancel()
+          // Retained dialogue belongs to the source scene, even without an entry cutscene.
+          dialogBox.close()
           const entry = prepared.onEnterEntry
           if (entry) {
             // 先关对话状态但不重画；source 仍是来源场景最后一张完整 presented frame。
-            dialogBox.close()
             sceneEntrySession.begin(
               fromSceneId,
               sceneId,
@@ -2164,11 +2327,17 @@ export async function bootGame(
         },
         commit: (prepared) => {
           markSceneLoad(fromSceneId, sceneId, 'switch')
+          const saved =
+            sceneId === fromSceneId
+              ? captureSceneRuntime(currentWorldSnapshot())
+              : sceneRuntimeStates[sceneId]
+          const restoreActions = prepareSceneActions(prepared.def, prepared.entityDefs, saved)
           stopAutoRunners()
-          commitSceneSwitch(prepared, worldView)
+          commitSceneSwitch(prepared, worldView, true, restoreActions)
         },
         shouldCleanup: () => sceneSwitchIntent.isCurrent(sceneToken) && world === worldView,
         cleanup: () => {
+          autoRunnersGatePending = false
           preserveClosedDialogFrame = false
           ditherTransition.cancelOwned(visualOwner)
           sceneEntrySession.cancel()
@@ -2180,15 +2349,19 @@ export async function bootGame(
       const entry = plan.onEnterEntry
       markSceneLoad(fromSceneId, sceneId, 'committed')
       applyWorldToScene()
-      worldPresentation.clearEntityFrames()
       pendingOnEnter = targetBinding ? { sceneId, binding: targetBinding } : null
       sceneChangedByScript = true // X1:演出链全部收尾后写 auto 档
-      startAutoRunners()
+      autoRunnersPendingForEntry = Boolean(entry)
+      autoRunnersGatePending = false
       if (!entry) {
+        autoRunnersGatePending = true
         markSceneLoad(fromSceneId, sceneId, 'fade-in')
-        await hostFade('in', transition?.inMs ?? 260, 'black', signal, visualOwner)
+        const fadeInMs = transition?.inMs ?? 260
+        await hostFade('in', fadeInMs, 'black', signal, visualOwner)
         assertRequestCurrent()
+        autoRunnersGatePending = false
         markSceneLoad(fromSceneId, sceneId, 'done')
+        startAutoRunners()
       } else {
         markSceneLoad(fromSceneId, sceneId, 'entry-ready')
       }
@@ -2204,6 +2377,8 @@ export async function bootGame(
           ditherTransition.beginSnapshot(
             () => ctx.getImageData(0, 0, canvas.width, canvas.height),
             ms,
+            {},
+            signal,
           ),
         signal,
         '屏幕渐变所属 runner 已取消',
@@ -2235,13 +2410,15 @@ export async function bootGame(
         signal,
         `0x65 换装 ${actorId} 的 runner 已取消`,
       )
-      assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
-      worldMutationIntent.assertCurrent(worldToken, `0x65 换装 ${actorId} 的所属世界已失效`)
-      scriptMutationIntent.assertCurrent(scriptMutationToken, `0x65 换装 ${actorId} 的脚本已失效`)
-      intent.assertCurrent(actorToken, `0x65 换装 ${actorId} 已被更新请求取代`)
-      // 切回角色本体 = 撤销临时覆盖；持久 appearance 仍按其自身优先级生效。
-      if (def.id === actor.spriteId) actorSpriteOverrides.delete(actorId)
-      else actorSpriteOverrides.set(actorId, { def, frames })
+      await atScriptMutation(signal, () => {
+        assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
+        worldMutationIntent.assertCurrent(worldToken, `0x65 换装 ${actorId} 的所属世界已失效`)
+        scriptMutationIntent.assertCurrent(scriptMutationToken, `0x65 换装 ${actorId} 的脚本已失效`)
+        intent.assertCurrent(actorToken, `0x65 换装 ${actorId} 已被更新请求取代`)
+        // 切回角色本体 = 撤销临时覆盖；持久 appearance 仍按其自身优先级生效。
+        if (def.id === actor.spriteId) actorSpriteOverrides.delete(actorId)
+        else actorSpriteOverrides.set(actorId, { def, frames })
+      })
     },
     // 0x1A:持久改角色形象(成年灵儿),写 CharacterInstance.appearance 随存档。按 template 匹配队员;
     // 大世界精灵覆写要预载新精灵帧(队长/跟随者渲染每帧读 appearance.spriteId)。
@@ -2280,16 +2457,21 @@ export async function bootGame(
         signal,
         `0x1A 换形象 ${actorTemplate} 的 runner 已取消`,
       )
-      assertRunnerActive(signal, `0x1A 换形象 ${actorTemplate} 的 runner 已取消`)
-      worldMutationIntent.assertCurrent(worldToken, `0x1A 换形象 ${actorTemplate} 的所属世界已失效`)
-      scriptMutationIntent.assertCurrent(
-        scriptMutationToken,
-        `0x1A 换形象 ${actorTemplate} 的脚本已失效`,
-      )
-      intent.assertCurrent(actorToken, `0x1A 换形象 ${actorTemplate} 已被更新请求取代`)
-      const c = world.party.find((member) => member.template === actorTemplate)
-      if (!c) throw asyncIntentAbortError(`0x1A 换形象 ${actorTemplate} 时角色已离队`)
-      c.appearance = { ...c.appearance, ...patch }
+      await atScriptMutation(signal, () => {
+        assertRunnerActive(signal, `0x1A 换形象 ${actorTemplate} 的 runner 已取消`)
+        worldMutationIntent.assertCurrent(
+          worldToken,
+          `0x1A 换形象 ${actorTemplate} 的所属世界已失效`,
+        )
+        scriptMutationIntent.assertCurrent(
+          scriptMutationToken,
+          `0x1A 换形象 ${actorTemplate} 的脚本已失效`,
+        )
+        intent.assertCurrent(actorToken, `0x1A 换形象 ${actorTemplate} 已被更新请求取代`)
+        const c = world.party.find((member) => member.template === actorTemplate)
+        if (!c) throw asyncIntentAbortError(`0x1A 换形象 ${actorTemplate} 时角色已离队`)
+        c.appearance = { ...c.appearance, ...patch }
+      })
     },
     fleeBattle: () => {
       host.report('fleeBattle: 战斗演出专用命令,大世界上下文忽略')
@@ -2347,11 +2529,23 @@ export async function bootGame(
       }
     },
     setEntityFacing: (id, fc) => {
+      motion.clearScriptGaitHandoffs(id)
       const e = activeScene.scene.entities.find((x) => x.id === id)
       if (e) e.facing = fc
     },
-    setEntityFrame: (id, frame) => worldPresentation.setEntityFrame(id, frame),
+    faceEntityToParty: (id) => {
+      motion.clearScriptGaitHandoffs(id)
+      const e = activeScene.scene.entities.find((entity) => entity.id === id)
+      if (e && (e.pos.col !== player.pos.col || e.pos.row !== player.pos.row))
+        e.facing = interactionFacingToward(e.pos, player.pos)
+    },
+    setEntityFrame: (id, frame) => {
+      motion.clearScriptGaitHandoffs(id)
+      motion.setExplicitAnimation(id, frame)
+      worldPresentation.setEntityFrame(id, frame)
+    },
     playEntityAction: (id, binding, signal) => {
+      motion.clearScriptGaitHandoffs(id)
       assertRunnerActive(signal, `实体 ${id} 动作所属 runner 已取消`)
       const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
       if (!entity)
@@ -2366,13 +2560,22 @@ export async function bootGame(
         `playEntityAction: 场景 ${activeScene.scene.id} 实体 ${id}`,
       )
       // 新动作接管外观时清掉显式定帧；移动中的走帧仍保留并以更高优先级暂停动作。
-      worldPresentation.clearEntityFrame(id)
-      motion.clearExplicitAnimation(id)
+      const activation = signal ? autoActivationBySignal.get(signal) : undefined
+      const source = activation ? 'automatic' : 'script'
+      // Re-entering a saved waiter/receipt is not a fresh visual command. A newer foreground
+      // pose may already own this image, so do not replay the original clearing side effects.
+      if (!entityActions.resumesAwaited(id, binding, source, activation?.entityId)) {
+        worldPresentation.clearEntityFrame(id)
+        motion.clearExplicitAnimation(id)
+      }
+      if (activation) automaticActionOwners.set(activation.entityId, activation.controller)
       return entityActions.play(
         id,
         resolved,
         signal,
-        signal && autoActivationBySignal.has(signal) ? 'automatic' : 'script',
+        source,
+        signal ? autoActivationBySignal.get(signal)?.entityId : undefined,
+        signal ? automaticActions.get(signal)?.awaited : undefined,
       )
     },
     stopEntityAction: (id, reset) => entityActions.stop(id, reset),
@@ -2382,14 +2585,16 @@ export async function bootGame(
       const mutationToken = worldMutationIntent.capture()
       const scriptMutationToken = scriptMutationIntent.capture()
       await awaitRunner(prepareItemSounds(itemId), signal, `giveItem(${itemId}) 的 runner 已取消`)
-      assertRunnerActive(signal, `giveItem(${itemId}) 的 runner 已取消`)
-      worldMutationIntent.assertCurrent(mutationToken, `giveItem(${itemId}) 的所属世界已失效`)
-      scriptMutationIntent.assertCurrent(scriptMutationToken, `giveItem(${itemId}) 的脚本已失效`)
-      if (world !== targetWorld)
-        throw asyncIntentAbortError(`giveItem(${itemId}) 的所属世界已被替换`)
-      const entry = targetWorld.inventory.find((x) => x.itemId === itemId)
-      if (entry) entry.count += count
-      else targetWorld.inventory.push({ itemId, count })
+      await atScriptMutation(signal, () => {
+        assertRunnerActive(signal, `giveItem(${itemId}) 的 runner 已取消`)
+        worldMutationIntent.assertCurrent(mutationToken, `giveItem(${itemId}) 的所属世界已失效`)
+        scriptMutationIntent.assertCurrent(scriptMutationToken, `giveItem(${itemId}) 的脚本已失效`)
+        if (world !== targetWorld)
+          throw asyncIntentAbortError(`giveItem(${itemId}) 的所属世界已被替换`)
+        const entry = targetWorld.inventory.find((x) => x.itemId === itemId)
+        if (entry) entry.count += count
+        else targetWorld.inventory.push({ itemId, count })
+      })
     },
     loseItem: (itemId, count) => {
       removeOwnedItems(world, itemId, count)
@@ -2514,6 +2719,8 @@ export async function bootGame(
         if (world !== targetWorld) throw asyncIntentAbortError('setParty 的所属世界已被替换')
       }
       await commitLatestPreparedSnapshot({
+        runAtBoundary: (action) => atScriptMutation(signal, action),
+        waitForResources: (pending) => scriptWorkIO(pending, signal),
         assertCurrent,
         snapshot: () => structuredClone(targetWorld),
         mutate: (candidate) => {
@@ -2527,6 +2734,7 @@ export async function bootGame(
             spriteCache.load(project.assetResolver, asset),
             signal,
             `setParty 预载 ${asset} 时 runner 已取消`,
+            false,
           ).then(() => undefined),
         commit: (candidate) => {
           targetWorld.party = candidate.party
@@ -2585,7 +2793,10 @@ export async function bootGame(
       const a = authority.get('party')
       if (!(a?.kind === 'mount' && a.parent === entityId)) host.mountParty(entityId, 0, 0)
       takeByScript(entityId) // 载具本身按位移指令语义接管(其 auto 暂停)
-      await scheduleEntityMove('script', entityId, to, speed, signal, undefined, false)
+      await scheduleEntityMove('script', entityId, to, speed, signal, undefined, {
+        slowCadence: false,
+        preserveFacing: true,
+      })
       assertRunnerActive(signal, `骑乘 ${entityId} 的 runner 已取消`)
     },
     // Base host is authored/scripted by default. autoHost below selects its own independent slot.
@@ -2597,11 +2808,14 @@ export async function bootGame(
       if (!e || entityMotionPermanentlyRemoved(id)) return
       e.facing = dir
       // 原版单步 op(0x0B-0E)= NPCWalkOneStep(speed 2)= 4/2px = 0.25 格(script.c:660;
-      // scene.c:887-888)。⚠ 曾 0.5 格且误引 play.c:213(那是追逐 speed8=16/8px)→ 步距 2×。
+      // scene.c:887-888)。! 曾 0.5 格且误引 play.c:213(那是追逐 speed8=16/8px)→ 步距 2×。
       e.pos = stepEntityPos(e.pos, dir)
       markEntityGait(id, 'script', motion.nextCommandEpoch())
     },
     animEntity: (id) => {
+      // setEntityFrame is a one-shot pose override. An authored animEntity sequence explicitly
+      // resumes the sprite animation, so the stale override must not mask its advancing phase.
+      worldPresentation.clearEntityFrame(id)
       motion.advanceExplicitAnimation(id)
     },
     nudgeEntity: (id, dx, dy) => {
@@ -2694,7 +2908,7 @@ export async function bootGame(
         host.report(`openShop: 店 #${shopId} 不在 shops 表`)
         return Promise.resolve()
       }
-      return new Promise<void>((resolve, reject) => {
+      return scriptWorkWait<void>(signal, (resolve, reject) => {
         let settled = false
         const entry = {
           ui: openShopUi(mode, [...list]),
@@ -2808,16 +3022,18 @@ export async function bootGame(
         signal,
         `reloadMap(${mapId}) 的 runner 已取消`,
       )
-      assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
-      scriptMutationIntent.assertCurrent(scriptMutationToken, `reloadMap(${mapId}) 的脚本已失效`)
-      if (activeScene.scene !== sceneAtRequest)
-        throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属场景已失效`)
-      if (world.script !== scriptAtRequest)
-        throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属脚本世界已失效`)
-      const nextRenderer = new Canvas2DRenderer(ctx, activeScene.palette, assets.tilesets)
-      const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
-      commitCanonical()
-      activeScene.replaceMap(assets, nextRenderer, nextRoom)
+      await atScriptMutation(signal, () => {
+        assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
+        scriptMutationIntent.assertCurrent(scriptMutationToken, `reloadMap(${mapId}) 的脚本已失效`)
+        if (activeScene.scene !== sceneAtRequest)
+          throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属场景已失效`)
+        if (world.script !== scriptAtRequest)
+          throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属脚本世界已失效`)
+        const nextRenderer = new Canvas2DRenderer(ctx, activeScene.palette, assets.tilesets)
+        const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
+        commitCanonical()
+        activeScene.replaceMap(assets, nextRenderer, nextRoom)
+      })
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
     quitToTitle: async (videos, signal) => {
@@ -2873,7 +3089,9 @@ export async function bootGame(
     },
     stepEntity: (id, dir) => {
       if (entityMotionPermanentlyRemoved(id)) return
-      takeByScript(id)
+      // Successive foreground one-steps remain under the same owner. Explicit takeEntity still
+      // creates a new authority boundary; reacquiring this implicit owner must not reset phase.
+      if (authority.get(id)?.kind !== 'script') takeByScript(id)
       host.stepEntity(id, dir)
     },
     nudgeEntity: (id, dx, dy) => {
@@ -2985,7 +3203,7 @@ export async function bootGame(
       )
       pageActions.push({ entity: entity.id, ...resolved })
     }
-    entityActions.replaceScene(pageActions)
+    entityActions.syncBases(pageActions)
   }
 
   const refreshLifecycleProjection = (
@@ -3009,6 +3227,10 @@ export async function bootGame(
     hostileMotionEpoch.delete(entity.id)
     if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
       pendingChaseTerminal.delete(entity.id)
+    if (command.kind === 'hideEntity' || command.kind === 'removeEntity') {
+      automaticActionOwners.get(entity.id)?.abort()
+      automaticActionOwners.delete(entity.id)
+    }
     if (command.kind === 'restoreEntity') {
       // restore 只重新开放 lifecycle gate。即使 target 自身没有 auto behavior，它也可能
       // 正被另一个 auto activation 移动；suspend 保留的跨实体 slot/cursor 不能在这里
@@ -3058,6 +3280,68 @@ export async function bootGame(
     command: RuntimeLeafCommand,
     commit?: Readonly<{ resetFrameTarget?: { scene: string; entity: string } }>,
   ): void => {
+    if (
+      'target' in command &&
+      command.target &&
+      typeof command.target === 'object' &&
+      'scene' in command.target &&
+      'entity' in command.target
+    ) {
+      const target = command.target
+      const saved = sceneRuntimeStates[target.scene]
+      if (saved && target.scene !== activeScene.scene.id) {
+        const pose = saved.entities[target.entity]
+        if (pose && (command.kind === 'setEntityPos' || command.kind === 'removeEntity')) {
+          delete pose.motion.gait
+          delete pose.motion.move
+        }
+        if (
+          (command.kind === 'selectEntityBehavior' && command.channel === 'auto') ||
+          command.kind === 'selectEntityPage' ||
+          command.kind === 'hideEntity' ||
+          command.kind === 'removeEntity'
+        ) {
+          delete saved.automatic[target.entity]
+          for (const [id, entry] of Object.entries(saved.entities)) {
+            if (
+              id === target.entity ||
+              entry.motion.move?.owner === target.entity ||
+              entry.motion.gait?.owner === target.entity
+            ) {
+              delete entry.motion.gait
+              delete entry.motion.move
+            }
+          }
+          saved.chaseClaims = saved.chaseClaims.filter(
+            (claim) =>
+              claim.owner.entity !== target.entity &&
+              (!['hideEntity', 'removeEntity'].includes(command.kind) ||
+                claim.target.entity !== target.entity),
+          )
+          for (const action of saved.actions) {
+            if (command.kind === 'selectEntityPage' && action.entity === target.entity)
+              delete action.base
+            if (
+              action.override?.owner === target.entity ||
+              (action.entity === target.entity && command.kind === 'removeEntity')
+            )
+              delete action.override
+            if (action.completed) {
+              action.completed = action.completed.filter(
+                (track) =>
+                  track.owner !== target.entity &&
+                  !(action.entity === target.entity && command.kind === 'removeEntity'),
+              )
+              if (action.completed.length === 0) delete action.completed
+            }
+          }
+          saved.actions = saved.actions.filter(
+            (action) => action.base || action.override || action.completed?.length,
+          )
+        }
+        if (pose && commit?.resetFrameTarget?.entity === target.entity) delete pose.fixedFrame
+      }
+    }
     syncRuntimeScriptScratch(activeScene.scene.id)
     if (isLifecycleRuntimeCommand(command)) {
       refreshLifecycleProjection(command, commit)
@@ -3107,9 +3391,19 @@ export async function bootGame(
     signal: AbortSignal,
     commitControl?: ScriptEffectCommitControl,
   ): Promise<void> => {
+    if (command.kind === 'wait' && context.timing === 'auto') {
+      try {
+        await waitAutomaticDelay(command.ms, 'command', signal)
+        await context.autoCommandCheckpoint?.beginMutation()
+      } finally {
+        automaticWaits.delete(signal)
+      }
+      return
+    }
     const automaticPoseTarget =
       context.timing === 'auto' &&
       (command.kind === 'setEntityFacing' ||
+        command.kind === 'faceEntityToParty' ||
         command.kind === 'setEntityFrame' ||
         command.kind === 'animEntity' ||
         command.kind === 'playEntityAction' ||
@@ -3139,22 +3433,44 @@ export async function bootGame(
           !pendingTouchTrigger.blocksAutoSafePoint &&
           entityLifecycleGates(target, { hasAuto: true }).autoAllowed &&
           entityLifecycleGates(owner, { hasAuto: true }).autoAllowed &&
+          authority.get(activation.entityId)?.kind !== 'script' &&
           authority.get(automaticPoseTarget)?.kind !== 'script'
         )
       }
-      await executeAutomaticTargetCommand(
-        {
-          signal,
-          checkpoint: context.autoCommandCheckpoint,
-          eligible,
-          wait: (isEligible) => autoWakeGate.wait(signal, isEligible),
-        },
-        () =>
-          executeScriptHostEffect(autoHost, command, context, signal, {
-            currentSceneId: () => activeScene.scene.id,
-          }),
-        command.kind === 'playEntityAction',
-      )
+      const action =
+        command.kind === 'playEntityAction'
+          ? {
+              target: command.target.entity,
+              binding: {
+                sprite: command.sprite,
+                action: command.action,
+                loop: command.loop,
+                ...(command.startAtMs !== undefined ? { startAtMs: command.startAtMs } : {}),
+              },
+              awaited: command.wait ?? !command.loop,
+            }
+          : undefined
+      if (action) automaticActions.set(signal, action)
+      try {
+        await executeAutomaticTargetCommand(
+          {
+            signal,
+            checkpoint: context.autoCommandCheckpoint,
+            eligible,
+            wait: (isEligible) => autoWakeGate.wait(signal, isEligible),
+          },
+          () =>
+            executeScriptHostEffect(autoHost, command, context, signal, {
+              currentSceneId: () => activeScene.scene.id,
+            }),
+          // A background play only installs a track: installation and advancing its leaf are
+          // one mutation. Only an awaited action has a resumable in-flight checkpoint.
+          action?.awaited === true,
+        )
+        if (action) entityActions.acknowledgeCompleted(action.target, action.binding, signal)
+      } finally {
+        automaticActions.delete(signal)
+      }
       return
     }
     if (command.kind === 'moveEntity' && command.target.scene === activeScene.scene.id) {
@@ -3199,15 +3515,20 @@ export async function bootGame(
       context.timing === 'auto' &&
       context.self?.scene === activeScene.scene.id
     ) {
-      await runChaseStep(
-        'auto',
-        context.self.entity,
-        command.range ?? 8,
-        command.speed ?? 4,
-        command.floating ?? false,
-        signal,
-        context.autoMotionCheckpoint,
-      )
+      try {
+        await runChaseStep(
+          'auto',
+          context.self.entity,
+          command.range ?? 8,
+          command.speed ?? 4,
+          command.floating ?? false,
+          signal,
+          context.autoMotionCheckpoint,
+        )
+        await context.autoCommandCheckpoint?.beginMutation()
+      } finally {
+        automaticWaits.delete(signal)
+      }
       return
     }
     await executeScriptHostEffect(
@@ -3258,12 +3579,11 @@ export async function bootGame(
       scene: getCanonicalScene,
       currentSceneId: () => activeScene.scene.id,
       currentSceneSessionId: currentMotionSceneSessionId,
-      gate: (signal, boundary) =>
-        boundary?.kind === 'settlement'
-          ? waitForScriptModal(signal)
-          : waitForScriptGameplay(signal),
+      gate: waitForScriptGameplay,
+      gateOpen: scriptExecutionGateOpen,
       // Completed bodies may have hidden their own auto owner. Cursor settlement is not another
-      // gameplay mutation: keep modal/abort/CAS checks, then gate the next body independently.
+      // gameplay mutation: skip lifecycle gates, but a taken owner cannot traverse/settle its
+      // command stream (including branch selection) until explicitly released.
       entityPosRelativeToParty: (target, dcol, drow) => {
         if (target.scene !== activeScene.scene.id)
           throw new Error(`setEntityPosRelParty 只能操作当前场景: ${target.scene}/${target.entity}`)
@@ -3518,6 +3838,18 @@ export async function bootGame(
         )
         // Slow scheduled-rest is still the same active gait owner; it neither advances nor clears.
         if (slot?.kind === 'move' && slowRestEntityIds.has(id)) continue
+        // Foreground one-step choreography owns its current phase through authored waits, just
+        // as automatic one-step choreography below does. Release/terminal/pose writers clear it.
+        if (owner?.source === 'script' && authority.get(id)?.kind === 'script') continue
+        // Auto stepEntity is a sequence of one-shot steps separated by authored waits. Keep the
+        // last gait through that wait so the next step advances the same walk cycle; otherwise
+        // every step is rendered as [walk, idle] and the third walk frame is never visible.
+        if (owner?.source === 'auto' && autoRunnersGatePending) continue
+        if (
+          owner?.source === 'auto' &&
+          (slot || autoActivations.has(motion.gaitActivationOwner(id) ?? id))
+        )
+          continue
         clearEntityGait(id)
       }
     }
@@ -3551,7 +3883,7 @@ export async function bootGame(
       if (moved) pushTrail(trail, player.pos, result.facing)
       if (result.done) {
         walking = false
-        motion.completePartyMove(mv)
+        motionContinuations.push(() => motion.completePartyMove(mv))
       } else {
         walking = true
         worldPresentation.setPartyGesture(null)
@@ -3561,7 +3893,7 @@ export async function bootGame(
       updateCamera()
     }
 
-    // ⚠ 设计裁决(2026-07-03 用户):NPC 走位**不与对话系统耦合**。原版"对话等按键期
+    // ! 设计裁决(2026-07-03 用户):NPC 走位**不与对话系统耦合**。原版"对话等按键期
     // GameUpdate 停 → NPC 冻结"(开场李大娘读对话时停步回头)是旧引擎阻塞怪癖,clean
     // 引擎不复刻;要演出停顿将来在内容层显式编排(wait/暂停指令),不在引擎层感知对话。
     const intents: MotionIntent[] = []
@@ -3612,7 +3944,11 @@ export async function bootGame(
         const owner = activeScene.scene.entities.find(
           (candidate) => candidate.id === queuedAuto.activationOwnerId,
         )
-        return !!owner && entityLifecycleGates(owner, { hasAuto: true }).autoAllowed
+        return (
+          !!owner &&
+          authority.get(owner.id)?.kind !== 'script' &&
+          entityLifecycleGates(owner, { hasAuto: true }).autoAllowed
+        )
       })()
       const autoMotionAllowed = autoTargetAllowed && autoOwnerAllowed
       // A one-shot queued before script take must never survive that take and fire later. This
@@ -3649,6 +3985,9 @@ export async function bootGame(
       if (slot?.source === 'auto') {
         if (!autoMotionAllowed) continue
       }
+      // A committed one-shot remains registered until its deferred continuation wakes. It is
+      // not another pending movement if a world tick arrives before that task is delivered.
+      if (slot && slot.kind !== 'move' && slot.committed) continue
       if (slot?.kind === 'chase' && !entityLifecycleGates(entity).visible) {
         slot.resolve()
         clearMotionStick({ kind: 'entity', id })
@@ -3705,7 +4044,7 @@ export async function bootGame(
           }
           const result = walkTick(entity.pos, slot.to, slot.speed)
           desired = result.pos
-          desiredFacing = result.facing
+          desiredFacing = slot.preserveFacing ? (entity.facing ?? 'down') : result.facing
           arrived = result.done
           source = slot.source === 'script' ? 'script' : 'auto'
           collision = runtimeMotionCollision(slot.kind)
@@ -3954,7 +4293,40 @@ export async function bootGame(
             if (reachedEndpoint) {
               worldPresentation.clearEntityFrame(meta.entity.id)
               motion.clearExplicitAnimation(meta.entity.id)
-              clearEntityGait(meta.entity.id)
+              const automatic = autoMotionSlots.get(meta.entity.id)
+              const pendingActivation = autoActivations.get(meta.entity.id)
+              const automaticOwner = automatic?.activationOwnerId
+                ? activeScene.scene.entities.find(
+                    (entity) => entity.id === automatic.activationOwnerId,
+                  )
+                : undefined
+              if (
+                meta.source === 'script' &&
+                automatic?.kind === 'move' &&
+                automaticOwner &&
+                entityLifecycleGates(meta.entity, { hasAuto: true }).autoAllowed &&
+                entityLifecycleGates(automaticOwner, { hasAuto: true }).autoAllowed &&
+                !motionRuntime.slotInvalidReason(
+                  automatic,
+                  currentMotionSceneSessionId(),
+                  (ownerId) => autoActivations.get(ownerId)?.epoch,
+                ) &&
+                (automatic.to.col !== outcome.to.col ||
+                  automatic.to.row !== outcome.to.row ||
+                  automatic.to.height !== outcome.to.height)
+              ) {
+                // The foreground waypoint is not the retained automatic walk's destination.
+                // Count this real arrival step and return the gait to that exact paused owner.
+                // Take still presents a standing pose; release resumes the phase, not step one.
+                markEntityGait(meta.entity.id, 'auto', automatic.commandEpoch)
+              } else if (meta.source === 'script' && pendingActivation) {
+                motion.rememberScriptGaitHandoff(
+                  meta.entity.id,
+                  outcome.to,
+                  currentMotionSceneSessionId(),
+                  { ownerId: pendingActivation.entityId, epoch: pendingActivation.epoch },
+                )
+              } else clearEntityGait(meta.entity.id)
             } else markEntityGait(meta.entity.id, meta.source, meta.epoch)
           }
         }
@@ -4095,9 +4467,8 @@ export async function bootGame(
         if (contact) beginHostileEncounter(contact)
       },
       queueContinuations: () => {
-        // The endpoint is already durable. Wake command Promises from the next task so a touch
-        // runner establishes take/scene intent first; unrelated same-scene dialogue keeps auto live.
-        setTimeout(() => {
+        // The frame drains the touch runner to its first real wait before waking these owners.
+        motionContinuations.push(() => {
           for (const { entity, slot } of validNoOpEndpointSettlements) {
             wakeDurableMotionEndpoint(motionRuntime, entity.id, slot)
             clearMotionStick({ kind: 'entity', id: entity.id })
@@ -4116,7 +4487,7 @@ export async function bootGame(
             if (settleDeferredOneShotMotion(motionRuntime, entity.id, slot))
               clearMotionStick({ kind: 'entity', id: entity.id })
           }
-        }, 0)
+        })
       },
     })
   }
@@ -4129,6 +4500,9 @@ export async function bootGame(
     // Suspended is a resumable activation gate. Hidden exit/removal phases, however, own no
     // activation until lifecycle explicitly restores/reappears them.
     if (phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed') return
+    const runtime = scriptRuntime
+    const canonical = sceneResources.peek(activeScene.scene.id)
+    if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     const controller = new AbortController()
     const activation: AutoActivation = {
       entityId: e.id,
@@ -4137,17 +4511,22 @@ export async function bootGame(
       sceneSessionId: currentMotionSceneSessionId(),
     }
     const ac = controller
+    const finishWork = scriptWork.begin(ac.signal)
     autoActivations.set(e.id, activation)
     autoActivationBySignal.set(ac.signal, activation)
-    const runtime = scriptRuntime
-    const canonical = sceneResources.peek(activeScene.scene.id)
-    if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
     void (async () => {
       try {
+        for (const target of activeScene.scene.entities)
+          entityActions.attachRestoredOwner(target.id, ac.signal, e.id)
         while (!ac.signal.aborted) {
           const ran = await runtime.runEntityBehavior(canonical, e.id, 'auto', {
             signal: ac.signal,
           })
+          // The activation owns the gait hold between one-shot steps, but not after the authored
+          // auto behavior has completed.
+          for (const target of activeScene.scene.entities)
+            if (target.id === e.id || motion.gaitActivationOwner(target.id) === e.id)
+              clearEntityGait(target.id)
           if (!e.pages?.[0]?.auto) return
           if (!ran) {
             const owner = {
@@ -4164,11 +4543,26 @@ export async function bootGame(
       } finally {
         autoActivationBySignal.delete(ac.signal)
         if (autoActivations.get(e.id) === activation) autoActivations.delete(e.id)
+        finishWork()
       }
     })()
   }
-  function startAutoRunners(restoredClaims: readonly StoredAutomaticChaseClaim[] = []): void {
+  function startAutoRunners(
+    restoredClaims: readonly StoredAutomaticChaseClaim[] = sceneRuntimeStates[activeScene.scene.id]
+      ?.chaseClaims ?? [],
+  ): void {
     for (const e of activeScene.scene.entities) startAutoRunner(e)
+    for (const action of entityActions.capture()) {
+      const ownerId = action.override?.source === 'automatic' ? action.override.owner : undefined
+      if (!ownerId) continue
+      let controller =
+        autoActivations.get(ownerId)?.controller ?? automaticActionOwners.get(ownerId)
+      if (!controller) {
+        controller = new AbortController()
+      }
+      automaticActionOwners.set(ownerId, controller)
+      entityActions.attachRestoredOwner(action.entity, controller.signal, ownerId)
+    }
     // Rebuild derived contact ownership in the same synchronous restore commit as the new
     // activations. A suspended owner may not enter its runner before the first hostile scan.
     for (const { owner, target } of restoredClaims) {
@@ -4388,6 +4782,8 @@ export async function bootGame(
     h: NonNullable<EntityDef['hostile']>,
   ): Promise<void> {
     hostileBusy = true
+    const encounterSignal = new AbortController().signal
+    const finishWork = scriptWork.begin(encounterSignal)
     try {
       // 明雷怪专属战场(三层解析第二层;缺省走场景覆写/默认)
       const runtime = expectDefined(scriptRuntime)
@@ -4396,7 +4792,7 @@ export async function bootGame(
           enemyTeamId: h.enemyTeamId,
           ...(h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : {}),
         },
-        new AbortController().signal,
+        encounterSignal,
       )
       if (result === 'victory') {
         if (applyHostileLifecyclePolicy(e, result)) return
@@ -4411,15 +4807,18 @@ export async function bootGame(
       } else if (result === 'playerFled') {
         applyHostileLifecyclePolicy(e, result)
       } else if (result === 'defeat') {
-        if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver()
+        if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver(encounterSignal)
         else startScript(`hostile:${e.id}`, [{ body: h.onLose }], e.id)
       } // enemyFled/terminated:回场景,怪留原地
     } finally {
       hostileBusy = false
+      finishWork()
     }
   }
   /** 停单实体 auto(0x24 换 autoScript 用:停旧起新)。 */
   function restartAutoRunner(e: EntityDef): void {
+    automaticActionOwners.get(e.id)?.abort()
+    automaticActionOwners.delete(e.id)
     autoActivations.get(e.id)?.controller.abort()
     autoActivations.delete(e.id)
     startAutoRunner(e)
@@ -4439,6 +4838,9 @@ export async function bootGame(
     if ((restartOwn || hasAuto) && hasAuto && !autoActivations.has(targetId))
       startAutoRunner(target)
     restartAutoOwnersWaitingOnTarget(targetId, targetAutoAllowed)
+    // A numeric hidden→visible transition keeps its activation/cursor. Wake that existing
+    // waiter now: waking only at the next rAF misses that frame's synchronous movement tick.
+    autoWakeGate.notify()
   }
   function restartAutoOwnersWaitingOnTarget(targetId: string, targetAutoAllowed = true): void {
     for (const ownerId of motionRuntime.takeHiddenTargetRestartOwners(
@@ -4449,13 +4851,17 @@ export async function bootGame(
       if (owner && !autoActivations.has(ownerId)) startAutoRunner(owner)
     }
   }
-  function stopAutoRunners(): void {
+  function stopAutoRunners(rememberScene = true): void {
+    autoRunnersGatePending = false
+    if (rememberScene) sceneRuntimeStates[activeScene.scene.id] = captureSceneRuntime(world)
     // AbortSignal 只会在 host Promise 返回后被 runner 检查；先失效 host 的提交 token，
     // 保证旧场景 auto 已经卡进资源 await 时也不能在新场景提交后反写。
     invalidatePendingScriptMutations()
     motion.teardownScene({
       slotMessage: (source, id) => `切换场景时取消实体 ${id} 的未完成 ${source} 走位`,
       beforeCancelSlots: () => {
+        for (const controller of automaticActionOwners.values()) controller.abort()
+        automaticActionOwners.clear()
         for (const activation of autoActivations.values()) activation.controller.abort()
         autoActivations.clear()
       },
@@ -4467,6 +4873,9 @@ export async function bootGame(
     hostileReady.clear()
     hostileMotionEpoch.clear()
     pendingChaseTerminal.clear()
+    automaticWaits.clear()
+    restoredWaits.clear()
+    automaticActions.clear()
     pendingTouchTrigger.clear()
     entityTriggerRevision.clear()
     cameraSession.reset()
@@ -4484,6 +4893,7 @@ export async function bootGame(
     if (!runtime) throw new Error('script runtime 未初始化')
     const ownsRunnerSlot = runner === null
     const runSignal = signal ?? new AbortController().signal
+    const finishWork = scriptWork.begin(runSignal)
     const active = { running: true }
     if (ownsRunnerSlot) runner = active
     try {
@@ -4505,16 +4915,23 @@ export async function bootGame(
       }
       return result
     } finally {
-      active.running = false
-      if (ownsRunnerSlot) {
-        if (runner === active) runner = null
-        dismountParty()
-        releaseAllAuthority()
-        if (sceneChangedByScript) {
-          sceneChangedByScript = false
-          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
+      try {
+        active.running = false
+        if (ownsRunnerSlot) {
+          if (runner === active) {
+            dialogBox.close()
+            runner = null
+          }
+          dismountParty()
+          releaseAllAuthority()
+          if (sceneChangedByScript) {
+            sceneChangedByScript = false
+            void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
+          }
+          drainPendingTouchTrigger()
         }
-        drainPendingTouchTrigger()
+      } finally {
+        finishWork()
       }
     }
   }
@@ -4536,6 +4953,7 @@ export async function bootGame(
       if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
       scriptAbort = new AbortController()
       const controller = scriptAbort
+      const finishWork = scriptWork.begin(controller.signal)
       const active = { running: true }
       runner = active
       runnerTriggerOwnerId = triggerOwnerId
@@ -4570,6 +4988,7 @@ export async function bootGame(
         .finally(() => {
           active.running = false
           if (runner !== active) return
+          dialogBox.close()
           runner = null
           runnerTriggerOwnerId = null
           scriptAbort = null
@@ -4590,12 +5009,21 @@ export async function bootGame(
             }
             sceneEntrySession.cancel()
           }
+          if (
+            autoRunnersPendingForEntry &&
+            finishedSceneId === activeScene.scene.id &&
+            pendingOnEnter === null
+          ) {
+            autoRunnersPendingForEntry = false
+            startAutoRunners()
+          }
           if (sceneChangedByScript) {
             sceneChangedByScript = false
             void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
           }
           drainPendingTouchTrigger()
         })
+        .finally(finishWork)
       return
     }
   }
@@ -4613,6 +5041,7 @@ export async function bootGame(
     inlineTriggerOwners.clear()
     scriptAbort = null
     pendingOnEnter = null
+    autoRunnersPendingForEntry = false
     pendingTouchTrigger.clear()
     preserveClosedDialogFrame = false
     scriptConfirmModal.cancelAll('脚本会话已替换')
@@ -4858,13 +5287,42 @@ export async function bootGame(
     saveMetasInitialized = true
   }
 
-  function captureCurrentSavePayload(): StoredSavePayload {
-    const position = {
-      sceneId: activeScene.scene.id,
-      pos: structuredClone(player.pos),
-      facing,
+  function captureSceneRuntime(captured: WorldState): SceneRuntimeState {
+    const saved: SceneRuntimeState = {
+      entities: {},
+      automatic: {},
+      chaseClaims: [],
+      actions: entityActions.capture({
+        includeCompleted: (entity, binding, signal, owner) => {
+          const action = signal ? automaticActions.get(signal) : undefined
+          if (action)
+            return (
+              action.awaited &&
+              action.target === entity &&
+              action.binding.sprite === binding.sprite &&
+              action.binding.action === binding.action &&
+              action.binding.loop === binding.loop &&
+              (action.binding.startAtMs ?? 0) === (binding.startAtMs ?? 0)
+            )
+          // A prepared receipt may be captured again before the restored runner re-enters its leaf.
+          return (
+            owner !== undefined &&
+            sceneRuntimeStates[activeScene.scene.id]?.actions.some(
+              (value) =>
+                value.entity === entity &&
+                value.completed?.some(
+                  (track) =>
+                    track.owner === owner &&
+                    track.binding.sprite === binding.sprite &&
+                    track.binding.action === binding.action &&
+                    track.binding.loop === binding.loop &&
+                    (track.binding.startAtMs ?? 0) === (binding.startAtMs ?? 0),
+                ),
+            ) === true
+          )
+        },
+      }),
     }
-    const captured = currentWorldSnapshot()
     // Canonical movement endpoints do not represent an in-flight pose. Capture the actual
     // scene at this synchronous boundary, without mutating live world or waiting for arrival.
     if (activeScene.scene.entities.length > 0) {
@@ -4872,11 +5330,35 @@ export async function bootGame(
       captured.script.entityPos ??= {}
       const positions = captured.script.entityPos[activeScene.scene.id] ?? {}
       captured.script.entityPos[activeScene.scene.id] = positions
-      for (const entity of activeScene.scene.entities)
+      for (const entity of activeScene.scene.entities) {
         positions[entity.id] = structuredClone(entity.pos)
+        const fixedFrame = worldPresentation.entityFrame(entity.id)
+        saved.entities[entity.id] = {
+          ...(entity.facing !== undefined ? { facing: entity.facing } : {}),
+          ...(fixedFrame !== undefined ? { fixedFrame } : {}),
+          motion: motion.captureEntity(entity.id),
+        }
+      }
     }
-    const payload = buildCurrentSavePayload(captured, position, inputProject.manifest.id)
-    const claims: StoredAutomaticChaseClaim[] = []
+    for (const [id, behavior] of Object.entries(
+      captured.script?.behaviors.entities?.[activeScene.scene.id] ?? {},
+    )) {
+      const cursor = behavior.auto?.cursor
+      if (!cursor) continue
+      const activation = autoActivations.get(id)
+      const wait = activation ? automaticWaits.get(activation.controller.signal) : undefined
+      const remaining = wait
+        ? {
+            kind: wait.kind,
+            durationMs: wait.durationMs,
+            remainingMs: wait.timer.remainingMs,
+          }
+        : restoredWaits.get(id)
+      saved.automatic[id] = {
+        cursor: structuredClone(cursor),
+        ...(remaining ? { wait: { ...remaining } } : {}),
+      }
+    }
     for (const [entityId, pending] of pendingChaseTerminal) {
       if (pending.source !== 'auto' || !hasLivePendingChaseTerminal(entityId)) continue
       const ownerId = pending.activationOwnerId
@@ -4885,14 +5367,25 @@ export async function bootGame(
         captured.script?.behaviors.entities?.[activeScene.scene.id]?.[ownerId]?.auto?.cursor
           ?.behavior
       if (!behavior) continue
-      claims.push({
+      saved.chaseClaims.push({
         owner: { scene: activeScene.scene.id, entity: ownerId },
         target: { scene: activeScene.scene.id, entity: entityId },
         behavior,
       })
     }
-    if (claims.length) payload.automaticChaseClaims = claims
-    return payload
+    return saved
+  }
+
+  function captureCurrentSavePayload(): StoredSavePayload {
+    const position = {
+      sceneId: activeScene.scene.id,
+      pos: structuredClone(player.pos),
+      facing,
+    }
+    const captured = currentWorldSnapshot()
+    const scenes = structuredClone(sceneRuntimeStates)
+    scenes[activeScene.scene.id] = captureSceneRuntime(captured)
+    return buildCurrentSavePayload(captured, position, inputProject.manifest.id, scenes)
   }
 
   /** 槽保存与DEV检查点共用同一安全快照队列；存储/缩略图I/O不持有barrier。 */
@@ -4991,12 +5484,48 @@ export async function bootGame(
       payload: raw,
     })
     const normalized = normalizeCurrentSave(raw, resolver, await getLifecycleReferences())
+    const continuationSignal = _signal ?? new AbortController().signal
     await expectDefined(scriptRuntime).validateAutomaticContinuations(
       normalized.world,
-      _signal ?? new AbortController().signal,
-      normalized.automaticChaseClaims,
+      continuationSignal,
+      normalized.sceneRuntime[normalized.position.sceneId]?.chaseClaims,
       normalized.position.sceneId,
     )
+    for (const [sceneId, scene] of Object.entries(normalized.sceneRuntime)) {
+      if (sceneId !== normalized.position.sceneId)
+        await expectDefined(scriptRuntime).validateAutomaticContinuations(
+          normalized.world,
+          continuationSignal,
+          scene.chaseClaims,
+          sceneId,
+        )
+      await expectDefined(scriptRuntime).validateSceneRuntimeContinuations(
+        normalized.world,
+        continuationSignal,
+        sceneId,
+        scene,
+      )
+      if (scene.actions.length > 0) {
+        const def = runtimeSceneView(
+          await sceneResources.canonical(sceneId),
+          normalized.world.script ?? emptyWorldScriptState(),
+        )
+        const sprites = new Map<string, SpriteDef>()
+        await Promise.all(
+          scene.actions.map(async (action) => {
+            const entity = def.entities.find((value) => value.id === action.entity)
+            if (!entity) throw new Error(`scene runtime action: ${sceneId}/${action.entity} 不存在`)
+            const sprite = requireSpriteDef(
+              resolveEntitySpriteId(entity, project.actorsById),
+              `scene runtime ${sceneId}/${entity.id}`,
+            )
+            await spriteCache.load(project.assetResolver, sprite.asset)
+            sprites.set(entity.id, sprite)
+          }),
+        )
+        prepareSceneActions(def, sprites, scene)
+      }
+    }
     return normalized
   }
 
@@ -5029,17 +5558,26 @@ export async function bootGame(
     // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
     // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
     let plan: SceneSwitchPlan
+    let restoreActions: (() => void) | undefined
     try {
-      plan = await prepareSceneSwitch(
-        p.position.sceneId,
-        candidate,
-        { pos: p.position.pos, facing: p.position.facing },
-        false,
-        canonicalScriptCandidate,
+      plan = await scriptWorkIO(
+        prepareSceneSwitch(
+          p.position.sceneId,
+          candidate,
+          { pos: p.position.pos, facing: p.position.facing },
+          false,
+          canonicalScriptCandidate,
+        ),
+        signal,
       )
       assertRunnerActive(signal, `${where} 的 runner 已取消`)
       loadIntent.assertCurrent(token, `${where} 已被更新读档请求取代`)
       assertSceneSwitchPlanCurrent(plan, candidate)
+      restoreActions = prepareSceneActions(
+        plan.def,
+        plan.entityDefs,
+        payload.sceneRuntime[plan.sceneId],
+      )
     } catch (error) {
       if (isAbortError(error)) {
         if (signal?.aborted) throw error
@@ -5056,9 +5594,10 @@ export async function bootGame(
     assertRunnerActive(signal, `${where} 的 runner 已取消`)
     const music = resolveRestoredMusic(candidate.audio?.currentMusic, plan.def.music)
     abortScript()
-    stopAutoRunners()
+    stopAutoRunners(false)
     replaceWorld(candidate)
-    commitSceneSwitch(plan, world, false)
+    sceneRuntimeStates = structuredClone(payload.sceneRuntime)
+    commitSceneSwitch(plan, world, false, restoreActions)
     syncRuntimeScriptScratch(activeScene.scene.id)
     refreshCurrentCanonicalBindings()
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
@@ -5068,7 +5607,7 @@ export async function bootGame(
     else world.audio.currentMusic = music.currentMusic
     if (music.action === 'stop') bgm.stop()
     else bgm.play(expectDefined(music.currentMusic))
-    startAutoRunners(payload.automaticChaseClaims)
+    startAutoRunners()
     return true
   }
 
@@ -5104,7 +5643,7 @@ export async function bootGame(
     }
     let p: StoredSavePayload
     try {
-      p = await normalizeStoredPayload(raw, where, signal)
+      p = await scriptWorkIO(normalizeStoredPayload(raw, where, signal), signal)
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
       // R2：晚到的归一化失败不覆盖新请求；R4：结构错误用短文案保证画布完整可见。
@@ -5204,7 +5743,11 @@ export async function bootGame(
       visible: (entity) => entityLifecycleGates(entity).visible,
       entitySprite: (id) => activeScene.entitySpriteDefs.get(id),
       loadedSprite: (definition) => spriteCache.get(project.assetResolver, definition.asset),
-      entityGait: (id) => motion.gaitPhase(id),
+      // User choice: a taken automatic walk draws idle while its phase is retained for release.
+      entityGait: (id) =>
+        motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
+          ? undefined
+          : motion.gaitPhase(id),
       entityExplicitAnimation: (id) => motion.explicitAnimation(id),
       entityActionFrame: (id) => entityActions.frame(id),
       entityLayer: (id) => runtimeScript.entityLayer?.[id],
@@ -5257,7 +5800,7 @@ export async function bootGame(
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
-    if (dialogBox.active) {
+    if (dialogBox.visible) {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
       ctx.imageSmoothingEnabled = false
@@ -5633,8 +6176,8 @@ export async function bootGame(
         nextId,
         undefined,
         () => {
-          abortScript()
           stopAutoRunners()
+          abortScript()
         },
         false,
       )
@@ -5649,6 +6192,10 @@ export async function bootGame(
     },
   }
   const framePorts: RuntimeFramePorts = {
+    afterScriptWork: (action) => scriptWork.whenIdle(action),
+    settleMotionContinuations: () => {
+      for (const resume of motionContinuations.splice(0)) resume()
+    },
     activateConfirm: activateScriptConfirm,
     resumeScriptGates: resumeScriptExecutionGates,
     gameplayFrozen: () => scriptConfirmModal.active,
@@ -5671,7 +6218,7 @@ export async function bootGame(
     deriveMounts,
     advanceLifecycle: advanceLifecycleWorldStepIfEligible,
     advanceEntityActions: (dt) => {
-      entityActions.advance(dt, (id, source) => {
+      entityActions.advance(dt, (id, source, owner) => {
         const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
         return (
           !!battleHost.active ||
@@ -5680,7 +6227,9 @@ export async function bootGame(
           worldPresentation.hasEntityFrame(id) ||
           motion.hasGait(id) ||
           motion.hasExplicitAnimation(id) ||
-          (source === 'automatic' && authority.get(id)?.kind === 'script')
+          (source === 'automatic' &&
+            (authority.get(id)?.kind === 'script' ||
+              (owner !== undefined && authority.get(owner)?.kind === 'script')))
         )
       })
     },
@@ -5695,10 +6244,13 @@ export async function bootGame(
       return true
     },
     routeInput: (pressed, realNow) => routeRuntimeInput(pressed, realNow, inputPorts),
-    presentWorld: () => runWithPresentationFinalizer(render, abortScript),
+    presentWorld: () => {
+      motion.clearScriptGaitHandoffs()
+      runWithPresentationFinalizer(render, abortScript)
+    },
   }
-  function tick(t: number): void {
-    frames.tick(t, framePorts)
+  async function tick(t: number): Promise<void> {
+    await frames.tick(t, framePorts)
     requestAnimationFrame(tick)
   }
   saveMetasReady = refreshSaveMetas().catch((error: unknown) => {
@@ -5815,6 +6367,7 @@ export async function bootGame(
       position: Object.freeze({ ...player.pos }),
       facing,
       dialogue: dialogBox.observe(),
+      dialogueSlots: dialogBox.observeSlots(),
       scriptRunning: runner !== null,
       presentationBusy: presentation.busy(),
       menuActive: menus.active,

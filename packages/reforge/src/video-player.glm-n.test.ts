@@ -115,16 +115,8 @@ describe('N03 视频覆盖层生命周期', () => {
   })
 
   test('autoplay 被拒：点击 overlay 后重试成功并移除 overlay', async () => {
-    const play = vi
-      .spyOn(HTMLMediaElement.prototype, 'play')
-      .mockImplementationOnce(function (this: HTMLVideoElement) {
-        videos.push(this)
-        return Promise.reject(new DOMException('blocked', 'NotAllowedError'))
-      })
-      .mockImplementation(function (this: HTMLVideoElement) {
-        videos.push(this)
-        return Promise.resolve()
-      })
+    const play = installVideoHost()
+    play.mockRejectedValueOnce(new DOMException('blocked', 'NotAllowedError'))
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const pending = playVideo({ src: 'videos/6.mp4' })
     await flush()
@@ -136,8 +128,10 @@ describe('N03 视频覆盖层生命周期', () => {
     await flush()
     expect(play).toHaveBeenCalledTimes(2)
     expect(document.body.contains(overlay)).toBe(false)
-    liveVideo().dispatchEvent(new Event('ended'))
+    const video = liveVideo()
+    video.dispatchEvent(new Event('ended'))
     await expect(pending).resolves.toBeUndefined()
+    expect(document.body.contains(video)).toBe(false)
   })
 
   test('runner 取消：信号已 abort 时立即清理；播放中 abort 同样即时兑现', async () => {

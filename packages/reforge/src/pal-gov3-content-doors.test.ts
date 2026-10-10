@@ -21,7 +21,7 @@ const manifest = validateCurrentManifestStartup(manifestJson).manifest
 const sprites = new Map(validateSprites(spritesJson).map((sprite) => [sprite.id, sprite]))
 
 for (const entry of cases)
-  test(`${entry.scene}/${entry.entity} 打开后SAVE11及重新建立页播放器均保持帧${entry.frame}`, async () => {
+  test(`${entry.scene}/${entry.entity} 打开后SAVE12及重新建立页播放器均保持帧${entry.frame}`, async () => {
     const run = gov3Runtime(entry.scene)
     if (entry.entity === 'e757') await run.install(entry.entity, 'c8-602d89c238c1')
     expect(await run.activate(entry.entity)).toBe(true)
@@ -51,7 +51,7 @@ for (const entry of cases)
     )
     const saved = await store.getPayload('m01')
     if (!saved) throw new Error('missing saved door')
-    expect(saved.version).toBe(11)
+    expect(saved.version).toBe(12)
     const restored = normalizeCurrentSave(
       saved,
       await preflightCurrentSave({ manifest, payload: saved }),

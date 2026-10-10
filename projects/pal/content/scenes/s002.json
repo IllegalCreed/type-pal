@@ -1200,6 +1200,21 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e35"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e35"
+                      },
+                      "frame": 0
+                    },
+                    {
                       "cue": {
                         "rows": [
                           {
@@ -1355,6 +1370,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s005",
@@ -1382,7 +1400,7 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 3,
+                      "state": 2,
                       "target": {
                         "scene": "s005",
                         "entity": "e123"
@@ -1508,6 +1526,21 @@
                 {
                   "id": "initial",
                   "body": [
+                    {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e36"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e36"
+                      },
+                      "frame": 0
+                    },
                     {
                       "kind": "setEntityState",
                       "target": {
@@ -1804,6 +1837,21 @@
                   "id": "legacy-002",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e36"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e36"
+                      },
+                      "frame": 0
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "unbound",
@@ -1831,6 +1879,21 @@
                 {
                   "id": "legacy-003",
                   "body": [
+                    {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e36"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e36"
+                      },
+                      "frame": 0
+                    },
                     {
                       "cue": {
                         "identity": {

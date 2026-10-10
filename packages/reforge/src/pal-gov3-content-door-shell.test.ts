@@ -119,7 +119,7 @@ async function bootStone() {
   })
   if (!host) throw new Error('host missing')
   await advance(host, () => !state().script.running)
-  host.frame(100)
+  await host.frame(100)
   await drain()
   return { project, pristine, render }
 }
@@ -148,7 +148,7 @@ test('s047/e757真实Main：石门三段帧→open页，F5/F9恢复帧3且不回
   if (!host) throw new Error('host missing')
   await key(host, 'Enter')
   await advance(host, () => !state().script.running)
-  host.frame(100)
+  await host.frame(100)
   await drain()
   expect(renderedStoneFrame(render)).toBe(3)
   expect(state().world.script?.entityState.a?.e757).toBe(1)
@@ -157,7 +157,7 @@ test('s047/e757真实Main：石门三段帧→open页，F5/F9恢复帧3且不回
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
   await key(host, 'F5')
   for (let i = 0; i < 40 && !(await store.getPayload('quick')); i++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }
@@ -165,7 +165,7 @@ test('s047/e757真实Main：石门三段帧→open页，F5/F9恢复帧3且不回
   expect(payload).not.toBeNull()
   await key(host, 'F9')
   for (let i = 0; i < 12; i++) {
-    host.frame(100)
+    await host.frame(100)
     await drain()
     await host.settleIO()
   }

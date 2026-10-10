@@ -4,7 +4,10 @@
   "kind": "document-audit",
   "status": "current",
   "candidateSha": "35e2b8d07c310a15c69f5e013a6d748c2146042e",
-  "versions": { "content": 22, "minimumSave": 11 },
+  "versions": {
+    "content": 22,
+    "minimumSave": 11
+  },
   "sourceRefs": [
     {
       "path": "scripts/docs/classify-testing-legacy.mjs",
@@ -25,7 +28,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "current version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
     },
     {
       "path": "docs/testing/archive/migrations/testing-domains-20261004.json",
@@ -71,10 +74,22 @@
       "evidence": ["docs/testing/archive/migrations/testing-domains-20261004.json:1-107"]
     }
   ],
-  "runtimeExecution": { "performed": false, "claimScope": "document governance only" },
+  "runtimeExecution": {
+    "performed": false,
+    "claimScope": "document governance only"
+  },
+  "findings": [
+    "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 分类器仍按正文来源域与 reviewed migration 清单分类；本次未重跑或改写 2026-10-04 的 359 项 census、20 项迁移及其原始 SHA。"
+  ],
   "artifacts": [
-    { "path": "legacy-flat-classification.json", "kind": "classification-ledger" },
-    { "path": "archive/migrations/testing-domains-20261004.json", "kind": "migration-plan" }
+    {
+      "path": "legacy-flat-classification.json",
+      "kind": "classification-ledger"
+    },
+    {
+      "path": "archive/migrations/testing-domains-20261004.json",
+      "kind": "migration-plan"
+    }
   ],
   "history": [
     {

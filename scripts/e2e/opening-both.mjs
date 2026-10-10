@@ -4,6 +4,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { compareOpeningTiming } from './opening-timing.mjs'
+import { assertRecordedStoryParity } from './recompare-recording.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 assert(!process.argv.includes('--capture'), 'capture requires one single-engine story run')
@@ -76,7 +77,15 @@ try {
   )
   comparison.matrix = { game: reports[0].matrixVerdict, reforge: reports[1].matrixVerdict }
   assert.equal(comparison.status, 'passed', 'semantic timing differs')
+  comparison.npc = await assertRecordedStoryParity({
+    output: resolve(out, 'acceptance.json'),
+    gameReportPath: results[0].report,
+    reforgeReportPath: results[1].report,
+    fragment: '001',
+  })
 } catch (error) {
+  comparison.status = 'failed'
+  if (error.comparison) comparison.npc = error.comparison
   comparison.failure = error.message
   process.exitCode = 1
 }

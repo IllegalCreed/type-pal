@@ -4,24 +4,49 @@
   "kind": "document-audit",
   "status": "current",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": {
-    "content": 22,
-    "minimumSave": 11
-  },
+  "versions": { "content": 22, "minimumSave": 11 },
   "sourceRefs": [
     {
       "path": "scripts/e2e/errand-contract.mjs",
-      "lines": "295-308",
+      "lines": "346-376",
       "anchor": "export function assertErrandBackground(",
       "role": "oracle",
-      "sha256": "7377fedd2c19c92432587119fb96ca2a18e8956ec8cdd74c75687c1d6254a9b1"
+      "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
     },
     {
       "path": "scripts/e2e/kitchen-contract.mjs",
-      "lines": "482-499",
+      "lines": "497-518",
       "anchor": "export function assertKitchenTrace(",
       "role": "oracle",
-      "sha256": "326d29166a7a2941123ba6b5be419779b378c8cc08700d2527aa15e79c0fe737"
+      "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+    },
+    {
+      "path": "scripts/e2e/render-evidence-observer.test.mjs",
+      "lines": "323-398",
+      "anchor": "test('per-frame clocks do not consume state-change budgets and remain bounded'",
+      "role": "oracle",
+      "sha256": "46b89cb0ea998e979d63bfe9d5dbc6fdb4739c3041c0068d67bb282136f032e1"
+    },
+    {
+      "path": "scripts/e2e/npc-transition-contract.mjs",
+      "lines": "262-338",
+      "anchor": "export function renderedPoseEvidence(",
+      "role": "render span consumer",
+      "sha256": "f3e27c26baa9cf9712718dbe54647c86cc5981ef7d3613c11f9202f3ed6cdbeb"
+    },
+    {
+      "path": "scripts/e2e/opening-trace-plugin.mjs",
+      "lines": "164-178",
+      "anchor": "count('worldDrawCompleted')",
+      "role": "render collector insertion",
+      "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+    },
+    {
+      "path": "scripts/e2e/opening-trace.test.mjs",
+      "lines": "515-630",
+      "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+      "role": "real transformed caller oracle",
+      "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
     }
   ],
   "publicCallers": [
@@ -55,8 +80,12 @@
       "id": "e2e-common-issues-source-contract",
       "result": "source-backed",
       "evidence": [
-        "scripts/e2e/errand-contract.mjs:295-308",
-        "scripts/e2e/kitchen-contract.mjs:482-499"
+        "scripts/e2e/errand-contract.mjs:346-376",
+        "scripts/e2e/kitchen-contract.mjs:497-518",
+        "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+        "scripts/e2e/npc-transition-contract.mjs:262-338",
+        "scripts/e2e/opening-trace-plugin.mjs:164-178",
+        "scripts/e2e/opening-trace.test.mjs:515-630"
       ]
     }
   ],
@@ -65,7 +94,14 @@
     "rawArtifacts": "not-present-in-isolated-checkout",
     "claimScope": "historical-publication-only"
   },
-  "findings": ["共性问题族只汇总已报告问题，不为后期站点或 006 追加实跑信用。"],
+  "findings": [
+    "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
+    "2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。",
+    "2026-10-06 Game绘制插桩执行域源核验：已直接生成并核读真实presentFrame的转换结果，render:world位于完整entries循环闭合之后，每次完成世界绘制只记录一次；循环内只绘制并递增drawOrder。既有真实多entry回归同时断言两个NPC的实际资源/绘制顺序及后一个draw抛错时不发布新世界绘制证据。本项仅核当前源码与断言，不给修正前的采集结果补发渲染信用，也不宣布正在重录的SAVE12链通过。",
+    "2026-10-06 采集/消费合同源核验：五个collector独立保留至多60,000条worldRenders，原状态变化列表上限不变；errand世界绘制时钟另有24MiB字节限额，超限仍使证据失败。kitchen/errand消费者将worldRenders纳入各列表seq与全局order检查；相同姿态span通过完整绘制时钟还原，缺钟即拒绝。Game记录drawn/not-drawn，Reforge记录selected/world-pass-only，不把选帧冒称像素证据。本次只核源码与既有测试断言，未执行或升级任何历史E2E。",
+    "2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。",
+    "共性问题族只汇总已报告问题，不为后期站点或 006 追加实跑信用。"
+  ],
   "artifacts": [],
   "history": [
     {

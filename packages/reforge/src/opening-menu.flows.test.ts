@@ -69,7 +69,7 @@ async function opening(metas: SaveMeta[] = []) {
   const consumed = done.then((value) => {
     state.value = value
   })
-  host.frame()
+  await host.frame()
   return {
     h: host,
     canvas,

@@ -158,13 +158,13 @@ async function restored(world: WorldState, sceneId: string) {
     new Blob(),
   )
   const saved = await store.getPayload('m01')
-  if (!saved) throw new Error('missing SAVE11 payload')
-  expect(saved.version).toBe(11)
+  if (!saved) throw new Error('missing SAVE12 payload')
+  expect(saved.version).toBe(12)
   const resolver = await preflightCurrentSave({ manifest, payload: saved })
   return normalizeCurrentSave(saved, resolver, references).world
 }
 
-test('求救区域的真实caller安装月如后继，SAVE11读回只复读无署名哼声', async () => {
+test('求救区域的真实caller安装月如后继，SAVE12读回只复读无署名哼声', async () => {
   const run = harness('s021')
   await run.activate('e404')
   await run.activate('e403')

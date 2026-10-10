@@ -594,6 +594,7 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   setActorSprite: ['🎭', '更换角色精灵'],
   setAmbience: ['🌗', '切换场景氛围'],
   setEntityFacing: ['🧭', '实体转向'],
+  faceEntityToParty: ['🧭', '实体面向主角'],
   setEntityFrame: ['🎞', '设置实体画面帧'],
   setEntityLayer: ['📐', '设置实体图层'],
   setEntityPos: ['📍', '设置实体位置'],
@@ -731,6 +732,7 @@ function presentationCondition(condition: AuthorCondition): ScriptCondition {
 
 function presentationCommand(command: AuthorCommand): Command | undefined {
   switch (command.kind) {
+    case 'faceEntityToParty':
     case 'suspendEntity':
     case 'hideEntity':
     case 'restoreEntity':
@@ -977,6 +979,8 @@ export function describeCanonicalCommand(
         detail: `(${command.to.col}, ${command.to.row}) · ${{ slow: '慢走', normal: '正常', fast: '快走', run: '跑步' }[command.speed]}${command.to.height ? ` · 高度 ${command.to.height}` : ''}`,
         children,
       }
+    case 'faceEntityToParty':
+      return { icon: '🧭', label: `${addressLabel(command.target, context)} 面向主角`, children }
     case 'setEntityFacing':
     case 'setPartyFacing':
     case 'stepEntity': {
@@ -2467,6 +2471,7 @@ function CanonicalCommandForm(props: {
     command.kind === 'setEntityPosRelParty' ||
     command.kind === 'setEntityLayer' ||
     command.kind === 'setEntityFacing' ||
+    command.kind === 'faceEntityToParty' ||
     command.kind === 'setEntityFrame' ||
     command.kind === 'playEntityAction' ||
     command.kind === 'stopEntityAction' ||
@@ -2507,7 +2512,11 @@ function CanonicalCommandForm(props: {
             state={context?.state}
             sceneIndex={context?.sceneIndex}
             displayContext={context}
-            entityFilter={command.kind === 'setEntityFacing' ? entitySupportsFacing : undefined}
+            entityFilter={
+              command.kind === 'setEntityFacing' || command.kind === 'faceEntityToParty'
+                ? entitySupportsFacing
+                : undefined
+            }
             onChange={(next) => props.onChange({ ...command, target: next } as AuthorCommand)}
           />
         ) : (
@@ -2516,6 +2525,11 @@ function CanonicalCommandForm(props: {
         {command.kind === 'runEntityTrigger' ? (
           <p className="hint">
             执行当前已选中的交互方案与步骤，等执行完成后继续。仅当前场景演出；切场、战斗在调用返回后编排。
+          </p>
+        ) : null}
+        {command.kind === 'faceEntityToParty' ? (
+          <p className="hint">
+            执行时按实体与主角的位置转身，同点保持原朝向。仅作用于当前场景；不接管、不停步、不定帧。
           </p>
         ) : null}
         {command.kind === 'setEntityState' ? (
@@ -3030,6 +3044,7 @@ function fallbackInsertionChoice(
         ? enabled({ kind, script })
         : unavailable('请先在“剧情 → 脚本库”创建一个可复用脚本')
     }
+    case 'faceEntityToParty':
     case 'runEntityTrigger':
       return target ? enabled({ kind, target }) : unavailable('请先选择当前场景实体')
     case 'clearActorCondition': {
@@ -3167,6 +3182,12 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
                       label: '🧭 实体转向',
                       commands: [
                         { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
+                      ] as AuthorCommand[],
+                    },
+                    {
+                      label: '🧭 实体面向主角',
+                      commands: [
+                        { kind: 'faceEntityToParty', target: facingTarget },
                       ] as AuthorCommand[],
                     },
                   ]
@@ -3378,10 +3399,10 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
         allowed(kind) && !represented.has(kind) && kind !== 'holdScreen' && kind !== 'revealScreen',
     )
     .map((kind) => {
-      if (kind === 'setEntityFacing' && !facingTarget)
+      if ((kind === 'setEntityFacing' || kind === 'faceEntityToParty') && !facingTarget)
         return {
           kind,
-          label: '🧭 实体转向',
+          label: `🧭 ${AUTHOR_COMMAND_PRESENTATION_[kind][1]}`,
           commands: [],
           unavailableReason: '触发区没有朝向；请先选择一个可见实体',
         } satisfies InsertionChoice

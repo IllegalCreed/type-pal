@@ -1125,7 +1125,10 @@ describe('CanonicalScriptEditor author presentation', () => {
     ])
   })
 
-  test('keeps trigger zones out of entity-facing insertion and edit targets', async () => {
+  test.each([
+    'setEntityFacing',
+    'faceEntityToParty',
+  ] as const)('keeps trigger zones out of $0 insertion and edit targets', async (kind) => {
     const scene = {
       id: 's001',
       mapId: 'map-001',
@@ -1152,11 +1155,9 @@ describe('CanonicalScriptEditor author presentation', () => {
       root.render(
         <CanonicalScriptBodyEditor
           body={[
-            {
-              kind: 'setEntityFacing',
-              target: { scene: 's001', entity: 'zone-1' },
-              facing: 'down',
-            },
+            kind === 'setEntityFacing'
+              ? { kind, target: { scene: 's001', entity: 'zone-1' }, facing: 'down' }
+              : { kind, target: { scene: 's001', entity: 'zone-1' } },
           ]}
           context={context}
           onChange={() => {}}
@@ -1168,9 +1169,7 @@ describe('CanonicalScriptEditor author presentation', () => {
         .find((candidate) => candidate.textContent?.includes('添加指令'))!
         .click(),
     )
-    const facingChoice = host.querySelector<HTMLButtonElement>(
-      '[data-command-kinds="setEntityFacing"]',
-    )!
+    const facingChoice = host.querySelector<HTMLButtonElement>(`[data-command-kinds="${kind}"]`)!
     expect(facingChoice.disabled).toBe(true)
     expect(facingChoice.textContent).toContain('触发区没有朝向')
     expect(
@@ -1189,6 +1188,94 @@ describe('CanonicalScriptEditor author presentation', () => {
     expect(zoneOption.getAttribute('aria-disabled')).toBe('true')
     expect(zoneOption.textContent).toContain('不支持朝向')
     expect(entityOptions.textContent).toContain('npc-1')
+  })
+
+  test('inserts a dynamic face-party command and edits only its canonical target', async () => {
+    const scene: AuthorSceneDef = {
+      id: 'room',
+      mapId: 'map',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: ['aunt', 'guest'].map((id) => ({
+        id,
+        sprite: 'person',
+        pos: { col: 1, row: 2, height: 0 },
+      })),
+    }
+    const reader: EditorAssetReader = {
+      projectId: 'test',
+      record: () => {
+        throw new Error('unexpected asset read')
+      },
+      readBytes: async () => {
+        throw new Error('unexpected asset read')
+      },
+      readRoleBytes: async () => {
+        throw new Error('unexpected asset read')
+      },
+      urlFor: async () => {
+        throw new Error('unexpected asset read')
+      },
+    }
+    const context: CanonicalScriptEditorContext = {
+      state: { scenes: [scene], items: [], sharedScripts: {} },
+      currentSceneId: 'room',
+      currentEntityId: 'aunt',
+      shellScenes: [],
+      locale: {},
+      assetCatalog: { version: 1, assets: {} },
+      assetReader: reader,
+      audioResolver: reader,
+      references: { choices: () => [], has: () => false, label: (_kind, id) => id },
+      battleSprites: [],
+    }
+    let saved: AuthorCommand[] = []
+    function Harness() {
+      const [body, setBody] = useState<AuthorCommand[]>([])
+      return (
+        <CanonicalScriptBodyEditor
+          body={body}
+          context={context}
+          onChange={(next) => {
+            saved = next
+            setBody(next)
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((button) => button.textContent?.includes('添加指令'))!
+        .click(),
+    )
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="faceEntityToParty"]')!.click(),
+    )
+    expect(saved).toEqual([
+      { kind: 'faceEntityToParty', target: { scene: 'room', entity: 'aunt' } },
+    ])
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true })),
+    )
+    expect(host.querySelector('[role="dialog"]')?.textContent).toContain('不接管、不停步、不定帧')
+    expect(host.querySelector('[role="combobox"][aria-label="朝向"]')).toBeNull()
+    const options = await openCombobox('实体')
+    await act(async () =>
+      [...options.querySelectorAll<HTMLElement>('[role="option"]')]
+        .find((option) => option.textContent?.includes('guest'))!
+        .click(),
+    )
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((button) => button.textContent === '完成')!
+        .click(),
+    )
+    expect(saved).toEqual([
+      { kind: 'faceEntityToParty', target: { scene: 'room', entity: 'guest' } },
+    ])
+    expect(host.querySelector('.cmd-row')?.textContent).toContain('面向主角')
   })
 
   test('focuses a referenced command once per revision and fails closed for stale paths', async () => {

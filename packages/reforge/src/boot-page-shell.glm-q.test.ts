@@ -41,7 +41,7 @@ test('Q01 页壳默认加载 demo 工程：真实 bootGame 进入主循环并设
   expect(calls).toEqual(['demo'])
   expect(error).not.toHaveBeenCalled()
   await vi.waitFor(() => expect(host!.frames.size).toBeGreaterThan(0)) // 主循环已排帧
-  host!.frame()
+  await host!.frame()
   expect(host!.frames.size).toBeGreaterThan(0) // 主循环持续排帧
 })
 

@@ -5,6 +5,7 @@ import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
 import { kitchenArguments } from './kitchen-contract.mjs'
+import { assertRecordedStoryParity } from './recompare-recording.mjs'
 
 const options = kitchenArguments(process.argv.slice(2), true)
 const out = resolve(
@@ -74,6 +75,12 @@ try {
   assert.equal(reports[0].revision, reports[1].revision)
   assert.deepEqual(reports[0].core.sourceHashes, reports[1].core.sourceHashes)
   assert.deepEqual(reports[0].core.rows, reports[1].core.rows)
+  comparison.npc = await assertRecordedStoryParity({
+    output: resolve(out, 'acceptance.json'),
+    gameReportPath: results.find((r) => r.engine === 'game').report,
+    reforgeReportPath: results.find((r) => r.engine === 'reforge').report,
+    fragment: '003',
+  })
   comparison.status = 'passed'
   comparison.revision = reports[0].revision
   comparison.core = reports.map((report) => ({
@@ -83,6 +90,7 @@ try {
     predecessor: report.predecessor,
   }))
 } catch (error) {
+  if (error.comparison) comparison.npc = error.comparison
   comparison.failure = error.message
   process.exitCode = interrupted ? 130 : 1
 }

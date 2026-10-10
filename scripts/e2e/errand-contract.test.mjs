@@ -9,11 +9,11 @@ import {
   assertErrandCaseReport,
   assertErrandCollector,
   assertErrandRestored,
+  assertErrandSaved,
   assertErrandStory,
   assertErrandSuite,
   ERRAND_GUARD_ROWS,
   ERRAND_PHASE_ROWS,
-  ERRAND_TRACE_MAX_BYTES,
   errandArguments,
   errandCaseRows,
   errandReforgeTouchDestination,
@@ -21,7 +21,11 @@ import {
   errandTraceArtifact,
   validateErrandPredecessor,
 } from './errand-contract.mjs'
-import { installErrandObserver, readErrandGame, readErrandReforge } from './errand-observer.mjs'
+import {
+  errandCausalObserverScript,
+  readErrandGame,
+  readErrandReforge,
+} from './errand-observer.mjs'
 import { ERRAND_TRACE_TARGETS, instrumentErrandTrace } from './errand-trace-plugin.mjs'
 import { assertMealDialogue } from './meal-contract.mjs'
 
@@ -84,15 +88,60 @@ test('005 rendered observer captures Xianglan position on every shown row', () =
     TextEncoder,
     addEventListener() {},
   })
-  vm.runInContext(`(${installErrandObserver.toString()})()`, context)
+  vm.runInContext(errandCausalObserverScript(), context)
   vm.runInContext(
     `__errandPoint('commit:test',{scene:'s004',actors:{e83:{position:[1700,1300]}},money:550});
+    __openingCauseDialog('open',null,{phase:'typing',cueIndex:0,pageIndex:0});
     __errandRendered({phase:'waiting-input',dialogueId:'news',cueIndex:0,pageIndex:0,pageStartedAtMs:1,pageText:'不好了！',speaker:'香兰'});`,
     context,
   )
   const trace = context.__readErrandEvidence()
   assert.deepEqual(trace.pages[0].actors.e83.position, [1700, 1300])
   assert.deepEqual(trace.errors, [])
+})
+
+test('005 actual save/restore collector binds input bytes, not just final report labels', () => {
+  const context = vm.createContext({
+    structuredClone,
+    performance,
+    TextEncoder,
+    addEventListener() {},
+  })
+  vm.runInContext(errandCausalObserverScript(), context)
+  const gs = {
+    wNumScene: 5,
+    dwCash: 500,
+    party: { x: 1, y: 2 },
+    partyMembers: [0],
+    PlayerRolesRuntime: {},
+    inventory: [],
+    rgScene: [],
+    rgObject: [],
+    rgEventObject: [],
+    allEventObjects: [],
+  }
+  const initial = { format: 'type-pal-save', gs: structuredClone(gs) }
+  context.__errandGameSaved(context.__errandGameSaving(1, gs))
+  context.__errandGameRestored(gs)
+  gs.dwCash = 550
+  const payload = { format: 'type-pal-save', gs: structuredClone(gs) }
+  context.__errandGameSaved(context.__errandGameSaving(1, gs))
+  const trace = context.__readErrandEvidence()
+  const receipt = {
+    order: trace.saveCaptures[1].order,
+    acknowledgementOrder: trace.saveCompletions[1].order,
+  }
+  assertErrandRestored(trace, initial, 'game')
+  assertErrandSaved(trace, payload, receipt)
+  const changedSave = structuredClone(trace)
+  changedSave.saveCaptures[1].payload.gs.dwCash = 551
+  assert.throws(() => assertErrandSaved(changedSave, payload, receipt), /synchronous actual input/)
+  const changedRestore = structuredClone(trace)
+  changedRestore.gameRestores[0].payload.gs.dwCash = 501
+  assert.throws(
+    () => assertErrandRestored(changedRestore, initial, 'game'),
+    /restored full persistent/,
+  )
 })
 test('005 full dialogue checker rejects missing, repeated and wrong-speaker pages', () => {
   const contract = {
@@ -167,6 +216,7 @@ test('005 hot-path progress excludes full-world resume tapes but keeps relevant 
     },
     world: {
       money: 550,
+      party: [],
       script: {
         behaviors: {
           entities: bindings,
@@ -180,8 +230,17 @@ test('005 hot-path progress excludes full-world resume tapes but keeps relevant 
     facing: 'down',
     walking: false,
     host: { getEntityState: () => 2 },
-    worldPresentation: { entityFrame: () => undefined },
-    motion: { gaitPhase: () => undefined, explicitAnimation: () => undefined },
+    worldPresentation: { entityFrame: () => undefined, renderedEntityFrame: () => undefined },
+    motion: {
+      gaitPhase: () => undefined,
+      explicitAnimation: () => undefined,
+      gaitOwner: () => undefined,
+      gaitActivationOwner: () => undefined,
+      lastMovedWorldTick: () => undefined,
+    },
+    motionRuntime: { authority: new Map() },
+    autoMotionSlots: new Map(),
+    scriptMotionSlots: new Map(),
     entityActions: { frame: () => 0 },
     runner: null,
     dialogBox: { active: false },
@@ -201,24 +260,20 @@ test('005 hot-path progress excludes full-world resume tapes but keeps relevant 
   assert(JSON.stringify(observed).length < 3000, 'hot DTO scaled with the world continuation tape')
 })
 test('005 byte budgets reject runaway tape and keep atomic snapshot accounting separate', () => {
-  const artifact = errandTraceArtifact({ example: '香兰' })
+  const artifact = errandTraceArtifact({ example: '香兰', causes: [], events: [] })
   assert.equal(artifact.byteLength, Buffer.byteLength(artifact.bytes))
   assert.equal(artifact.sha256, sha256(artifact.bytes))
-  assert.throws(
-    () => errandTraceArtifact({ runaway: 'x'.repeat(ERRAND_TRACE_MAX_BYTES) }),
-    /byte budget/,
-  )
   const context = vm.createContext({
     structuredClone,
     performance,
     TextEncoder,
     addEventListener() {},
   })
-  vm.runInContext(`(${installErrandObserver.toString()})()`, context)
+  vm.runInContext(errandCausalObserverScript(), context)
   vm.runInContext(
     `__errandGameSaving(1,{completePersistentData:'x'.repeat(5*1024*1024)});
-    __errandPoint('commit:one',{scene:'s004',actors:{},money:550,persistent:{text:'x'.repeat(2*1024*1024)}});
-    __errandPoint('commit:two',{scene:'s004',actors:{},money:550,persistent:{text:'y'.repeat(2*1024*1024)}});`,
+    for(let i=0;i<25;i++)
+      __errandPoint('commit:state',{scene:'s004',actors:{},money:550,persistent:{text:'x'.repeat(3*1024*1024)+i}});`,
     context,
   )
   const trace = context.__readErrandEvidence()
@@ -228,13 +283,61 @@ test('005 byte budgets reject runaway tape and keep atomic snapshot accounting s
     'full atomic snapshot must not share ordinary event budget',
   )
   assert(trace.byteSizes.atomicSnapshots > 5 * 1024 * 1024)
-  assert(trace.byteSizes.events <= 4 * 1024 * 1024)
+  assert(
+    trace.byteSizes.events > 4 * 1024 * 1024,
+    'long-story budget must exceed the old short-story ceiling',
+  )
+  assert(trace.byteSizes.events <= 64 * 1024 * 1024)
   assert.equal(trace.overflow, true)
   assert.throws(() => assertErrandCollector(trace), /overflow/)
+  assert.throws(() => assertErrandCollector(trace, '006'), /006 collector overflow/)
+})
+
+test('006 compact progress storage restores every unchanged and changed field without raising the byte cap', () => {
+  const context = vm.createContext({
+    structuredClone,
+    performance,
+    TextEncoder,
+    addEventListener() {},
+  })
+  vm.runInContext(errandCausalObserverScript(), context)
+  const expected = []
+  for (let index = 0; index < 40; index++) {
+    const state = {
+      money: index === 0 ? 500 : 550,
+      persistent: {
+        e116: { position: [index, 0], frame: index % 4 },
+        stationary: { text: 'x'.repeat(100000) },
+      },
+      hooks: index < 20 ? { 5: 903 } : {},
+    }
+    if (index === 39) delete state.persistent.stationary
+    expected.push({ before: index ? expected[index - 1].state : null, state })
+    context.__errandPoint('commit:npcWalkTo', { scene: 's005', actors: {}, ...state })
+  }
+  const trace = context.__readErrandEvidence()
+  assert.equal(trace.overflow, false)
+  assert.deepEqual(trace.errors, [])
+  assertErrandCollector(trace, '006')
+  const lost = structuredClone(trace)
+  lost.events.splice(1, 1)
+  assert.throws(() => assertErrandCollector(lost, '006'), /sequence|global event gap/)
+  assert.deepEqual(
+    trace.events
+      .filter((e) => e.kind === 'progress')
+      .map(({ before, state }) => ({ before, state })),
+    expected,
+  )
+  assert(trace.byteSizes.events < 150000, 'unchanged actors must not be serialized on every step')
+  assert(
+    Buffer.byteLength(JSON.stringify(trace)) > 4 * 1024 * 1024,
+    'the full exported evidence is retained',
+  )
 })
 
 const storyTrace = () => {
   const trace = {
+    worldRenders: [],
     events: [],
     pages: [],
     restoreCommits: [],
@@ -409,6 +512,7 @@ test('005 RF snapshot reads live projected trigger bindings without canonical pa
 })
 test('005 background continuation requires actual post-restore walk commits and free control', () => {
   const trace = {
+    worldRenders: [],
     events: [
       {
         seq: 0,
@@ -460,13 +564,14 @@ test('005 evidence requires contiguous sequence and successful atomic restore, n
   assert.throws(() => assertErrandRestored(trace, {}, 'game'), /restore commit/)
   assert.throws(() => assertErrandSuite([]), /six independent/)
   const payload = {
-    version: 11,
+    version: 12,
     contentVersion: 22,
     projectId: 'pal',
     position: { sceneId: 's004' },
     world: { party: [], script: { auto: { e83: { continuation: 'test' } } } },
   }
   const restored = {
+    worldRenders: [],
     events: [],
     pages: [],
     restoreCommits: [{ seq: 0, order: 0, atMs: 1, source: 'commit:restorePayload', payload }],
@@ -528,7 +633,6 @@ const caseReceipt = (engine, caseName) => {
   }))
   const checks = [
     ...Object.keys(ERRAND_PHASE_ROWS),
-    'controlMove',
     'causality',
     'end',
     ...(caseName === 'guards' ? Object.keys(ERRAND_GUARD_ROWS) : []),

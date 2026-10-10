@@ -62,7 +62,7 @@ export class ActiveScene<R> {
     return this.sprites
   }
 
-  commit(plan: ActiveScenePlan<R>): void {
+  commit(plan: ActiveScenePlan<R>, restoreActions?: () => void): void {
     this.definition = plan.def
     this.entityStaticBaseline.clear()
     for (const entity of plan.def.entities) {
@@ -78,7 +78,10 @@ export class ActiveScene<R> {
     this.wave = null
     this.sprites = plan.entityDefs
     // Boundary cues are synchronous: retain their original position before room/bounds update.
-    this.actions.replaceScene(plan.pageActions)
+    if (restoreActions) {
+      restoreActions()
+      this.actions.syncBases(plan.pageActions)
+    } else this.actions.replaceScene(plan.pageActions)
     this.currentRoom = { col: 0, row: 0, cols: this.currentMap.width, rows: this.currentMap.height }
     this.bounds.minX = this.currentRoom.col * 32 - 32
     this.bounds.minY = this.currentRoom.row * 16 - 40

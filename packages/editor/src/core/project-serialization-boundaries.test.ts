@@ -122,7 +122,7 @@ test('entity names survive actual dual-session serialization and current loader 
   expect(saved.entities[0]!.behaviors).toEqual(scene.entities[0]!.behaviors)
   expect(saved.entities[0]).toMatchObject({ actor: 'hero' })
   expect(reopened.manifest.contentVersion).toBe(22)
-  expect(reopened.manifest.minimumSaveVersion).toBe(11)
+  expect(reopened.manifest.minimumSaveVersion).toBe(12)
 })
 
 test('named steps survive canonical scene serialization and real current loader reopening', async () => {
@@ -157,7 +157,7 @@ test('named steps survive canonical scene serialization and real current loader 
   const scenes = await loadAllAuthorScenes(reopened)
   expect(scenes[0]?.hooks).toEqual(scene.hooks)
   expect(reopened.manifest.contentVersion).toBe(22)
-  expect(reopened.manifest.minimumSaveVersion).toBe(11)
+  expect(reopened.manifest.minimumSaveVersion).toBe(12)
 })
 
 test('nested confirmation, named loop control and shared returns survive current author serialization', async () => {

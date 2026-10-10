@@ -105,7 +105,7 @@ function shellState(): EditorState {
       id: 'test',
       name: 'Test',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -431,7 +431,7 @@ describe('App item reference navigation', () => {
     shell.manifest = {
       ...shell.manifest,
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
     } as EditorState['manifest']
     const source = {
       readText: vi.fn(async () => ''),
@@ -2208,7 +2208,7 @@ describe('App item reference navigation', () => {
     shell.manifest = {
       ...shell.manifest,
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       content: { ...shell.manifest.content, sharedScripts: 'content/shared-scripts.json' },
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
@@ -2286,7 +2286,7 @@ describe('App item reference navigation', () => {
     shell.manifest = {
       ...shell.manifest,
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
     } as EditorState['manifest']
     shell.scenes = structuredClone(canonical.scenes) as unknown as EditorState['scenes']
     shell.scenes[0]!.entry.pos = { col: 9, row: 8, height: 0 }

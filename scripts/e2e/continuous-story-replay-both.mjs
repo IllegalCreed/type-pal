@@ -4,6 +4,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
+import { createContinuousPreflightGate } from './continuous-preflight-gate.mjs'
 
 const args = process.argv.slice(2),
   hold = args.includes('--hold'),
@@ -19,6 +20,10 @@ const output = resolve(
 await mkdir(output, { recursive: true })
 const children = new Map(),
   arrivals = new Map()
+const preflight = createContinuousPreflightGate((engine, message) => {
+  const participant = children.get(engine)
+  if (participant?.connected && participant.exitCode === null) participant.send(message, () => {})
+})
 const start = (engine) => {
   const child = fork(
     fileURLToPath(new URL('./continuous-story-replay-engine.mjs', import.meta.url)),
@@ -34,6 +39,10 @@ const start = (engine) => {
   )
   children.set(engine, child)
   child.on('message', (message) => {
+    if (message.preflightReady === true) {
+      preflight.ready(engine)
+      return
+    }
     if (!message.checkpoint) return
     const state = arrivals.get(message.checkpoint) ?? new Map()
     state.set(engine, message.state)
@@ -67,6 +76,7 @@ const receipt = {
   mode: 'story-only',
   tape,
   results,
+  preflight: preflight.receipt(),
   barriers: Object.fromEntries([...arrivals].map(([key, value]) => [key, [...value.keys()]])),
 }
 await writeFile(resolve(output, 'continuous-both.json'), `${JSON.stringify(receipt, null, 2)}\n`)

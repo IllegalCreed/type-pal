@@ -1,7 +1,7 @@
 # @type-pal/migrate — PAL current 内容供应链
 
 本包是第二阶段唯一允许读取第一阶段提取数据的桥：离线读取 `data/extracted`，向
-`projects/pal` 重导当前 `contentVersion 22 / SAVE11` 工程的原始源分区。运行时和编辑器不依赖本包。
+`projects/pal` 重导当前 `contentVersion 22 / SAVE12` 工程的原始源分区。运行时和编辑器不依赖本包。
 （本轮统一作者步骤模型；当前版本常量以
 `packages/content/src/character.ts` 为准。）
 

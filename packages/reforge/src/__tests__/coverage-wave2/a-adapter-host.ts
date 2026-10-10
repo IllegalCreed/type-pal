@@ -51,6 +51,7 @@ export function wave2RecorderHost(omit: readonly string[] = []): Wave2RecorderHo
     setFollowers: async () => {},
     halveMoney: () => {},
     setEntityFacing: () => {},
+    faceEntityToParty: () => {},
     setEntityFrame: () => {},
     playEntityAction: async () => {},
     stopEntityAction: () => {},

@@ -98,6 +98,23 @@ test('drinking freezes only the beggar pose loop before changing its pose or dit
   ])
 })
 
+test('every kitchen-aunt interaction explicitly faces the party for dialogue then restores her work pose', () => {
+  const aunt = entity('s001', 'e19')
+  for (const behavior of Object.values(aunt.behaviors?.trigger ?? {})) {
+    for (const stage of behavior.flow.stages) {
+      const target = { scene: 's001', entity: 'e19' }
+      expect(stage.body.slice(0, 2), `${behavior.label}/${stage.id}`).toEqual([
+        { kind: 'faceEntityToParty', target },
+        { kind: 'setEntityFrame', target, frame: 0 },
+      ])
+      expect(stage.body.slice(-2), `${behavior.label}/${stage.id}`).toEqual([
+        { kind: 'setEntityFacing', target, facing: 'up' },
+        { kind: 'setEntityFrame', target, frame: 0 },
+      ])
+    }
+  }
+})
+
 test('kitchen idle is static; taking dishes turns the aunt back up after her complete instruction', () => {
   const aunt = entity('s001', 'e19')
   expect(aunt.facing).toBe('up')
@@ -112,7 +129,8 @@ test('kitchen idle is static; taking dishes turns the aunt back up after her com
     (command) =>
       command.kind === 'dialog' && command.cue.rows.some((row) => row.text === 'dlg.142'),
   )
-  expect(commands.slice(instruction + 1, instruction + 3)).toEqual([
+  expect(commands.slice(instruction + 1, instruction + 4)).toEqual([
+    { kind: 'clearDialog' },
     { kind: 'setEntityFacing', target: { scene: 's001', entity: 'e19' }, facing: 'up' },
     { kind: 'setEntityFrame', target: { scene: 's001', entity: 'e19' }, frame: 0 },
   ])
@@ -121,6 +139,21 @@ test('kitchen idle is static; taking dishes turns the aunt back up after her com
 test('the carried meal uses existing persistent appearance, retaining the detailed serving choreography', () => {
   const take = body('s001', 'e20', 'take-dishes')
   const serve = body('s001', 'e15', 'default')
+  expect(serve[0]).toEqual({
+    kind: 'takeEntity',
+    target: { scene: 's001', entity: 'e26' },
+  })
+  const returnWalk = serve.findIndex(
+    (command) =>
+      command.kind === 'selectEntityBehavior' &&
+      command.channel === 'auto' &&
+      command.target.entity === 'e26',
+  )
+  expect(returnWalk).toBeGreaterThan(0)
+  expect(serve[returnWalk - 1]).toEqual({
+    kind: 'releaseEntity',
+    target: { scene: 's001', entity: 'e26' },
+  })
   expect(take).toContainEqual({
     kind: 'setActorAppearance',
     actor: 'li-xiaoyao',
@@ -143,6 +176,7 @@ test('the carried meal uses existing persistent appearance, retaining the detail
         target: { scene: 's001', entity: 'e26' },
       },
       { kind: 'animEntity', target: { scene: 's001', entity: 'e26' } },
+      { kind: 'wait', ms: 100 },
     ],
   })
   expect(

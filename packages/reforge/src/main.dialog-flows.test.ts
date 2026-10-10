@@ -94,7 +94,7 @@ test('H4 multi-page dialogue retains its real runner until the last displayed pa
     projectId: 'shell-project',
   })
   await until(host, () => observation().dialogue)
-  host.frame(1000)
+  await host.frame(1000)
   await key(host, 'Enter')
   expect(observation().dialogue).toBe(true)
   expect(observation().world.money).toBe(50)
@@ -124,7 +124,7 @@ test.each([
   )
   // Wait for actual presentation, not merely the outer runner being active.
   // The queue requires two presented frames before an answer may settle.
-  host.frame()
+  await host.frame()
   if (choice === 'yes') await key(host, 'ArrowRight')
   await key(host, 'Enter')
   await until(host, () => !observation().script.running)

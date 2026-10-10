@@ -39,6 +39,7 @@ import {
   captureSceneSwitchDependencies,
 } from '../scene-switch-transaction.js'
 import { resolveSceneSpawn } from '../scene-transition.js'
+import { scriptWorkIO } from '../script-work-queue.js'
 import { parseBdfGlyphs } from '../text/glyph.js'
 import { measureSpans } from '../text/text-render.js'
 import { normalizeCurrentSave, preflightCurrentSave } from './current-codec.js'
@@ -75,6 +76,7 @@ function extractApiFactory(source: string): (env: Record<string, unknown>) => Ch
     'payloadBelongsToProject',
     'normalizeStoredPayload',
     'restorePayload',
+    'prepareSceneActions',
     'doLoad',
     'quickLoad',
     'syncAmbience',
@@ -158,7 +160,8 @@ const makeWorld = () =>
   content.buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor })
 type Payload = ReturnType<typeof makePayload>
 const makePayload = () => ({
-  version: 11 as const,
+  sceneRuntime: {},
+  version: 12 as const,
   contentVersion: 22 as const,
   projectId: 'audit',
   world: makeWorld(),
@@ -183,7 +186,7 @@ function harness(
   ;(world.script as { flags: Record<string, unknown> }).flags.live = true
   const canonicalScript = world.script
   const project = {
-    manifest: { id: 'audit', name: 'audit', contentVersion: 22, minimumSaveVersion: 11 },
+    manifest: { id: 'audit', name: 'audit', contentVersion: 22, minimumSaveVersion: 12 },
     actorsById: { hero: actor },
     spritesById: { 'sprite.hero': { id: 'sprite.hero', asset: 'sprite.asset' } },
     items: {},
@@ -202,6 +205,7 @@ function harness(
   const activeScene = new ActiveScene(sceneDef('live-scene'), empty)
   const env: Record<string, unknown> = {
     ...content,
+    scriptWorkIO,
     normalizeCurrentSave,
     preflightCurrentSave,
     CurrentSaveStructureError,
@@ -225,6 +229,8 @@ function harness(
     inputProject: project,
     canonicalProject: project,
     world,
+    sceneRuntimeStates: {},
+    restoredWaits: new Map(),
     canonicalScript,
     scriptRuntime: new ScriptProjectRuntime(
       { sharedScripts: {} },
@@ -274,7 +280,12 @@ function harness(
     followerFrozen: [],
     followerPos: [],
     followerAuth: new Map(),
-    motion: { resetCadence: empty, resolvePartyMove: empty },
+    motion: {
+      resetCadence: empty,
+      resolvePartyMove: empty,
+      discardRestoredMove: empty,
+      restoreEntity: empty,
+    },
     updateCamera: () => events.push('camera'),
     resetFrameAnimationPresentation: empty,
     ambienceShown: null,

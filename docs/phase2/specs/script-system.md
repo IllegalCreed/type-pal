@@ -1,6 +1,6 @@
 # 作者脚本与运行时合同
 
-类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/script-system-design.md)，不作为当前执行入口。
 
@@ -97,7 +97,7 @@ continueLoop默认开始最近循环的下一轮，可按稳定loop id选择同�
 实际宿主时间或明确的真实交互进展才允许重置，相关技术计数不成为作者日常表单。
 
 compiler只在内存或可删缓存里产生执行树，带compilerVersion和content digest。
-SAVE11保存同一digest下的内部执行帧，不保存机器状态、生成块或可执行代码。
+SAVE12保存同一digest下的内部执行帧，不保存机器状态、生成块或可执行代码。
 内部指令序号用于执行定位，不成为任何内容对象的身份。
 
 ### 显式执行实体交互方案
@@ -161,10 +161,29 @@ SAVE11保存同一digest下的内部执行帧，不保存机器状态、生成�
 
 ### 持久状态与调度
 
+- `takeEntity` 暂停目标实体自身的整个自动执行链，包括等待的剩余时间、结构判断和该链驱动的跨实体动作；
+  `releaseEntity` 从原进度继续，不重启脚本或整段等待。已开始的资源加载可以完成，但暂停期间不得提交其效果。
+  不冻结其它实体的自动链；其它自动链操作被接管目标时，仍遵守目标的移动/姿态权威。
+  已选定终结的内部cursor提交须原子收尾，不因接管重新选择分支。对白本身不隐式接管。
+  2026-10-07用户以003客栈门口醉道士首次讨酒对白确认此语义；不新增作者指令或剧情阶段。
+
+- `faceEntityToParty { target: { scene, entity } }`：显式令当前场景实体面向队长，按执行时双方的实时地面坐标
+  与精灵像素轴象限计算；同点保持原朝向，异场景目标无现场副作用。只转向，不移动、不停步、不定帧、不接管。
+  自动脚本遵守目标实体的既有姿态权威等待；对白不会隐式调用它。交互演出需要时由作者编排
+  `takeEntity → faceEntityToParty → setEntityFrame → dialog → releaseEntity`，静态NPC无须额外接管。
+  对话后恢复工作朝向也须显式编排；编辑器预览读取当前overlay位置，不改作者场景数据。
+
 - `WorldScriptState` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
   以及 Page/Behavior/Hook 选择、epoch 和仅含stage/completed的`FlowCursor`。
-- 作者cursor仍在flow业务边界提交；SAVE11另保存自动flow的引擎内部命令续跑位置、嵌套控制帧及单步提交相位，
-  不把它们变成作者步骤，也不保存临时交互/战斗调用栈。后台移动不等待整步结束才允许存档，详见当前存档合同。
+- 作者cursor仍在flow业务边界提交；SAVE12另保存自动flow的引擎内部命令续跑位置、嵌套控制帧及单步提交相位，
+  不把它们变成作者步骤，也不保存临时交互/战斗调用栈。后台移动不等待整步结束才允许存档。
+- SAVE12的必需`sceneRuntime`保存NPC朝向、定帧、步态/显式动画相位、move节拍、分类wait剩余时长、
+  base/override动作时间轴与稳定owner及追逐认领；位置仍唯一存于`world.script.entityPos`并同步捕获。
+  自动wait只继续剩余时长；离场暂停，返回恢复现场后仍按当前绑定执行`onEnter`，读档不重跑入场正文。
+  这些都是引擎现场，不是作者状态方案或剧情阶段，详见[当前存档合同](save-system.md)。
+- `playEntityAction`的`wait`与`loop`分轴：`wait:false`安装动作与推进该叶cursor对保存barrier为一次提交；
+  被等待的非循环动作可保存中途进度或已兑现、待cursor确认的收据，恢复不重发历史cue或清姿势副作用。
+  后台动作可跨越行为完成，稳定owner仍负责后续取消；不保存Promise、AbortSignal或运行时activation/command epoch。
 - 自动行为的动作节拍在正文显式表达；调度只处理生命周期、权限和保存门的挂起/唤醒，不附加指令等待。
 - Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
   safe-point，过期 cursor 的 CAS 会被丢弃。
@@ -175,7 +194,7 @@ SAVE11保存同一digest下的内部执行帧，不保存机器状态、生成�
 
 ### 当前加载与发布边界
 
-- HTTP/runtime/editor loader 只接受 contentVersion 22；存档只接受 SAVE11 / content22。
+- HTTP/runtime/editor loader 只接受 contentVersion 22；存档只接受 SAVE12 / content22，manifest最低存档版本为12。
 - 作者正文直接维护；已退役的原版完整脚本转换核不再参与发布。保留的窄资源/地图供应分区
   经三方merge与完整闭包预检后提交manifest；不发布脚本分片、版本transition或migration sidecar。
 - 旧工程和旧开发期存档可由 Git 取回对应历史代码重建，但不进入当前产品路径。发现版本不匹配时

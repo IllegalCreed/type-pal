@@ -157,7 +157,7 @@ function projectState(): EditorState {
       id: 'project-test',
       name: '测试项目',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },
@@ -1799,7 +1799,7 @@ describe('项目设置工作区', () => {
     )
 
     expect(host.textContent).toContain('内容版本 22')
-    expect(host.textContent).toContain('最低存档版本 11')
+    expect(host.textContent).toContain('最低存档版本 12')
 
     await act(async () =>
       root.render(

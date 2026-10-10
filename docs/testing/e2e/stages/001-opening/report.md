@@ -5,16 +5,57 @@ evidence: e2e/evidence/e2e-001.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"28-32","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"fab7df7504b750e0554884470e6814cf46f716f667aa0fcf2ebff53a844d2585"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-93","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"a2c9116df25e1e8d96e097fdf340540645bcdedb3db876c229515e68636ffb10"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
+{"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"21-29","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-114","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/opening-matrix-observer.mjs","lines":"11-125","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"515-630","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
 -->
 
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
+2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。
+
 # 001 开场执行器：双引擎完整验证
+
+## 2026-10-08 当前验收：复用新录制，统一比较器离线通过
+
+当前录制为`game-001-2026-10-07T14-24-08-842Z`及`reforge-001-2026-10-07T14-24-08-842Z`，
+正文55行/正式存读档已在该次真实独立流程通过。本次未重新启动浏览器，使用统一冻结比较器另存
+`build/e2e/001-offline-frozen-20261008.json`：0未决差异，1项既有批准的匀速末步差异。
+终结、时钟、日志完整性反例21/21被拒绝；复用来源、独立复核与质量门见
+[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-当前结果基础设施离线收口001003统一判定通过)。
+旧录制/判定原样保留，以下10-07早批次为历史结论，不与新录制混接。
+
+## 2026-10-07 历史验收：独立流程与双轨比较通过
+
+本轮按[意图优先验收标准](../../contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07)验收，
+不机械复制第一阶段的绘制次数，也不省略实际帧、坐标和等待。
+`build/e2e/both-001-2026-10-07T09-59-42-212Z/comparison.json`为passed：0未决差异，
+1项明确批准的李大娘离房末半格匀速差异。两轨分别为`game-001-2026-10-07T09-59-42-451Z`、
+`reforge-001-2026-10-07T09-59-42-454Z`，正文、正式保存与新上下文读回均通过。
+
+房内固定等待35项逐一核实际timer/deadline与正确姿态；对白21段/确认23次逐页核实际渲染与消费；
+大娘30个移动提交逐个核正常100ms节拍与实际draw，主角起步同拍大娘位置为[60,-12.5]。
+回头不再先画错误朝向，接管对白站定，释放后延续步态；密道机关往返保留每次位移与等待。
+末步出屏采用真实相机/精灵几何解释，隐藏边界仍须完整连续，不把裁剪当作姿态豁免。
+
+修前反例、修法、只读独立复核和全量回归见[本轮任务卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#001-本轮收敛清单与验证边界)。
+本次没有完成002–006重验或连续演示。下列旧批次报告保留当时状态，不回填成当前版本通过。
+
+冻结后复跑仍通过：`both-001-2026-10-07T10-03-36-945Z/comparison.json`；Game/RF分别为
+`game-001-2026-10-07T10-03-37-177Z`、`reforge-001-2026-10-07T10-03-37-179Z`。
+最终文件hash及验证范围保存在`build/e2e/001-acceptance-20261007.json`；两份报告记录的23/34项当前源码hash已逐项复核。
+
+2026-10-06 Game绘制插桩执行域源核验：已直接生成并核读真实presentFrame的转换结果，render:world位于完整entries循环闭合之后，每次完成世界绘制只记录一次；循环内只绘制并递增drawOrder。既有真实多entry回归同时断言两个NPC的实际资源/绘制顺序及后一个draw抛错时不发布新世界绘制证据。本项仅核当前源码与断言，不给修正前的采集结果补发渲染信用，也不宣布正在重录的SAVE12链通过。
+
+2026-10-06 采集/消费合同源核验：assertOpeningMatrix 按sceneVisit/scene/id检查实体连续性；相邻相同scene的实例重建开启新状态链，但不伪造路线跳转。actors/renders/controls/pages/worldRenders统一核order与atMs，worldRenders单列核seq；绘制时钟独立60,000条容量，不挤占原actor/control上限，超限仍失败。本文仅刷新源码证据，未据此宣布新SAVE12独立实跑或双轨比较通过。
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。
+
+2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。
 
 ## 2026-10-04 文档深审
 
 历史 2026-09-28 二阶段回执是 content20/SAVE8；原文后加的 content21/SAVE10 不是该次执行版本。当前 22/11 链由 current-checkpoints 单独登记。
 
-当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
 
 
 ## 新旧脚本具体差异

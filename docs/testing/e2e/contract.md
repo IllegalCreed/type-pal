@@ -5,16 +5,22 @@ evidence: e2e/evidence/e2e-contract.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"2-9","anchor":"import { spawn }","role":"caller","sha256":"2de5e7894c2e5c080a73bce8fe51408431794c4ce7f84bffe20246b1909743ec"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["正文/说话人/状态变化来自真实 caller","结束 checkpoint 可被同引擎正式恢复","capture 不冒充 verify"]},"dedupe":{"result":"reviewed","against":["docs/testing/e2e/stages/*/report.md","docs/testing/legacy-flat-classification.json"],"notes":"合同只定义共用门，不重复阶段报告的执行结论。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-contract.json"}
+{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"2-9","anchor":"import { spawn }","role":"caller","sha256":"91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["正文/说话人/状态变化来自真实 caller","结束 checkpoint 可被同引擎正式恢复","capture 不冒充 verify"]},"dedupe":{"result":"reviewed","against":["docs/testing/e2e/stages/*/report.md","docs/testing/legacy-flat-classification.json"],"notes":"合同只定义共用门，不重复阶段报告的执行结论。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-contract.json"}
 -->
 
+2026-10-09 工具补强源码核读：刷新当前caller/采集/判定锚点与hash；统一容量锚点移至evidence-recorder。只更新文档源码绑定，不改历史revision、版本、执行结论或raw。本轮尚未冻结补录，进度见E2E-CONTINUOUS-001-006任务卡。
+
 # 两阶段 E2E 与录像验证合同
+
+2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核本页公开执行入口与现有断言职责；本步仅刷新版本源，不新增阶段覆盖或重算旧实跑结论。
+
+2026-10-06：核读并更新 opening-both 当前调用方哈希；001/003 已补 NPC 帧比较入口，005 已补遗漏人物。独立走通不等于帧对比通过；新实跑的未决差异见 E2E-CONTINUOUS-001-006 任务卡，不升级下方历史验收。
 
 ## 2026-10-04 文档深审
 
 合同硬门中的旧平面报告名应由 catalog canonical 解析。capture、路线、存读与 NPC 演出门分别保留。
 
-当前核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
+2026-10-04 核读基线为 `d02278dc0154dd73b5db24388a35c30bb096cc81`，content22/SAVE11。本轮没有执行游戏；配对 evidence 记录精确 source/caller/oracle、源 hash 与缺失原始产物。下文数值/告警/通过结论保留为各轮历史记录。
 
 
 ## 1. 产品定位与前置关系
@@ -81,6 +87,101 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 [003](stages/003-kitchen/report.md)、[004](stages/004-meal/report.md)、[005](stages/005-shrimp/report.md)；006以后作者边界待确认。正常输入、对话适配、正式存读档和
 关键NPC事件已执行；不同冻结revision的历史报告不冒称同revision汇总。当前content21/SAVE10，旧版本准入顺序仅作历史。
 用户本次将Codex从主动补覆盖转为E2E；GLM/Cursor后台补测不阻塞，尚未授权实现加速旁路。
+
+### 演出验收标准：意图优先，差异不等于缺陷（用户，2026-10-07）
+
+本节适用于001及之后所有剧情碎片、双轨比较与连续演示，是后续共同验收标准。
+与旧任务卡中“第一阶段绝对正确”“必须逐帧严丝合缝一致”的表述冲突时，以本节为准；
+既有报告保留当时真实执行结果，不追溯改写为新标准下已通过。
+
+1. **原版脚本意图与合理呈现优先**。先核原始脚本、资源及实际演出所表达的剧情目的，
+   第一阶段是重要对照，但也可能有bug。原始数据、原版实测、sdlpal参考与本项目一阶段实测须分清来源，
+   不把移植实现自身当作原版无误证明。二阶段用干净的显式编排实现意图，不复制旧引擎的偶然调度或缺陷。
+2. **比较必须包括帧，判断不只看差异数量**。保留相关NPC完整的位置、朝向、显隐、实际绘制帧序列、
+   步态连续性、等待与控制权变化，不能只比起终点。重点验证动作/对白的先后、合理并发、
+   该停时停、该走时走，以及首个应展示画面是否正确；漏动作、错姿态闪现、无故停顿、边走边说等仍需修复。
+3. **不强求内部状态或浏览器绘制次数相同**。帧率不同造成同一姿态重复绘制次数不同，
+   或已核合理的匀速末步及其镜头出屏后果，不因“第一阶段不是这样”就判失败。
+   时间差先区分作者等待、移动完成、打字/用户确认、渲染调度等原因；不能靠总时长相近抵消漏等待，
+   也不能为了同帧率/同次数增加补偿停顿、旧机制耦合或新功能。
+4. **精确与合理不冲突**。既定目标位置、必要同步关系与剧情结果仍须精确验证，不加入坐标宽松容差；
+   合理差异必须有具体原因、原始证据与可证伪检查，不能按实体名单跳过、过滤正常游戏输入，
+   或把未知归因为“合理”后放行。
+5. **先归因，再选修复层**。每项差异记录NPC中文称呼/剧情段、现象、原始意图、两阶段证据、
+   根因、处理方式与回归反控。区分二阶段缺陷、比较器错误、合理实现差异、一阶段疑似缺陷及证据不足；
+   已核实的普通修复按任务范围执行，真实产品取舍或意图不明时问用户，不继续猜测。
+   第一阶段疑似问题先核实，不为了让二阶段比较通过而擅改第一阶段基线。
+6. **对白期间按剧情需要显式接管（用户，2026-10-10）**。第一阶段对白全局冻结NPC只是参考行为；
+   二阶段接管是可选的作者能力。参与剧情、其自动脚本可能导致提前进场或离场的NPC，必须在
+   相关剧情窗口接管冻结，并在正确时点释放；无关NPC、环境动态精灵继续活动。比较器按真实
+   caller、run/sceneVisit、take/release及全部draw核是否漏接管、提前释放或多余冻结，不以全局停
+   作为标准，也不把“继续动画”当成免核理由。暂停时呈现站姿的已选合理取舍继续有效。
+7. **对白段内显隐必须独立验收（用户，2026-10-11）**。确认完成只结束输入等待，不证明
+   画面消失；同段上下对白可以共存。001–006转入前台转身、移动、等待、剧情auto启动或
+   实体释放等动作段前，作者须显式结束旧对白段，不能只靠根脚本最后收尾。采集同时记录
+   全部槽的成功绘制、清除caller与beforeSlots/afterSlots；验收核清除发生在动作/释放前，
+   以及后续真实draw未复活旧槽。环境auto继续活动不意味着当前对白应消失，切场捕获旧帧
+   另按对应演出合同核，不把旧引擎每opcode清屏规则搬进新runtime。
+
+### 录制与判定分离、最小重跑（用户，2026-10-08）
+
+1. **先验工具，再跑剧情**：验收范围固定为证据完整性、作者绑定、真实时钟/因果、有限脚本终结、
+   NPC逐帧状态。用已有真实记录和有判别力的反例统一复核后冻结；不以证明工具永远无漏洞为目标，
+   不边实跑边扩验收功能。技术归因与复核由执行者负责，不把重复错误转成用户审批负担。
+2. **原始记录不可改写**：录制代码/内容/输入来源、原始report/trace哈希、比较器版本和判定分别保存。
+   原始文件保持原样，新判定另存。比较器变化使旧判定需要重算，不自动使原始记录作废。
+3. **按证据决定重跑范围**：比较规则错误用已有记录离线重算；确实缺必要字段才补采缺证片段；
+   产品运行行为改变才复跑受影响片段。若变更改变后续起始状态，从最早受影响边界向后验证；
+   从001整链重跑必须有具体依赖证据，禁止作为默认动作。保留无影响证明，不能只凭目录名单豁免。
+4. **离线入口**：`node scripts/e2e/recompare-recording.mjs 001 GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON`
+   （当前覆盖001–003）。只消费既有记录，不启动浏览器，输出采用排他创建防止覆盖。
+   输出的`status`仅表示这些录制在当前比较器下的判定；`sourceChanges`必须逐项做影响分析，
+   不自动认作当前运行时通过，也不自动要求重录。源码核读不能冒充新的实际演出。
+5. **反例边界如实说明**：记录损坏反例属于采集/IO域，不冒充产品合法输入覆盖。
+   中段调用连续性须有真实前后邻居；不能拿未记录的初始idle或内部epoch造断言。
+   背景循环、跨场景取消与有限正文按各自合同检查，不把有限尾命令规则泛化到所有运行。
+
+### 形式化验证与剧情专用检查（用户，2026-10-08）
+
+本轮执行/采集准入（001、002先落地）：短按保留真实down/up调用结果，失败也释放；收据不冒充游戏消费，
+消费由对白/位置提交另证。002固定向下11格、向左17格两次长按，以实际位置提交核精确完整序列，
+不以轮询位置决定松键、不自适应绕路，转向帧不算位移，剧情完成另核独立ready/dialogue。
+新采集要求Game原生数值state及脚本字段、RF数值state及behavior覆盖；统一在真实投影调用后观察，
+finally观察不代表调用成功。状态中间态深拷贝，同位置/同帧不合并状态变化；缺字段/overflow阻止producer通过。
+
+连续发布与直接播放入口均要求六份当前双轨离线验收回执；从raw重新核来源、trace关联与判定，
+整体绑定plan、actions及同引擎前驱链。旧tape不能绕过；unknown/缺证/错配先拒绝，不启动浏览器。
+独立passed不是双轨passed。纯判定源可离线更新；执行/采集及未分类源码变化须影响核查或新证据，
+不自动宣布必须从001重录。CLI的`--acceptance`为按001–006排序的离线回执绝对路径JSON数组。
+当前离线合同范围仍为001–003；004–006尚未接入该新准入，完整串行不宣称可用，也不借本包自动扩跑。
+
+建立完整形式化差异验证体系，**不等于消灭特殊场景和剧情的专用检查**。统一的是状态/事件表示、
+转换关系、证据要求、因果与时序规则及判定方式，不要求所有剧情都用同一个比较函数。
+
+- 共性机制用可复用模型验证；剧情合同声明参与者、初始条件、动作目标、先后/并发关系及结束条件。
+  合法的剧情数据与专用合同不是工具漏洞，也不是框架未完成的充分理由。
+- 确实特殊的演出允许专用关系：须写清适用前提、检查字段/区间、预期效果、一手依据与可证伪反例，
+  并接入统一验收。不能凭NPC编号放行、跳过帧/状态/时序检查，不能让专用合同掩盖共性规则失败。
+- 整体完成按**声明观察域的验证义务是否覆盖并闭合**判断，而不是按专用代码是否清零判断。
+  每项义务应有通用或专用规则承担；缺规则、缺证据或未解释差异仍不能通过。
+- 框架完成与具体碎片通过分开：框架须能表达、组合并执行这些义务，拒绝缺项；碎片则须完成本段全部必需义务。
+  通用模型全绿不能替代特殊剧情验收，保留有效专用检查也不能成为无限推迟框架收口的理由。
+- 专用规则不是无限自由的“允许差异”：改变既定演出意图仍需产品裁决；已批准差异也须按明确关系验证。
+  两轨不要求内部逐条指令或绘制次数相同，但位置、姿态、实际帧与有意义的时序差异不得无依据丢弃。
+
+此项澄清不追溯改写历史报告，不把已有partial直接改成proved；当前未完成项必须指向实际覆盖或证据缺口，
+不能只写“仍有剧情专用验证器”。
+
+形式化义务的执行约束：实际指令、状态观测、完整绘制、输入消费须用各自证据关联，不用同一条待检输出
+自证。页内容正确不等于显示时机正确，指令PC完整不等于持久效果正确，显隐相同不等于数值状态相同。
+对白确认/脚本等待结束与可见槽清除须分别采集。上下槽异侧留显、同侧替换须核完整实际draw，
+包括已确认的文字/头像及其原始caller；不能用活动页为null证明画面已清除。2026-10-10新增
+`dialogue-presentation`将全部槽绑定到world renderId，生命周期含beforeSlots/afterSlots，清除请求
+记录真实host原因。新采集缺槽、缺中间draw或借用后续cue来源均拒绝；旧active-only录制仅保留
+其既有观察域，不自动晋升该显隐义务，也不改写历史acceptance。
+每项模型输出proved/rejected/unknown；必需义务的unknown也必须进入完整验收缺证项。
+已知缺证的旧录制仍可验证别的独立义务，但反控必须先证明它针对的义务正控通过，再确认该义务因变异失败；
+不得拿基线已有的红项或unknown充当反控检出。历史报告不改写，另存当前验证器及输入hash收据。
 
 ### 剧情脚本合理化（用户，2026-09-30）
 

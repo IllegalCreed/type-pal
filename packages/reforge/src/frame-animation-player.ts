@@ -195,7 +195,10 @@ export async function playFrameAnimation(
       )
     })
   }
-  const sequence = await awaitActive(options.reader.sequence(options.asset))
+  const sequence = await scriptWorkIO(
+    awaitActive(options.reader.sequence(options.asset)),
+    options.signal,
+  )
   const range = resolveFrameSequencePlayback(sequence.index, {
     ...(options.startFrame === undefined ? {} : { startFrame: options.startFrame }),
     ...(options.endFrame === undefined ? {} : { endFrame: options.endFrame }),
@@ -218,18 +221,25 @@ export async function playFrameAnimation(
     for (let frameIndex = range.startFrame; frameIndex <= range.endFrame; frameIndex++) {
       assertActive()
       if (skipped) break
-      const frame = await awaitActive(options.reader.frame(options.asset, frameIndex))
+      const frame = await scriptWorkIO(
+        awaitActive(options.reader.frame(options.asset, frameIndex)),
+        options.signal,
+      )
       if (skipped) break
       options.onFrame(frame)
       if (!last && options.onFirstFrameReady) await awaitActive(options.onFirstFrameReady(frame))
       last = frame
       if (frameIndex < range.endFrame) options.reader.prefetch(options.asset, frameIndex + 1)
-      await awaitActive(
-        wait(frameSequenceFrameDurationMs(sequence.index, frameIndex, range.frameRate)),
-      )
+      await scriptWorkWait<void>(options.signal, (resolve, reject) => {
+        void awaitActive(
+          wait(frameSequenceFrameDurationMs(sequence.index, frameIndex, range.frameRate)),
+        ).then(resolve, reject)
+      })
     }
   } finally {
     target?.removeEventListener('keydown', onKey, true)
   }
   return last
 }
+
+import { scriptWorkIO, scriptWorkWait } from './script-work-queue.js'

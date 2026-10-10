@@ -1,7 +1,130 @@
+import { createEvidenceRecorder } from './evidence-recorder.mjs'
+import { createScriptCausalObserver } from './script-causal-observer.mjs'
+import { createSnapshotGraph } from './snapshot-graph.mjs'
+
+export function errandCausalObserverScript() {
+  return `(${installErrandObserver})(${createScriptCausalObserver}, ${createEvidenceRecorder}, ${createSnapshotGraph})`
+}
+
 /** Sparse committed state plus actual rendered dialogue. No runtime writes. */
-export function installErrandObserver() {
+export function installErrandObserver(createCausalObserver, createRecorder, createGraph) {
+  const snapshots = createGraph()
+  const sceneLifecyclePhases = {
+    'commit:scene-materialized': 'materialized',
+    'before:scene-projection': 'projecting',
+    'commit:scene-ready': 'ready',
+    'failed:scene-projection': 'failed',
+  }
+  // Independent per-frame clock capacity: 240 seconds at up to 250 draws/second.
+  // Long scene traversals retain up to 200,000 state changes; byte budgets also apply.
+  const worldRenderLimit = 60_000
+  const worldRenders = [],
+    renderSpans = new Map()
+  let sceneVisit = 0,
+    observedScene = null,
+    observedInstance,
+    observedTick = null,
+    reportedVisit = 0,
+    nextRenderId = 0,
+    pointRender = null
+  // This boundary runs before scenario filters, so an untracked scene still ends a visit.
+  globalThis.__e2eSceneBoundary = ({ scene, instance, tick }) => {
+    if (
+      scene !== observedScene ||
+      (instance !== undefined &&
+        instance !== null &&
+        observedInstance !== undefined &&
+        instance !== observedInstance)
+    ) {
+      sceneVisit++
+      observedScene = scene
+      observedInstance = instance
+      control = undefined
+      renderSpans.clear()
+    } else if (instance !== undefined && instance !== null) observedInstance = instance
+    observedTick = Number.isFinite(tick) ? tick : null
+  }
+  const startPoint = (source, state) => {
+    globalThis.__e2eSceneBoundary({ scene: state.scene, tick: state.tick })
+    pointRender = null
+    if (source !== 'render:world') return
+    for (const key of renderSpans.keys())
+      if (!Object.hasOwn(state.actors, key.slice(key.indexOf('/') + 1))) renderSpans.delete(key)
+    const previous = worldRenders.at(-1),
+      atMs = state.renderEvidence?.atMs ?? performance.now()
+    const before = worldRenders.length
+    append(
+      worldRenders,
+      {
+        kind: 'world-render',
+        scene: state.scene,
+        source,
+        sceneVisit,
+        renderId: ++nextRenderId,
+        tick: observedTick,
+        atMs,
+        view: state.renderEvidence?.view ?? null,
+        causalFrame: causal?.clock() ?? null,
+        previousRenderId: previous?.renderId ?? null,
+        elapsedSincePreviousRenderMs: previous ? atMs - previous.atMs : null,
+      },
+      worldRenderLimit,
+    )
+    if (worldRenders.length === before) throw new Error('world render evidence overflow')
+    pointRender = worldRenders.at(-1)
+  }
+  const retainRender = (source, state, id, actor) => {
+    if (!pointRender) return
+    const evidence = state.renderEvidence,
+      drawn = evidence?.actors?.[id],
+      hasPass = evidence?.actors !== null && evidence?.actors !== undefined
+    const rendered = {
+      position: drawn?.position ?? actor.position,
+      facing: drawn?.facing ?? actor.facing,
+      visible: actor.visible,
+      geometry: drawn?.geometry ?? evidence?.candidates?.[id]?.geometry ?? null,
+      drawOrder: drawn?.drawOrder ?? null,
+      frame: drawn?.frame ?? null,
+      frameSource: drawn ? 'drawn' : hasPass ? 'none' : 'unknown',
+      drawStatus: drawn ? 'drawn' : hasPass ? 'not-drawn' : 'unknown',
+      ...(drawn
+        ? {
+            assetId: drawn.assetId ?? null,
+            resourceAssetId: drawn.resourceAssetId ?? null,
+            frameResourceId: drawn.frameResourceId ?? null,
+            spriteSource: drawn.spriteSource,
+            fallback: drawn.fallback,
+          }
+        : {}),
+    }
+    const key = `${sceneVisit}/${id}`,
+      previous = renderSpans.get(key)
+    const tail = {
+      throughRenderId: pointRender.renderId,
+      throughAtMs: pointRender.atMs,
+      throughOrder: pointRender.order,
+    }
+    if (previous && JSON.stringify(previous.state) === JSON.stringify(rendered)) {
+      recorder.extend(previous, tail)
+      return
+    }
+    const before = events.length
+    appendObserved({
+      kind: 'actor-render',
+      scene: state.scene,
+      id,
+      source,
+      sceneVisit,
+      renderId: pointRender.renderId,
+      tick: pointRender.tick,
+      atMs: pointRender.atMs,
+      ...tail,
+      state: rendered,
+    })
+    if (events.length > before) renderSpans.set(key, events.at(-1))
+  }
+
   const events = [],
-    npcEvents = [],
     pages = [],
     restoreCommits = [],
     gameRestores = [],
@@ -10,83 +133,94 @@ export function installErrandObserver() {
     errors = [],
     inputs = []
   const prior = new Map(),
-    instances = new WeakMap()
+    commitOrders = new Map()
   let final = null,
     order = 0,
-    instance = 0,
     overflow = false,
-    eventBytes = 0,
-    snapshotBytes = 0,
-    npcBytes = 0,
-    npcOverflow = false,
-    control
-  const encoder = new TextEncoder()
-  const append = (list, value, limit = 16000) => {
-    if (list.length >= limit) {
+    control,
+    controlReceipt,
+    overflowDetails = null,
+    attempted = null
+  const recorder = createRecorder({
+    // 005/006 traverse several scenes and keep complete NPC/restore evidence.
+    // This is a byte budget only; no events or overflow failures are filtered.
+    budgets: {
+      events: 64 * 1024 * 1024,
+      causes: 96 * 1024 * 1024,
+      atomicSnapshots: 32 * 1024 * 1024,
+    },
+    context: (value) => ({
+      atMs: pointRender?.atMs ?? performance.now(),
+      ...(['actor', 'actor-render', 'control', 'scene'].includes(value.kind)
+        ? { sceneVisit, tick: observedTick, renderId: pointRender?.renderId ?? null }
+        : {}),
+    }),
+    errors,
+    onOverflow: () => {
       overflow = true
-      return
-    }
-    const event = {
-      seq: list.length,
-      order: order++,
-      atMs: performance.now(),
-      ...structuredClone(value),
-    }
-    const bytes = encoder.encode(JSON.stringify(event)).byteLength
-    const snapshot = [restoreCommits, gameRestores, saveCaptures].includes(list)
-    if (snapshot ? snapshotBytes + bytes > 8 * 1024 * 1024 : eventBytes + bytes > 4 * 1024 * 1024) {
+      overflowDetails ??= {
+        attempted,
+        byteSizes: recorder.byteSizes(),
+        snapshots: snapshots.stats(),
+      }
+    },
+  })
+  const fail = recorder.fail
+  const recordSpriteFrame = globalThis.__e2eRecordSpriteFrame
+  globalThis.__e2eRecordSpriteFrame = (frame) => (overflow ? null : recordSpriteFrame(frame))
+  const append = (list, value, limit = 200_000, causalRecord = false) => {
+    if (overflow) return
+    attempted = { kind: value.kind, count: list.length, limit }
+    let packed
+    try {
+      packed = causalRecord ? snapshots.pack(value) : value
+    } catch (error) {
+      fail(error)
       overflow = true
-      order--
+      overflowDetails = { attempted, reason: String(error), snapshots: snapshots.stats() }
       return
     }
-    if (snapshot) snapshotBytes += bytes
-    else eventBytes += bytes
-    list.push(event)
+    const event = recorder.append(list, packed, limit)
+    attempted = null
+    order = recorder.nextOrder
+    return event
   }
-  const fail = (error) => {
-    if (errors.length < 10) errors.push(String(error))
-    else overflow = true
-  }
-  const npcIds = new Set([
-    'party',
-    'e35',
-    'e36',
-    'e59',
-    'e60',
-    'e61',
-    'e116',
-    'e117',
-    'e123',
-    'e203',
-  ])
-  const appendNpc = (event) => {
-    if (npcOverflow || (event.kind === 'actor' && !npcIds.has(event.id))) return
-    if (npcEvents.length >= 16000) {
-      npcOverflow = true
-      return
+  const appendObserved = (value) => append(events, value)
+  // Persistent actor snapshots are large and mostly unchanged on each boat step. Store a
+  // lossless key delta internally; exported progress events retain their full before/state DTO.
+  const progressDelta = (before, state) => {
+    const delta = {}
+    for (const field of ['money', 'persistent', 'hooks']) {
+      if (JSON.stringify(before?.[field]) === JSON.stringify(state[field])) continue
+      if (field === 'money') {
+        delta.money = state.money
+        continue
+      }
+      const old = before?.[field] ?? {},
+        next = state[field] ?? {}
+      delta[field] = {
+        set: Object.fromEntries(
+          Object.entries(next).filter(
+            ([key, value]) => JSON.stringify(old[key]) !== JSON.stringify(value),
+          ),
+        ),
+        removed: Object.keys(old).filter((key) => !Object.hasOwn(next, key)),
+      }
     }
-    const copy = structuredClone(event)
-    const bytes = encoder.encode(JSON.stringify(copy)).byteLength
-    if (npcBytes + bytes > 4 * 1024 * 1024) {
-      npcOverflow = true
-      return
-    }
-    copy.seq = npcEvents.length
-    npcBytes += bytes
-    npcEvents.push(copy)
-  }
-  const appendObserved = (value) => {
-    const before = events.length
-    append(events, value)
-    if (events.length > before) appendNpc(events.at(-1))
+    return delta
   }
   const point = (source, state) => {
+    if (overflow) return
     try {
+      startPoint(source, state)
       if (!['s001', 's002', 's003', 's004', 's005', 's014'].includes(state.scene)) return
-      if (final?.scene !== state.scene)
+      const newVisit = reportedVisit !== sceneVisit
+      if (newVisit) {
+        reportedVisit = sceneVisit
         appendObserved({ kind: 'scene', source, scene: state.scene })
+      }
       for (const [id, actor] of Object.entries(state.actors)) {
-        const key = id === 'party' ? id : `${state.scene}/${id}`,
+        const key = id === 'party' ? 'party' : `${sceneVisit}/${state.scene}/${id}`,
           before = prior.get(key)
         if (
           before &&
@@ -96,8 +230,11 @@ export function installErrandObserver() {
           !source.startsWith('before:')
         )
           fail(`unobserved committed move ${key} at ${source}`)
-        if (JSON.stringify(before) !== JSON.stringify(actor)) {
-          appendObserved({
+        if (
+          (id === 'party' && (newVisit || source === 'commit:refreshRuntimeProjection')) ||
+          JSON.stringify(before) !== JSON.stringify(actor)
+        ) {
+          const committed = appendObserved({
             kind: 'actor',
             source,
             scene: state.scene,
@@ -105,11 +242,27 @@ export function installErrandObserver() {
             before: before ?? null,
             state: actor,
           })
-          prior.set(key, structuredClone(actor))
+          if (committed) {
+            prior.set(key, structuredClone(actor))
+            commitOrders.set(key, committed.order)
+          }
         }
+        if (source === 'render:world') retainRender(source, state, id, actor)
       }
-      if (control !== state.control) {
+      const phase = Object.hasOwn(sceneLifecyclePhases, source)
+        ? sceneLifecyclePhases[source]
+        : null
+      if (phase)
         appendObserved({
+          kind: 'scene-lifecycle',
+          phase,
+          source,
+          scene: state.scene,
+          sceneVisit,
+          tick: observedTick,
+        })
+      if (control !== state.control) {
+        controlReceipt = appendObserved({
           kind: 'control',
           scene: state.scene,
           source,
@@ -124,29 +277,42 @@ export function installErrandObserver() {
           kind: 'progress',
           source,
           scene: state.scene,
-          before: prior.get('progress') ?? null,
-          state: progress,
+          delta: progressDelta(prior.get('progress'), progress),
         })
         prior.set('progress', structuredClone(progress))
       }
       final = structuredClone(state)
+      globalThis.__routeObserve?.(source, { ...state, sceneVisit })
     } catch (error) {
       fail(error)
+    } finally {
+      pointRender = null
     }
   }
   const rendered = (engine, page) => {
     if (!final) return
-    if (JSON.stringify(pages.at(-1)?.page) !== JSON.stringify(page))
+    if (
+      pages.at(-1)?.sceneVisit !== sceneVisit ||
+      JSON.stringify(pages.at(-1)?.page) !== JSON.stringify(page)
+    )
       append(
         pages,
-        { engine, scene: final.scene, page, actors: final.actors, control: final.control },
+        {
+          kind: 'page',
+          engine,
+          scene: final.scene,
+          sceneVisit,
+          page,
+          actors: final.actors,
+          control: final.control,
+        },
         800,
       )
   }
   globalThis.__errandPoint = point
   globalThis.__errandError = fail
-  globalThis.__errandRestoreCommitted = (payload) =>
-    append(restoreCommits, { payload, source: 'commit:restorePayload' }, 1)
+  globalThis.__errandRestoreCommitted = (payload, inputPayload, loadId) =>
+    append(restoreCommits, { payload, inputPayload, loadId, source: 'commit:restorePayload' }, 1)
   const gamePayload = (gs) => ({ format: 'type-pal-save', gs: JSON.parse(JSON.stringify(gs)) })
   globalThis.__errandGameRestored = (gs) =>
     append(gameRestores, { payload: gamePayload(gs), source: 'commit:loadGameFromSlot' }, 1)
@@ -161,9 +327,20 @@ export function installErrandObserver() {
   }
   globalThis.__errandGameSaved = (captureSeq) =>
     append(saveCompletions, { captureSeq, source: 'commit:Save.saveSlot' }, 3)
-  globalThis.__errandRendered = (page) =>
-    rendered('reforge', page && page.phase !== 'typing' ? page : null)
-  globalThis.__errandGame = (gs, source) => {
+  globalThis.__errandRendered = (page) => {
+    try {
+      rendered('reforge', page && page.phase !== 'typing' ? causal.reforgePage(page) : null)
+    } catch (error) {
+      fail(error)
+    }
+  }
+  globalThis.__errandGame = (gs, source, renderEvidence) => {
+    if (gs)
+      globalThis.__e2eSceneBoundary({
+        scene: `s${String(gs.wNumScene - 1).padStart(3, '0')}`,
+        instance: gs.npcs,
+        tick: gs.frameNum,
+      })
     if (!gs || ![2, 3, 4, 5, 6, 15].includes(gs.wNumScene)) return
     try {
       const actor = (e) => ({
@@ -179,15 +356,13 @@ export function installErrandObserver() {
         autoIp: e.autoCursor?.ip ?? null,
         triggerMode: e.triggerMode,
       })
-      const trackedNpcs = gs.npcs
-        .filter((e) =>
-          [19, 35, 36, 59, 60, 61, 62, 83, 84, 116, 117, 123, 124, 127, 203].includes(e.id),
-        )
-        .concat(
-          gs.allEventObjects.find((e) => e.id === 203 && !gs.npcs.some((npc) => npc.id === 203)) ??
-            [],
-        )
+      const trackedNpcs = gs.npcs.concat(
+        gs.allEventObjects.find((e) => e.id === 203 && !gs.npcs.some((npc) => npc.id === 203)) ??
+          [],
+      )
       point(source, {
+        tick: gs.frameNum ?? null,
+        renderEvidence: renderEvidence ?? null,
         scene: `s${String(gs.wNumScene - 1).padStart(3, '0')}`,
         actors: {
           party: {
@@ -195,6 +370,8 @@ export function installErrandObserver() {
             facing: gs.party.facing,
             visible: true,
             walking: gs.walkingFrame.walking,
+            sprite: gs.PlayerRolesRuntime.rgwSpriteNum[gs.partyMembers[0]],
+            scriptedFrame: gs.partyScriptedFrame[0] ?? null,
           },
           ...Object.fromEntries(trackedNpcs.map((e) => [`e${e.id}`, actor(e)])),
         },
@@ -210,6 +387,7 @@ export function installErrandObserver() {
         hooks: gs.sceneOnEnterOverride ?? {},
         money: gs.dwCash,
         control: gs.mode === 'explore' && !gs.eventCursor && !gs.dialogBox && !gs.sceneLoading,
+        ...globalThis.__routeGameReadiness?.(gs),
       })
     } catch (error) {
       fail(error)
@@ -223,7 +401,6 @@ export function installErrandObserver() {
         rendered('game', null)
         return
       }
-      if (!instances.has(d.shownLines)) instances.set(d.shownLines, ++instance)
       const lines = [...d.shownLines]
       if (
         d.currentLineText !== null &&
@@ -234,7 +411,7 @@ export function installErrandObserver() {
         'game',
         lines.length
           ? {
-              instance: instances.get(d.shownLines),
+              instance: causal.gamePageId(d),
               lines,
               title: d.titleText ?? null,
               slot: d.style,
@@ -254,30 +431,85 @@ export function installErrandObserver() {
       )
         append(inputs, { type, key: event.key, repeat: event.repeat }, 2000)
     })
-  globalThis.__readErrandEvidence = () =>
+  const causal = createCausalObserver?.({
+    // Some causal payloads have kind=command (runtime-wait-consumed). Store the
+    // complete actual causal stream, not a selection by its payload discriminant.
+    append: (list, value, limit) => append(list, value, limit, true),
+    fail,
+    scenes: ['s001', 's002', 's003', 's004', 's005', 's014'],
+    snapshotGame: globalThis.__errandGame,
+    context: () => ({
+      scene: observedScene,
+      sceneVisit,
+      tick: observedTick,
+      renderId: worldRenders.at(-1)?.renderId ?? null,
+      poses: Object.fromEntries(
+        [...prior]
+          .filter(([key]) => key === 'party' || key.startsWith(`${sceneVisit}/${observedScene}/`))
+          .map(([key, state]) => [
+            key.split('/').at(-1),
+            { state, commitOrder: commitOrders.get(key) },
+          ]),
+      ),
+    }),
+  })
+  globalThis.__readErrandRouteEvidence = () =>
+    structuredClone({
+      events: events.filter((e) => e.kind === 'actor' && e.id === 'party'),
+      errors,
+      overflow,
+    })
+  globalThis.__readErrandStatus = () =>
+    structuredClone({
+      final,
+      errors,
+      overflow,
+      overflowDetails,
+      byteSizes: recorder.byteSizes(),
+      snapshots: snapshots.stats(),
+      saveCaptures: saveCaptures.length,
+      saveCompletions: saveCompletions.length,
+    })
+  globalThis.__readErrandArchive = () =>
     structuredClone({
       events,
+      worldRenders,
       pages,
       restoreCommits,
       gameRestores,
       saveCaptures,
       saveCompletions,
       inputs,
+      causes: causal?.read() ?? [],
+      evidenceFormat: 'snapshot-graph/1',
+      snapshotNodes: snapshots.nodes,
+      resources: recorder.resources(),
       errors,
       overflow,
+      overflowDetails,
       final,
       order: order - 1,
-      byteSizes: { events: eventBytes, atomicSnapshots: snapshotBytes },
+      byteSizes: recorder.byteSizes(),
     })
+  globalThis.__readErrandEvidence = () => {
+    const { evidenceFormat: _, snapshotNodes, ...trace } = globalThis.__readErrandArchive()
+    trace.causes = snapshots.unpack(trace.causes, snapshotNodes)
+    trace.events = snapshots.expandProgress(trace.events)
+    return structuredClone(trace)
+  }
   globalThis.__readErrandNpcTrace = (ids) => {
     const selected = new Set(['party', ...(Array.isArray(ids) ? ids : [])])
     return structuredClone({
-      events: npcEvents.filter(
-        (event) => event.kind === 'scene' || event.kind === 'control' || selected.has(event.id),
+      resources: recorder.resources(),
+      worldRenders,
+      events: events.filter(
+        (event) =>
+          ['scene', 'scene-lifecycle', 'control'].includes(event.kind) || selected.has(event.id),
       ),
       pages,
+      causes: snapshots.unpack(causal?.read() ?? [], snapshots.nodes),
       errors,
-      overflow: npcOverflow,
+      overflow,
       sourceOverflow: overflow,
       order: order - 1,
     })
@@ -285,6 +517,8 @@ export function installErrandObserver() {
   globalThis.__readErrandDrive = (after) =>
     structuredClone({
       pages: pages.filter((p) => p.order > after),
+      control: controlReceipt,
+      worldRender: worldRenders.at(-1),
       errors,
       overflow,
       order: order - 1,
@@ -392,6 +626,7 @@ export function readBoatGame() {
     cash: gs?.dwCash,
     mode: gs?.mode,
     event: !!gs?.eventCursor,
+    triggerOwner: gs?.eventCursor?.triggerOwnerId,
     loading: !!gs?.sceneLoading,
     fading: !!(gs?.needToFadeIn || gs?.paletteFadeState || gs?.fadeState || gs?.blackScreenHold),
     dialog: gs?.dialogBox

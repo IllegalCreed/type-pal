@@ -48,7 +48,7 @@ function state(): EditorState {
       id: 'demo',
       name: 'Demo',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       entryPoints: [
         {

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import ts from 'typescript'
 import { instrumentOpeningTrace, TRACE_TARGETS } from './opening-trace-plugin.mjs'
+import { reforgeActorObservation } from './reforge-actor-observation.mjs'
 
 export const INN_TRACE_TARGETS = [
   ...TRACE_TARGETS,
@@ -35,6 +36,7 @@ export function instrumentInnTrace(code, file) {
     }
   }
   if (file.endsWith('/scene-system.ts')) {
+    code = instrumentOpeningTrace(code, file).code
     const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
     const names = ['tickSceneInput', 'pushPartyAwayFromBlockingNpcs']
     const found = ast.statements.filter(
@@ -69,6 +71,44 @@ export function instrumentInnTrace(code, file) {
     .replaceAll('globalThis.__openingMatrixGameRendered?.', 'globalThis.__innGameRendered?.')
     .replaceAll('globalThis.__openingMatrixRendered?.', 'globalThis.__innRendered?.')
   if (file.endsWith('/reforge/src/main.ts')) {
+    const inputAst = ts.createSourceFile(file, result.code, ts.ScriptTarget.Latest, true)
+    const inputEdits = []
+    const markInput = (node) => {
+      if (
+        ts.isCallExpression(node) &&
+        node.expression.getText(inputAst) === '__openingPoint' &&
+        ['"before:player.pos"', '"commit:player.pos"'].includes(
+          node.arguments[0]?.getText(inputAst),
+        ) &&
+        ts.isExpressionStatement(node.parent) &&
+        ts.isBlock(node.parent.parent)
+      ) {
+        const write = node.parent.parent.statements.find(
+          (statement) =>
+            ts.isExpressionStatement(statement) &&
+            ts.isBinaryExpression(statement.expression) &&
+            statement.expression.left.getText(inputAst) === 'player.pos' &&
+            statement.expression.right.getText(inputAst).replace(/\s/g, '') ===
+              '{...playerOutcome.to}',
+        )
+        if (write) {
+          const phase = node.arguments[0].getText(inputAst).includes('before:')
+            ? 'before'
+            : 'commit'
+          inputEdits.push({
+            start: node.arguments[0].getStart(inputAst),
+            end: node.arguments[0].end,
+            text: `playerOutcome.kind === 'passive-yield' ? '${phase}:player.passive-yield' : '${phase}:player.input'`,
+          })
+        }
+      }
+      ts.forEachChild(node, markInput)
+    }
+    markInput(inputAst)
+    assert.equal(inputEdits.length, 2, 'actual player input outcome anchor changed')
+    for (const edit of inputEdits.sort((a, b) => b.start - a.start))
+      result.code = result.code.slice(0, edit.start) + edit.text + result.code.slice(edit.end)
+    result.anchors.actualPlayerInput = 1
     const ast = ts.createSourceFile('instrumented.ts', result.code, ts.ScriptTarget.Latest, true)
     const matches = []
     const walk = (n) => {
@@ -78,18 +118,20 @@ export function instrumentInnTrace(code, file) {
     walk(ast)
     assert.equal(matches.length, 1, 'inn commit hook wiring changed')
     const hook = matches[0]
-    const body = `function __openingPoint(source) {
+    const body = `function __openingPoint(source, renderEvidence) {
       try {
-        if (!['s001','s003'].includes(activeScene.scene.id)) return;
-        const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true}};
+        if(source==='observe:causal') globalThis.__openingCauseWorld?.(world);
+        let tick=null, instance=null;
+        try { tick=motion.worldTick; instance=currentMotionSceneSessionId(); } catch {}
+        globalThis.__e2eSceneBoundary?.({scene:activeScene.scene.id,tick,instance});
+        if (!['s001','s002','s003','s004','s005','s014'].includes(activeScene.scene.id)) return;
+        const actors={party:{position:[player.pos.col,player.pos.row,player.pos.height],facing,visible:true,sprite:world.party[0]?partySpriteDef(world.party[0]).id:null}};
         for(const e of activeScene.scene.entities) {
           const id=e.id;
-          actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,
-            state:host.getEntityState(id),frame:worldPresentation.entityFrame(id)??
-              motion.gaitPhase(id)??motion.explicitAnimation(id)??entityActions.frame(id)??0,
-            sprite:typeof e.sprite==='string'&&e.sprite.startsWith('sprite-')?Number(e.sprite.slice(7)):e.sprite??e.actor??null};
+          actors[id]=${reforgeActorObservation('e', 'world.script.behaviors?.entities?.[activeScene.scene.id]?.[id]??null')};
         }
-        globalThis.__innPoint?.(source,{scene:activeScene.scene.id,actors,money:world.money,
+        globalThis.__innPoint?.(source,{tick,renderEvidence:source==='render:world'?{engine:'reforge',...renderEvidence}:null,scene:activeScene.scene.id,actors,money:world.money,
+          ...(globalThis.__routeObserve ? {routeReady:!runner&&!dialogBox.active&&!presentation.busy()&&!menus.active&&!battleHost.active&&fadeDriver.value===0&&ditherTransition.active===null,routeDialogue:dialogBox.active} : {}),
           control:!runner&&!dialogBox.active&&!presentation.busy(),
           roomActors:['e24','e25','e26'].map(id=>({id,visible:world.script.entityState?.s001?.[id]===2,state:world.script.entityState?.s001?.[id]??0}))});
       } catch(error) {globalThis.__innError?.(String(error));}
@@ -137,7 +179,10 @@ export function instrumentInnTrace(code, file) {
       'inn restore commit anchor ordering changed',
     )
     assert.equal(ordered[2].call.getText(restoreAst), 'replaceWorld(candidate)')
-    assert.equal(ordered[3].call.getText(restoreAst), 'commitSceneSwitch(plan, world, false)')
+    assert.equal(
+      ordered[3].call.getText(restoreAst),
+      'commitSceneSwitch(plan, world, false, restoreActions)',
+    )
     const resume = ordered.at(-1)
     assert.equal(
       statements[resume.index + 1]?.getText(restoreAst),
@@ -152,7 +197,7 @@ export function instrumentInnTrace(code, file) {
     const at = resume.statement.getStart(restoreAst)
     result.code =
       result.code.slice(0, at) +
-      'globalThis.__innRestoreCommitted?.(captureCurrentSavePayload());\n' +
+      'globalThis.__innRestoreCommitted?.(captureCurrentSavePayload(),payload,globalThis.__openingCauseRuntimeLoadId?.(payload));\n' +
       result.code.slice(at)
     result.anchors.restorePayloadCommitted = 1
   }

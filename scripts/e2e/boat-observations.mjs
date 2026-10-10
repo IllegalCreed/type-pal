@@ -1,33 +1,37 @@
 import assert from 'node:assert/strict'
-import { canonicalPosition } from './npc-transition-contract.mjs'
+import { canonicalPosition } from './coordinate-evidence.mjs'
 
 const compact = (values) =>
   values.filter(
     (value, index) => index === 0 || JSON.stringify(value) !== JSON.stringify(values[index - 1]),
   )
 
+/** Boarding/disembarkation are separate story obligations. Inside the first-to-last
+ * boat movement interval, a stationary boat frame must not hide a rider drift or turn.
+ */
+export function boatRideSamples(samples) {
+  assert(Array.isArray(samples) && samples.length >= 3, 'missing boat motion observations')
+  const moved = samples.flatMap((sample, index) => {
+    const point = canonicalPosition(sample.e116),
+      previous = index ? canonicalPosition(samples[index - 1].e116) : null
+    assert(point, 'missing boat position')
+    return previous && point.some((value, axis) => value !== previous[axis]) ? [index] : []
+  })
+  assert(moved.length >= 3, 'boat never moved through three observed positions')
+  return samples.slice(moved[0], moved.at(-1) + 1)
+}
+
 /** Summarize actual observed motion, without a desired offset/facing baked into the oracle. */
 export function summarizeBoatMotion(samples) {
   assert(Array.isArray(samples) && samples.length >= 3, 'missing boat motion observations')
   const origin = canonicalPosition(samples[0].e116)
   assert(origin, 'missing initial boat position')
-  const ride = samples.filter((sample, index) => {
-    const point = canonicalPosition(sample.e116)
-    const previous = index > 0 ? canonicalPosition(samples[index - 1].e116) : null
-    return (
-      index > 0 &&
-      point &&
-      previous &&
-      Math.hypot(point[0] - previous[0], point[1] - previous[1]) > 0.001 &&
-      Math.hypot(point[0] - origin[0], point[1] - origin[1]) > 0.01
-    )
-  })
-  assert(ride.length >= 3, 'boat never moved through three observed positions')
+  const ride = boatRideSamples(samples)
   const relative = (sample, key) => {
     const actor = canonicalPosition(sample[key]),
       boat = canonicalPosition(sample.e116)
     assert(actor && boat, `missing ${key}/boat position during ride`)
-    return actor.map((value, index) => Math.round((value - boat[index]) * 10000) / 10000)
+    return actor.map((value, index) => value - boat[index])
   }
   return {
     samples: ride.length,

@@ -4,52 +4,49 @@
   "kind": "document-audit",
   "status": "current",
   "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-  "versions": {
-    "content": 22,
-    "minimumSave": 11
-  },
+  "versions": { "content": 22, "minimumSave": 11 },
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "413-424",
+      "lines": "434-445",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "52506574f9425334a8bf951f7889c8cdb09eb84a55fe40897d6df0d59c3cb86d"
+      "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
-      "lines": "145-168",
+      "lines": "167-193",
       "anchor": "export class WorldMotionRuntime",
       "role": "contract",
-      "sha256": "d32aa7d4c92bd18342fdd3a508c575834d706d2b6bffdaa04c3d555ae6cbbb6b"
+      "sha256": "a4088a8995b861377e03e98736ee8992fa018c57b031f377897fc9885dbdb2a6"
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.ts",
       "lines": "71-88",
       "anchor": "export class WorldScenePresentation",
       "role": "contract",
-      "sha256": "708a17ca1c63fc18f636f2a5911b436c70d68df5b35af93c994f1599b090f205"
+      "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.test.ts",
       "lines": "7-30",
       "anchor": "describe('WorldMotionRuntime ownership'",
       "role": "oracle",
-      "sha256": "51076a037f665a57d472ada1af68e91eb8dc08fef3a6619222e507f5d534bbe1"
+      "sha256": "2c8cf4c66b8e685b2a60abe43cf3bc55ce542f4e8dd8745987243cea26913559"
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.test.ts",
       "lines": "82-105",
       "anchor": "describe('WorldScenePresentation sprite ownership'",
       "role": "oracle",
-      "sha256": "f2130f0547be77347d41e8d0548b8a6e62c956dbdae80e8fe168f424e6568a9e"
+      "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df"
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
     }
   ],
   "publicCallers": [
@@ -83,8 +80,8 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:413-424",
-        "packages/reforge/src/world-motion-runtime.ts:145-168",
+        "packages/reforge/src/main.ts:434-445",
+        "packages/reforge/src/world-motion-runtime.ts:167-193",
         "packages/reforge/src/world-scene-presentation.ts:71-88",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
         "packages/reforge/src/world-scene-presentation.test.ts:82-105",
@@ -98,6 +95,9 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
+    "2026-10-06 SAVE12 源核验：当前版本常量为 content22 / minimumSave12，源文件 SHA 以本次核读的集成工作树为准；revision / candidateSha / versions / history 与既有 runtimeExecution 仍记录原核读或实跑，不升级为 SAVE12 通过。本次未执行运行时、E2E 或覆盖率；新 SAVE12 的 001–006 独立双轨及连续链仍待生成和验收。 已核 main 的 canonical endpoint → live position → touch → deferred continuation 顺序，motion 的取消释放和 presentation 的定帧优先级。新增 captureEntity/restoreEntity 保存步态、显式动画与 move 节拍；旧 owner 测试不因此覆盖 SAVE12 保存/离场恢复。",
+    "2026-10-06：重新核读本页 sourceRefs 的实际 caller、合法输入及断言，并更新当前工作树的哈希/行号。此项只是源码证据刷新，不把历史执行升级为当前全量通过；本轮独立录制、帧差异与连续验收状态统一见 E2E-CONTINUOUS-001-006 任务卡。",
     "旧正文中的不合 main/未统一门仅为候选时点；当前由 unified integration 收口。未读取 console 的原最小功能过程保持未证，不倒填 console 零错误；完整剧情观感仍另归 E2E。"
   ],
   "artifacts": [],

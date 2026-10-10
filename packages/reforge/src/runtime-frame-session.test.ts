@@ -181,6 +181,42 @@ test('aborted wait rejects with the existing protocol while unrelated pending wa
   await live
 })
 
+test('a paused timer retains its remainder across repeated ownership notifications and detaches on abort', async () => {
+  const f = frameFixture()
+  await f.tick(100)
+  const controller = new AbortController()
+  const timer = f.session.scheduleWait(300, controller.signal)
+  const done = vi.fn()
+  const pending = timer.done.then(done, (error) => error)
+  await f.tick(200)
+  timer.setPaused(true)
+  expect(timer.remainingMs).toBe(200)
+  await f.tick(300)
+  timer.setPaused(true)
+  await f.tick(400)
+  expect(timer.remainingMs).toBe(200)
+  expect(done).not.toHaveBeenCalled()
+  timer.setPaused(false)
+  await f.tick(500)
+  timer.setPaused(false)
+  expect(timer.remainingMs).toBe(100)
+  await f.tick(600)
+  await pending
+  expect(done).toHaveBeenCalledTimes(1)
+  expect(timer.remainingMs).toBe(0)
+
+  const cancelled = f.session.scheduleWait(300, controller.signal)
+  const rejected = cancelled.done.catch((error) => error)
+  cancelled.setPaused(true)
+  controller.abort()
+  expect(await rejected).toMatchObject({ name: 'AbortError' })
+  cancelled.setPaused(false)
+  await f.tick(700)
+  f.session.clearWaits()
+  expect(cancelled.remainingMs).toBe(0)
+  expect(done).toHaveBeenCalledTimes(1)
+})
+
 test('pre-aborted signal never leaves a waiter and clear keeps that rejection identity', async () => {
   const f = frameFixture(),
     controller = new AbortController()
@@ -227,13 +263,13 @@ test('modal freezes wait completion; leaving it does not accumulate hidden wall 
   expect(completed).toBe(true)
 })
 
-test('frame callbacks remain synchronous and propagate errors without later input or render work', () => {
+test('a failed frame rejects without later input or render work', async () => {
   const f = frameFixture(),
     error = new Error('frame failure')
   f.ports.advanceMoves = () => {
     throw error
   }
-  expect(() => f.tick(100)).toThrow(error)
+  await expect(f.tick(100)).rejects.toBe(error)
   expect(f.events.map((e) => e[0])).toEqual([
     'activate',
     'resume',

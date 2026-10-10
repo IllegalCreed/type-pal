@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import {
+  gridToPixel,
   spriteDefinitionFrameDemand,
   validateAssetCatalog,
   validateAuthorScenes,
@@ -24,6 +25,7 @@ import { chromePng, installShellHost, type ShellHost } from './__tests__/runtime
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { advance, state } from './__tests__/runtime-shell/scenarios.js'
 import { compressGzip } from './assets.js'
+import type { DialogueSlotObservation } from './dialog/dialog-box.js'
 import type { FileSource } from './file-source.js'
 import { sha256Bytes } from './hash.js'
 import { loadAllScenes, loadCurrentProjectFrom, loadScene } from './project-loader.js'
@@ -43,7 +45,7 @@ const { readFile } = await vi.importActual<{
   readFile(path: URL, encoding: 'utf8'): Promise<string>
   readFile(path: URL): Promise<Uint8Array>
 }>('node:fs/promises')
-type Case = 'wine' | 'wrong-position' | 'kitchen' | 'serve'
+type Case = 'wine' | 'wrong-position' | 'kitchen' | 'serve' | 'opening' | 'inn'
 
 async function project(caseId: Case, wineCount = 1) {
   // These external image bytes are not a pixel oracle. Preserve stable IDs/kinds
@@ -148,7 +150,8 @@ async function project(caseId: Case, wineCount = 1) {
     scenes: sceneIndexJson.scenes.filter((entry) => scenes.some((scene) => scene.id === entry.id)),
   })
   const manifest = validateCurrentManifestStartup(structuredClone(manifestJson)).manifest
-  const current = caseId === 'kitchen' || caseId === 'serve' ? 's001' : 's003'
+  const current =
+    caseId === 'kitchen' || caseId === 'serve' || caseId === 'opening' ? 's001' : 's003'
   manifest.defaultEntryId = 'meal-test'
   manifest.entryPoints = [
     {
@@ -166,28 +169,41 @@ async function project(caseId: Case, wineCount = 1) {
     },
   ]
   const visible =
-    caseId === 'kitchen' ? ['e19', 'e20'] : caseId === 'serve' ? ['e15', 'e26'] : ['e62']
+    caseId === 'inn'
+      ? ['e54', 'e55', 'e56', 'e59', 'e60', 'e61']
+      : caseId === 'kitchen'
+        ? ['e19', 'e20']
+        : caseId === 'serve'
+          ? ['e15', 'e26']
+          : ['e62']
   for (const scene of scenes) {
+    if (caseId === 'opening' && scene.id === 's001') {
+      scene.music = null
+      continue
+    }
     // Isolate the authored body from unrelated inn plots, retaining every canonical definition,
     // address and original map/asset. This is a normal-input integration case, not formal route E2E.
     delete scene.hooks
     scene.music = null
     for (const entity of scene.entities) {
       entity.hidden = scene.id !== current || !visible.includes(entity.id)
-      if (entity.id !== 'e62' && !(caseId === 'kitchen' && entity.id === 'e19'))
+      if (caseId !== 'inn' && entity.id !== 'e62' && !(caseId === 'kitchen' && entity.id === 'e19'))
         for (const page of entity.pages ?? []) delete page.auto
     }
   }
   const entry = scenes.find((scene) => scene.id === current)!
-  entry.entry = {
-    pos:
-      caseId === 'kitchen'
-        ? { col: 92, row: 52, height: 0 }
-        : caseId === 'serve'
-          ? { col: 108, row: 30, height: 0 }
-          : { col: caseId === 'wrong-position' ? 134 : 137, row: 74, height: 0 },
-    facing: 'up',
-  }
+  if (caseId !== 'opening')
+    entry.entry = {
+      pos:
+        caseId === 'inn'
+          ? { col: 127, row: 45, height: 0 }
+          : caseId === 'kitchen'
+            ? { col: 92, row: 52, height: 0 }
+            : caseId === 'serve'
+              ? { col: 108, row: 30, height: 0 }
+              : { col: caseId === 'wrong-position' ? 134 : 137, row: 74, height: 0 },
+      facing: 'up',
+    }
   if (caseId === 'kitchen')
     entry.entities.find((entity) => entity.id === 'e20')!.pages![0]!.trigger = 'take-dishes'
   if (caseId === 'serve')
@@ -277,9 +293,9 @@ async function boot(caseId: Case, wineCount = 1, query = '', restore?: CurrentSa
   const present = h.frame
   let realNow = 0
   vi.spyOn(performance, 'now').mockImplementation(() => realNow)
-  h.frame = (dt = 100) => {
+  h.frame = async (dt = 100) => {
     realNow += dt
-    present(dt)
+    await present(dt)
     // These external IO records are not a pixel oracle. Bound unused per-frame draw logs.
     h.draws.length = 0
   }
@@ -317,14 +333,84 @@ async function boot(caseId: Case, wineCount = 1, query = '', restore?: CurrentSa
   expect(loaded.sceneIds).toEqual(['s001', 's003'])
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')
   const visual = vi.spyOn(WorldScenePresentation.prototype, 'sprites')
+  const { Canvas2DRenderer } = await import('./render.js')
+  const renderScene = Canvas2DRenderer.prototype.renderScene
+  const escortDraws: { col: number; frame: number }[] = []
+  const guestDraws: { col: number; row: number }[] = []
+  const openingDraws: {
+    player: { col: number; row: number; sprite: string | undefined }
+    aunt: { row: number; hidden: boolean; facing: string; frame: number | null }
+  }[] = []
+  vi.spyOn(Canvas2DRenderer.prototype, 'renderScene').mockImplementation(function (
+    this: InstanceType<typeof Canvas2DRenderer>,
+    ...args
+  ) {
+    renderScene.apply(this, args)
+    // Observe only a successfully completed real world draw, identifying the NPC by both
+    // its live position and its loaded frame object. Blank asset IO is not a pixel oracle.
+    const input = visual.mock.lastCall?.[0]
+    const guest = input?.entities.find((entity) => entity.id === 'e59')
+    if (input && guest && caseId === 'inn') {
+      const definition = input.entitySprite(guest.id)
+      const loaded = definition ? input.loadedSprite(definition) : undefined
+      const pixel = gridToPixel(guest.pos)
+      if (
+        args[3].some(
+          (sprite) =>
+            sprite.worldX === pixel.x &&
+            sprite.worldY === pixel.y &&
+            loaded?.frames.includes(sprite.frame),
+        )
+      )
+        guestDraws.push({ col: guest.pos.col, row: guest.pos.row })
+    }
+    const aunt = input?.entities.find((entity) => entity.id === 'e10')
+    if (input && aunt && caseId === 'opening') {
+      const definition = input.entitySprite(aunt.id)
+      const loaded = definition ? input.loadedSprite(definition) : undefined
+      const pixel = gridToPixel(aunt.pos)
+      const draw = args[3].find(
+        (sprite) =>
+          sprite.worldX === pixel.x &&
+          sprite.worldY === pixel.y &&
+          loaded?.frames.includes(sprite.frame),
+      )
+      openingDraws.push({
+        player: {
+          col: input.player.pos.col,
+          row: input.player.pos.row,
+          sprite: input.party[0] ? input.partyVisual(input.party[0])?.def.id : undefined,
+        },
+        aunt: {
+          row: aunt.pos.row,
+          hidden: !input.visible(aunt),
+          facing: aunt.facing ?? 'down',
+          frame: draw && loaded ? loaded.frames.indexOf(draw.frame) : null,
+        },
+      })
+    }
+    const escort = input?.entities.find((entity) => entity.id === 'e26')
+    if (!input || !escort || escort.facing !== 'left') return
+    const definition = input.entitySprite(escort.id)
+    const loaded = definition ? input.loadedSprite(definition) : undefined
+    const pixel = gridToPixel(escort.pos)
+    const drawn = args[3].find(
+      (sprite) => sprite.worldX === pixel.x && loaded?.frames.includes(sprite.frame),
+    )
+    if (drawn && loaded)
+      escortDraws.push({ col: escort.pos.col, frame: loaded.frames.indexOf(drawn.frame) })
+  })
   await (await import('./main.js')).bootGame(loaded, { kind: 'project', projectId: 'pal' })
-  h.frame()
+  await h.frame()
   await drain()
   await h.settleIO()
   return {
     h,
     fixture,
     loaded,
+    escortDraws,
+    openingDraws,
+    guestDraws,
     leaderSprite: () => {
       const input = visual.mock.lastCall?.[0],
         leader = input?.party[0]
@@ -343,11 +429,11 @@ async function items(h: ShellHost, reentry = false) {
 function rows(h: ShellHost) {
   return h.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))
 }
-async function finishDialogs(h: ShellHost) {
-  for (let step = 0; step < 160 && (state().script.running || state().dialogue); step++) {
+async function finishDialogs(h: ShellHost, frameBudget = 160) {
+  for (let step = 0; step < frameBudget && (state().script.running || state().dialogue); step++) {
     if (state().dialogue) await key(h, 'Enter')
     else {
-      h.frame(100)
+      await h.frame(100)
       await drain()
     }
     await h.settleIO()
@@ -356,17 +442,70 @@ async function finishDialogs(h: ShellHost) {
   expect(state().dialogue).toBe(false)
 }
 
+test('canonical inn clears the aunt before guest movement while retaining the later two-sided exchange', async () => {
+  const { h, fixture, loaded, guestDraws } = await boot('inn')
+  await key(h, 'ArrowLeft') // Enter the canonical touch range from outside through normal movement.
+  const slots = (): readonly DialogueSlotObservation[] => {
+    const observer: unknown = Reflect.get(window, '__tpObserve')
+    if (
+      !observer ||
+      typeof observer !== 'object' ||
+      !('readRuntime' in observer) ||
+      typeof observer.readRuntime !== 'function'
+    )
+      throw new Error('actual dialogue observer missing')
+    return observer.readRuntime().dialogueSlots
+  }
+  let auntFinished = false,
+    movingDraws = 0,
+    exchangeDrawn = false
+  for (let frame = 0; frame < 160 && !exchangeDrawn; frame++) {
+    const before = slots()
+    const aunt = before.find((slot) => slot.rowTextIds.includes('dlg.29'))
+    if (state().dialogue) await key(h, 'Enter')
+    else {
+      await h.frame(100)
+      await drain()
+    }
+    await h.settleIO()
+    const after = slots()
+    if (aunt && !after.some((slot) => slot.presentationId === aunt.presentationId))
+      auntFinished = true
+    const guest = guestDraws.at(-1)
+    if (guest && guest.col !== 122 && !after.some((slot) => slot.active)) {
+      movingDraws++
+      expect(auntFinished).toBe(true)
+      expect(after).toEqual([])
+    }
+    if (
+      after.some((slot) => slot.rowTextIds.includes('dlg.32')) &&
+      after.some((slot) => slot.rowTextIds.includes('dlg.36'))
+    ) {
+      h.text.mockClear()
+      await h.frame(100)
+      await drain()
+      const rendered = h.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))
+      expect(rendered).toContain(loaded.locale['dlg.32'])
+      expect(rendered).toContain(loaded.locale['dlg.36'])
+      exchangeDrawn = true
+    }
+  }
+  expect(movingDraws, JSON.stringify({ guestDraws, slots: slots() })).toBeGreaterThan(0)
+  expect(exchangeDrawn).toBe(true)
+  fixture.assertPristine()
+}, 15_000)
+
 test('stationary normal item menu immediately awaits the entire NPC gift, once, and restores movement', async () => {
   const { h, fixture, loaded } = await boot('wine', 2)
   const start = structuredClone(state().player.pos)
   for (let tick = 0; tick < 12; tick++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
   }
   await items(h)
   await key(h, 'Enter') // scene use: no character chooser, direction or extra step
   for (let tick = 0; tick < 12; tick++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
     await h.settleIO()
   }
@@ -424,7 +563,7 @@ test('slow kitchen dialogue keeps the aunt facing down and restores up only afte
   await advance(h, () => state().dialogue)
   expect(state().entities.find((entity) => entity.id === 'e19')?.facing).toBe('down')
   for (let tick = 0; tick < 31; tick++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
   }
   expect(state().dialogue).toBe(true)
@@ -442,7 +581,7 @@ test('normal manual save and fresh current-codec restore retain the actual carri
   await advance(h, () => state().dialogue)
   await finishDialogs(h)
   expect(state().world.party[0]?.appearance?.spriteId).toBe('sprite-208')
-  h.frame()
+  await h.frame()
   expect(carrying.leaderSprite()).toBe('sprite-208')
   const { IndexedDbSaveStore } = await import('./save/store.js')
   const writes = vi.spyOn(IndexedDbSaveStore.prototype, 'putSlot')
@@ -466,7 +605,7 @@ test('normal manual save and fresh current-codec restore retain the actual carri
   await advance(served.h, () => !state().script.running)
   expect(state().player.pos).toEqual(payload.position.pos)
   expect(state().world.party[0]?.appearance?.spriteId).toBe('sprite-208')
-  served.h.frame()
+  await served.h.frame()
   expect(served.leaderSprite()).toBe('sprite-208')
   expect(payload).toEqual(before)
   served.fixture.assertPristine()
@@ -478,20 +617,143 @@ test('a normal landing executes the actual serving body, restores the persistent
     served.h,
     () => !state().script.running && state().world.party[0]?.appearance?.spriteId === 'sprite-208',
   )
-  served.h.frame()
+  await served.h.frame()
   expect(served.leaderSprite()).toBe('sprite-208')
   await key(served.h, 'ArrowUp')
   await advance(served.h, () => state().dialogue)
   await finishDialogs(served.h)
   expect(state().world.party[0]?.appearance?.spriteId).toBe('li-xiaoyao')
-  served.h.frame()
+  await served.h.frame()
   expect(served.leaderSprite()).toBe('li-xiaoyao')
   expect(state().world.inventory.find((entry) => entry.itemId === '272')?.count).toBe(1)
   expect(state().world.script?.entityState.s001?.e15).toBe(0)
+  // Stay in the room until the complete automatic return, unlike the route recording which
+  // can leave while the eighth step is pending. L_541/L_542 perform eight quarter-cell steps.
+  await advance(
+    served.h,
+    () =>
+      state().world.script?.behaviors.entities?.s001?.e26?.auto?.cursor?.at.kind === 'completed',
+  )
+  expect(state().entities.find((entity) => entity.id === 'e26')?.pos).toEqual({
+    col: 107,
+    row: 24,
+    height: 0,
+  })
+  const returnDraws = served.escortDraws
+    .filter(({ col }) => col < 109)
+    .filter(
+      (draw, index, values) =>
+        index === 0 ||
+        draw.col !== values[index - 1]?.col ||
+        draw.frame !== values[index - 1]?.frame,
+    )
+  expect(returnDraws).toEqual([
+    { col: 108.75, frame: 4 },
+    { col: 108.5, frame: 3 },
+    { col: 108.25, frame: 5 },
+    { col: 108, frame: 3 },
+    { col: 107.75, frame: 4 },
+    { col: 107.5, frame: 3 },
+    { col: 107.25, frame: 5 },
+    { col: 107, frame: 3 },
+  ])
   await key(served.h, 'ArrowDown')
   expect(state().world.inventory.find((entry) => entry.itemId === '272')?.count).toBe(1)
   served.fixture.assertPristine()
 })
+
+test.each([
+  100, 17,
+])('the opening aunt presents each exact handoff before drawing (%ims frames)', async (frameMs) => {
+  const opening = await boot('opening')
+  const frame = opening.h.frame
+  opening.h.frame = () => frame(frameMs)
+  const untilLine = async (id: string) => {
+    const text = opening.loaded.locale[id]
+    if (!text) throw new Error(`missing canonical dialogue ${id}`)
+    for (let turn = 0; turn < 900 && !rows(opening.h).includes(text); turn++) {
+      if (state().dialogue) await key(opening.h, 'Enter')
+      else {
+        await opening.h.frame(100)
+        await drain()
+      }
+      await opening.h.settleIO()
+    }
+    expect(rows(opening.h), id).toContain(text)
+    expect(state().dialogue).toBe(true)
+  }
+  for (const [line, row, facing] of [
+    ['dlg.1369', -18.5, 'down'],
+    ['dlg.1371', -17, 'up'],
+  ] as const) {
+    await untilLine(line)
+    const pausedDraw = opening.openingDraws.length
+    for (let tick = 0; tick < 5; tick++) {
+      await opening.h.frame(100)
+      await drain()
+    }
+    expect(state().entities.find((entity) => entity.id === 'e10')).toMatchObject({
+      pos: { col: 60, row, height: 0 },
+      facing,
+    })
+    const duringDialogue = opening.openingDraws.slice(pausedDraw).map((draw) => draw.aunt)
+    expect(duringDialogue).toHaveLength(5)
+    expect(duringDialogue).toEqual(
+      Array.from({ length: 5 }, () => ({
+        row,
+        hidden: false,
+        facing,
+        frame: facing === 'up' ? 6 : 0,
+      })),
+    )
+  }
+  const start = structuredClone(state().player.pos)
+  const boundary = opening.openingDraws.length
+  // At 17ms five drawn holds do not finish typing; first confirm skips typing, next closes.
+  for (let confirm = 0; confirm < 3 && state().dialogue; confirm++) await key(opening.h, 'Enter')
+  expect(state().dialogue).toBe(false)
+  await advance(opening.h, () =>
+    opening.openingDraws
+      .slice(boundary)
+      .some((draw) => draw.player.col !== start.col || draw.player.row !== start.row),
+  )
+  const first = opening.openingDraws
+    .slice(boundary)
+    .find((draw) => draw.player.col !== start.col || draw.player.row !== start.row)
+  expect(first?.aunt).toEqual({ row: -12.5, hidden: false, facing: 'down', frame: 0 })
+  expect(opening.openingDraws.find((draw) => !draw.aunt.hidden)?.aunt).toEqual({
+    row: -23,
+    hidden: false,
+    facing: 'left',
+    frame: 3,
+  })
+  expect(opening.openingDraws.find((draw) => draw.aunt.row === -20)?.player.sprite).toBe(
+    'li-xiaoyao',
+  )
+  expect(opening.openingDraws.find((draw) => draw.aunt.row === -17)?.aunt).toEqual({
+    row: -17,
+    hidden: false,
+    facing: 'up',
+    frame: 6,
+  })
+  expect(opening.openingDraws.find((draw) => draw.aunt.row === -12.875)?.aunt).toEqual({
+    row: -12.875,
+    hidden: false,
+    facing: 'down',
+    frame: 2,
+  })
+  await advance(
+    opening.h,
+    () => state().entities.find((entity) => entity.id === 'e10')?.hidden === true,
+  )
+  expect(state().entities.find((entity) => entity.id === 'e10')?.pos).toEqual({
+    col: 60,
+    row: -12,
+    height: 0,
+  })
+  await finishDialogs(opening.h, Math.ceil((160 * 100) / frameMs))
+  opening.fixture.assertPristine()
+}, 30_000)
 
 test('the isolated scene index preserves production validation and fails closed outside its real input scope', async () => {
   host = await installShellHost()

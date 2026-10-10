@@ -5,7 +5,7 @@ export class ScriptWakeGate {
   wait(signal: AbortSignal, eligible: () => boolean): Promise<void> {
     signal.throwIfAborted()
     if (eligible()) return Promise.resolve()
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       const cleanup = () => {
         this.pending.delete(check)
         signal.removeEventListener('abort', abort)
@@ -35,3 +35,5 @@ export class ScriptWakeGate {
     for (const check of [...this.pending]) check()
   }
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

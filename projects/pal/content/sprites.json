@@ -361,6 +361,17 @@
     "label": "原精灵 43",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "resting": {
+        "label": "歇息姿态",
+        "steps": [
+          {
+            "frame": 7,
+            "durationMs": 100
+          }
+        ]
+      }
     }
   },
   {

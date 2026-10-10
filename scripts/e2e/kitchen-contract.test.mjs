@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import ts from 'typescript'
 import { sha256 } from './browser-journey.mjs'
+import { evidenceObserverScript } from './evidence-recorder.mjs'
 import { validatePredecessor } from './inn-contract.mjs'
 import {
   assertKitchenDialogue,
@@ -14,13 +15,18 @@ import {
   kitchenHandoffReady,
   validateKitchenPredecessor,
 } from './kitchen-contract.mjs'
-import { installKitchenObserver } from './kitchen-observer.mjs'
+import { installKitchenObserver, kitchenCausalObserverScript } from './kitchen-observer.mjs'
 import { instrumentKitchenTrace, KITCHEN_TRACE_TARGETS } from './kitchen-trace-plugin.mjs'
 import { openingSaveView } from './reforge-opening-policy.mjs'
+import { createScriptCausalObserver } from './script-causal-observer.mjs'
 
 const observer = () => {
   const host = {}
-  new Function('globalThis', 'performance', `(${installKitchenObserver.toString()})()`)(host, {
+  new Function(
+    'globalThis',
+    'performance',
+    evidenceObserverScript(installKitchenObserver, createScriptCausalObserver),
+  )(host, {
     now: () => 1,
   })
   return host
@@ -34,7 +40,15 @@ const fixture = ({ bootstrapPlacement = false, earlyAuntChange } = {}) => {
     })),
     locale: {},
   }
-  const trace = { events: [], pages: [], frames: [], errors: [], overflow: false }
+  const trace = {
+    events: [],
+    pages: [],
+    frames: [],
+    worldRenders: [],
+    causes: [],
+    errors: [],
+    overflow: false,
+  }
   let order = 0
   const append = (list, value) =>
     list.push({ seq: list.length, order: order++, atMs: order, sample: order, ...value })
@@ -161,8 +175,12 @@ const fixture = ({ bootstrapPlacement = false, earlyAuntChange } = {}) => {
     scene: 's001',
     control: true,
     money: 500,
-    actors: { e19: { visible: true }, e20: { visible: true } },
+    actors: { e19: { visible: true, facing: 'up' }, e20: { visible: true } },
     persistent: { e56: { state: 0 } },
+  }
+  trace.presented = {
+    ...structuredClone(trace.final),
+    renderEvidence: { actors: { e19: { frame: 6 } } },
   }
   return { trace, contract, stairs }
 }
@@ -177,7 +195,7 @@ test('003 CLI requires a real 002 report and rejects scene/position controls', (
 })
 test('002 predecessor admission rejects fake bytes, wrong story, missing restore and old versions; 001 admission stays strict', () => {
   const payload = {
-    version: 11,
+    version: 12,
     contentVersion: 22,
     projectId: 'pal',
     position: { sceneId: 's003' },
@@ -367,7 +385,11 @@ test('003 actual AST retains reviewed commit/save hooks and observes selected re
     if (file.endsWith('/reforge/src/main.ts')) {
       assert.equal(result.anchors.commitNudgeParty, 1)
       assert.equal(result.anchors.restorePayloadCommitted, 1)
-      assert(result.code.includes('__kitchenRestoreCommitted?.(captureCurrentSavePayload())'))
+      assert(
+        result.code.includes(
+          '__kitchenRestoreCommitted?.(captureCurrentSavePayload(),payload,globalThis.__openingCauseRuntimeLoadId?.(payload))',
+        ),
+      )
     }
     if (file.endsWith('/present/present.ts')) assert.equal(result.anchors.actualGamePartyFrame, 1)
     if (file.endsWith('/world-scene-presentation.ts'))
@@ -433,7 +455,7 @@ test('003 frame anchors fail closed when actual selected leader draw is removed'
           ),
           file,
         ),
-      /census changed/,
+      /census changed|render evidence anchors changed/,
     )
   }
 })
@@ -449,12 +471,51 @@ test('003 observer detached copies and captures kitchen-scene pages without alte
     }
   const original = structuredClone(state)
   host.__kitchenPoint('render:world', state)
+  host.__openingCauseDialog('open', null, { phase: 'typing' })
   host.__kitchenRendered({ phase: 'waiting-input', pageText: 'hello' })
   assert.deepEqual(state, original)
   const trace = host.__readKitchenEvidence()
   trace.final.money = 1
   assert.equal(host.__readKitchenEvidence().final.money, 500)
   assert.equal(host.__readKitchenEvidence().pages.length, 1)
+})
+test('003 NPC renders have a separate baseline from commits and record control handoff', () => {
+  const host = observer(),
+    state = {
+      scene: 's001',
+      actors: { e19: { position: [89, 45, 0], visible: true, facing: 'down', frameRendered: 1 } },
+      persistent: {},
+      money: 500,
+      inventory: [],
+      control: false,
+    }
+  const render = () =>
+    host.__kitchenPoint('render:world', {
+      ...state,
+      renderEvidence: { engine: 'reforge', actors: { e19: { ...state.actors.e19, frame: 1 } } },
+    })
+  host.__kitchenPoint('commit:entity.pos', state)
+  render()
+  state.actors.e19.position = [89, 46, 0]
+  host.__kitchenPoint('commit:entity.pos', state)
+  state.control = true
+  render()
+  render()
+  const trace = host.__readKitchenEvidence()
+  assert.deepEqual(trace.errors, [])
+  assert.deepEqual(
+    trace.events
+      .filter((e) => e.kind === 'actor-render')
+      .map((e) => [e.state.position, e.state.frame]),
+    [
+      [[89, 45, 0], 1],
+      [[89, 46, 0], 1],
+    ],
+  )
+  assert.deepEqual(
+    trace.events.filter((e) => e.kind === 'control').map((e) => e.state),
+    [false, true],
+  )
 })
 test('003 observer reports movement missing a commit, overflow and multiple restore evidence', () => {
   const host = observer(),
@@ -474,11 +535,60 @@ test('003 observer reports movement missing a commit, overflow and multiple rest
   for (let i = 0; i < 4001; i++) host.__kitchenPartyFrame('game', { position: [i, 0] })
   assert.equal(host.__readKitchenEvidence().overflow, true)
   for (let i = 0; i < 3; i++) host.__kitchenRestoreCommitted({ money: i })
-  assert.equal(host.__readKitchenEvidence().restoreCommits.length, 2)
+  assert.equal(host.__readKitchenEvidence().restoreCommits.length, 0, 'overflow seals all streams')
 })
 test('003 full actual timeline validates fourteen rows, twelve committed/drawn fragments and strict end', () => {
   const { trace, contract, stairs } = fixture()
   assert.equal(assertKitchenTrace(trace, 'game', contract, stairs).status, 'passed')
+})
+test('003 causal receipts share the actual order; dropping a receipt cannot pass', () => {
+  const { trace, contract, stairs } = fixture()
+  const last = [...trace.events, ...trace.pages, ...trace.frames]
+    .sort((a, b) => a.order - b.order)
+    .at(-1)
+  trace.causes.push({ seq: 0, order: last.order + 1, atMs: last.atMs + 1, kind: 'cause' })
+  trace.causes.push({ seq: 1, order: last.order + 2, atMs: last.atMs + 2, kind: 'cause' })
+  assert.equal(assertKitchenTrace(trace, 'game', contract, stairs).status, 'passed')
+  trace.causes.shift()
+  trace.causes[0].seq = 0
+  assert.throws(() => assertKitchenTrace(trace, 'game', contract, stairs), /global order gap/)
+})
+test('003 browser init installs causal hooks and retains detached scene poses', () => {
+  const host = {}
+  new Function('globalThis', 'performance', kitchenCausalObserverScript())(host, { now: () => 1 })
+  const state = {
+    scene: 's003',
+    tick: 1,
+    actors: { e56: { position: [137, 66], frame: 0 } },
+    control: true,
+  }
+  host.__kitchenPoint('commit:test', state)
+  host.__openingCauseFrame({ now: 100, realNow: 100, frozen: false, stepping: false })
+  host.__kitchenPoint('render:world', state)
+  state.actors.e56.position[0] = 999
+  const trace = host.__readKitchenEvidence()
+  assert.deepEqual(trace.errors, [])
+  assert.deepEqual(trace.causes[0].poses.e56.state.position, [137, 66])
+  assert.equal(
+    trace.causes[0].poses.e56.commitOrder,
+    trace.events.find((e) => e.id === 'e56').order,
+  )
+  assert.deepEqual(trace.worldRenders[0].causalFrame, trace.causes[0].clock)
+  const raw = JSON.stringify(trace)
+  const progress = host.__readKitchenProgress()
+  assert.equal(
+    progress.order,
+    Math.max(
+      ...[...trace.events, ...trace.causes, ...trace.worldRenders].map((event) => event.order),
+    ),
+  )
+  progress.final.actors.e56.position[0] = 888
+  host.__readKitchenRouteEvidence().events.length = 0
+  assert.equal(
+    JSON.stringify(host.__readKitchenEvidence()),
+    raw,
+    'compact queries mutated the full trace',
+  )
 })
 test('003 bootstrap aunt placement remains in full continuity but is outside the admitted story phase', () => {
   const { trace, contract, stairs } = fixture({ bootstrapPlacement: true })
@@ -601,8 +711,14 @@ test('003 controls alone do not finish before both kitchen actors and aunt hando
   ]) {
     const final = structuredClone(trace.final)
     corrupt(final)
-    assert.equal(kitchenEndPresented({ final }), false)
+    assert.equal(kitchenEndPresented({ final, presented: trace.presented }), false)
   }
+  for (const frame of [0, 7, null]) {
+    const presented = structuredClone(trace.presented)
+    presented.renderEvidence.actors.e19.frame = frame
+    assert.equal(kitchenEndPresented({ final: trace.final, presented }), false)
+  }
+  assert.equal(kitchenEndPresented({ final: trace.final, presented: null }), false)
 })
 test('003 actual save contract refuses fake ready placeholder, any pickup, inventory or reward changes', () => {
   const ready = {
@@ -649,7 +765,7 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
     },
   }
   const payload = {
-    version: 11,
+    version: 12,
     contentVersion: 22,
     position: { sceneId: 's001' },
     world: {

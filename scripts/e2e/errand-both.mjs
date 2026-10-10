@@ -5,7 +5,7 @@ import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { repoRoot } from './browser-journey.mjs'
 import { assertErrandSuite, readErrandContract, readErrandReceipt } from './errand-contract.mjs'
-import { assertNpcTransitionParity } from './npc-transition-contract.mjs'
+import { assertRecordedStoryParity } from './recompare-recording.mjs'
 
 const options = {},
   args = process.argv.slice(2)
@@ -90,7 +90,8 @@ try {
   comparison.status = 'passed'
   comparison.revision = reports[0].revision
   const storyReports = reports.filter((report) => report.case === 'story')
-  comparison.npc = await assertNpcTransitionParity({
+  comparison.npc = await assertRecordedStoryParity({
+    output: resolve(out, 'acceptance.json'),
     fragment: '005',
     gameReportPath: `${storyReports.find((report) => report.engine === 'game').output}/report.json`,
     reforgeReportPath: `${storyReports.find((report) => report.engine === 'reforge').output}/report.json`,

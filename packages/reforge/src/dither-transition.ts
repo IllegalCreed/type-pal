@@ -231,9 +231,10 @@ export class DitherTransitionController<T> {
     durationMs: number,
     source: DitherBackupSource,
     owner: DitherOwner,
+    signal?: AbortSignal,
   ): Promise<void> {
     this.cancel(ditherAbortError('dither superseded'))
-    return new Promise((resolve, reject) => {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
       this.active = {
         owner,
         backup,
@@ -251,12 +252,22 @@ export class DitherTransitionController<T> {
     })
   }
 
-  beginEntry(backup: T, durationMs: number, owner: DitherOwner = {}): Promise<void> {
-    return this.begin(backup, durationMs, 'entry', owner)
+  beginEntry(
+    backup: T,
+    durationMs: number,
+    owner: DitherOwner = {},
+    signal?: AbortSignal,
+  ): Promise<void> {
+    return this.begin(backup, durationMs, 'entry', owner, signal)
   }
 
-  beginSnapshot(snapshot: () => T, durationMs: number, owner: DitherOwner = {}): Promise<void> {
-    return this.begin(snapshot(), durationMs, 'snapshot', owner)
+  beginSnapshot(
+    snapshot: () => T,
+    durationMs: number,
+    owner: DitherOwner = {},
+    signal?: AbortSignal,
+  ): Promise<void> {
+    return this.begin(snapshot(), durationMs, 'snapshot', owner, signal)
   }
 
   finish(): void {
@@ -278,3 +289,5 @@ export class DitherTransitionController<T> {
     return true
   }
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

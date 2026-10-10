@@ -24,6 +24,7 @@ function host(): ScriptHost {
     fleeBattle: noop,
     setEntityState: noop,
     setEntityFacing: noop,
+    faceEntityToParty: noop,
     setEntityFrame: noop,
     playEntityAction: done,
     stopEntityAction: noop,

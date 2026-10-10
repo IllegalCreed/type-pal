@@ -97,7 +97,7 @@ export async function shellProject(
     id: 'shell-project',
     name: 'Shell Project',
     contentVersion: 22,
-    minimumSaveVersion: 11,
+    minimumSaveVersion: 12,
     defaultEntryId: 'start',
     entryPoints: [
       {

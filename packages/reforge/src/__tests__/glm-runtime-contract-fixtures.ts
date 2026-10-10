@@ -270,7 +270,7 @@ export function dProjectFiles(options: DProjectOptions = {}): Record<string, unk
       id: 'demo-d',
       name: 'Demo D',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'new-game',
       entryPoints: [
         {

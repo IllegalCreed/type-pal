@@ -171,7 +171,7 @@ export async function bootScenario(h: ShellHost, options: ScenarioOptions = {}) 
     kind: 'project',
     projectId: 'shell-project',
   })
-  h.frame()
+  await h.frame()
   return {
     h,
     fixture,
@@ -213,7 +213,7 @@ export async function enterItems(h: ShellHost, panel: 'equip' | 'use') {
 /** Bounded gameplay stepping, including a real task turn for decompression/IDB IO. */
 export async function advance(h: ShellHost, predicate: () => boolean, frames = 100) {
   for (let i = 0; i < frames && !predicate(); i++) {
-    h.frame(100)
+    await h.frame(100)
     await drain()
     await h.settleIO()
   }

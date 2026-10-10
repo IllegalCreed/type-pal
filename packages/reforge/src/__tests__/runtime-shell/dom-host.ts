@@ -201,11 +201,12 @@ export async function installShellHost(query = '') {
         setImmediate(resolve)
       })
     },
-    frame(dt = 100) {
+    async frame(dt = 100) {
       now += dt
       const batch = [...frames]
       frames.clear()
-      for (const [, cb] of batch) cb(now)
+      // RAF ignores return values in browsers; the test host awaits the real callback receipt.
+      for (const [, cb] of batch) await cb(now)
     },
     key(key: string) {
       window.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }))

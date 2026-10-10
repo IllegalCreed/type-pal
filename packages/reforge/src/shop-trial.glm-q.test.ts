@@ -52,11 +52,11 @@ test('Q01 blur 清空未释放按键：blur 后同帧不产生二次输入', asy
   const drawShop = vi.spyOn(await import('./menu/shop-box.js'), 'drawShop')
   await until(host!, () => drawShop.mock.calls.length > 0)
   window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }))
-  host!.frame(100)
+  await host!.frame(100)
   const cursorAfterDown = (drawShop.mock.lastCall?.[1] as { cursor: number }).cursor
   expect(cursorAfterDown).toBe(1)
   window.dispatchEvent(new Event('blur'))
-  host!.frame(100)
+  await host!.frame(100)
   expect((drawShop.mock.lastCall?.[1] as { cursor: number }).cursor).toBe(cursorAfterDown)
   window.dispatchEvent(new Event('pagehide'))
   await run
@@ -67,7 +67,7 @@ test('Q01 Escape 结束试买：终态 role=status 文本、画布隐藏、帧�
   const { run, canvas } = await runTrial('?shop-trial=0&money=30')
   await until(host!, () => host!.draws.length > 0)
   window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
-  host!.frame(100)
+  await host!.frame(100)
   await run
   const status = document.querySelector('p[role="status"]')
   expect(status?.textContent).toBe('试买已结束，可关闭此标签页。本次金钱和物品不会保存。')
@@ -75,6 +75,6 @@ test('Q01 Escape 结束试买：终态 role=status 文本、画布隐藏、帧�
   expect(host!.frames.size).toBe(0)
   const before = host!.draws.length
   host!.key('Enter')
-  host!.frame(100)
+  await host!.frame(100)
   expect(host!.draws).toHaveLength(before)
 })

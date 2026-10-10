@@ -15,8 +15,10 @@ import { Canvas2DRenderer } from './render.js'
 import { runtimeSceneView } from './runtime-project-view.js'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from './runtime-script-project.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
+import { atScriptExecutionGate } from './script-execution-gate.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { ScriptHost } from './script-runner.js'
+import { scriptWorkIO } from './script-work-queue.js'
 
 function mapHarness(initial: string | undefined) {
   const world = worldFixture()
@@ -64,6 +66,10 @@ function mapHarness(initial: string | undefined) {
       return activeScene.room
     },
     scriptMutationIntent: new AsyncIntentController(),
+    autoActivationBySignal: new WeakMap(),
+    scriptConfirmModal: { active: false },
+    atScriptExecutionGate,
+    scriptWorkIO,
     Canvas2DRenderer,
     ctx: {},
     palette: { colors: [] },
@@ -76,7 +82,19 @@ function mapHarness(initial: string | undefined) {
   const api = mainApi<{
     reloadMap: NonNullable<ScriptHost['reloadMap']>
     executeProjectScriptEffect: ProjectScriptHostOptions['executeEffect']
-  }>(['assertRunnerActive', 'awaitRunner', 'executeProjectScriptEffect'], ['reloadMap'], env)
+  }>(
+    [
+      'assertRunnerActive',
+      'awaitRunner',
+      'executeProjectScriptEffect',
+      'atScriptMutation',
+      'waitForScriptGameplay',
+      'waitForScriptModal',
+      'scriptExecutionGateOpen',
+    ],
+    ['reloadMap'],
+    env,
+  )
   adapterHost.reloadMap = api.reloadMap
   const changes = vi.fn(() => {
     expect(world.script?.mapOverride?.source).toBe('map.new')

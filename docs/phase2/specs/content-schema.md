@@ -1,6 +1,6 @@
 # 内容工程当前格式
 
-类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/content-schema.md)，不作为当前执行入口。
 
@@ -9,7 +9,11 @@
 当前产品只接受 contentVersion 22。`manifest.entryPoints` 必填且非空；每个真实入口完整保存稳定 `id`、
 显示名、启动场景、可选开场视频和必填 `StartWorld`。`manifest.defaultEntryId` 必须命中其中一项，只决定无
 `menu` / `entry` 参数时直接启动哪一项；它不是父入口或模板。当前 manifest 不含顶层 `entryScene`、顶层
-`startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立为 11，payload 记录完整世界与位置，不记录入口 id。
+`startWorld`，入口间也没有继承、合成或 fallback。SAVE 版本独立为12，`minimumSaveVersion`必须为12；
+payload记录完整世界、玩家位置和必需的`sceneRuntime`，不记录入口id。
+NPC位置唯一保存在`world.script.entityPos`，与场景现场的朝向、姿势、运动/动作进度和自动续跑数据同步捕获。
+`sceneRuntime`是运行时存档合同，不进入作者场景/共享脚本内容，不提升contentVersion，也不新增作者状态方案；
+离场暂停、返回恢复与读档规则见[当前存档合同](save-system.md)。
 
 角色初始化同样只有一组权威输入：`ActorDef.battler` 持有初始等级、当前/最大 HP/MP 基线、基础属性、
 初始装备与初始技能；新实例经验固定从 0 开始。`StartWorld` 只持有队伍与顺序、金钱、库存、世界资源，

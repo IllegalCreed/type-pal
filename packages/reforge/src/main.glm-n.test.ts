@@ -25,7 +25,7 @@ test('N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不�
   expect(Reflect.has(window, '__reforge')).toBe(false)
   expect(host.frames.size).toBe(0)
   // 主循环未启动：再无排入帧。
-  host.frame()
+  await host.frame()
   expect(host.frames.size).toBe(0)
 })
 
@@ -69,7 +69,7 @@ test('N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入', asy
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   const state = observation()
   expect(state.world.party.map((member) => member.template)).toEqual(['hero', 'friend'])
   for (const member of state.world.party) {

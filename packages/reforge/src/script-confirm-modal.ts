@@ -55,7 +55,7 @@ export class ScriptConfirmModalQueue<TFrame> {
 
   enqueue(frame: TFrame, signal: AbortSignal): Promise<boolean> {
     if (signal.aborted) return Promise.reject(abortedError())
-    return new Promise<boolean>((resolve, reject) => {
+    return scriptWorkWait<boolean>(signal, (resolve, reject) => {
       const request = {
         token: this.nextToken++,
         frame,
@@ -157,3 +157,5 @@ export class ScriptConfirmModalQueue<TFrame> {
     request.reject(error)
   }
 }
+
+import { scriptWorkWait } from './script-work-queue.js'

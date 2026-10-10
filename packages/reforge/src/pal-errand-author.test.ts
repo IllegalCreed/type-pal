@@ -7,6 +7,8 @@ import {
   validateAuthorScenes,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
+import sourceObjects from '../../../data/extracted/data/event-objects.json' with { type: 'json' }
+import sourceEvents from '../../../data/extracted/events/all.json' with { type: 'json' }
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
 import locale from '../../../projects/pal/content/locale.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
@@ -44,7 +46,11 @@ function flow(sceneId: string, entityId: string, behavior: string) {
   return value
 }
 
-async function activate(source: AuthorScriptFlow, cursor?: FlowCursor) {
+async function activate(
+  source: AuthorScriptFlow,
+  cursor?: FlowCursor,
+  timing: 'interactive' | 'auto' = 'interactive',
+) {
   const commands: RuntimeLeafCommand[] = []
   const host: ScriptRuntimeHost = {
     execute: (command) => {
@@ -61,7 +67,7 @@ async function activate(source: AuthorScriptFlow, cursor?: FlowCursor) {
   let committed: FlowCursor | undefined
   await new RuntimeScriptRunner(host, new AbortController().signal).runFlow(
     compileRuntimeScriptFlow(resolveAuthorDialogueTree(source, actors), {
-      timing: 'interactive',
+      timing,
       canonicalContentDigest: 'b'.repeat(64),
     }),
     {
@@ -84,6 +90,147 @@ function rows(commands: RuntimeLeafCommand[]) {
   )
 }
 
+test('the sickroom doctor faces the live party before speaking, then hides without a late fixed turn', async () => {
+  const { commands } = await activate(flow('s002', 'e35', 'default'))
+  const firstDialogue = commands.findIndex((command) => command.kind === 'dialog')
+  expect(firstDialogue).toBeGreaterThan(0)
+  expect(commands.slice(0, firstDialogue)).toEqual([
+    { kind: 'faceEntityToParty', target: { scene: 's002', entity: 'e35' } },
+    { kind: 'setEntityFrame', target: { scene: 's002', entity: 'e35' }, frame: 0 },
+  ])
+  const hidden = commands.findIndex(
+    (command) =>
+      command.kind === 'setEntityState' && command.target.entity === 'e35' && command.state === 0,
+  )
+  expect(hidden).toBeGreaterThan(firstDialogue)
+  expect(
+    commands
+      .slice(firstDialogue, hidden)
+      .filter((command) => command.kind === 'setEntityFacing' && command.target.entity === 'e35'),
+  ).toEqual([])
+})
+
+test('every sickroom Xiaohu activation faces the party before its dialogue, including both repeat steps', async () => {
+  const source = flow('s002', 'e36', 'default')
+  let cursor: FlowCursor | undefined
+  for (const firstLine of ['dlg.307', 'dlg.336', 'dlg.339']) {
+    const result = await activate(source, cursor)
+    const firstDialogue = result.commands.findIndex((command) => command.kind === 'dialog')
+    expect(rows(result.commands)[0]).toBe(firstLine)
+    expect(result.commands.slice(0, 2)).toEqual([
+      { kind: 'faceEntityToParty', target: { scene: 's002', entity: 'e36' } },
+      { kind: 'setEntityFrame', target: { scene: 's002', entity: 'e36' }, frame: 0 },
+    ])
+    expect(firstDialogue).toBeGreaterThan(1)
+    cursor = result.cursor
+  }
+})
+
+test('the doctor restores Zhang Si to his exact original blocker state before the boarding caller is used', async () => {
+  const source = sourceObjects.eventObjects.find((object) => object.id === 123)
+  expect(source?.sState).toBe(2)
+  const { commands } = await activate(flow('s002', 'e35', 'default'))
+  expect(
+    commands.filter(
+      (command) =>
+        command.kind === 'setEntityState' &&
+        command.target.scene === 's005' &&
+        command.target.entity === 'e123',
+    ),
+  ).toEqual([
+    { kind: 'setEntityState', target: { scene: 's005', entity: 'e123' }, state: source?.sState },
+  ])
+})
+
+test('Zhang Si faces the party before the boarding counsel, then retains both authored walking legs', async () => {
+  const { commands } = await activate(flow('s005', 'e123', 'legacy-002'))
+  const target = { scene: 's005', entity: 'e123' }
+  expect(commands.slice(0, 2)).toEqual([
+    { kind: 'faceEntityToParty', target },
+    { kind: 'setEntityFrame', target, frame: 0 },
+  ])
+  expect(rows(commands)[0]).toBe('dlg.533')
+  expect(
+    commands.flatMap((command) =>
+      command.kind === 'stepEntity' && command.target.entity === 'e123' ? [command.dir] : [],
+    ),
+  ).toEqual(['right', 'right', 'right', 'right', 'down', 'down', 'down', 'down'])
+})
+
+test('boarding retains the primary down pose through both ride legs; opposite authored facing is rejected', async () => {
+  const primary = sourceEvents.segments[0]?.commands
+  expect(primary?.[1511]).toMatchObject({ opcode: 0x15, operands: [0, 0, 1] })
+  expect(primary?.[1513]).toMatchObject({ opcode: 0x15, operands: [0, 0, 0] })
+  const source = flow('s005', 'e116', 'legacy-001')
+  const verify = async (candidate: AuthorScriptFlow) => {
+    const { commands } = await activate(candidate)
+    const firstRide = commands.findIndex((command) => command.kind === 'ride')
+    expect(firstRide).toBeGreaterThan(0)
+    expect(
+      commands.slice(0, firstRide).filter((command) => command.kind === 'setPartyFacing'),
+    ).toEqual([
+      { kind: 'setPartyFacing', facing: 'down', member: 1 },
+      { kind: 'setPartyFacing', facing: 'down' },
+    ])
+    const lastRide = commands.reduce(
+      (last, command, index) => (command.kind === 'ride' ? index : last),
+      -1,
+    )
+    expect(
+      commands.slice(firstRide, lastRide + 1).some((command) => command.kind === 'setPartyFacing'),
+    ).toBe(false)
+  }
+  await verify(source)
+  const opposite = structuredClone(source)
+  for (const command of opposite.stages[0]!.body) {
+    if (command.kind === 'setPartyFacing') command.facing = 'up'
+    if (command.kind === 'ride') break
+  }
+  await expect(verify(opposite)).rejects.toThrow()
+})
+
+test('one canonical rowing cycle pairs each source nudge/animate within its single actual automatic wait', async () => {
+  const source = entity('s005', 'e117').behaviors?.auto?.['legacy-001']?.flow
+  if (source?.kind !== 'stages') throw new Error('canonical rowing flow missing')
+  const loop = source.stages[0]?.body[0]
+  if (loop?.kind !== 'loop') throw new Error('canonical rowing cycle missing')
+  const { commands } = await activate(
+    {
+      kind: 'stages',
+      initial: 'cycle',
+      stages: [{ id: 'cycle', body: loop.body, next: { kind: 'complete' } }],
+    },
+    undefined,
+    'auto',
+  )
+  const actual: { effects: { kind: string; dx?: number; dy?: number }[]; ms: number }[] = []
+  let effects: { kind: string; dx?: number; dy?: number }[] = []
+  for (const command of commands) {
+    if (command.kind === 'wait') {
+      actual.push({ effects, ms: command.ms })
+      effects = []
+    } else if (command.kind === 'nudgeEntity')
+      effects.push({ kind: 'nudge', dx: command.dx, dy: command.dy })
+    else if (command.kind === 'animEntity') effects.push({ kind: 'animate' })
+    else throw new Error('unclassified canonical rowing effect')
+  }
+  const expected = sourceEvents.segments[0]?.commands.slice(36147, 36163).map((command) => {
+    if (command.op !== 'raw' || !('opcode' in command) || !('operands' in command))
+      throw new Error('unclassified actual primary rowing command')
+    expect([0x6c, 0x7d]).toContain(command.opcode)
+    expect(command.operands).toEqual([65535, 4, 65534])
+    return {
+      effects: [
+        { kind: 'nudge', dx: 4, dy: -2 },
+        ...(command.opcode === 0x6c ? [{ kind: 'animate' }] : []),
+      ],
+      ms: 100,
+    }
+  })
+  expect(actual).toEqual(expected)
+  expect(effects).toEqual([])
+})
+
 test('the aunt gives the shrimp money once, then retains only her busy reminder', async () => {
   const source = flow('s001', 'e19', 'c8-74bc98f07f8e')
   const first = await activate(source)
@@ -102,6 +249,10 @@ test('the aunt gives the shrimp money once, then retains only her busy reminder'
 test('Shuisheng introduces Zhang Si once; the fish vendor never arms the village report', async () => {
   const source = flow('s005', 'e124', 'default')
   const first = await activate(source)
+  expect(first.commands[0]).toEqual({
+    kind: 'faceEntityToParty',
+    target: { scene: 's005', entity: 'e124' },
+  })
   expect(first.commands).toContainEqual({
     kind: 'selectEntityBehavior',
     target: { scene: 's005', entity: 'e123' },
@@ -114,10 +265,18 @@ test('Shuisheng introduces Zhang Si once; the fish vendor never arms the village
   expect(repeat.commands.filter((command) => command.kind === 'selectEntityBehavior')).toEqual([])
   const vendor = flow('s005', 'e127', 'default')
   const noShrimp = await activate(vendor)
+  expect(noShrimp.commands[0]).toEqual({
+    kind: 'faceEntityToParty',
+    target: { scene: 's005', entity: 'e127' },
+  })
   const offerFish = await activate(vendor, noShrimp.cursor)
   expect(rows(noShrimp.commands)).toEqual(['dlg.603', 'dlg.604', 'dlg.605', 'dlg.606'])
   expect(rows(offerFish.commands)).toEqual(['dlg.607', 'dlg.608'])
-  expect([...noShrimp.commands, ...offerFish.commands].every((c) => c.kind === 'dialog')).toBe(true)
+  expect(
+    [...noShrimp.commands, ...offerFish.commands].every(
+      (command) => command.kind === 'dialog' || command.kind === 'faceEntityToParty',
+    ),
+  ).toBe(true)
 })
 
 test('Zhang Si advances from island response to return-to-inn reminder to a stable fishing prayer', async () => {
@@ -501,9 +660,7 @@ test('Xianglan returns in one nonempty background step with the original route a
   const body = source.stages[0]!.body
   const pose = (facing: 'right' | 'up' | 'down') => [
     { kind: 'setEntityFacing', target: xianglan, facing },
-    { kind: 'wait', ms: 100 },
     { kind: 'setEntityFrame', target: xianglan, frame: 0 },
-    { kind: 'wait', ms: 100 },
   ]
   const move = (col: number, row: number, speed: 'slow' | 'normal') => ({
     kind: 'moveEntity',
@@ -512,24 +669,74 @@ test('Xianglan returns in one nonempty background step with the original route a
     speed,
   })
   expect(body).toEqual([
+    { kind: 'wait', ms: 100 },
     ...pose('right'),
     move(140, 44, 'slow'),
     { kind: 'wait', ms: 100 },
     ...pose('right'),
-    ...pose('up').slice(0, -1),
-    // Explicit pause plus the two former per-command 100 ms intervals.
-    { kind: 'wait', ms: 3200 },
-    ...pose('down').slice(0, -1),
-    { kind: 'wait', ms: 600 },
+    { kind: 'wait', ms: 100 },
+    ...pose('up'),
+    { kind: 'wait', ms: 3100 },
+    ...pose('down'),
+    { kind: 'wait', ms: 400 },
     move(157, 44, 'slow'),
     { kind: 'wait', ms: 100 },
     move(157, 49, 'slow'),
     { kind: 'wait', ms: 2200 },
     move(158, 49, 'normal'),
-    { kind: 'wait', ms: 100 },
     move(158, 61, 'normal'),
-    { kind: 'wait', ms: 100 },
+    { kind: 'wait', ms: 200 },
     ...pose('down'),
     { kind: 'finishStep', next: { kind: 'complete' } },
+  ])
+})
+
+test('village ambient routes keep slow cadence and do not duplicate the patrol loop', () => {
+  const xiaohu = entity('s004', 'e76').behaviors!.auto!.default!.flow
+  const xiaolan = entity('s004', 'e84').behaviors!.auto!.default!.flow
+  expect(xiaohu.kind).toBe('stages')
+  expect(xiaolan.kind).toBe('stages')
+  if (xiaohu.kind !== 'stages' || xiaolan.kind !== 'stages') throw new Error('ambient flow missing')
+  const patrol = xiaohu.stages[0]!.body
+  expect(patrol).toHaveLength(1)
+  expect(patrol[0]?.kind).toBe('loop')
+  if (patrol[0]?.kind !== 'loop') throw new Error('patrol is not a loop')
+  const patrolBody = patrol[0].body
+  expect(patrolBody.filter((command) => command.kind === 'moveEntity')).toHaveLength(12)
+  expect(patrolBody.filter((command) => command.kind === 'wait')).toEqual([
+    { kind: 'wait', ms: 100 },
+  ])
+  const kitchen = xiaolan.stages[0]!.body
+  expect(kitchen[0]?.kind).toBe('loop')
+  if (kitchen[0]?.kind !== 'loop') throw new Error('kitchen route is not a loop')
+  expect(kitchen[0].body.slice(0, 6)).toEqual([
+    { kind: 'wait', ms: 1500 },
+    {
+      kind: 'setEntityFacing',
+      target: { scene: 's004', entity: 'e84' },
+      facing: 'right',
+    },
+    { kind: 'setEntityFrame', target: { scene: 's004', entity: 'e84' }, frame: 0 },
+    { kind: 'wait', ms: 300 },
+    {
+      kind: 'setEntityFacing',
+      target: { scene: 's004', entity: 'e84' },
+      facing: 'down',
+    },
+    { kind: 'setEntityFrame', target: { scene: 's004', entity: 'e84' }, frame: 0 },
+  ])
+  expect(kitchen[0].body.filter((command) => command.kind === 'selectEntityBehavior')).toEqual([
+    {
+      kind: 'selectEntityBehavior',
+      target: { scene: 's004', entity: 'e82' },
+      channel: 'auto',
+      selection: { kind: 'disabled' },
+    },
+    {
+      kind: 'selectEntityBehavior',
+      target: { scene: 's004', entity: 'e82' },
+      channel: 'auto',
+      selection: { kind: 'use', value: 'legacy-001' },
+    },
   ])
 })

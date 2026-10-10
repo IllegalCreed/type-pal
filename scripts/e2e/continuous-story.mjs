@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { receiptRouteTargets } from './continuous-route.mjs'
+import { assertInputLedger, inputScope } from './input-ledger.mjs'
 
 export const CONTINUOUS_STORY_FRAGMENTS = Object.freeze([
   { id: '001', title: '开场与密道', runner: 'opening', checkpoints: ['room-control-returned'] },
@@ -73,12 +73,10 @@ export function assertContinuousCheckpoint(fragment, engine, state) {
             (state.position[1] / 8 - state.position[0] / 16) / 2,
           ]
         : [state.runtime.position.col, state.runtime.position.row]
-    assert(
-      Math.hypot(
-        actualPosition[0] - expectedPosition[0],
-        actualPosition[1] - expectedPosition[1],
-      ) <= 1.5,
-      `continuous ${engine} 002 ended at an unexpected party position ${actualPosition}; expected ${expectedPosition}`,
+    assert.deepEqual(
+      actualPosition,
+      expectedPosition,
+      `continuous ${engine} 002 ended at an unexpected party position; expected ${expectedPosition}`,
     )
     if (engine === 'reforge') {
       const aunt = state.script?.behaviors?.entities?.s003?.e56
@@ -97,28 +95,55 @@ export function assertContinuousCheckpoint(fragment, engine, state) {
   return { fragment, engine, scene: actual }
 }
 
-const BOUNDARY_REASONS =
-  /(?:prelude|slot|save|restore|checkpoint|formal|quick-save|menu|load|旧的回忆|选择.*回忆|打开.*菜单|返回.*菜单|return to restored|return to room|return from restored|restored normal|normal menu|证明.*控制|close actual in-game menu)/iu
-
-/** Extract only gameplay inputs from an existing story receipt. Boundary I/O is deliberately omitted. */
+/** Extract gameplay inputs; recorded wall time also includes export/audit work, not story pacing. */
 export function continuousStoryActions(report) {
   assert.equal(report?.case ?? 'story', 'story', 'continuous tape accepts story only')
-  const routeTargets = receiptRouteTargets(report)
-  return (report.actions ?? [])
-    .filter((action) => action.kind === undefined || ['down', 'up'].includes(action.kind))
-    .filter((action) => !BOUNDARY_REASONS.test(String(action.reason ?? '')))
-    .filter((action) => action.key && !BOUNDARY_REASONS.test(String(action.phase ?? '')))
+  const replays = new Map(
+    (report.route?.legs ?? [])
+      .filter((leg) => leg.replay)
+      .map((leg) => [leg.replay.id, leg.replay]),
+  )
+  for (const input of report.route?.inputs ?? [])
+    assert(
+      input.routeId !== undefined && replays.has(input.routeId),
+      'route requires committed receipt; regenerate the report',
+    )
+  assertInputLedger(report.actions ?? [])
+  const actions = (report.actions ?? [])
+    .filter((action) => inputScope(action.phase, action.scope) !== 'boundary')
     .map((action) => ({
       key: action.key,
       kind: action.kind ?? 'press',
       reason: action.reason ?? '',
-      ...(Number.isFinite(action.atMs) ? { atMs: action.atMs } : {}),
-      ...(Number.isFinite(action.atMs) &&
-      action.kind &&
-      routeTargets.has(`${action.kind}:${action.key}:${action.atMs}`)
-        ? { routeTarget: routeTargets.get(`${action.kind}:${action.key}:${action.atMs}`) }
+      ...(action.phase ? { phase: action.phase } : {}),
+      ...(action.scene ? { scene: action.scene } : {}),
+      ...(action.routeId !== undefined
+        ? { routeId: action.routeId, routeReplay: replays.get(action.routeId) }
         : {}),
+      ...(action.holdId !== undefined ? { holdId: action.holdId } : {}),
+      ...(action.holdTarget ? { holdTarget: action.holdTarget } : {}),
     }))
+  for (const action of actions)
+    if (action.routeId !== undefined) assert(action.routeReplay, 'missing committed route receipt')
+  return actions
+}
+
+/** Execute an entire recorded route once; retain all non-route inputs, including the same phase. */
+export function continuousPlaybackActions(actions) {
+  const consumed = new Set()
+  return actions.filter((action) => {
+    const group = action.routeReplay
+      ? `route:${action.routeId}`
+      : action.holdId !== undefined
+        ? `hold:${action.holdId}`
+        : null
+    if (!group) return true
+    if (consumed.has(group)) return false
+    assert.equal(action.kind, 'down', 'recorded input group must begin with keydown')
+    assert(action.routeReplay || action.holdTarget, 'missing input group target')
+    consumed.add(group)
+    return true
+  })
 }
 
 export function continuousFragmentContext({ engine, fragment, barrier, report }) {

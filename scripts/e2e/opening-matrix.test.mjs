@@ -1,14 +1,15 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import { evidenceObserverScript } from './evidence-recorder.mjs'
 import { assertOpeningMatrix } from './opening-matrix.mjs'
 import { installOpeningMatrix } from './opening-matrix-observer.mjs'
 
 function collector() {
   const host = {}
-  new Function('globalThis', `(${installOpeningMatrix.toString()})()`)(host)
+  new Function('globalThis', evidenceObserverScript(installOpeningMatrix))(host)
   return host
 }
-function fixture(engine) {
+function fixture(engine, replaceSceneInstance = false) {
   const h = collector(),
     pos = engine === 'game' ? [0, 0] : [0, 0, 0]
   const state = (visible = true, sprite = null) => ({
@@ -19,7 +20,12 @@ function fixture(engine) {
     frame: 0,
   })
   const party = state(true, engine === 'game' ? 193 : 'sprite-193')
+  h.__e2eSceneBoundary({ scene: 's000', instance: {} })
   h.__openingMatrixPoint('commit:setup', { scene: 's000', actors: { party } })
+  if (replaceSceneInstance) {
+    h.__e2eSceneBoundary({ scene: 's000', instance: {} })
+    h.__openingMatrixPoint('commit:setup', { scene: 's000', actors: { party } })
+  }
   const actors = { party, e3: state(false), e8: state(), e10: state(false), e11: state() }
   const point = () => h.__openingMatrixPoint('commit:fixture', { scene: 's001', actors })
   point()
@@ -77,6 +83,14 @@ function fixture(engine) {
 }
 
 for (const engine of ['game', 'reforge']) {
+  test(`${engine}: scene materialization starts a new state chain without inventing a route transition`, () => {
+    const { matrix, contract } = fixture(engine, true)
+    assert.equal(assertOpeningMatrix(matrix, engine, contract).rows, 3)
+    const broken = structuredClone(matrix)
+    const e = broken.actors.find((entry) => entry.id === 'e11' && entry.before)
+    e.before = null
+    assert.throws(() => assertOpeningMatrix(broken, engine, contract), /state change was lost/)
+  })
   test(`${engine}: full rows, speakers, atomic replacement and out/back movement pass`, () => {
     const { matrix, contract } = fixture(engine)
     assert.equal(assertOpeningMatrix(matrix, engine, contract).rows, 3)
@@ -127,4 +141,40 @@ test('collector is sparse, detached, bounded, and flags unobserved movement', ()
   for (let i = 0; i < 605; i++) h.__openingMatrixPage('game', 's001', { lines: [String(i)] })
   assert.equal(h.__readOpeningMatrix().pages.length, 600)
   assert.equal(h.__readOpeningMatrix().overflow, true)
+})
+
+test('001 keeps real draws separate from actor commits in one event order', () => {
+  const h = collector(),
+    state = {
+      scene: 's001',
+      actors: { e10: { position: [10, 10, 0], visible: true, facing: 'down', frameRendered: 1 } },
+      control: false,
+    }
+  const render = () =>
+    h.__openingMatrixPoint('render:world', {
+      ...state,
+      renderEvidence: { engine: 'reforge', actors: { e10: { ...state.actors.e10, frame: 1 } } },
+    })
+  h.__openingMatrixPoint('commit:entity.pos', state)
+  render()
+  state.actors.e10.position = [10.5, 10, 0]
+  h.__openingMatrixPoint('commit:entity.pos', state)
+  render()
+  render()
+  const matrix = h.__readOpeningMatrix()
+  assert.deepEqual(matrix.errors, [])
+  assert.deepEqual(
+    matrix.renders?.map((e) => [e.state.position, e.state.frame]),
+    [
+      [[10, 10, 0], 1],
+      [[10.5, 10, 0], 1],
+    ],
+  )
+  assert(matrix.actors[1].order < matrix.renders[0].order)
+  assert(matrix.renders[0].order < matrix.actors[2].order)
+  assert(matrix.actors[2].order < matrix.renders[1].order)
+  assert.deepEqual(
+    matrix.controls.map((e) => e.state),
+    [false],
+  )
 })

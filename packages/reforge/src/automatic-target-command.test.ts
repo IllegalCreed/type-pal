@@ -95,7 +95,7 @@ test('abort during the checkpoint acquisition cannot install a pose even after t
 test.each([
   false,
   true,
-])('a held automatic pose snapshots as legal SAVE11 without waiting or repeating its reward; retake during save=%s', async (retake) => {
+])('a held automatic pose snapshots as legal SAVE12 without waiting or repeating its reward; retake during save=%s', async (retake) => {
   let held = true
   const wake = new ScriptWakeGate()
   const poses: string[] = []
@@ -163,7 +163,7 @@ test.each([
   await drain()
   expect(saved).toBe(true)
   const payload = await snapshot
-  expect(payload.version).toBe(11)
+  expect(payload.version).toBe(12)
   expect(payload.world.money).toBe(7)
   expect(payload.world.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual([
     { index: 1 },
@@ -176,7 +176,7 @@ test.each([
       kind: 'current',
       projectId: 'pose-project',
       contentVersion: 22,
-      saveVersion: 11,
+      saveVersion: 12,
     },
     references,
   )

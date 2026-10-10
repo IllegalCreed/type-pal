@@ -30,7 +30,7 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
       id: 'test',
       name: '测试',
       contentVersion: 22,
-      minimumSaveVersion: 11,
+      minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/index.json',

@@ -5,6 +5,7 @@ import { mainApi, mainSource } from './__tests__/world-async-fixture.js'
 import { ActiveScene } from './active-scene.js'
 import { runtimeSceneView } from './runtime-project-view.js'
 import type { ProjectScriptHostOptions } from './runtime-script-project.js'
+import { ScriptWorkQueue } from './script-work-queue.js'
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -72,6 +73,7 @@ test.each([
   const activeScene = new ActiveScene(runtimeSceneView(f.scene, f.world.script!), () => {})
   const env = {
     scriptRuntime: f.runtime,
+    scriptWork: new ScriptWorkQueue(),
     activeScene,
     get scene() {
       return activeScene.scene

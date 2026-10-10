@@ -16,7 +16,7 @@ async function boot(options: Parameters<typeof shellProject>[0] = {}) {
     kind: 'project',
     projectId: 'shell-project',
   })
-  host.frame()
+  await host.frame()
   return Object.assign(host, { project: fixture.project })
 }
 

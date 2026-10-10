@@ -24,6 +24,7 @@ import {
 } from '../save/ops.js'
 import { MemorySaveStore } from '../save/store.js'
 import type { SaveMeta, StoredSavePayload } from '../save/types.js'
+import { scriptWorkIO } from '../script-work-queue.js'
 import {
   digest,
   hostOptions,
@@ -79,7 +80,7 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
   const world = worldFixture(),
     definition = sceneFixture()
   const project = {
-    manifest: { id: 'checkpoint', name: 'checkpoint', contentVersion: 22, minimumSaveVersion: 11 },
+    manifest: { id: 'checkpoint', name: 'checkpoint', contentVersion: 22, minimumSaveVersion: 12 },
     locale: {},
   }
   const store = new MemorySaveStore({ kind: 'project', projectId: 'checkpoint' })
@@ -104,10 +105,18 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
   )
   const env = {
     dev,
+    scriptWorkIO,
     window: {} as { __tpE2e?: Hooks },
     world,
     canonicalScript: expectDefined(world.script),
     runtimeScript: {},
+    sceneRuntimeStates: {},
+    automaticWaits: new Map(),
+    automaticActions: new Map(),
+    restoredWaits: new Map(),
+    autoActivations: new Map(),
+    frames: { now: 0 },
+    worldPresentation: { entityFrame: () => undefined },
     definition,
     activeScene,
     get scene() {
@@ -138,6 +147,7 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     canvas: { width: 320, height: 200 } as HTMLCanvasElement,
     motionTrace,
     motion: {
+      captureEntity: () => ({}),
       resetCadence: effects,
       dumpTrace: () => structuredClone(motionTrace),
       clearTrace: () => {
@@ -196,6 +206,8 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     [
       'currentWorldSnapshot',
       'captureCurrentSavePayload',
+      'captureSceneRuntime',
+      'prepareSceneActions',
       'enqueueSaveSnapshot',
       'doSave',
       'quickSave',
