@@ -701,6 +701,24 @@
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-41-consent-ui-navigation",
+            "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "afterSha256": "53e74578692fc7ff04b7d85f2a1f0619732f97205c0ee4808fab35ad6b9542ad",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-41-game-analytics-consent-ui.md",
+            "notRun": ["runtime", "E2E", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-41-consent-ui-closeout",
+            "previousAfterSha256": "53e74578692fc7ff04b7d85f2a1f0619732f97205c0ee4808fab35ad6b9542ad",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+            "notRun": ["runtime", "E2E", "hosted CI"]
           }
         ]
       },
@@ -734,7 +752,7 @@
           "date": "2026-10-11",
           "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "lineCount": 20,
-          "scope": "CODE-QUALITY-40 analytics install closeout navigation/state update",
+          "scope": "CODE-QUALITY-41 consent UI closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -797,6 +815,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-40-analytics-install-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-41-consent-ui-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-41-consent-ui-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1612,7 +1644,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
+      "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1793,6 +1825,24 @@
             "previousAfterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
             "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-41-consent-ui-navigation",
+            "previousAfterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
+            "afterSha256": "f991a47eb132e020524a03e9181a6545a521810d94e2b4bd05bc1173c3a3a05b",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-41-game-analytics-consent-ui.md",
+            "notRun": ["runtime", "E2E", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-41-consent-ui-closeout",
+            "previousAfterSha256": "f991a47eb132e020524a03e9181a6545a521810d94e2b4bd05bc1173c3a3a05b",
+            "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+            "notRun": ["runtime", "E2E", "hosted CI"]
           }
         ]
       },
@@ -1825,12 +1875,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
+        "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
-          "lineCount": 382,
-          "scope": "main sync document navigation delta",
+          "sha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
+          "lineCount": 383,
+          "scope": "CODE-QUALITY-41 consent UI closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1924,6 +1974,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "main-sync-navigation-sha-refresh",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-41-consent-ui-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-41-consent-ui-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
