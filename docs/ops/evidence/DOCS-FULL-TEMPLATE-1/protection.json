@@ -18,7 +18,14 @@
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
       "sha256": "c96b17737c8e0132409bb7cd688f398f4360cdea9280085c29c0a8bbaffce3d2"
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "sha256": "655e4effb23490c85f70e9216139d63e6fa9335bd029bcdf9099d908a755336e",
+      "observedAt": "2026-10-11",
+      "note": "additional dirty file observed after initial inventory; untouched"
     }
   ],
-  "policy": "Original files untouched; dirty state not copied into candidate or committed by this task."
+  "policy": "Original files untouched; dirty state not copied into candidate or committed by this task.",
+  "note": "Main worktree remains untouched. Initial four protected paths plus one additional dirty task file observed during follow-up."
 }
