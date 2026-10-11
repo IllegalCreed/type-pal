@@ -73,3 +73,20 @@ Branch: codex/docs-full-template-proposal
 ## 用户裁决记录
 
 - 2026-10-11：用户批准“全量分母以当前实际树 1838 份候选为准，其他的都批准”。
+
+## Build: 实现与自测
+
+- Coding Owner: Codex
+- 修改文件：模板 registry v2、17 个 testing/通用模板合同、1838 条 binding baseline、17 个 pilot source anchors 与可回读候选、任务导航。
+- 实现摘要：冻结 `content-document-template-registry-20261011`；Markdown pilot 以 `.md.raw` 证据保存原正文；JSON pilot 以 envelope 保存完整 payload 并完成 deep roundtrip。
+- 运行命令：`node scripts/docs/check-content-review.mjs --strict`（PASS，仍只覆盖旧 570 registry）；`pnpm check:docs` 的 docs/tools/check/testing/phase-lore 均 PASS。
+- 浏览器 / 手工检查：N/A；本阶段仅静态文档治理。
+- 跳过的检查及原因：最终 `check:docs` 在 content-review 阶段因候选分支新增导航文件尚未合并到旧 review ledger，报告 3 个 after SHA drift；不是正文语义通过。`pnpm lint` 尚未运行。
+
+## Pilot 结果
+
+- 17/17 模板候选生成，17/17 原文保留检查通过。
+- Markdown 候选：源正文作为 byte-preserved body substring 保留；canonical 文件未改写。
+- JSON 候选：payload deep roundtrip 保持机器字段；canonical evidence 未改写。
+- Pilot 只证明包装结构与字段保留，不证明 runtime、E2E、视觉或 coverage。
+- 下一批：先更新完整 registry/review ledger 的新 schema，再按 domain 批次逐篇正文迁移。
