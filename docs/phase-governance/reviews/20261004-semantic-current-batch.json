@@ -737,6 +737,24 @@
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-43-draw-sprite-navigation",
+            "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "afterSha256": "392b7c9140db34389c2d03525d2c03d888f4242460d401aec52d817ab4ae9c38",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-43-game-draw-sprite.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-43-draw-sprite-closeout",
+            "previousAfterSha256": "392b7c9140db34389c2d03525d2c03d888f4242460d401aec52d817ab4ae9c38",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -770,7 +788,7 @@
           "date": "2026-10-11",
           "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "lineCount": 20,
-          "scope": "CODE-QUALITY-42 dialog box closeout navigation/state update",
+          "scope": "CODE-QUALITY-43 draw sprite closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -861,6 +879,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-42-dialog-box-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-43-draw-sprite-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-43-draw-sprite-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1676,7 +1708,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
+      "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1893,6 +1925,24 @@
             "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-43-draw-sprite-navigation",
+            "previousAfterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
+            "afterSha256": "3134afa6357543f123f79f2756c0e4072d814c2b71d420242f2b4bffa4690bf9",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-43-game-draw-sprite.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-43-draw-sprite-closeout",
+            "previousAfterSha256": "3134afa6357543f123f79f2756c0e4072d814c2b71d420242f2b4bffa4690bf9",
+            "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1925,12 +1975,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
+        "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
-          "lineCount": 384,
-          "scope": "CODE-QUALITY-42 dialog box closeout navigation/state update",
+          "sha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
+          "lineCount": 385,
+          "scope": "CODE-QUALITY-43 draw sprite closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2052,6 +2102,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-42-dialog-box-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-43-draw-sprite-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-43-draw-sprite-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
