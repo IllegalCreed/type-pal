@@ -131,10 +131,7 @@ function runVitest(phase) {
   const raw = proc.stdout ?? ''
   writeFileSync(join(receiptsDir, `${phase}.raw`), raw)
   if (proc.stderr)
-    writeFileSync(
-      join(receiptsDir, `${phase}.stderr`),
-      proc.stderr.replace(/\n+$/u, '\n'),
-    )
+    writeFileSync(join(receiptsDir, `${phase}.stderr`), proc.stderr.replace(/\n+$/u, '\n'))
   let json = null
   try {
     json = JSON.parse(readFileSync(jsonPath, 'utf8'))
