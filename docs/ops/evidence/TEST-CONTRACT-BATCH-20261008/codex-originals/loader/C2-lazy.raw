@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-C2-lazy-GQz0DS/packages/reforge
+
+ ❯ src/project-loader.reference-boundaries.test.ts (8 tests | 1 failed) 15ms
+     ✓ 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功 5ms
+     × 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功 3ms
+     ✓ 入口 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ 入口 'poison' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ item 脚本 actor 引用悬空精确拒绝，闭合同链绿 2ms
+     ✓ shared 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ shared 'poison' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ 悬空 battle sprite 后置接线拒收，补登记同链绿 1ms
+ ✓ src/project-loader.io-boundaries.test.ts (6 tests) 62ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:23
+   Duration  370ms (transform 399ms, setup 0ms, import 488ms, tests 76ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C2-lazy.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.reference-boundaries.test.ts > C2 场景 mapId 引用接线 > 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功
+AssertionError: C2-lazy-map-reference: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.reference-boundaries.test.ts:50:30
+     48|     const project = await loadCurrentProjectFrom(lbMemorySource(files))
+     49|     const red = await rejectOf(loadAuthorScene(project, 's002'))
+     50|     expect(red.kind, marker).toBe('rejected')
+       |                              ^
+     51|     expect(red.message, marker).toContain(
+     52|       'content/scenes/s002.json: mapId "map-ghost" 不在地图索引',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

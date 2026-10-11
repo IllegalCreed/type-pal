@@ -1,0 +1,43 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-N-C10-poisons-field-3IJd6t/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 13ms
+ ❯ src/project-loader.io-boundaries.test.ts (6 tests | 1 failed) 65ms
+     ✓ 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 2ms
+     ✓ 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 3ms
+     ✓ loadAllProjectMaps 乱序完成仍按稳定 id 归位 54ms
+     ✓ loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功 1ms
+     ✓ 可缺表缺席时公开字段为空默认 1ms
+     × 合法非空当前表逐表保真到工程公开字段 4ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:32
+   Duration  392ms (transform 423ms, setup 0ms, import 517ms, tests 78ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C10-poisons-field.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C10 optional 表保真 > 合法非空当前表逐表保真到工程公开字段
+AssertionError: C10-optional-tables-full: expected [] to deeply equal [ 7, 8 ]
+
+- Expected
++ Received
+
+- [
+-   7,
+-   8,
+- ]
++ []
+
+ ❯ src/project-loader.io-boundaries.test.ts:149:7
+    147|       full.poisons.map((poison) => poison.id),
+    148|       marker,
+    149|     ).toEqual([7, 8])
+       |       ^
+    150|     expect(full.poisonsById[8], marker).toBeDefined()
+    151|     expect(full.enemyTeamsById['team-1']?.slots, marker).toEqual([null…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

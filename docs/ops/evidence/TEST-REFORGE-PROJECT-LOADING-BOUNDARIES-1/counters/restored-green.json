@@ -1,0 +1,139 @@
+{
+  "numTotalTestSuites": 10,
+  "numPassedTestSuites": 10,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791464108328,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C8 入口场景 IO 错误上下文"],
+          "fullName": "C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+          "status": "passed",
+          "title": "外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+          "duration": 2.357167000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+          "status": "passed",
+          "title": "未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+          "duration": 3.2615840000000276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功",
+          "status": "passed",
+          "title": "loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功",
+          "duration": 1.4924589999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10 optional 表保真"],
+          "fullName": "C10 optional 表保真 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+          "status": "passed",
+          "title": "可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+          "duration": 1.476459000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464108737,
+      "endTime": 1791464108745.4766,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-loading-boundaries-restored-green.cda79Z/packages/reforge/src/project-loader.io-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C2 场景 mapId 引用接线"],
+          "fullName": "C2 场景 mapId 引用接线 mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+          "status": "passed",
+          "title": "mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+          "duration": 5.70595800000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 入口场景条件引用接线"],
+          "fullName": "C3 入口场景条件引用接线 apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+          "status": "passed",
+          "title": "apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+          "duration": 2.2139999999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 item-private 使用脚本条件接线"],
+          "fullName": "C4 item-private 使用脚本条件接线 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+          "status": "passed",
+          "title": "合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+          "duration": 2.3672500000000127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 sharedScripts 条件接线"],
+          "fullName": "C6 sharedScripts 条件接线 shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+          "status": "passed",
+          "title": "shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+          "duration": 1.2531669999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C7 装备战斗精灵引用接线"],
+          "fullName": "C7 装备战斗精灵引用接线 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+          "status": "passed",
+          "title": "合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+          "duration": 1.0563750000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464108737,
+      "endTime": 1791464108750.0564,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-loading-boundaries-restored-green.cda79Z/packages/reforge/src/project-loader.reference-boundaries.test.ts"
+    }
+  ]
+}

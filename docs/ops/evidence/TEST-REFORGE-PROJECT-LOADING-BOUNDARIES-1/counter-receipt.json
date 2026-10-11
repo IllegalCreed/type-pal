@@ -1,0 +1,834 @@
+{
+  "protocol": "green → per-needle red (fresh isolated tree each) → restored green → final replay",
+  "createdAt": "2026-10-08T12:54:58.152Z",
+  "judgeCriteria": "四态同判据:进程层(exit/signal/spawnError) + 非空 file×fullName 执行集逐字锁定 + 计数/明细一致 + 非空 suite.message 拒收 + 零断言 failed suite 拒收 + stdout/stderr 无 unhandled + 红态恰一指定业务 AssertionError",
+  "judgeSelfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "green": {
+    "process": {
+      "exit": 0,
+      "signal": null,
+      "pid": 62899,
+      "spawnError": null,
+      "argvTail": [
+        "src/project-loader.io-boundaries.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/green.json"
+      ],
+      "cwd": "/tmp/tp-loading-boundaries-green.5vQp5H/packages/reforge",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      },
+      "unhandledInOutput": false,
+      "numTotalTests": 9,
+      "numPassedTests": 9,
+      "numFailedTests": 0,
+      "raw": {
+        "file": "counters/green.raw",
+        "sha256": "fb9b5d83007a55d54882612b3f24565eaa0681df8452833519f79ee1a5ede462"
+      },
+      "json": {
+        "file": "counters/green.json",
+        "sha256": "0ae90da90c38f822f5c210b32e834bf6b6ff37668df643cf4311058301d1ca38"
+      }
+    },
+    "executionSet": [
+      "src/project-loader.io-boundaries.test.ts :: C10 optional 表保真 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+      "src/project-loader.io-boundaries.test.ts :: C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+      "src/project-loader.io-boundaries.test.ts :: C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功",
+      "src/project-loader.io-boundaries.test.ts :: C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+      "src/project-loader.reference-boundaries.test.ts :: C2 场景 mapId 引用接线 mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C3 入口场景条件引用接线 apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C4 item-private 使用脚本条件接线 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+      "src/project-loader.reference-boundaries.test.ts :: C6 sharedScripts 条件接线 shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+      "src/project-loader.reference-boundaries.test.ts :: C7 装备战斗精灵引用接线 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿"
+    ]
+  },
+  "judgeProbes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": [],
+      "raw": {
+        "file": "counters/probe-pure-business-red-accepted.raw",
+        "sha256": "0e3e4cfe2926866d478d9626f4f02eee8367fa3445db790fa37930ba6ef18910"
+      },
+      "json": {
+        "file": "counters/probe-pure-business-red-accepted.json",
+        "sha256": "56df5d92666d494eaf35a8b55fa810405ac8c39bf5191b3d94be75472401c66f"
+      }
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-loading-boundaries-green.5vQp5H/packages/reforge/src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ],
+      "raw": {
+        "file": "counters/probe-red-plus-afterall-hook-error-rejected.raw",
+        "sha256": "18e23bf091c0f9fad5ce91037cc19e6c54f4b3417bc09046538ebcabb5832296"
+      },
+      "json": {
+        "file": "counters/probe-red-plus-afterall-hook-error-rejected.json",
+        "sha256": "9c8031713db459ebb4bc7b5d8be7b4c4711266e023da55d3dc79b26d9cf3d9e3"
+      }
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"],
+      "raw": {
+        "file": "counters/probe-red-plus-async-uncaught-rejected.raw",
+        "sha256": "dbb8fa0f945157f400824ebe052da470ccf0466d42d8a4e56074215d4720e348"
+      },
+      "json": {
+        "file": "counters/probe-red-plus-async-uncaught-rejected.json",
+        "sha256": "1c51246e903bdee9a5a9514600f5e88ad4c15d845da992ff415a900fa57d26c4"
+      }
+    }
+  ],
+  "greenCleanup": "removed=true path=/tmp/tp-loading-boundaries-green.5vQp5H",
+  "needles": [
+    {
+      "id": "N-C2-scene-map-ref",
+      "axis": "C2 validateAuthorScene 地图索引校验(project-loader.ts:162-163)",
+      "testFile": "src/project-loader.reference-boundaries.test.ts",
+      "fullName": "C2 场景 mapId 引用接线 mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+        "to": "if (false && !mapAssetById(mapIndex, scene.mapId))",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "864ede7e6eac483ef1b8f2486c64119bf8daa3ce4a75b0d700cd683d2ab788e7"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C2 场景 mapId 引用接线 mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿"
+      ],
+      "failureExcerpt": "AssertionError: C2-map-reference: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C2-scene-map-ref.feDrhN/packages/reforge/src/project-loader.reference-boundaries.test.ts:45:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/.pnp",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63080,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.reference-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C2-scene-map-ref.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C2-scene-map-ref.feDrhN/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C2-scene-map-ref.raw",
+          "sha256": "86505cecd557c647ce7eefffa3079fef7b971ccd2778cd3ab346912c103aacca"
+        },
+        "json": {
+          "file": "counters/N-C2-scene-map-ref.json",
+          "sha256": "8ec853f86841032c242e518101c2d08363df38eef144b215fb5b0fbd233b810d"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C2-scene-map-ref.feDrhN"
+    },
+    {
+      "id": "N-C3-scene-condition",
+      "axis": "C3 validateAuthorScene 条件校验接线(project-loader.ts:171-172)",
+      "testFile": "src/project-loader.reference-boundaries.test.ts",
+      "fullName": "C3 入口场景条件引用接线 apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "validateActorConditionCommandReferences(scene, actors, poisons, path)[0]",
+        "to": "validateActorConditionCommandReferences(scene, actors, poisons, path).slice(1)[0]",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "ebc091dd55a015f39b6f3dbe7d2aef568a7dd7b450f9ea3b9e82f7e93718e36a"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C3 入口场景条件引用接线 apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿"
+      ],
+      "failureExcerpt": "AssertionError: C3-scene-condition: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C3-scene-condition.EcPHom/packages/reforge/src/project-loader.reference-boundaries.test.ts:85:35\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63115,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.reference-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C3-scene-condition.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C3-scene-condition.EcPHom/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C3-scene-condition.raw",
+          "sha256": "bd5b20fce9eeb6e4af02f0e40822b1eae14c1f25ff264c86856e51cdd930df32"
+        },
+        "json": {
+          "file": "counters/N-C3-scene-condition.json",
+          "sha256": "ee884a38b0634cfe26e8df05dee291cc27c672d8eb159d78f7f38e961f156b48"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C3-scene-condition.EcPHom"
+    },
+    {
+      "id": "N-C4-items-condition",
+      "axis": "C4 assemble items root 条件校验接线(project-loader.ts:237)",
+      "testFile": "src/project-loader.reference-boundaries.test.ts",
+      "fullName": "C4 item-private 使用脚本条件接线 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "    [authorItems, 'items'],",
+        "to": "    [[], 'items'],",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "08e6dddee7cfa1cc283cbca502f194b34276a52e8ab3b5b2c3b6eae4f7d585d5"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C4 item-private 使用脚本条件接线 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿"
+      ],
+      "failureExcerpt": "AssertionError: C4-item-condition: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C4-items-condition.0Sla2T/packages/reforge/src/project-loader.reference-boundaries.test.ts:146:30\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63150,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.reference-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C4-items-condition.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C4-items-condition.0Sla2T/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C4-items-condition.raw",
+          "sha256": "ceec5677364f55877f311ca983873f8fc0f03a2f12db5b980476d1f6e710b0b8"
+        },
+        "json": {
+          "file": "counters/N-C4-items-condition.json",
+          "sha256": "df34fdeff9fbf44efa0cdf177d36d8af3aa4f4048511ab90b090ac55c6080ab5"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C4-items-condition.0Sla2T"
+    },
+    {
+      "id": "N-C6-shared-condition",
+      "axis": "C6 assemble sharedScripts root 条件校验接线(project-loader.ts:239)",
+      "testFile": "src/project-loader.reference-boundaries.test.ts",
+      "fullName": "C6 sharedScripts 条件接线 shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "    [authorSharedScripts, 'sharedScripts'],",
+        "to": "    [{}, 'sharedScripts'],",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "c6c4c8f0e9b808cb8faf4aa2dab1c15027984d4b1b84d0fcd0d4781c38f0043d"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C6 sharedScripts 条件接线 shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真"
+      ],
+      "failureExcerpt": "AssertionError: C6-shared-condition: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C6-shared-condition.55SRSh/packages/reforge/src/project-loader.reference-boundaries.test.ts:180:35\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modul",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63185,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.reference-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C6-shared-condition.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C6-shared-condition.55SRSh/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C6-shared-condition.raw",
+          "sha256": "dc0ea79beed82e65ad94a7ee00b7ff4c1084209d4827b656e74b84fcaa6aed4b"
+        },
+        "json": {
+          "file": "counters/N-C6-shared-condition.json",
+          "sha256": "310f5821477ff45860e7057494a8f01204864a6e7f93a1bafd0aa61c4a3e2526"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C6-shared-condition.55SRSh"
+    },
+    {
+      "id": "N-C7-equip-battle-sprite",
+      "axis": "C7 装备战斗精灵后置接线(project-loader.ts:271-272)",
+      "testFile": "src/project-loader.reference-boundaries.test.ts",
+      "fullName": "C7 装备战斗精灵引用接线 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "validateEquipBattleSpriteReferences(items, actors, battleSprites)[0]",
+        "to": "validateEquipBattleSpriteReferences([], actors, battleSprites)[0]",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "cc595ec426e7f8f65a30f9b2f6e674399654f55b97471a69b4e0f3e01bdb1f74"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C7 装备战斗精灵引用接线 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿"
+      ],
+      "failureExcerpt": "AssertionError: C7-equip-battle-sprite: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C7-equip-battle-sprite.YXZFPC/packages/reforge/src/project-loader.reference-boundaries.test.ts:237:30\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63264,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.reference-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C7-equip-battle-sprite.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C7-equip-battle-sprite.YXZFPC/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 5,
+        "numPassedTests": 4,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C7-equip-battle-sprite.raw",
+          "sha256": "2a70742daee08c5acacb191edbb5a964a01c0d3e822189bf0f19fff1a9c81d56"
+        },
+        "json": {
+          "file": "counters/N-C7-equip-battle-sprite.json",
+          "sha256": "e991f15f875af807318cc2271a6d7ea2c081fb95713a0b1da54d11902d542fa7"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C7-equip-battle-sprite.YXZFPC"
+    },
+    {
+      "id": "N-C8-entry-non-error-detail",
+      "axis": "C8 入口 IO 非 Error detail 渲染(project-loader.ts:373-375)",
+      "testFile": "src/project-loader.io-boundaries.test.ts",
+      "fullName": "C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "const detail = error instanceof Error ? error.message : String(error)",
+        "to": "const detail = error instanceof Error ? error.message : 'opaque-io-failure'",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "d9011b7cd5a8c15665358d913ef65ac1251ea68c03e6c4c5a29c85487546edef"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝"
+      ],
+      "failureExcerpt": "AssertionError: C8-entry-io-context: expected 'manifest.entryPoints[new-game].scene:…' to contain 'manifest.entryPoints[new-game].scene:…'\n    at /private/tmp/tp-loading-boundaries-N-C8-entry-non-error-detail.8ZKUDh/packages/reforge/src/project-loader.io-boundaries.test.ts:43:35\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-p",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63309,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C8-entry-non-error-detail.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C8-entry-non-error-detail.8ZKUDh/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C8-entry-non-error-detail.raw",
+          "sha256": "50cf4ae637f6ace863451f72c5d2b8c264f62d0fd0d1f643b53b6bc021c29e9b"
+        },
+        "json": {
+          "file": "counters/N-C8-entry-non-error-detail.json",
+          "sha256": "a2c1d4c2c9358a7a95de944846a19459a7657e6eb26569465d8b34c4889b92a6"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C8-entry-non-error-detail.8ZKUDh"
+    },
+    {
+      "id": "N-C9a-unregistered-gate",
+      "axis": "C9a loadProjectMapById 未登记门(project-loader.ts:529-530)",
+      "testFile": "src/project-loader.io-boundaries.test.ts",
+      "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "  if (!asset) throw new Error(`loadProjectMapById: mapId \"${mapId}\" 不在 map index`)",
+        "to": "  if (!asset) return loadProjectMap(project.assetBase, 'content/maps/map-001.json')",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "6f672278a19facb40357b8d863e401026d8f906e6269bcd4cafd44c689b3b7cf"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path"
+      ],
+      "failureExcerpt": "AssertionError: C9-map-by-id: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C9a-unregistered-gate.nxupPY/packages/reforge/src/project-loader.io-boundaries.test.ts:62:32\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/.pnpm/@vit",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63344,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C9a-unregistered-gate.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C9a-unregistered-gate.nxupPY/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C9a-unregistered-gate.raw",
+          "sha256": "eba4ab17c85aabbc94552d9c6a2a720c4b340d31c6cc7d076ea4a37a5decfce7"
+        },
+        "json": {
+          "file": "counters/N-C9a-unregistered-gate.json",
+          "sha256": "681ea2ba633069dda65777ea4573260b3606830354ff8c790e3708430c4842ef"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C9a-unregistered-gate.nxupPY"
+    },
+    {
+      "id": "N-C9b-registered-real-load",
+      "axis": "C9b loadProjectMapById 已登记真实加载(project-loader.ts:531)",
+      "testFile": "src/project-loader.io-boundaries.test.ts",
+      "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "  return loadProjectMap(project.assetBase, asset.path)",
+        "to": "  return loadProjectMap(project.assetBase, 'content/maps/map-001.json')",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "ac0dfc1c7203c4e02d45d627d51b509fb5498d8c13b1585475b4994d7f0fa773"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path"
+      ],
+      "failureExcerpt": "AssertionError: C9-map-by-id: expected { version: 4, width: 1, …(4) } to deeply equal { version: 4, width: 2, …(4) }\n    at /private/tmp/tp-loading-boundaries-N-C9b-registered-real-load.MZFGqA/packages/reforge/src/project-loader.io-boundaries.test.ts:68:25\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/t",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 63786,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C9b-registered-real-load.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C9b-registered-real-load.MZFGqA/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C9b-registered-real-load.raw",
+          "sha256": "48021ed53b9f2f56c9c1e54c79a58bd9c1f0e4059cb1a4b4bbc8175f28d163a7"
+        },
+        "json": {
+          "file": "counters/N-C9b-registered-real-load.json",
+          "sha256": "2c46fc831ce9b87b6f662d12f13eb60b0c5cd69588e22a00770e8750194e6f93"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C9b-registered-real-load.MZFGqA"
+    },
+    {
+      "id": "N-C9c-stable-id-placement",
+      "axis": "C9c loadAllProjectMaps 稳定 id 归位(project-loader.ts:517-521)",
+      "testFile": "src/project-loader.io-boundaries.test.ts",
+      "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "      maps[asset.id] = await loadProjectMap(project.assetBase, asset.path)",
+        "to": "      maps[asset.path] = await loadProjectMap(project.assetBase, asset.path)",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "4176f8dba6b4f15a6cf39f5b51088f353192a6bb7d5b17b9a09951ed2d0b5f21"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": [
+        "C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功"
+      ],
+      "failureExcerpt": "AssertionError: C9-map-batch: expected undefined to deeply equal { version: 4, width: 1, …(4) }\n    at /private/tmp/tp-loading-boundaries-N-C9c-stable-id-placement.VNek7r/packages/reforge/src/project-loader.io-boundaries.test.ts:98:35\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/.",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 64027,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C9c-stable-id-placement.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C9c-stable-id-placement.VNek7r/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C9c-stable-id-placement.raw",
+          "sha256": "e05adaaebf3eb435a4d49811c287dd6e1a541c9a397b46cb75496fdc15648911"
+        },
+        "json": {
+          "file": "counters/N-C9c-stable-id-placement.json",
+          "sha256": "05f1384e5134f2912cd935d8951257710dcc3af08b6dcf753903b65005f08883"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C9c-stable-id-placement.VNek7r"
+    },
+    {
+      "id": "N-C10-poisons-field",
+      "axis": "C10 poisons 表保真返回(project-loader.ts:313)",
+      "testFile": "src/project-loader.io-boundaries.test.ts",
+      "fullName": "C10 optional 表保真 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+      "mutation": {
+        "file": "packages/reforge/src/project-loader.ts",
+        "from": "    poisons: poisonList,",
+        "to": "    poisons: [],",
+        "frozenSha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutantSha256": "6b993cedb0e5ae026a9958e064ac0882f6ce013063c06ca1e8757ac077656d7a"
+      },
+      "treeFrozenVerified": true,
+      "judge": "VALID",
+      "failed": ["C10 optional 表保真 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段"],
+      "failureExcerpt": "AssertionError: C10-optional-tables: expected [] to deeply equal [ 7, 8 ]\n    at /private/tmp/tp-loading-boundaries-N-C10-poisons-field.RWCp2H/packages/reforge/src/project-loader.io-boundaries.test.ts:151:7\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/no",
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "pid": 64111,
+        "spawnError": null,
+        "argvTail": [
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=json",
+          "--reporter=default",
+          "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C10-poisons-field.json"
+        ],
+        "cwd": "/tmp/tp-loading-boundaries-N-C10-poisons-field.RWCp2H/packages/reforge",
+        "env": {
+          "inherited": true,
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null
+        },
+        "unhandledInOutput": false,
+        "numTotalTests": 4,
+        "numPassedTests": 3,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/N-C10-poisons-field.raw",
+          "sha256": "824cd93e47bfdd5342d2fed58d31362a3a441b5583a04a62b203ef2bc4266587"
+        },
+        "json": {
+          "file": "counters/N-C10-poisons-field.json",
+          "sha256": "a531b006c9b03c39fcf0a1ec274f691f3a1d649e5a06dbfd519603210b1aca5e"
+        }
+      },
+      "cleanup": "removed=true path=/tmp/tp-loading-boundaries-N-C10-poisons-field.RWCp2H"
+    }
+  ],
+  "restoredGreen": {
+    "process": {
+      "exit": 0,
+      "signal": null,
+      "pid": 64149,
+      "spawnError": null,
+      "argvTail": [
+        "src/project-loader.io-boundaries.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/restored-green.json"
+      ],
+      "cwd": "/tmp/tp-loading-boundaries-restored-green.cda79Z/packages/reforge",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      },
+      "unhandledInOutput": false,
+      "numTotalTests": 9,
+      "numPassedTests": 9,
+      "numFailedTests": 0,
+      "raw": {
+        "file": "counters/restored-green.raw",
+        "sha256": "3afa0f74132f7c28bb28f696b8574ca68785c8eed312a7eafc5e8e2dca003b1d"
+      },
+      "json": {
+        "file": "counters/restored-green.json",
+        "sha256": "6b1c65d09635efb7598caa525373ff5e85446d1c4cd6b0bc44b4b22d998a2db7"
+      }
+    },
+    "executionSetIdentical": true,
+    "problems": []
+  },
+  "restoredGreenCleanup": "removed=true path=/tmp/tp-loading-boundaries-restored-green.cda79Z",
+  "finalReplay": {
+    "needle": "N-C2-scene-map-ref",
+    "judge": "VALID",
+    "process": {
+      "exit": 1,
+      "signal": null,
+      "pid": 64385,
+      "spawnError": null,
+      "argvTail": [
+        "src/project-loader.reference-boundaries.test.ts",
+        "--reporter=json",
+        "--reporter=default",
+        "--outputFile.json=/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/final-replay.json"
+      ],
+      "cwd": "/tmp/tp-loading-boundaries-final-replay.l9ZKNx/packages/reforge",
+      "env": {
+        "inherited": true,
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null
+      },
+      "unhandledInOutput": false,
+      "numTotalTests": 5,
+      "numPassedTests": 4,
+      "numFailedTests": 1,
+      "raw": {
+        "file": "counters/final-replay.raw",
+        "sha256": "565b976f1e166ea11cf4f88516aad7a566fa41b6047dd222815601d0a6de6026"
+      },
+      "json": {
+        "file": "counters/final-replay.json",
+        "sha256": "86dc669c761227a66cfc04bde237f38a8be6bbb46dcd39da66f84b7684ec721a"
+      }
+    }
+  },
+  "finalReplayCleanup": "removed=true path=/tmp/tp-loading-boundaries-final-replay.l9ZKNx",
+  "summary": {
+    "needles": 10,
+    "allValid": true,
+    "executionSetSize": 9
+  }
+}

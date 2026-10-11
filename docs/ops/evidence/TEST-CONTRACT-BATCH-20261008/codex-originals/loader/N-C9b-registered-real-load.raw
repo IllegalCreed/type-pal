@@ -1,0 +1,83 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-N-C9b-registered-real-load-Hcg4AF/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 13ms
+ ❯ src/project-loader.io-boundaries.test.ts (6 tests | 1 failed) 65ms
+     ✓ 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 2ms
+     × 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 7ms
+     ✓ loadAllProjectMaps 乱序完成仍按稳定 id 归位 53ms
+     ✓ loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功 1ms
+     ✓ 可缺表缺席时公开字段为空默认 1ms
+     ✓ 合法非空当前表逐表保真到工程公开字段 1ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:29
+   Duration  377ms (transform 400ms, setup 0ms, import 488ms, tests 78ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C9b-registered-real-load.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C9 地图公开入口闭环 > 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path
+AssertionError: C9-map-by-id: expected { version: 4, width: 1, …(4) } to deeply equal { version: 4, width: 2, …(4) }
+
+- Expected
++ Received
+
+  {
+    "collision": [
+      [
+        0,
+-       0,
+      ],
+      [
+-       0,
+        0,
+      ],
+    ],
+    "height": 1,
+    "layers": [
+      {
+        "id": "floor",
+        "name": "地板",
+        "sources": [
+          [
+-           null,
+            null,
+          ],
+          [
+-           null,
+            null,
+          ],
+        ],
+        "tiles": [
+          [
+-           null,
+            null,
+          ],
+          [
+            null,
+-           null,
+          ],
+        ],
+      },
+    ],
+    "tilesetRefs": [
+      "tileset-001",
+    ],
+    "version": 4,
+-   "width": 2,
++   "width": 1,
+  }
+
+ ❯ src/project-loader.io-boundaries.test.ts:63:25
+     61|     // 已登记：走真实 loadProjectMap（同一加载边界校验 ProjectMap v4）读 indexed path
+     62|     const map = await loadProjectMapById(project, 'map-002')
+     63|     expect(map, marker).toEqual(lbProjectMap(2))
+       |                         ^
+     64|     expect(source.reads, marker).toEqual(['json:content/maps/map-002.j…
+     65|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

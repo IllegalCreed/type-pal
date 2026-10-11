@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-11T01:01:52.399Z",
+  "generatedAt": "2026-10-11T02:09:01.479Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 729,
-  "testCount": 19762,
+  "testCount": 19789,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2336,8 +2336,8 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8944,
-        "testFileCount": 356,
+        "testCount": 8958,
+        "testFileCount": 358,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2585,6 +2585,8 @@
           "packages/reforge/src/project-image-cache.test.ts",
           "packages/reforge/src/project-loader.current-boundaries.test.ts",
           "packages/reforge/src/project-loader.image-cache-binding.test.ts",
+          "packages/reforge/src/project-loader.io-boundaries.test.ts",
+          "packages/reforge/src/project-loader.reference-boundaries.test.ts",
           "packages/reforge/src/project-loader.test.ts",
           "packages/reforge/src/project-map-stamp-resize.glm-q.test.ts",
           "packages/reforge/src/project-map.cursor-boundaries.test.ts",
@@ -3928,6 +3930,16 @@
             "identityDigest": "02b9f7f7e54b47dce22773beeb19bfac1bad1b340c1a0d9ad2b3ff1c68f7e07b"
           },
           {
+            "file": "packages/reforge/src/project-loader.io-boundaries.test.ts",
+            "testCount": 6,
+            "identityDigest": "5056dc5b959744b0b4e92cc97c1b6134c4aa43dc3d46ac9bd2099df0f475b895"
+          },
+          {
+            "file": "packages/reforge/src/project-loader.reference-boundaries.test.ts",
+            "testCount": 8,
+            "identityDigest": "f8cefb0880e83b301349e87e417e5148d9f74aa568659e9d50712dfd4dc5ff19"
+          },
+          {
             "file": "packages/reforge/src/project-loader.test.ts",
             "testCount": 12,
             "identityDigest": "03a51d220090ab67fe990c8525a02c54ca2155cf6be4a7a3df1fff7b67c76bc3"
@@ -4478,25 +4490,25 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "3e7077ecddb227fd92531024d3d04a66ee2aaaf55b175eb6b15775f22d781946",
+        "identityDigest": "478aac62972ba96f5afd547670afcce979221dec7090f8670f58a9b4d1433d02",
         "duplicateIdentityCount": 3,
-        "executionDigest": "18f35e9de925b48a8df7341be73dbd58e0a89799dd113a13296bac6549fb03c4"
+        "executionDigest": "3fef5df77210ed0fa2f609b9efe2d6e8a5e74047ba9324b60ac78e463dc4f870"
       },
       "metrics": {
         "statements": {
-          "covered": 16986,
+          "covered": 16999,
           "total": 18885
         },
         "branches": {
-          "covered": 10798,
+          "covered": 10806,
           "total": 13097
         },
         "functions": {
-          "covered": 2763,
+          "covered": 2767,
           "total": 3073
         },
         "lines": {
-          "covered": 15200,
+          "covered": 15208,
           "total": 16477
         }
       }
@@ -6828,8 +6840,8 @@
       ],
       "scopeDigest": "17a2035a760e7292c1ab49e410b06bcaad56c83e05557d927416ae1e5db09b7a",
       "fastTests": {
-        "testCount": 4755,
-        "testFileCount": 606,
+        "testCount": 4768,
+        "testFileCount": 608,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7220,6 +7232,7 @@
           "packages/editor/src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
+          "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
           "packages/editor/src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
           "packages/editor/src/ui/ItemAlchemyTab.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/ItemAlchemyTab.glm-m.test.tsx",
@@ -7291,6 +7304,7 @@
           "packages/editor/src/ui/ScriptEditor.entities-near.test.tsx",
           "packages/editor/src/ui/ScriptEditor.frame-animation.test.tsx",
           "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
+          "packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx",
           "packages/editor/src/ui/ScriptEditor.summaries.test.ts",
           "packages/editor/src/ui/ScriptEditor.test.tsx",
           "packages/editor/src/ui/ScriptEditor.unified-steps.test.tsx",
@@ -9385,6 +9399,11 @@
             "identityDigest": "87b47e439500738be5f7a96667ad51773dc74b64f60817d5667f49e6ee3541f5"
           },
           {
+            "file": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+            "testCount": 6,
+            "identityDigest": "b7abfa0078c013ffcf271a035212a060c1e1f7ce1566749490357a12b62f0460"
+          },
+          {
             "file": "packages/editor/src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx",
             "testCount": 2,
             "identityDigest": "6f9addea6cfdee05a99784992e7a4f98eacb3f5717399136977c90654881789a"
@@ -9738,6 +9757,11 @@
             "file": "packages/editor/src/ui/ScriptEditor.inparty-condition.test.tsx",
             "testCount": 1,
             "identityDigest": "6c93b1c43906ef1391c5fcb3825e341da0c2f3f3cfb42f06b61bcc282263e93f"
+          },
+          {
+            "file": "packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+            "testCount": 7,
+            "identityDigest": "e9631fced97b1a6773c63ef7b407fba53e891a158c9b22fcec35975b179f0581"
           },
           {
             "file": "packages/editor/src/ui/ScriptEditor.summaries.test.ts",
@@ -10470,25 +10494,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "4cab4175bbb263c3265c95444288d18ba72f4a04ebd76332b6809a5608e1dd1d",
+        "identityDigest": "7c91a8e3d0c05b3c0ea17dfc884a1ac095af5ecfff8ad766b7601ac5209924dd",
         "duplicateIdentityCount": 8,
-        "executionDigest": "cd69ddfda186dbfb0c0e3eb162acbe89796d5870544135f00488fee15ecdaa5c"
+        "executionDigest": "56416ee0b25129a678ba54dc192ab2778d7b8fb4f48ccf456240ad01e3bbb2a4"
       },
       "metrics": {
         "statements": {
-          "covered": 30224,
+          "covered": 30232,
           "total": 33522
         },
         "branches": {
-          "covered": 24259,
+          "covered": 24271,
           "total": 29079
         },
         "functions": {
-          "covered": 7655,
+          "covered": 7657,
           "total": 8544
         },
         "lines": {
-          "covered": 27049,
+          "covered": 27054,
           "total": 29293
         }
       }
@@ -10496,19 +10520,19 @@
   },
   "total": {
     "statements": {
-      "covered": 70215,
+      "covered": 70236,
       "total": 78387
     },
     "branches": {
-      "covered": 51040,
+      "covered": 51060,
       "total": 61181
     },
     "functions": {
-      "covered": 13264,
+      "covered": 13270,
       "total": 14868
     },
     "lines": {
-      "covered": 62747,
+      "covered": 62760,
       "total": 68618
     }
   }

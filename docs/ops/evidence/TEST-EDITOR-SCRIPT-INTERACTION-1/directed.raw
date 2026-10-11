@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor
+
+ ✓ src/core/author-command-edit.boundaries.test.ts (4 tests) 5ms
+ ✓ src/core/author-command-edit.test.ts (14 tests) 9ms
+ ✓ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests) 268ms
+ ✓ src/ui/SharedScriptTab.test.tsx (7 tests) 222ms
+ ✓ src/ui/ScriptEditor.test.tsx (28 tests) 718ms
+
+ Test Files  5 passed (5)
+      Tests  60 passed (60)
+   Start at  22:01:23
+   Duration  3.00s (transform 4.48s, setup 0ms, import 5.69s, tests 1.22s, environment 1.70s)
+
+JSON report written to /private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/directed.json

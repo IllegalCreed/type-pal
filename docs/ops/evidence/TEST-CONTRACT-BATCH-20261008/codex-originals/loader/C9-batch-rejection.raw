@@ -1,0 +1,37 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-C9-batch-rejection-7U2oij/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 14ms
+ ❯ src/project-loader.io-boundaries.test.ts (6 tests | 1 failed) 63ms
+     ✓ 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 2ms
+     ✓ 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 3ms
+     ✓ loadAllProjectMaps 乱序完成仍按稳定 id 归位 53ms
+     × loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功 3ms
+     ✓ 可缺表缺席时公开字段为空默认 1ms
+     ✓ 合法非空当前表逐表保真到工程公开字段 1ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:30
+   Duration  381ms (transform 411ms, setup 0ms, import 499ms, tests 77ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C9-batch-rejection.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C9 地图公开入口闭环 > loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功
+AssertionError: C9-map-batch-rejection: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.io-boundaries.test.ts:104:33
+    102|     const failingProject = await loadCurrentProjectFrom(failingSource)
+    103|     const failed = await rejectOf(loadAllProjectMaps(failingProject))
+    104|     expect(failed.kind, marker).toBe('rejected')
+       |                                 ^
+    105|     expect(failed.message, marker).toContain('map-c-io-dead')
+    106|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

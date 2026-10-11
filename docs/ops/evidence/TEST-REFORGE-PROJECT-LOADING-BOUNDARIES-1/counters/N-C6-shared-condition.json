@@ -1,0 +1,92 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 5,
+  "numPassedTests": 4,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791464102586,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C2 场景 mapId 引用接线"],
+          "fullName": "C2 场景 mapId 引用接线 mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+          "status": "passed",
+          "title": "mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+          "duration": 5.555541000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 入口场景条件引用接线"],
+          "fullName": "C3 入口场景条件引用接线 apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+          "status": "passed",
+          "title": "apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+          "duration": 2.2471250000000396,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 item-private 使用脚本条件接线"],
+          "fullName": "C4 item-private 使用脚本条件接线 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+          "status": "passed",
+          "title": "合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+          "duration": 1.7075829999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 sharedScripts 条件接线"],
+          "fullName": "C6 sharedScripts 条件接线 shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+          "status": "failed",
+          "title": "shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+          "duration": 3.1514170000000377,
+          "failureMessages": [
+            "AssertionError: C6-shared-condition: expected 'resolved' to be 'rejected' // Object.is equality\n    at /private/tmp/tp-loading-boundaries-N-C6-shared-condition.55SRSh/packages/reforge/src/project-loader.reference-boundaries.test.ts:180:35\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C7 装备战斗精灵引用接线"],
+          "fullName": "C7 装备战斗精灵引用接线 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+          "status": "passed",
+          "title": "合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+          "duration": 1.2622089999999844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464102946,
+      "endTime": 1791464102960.2622,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/tp-loading-boundaries-N-C6-shared-condition.55SRSh/packages/reforge/src/project-loader.reference-boundaries.test.ts"
+    }
+  ]
+}

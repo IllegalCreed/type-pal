@@ -1,0 +1,250 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-script-A2-stale-raf-guard-0hnzd0/packages/editor
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests | 1 failed) 177ms
+     × A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行 50ms
+     ✓ A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交 40ms
+     ✓ A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交 36ms
+     ✓ A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功 14ms
+     ✓ A6 删除被拒：保留选择与正文，重试成功收口 10ms
+     ✓ A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察 17ms
+     ✓ A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选 9ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  10:50:13
+   Duration  1.64s (transform 886ms, setup 0ms, import 1.08s, tests 177ms, environment 309ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A2-stale-raf-guard.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ScriptEditor.interaction-boundaries.test.tsx > CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行
+AssertionError: A2 过期帧不得定位旧行: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   <div
++     class="cmd-row"
++     data-command-path="0"
++     role="treeitem"
++     tabindex="0"
++   >
++     <span
++       class="cmd-ico"
++     >
++       🚩
++     </span>
++     <span
++       class="cmd-label"
++     >
++       旗标 first = 真
++     </span>
++     <span
++       class="canonical-script-row-actions"
++     >
++       <span
++         class="ds-tooltip"
++       >
++         <button
++           aria-describedby="_r_2_"
++           aria-label="编辑"
++           class="ds-icon-button ds-icon-button--quiet ds-icon-button--compact"
++           type="button"
++         >
++           <svg
++             aria-hidden="true"
++             class="ds-icon"
++             focusable="false"
++             viewBox="0 0 16 16"
++           >
++             <path
++               d="m10.5 2.5 3 3L6 13H3v-3l7.5-7.5Z"
++             />
++             <path
++               d="m9 4 3 3"
++             />
++           </svg>
++         </button>
++         <span
++           class="ds-visually-hidden"
++           id="_r_2_"
++           role="tooltip"
++         >
++           编辑
++         </span>
++       </span>
++       <span
++         class="ds-tooltip"
++       >
++         <button
++           aria-describedby="_r_3_"
++           aria-label="在此后插入"
++           class="ds-icon-button ds-icon-button--quiet ds-icon-button--compact"
++           type="button"
++         >
++           <svg
++             aria-hidden="true"
++             class="ds-icon"
++             focusable="false"
++             viewBox="0 0 16 16"
++           >
++             <path
++               d="M8 3v10"
++             />
++             <path
++               d="M3 8h10"
++             />
++           </svg>
++         </button>
++         <span
++           class="ds-visually-hidden"
++           id="_r_3_"
++           role="tooltip"
++         >
++           在此后插入
++         </span>
++       </span>
++       <span
++         class="ds-tooltip"
++       >
++         <button
++           aria-describedby="_r_4_"
++           aria-label="复制"
++           class="ds-icon-button ds-icon-button--quiet ds-icon-button--compact"
++           type="button"
++         >
++           <svg
++             aria-hidden="true"
++             class="ds-icon"
++             focusable="false"
++             viewBox="0 0 16 16"
++           >
++             <rect
++               height="8"
++               rx="1"
++               width="8"
++               x="5"
++               y="5"
++             />
++             <path
++               d="M3 11H2V2h9v1"
++             />
++           </svg>
++         </button>
++         <span
++           class="ds-visually-hidden"
++           id="_r_4_"
++           role="tooltip"
++         >
++           复制
++         </span>
++       </span>
++       <span
++         class="ds-tooltip"
++       >
++         <button
++           aria-describedby="_r_5_"
++           aria-label="上移旗标 first = 真"
++           class="ds-icon-button ds-icon-button--secondary ds-icon-button--compact"
++           disabled=""
++           type="button"
++         >
++           <svg
++             aria-hidden="true"
++             class="ds-icon"
++             focusable="false"
++             viewBox="0 0 16 16"
++           >
++             <path
++               d="m4 10 4-4 4 4"
++             />
++           </svg>
++         </button>
++         <span
++           class="ds-visually-hidden"
++           id="_r_5_"
++           role="tooltip"
++         >
++           上移旗标 first = 真
++         </span>
++       </span>
++       <span
++         class="ds-tooltip"
++       >
++         <button
++           aria-describedby="_r_6_"
++           aria-label="下移旗标 first = 真"
++           class="ds-icon-button ds-icon-button--secondary ds-icon-button--compact"
++           type="button"
++         >
++           <svg
++             aria-hidden="true"
++             class="ds-icon"
++             focusable="false"
++             viewBox="0 0 16 16"
++           >
++             <path
++               d="m4 6 4 4 4-4"
++             />
++           </svg>
++         </button>
++         <span
++           class="ds-visually-hidden"
++           id="_r_6_"
++           role="tooltip"
++         >
++           下移旗标 first = 真
++         </span>
++       </span>
++       <span
++         class="ds-tooltip"
++       >
++         <button
++           aria-describedby="_r_7_"
++           aria-label="删除"
++           class="ds-icon-button ds-icon-button--danger ds-icon-button--compact"
++           type="button"
++         >
++           <svg
++             aria-hidden="true"
++             class="ds-icon"
++             focusable="false"
++             viewBox="0 0 16 16"
++           >
++             <path
++               d="M3 4h10"
++             />
++             <path
++               d="m6 2h4l1 2H5l1-2Z"
++             />
++             <path
++               d="m5 6 .5 7h5L11 6"
++             />
++           </svg>
++         </button>
++         <span
++           class="ds-visually-hidden"
++           id="_r_7_"
++           role="tooltip"
++         >
++           删除
++         </span>
++       </span>
++     </span>
++   </div>,
++ ]
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx:185:45
+    183|
+    184|       await act(async () => frames[0]!(0))
+    185|       expect(scrollTargets, 'A2 过期帧不得定位旧行').toEqual([])
+       |                                             ^
+    186|       expect(document.activeElement).not.toBe(staleRow)
+    187|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -1,0 +1,5 @@
+
+> @type-pal/editor@0.0.0 typecheck /private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/packages/editor
+> tsc --noEmit && tsc --noEmit -p scripts/tsconfig.author-check.json
+
+TYPECHECK_EXIT=0

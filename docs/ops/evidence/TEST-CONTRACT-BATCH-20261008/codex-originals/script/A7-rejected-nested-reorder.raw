@@ -1,0 +1,40 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-script-A7-rejected-nested-reorder-XgeX7m/packages/editor
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests | 1 failed) 176ms
+     ✓ A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行 45ms
+     ✓ A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交 40ms
+     ✓ A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交 36ms
+     ✓ A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功 14ms
+     ✓ A6 删除被拒：保留选择与正文，重试成功收口 10ms
+     × A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察 21ms
+     ✓ A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选 9ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  10:50:23
+   Duration  1.62s (transform 877ms, setup 0ms, import 1.06s, tests 176ms, environment 307ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A7-rejected-nested-reorder.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ScriptEditor.interaction-boundaries.test.tsx > CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察
+AssertionError: A7 被拒重排不得把选择重映射到新位置: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx:374:7
+    372|       commandRow(editor.host, '0/then/0').classList.contains('sel'),
+    373|       'A7 被拒重排不得把选择重映射到新位置',
+    374|     ).toBe(true)
+       |       ^
+    375|     expect(commandRow(editor.host, '0/then/1').classList.contains('sel…
+    376|     const keysAfter = [...nestedCollection.querySelectorAll('[data-ds-…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

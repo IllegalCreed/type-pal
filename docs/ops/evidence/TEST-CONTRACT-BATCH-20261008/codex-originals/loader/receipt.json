@@ -1,0 +1,1180 @@
+{
+  "id": "loader",
+  "frozen": {
+    "packages/reforge/src/project-loader.ts": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+    "packages/reforge/src/file-source.ts": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2",
+    "packages/reforge/src/project-save-state.ts": "6f41421ff160a02ff971e72f547aa2e88a7691121c27c78f6e673e41358c1655",
+    "packages/reforge/src/assets.ts": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+    "packages/reforge/src/runnable-project-loader.ts": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865",
+    "packages/reforge/src/author-io.ts": "8a6581ed536484bba48c3ccb1ab5bd5c316c940ceed8df742c545925948d3643"
+  },
+  "tests": {
+    "src/project-loader.reference-boundaries.test.ts": "45697b4e0132e835cd6a950254936a0db6a563d86b9087e16d1565a90bbbbbc3",
+    "src/project-loader.io-boundaries.test.ts": "e87c329d696b51418fa67c70ed1cbb9068ab42829e8d144b64caa89c858bd4e8"
+  },
+  "selfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "needles": [
+    {
+      "id": "C2-entry",
+      "fullName": "C2 场景 mapId 引用接线 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+        "to": "if (!path.startsWith('manifest.') && !mapAssetById(mapIndex, scene.mapId))",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "fbd5fce34292ac91ecdff32018173fd821106e10bee4f9733b44e2908e52652f"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C2-entry.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C2-entry-JfJ6Zk/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50104,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C2-entry.raw",
+          "sha256": "676776b7866bb0a33d6bfa3985cdea69941e908cebacfdb062e6ed4660fb4bec"
+        },
+        "json": {
+          "path": "loader/C2-entry.json.raw",
+          "sha256": "266836676a13be4a8de9f8c556ac3f00d7390671956c3f80a903069daad532d8"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C2-entry-JfJ6Zk",
+        "removed": true
+      }
+    },
+    {
+      "id": "C2-lazy",
+      "fullName": "C2 场景 mapId 引用接线 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+        "to": "if (path.startsWith('manifest.') && !mapAssetById(mapIndex, scene.mapId))",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "b313e32356d6e8629704c636884b6ede6aa98c3d3ff642263bf1354f692f4a75"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C2-lazy.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C2-lazy-GQz0DS/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50107,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C2-lazy.raw",
+          "sha256": "dd1b0b23043d1bbdd9f226a57435d6014d74a5aec0c61a7a3c1c285ab17374a0"
+        },
+        "json": {
+          "path": "loader/C2-lazy.json.raw",
+          "sha256": "c807151915494099718128c80bf633493d41c868a8da51292976ce891e2efcef"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C2-lazy-GQz0DS",
+        "removed": true
+      }
+    },
+    {
+      "id": "C3-actor",
+      "fullName": "C3 入口场景条件引用接线 入口 'actor' 引用悬空精确拒绝，闭合同链绿",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "validateActorConditionCommandReferences(scene, actors, poisons, path)[0]",
+        "to": "validateActorConditionCommandReferences(scene, actors, poisons, path).filter((issue) => !issue.where.endsWith('.actor'))[0]",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "317f7234733ce7aecaf69d67ab016d33a1ce78c59fa66a2ae96ace749cec4500"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C3-actor.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C3-actor-wOFfxA/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50110,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C3-actor.raw",
+          "sha256": "77a7d9c9afe48d2272449af8d6a6a0045a9c01e90080f15d6ecf103796a5f3fc"
+        },
+        "json": {
+          "path": "loader/C3-actor.json.raw",
+          "sha256": "07c3eb1345e365a4e4b561f90b0ba372c82cd397dcd9ba84221e3c1f468d3b29"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C3-actor-wOFfxA",
+        "removed": true
+      }
+    },
+    {
+      "id": "C3-poison",
+      "fullName": "C3 入口场景条件引用接线 入口 'poison' 引用悬空精确拒绝，闭合同链绿",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "validateActorConditionCommandReferences(scene, actors, poisons, path)[0]",
+        "to": "validateActorConditionCommandReferences(scene, actors, poisons, path).filter((issue) => !issue.where.endsWith('.condition.poisonId'))[0]",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "0850a2edaff21527d5078086d382b2c2b5c4ef8e2e18a237166b155ace15f2dc"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C3-poison.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C3-poison-7qM91k/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50148,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C3-poison.raw",
+          "sha256": "7a430a412ca9888f76bb3ea6c27f91ffff71f782e79542b8857025b9434f2068"
+        },
+        "json": {
+          "path": "loader/C3-poison.json.raw",
+          "sha256": "4766d4b236a6793d66af4bdd324d9f01297d4a0be55f63f278af7c361c600f99"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C3-poison-7qM91k",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C4-items-condition",
+      "fullName": "C4 item-private 使用脚本条件接线 item 脚本 actor 引用悬空精确拒绝，闭合同链绿",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "    [authorItems, 'items'],",
+        "to": "    [[], 'items'],",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "08e6dddee7cfa1cc283cbca502f194b34276a52e8ab3b5b2c3b6eae4f7d585d5"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C4-items-condition.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C4-items-condition-kwcPDx/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50167,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C4-items-condition.raw",
+          "sha256": "e59c08d4630b38a9792ce897be2aef77b4f678ba30c5203fe9b637ed24d02c12"
+        },
+        "json": {
+          "path": "loader/N-C4-items-condition.json.raw",
+          "sha256": "d375ba3bc946f32c409bea030cc3e8c0ee51290f0388827ce6e607863366de8a"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C4-items-condition-kwcPDx",
+        "removed": true
+      }
+    },
+    {
+      "id": "C6-actor",
+      "fullName": "C6 sharedScripts 条件接线 shared 'actor' 引用悬空精确拒绝，闭合同链绿",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "validateActorConditionCommandReferences(value, actors, poisonList, where)[0]",
+        "to": "validateActorConditionCommandReferences(value, actors, poisonList, where).filter((issue) => where !== 'sharedScripts' || !issue.where.endsWith('.actor'))[0]",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "cb30ec3f0f538ab480f3ef9f2f2468eba144fda8ee4b1093fca0f946d8b99863"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C6-actor.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C6-actor-Gy1b46/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50170,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C6-actor.raw",
+          "sha256": "c1b7056fc113a552959e8db17616e8fc293b093b7feff6af2b5a6f5e3d15d804"
+        },
+        "json": {
+          "path": "loader/C6-actor.json.raw",
+          "sha256": "3179372bae38ad325f477ff51663f1c8a5bd46820fc5347cb4375d50fe54b53e"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C6-actor-Gy1b46",
+        "removed": true
+      }
+    },
+    {
+      "id": "C6-poison",
+      "fullName": "C6 sharedScripts 条件接线 shared 'poison' 引用悬空精确拒绝，闭合同链绿",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "validateActorConditionCommandReferences(value, actors, poisonList, where)[0]",
+        "to": "validateActorConditionCommandReferences(value, actors, poisonList, where).filter((issue) => where !== 'sharedScripts' || !issue.where.endsWith('.condition.poisonId'))[0]",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "f4d564040e8b3e53ffd8808f10cbb83d829a4ac017a75d6acd5ca99fe095589c"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C6-poison.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C6-poison-piQ7Pd/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50173,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C6-poison.raw",
+          "sha256": "70662190991e6c84e83ecda89d4d197b6f52fffcacbec10659fc9dde0af01fe6"
+        },
+        "json": {
+          "path": "loader/C6-poison.json.raw",
+          "sha256": "53da14f439ef805be1268b9f0b445343d7dd409540c35360def96067c6bd9a67"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C6-poison-piQ7Pd",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C7-equip-battle-sprite",
+      "fullName": "C7 装备战斗精灵引用接线 悬空 battle sprite 后置接线拒收，补登记同链绿",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "validateEquipBattleSpriteReferences(items, actors, battleSprites)[0]",
+        "to": "validateEquipBattleSpriteReferences([], actors, battleSprites)[0]",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "cc595ec426e7f8f65a30f9b2f6e674399654f55b97471a69b4e0f3e01bdb1f74"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C7-equip-battle-sprite.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C7-equip-battle-sprite-7kIEY0/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50179,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C7-equip-battle-sprite.raw",
+          "sha256": "8c61140a2539813d889ccfd59462ff0fa02b11ec7184c1f9c242a73dbbc65e86"
+        },
+        "json": {
+          "path": "loader/N-C7-equip-battle-sprite.json.raw",
+          "sha256": "0acf8ce9df8c1ac380cfda61bfd19eed8310b12804a0dd37c6a1f38f5c9a25f9"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C7-equip-battle-sprite-7kIEY0",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C8-entry-non-error-detail",
+      "fullName": "C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "const detail = error instanceof Error ? error.message : String(error)",
+        "to": "const detail = error instanceof Error ? error.message : 'opaque-io-failure'",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "d9011b7cd5a8c15665358d913ef65ac1251ea68c03e6c4c5a29c85487546edef"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C8-entry-non-error-detail.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C8-entry-non-error-detail-AqNvMb/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50183,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C8-entry-non-error-detail.raw",
+          "sha256": "01b360ffc94321d38a0dee9254cef5014f28166c8e74571f2ce907204e8744a1"
+        },
+        "json": {
+          "path": "loader/N-C8-entry-non-error-detail.json.raw",
+          "sha256": "faed0fc478d92b6001f00a4e275025158a046ac6f15083036fff2702374d3e63"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C8-entry-non-error-detail-AqNvMb",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C9a-unregistered-gate",
+      "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "  if (!asset) throw new Error(`loadProjectMapById: mapId \"${mapId}\" 不在 map index`)",
+        "to": "  if (!asset) return loadProjectMap(project.assetBase, 'content/maps/map-001.json')",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "6f672278a19facb40357b8d863e401026d8f906e6269bcd4cafd44c689b3b7cf"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C9a-unregistered-gate.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C9a-unregistered-gate-U2Hsgq/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50234,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C9a-unregistered-gate.raw",
+          "sha256": "ea46ee21b1a30c9aab31b42e0d711e324871ca833217cf2e14636908d0338684"
+        },
+        "json": {
+          "path": "loader/N-C9a-unregistered-gate.json.raw",
+          "sha256": "39f7f773b8b9a90d2a030e2e1f400a6742905a2a52a9d38251def48b3526422b"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C9a-unregistered-gate-U2Hsgq",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C9b-registered-real-load",
+      "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "  return loadProjectMap(project.assetBase, asset.path)",
+        "to": "  return loadProjectMap(project.assetBase, 'content/maps/map-001.json')",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "ac0dfc1c7203c4e02d45d627d51b509fb5498d8c13b1585475b4994d7f0fa773"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C9b-registered-real-load.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C9b-registered-real-load-Hcg4AF/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50239,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C9b-registered-real-load.raw",
+          "sha256": "eb0a4d25386ad90eaaf4e75f45dd5458237a1b278784f0d752fb4edf506183bb"
+        },
+        "json": {
+          "path": "loader/N-C9b-registered-real-load.json.raw",
+          "sha256": "4a8e3ae6a8f4060a5c02b5a2cb48b33c19aed5a482126bb2782780ac819cfc45"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C9b-registered-real-load-Hcg4AF",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C9c-stable-id-placement",
+      "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "      maps[asset.id] = await loadProjectMap(project.assetBase, asset.path)",
+        "to": "      maps[asset.path] = await loadProjectMap(project.assetBase, asset.path)",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "4176f8dba6b4f15a6cf39f5b51088f353192a6bb7d5b17b9a09951ed2d0b5f21"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C9c-stable-id-placement.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C9c-stable-id-placement-nCCA8R/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50242,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C9c-stable-id-placement.raw",
+          "sha256": "e2c500a211ecfcb743f91a884056dcdb1a4df2642e4ac412c30bdfce0b609e6a"
+        },
+        "json": {
+          "path": "loader/N-C9c-stable-id-placement.json.raw",
+          "sha256": "13a13763de6df512bc4ea42a1e69f88ea62b0f5fdc1832b39bf9cd567fd4903c"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C9c-stable-id-placement-nCCA8R",
+        "removed": true
+      }
+    },
+    {
+      "id": "C9-batch-rejection",
+      "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "maps[asset.id] = await loadProjectMap(project.assetBase, asset.path)",
+        "to": "maps[asset.id] = await loadProjectMap(project.assetBase, asset.path).catch(() => undefined)",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "64fbf14f0c2357225f9a3b76f9d52f7a2e4deddae726a10d8d444781e619f5ef"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C9-batch-rejection.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C9-batch-rejection-7U2oij/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50245,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C9-batch-rejection.raw",
+          "sha256": "3d0253b375fab2ef6f9be1cf0c0745d7b31ad03fbd6975bc312938acae1395fc"
+        },
+        "json": {
+          "path": "loader/C9-batch-rejection.json.raw",
+          "sha256": "7bdd6ce24ffe5a1224d73c352d0281ded5936518f708b653deaeae7897074351"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C9-batch-rejection-7U2oij",
+        "removed": true
+      }
+    },
+    {
+      "id": "C10-absent",
+      "fullName": "C10 optional 表保真 可缺表缺席时公开字段为空默认",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "    poisons: poisonList,\n    ambiences,\n    shops,\n    tilesets,",
+        "to": "    poisons: poisonList,\n    ambiences,\n    shops: shops.length === 0 ? undefined : shops,\n    tilesets,",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "9db41c06884232b408af7aaf551bd6b8c13148ef4d6b9e3d117da8395f5b59ce"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C10-absent.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-C10-absent-95ljSg/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50248,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/C10-absent.raw",
+          "sha256": "2da2f40ca21e75a541a14d2ebcb6afcf28731e52e5df442b107ca47b04457324"
+        },
+        "json": {
+          "path": "loader/C10-absent.json.raw",
+          "sha256": "4d0defa8f81b5f8795337463bb92f0be92b2d532833af4009b95301ff07e5c40"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-C10-absent-95ljSg",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-C10-poisons-field",
+      "fullName": "C10 optional 表保真 合法非空当前表逐表保真到工程公开字段",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "    poisons: poisonList,",
+        "to": "    poisons: [],",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "6b993cedb0e5ae026a9958e064ac0882f6ce013063c06ca1e8757ac077656d7a"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C10-poisons-field.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-N-C10-poisons-field-3IJd6t/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50276,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/N-C10-poisons-field.raw",
+          "sha256": "677eb28e488c6f80c8e0c2e0d46f1210b3b89c27846866dbcceb6eb4ede1cf7f"
+        },
+        "json": {
+          "path": "loader/N-C10-poisons-field.json.raw",
+          "sha256": "df7f5522eadc2d40068b08b982a3dfd63a3a676a934bb08f57e19d8c0a4c28cc"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-N-C10-poisons-field-3IJd6t",
+        "removed": true
+      }
+    },
+    {
+      "id": "C2-entry",
+      "fullName": "C2 场景 mapId 引用接线 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功",
+      "mutation": {
+        "file": "src/project-loader.ts",
+        "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+        "to": "if (!path.startsWith('manifest.') && !mapAssetById(mapIndex, scene.mapId))",
+        "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "mutant": "fbd5fce34292ac91ecdff32018173fd821106e10bee4f9733b44e2908e52652f"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/project-loader.reference-boundaries.test.ts",
+          "src/project-loader.io-boundaries.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/final-replay.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-final-replay-5ubFOa/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50308,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/final-replay.raw",
+          "sha256": "48c897d4565c86fe4f6e87e9a293db45e60a32bc9e096b1d1e93cf97951cb33a"
+        },
+        "json": {
+          "path": "loader/final-replay.json.raw",
+          "sha256": "495808022825a250fbcad84ff1a41153dbd08ab220475f60023b24b9fa6774b4"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-loader-final-replay-5ubFOa",
+        "removed": true
+      }
+    }
+  ],
+  "green": {
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/project-loader.reference-boundaries.test.ts",
+        "src/project-loader.io-boundaries.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/green.json"
+      ],
+      "cwd": "/tmp/tp-codex-loader-green-hYKdZU/packages/reforge",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 49880,
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "loader/green.raw",
+        "sha256": "9500eb241ff3b060280288d2e5bd009470d0ab17b90f13322f3c2a9ab191806a"
+      },
+      "json": {
+        "path": "loader/green.json.raw",
+        "sha256": "c3e736a747751fac6b64cef0443021b4f4007ee15ef30336f3c273e84a8024d4"
+      }
+    },
+    "executionSet": [
+      "src/project-loader.io-boundaries.test.ts :: C10 optional 表保真 可缺表缺席时公开字段为空默认",
+      "src/project-loader.io-boundaries.test.ts :: C10 optional 表保真 合法非空当前表逐表保真到工程公开字段",
+      "src/project-loader.io-boundaries.test.ts :: C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+      "src/project-loader.io-boundaries.test.ts :: C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位",
+      "src/project-loader.io-boundaries.test.ts :: C9 地图公开入口闭环 loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功",
+      "src/project-loader.io-boundaries.test.ts :: C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+      "src/project-loader.reference-boundaries.test.ts :: C2 场景 mapId 引用接线 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功",
+      "src/project-loader.reference-boundaries.test.ts :: C2 场景 mapId 引用接线 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功",
+      "src/project-loader.reference-boundaries.test.ts :: C3 入口场景条件引用接线 入口 'actor' 引用悬空精确拒绝，闭合同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C3 入口场景条件引用接线 入口 'poison' 引用悬空精确拒绝，闭合同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C4 item-private 使用脚本条件接线 item 脚本 actor 引用悬空精确拒绝，闭合同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C6 sharedScripts 条件接线 shared 'actor' 引用悬空精确拒绝，闭合同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C6 sharedScripts 条件接线 shared 'poison' 引用悬空精确拒绝，闭合同链绿",
+      "src/project-loader.reference-boundaries.test.ts :: C7 装备战斗精灵引用接线 悬空 battle sprite 后置接线拒收，补登记同链绿"
+    ]
+  },
+  "probes": [
+    {
+      "id": "probe-business",
+      "rejected": false,
+      "problems": [],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/probe-business.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-green-hYKdZU/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 49883,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/probe-business.raw",
+          "sha256": "e9b6c9f2f2f174f20ec4b5d6874b770535b53b604913d3edf8aec053f34611d2"
+        },
+        "json": {
+          "path": "loader/probe-business.json.raw",
+          "sha256": "69f779398c603e038dc9c763cc3dae736930028509059cf5230f5e6a10f8824d"
+        }
+      }
+    },
+    {
+      "id": "probe-hook",
+      "rejected": true,
+      "problems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-codex-loader-green-hYKdZU/packages/reforge/src/codex-judge-probe.test.ts: EXTRA_HOOK"
+      ],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/probe-hook.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-green-hYKdZU/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 49886,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "loader/probe-hook.raw",
+          "sha256": "eca6364c8cb9083b493f15100bcb451a30b90c2f3c7ebfbfc2ecfb147893aeca"
+        },
+        "json": {
+          "path": "loader/probe-hook.json.raw",
+          "sha256": "1a299910f59e1d429902ca5e6ce5c8ee8a1958621fc727f313e913bfa9bba48b"
+        }
+      }
+    },
+    {
+      "id": "probe-uncaught",
+      "rejected": true,
+      "problems": ["unhandled-rejection-in-output"],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/probe-uncaught.json"
+        ],
+        "cwd": "/tmp/tp-codex-loader-green-hYKdZU/packages/reforge",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 50102,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": true,
+        "raw": {
+          "path": "loader/probe-uncaught.raw",
+          "sha256": "d360607853e82ba120a786f36bad3b981c9401a524e11502f20fa34bc56c6b81"
+        },
+        "json": {
+          "path": "loader/probe-uncaught.json.raw",
+          "sha256": "5d2427e3b7650d48a12c0513da4410f9d22c416d253cff575514cb96b963e2be"
+        }
+      }
+    }
+  ],
+  "greenCleanup": {
+    "path": "/tmp/tp-codex-loader-green-hYKdZU",
+    "removed": true
+  },
+  "restored": {
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/project-loader.reference-boundaries.test.ts",
+        "src/project-loader.io-boundaries.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/restored.json"
+      ],
+      "cwd": "/tmp/tp-codex-loader-restored-lhU1nX/packages/reforge",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 50305,
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "loader/restored.raw",
+        "sha256": "6547ac60cd89474a68666aa7d6ed7d7947486a8bec7e6ef074204a396a12f868"
+      },
+      "json": {
+        "path": "loader/restored.json.raw",
+        "sha256": "aa286fc00838874b11fcd2e7e679592f758064c58b193ee525a96070ca574990"
+      }
+    },
+    "executionSetIdentical": true
+  },
+  "restoredCleanup": {
+    "path": "/tmp/tp-codex-loader-restored-lhU1nX",
+    "removed": true
+  },
+  "replay": {
+    "id": "C2-entry",
+    "fullName": "C2 场景 mapId 引用接线 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功",
+    "mutation": {
+      "file": "src/project-loader.ts",
+      "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+      "to": "if (!path.startsWith('manifest.') && !mapAssetById(mapIndex, scene.mapId))",
+      "original": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+      "mutant": "fbd5fce34292ac91ecdff32018173fd821106e10bee4f9733b44e2908e52652f"
+    },
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/project-loader.reference-boundaries.test.ts",
+        "src/project-loader.io-boundaries.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/final-replay.json"
+      ],
+      "cwd": "/tmp/tp-codex-loader-final-replay-5ubFOa/packages/reforge",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 50308,
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "loader/final-replay.raw",
+        "sha256": "48c897d4565c86fe4f6e87e9a293db45e60a32bc9e096b1d1e93cf97951cb33a"
+      },
+      "json": {
+        "path": "loader/final-replay.json.raw",
+        "sha256": "495808022825a250fbcad84ff1a41153dbd08ab220475f60023b24b9fa6774b4"
+      }
+    },
+    "problems": [],
+    "status": "valid",
+    "cleanup": {
+      "path": "/tmp/tp-codex-loader-final-replay-5ubFOa",
+      "removed": true
+    }
+  },
+  "status": "passed"
+}

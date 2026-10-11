@@ -1,0 +1,130 @@
+
+ RUN  v4.1.7 /private/tmp/tp-alchemy-boundaries-N-B4-missing-reference-dedup.EoZwqr/packages/editor
+
+ ✓ src/core/item-alchemy.boundaries.test.ts (3 tests) 4ms
+ ✓ src/core/item-alchemy.test.ts (4 tests) 7ms
+ ✓ src/ui/ItemAlchemyTab.glm-m.test.tsx (2 tests) 147ms
+ ✓ src/ui/ItemAlchemyTab.glm-data-authoring.test.tsx (2 tests) 196ms
+ ✓ src/ui/ItemAlchemyTab.test.tsx (12 tests) 519ms
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (8 tests | 1 failed) 1663ms
+     ✓ B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写 76ms
+     × B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写 45ms
+     ✓ B5 草稿提交以最新会话为准：目标 effect 已被公开命令移除时精确拒绝并传播，不吞错不误派发 55ms
+     ✓ B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销 31ms
+     ✓ B7 消耗者唯一材料门：仅 owner 自身时纯函数与 UI 双层禁用，物品数组公开变化后恢复合法追加 31ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1386ms
+     ✓ B9 草稿身份切换：外部版本推进丢弃在途草稿不落账，surface 切换不串旧提示/数量 21ms
+     ✓ B10 拒绝收尾与跳转降级：无 onOpenItem 不渲染跳转按钮，拒绝后恢复提交精确落账 17ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 30 passed (31)
+   Start at  21:58:52
+   Duration  5.47s (transform 14.24s, setup 0ms, import 17.87s, tests 2.54s, environment 3.48s)
+
+JSON report written to /private/tmp/type-pal-editor-alchemy-boundaries.v3szHH/type-pal/docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B4-missing-reference-dedup.json
+stderr | src/ui/ItemAlchemyTab.glm-m.test.tsx > M02 ItemAlchemyTab 提交边界 > 「添加对应关系」经真实会话追加缺省配方：单命令落账，undo 精确移除
+An update to CraftSurface inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemAlchemyTab.glm-m.test.tsx > M02 ItemAlchemyTab 提交边界 > 「添加对应关系」经真实会话追加缺省配方：单命令落账，undo 精确移除
+An update to DsDraftTextInput inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemAlchemyTab.glm-m.test.tsx > M02 ItemAlchemyTab 提交边界 > 紫金葫芦「不可用提示」blur 提交；清空回空串删除 unavailableMessage 键
+An update to GourdSurface inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemAlchemyTab.glm-m.test.tsx > M02 ItemAlchemyTab 提交边界 > 紫金葫芦「不可用提示」blur 提交；清空回空串删除 unavailableMessage 键
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftTextInput inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemAlchemyTab.boundary-contracts.test.tsx > TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 > B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写
+AssertionError: expected 'ghost-b4、ghost-b4、ghost-b4、phantom-b4' to be 'ghost-b4、phantom-b4' // Object.is equality
+
+Expected: "ghost-b4、phantom-b4"
+Received: "ghost-b4、ghost-b4、ghost-b4、phantom-b4"
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx:140:64
+    138|       row.textContent?.includes('缺失引用'),
+    139|     )!
+    140|     expect(missingRow.textContent!.replace('缺失引用', '').trim()).toBe('g…
+       |                                                                ^
+    141|     // 材料/产物 combobox 对缺引用 id 显示稳定 id 警告（crafting caller；gourd 已由旧 :73…
+    142|     expect(host.querySelector('[aria-label="配方 1 材料物品"]')?.textContent…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,0 +1,73 @@
+
+ RUN  v4.1.7 /private/tmp/tp-loading-boundaries-N-C9c-stable-id-placement.VNek7r/packages/reforge
+
+ ❯ src/project-loader.io-boundaries.test.ts (4 tests | 1 failed) 11ms
+     ✓ 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 2ms
+     ✓ 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 3ms
+     × loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功 4ms
+     ✓ 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段 2ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  21:55:06
+   Duration  354ms (transform 222ms, setup 0ms, import 272ms, tests 11ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C9c-stable-id-placement.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C9 地图公开入口闭环 > loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功
+AssertionError: C9-map-batch: expected undefined to deeply equal { version: 4, width: 1, …(4) }
+
+- Expected:
+{
+  "collision": [
+    [
+      0,
+    ],
+    [
+      0,
+    ],
+  ],
+  "height": 1,
+  "layers": [
+    {
+      "id": "floor",
+      "name": "地板",
+      "sources": [
+        [
+          null,
+        ],
+        [
+          null,
+        ],
+      ],
+      "tiles": [
+        [
+          null,
+        ],
+        [
+          null,
+        ],
+      ],
+    },
+  ],
+  "tilesetRefs": [
+    "tileset-001",
+  ],
+  "version": 4,
+  "width": 1,
+}
+
++ Received:
+undefined
+
+ ❯ src/project-loader.io-boundaries.test.ts:98:35
+     96|     const maps = await pending
+     97|     // 完成顺序 a/c → b 不影响归位：每个稳定 id 拿到自己的地图正文
+     98|     expect(maps['map-a'], marker).toEqual(lbProjectMap(1))
+       |                                   ^
+     99|     expect(maps['map-b'], marker).toEqual(lbProjectMap(2))
+    100|     expect(maps['map-c'], marker).toEqual(lbProjectMap(3))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

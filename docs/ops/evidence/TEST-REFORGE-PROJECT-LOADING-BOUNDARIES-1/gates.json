@@ -1,0 +1,42 @@
+{
+  "task": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1",
+  "date": "2026-10-08",
+  "directed": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run <card directed 8 files> --reporter=json --reporter=default",
+    "files": 8,
+    "tests": 65,
+    "passed": 65,
+    "failed": 0,
+    "evidence": {
+      "json": "directed.json (sha256 8282f7660e73f80691c96374b93580aaa8d5d5af363bb3becae1dbba33fa9229)",
+      "raw": "directed.raw (sha256 e25db018496a5f7c7b548626a738638d1171f5cbb4c8f48def440729e10b77c5)"
+    },
+    "newFilesZeroConsoleNoise": "两新文件经反控判据核:同进程 stdout/stderr 无 unhandled/Uncaught 字样、suite.message 全空"
+  },
+  "packageFullTest": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge test",
+    "files": 354,
+    "tests": 8807,
+    "passed": 8807,
+    "exit": 0,
+    "raw": "full-test.raw (sha256 6a33747570a64edd614366b43a5e736bf7057405af488f36ac869221a594dd72)"
+  },
+  "typecheck": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec tsc --noEmit",
+    "exit": 0,
+    "raw": "typecheck.raw (sha256 cc8a7fda226bb5da06de15e4cc12b2670add5b6120e6584547678350c7cdd2ea)"
+  },
+  "rootLint": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm lint",
+    "result": "0 errors / 0 warnings / 0 infos (3715 files)",
+    "exit": 0,
+    "raw": "lint.raw (sha256 0beed49d8251007b5192a65d661539c1e691519e0a35a1691cc795b692cfcfbb)"
+  },
+  "docsGate": {
+    "command": "env -u NODE_COMPILE_CACHE pnpm check:docs",
+    "result": "docs 1191 md/6539 links PASS; testing docs PASS; phase/lore governance PASS (184); content review PASS (570)",
+    "exit": 0,
+    "raw": "docs-gate.raw (sha256 df7fd8e4b76153ba715d7b9625b602110c955ea08be1c7c296f93c487c46a2b4)"
+  },
+  "dispatchBaselineCi": "hosted CI 基点失败于第一阶段 Game 旧测 grok-composition/p12-overlays 5000ms 超时(派发文档既列, SHA256 2c16d226…),与本卡交付无关,未处理白名单外问题"
+}

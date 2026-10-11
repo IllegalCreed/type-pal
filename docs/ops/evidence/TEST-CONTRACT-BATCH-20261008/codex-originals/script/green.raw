@@ -1,0 +1,11 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-script-green-0q7FVd/packages/editor
+
+ ✓ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests) 177ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  10:50:11
+   Duration  1.62s (transform 893ms, setup 0ms, import 1.09s, tests 177ms, environment 293ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/green.json

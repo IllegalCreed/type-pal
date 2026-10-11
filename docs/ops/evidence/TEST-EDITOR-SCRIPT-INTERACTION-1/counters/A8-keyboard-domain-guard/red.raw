@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-editor-script-interaction-A8-keyboard-domain-guard.BLFrxz/packages/editor
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests | 1 failed) 195ms
+     ✓ A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行 48ms
+     ✓ A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交 42ms
+     ✓ A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交 43ms
+     ✓ A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功 16ms
+     ✓ A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口 17ms
+     ✓ A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察 16ms
+     × A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选 13ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  22:02:10
+   Duration  1.63s (transform 877ms, setup 0ms, import 1.06s, tests 195ms, environment 300ms)
+
+JSON report written to /private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/counters/A8-keyboard-domain-guard/red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ScriptEditor.interaction-boundaries.test.tsx > CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选
+AssertionError: A8 子按钮键盘事件冒泡不得改选所在行: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx:408:67
+    406|       deleteInRow0.dispatchEvent(new KeyboardEvent('keydown', { key: '…
+    407|     )
+    408|     expect(row0.classList.contains('sel'), 'A8 子按钮键盘事件冒泡不得改选所在行').toBe…
+       |                                                                   ^
+    409|     expect(row1.classList.contains('sel')).toBe(true)
+    410|     expect(editor.host.querySelectorAll('.cmd-row')).toHaveLength(2)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

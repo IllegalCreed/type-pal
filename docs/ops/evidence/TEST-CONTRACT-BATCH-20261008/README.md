@@ -1,12 +1,14 @@
 # 有限测试合同派发 2026年10月8日
 
+2026-10-11 集成以[Codex独立验收](codex-review.md)、[当前固定针配置](codex-needles.json)和[重放入口](codex-replay.mjs)为准；下文派发冻结与贡献原件保留历史身份。
+
 本批三个独立对话分别检查当前脚本编辑器、物品炼化机制页、工程加载边界。产品冻结`797a46a097640206a12b8f61dc014c8db277e457`，路由、源hash及互斥白名单见[targets](targets.json)。具体清单以各卡为准，不滚动扩围。所有模型选择由用户手工完成，本批建议GLM-5.3文本模型。
 
 基点托管状态：Documentation通过；[Coverage 37744699839](https://github.com/IllegalCreed/type-pal/actions/runs/37744699839)失败于第一阶段Game旧测`present/__tests__/grok-composition/p12-overlays.test.ts:21`的5000ms超时，不是本批尚未交付的测试失败。失败日志本机存于`/private/tmp/type-pal-glm-dispatch-base-ci-20261008.raw`，SHA256 `2c16d22637c0fa9520dbda6eb03e04d7e1d04f267749ad248076b813a53ec4ec`。不推断根因已修或放宽timeout；贡献者不用处理该白名单外问题，Codex集成门仍须另核。
 
-- [当前脚本编辑器交互与草稿生命周期](../../tasks/TEST-EDITOR-SCRIPT-INTERACTION-1.md)：当前canonical正文、定位帧和被拒提交，不为旧ScriptTree视图补死分支。
-- [炼蛊与灵葫机制编辑边界](../../tasks/TEST-EDITOR-ALCHEMY-BOUNDARIES-1.md)：合法owner、深链、引用及真实会话草稿，不改玩法公式。
-- [当前工程加载与跨表引用边界](../../tasks/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md)：真实组装接线、FileSource错误与地图入口，不伪造typed manifest。
+- [当前脚本编辑器交互与草稿生命周期](../../archive/tasks/done/TEST-EDITOR-SCRIPT-INTERACTION-1.md)：当前canonical正文、定位帧和被拒提交，不为旧ScriptTree视图补死分支。
+- [炼蛊与灵葫机制编辑边界](../../archive/tasks/done/TEST-EDITOR-ALCHEMY-BOUNDARIES-1.md)：合法owner、深链、引用及真实会话草稿，不改玩法公式。
+- [当前工程加载与跨表引用边界](../../archive/tasks/done/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md)：真实组装接线、FileSource错误与地图入口，不伪造typed manifest。
 
 ## 完成标准
 

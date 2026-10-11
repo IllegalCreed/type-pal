@@ -1,0 +1,94 @@
+{
+  "base": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e",
+  "reviewer": "Codex",
+  "status": "passed",
+  "collectedAt": "2026-10-11T02:12:35.922076+00:00",
+  "scope": {
+    "productChanges": 0,
+    "oldTestChanges": 0,
+    "newTestFiles": 4,
+    "newFixtures": 2,
+    "newContracts": 27,
+    "validNeedles": 28,
+    "historicalEvidenceUnchanged": 148,
+    "noNewE2EAcceptance": true
+  },
+  "counterAcceptance": {
+    "path": "codex-originals/acceptance.json",
+    "sha256": "0a898ad13aaf10aec334206c8d5a2619f031b84191edab64bbdb25a3b8536b05",
+    "status": "passed"
+  },
+  "coverage": {
+    "status": "passed",
+    "testCount": 19789,
+    "sourceFileCount": 729,
+    "summary": "coverage/fast-final/summary.json",
+    "summarySha256": "f44b8c0bf2f35e82e8bfd2407f7af97315173285c2cf25b182283fc700842a4a",
+    "baseline": "scripts/coverage/baseline.fast.json",
+    "baselineSha256": "24637a2441aa21f1c24213ce177c6959e2fa917a9ac8174c2ca1639502ba77af",
+    "metrics": {
+      "statements": {
+        "covered": 70236,
+        "total": 78387
+      },
+      "branches": {
+        "covered": 51060,
+        "total": 61181
+      },
+      "functions": {
+        "covered": 13270,
+        "total": 14868
+      },
+      "lines": {
+        "covered": 62760,
+        "total": 68618
+      }
+    },
+    "configurationChanges": 0,
+    "ratioRegressions": 0,
+    "scopeRemovals": 0,
+    "nativeFirstPass": "build/ci/glm-boundaries-20261011/coverage-ratchet-r2.raw",
+    "nativeFirstPassSha256": "917d6a4e1d3ada62340acc1b282d864c232f57cd1ed031efe30ba22565046fe9",
+    "finalEditorRefresh": "build/ci/glm-boundaries-20261011/coverage-editor-final.raw",
+    "finalEditorRefreshSha256": "09881bb256b5f00f8e00a6502701aa108bad024b186c2936d3c3ecb42deb98c5",
+    "reusedUnchangedPackages": ["shared", "content", "pal-extract", "migrate", "reforge", "game"],
+    "verifiedInputFiles": 1813,
+    "reuseProof": "build/ci/glm-boundaries-20261011/unchanged-packages.json",
+    "reuseProofSha256": "a65615394c37ef2bf27b90d4619e67df884630a573f2b03594e2d8cd5ec5b4a7"
+  },
+  "gates": {
+    "typecheck": {
+      "status": "passed",
+      "raw": "build/ci/glm-boundaries-20261011/typecheck-final.raw",
+      "sha256": "2c5690d0a7e9d5c6a2312a2fb76f02a6332e9020d0dd4f0c314586bbaae36ad3"
+    },
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "files": 3951,
+      "raw": "build/ci/glm-boundaries-20261011/lint-closeout-r2.raw",
+      "sha256": "d33c044862ce1a4437825cebb37f1f9019f7fb0949c29c85d8a84f885e248953"
+    },
+    "documentation": {
+      "status": "passed",
+      "issues": 0,
+      "raw": "build/ci/glm-boundaries-20261011/docs-closeout-r2.raw",
+      "sha256": "5827ba7c1d2caa3b6f3b5e0dd1875ad501f8669e0a1d3fd24c5bb8402373e8b8"
+    },
+    "coverageTools": {
+      "status": "passed",
+      "tests": 58,
+      "raw": "build/ci/glm-boundaries-20261011/coverage-tools.raw",
+      "sha256": "d6518bff84dbc1e75a584fe1256e567c5c8369c43db217786416f3c44a676d97"
+    },
+    "qualityTools": {
+      "status": "passed",
+      "tests": 37,
+      "raw": "build/ci/glm-boundaries-20261011/quality-tools.raw",
+      "sha256": "688448403360d261c12e7d46ee980539d4b204ce907ee6a29f054cb20880e6ff"
+    }
+  },
+  "hostedCi": "Must verify Coverage and Documentation success on exact pushed merge HEAD before branch retirement; prior-main CI is not current acceptance."
+}

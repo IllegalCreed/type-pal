@@ -1,0 +1,77 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-N-C9c-stable-id-placement-nCCA8R/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 14ms
+ ❯ src/project-loader.io-boundaries.test.ts (6 tests | 1 failed) 64ms
+     ✓ 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 2ms
+     ✓ 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 3ms
+     × loadAllProjectMaps 乱序完成仍按稳定 id 归位 56ms
+     ✓ loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功 1ms
+     ✓ 可缺表缺席时公开字段为空默认 1ms
+     ✓ 合法非空当前表逐表保真到工程公开字段 1ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:30
+   Duration  381ms (transform 408ms, setup 0ms, import 499ms, tests 78ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C9c-stable-id-placement.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C9 地图公开入口闭环 > loadAllProjectMaps 乱序完成仍按稳定 id 归位
+AssertionError: C9-map-batch: expected undefined to deeply equal { version: 4, width: 1, …(4) }
+
+- Expected:
+{
+  "collision": [
+    [
+      0,
+    ],
+    [
+      0,
+    ],
+  ],
+  "height": 1,
+  "layers": [
+    {
+      "id": "floor",
+      "name": "地板",
+      "sources": [
+        [
+          null,
+        ],
+        [
+          null,
+        ],
+      ],
+      "tiles": [
+        [
+          null,
+        ],
+        [
+          null,
+        ],
+      ],
+    },
+  ],
+  "tilesetRefs": [
+    "tileset-001",
+  ],
+  "version": 4,
+  "width": 1,
+}
+
++ Received:
+undefined
+
+ ❯ src/project-loader.io-boundaries.test.ts:91:35
+     89|     const maps = await pending
+     90|     // 完成顺序 a/c → b 不影响归位：每个稳定 id 拿到自己的地图正文
+     91|     expect(maps['map-a'], marker).toEqual(lbProjectMap(1))
+       |                                   ^
+     92|     expect(maps['map-b'], marker).toEqual(lbProjectMap(2))
+     93|     expect(maps['map-c'], marker).toEqual(lbProjectMap(3))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

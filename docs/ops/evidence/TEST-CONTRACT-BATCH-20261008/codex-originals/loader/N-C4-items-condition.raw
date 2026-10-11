@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-N-C4-items-condition-kwcPDx/packages/reforge
+
+ ❯ src/project-loader.reference-boundaries.test.ts (8 tests | 1 failed) 16ms
+     ✓ 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功 5ms
+     ✓ 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功 2ms
+     ✓ 入口 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ 入口 'poison' 引用悬空精确拒绝，闭合同链绿 1ms
+     × item 脚本 actor 引用悬空精确拒绝，闭合同链绿 4ms
+     ✓ shared 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ shared 'poison' 引用悬空精确拒绝，闭合同链绿 0ms
+     ✓ 悬空 battle sprite 后置接线拒收，补登记同链绿 1ms
+ ✓ src/project-loader.io-boundaries.test.ts (6 tests) 61ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:25
+   Duration  371ms (transform 397ms, setup 0ms, import 487ms, tests 77ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C4-items-condition.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.reference-boundaries.test.ts > C4 item-private 使用脚本条件接线 > item 脚本 actor 引用悬空精确拒绝，闭合同链绿
+AssertionError: C4-item-condition: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.reference-boundaries.test.ts:137:30
+    135|       })
+    136|     const red = await rejectOf(loadCurrentProjectFrom(lbMemorySource(f…
+    137|     expect(red.kind, marker).toBe('rejected')
+       |                              ^
+    138|     expect(red.message, marker).toContain(
+    139|       'items[0].use.effects[0].script.body[0].actor: 角色 "actor.ghost" …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

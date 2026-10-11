@@ -1,0 +1,709 @@
+{
+  "id": "alchemy",
+  "frozen": {
+    "packages/editor/src/ui/ItemAlchemyTab.tsx": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+    "packages/editor/src/ui/ItemAlchemyEditors.tsx": "c9fbfeab816f463c3adce633b4a26a06351de5b1e80a3dbcfd1bd0dcda92ee31",
+    "packages/editor/src/core/item-alchemy.ts": "4ee30c2305583bd902a1b026acfde6e53a527615e361b43a30fb446e487c5470",
+    "packages/editor/src/ui/DataMode.tsx": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f"
+  },
+  "tests": {
+    "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx": "036fe11dceedf6096e144a6699a9bf64120dd625daee4db3aaaacfa3c61ac44f"
+  },
+  "selfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "needles": [
+    {
+      "id": "N-B2-deleted-deeplink-empty-state",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyTab.tsx",
+        "from": "title=\"机制承载物品已被删除\"",
+        "to": "title=\"机制承载物品已被删除针\"",
+        "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "mutant": "2304359cba939e3cee4b74ab5b9a8ff1176305a6843266db84c3fbd0b70e5915"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B2-deleted-deeplink-empty-state.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-N-B2-deleted-deeplink-empty-state-ohblsU/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70098,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/N-B2-deleted-deeplink-empty-state.raw",
+          "sha256": "bc2f902ab89d5073fe8a55fdd946e7f34b4423ffe9a91221dbdfc425fe277a21"
+        },
+        "json": {
+          "path": "alchemy/N-B2-deleted-deeplink-empty-state.json.raw",
+          "sha256": "9dae37b9069c46fba430ac631cc3e54d208dc0503ec6bb70903b6ebf765df555"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-N-B2-deleted-deeplink-empty-state-ohblsU",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-B4-missing-reference-dedup",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyTab.tsx",
+        "from": "[...new Set(referencedItemIds(effect))]",
+        "to": "referencedItemIds(effect)",
+        "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "mutant": "ebde4f8acb4fbcf39293b62ddf88e05cd1a9a1a3aa0e10c478adfcb75265ff05"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B4-missing-reference-dedup.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-N-B4-missing-reference-dedup-cIkrU2/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70148,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/N-B4-missing-reference-dedup.raw",
+          "sha256": "e4191edc0e9c0ae230bde43be543b2d75731cd05ec72e7cf48cfe1a251a7b28e"
+        },
+        "json": {
+          "path": "alchemy/N-B4-missing-reference-dedup.json.raw",
+          "sha256": "e4b2cdbde9a3cd28635153c8e417946ad47a13d181b174785e20ca701f0ebe23"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-N-B4-missing-reference-dedup-cIkrU2",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-B6-craft-unavailable-trim",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyTab.tsx",
+        "from": "commitCraft({ ...effect, unavailableMessage: value.trim() || undefined })",
+        "to": "commitCraft({ ...effect, unavailableMessage: value })",
+        "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "mutant": "506188cbd0be3b8195efa97c79b83dd2360815055b8d81fb724a4a4f1f657b2d"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B6-craft-unavailable-trim.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-N-B6-craft-unavailable-trim-Ot7Ofe/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70189,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/N-B6-craft-unavailable-trim.raw",
+          "sha256": "f4ff75fde1aee922776b7f80e58353e1d127af87b6276463b0fa1a659d5da775"
+        },
+        "json": {
+          "path": "alchemy/N-B6-craft-unavailable-trim.json.raw",
+          "sha256": "7de0b154dcf0dd19ffaa888825cbaadbfa6aad899e4e981f9b15b4bdb5d2e5bb"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-N-B6-craft-unavailable-trim-Ot7Ofe",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-B7-unique-material-gate",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyEditors.tsx",
+        "from": "(item) => !consuming || item.id !== ownerItemId",
+        "to": "() => true",
+        "original": "c9fbfeab816f463c3adce633b4a26a06351de5b1e80a3dbcfd1bd0dcda92ee31",
+        "mutant": "b1409f1c33534b6909b5eb62a04928602b04da20e9e6b6ef32562c3510eb5d87"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B7-unique-material-gate.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-N-B7-unique-material-gate-SQJXrs/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70266,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/N-B7-unique-material-gate.raw",
+          "sha256": "92fd64cc22dbed1652a3f4a026e2d0a68040fb9a7a93976f4b2bb0e16935cbdd"
+        },
+        "json": {
+          "path": "alchemy/N-B7-unique-material-gate.json.raw",
+          "sha256": "de5fc1ad0db87156781501880f32a7ba3ffde86c694cbe86e1d11a9e412bd125"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-N-B7-unique-material-gate-SQJXrs",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-B8-tier-999-append-cap",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyTab.tsx",
+        "from": "effect.maxRoll >= 999",
+        "to": "effect.maxRoll >= 1000",
+        "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "mutant": "8c149f0b2203064a37a81da370f856627ec83b40ff181080bf5385603ceaff0a"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B8-tier-999-append-cap.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-N-B8-tier-999-append-cap-7cw06K/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70339,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/N-B8-tier-999-append-cap.raw",
+          "sha256": "4ab5bf029aa2bdb6ef06b6eb368266f68452872eddc107c0556e30414e466897"
+        },
+        "json": {
+          "path": "alchemy/N-B8-tier-999-append-cap.json.raw",
+          "sha256": "11b3910c72ed2e5c74cc764d34aaa1e9ab381e66e04e2415ea2df4eb3f782641"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-N-B8-tier-999-append-cap-7cw06K",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-B9-draft-identity-discard",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B9 外部版本推进丢弃在途草稿，不落账",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyTab.tsx",
+        "from": "draftKey={`item-alchemy:${selectedItem.id}:crafting:unavailable`}\n                      syncToken={session.getHistoryVersion()}",
+        "to": "draftKey={`item-alchemy:${selectedItem.id}:crafting:unavailable`}\n                      syncToken={0}",
+        "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "mutant": "7bcea37b5d5516ca5fff27e40216a6e02a2da5adb7702ef87b706d31ebe69333"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B9-draft-identity-discard.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-N-B9-draft-identity-discard-qYxj1N/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70433,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/N-B9-draft-identity-discard.raw",
+          "sha256": "543df34d02f6a829ee232b23d859de200c899baa58f7505b94da7136914b6f63"
+        },
+        "json": {
+          "path": "alchemy/N-B9-draft-identity-discard.json.raw",
+          "sha256": "71b8fd239c152e674b62e8ef02ffe05ba5e6058bba799efb8e2a6d2d7ba5ed1b"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-N-B9-draft-identity-discard-qYxj1N",
+        "removed": true
+      }
+    },
+    {
+      "id": "N-B2-deleted-deeplink-empty-state",
+      "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+      "mutation": {
+        "file": "src/ui/ItemAlchemyTab.tsx",
+        "from": "title=\"机制承载物品已被删除\"",
+        "to": "title=\"机制承载物品已被删除针\"",
+        "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "mutant": "2304359cba939e3cee4b74ab5b9a8ff1176305a6843266db84c3fbd0b70e5915"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/final-replay.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-final-replay-91k9lG/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70574,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/final-replay.raw",
+          "sha256": "0ab865bd519276d1f2e6748d5325f7e5a12c7b771335f2db50108aa53725749c"
+        },
+        "json": {
+          "path": "alchemy/final-replay.json.raw",
+          "sha256": "648b266acf95c27b219816546d0b37cba4de10fbe878b75a68994735dc30764b"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-alchemy-final-replay-91k9lG",
+        "removed": true
+      }
+    }
+  ],
+  "green": {
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/green.json"
+      ],
+      "cwd": "/tmp/tp-codex-alchemy-green-Yl1NNn/packages/editor",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 69801,
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "alchemy/green.raw",
+        "sha256": "1a7fd2af2158cf59ab35cb9c9dc82e5d6893024818e706deb898b30a6c43a72c"
+      },
+      "json": {
+        "path": "alchemy/green.json.raw",
+        "sha256": "a2e9311aa5c6e007c6fee14da02973d48f7e38a70803aa05d1dfdeacca63bf12"
+      }
+    },
+    "executionSet": [
+      "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx :: TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+      "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx :: TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写",
+      "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx :: TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销",
+      "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx :: TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加",
+      "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx :: TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档",
+      "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx :: TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B9 外部版本推进丢弃在途草稿，不落账"
+    ]
+  },
+  "probes": [
+    {
+      "id": "probe-business",
+      "rejected": false,
+      "problems": [],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/probe-business.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-green-Yl1NNn/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70040,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/probe-business.raw",
+          "sha256": "dbfd2a2d401fad1c7543b47721cc0b5f025b72fec82becbfd07429ddc4d181ef"
+        },
+        "json": {
+          "path": "alchemy/probe-business.json.raw",
+          "sha256": "982f75872a2c1bb3f2923194750a8b657e349d25ac5074a180b66eb11f85cdb7"
+        }
+      }
+    },
+    {
+      "id": "probe-hook",
+      "rejected": true,
+      "problems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-codex-alchemy-green-Yl1NNn/packages/editor/src/codex-judge-probe.test.ts: EXTRA_HOOK"
+      ],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/probe-hook.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-green-Yl1NNn/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70063,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "alchemy/probe-hook.raw",
+          "sha256": "ed60d289fd29d1d116741da13f0fcf347dc86fae53422c85bf6f7fce4bfa9b53"
+        },
+        "json": {
+          "path": "alchemy/probe-hook.json.raw",
+          "sha256": "bd6d13d9beac6d8ddc31329a32c90d8752858585ce6b43269d07bd2833a5e860"
+        }
+      }
+    },
+    {
+      "id": "probe-uncaught",
+      "rejected": true,
+      "problems": ["unhandled-rejection-in-output"],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/probe-uncaught.json"
+        ],
+        "cwd": "/tmp/tp-codex-alchemy-green-Yl1NNn/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 70084,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": true,
+        "raw": {
+          "path": "alchemy/probe-uncaught.raw",
+          "sha256": "5a6c4baa875c30d4ef96834ecb984be1adbd707d7247e38daae9990f55507f5b"
+        },
+        "json": {
+          "path": "alchemy/probe-uncaught.json.raw",
+          "sha256": "bb7e6b12eb547847ad3fd87705ca4df884cf8ea3c09d388d0ab606a51c21ade9"
+        }
+      }
+    }
+  ],
+  "greenCleanup": {
+    "path": "/tmp/tp-codex-alchemy-green-Yl1NNn",
+    "removed": true
+  },
+  "restored": {
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/restored.json"
+      ],
+      "cwd": "/tmp/tp-codex-alchemy-restored-UCL6Ac/packages/editor",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 70511,
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "alchemy/restored.raw",
+        "sha256": "69490af4930d93e7ef59f052725998ec9f9cb5c353bbb7a1e375b726ee967357"
+      },
+      "json": {
+        "path": "alchemy/restored.json.raw",
+        "sha256": "20d0068c0af5b15f6556a4409560c5992dbc198e99fe9344141a44596b8cc6c2"
+      }
+    },
+    "executionSetIdentical": true
+  },
+  "restoredCleanup": {
+    "path": "/tmp/tp-codex-alchemy-restored-UCL6Ac",
+    "removed": true
+  },
+  "replay": {
+    "id": "N-B2-deleted-deeplink-empty-state",
+    "fullName": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+    "mutation": {
+      "file": "src/ui/ItemAlchemyTab.tsx",
+      "from": "title=\"机制承载物品已被删除\"",
+      "to": "title=\"机制承载物品已被删除针\"",
+      "original": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+      "mutant": "2304359cba939e3cee4b74ab5b9a8ff1176305a6843266db84c3fbd0b70e5915"
+    },
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/final-replay.json"
+      ],
+      "cwd": "/tmp/tp-codex-alchemy-final-replay-91k9lG/packages/editor",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 70574,
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "alchemy/final-replay.raw",
+        "sha256": "0ab865bd519276d1f2e6748d5325f7e5a12c7b771335f2db50108aa53725749c"
+      },
+      "json": {
+        "path": "alchemy/final-replay.json.raw",
+        "sha256": "648b266acf95c27b219816546d0b37cba4de10fbe878b75a68994735dc30764b"
+      }
+    },
+    "problems": [],
+    "status": "valid",
+    "cleanup": {
+      "path": "/tmp/tp-codex-alchemy-final-replay-91k9lG",
+      "removed": true
+    }
+  },
+  "status": "passed"
+}

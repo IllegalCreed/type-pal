@@ -1,0 +1,34 @@
+
+ RUN  v4.1.7 /private/tmp/tp-loading-boundaries-N-C2-scene-map-ref.feDrhN/packages/reforge
+
+ ❯ src/project-loader.reference-boundaries.test.ts (5 tests | 1 failed) 14ms
+     × mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿 7ms
+     ✓ apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿 2ms
+     ✓ 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿 2ms
+     ✓ shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真 1ms
+     ✓ 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿 1ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  21:55:00
+   Duration  354ms (transform 221ms, setup 0ms, import 269ms, tests 14ms, environment 0ms)
+
+JSON report written to /private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C2-scene-map-ref.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.reference-boundaries.test.ts > C2 场景 mapId 引用接线 > mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿
+AssertionError: C2-map-reference: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.reference-boundaries.test.ts:45:32
+     43|     })
+     44|     const entry = await rejectOf(loadCurrentProjectFrom(lbMemorySource…
+     45|     expect(entry.kind, marker).toBe('rejected')
+       |                                ^
+     46|     expect(entry.message, marker).toContain(
+     47|       'manifest.entryPoints[new-game].scene(s001): mapId "map-ghost" 不…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

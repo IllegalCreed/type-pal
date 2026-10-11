@@ -1,0 +1,753 @@
+{
+  "numTotalTestSuites": 22,
+  "numPassedTestSuites": 22,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 65,
+  "numPassedTests": 65,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791464109830,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource readJson / readText:base 拼 rel 后 fetch,返回解析结果",
+          "status": "passed",
+          "title": "readJson / readText:base 拼 rel 后 fetch,返回解析结果",
+          "duration": 10.27770799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 所有读取都拒绝绝对路径",
+          "status": "passed",
+          "title": "所有读取都拒绝绝对路径",
+          "duration": 0.8309579999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource readBytes 返回 ArrayBuffer",
+          "status": "passed",
+          "title": "readBytes 返回 ArrayBuffer",
+          "duration": 0.5150000000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 非 200 抛错带 url + 状态码",
+          "status": "passed",
+          "title": "非 200 抛错带 url + 状态码",
+          "duration": 0.30629100000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource AbortSignal 透传 fetch，取消未完成读取",
+          "status": "passed",
+          "title": "AbortSignal 透传 fetch，取消未完成读取",
+          "duration": 0.5606669999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource urlFor:相对拼 base，绝对路径被拒绝",
+          "status": "passed",
+          "title": "urlFor:相对拼 base，绝对路径被拒绝",
+          "duration": 0.18829099999999244,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 恢复状态读取绕过缓存，缺文件以明确 NotFoundError 区分 HTTP 故障",
+          "status": "passed",
+          "title": "恢复状态读取绕过缓存，缺文件以明确 NotFoundError 区分 HTTP 故障",
+          "duration": 0.22954200000000924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 恢复状态的 HTTP 403/500 不伪装成缺文件",
+          "status": "passed",
+          "title": "恢复状态的 HTTP 403/500 不伪装成缺文件",
+          "duration": 0.40075000000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110370,
+      "endTime": 1791464110383.4006,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/file-source.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D1 多场景批读：author 身份与 runtime 投影"],
+          "fullName": "D1 多场景批读：author 身份与 runtime 投影 三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影",
+          "status": "passed",
+          "title": "三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影",
+          "duration": 6.371290999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D1 多场景批读：author 身份与 runtime 投影"],
+          "fullName": "D1 多场景批读：author 身份与 runtime 投影 实际输入保真：project 纯数据（含 actorsById）与读取边界捕获的实际 author 对象消费后不变",
+          "status": "passed",
+          "title": "实际输入保真：project 纯数据（含 actorsById）与读取边界捕获的实际 author 对象消费后不变",
+          "duration": 2.015958000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D1 多场景批读：author 身份与 runtime 投影"],
+          "fullName": "D1 多场景批读：author 身份与 runtime 投影 读取确定性：同一工程二次独立读取得到逐值相等的 author 树",
+          "status": "passed",
+          "title": "读取确定性：同一工程二次独立读取得到逐值相等的 author 树",
+          "duration": 0.5354170000000238,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D2 批读顺序与失败传播"],
+          "fullName": "D2 批读顺序与失败传播 返回顺序 = sceneIds 顺序（与文件表写入顺序无关）",
+          "status": "passed",
+          "title": "返回顺序 = sceneIds 顺序（与文件表写入顺序无关）",
+          "duration": 0.3231670000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D2 批读顺序与失败传播"],
+          "fullName": "D2 批读顺序与失败传播 中间场景读取失败：整批拒绝（不返回部分数组）；IO 轨迹证明确实读过前序场景",
+          "status": "passed",
+          "title": "中间场景读取失败：整批拒绝（不返回部分数组）；IO 轨迹证明确实读过前序场景",
+          "duration": 1.8940840000000208,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 stamps 路径读取"],
+          "fullName": "D3 stamps 路径读取 合法非空内容 → loadStampTemplates 过守卫返回模板；缺席 → []（对照）",
+          "status": "passed",
+          "title": "合法非空内容 → loadStampTemplates 过守卫返回模板；缺席 → []（对照）",
+          "duration": 0.7900410000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 stamps 路径读取"],
+          "fullName": "D3 stamps 路径读取 坏内容只坏一轴：origin 非法即拒；读失败传播底层错误",
+          "status": "passed",
+          "title": "坏内容只坏一轴：origin 非法即拒；读失败传播底层错误",
+          "duration": 0.9925000000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110781,
+      "endTime": 1791464110793.9924,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/project-loader.current-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "loadCurrentProjectFrom 绑定：imageCache 经 manifest catalog 登记路径读字节，与 assetResolver 同源",
+          "status": "passed",
+          "title": "loadCurrentProjectFrom 绑定：imageCache 经 manifest catalog 登记路径读字节，与 assetResolver 同源",
+          "duration": 4.862540999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464111066,
+      "endTime": 1791464111070.8625,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/project-loader.image-cache-binding.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C8 入口场景 IO 错误上下文"],
+          "fullName": "C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+          "status": "passed",
+          "title": "外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+          "duration": 2.453499999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+          "status": "passed",
+          "title": "未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+          "duration": 3.661207999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功",
+          "status": "passed",
+          "title": "loadAllProjectMaps 乱序完成仍按稳定 id 归位；单个 IO 拒绝不返回部分成功",
+          "duration": 1.5367080000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10 optional 表保真"],
+          "fullName": "C10 optional 表保真 可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+          "status": "passed",
+          "title": "可缺表缺席 → 空默认；非空当前表逐表保真到工程公开字段",
+          "duration": 1.485541000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110945,
+      "endTime": 1791464110954.4856,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/project-loader.io-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C2 场景 mapId 引用接线"],
+          "fullName": "C2 场景 mapId 引用接线 mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+          "status": "passed",
+          "title": "mapId 悬空：入口装配与惰性 scene 都在地图索引精确拒绝；登记 mapId 同链绿",
+          "duration": 5.70437499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 入口场景条件引用接线"],
+          "fullName": "C3 入口场景条件引用接线 apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+          "status": "passed",
+          "title": "apply 条件缺 actor / 缺毒分别被入口场景路径拒收；合法 actor+毒同链绿",
+          "duration": 2.265833999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 item-private 使用脚本条件接线"],
+          "fullName": "C4 item-private 使用脚本条件接线 合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+          "status": "passed",
+          "title": "合法 item 脚本过结构校验后，条件引用不闭合由 items 精确路径拒收；闭合即绿",
+          "duration": 1.767417000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 sharedScripts 条件接线"],
+          "fullName": "C6 sharedScripts 条件接线 shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+          "status": "passed",
+          "title": "shared 脚本 actor/poison 条件经实际组装拒收；合法链绿且运行时库保真",
+          "duration": 1.0807499999999663,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C7 装备战斗精灵引用接线"],
+          "fullName": "C7 装备战斗精灵引用接线 合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+          "status": "passed",
+          "title": "合法 item/actor/equip 过前置门后，悬空 battle sprite 在组装后置接线拒收；补登记即绿",
+          "duration": 0.957917000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110244,
+      "endTime": 1791464110255.958,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/project-loader.reference-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects an interrupted author save before reading any manifest or author table",
+          "status": "passed",
+          "title": "rejects an interrupted author save before reading any manifest or author table",
+          "duration": 1.9528339999999957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects a complete generation change during actual project assembly",
+          "status": "passed",
+          "title": "rejects a complete generation change during actual project assembly",
+          "duration": 3.934625000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader retains author identity and creates the runtime dialogue projection directly",
+          "status": "passed",
+          "title": "retains author identity and creates the runtime dialogue projection directly",
+          "duration": 1.189458000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader fails invalid author identity before runtime projection",
+          "status": "passed",
+          "title": "fails invalid author identity before runtime projection",
+          "duration": 0.4255420000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader 拒绝角色唯一出厂技能种子中的悬空 skill id",
+          "status": "passed",
+          "title": "拒绝角色唯一出厂技能种子中的悬空 skill id",
+          "duration": 0.4924170000000174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader loads only current content without reading a migration sidecar",
+          "status": "passed",
+          "title": "loads only current content without reading a migration sidecar",
+          "duration": 0.6643329999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader loads entry and lazy scenes only from explicit SceneIndex paths",
+          "status": "passed",
+          "title": "loads entry and lazy scenes only from explicit SceneIndex paths",
+          "duration": 1.0139580000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader lazy scene path missing or body id mismatch fails loud at the indexed path",
+          "status": "passed",
+          "title": "lazy scene path missing or body id mismatch fails loud at the indexed path",
+          "duration": 0.5791250000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader loads and validates every real entry while deriving runtime cache from defaultEntryId",
+          "status": "passed",
+          "title": "loads and validates every real entry while deriving runtime cache from defaultEntryId",
+          "duration": 0.684375000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects a broken non-default entry world reference",
+          "status": "passed",
+          "title": "rejects a broken non-default entry world reference",
+          "duration": 0.5954160000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader reports a missing non-default entry scene with the stable entry id",
+          "status": "passed",
+          "title": "reports a missing non-default entry scene with the stable entry id",
+          "duration": 0.3867079999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects pre-current content at the only product boundary",
+          "status": "passed",
+          "title": "rejects pre-current content at the only product boundary",
+          "duration": 0.1747089999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110620,
+      "endTime": 1791464110632.3867,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/project-loader.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: null",
+          "status": "passed",
+          "title": "rejects invalid records: null",
+          "duration": 1.0679159999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: undefined",
+          "status": "passed",
+          "title": "rejects invalid records: undefined",
+          "duration": 0.16012500000000784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {}",
+          "status": "passed",
+          "title": "rejects invalid records: {}",
+          "duration": 0.07983399999999108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":0,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":0,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.07887500000001069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"extra\":true}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"extra\":true}",
+          "duration": 0.07766700000000526,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"other\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"other\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.06254100000001017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"../escape\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"../escape\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.1449169999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":1,\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":1,\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.11083299999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"ready\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"ready\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.4929159999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"abc\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"abc\"}",
+          "duration": 0.11287499999998829,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":null}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":null}",
+          "duration": 0.11974999999999625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission recognizes missing, committed and pending without granting writes",
+          "status": "passed",
+          "title": "recognizes missing, committed and pending without granting writes",
+          "duration": 1.3358749999999873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"\"",
+          "duration": 0.11712499999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"<html>SPA</html>\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"<html>SPA</html>\"",
+          "duration": 0.0815419999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"{\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"{\"",
+          "duration": 0.07312500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"null\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"null\"",
+          "duration": 0.06900000000000261,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission preserves NotAllowedError",
+          "status": "passed",
+          "title": "preserves NotAllowedError",
+          "duration": 0.1147500000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission preserves AbortError",
+          "status": "passed",
+          "title": "preserves AbortError",
+          "duration": 0.37916699999999537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission preserves TypeMismatchError",
+          "status": "passed",
+          "title": "preserves TypeMismatchError",
+          "duration": 0.15279200000000515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission pending stops consumption before any project read",
+          "status": "passed",
+          "title": "pending stops consumption before any project read",
+          "duration": 0.29895799999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission detects a save during the read: pending",
+          "status": "passed",
+          "title": "detects a save during the read: pending",
+          "duration": 0.1419999999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission detects a save during the read: committed",
+          "status": "passed",
+          "title": "detects a save during the read: committed",
+          "duration": 0.08304199999999184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission detects a save during the read: missing",
+          "status": "passed",
+          "title": "detects a save during the read: missing",
+          "duration": 0.12791599999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission stable reads return the value; failed reads preserve their cause",
+          "status": "passed",
+          "title": "stable reads return the value; failed reads preserve their cause",
+          "duration": 0.11950000000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110471,
+      "endTime": 1791464110477.142,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/project-save-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 版本门：过期 contentVersion 带工程名精确拒绝",
+          "status": "passed",
+          "title": "Q02 版本门：过期 contentVersion 带工程名精确拒绝",
+          "duration": 115.46087499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 版本门：manifest.id 非字符串时回退匿名校验消息",
+          "status": "passed",
+          "title": "Q02 版本门：manifest.id 非字符串时回退匿名校验消息",
+          "duration": 15.897125000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 版本匹配：透传正式 loader 装出完整当前工程",
+          "status": "passed",
+          "title": "Q02 版本匹配：透传正式 loader 装出完整当前工程",
+          "duration": 52.15816700000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 loadRunnableProject 经 httpSource 请求 projects/<id>/manifest.json",
+          "status": "passed",
+          "title": "Q02 loadRunnableProject 经 httpSource 请求 projects/<id>/manifest.json",
+          "duration": 23.899791999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791464110750,
+      "endTime": 1791464110956.9,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal/packages/reforge/src/runnable-project-loader.glm-q.test.ts"
+    }
+  ]
+}

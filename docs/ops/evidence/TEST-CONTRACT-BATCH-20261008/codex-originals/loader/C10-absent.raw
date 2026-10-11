@@ -1,0 +1,40 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-C10-absent-95ljSg/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 13ms
+ ❯ src/project-loader.io-boundaries.test.ts (6 tests | 1 failed) 64ms
+     ✓ 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 2ms
+     ✓ 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 3ms
+     ✓ loadAllProjectMaps 乱序完成仍按稳定 id 归位 53ms
+     ✓ loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功 1ms
+     × 可缺表缺席时公开字段为空默认 3ms
+     ✓ 合法非空当前表逐表保真到工程公开字段 1ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:31
+   Duration  384ms (transform 416ms, setup 0ms, import 508ms, tests 77ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C10-absent.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C10 optional 表保真 > 可缺表缺席时公开字段为空默认
+AssertionError: C10-optional-tables: expected undefined to deeply equal []
+
+- Expected:
+[]
+
++ Received:
+undefined
+
+ ❯ src/project-loader.io-boundaries.test.ts:119:32
+    117|     expect(bare.poisonsById, marker).toEqual({})
+    118|     expect(bare.ambiences, marker).toEqual([])
+    119|     expect(bare.shops, marker).toEqual([])
+       |                                ^
+    120|     expect(bare.migrationDiagnostics, marker).toEqual({ version: 1, di…
+    121|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -510,7 +510,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。",
+      "coreConclusion": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
       "truthAnchors": ["docs/ops/board.md:1", "1:多 Agent 任务看板", "17:看板规则"],
       "unresolved": [
         "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
@@ -529,7 +529,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+      "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -560,9 +560,9 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "f4df3257ce22af476f68a65877e4d482e7130b0b34660d4fd2b48dd9ea0dcd4c",
+        "implementationSha": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e",
         "contentVersion": 23,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
@@ -656,6 +656,15 @@
             "date": "2026-10-05",
             "action": "full-text-structured-content-review-after-main-sync",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "three-glm-test-integration-navigation-review",
+            "previousAfterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           }
         ]
       },
@@ -684,23 +693,42 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+        "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
         "currentReading": {
-          "date": "2026-10-08",
-          "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
-          "lineCount": 22,
+          "date": "2026-10-11",
+          "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+          "lineCount": 19,
           "headings": [
             {
               "line": 1,
               "text": "多 Agent 任务看板"
             },
             {
-              "line": 17,
+              "line": 14,
               "text": "看板规则"
             }
           ],
-          "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
-        }
+          "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+        },
+        "readingHistory": [
+          {
+            "date": "2026-10-08",
+            "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+            "lineCount": 22,
+            "headings": [
+              {
+                "line": 1,
+                "text": "多 Agent 任务看板"
+              },
+              {
+                "line": 17,
+                "text": "看板规则"
+              }
+            ],
+            "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
+          }
+        ]
       },
       "history": [
         {
@@ -708,13 +736,30 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "three-glm-test-integration-navigation-review",
+          "previousAfterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+          "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+          "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+          "notRun": ["E2E", "visual", "new GitHub CI"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-22",
-      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。"
+      "reviewedLines": "1-19",
+      "reviewNotes": "保留原全文阅读、原 source SHA 和历史记录；本次直接复核三卡移动/状态、看板删行及生成索引差异，docs checker 已证明实际卡顶部与导航一致。测试质量证据单独见 Codex 当前反控和集成门；导航审查不替代 runtime、E2E 或托管 CI。",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-11",
+        "scope": "prior full-text review retained; current three-card retirement delta read and reconciled with actual archived card states",
+        "conclusion": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+        "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+        "unresolvedScope": "other active tasks retained; hosted CI pending exact pushed HEAD"
+      }
     },
     {
       "path": "docs/ops/evidence/README.md",
@@ -725,7 +770,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-08三张有限测试卡维持原白名单build，既有三卡已收口。Codex同Owner的P12叠层测试维护已通过定向、全包/typecheck、7反控、受保护fast和零诊断静态门；保留原像素及真实接缝/水波顺序，覆盖/基准不变。新托管CI仍按实际推送HEAD另核，不把文档登记当托管验收。",
+      "coreConclusion": "三个 GLM 有限测试包由 Codex 在当前 main 独立复验，原候选与当前验收分开。撤回假 caller 与非法输入信用；27 合同、28 针及真正恢复重放通过。质量、覆盖和托管 CI 按实际集成 HEAD 另核，导航本身不构成产品或 CI 证明。",
       "truthAnchors": ["docs/ops/evidence/README.md:1", "1:任务专属证据", "8:当前证据"],
       "unresolved": [
         "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
@@ -737,7 +782,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
+      "afterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -745,7 +790,11 @@
         "docs/ops/evidence/README.md → coverage85-kimi-extract-migrate-r1",
         "docs/ops/evidence/README.md → TEST-COVERAGE85-GLM-REFORGE-1/README.md",
         "docs/ops/evidence/README.md → TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
-        "docs/ops/evidence/README.md → TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md"
+        "docs/ops/evidence/README.md → TEST-GLM-REFORGE-HOST-LIFECYCLE-1/README.md",
+        "docs/ops/evidence/README.md → TEST-CONTRACT-BATCH-20261008/codex-review.md",
+        "docs/ops/evidence/README.md → TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
+        "docs/ops/evidence/README.md → TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
+        "docs/ops/evidence/README.md → TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md"
       ],
       "legalInputs": ["current repository documentation", "docs/ops/evidence/README.md"],
       "businessOracle": {
@@ -769,8 +818,32 @@
         "currentSha": "working-tree",
         "implementationSha": "213b70ada4d6cd6632de904fc91fb676edf7a46a6625bbd8075ff7016b652e4c",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "glm-finite-contract-independent-acceptance-navigation",
+            "previousSha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
+            "previousReading": {
+              "date": "2026-10-08",
+              "sha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
+              "lineCount": 42,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "任务专属证据"
+                },
+                {
+                  "line": 8,
+                  "text": "当前证据"
+                }
+              ],
+              "scope": "Finite dispatch remains unchanged; additionally pins Codex narrow P12 overlay test performance evidence and real counter replay. No new contribution acceptance or future hosted CI claim."
+            },
+            "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+            "notRun": ["E2E", "visual", "new GitHub CI"]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-07",
@@ -836,7 +909,8 @@
             "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
-        ]
+        ],
+        "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
       },
       "evidence": {
         "kind": "content-reading",
@@ -856,11 +930,11 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
+        "afterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
         "currentReading": {
-          "date": "2026-10-08",
-          "sha256": "53bf488df80d2cbf845ce6403afdd922aa412da57d8d3ae3d2d444f4602356ad",
-          "lineCount": 42,
+          "date": "2026-10-11",
+          "sha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
+          "lineCount": 43,
           "headings": [
             {
               "line": 1,
@@ -871,7 +945,7 @@
               "text": "当前证据"
             }
           ],
-          "scope": "Finite dispatch remains unchanged; additionally pins Codex narrow P12 overlay test performance evidence and real counter replay. No new contribution acceptance or future hosted CI claim."
+          "scope": "Independent current-version acceptance replaces contributor candidate credit; historical receipts remain immutable. Hosted CI must be checked after push."
         }
       },
       "history": [
@@ -885,8 +959,8 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-42",
-      "reviewNotes": "直接核P12夹具、像素oracle、普通/V8对照和7项反控后补维护导航；不改三卡Owner、白名单或历史裁决。保留原source SHA与历史阅读；currentReading仅钉当前入口，不以目录或静态门替代集成/托管验证。"
+      "reviewedLines": "1-43",
+      "reviewNotes": "直接读当前产品/caller、旧实际断言和三包修正后执行身份；原 JSON/raw 保持历史身份，新的独立验收与 native 原件从共同入口可达。"
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -1027,7 +1101,7 @@
         "30:一阶段 · 仙剑本体(game)"
       ],
       "unresolved": [
-        "正文信号 4:> game 用 **6005**(\u26a0 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+        "正文信号 4:> game 用 **6005**(! 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
         "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
         "正文信号 99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行"
       ],
@@ -1112,7 +1186,7 @@
           }
         ],
         "unresolvedSignals": [
-          "4:> game 用 **6005**(\u26a0 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+          "4:> game 用 **6005**(! 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
           "20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
           "99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行"
         ]
@@ -1457,7 +1531,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "full-text-read + integration-delta-read-20261011",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "此前复核：2026-10-08新派发当前脚本交互、炼化编辑、工程加载三张有限测试卡，build仅新测白名单。2026-10-07三卡均已收口，包括存档r3；不重开旧counter。新批未交付不宣称accept；797a46a09基点Game旧测CI超时另列，不能当成新批验收。 2026-10-11 集成增量：仅增加已归档 E2E-CONTINUOUS-001-006 的 done 导航；既有测试治理任务状态与未决项不变，生成索引与实际顶部状态相符。",
+      "coreConclusion": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:1",
         "1:任务卡索引",
@@ -1478,7 +1552,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+      "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1514,7 +1588,7 @@
       },
       "revision": {
         "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-        "implementationSha": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+        "implementationSha": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1606,6 +1680,15 @@
             "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
             "reviewedRanges": ["123-123"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "three-glm-test-integration-navigation-review",
+            "previousAfterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+            "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
+            "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           }
         ]
       },
@@ -1638,11 +1721,11 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+        "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
         "currentReading": {
-          "date": "2026-10-08",
-          "sha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
-          "lineCount": 373,
+          "date": "2026-10-11",
+          "sha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
+          "lineCount": 374,
           "headings": [
             {
               "line": 1,
@@ -1653,16 +1736,43 @@
               "text": "活动任务"
             },
             {
-              "line": 21,
+              "line": 18,
               "text": "已完成（historical）"
             },
             {
-              "line": 364,
+              "line": 365,
               "text": "已取消（superseded / historical）"
             }
           ],
-          "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
-        }
+          "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+        },
+        "readingHistory": [
+          {
+            "date": "2026-10-08",
+            "sha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+            "lineCount": 373,
+            "headings": [
+              {
+                "line": 1,
+                "text": "任务卡索引"
+              },
+              {
+                "line": 7,
+                "text": "活动任务"
+              },
+              {
+                "line": 21,
+                "text": "已完成（historical）"
+              },
+              {
+                "line": 364,
+                "text": "已取消（superseded / historical）"
+              }
+            ],
+            "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
+          }
+        ]
       },
       "history": [
         {
@@ -1686,22 +1796,29 @@
           "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
           "reviewedRanges": ["123-123"],
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "three-glm-test-integration-navigation-review",
+          "previousAfterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+          "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
+          "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+          "notRun": ["E2E", "visual", "new GitHub CI"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-373",
-      "reviewNotes": "直接读当前caller、源码条件和代表旧断言后限定三卡新测/fixture/证据；导航及冻结白名单已同步。保留原source SHA、旧阅读证据及历史审核；currentReading仅钉本次派发，不以目录、数量、覆盖率或文档静态门替代候选验收。",
+      "reviewedLines": "1-374",
+      "reviewNotes": "保留原全文阅读、原 source SHA 和历史记录；本次直接复核三卡移动/状态、看板删行及生成索引差异，docs checker 已证明实际卡顶部与导航一致。测试质量证据单独见 Codex 当前反控和集成门；导航审查不替代 runtime、E2E 或托管 CI。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
-        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
-        "reviewedRanges": ["123-123"],
-        "conclusion": "仅增加已归档 E2E-CONTINUOUS-001-006 的 done 导航；既有测试治理任务状态与未决项不变，生成索引与实际顶部状态相符。",
-        "truthAnchors": ["docs/ops/tasks/index.md:123"],
-        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
-        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
+        "scope": "prior full-text review retained; current three-card retirement delta read and reconciled with actual archived card states",
+        "conclusion": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+        "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+        "unresolvedScope": "other active tasks retained; hosted CI pending exact pushed HEAD"
       }
     },
     {

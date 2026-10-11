@@ -1,0 +1,707 @@
+{
+  "task": "TEST-EDITOR-SCRIPT-INTERACTION-1",
+  "judgeLib": "../TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/lib-isolated-tree.mjs（只读复用判据，不搬上一卡常量）",
+  "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+  "selfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "frozenSources": {
+    "src/ui/ScriptEditor.tsx": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+    "src/core/author-command-edit.ts": "58827d36cc7530478da0752d6bf73ec4a32ffe08db98bd79c68b8242660da63b",
+    "src/ui/SharedScriptTab.tsx": "0cf43c2b0d98971cf12d9c504ad475985b07e6658bb4b43fabae50c687ec2aad"
+  },
+  "needles": [
+    {
+      "id": "A2-stale-raf-guard",
+      "title": "A2 过期定位帧被新 revision 淘汰",
+      "marker": "A2 过期帧不得定位旧行",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 84854,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A2-stale-raf-guard/green.raw",
+          "sha256": "7482d75700af36f45cf19e3ca00e785194e2cbb426810433e605bdcb04023b9b"
+        },
+        "json": {
+          "file": "counters/A2-stale-raf-guard/green.json",
+          "sha256": "36995c7d66dcca2450072c783e95b13c2273075e4e12a7d270b5356c99fab2d8"
+        }
+      },
+      "mutantSha256": "6007ac4cfca9b30d7e92ef8633ac8902eedde5399f19a0d82cab20c2c2254af9",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+        "exit": 1,
+        "signal": null,
+        "pid": 84930,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A2-stale-raf-guard/red.raw",
+          "sha256": "90341fe50a2a7d06f5dee026101ba4dda28786181725efec73175e6a705b7fc2"
+        },
+        "json": {
+          "file": "counters/A2-stale-raf-guard/red.json",
+          "sha256": "18a28ce4dc038efdbd3c570422608f257f580b22f448f9b4269c8636d303ed6c"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 84979,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A2-stale-raf-guard/replay.raw",
+          "sha256": "43a29bfc00cdf10b34595e2f59c725db868cd5fccaef895ec81e39eb084691e8"
+        },
+        "json": {
+          "file": "counters/A2-stale-raf-guard/replay.json",
+          "sha256": "c20c3fbcf424cd33b79f42f56c5d8ad2b5fc046a8da25626b9c153adb250fd6f"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A2-stale-raf-guard.LeELjE"
+    },
+    {
+      "id": "A4a-insert-discard",
+      "title": "A4 插入面板：外部正文真正变化时撤销",
+      "marker": "A4 外部真变化必须撤销插入面板",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85060,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A4a-insert-discard/green.raw",
+          "sha256": "9257156b0936642087155bf32d9c110fb4b27eabdd9aa334a756038ebe92c6de"
+        },
+        "json": {
+          "file": "counters/A4a-insert-discard/green.json",
+          "sha256": "cc030de74a64111cf9a529a91ce54bad55d943eabfdc38bb96fc6d10382847b6"
+        }
+      },
+      "mutantSha256": "b62905ea724adc602f207b75ec255e71eaf2aa345014ffe5c8317fca8862d532",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+        "exit": 1,
+        "signal": null,
+        "pid": 85115,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A4a-insert-discard/red.raw",
+          "sha256": "5c06c01607e53b68998839c52900ccff0db520a738684f2db6b3876ca472971c"
+        },
+        "json": {
+          "file": "counters/A4a-insert-discard/red.json",
+          "sha256": "99be4e6a539eb9afedc3db8850a8becae2b0d4ff4bc6920b87134823b9a5fa65"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85198,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A4a-insert-discard/replay.raw",
+          "sha256": "475af823b8bb3140b0b69f82c56586d53b0d2f5ce898a57c6a6d8c0c6a602c76"
+        },
+        "json": {
+          "file": "counters/A4a-insert-discard/replay.json",
+          "sha256": "86b35dffc8bf3eaf9670170915e232d5abd2a156ca8b5779bc7f111af15944b9"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A4a-insert-discard.zBXkOP"
+    },
+    {
+      "id": "A4b-insert-survives-same-value",
+      "title": "A4 插入面板：同值新引用重渲染不误当变化",
+      "marker": "A4 同值新引用不得误当外部变化",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85233,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A4b-insert-survives-same-value/green.raw",
+          "sha256": "7d8dfa8797055184b17fe0e88c67a97677ce563ecd893a986a58e76699ae0f70"
+        },
+        "json": {
+          "file": "counters/A4b-insert-survives-same-value/green.json",
+          "sha256": "6393c7c18ab8e1000331dc3fa14e81f576ea88f85ec7f0c0651275105cd2e9b8"
+        }
+      },
+      "mutantSha256": "a9bedcf8d6b7a4c78057afe2a9db0b43ef5de6b1c4d6ba0dca67d6cc98845a29",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+        "exit": 1,
+        "signal": null,
+        "pid": 85331,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A4b-insert-survives-same-value/red.raw",
+          "sha256": "8b23446792f0a772176bb405d735b9b3278c04fff362e4834854fdb743ca393c"
+        },
+        "json": {
+          "file": "counters/A4b-insert-survives-same-value/red.json",
+          "sha256": "ef0f77b73899d6c1186b2ba0d0c2a6bbb1b97a6c0abf6290ec81c1cff792f8f0"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85368,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A4b-insert-survives-same-value/replay.raw",
+          "sha256": "df8c5e73c52e8d70b84e1701935c2aa2e9ade8a91f916f64b99c9e421a317ec0"
+        },
+        "json": {
+          "file": "counters/A4b-insert-survives-same-value/replay.json",
+          "sha256": "ce673c84564da1c1d0c7d6cbbc2d53419276ad2ade749816ce65a036682f4b69"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A4b-insert-survives-same-value.BMVsX4"
+    },
+    {
+      "id": "A5-rejected-copy",
+      "title": "A5 复制被拒",
+      "marker": "A5 被拒复制不得改选到虚假副本位",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85464,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A5-rejected-copy/green.raw",
+          "sha256": "222e6d33b89af21ae60e1f4ffc929dd3e1340997dafdd11911dec8334939d0bc"
+        },
+        "json": {
+          "file": "counters/A5-rejected-copy/green.json",
+          "sha256": "85739eaa00d17f829c66495ee700e4f9a54c9bd1fb69ab05d3127faa7db5feb6"
+        }
+      },
+      "mutantSha256": "f5def0789537bc815d47fcd2aded0ffcf665f86b742efa2ab7d39d453ca03ce1",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+        "exit": 1,
+        "signal": null,
+        "pid": 85495,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A5-rejected-copy/red.raw",
+          "sha256": "7779fc38fb682b2bdd99b0cfd21527451e1164ed0475b04f51c18cfda0f7db9c"
+        },
+        "json": {
+          "file": "counters/A5-rejected-copy/red.json",
+          "sha256": "b1025d7acea0060a07b41903ac69256cd462c030f17a9aeedc475e39d89dbbe6"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85613,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A5-rejected-copy/replay.raw",
+          "sha256": "27bf4d051ec3041965a99a2c9470966b06c6f84944e811c8def7879d1bb42ee9"
+        },
+        "json": {
+          "file": "counters/A5-rejected-copy/replay.json",
+          "sha256": "a05daa16e67922628264b7151e834e72f7a842a66b63d986854dd748d32b22c6"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A5-rejected-copy.NjCf9e"
+    },
+    {
+      "id": "A6-rejected-remove",
+      "title": "A6 删除被拒",
+      "marker": "A6 被拒删除不得丢弃编辑草稿弹层",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85653,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A6-rejected-remove/green.raw",
+          "sha256": "2422031d6b000909befeb9daa9cc430f5d61f77e672472a34b85d4dfc1997414"
+        },
+        "json": {
+          "file": "counters/A6-rejected-remove/green.json",
+          "sha256": "b4c2e2e9b2da47839784b9b9e8ea51272bec795bfbfc8a2096d9ba46467cf250"
+        }
+      },
+      "mutantSha256": "fb6f662daae1513da0a5494438077630096facda7bd480096dd27a4d2da8a47d",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+        "exit": 1,
+        "signal": null,
+        "pid": 85744,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A6-rejected-remove/red.raw",
+          "sha256": "8e8fb8f164aa3f4c7488de39d6d7c0dc9474d2511721704d4855402b84d1c20f"
+        },
+        "json": {
+          "file": "counters/A6-rejected-remove/red.json",
+          "sha256": "c13625a43ce951a0daee73f6463af1902a90cef9e07d6fb311bd9494cc59e943"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85793,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A6-rejected-remove/replay.raw",
+          "sha256": "6ef9a4befd1fa04a5c3e7e5b2ca6c1aa94b57062bde805be87757aa1047beac3"
+        },
+        "json": {
+          "file": "counters/A6-rejected-remove/replay.json",
+          "sha256": "e0afd7da7f7f6ac494939ad3ed60d3a22bc1697c8343be89bbb5846f4584c8ec"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A6-rejected-remove.2Y7VZI"
+    },
+    {
+      "id": "A7-rejected-nested-reorder",
+      "title": "A7 嵌套重排被拒",
+      "marker": "A7 被拒重排不得把选择重映射到新位置",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 85885,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A7-rejected-nested-reorder/green.raw",
+          "sha256": "19ecf345aa5412f622b188493235a4a5120be8afb82dc7efecda2c00782cb45c"
+        },
+        "json": {
+          "file": "counters/A7-rejected-nested-reorder/green.json",
+          "sha256": "32238d8573a3387f1860eb4abd1bbdf6e55fe919b6d2d6b47b08d9d4e0bd0a48"
+        }
+      },
+      "mutantSha256": "d1bc4082052acf28400fb9f0550f10f958c217496e2125c3872b82cc61f06e5d",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+        "exit": 1,
+        "signal": null,
+        "pid": 85919,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A7-rejected-nested-reorder/red.raw",
+          "sha256": "5fd45cf23663ccbcc5c19730f0db8e6b005fbde376be90e23c652721cf8a1ea8"
+        },
+        "json": {
+          "file": "counters/A7-rejected-nested-reorder/red.json",
+          "sha256": "2b6b66aff3dd17f148ec179e18f7aec0381a48c4022fb73795ec98b233f188b4"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 86013,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A7-rejected-nested-reorder/replay.raw",
+          "sha256": "5e200c30ee0bd1bf92794ee835e47276f011fff05a84c9f3104c048864f9c487"
+        },
+        "json": {
+          "file": "counters/A7-rejected-nested-reorder/replay.json",
+          "sha256": "12e95075a6cabe5c6f7f78b7e76b1e265a3df5fffee06527df71b64ab5fc41df"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A7-rejected-nested-reorder.Uy8mLJ"
+    },
+    {
+      "id": "A8-keyboard-domain-guard",
+      "title": "A8 键盘事件域",
+      "marker": "A8 子按钮键盘事件冒泡不得改选所在行",
+      "sourceSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "testSha256": "83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f",
+      "green": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 86071,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A8-keyboard-domain-guard/green.raw",
+          "sha256": "0dce1d7f07f29dc3f0a39af8dca0d095f88ee6c326085f970704b4401c54a307"
+        },
+        "json": {
+          "file": "counters/A8-keyboard-domain-guard/green.json",
+          "sha256": "5f52985698d830786f2ccc5cb800bf0e7f8b9d2da55bad1961a1d53238f556c1"
+        }
+      },
+      "mutantSha256": "3ca395ba7ae28fab437d9b60e8d67595ba79572b9c7dcde7772d4585bab2a99c",
+      "red": {
+        "problems": [],
+        "failedFullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+        "exit": 1,
+        "signal": null,
+        "pid": 86200,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 6,
+        "numFailedTests": 1,
+        "raw": {
+          "file": "counters/A8-keyboard-domain-guard/red.raw",
+          "sha256": "d819ee02bd964729711ef7fcccfdb6e13fcb17555954f3325ff54a5f5212ca41"
+        },
+        "json": {
+          "file": "counters/A8-keyboard-domain-guard/red.json",
+          "sha256": "7fd0a79c33d239c6ccccffc98e9739f6a38c22d261058d9317740a2f9cb7f981"
+        }
+      },
+      "restoredSha256": "880e1af383d3ee45c02b66d7b51bc62ff3fa65f12f9606697f399d6d1b8cf441",
+      "replay": {
+        "problems": [],
+        "exit": 0,
+        "signal": null,
+        "pid": 86245,
+        "spawnError": null,
+        "unhandledInOutput": false,
+        "numTotalTests": 7,
+        "numPassedTests": 7,
+        "numFailedTests": 0,
+        "raw": {
+          "file": "counters/A8-keyboard-domain-guard/replay.raw",
+          "sha256": "d3dac70d4ca7eb978883baaccdcdae485ffc3d0381218495b8fd2857a34671e2"
+        },
+        "json": {
+          "file": "counters/A8-keyboard-domain-guard/replay.json",
+          "sha256": "8c5931a02026f20ffc50f2cc34f5206df8594a885de69b71ec7a4c0ba4d25dbe"
+        }
+      },
+      "accepted": true,
+      "cleanup": "removed=true path=/tmp/tp-editor-script-interaction-A8-keyboard-domain-guard.BLFrxz"
+    }
+  ],
+  "baseline": {
+    "exit": 0,
+    "signal": null,
+    "pid": 84662,
+    "spawnError": null,
+    "unhandledInOutput": false,
+    "numTotalTests": 7,
+    "numPassedTests": 7,
+    "numFailedTests": 0,
+    "raw": {
+      "file": "counters/baseline/green.raw",
+      "sha256": "029a1d53114fe1711b7b16216b3f9ead25ec3bb660146abd3e849e69d681e7e5"
+    },
+    "json": {
+      "file": "counters/baseline/green.json",
+      "sha256": "c985ab9b47dbf509932a42c4110ad3eb180561e74ce7453a78b1ca792d3f27b6"
+    }
+  },
+  "executionRows": [
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A6 删除被拒：选择与编辑草稿不误消失、正文不动；重试成功后一并收口",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选"
+  ],
+  "probes": [
+    {
+      "id": "probe-pure-business-red-accepted",
+      "expect": "accept",
+      "rejected": false,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-pure-business-red-accepted.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": [],
+      "raw": {
+        "file": "probes/probe-pure-business-red-accepted.raw",
+        "sha256": "300ff6c5af778ad7dba4253f64cacba66ba78f2e313483bd11bdba3835ac81a4"
+      },
+      "json": {
+        "file": "probes/probe-pure-business-red-accepted.json",
+        "sha256": "8c6962e1452e9fa594945c73541df6a20d9a06edc9c6710ff5508bb1e5ef17c5"
+      }
+    },
+    {
+      "id": "probe-red-plus-afterall-hook-error-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": false
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-afterall-hook-error-rejected.test.ts",
+          "message": "CODEX_EXTRA_HOOK_ERROR"
+        }
+      ],
+      "rejectionProblems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-editor-script-interaction-baseline.PHu9sC/packages/editor/src/save/__judge_probe__/probe-red-plus-afterall-hook-error-rejected.test.ts: CODEX_EXTRA_HOOK_ERROR"
+      ],
+      "raw": {
+        "file": "probes/probe-red-plus-afterall-hook-error-rejected.raw",
+        "sha256": "959d5cb05c1f7eeda1679605e67d4c87631283f77f83704f234aecba1705fd11"
+      },
+      "json": {
+        "file": "probes/probe-red-plus-afterall-hook-error-rejected.json",
+        "sha256": "81e05de4e4002301ecb5fb6beb9aed6e47b773adf7ab4c9f32d07b91e997d1db"
+      }
+    },
+    {
+      "id": "probe-red-plus-async-uncaught-rejected",
+      "expect": "reject",
+      "rejected": true,
+      "process": {
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandledInOutput": true
+      },
+      "suiteMessages": [
+        {
+          "suite": "probe-red-plus-async-uncaught-rejected.test.ts",
+          "message": ""
+        }
+      ],
+      "rejectionProblems": ["unhandled-rejection-in-output"],
+      "raw": {
+        "file": "probes/probe-red-plus-async-uncaught-rejected.raw",
+        "sha256": "0289dd704cc9d27c78a9986db77a4ad04f23aa5c13c01348f2e5d597209e0158"
+      },
+      "json": {
+        "file": "probes/probe-red-plus-async-uncaught-rejected.json",
+        "sha256": "e15b47368e73365dbb38581d36389d5489a86f1af60c8f68d92029460ee37520"
+      }
+    }
+  ],
+  "baselineCleanup": "removed=true path=/tmp/tp-editor-script-interaction-baseline.PHu9sC"
+}

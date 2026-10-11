@@ -1,0 +1,54 @@
+{
+  "cwd": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/packages/editor",
+  "argv": [
+    "node",
+    "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/node_modules/vitest/vitest.mjs",
+    "run",
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+    "src/ui/ScriptEditor.test.tsx",
+    "src/core/author-command-edit.test.ts",
+    "src/core/author-command-edit.boundaries.test.ts",
+    "src/ui/SharedScriptTab.test.tsx",
+    "--reporter=json",
+    "--reporter=default",
+    "--outputFile.json=/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal/docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/directed.json"
+  ],
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "unhandledInOutput": false,
+  "numTotalTests": 60,
+  "numPassedTests": 60,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "files": [
+    {
+      "file": "src/core/author-command-edit.boundaries.test.ts",
+      "status": "passed",
+      "tests": 4
+    },
+    {
+      "file": "src/core/author-command-edit.test.ts",
+      "status": "passed",
+      "tests": 14
+    },
+    {
+      "file": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+      "status": "passed",
+      "tests": 7
+    },
+    {
+      "file": "src/ui/ScriptEditor.test.tsx",
+      "status": "passed",
+      "tests": 28
+    },
+    {
+      "file": "src/ui/SharedScriptTab.test.tsx",
+      "status": "passed",
+      "tests": 7
+    }
+  ],
+  "rawSha256": "91650d998d593c5e32dca737bf72230e4b33cd0cc557e43c5a74741ccfd72cb2",
+  "jsonSha256": "cfff06db9b12c057943ec19e66f31f88f483caf9c5a3f74e926b3e365aa4d2d6"
+}

@@ -1,0 +1,25 @@
+{
+  "task": "TEST-EDITOR-SCRIPT-INTERACTION-1",
+  "contributor": "GLM 新对话A（唯一测试写入者）",
+  "worktree": "/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal",
+  "branch": "codex/glm-editor-script-interaction-r1",
+  "dispatch": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "testCandidate": "21ea2436102d1c210cf26685633849dc07c6a1ee",
+  "receiptHead": "<docs-only 提交后回填本文件并以其为准；本文件先行入库时该字段为此占位说明>",
+  "docsOnlyRange": "testCandidate..receiptHead：receipt.json + 任务卡 GLM贡献者回执 小节（docs-only，无代码/测试字节变化）",
+  "commits": {
+    "testCandidate": {
+      "sha": "21ea2436102d1c210cf26685633849dc07c6a1ee",
+      "summary": "test(editor): script interaction boundaries A2/A4-A8 contracts with counterproof",
+      "contains": [
+        "packages/editor/src/ui/ScriptEditor.interaction-boundaries.test.tsx（7 合同 + 文件内 harness，sha256 83b1f8d1a08fcf67361203ca0b20deb31f0db96e898690664d579939734a7c8f，与 counter-receipt 全针 testSha256 一致）",
+        "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/（README、contract-ledger、counter-receipt+counters、directed 双 reporter 原件、runner/gen 脚本、gates）"
+      ]
+    }
+  },
+  "frozenSourcesVerified": "worktree 与隔离树双重复核：ScriptEditor.tsx/author-command-edit.ts/SharedScriptTab.tsx sha256 与 targets.json 逐字节一致",
+  "gates": "见 gates.json：定向 60/60 + 扩展相邻 44/44、本包 typecheck/test 4913/4913、根 lint 0/0/0、check:docs PASS；code-quality-ledger FAIL 为预期共享登记缺口（新增 1 个 tracked test 文件），精确修复建议交 Codex",
+  "counterproof": "7/7 针四相位 accepted；judgeSelfTest 20 例；真实探针 3 例；详见 counter-receipt.json",
+  "notDone": "贡献者交付止于 review：不改 Status、不合 main、不 done、不跑官方 ratchet；待 Codex 独立验收与集成"
+}

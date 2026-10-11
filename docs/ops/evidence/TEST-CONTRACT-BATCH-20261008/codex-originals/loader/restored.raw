@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-restored-lhU1nX/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 13ms
+ ✓ src/project-loader.io-boundaries.test.ts (6 tests) 60ms
+
+ Test Files  2 passed (2)
+      Tests  14 passed (14)
+   Start at  10:52:32
+   Duration  373ms (transform 404ms, setup 0ms, import 493ms, tests 73ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/restored.json

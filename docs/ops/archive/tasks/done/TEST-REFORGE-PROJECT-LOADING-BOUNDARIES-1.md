@@ -1,6 +1,6 @@
 # TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 — 当前工程加载与跨表引用边界
 
-Status: build
+Status: done
 Owner: GLM（新对话C，唯一测试写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -13,7 +13,7 @@ Visual Verification Timing: N/A（代码/DOM合同，不改布局，不宣称截
 
 - 工作树 `/private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal`；分支 `codex/glm-reforge-project-loading-r1`。本卡派发文档提交建树，产品冻结 `797a46a097640206a12b8f61dc014c8db277e457`。
 - 推荐执行模型GLM-5.3，用户手工选择；贡献者不得自行切换套餐/权限。无需视觉模型。
-- 先读[共同交付协议](../evidence/TEST-CONTRACT-BATCH-20261008/README.md)和[冻结及白名单](../evidence/TEST-CONTRACT-BATCH-20261008/targets.json)、[第二阶段纪律](../../phase2/READ-FIRST.md)、[测试质量验收](../agent-workflow.md)。
+- 先读[共同交付协议](../../../evidence/TEST-CONTRACT-BATCH-20261008/README.md)和[冻结及白名单](../../../evidence/TEST-CONTRACT-BATCH-20261008/targets.json)、[第二阶段纪律](../../../../phase2/READ-FIRST.md)、[测试质量验收](../../../agent-workflow.md)。
 
 ## 前提与源码锚点
 
@@ -80,15 +80,31 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/reforge exec vitest run src/pr
 
 - 2026-10-08 Codex：当前源、公开caller、代表旧断言及残余条件已直接读取；上述最强替代解释与停止线成立。build allowed仅新测试白名单。
 - Coding Owner：GLM新对话C；三卡新测试/fixture/证据互斥，避开活动Game turn、E2E及质量治理产品Owner。
-- 贡献者交付：pending；Codex独立验收：pending；done准入：blocked。
+- 2026-10-11 Codex：贡献者候选已接收；独立验收 accept；done 准入按最终集成质量门收口。
 - 有限清单闭合后交付review即停，Codex自行接受/返工、必要串行check→官方ratchet→受保护fast、合并推送与退休树清理。
 
 ## GLM贡献者回执
 
-待交付。不以自验替代Codex验收。
+2026-10-08 GLM新对话C交付（r1，待 Codex 独立验收；不以自验替代验收）：
 
-## 下一位Agent提示词
+- C1–C10 全轴裁定并落锚（[证据目录](../../../evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md)）：C1 existing-proof（分层旧测双向证明，版本门/读取锁/indexed path/initialMagic 登记不复刻）；C2/C3/C4/C6/C7/C8/C9/C10 new-contract 共 9 新测 + 专属合成 fixture；C5 unreachable（typed 作者面无合法条件命令宿主，三联合类型 + AuthorCondition/AiCond 无毒变体逐个举证；enemies root 校验只对 schema 逃逸输入生效，探针实证未入库）。
+- product-counter ×2：project-loader.ts:280 ambiences 裸 cast（malformed 逐字穿过 loadCurrentProjectFrom/assembleCurrentProject，探针实证）；validate.ts:1448 enemy 顶层多余键逃过 validateEnemies。均不固化成绿测。
+- 反控 10 针全 VALID（四相同判据：自证 20 合成反例 + 3 真实探针、执行集 9 行逐字锁定、恰一 marker AssertionError、还原绿一致、末次重放、每针独立 mkdtemp 树冻结源核验与清理证明）。
+- 门：定向 65/65 双 reporter、本包全包 354 文件 8807/8807、typecheck 0 错、根 lint 3715 文件 0/0/0、check:docs 全过；基点 CI 失败为派发文档既列白名单外项。
+- 全部输入为隔离合成工程；产品/旧测/配置/共享文档/真实数据零改动；未合 main、未改 Status、未 done。
+
+## 历史派发提示词（2026-10-08，已退休）
 
 ```text
 你是 TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 的唯一Coding Owner，GLM新对话C。只在 /private/tmp/type-pal-reforge-project-loading.4BGFoB/type-pal、分支 codex/glm-reforge-project-loading-r1 工作，禁止写main。先读AGENTS.md、docs/phase2/READ-FIRST.md、docs/ops/tasks/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md及docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md和targets.json；冻结 797a46a097640206a12b8f61dc014c8db277e457 不rebase，按卡面C1–C10有限清单核当前源码/caller/合法typed输入/旧fullName与实际断言/oracle，已有合同只登记，优先loader独立cross-reference接线、错误上下文和map公开入口；coverage中零命中只作定位线索，不是新合同证明。 仅原卡精确新测试/专属fixture/证据可写，产品/所有旧测/配置/官方baseline/共享文档/真实数据只读。禁止强转、私有state、核心mock、skip/ignore/扩timeout；只控外部IO，DOM/React act及全局清理真实闭环。每条新增合同原子且有最小有效反控，保留同进程native JSON/raw、执行身份多重集合、exit/signal/spawn、恰一业务AssertionError、真正恢复绿、最终源/测试/mutant/restored hash及mkdtemp清理。逐轴existing-proof/new-contract/unreachable/blocked/product-counter裁决，全部有锚即停，不追例数/针数/覆盖率。跑定向相邻与本包全包/typecheck、lint完整0/0/0、docs/diff；基点红如实对照，不越界修。共享导航缺口由Codex集成登记，不为docs过门改白名单外。完整真实testCandidate/receiptHead和docs-only区间提交推送，只维护自己的贡献者回执，不改Status、不合main、不done，待Codex独立验收。
 ```
+
+## Codex 独立验收与收口
+
+2026-10-11，用户授权先验收合入三个 GLM，再清理退休分支。集成基点 `89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e`；贡献者旧回执、冻结与历史计数保持原件身份。
+
+工程加载接收十四个原子合同、十五针。专属夹具更新 SAVE12；C2 的缺地图红/修复绿使用相同 ID，入口/惰性和 actor/poison 分开；C9 直接调用真实 FileSource loader，以完成日志核乱序和整批拒绝。C1 保留旧证、C5 typed 条件宿主不可达、C10 原 product-counter 原样保留，不夹带产品修复。
+
+最终候选的业务条件、真实 caller、合法输入、旧实际断言、反证与差异裁决见[独立验收](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md)；当前原件和每包严格相位判据见[验收汇总](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/acceptance.json)。最终本地门见[集成门回执](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-integration-gates.json)。产品、所有旧测试、依赖和门配置未改动；官方 fast 基准仅按最终实测只升不降。
+
+无下一位 Agent 提示词，Codex 负责本次合并推送、核新 HEAD 托管 CI 后退休分支和工作树；历史 E2E 证据与十三份未提交 JSON 保留，不重跑。

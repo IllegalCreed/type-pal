@@ -8,7 +8,8 @@
 ## 当前证据
 
 - [Game 大世界叠层测试性能修复](CI-GAME-OVERLAY-PERFORMANCE-1/README.md)（Codex有限维护；7反控、全包及受保护fast通过，覆盖/基准不变，新托管CI按推送HEAD另核）。
-- [2026年10月8日有限合同派发](TEST-CONTRACT-BATCH-20261008/README.md)（脚本编辑器 / 炼化机制 / 工程加载三张有限卡；产品与旧测只读，待贡献者交付及Codex独立验收）。
+- [2026年10月8日有限合同派发](TEST-CONTRACT-BATCH-20261008/README.md)（三个 GLM 候选已由 Codex 在当前 main 独立复验；最终裁决见 [独立验收](TEST-CONTRACT-BATCH-20261008/codex-review.md)）。
+- [炼蛊边界贡献候选](TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md)、[脚本交互贡献候选](TEST-EDITOR-SCRIPT-INTERACTION-1/README.md)、[工程加载贡献候选](TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md)（原件保持历史候选身份；以共同目录的 Codex 当前版本复验为准）。
 - [战斗宿主终局测试确定性与原子性](TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/README.md)（独立accept；本地三道集成门通过，卡已归档；反控工具与原件保留）。
 - [当前存档精简证据](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md)与[三审](TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)（r3独立accept；本地三道集成门通过，卡已归档；17针独立重放有效，不继续派发）。
 - [当前作者命令表单引用与草稿合同](TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md)（独立accept；本地三道集成门通过，卡已归档；反控工具与原件保留）。

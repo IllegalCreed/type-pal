@@ -1,0 +1,310 @@
+{
+  "base": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e",
+  "groups": [
+    {
+      "id": "alchemy",
+      "pkg": "editor",
+      "files": ["src/ui/ItemAlchemyTab.boundary-contracts.test.tsx"],
+      "frozen": {
+        "packages/editor/src/ui/ItemAlchemyTab.tsx": "059a2ff7827ea6a9541686001924d3fe1af282926a8d8c97567e82f1ae34fa22",
+        "packages/editor/src/ui/ItemAlchemyEditors.tsx": "c9fbfeab816f463c3adce633b4a26a06351de5b1e80a3dbcfd1bd0dcda92ee31",
+        "packages/editor/src/core/item-alchemy.ts": "4ee30c2305583bd902a1b026acfde6e53a527615e361b43a30fb446e487c5470",
+        "packages/editor/src/ui/DataMode.tsx": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f"
+      },
+      "testHashes": {
+        "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx": "036fe11dceedf6096e144a6699a9bf64120dd625daee4db3aaaacfa3c61ac44f"
+      },
+      "needles": [
+        {
+          "id": "N-B2-deleted-deeplink-empty-state",
+          "file": "src/ui/ItemAlchemyTab.tsx",
+          "testFile": "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "title": "B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写",
+          "marker": "to be '机制承载物品已被删除'",
+          "from": "title=\"机制承载物品已被删除\"",
+          "to": "title=\"机制承载物品已被删除针\""
+        },
+        {
+          "id": "N-B4-missing-reference-dedup",
+          "file": "src/ui/ItemAlchemyTab.tsx",
+          "testFile": "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "title": "B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写",
+          "marker": "to be 'ghost-b4、phantom-b4'",
+          "from": "[...new Set(referencedItemIds(effect))]",
+          "to": "referencedItemIds(effect)"
+        },
+        {
+          "id": "N-B6-craft-unavailable-trim",
+          "file": "src/ui/ItemAlchemyTab.tsx",
+          "testFile": "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "title": "B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销",
+          "marker": "to deeply equal",
+          "from": "commitCraft({ ...effect, unavailableMessage: value.trim() || undefined })",
+          "to": "commitCraft({ ...effect, unavailableMessage: value })"
+        },
+        {
+          "id": "N-B7-unique-material-gate",
+          "file": "src/ui/ItemAlchemyEditors.tsx",
+          "testFile": "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "title": "B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加",
+          "marker": "expected false to be true",
+          "from": "(item) => !consuming || item.id !== ownerItemId",
+          "to": "() => true"
+        },
+        {
+          "id": "N-B8-tier-999-append-cap",
+          "file": "src/ui/ItemAlchemyTab.tsx",
+          "testFile": "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "title": "B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档",
+          "marker": "expected false to be true",
+          "from": "effect.maxRoll >= 999",
+          "to": "effect.maxRoll >= 1000"
+        },
+        {
+          "id": "N-B9-draft-identity-discard",
+          "file": "src/ui/ItemAlchemyTab.tsx",
+          "testFile": "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+          "title": "B9 外部版本推进丢弃在途草稿，不落账",
+          "marker": "expected '途中草稿' to be ''",
+          "from": "draftKey={`item-alchemy:${selectedItem.id}:crafting:unavailable`}\n                      syncToken={session.getHistoryVersion()}",
+          "to": "draftKey={`item-alchemy:${selectedItem.id}:crafting:unavailable`}\n                      syncToken={0}"
+        }
+      ]
+    },
+    {
+      "id": "script",
+      "pkg": "editor",
+      "files": ["src/ui/ScriptEditor.interaction-boundaries.test.tsx"],
+      "frozen": {
+        "packages/editor/src/ui/ScriptEditor.tsx": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "packages/editor/src/core/author-command-edit.ts": "58827d36cc7530478da0752d6bf73ec4a32ffe08db98bd79c68b8242660da63b",
+        "packages/editor/src/ui/SharedScriptTab.tsx": "0cf43c2b0d98971cf12d9c504ad475985b07e6658bb4b43fabae50c687ec2aad"
+      },
+      "testHashes": {
+        "src/ui/ScriptEditor.interaction-boundaries.test.tsx": "665db1cd0b6ca9a2c368f533710b6b0bae82ad8b349bbaa413688464a7bee089"
+      },
+      "needles": [
+        {
+          "id": "A2-stale-raf-guard",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A2 过期定位帧被新 revision 淘汰",
+          "marker": "A2 过期帧不得定位旧行",
+          "from": "    window.requestAnimationFrame(() => {\n      if (lastAppliedFocusRevisionRef.current !== props.focusRevision) return\n",
+          "to": "    window.requestAnimationFrame(() => {\n"
+        },
+        {
+          "id": "A4a-insert-discard",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A4 插入面板：外部正文真正变化时撤销",
+          "marker": "A4 外部真变化必须撤销插入面板",
+          "from": "      if (bodyChanged && !locallyOwned) {\n        if (selectedIdentityChanged) setSelectedPath(undefined)\n        setEditingDraft(undefined)\n        setInsertPath(undefined)\n",
+          "to": "      if (bodyChanged && !locallyOwned) {\n        if (selectedIdentityChanged) setSelectedPath(undefined)\n        setEditingDraft(undefined)\n"
+        },
+        {
+          "id": "A4b-insert-survives-same-value",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A4 插入面板：同值新引用重渲染不误当变化",
+          "marker": "A4 同值新引用不得误当外部变化",
+          "from": "const bodyChanged = lastSeenBodyFingerprintRef.current !== fingerprint",
+          "to": "const bodyChanged = true"
+        },
+        {
+          "id": "A5-rejected-copy",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A5 复制被拒",
+          "marker": "A5 被拒复制不得改选到虚假副本位",
+          "from": "            onCopy={(path) => {\n              const parsed = parseAuthorCommandPath(path)\n              if (commit(copyAuthorCommandAt(props.body, parsed)))\n                setSelectedPath(commandPathAfterInsert(parsed))\n            }}",
+          "to": "            onCopy={(path) => {\n              const parsed = parseAuthorCommandPath(path)\n              commit(copyAuthorCommandAt(props.body, parsed))\n              setSelectedPath(commandPathAfterInsert(parsed))\n            }}"
+        },
+        {
+          "id": "A6-rejected-remove",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A6 删除被拒",
+          "marker": "A6 被拒删除不得清空原选择",
+          "from": "            onRemove={(path) => {\n              if (commit(removeAuthorCommandAt(props.body, parseAuthorCommandPath(path)))) {\n                setSelectedPath(undefined)\n                setEditingDraft(undefined)\n              }\n            }}",
+          "to": "            onRemove={(path) => {\n              commit(removeAuthorCommandAt(props.body, parseAuthorCommandPath(path)))\n              setSelectedPath(undefined)\n              setEditingDraft(undefined)\n            }}"
+        },
+        {
+          "id": "A7-rejected-nested-reorder",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A7 嵌套重排被拒",
+          "marker": "A7 被拒重排不得把选择重映射到新位置",
+          "from": "            onReorder={(parentPath, intent) => {\n              const path = [...parentPath, intent.fromIndex]\n              const next = moveAuthorCommandToIndex(props.body, path, intent.toIndex)\n              if (next === props.body || !commit(next)) return false\n              setSelectedPath((current) =>\n                remapSiblingPath(current, parentPath, intent.fromIndex, intent.toIndex),\n              )\n              return true\n            }}",
+          "to": "            onReorder={(parentPath, intent) => {\n              const path = [...parentPath, intent.fromIndex]\n              const next = moveAuthorCommandToIndex(props.body, path, intent.toIndex)\n              setSelectedPath((current) =>\n                remapSiblingPath(current, parentPath, intent.fromIndex, intent.toIndex),\n              )\n              if (next === props.body || !commit(next)) return false\n              return true\n            }}"
+        },
+        {
+          "id": "A8-keyboard-domain-guard",
+          "file": "src/ui/ScriptEditor.tsx",
+          "testFile": "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "title": "A8 键盘事件域",
+          "marker": "A8 子按钮键盘事件冒泡不得改选所在行",
+          "from": "                    if (event.currentTarget !== event.target) return\n",
+          "to": ""
+        }
+      ]
+    },
+    {
+      "id": "loader",
+      "pkg": "reforge",
+      "files": [
+        "src/project-loader.reference-boundaries.test.ts",
+        "src/project-loader.io-boundaries.test.ts"
+      ],
+      "frozen": {
+        "packages/reforge/src/project-loader.ts": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f",
+        "packages/reforge/src/file-source.ts": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2",
+        "packages/reforge/src/project-save-state.ts": "6f41421ff160a02ff971e72f547aa2e88a7691121c27c78f6e673e41358c1655",
+        "packages/reforge/src/assets.ts": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+        "packages/reforge/src/runnable-project-loader.ts": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865",
+        "packages/reforge/src/author-io.ts": "8a6581ed536484bba48c3ccb1ab5bd5c316c940ceed8df742c545925948d3643"
+      },
+      "testHashes": {
+        "src/project-loader.reference-boundaries.test.ts": "45697b4e0132e835cd6a950254936a0db6a563d86b9087e16d1565a90bbbbbc3",
+        "src/project-loader.io-boundaries.test.ts": "e87c329d696b51418fa67c70ed1cbb9068ab42829e8d144b64caa89c858bd4e8"
+      },
+      "needles": [
+        {
+          "id": "C2-entry",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "入口 mapId 悬空",
+          "marker": "C2-entry-map-reference",
+          "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+          "to": "if (!path.startsWith('manifest.') && !mapAssetById(mapIndex, scene.mapId))"
+        },
+        {
+          "id": "C2-lazy",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "惰性场景 mapId 悬空",
+          "marker": "C2-lazy-map-reference",
+          "from": "if (!mapAssetById(mapIndex, scene.mapId))",
+          "to": "if (path.startsWith('manifest.') && !mapAssetById(mapIndex, scene.mapId))"
+        },
+        {
+          "id": "C3-actor",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "入口 'actor' 引用悬空",
+          "marker": "C3-scene-actor",
+          "from": "validateActorConditionCommandReferences(scene, actors, poisons, path)[0]",
+          "to": "validateActorConditionCommandReferences(scene, actors, poisons, path).filter((issue) => !issue.where.endsWith('.actor'))[0]"
+        },
+        {
+          "id": "C3-poison",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "入口 'poison' 引用悬空",
+          "marker": "C3-scene-poison",
+          "from": "validateActorConditionCommandReferences(scene, actors, poisons, path)[0]",
+          "to": "validateActorConditionCommandReferences(scene, actors, poisons, path).filter((issue) => !issue.where.endsWith('.condition.poisonId'))[0]"
+        },
+        {
+          "id": "N-C4-items-condition",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "item 脚本 actor 引用悬空",
+          "marker": "C4-item-condition",
+          "from": "    [authorItems, 'items'],",
+          "to": "    [[], 'items'],"
+        },
+        {
+          "id": "C6-actor",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "shared 'actor' 引用悬空",
+          "marker": "C6-shared-actor",
+          "from": "validateActorConditionCommandReferences(value, actors, poisonList, where)[0]",
+          "to": "validateActorConditionCommandReferences(value, actors, poisonList, where).filter((issue) => where !== 'sharedScripts' || !issue.where.endsWith('.actor'))[0]"
+        },
+        {
+          "id": "C6-poison",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "shared 'poison' 引用悬空",
+          "marker": "C6-shared-poison",
+          "from": "validateActorConditionCommandReferences(value, actors, poisonList, where)[0]",
+          "to": "validateActorConditionCommandReferences(value, actors, poisonList, where).filter((issue) => where !== 'sharedScripts' || !issue.where.endsWith('.condition.poisonId'))[0]"
+        },
+        {
+          "id": "N-C7-equip-battle-sprite",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.reference-boundaries.test.ts",
+          "title": "悬空 battle sprite 后置接线拒收",
+          "marker": "C7-equip-battle-sprite",
+          "from": "validateEquipBattleSpriteReferences(items, actors, battleSprites)[0]",
+          "to": "validateEquipBattleSpriteReferences([], actors, battleSprites)[0]"
+        },
+        {
+          "id": "N-C8-entry-non-error-detail",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "外部 IO 对入口场景抛非 Error",
+          "marker": "C8-entry-io-context",
+          "from": "const detail = error instanceof Error ? error.message : String(error)",
+          "to": "const detail = error instanceof Error ? error.message : 'opaque-io-failure'"
+        },
+        {
+          "id": "N-C9a-unregistered-gate",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "未登记 mapId 零 IO 精确拒绝",
+          "marker": "C9-map-by-id",
+          "from": "  if (!asset) throw new Error(`loadProjectMapById: mapId \"${mapId}\" 不在 map index`)",
+          "to": "  if (!asset) return loadProjectMap(project.assetBase, 'content/maps/map-001.json')"
+        },
+        {
+          "id": "N-C9b-registered-real-load",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "未登记 mapId 零 IO 精确拒绝",
+          "marker": "C9-map-by-id",
+          "from": "  return loadProjectMap(project.assetBase, asset.path)",
+          "to": "  return loadProjectMap(project.assetBase, 'content/maps/map-001.json')"
+        },
+        {
+          "id": "N-C9c-stable-id-placement",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "loadAllProjectMaps 乱序完成",
+          "marker": "C9-map-batch",
+          "from": "      maps[asset.id] = await loadProjectMap(project.assetBase, asset.path)",
+          "to": "      maps[asset.path] = await loadProjectMap(project.assetBase, asset.path)"
+        },
+        {
+          "id": "C9-batch-rejection",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "loadAllProjectMaps 单个 IO 拒绝整批",
+          "marker": "C9-map-batch-rejection",
+          "from": "maps[asset.id] = await loadProjectMap(project.assetBase, asset.path)",
+          "to": "maps[asset.id] = await loadProjectMap(project.assetBase, asset.path).catch(() => undefined)"
+        },
+        {
+          "id": "C10-absent",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "可缺表缺席时",
+          "marker": "C10-optional-tables",
+          "from": "    poisons: poisonList,\n    ambiences,\n    shops,\n    tilesets,",
+          "to": "    poisons: poisonList,\n    ambiences,\n    shops: shops.length === 0 ? undefined : shops,\n    tilesets,"
+        },
+        {
+          "id": "N-C10-poisons-field",
+          "file": "src/project-loader.ts",
+          "testFile": "src/project-loader.io-boundaries.test.ts",
+          "title": "合法非空当前表逐表保真",
+          "marker": "C10-optional-tables-full",
+          "from": "    poisons: poisonList,",
+          "to": "    poisons: [],"
+        }
+      ]
+    }
+  ]
+}

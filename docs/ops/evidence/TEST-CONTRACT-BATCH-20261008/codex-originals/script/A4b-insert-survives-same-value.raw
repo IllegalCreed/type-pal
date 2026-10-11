@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-script-A4b-insert-survives-same-value-BW46Tj/packages/editor
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests | 1 failed) 174ms
+     ✓ A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行 45ms
+     ✓ A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交 41ms
+     × A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交 37ms
+     ✓ A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功 15ms
+     ✓ A6 删除被拒：保留选择与正文，重试成功收口 11ms
+     ✓ A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察 16ms
+     ✓ A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选 9ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  10:50:17
+   Duration  1.67s (transform 911ms, setup 0ms, import 1.11s, tests 174ms, environment 312ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A4b-insert-survives-same-value.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ScriptEditor.interaction-boundaries.test.tsx > CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交
+AssertionError: A4 同值新引用不得误当外部变化: expected null not to be null
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx:236:11
+    234|       editor.host.querySelector('[role="dialog"]'),
+    235|       'A4 同值新引用不得误当外部变化',
+    236|     ).not.toBeNull()
+       |           ^
+    237|
+    238|     const waitChoice = editor.host.querySelector<HTMLButtonElement>('[…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

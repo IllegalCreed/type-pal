@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-C6-poison-piQ7Pd/packages/reforge
+
+ ❯ src/project-loader.reference-boundaries.test.ts (8 tests | 1 failed) 15ms
+     ✓ 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功 5ms
+     ✓ 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功 2ms
+     ✓ 入口 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ 入口 'poison' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ item 脚本 actor 引用悬空精确拒绝，闭合同链绿 2ms
+     ✓ shared 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     × shared 'poison' 引用悬空精确拒绝，闭合同链绿 3ms
+     ✓ 悬空 battle sprite 后置接线拒收，补登记同链绿 1ms
+ ✓ src/project-loader.io-boundaries.test.ts (6 tests) 63ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:26
+   Duration  378ms (transform 409ms, setup 0ms, import 499ms, tests 78ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/C6-poison.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.reference-boundaries.test.ts > C6 sharedScripts 条件接线 > shared 'poison' 引用悬空精确拒绝，闭合同链绿
+AssertionError: C6-shared-poison: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.reference-boundaries.test.ts:169:30
+    167|       })
+    168|     const red = await rejectOf(loadCurrentProjectFrom(lbMemorySource(f…
+    169|     expect(red.kind, marker).toBe('rejected')
+       |                              ^
+    170|     expect(red.message, marker).toContain(`sharedScripts.talisman.body…
+    171|     const green = await loadCurrentProjectFrom(lbMemorySource(files('a…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

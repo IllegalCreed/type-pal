@@ -1,0 +1,758 @@
+{
+  "id": "script",
+  "frozen": {
+    "packages/editor/src/ui/ScriptEditor.tsx": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+    "packages/editor/src/core/author-command-edit.ts": "58827d36cc7530478da0752d6bf73ec4a32ffe08db98bd79c68b8242660da63b",
+    "packages/editor/src/ui/SharedScriptTab.tsx": "0cf43c2b0d98971cf12d9c504ad475985b07e6658bb4b43fabae50c687ec2aad"
+  },
+  "tests": {
+    "src/ui/ScriptEditor.interaction-boundaries.test.tsx": "665db1cd0b6ca9a2c368f533710b6b0bae82ad8b349bbaa413688464a7bee089"
+  },
+  "selfTest": [
+    {
+      "name": "accepts clean green",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects green exit!=0",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "accepts single exact red",
+      "accepted": true,
+      "want": true
+    },
+    {
+      "name": "rejects non-empty suite.message (hook error alongside target red)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with non-empty suite.message",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects red with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects green with signal SIGTERM",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects extra failed collection suite",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects spawnError",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects count/detail drift (numTotalTests != details)",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects duplicate suite entry for same file",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects two failed",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects wrong fullName",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects missing marker",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects non-AssertionError failure",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects exit=0 red",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects execution-set drift",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects empty execution set",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects pending test",
+      "accepted": false,
+      "want": false
+    },
+    {
+      "name": "rejects unhandled in output",
+      "accepted": false,
+      "want": false
+    }
+  ],
+  "needles": [
+    {
+      "id": "A2-stale-raf-guard",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "    window.requestAnimationFrame(() => {\n      if (lastAppliedFocusRevisionRef.current !== props.focusRevision) return\n",
+        "to": "    window.requestAnimationFrame(() => {\n",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "add0d0d299d490b7311eb076580800e84aa0adc747c3baf3e11a75489071dd43"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A2-stale-raf-guard.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A2-stale-raf-guard-0hnzd0/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 44919,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A2-stale-raf-guard.raw",
+          "sha256": "5993faca69d10ae27be06f72e327f0b2089d6717d601abf5138a924a437c074c"
+        },
+        "json": {
+          "path": "script/A2-stale-raf-guard.json.raw",
+          "sha256": "c3aa203a332bd1f13ed83b52264fcaffa2e2f38ae43f925d2bd2993bdffcce2a"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A2-stale-raf-guard-0hnzd0",
+        "removed": true
+      }
+    },
+    {
+      "id": "A4a-insert-discard",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "      if (bodyChanged && !locallyOwned) {\n        if (selectedIdentityChanged) setSelectedPath(undefined)\n        setEditingDraft(undefined)\n        setInsertPath(undefined)\n",
+        "to": "      if (bodyChanged && !locallyOwned) {\n        if (selectedIdentityChanged) setSelectedPath(undefined)\n        setEditingDraft(undefined)\n",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "b504ce400311daa114fff0b6c3ee8c53ca6b94b7e5ff3de1b41840b3cf3c4b3a"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A4a-insert-discard.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A4a-insert-discard-IzRhoJ/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 44975,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A4a-insert-discard.raw",
+          "sha256": "f54a7a6c562f25a90a0bbd1fabcf4c225f797433d86b92aeef76ce0ed2bc640a"
+        },
+        "json": {
+          "path": "script/A4a-insert-discard.json.raw",
+          "sha256": "fe58b41ca17a2b44b0fe83f3bd13d254f0cbc893e7852829c0cb4eb54ea0a97f"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A4a-insert-discard-IzRhoJ",
+        "removed": true
+      }
+    },
+    {
+      "id": "A4b-insert-survives-same-value",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "const bodyChanged = lastSeenBodyFingerprintRef.current !== fingerprint",
+        "to": "const bodyChanged = true",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "485edb1e636bda62de27b75e828164cd099a5e1c165de609e1e99728cf4be83e"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A4b-insert-survives-same-value.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A4b-insert-survives-same-value-BW46Tj/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 45182,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A4b-insert-survives-same-value.raw",
+          "sha256": "b1eb42f3092ada1dd6f09af8be0fe599a7272557f136655c54668c6279a77e95"
+        },
+        "json": {
+          "path": "script/A4b-insert-survives-same-value.json.raw",
+          "sha256": "88a84dda1aad770fd1bb307025a90ac19a34ff463d7bfb9ae2eb85b6dd060f4e"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A4b-insert-survives-same-value-BW46Tj",
+        "removed": true
+      }
+    },
+    {
+      "id": "A5-rejected-copy",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "            onCopy={(path) => {\n              const parsed = parseAuthorCommandPath(path)\n              if (commit(copyAuthorCommandAt(props.body, parsed)))\n                setSelectedPath(commandPathAfterInsert(parsed))\n            }}",
+        "to": "            onCopy={(path) => {\n              const parsed = parseAuthorCommandPath(path)\n              commit(copyAuthorCommandAt(props.body, parsed))\n              setSelectedPath(commandPathAfterInsert(parsed))\n            }}",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "ffbe6eabd53e0fa54b8111c0661d17af9544f3aa9e83cead7b1eaa6a3722464a"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A5-rejected-copy.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A5-rejected-copy-LgA7e6/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 45443,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A5-rejected-copy.raw",
+          "sha256": "cd10b40038ab9c700609baad4b296d5a7fca343cd4495cf853cbef842c9bd45b"
+        },
+        "json": {
+          "path": "script/A5-rejected-copy.json.raw",
+          "sha256": "25a0ab4f7596d9ad83381f1bbecad49af0bf7f78fa1f185aba91444ca0388227"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A5-rejected-copy-LgA7e6",
+        "removed": true
+      }
+    },
+    {
+      "id": "A6-rejected-remove",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A6 删除被拒：保留选择与正文，重试成功收口",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "            onRemove={(path) => {\n              if (commit(removeAuthorCommandAt(props.body, parseAuthorCommandPath(path)))) {\n                setSelectedPath(undefined)\n                setEditingDraft(undefined)\n              }\n            }}",
+        "to": "            onRemove={(path) => {\n              commit(removeAuthorCommandAt(props.body, parseAuthorCommandPath(path)))\n              setSelectedPath(undefined)\n              setEditingDraft(undefined)\n            }}",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "da9b45531e204b69570082151af5204f66e7da66ee27d34188e00d8c315819c2"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A6-rejected-remove.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A6-rejected-remove-xl3oMZ/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 45449,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A6-rejected-remove.raw",
+          "sha256": "ed23659f8552d54a2099df02daf23316922b6a3a5eade8d907157ddac430819e"
+        },
+        "json": {
+          "path": "script/A6-rejected-remove.json.raw",
+          "sha256": "8bfafb9300604f178511d620754a9a9d4e670687e85cca1fd1747cce829779a5"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A6-rejected-remove-xl3oMZ",
+        "removed": true
+      }
+    },
+    {
+      "id": "A7-rejected-nested-reorder",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "            onReorder={(parentPath, intent) => {\n              const path = [...parentPath, intent.fromIndex]\n              const next = moveAuthorCommandToIndex(props.body, path, intent.toIndex)\n              if (next === props.body || !commit(next)) return false\n              setSelectedPath((current) =>\n                remapSiblingPath(current, parentPath, intent.fromIndex, intent.toIndex),\n              )\n              return true\n            }}",
+        "to": "            onReorder={(parentPath, intent) => {\n              const path = [...parentPath, intent.fromIndex]\n              const next = moveAuthorCommandToIndex(props.body, path, intent.toIndex)\n              setSelectedPath((current) =>\n                remapSiblingPath(current, parentPath, intent.fromIndex, intent.toIndex),\n              )\n              if (next === props.body || !commit(next)) return false\n              return true\n            }}",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "7f47e35c7b314f0c88e394de9953ab17a554ac6a993d78f982f0e6b767cfb1fa"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A7-rejected-nested-reorder.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A7-rejected-nested-reorder-XgeX7m/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 45498,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A7-rejected-nested-reorder.raw",
+          "sha256": "622b71497f6a3cd09e052d4bd52680b49e18abe7af96a93cb4ee3d246e8cf0a4"
+        },
+        "json": {
+          "path": "script/A7-rejected-nested-reorder.json.raw",
+          "sha256": "52d2741730c9b81ff62f99698a75da0b909aeaee048ea1af24b8d6009a07f151"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A7-rejected-nested-reorder-XgeX7m",
+        "removed": true
+      }
+    },
+    {
+      "id": "A8-keyboard-domain-guard",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "                    if (event.currentTarget !== event.target) return\n",
+        "to": "",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "513cdbba99d498f952e6fce178bab43e5a47c788a1bbeba192beba16884d0080"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A8-keyboard-domain-guard.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-A8-keyboard-domain-guard-jfKd2G/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 45516,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/A8-keyboard-domain-guard.raw",
+          "sha256": "28a1e8c5a56e47dfb4d0b986d53d479a16d4ca18838730384ad6806021595a97"
+        },
+        "json": {
+          "path": "script/A8-keyboard-domain-guard.json.raw",
+          "sha256": "0fad2d4bb65a1f0b78b1d5311bf5a7599ed5d134403318ceecce2a312d68898e"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-A8-keyboard-domain-guard-jfKd2G",
+        "removed": true
+      }
+    },
+    {
+      "id": "A2-stale-raf-guard",
+      "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+      "mutation": {
+        "file": "src/ui/ScriptEditor.tsx",
+        "from": "    window.requestAnimationFrame(() => {\n      if (lastAppliedFocusRevisionRef.current !== props.focusRevision) return\n",
+        "to": "    window.requestAnimationFrame(() => {\n",
+        "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+        "mutant": "add0d0d299d490b7311eb076580800e84aa0adc747c3baf3e11a75489071dd43"
+      },
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/final-replay.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-final-replay-hLgBuK/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 45586,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/final-replay.raw",
+          "sha256": "dae656fcee0516f67ac3cf5565d0fa5cac16f343994964079133ca147d24c7de"
+        },
+        "json": {
+          "path": "script/final-replay.json.raw",
+          "sha256": "bf00980abe91d23e74c06cd4f24b7f8be08856ea1ce89ce642fb04d03dc51f38"
+        }
+      },
+      "problems": [],
+      "status": "valid",
+      "cleanup": {
+        "path": "/tmp/tp-codex-script-final-replay-hLgBuK",
+        "removed": true
+      }
+    }
+  ],
+  "green": {
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/green.json"
+      ],
+      "cwd": "/tmp/tp-codex-script-green-0q7FVd/packages/editor",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 44909,
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "script/green.raw",
+        "sha256": "f6aa98ae71947ee784f21f13f191e4d579208de29d3fcbdce46471f3652e248e"
+      },
+      "json": {
+        "path": "script/green.json.raw",
+        "sha256": "84b8d3feba8a9a273348f800394f91be07ccaff83a2f1076f63758f81f17ad09"
+      }
+    },
+    "executionSet": [
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交",
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交",
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功",
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A6 删除被拒：保留选择与正文，重试成功收口",
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察",
+      "src/ui/ScriptEditor.interaction-boundaries.test.tsx :: CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选"
+    ]
+  },
+  "probes": [
+    {
+      "id": "probe-business",
+      "rejected": false,
+      "problems": [],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/probe-business.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-green-0q7FVd/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 44911,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/probe-business.raw",
+          "sha256": "2daf2f30841da542361a882a3e5974884722623f921d29fa9dde47c7bae8ec26"
+        },
+        "json": {
+          "path": "script/probe-business.json.raw",
+          "sha256": "1f99c5b981e427a5546dc4c97d98b9e1468cd58f1288a141467b1455d4f8ff71"
+        }
+      }
+    },
+    {
+      "id": "probe-hook",
+      "rejected": true,
+      "problems": [
+        "suite.message non-empty (extra hook/runtime error): /private/tmp/tp-codex-script-green-0q7FVd/packages/editor/src/codex-judge-probe.test.ts: EXTRA_HOOK"
+      ],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/probe-hook.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-green-0q7FVd/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 44915,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": false,
+        "raw": {
+          "path": "script/probe-hook.raw",
+          "sha256": "fc2458433ba3fd8a3a221cd4da70934fd528552446e988578759d7856d3d5248"
+        },
+        "json": {
+          "path": "script/probe-hook.json.raw",
+          "sha256": "48d0ae27e87aed0e244883f36fe00af3e5534b36b88397c7500ad6510cc696a9"
+        }
+      }
+    },
+    {
+      "id": "probe-uncaught",
+      "rejected": true,
+      "problems": ["unhandled-rejection-in-output"],
+      "process": {
+        "argv": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+          "run",
+          "src/codex-judge-probe.test.ts",
+          "--reporter=default",
+          "--reporter=json",
+          "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/probe-uncaught.json"
+        ],
+        "cwd": "/tmp/tp-codex-script-green-0q7FVd/packages/editor",
+        "env": {
+          "node": "v22.23.2",
+          "NODE_OPTIONS": null,
+          "NODE_ENV": null,
+          "TZ": null,
+          "NODE_COMPILE_CACHE": ""
+        },
+        "pid": 44917,
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "unhandled": true,
+        "raw": {
+          "path": "script/probe-uncaught.raw",
+          "sha256": "d9326b22a6a537b85272bdc1dca328e8f817e1bad2be0c643c403b1f50c1ab7c"
+        },
+        "json": {
+          "path": "script/probe-uncaught.json.raw",
+          "sha256": "3635b8fd5f5959912afc4797a5962d192c691d1bfc46e2c28e102be3914adf98"
+        }
+      }
+    }
+  ],
+  "greenCleanup": {
+    "path": "/tmp/tp-codex-script-green-0q7FVd",
+    "removed": true
+  },
+  "restored": {
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/restored.json"
+      ],
+      "cwd": "/tmp/tp-codex-script-restored-yDGFbU/packages/editor",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 45556,
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "script/restored.raw",
+        "sha256": "afc1fce6dd8abe54dfbfd48ce03c7b4ca998947474edd59e92b29c564cfe0e7c"
+      },
+      "json": {
+        "path": "script/restored.json.raw",
+        "sha256": "34b76aabe0623ca82b52d52331840d5f1e65e674088c67f61320460b28a4c786"
+      }
+    },
+    "executionSetIdentical": true
+  },
+  "restoredCleanup": {
+    "path": "/tmp/tp-codex-script-restored-yDGFbU",
+    "removed": true
+  },
+  "replay": {
+    "id": "A2-stale-raf-guard",
+    "fullName": "CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行",
+    "mutation": {
+      "file": "src/ui/ScriptEditor.tsx",
+      "from": "    window.requestAnimationFrame(() => {\n      if (lastAppliedFocusRevisionRef.current !== props.focusRevision) return\n",
+      "to": "    window.requestAnimationFrame(() => {\n",
+      "original": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+      "mutant": "add0d0d299d490b7311eb076580800e84aa0adc747c3baf3e11a75489071dd43"
+    },
+    "process": {
+      "argv": [
+        "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+        "/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/node_modules/vitest/vitest.mjs",
+        "run",
+        "src/ui/ScriptEditor.interaction-boundaries.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/final-replay.json"
+      ],
+      "cwd": "/tmp/tp-codex-script-final-replay-hLgBuK/packages/editor",
+      "env": {
+        "node": "v22.23.2",
+        "NODE_OPTIONS": null,
+        "NODE_ENV": null,
+        "TZ": null,
+        "NODE_COMPILE_CACHE": ""
+      },
+      "pid": 45586,
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "unhandled": false,
+      "raw": {
+        "path": "script/final-replay.raw",
+        "sha256": "dae656fcee0516f67ac3cf5565d0fa5cac16f343994964079133ca147d24c7de"
+      },
+      "json": {
+        "path": "script/final-replay.json.raw",
+        "sha256": "bf00980abe91d23e74c06cd4f24b7f8be08856ea1ce89ce642fb04d03dc51f38"
+      }
+    },
+    "problems": [],
+    "status": "valid",
+    "cleanup": {
+      "path": "/tmp/tp-codex-script-final-replay-hLgBuK",
+      "removed": true
+    }
+  },
+  "status": "passed"
+}

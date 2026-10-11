@@ -1,0 +1,15 @@
+{
+  "task": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1",
+  "date": "2026-10-08",
+  "branch": "codex/glm-reforge-project-loading-r1",
+  "dispatch": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7",
+  "productionFreeze": "797a46a097640206a12b8f61dc014c8db277e457",
+  "testCandidate": "b0a45880919cd1ac03d8dc41c6724bee5b1516ed",
+  "note": "receiptHead 为本 docs-only 提交自身之外的工作提交;其 SHA 在本文件落盘时已为真实 git 对象(rev-parse/cat-file 核验)。receiptHead 提交提交后由推送回执记录,不在此预承诺。",
+  "ranges": {
+    "workSegment": "91aac75c54c2afa82e7ccb6ee295485b73a14aa7..b0a45880919cd1ac03d8dc41c6724bee5b1516ed (测试+fixture+证据 47 文件)",
+    "docsOnlySegment": "本提交(receipt.json + 任务卡 GLM 回执),仅 docs,不改产品/测试"
+  },
+  "gates": "见 gates.json;定向 65/65、本包 8807/8807、typecheck 0、根 lint 0/0/0、check:docs 过",
+  "counterproof": "counter-receipt.json:10 针全 VALID"
+}

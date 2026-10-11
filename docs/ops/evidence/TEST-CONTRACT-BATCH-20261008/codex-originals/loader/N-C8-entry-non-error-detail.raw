@@ -1,0 +1,37 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-N-C8-entry-non-error-detail-AqNvMb/packages/reforge
+
+ ✓ src/project-loader.reference-boundaries.test.ts (8 tests) 13ms
+ ❯ src/project-loader.io-boundaries.test.ts (6 tests | 1 failed) 64ms
+     × 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝 5ms
+     ✓ 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path 3ms
+     ✓ loadAllProjectMaps 乱序完成仍按稳定 id 归位 53ms
+     ✓ loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功 1ms
+     ✓ 可缺表缺席时公开字段为空默认 1ms
+     ✓ 合法非空当前表逐表保真到工程公开字段 1ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:28
+   Duration  399ms (transform 434ms, setup 0ms, import 531ms, tests 77ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C8-entry-non-error-detail.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.io-boundaries.test.ts > C8 入口场景 IO 错误上下文 > 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝
+AssertionError: C8-entry-io-context: expected 'manifest.entryPoints[new-game].scene:…' to contain 'manifest.entryPoints[new-game].scene:…'
+
+Expected: "manifest.entryPoints[new-game].scene: 无法读取 "content/authored/main-scene.json": io-flux-4242"
+Received: "manifest.entryPoints[new-game].scene: 无法读取 "content/authored/main-scene.json": opaque-io-failure"
+
+ ❯ src/project-loader.io-boundaries.test.ts:42:35
+     40|     const first = await rejectOf(loadCurrentProjectFrom(source))
+     41|     expect(first.kind, marker).toBe('rejected')
+     42|     expect(first.message, marker).toContain(
+       |                                   ^
+     43|       'manifest.entryPoints[new-game].scene: 无法读取 "content/authored/ma…
+     44|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

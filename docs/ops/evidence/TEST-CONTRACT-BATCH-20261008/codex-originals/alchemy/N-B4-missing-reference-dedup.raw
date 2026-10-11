@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-alchemy-N-B4-missing-reference-dedup-cIkrU2/packages/editor
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (6 tests | 1 failed) 1338ms
+     ✓ B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写 44ms
+     × B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写 28ms
+     ✓ B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销 31ms
+     ✓ B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加 22ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1201ms
+     ✓ B9 外部版本推进丢弃在途草稿，不落账 10ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  10:59:48
+   Duration  3.15s (transform 1.17s, setup 0ms, import 1.43s, tests 1.34s, environment 309ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-final/alchemy/N-B4-missing-reference-dedup.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemAlchemyTab.boundary-contracts.test.tsx > TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 > B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写
+AssertionError: expected 'ghost-b4、ghost-b4、ghost-b4、phantom-b4' to be 'ghost-b4、phantom-b4' // Object.is equality
+
+Expected: "ghost-b4、phantom-b4"
+Received: "ghost-b4、ghost-b4、ghost-b4、phantom-b4"
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx:138:64
+    136|       row.textContent?.includes('缺失引用'),
+    137|     )!
+    138|     expect(missingRow.textContent!.replace('缺失引用', '').trim()).toBe('g…
+       |                                                                ^
+    139|     // 材料/产物 combobox 对缺引用 id 显示稳定 id 警告（crafting caller；gourd 已由旧 :73…
+    140|     expect(host.querySelector('[aria-label="配方 1 材料物品"]')?.textContent…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

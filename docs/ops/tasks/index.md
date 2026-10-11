@@ -13,10 +13,7 @@
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-ALCHEMY-BOUNDARIES-1 — 炼蛊与灵葫机制编辑边界](TEST-EDITOR-ALCHEMY-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-EDITOR-SCRIPT-INTERACTION-1 — 当前脚本编辑器交互与草稿生命周期](TEST-EDITOR-SCRIPT-INTERACTION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 — 当前工程加载与跨表引用边界](TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -266,11 +263,13 @@
 | [TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归](../archive/tasks/done/TEST-CURSOR-PURE-WAVE-1-twelve-modules.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1 — 已交付测试有限收口](../archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归](../archive/tasks/done/TEST-CURSOR-TOOLS-1-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-EDITOR-ALCHEMY-BOUNDARIES-1 — 炼蛊与灵葫机制编辑边界](../archive/tasks/done/TEST-EDITOR-ALCHEMY-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1 — 当前作者命令表单引用与草稿合同](../archive/tasks/done/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-IMPORT-CODEC-1 - 导入、编码工作线程与视频元数据补测（队列 TB-03）](../archive/tasks/done/TEST-EDITOR-IMPORT-CODEC-1-workers-metadata.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-LOGIC-COVERAGE-1 - 编辑器命令与引用边界补测](../archive/tasks/done/TEST-EDITOR-LOGIC-COVERAGE-1-editor-command-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-MAP-DATA-1 - 地图选区与组合模板数据补测（TB-06）](../archive/tasks/done/TEST-EDITOR-MAP-DATA-1-selection-stamps.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-EDITOR-SCRIPT-HELPERS-1 - 脚本与内容编辑辅助补测（TB-07）](../archive/tasks/done/TEST-EDITOR-SCRIPT-HELPERS-1-authoring-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-EDITOR-SCRIPT-INTERACTION-1 — 当前脚本编辑器交互与草稿生命周期](../archive/tasks/done/TEST-EDITOR-SCRIPT-INTERACTION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载](../archive/tasks/done/TEST-ENV-STABILITY-1-cache-and-host-load.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FOUNDATION-COVERAGE-1 - 四包基础边界正式测试补强](../archive/tasks/done/TEST-FOUNDATION-COVERAGE-1-core-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-FROZEN-CLOSE-1 — GLM/Kimi/Grok/Cursor 已交付测试有限收口](../archive/tasks/done/TEST-FROZEN-CLOSE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -340,6 +339,7 @@
 | [TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与canonical脚本接线](../archive/tasks/done/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界](../archive/tasks/done/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-OPENING-IO-LIFECYCLE-1 — 标题读档IO与缩略图生命周期](../archive/tasks/done/TEST-REFORGE-OPENING-IO-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 — 当前工程加载与跨表引用边界](../archive/tasks/done/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测](../archive/tasks/done/TEST-REFORGE-RUNTIME-CONTRACTS-1-runtime-boundaries.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RESOURCE-TOOLS-COVERAGE-1 - RLE、事件与资源工具补测（TB-05）](../archive/tasks/done/TEST-RESOURCE-TOOLS-COVERAGE-1-rle-events-font.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测](../archive/tasks/done/TEST-RUNTIME-SHELL-COVERAGE-1-boot-menu-flows.md) | done | 完成证据、历史签字与交接见原卡。 |

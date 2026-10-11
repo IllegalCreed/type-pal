@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-loader-N-C7-equip-battle-sprite-7kIEY0/packages/reforge
+
+ ❯ src/project-loader.reference-boundaries.test.ts (8 tests | 1 failed) 15ms
+     ✓ 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功 5ms
+     ✓ 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功 2ms
+     ✓ 入口 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ 入口 'poison' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ item 脚本 actor 引用悬空精确拒绝，闭合同链绿 2ms
+     ✓ shared 'actor' 引用悬空精确拒绝，闭合同链绿 1ms
+     ✓ shared 'poison' 引用悬空精确拒绝，闭合同链绿 0ms
+     × 悬空 battle sprite 后置接线拒收，补登记同链绿 3ms
+ ✓ src/project-loader.io-boundaries.test.ts (6 tests) 60ms
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 13 passed (14)
+   Start at  10:52:27
+   Duration  368ms (transform 396ms, setup 0ms, import 484ms, tests 76ms, environment 0ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-loader-r4/loader/N-C7-equip-battle-sprite.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-loader.reference-boundaries.test.ts > C7 装备战斗精灵引用接线 > 悬空 battle sprite 后置接线拒收，补登记同链绿
+AssertionError: C7-equip-battle-sprite: expected 'resolved' to be 'rejected' // Object.is equality
+
+Expected: "rejected"
+Received: "resolved"
+
+ ❯ src/project-loader.reference-boundaries.test.ts:204:30
+    202|       ),
+    203|     )
+    204|     expect(red.kind, marker).toBe('rejected')
+       |                              ^
+    205|     expect(red.message, marker).toContain(
+    206|       'items[0](sword-1).equip.effects[0].byActor.actor.hero: 战斗精灵 "bs…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

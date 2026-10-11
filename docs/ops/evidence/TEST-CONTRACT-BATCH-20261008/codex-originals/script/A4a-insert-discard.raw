@@ -1,0 +1,1072 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-script-A4a-insert-discard-IzRhoJ/packages/editor
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx (7 tests | 1 failed) 206ms
+     ✓ A2 过期定位帧被新 revision 淘汰：旧帧不定位旧行，新帧定位新行 44ms
+     × A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交 56ms
+     ✓ A4 插入面板：同值新引用重渲染不误当变化，面板存活且仍向当前正文提交 45ms
+     ✓ A5 复制被拒：不选虚假副本、不动正文、精确报错；重试合法成功 19ms
+     ✓ A6 删除被拒：保留选择与正文，重试成功收口 14ms
+     ✓ A7 嵌套重排被拒：内部 reorder key 不移动、选择不重映射、错误可观察 17ms
+     ✓ A8 键盘事件域：行自身 Enter/Space 选择，子按钮 Enter 冒泡不误选 10ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  10:50:15
+   Duration  1.63s (transform 867ms, setup 0ms, import 1.06s, tests 206ms, environment 293ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-r2/script/A4a-insert-discard.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ScriptEditor.interaction-boundaries.test.tsx > CanonicalScriptBodyEditor 交互边界（TEST-EDITOR-SCRIPT-INTERACTION-1） > A4 插入面板：外部正文真正变化时撤销，不向过期 path 提交
+AssertionError: A4 外部真变化必须撤销插入面板: expected <dialog role="dialog" …(5)>…(2)</dialog> to be null
+
+- Expected:
+null
+
++ Received:
+<dialog
+  aria-label="添加指令"
+  aria-labelledby="ds-dialog-_r_s_-title"
+  aria-modal="true"
+  class="ds-dialog"
+  open=""
+  role="dialog"
+>
+  <header
+    class="ds-overlay__header"
+  >
+    <h2
+      class="ds-card__title"
+      id="ds-dialog-_r_s_-title"
+    >
+      添加指令
+    </h2>
+    <span
+      class="ds-spacer"
+    />
+    <span
+      class="ds-tooltip"
+    >
+      <button
+        aria-describedby="_r_t_"
+        aria-label="关闭"
+        class="ds-icon-button ds-icon-button--quiet"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="ds-icon"
+          focusable="false"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M4 4l8 8"
+          />
+          <path
+            d="m12 4-8 8"
+          />
+        </svg>
+      </button>
+      <span
+        class="ds-visually-hidden"
+        id="_r_t_"
+        role="tooltip"
+      >
+        关闭
+      </span>
+    </span>
+  </header>
+  <div
+    class="ds-overlay__body"
+  >
+    <div
+      class="canonical-script-modal-body"
+    >
+      <div
+        class="canonical-script-insert-dialog"
+      >
+        <p
+          class="canonical-script-modal-copy"
+        >
+          选择一条指令或常用事件模板。新内容会插在当前指令之后。
+        </p>
+        <input
+          aria-label="搜索可插入指令"
+          class="ds-input ds-input--compact"
+          placeholder="搜索指令或事件模板…"
+          type="search"
+          value=""
+        />
+        <section>
+          <div
+            class="cf-group"
+          >
+            常用指令
+          </div>
+          <div
+            class="cf-insert"
+          >
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="dialog"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="wait"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="moveParty"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="teleportParty"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setPartyFacing"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="fade"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="stopMusic"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="startBattle"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+          </div>
+        </section>
+        <section>
+          <div
+            class="cf-group"
+          >
+            剧情逻辑与资源
+          </div>
+          <div
+            class="cf-insert"
+          >
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setFlag"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setVar"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="addVar"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="branch"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="loop"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="confirm"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="repeat"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="returnScript"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="giveMoney"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+          </div>
+        </section>
+        <section>
+          <div
+            class="cf-group"
+          >
+            常用事件模板（插入后仍是普通指令，可逐条修改）
+          </div>
+          <div
+            class="cf-insert"
+          >
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="moveParty,cameraPan,teleportParty,cameraSnap,moveParty"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+          </div>
+        </section>
+        <section>
+          <div
+            class="cf-group"
+          >
+            更多指令
+          </div>
+          <div
+            class="cf-insert"
+          >
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="nudgeParty"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="nudgeEntity"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="restoreEntity"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="callScript"
+              disabled=""
+              title="请先在“剧情 → 脚本库”创建一个可复用脚本"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="suspendEntity"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="stopEntityAction"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="ditherScreen"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="playEntityAction"
+              disabled=""
+              title="请先选择实体，并在精灵库中创建一个可播放动作"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="runEntityTrigger"
+              disabled=""
+              title="请先选择当前场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="removeEntity"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="ride"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="revivePartyAll"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="increaseHpMp"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="teleportOut"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setScreenWave"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setAmbience"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="toggleDayNight"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="giveItem"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="playFrameAnimation"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityFrame"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="animEntity"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="playVideo"
+              disabled=""
+              title="请先在资源库导入一个视频"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setActorSprite"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setActorAppearance"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="playMusic"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="quitToTitle"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="endBattle"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="fleeBattle"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="openShop"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setMultiEntityState"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityState"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="stepEntity"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="chasePlayer"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setParty"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setFollowers"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="gameOver"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="halveMoney"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="loadLastSave"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="selectEntityPage"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityPos"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityPosRelParty"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityLayer"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="learnSkill"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="selectSceneHooks"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="loseItem"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="shakeScreen"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="playSound"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="takeEntity"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="releaseEntity"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="unequip"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="selectEntityBehavior"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityTriggerActivation"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setSceneMapOverride"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="faceEntityToParty"
+              disabled=""
+              title="触发区没有朝向；请先选择一个可见实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="setEntityFacing"
+              disabled=""
+              title="触发区没有朝向；请先选择一个可见实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="clearDialog"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="clearFrameAnimation"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="clearActorCondition"
+              disabled=""
+              title="请先创建可参战角色"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="applyActorCondition"
+              disabled=""
+              title="请先创建可参战角色"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="hideEntity"
+              disabled=""
+              title="请先选择一个场景实体"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="loadScene"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="unmountParty"
+              type="button"
+            >
+              <span>
+                <span … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="moveEntity"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+            <button
+              class="ds-button ds-button--secondary ds-button--compact"
+              data-command-kinds="mountParty"
+              disabled=""
+              title="当前项目没有这种指令的可复用样例"
+              type="button"
+            >
+              <span>
+                <span … />
+                <small … />
+              </span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+ ❯ src/ui/ScriptEditor.interaction-boundaries.test.tsx:217:78
+    215|       { kind: 'wait', ms: 200 },
+    216|     ])
+    217|     expect(editor.host.querySelector('[role="dialog"]'), 'A4 外部真变化必须撤销…
+       |                                                                              ^
+    218|     expect(onChange).not.toHaveBeenCalled()
+    219|     expect(editor.host.querySelectorAll('.cmd-row')).toHaveLength(2)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
