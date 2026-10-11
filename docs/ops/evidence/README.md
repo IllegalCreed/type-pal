@@ -41,3 +41,7 @@
 - [TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 交付证据](TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md)（r1 候选：migration plan/transaction/write-plan 2 净新合同 + 2/2 identity 反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 交付证据](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md)（r1 候选：battle core/session 排重后 6 残余合同（敌方施法三门/复活无保底/敌逃战果会计/AI 敌逃回执）+ identity TSV 全量反控 6/6 + 11 自测反例，待 Codex 独立验收）。
 - [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 交付证据](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md)（r1 候选：main 宿主编排排重后 5 残余合同（入场揭幕/触发脚本错误恢复/试打终局与错误回执/存档失败计数与队列）+ identity TSV 全量反控 5/5 + 11 自测反例 + D-1 `?battle-scene=` 投影死路缺陷披露，待 Codex 独立验收）。
+
+## DOCS-FULL-TEMPLATE-1
+
+- [全 docs 盘点与模板治理证据](DOCS-FULL-TEMPLATE-1/README.md)

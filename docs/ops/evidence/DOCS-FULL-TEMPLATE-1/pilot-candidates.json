@@ -7,7 +7,7 @@
     {
       "templateId": "governance-index-v1",
       "sourcePath": "docs/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/governance-index-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/governance-index-v1/candidate.md.raw",
       "candidateSha256": "cc87c7aa67a7b0ea040e202d69a397520f6564f3faffb71bb9460d912881e1e0",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -19,7 +19,7 @@
     {
       "templateId": "task-card-v1",
       "sourcePath": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/task-card-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/task-card-v1/candidate.md.raw",
       "candidateSha256": "9cde9f7b2322a5bdd6568d47924a401c86627e0859c20e441249c2bb7b281655",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -31,7 +31,7 @@
     {
       "templateId": "guide-runbook-v1",
       "sourcePath": "docs/ops/agent-workflow.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/guide-runbook-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/guide-runbook-v1/candidate.md.raw",
       "candidateSha256": "f785435ebfeebf0bab429d1405f3f133826e1185c235f0ec055f428366435c70",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -43,7 +43,7 @@
     {
       "templateId": "audit-report-v1",
       "sourcePath": "docs/ops/audits/architecture-debt.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/audit-report-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/audit-report-v1/candidate.md.raw",
       "candidateSha256": "e87f64d3d8cffc90ad74ee02f33bf9a79cf5d72ae06bbd9e7fbfda29e500b15a",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -55,7 +55,7 @@
     {
       "templateId": "evidence-receipt-v1",
       "sourcePath": "docs/ops/evidence/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/evidence-receipt-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/evidence-receipt-v1/candidate.md.raw",
       "candidateSha256": "79fbb54bfff8b93b58e867581e4f23d37033af941cefb4436a017588ec8af90d",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -67,7 +67,7 @@
     {
       "templateId": "design-spec-v1",
       "sourcePath": "docs/phase2/specs/save-system.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/design-spec-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/design-spec-v1/candidate.md.raw",
       "candidateSha256": "cc43eced18090f1f7047237f2d959b38ed0275fc787b8dd303dfa865bce17970",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -79,7 +79,7 @@
     {
       "templateId": "plan-status-v1",
       "sourcePath": "docs/phase3/backlog.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/plan-status-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/plan-status-v1/candidate.md.raw",
       "candidateSha256": "2c0de952478f35c2e34a98cfd5cac7f091874ad56d64c815391b743c4aa20161",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -91,7 +91,7 @@
     {
       "templateId": "reference-canon-v1",
       "sourcePath": "docs/lore/timeline.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/reference-canon-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/reference-canon-v1/candidate.md.raw",
       "candidateSha256": "591acedc9c7bef762f152e8c2708716fbfdde4cbff655a0c82b5fd73c13c97c3",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -103,7 +103,7 @@
     {
       "templateId": "narrative-idea-v1",
       "sourcePath": "docs/lore/ideas/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/narrative-idea-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/narrative-idea-v1/candidate.md.raw",
       "candidateSha256": "7140f982f4895ab2a8b5275091c09281a9589f669a81687465906c3e57632511",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -115,7 +115,7 @@
     {
       "templateId": "archive-record-v1",
       "sourcePath": "docs/ops/archive/acceptance/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/archive-record-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/archive-record-v1/candidate.md.raw",
       "candidateSha256": "6d456e71346952398a714d183b50ce7e919da2dcc9210ba2e6eb11f8ac570ea7",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -139,7 +139,7 @@
     {
       "templateId": "test-contract-v1",
       "sourcePath": "docs/testing/e2e/contract.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-contract-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-contract-v1/candidate.md.raw",
       "candidateSha256": "4ba8570f85b7393e02360830f7b6994783ea090ffc364ee1c349e25821dcd3a7",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -151,7 +151,7 @@
     {
       "templateId": "test-e2e-stage-v1",
       "sourcePath": "docs/testing/e2e/stages/001-opening/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-e2e-stage-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-e2e-stage-v1/candidate.md.raw",
       "candidateSha256": "a2113a58b1d18e385d721a18a7d9cf0788d0101e8e1d2a9d3a51ccf82df76b52",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -163,7 +163,7 @@
     {
       "templateId": "test-run-report-v1",
       "sourcePath": "docs/testing/e2e/stages/001-opening/report.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-run-report-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-run-report-v1/candidate.md.raw",
       "candidateSha256": "46559eb34bf0ff929ba615117c000e3045f5a938e9b60ca8aae0c525fcf2432b",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -187,7 +187,7 @@
     {
       "templateId": "test-domain-report-v1",
       "sourcePath": "docs/testing/domains/quality/quality-gates/tools/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-domain-report-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-domain-report-v1/candidate.md.raw",
       "candidateSha256": "cdb782b544332d784f12e5b07ffdfa0d5120c5882c46f990184933dd1378170a",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",
@@ -199,7 +199,7 @@
     {
       "templateId": "quality-gate-v1",
       "sourcePath": "docs/testing/domains/quality/quality-gates/tools/README.md",
-      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/quality-gate-v1/candidate.md",
+      "candidatePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/quality-gate-v1/candidate.md.raw",
       "candidateSha256": "2058938849a5f4cf55fc2f5fe313b70ec191802efc7b83bea93772b7263a35df",
       "preserved": true,
       "mode": "markdown-wrapper-source-substring",

@@ -26,3 +26,7 @@
 | `archive-record` | 仅保留历史记录的归档材料 | [`archive-record.md`](archive-record.md) |
 
 旧文档可以暂时保留原有内容和标题，但不得继续扩张独立格式；若需要重写正文，必须单独开迁移任务并保留历史。新增文档必须从模板复制。
+
+## 2026-10-11 frozen registry pilot
+
+- [Template registry proposal and testing type contracts](registry-proposal-20261011.md)
