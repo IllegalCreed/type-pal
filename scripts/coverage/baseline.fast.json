@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-11T16:35:04.353Z",
+  "generatedAt": "2026-10-11T17:26:40.190Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19815,
+  "testCount": 19816,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2336,7 +2336,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8963,
+        "testCount": 8964,
         "testFileCount": 359,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3607,8 +3607,8 @@
           },
           {
             "file": "packages/reforge/src/main.save-flows.test.ts",
-            "testCount": 5,
-            "identityDigest": "66e0c7e01b70b51bef20f718be24b9cc5dfcff7a8bfc97af2df73d44bf3af03f"
+            "testCount": 6,
+            "identityDigest": "e37aa5fca5602b5d6f3e8a519d2f48c073f4372c146f37f10ca719f1b3c1842e"
           },
           {
             "file": "packages/reforge/src/main.scene-flows.test.ts",
@@ -4496,9 +4496,9 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "ddd970bf0edebd5f9bcc117b02f81565becfe5e768e0f029339332a2d1ccae81",
+        "identityDigest": "6b2470c257007391ad73a0f7cfa848c925a6e5f1bde3ed076f4a59f4e382a3c4",
         "duplicateIdentityCount": 3,
-        "executionDigest": "32045730f6442f05060849ab61fdf3af620dda9f3db1a28652053164750e22c5"
+        "executionDigest": "3566ec664c2f91d8b6913940ee24bcf5bb6fe69bf00b93f322beb455c259c517"
       },
       "metrics": {
         "statements": {

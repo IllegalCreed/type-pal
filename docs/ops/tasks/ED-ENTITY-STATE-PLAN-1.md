@@ -7,7 +7,7 @@ Coding Owner: Codex（本轮可操作 UI 首批，唯一实现写入者）
 Reviewer: state_plan_review（本批独立取证与代码复核）/ Codex
 Visual Verification Owner: Codex
 Visual Verification Timing: functional
-Branch: `codex/editor-initial-state-preview`（集成基线 `origin/main d3cb0c149`）
+Branch: `main`（首批集成 `39499783c`；集成基线 `origin/main d3cb0c149`）
 
 ## 当前状态与本轮交付
 
@@ -592,6 +592,36 @@ script-governance/coverage-ratchet/editor-excluded-regressions日志及分支审
 code-quality-3y、docs-full-template-proposal、asset-lifecycle未合入候选及TURN-BOUNDARIES返工分支保留。
 删除前已保存24个分支引用的完整bundle，在独立bare库完成unbundle、full fsck和逐tip可读性核验；
 备份位于Git common directory的`branch-archive-20261012-initial-state-6i1bwkt2/`，不上传仓库。
+
+### 2026-10-12 托管CI差异与存档测试收口
+
+首批已提交推送`39499783c`。托管Documentation run 38156367283通过；Coverage ratchet
+run 38156367291的19815项测试全绿，但Reforge比本地少5条语句/5行，覆盖率门失败，不能计作CI通过。
+逐文件LCOV比对确认唯一差异为`packages/reforge/src/main.ts:5444`起的缓存刷新失败处理；
+两端真实写入/刷新都执行76次，降级分支本地1次、CI 0次；editor各指标完全一致。
+
+独立只读复核确认，现有合同没有主动验证“存档三store已提交，随后浏览缓存失败仍算保存成功”；
+`main.save-flows.test.ts`的两次F5只等待第二笔数据库提交，而`host.close()`同步卸载浏览器IO。
+此时未完成的缩略图刷新可以偶然进入降级分支；聚合LCOV不能确定上轮具体由哪条测试触发，
+因此不把时序解释冒称已定位到唯一旧用例，也不通过重跑碰运气或降低基线解决。
+
+仅修测试：原两次F5等待两个真实缩略图解码Promise及其完成微任务，并经实际菜单核“存2次”；
+新增一条真实boot/F5合同，在原生IDB三store写事务complete后只abort下一次metadata读事务。
+保持真实SaveStore、世界、保存与菜单逻辑，核成功提示、三store内容、编号1、菜单“存1次”及同一缩略图绘制。
+产品实现、门槛、排除、超时和工作流均未修改。state_plan_review独立直接读取caller、夹具及宿主后accept。
+
+定向6项全绿，Reforge typecheck通过；隔离副本分别删除metadata修补、thumbnail修补，
+每次6项完整集合恰一预期业务AssertionError、其余5项绿；逐次恢复后6项全绿，源文件hash保持不变。
+原生JSON/raw、command/cwd/执行身份、exit/signal/spawn、完整file×fullName集合、源/测试/重建mutant hash
+及精确临时树清理回执存于`integration/save-counter-report.json`与配套日志。
+
+修补后官方fast重新实测1581文件19816项全绿，Reforge 8964项，editor 4789项；
+全部覆盖率与上节集成基线一致，ratchet记录0项比例提升、2项测试范围变化，未降低既有基线。
+全仓typecheck通过，lint/格式3994文件零error/warning/info；完整文档门再次通过
+（1204份Markdown、6641条链接、358张任务卡，testing-docs零问题，184份phase/lore、570份内容审阅）。
+日志为`integration/coverage-ratchet-save-fix.log`及`typecheck/lint/docs-save-fix.log`。
+托管CI与删除分支仍以最终提交的成功运行和本机`branch-cleanup-result.json`执行回执为准；
+不把上轮失败结果改写成通过。
 
 ## 交接日志
 
