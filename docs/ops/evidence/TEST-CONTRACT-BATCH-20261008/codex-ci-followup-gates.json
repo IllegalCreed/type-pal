@@ -1,0 +1,61 @@
+{
+  "base": "79705185cff017c899ed1e246d4ec333ca3298bb",
+  "status": "passed",
+  "scope": {
+    "productChanges": 0,
+    "oldTestAdapterChanges": 1,
+    "newContracts": 0,
+    "oldTestAssertionsChanged": 0,
+    "timeoutChanges": 0,
+    "qualityConfigurationChanges": 0,
+    "newE2EAcceptance": false
+  },
+  "source": {
+    "path": "packages/reforge/src/pal-meal-shell.test.ts",
+    "sha256": "3d7291fe7a85fccec96350d0371ba6dbc56a11744fcaa465c87473ad96674edb"
+  },
+  "directed": {
+    "status": "passed",
+    "nativeTests": 9,
+    "failures": 0,
+    "native": "build/ci/glm-boundaries-20261011/meal-final-dimensions.json",
+    "raw": "build/ci/glm-boundaries-20261011/meal-final-dimensions.raw",
+    "nativeSha256": "73d8241c6f785eb3359e2c88ce6e30d5c7fc7aea9531c010ff36d39bf90705be",
+    "rawSha256": "172adaf568c2768fd6f94a60b16762370f3fb8b54aff5056ca3ff485e2219bf7"
+  },
+  "gates": {
+    "fast": {
+      "status": "passed",
+      "freshPackage": "reforge",
+      "freshNativeTests": 8958,
+      "testCount": 19789,
+      "sourceFileCount": 729,
+      "metricsEqualSubmittedBaseline": true,
+      "baselineChanges": 0,
+      "summary": "coverage/fast-ci-final/summary.json",
+      "summarySha256": "e67b2672388b6161f7b70a3f50f035a40f5e62b680d706ad470f4ae4311402a3",
+      "raw": "build/ci/glm-boundaries-20261011/coverage-ci-local-final-r2.raw",
+      "rawSha256": "4a74d1093a8d0fafee0f37cf4a0280fcaaf59c84bcd2acaf2f2b8e3ec9bff7ba",
+      "reusedUnchangedPackages": ["shared", "content", "pal-extract", "migrate", "game", "editor"],
+      "reuseProofSha256": "d8c7d585e120d75d38508c10f08f54f019c9eb037854522d8c745e71a7f0a655"
+    },
+    "typecheck": {
+      "status": "passed",
+      "rawSha256": "2c5690d0a7e9d5c6a2312a2fb76f02a6332e9020d0dd4f0c314586bbaae36ad3"
+    },
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "rawSha256": "f2e0b6e020d52161da383a4c0fe5e6ae25332be2f07aa09e19714303f80dd4c3"
+    },
+    "documentation": {
+      "status": "passed",
+      "issues": 0,
+      "rawSha256": "a47d4852a13c5bcd86be7be215da260bf6fedce76fc0089114a9343d14f1e3d1"
+    }
+  },
+  "hostedCi": "Verify exact new pushed HEAD. Prior two failures are retained; no retirement until Coverage and Documentation pass.",
+  "collectedAt": "2026-10-11T02:44:43.245752+00:00"
+}

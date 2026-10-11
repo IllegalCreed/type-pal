@@ -312,6 +312,7 @@ async function boot(caseId: Case, wineCount = 1, query = '', restore?: CurrentSa
   )
   const contextFor = vi.mocked(HTMLCanvasElement.prototype.getContext).getMockImplementation()
   if (!contextFor) throw new Error('external Canvas IO adapter missing')
+  const sizedCanvases = new WeakSet<HTMLCanvasElement>()
   // Extend external Canvas IO only. Script/menu/state assertions never use these blank pixels
   // as a visual oracle; the actual PAL map exercises the production foreground-mask path.
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function (
@@ -319,8 +320,32 @@ async function boot(caseId: Case, wineCount = 1, query = '', restore?: CurrentSa
     kind,
   ) {
     const context = contextFor.call(this, kind)
-    if (kind === '2d' && context)
+    if (kind === '2d' && context) {
       Reflect.set(context, 'getTransform', () => ({ a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }))
+      // Private image/mask canvases are sized through these properties, never DOM attributes.
+      // Forward each write through native validation; avoid jsdom reparsing the same dimensions
+      // for every tile blit. Keep the user-facing screen element's native DOM contract intact.
+      if (this.id !== 'screen' && !sizedCanvases.has(this)) {
+        for (const dimension of ['width', 'height'] as const) {
+          const descriptor = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, dimension)
+          if (!descriptor?.get || !descriptor.set) throw new Error('native canvas size missing')
+          const read = descriptor.get,
+            write = descriptor.set
+          let size: unknown = read.call(this)
+          if (typeof size !== 'number') throw new Error('native canvas size invalid')
+          Object.defineProperty(this, dimension, {
+            configurable: true,
+            get: () => size,
+            set: (value: unknown) => {
+              write.call(this, value)
+              size = read.call(this)
+              if (typeof size !== 'number') throw new Error('native canvas size invalid')
+            },
+          })
+        }
+        sizedCanvases.add(this)
+      }
+    }
     return context
   })
   const { ENGINE_CHROME } = await import('./engine-chrome/registry.js')

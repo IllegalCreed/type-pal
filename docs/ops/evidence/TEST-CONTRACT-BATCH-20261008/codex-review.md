@@ -1,6 +1,6 @@
 # 三个 GLM 有限测试包独立验收
 
-Codex，2026-10-11。集成基点 `89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e`；产品和旧测试零修改。本页裁决覆盖贡献候选，不把 2026-10-08 回执当作当前版本验收。最终本地质量门见[集成门回执](codex-integration-gates.json)；合并与托管 CI 收口另核推送 HEAD。
+Codex，2026-10-11。集成基点 `89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e`；三个 GLM 包内产品和旧测试零修改。本页裁决覆盖贡献候选，不把 2026-10-08 回执当作当前版本验收。最终本地质量门见[集成门回执](codex-integration-gates.json)；随后的单文件 CI 测试端口修复另记下节，托管 CI 收口另核推送 HEAD。
 
 ## 接收版本
 
@@ -37,4 +37,12 @@ node docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-replay.mjs build/ci/gl
 
 当前本地门日志在 `build/ci/glm-boundaries-20261011/`。最终 fast 结果为 19,789 条测试、729 个源码文件，四项总覆盖率均不回退；基准只升不降。七包首轮 native 全仓通过后，B7 最后精简触发 editor 全包重新采集；其它六包仅在 1,813 个输入文件、native 覆盖字节和执行身份 digest 全一致后复用首轮原件。托管 CI 将按新 HEAD 完整采集七包，不把本地复用当托管通过。旧 E2E acceptance、headed receipt 和原工作树十三份未提交 JSON 不参与本次测试包验收，也不重录或改写。
 
-无下一位 Agent 提示词，Codex 继续集成收口。
+## 同次集成的 CI 超时修复
+
+合并提交 `79705185cff017c899ed1e246d4ec333ca3298bb` 的 Documentation 成功，Coverage 两次均在既有 `pal-meal-shell.test.ts` 的送餐合同命中 5000ms 超时；每次 Reforge 8958 条中仅这一条失败，新增加载 14 条全部通过。原日志分列 `coverage-ci-r1.raw` / `coverage-ci-r2.raw`，不把一次本地绿推成托管通过。
+
+真实 V8 CPU 采样显示逐帧 `renderScene` / `projectMapTileBlitRect` 和 jsdom Canvas 尺寸读取耗时突出，夹具压缩仅约 31ms。去掉绘图 trace 的对照没有收益（2.83s → 2.81s），已撤回；最终不删除绘图记录、不 mock 业务 renderer。只在本文件已有外部 Canvas 端口镜像私有图片/遮罩 Canvas 的数字尺寸：初值来自原生 getter，每次属性写入仍经过原生 setter 与 getter 校验，screen 元素保持原生属性。当前图片/遮罩 caller 用 `width`/`height` 属性赋值，不用 DOM attribute 写尺寸，见 `render.ts:35–43,304–305,342–343`、`text/glyph.ts:108–109`；独占对象与 WeakSet 每个 host 重建，不改全局尺寸 descriptor。
+
+同一覆盖率采样单例约 2.83s → 2.48s；完整九合同 native 复核仍 9/9，送餐 2.28s → 1.81s，17ms 开场 10.63s → 6.79s。没有改变测试正文的输入、终点、逐帧业务断言、超时或门配置。CPU 采样的过滤运行只用于诊断，不当 acceptance；正式九合同、受影响 Reforge 全包及全仓汇总门见[CI 后续门回执](codex-ci-followup-gates.json)，托管仍必须核新的最终 HEAD。六包未改输入的 native 结果仅在字节、scope 与执行身份一致后复用，不重跑已经完成的 GLM 反控或 E2E。
+
+无下一位 Agent 提示词，Codex 继续核最终托管 CI 后清理退休分支。
