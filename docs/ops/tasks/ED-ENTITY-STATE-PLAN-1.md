@@ -623,6 +623,27 @@ run 38156367291的19815项测试全绿，但Reforge比本地少5条语句/5行�
 托管CI与删除分支仍以最终提交的成功运行和本机`branch-cleanup-result.json`执行回执为准；
 不把上轮失败结果改写成通过。
 
+后续提交`62c0aea4e`的Documentation run 38159708132通过；Coverage run 38159708090中
+存档6项全过，但Reforge既有`main.presentation-clock.test.ts`切场景等待用例出现money期望57/实际50，
+本包8964项中仅此项失败，后续editor尚未执行。直接核`main.ts:2329`的场景提交与`:2356`的淡入，
+确认sceneId已切换不代表loadScene完成；固定6帧后再计1000ms会把仍在进行的淡入误算进脚本等待。
+
+仅补强该既有用例：透明观察真实`CutsceneController.waitPassive(1000)`注册，
+此后900ms仍为50且runner活跃，最后100ms变为57且runner结束；等待跨场景root的真实auto保存缩略图刷新
+后再关闭外部宿主。未延长计时预算、超时或修改产品代码，独立复核accept。
+隔离副本保持作者输入不变，只将真实目标地图读取延后到第三个100ms测试帧：
+旧固定帧用例恰一money业务断言失败，新等待方式14项全绿；恢复原IO后14项全绿。
+另删去loadScene的旧对话清理，14项中恰一预期业务AssertionError，其余13项绿，恢复后全绿。
+所有原生JSON/raw、身份集合/hash及清理回执见`integration/clock-counter-report.json`。
+最初用非canonical modern时长构造的诊断输入被schema拒绝，不计有效反控，原始失败保留在
+`integration/clock-probe-invalid-transition/`，随后改用上述合法外部IO延迟取证。
+
+定向两文件20项通过；Reforge按fast相同文件范围重跑V8覆盖率，359文件8964项全绿，
+四项分子/分母与上节官方全仓基线完全一致。没有新增测试身份或修改基线；
+证据为`integration/reforge-clock-fix.log`和`clock-reforge-coverage/`。
+全仓typecheck、完整文档门再次通过，lint/格式3994文件零error/warning/info，日志为
+`integration/typecheck/lint/docs-clock-fix.log`。本次只修现有测试同步条件，托管结果以后续最终提交为准。
+
 ## 交接日志
 
 - 2026-10-11 Codex：恢复E2E原始需求，建draft卡；前版设计包含运行时状态改造和人工参与者配置。
