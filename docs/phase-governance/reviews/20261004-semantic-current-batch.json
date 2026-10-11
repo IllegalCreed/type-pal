@@ -719,6 +719,24 @@
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
             "notRun": ["runtime", "E2E", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-42-dialog-box-navigation",
+            "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "afterSha256": "770ec3754705b1387b5efbee3eef0692ea4102bde8aa6fe5111ee5bfce9c520a",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-42-game-dialog-box.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-42-dialog-box-closeout",
+            "previousAfterSha256": "770ec3754705b1387b5efbee3eef0692ea4102bde8aa6fe5111ee5bfce9c520a",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -752,7 +770,7 @@
           "date": "2026-10-11",
           "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "lineCount": 20,
-          "scope": "CODE-QUALITY-41 consent UI closeout navigation/state update",
+          "scope": "CODE-QUALITY-42 dialog box closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -829,6 +847,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-41-consent-ui-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-42-dialog-box-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-42-dialog-box-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1644,7 +1676,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
+      "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1843,6 +1875,24 @@
             "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
             "notRun": ["runtime", "E2E", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-42-dialog-box-navigation",
+            "previousAfterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
+            "afterSha256": "a7670850b4be84575b1b4397e0e036097e48b02591d17966d1b443ec2dac2fd0",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-42-game-dialog-box.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-42-dialog-box-closeout",
+            "previousAfterSha256": "a7670850b4be84575b1b4397e0e036097e48b02591d17966d1b443ec2dac2fd0",
+            "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1875,12 +1925,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
+        "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
-          "lineCount": 383,
-          "scope": "CODE-QUALITY-41 consent UI closeout navigation/state update",
+          "sha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
+          "lineCount": 384,
+          "scope": "CODE-QUALITY-42 dialog box closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1988,6 +2038,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-41-consent-ui-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-42-dialog-box-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-42-dialog-box-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }

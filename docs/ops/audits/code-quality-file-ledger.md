@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含本轮 E2E 集成的源码、测试与工具）：3,261。
-当前已闭合核验：239；已读但待审：5；尚未逐文件核验：3,017；合计未闭合：3,022。
+当前已闭合核验：242；已读但待审：5；尚未逐文件核验：3,014；合计未闭合：3,019。
 
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
@@ -268,6 +268,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/analytics/install-analytics.test.ts` | test | 已验证 | CODE-QUALITY-40；真实 installTypePalAnalytics public entry、DOM/dataLayer oracle、game full test | 开发零副作用、DNT/GPC 默认关闭、UI/安装生命周期和销毁合同 |
 | `packages/game/src/analytics/analytics-consent-ui.ts` | product | 已验证 | CODE-QUALITY-41；install-analytics caller、DOM/ARIA lifecycle、UI test、local dev AX/screenshot | consent panel/preferences visibility、button ownership、storage failure、destroy cleanup 与现有布局合同 |
 | `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | 已验证 | CODE-QUALITY-41；真实 mountAnalyticsConsentUi public entry、DOM/focus/storage oracle、game full test | panel placement、privacy signal、choice persistence、storage failure 与 destroy 反例 |
+| `packages/game/src/present/dialog-box.ts` | product | 已验证 | CODE-QUALITY-42；event-system/present callers、text.c/uigame.c、dialog tests与pixel oracle | 几何/边框/文字/头像、分页/清理、资源失败与 framebuffer ownership逐段核验 |
+| `packages/game/src/present/dialog-box.test.ts` | test | 已验证 | CODE-QUALITY-42；公开 dialog draw/clear caller、直接 framebuffer/状态 oracle | 合法布局、分页、头像、清理、缺资源与边界反例 |
+| `packages/game/src/present/dialog-box.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-42；真实 dialog/present caller 与分页/残留边界 oracle | 82项定向合同排重、合法输入、负控与跨帧清理判别力 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
