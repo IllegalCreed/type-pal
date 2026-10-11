@@ -1,0 +1,62 @@
+{
+  "base": "2560898dac0ac12021f871493f2ab13a381885fd",
+  "status": "passed",
+  "scope": {
+    "productChanges": 0,
+    "newTestFixtureLifecycleChanges": 1,
+    "businessAssertionsChanged": 0,
+    "timeoutConfigurationChanges": 0,
+    "qualityConfigurationChanges": 0,
+    "baselineChanges": 0,
+    "newE2EAcceptance": false
+  },
+  "source": {
+    "path": "packages/editor/src/ui/ItemAlchemyTab.boundary-contracts.test.tsx",
+    "sha256": "09000fc4edbef34a96dea70e86de05a329c19b9c03c26b5ce478be4883aedfb2"
+  },
+  "replay": {
+    "status": "passed",
+    "contracts": 6,
+    "needles": 6,
+    "current": "codex-ci-alchemy-originals/acceptance.json",
+    "sha256": "30c2a1c70e00b4e60aacff8f59d4c7d478b82e149d37f3ae7d3f3bffe73b49ae",
+    "scriptAndLoaderPriorReceiptsUnchanged": true
+  },
+  "gates": {
+    "fast": {
+      "status": "passed",
+      "freshPackage": "editor",
+      "freshNativeTests": 4768,
+      "freshNativeFiles": 608,
+      "testCount": 19789,
+      "sourceFileCount": 729,
+      "metricsEqualSubmittedBaseline": true,
+      "scopeAndExecutionIdentitiesEqualBaseline": true,
+      "summary": "coverage/fast-editor-ci-final/summary.json",
+      "summarySha256": "eaabf0cd79659db3666139abed6e2988763f5d82adb2c836b1a346d3b17d87a5",
+      "raw": "build/ci/glm-boundaries-20261011/coverage-editor-ci-setup-final.raw",
+      "rawSha256": "a58e2deec0bde90fe763193b5e661f5cd028f11d4b5f5ad4f5f9e70da701f7d7",
+      "reusedUnchangedPackages": ["shared", "content", "pal-extract", "migrate", "reforge", "game"],
+      "reuseProofSha256": "a01a8f01552945e452856ebd93ef686aa8c979df96e48ba29d6275a05b3724fe"
+    },
+    "typecheck": {
+      "status": "passed",
+      "errors": 0,
+      "rawSha256": "df51466f960ec8070c20040444300b38b76e7f98d035ed0cd0c5a101be54d187"
+    },
+    "lint": {
+      "status": "passed",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "rawSha256": "e644fda95dfa87c4844b3ea0942e024d2472939b6fd7b5ee9c6429b2fb0e7727"
+    },
+    "documentation": {
+      "status": "passed",
+      "issues": 0,
+      "rawSha256": "609d1fc2f283b25b48795f47697e6506efad4e97b39c618d51ee77aa58e36bde"
+    }
+  },
+  "hostedCi": "Verify exact next pushed HEAD. Prior native failures remain historical; retirement requires both Coverage and Documentation success.",
+  "collectedAt": "2026-10-11T03:29:37.112744+00:00"
+}

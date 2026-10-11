@@ -42,10 +42,29 @@ import {
 
 let boundary: BoundaryHost
 let host: HTMLDivElement
+const tierCapTitle = 'B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档'
+let tierCapFixture:
+  | { session: EditSession; rewards: { itemId: string; count: number }[] }
+  | undefined
 
-beforeEach(async () => {
+beforeEach(async ({ task }) => {
   boundary = await createBoundaryHost()
   host = boundary.host
+  tierCapFixture = undefined
+  if (task.name === tierCapTitle) {
+    // 完整 999 行真实 UI 是合同输入夹具；初始化与下面的业务动作使用 runner 各自的默认期限。
+    // 不模拟组件、核心或 DOM，不更改超时配置；afterEach 照常卸载整棵真实组件树。
+    const rewards = Array.from({ length: 999 }, (_, index) => ({
+      itemId: 'reward-b8',
+      count: index + 1,
+    }))
+    const session = await seedSession([
+      plainItem('reward-b8', '行军丹'),
+      spiritGourd('gourd-b8', '紫金葫芦', 999, rewards),
+    ])
+    await mountSurface(boundary, { session, surface: 'spirit-gourd', focus: 'gourd-b8' })
+    tierCapFixture = { session, rewards }
+  }
 })
 
 afterEach(async () => {
@@ -216,16 +235,9 @@ describe('TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界', () => {
     expect(session.getHistoryVersion()).toBe(2)
   })
 
-  test('B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档', async () => {
-    const rewards = Array.from({ length: 999 }, (_, index) => ({
-      itemId: 'reward-b8',
-      count: index + 1,
-    }))
-    const session = await seedSession([
-      plainItem('reward-b8', '行军丹'),
-      spiritGourd('gourd-b8', '紫金葫芦', 999, rewards),
-    ])
-    await mountSurface(boundary, { session, surface: 'spirit-gourd', focus: 'gourd-b8' })
+  test(tierCapTitle, async () => {
+    if (!tierCapFixture) throw new Error('999 档真实 UI 夹具未初始化')
+    const { session, rewards } = tierCapFixture
     assertProjectSaveValid(session.getState())
 
     expect(buttonByText(host, '增加消耗值').disabled).toBe(true)

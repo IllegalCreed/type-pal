@@ -12,7 +12,8 @@
         "packages/editor/src/ui/DataMode.tsx": "5774d2289fb54828bad4d2397ba908455a3c78741bab822468b541010586e57f"
       },
       "testHashes": {
-        "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx": "036fe11dceedf6096e144a6699a9bf64120dd625daee4db3aaaacfa3c61ac44f"
+        "src/ui/ItemAlchemyTab.boundary-contracts.test.tsx": "09000fc4edbef34a96dea70e86de05a329c19b9c03c26b5ce478be4883aedfb2",
+        "src/ui/__tests__/item-alchemy-boundaries/kit.ts": "68d44bc40227ec90ee69cdbcee1b7238edc4ba9c39d960a9e45b6c89e0ef2bc8"
       },
       "needles": [
         {

@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-alchemy-N-B7-unique-material-gate-r2IDiz/packages/editor
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (6 tests | 1 failed) 1359ms
+     ✓ B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写 54ms
+     ✓ B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写 29ms
+     ✓ B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销 31ms
+     × B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加 11ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1220ms
+     ✓ B9 外部版本推进丢弃在途草稿，不落账 12ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  12:23:44
+   Duration  3.27s (transform 1.25s, setup 0ms, import 1.52s, tests 1.36s, environment 316ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-ci-setup/alchemy/N-B7-unique-material-gate.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemAlchemyTab.boundary-contracts.test.tsx > TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 > B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx:217:51
+    215|     // 未解析材料引用属于损坏内容域；schema 合法，不以自身材料绕过守卫。
+    216|     // 真实 UI：追加按钮禁用（不点禁用按钮冒充执行）。
+    217|     expect(buttonByText(host, '添加对应关系').disabled).toBe(true)
+       |                                                   ^
+    218|     expect(session.getHistoryVersion()).toBe(0)
+    219|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

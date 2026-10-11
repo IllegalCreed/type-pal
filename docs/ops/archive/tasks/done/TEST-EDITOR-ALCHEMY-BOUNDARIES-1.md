@@ -102,4 +102,6 @@ env -u NODE_COMPILE_CACHE pnpm --filter @type-pal/editor exec vitest run src/ui/
 
 最终候选的业务条件、真实 caller、合法输入、旧实际断言、反证与差异裁决见[独立验收](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md)；当前原件和每包严格相位判据见[验收汇总](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/acceptance.json)。最终本地门见[集成门回执](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-integration-gates.json)。产品、所有旧测试、依赖和门配置未改动；官方 fast 基准仅按最终实测只升不降。
 
+同次集成后 B8 的真实 999 行初始化移至专用 beforeEach；业务输入、断言、交互和默认测试期限不变。最终炼蛊六合同/六针已重采，当前原件见[CI 后续炼蛊验收](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-alchemy-originals/acceptance.json)，前述原件保留为上一候选历史。具体 CI 根因和当前门见同一[独立验收](../../../evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md)的后续小节。
+
 无下一位 Agent 提示词，Codex 负责本次合并推送、核新 HEAD 托管 CI 后退休分支和工作树；历史 E2E 证据与十三份未提交 JSON 保留，不重跑。

@@ -45,4 +45,14 @@ node docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-replay.mjs build/ci/gl
 
 同一覆盖率采样单例约 2.83s → 2.48s；完整九合同 native 复核仍 9/9，送餐 2.28s → 1.81s，17ms 开场 10.63s → 6.79s。没有改变测试正文的输入、终点、逐帧业务断言、超时或门配置。CPU 采样的过滤运行只用于诊断，不当 acceptance；正式九合同、受影响 Reforge 全包及全仓汇总门见[CI 后续门回执](codex-ci-followup-gates.json)，托管仍必须核新的最终 HEAD。六包未改输入的 native 结果仅在字节、scope 与执行身份一致后复用，不重跑已经完成的 GLM 反控或 E2E。
 
+## B8 大夹具初始化的 CI 后续修复
+
+`2560898dac0ac12021f871493f2ab13a381885fd` 的 Documentation 成功，Coverage 中 Reforge 全包 8958/8958 通过；随后 editor 4768 条中只有新 B8 命中 5000ms 测试超时（5074ms）。原件为 `coverage-ci-after-dimensions.raw` 与对应 metadata，不把退出码汇总当根因。
+
+完整真实 UI 的分段诊断显示约 1.6s 本地运行中，初始化占约 1.25s；V8 采样主要落在 React DOM 创建与 jsdom 插入/属性工作。最终将相同的 999 档合法输入、真实订阅页面的挂载作为 B8 专用 `beforeEach` 输入夹具，使用 runner 已有的默认 hook 期限；原业务断言、降档字段输入和追加动作仍在原 5000ms 默认 test 期限。没有 mock 组件/核心/DOM、改变 timeout、缩小边界输入或业务断言，也不宣称产品渲染变快。测试身份仍用原题名，卸载/全局恢复继续由原 `afterEach` 执行。
+
+受影响的炼蛊六合同/六针按最终源重新独立采集，真实污染探针、恢复绿、末次首针重放与每树清理均通过，见[当前炼蛊原件](codex-ci-alchemy-originals/acceptance.json)。旧 `codex-originals/` 保留为上一候选的历史原件；脚本七合同/七针和加载十四合同/十五针的源与固定生产字节未变化，其已通过原件继续有效。旧的临时诊断与撤回候选不计 acceptance。
+
+当前 editor 全包 608 文件 / 4768 合同通过；全仓汇总仍为 19789 合同 / 729 源文件，逐包/总覆盖率、源码 scope 和执行身份均与已提交基准一致。六个未改包的源/config/lock 与固定 Git `2560898da` 字节、native hash 和执行身份联合验证后复用，editor 完整重新采集。typecheck、lint 0/0/0、docs 零问题；见[本次后续门回执](codex-ci-editor-gates.json)。最终托管 CI 仍须另核推送的新 HEAD。
+
 无下一位 Agent 提示词，Codex 继续核最终托管 CI 后清理退休分支。

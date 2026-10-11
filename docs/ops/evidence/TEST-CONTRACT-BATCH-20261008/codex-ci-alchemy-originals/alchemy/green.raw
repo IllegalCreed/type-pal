@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-alchemy-green-lmIJaI/packages/editor
+
+ ✓ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (6 tests) 1383ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1238ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  12:23:28
+   Duration  3.01s (transform 1.03s, setup 0ms, import 1.26s, tests 1.38s, environment 303ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-ci-setup/alchemy/green.json

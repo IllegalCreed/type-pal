@@ -1,0 +1,46 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-alchemy-N-B6-craft-unavailable-trim-CEqq3u/packages/editor
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (6 tests | 1 failed) 1331ms
+     ✓ B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写 45ms
+     ✓ B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写 29ms
+     × B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销 26ms
+     ✓ B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加 23ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1191ms
+     ✓ B9 外部版本推进丢弃在途草稿，不落账 16ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  12:23:40
+   Duration  3.24s (transform 1.23s, setup 0ms, import 1.50s, tests 1.33s, environment 327ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-ci-setup/alchemy/N-B6-craft-unavailable-trim.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemAlchemyTab.boundary-contracts.test.tsx > TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 > B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销
+AssertionError: expected { kind: 'craftRecipe', …(2) } to deeply equal { kind: 'craftRecipe', …(2) }
+
+- Expected
++ Received
+
+@@ -14,7 +14,7 @@
+            "itemId": "product-b6",
+          },
+        ],
+      },
+    ],
+-   "unavailableMessage": "原料不足",
++   "unavailableMessage": "  原料不足  ",
+  }
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx:184:47
+    182|
+    183|     await fillAndBlur(field, '  原料不足  ')
+    184|     expect(craftEffect(session, 'vessel-b6')).toEqual({
+       |                                               ^
+    185|       kind: 'craftRecipe',
+    186|       recipes: [baseRecipe],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

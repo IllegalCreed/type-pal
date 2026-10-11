@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-alchemy-N-B9-draft-identity-discard-7viU2C/packages/editor
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (6 tests | 1 failed) 2062ms
+     ✓ B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写 85ms
+     ✓ B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写 41ms
+     ✓ B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销 41ms
+     ✓ B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加 39ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1833ms
+     × B9 外部版本推进丢弃在途草稿，不落账 22ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  12:23:51
+   Duration  5.59s (transform 2.55s, setup 0ms, import 3.11s, tests 2.06s, environment 337ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-ci-setup/alchemy/N-B9-draft-identity-discard.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemAlchemyTab.boundary-contracts.test.tsx > TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 > B9 外部版本推进丢弃在途草稿，不落账
+AssertionError: expected '途中草稿' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ 途中草稿
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx:281:30
+    279|       await dispatchInAct(session, new UpdateItemCommand('vessel-b9', …
+    280|     ).toBe(true)
+    281|     expect(craftField.value).toBe('')
+       |                              ^
+    282|     await blurField(craftField)
+    283|     expect(session.getHistoryVersion()).toBe(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

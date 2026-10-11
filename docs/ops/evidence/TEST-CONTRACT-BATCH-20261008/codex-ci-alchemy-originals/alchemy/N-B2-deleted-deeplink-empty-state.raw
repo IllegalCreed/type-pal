@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /private/tmp/tp-codex-alchemy-N-B2-deleted-deeplink-empty-state-g7xGPg/packages/editor
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx (6 tests | 1 failed) 1395ms
+     × B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写 47ms
+     ✓ B4 材料/产物多处缺同一引用：Inspector 缺失集合去重，配方不被自动修复且零写 32ms
+     ✓ B6 crafting 材料不足提示：trim 提交、清空删键、单命令历史边界可精确撤销 34ms
+     ✓ B7 仅消耗者 owner 时追加禁用，公开补材料后恢复合法追加 24ms
+     ✓ B8 灵葫 999 档上限：追加禁用零历史漂移，合法降档后恢复可追加且同步克隆末档  1248ms
+     ✓ B9 外部版本推进丢弃在途草稿，不落账 10ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  12:23:33
+   Duration  3.24s (transform 1.19s, setup 0ms, import 1.45s, tests 1.40s, environment 310ms)
+
+JSON report written to /Users/zhangxu/.codex/worktrees/glm-boundaries-integration-20261011/type-pal/build/ci/glm-boundaries-20261011/counters-alchemy-ci-setup/alchemy/N-B2-deleted-deeplink-empty-state.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/ItemAlchemyTab.boundary-contracts.test.tsx > TEST-EDITOR-ALCHEMY-BOUNDARIES-1 机制页边界 > B2 深链指向真实已删除物品：精确 deleted 空态，不自动跳 owner、不派生第二 owner、零写
+AssertionError: expected '机制承载物品已被删除针' to be '机制承载物品已被删除' // Object.is equality
+
+Expected: "机制承载物品已被删除"
+Received: "机制承载物品已被删除针"
+
+ ❯ src/ui/ItemAlchemyTab.boundary-contracts.test.tsx:115:71
+    113|     expect(removed).toBe(true)
+    114|
+    115|     expect(host.querySelector('.ds-empty-state__title')?.textContent).…
+       |                                                                       ^
+    116|     expect(host.querySelector('.ds-empty-state p')?.textContent).toBe(
+    117|       '深链目标 plain-b2 已不在当前物品表。',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
