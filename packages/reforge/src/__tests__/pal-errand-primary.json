@@ -1,0 +1,67 @@
+{
+  "provenance": {
+    "archive": {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    "eventObjects": {
+      "path": "data/extracted/data/event-objects.json",
+      "sha256": "850f33a1df14048f5d6adf6732347264f362bf5a5dcc8e4c201adb1b4d407613",
+      "chunk": 0,
+      "recordIndex": 123,
+      "recordBytes": 32,
+      "stateByteOffset": 12
+    },
+    "events": {
+      "path": "data/extracted/events/all.json",
+      "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+      "chunk": 4,
+      "commandBytes": 8,
+      "segment": "all"
+    }
+  },
+  "zhangSi": {
+    "id": 123,
+    "x": 960,
+    "y": 1376,
+    "spriteNum": 13,
+    "triggerLabel": "L_1430",
+    "triggerMode": 3,
+    "sState": 2,
+    "sLayer": 0,
+    "vanishTime": 0,
+    "nSpriteFrames": 3,
+    "direction": 1,
+    "currentFrameNum": 0,
+    "scriptIdleFrame": 0,
+    "spritePtrOffset": 0,
+    "nSpriteFramesAuto": 0,
+    "scriptIdleFrameCountAuto": 0
+  },
+  "boardingPoses": [
+    { "ip": 1511, "command": { "op": "raw", "opcode": 21, "operands": [0, 0, 1] } },
+    { "ip": 1513, "command": { "op": "raw", "opcode": 21, "operands": [0, 0, 0] } }
+  ],
+  "rowingCycle": {
+    "from": 36147,
+    "toExclusive": 36163,
+    "commands": [
+      { "op": "raw", "opcode": 108, "operands": [65535, 4, 65534], "label": "L_36147" },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 108, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] },
+      { "op": "raw", "opcode": 125, "operands": [65535, 4, 65534] }
+    ]
+  }
+}

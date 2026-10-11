@@ -12,6 +12,62 @@ import {
 const target = { scene: 's001', entity: 'e1' }
 
 describe('canonical author script schema', () => {
+  test('mountParty accepts a carrier alone or distinct same-scene riders with optional finite offsets', () => {
+    expect(() =>
+      checkBaseAuthorCommands(
+        [
+          { kind: 'mountParty', target },
+          { kind: 'mountParty', target, riders: [] },
+          {
+            kind: 'mountParty',
+            target,
+            riders: [
+              { target: { scene: 's001', entity: 'e2' } },
+              { target: { scene: 's001', entity: 'e3' }, dx: -4, dy: 2 },
+            ],
+          },
+        ],
+        'body',
+      ),
+    ).not.toThrow()
+  })
+
+  test.each([
+    { reason: 'a non-array rider list', riders: null, message: 'body[0].riders: 期望数组' },
+    {
+      reason: 'a rider in another scene',
+      riders: [{ target: { scene: 's002', entity: 'e2' } }],
+      message: 'body[0].riders[0].target: 搭乘实体必须与载具同场景',
+    },
+    {
+      reason: 'the carrier as its own rider',
+      riders: [{ target }],
+      message: 'body[0].riders[0].target: 重复搭乘实体或载具自身',
+    },
+    {
+      reason: 'a repeated rider',
+      riders: [
+        { target: { scene: 's001', entity: 'e2' } },
+        { target: { scene: 's001', entity: 'e2' } },
+      ],
+      message: 'body[0].riders[1].target: 重复搭乘实体或载具自身',
+    },
+    {
+      reason: 'an infinite horizontal offset',
+      riders: [{ target: { scene: 's001', entity: 'e2' }, dx: Number.POSITIVE_INFINITY }],
+      message: 'body[0].riders[0].dx: 期望有限数',
+    },
+    {
+      reason: 'a non-finite vertical offset',
+      riders: [{ target: { scene: 's001', entity: 'e2' }, dy: Number.NaN }],
+      message: 'body[0].riders[0].dy: 期望有限数',
+    },
+  ])('mountParty rejects $reason', ({ riders, message }) => {
+    expect(() => checkBaseAuthorCommands([{ kind: 'mountParty', target, riders }], 'body')).toThrow(
+      message,
+    )
+  })
+
   test('faceEntityToParty has only a canonical entity address, not a fixed facing or bare id', () => {
     expect(() =>
       checkBaseAuthorCommands([{ kind: 'faceEntityToParty', target }], 'body'),

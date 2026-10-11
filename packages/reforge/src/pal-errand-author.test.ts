@@ -7,8 +7,6 @@ import {
   validateAuthorScenes,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
-import sourceObjects from '../../../data/extracted/data/event-objects.json' with { type: 'json' }
-import sourceEvents from '../../../data/extracted/events/all.json' with { type: 'json' }
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
 import locale from '../../../projects/pal/content/locale.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
@@ -17,6 +15,8 @@ import innJson from '../../../projects/pal/content/scenes/s003.json' with { type
 import villageJson from '../../../projects/pal/content/scenes/s004.json' with { type: 'json' }
 import marketJson from '../../../projects/pal/content/scenes/s005.json' with { type: 'json' }
 import doctorJson from '../../../projects/pal/content/scenes/s010.json' with { type: 'json' }
+// Verbatim primary excerpts with archive/source hashes; no local extracted assets are required.
+import primary from './__tests__/pal-errand-primary.json' with { type: 'json' }
 import { compileRuntimeScriptFlow, type RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
 import { RuntimeScriptRunner, type ScriptRuntimeHost } from './runtime-script-runner.js'
@@ -127,8 +127,9 @@ test('every sickroom Xiaohu activation faces the party before its dialogue, incl
 })
 
 test('the doctor restores Zhang Si to his exact original blocker state before the boarding caller is used', async () => {
-  const source = sourceObjects.eventObjects.find((object) => object.id === 123)
-  expect(source?.sState).toBe(2)
+  const source = primary.zhangSi
+  expect(source.id).toBe(123)
+  expect(source.sState).toBe(2)
   const { commands } = await activate(flow('s002', 'e35', 'default'))
   expect(
     commands.filter(
@@ -138,7 +139,7 @@ test('the doctor restores Zhang Si to his exact original blocker state before th
         command.target.entity === 'e123',
     ),
   ).toEqual([
-    { kind: 'setEntityState', target: { scene: 's005', entity: 'e123' }, state: source?.sState },
+    { kind: 'setEntityState', target: { scene: 's005', entity: 'e123' }, state: source.sState },
   ])
 })
 
@@ -158,9 +159,10 @@ test('Zhang Si faces the party before the boarding counsel, then retains both au
 })
 
 test('boarding retains the primary down pose through both ride legs; opposite authored facing is rejected', async () => {
-  const primary = sourceEvents.segments[0]?.commands
-  expect(primary?.[1511]).toMatchObject({ opcode: 0x15, operands: [0, 0, 1] })
-  expect(primary?.[1513]).toMatchObject({ opcode: 0x15, operands: [0, 0, 0] })
+  expect(primary.boardingPoses).toMatchObject([
+    { ip: 1511, command: { opcode: 0x15, operands: [0, 0, 1] } },
+    { ip: 1513, command: { opcode: 0x15, operands: [0, 0, 0] } },
+  ])
   const source = flow('s005', 'e116', 'legacy-001')
   const verify = async (candidate: AuthorScriptFlow) => {
     const { commands } = await activate(candidate)
@@ -214,7 +216,7 @@ test('one canonical rowing cycle pairs each source nudge/animate within its sing
     else if (command.kind === 'animEntity') effects.push({ kind: 'animate' })
     else throw new Error('unclassified canonical rowing effect')
   }
-  const expected = sourceEvents.segments[0]?.commands.slice(36147, 36163).map((command) => {
+  const expected = primary.rowingCycle.commands.map((command) => {
     if (command.op !== 'raw' || !('opcode' in command) || !('operands' in command))
       throw new Error('unclassified actual primary rowing command')
     expect([0x6c, 0x7d]).toContain(command.opcode)

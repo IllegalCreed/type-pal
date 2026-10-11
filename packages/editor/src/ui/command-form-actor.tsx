@@ -405,57 +405,6 @@ export function ActorCommandForm(props: ActorCommandFormProps) {
             <Num value={cmd.dx ?? 0} onChange={(n) => set({ dx: n || undefined })} />
             <Num value={cmd.dy ?? 0} onChange={(n) => set({ dy: n || undefined })} />
           </Row>
-          {(cmd.riders ?? []).map((rider, index) => (
-            <Row key={`${rider.entity}-${index}`} label={`搭乘实体 ${index + 1}`}>
-              <EntitySel
-                value={rider.entity}
-                scene={scene}
-                entityLabel={props.entityLabel}
-                onChange={(entity) =>
-                  set({
-                    riders: cmd.riders?.map((value, at) =>
-                      at === index ? { ...value, entity } : value,
-                    ),
-                  })
-                }
-              />
-              <Num
-                value={rider.dx ?? 0}
-                onChange={(dx) =>
-                  set({
-                    riders: cmd.riders?.map((value, at) =>
-                      at === index ? { ...value, dx: dx || undefined } : value,
-                    ),
-                  })
-                }
-              />
-              <Num
-                value={rider.dy ?? 0}
-                onChange={(dy) =>
-                  set({
-                    riders: cmd.riders?.map((value, at) =>
-                      at === index ? { ...value, dy: dy || undefined } : value,
-                    ),
-                  })
-                }
-              />
-              <DsButton
-                onClick={() => set({ riders: cmd.riders?.filter((_value, at) => at !== index) })}
-              >
-                移除
-              </DsButton>
-            </Row>
-          ))}
-          <DsButton
-            onClick={() => {
-              const used = new Set([cmd.entity, ...(cmd.riders ?? []).map((rider) => rider.entity)])
-              const candidate = scene.entities.find((entity) => !used.has(entity.id))
-              if (candidate)
-                set({ riders: [...(cmd.riders ?? []), { entity: candidate.id, dx: 0, dy: 0 }] })
-            }}
-          >
-            添加搭乘实体
-          </DsButton>
         </>
       )
     case 'ride':

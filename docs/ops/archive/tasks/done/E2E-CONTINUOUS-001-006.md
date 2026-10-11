@@ -6,6 +6,55 @@ Capability: C1 / E2E
 Coding Owner: Codex
 Reviewer: Codex（独立验收）
 
+## 2026-10-11 CI 干净 checkout 跟进
+
+合并提交 `f2e62dd41` 的 Documentation CI 已通过，但 Coverage ratchet
+运行 `38074893085` 在覆盖率开始前的 typecheck 失败：
+`pal-errand-author.test.ts` 静态导入未入库的 `data/extracted/data/event-objects.json`
+和 `data/extracted/events/all.json`，产生两条 TS2307 与两条后续 TS7006。
+上节本地质量门使用了现存提取数据，不能证明 CI 干净 checkout 可用；失败日志原样保留。
+独立工作树不含提取数据或原始 SSS，已复现同样四条诊断。
+
+build allowed 限定测试输入可用性这一根因，Codex 为单一 Owner；产品、剧情、提取器和
+CI 排除/静态规则保持原合同。测试仅消费对象123、两条登船姿势和16条划船指令，
+现改为 `packages/reforge/src/__tests__/pal-errand-primary.json` 的原始记录窄摘录。
+夹具保存原 SSS 及两个提取文件的 SHA256、chunk、记录/指令地址与宽度；完整对象和
+18条命令与原提取结果逐项相等，状态及18条指令字与原 SSS 字节直接相等。
+测试仍走当前作者 flow 的编译/运行，保留相反朝向反控及全部15项既有断言合同，
+不从待测作者内容生成期望值，不增加测试豁免。真源维护参考 `io/sss.ts` 的chunk0/4
+布局和 `resources/scene.ts` 的零基记录 id，后续仅随已核原始输入刷新此夹具。
+
+干净 checkout 的全仓 typecheck 与 lint 已通过，3860文件 error/warning/info 全部0，
+相关作者测试15项通过。提交后的 GitHub CI 回执须另行确认，不以本地通过替代。
+证据位于 `build/ci/e2e-main-20261011/`，原始固定输入/headed
+验收仍为冻结批次，不重新录制或改写旧回执。本次新增夹具只增加治理台账待核库存一项。
+
+初次完整 fast 的19755项测试均通过，但 content 三项和 editor 四项覆盖率低于受保护
+基线，`coverage-fast-initial.log`及`coverage-initial/`保留失败指标。两项后续根因依次允许
+修复，由 Codex 单一写入，不扩展产品合同。先闭合 content 根因：
+新增 mountParty.riders 运行时输入校验未有包内测试；补一项合法组合和六项独立拒绝边界，
+核同场景、非载具自身/不重复、有限偏移，既有 helper 合同不重复补测。1498项通过，
+content statements/branches/lines 分别为5668/5878、4827/5129、5061/5199，均高于旧比例。
+
+随后核 editor 根因：`AUTHOR_CUSTOM_COMMAND_KINDS`将 mountParty 留在 CanonicalCommandForm，
+真实`createAuthorCommandFormBridge`对合法搭乘命令返回undefined；ScriptEditor:2483附近
+进入canonical实体表单，不能到达旧 ActorCommandForm 搭乘臂。仅删除本次E2E新增的51行
+不可达rider控件和回调，该文件回到 main父版本内容，不增加直接挂载死臂的覆盖率用例。
+canonical入口、作者schema、runtime骑乘及既有UI行为不变；五个现有表单/所有权文件30项通过。
+修复后按官方ratchet逻辑重新完整实测，保护与范围检查不改；为遵守apply_patch写源码纪律，
+生成器只将最终基线输出重定向到ignored候选文件，审核后再用apply_patch落正式基线。
+临时生成器不进入提交，不能代替提交后的GitHub CI回执。
+
+完整重测已exit0：七包19762项全部通过、729份生产源码均被纳入，候选基线与实际汇总
+逐字段一致。相对原基线15项比例提升、10项范围/测试身份变更，零回退、零移除；
+另与 `fd2c645`、`f2e62dd` 的受保护基线分别用正式比较与范围函数复核，同样零回退/
+零移除，不使用范围删除开关或退役豁免。editor 实测 statements/branches/functions/
+lines 为30224/33522、24259/29079、7655/8544、27049/29293，均高于原比例。
+`baseline-verification.json`、`coverage-final/`和`coverage-ratchet-candidate.log`保留此轮
+新证据；正式 `baseline.fast.json` 经apply_patch更新后与生成候选逐字节相同。
+质量工具37项、覆盖率工具58项通过；此修复不重做已验收主线生产者或E2E反控。
+无下一位 Agent 提示词，本次 CI 跟进由 Codex 收口。
+
 ## 2026-10-11 main 集成与分支退役
 
 用户后续明确授权推送，并选择“把 E2E 合入 main，再清理这两个分支”。本次集成父版本为
