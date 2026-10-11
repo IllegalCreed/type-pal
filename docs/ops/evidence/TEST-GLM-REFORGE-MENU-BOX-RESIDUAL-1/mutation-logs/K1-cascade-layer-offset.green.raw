@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge
+
+ ✓ src/menu/menu-box.residual.glm.test.ts (5 tests) 9ms
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 165ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 155ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+
+ Test Files  5 passed (5)
+      Tests  25 passed (25)
+   Start at  15:09:24
+   Duration  1.33s (transform 1.07s, setup 0ms, import 1.56s, tests 339ms, environment 341ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json

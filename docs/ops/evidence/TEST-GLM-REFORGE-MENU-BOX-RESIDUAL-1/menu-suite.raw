@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 160ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 130ms
+ ✓ src/menu/menu-session.test.ts (24 tests) 15ms
+stderr | src/menu/reward-gain-queue.boundaries.test.ts > F6 竞争单次兑现与输入语义 > 输入语义：Enter/空格消费并推进；Escape 不吞交还外层；其它键消费不推进；inactive 不吞
+Promise returned by `expect(actual).resolves.toBeUndefined()` was not awaited. Vitest currently auto-awaits hanging assertions at the end of the test, but this will cause the test to fail in the next Vitest major. Please remember to await the assertion.
+    at /Users/zhangxu/illegal/type-pal/packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts:100:24
+
+ ✓ src/menu/reward-gain-queue.boundaries.test.ts (5 tests) 8ms
+ ✓ src/menu/item-list.glm-runtime-resource.test.ts (5 tests) 9ms
+ ✓ src/menu/save-browser-box.glm-runtime-resource.test.ts (5 tests) 7ms
+ ✓ src/menu/magic-box.glm-runtime-resource.test.ts (5 tests) 7ms
+ ✓ src/menu/use-box.glm-runtime-resource.test.ts (3 tests) 6ms
+ ✓ src/menu/menu-box.residual.glm.test.ts (5 tests) 7ms
+ ✓ src/menu/menu-session.glm-next-wave.test.ts (6 tests) 6ms
+ ✓ src/menu/reward-gain-queue.test.ts (5 tests) 5ms
+ ✓ src/menu/system-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/menu/equip-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/menu/shop-box.residual.test.ts (4 tests) 5ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 4ms
+ ✓ src/menu/item-use-session.test.ts (3 tests) 3ms
+ ✓ src/menu/item-use-result.test.ts (2 tests) 2ms
+ ✓ src/menu/shop-box.test.ts (6 tests) 3ms
+
+ Test Files  19 passed (19)
+      Tests  106 passed (106)
+   Start at  14:49:07
+   Duration  1.81s (transform 674ms, setup 0ms, import 1.60s, tests 393ms, environment 303ms)
+
+EXIT=0

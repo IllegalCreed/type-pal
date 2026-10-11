@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K4-mid-name-anchor-green.4qtB5z/packages/reforge
+
+ ✓ src/menu/menu-box.residual.glm.test.ts (5 tests) 12ms
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 169ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 218ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 7ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 6ms
+
+ Test Files  5 passed (5)
+      Tests  25 passed (25)
+   Start at  15:09:36
+   Duration  1.55s (transform 1.26s, setup 0ms, import 1.87s, tests 410ms, environment 363ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K4-mid-name-anchor.green.json

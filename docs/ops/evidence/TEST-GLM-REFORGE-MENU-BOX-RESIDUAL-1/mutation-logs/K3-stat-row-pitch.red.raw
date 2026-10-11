@@ -1,0 +1,84 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K3-stat-row-pitch-red.nveM4G/packages/reforge
+
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 170ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 219ms
+ ❯ src/menu/menu-box.residual.glm.test.ts (5 tests | 1 failed) 21ms
+     ✓ 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移 5ms
+     ✓ 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白 2ms
+     × 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成 10ms
+     ✓ 中栏名字金黄居中于158、回落立绘按宽居中于(142,50) 1ms
+     ✓ 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中 1ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 5ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 5ms
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 24 passed (25)
+   Start at  15:09:30
+   Duration  1.55s (transform 1.22s, setup 0ms, import 1.83s, tests 419ms, environment 383ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/menu/menu-box.residual.glm.test.ts > 当前 MenuBox 级联与面板公开布局残余 > 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成
+AssertionError: expected [ [ '经验', 10 ], [ '等级', 31 ], …(7) ] to deeply equal [ [ '经验', 10 ], [ '等级', 30 ], …(7) ]
+
+- Expected
++ Received
+
+@@ -3,36 +3,36 @@
+      "经验",
+      10,
+    ],
+    [
+      "等级",
+-     30,
++     31,
+    ],
+    [
+      "生命",
+-     50,
++     52,
+    ],
+    [
+      "灵力",
+-     70,
++     73,
+    ],
+    [
+      "攻击",
+-     90,
++     94,
+    ],
+    [
+      "法攻",
+-     110,
++     115,
+    ],
+    [
+      "防御",
+-     130,
++     136,
+    ],
+    [
+      "身法",
+-     150,
++     157,
+    ],
+    [
+      "吉运",
+-     170,
++     178,
+    ],
+  ]
+
+ ❯ src/menu/menu-box.residual.glm.test.ts:353:7
+    351|         .filter((row) => row.x === 8)
+    352|         .map((row) => [row.text, row.y]),
+    353|     ).toEqual([
+       |       ^
+    354|       ['经验', 10],
+    355|       ['等级', 30],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

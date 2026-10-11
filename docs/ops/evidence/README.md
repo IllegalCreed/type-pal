@@ -7,7 +7,7 @@
 
 ## 当前证据
 
-- [物品使用效果场景/实体引用残差](TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)（r1 候选：R1/R3/R5 三合同 + 三针三态反控全 VALID；P1 puppet product-counter 登记，待 Codex 验收）。
+- [TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 交付证据](TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)（r1 候选：MenuBox 级联几何/选中色残余臂/属性九行布局/中栏定位/装备格网格 5 合同 + 5/5 隔离树严格反控，待 Codex 验收）。
 - [Game 大世界叠层测试性能修复](CI-GAME-OVERLAY-PERFORMANCE-1/README.md)（Codex有限维护；7反控、全包及受保护fast通过，覆盖/基准不变，新托管CI按推送HEAD另核）。
 - [2026年10月8日有限合同派发](TEST-CONTRACT-BATCH-20261008/README.md)（三个 GLM 候选已由 Codex 在当前 main 独立复验；最终裁决见 [独立验收](TEST-CONTRACT-BATCH-20261008/codex-review.md)）。
 - [炼蛊边界贡献候选](TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md)、[脚本交互贡献候选](TEST-EDITOR-SCRIPT-INTERACTION-1/README.md)、[工程加载贡献候选](TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md)（原件保持历史候选身份；以共同目录的 Codex 当前版本复验为准）。

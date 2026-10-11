@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /private/tmp/tp-menubox-residual-K2-blink-phase-wrap-green.glBwH1/packages/reforge
+
+ ✓ src/menu/menu-box.residual.glm.test.ts (5 tests) 11ms
+ ✓ src/menu/menu-box.status-residual.test.ts (8 tests) 167ms
+ ✓ src/menu/menu-box.glm-n.test.ts (5 tests) 183ms
+ ✓ src/menu/menu-box.glm-runtime-resource.test.ts (4 tests) 6ms
+ ✓ src/menu/menu-box.residual.test.ts (3 tests) 4ms
+
+ Test Files  5 passed (5)
+      Tests  25 passed (25)
+   Start at  15:09:28
+   Duration  1.58s (transform 1.22s, setup 0ms, import 1.83s, tests 370ms, environment 431ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json
