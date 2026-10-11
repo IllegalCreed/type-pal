@@ -1,68 +1,227 @@
 {
-  "schemaVersion": 1,
-  "id": "content-document-template-registry-20261004",
+  "schemaVersion": 2,
+  "id": "content-document-template-registry-20261011",
   "owner": "Codex",
-  "policy": "One stable type and one template contract per governed document; historical documents retain truth scope and are not promoted by formatting migration.",
+  "policy": "One stable type and one template contract per governed document; historical documents retain truth scope and are not promoted by formatting migration. Testing documents use dedicated contracts while preserving machine fields.",
   "types": [
     {
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"]
+      "requiredSections": [
+        "目的",
+        "范围",
+        "当前状态",
+        "入口与责任",
+        "证据与下一步"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "task-card.md",
-      "requiredSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"]
+      "requiredSections": [
+        "目标",
+        "范围",
+        "前提与证据",
+        "验收",
+        "状态与交接"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "guide-runbook.md",
-      "requiredSections": ["目的", "前置条件", "步骤", "失败处理", "完成定义"]
+      "requiredSections": [
+        "目的",
+        "前置条件",
+        "步骤",
+        "失败处理",
+        "完成定义"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "audit-report.md",
-      "requiredSections": ["审计问题", "范围与证据", "发现", "结论", "整改与复核"]
+      "requiredSections": [
+        "审计问题",
+        "范围与证据",
+        "发现",
+        "结论",
+        "整改与复核"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "evidence-receipt.md",
-      "requiredSections": ["证据身份", "来源与输入", "断言与业务 oracle", "结果", "限制与复核"]
+      "requiredSections": [
+        "证据身份",
+        "来源与输入",
+        "断言与业务 oracle",
+        "结果",
+        "限制与复核"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "design-spec.md",
-      "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"]
+      "requiredSections": [
+        "问题与目标",
+        "真值与约束",
+        "方案",
+        "边界与风险",
+        "验收"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "plan-status.md",
-      "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"]
+      "requiredSections": [
+        "目标与时间范围",
+        "里程碑",
+        "当前状态",
+        "阻塞与决策",
+        "下一步"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "reference-canon.md",
-      "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"]
+      "requiredSections": [
+        "适用范围",
+        "一手来源",
+        "当前真值",
+        "未知与冲突",
+        "使用边界"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "narrative-idea",
       "templateId": "narrative-idea-v1",
       "template": "narrative-idea.md",
-      "requiredSections": ["创意目的", "已知约束", "候选内容", "未决选择", "升级为 canon 的门槛"]
+      "requiredSections": [
+        "创意目的",
+        "已知约束",
+        "候选内容",
+        "未决选择",
+        "升级为 canon 的门槛"
+      ],
+      "templateVersion": "1.0.0"
     },
     {
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "archive-record.md",
-      "requiredSections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"]
+      "requiredSections": [
+        "历史范围",
+        "原始结论",
+        "当时证据",
+        "当前有效性",
+        "继任文档"
+      ],
+      "templateVersion": "1.0.0"
+    },
+    {
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "template": "../../testing/_templates/test-catalog.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Catalog identity",
+        "Domain and lifecycle",
+        "Dependencies and publication rules"
+      ]
+    },
+    {
+      "docType": "test-contract",
+      "templateId": "test-contract-v1",
+      "template": "../../testing/_templates/test-contract.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Contract question",
+        "Legal typed inputs",
+        "Caller and oracle",
+        "Dedupe and limits",
+        "Revision"
+      ]
+    },
+    {
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "template": "../../testing/_templates/test-domain-report.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Domain scope",
+        "Claim matrix",
+        "Inputs and fixtures",
+        "Results and gaps",
+        "Quality gate"
+      ]
+    },
+    {
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "template": "../../testing/_templates/test-e2e-stage.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "入口与前置",
+        "当前结论",
+        "证据与状态",
+        "依赖与历史"
+      ]
+    },
+    {
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "template": "../../testing/_templates/test-run-report.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Scope",
+        "Execution and assertions",
+        "Results",
+        "Evidence",
+        "Revision history"
+      ]
+    },
+    {
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Machine envelope",
+        "Execution identity",
+        "Steps and hashes",
+        "Exit and cleanup",
+        "Limits"
+      ]
+    },
+    {
+      "docType": "quality-gate",
+      "templateId": "quality-gate-v1",
+      "template": "../../testing/_templates/quality-gate.md",
+      "templateVersion": "1.0.0",
+      "requiredSections": [
+        "Gate scope",
+        "Diagnostics policy",
+        "Commands and raw counts",
+        "Decision",
+        "Stop line"
+      ]
     }
-  ]
+  ],
+  "status": "frozen-for-pilot"
 }

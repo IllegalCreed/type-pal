@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "test-NNN",
+  "status": "recorded",
+  "execution": {"command": "", "cwd": "", "startedAt": "", "exitCode": null, "signal": null},
+  "sourceRefs": [],
+  "publicCallers": [],
+  "legalInputs": [],
+  "businessOracle": {"type": "", "assertions": []},
+  "dedupe": {"result": "", "against": []},
+  "steps": [],
+  "hashes": [],
+  "artifacts": [],
+  "failures": [],
+  "cleanup": {"complete": false, "paths": []},
+  "history": []
+}
