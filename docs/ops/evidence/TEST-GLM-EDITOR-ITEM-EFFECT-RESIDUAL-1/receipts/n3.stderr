@@ -24,4 +24,3 @@ AssertionError: expected [] to deeply equal [ { kind: 'error', …(1) } ]
     304|     expect(useSpec(session, 'charm-r5')).toEqual(initial)
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
-

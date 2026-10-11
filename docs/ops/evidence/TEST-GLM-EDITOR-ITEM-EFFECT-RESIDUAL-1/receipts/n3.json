@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1791698452947,
+  "startTime": 1791698547649,
   "success": false,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
           "status": "passed",
           "title": "R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
-          "duration": 124.06012499999997,
+          "duration": 170.92791699999998,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -44,7 +44,7 @@
           "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
           "status": "passed",
           "title": "R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
-          "duration": 58.9380000000001,
+          "duration": 79.73595799999975,
           "failureMessages": [],
           "meta": {},
           "tags": []
@@ -54,7 +54,7 @@
           "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
           "status": "failed",
           "title": "R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
-          "duration": 37.716541000000234,
+          "duration": 39.3993330000003,
           "failureMessages": [
             "AssertionError: expected [] to deeply equal [ { kind: 'error', …(1) } ]\n    at /private/tmp/tp-item-effect-residual/packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx:302:21\n    at file:///private/tmp/tp-item-effect-residual/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
           ],
@@ -62,8 +62,8 @@
           "tags": []
         }
       ],
-      "startTime": 1791698455878,
-      "endTime": 1791698456098.7166,
+      "startTime": 1791698551117,
+      "endTime": 1791698551407.3994,
       "status": "failed",
       "message": "",
       "name": "/private/tmp/tp-item-effect-residual/packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx"

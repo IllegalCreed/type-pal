@@ -1,11 +1,11 @@
 
  RUN  v4.1.7 /private/tmp/tp-item-effect-residual/packages/editor
 
- ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx (3 tests) 202ms
+ ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx (3 tests) 286ms
 
  Test Files  1 passed (1)
       Tests  3 passed (3)
-   Start at  15:00:56
-   Duration  2.65s (transform 1.64s, setup 0ms, import 1.98s, tests 202ms, environment 387ms)
+   Start at  15:02:31
+   Duration  3.43s (transform 2.19s, setup 0ms, import 2.67s, tests 286ms, environment 373ms)
 
 JSON report written to /private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green2.json
