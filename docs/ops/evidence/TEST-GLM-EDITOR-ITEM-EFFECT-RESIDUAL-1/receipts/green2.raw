@@ -1,11 +1,12 @@
 
  RUN  v4.1.7 /private/tmp/tp-item-effect-residual/packages/editor
 
- ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx (3 tests) 286ms
+ ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx (3 tests) 621ms
+     ✓ R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性  311ms
 
  Test Files  1 passed (1)
       Tests  3 passed (3)
-   Start at  15:02:31
-   Duration  3.43s (transform 2.19s, setup 0ms, import 2.67s, tests 286ms, environment 373ms)
+   Start at  15:03:39
+   Duration  9.14s (transform 6.79s, setup 0ms, import 7.63s, tests 621ms, environment 741ms)
 
 JSON report written to /private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green2.json

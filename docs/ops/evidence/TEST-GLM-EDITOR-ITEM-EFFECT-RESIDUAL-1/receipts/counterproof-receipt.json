@@ -1,6 +1,6 @@
 {
   "task": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1",
-  "startedAt": "2026-10-11T06:02:15.215Z",
+  "startedAt": "2026-10-11T06:03:01.590Z",
   "command": "node /private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/counterproof.mjs",
   "cwd": "/private/tmp/tp-item-effect-residual",
   "execPath": "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
@@ -135,6 +135,6 @@
       ]
     }
   ],
-  "finishedAt": "2026-10-11T06:02:39.452Z",
+  "finishedAt": "2026-10-11T06:03:59.189Z",
   "overall": "VALID"
 }

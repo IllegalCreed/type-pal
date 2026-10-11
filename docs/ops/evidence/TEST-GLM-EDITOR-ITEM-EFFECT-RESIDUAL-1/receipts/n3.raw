@@ -1,14 +1,14 @@
 
  RUN  v4.1.7 /private/tmp/tp-item-effect-residual/packages/editor
 
- ❯ src/ui/ItemUseEffectEditor.residual.glm.test.tsx (3 tests | 1 failed) 293ms
-     ✓ R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性 171ms
-     ✓ R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标 80ms
-     × R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交 39ms
+ ❯ src/ui/ItemUseEffectEditor.residual.glm.test.tsx (3 tests | 1 failed) 353ms
+     ✓ R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性 184ms
+     ✓ R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标 93ms
+     × R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交 75ms
 
  Test Files  1 failed (1)
       Tests  1 failed | 2 passed (3)
-   Start at  15:02:27
-   Duration  3.75s (transform 2.43s, setup 0ms, import 2.96s, tests 293ms, environment 395ms)
+   Start at  15:03:31
+   Duration  7.08s (transform 5.16s, setup 0ms, import 5.90s, tests 353ms, environment 634ms)
 
 JSON report written to /private/tmp/tp-item-effect-residual/docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/n3.json
