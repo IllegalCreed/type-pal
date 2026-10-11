@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-11T02:09:01.479Z",
+  "generatedAt": "2026-10-11T07:35:20.100Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 729,
-  "testCount": 19789,
+  "testCount": 19798,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2336,8 +2336,8 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8958,
-        "testFileCount": 358,
+        "testCount": 8963,
+        "testFileCount": 359,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2531,6 +2531,7 @@
           "packages/reforge/src/menu/magic-box.glm-runtime-resource.test.ts",
           "packages/reforge/src/menu/menu-box.glm-n.test.ts",
           "packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+          "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
           "packages/reforge/src/menu/menu-box.residual.test.ts",
           "packages/reforge/src/menu/menu-box.status-residual.test.ts",
           "packages/reforge/src/menu/menu-session.glm-next-wave.test.ts",
@@ -3660,6 +3661,11 @@
             "identityDigest": "5537331c316f9cbb5a8fb88b3cc29e0f10489cc87b8d3eda71eca2542abc6e5f"
           },
           {
+            "file": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+            "testCount": 5,
+            "identityDigest": "7d69b874aeaf94b5e01221e9ff7f3940c73f1cc5f0bc7532219854fa43734849"
+          },
+          {
             "file": "packages/reforge/src/menu/menu-box.residual.test.ts",
             "testCount": 3,
             "identityDigest": "2a6865458f1148000ee5ba416487b18b97f33572f85cd663b1f42aba51b3f6f5"
@@ -4490,9 +4496,9 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "478aac62972ba96f5afd547670afcce979221dec7090f8670f58a9b4d1433d02",
+        "identityDigest": "ddd970bf0edebd5f9bcc117b02f81565becfe5e768e0f029339332a2d1ccae81",
         "duplicateIdentityCount": 3,
-        "executionDigest": "3fef5df77210ed0fa2f609b9efe2d6e8a5e74047ba9324b60ac78e463dc4f870"
+        "executionDigest": "32045730f6442f05060849ab61fdf3af620dda9f3db1a28652053164750e22c5"
       },
       "metrics": {
         "statements": {
@@ -4500,7 +4506,7 @@
           "total": 18885
         },
         "branches": {
-          "covered": 10806,
+          "covered": 10807,
           "total": 13097
         },
         "functions": {
@@ -6840,8 +6846,8 @@
       ],
       "scopeDigest": "17a2035a760e7292c1ab49e410b06bcaad56c83e05557d927416ae1e5db09b7a",
       "fastTests": {
-        "testCount": 4768,
-        "testFileCount": 608,
+        "testCount": 4772,
+        "testFileCount": 610,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7244,6 +7250,7 @@
           "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.kimi-workflows.test.tsx",
+          "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
           "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
           "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx",
           "packages/editor/src/ui/LayerStackControls.test.tsx",
@@ -7379,6 +7386,7 @@
           "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
           "packages/editor/src/ui/command-form-contract.test.ts",
           "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
+          "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
           "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
           "packages/editor/src/ui/command-form-family-ownership.test.ts",
           "packages/editor/src/ui/command-form-world.glm-large-wave.test.tsx",
@@ -9459,6 +9467,11 @@
             "identityDigest": "a30b5925ed42f4ba5b338509eda98e5a137428cb06c8ac5d798aebf08cc32270"
           },
           {
+            "file": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+            "testCount": 3,
+            "identityDigest": "abf6eabd216e6c68a87e915bfc3c1cdbc4e33a1dda5f73363659e687701f060e"
+          },
+          {
             "file": "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
             "testCount": 12,
             "identityDigest": "0ad2d4215e914349b3621033c8dad55a7fb6af903f2bfdbd99ae23e5994ddbeb"
@@ -10134,6 +10147,11 @@
             "identityDigest": "a14a1a7761a4674cfc2cac15c29e7d6d170beaeb518e14a6e1114ca0292606ad"
           },
           {
+            "file": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+            "testCount": 1,
+            "identityDigest": "573c66b5871d9095d45f430b2286dae38a2975fe1168808d14b2be405d255f30"
+          },
+          {
             "file": "packages/editor/src/ui/command-form-dialogue.glm-large-wave.test.tsx",
             "testCount": 3,
             "identityDigest": "6474dacb59eef72e1723fc0a87dabfdec47df9340968ccba1812266eefa781c8"
@@ -10494,25 +10512,25 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "7c91a8e3d0c05b3c0ea17dfc884a1ac095af5ecfff8ad766b7601ac5209924dd",
+        "identityDigest": "f8b25f4a6318a0616ebc1956d2092e359f25833986d7ffb781175a7ab745f2b0",
         "duplicateIdentityCount": 8,
-        "executionDigest": "56416ee0b25129a678ba54dc192ab2778d7b8fb4f48ccf456240ad01e3bbb2a4"
+        "executionDigest": "fd02b0fb13ec86e59fb4a9a4c85b8e18c96226b53948a71a2a824aa23d5d8973"
       },
       "metrics": {
         "statements": {
-          "covered": 30232,
+          "covered": 30239,
           "total": 33522
         },
         "branches": {
-          "covered": 24271,
+          "covered": 24273,
           "total": 29079
         },
         "functions": {
-          "covered": 7657,
+          "covered": 7662,
           "total": 8544
         },
         "lines": {
-          "covered": 27054,
+          "covered": 27060,
           "total": 29293
         }
       }
@@ -10520,19 +10538,19 @@
   },
   "total": {
     "statements": {
-      "covered": 70236,
+      "covered": 70243,
       "total": 78387
     },
     "branches": {
-      "covered": 51060,
+      "covered": 51063,
       "total": 61181
     },
     "functions": {
-      "covered": 13270,
+      "covered": 13275,
       "total": 14868
     },
     "lines": {
-      "covered": 62760,
+      "covered": 62766,
       "total": 68618
     }
   }
