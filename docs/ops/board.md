@@ -10,6 +10,7 @@
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [Game battle turn and finalization contracts](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | build | GLM / battle turn 合同 | turn-queue/finalization 阻塞、拒绝、终局与恢复 |
+| TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 | [Item use effect residual contracts](tasks/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1.md) | review | GLM 候选已推 / Codex 验收 | R1/R3/R5 三合同+三针反控全 VALID；P1 puppet product-counter 待裁决 |
 
 ## 看板规则
 
