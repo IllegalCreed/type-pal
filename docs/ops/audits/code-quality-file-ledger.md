@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含本轮 E2E 集成的源码、测试与工具）：3,261。
-当前已闭合核验：249；已读但待审：5；尚未逐文件核验：3,007；合计未闭合：3,012。
+当前已闭合核验：252；已读但待审：5；尚未逐文件核验：3,004；合计未闭合：3,009。
 
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
@@ -278,6 +278,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/font.test.ts` | test | 已验证 | CODE-QUALITY-44；真实 renderText/measure/pal width public oracle | 合法 glyph、CJK/ASCII width、tofu、empty 与 framebuffer反例 |
 | `packages/game/src/present/font.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-44；renderColoredText/缺字形/阴影真实 oracle | 逐字颜色、缺色 0x4F、三影和 tofu 像素合同 |
 | `packages/game/src/present/font-width.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-44；loadGlyphs fetch caller与width/render framebuffer oracle | HTTP 状态/baseUrl、codepoint width、shadow/底色保留合同 |
+| `packages/game/src/present/follower-render.ts` | product | 已验证 | CODE-QUALITY-45；present.ts caller、scene.c/res.c anchors、follower tests | 0x98 sprite chunk、trail[3+k]、direction/3-frame step、standing/walking、缺槽 ownership逐段核验 |
+| `packages/game/src/present/follower-render.test.ts` | test | 已验证 | CODE-QUALITY-45；公开 computeFollowerRenderItems oracle | 空 follower、缺槽、位置/身份、站立/行走步帧、多 follower 合同 |
+| `packages/game/src/present/follower-render-gap.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-45；真实 typed trail/follower caller与边界 oracle | 越界 step、稀疏槽、朝左步帧、第二 follower 缺槽反例 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |

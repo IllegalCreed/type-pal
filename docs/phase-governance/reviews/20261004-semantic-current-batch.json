@@ -773,6 +773,24 @@
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-45-follower-render-navigation",
+            "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "afterSha256": "c96b381e174ac614ca1084f7065d3e91bc5323f9a8c9c3c52a9351212d61877d",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-45-game-follower-render.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-45-follower-render-closeout",
+            "previousAfterSha256": "c96b381e174ac614ca1084f7065d3e91bc5323f9a8c9c3c52a9351212d61877d",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -806,7 +824,7 @@
           "date": "2026-10-11",
           "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "lineCount": 20,
-          "scope": "CODE-QUALITY-44 font closeout navigation/state update",
+          "scope": "CODE-QUALITY-45 follower render closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -925,6 +943,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-44-font-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-45-follower-render-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-45-follower-render-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1740,7 +1772,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
+      "afterSha256": "4bd38e713463d1ac72d8c669c448417f4f9a2cd25d2d9a7aef380184f1e07b37",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1993,6 +2025,24 @@
             "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-45-follower-render-navigation",
+            "previousAfterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
+            "afterSha256": "270f48a996bdc06c6d8d89e2e1d65538ee82f0338808ed54d22019760be59cfe",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-45-game-follower-render.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-45-follower-render-closeout",
+            "previousAfterSha256": "270f48a996bdc06c6d8d89e2e1d65538ee82f0338808ed54d22019760be59cfe",
+            "afterSha256": "4bd38e713463d1ac72d8c669c448417f4f9a2cd25d2d9a7aef380184f1e07b37",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2025,12 +2075,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
+        "afterSha256": "4bd38e713463d1ac72d8c669c448417f4f9a2cd25d2d9a7aef380184f1e07b37",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
-          "lineCount": 386,
-          "scope": "CODE-QUALITY-44 font closeout navigation/state update",
+          "sha256": "4bd38e713463d1ac72d8c669c448417f4f9a2cd25d2d9a7aef380184f1e07b37",
+          "lineCount": 387,
+          "scope": "CODE-QUALITY-45 follower render closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2180,6 +2230,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-44-font-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-45-follower-render-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-45-follower-render-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
