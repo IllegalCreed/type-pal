@@ -86,6 +86,7 @@
 | [CODE-QUALITY-3w - game battle settlement/finalization 逐文件治理](../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3x - game battle progression / hidden experience 逐文件治理](../archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3y — game analytics consent 窄批](../archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-3z — game Google Analytics page-view 窄批](../archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |

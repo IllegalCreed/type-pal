@@ -665,6 +665,24 @@
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
             "notRun": ["E2E", "visual", "new GitHub CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-3z-analytics-governance-navigation",
+            "previousAfterSha256": "f36409c5ef901efe5cbdc87879d4095e4325890a0d3ccc069fdf750a96914e6d",
+            "afterSha256": "f36409c5ef901efe5cbdc87879d4095e4325890a0d3ccc069fdf750a96914e6d",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-3z-game-google-analytics.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-3z-analytics-governance-closeout",
+            "previousAfterSha256": "f36409c5ef901efe5cbdc87879d4095e4325890a0d3ccc069fdf750a96914e6d",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -697,18 +715,8 @@
         "currentReading": {
           "date": "2026-10-11",
           "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
-          "lineCount": 19,
-          "headings": [
-            {
-              "line": 1,
-              "text": "多 Agent 任务看板"
-            },
-            {
-              "line": 14,
-              "text": "看板规则"
-            }
-          ],
-          "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+          "lineCount": 20,
+          "scope": "CODE-QUALITY-3z analytics governance closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -745,13 +753,27 @@
           "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
           "notRun": ["E2E", "visual", "new GitHub CI"]
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-3z-analytics-governance-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-3z-analytics-governance-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-19",
-      "reviewNotes": "保留原全文阅读、原 source SHA 和历史记录；本次直接复核三卡移动/状态、看板删行及生成索引差异，docs checker 已证明实际卡顶部与导航一致。测试质量证据单独见 Codex 当前反控和集成门；导航审查不替代 runtime、E2E 或托管 CI。",
+      "reviewNotes": "保留原全文阅读、原 source SHA 和历史记录；本次直接复核三卡移动/状态、看板删行及生成索引差异，docs checker 已证明实际卡顶部与导航一致。测试质量证据单独见 Codex 当前反控和集成门；导航审查不替代 runtime、E2E 或托管 CI。 本次新增 CODE-QUALITY-3z 活跃治理卡及其导航状态，未改变其它任务结论。 CODE-QUALITY-3z 已完成，卡归档且看板/索引同步。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
@@ -1552,7 +1574,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
+      "afterSha256": "baf031a753c274a58399cb065ec752f68a6877f8b97ee1df46f19d77bee174a9",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1587,7 +1609,7 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+        "currentSha": "working-tree",
         "implementationSha": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
@@ -1689,6 +1711,24 @@
             "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
             "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
             "notRun": ["E2E", "visual", "new GitHub CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-3z-analytics-governance-navigation",
+            "previousAfterSha256": "2faab835f500bbcd037946e2ee83aa8bc566a938f63a2591c95a6428e4a0ab18",
+            "afterSha256": "2faab835f500bbcd037946e2ee83aa8bc566a938f63a2591c95a6428e4a0ab18",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-3z-game-google-analytics.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-3z-analytics-governance-closeout",
+            "previousAfterSha256": "2faab835f500bbcd037946e2ee83aa8bc566a938f63a2591c95a6428e4a0ab18",
+            "afterSha256": "baf031a753c274a58399cb065ec752f68a6877f8b97ee1df46f19d77bee174a9",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1721,30 +1761,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
+        "afterSha256": "baf031a753c274a58399cb065ec752f68a6877f8b97ee1df46f19d77bee174a9",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
-          "lineCount": 374,
-          "headings": [
-            {
-              "line": 1,
-              "text": "任务卡索引"
-            },
-            {
-              "line": 7,
-              "text": "活动任务"
-            },
-            {
-              "line": 18,
-              "text": "已完成（historical）"
-            },
-            {
-              "line": 365,
-              "text": "已取消（superseded / historical）"
-            }
-          ],
-          "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+          "sha256": "baf031a753c274a58399cb065ec752f68a6877f8b97ee1df46f19d77bee174a9",
+          "lineCount": 378,
+          "scope": "CODE-QUALITY-3z analytics governance closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1805,13 +1827,27 @@
           "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
           "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
           "notRun": ["E2E", "visual", "new GitHub CI"]
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-3z-analytics-governance-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-3z-analytics-governance-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-374",
-      "reviewNotes": "保留原全文阅读、原 source SHA 和历史记录；本次直接复核三卡移动/状态、看板删行及生成索引差异，docs checker 已证明实际卡顶部与导航一致。测试质量证据单独见 Codex 当前反控和集成门；导航审查不替代 runtime、E2E 或托管 CI。",
+      "reviewNotes": "保留原全文阅读、原 source SHA 和历史记录；本次直接复核三卡移动/状态、看板删行及生成索引差异，docs checker 已证明实际卡顶部与导航一致。测试质量证据单独见 Codex 当前反控和集成门；导航审查不替代 runtime、E2E 或托管 CI。 本次新增 CODE-QUALITY-3z 活跃治理卡及其导航状态，未改变其它任务结论。 CODE-QUALITY-3z 已完成，卡归档且看板/索引同步。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
