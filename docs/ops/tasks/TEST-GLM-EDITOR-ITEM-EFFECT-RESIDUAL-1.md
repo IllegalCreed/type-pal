@@ -54,7 +54,8 @@ Each retained/new contract gets source:line, public caller, legal fixture, old f
 - 定向：`vitest run src/ui/ItemUseEffectEditor.residual.glm.test.tsx` 3/3（worktree `/private/tmp/tp-item-effect-residual`）。
 - 相邻：ItemUseEffectEditor 全家 5 文件 + ItemTab 全家 4 文件 + ItemAlchemyTab.boundary-contracts = 10 文件 75/75。
 - 反控三态：green0/N1/N2/N3/green2/replay-n1 全 VALID；每针恰一指定业务 AssertionError、产品 sha 精确还原、判据自证 5/5；证据见 [evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1](../evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)。
-- typecheck `@type-pal/editor` 通过；biome 定向 0 诊断。
+- editor 全包：串行 `vitest run --no-file-parallelism` 628 文件 4933 测试 = 4932 过 + 1 既有失败（`number-field-adoption.test.ts` 的 `command-form-controls.tsx@Num: expected 37 to be 39`；基提交 `38408cb82` 单文件复现同一断言，登记件 [preexisting-adoption-gate-base.txt](../evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/preexisting-adoption-gate-base.txt)，非本卡引入、不在白名单内不修）。首次全包曾与反控针相位并行（不合规），串行重跑后结论以本次为准。
+- typecheck `@type-pal/editor` 通过；biome 定向 0 诊断；全仓 `pnpm lint` 0/0/0（3964 文件）。
 - docs 门：本卡引起的三项（index 状态、board 行、evidence 导航）已闭合（index 经官方 `--print-task-index` 重出）；基提交 `38408cb82` 既有三项红（兄弟卡 CONTROL-FORM/MENU-BOX 的 board 行、TEST-DISPATCH-20261011 导航）不在本卡白名单内，留 Codex 集成处理。
 - editor 全包结果见最终提交说明（Codex 复核以自己的门为准）。
 

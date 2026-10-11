@@ -1,0 +1,7 @@
+# 既有失败登记（非本卡引入）
+# 基提交 38408cb82（main 9aa3bed89 + dispatch 文档）单文件复现，2026-10-11
+# 命令：cd packages/editor && pnpm exec vitest run src/ui/design-system/number-field-adoption.test.ts
+ FAIL  src/ui/design-system/number-field-adoption.test.ts > number field adoption gate > locks wrapper consumers and representative static expansions
+AssertionError: command-form-controls.tsx@Num: expected 37 to be 39 // Object.is equality
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
