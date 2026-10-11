@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1 — ControlCommandForm 残余合同审计（音频选择/店铺身份/共享脚本 self）
 
-Status: review（build 自测完成，待 Codex 独立验收；不标 done）
+Status: done（build 自测完成，待 Codex 独立验收；不标 done）
 Owner: GLM（唯一测试写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -22,8 +22,8 @@ playSound/playMusic/setAmbience 真实资源选择与空目录边界、openShop 
 
 ## 已核前提与上下文（一手证据）
 
-- 必读 [第二阶段纪律](../../phase2/READ-FIRST.md)、[测试质量验收](../agent-workflow.md)、
-  [AGENTS.md 当前临时模式](../../../AGENTS.md)。不变 UI/行为、无原版机制或 UX 取舍，前提真值门 N/A；
+- 必读 [第二阶段纪律](../../../../phase2/READ-FIRST.md)、[测试质量验收](../../../../ops/agent-workflow.md)、
+  [AGENTS.md 当前临时模式](../../../../../AGENTS.md)。不变 UI/行为、无原版机制或 UX 取舍，前提真值门 N/A；
   本卡核心前提是「可达性与排重」账，逐条附 file:line。
 - 唯一产品挂载点：`CommandForm` 仅被 `ScriptEditor.tsx:1921`（CanonicalCommandForm，经
   `createAuthorCommandFormBridge`）挂载；`ControlCommandForm` 仅被 `CommandForm.tsx:189` 挂载。
@@ -132,7 +132,7 @@ self 全臂，含 required cf-err/（不在场）/deriveScriptChunk/打开按钮
   （唯一红为冻结点基线 number-field-adoption，主树同命令对照同红）、typecheck 0、根 lint 0/0/0、
   diff --check clean、check:docs 仅 2 项本卡登记项（基线单列）。反控 ALL-VALID：两针三态恰一指定业务
   AssertionError（N1 呈现针/N2 自动改绑针）、还原 SHA=冻结、产品零残留、biome 尾步后落盘字节计 hash。
-  证据原件见 [evidence/](evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（contract-ledger.tsv、
+  证据原件见 [evidence/](../../../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（contract-ledger.tsv、
   counterproof.json、fullsuite.json、mutation-logs/）。不合 main、不标 done，待 Codex 独立验收。
 - 待 Codex 独立验收。
 
@@ -152,3 +152,11 @@ self 全臂，含 required cf-err/（不在场）/deriveScriptChunk/打开按钮
 或抽针重建）；3) 白名单边界（仅测试文件+本卡+证据；board/index 未动）；4) 定向/相邻/全包/typecheck/
 lint/check:docs 复核。merge 裁决接受即合并推送并收口；counter 请列精确返工项写回本卡。
 ```
+
+
+## Codex 独立验收与收口（2026-10-11）
+
+- 候选提交：`af8116488` + `5c5085678`，源冻结 `9aa3bed892728f17c70d2f86d1fe07db10a718b8`。
+- 定向复核：使用卡面专用 `vitest.isolated.config.ts`，1 file / 1 test passed；真实 CanonicalScriptBodyEditor caller、合法 typed 悬空 self 输入与两针三态反控证据均核对通过。
+- 质量证据：相邻 18 文件全绿；全包唯一失败为冻结点既有 `number-field-adoption`（`command-form-controls.tsx@Num expected 37 to be 39`），已由基线复现；typecheck、lint 0/0/0、diff-check 与白名单核对通过。
+- 收口：`accept`，状态更新为 `done`。未修改产品、旧测试、配置或 baseline。

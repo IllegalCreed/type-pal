@@ -1,6 +1,6 @@
 # TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 — MenuBox 未证明公开绘制合同审计
 
-Status: review
+Status: done
 Owner: GLM（Coding Owner）
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -21,7 +21,7 @@ scroll 自然宽高（residual/R11/N03）、confirm（residual）、状态板行
 ## 独占白名单
 
 - `packages/reforge/src/menu/menu-box.residual.glm.test.ts`（本卡唯一测试文件）
-- 本任务卡与 [evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/](../evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/)
+- 本任务卡与 [evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/](../../../evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/)
 
 ## 上下文锚点
 
@@ -55,7 +55,7 @@ oracle = renderSpans 调用记录（module mock 仅替换 renderSpans，measureS
 status-residual 既有断言同 caller 同 oracle（毒行 [118,98]/[118,116] 已证；父层
 [219,174,81] 已证），按「同 caller+同 oracle 即删」登记不包装；其余接收家族见锚点节。
 
-## 反控（5/5 VALID，证据 [README](../evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)）
+## 反控（5/5 VALID，证据 [README](../../../evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)）
 
 判据库移植 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 r2 定稿（隔离树/双 reporter/
 执行集逐字锁定/20 例合成反例自测），未放宽。协议：绿基线（五文件=新 1+已接收 4，25 行
@@ -117,3 +117,12 @@ lib-isolated-tree.mjs/run-counterproof.mjs/mutation-logs），再核：
 4) 白名单外零改动（git diff 应仅含本卡三处：测试文件、任务卡、evidence 目录+索引行）。
 裁决 accept 则按现行模式收口并自行更新看板；counter 则列返工项，本卡留在 review。
 ```
+
+
+## Codex 独立验收与收口（2026-10-11）
+
+- 候选提交：`5f11dcb0a`，源冻结 `9aa3bed892728f17c70d2f86d1fe07db10a718b8`。
+- 定向复核：1 file / 5 tests passed；五合同均通过 `MenuBox.render` 公开入口，draw-call/renderSpans oracle 与 5/5 三态反控证据通过。Canvas/ImageBitmap 结构夹具仅承担 typed 绘制宿主，不改变业务输入。
+- 质量证据：menu 全目录 106/106、reforge 全包 8963/8963、typecheck、lint 0/0/0、diff-check 通过；check:docs 的既有导航项由集成阶段统一处理。
+- 排重与白名单核对通过：仅新增本卡测试、任务卡和证据；未修改产品、旧测试、配置或 baseline。
+- 收口：`accept`，状态更新为 `done`。

@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 — Item use effect residual contracts
 
-Status: review（GLM 候选已交付，待 Codex 独立验收；GLM 不标记 done）
+Status: done（GLM 候选已交付，待 Codex 独立验收；GLM 不标记 done）
 Owner: GLM（贡献者）；验收：Codex
 Base/source freeze: `9aa3bed892728f17c70d2f86d1fe07db10a718b8`（工作基 `38408cb82`，仅多三张 dispatch 任务卡）
 Branch: `codex/glm-editor-item-effect-residual-r1`；候选提交 `ce2d9cb0b`（测试）+ 证据/本卡提交
@@ -53,8 +53,8 @@ Each retained/new contract gets source:line, public caller, legal fixture, old f
 
 - 定向：`vitest run src/ui/ItemUseEffectEditor.residual.glm.test.tsx` 3/3（worktree `/private/tmp/tp-item-effect-residual`）。
 - 相邻：ItemUseEffectEditor 全家 5 文件 + ItemTab 全家 4 文件 + ItemAlchemyTab.boundary-contracts = 10 文件 75/75。
-- 反控三态：green0/N1/N2/N3/green2/replay-n1 全 VALID；每针恰一指定业务 AssertionError、产品 sha 精确还原、判据自证 5/5；证据见 [evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1](../evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)。
-- editor 全包：串行 `vitest run --no-file-parallelism` 628 文件 4933 测试 = 4932 过 + 1 既有失败（`number-field-adoption.test.ts` 的 `command-form-controls.tsx@Num: expected 37 to be 39`；基提交 `38408cb82` 单文件复现同一断言，登记件 [preexisting-adoption-gate-base.txt](../evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/preexisting-adoption-gate-base.txt)，非本卡引入、不在白名单内不修）。首次全包曾与反控针相位并行（不合规），串行重跑后结论以本次为准。
+- 反控三态：green0/N1/N2/N3/green2/replay-n1 全 VALID；每针恰一指定业务 AssertionError、产品 sha 精确还原、判据自证 5/5；证据见 [evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1](../../../evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)。
+- editor 全包：串行 `vitest run --no-file-parallelism` 628 文件 4933 测试 = 4932 过 + 1 既有失败（`number-field-adoption.test.ts` 的 `command-form-controls.tsx@Num: expected 37 to be 39`；基提交 `38408cb82` 单文件复现同一断言，登记件 [preexisting-adoption-gate-base.txt](../../../evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/preexisting-adoption-gate-base.txt)，非本卡引入、不在白名单内不修）。首次全包曾与反控针相位并行（不合规），串行重跑后结论以本次为准。
 - typecheck `@type-pal/editor` 通过；biome 定向 0 诊断；全仓 `pnpm lint` 0/0/0（3964 文件）。
 - docs 门：本卡引起的三项（index 状态、board 行、evidence 导航）已闭合（index 经官方 `--print-task-index` 重出）；基提交 `38408cb82` 既有三项红（兄弟卡 CONTROL-FORM/MENU-BOX 的 board 行、TEST-DISPATCH-20261011 导航）不在本卡白名单内，留 Codex 集成处理。
 - editor 全包结果见最终提交说明（Codex 复核以自己的门为准）。
@@ -80,3 +80,12 @@ Codex independently checks caller/schema validity, dedup ledger, mutation select
 不要做：GLM 侧不再改动；本卡不授权产品/配置/旧测试修改
 输出：accept/counter + 理由写入本卡；接收后由你合并推送并清理分支
 ```
+
+
+## Codex 独立验收与收口（2026-10-11）
+
+- 候选提交：`ce2d9cb0b` 及证据提交 `cdba9a060..f9d8d9ca4`，源冻结 `9aa3bed892728f17c70d2f86d1fe07db10a718b8`。
+- 定向复核：使用隔离 wrapper，1 file / 3 tests passed；R1/R3/R5 均走真实 ItemTab/session caller，schema-valid 输入与三针三态反控证据通过。
+- 质量证据：相邻 10 文件 75/75；全包唯一失败为基线 `number-field-adoption`，已在 `38408cb82` 同命令复现；typecheck、lint 0/0/0、diff-check 与 P1 product-counter 登记通过。
+- P1（puppet 未自动 battleOnly）保留为 product-counter，不以测试固化或夹修。
+- 收口：`accept`，状态更新为 `done`。未修改产品、旧测试、配置或 baseline。

@@ -2,7 +2,7 @@
 
 MenuBox（`packages/reforge/src/menu/menu-box.ts`，源冻结 `9aa3bed892728f17c70d2f86d1fe07db10a718b8`）
 未证明公开绘制合同的排重审计与 5 残余合同交付。逐合同账（source:line / 公开 caller /
-合法输入 / 旧 fullName / oracle / 裁决）见[任务卡](../../tasks/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md)。
+合法输入 / 旧 fullName / oracle / 裁决）见[任务卡](../../archive/tasks/done/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md)。
 
 ## 交付物
 

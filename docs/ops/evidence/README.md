@@ -6,6 +6,10 @@
 上级：[协作与工程维护](../README.md)。
 
 ## 当前证据
+- [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
+- [ControlForm 残余合同](../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（1 合同、2 针反控，已收口）。
+- [ItemEffect 残余合同](TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)（3 合同、3 针反控，已收口；puppet product-counter 保留）。
+- [MenuBox 残余合同](TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)（5 合同、5 针反控，已收口）。
 
 - [TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 交付证据](TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)（r1 候选：MenuBox 级联几何/选中色残余臂/属性九行布局/中栏定位/装备格网格 5 合同 + 5/5 隔离树严格反控，待 Codex 验收）。
 - [Game 大世界叠层测试性能修复](CI-GAME-OVERLAY-PERFORMANCE-1/README.md)（Codex有限维护；7反控、全包及受保护fast通过，覆盖/基准不变，新托管CI按推送HEAD另核）。
