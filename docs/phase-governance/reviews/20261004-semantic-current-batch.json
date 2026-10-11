@@ -836,7 +836,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
+      "afterSha256": "8243cbfa5466c6582964ae2e8c6d1b500141a7bb8f249831b65b22e8aa5af4bc",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -962,6 +962,14 @@
             "date": "2026-10-04",
             "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "main-sync-navigation-sha-refresh",
+            "previousAfterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
+            "afterSha256": "8243cbfa5466c6582964ae2e8c6d1b500141a7bb8f249831b65b22e8aa5af4bc",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -984,28 +992,26 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
+        "afterSha256": "8243cbfa5466c6582964ae2e8c6d1b500141a7bb8f249831b65b22e8aa5af4bc",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
-          "lineCount": 43,
-          "headings": [
-            {
-              "line": 1,
-              "text": "任务专属证据"
-            },
-            {
-              "line": 8,
-              "text": "当前证据"
-            }
-          ],
-          "scope": "Independent current-version acceptance replaces contributor candidate credit; historical receipts remain immutable. Hosted CI must be checked after push."
+          "sha256": "8243cbfa5466c6582964ae2e8c6d1b500141a7bb8f249831b65b22e8aa5af4bc",
+          "lineCount": 49,
+          "scope": "main sync document navigation delta",
+          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         }
       },
       "history": [
         {
           "revision": "working-tree",
           "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "main-sync-navigation-sha-refresh",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1606,7 +1612,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
+      "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1779,6 +1785,14 @@
             "afterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "main-sync-navigation-sha-refresh",
+            "previousAfterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
+            "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1811,12 +1825,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
+        "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
-          "lineCount": 379,
-          "scope": "CODE-QUALITY-40 analytics install closeout navigation/state update",
+          "sha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
+          "lineCount": 382,
+          "scope": "main sync document navigation delta",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1903,6 +1917,13 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-40-analytics-install-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "main-sync-navigation-sha-refresh",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
