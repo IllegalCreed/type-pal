@@ -85,6 +85,7 @@
 | [CODE-QUALITY-3v - game battle actions attack/attack-mate/defend/flee 逐文件治理](../archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3w - game battle settlement/finalization 逐文件治理](../archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-3x - game battle progression / hidden experience 逐文件治理](../archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-3y — game analytics consent 窄批](../archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -375,3 +376,4 @@
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
+
