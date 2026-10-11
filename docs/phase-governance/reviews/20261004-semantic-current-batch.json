@@ -755,6 +755,24 @@
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-44-font-navigation",
+            "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "afterSha256": "34f9ad174fb67a781c38cca1e659df830b9290159b491667a54307d03d721f45",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-44-game-font.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-44-font-closeout",
+            "previousAfterSha256": "34f9ad174fb67a781c38cca1e659df830b9290159b491667a54307d03d721f45",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -788,7 +806,7 @@
           "date": "2026-10-11",
           "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "lineCount": 20,
-          "scope": "CODE-QUALITY-43 draw sprite closeout navigation/state update",
+          "scope": "CODE-QUALITY-44 font closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -893,6 +911,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-43-draw-sprite-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-44-font-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-44-font-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1708,7 +1740,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
+      "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1943,6 +1975,24 @@
             "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-44-font-navigation",
+            "previousAfterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
+            "afterSha256": "602a555571875403f37f4cf39972c0864263e52cbcc3fa3f299c10d380025a31",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-44-game-font.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "code-quality-44-font-closeout",
+            "previousAfterSha256": "602a555571875403f37f4cf39972c0864263e52cbcc3fa3f299c10d380025a31",
+            "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1975,12 +2025,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
+        "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
         "currentReading": {
           "date": "2026-10-11",
-          "sha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
-          "lineCount": 385,
-          "scope": "CODE-QUALITY-43 draw sprite closeout navigation/state update",
+          "sha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
+          "lineCount": 386,
+          "scope": "CODE-QUALITY-44 font closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2116,6 +2166,20 @@
           "revision": "working-tree",
           "date": "2026-10-11",
           "action": "code-quality-43-draw-sprite-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-44-font-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-11",
+          "action": "code-quality-44-font-closeout",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }

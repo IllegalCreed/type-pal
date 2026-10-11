@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含本轮 E2E 集成的源码、测试与工具）：3,261。
-当前已闭合核验：245；已读但待审：5；尚未逐文件核验：3,011；合计未闭合：3,016。
+当前已闭合核验：249；已读但待审：5；尚未逐文件核验：3,007；合计未闭合：3,012。
 
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
@@ -274,6 +274,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/draw-sprite.ts` | product | 已验证 | CODE-QUALITY-43；present.ts/battle sprite callers、scene.c anchors、framebuffer/pixel tests | 逐帧 anchor、opaque mask、palette-0、屏外裁剪与 buffer ownership逐段核验 |
 | `packages/game/src/present/draw-sprite.test.ts` | test | 已验证 | CODE-QUALITY-43；公开 drawSprite/toSpriteImages caller、直接 framebuffer oracle | 高度剖面/底边、mask、palette-0、屏外反例 |
 | `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-43；真实 framebuffer caller 与奇数宽/裁剪/孔洞 oracle | 合法 typed 输入、8 条边界合同、无弱化断言 |
+| `packages/game/src/present/font.ts` | product | 已验证 | CODE-QUALITY-44；dialog/menu/battle/present callers、text.c/font.c/ui.c、font tests | glyph load/failure、tofu、逐字/阴影、颜色 fallback、measure/Pal width 与 framebuffer ownership逐段核验 |
+| `packages/game/src/present/font.test.ts` | test | 已验证 | CODE-QUALITY-44；真实 renderText/measure/pal width public oracle | 合法 glyph、CJK/ASCII width、tofu、empty 与 framebuffer反例 |
+| `packages/game/src/present/font.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-44；renderColoredText/缺字形/阴影真实 oracle | 逐字颜色、缺色 0x4F、三影和 tofu 像素合同 |
+| `packages/game/src/present/font-width.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-44；loadGlyphs fetch caller与width/render framebuffer oracle | HTTP 状态/baseUrl、codepoint width、shadow/底色保留合同 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
