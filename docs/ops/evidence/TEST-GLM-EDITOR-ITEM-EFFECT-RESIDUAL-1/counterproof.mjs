@@ -54,9 +54,8 @@ const NEEDLES = [
     id: 'N3',
     contract: 'R5',
     anchor:
-      "    } catch (cause) {\n      props.onError?.(cause instanceof Error ? cause.message : String(cause))\n    }\n  }\n  const compatibleKindsAt",
-    replacement:
-      "    } catch (cause) {\n      void cause\n    }\n  }\n  const compatibleKindsAt",
+      '    } catch (cause) {\n      props.onError?.(cause instanceof Error ? cause.message : String(cause))\n    }\n  }\n  const compatibleKindsAt',
+    replacement: '    } catch (cause) {\n      void cause\n    }\n  }\n  const compatibleKindsAt',
   },
 ]
 
@@ -71,7 +70,7 @@ function applyMutation(needle) {
   return {
     beforeSha: sha256(original),
     mutatedSha: sha256(mutated),
-    patchSha: sha256(needle.anchor + '\n--->\n' + needle.replacement),
+    patchSha: sha256(`${needle.anchor}\n--->\n${needle.replacement}`),
   }
 }
 
@@ -102,9 +101,7 @@ function withMutation(needle, fn) {
 
 function trackedDirty() {
   const status = spawnSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' })
-  return status.stdout
-    .split('\n')
-    .filter((line) => line && !line.startsWith('??'))
+  return status.stdout.split('\n').filter((line) => line && !line.startsWith('??'))
 }
 
 function runVitest(phase) {
@@ -213,9 +210,7 @@ function judgeSelftest(expectedFullNames, redFullName) {
     numFailedTests: 0,
     numPendingTests: 0,
     numTodoTests: 0,
-    testResults: [
-      { status: 'passed', assertionResults: expectedFullNames.map(passed) },
-    ],
+    testResults: [{ status: 'passed', assertionResults: expectedFullNames.map(passed) }],
   }
   const redAssertion = (failureMessages) => ({
     fullName: redFullName,
@@ -370,7 +365,8 @@ function main() {
     problems: judgeGreen0.problems,
     fullNames,
   })
-  if (judgeGreen0.verdict !== 'VALID') throw new Error(`green0 INVALID：${JSON.stringify(judgeGreen0.problems)}`)
+  if (judgeGreen0.verdict !== 'VALID')
+    throw new Error(`green0 INVALID：${JSON.stringify(judgeGreen0.problems)}`)
 
   // 针相位（每针后核被跟踪零脏）。
   for (const needle of NEEDLES) {
@@ -435,17 +431,19 @@ function main() {
   receipt.overall = 'VALID'
   writeFileSync(
     join(receiptsDir, 'counterproof-receipt.json'),
-    JSON.stringify(receipt, null, 2) + '\n',
+    `${JSON.stringify(receipt, null, 2)}\n`,
   )
   // 尾步格式化：落盘收据字节过全仓 biome 门；不回跑测试（格式只动空白）。
-  const format = spawnSync(
-    'pnpm',
-    ['exec', 'biome', 'format', '--write', receiptsDir],
-    { cwd: repoRoot, encoding: 'utf8' },
-  )
-  if (format.status !== 0) throw new Error(`收据 biome format 失败：${format.stdout}${format.stderr}`)
+  const format = spawnSync('pnpm', ['exec', 'biome', 'format', '--write', receiptsDir], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+  })
+  if (format.status !== 0)
+    throw new Error(`收据 biome format 失败：${format.stdout}${format.stderr}`)
   console.log('COUNTERPROOF VALID')
-  console.log(`phases: ${receipt.phases.map((phase) => `${phase.phase}:${phase.verdict}`).join(' ')}`)
+  console.log(
+    `phases: ${receipt.phases.map((phase) => `${phase.phase}:${phase.verdict}`).join(' ')}`,
+  )
 }
 
 try {
