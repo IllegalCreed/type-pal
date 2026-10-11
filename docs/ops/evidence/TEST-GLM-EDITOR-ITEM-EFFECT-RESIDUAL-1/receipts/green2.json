@@ -1,0 +1,70 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 3,
+  "numPassedTests": 3,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791698456551,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差"],
+          "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+          "status": "passed",
+          "title": "R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性",
+          "duration": 118.68983299999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差"],
+          "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+          "status": "passed",
+          "title": "R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标",
+          "duration": 53.531666000000314,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差"],
+          "fullName": "TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
+          "status": "passed",
+          "title": "R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交",
+          "duration": 28.83304199999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791698459011,
+      "endTime": 1791698459211.833,
+      "status": "passed",
+      "message": "",
+      "name": "/private/tmp/tp-item-effect-residual/packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx"
+    }
+  ]
+}
