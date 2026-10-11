@@ -16,6 +16,8 @@ playSound/playMusic/setAmbience 真实资源选择与空目录边界、openShop 
 - 工作树 /tmp/type-pal-cf-residual（git worktree，软链 node_modules + 树内 wrapper
   `vitest.isolated.config.ts` 放行双树根）；分支 codex/glm-editor-control-form-residual-r1。
 - 源冻结 9aa3bed892728f17c70d2f86d1fe07db10a718b8（main 基点）；交付核 Git 对象，不 rebase 到产品漂移。
+- r1 候选已推：工作提交 af8116488b870de97b76661a6e0092cb104f9097（本回执提交为其后继，最终 tip 以
+  `git rev-parse origin/codex/glm-editor-control-form-residual-r1` 为准）。
 - 允许零新增。已有 flag/var/item/shop-empty/portrait/world 合同只登记不复制。
 
 ## 已核前提与上下文（一手证据）
