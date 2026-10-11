@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-cf-residual/packages/editor
+
+ ❯ src/ui/command-form-control.residual.glm.test.tsx (1 test | 1 failed) 68ms
+   × 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体 67ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  15:11:55
+   Duration  1.75s (transform 1.07s, setup 0ms, import 1.31s, tests 68ms, environment 298ms)
+
+JSON report written to /private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/command-form-control.residual.glm.test.tsx > 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体
+AssertionError: expected 'gone（缺失）' to contain 'gone（引用失效）'
+
+Expected: "gone（引用失效）"
+Received: "gone（缺失）"
+
+ ❯ src/ui/command-form-control.residual.glm.test.tsx:34:41
+     32|     },
+     33|   )
+     34|   expect(selfSceneSelect().textContent).toContain('gone（引用失效）')
+       |                                         ^
+     35|   expect(
+     36|     document.querySelector('[role="dialog"] [role="combobox"][aria-lab…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

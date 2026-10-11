@@ -1,0 +1,52 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 1,
+  "numPassedTests": 0,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1791699119938,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体",
+          "status": "failed",
+          "title": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体",
+          "duration": 88.662916,
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to be called once with arguments: [ [ { kind: 'callScript', …(2) } ] ]\n\nReceived:\n\n  1st vi.fn() call:\n\n@@ -2,11 +2,11 @@\n    [\n      {\n        \"kind\": \"callScript\",\n        \"script\": \"shared/user/heal\",\n        \"self\": {\n-         \"entity\": \"npc\",\n+         \"entity\": \"npc-2\",\n          \"scene\": \"start\",\n        },\n      },\n    ],\n  ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1504:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at Object.finish (/private/tmp/type-pal-cf-residual/packages/editor/src/ui/__tests__/command-form-current-fixture.ts:220:22)\n    at /private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-control.residual.glm.test.tsx:50:3\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1791699121634,
+      "endTime": 1791699121722.6628,
+      "status": "failed",
+      "message": "",
+      "name": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-control.residual.glm.test.tsx"
+    }
+  ]
+}

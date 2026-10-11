@@ -1,0 +1,250 @@
+{
+  "card": "TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1",
+  "replay": "run-counterproof.mjs 于隔离 worktree（/tmp/type-pal-cf-residual，源冻结 9aa3bed89）重放：基线绿 + 相邻集合 + N1/N2 红绿三态 + 产品零残留；末步 biome format 后按落盘字节计 sha256",
+  "node": "v22.23.2",
+  "identity": {
+    "productFrozenCommit": "9aa3bed892728f17c70d2f86d1fe07db10a718b8",
+    "testFile": "src/ui/command-form-control.residual.glm.test.tsx",
+    "productFile": "src/ui/ScriptEditor.tsx",
+    "productFrozenSha256": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+    "testSha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3"
+  },
+  "baseline": {
+    "raw": "mutation-logs/green-baseline.raw",
+    "nativeJson": "mutation-logs/baseline.json",
+    "spawn": {
+      "command": "pnpm exec vitest run src/ui/command-form-control.residual.glm.test.tsx --config vitest.isolated.config.ts --reporter=default --reporter=json --outputFile=/private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/baseline.json",
+      "cwd": "/private/tmp/type-pal-cf-residual/packages/editor",
+      "pid": 32296,
+      "exitCode": 0,
+      "signal": null
+    },
+    "totals": {
+      "files": 1,
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "pending": 0
+    },
+    "executions": [
+      {
+        "file": "/private/tmp/type-pal-cf-residual/packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+        "fullName": "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体",
+        "status": "passed"
+      }
+    ],
+    "actWarnings": 0
+  },
+  "adjacent": {
+    "raw": "adjacent.raw",
+    "nativeJson": "adjacent.json",
+    "spawn": {
+      "command": "pnpm exec vitest run src/ui/command-form-control.residual.glm.test.tsx src/ui/command-form-control.glm-large-wave.test.tsx src/ui/CommandForm.author-control-contracts.test.tsx src/ui/CommandForm.current-data.test.tsx src/ui/CommandForm.current-identity.test.tsx src/ui/CommandForm.current-movement.test.tsx src/ui/CommandForm.current-scene.test.tsx src/ui/CommandForm.current-dialog.test.tsx src/ui/CommandForm.current-characterization.test.tsx src/ui/command-form-contract.test.ts src/ui/command-form-family-ownership.test.ts src/ui/ScriptEditor.coverage-workflows-2.test.tsx src/ui/ScriptEditor.cov85.test.tsx src/ui/ScriptEditor.test.tsx src/ui/NamedIdPicker.test.tsx src/ui/MusicPicker.glm-leaf-wave.test.tsx src/ui/SoundPicker.glm-leaf-wave.test.tsx src/ui/design-system/select.glm-leaf-wave.test.tsx --config vitest.isolated.config.ts --reporter=default --reporter=json --outputFile=/private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+      "cwd": "/private/tmp/type-pal-cf-residual/packages/editor",
+      "pid": 32518,
+      "exitCode": 0,
+      "signal": null
+    },
+    "totals": {
+      "files": 38,
+      "tests": 171,
+      "passed": 171,
+      "failed": 0,
+      "pending": 0
+    },
+    "fileCount": 18,
+    "perFile": [
+      {
+        "file": "src/ui/CommandForm.author-control-contracts.test.tsx",
+        "tests": 3
+      },
+      {
+        "file": "src/ui/CommandForm.current-characterization.test.tsx",
+        "tests": 13
+      },
+      {
+        "file": "src/ui/CommandForm.current-data.test.tsx",
+        "tests": 8
+      },
+      {
+        "file": "src/ui/CommandForm.current-dialog.test.tsx",
+        "tests": 9
+      },
+      {
+        "file": "src/ui/CommandForm.current-identity.test.tsx",
+        "tests": 4
+      },
+      {
+        "file": "src/ui/CommandForm.current-movement.test.tsx",
+        "tests": 20
+      },
+      {
+        "file": "src/ui/CommandForm.current-scene.test.tsx",
+        "tests": 13
+      },
+      {
+        "file": "src/ui/MusicPicker.glm-leaf-wave.test.tsx",
+        "tests": 4
+      },
+      {
+        "file": "src/ui/NamedIdPicker.test.tsx",
+        "tests": 3
+      },
+      {
+        "file": "src/ui/ScriptEditor.cov85.test.tsx",
+        "tests": 20
+      },
+      {
+        "file": "src/ui/ScriptEditor.coverage-workflows-2.test.tsx",
+        "tests": 14
+      },
+      {
+        "file": "src/ui/ScriptEditor.test.tsx",
+        "tests": 30
+      },
+      {
+        "file": "src/ui/SoundPicker.glm-leaf-wave.test.tsx",
+        "tests": 5
+      },
+      {
+        "file": "src/ui/command-form-contract.test.ts",
+        "tests": 4
+      },
+      {
+        "file": "src/ui/command-form-control.glm-large-wave.test.tsx",
+        "tests": 8
+      },
+      {
+        "file": "src/ui/command-form-control.residual.glm.test.tsx",
+        "tests": 1
+      },
+      {
+        "file": "src/ui/command-form-family-ownership.test.ts",
+        "tests": 7
+      },
+      {
+        "file": "src/ui/design-system/select.glm-leaf-wave.test.tsx",
+        "tests": 5
+      }
+    ],
+    "actWarnings": 0
+  },
+  "needles": [
+    {
+      "id": "N1-dangling-scene-explicit-option",
+      "mutation": "ScriptEditor.tsx EntityAddressEditor 场景选择移除悬空场景「（引用失效）」选项注入（呈现退化为 DsSelect 通用「缺失」）",
+      "mutantProductSha256": "088bd179149e5e99fa3eb16fb20eb8862af6f42d9fdb171ec3de967b2347da51",
+      "restoredProductSha256": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+      "red": {
+        "spawn": {
+          "command": "pnpm exec vitest run src/ui/command-form-control.residual.glm.test.tsx --config vitest.isolated.config.ts --reporter=default --reporter=json --outputFile=/private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json",
+          "cwd": "/private/tmp/type-pal-cf-residual/packages/editor",
+          "pid": 32664,
+          "exitCode": 1,
+          "signal": null
+        },
+        "totals": {
+          "files": 1,
+          "tests": 1,
+          "passed": 0,
+          "failed": 1,
+          "pending": 0
+        },
+        "failedFullName": [
+          "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体"
+        ],
+        "assertionFragment": "gone（引用失效）",
+        "raw": "mutation-logs/N1-dangling-scene-explicit-option.red.raw",
+        "nativeJson": "mutation-logs/N1-dangling-scene-explicit-option.red.json",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "spawn": {
+          "command": "pnpm exec vitest run src/ui/command-form-control.residual.glm.test.tsx --config vitest.isolated.config.ts --reporter=default --reporter=json --outputFile=/private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
+          "cwd": "/private/tmp/type-pal-cf-residual/packages/editor",
+          "pid": 32723,
+          "exitCode": 0,
+          "signal": null
+        },
+        "totals": {
+          "files": 1,
+          "tests": 1,
+          "passed": 1,
+          "failed": 0,
+          "pending": 0
+        },
+        "raw": "mutation-logs/N1-dangling-scene-explicit-option.green.raw",
+        "nativeJson": "mutation-logs/N1-dangling-scene-explicit-option.green.json"
+      }
+    },
+    {
+      "id": "N2-reselect-rebinds-first-entity",
+      "mutation": "ScriptEditor.tsx EntityAddressEditor 场景重选不再自动改绑首个可接受实体（保留旧实体 npc-2）",
+      "mutantProductSha256": "df82bd4c0e315cc2d7caef3f685734b5993c52d6b69a2c40247719f4333dc892",
+      "restoredProductSha256": "3c9055b5feffb0a85f6955b2d257177d7f0ee9a301283433dc7a7b35fef481e3",
+      "red": {
+        "spawn": {
+          "command": "pnpm exec vitest run src/ui/command-form-control.residual.glm.test.tsx --config vitest.isolated.config.ts --reporter=default --reporter=json --outputFile=/private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json",
+          "cwd": "/private/tmp/type-pal-cf-residual/packages/editor",
+          "pid": 32805,
+          "exitCode": 1,
+          "signal": null
+        },
+        "totals": {
+          "files": 1,
+          "tests": 1,
+          "passed": 0,
+          "failed": 1,
+          "pending": 0
+        },
+        "failedFullName": [
+          "共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体"
+        ],
+        "assertionFragment": "npc-2",
+        "raw": "mutation-logs/N2-reselect-rebinds-first-entity.red.raw",
+        "nativeJson": "mutation-logs/N2-reselect-rebinds-first-entity.red.json",
+        "actWarnings": 0
+      },
+      "restoredGreen": {
+        "spawn": {
+          "command": "pnpm exec vitest run src/ui/command-form-control.residual.glm.test.tsx --config vitest.isolated.config.ts --reporter=default --reporter=json --outputFile=/private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.green.json",
+          "cwd": "/private/tmp/type-pal-cf-residual/packages/editor",
+          "pid": 32845,
+          "exitCode": 0,
+          "signal": null
+        },
+        "totals": {
+          "files": 1,
+          "tests": 1,
+          "passed": 1,
+          "failed": 0,
+          "pending": 0
+        },
+        "raw": "mutation-logs/N2-reselect-rebinds-first-entity.green.raw",
+        "nativeJson": "mutation-logs/N2-reselect-rebinds-first-entity.green.json"
+      }
+    }
+  ],
+  "residue": "clean（git status --porcelain packages/ 无 M/D；?? 仅树内 wrapper config 与 node_modules 软链，交付后随 worktree 拆除）",
+  "hashes": {
+    "note": "全部 sha256 按 biome format 之后的最终落盘字节计算（与提交字节一致）",
+    "baselineRaw": "7bc5d88a09723558800b7bc9b91bbb9c1bd82e876acd1f1f29d9aaa25339ac6b",
+    "baselineJson": "18ca42e12a6fe4c4e6a686b22f575242f732e067bb9742cd1b3c65fa0be69986",
+    "adjacentRaw": "cad6e26ba3c60f50f9c98a5a6882a7f1b7a8462a5937e3946be077a207842e2d",
+    "adjacentJson": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+    "needles": {
+      "N1-dangling-scene-explicit-option": {
+        "redRaw": "8af1d758f55d6c511f33578fa1e22f0ad667be3ab4f490cf3dd0eac198b7da41",
+        "redJson": "437f431bbd2b0ee614ac94b0d2f32b5285a371249f5a66f1acd546b86b43e7d4",
+        "greenRaw": "df98908f793d53c2fba0d6106733d23e797c7ffdb4bb9511ef2a46a882b71297",
+        "greenJson": "a57e813138e56bfae1791f035a7607246fc1d33dfbb03937bd113a2a3354ce17"
+      },
+      "N2-reselect-rebinds-first-entity": {
+        "redRaw": "388b48854e509416cf785390efc54c6719bfd9c1261926a4a70334e59d29235e",
+        "redJson": "47513b4ad076a24e944921222c81ad9078ee8d61103dcc1dd6659569c9c1011c",
+        "greenRaw": "35c2be5d144ff8ade84d0d7344e29ac66aae1417128232ee1af2a364f39edfbc",
+        "greenJson": "01acfdf7fa371628036ce0e70f34791dae4e86c7e335dcb17c7ec9f4e68e0fde"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+
+ RUN  v4.1.7 /private/tmp/type-pal-cf-residual/packages/editor
+
+ ✓ src/ui/CommandForm.author-control-contracts.test.tsx (3 tests) 280ms
+ ✓ src/ui/command-form-control.glm-large-wave.test.tsx (8 tests) 326ms
+ ✓ src/ui/CommandForm.current-identity.test.tsx (4 tests) 405ms
+ ✓ src/ui/CommandForm.current-data.test.tsx (8 tests) 584ms
+ ✓ src/ui/ScriptEditor.coverage-workflows-2.test.tsx (14 tests) 896ms
+ ✓ src/ui/CommandForm.current-dialog.test.tsx (9 tests) 924ms
+ ✓ src/ui/CommandForm.current-scene.test.tsx (13 tests) 1126ms
+ ✓ src/ui/CommandForm.current-movement.test.tsx (20 tests) 1152ms
+ ✓ src/ui/command-form-contract.test.ts (4 tests) 6ms
+ ✓ src/ui/ScriptEditor.test.tsx (30 tests) 1526ms
+ ✓ src/ui/ScriptEditor.cov85.test.tsx (20 tests) 1360ms
+ ✓ src/ui/design-system/select.glm-leaf-wave.test.tsx (5 tests) 150ms
+ ✓ src/ui/command-form-family-ownership.test.ts (7 tests) 5ms
+ ✓ src/ui/NamedIdPicker.test.tsx (3 tests) 55ms
+ ✓ src/ui/CommandForm.current-characterization.test.tsx (13 tests) 134ms
+ ✓ src/ui/command-form-control.residual.glm.test.tsx (1 test) 88ms
+ ✓ src/ui/SoundPicker.glm-leaf-wave.test.tsx (5 tests) 90ms
+ ✓ src/ui/MusicPicker.glm-leaf-wave.test.tsx (4 tests) 83ms
+
+ Test Files  18 passed (18)
+      Tests  171 passed (171)
+   Start at  15:11:50
+   Duration  4.34s (transform 11.65s, setup 0ms, import 18.45s, tests 9.19s, environment 10.51s)
+
+JSON report written to /private/tmp/type-pal-cf-residual/docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json
