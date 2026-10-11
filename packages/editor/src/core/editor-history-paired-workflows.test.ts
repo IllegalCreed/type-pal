@@ -45,6 +45,10 @@ import {
   SetItemPrivateScriptBodyCommand,
 } from './script-editor.js'
 import { mergeEditorProjectionWithCurrentAuthorState } from './script-editor-projection.js'
+import {
+  emptyScriptPreviewLibrary,
+  SetScriptPreviewLibraryCommand,
+} from './script-preview-library.js'
 import { buildBlankProject } from './seed.js'
 
 // ───────── 共用 fixture/harness ─────────
@@ -286,6 +290,20 @@ test('P03 配对删除场景：成功/undo/redo 双侧同步 + 保存合法', as
       blank as never,
     ),
   )
+  const preview = {
+    ...emptyScriptPreviewLibrary(),
+    states: [
+      { id: 'removed-scene', sceneId: blank.id, name: '本次删除', entities: [] },
+      { id: 'orphan-scene', sceneId: 'already-missing', name: '载入时失效', entities: [] },
+    ],
+    bindings: [
+      {
+        entry: { sceneId: blank.id, channel: 'onEnter' as const, schemeId: 'old', stageId: 'old' },
+        stateId: 'removed-scene',
+      },
+    ],
+  }
+  rig.main.dispatch(new SetScriptPreviewLibraryCommand(preview))
   const before = snap(rig.main, rig.script)
   const mainState = () => rig.main.getState()
   rig.coordinator.dispatch(
@@ -298,11 +316,20 @@ test('P03 配对删除场景：成功/undo/redo 双侧同步 + 保存合法', as
     ),
   )
   expect(snap(rig.main, rig.script).sceneIds).not.toContain('wf-scene-del')
+  expect(rig.main.getState().scriptPreview).toEqual({
+    ...preview,
+    states: [preview.states[1]],
+    bindings: [],
+  })
   await expect(saveLegal(rig)).resolves.toBeTruthy()
   rig.coordinator.undo()
   expect(content(snap(rig.main, rig.script)), 'P03: undo 双侧内容恢复').toEqual(content(before))
+  expect(rig.main.getState().scriptPreview).toEqual(preview)
   rig.coordinator.redo()
   expect(snap(rig.main, rig.script).sceneIds).not.toContain('wf-scene-del')
+  expect(rig.main.getState().scriptPreview!.states.map((state) => state.id)).toEqual([
+    'orphan-scene',
+  ])
 })
 
 test('P04 配对新增实体：成功/undo/redo 双侧同步 + 保存合法', async () => {
@@ -337,18 +364,53 @@ test('P05 配对删除实体：成功/undo/redo 双侧同步 + 保存合法', as
     new AddSceneEntityDefinitionCommand(sceneId, canonical),
     new AddEntityCommand(sceneId, runtime),
   )
+  const preview = {
+    ...emptyScriptPreviewLibrary(),
+    states: [
+      {
+        id: 'door',
+        sceneId,
+        name: '门口',
+        entities: [
+          { entityId: 'wf-entity-del', pos: { col: 8, row: 9, height: 0 } },
+          { entityId: 'already-missing' },
+        ],
+      },
+    ],
+  }
+  rig.main.dispatch(new SetScriptPreviewLibraryCommand(preview))
   const before = snap(rig.main, rig.script)
   const provider = createCurrentProjectReferenceIndexProvider(() => rig.script.getStateSnapshot())
+  const failedDelete = new DeleteEntityCommand(sceneId, 'wf-entity-del', provider)
+  const failure = vi.spyOn(failedDelete, 'apply').mockImplementationOnce(() => {
+    throw new Error('delete failed')
+  })
+  expect(() =>
+    rig.coordinator.dispatch(
+      new DeleteSceneEntityDefinitionCommand(sceneId, 'wf-entity-del'),
+      failedDelete,
+    ),
+  ).toThrow('delete failed')
+  expect(snap(rig.main, rig.script)).toEqual(before)
+  expect(rig.main.getState().scriptPreview).toEqual(preview)
+  failure.mockRestore()
   rig.coordinator.dispatch(
     new DeleteSceneEntityDefinitionCommand(sceneId, 'wf-entity-del'),
     new DeleteEntityCommand(sceneId, 'wf-entity-del', provider),
   )
   expect(snap(rig.main, rig.script).entityIds).not.toContain(`${sceneId}/wf-entity-del`)
+  expect(rig.main.getState().scriptPreview!.states[0]!.entities).toEqual([
+    { entityId: 'already-missing' },
+  ])
   await expect(saveLegal(rig)).resolves.toBeTruthy()
   rig.coordinator.undo()
   expect(content(snap(rig.main, rig.script)), 'P05: undo 双侧内容恢复').toEqual(content(before))
+  expect(rig.main.getState().scriptPreview).toEqual(preview)
   rig.coordinator.redo()
   expect(snap(rig.main, rig.script).entityIds).not.toContain(`${sceneId}/wf-entity-del`)
+  expect(rig.main.getState().scriptPreview!.states[0]!.entities).toEqual([
+    { entityId: 'already-missing' },
+  ])
 })
 
 test('P06 配对新增物品私有脚本：成功/undo/redo 双侧同步 + 保存合法', async () => {

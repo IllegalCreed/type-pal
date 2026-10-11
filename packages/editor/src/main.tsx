@@ -27,6 +27,10 @@ import type { Opened } from './core/open-actions.js'
 import { toEditorState } from './core/project-io.js'
 import { type ScriptEditorState, ScriptEditSession } from './core/script-editor.js'
 import { projectEditorItemShells } from './core/script-editor-projection.js'
+import {
+  assertScriptPreviewPathAvailable,
+  loadScriptPreviewLibrary,
+} from './core/script-preview-library.js'
 import { withUiReviewSamples } from './core/ui-review-samples.js'
 import {
   assertSamePalDevelopmentProof,
@@ -106,10 +110,12 @@ function Root() {
               })
             : createLocalWorkspaceContext(project.manifest.id, 'local-directory')
         assertBattleSimulatorPathAvailable(project)
-        const [scenes, stamps, battleSimulator] = await Promise.all([
+        assertScriptPreviewPathAvailable(project)
+        const [scenes, stamps, battleSimulator, scriptPreview] = await Promise.all([
           loadAllAuthorScenes(project),
           loadStampTemplates(project),
           loadBattleSimulatorLibrary(source),
+          loadScriptPreviewLibrary(source),
         ])
         const authorBaseline = await observed.finish(project)
         const reviewData = UI_REVIEW_SAMPLES
@@ -147,6 +153,7 @@ function Root() {
               {},
               reviewData.stamps,
               battleSimulator,
+              scriptPreview,
             ),
             items: projectEditorItemShells(reviewProject),
           },
@@ -184,7 +191,7 @@ function Root() {
     const canonical = currentCanonicalScriptState(project, o.scenes)
     const session = new EditSession(
       {
-        ...toEditorState(project, o.scenes, {}, {}, o.stamps, o.battleSimulator),
+        ...toEditorState(project, o.scenes, {}, {}, o.stamps, o.battleSimulator, o.scriptPreview),
         items: projectEditorItemShells(project),
       },
       {

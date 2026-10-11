@@ -1,12 +1,31 @@
 # TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts
 
-Status: build
+Status: rework
 Owner: GLM
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: game / battle turn boundaries
 Branch: `codex/glm-game-turn-boundaries-r1`
 Visual Verification Timing: e2e-deferred
+
+## 当前裁决（2026-10-12）
+
+Codex 与 state_plan_review 直接核对原件后签 `counter`：下文 2026-10-11 的 accept/done 撤回，
+本卡保留活动状态与候选分支。实现已在 main、定向测试全绿不能替代合法输入和有效反控证据。
+
+- 原件缺口：`mutation-logs/` 的 62 份 stdout/stderr 只有报告路径或空串；31 次原生 Vitest JSON
+  没有入库。`SHARED-original.json` 是汇总包装，`mutation-results.json` 只存目标失败摘要、
+  恢复计数和 identity hash，不能复核每相位完整 file×fullName×status 集与额外错误。
+  直接反例：`mutation-logs/MUT-01-red.stdout.log:1` 指向已不在交付物中的 `/tmp/turn-mutations/MUT-01-red.json`。
+- 合法输入缺口：`battle-turn-boundaries.glm-turn.test.ts:128` 的引导数据为 `items=[]`，
+  `:224` 却直接提交 `item actionId=1`。须改为真实可选库存及合法物品，不能以 typed 对象代替可达输入。
+- 可达性待核：同文件`:447–452` / `:468–473` 在单队员、队列索引0时注入
+  `fThisTurnCoop` / `prevPlayerAutoAtk`，但声称已有同回合前序动作；须给出真实前序 caller 证据或修正夹具。
+- 返工边界：仍限本卡测试与证据；不改产品或覆盖率规则。本次文档纠错不删除未知测试，
+  不将历史汇总中的15针升级为已验证，也不重复批准已撤回的done。
+
+原始交付和先前验收记录保留为历史。后续须补齐合法 caller、原始绿→精确业务红→恢复绿的
+原生报告/执行身份/源码三态hash/清理证据，再由 Codex 独立验收。无新的产品或E2E结论。
 
 ## 目标
 
@@ -34,8 +53,8 @@ Visual Verification Timing: e2e-deferred
 - Codex 范围/前提核验: verified
 - Coding Owner / 隔离分支: GLM / `codex/glm-game-turn-boundaries-r1`
 - build 准入: Codex build allowed
-- Codex 独立验收: pending
-- done 准入: blocked
+- Codex 独立验收: counter（2026-10-12；先前 accept 撤回，见当前裁决）
+- done 准入: blocked（原始反控报告、合法输入及阶段可达性待补）
 
 ## 下一位 Agent 提示词
 
@@ -122,3 +141,20 @@ mutation-logs），再核：
    data/raw MKF 软链才能全绿）。
 输出 accept（r1 范围收口）或 counter（逐项返工）；不得由本回执直接推 done。
 ```
+
+
+## Codex 独立验收与收口（2026-10-11，历史裁决，2026-10-12撤回）
+
+- 合入证明：实现与证据提交 `b75d6d792` 已在当前 `main`/`HEAD 9aa3bed89` 祖先链中；候选分支的工作树已退役。
+- 定向复核：`pnpm vitest run packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts` → 1 file / 15 tests passed。
+- 交付证据复核：15 个合同、15 针反控、排重账和既有全量质量门记录均在本卡上方及 `docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/`；不重复重采同一 SHA 的历史门。
+- 范围裁决：仅接收本卡白名单测试与证据；未修改产品、旧测试、配置、baseline 或 PAL 数据；不新增覆盖率配额。
+- 旧版本兼容审查：pass；本提交未引入旧 schema/upgrader/compat 产品路径。
+- 收口结论：`accept`，任务状态更新为 `done`，已从活动看板移除，并在任务索引的“已完成”区登记；任务卡路径暂保留，避免改动当前未提交的 phase-governance 注册/审阅文档。
+
+## 下一位 Agent 提示词（2026-10-12返工）
+
+先读 AGENTS.md、CLAUDE.md、本卡“当前裁决”和 `docs/ops/agent-workflow.md` 的测试质量验收。
+仅修本卡测试与证据：补真实合法物品输入及C13/C14前序可达性，保留全部相位原生Vitest JSON、
+file×fullName×status、exit/signal/spawn和源码三态hash；每针必须恰一目标业务失败且恢复真绿。
+不改产品、旧测试、配置、baseline或PAL数据；不恢复已撤回accept，不标done。交Codex独立复核。

@@ -145,6 +145,12 @@
       "component": "BattleTrialDialog",
       "responsive": 1,
       "stacked": 0
+    },
+    {
+      "source": "SceneInitialStateEditor.tsx",
+      "component": "SceneInitialStateList",
+      "responsive": 1,
+      "stacked": 0
     }
   ],
   "exceptions": {
@@ -372,6 +378,20 @@
         "reason": "放置组选区摘要与编辑值均在窄 Inspector。",
         "responsiveEvidence": "仅由 MapMode inspector host 消费。",
         "removalCondition": "编辑面板移出 Inspector 时迁入 DsFieldGroup。"
+      },
+      {
+        "source": "SceneInitialStateEditor.tsx",
+        "component": "SceneInitialStateInspector",
+        "propertyGrids": 1,
+        "host": {
+          "source": "App.tsx",
+          "component": "App",
+          "kind": "business-shell"
+        },
+        "owner": "card:ED-FIELD-LAYOUT-1",
+        "reason": "ED-ENTITY-STATE-PLAN-1 初始状态实体属性通过公共 Inspector Portal 进入场景右侧栏。",
+        "responsiveEvidence": "App 的 DsInspectorHost 内挂载属性节点，CanonicalSceneScriptWorkspace 在其 DsInspectorPortal 内渲染该 Inspector。",
+        "removalCondition": "属性移出右侧 Inspector 时改用 DsFieldGroup。"
       }
     ],
     "inspectorHosts": [

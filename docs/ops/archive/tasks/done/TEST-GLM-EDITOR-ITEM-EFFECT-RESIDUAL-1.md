@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 — Item use effect residual contracts
 
-Status: done（GLM 候选已交付，待 Codex 独立验收；GLM 不标记 done）
+Status: done（2026-10-11 Codex 独立验收 accept）
 Owner: GLM（贡献者）；验收：Codex
 Base/source freeze: `9aa3bed892728f17c70d2f86d1fe07db10a718b8`（工作基 `38408cb82`，仅多三张 dispatch 任务卡）
 Branch: `codex/glm-editor-item-effect-residual-r1`；候选提交 `ce2d9cb0b`（测试）+ 证据/本卡提交

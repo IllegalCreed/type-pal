@@ -3,9 +3,14 @@
  * 所有普通dispatch与成对操作均在准备成功后原子提交，最后才发布通知。
  */
 import type { Command } from './commands.js'
+import { CompositeCommand } from './composite-command.js'
 import type { EditSession } from './edit-session.js'
 import { notifyEditorObservers, type PreparedHistoryChange } from './editor-history-participant.js'
 import type { ScriptEditorCommand, ScriptEditSession } from './script-editor.js'
+import {
+  removeDeletedScriptPreviewReferences,
+  SetScriptPreviewLibraryCommand,
+} from './script-preview-library.js'
 
 interface HistoryEntry {
   readonly id: symbol
@@ -145,7 +150,7 @@ export class EditorHistoryCoordinator {
   }
 
   private commitNew(commands: { main?: Command; script?: ScriptEditorCommand }): boolean {
-    const entry: HistoryEntry = { ...commands, id: Symbol('editor-transaction') }
+    let entry: HistoryEntry = { ...commands, id: Symbol('editor-transaction') }
     const changes: PreparedHistoryChange[] = []
     if (entry.script) {
       const prepared = this.scriptSession.prepareHistoryChange(
@@ -159,6 +164,22 @@ export class EditorHistoryCoordinator {
         return false
       }
       changes.push(prepared)
+      const library = this.mainSession.getState().scriptPreview
+      const cleaned = removeDeletedScriptPreviewReferences(
+        library,
+        this.scriptSession.getState().scenes,
+        prepared.nextState.scenes,
+      )
+      if (cleaned && cleaned !== library) {
+        const cleanup = new SetScriptPreviewLibraryCommand(cleaned)
+        entry = {
+          ...entry,
+          main: new CompositeCommand(entry.main?.label ?? entry.script.label, [
+            ...(entry.main ? [entry.main] : []),
+            cleanup,
+          ]),
+        }
+      }
     }
     if (entry.main) {
       const prepared = this.mainSession.prepareHistoryChange('dispatch', entry.main, entry.id, this)

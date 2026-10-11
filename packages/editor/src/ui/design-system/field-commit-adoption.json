@@ -16,7 +16,8 @@
         "command-form-dialogue.tsx",
         "command-form-world.tsx",
         "ScriptSceneHookInspector.tsx",
-        "ScriptBehaviorInspector.tsx"
+        "ScriptBehaviorInspector.tsx",
+        "SceneInitialStateEditor.tsx"
       ],
       "transactions": [
         {
@@ -80,6 +81,16 @@
           "controlOwners": ["ScriptSchemeDetailsDialog"],
           "fields": ["scriptScheme.name", "scriptScheme.default"],
           "verification": "ScriptEditor.test.tsx"
+        },
+        {
+          "id": "scene-preview-initial-state",
+          "kind": "field-draft",
+          "fields": [
+            "scriptPreview.states.*.name",
+            "scriptPreview.states.*.entities.*.pos.*",
+            "scriptPreview.states.*.entities.*.zBias"
+          ],
+          "verification": "SceneScriptWorkspace.initial-state.test.tsx + ../core/author-save-conflict.test.ts"
         }
       ]
     },

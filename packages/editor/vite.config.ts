@@ -50,7 +50,9 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
     }
     const saveState =
       urlPrefix === '/projects' &&
-      /^[^/]+\/(?:\.type-pal\/save-state|editor\/battle-simulator)\.json$/.test(rel)
+      /^[^/]+\/(?:\.type-pal\/save-state|editor\/(?:battle-simulator|script-preview))\.json$/.test(
+        rel,
+      )
     try {
       const stat = statSync(file)
       if (!stat.isFile()) {

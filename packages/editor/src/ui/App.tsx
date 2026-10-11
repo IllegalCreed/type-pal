@@ -120,6 +120,7 @@ import {
   SetEntityPageTriggerActivationCommand,
 } from '../core/script-editor.js'
 import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
+import { SetScriptPreviewLibraryCommand } from '../core/script-preview-library.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
@@ -426,6 +427,9 @@ export function App(props: {
     actors: state.actors,
     sprites: state.sprites,
   })
+  const [editingInitialState, setEditingInitialState] = useState(false)
+  const [initialStatePropertiesHost, setInitialStatePropertiesHost] =
+    useState<HTMLDivElement | null>(null)
   const {
     error: saveErr,
     activity: saveActivity,
@@ -2802,6 +2806,13 @@ export function App(props: {
                   state={scriptState}
                   selectedEntityId={selEntity?.id ?? null}
                   selectedPageId={canonicalPage?.id}
+                  sceneSelected={selected.kind === 'scene'}
+                  initialStates={state.scriptPreview}
+                  onInitialStatesChange={(library) =>
+                    session.dispatch(new SetScriptPreviewLibraryCommand(library))
+                  }
+                  onEditingInitialState={setEditingInitialState}
+                  initialStatePropertiesHost={initialStatePropertiesHost}
                   locale={state.locale}
                   sprites={state.sprites}
                   actorsById={actorsById}
@@ -2832,7 +2843,8 @@ export function App(props: {
 
             <DsInspectorHost
               className={`inspector${
-                !placingEntity && (selEntity || selected.kind === 'scene')
+                !placingEntity &&
+                (selEntity || (selected.kind === 'scene' && !(drawer.open && editingInitialState)))
                   ? ' inspector--tabbed'
                   : ''
               }`}
@@ -2855,6 +2867,8 @@ export function App(props: {
                     setPlaceZoneRanges((current) => ({ ...current, [on]: range }))
                   }
                 />
+              ) : drawer.open && selected.kind === 'scene' && editingInitialState ? (
+                <div ref={setInitialStatePropertiesHost} />
               ) : selEntity ? (
                 <SceneEntityInspectorTabs
                   key={`${scene.id}:${selEntity.id}`}

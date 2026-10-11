@@ -2008,9 +2008,9 @@ type DataStateProps`,
 
     const borrowedProjectOwner = structuredClone(matrix)
     borrowedProjectOwner.pages.find((page) => page.registry === 'scene/workspace').owners.field +=
-      ' + DsFieldGroup'
+      ' + DsDraftNumberField'
     expect(validateAdoption(borrowedProjectOwner)).toContain(
-      'scene/workspace field owner DsFieldGroup is not rendered by its routed field root',
+      'scene/workspace field owner DsDraftNumberField is not rendered by its routed field root',
     )
 
     const dataEntrypoint = structuredClone(matrix)
@@ -2036,7 +2036,7 @@ type DataStateProps`,
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 101 files, 2 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 102 files, 2 evidence-bound exceptions')
   }, 15_000)
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

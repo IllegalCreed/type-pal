@@ -13700,6 +13700,74 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   text-align: center;
 }
+.scene-initial-states {
+  display: grid;
+  gap: 12px;
+  padding: 10px 0;
+  min-width: 0;
+}
+.initial-state-cards > .script-scheme-card {
+  flex: 0 0 180px;
+  grid-template-rows: auto;
+}
+.initial-state-details {
+  display: grid;
+  gap: 8px;
+}
+.initial-state-actions,
+.initial-state-entity-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.initial-state-entity-heading {
+  justify-content: space-between;
+}
+.initial-state-entities {
+  display: grid;
+  gap: 4px;
+}
+.initial-state-entity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: normal;
+  text-align: left;
+}
+.initial-state-entity-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.initial-state-entity-summary > span {
+  color: var(--dim);
+}
+.initial-state-canvas {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.initial-state-canvas-label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 6px 10px;
+  color: var(--fg);
+  background: var(--panel2);
+}
+.initial-state-canvas-label span {
+  color: var(--dim);
+}
+.initial-state-error {
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  padding: 20px;
+  color: var(--fg);
+}
 
 /*
  * Canonical Inspector content bridge.

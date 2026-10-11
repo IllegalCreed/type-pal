@@ -6,12 +6,16 @@
 上级：[协作与工程维护](../README.md)。
 
 ## 当前证据
+- [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
 - [ControlForm 残余合同](../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（1 合同、2 针反控，已收口）。
 - [ItemEffect 残余合同](TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/README.md)（3 合同、3 针反控，已收口；puppet product-counter 保留）。
 - [MenuBox 残余合同](TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)（5 合同、5 针反控，已收口）。
 
-- [TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 交付证据](TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md)（r1 候选：MenuBox 级联几何/选中色残余臂/属性九行布局/中栏定位/装备格网格 5 合同 + 5/5 隔离树严格反控，待 Codex 验收）。
+## 历史交付入口
+
+以下保留各批提交时的回执说明；当前验收状态以[任务总索引](../tasks/index.md)和对应卡最后一次 Codex 裁决为准，不能把旧回执中的“待验收”当作当前任务状态。
+
 - [Game 大世界叠层测试性能修复](CI-GAME-OVERLAY-PERFORMANCE-1/README.md)（Codex有限维护；7反控、全包及受保护fast通过，覆盖/基准不变，新托管CI按推送HEAD另核）。
 - [2026年10月8日有限合同派发](TEST-CONTRACT-BATCH-20261008/README.md)（三个 GLM 候选已由 Codex 在当前 main 独立复验；最终裁决见 [独立验收](TEST-CONTRACT-BATCH-20261008/codex-review.md)）。
 - [炼蛊边界贡献候选](TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md)、[脚本交互贡献候选](TEST-EDITOR-SCRIPT-INTERACTION-1/README.md)、[工程加载贡献候选](TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md)（原件保持历史候选身份；以共同目录的 Codex 当前版本复验为准）。
