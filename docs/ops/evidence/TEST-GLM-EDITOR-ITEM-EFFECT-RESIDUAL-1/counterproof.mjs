@@ -99,9 +99,17 @@ function withMutation(needle, fn) {
   return { mutation, result }
 }
 
+/** 被跟踪脏文件守卫：证据收据目录（本驱动合法重写）之外的 tracked 改动一律视为泄漏。 */
 function trackedDirty() {
   const status = spawnSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' })
-  return status.stdout.split('\n').filter((line) => line && !line.startsWith('??'))
+  return status.stdout
+    .split('\n')
+    .filter(
+      (line) =>
+        line &&
+        !line.startsWith('??') &&
+        !line.includes('docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/'),
+    )
 }
 
 function runVitest(phase) {
