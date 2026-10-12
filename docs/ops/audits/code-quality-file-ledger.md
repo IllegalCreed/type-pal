@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：284；已读但待审：8；尚未逐文件核验：2,974；合计未闭合：2,982。
+当前已闭合核验：284；已读但待审：14；尚未逐文件核验：2,968；合计未闭合：2,982。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -321,6 +321,12 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/shell/bootstrap.ts` | product | review | CODE-QUALITY-57；SDLPal scene.c、present/draw-tilemap、dev-panel/tools-panel/minimap callers；bootstrap 全文件读取，定向 helper/资源 tests 6 通过 | 资源/scene/save/modal ownership 已读；thumbnail 直绘未调用 seam repair，缺真实 thumbnail pixel oracle，保持 review |
 | `packages/game/src/shell/bootstrap-load.test.ts` | test | review | CODE-QUALITY-57；bootstrap palette transition oracle；1 test 通过 | helper 合同真实且独立；不覆盖 bootstrap thumbnail closure，随卡保留 review |
 | `packages/game/src/shell/bootstrap.glm-next-wave.test.ts` | test | review | CODE-QUALITY-57；showError canvas port oracle；2 tests 通过 | 启动失败显示/无 2D context 反例；不覆盖 thumbnail closure，随卡保留 review |
+| `packages/game/src/tools/tools-panel.ts` | product | review | CODE-QUALITY-58；bootstrap/minimap/save/inspect callers；tools-panel 定向 18 tests 待完整批次门 | tab/DOM/键盘/委托/战斗签名/工具状态逐段读取；save import 依赖 CODE-QUALITY-59，暂不关闭 |
+| `packages/game/src/tools/tools-panel.test.ts` | test | review | CODE-QUALITY-58；DOM/keyboard/audio/dialog/timer/battle oracle；定向待跑 | 真实注入依赖、受控 timer、输入传播与状态隔离；save version 风险另卡 |
+| `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-58；display-scale/fullscreen/FPS delegation oracle；定向待跑 | 公开委托参数与持久键观察；不覆盖 save schema |
+| `packages/game/src/tools/save-io.ts` | product | blocked | CODE-QUALITY-59；tools-panel/Save API callers、current-only save evidence；定向 11 tests 仅证明现行合同 | `VERSION=1` 写出但 parse 忽略 version，save boundary 裁决前禁止实现 |
+| `packages/game/src/tools/save-io.test.ts` | test | blocked | CODE-QUALITY-59；serialize/parse合法与格式/必填反例；11 tests相邻全绿但无 wrong-version oracle | 未知 version 反例待裁决，不新增弱合法断言 |
+| `packages/game/src/tools/save-import-quicksave.glm-msio.test.ts` | test | blocked | CODE-QUALITY-59；真实 parse/quick-save caller与必填守卫；相邻 11 tests 全绿 | 只证明当前合法输入与缺字段拒绝，不能替代 canonical version 决策 |
 
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
