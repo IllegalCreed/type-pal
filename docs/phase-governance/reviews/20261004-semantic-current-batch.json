@@ -42,11 +42,7 @@
       "module": "agent-workflow.md",
       "capability": "ops-agent-workflow",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
       "afterSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
       "publicCallers": [
@@ -62,10 +58,7 @@
         "docs/ops/agent-workflow.md → archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
         "docs/ops/agent-workflow.md → templates/TASK-lite-template.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/agent-workflow.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/agent-workflow.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -93,12 +86,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -311,11 +299,7 @@
       "module": "audits",
       "capability": "ops-audits-architecture-debt",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
       "afterSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
       "publicCallers": [
@@ -336,10 +320,7 @@
         "docs/ops/audits/architecture-debt.md → ../../testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
         "docs/ops/audits/architecture-debt.md → ../archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/audits/architecture-debt.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/architecture-debt.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -367,12 +348,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -446,24 +422,14 @@
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "当前审计与修复依据：这是 audit-report，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「这里只放仍在被当前工作消费的审计台账。已归档报告见 archive/audits；文档治理的结果见任务总索引。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": [
-        "docs/ops/audits/README.md:1",
-        "1:当前审计与修复依据",
-        "7:分类入口"
-      ],
-      "unresolved": [
-        "结构扫描未发现显式未决词；不等于一手真值已经核实"
-      ],
+      "truthAnchors": ["docs/ops/audits/README.md:1", "1:当前审计与修复依据", "7:分类入口"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
       "module": "audits",
       "capability": "ops-audits-README",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c7083eef82cf1c88bd91a7b67f9b1eb7a2c2d4776deea942afbe6522b17756a2",
       "afterSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
       "publicCallers": [
@@ -471,10 +437,7 @@
         "docs/ops/audits/README.md → architecture-debt.md",
         "docs/ops/audits/README.md → pre-e2e/README.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/audits/README.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/audits/README.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -486,10 +449,7 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": [
-          "docs/ops/audits/README.md",
-          "docs/phase-governance/templates/audit-report.md"
-        ],
+        "against": ["docs/ops/audits/README.md", "docs/phase-governance/templates/audit-report.md"],
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
@@ -502,23 +462,13 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
             "action": "full-text-structured-content-review-after-main-sync",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -580,13 +530,9 @@
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "4f451da2684271fbd1f05ca422690fa2ba05a2c837c860b78d6cd83fe81153bd",
+      "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -600,10 +546,7 @@
         "docs/ops/board.md → tasks/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
         "docs/ops/board.md → tasks/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/board.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/board.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -615,10 +558,7 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": [
-          "docs/ops/board.md",
-          "docs/phase-governance/templates/governance-index.md"
-        ],
+        "against": ["docs/ops/board.md", "docs/phase-governance/templates/governance-index.md"],
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
@@ -634,11 +574,7 @@
             "scope": "docs/ops/board.md",
             "previousSha256": "4387d28028fcc0985cecd356d9c7ff5533a65925f3c964b50fc3c4c61b0f2d2c",
             "evidence": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json",
-            "notRun": [
-              "E2E",
-              "visual",
-              "new GitHub CI"
-            ]
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           },
           {
             "revision": "c78380e391fd40b6013acf6661aa5e0dc0c14d4a",
@@ -646,12 +582,7 @@
             "action": "finite-test-r2-counter-navigation-review",
             "scope": "docs/ops/board.md",
             "previousSha256": "dc07063ee98c81d3e7574c25d6de23a6cfe237e8c3be32ae2569bf6f302767d7",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8",
@@ -659,12 +590,7 @@
             "action": "finite-test-r1-counter-navigation-review",
             "scope": "docs/ops/board.md",
             "previousSha256": "82bb96b18399f99f6a66621ec6a447787f50e3c8af9fe8d4fce979b9f0e3169d",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
@@ -672,56 +598,31 @@
             "action": "finite-test-dispatch-navigation-review",
             "scope": "docs/ops/board.md",
             "previousSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
             "action": "content-review-sha-refresh",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "content-review-sha-refresh",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
             "action": "full-text-structured-content-review-after-main-sync",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
@@ -730,11 +631,7 @@
             "previousAfterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-            "notRun": [
-              "E2E",
-              "visual",
-              "new GitHub CI"
-            ]
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           },
           {
             "revision": "working-tree",
@@ -743,16 +640,8 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
             "evidence": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-            "reviewedRanges": [
-              "7-7"
-            ],
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage",
-              "new GitHub CI"
-            ]
+            "reviewedRanges": ["7-7"],
+            "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
           },
           {
             "revision": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
@@ -761,13 +650,7 @@
             "previousAfterSha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
             "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
             "scope": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage",
-              "new GitHub CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
           },
           {
             "revision": "working-tree",
@@ -776,12 +659,7 @@
             "previousAfterSha256": "f36409c5ef901efe5cbdc87879d4095e4325890a0d3ccc069fdf750a96914e6d",
             "afterSha256": "f36409c5ef901efe5cbdc87879d4095e4325890a0d3ccc069fdf750a96914e6d",
             "evidence": "docs/ops/tasks/CODE-QUALITY-3z-game-google-analytics.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -790,12 +668,7 @@
             "previousAfterSha256": "f36409c5ef901efe5cbdc87879d4095e4325890a0d3ccc069fdf750a96914e6d",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -804,12 +677,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "15f13931c9a74acfffb7e8b4675648b3537c3ad07634cbdba16cc1604cd63d16",
             "evidence": "docs/ops/tasks/CODE-QUALITY-40-game-analytics-install.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -818,12 +686,7 @@
             "previousAfterSha256": "15f13931c9a74acfffb7e8b4675648b3537c3ad07634cbdba16cc1604cd63d16",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -832,11 +695,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "53e74578692fc7ff04b7d85f2a1f0619732f97205c0ee4808fab35ad6b9542ad",
             "evidence": "docs/ops/tasks/CODE-QUALITY-41-game-analytics-consent-ui.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -845,11 +704,7 @@
             "previousAfterSha256": "53e74578692fc7ff04b7d85f2a1f0619732f97205c0ee4808fab35ad6b9542ad",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -858,12 +713,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "770ec3754705b1387b5efbee3eef0692ea4102bde8aa6fe5111ee5bfce9c520a",
             "evidence": "docs/ops/tasks/CODE-QUALITY-42-game-dialog-box.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -872,12 +722,7 @@
             "previousAfterSha256": "770ec3754705b1387b5efbee3eef0692ea4102bde8aa6fe5111ee5bfce9c520a",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -886,12 +731,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "392b7c9140db34389c2d03525d2c03d888f4242460d401aec52d817ab4ae9c38",
             "evidence": "docs/ops/tasks/CODE-QUALITY-43-game-draw-sprite.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -900,12 +740,7 @@
             "previousAfterSha256": "392b7c9140db34389c2d03525d2c03d888f4242460d401aec52d817ab4ae9c38",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -914,12 +749,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "34f9ad174fb67a781c38cca1e659df830b9290159b491667a54307d03d721f45",
             "evidence": "docs/ops/tasks/CODE-QUALITY-44-game-font.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -928,12 +758,7 @@
             "previousAfterSha256": "34f9ad174fb67a781c38cca1e659df830b9290159b491667a54307d03d721f45",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -942,12 +767,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "c96b381e174ac614ca1084f7065d3e91bc5323f9a8c9c3c52a9351212d61877d",
             "evidence": "docs/ops/tasks/CODE-QUALITY-45-game-follower-render.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -956,12 +776,7 @@
             "previousAfterSha256": "c96b381e174ac614ca1084f7065d3e91bc5323f9a8c9c3c52a9351212d61877d",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -970,12 +785,7 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "33d1920dc22f593e4d85c31ae5753f50d76ccf5ebc53e8136132678aead3e3b1",
             "evidence": "docs/ops/tasks/CODE-QUALITY-46-game-draw-confirm.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -984,12 +794,7 @@
             "previousAfterSha256": "33d1920dc22f593e4d85c31ae5753f50d76ccf5ebc53e8136132678aead3e3b1",
             "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -998,12 +803,16 @@
             "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
             "afterSha256": "dc3a26a37c9df9cf2923852a6b061782c74a7ab930f03cba8910068bf59e68dc",
             "evidence": "docs/ops/tasks/CODE-QUALITY-47-game-draw-box.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-12",
+            "action": "code-quality-47-draw-box-closeout",
+            "previousAfterSha256": "4f451da2684271fbd1f05ca422690fa2ba05a2c837c860b78d6cd83fe81153bd",
+            "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -1032,23 +841,13 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "4f451da2684271fbd1f05ca422690fa2ba05a2c837c860b78d6cd83fe81153bd",
+        "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
         "currentReading": {
           "date": "2026-10-12",
           "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
-          "lineCount": 20,
-          "headings": [
-            {
-              "line": 1,
-              "text": "多 Agent 任务看板"
-            },
-            {
-              "line": 15,
-              "text": "看板规则"
-            }
-          ],
-          "scope": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
-          "method": "current-full-text-and-primary-evidence-read-20261012"
+          "lineCount": 21,
+          "scope": "CODE-QUALITY-47 draw box closeout navigation/state update",
+          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
           {
@@ -1128,11 +927,7 @@
           "previousAfterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
           "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-          "notRun": [
-            "E2E",
-            "visual",
-            "new GitHub CI"
-          ]
+          "notRun": ["E2E", "visual", "new GitHub CI"]
         },
         {
           "revision": "working-tree",
@@ -1141,16 +936,8 @@
           "previousAfterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
           "afterSha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
           "evidence": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-          "reviewedRanges": [
-            "7-7"
-          ],
-          "notRun": [
-            "runtime",
-            "E2E",
-            "visual",
-            "coverage",
-            "new GitHub CI"
-          ]
+          "reviewedRanges": ["7-7"],
+          "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
         },
         {
           "revision": "working-tree",
@@ -1270,6 +1057,13 @@
           "action": "code-quality-47-draw-box-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-12",
+          "action": "code-quality-47-draw-box-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
         }
       ],
       "supersedes": [],
@@ -1322,11 +1116,7 @@
       "module": "evidence",
       "capability": "ops-evidence-README",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
       "afterSha256": "e5d004cb53c483e0b9ef5ff139ac5318ce2c54d272d2230006748d1b659e8ca8",
       "publicCallers": [
@@ -1342,10 +1132,7 @@
         "docs/ops/evidence/README.md → TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
         "docs/ops/evidence/README.md → TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/README.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/evidence/README.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -1391,11 +1178,7 @@
               "scope": "Finite dispatch remains unchanged; additionally pins Codex narrow P12 overlay test performance evidence and real counter replay. No new contribution acceptance or future hosted CI claim."
             },
             "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-            "notRun": [
-              "E2E",
-              "visual",
-              "new GitHub CI"
-            ]
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           },
           {
             "revision": "working-tree",
@@ -1404,11 +1187,7 @@
             "scope": "docs/ops/evidence/README.md",
             "previousSha256": "d00c29d1f654db82d36b35db9cff481ec5eaee63100a40b0f23a2b210998545e",
             "evidence": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json",
-            "notRun": [
-              "E2E",
-              "visual",
-              "new GitHub CI"
-            ]
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           },
           {
             "revision": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
@@ -1416,45 +1195,25 @@
             "action": "finite-test-dispatch-navigation-review",
             "scope": "docs/ops/evidence/README.md",
             "previousSha256": "a50eb04431c32f351593ce07602655483d48cf736a250be3c59504404a46d26d",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
             "action": "content-review-sha-refresh",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "content-review-sha-refresh",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
@@ -1463,13 +1222,7 @@
             "previousAfterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
             "afterSha256": "e5d004cb53c483e0b9ef5ff139ac5318ce2c54d272d2230006748d1b659e8ca8",
             "scope": "2026-10-12：直接核三包已归档卡末尾Codex accept，保留当前入口；删除重复的MenuBox待验收入口。其余批次回执明确为历史提交时说明，实际状态由任务索引及最新卡裁决决定。新置顶TURN-BOUNDARIES返工入口，先前accept撤回；不把原始摘要升级为有效反控原件。",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage",
-              "new GitHub CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
           },
           {
             "revision": "working-tree",
@@ -1477,12 +1230,7 @@
             "action": "main-sync-navigation-sha-refresh",
             "previousAfterSha256": "f7975bc6e54350b66080283793386f46ab66915cea851d42f3f2209578ef833e",
             "afterSha256": "8243cbfa5466c6582964ae2e8c6d1b500141a7bb8f249831b65b22e8aa5af4bc",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1616,16 +1364,10 @@
       "module": "guides",
       "capability": "ops-guides-browser-verification",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
       "afterSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
-      "publicCallers": [
-        "docs navigation / repository reference"
-      ],
+      "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
         "docs/ops/guides/browser-verification.md"
@@ -1657,12 +1399,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -1749,20 +1486,11 @@
       "module": "guides",
       "capability": "ops-guides-dev-servers",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
       "afterSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
-      "publicCallers": [
-        "docs navigation / repository reference"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/guides/dev-servers.md"
-      ],
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/dev-servers.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -1790,12 +1518,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -1892,11 +1615,7 @@
       "module": "guides",
       "capability": "ops-guides-documentation",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
       "afterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
       "publicCallers": [
@@ -1907,10 +1626,7 @@
         "docs/ops/guides/documentation.md → ../tasks/index.md",
         "docs/ops/guides/documentation.md → ../archive/board-history/board-20261004.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/guides/documentation.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/documentation.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -1938,12 +1654,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -2014,24 +1725,14 @@
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "工程维护指南：这是 guide-runbook，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「开发服务、浏览器验证和文档维护的操作方法。覆盖率及 E2E 的跨阶段合同统一放 docs/testing。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": [
-        "docs/ops/guides/README.md:1",
-        "1:工程维护指南",
-        "7:文档与附件"
-      ],
-      "unresolved": [
-        "结构扫描未发现显式未决词；不等于一手真值已经核实"
-      ],
+      "truthAnchors": ["docs/ops/guides/README.md:1", "1:工程维护指南", "7:文档与附件"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
       "module": "guides",
       "capability": "ops-guides-README",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
       "afterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
       "publicCallers": [
@@ -2040,10 +1741,7 @@
         "docs/ops/guides/README.md → dev-servers.md",
         "docs/ops/guides/README.md → documentation.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/guides/README.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/guides/README.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -2071,12 +1769,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -2122,25 +1815,14 @@
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "协作与工程维护：这是 governance-index，当前文档状态为 current。全文 21 行、3 个标题；摘要/首段为「活动看板、协作规则、任务与模板构成当前工作入口。操作方法放 guides，尚在消费的审计放 audits，关闭任务与时点证据放 archive。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": [
-        "docs/ops/README.md:1",
-        "1:协作与工程维护",
-        "7:分类入口",
-        "16:文档与附件"
-      ],
-      "unresolved": [
-        "结构扫描未发现显式未决词；不等于一手真值已经核实"
-      ],
+      "truthAnchors": ["docs/ops/README.md:1", "1:协作与工程维护", "7:分类入口", "16:文档与附件"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
       "module": "README.md",
       "capability": "ops-README",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
       "afterSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
       "publicCallers": [
@@ -2155,10 +1837,7 @@
         "docs/ops/README.md → board.md",
         "docs/ops/README.md → archive/board-history/README.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/README.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/README.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -2170,10 +1849,7 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": [
-          "docs/ops/README.md",
-          "docs/phase-governance/templates/governance-index.md"
-        ],
+        "against": ["docs/ops/README.md", "docs/phase-governance/templates/governance-index.md"],
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
@@ -2186,12 +1862,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -2255,13 +1926,9 @@
       "module": "tasks",
       "capability": "ops-tasks-index",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "95c949ce1abe202ca502cd425c183184cf130c7d3204cdc9ff4c38b618f10cd8",
+      "afterSha256": "de2456ea58f1497de60129a2184a0ccbde443c17e0926048f152a54a8a0ac994",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2280,10 +1947,7 @@
         "docs/ops/tasks/index.md → ../archive/tasks/done/A7-0A-opening-menu-music-role.md",
         "docs/ops/tasks/index.md → ../archive/tasks/done/A7-1-sfx-asset-closure.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/index.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/tasks/index.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -2295,10 +1959,7 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": [
-          "docs/ops/tasks/index.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
+        "against": ["docs/ops/tasks/index.md", "docs/phase-governance/templates/task-card.md"],
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
@@ -2314,11 +1975,7 @@
             "scope": "docs/ops/tasks/index.md",
             "previousSha256": "e44c2911ce63ed3fb80a88571e9a1678452895125ebd1fe39079e813646db5ef",
             "evidence": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json",
-            "notRun": [
-              "E2E",
-              "visual",
-              "new GitHub CI"
-            ]
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           },
           {
             "revision": "a2447b5c9ec19ff52f48cf4d3200c1af3a1245b8",
@@ -2326,12 +1983,7 @@
             "action": "finite-test-r1-counter-navigation-review",
             "scope": "docs/ops/tasks/index.md",
             "previousSha256": "ba722599307e54ee84dba7d05acea2a7df4279791f32cfb59f3c2736208931f9",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "2f0fe6d2f0a4eb308febfbe6b787b4276b762b8d",
@@ -2339,45 +1991,25 @@
             "action": "finite-test-dispatch-navigation-review",
             "scope": "docs/ops/tasks/index.md",
             "previousSha256": "ad172f46760e4342344dccbefb0e2bdf0d64c0211a47dcea82fff56d36ac009b",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-05",
             "action": "content-review-sha-refresh",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "content-review-sha-refresh",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
@@ -2386,15 +2018,8 @@
             "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
             "previousAfterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
             "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
-            "reviewedRanges": [
-              "123-123"
-            ],
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "reviewedRanges": ["123-123"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "working-tree",
@@ -2403,11 +2028,7 @@
             "previousAfterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
             "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
             "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-            "notRun": [
-              "E2E",
-              "visual",
-              "new GitHub CI"
-            ]
+            "notRun": ["E2E", "visual", "new GitHub CI"]
           },
           {
             "revision": "working-tree",
@@ -2416,16 +2037,8 @@
             "previousAfterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
             "afterSha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
             "evidence": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-            "reviewedRanges": [
-              "14-14"
-            ],
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage",
-              "new GitHub CI"
-            ]
+            "reviewedRanges": ["14-14"],
+            "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
           },
           {
             "revision": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
@@ -2434,13 +2047,7 @@
             "previousAfterSha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
             "afterSha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
             "scope": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage",
-              "new GitHub CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
           },
           {
             "revision": "working-tree",
@@ -2449,12 +2056,7 @@
             "previousAfterSha256": "2faab835f500bbcd037946e2ee83aa8bc566a938f63a2591c95a6428e4a0ab18",
             "afterSha256": "2faab835f500bbcd037946e2ee83aa8bc566a938f63a2591c95a6428e4a0ab18",
             "evidence": "docs/ops/tasks/CODE-QUALITY-3z-game-google-analytics.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2463,12 +2065,7 @@
             "previousAfterSha256": "2faab835f500bbcd037946e2ee83aa8bc566a938f63a2591c95a6428e4a0ab18",
             "afterSha256": "baf031a753c274a58399cb065ec752f68a6877f8b97ee1df46f19d77bee174a9",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2477,12 +2074,7 @@
             "previousAfterSha256": "baf031a753c274a58399cb065ec752f68a6877f8b97ee1df46f19d77bee174a9",
             "afterSha256": "281039de074f7a7505400b656bd08e54823ba6c1dcf49e84ffe73350a62a6e94",
             "evidence": "docs/ops/tasks/CODE-QUALITY-40-game-analytics-install.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2491,12 +2083,7 @@
             "previousAfterSha256": "281039de074f7a7505400b656bd08e54823ba6c1dcf49e84ffe73350a62a6e94",
             "afterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2504,12 +2091,7 @@
             "action": "main-sync-navigation-sha-refresh",
             "previousAfterSha256": "77a2a1c1693f0ad4ec4e312b56f428a037c8967c4a18427b2463a3fef91dcd9b",
             "afterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2518,11 +2100,7 @@
             "previousAfterSha256": "c3a64016627220c419b8d52a92bd6caa5af77a8bfbaff94d4af94411c8a41aed",
             "afterSha256": "f991a47eb132e020524a03e9181a6545a521810d94e2b4bd05bc1173c3a3a05b",
             "evidence": "docs/ops/tasks/CODE-QUALITY-41-game-analytics-consent-ui.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2531,11 +2109,7 @@
             "previousAfterSha256": "f991a47eb132e020524a03e9181a6545a521810d94e2b4bd05bc1173c3a3a05b",
             "afterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2544,12 +2118,7 @@
             "previousAfterSha256": "97a95951961cdec717998ad32a828fb510aa7f16294fe4bc96f567424d9e23b0",
             "afterSha256": "a7670850b4be84575b1b4397e0e036097e48b02591d17966d1b443ec2dac2fd0",
             "evidence": "docs/ops/tasks/CODE-QUALITY-42-game-dialog-box.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2558,12 +2127,7 @@
             "previousAfterSha256": "a7670850b4be84575b1b4397e0e036097e48b02591d17966d1b443ec2dac2fd0",
             "afterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2572,12 +2136,7 @@
             "previousAfterSha256": "bdf30c6419b4bd7a0341469ec87dc707392f4212e75b0897c794be9e040bb114",
             "afterSha256": "3134afa6357543f123f79f2756c0e4072d814c2b71d420242f2b4bffa4690bf9",
             "evidence": "docs/ops/tasks/CODE-QUALITY-43-game-draw-sprite.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2586,12 +2145,7 @@
             "previousAfterSha256": "3134afa6357543f123f79f2756c0e4072d814c2b71d420242f2b4bffa4690bf9",
             "afterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2600,12 +2154,7 @@
             "previousAfterSha256": "3c7bb53308c80c41373e93351ec9238e8f6fcfbddee1862903b477b901a8503f",
             "afterSha256": "602a555571875403f37f4cf39972c0864263e52cbcc3fa3f299c10d380025a31",
             "evidence": "docs/ops/tasks/CODE-QUALITY-44-game-font.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2614,12 +2163,7 @@
             "previousAfterSha256": "602a555571875403f37f4cf39972c0864263e52cbcc3fa3f299c10d380025a31",
             "afterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2628,12 +2172,7 @@
             "previousAfterSha256": "72f798a195b72a4c987b0be5298f0394140f217294ee12c77fff19b6e5a52092",
             "afterSha256": "270f48a996bdc06c6d8d89e2e1d65538ee82f0338808ed54d22019760be59cfe",
             "evidence": "docs/ops/tasks/CODE-QUALITY-45-game-follower-render.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2642,12 +2181,7 @@
             "previousAfterSha256": "270f48a996bdc06c6d8d89e2e1d65538ee82f0338808ed54d22019760be59cfe",
             "afterSha256": "4bd38e713463d1ac72d8c669c448417f4f9a2cd25d2d9a7aef380184f1e07b37",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2656,12 +2190,7 @@
             "previousAfterSha256": "4bd38e713463d1ac72d8c669c448417f4f9a2cd25d2d9a7aef380184f1e07b37",
             "afterSha256": "a349b1cb288443e1caf8bc6d1c36559c086ede43f437f2e48ffcb805134a4c30",
             "evidence": "docs/ops/tasks/CODE-QUALITY-46-game-draw-confirm.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2670,12 +2199,7 @@
             "previousAfterSha256": "a349b1cb288443e1caf8bc6d1c36559c086ede43f437f2e48ffcb805134a4c30",
             "afterSha256": "589222b46bae0e97aee343ab14cdfeae950f6819f81cec515df78da2de8d1f65",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           },
           {
             "revision": "working-tree",
@@ -2684,12 +2208,16 @@
             "previousAfterSha256": "589222b46bae0e97aee343ab14cdfeae950f6819f81cec515df78da2de8d1f65",
             "afterSha256": "57b200ff022606ba44e8e8942acde4bae48016cf44dd0c553621dc5b4cbdcc1e",
             "evidence": "docs/ops/tasks/CODE-QUALITY-47-game-draw-box.md",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "hosted CI"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-12",
+            "action": "code-quality-47-draw-box-closeout",
+            "previousAfterSha256": "95c949ce1abe202ca502cd425c183184cf130c7d3204cdc9ff4c38b618f10cd8",
+            "afterSha256": "de2456ea58f1497de60129a2184a0ccbde443c17e0926048f152a54a8a0ac994",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2722,31 +2250,13 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "95c949ce1abe202ca502cd425c183184cf130c7d3204cdc9ff4c38b618f10cd8",
+        "afterSha256": "de2456ea58f1497de60129a2184a0ccbde443c17e0926048f152a54a8a0ac994",
         "currentReading": {
           "date": "2026-10-12",
-          "sha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
-          "lineCount": 378,
-          "headings": [
-            {
-              "line": 1,
-              "text": "任务卡索引"
-            },
-            {
-              "line": 7,
-              "text": "活动任务"
-            },
-            {
-              "line": 19,
-              "text": "已完成（historical）"
-            },
-            {
-              "line": 369,
-              "text": "已取消（superseded / historical）"
-            }
-          ],
-          "scope": "2026-10-12：由官方 --print-task-index 按358张任务卡重新生成。ED-ENTITY-STATE-PLAN-1 为review，TURN-BOUNDARIES 为rework并回到活动区；最新main的ControlForm、ItemEffect、MenuBox三卡保持已完成归档。生成链接与排序不等于重新验收全部历史任务。",
-          "method": "prior-full-text-review + current-delta-and-primary-evidence-read-20261012"
+          "sha256": "de2456ea58f1497de60129a2184a0ccbde443c17e0926048f152a54a8a0ac994",
+          "lineCount": 390,
+          "scope": "CODE-QUALITY-47 draw box closeout navigation/state update",
+          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
           {
@@ -2852,15 +2362,8 @@
           "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
           "previousAfterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
           "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
-          "reviewedRanges": [
-            "123-123"
-          ],
-          "notRun": [
-            "runtime",
-            "E2E",
-            "visual",
-            "coverage"
-          ]
+          "reviewedRanges": ["123-123"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         },
         {
           "revision": "working-tree",
@@ -2869,11 +2372,7 @@
           "previousAfterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
           "afterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
           "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-          "notRun": [
-            "E2E",
-            "visual",
-            "new GitHub CI"
-          ]
+          "notRun": ["E2E", "visual", "new GitHub CI"]
         },
         {
           "revision": "working-tree",
@@ -2882,16 +2381,8 @@
           "previousAfterSha256": "d2eaa0dfe730972de8002b10aa32835f384940133f7c05fe30f007d43cbcb63a",
           "afterSha256": "6eda6ec55eee909b5b9e655c779a79764fc5f9ffc804bc45bca1e4845ebd6454",
           "evidence": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-          "reviewedRanges": [
-            "14-14"
-          ],
-          "notRun": [
-            "runtime",
-            "E2E",
-            "visual",
-            "coverage",
-            "new GitHub CI"
-          ]
+          "reviewedRanges": ["14-14"],
+          "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
         },
         {
           "revision": "working-tree",
@@ -3018,6 +2509,13 @@
           "action": "code-quality-47-draw-box-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-12",
+          "action": "code-quality-47-draw-box-closeout",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
         }
       ],
       "supersedes": [],
@@ -3069,11 +2567,7 @@
       "module": "tasks",
       "capability": "ops-tasks-README",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
       "afterSha256": "6aec8429b8778cc3ae2ba58cd184fc859ef6737702cd8997460db9f209d78fe7",
       "publicCallers": [
@@ -3086,10 +2580,7 @@
         "docs/ops/tasks/README.md → ../archive/board-history/board-20261004.md",
         "docs/ops/tasks/README.md → index.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/README.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/tasks/README.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -3101,10 +2592,7 @@
       },
       "dedupe": {
         "result": "reviewed",
-        "against": [
-          "docs/ops/tasks/README.md",
-          "docs/phase-governance/templates/task-card.md"
-        ],
+        "against": ["docs/ops/tasks/README.md", "docs/phase-governance/templates/task-card.md"],
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
@@ -3117,12 +2605,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -3178,24 +2661,14 @@
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "任务模板：这是 governance-index，当前文档状态为 current。全文 11 行、2 个标题；摘要/首段为「完整和轻量任务模板；创建时填写单一初始状态并按 AGENTS 的准入规则推进。用户已授权的普通维护不因目录整理被要求重复签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": [
-        "docs/ops/templates/README.md:1",
-        "1:任务模板",
-        "7:文档与附件"
-      ],
-      "unresolved": [
-        "结构扫描未发现显式未决词；不等于一手真值已经核实"
-      ],
+      "truthAnchors": ["docs/ops/templates/README.md:1", "1:任务模板", "7:文档与附件"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "ops",
       "module": "templates",
       "capability": "ops-templates-README",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
       "afterSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
       "publicCallers": [
@@ -3203,10 +2676,7 @@
         "docs/ops/templates/README.md → TASK-lite-template.md",
         "docs/ops/templates/README.md → TASK-template.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/templates/README.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/templates/README.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -3234,12 +2704,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -3308,11 +2773,7 @@
       "module": "templates",
       "capability": "ops-templates-TASK-lite-template",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
       "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
       "publicCallers": [
@@ -3350,12 +2811,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -3465,21 +2921,14 @@
       "module": "templates",
       "capability": "ops-templates-TASK-template",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
       "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
       "publicCallers": [
         "docs/ops/templates/TASK-template.md → ../../../AGENTS.md",
         "docs/ops/templates/TASK-template.md → ../agent-workflow.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/templates/TASK-template.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/ops/templates/TASK-template.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -3507,12 +2956,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -3688,20 +3132,11 @@
       "module": "guides",
       "capability": "phase2-guides-actor-presets",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
       "afterSha256": "b318ad86530cd02fe1bea059732edb998c8cf4a0adbcf2e52d3fc923a58a1ec4",
-      "publicCallers": [
-        "docs navigation / repository reference"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/guides/actor-presets.md"
-      ],
+      "publicCallers": ["docs navigation / repository reference"],
+      "legalInputs": ["current repository documentation", "docs/phase2/guides/actor-presets.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -3729,12 +3164,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -3817,16 +3247,10 @@
       "module": "guides",
       "capability": "phase2-guides-battlefield-authoring",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
       "afterSha256": "a4d09755855e28b83e63347be1296fd956a759b9a2b60f08a93d9170ebbf902b",
-      "publicCallers": [
-        "docs navigation / repository reference"
-      ],
+      "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
         "docs/phase2/guides/battlefield-authoring.md"
@@ -3858,12 +3282,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -3928,23 +3347,14 @@
       "readMethod": "full-text-read",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "PAL 内容导入与发布：这是 guide-runbook，当前文档状态为 current。全文 27 行、1 个标题；摘要/首段为「类型：使用指南。日常作者维护与PAL原始源重导分开：作者内容以当前工程为真源，通过编辑器」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
-      "truthAnchors": [
-        "docs/phase2/guides/content-publication.md:1",
-        "1:PAL 内容导入与发布"
-      ],
-      "unresolved": [
-        "结构扫描未发现显式未决词；不等于一手真值已经核实"
-      ],
+      "truthAnchors": ["docs/phase2/guides/content-publication.md:1", "1:PAL 内容导入与发布"],
+      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
       "phase": "phase2",
       "module": "guides",
       "capability": "phase2-guides-content-publication",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
       "afterSha256": "e81d14ed387d6ba4f3a08a005093b4eb492139725ecfa77ede37c74c737d6af5",
       "publicCallers": [
@@ -3987,12 +3397,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -4050,20 +3455,13 @@
       "module": "guides",
       "capability": "phase2-guides-debug-tools",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
       "afterSha256": "d388aa8189c4d19424a63e5d717a0bc290ce1d2558ad152ce25f383a3e30dd96",
       "publicCallers": [
         "docs/phase2/guides/debug-tools.md → ../../ops/archive/tasks/done/D13-1-debug-tools-first-batch.md"
       ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/guides/debug-tools.md"
-      ],
+      "legalInputs": ["current repository documentation", "docs/phase2/guides/debug-tools.md"],
       "businessOracle": {
         "type": "content-review",
         "assertions": [
@@ -4091,12 +3489,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -4185,11 +3578,7 @@
       "module": "guides",
       "capability": "phase2-guides-scene-entry-authoring",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
       "afterSha256": "af6bdd588d71dfdb73d68cee01cc8cb045d80895faf9757ecfc9fc623528a0ad",
       "publicCallers": [
@@ -4226,12 +3615,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -4312,11 +3696,7 @@
       "module": "guides",
       "capability": "phase2-guides-shared-script-author-guide",
       "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history"
-      ],
+      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
       "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
       "publicCallers": [
@@ -4353,12 +3733,7 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           },
           {
             "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
@@ -4367,16 +3742,8 @@
             "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
             "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
             "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
-            "reviewedRanges": [
-              "3-3",
-              "104-115"
-            ],
-            "notRun": [
-              "runtime",
-              "E2E",
-              "visual",
-              "coverage"
-            ]
+            "reviewedRanges": ["3-3", "104-115"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -4453,16 +3820,8 @@
           "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
           "previousAfterSha256": "e3ea770e39cb6d5ff38fafc2050b84f4c71d6de82eacaf0e6439ec94b5c84e26",
           "afterSha256": "d0b2fcfdd4a49c0e4ac222d8de7f27b1b176f4c8f48d09172fbfffc69186d14d",
-          "reviewedRanges": [
-            "3-3",
-            "104-115"
-          ],
-          "notRun": [
-            "runtime",
-            "E2E",
-            "visual",
-            "coverage"
-          ]
+          "reviewedRanges": ["3-3", "104-115"],
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -4474,10 +3833,7 @@
         "reviewer": "Codex",
         "date": "2026-10-11",
         "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
-        "reviewedRanges": [
-          "3-3",
-          "104-115"
-        ],
+        "reviewedRanges": ["3-3", "104-115"],
         "conclusion": "SAVE12 保存现场及自动续跑余时；离场暂停、返回恢复、读档不重跑 onEnter；不增加作者状态方案或第二套脚本模型。",
         "truthAnchors": [
           "docs/phase2/guides/shared-script-author-guide.md:3",

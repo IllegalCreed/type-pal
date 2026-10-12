@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：255；已读但待审：5；尚未逐文件核验：3,006；合计未闭合：3,011。
+当前已闭合核验：259；已读但待审：5；尚未逐文件核验：3,002；合计未闭合：3,007。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -289,6 +289,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46；present/menu/shop callers、uigame.c:242-388、confirm pixel tests | 双框坐标、selectedColor 时间生命周期、labels 复用、shadow 与 framebuffer ownership逐段核验 |
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46；真实 drawConfirmBox public caller、fixture framebuffer oracle | 默认/右选、0xF9/0x4F、三影、关/开标签合同 |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46；opening/menu/confirm pixel caller与state clone oracle | 空/多字标签、背景 sentinel、光标隔离与框体像素反例 |
+| `packages/game/src/present/menu/draw-box.ts` | product | 已验证 | CODE-QUALITY-47；dialog/menu/shop/battle callers、ui.c/uigame.c、draw-box/pixel tests | 9-slice/单行框 frame identity、shadow、opaque mask、边界裁剪、menuTextMaxCols 与 fail-loud 合同逐段核验 |
+| `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | CODE-QUALITY-47；公开 drawBox framebuffer oracle | style/rows-cols/grid、动态 shadow、缺帧反例 |
+| `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-47；drawBox/drawSingleLineBox/menuTextMaxCols typed caller oracle | 缺 44-46、shadow=0、屏外、空 rows-cols、width 合同 |
+| `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-47；像素 framebuffer 与透明孔/单行框 caller oracle | 12 条高判别力阴影、透明孔、palette-0、标签宽度合同 |
 
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
