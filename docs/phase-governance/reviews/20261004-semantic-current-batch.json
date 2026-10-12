@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+        "implementationSha": "9316f884ee9edbd77c38dac76f982147c4c2d106939515f91ebb6f3ea87df597",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -820,7 +820,7 @@
         "kind": "content-reading",
         "path": "docs/ops/board.md",
         "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-        "lineCount": 22,
+        "lineCount": 21,
         "headings": [
           {
             "line": 1,
@@ -841,11 +841,11 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+        "afterSha256": "9316f884ee9edbd77c38dac76f982147c4c2d106939515f91ebb6f3ea87df597",
         "currentReading": {
           "date": "2026-10-12",
-          "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
-          "lineCount": 21,
+          "sha256": "9316f884ee9edbd77c38dac76f982147c4c2d106939515f91ebb6f3ea87df597",
+          "lineCount": 23,
           "scope": "CODE-QUALITY-47 draw box closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
@@ -1069,7 +1069,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-20",
+      "reviewedLines": "1-21",
       "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1928,7 +1928,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "b24d369ef22e39f1428999e195b2c43aa4f7df98a83d42135d55b08980c80827",
+      "afterSha256": "5d85e416d392f68ee619083c4696533b8cd8686e683d05f85c7724f9809aef66",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1964,7 +1964,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
+        "implementationSha": "5d85e416d392f68ee619083c4696533b8cd8686e683d05f85c7724f9809aef66",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2225,7 +2225,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 370,
+        "lineCount": 395,
         "headings": [
           {
             "line": 1,
@@ -2250,11 +2250,11 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "de2456ea58f1497de60129a2184a0ccbde443c17e0926048f152a54a8a0ac994",
+        "afterSha256": "5d85e416d392f68ee619083c4696533b8cd8686e683d05f85c7724f9809aef66",
         "currentReading": {
           "date": "2026-10-12",
-          "sha256": "de2456ea58f1497de60129a2184a0ccbde443c17e0926048f152a54a8a0ac994",
-          "lineCount": 390,
+          "sha256": "5d85e416d392f68ee619083c4696533b8cd8686e683d05f85c7724f9809aef66",
+          "lineCount": 397,
           "scope": "CODE-QUALITY-47 draw box closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
@@ -2521,7 +2521,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-378",
+      "reviewedLines": "1-395",
       "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
       "integrationReview": {
         "reviewer": "Codex",
