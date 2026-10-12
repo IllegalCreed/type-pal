@@ -1,5 +1,4 @@
 # 多 Agent 任务看板
-| CODE-QUALITY-47 | [game draw box 窄批](tasks/CODE-QUALITY-47-game-draw-box.md) | build | Codex / 逐文件审计与质量门 | 9-slice、单行框、动态阴影与 menu width |
 
 当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。
 
