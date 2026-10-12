@@ -42,6 +42,7 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
 ## 验证
 
 - 已完整读取实现、4 个范围测试、P07 caller、状态机、公共出口、hydrate/normalize 生命周期和 SDLPal primary source；未运行本批定向测试，不把既有全绿当作合同验收。
+- 独立只读复核实际运行相邻定向集：`draw-player-status.test.ts`、`draw-player-status.glm-phase1-leaves.test.ts`、`status-vitals-pixels.grok-r1.test.ts`、P07/P05、`menu-driver.test.ts`、`menu-driver.cov85.test.ts` 共 7 files / 99 tests 全绿；该结果只证明现有合同，不覆盖 runtime HP/MP=0 或非顺序 party poison 反例。
 - 用户/工程裁决前不得修改实现或测试；裁决后必须先写失败反例（runtime 0 的真实状态页）、再修复并运行定向、相邻 game、全仓 check、coverage ratchet、protected fast、lint-zero、docs/content review 和 ledger。不能直接把 `||` 改为 `??` 而不处理旧 fixture/未 hydrate 输入域。
 - 该差异涉及第一阶段机制真值、runtime ownership 与用户可见数值，属于高风险边界；不触碰 schema/save，但可能需要显式 runtime readiness 约束。
 - 毒状态 key 冲突同样涉及公共状态 ownership/第一阶段机制真值，保持 blocked，不在本卡直接改绘制层或全局 poison map。
