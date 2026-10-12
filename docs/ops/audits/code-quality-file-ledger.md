@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：290；已读但待审：8；尚未逐文件核验：2,968；合计未闭合：2,976。
+当前已闭合核验：292；已读但待审：8；尚未逐文件核验：2,966；合计未闭合：2,974。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -327,6 +327,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/save-io.ts` | product | 已验证 | CODE-QUALITY-59；tools-panel/Save API callers、phase1 VERSION=1 plan、phase2 SAVE12 boundary；wrong-version 失败反例、全仓门通过 | `VERSION=1` guard fail-closed；不改 Save API/旧 upgrader |
 | `packages/game/src/tools/save-io.test.ts` | test | 已验证 | CODE-QUALITY-59；serialize/parse合法、格式/必填/wrong-version 反例；4 tests | 失败反例先行，未知 version 不再送入 Save API |
 | `packages/game/src/tools/save-import-quicksave.glm-msio.test.ts` | test | 已验证 | CODE-QUALITY-59；真实 parse/quick-save caller与必填守卫；4 tests、全仓门通过 | 当前合法输入、缺字段、快存错误反馈合同 |
+| `packages/game/src/tools/quick-save.ts` | product | 已验证 | CODE-QUALITY-60；bootstrap Save/load caller、save-io boundary、F5/F9 tests；save wave full check/ratchet/protected fast/lint | explore/no dialog/no menu gate、slot 1、preventDefault、解绑与错误 toast逐段核验；未发现直接缺陷 |
+| `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | CODE-QUALITY-60；canQuickSave、F5/F9、战斗拒绝与 caller oracle；4 tests、save wave全门通过 | 合法准入、反例、异步委托与输入隔离合同 |
 
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。

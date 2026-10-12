@@ -108,6 +108,7 @@
 | [CODE-QUALITY-56 — game minimap thumbnail lifecycle](../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-58 — game tools panel audit](../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-59 — game save import version boundary](../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-60 — game quick-save lifecycle](../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
