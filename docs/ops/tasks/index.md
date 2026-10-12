@@ -10,8 +10,6 @@
 |---|---|---|
 | [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-58 — game tools panel audit](CODE-QUALITY-58-game-tools-panel-audit.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-59 — game save import version boundary](CODE-QUALITY-59-game-save-import-version-boundary.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -108,6 +106,8 @@
 | [CODE-QUALITY-54 — game draw tilemap narrow batch](../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-55 — game draw menu wave member](../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-56 — game minimap thumbnail lifecycle](../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-58 — game tools panel audit](../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-59 — game save import version boundary](../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |

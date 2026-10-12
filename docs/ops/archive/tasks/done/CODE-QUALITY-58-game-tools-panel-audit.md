@@ -1,6 +1,6 @@
 # CODE-QUALITY-58 — game tools panel audit
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -36,15 +36,19 @@ Visual Verification Timing: functional-ui（DOM/委托/生命周期；不做剧�
 
 - 完整读取 1014 行实现、383 行主测试、107 行 leaves 测试和 bootstrap/minimap/save caller。
 - 定向范围与相邻：`tools-panel.test.ts`、`tools-panel.glm-phase1-leaves.test.ts`，18 tests；minimap/dev-panel caller 已在 CODE-QUALITY-56 与本轮读取中核验。
-- 当前结论：保留 review，等待 CODE-QUALITY-59 的 save/import 合同裁决；不标记 done。
+- 当前结论：CODE-QUALITY-59 的 phase1 VERSION=1 guard 已完成并通过；tools-panel 及两份测试共 18 定向 tests、全仓质量门通过，未发现本卡直接缺陷。
+
+## 交接
+
+- 2026-10-13 Codex：完整读取 tools-panel 1014 行、两份测试及 bootstrap/minimap/save caller；定向 18 tests、全仓 check/ratchet/protected fast/lint-zero/docs/content/ledger 全部通过。导入存档 version 合同由 CODE-QUALITY-59 独立收口；本卡无产品形态或公共接口变更。账本收口为 `3266 / 290 closed / 8 review / 2968 pending`。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务：CODE-QUALITY-58 game tools panel audit
-任务卡：docs/ops/tasks/CODE-QUALITY-58-game-tools-panel-audit.md
-当前状态：review；不得标记 done 或修改 save/schema
+任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md
+当前状态：done，已归档；不得修改 save/schema
 先读：本卡、AGENTS.md、CLAUDE.md、tools-panel.ts 及两份测试、bootstrap.ts setupToolsPanel caller、save-io.ts、quick-save.ts
-请做：独立复核 DOM/键盘/委托/定时器/输入隔离；同时确认 CODE-QUALITY-59 的 save version 风险未被面板层掩盖
-输出：caller/oracle 证据、accept/counter 或待裁决问题；save 版本问题不得直接实现
+请做：若重开审计，重新复核 DOM/键盘/委托/定时器/输入隔离；不得直接重用本卡作为新 build 授权
+输出：caller/oracle 证据；当前结论为 accept/done
 ```
