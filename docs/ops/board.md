@@ -11,7 +11,7 @@
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
-| CODE-QUALITY-49 | [game draw inventory live-zero 行为冲突](tasks/CODE-QUALITY-49-game-draw-inventory.md) | blocked | Codex / 等待用户裁决 | primary source 与现行 TS/test 在数量归零时的图标/名称行为冲突，禁止实现 |
+| CODE-QUALITY-49 | [game draw inventory live-zero 行为冲突](tasks/CODE-QUALITY-49-game-draw-inventory.md) | build | Codex / 先写失败反例再修复 | 用户已裁决大世界按 SDLPal 对齐；数量归零时隐藏物品内容并结束目标层 |
 
 ## 看板规则
 
