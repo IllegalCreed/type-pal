@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：281；已读但待审：5；尚未逐文件核验：2,980；合计未闭合：2,985。
+当前已闭合核验：284；已读但待审：5；尚未逐文件核验：2,977；合计未闭合：2,982。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -315,6 +315,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/menu/draw-menu.ts` | product | 已验证 | CODE-QUALITY-55；uigame.c/ui.c、present/menu-driver callers、P05 stack oracle；draw-menu/P05 15 + 波次相邻共 93 tests、全仓 check/ratchet/protected fast/lint | stack 顺序、坐标/颜色、cash/slot/overlay/placeholder 与资源转发已读；不拥有 poison key，runtime-zero 风险留 CODE-QUALITY-53；未发现直接缺陷 |
 | `packages/game/src/present/menu/draw-menu.test.ts` | test | 已验证 | CODE-QUALITY-55；drawMenuStack framebuffer/state oracle；6 tests 通过，波次全门通过 | 空栈、主/系统/confirm、stack 叠层、缺帧 fail-loud；与 P05/GLM leaves 排重 |
 | `packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-55；save-slot/inventory-action/switch/shop-sell/placeholder 真实 state 与像素 oracle；5 tests 通过，波次全门通过 | savedTimes、选中色、overlay、缺 extra 与输入快照隔离；不替代 runtime/poison ownership 审计 |
+| `packages/game/src/tools/minimap.ts` | product | 已验证 | CODE-QUALITY-56；bootstrap/tools-panel/dev-panel callers、draw-tilemap/world pixel contract；定向 20 + 相邻 68 tests、game typecheck、全仓 check/ratchet/protected fast/lint | worldToThumb、分类、缩放、底图 cache 与 Image 生命周期逐段核验；失败反例证明并修复 loading ownership；bootstrap seam repair 差异留后续卡 |
+| `packages/game/src/tools/minimap.test.ts` | test | 已验证 | CODE-QUALITY-56；world/trigger/data oracle；14 tests 全绿，波次全门通过 | 合法命令、label fallback、item/teleport/NPC 分类与 zoom 边界；与 leaves 排重 |
+| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-56；真实 canvas 与 localStorage/controller oracle；6 tests 全绿，波次全门通过 | 像素、toggle、持久化、延迟 Image.onload 与 decode failure 资源反控；不替代 bootstrap seam repair 审计 |
 
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
