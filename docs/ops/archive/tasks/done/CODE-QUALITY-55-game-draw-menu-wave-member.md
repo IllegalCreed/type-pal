@@ -59,7 +59,7 @@ Visual Verification Timing: e2e-deferred（剧情/观感留集中 E2E；本批�
 
 ```text
 接手任务：CODE-QUALITY-55 game draw menu wave member
-任务卡：docs/ops/tasks/CODE-QUALITY-55-game-draw-menu-wave-member.md
+任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md
 当前状态：done，已归档
 角色：历史交接记录；不得修改实现或扩张产品形态
 先读：本卡、AGENTS.md、CLAUDE.md、reference/sdlpal/uigame.c 相关 anchors、draw-menu.ts 及两份专属测试、p05-menu-stack.test.ts

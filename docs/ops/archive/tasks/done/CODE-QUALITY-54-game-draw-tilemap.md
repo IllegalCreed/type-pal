@@ -59,7 +59,7 @@ Visual Verification Timing: e2e-deferred（地图观感留集中 E2E；本批核
 
 ```text
 接手任务：CODE-QUALITY-54 game draw tilemap narrow batch
-任务卡：docs/ops/tasks/CODE-QUALITY-54-game-draw-tilemap.md
+任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md
 当前状态：done，已归档
 角色：历史交接记录；不得修改实现或扩大到 bootstrap 缩略图
 先读：本卡、AGENTS.md、CLAUDE.md、reference/sdlpal/map.c:197-259/301-352/355-418、reference/sdlpal/scene.c:77-178/180-362/452-491、draw-tilemap.ts 及两份专属测试
