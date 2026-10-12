@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-12T18:43:23.432Z",
+  "generatedAt": "2026-10-12T19:20:31.440Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19819,
+  "testCount": 19822,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4672,7 +4672,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3494,
+        "testCount": 3497,
         "testFileCount": 306,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6455,13 +6455,13 @@
           },
           {
             "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
-            "testCount": 2,
-            "identityDigest": "4494bb32af6697dd42b3b1643d6ceae857a83a558603a42244cb4a0cb7d17b91"
+            "testCount": 4,
+            "identityDigest": "91b573c5a7a1e73c12f7c811dd50114f15d7f657d57842c4bf2a14e447442684"
           },
           {
             "file": "packages/game/src/tools/speedrun/store.test.ts",
-            "testCount": 4,
-            "identityDigest": "dafd04102bafb6253d1c1549ae5572191f3874cf3de8ed4d7cd309b81eebef77"
+            "testCount": 5,
+            "identityDigest": "59aa4795057b5e963435e985cec334d88a07737612637e9cea4eea5403e48ec3"
           },
           {
             "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
@@ -6514,26 +6514,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "fee97e6a75b3884f8318ee1c218b8bf365adb3c0b4f0f27a71771a268c5b7db8",
+        "identityDigest": "a434920b93a016adb8322c7f29e05724114f85b250a1bb30d831822f2128a595",
         "duplicateIdentityCount": 0,
-        "executionDigest": "bf73befb2b95448a658077f5ab426b627e7ed9343a802d3c9a7ae9f0f6ca0499"
+        "executionDigest": "4bfc365c654da8587a6fb6e923bbfd5f059167f765a14ff0bcfac2a8cc39a865"
       },
       "metrics": {
         "statements": {
-          "covered": 13502,
-          "total": 15531
+          "covered": 13504,
+          "total": 15533
         },
         "branches": {
-          "covered": 8884,
-          "total": 11296
+          "covered": 8894,
+          "total": 11306
         },
         "functions": {
           "covered": 1519,
           "total": 1853
         },
         "lines": {
-          "covered": 12059,
-          "total": 13632
+          "covered": 12062,
+          "total": 13635
         }
       }
     },
@@ -10552,20 +10552,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70544,
-      "total": 78709
+      "covered": 70546,
+      "total": 78711
     },
     "branches": {
-      "covered": 51377,
-      "total": 61541
+      "covered": 51387,
+      "total": 61551
     },
     "functions": {
       "covered": 13384,
       "total": 14986
     },
     "lines": {
-      "covered": 63029,
-      "total": 68892
+      "covered": 63032,
+      "total": 68895
     }
   }
 }

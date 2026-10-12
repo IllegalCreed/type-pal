@@ -37,9 +37,16 @@ export function loadBests(defaults: BestTimes): BestTimes {
   const raw = ls()?.getItem(K_BESTS)
   if (!raw) return { ...defaults }
   try {
-    const parsed = JSON.parse(raw) as Record<string, unknown>
+    const parsed: unknown = JSON.parse(raw)
     const out: BestTimes = { ...defaults }
-    for (const k of Object.keys(out)) if (k in parsed) out[k] = parsed[k] as number | null
+    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) return out
+    for (const [k, value] of Object.entries<unknown>(parsed)) {
+      if (
+        Object.hasOwn(out, k) &&
+        (value === null || (typeof value === 'number' && Number.isFinite(value) && value >= 0))
+      )
+        out[k] = value
+    }
     return out
   } catch {
     return { ...defaults }

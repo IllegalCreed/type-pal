@@ -36,4 +36,29 @@ describe('L21 store 坏数据与往返', () => {
     localStorage.setItem('tp-speedrun-show', 'yes')
     expect(loadSettings().show).toBe(true) // 仅 '0' 为假（默认显示）
   })
+
+  it('bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults', () => {
+    const defaults = { a: 1000, b: 2000, c: 3000, d: 4000, e: 5000, f: 6000, g: 7000 }
+    localStorage.setItem(KEY, '{"a":-1,"b":"bad","c":1e400,"d":false,"e":{},"f":0,"g":null}')
+    expect(loadBests(defaults)).toEqual({
+      a: 1000,
+      b: 2000,
+      c: 3000,
+      d: 4000,
+      e: 5000,
+      f: 0,
+      g: null,
+    })
+    expect(defaults).toEqual({ a: 1000, b: 2000, c: 3000, d: 4000, e: 5000, f: 6000, g: 7000 })
+  })
+
+  it('bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本', () => {
+    const defaults = { a: 1000 }
+    for (const raw of ['null', '42', '"text"', 'true', '[42]']) {
+      localStorage.setItem(KEY, raw)
+      const result = loadBests(defaults)
+      expect(result).toEqual(defaults)
+      expect(result).not.toBe(defaults)
+    }
+  })
 })
