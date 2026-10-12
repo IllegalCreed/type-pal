@@ -1928,7 +1928,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "ff65fab3e1e098691b66b44e222c2c0804d086c56586d0748bd0489098f40c4b",
+      "afterSha256": "d72c3478aeaf5ffc82c206ee6ef9928cbd845f8ffebf8ff276beabf4113ba9d2",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1964,7 +1964,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "ff65fab3e1e098691b66b44e222c2c0804d086c56586d0748bd0489098f40c4b",
+        "implementationSha": "d72c3478aeaf5ffc82c206ee6ef9928cbd845f8ffebf8ff276beabf4113ba9d2",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2225,7 +2225,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 408,
+        "lineCount": 409,
         "headings": [
           {
             "line": 1,
@@ -2250,10 +2250,10 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "ff65fab3e1e098691b66b44e222c2c0804d086c56586d0748bd0489098f40c4b",
+        "afterSha256": "d72c3478aeaf5ffc82c206ee6ef9928cbd845f8ffebf8ff276beabf4113ba9d2",
         "currentReading": {
           "date": "2026-10-12",
-          "sha256": "ff65fab3e1e098691b66b44e222c2c0804d086c56586d0748bd0489098f40c4b",
+          "sha256": "d72c3478aeaf5ffc82c206ee6ef9928cbd845f8ffebf8ff276beabf4113ba9d2",
           "lineCount": 397,
           "scope": "CODE-QUALITY-47 draw box closeout navigation/state update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
@@ -2521,7 +2521,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-408",
+      "reviewedLines": "1-409",
       "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
       "integrationReview": {
         "reviewer": "Codex",
