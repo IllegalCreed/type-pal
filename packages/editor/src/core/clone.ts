@@ -18,6 +18,11 @@ import {
 import { sha256Hex } from './binary-signature.js'
 import { observeProjectCopySource } from './project-copy-source.js'
 import { type ProjectWriteResult, writeProject } from './project-io.js'
+import {
+  assertScriptPreviewPathAvailable,
+  loadScriptPreviewDocument,
+  SCRIPT_PREVIEW_PATH,
+} from './script-preview-library.js'
 import { enumerateSeedFiles, relativizeManifest, scenesDir } from './seed.js'
 import {
   type AuthorizedWorkspaceInput,
@@ -67,9 +72,14 @@ export async function cloneFromPal(
   const catalog = validateAssetCatalog(await source.readJson(manifest.assets.catalog))
   if (!mapIndex) throw new Error('克隆项目缺少当前地图索引')
   assertBattleSimulatorPathAvailable({ manifest, mapIndex, sceneIndex, assetCatalog: catalog })
+  assertScriptPreviewPathAvailable({ manifest, mapIndex, sceneIndex, assetCatalog: catalog })
   const simulator = await loadBattleSimulatorDocument(source)
+  const preview = await loadScriptPreviewDocument(source)
   const files = enumerateSeedFiles(manifest, sceneIndex, mapIndex, catalog)
-  const total = files.reduce((s, f) => s + f.size, 0) + (simulator?.bytes.byteLength ?? 0)
+  const total =
+    files.reduce((s, f) => s + f.size, 0) +
+    (simulator?.bytes.byteLength ?? 0) +
+    (preview?.bytes.byteLength ?? 0)
   onProgress(0, total, 'preparing')
 
   return withAuthorizedWorkspaceMutation(target, async (mutation) => {
@@ -82,6 +92,18 @@ export async function cloneFromPal(
       },
       {
         copies: [
+          ...(preview
+            ? [
+                {
+                  path: SCRIPT_PREVIEW_PATH,
+                  read: async () => {
+                    done += preview.bytes.byteLength
+                    if (done < total) onProgress(done, total, 'preparing')
+                    return new Blob([preview.bytes])
+                  },
+                },
+              ]
+            : []),
           ...files.map((file) => ({
             path: file.rel,
             read: async () => {

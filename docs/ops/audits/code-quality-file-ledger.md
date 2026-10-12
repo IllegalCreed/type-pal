@@ -4,9 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含本轮 E2E 集成的源码、测试与工具）：3,261。
-当前已闭合核验：255；已读但待审：5；尚未逐文件核验：3,001；合计未闭合：3,006。
-
+起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
+当前已闭合核验：255；已读但待审：5；尚未逐文件核验：3,006；合计未闭合：3,011。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -21,6 +20,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-11 三个 GLM 有限测试包新增三个测试文件，库存增加三项并计入待核；
 本次合同验收不自动增加本专项逐文件治理闭合数量。
+
+2026-10-12 编辑器初始状态方案新增两个实现文件、两个测试文件和一份合法场景夹具，
+实际 inventory 增加五项并计入待核；功能验收与本专项逐文件治理分开记录。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -258,6 +260,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/event-opcode-player.test.ts` | test | 已验证 | CODE-QUALITY-3p；player/equipment/HP-MP/revive/poison/status/magic opcode contracts | direct opcode oracle |
 | `packages/game/src/core/event-opcode-player.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3p；opcode family branch contracts | branch boundary oracle |
 | `packages/game/src/core/event-opcode-player.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3p；role context/slot/poison runner/invalid input contracts | independent caller/negative oracle |
+| `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
+| `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
+| `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 | `packages/game/src/analytics/analytics-consent.ts` | product | 已验证 | CODE-QUALITY-3y；install-analytics/main callers、analytics tests、定向 Vitest | storage/DNT-GPC/广播/失败关闭合同逐段核验 |
 | `packages/game/src/analytics/analytics-consent.test.ts` | test | 已验证 | CODE-QUALITY-3y；真实 consent public functions 与 storage/event oracle | 合法选择、损坏存储、隐私信号与 unsubscribe 合同 |
 | `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3y；宿主边界与异常 EventTarget oracle | getter/dispatch 异常、非 CustomEvent、stored 优先级反例 |
@@ -285,8 +290,5 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46；真实 drawConfirmBox public caller、fixture framebuffer oracle | 默认/右选、0xF9/0x4F、三影、关/开标签合同 |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46；opening/menu/confirm pixel caller与state clone oracle | 空/多字标签、背景 sentinel、光标隔离与框体像素反例 |
 
-| `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
-| `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
-| `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。

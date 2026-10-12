@@ -33,7 +33,8 @@ describe('openLocalProject current canonical boundary', () => {
   beforeEach(() => {
     vi.resetAllMocks()
     reforge.readJson.mockImplementation(async (path: string) => {
-      if (path === 'editor/battle-simulator.json') throw new DOMException(path, 'NotFoundError')
+      if (path === 'editor/battle-simulator.json' || path === 'editor/script-preview.json')
+        throw new DOMException(path, 'NotFoundError')
       return { contentVersion: 22 }
     })
     reforge.loadCurrentProjectFrom.mockResolvedValue({

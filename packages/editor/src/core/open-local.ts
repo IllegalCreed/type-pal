@@ -22,6 +22,11 @@ import {
   type BattleSimulatorLibrary,
   loadBattleSimulatorLibrary,
 } from './battle-simulator-library.js'
+import {
+  assertScriptPreviewPathAvailable,
+  loadScriptPreviewLibrary,
+  type ScriptPreviewLibrary,
+} from './script-preview-library.js'
 
 export interface OpenedCurrentProject {
   kind: 'current'
@@ -31,6 +36,7 @@ export interface OpenedCurrentProject {
   stamps: StampTemplate[]
   authorBaseline: AuthorDiskBaseline
   battleSimulator: BattleSimulatorLibrary | undefined
+  scriptPreview?: ScriptPreviewLibrary
 }
 
 export type OpenedProject = OpenedCurrentProject
@@ -77,10 +83,12 @@ async function readLocalProject(
   try {
     const project = await loadCurrentProjectFrom(source)
     assertBattleSimulatorPathAvailable(project)
-    const [scenes, stamps, battleSimulator] = await Promise.all([
+    assertScriptPreviewPathAvailable(project)
+    const [scenes, stamps, battleSimulator, scriptPreview] = await Promise.all([
       loadAllAuthorScenes(project),
       loadStampTemplates(project),
       loadBattleSimulatorLibrary(source),
+      loadScriptPreviewLibrary(source),
     ])
     const authorBaseline = await observed.finish(project, dir)
     return {
@@ -91,6 +99,7 @@ async function readLocalProject(
       stamps,
       authorBaseline,
       battleSimulator,
+      scriptPreview,
     }
   } catch (error) {
     if (error instanceof BattleSimulatorDocumentError) throw error

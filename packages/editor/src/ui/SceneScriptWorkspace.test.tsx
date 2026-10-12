@@ -16,6 +16,11 @@ import type {
   ScriptCommandOwner,
   ScriptEditorState,
 } from '../core/script-editor.js'
+import {
+  emptyScriptPreviewLibrary,
+  type ScriptPreviewLibrary,
+} from '../core/script-preview-library.js'
+import type { SceneCanvas } from './SceneCanvas.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 
 type PreviewProbeProps = {
@@ -32,6 +37,13 @@ type PreviewProbeProps = {
 }
 
 const previewRender = vi.hoisted(() => vi.fn())
+const sceneCanvasRender = vi.hoisted(() => vi.fn())
+vi.mock('./SceneCanvas.js', () => ({
+  SceneCanvas: (props: Parameters<typeof SceneCanvas>[0]) => {
+    sceneCanvasRender(props)
+    return <div data-testid="state-canvas" />
+  },
+}))
 
 vi.mock('./PreviewCanvas.js', () => ({
   PreviewCanvas: (props: PreviewProbeProps) => {
@@ -188,6 +200,9 @@ describe('CanonicalSceneScriptWorkspace', () => {
     options?: {
       state?: ScriptEditorState
       selectedPageId?: string
+      sceneSelected?: boolean
+      initialStates?: ScriptPreviewLibrary
+      onInitialStatesChange?: (library: ScriptPreviewLibrary) => void
       focusReference?: { reference: CanonicalScriptReference; revision: number }
       focusOwner?: {
         owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
@@ -202,6 +217,9 @@ describe('CanonicalSceneScriptWorkspace', () => {
           state={options?.state ?? state}
           selectedEntityId={selectedEntityId}
           selectedPageId={options?.selectedPageId}
+          sceneSelected={options?.sceneSelected}
+          initialStates={options?.initialStates}
+          onInitialStatesChange={options?.onInitialStatesChange}
           locale={{} as never}
           sprites={[]}
           actorsById={{}}
@@ -225,6 +243,17 @@ describe('CanonicalSceneScriptWorkspace', () => {
       ),
     )
   }
+
+  test('landing anchor selection exposes no scene or entity script owner', async () => {
+    await renderWorkspace(sceneA, null)
+    await act(async () => scriptTab('初始状态').click())
+    await renderWorkspace(sceneA, null, { sceneSelected: false })
+    expect(host.querySelector('[role="tablist"]')).toBeNull()
+    expect(host.textContent).toContain('落点属性在右侧编辑')
+    expect(previewRender.mock.lastCall?.[0].canonicalFlow).toBeUndefined()
+    await renderWorkspace(sceneA, null, { sceneSelected: true })
+    expect(scriptTab('初始状态').getAttribute('aria-selected')).toBe('true')
+  })
 
   test('selected step drives body, playback and map cursor without changing initial', async () => {
     const author = canonicalScene('sA', 'A 进场', 'A 交互', 'A')
@@ -276,6 +305,107 @@ describe('CanonicalSceneScriptWorkspace', () => {
     expect(afterDelete.playback.view.logs).toContain('💰 +101 钱')
   })
 
+  test('choosing a state changes the canvas immediately; canvas selection and dragging stay within the state editor', async () => {
+    const library: ScriptPreviewLibrary = {
+      ...emptyScriptPreviewLibrary(),
+      states: [
+        {
+          id: 'a',
+          sceneId: 'sA',
+          name: '门口',
+          entities: [{ entityId: 'e1', pos: { col: 137, row: 76, height: 0 } }],
+        },
+        {
+          id: 'b',
+          sceneId: 'sA',
+          name: '屋内',
+          entities: [{ entityId: 'e1', pos: { col: 137, row: 72, height: 0 } }],
+        },
+      ],
+    }
+    const changed = vi.fn()
+    await renderWorkspace(sceneA, null, { initialStates: library, onInitialStatesChange: changed })
+    await act(async () => scriptTab('初始状态').click())
+    const canvas = () =>
+      sceneCanvasRender.mock.calls.at(-1)![0] as Parameters<typeof SceneCanvas>[0]
+    expect(canvas().scene.entities[0]!.pos.row).toBe(76)
+    const second = [...host.querySelectorAll<HTMLButtonElement>('.script-scheme-card-select')].find(
+      (button) => button.textContent?.includes('屋内'),
+    )!
+    await act(async () => second.click())
+    expect(canvas().scene.entities[0]!.pos.row).toBe(72)
+    expect(changed).not.toHaveBeenCalled()
+    await act(async () => canvas().onSelectEntity('e1'))
+    expect(scriptTab('初始状态').getAttribute('aria-selected')).toBe('true')
+    await act(async () => canvas().onMoveEntity('e1', { col: 135, row: 71 }))
+    expect(changed).toHaveBeenLastCalledWith({
+      ...library,
+      states: [
+        library.states[0],
+        {
+          ...library.states[1],
+          entities: [{ entityId: 'e1', pos: { col: 135, row: 71, height: 0 } }],
+        },
+      ],
+    })
+    expect(sceneA.entities[0]!.pos).toEqual({ col: 1, row: 1, height: 0 })
+    await renderWorkspace(sceneA, 'e1', { initialStates: library })
+    expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
+    expect(
+      (previewRender.mock.calls.at(-1)![0] as PreviewProbeProps).playback.entityPos('e1')?.row,
+    ).toBe(1)
+  })
+
+  test('each selected step restores its own binding in both idle canvas and actual playback', async () => {
+    const author = structuredClone(state)
+    const flow = author.scenes[0]!.entities[0]!.behaviors!.trigger!['legacy-001']!.flow
+    flow.stages.push({ id: 'later', body: [] })
+    const entry = {
+      sceneId: 'sA',
+      entityId: 'e1',
+      channel: 'trigger' as const,
+      schemeId: 'legacy-001',
+      stageId: 'start',
+    }
+    const library: ScriptPreviewLibrary = {
+      ...emptyScriptPreviewLibrary(),
+      states: [
+        {
+          id: 'a',
+          sceneId: 'sA',
+          name: '门口',
+          entities: [{ entityId: 'e1', pos: { col: 137, row: 76, height: 0 } }],
+        },
+        {
+          id: 'b',
+          sceneId: 'sA',
+          name: '屋内',
+          entities: [{ entityId: 'e1', pos: { col: 137, row: 72, height: 0 } }],
+        },
+      ],
+      bindings: [
+        { entry, stateId: 'a' },
+        { entry: { ...entry, stageId: 'later' }, stateId: 'b' },
+      ],
+    }
+    await renderWorkspace(sceneA, 'e1', { state: author, initialStates: library })
+    const preview = () => previewRender.mock.calls.at(-1)![0] as PreviewProbeProps
+    expect(preview().scene.entities[0]!.pos.row).toBe(76)
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label^="步骤 2，"]')!.click(),
+    )
+    expect(preview().scene.entities[0]!.pos.row).toBe(72)
+    await act(async () => {
+      preview().startPlayback?.(true)
+    })
+    expect(preview().playback.entityPos('e1')?.row).toBe(72)
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label^="步骤 1，"]')!.click(),
+    )
+    expect(preview().playback.entityPos('e1')?.row).toBe(76)
+    expect(preview().playback.mode).toBe('idle')
+  })
+
   test('same scheme ID across entities and scenes never leaks selected steps', async () => {
     const author = canonicalScene('sA', 'A', 'A', 'A')
     author.entities[0]!.behaviors!.trigger!['legacy-001']!.flow = {
@@ -314,9 +444,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
     expect(host.textContent).toContain('A 交互方案')
 
-    await act(async () => scriptTab('进场脚本').click())
-    expect(scriptTab('进场脚本').getAttribute('aria-selected')).toBe('true')
-    await renderWorkspace(sceneA, 'e1')
+    await renderWorkspace(sceneA, null)
     expect(scriptTab('进场脚本').getAttribute('aria-selected')).toBe('true')
 
     await renderWorkspace(sceneB, null)
@@ -324,7 +452,6 @@ describe('CanonicalSceneScriptWorkspace', () => {
 
     await renderWorkspace(sceneB, 'e1')
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
-    expect(scriptTab('进场脚本').getAttribute('aria-selected')).toBe('false')
     expect(host.textContent).toContain('B 交互方案')
     expect(host.textContent).not.toContain('B 进场方案')
     expect(host.textContent).not.toContain('A 交互方案')
@@ -345,7 +472,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
       ],
     })
 
-    await act(async () => scriptTab('进场脚本').click())
+    await renderWorkspace(sceneB, null)
     await renderWorkspace(sceneA, 'e1')
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
     expect(host.textContent).toContain('A 交互方案')
@@ -399,12 +526,11 @@ describe('CanonicalSceneScriptWorkspace', () => {
     expect([...host.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent)).toEqual([
       '进场脚本',
       '传送出口',
+      '初始状态',
     ])
 
     await renderWorkspace(sceneA, 'e1')
     expect([...host.querySelectorAll('[role="tab"]')].map((tab) => tab.textContent)).toEqual([
-      '进场脚本',
-      '传送出口',
       '交互脚本',
       '自动行为',
     ])

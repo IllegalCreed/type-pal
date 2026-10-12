@@ -38,6 +38,7 @@ import {
   type ProjectMapReferenceFacts,
   type ProjectStampReferenceFacts,
 } from './map-reference-facts.js'
+import type { ScriptPreviewLibrary } from './script-preview-library.js'
 
 export type { Command } from './commands.js'
 // commands.ts 引 EditorState(type),本文件引 Command(type) —— 仅类型,运行期无环。
@@ -50,6 +51,8 @@ export interface EditorState extends Omit<ContentBundle, 'entryPoints' | 'items'
   manifest: CurrentManifest
   /** Editor-only presets; absence means this project has no saved simulator library. */
   battleSimulator?: BattleSimulatorLibrary
+  /** Scene initial states and per-step choices used only by the editor preview. */
+  scriptPreview?: ScriptPreviewLibrary
   /** 当前项目级作者变量定义；运行时值不在编辑工作副本中混存。 */
   worldVariables?: WorldVariableRegistryV1
   /** W7G 作者态图章模板表；旧项目加载时规范化为空数组。 */

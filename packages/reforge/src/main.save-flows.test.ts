@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import type { WorldState } from '@type-pal/content'
+import { IDBDatabase as TestDatabase } from 'fake-indexeddb'
 import { afterEach, expect, test, vi } from 'vitest'
 import { chromePng, installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { key, observation } from './__tests__/runtime-shell/driver.js'
@@ -134,11 +135,82 @@ test('H5 corrupt snapshot is rejected without mutation, menu remains usable, the
 
 test('H5 two actual quick-save requests commit monotonically without consuming an extra count', async () => {
   const { h, store } = await boot()
+  const decodes = vi.spyOn(globalThis, 'createImageBitmap')
   await key(h, 'F5')
   await key(h, 'F5')
   await vi.waitFor(async () => expect((await store.listMeta())[0]?.savedTimes).toBe(2))
+  // The database commit precedes the browser-cache refresh. Join both real thumbnail
+  // decodes before disposing the host; the first save's identical toast is not a receipt.
+  await vi.waitFor(() => expect(decodes).toHaveBeenCalledTimes(2))
+  await Promise.all(decodes.mock.results.map((result) => result.value))
+  await h.settleIO()
+  for (const value of ['Escape', 'ArrowUp', 'Enter', 'ArrowDown', 'Enter']) await key(h, value)
+  expect(h.text.mock.calls.some((call) => call[1].some((span) => span.text === '存2次'))).toBe(true)
   expect(await store.listMeta()).toHaveLength(1)
   expect((await saved(store)).world).toEqual(observation().world)
+})
+
+test('H5 a committed save survives a browser-cache read failure and remains visible with its thumbnail', async () => {
+  const { h, store } = await boot()
+  const before = structuredClone(observation().world)
+  const transaction = TestDatabase.prototype.transaction
+  let refreshPending = false
+  const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  // Fail only the native metadata read after the real three-store write commits.
+  // Neither the SaveStore nor the save/menu business path is replaced.
+  const transactions = vi.spyOn(TestDatabase.prototype, 'transaction').mockImplementation(function (
+    this: IDBDatabase,
+    names,
+    mode,
+    options,
+  ) {
+    const tx = transaction.call(this, names, mode, options)
+    if (mode === 'readwrite') {
+      tx.addEventListener(
+        'complete',
+        () => {
+          refreshPending = true
+        },
+        { once: true },
+      )
+    } else if (refreshPending && names === 'meta' && mode === 'readonly') {
+      refreshPending = false
+      queueMicrotask(() => tx.abort())
+    }
+    return tx
+  })
+  const decodes = vi.spyOn(globalThis, 'createImageBitmap')
+  await key(h, 'F5')
+  await vi.waitFor(async () => {
+    await h.frame()
+    expect(
+      h.text.mock.calls.some((call) => call[1].some((span) => span.text === '已快速存档')),
+    ).toBe(true)
+  })
+  transactions.mockRestore()
+  expect(warning).toHaveBeenCalledWith(
+    '[save] 存档已写入，但浏览缓存刷新失败:',
+    expect.objectContaining({ name: 'AbortError' }),
+  )
+  expect(
+    h.text.mock.calls.some((call) => call[1].some((span) => span.text.includes('存档失败'))),
+  ).toBe(false)
+  expect((await saved(store)).world).toEqual(before)
+  expect(await store.listMeta()).toMatchObject([{ slotId: 'quick', savedTimes: 1 }])
+  expect(new Uint8Array(await (await store.getThumb('quick'))!.arrayBuffer())).toEqual(chromePng())
+  const decoded = decodes.mock.results[0]
+  const thumbnail = decoded?.type === 'return' ? await decoded.value : undefined
+  h.draws.length = 0
+  h.text.mockClear()
+  for (const value of ['Escape', 'ArrowUp', 'Enter', 'ArrowDown', 'Enter']) await key(h, value)
+  expect(h.text.mock.calls.some((call) => call[1].some((span) => span.text === '存1次'))).toBe(true)
+  expect(
+    h.draws.some(
+      (draw) =>
+        thumbnail !== undefined && draw.method === 'drawImage' && draw.args[0] === thumbnail,
+    ),
+  ).toBe(true)
+  expect(observation().world).toEqual(before)
 })
 
 test('H5 delayed old IDB read cannot replace a newer restore or its success message', async () => {

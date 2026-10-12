@@ -1061,6 +1061,7 @@
 }
 
 .ds-multiselect-popover__search {
+  flex: 0 0 auto;
   padding: var(--ds-space-3);
   border-bottom: 1px solid var(--ds-border-subtle);
 }
@@ -1073,12 +1074,17 @@
   border-bottom: 1px solid var(--ds-border-subtle);
 }
 
+.ds-multiselect__scroll {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .ds-multiselect__options {
   display: grid;
-  min-height: 0;
+  min-width: 0;
   margin: 0;
   padding: var(--ds-space-2) 0 0;
-  overflow-y: auto;
   border: 0;
   gap: var(--ds-space-2);
 }

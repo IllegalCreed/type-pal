@@ -255,16 +255,34 @@ test('a real scene switch clears source dialogue before the same root continues 
     { kind: 'wait', ms: 1000 },
     tail,
   ])
+  const waits = vi.spyOn(
+    (await import('./cutscene-controller.js')).CutsceneController.prototype,
+    'waitPassive',
+  )
+  const decodes = vi.spyOn(globalThis, 'createImageBitmap')
   await r.start()
   await r.frame(0)
   await key(r.h, 'Enter', 0)
-  await r.h.settleIO()
-  for (let frame = 0; frame < 6; frame++) await r.frame(100)
+  // Committing scene b precedes its fade-in. Observe the real wait registration
+  // before measuring its duration; map IO can make any fixed prelude frame count wrong.
+  await vi.waitFor(async () => {
+    await r.frame(100)
+    expect(waits.mock.calls.some(([ms]) => ms === 1000)).toBe(true)
+  })
   expect(state().sceneId).toBe('b')
   expect(state().script.running).toBe(true)
   expect(visibleDialogue()).toEqual([])
-  for (let frame = 0; frame < 10; frame++) await r.frame(100)
+  for (let frame = 0; frame < 9; frame++) await r.frame(100)
+  expect(state().world.money).toBe(50)
+  expect(state().script.running).toBe(true)
+  await r.frame(100)
   expect(state().world.money).toBe(57)
+  expect(state().script.running).toBe(false)
+  // This root crossed scenes, so its completion also queues one real auto-save.
+  // Join the thumbnail refresh before the external browser host is disposed.
+  await vi.waitFor(() => expect(decodes).toHaveBeenCalledOnce())
+  await decodes.mock.results[0]!.value
+  await r.h.settleIO()
   r.fixture.assertInputUnchanged()
 })
 

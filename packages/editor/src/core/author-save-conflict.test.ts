@@ -3,8 +3,15 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import mainSource from '../main.tsx?raw'
 import projectSessionSource from '../ui/use-editor-project-session.ts?raw'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+import { previewAuthorScene, previewLibrary } from './__tests__/script-preview-fixture.js'
 import { EditorHistoryCoordinator } from './editor-history-coordinator.js'
 import { projectEditorItemShells } from './script-editor-projection.js'
+import {
+  emptyScriptPreviewLibrary,
+  SCRIPT_PREVIEW_PATH,
+  SetScriptPreviewLibraryCommand,
+  scriptPreviewRemovalPaths,
+} from './script-preview-library.js'
 
 vi.mock('./author-save-store.js', async (original) =>
   memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
@@ -157,6 +164,7 @@ function projectSessionSave(
     pickDir: options.picker ?? (() => Promise.resolve(null)),
     serializeProjectWithMapCopies,
     battleSimulatorRemovalPaths,
+    scriptPreviewRemovalPaths,
     assetCopyInputs,
     observeProjectCopySource,
     verifySourceAuthorBaseline,
@@ -186,7 +194,15 @@ beforeEach(() => {
 
 function session(opened: Opened) {
   return new EditSession(
-    toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps, opened.battleSimulator),
+    toEditorState(
+      opened.project,
+      opened.scenes,
+      {},
+      {},
+      opened.stamps,
+      opened.battleSimulator,
+      opened.scriptPreview,
+    ),
   )
 }
 async function save(opened: Opened, editor: EditSession) {
@@ -202,6 +218,32 @@ async function save(opened: Opened, editor: EditSession) {
 }
 
 describe('real author open and save conflict boundary', () => {
+  test('preview states round-trip through actual project save without altering game scenes, and last removal is reversible', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('preview-save'))
+    disk.set('content/scenes/start.json', previewAuthorScene())
+    const before = disk.json('content/scenes/start.json')
+    const opened = await finishOpen(disk.dir)
+    const editor = session(opened)
+    const app = projectSessionSave(opened, editor)
+    const library = previewLibrary()
+    editor.dispatch(new SetScriptPreviewLibraryCommand(library))
+    await app.run()
+    expect(app.error).toHaveBeenLastCalledWith('')
+    expect(disk.json('content/scenes/start.json')).toEqual(before)
+    const reopened = await finishOpen(disk.dir)
+    expect(reopened.scriptPreview).toEqual(library)
+    const next = session(reopened)
+    const nextApp = projectSessionSave(reopened, next)
+    next.dispatch(new SetScriptPreviewLibraryCommand(emptyScriptPreviewLibrary()))
+    await nextApp.run()
+    expect(nextApp.error).toHaveBeenLastCalledWith('')
+    expect(disk.files.has(SCRIPT_PREVIEW_PATH)).toBe(false)
+    expect((await finishOpen(disk.dir)).scriptPreview).toBeUndefined()
+    next.undo()
+    await nextApp.run()
+    expect(nextApp.error).toHaveBeenLastCalledWith('')
+    expect((await finishOpen(disk.dir)).scriptPreview).toEqual(library)
+  })
   test.each([
     'same file',
     'different file',
@@ -305,7 +347,9 @@ describe('real author open and save conflict boundary', () => {
       editor = session(opened)
     const paths = authorBaselineSummary(opened.authorBaseline).paths
     const files = await serializeProjectWithMapCopies(editor.getState(), opened.project.source)
-    expect(paths).toEqual([...Object.keys(files), BATTLE_SIMULATOR_PATH].sort())
+    expect(paths).toEqual(
+      [...Object.keys(files), BATTLE_SIMULATOR_PATH, SCRIPT_PREVIEW_PATH].sort(),
+    )
     expect(disk.files.has(BATTLE_SIMULATOR_PATH)).toBe(false)
     expect(editor.getState().maps).toEqual({})
     expect(paths).toContain('content/maps/start.json')

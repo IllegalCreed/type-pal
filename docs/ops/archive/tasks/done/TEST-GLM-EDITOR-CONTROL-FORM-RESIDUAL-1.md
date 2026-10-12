@@ -1,6 +1,6 @@
 # TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1 — ControlCommandForm 残余合同审计（音频选择/店铺身份/共享脚本 self）
 
-Status: done（build 自测完成，待 Codex 独立验收；不标 done）
+Status: done（2026-10-11 Codex 独立验收 accept）
 Owner: GLM（唯一测试写入者）
 Reviewer: Codex（独立验收）
 Phase: phase2

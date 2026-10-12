@@ -4839,32 +4839,31 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
+      "readMethod": "current-full-text-and-primary-evidence-read-20261012",
       "reviewDepth": "structured-content",
-      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts：这是 task-card，当前文档状态为 build。全文 51 行、6 个标题；摘要/首段为「Status: build」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "2026-10-12：原件与调用输入复核counter，撤回2026-10-11 accept/done，Status改为rework。31次原生Vitest JSON未入库，stdout只含/tmp报告路径，汇总不能证明各相位完整执行集；items=[]却提交actionId=1，以及单队员首项注入已有前序动作字段，均须补合法性/可达性证据。实现已合main和15项全绿不构成验收。",
       "truthAnchors": [
-        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:1",
-        "1:TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts",
-        "11:目标",
-        "15:独占范围",
-        "25:硬约束与交付",
-        "32:当前模式推进记录"
+        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/MUT-01-red.stdout.log:1",
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json:1",
+        "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:128",
+        "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:224",
+        "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:447",
+        "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:468"
       ],
       "unresolved": [
-        "正文信号 13:补齐战斗回合队列与结算边界的真实业务合同，重点核验等待、拒绝、终局和恢复语义；不以覆盖率或新增例数作为本卡指标。",
-        "正文信号 37:- Codex 独立验收: pending",
-        "正文信号 38:- done 准入: blocked",
-        "正文信号 45:在 codex/glm-game-turn-boundaries-r1 隔离工作树中，先对 turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 的旧 fullName、caller、输入和 oracle 排重，再实现尚未证明的回合/结算合同。",
-        "正文信号 49:覆盖率和测试数量只做整体记录，不是本卡完成条件；不得标 done，等待 Codex 独立验收。"
+        "补原始绿/红/恢复的原生Vitest JSON和完整file×fullName×status、进程元数据及源码三态hash。",
+        "修合法物品输入；证明C13/C14真实前序动作可达或修正夹具。",
+        "重新独立复核前不得恢复accept、标done或删除候选分支。"
       ],
-      "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
+      "nextStep": "贡献者限本卡测试/证据返工；Codex直接核caller与原件后重新裁决。",
       "phase": "ops",
       "module": "tasks",
       "capability": "ops-tasks-TEST-GLM-GAME-TURN-BOUNDARIES-1",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "a65b0499d8bd22e65f45b4ac3a7cd2db5925582e1241f240ce571b84dc0d1c2d",
-      "afterSha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
+      "afterSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -4887,10 +4886,10 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
+        "currentSha": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
+        "implementationSha": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
         "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "minimumSaveVersion": 12,
         "history": [
           {
             "revision": "working-tree",
@@ -4903,6 +4902,15 @@
             "date": "2026-10-04",
             "action": "content-review-sha-refresh",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
+            "date": "2026-10-12",
+            "action": "editor-preview-integration-and-task-status-evidence-review",
+            "previousAfterSha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
+            "afterSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+            "scope": "2026-10-12：原件与调用输入复核counter，撤回2026-10-11 accept/done，Status改为rework。31次原生Vitest JSON未入库，stdout只含/tmp报告路径，汇总不能证明各相位完整执行集；items=[]却提交actionId=1，以及单队员首项注入已有前序动作字段，均须补合法性/可达性证据。实现已合main和15项全绿不构成验收。",
+            "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
           }
         ]
       },
@@ -4944,7 +4952,121 @@
           "45:在 codex/glm-game-turn-boundaries-r1 隔离工作树中，先对 turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 的旧 fullName、caller、输入和 oracle 排重，再实现尚未证明的回合/结算合同。",
           "49:覆盖率和测试数量只做整体记录，不是本卡完成条件；不得标 done，等待 Codex 独立验收。"
         ],
-        "afterSha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0"
+        "afterSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+        "readingHistory": [
+          {
+            "sha256": "f550124d43c2ee4f0e09de4d6128c8cf5d4b60508554bf6e9fd6b792355ab5d0",
+            "lineCount": 51,
+            "headings": [
+              {
+                "line": 1,
+                "text": "TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts"
+              },
+              {
+                "line": 11,
+                "text": "目标"
+              },
+              {
+                "line": 15,
+                "text": "独占范围"
+              },
+              {
+                "line": 25,
+                "text": "硬约束与交付"
+              },
+              {
+                "line": 32,
+                "text": "当前模式推进记录"
+              },
+              {
+                "line": 40,
+                "text": "下一位 Agent 提示词"
+              }
+            ],
+            "method": "full-text-structured-review",
+            "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts：这是 task-card，当前文档状态为 build。全文 51 行、6 个标题；摘要/首段为「Status: build」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+            "unresolved": [
+              "正文信号 13:补齐战斗回合队列与结算边界的真实业务合同，重点核验等待、拒绝、终局和恢复语义；不以覆盖率或新增例数作为本卡指标。",
+              "正文信号 37:- Codex 独立验收: pending",
+              "正文信号 38:- done 准入: blocked",
+              "正文信号 45:在 codex/glm-game-turn-boundaries-r1 隔离工作树中，先对 turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 的旧 fullName、caller、输入和 oracle 排重，再实现尚未证明的回合/结算合同。",
+              "正文信号 49:覆盖率和测试数量只做整体记录，不是本卡完成条件；不得标 done，等待 Codex 独立验收。"
+            ]
+          }
+        ],
+        "currentReading": {
+          "date": "2026-10-12",
+          "sha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
+          "lineCount": 160,
+          "headings": [
+            {
+              "line": 1,
+              "text": "TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts"
+            },
+            {
+              "line": 11,
+              "text": "当前裁决（2026-10-12）"
+            },
+            {
+              "line": 30,
+              "text": "目标"
+            },
+            {
+              "line": 34,
+              "text": "独占范围"
+            },
+            {
+              "line": 44,
+              "text": "硬约束与交付"
+            },
+            {
+              "line": 51,
+              "text": "当前模式推进记录"
+            },
+            {
+              "line": 59,
+              "text": "下一位 Agent 提示词"
+            },
+            {
+              "line": 73,
+              "text": "GLM r1 交付回执（2026-10-04，分支 codex/glm-game-turn-boundaries-r1，base a2857c123）"
+            },
+            {
+              "line": 79,
+              "text": "交付物（全部本卡白名单新增，零产品/旧测/配置/baseline/真实 PAL 数据改动）"
+            },
+            {
+              "line": 94,
+              "text": "反控三态（mutation-results.json 15/15 VALID；63 份规整日志 = 共享原始绿 3 + 每针红/恢复 4）"
+            },
+            {
+              "line": 106,
+              "text": "排重登记要点（REG，不新增包装测试）"
+            },
+            {
+              "line": 115,
+              "text": "质量门"
+            },
+            {
+              "line": 122,
+              "text": "环境备注"
+            },
+            {
+              "line": 127,
+              "text": "下一位 Agent 提示词（Codex 独立验收）"
+            },
+            {
+              "line": 146,
+              "text": "Codex 独立验收与收口（2026-10-11，历史裁决，2026-10-12撤回）"
+            },
+            {
+              "line": 155,
+              "text": "下一位 Agent 提示词（2026-10-12返工）"
+            }
+          ],
+          "scope": "2026-10-12：原件与调用输入复核counter，撤回2026-10-11 accept/done，Status改为rework。31次原生Vitest JSON未入库，stdout只含/tmp报告路径，汇总不能证明各相位完整执行集；items=[]却提交actionId=1，以及单队员首项注入已有前序动作字段，均须补合法性/可达性证据。实现已合main和15项全绿不构成验收。",
+          "method": "current-full-text-and-primary-evidence-read-20261012"
+        }
       },
       "history": [
         {
@@ -4957,7 +5079,28 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-125"
+      "reviewedLines": "1-160",
+      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "integrationReview": {
+        "reviewer": "Codex",
+        "date": "2026-10-12",
+        "scope": "文档内容与当前状态纠错，保留历史记录；不自动接受旧测试或扩大本次编辑器产品范围",
+        "conclusion": "2026-10-12：原件与调用输入复核counter，撤回2026-10-11 accept/done，Status改为rework。31次原生Vitest JSON未入库，stdout只含/tmp报告路径，汇总不能证明各相位完整执行集；items=[]却提交actionId=1，以及单队员首项注入已有前序动作字段，均须补合法性/可达性证据。实现已合main和15项全绿不构成验收。",
+        "evidence": [
+          "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/MUT-01-red.stdout.log:1",
+          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json:1",
+          "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:128",
+          "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:224",
+          "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:447",
+          "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts:468"
+        ],
+        "unresolvedScope": [
+          "补原始绿/红/恢复的原生Vitest JSON和完整file×fullName×status、进程元数据及源码三态hash。",
+          "修合法物品输入；证明C13/C14真实前序动作可达或修正夹具。",
+          "重新独立复核前不得恢复accept、标done或删除候选分支。"
+        ]
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
