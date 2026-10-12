@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：326；已读但待审：8；尚未逐文件核验：2,932；合计未闭合：2,940。
+当前已闭合核验：329；已读但待审：9；尚未逐文件核验：2,928；合计未闭合：2,937。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -350,6 +350,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-69；进位/负数/符号/非法 parse boundary oracle；3 tests | 高判别力边界合同 |
 | `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-69；小时进位/负数 oracle；2 tests | 与主/边界测试排重 |
 | `packages/game/src/shell/audio-volume.test.ts` | test | 已验证 | CODE-QUALITY-70；主 volume/mute/storage oracle；3 tests | 主合同 |
+| `packages/game/src/shell/audio.ts` | product | 已验证 | CODE-QUALITY-74；SDLPal sound/midi caller、bootstrap/dev-panel callers、audio 主/边界 tests；27 定向 tests、全仓质量门 | SFX queue ownership、BGM track/loop、同号去重、开关/补播、OGG release 逐段核验；未发现直接缺陷；MIDI async race 留 CODE-QUALITY-75 |
+| `packages/game/src/shell/audio.test.ts` | test | 已验证 | CODE-QUALITY-74；URL/track、AudioManager、SFX mapping/dedup、OGG lifecycle oracle；主合同全绿 | 合法输入、真实 MusicBackend caller、资源释放与高判别力反例；不覆盖 MIDI fetch 逆序 |
+| `packages/game/src/shell/audio.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-74；OGG volume 与 audio-midi no-WebAudio/no-op 端口 oracle；27 定向 tests 全绿 | 与主合同排重；audio-midi async race 明确留 CODE-QUALITY-75 |
+| `packages/game/src/shell/audio-midi.ts` | product | review | CODE-QUALITY-75；SDLPal `midi_tsf.c:137-168`、bootstrap/dev-panel caller、实现逐段读取 | `doPlay` fetch/arrayBuffer/load/play 缺逆序响应与 stop 取消反控；禁止实现，待可执行 oracle |
 | `packages/game/src/shell/boot-loading.ts` | product | 已验证 | CODE-QUALITY-72；bootstrap/main-loop/DOM caller；20 tests、全仓 check/ratchet/protected fast/lint | fetch counting、进度、SW onProgress、finish/fail/restore、rAF fallback lifecycle 逐段核验 |
 | `packages/game/src/shell/boot-loading.test.ts` | test | 已验证 | CODE-QUALITY-72；计数/进度/finish/fail/nop DOM oracle；9 tests | 主合同 |
 | `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-72；host DOM/缺节点/rAF/onProgress 反例；11 tests | 宿主边界合同 |

@@ -1,0 +1,98 @@
+# CODE-QUALITY-75 — game audio MIDI async track race
+
+Status: review
+Phase: phase1 game
+Capability: Q3 game/shell
+Coding Owner: Unassigned
+Generation Owner: N/A
+Reviewer: Codex（独立验收）
+Visual Verification Owner: Codex
+Visual Verification Timing: dev-functional
+Contributor: TBD
+Branch: `codex/code-quality-3y`
+
+> 高风险音频行为边界：先完成一手证据与可证伪反控，不得直接修改实现。
+
+## 目标
+
+确认 `createSpessaSynthBackend` 在多个 MIDI fetch 并发、stop 或 autoplay resume 期间是否始终只允许最新曲目发声；若确认 stale response 可抢播，另行写失败反例、修复并跑相邻回归。
+
+## 范围
+
+- 范围内：`packages/game/src/shell/audio-midi.ts`、其 `audio.ts` MusicBackend caller、bootstrap/dev-panel 曲目切换 caller、SDLPal MIDI primary source。
+- 范围外：soundfont 格式、资源生成、公共 AudioManager API、产品音量/混响取舍。
+- 明确不做：在前提核验完成前不修改 `audio-midi.ts`，不改变用户可见曲目选择语义。
+
+## 前提真值门
+
+### 一句话行为 / 工程前提
+
+异步加载的 MIDI 曲目不能在用户已选择更新曲目或停止后，以旧响应重新装载并发声。
+
+### 真值矩阵
+
+| 维度 | 当前真值 | 直接证据 |
+|---|---|---|
+| 原版 / primary source | SDLPal `TSF_Play` 先关闭当前消息、再同步加载新曲；相同曲号直接返回 | `reference/sdlpal/midi_tsf.c:137-168` |
+| 第一阶段 | shell 通过 `MusicBackend.play/stop` 路由 BGM，track 变化时切换 | `packages/game/src/shell/audio.ts:21-27,302-319` |
+| 当前二阶段 | `doPlay` fetch 后无 generation/abort check；`play` 可在 ready 后连续启动多个 async `doPlay` | `packages/game/src/shell/audio-midi.ts:67-89,155-178` |
+| 本任务目标 | 先用可执行反控证明是否存在 stale response；未证明前保持 review | 本卡验收条件 |
+
+### 反证与替代解释
+
+- 最强替代解释：SpessaSynth 的 `loadNewSongList` 可能内部原子丢弃旧请求，或 caller 在资源 ready 后不会快速切歌。
+- 什么观察会推翻当前前提：mock fetch 逆序完成但序列最终仍只调用最新 `loadNewSongList/play`；或真实 Sequencer 明确提供 latest-wins 保障。
+- 已排查替代根因：
+  - runtime 语义 / 命令分类：`audio.ts` 只在 track 变化时调用 backend；未发现重复调用误分类。
+  - 原版 / 第一阶段理解：SDLPal 同步 `TSF_Play` 先 close 再 load，支持 latest-wins 约束。
+  - extractor / 地图 / 数据解码：不涉及。
+  - audit / test model：现有 `audio.test.ts` 只 mock `MusicBackend`，未覆盖 MIDI fetch 逆序；`audio.glm-phase1-leaves.test.ts` 仅覆盖无 Web Audio no-op 与 volume 端口。
+
+### 用户可见偏离
+
+- 是否主动偏离已核真值：no（目标是保留最新曲目语义）。
+- `before -> after`：可能旧 MIDI 响应抢播 -> 只允许当前曲目响应发声。
+- 代表场景：dev-panel 连续点两首音乐，先发出的慢请求晚于后发出的快请求完成。
+- 用户裁决：N/A，若修复仅恢复 primary source 语义；若需改变切歌/预加载 UX，暂停请用户裁决。
+
+## 上下文锚点
+
+- `CLAUDE.md` 忠实还原规则；`docs/phase1/engineering-notes.md` 音频资源生命周期；`audio-midi.ts:51-178`。
+- `bootstrap.ts:457-502,1771-1800`、`dev-panel.ts:1876-1905` 是真实曲目 caller；`reference/sdlpal/midi_tsf.c:137-168` 是 primary source。
+- 不得重新引入：旧曲目在 stop/切歌后复活、未处理的 fetch rejection、AudioContext autoplay 解锁重启风暴。
+
+## 验收条件
+
+- 功能：先有可执行逆序 fetch 反控；若失败，再以最小 generation/取消修复，不改公共 API。
+- 测试：覆盖合法 track、stop、resume、HTTP/rejection、逆序响应；测试必须观察真实 `Sequencer.loadNewSongList/play` oracle，不能只断言 mock backend。
+- 文档：本卡与 ledger/board 记录直接证据、未修风险和质量门。
+- 视觉/手工：dev-functional 最小连续切歌复现；若工具/资源不可用，明确 blocked，不以源码推断替代。
+
+## 当前模式推进记录
+
+- Codex 范围/前提核验: verified（已发现需可证伪反控的潜在 stale-response seam；最新语义仍需测试确认）。
+- 范围、设计和验收条件: agree（先测试后决定是否修复）。
+- 高风险用户产品裁决: N/A（暂不改变用户行为）。
+- build 准入结论: blocked（在可执行反控与独立复核前，不得实现/不得标记 done）。
+
+## Review: 审查与返工
+
+- Reviewer: Codex
+- 审查结论: review；`audio-midi.ts` 保持 pending，未改实现。
+- 必须返工项: 补可执行逆序 fetch/stop 反控并确认 Sequencer oracle；必要时升级为 build。
+- Accept / rework: pending
+
+## 交接日志
+
+- 2026-10-13 Codex：逐段读取实现、bootstrap/dev-panel caller、SDLPal MIDI primary source；确认现有测试没有逆序异步合同，保留 review，禁止直接实现。Evidence: `audio-midi.ts:67-89,155-178`; `reference/sdlpal/midi_tsf.c:137-168`. Next: Codex 先补反控。
+
+## 下一位 Agent 提示词
+
+```text
+接手任务：CODE-QUALITY-75 game audio MIDI async track race
+任务卡：docs/ops/tasks/CODE-QUALITY-75-game-audio-midi-race.md
+当前状态：review，build blocked；不得开始实现、不得标记 done。
+先读：AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md、docs/phase1/engineering-notes.md、本卡、packages/game/src/shell/audio-midi.ts、audio.ts、bootstrap.ts、dev-panel.ts、reference/sdlpal/midi_tsf.c。
+请你做：设计并运行可执行逆序 fetch/stop 反控，直接观察 Sequencer load/play oracle；若证实 stale response，再提出最小修复并更新前提门；否则记录反证。
+输出要求：写回本卡 review/build 结论、测试命令与结果、未修风险；未完成反控前不得改实现。
+```
