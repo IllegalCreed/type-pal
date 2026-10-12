@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-11T17:26:40.190Z",
+  "generatedAt": "2026-10-12T14:34:07.221Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
@@ -6091,7 +6091,7 @@
           {
             "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
             "testCount": 12,
-            "identityDigest": "7c9320f8d957b5cc7564de6e383e9c1ad63b44516d0e2180d77f71f6a34c154c"
+            "identityDigest": "e9111d666a5186d10f6c19f7edbffff02fb47a427b551d6313a5060b4863a509"
           },
           {
             "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
@@ -6514,14 +6514,14 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "6cff978c86e89307953c7c61c680280f266320b70b30d305deeb8254152298c0",
+        "identityDigest": "c90b7bd6cab2a0ad8a5d6a358c1672befb609d3b54b7aba71eba6a0172a2a026",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b74a17774d619fbcfbd15df123db7ca20eb6492cb054930628113396e6033c75"
+        "executionDigest": "68c1d67a739cefd5dc53431a9d758d49d9a5dfe2973c94ca383478ea47f5e457"
       },
       "metrics": {
         "statements": {
-          "covered": 13486,
-          "total": 15523
+          "covered": 13487,
+          "total": 15524
         },
         "branches": {
           "covered": 8875,
@@ -10552,8 +10552,8 @@
   },
   "total": {
     "statements": {
-      "covered": 70528,
-      "total": 78701
+      "covered": 70529,
+      "total": 78702
     },
     "branches": {
       "covered": 51368,
