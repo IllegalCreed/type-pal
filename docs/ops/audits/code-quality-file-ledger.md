@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：316；已读但待审：8；尚未逐文件核验：2,942；合计未闭合：2,950。
+当前已闭合核验：317；已读但待审：8；尚未逐文件核验：2,941；合计未闭合：2,949。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -347,6 +347,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/speedrun/time-format.test.ts` | test | 已验证 | CODE-QUALITY-69；clock/HMS/parse/diff 合法值 oracle；4 tests | 常规格式合同 |
 | `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-69；进位/负数/符号/非法 parse boundary oracle；3 tests | 高判别力边界合同 |
 | `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-69；小时进位/负数 oracle；2 tests | 与主/边界测试排重 |
+| `packages/game/src/shell/audio-volume.test.ts` | test | 已验证 | CODE-QUALITY-70；主 volume/mute/storage oracle；3 tests | 主合同 |
 | `packages/game/src/tools/speedrun/index.ts` | product | 已验证 | CODE-QUALITY-65；main-loop/tools-panel/timer/store/overlay/countdown callers；12 tests、game 全包/check/ratchet/protected fast/lint | 单例/tick/暂停/快捷键/PB 持久化编排逐段核验，未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/index.test.ts` | test | 已验证 | CODE-QUALITY-65；disabled/tick/overlay/hotkey/pause oracle；10 tests | 主编排合同 |
 | `packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-65；解绑/未启用 shortcut 反例；2 tests | 输入监听生命周期 |
