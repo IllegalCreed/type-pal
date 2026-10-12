@@ -96,6 +96,7 @@
 | [CODE-QUALITY-45 — game follower render 窄批](../archive/tasks/done/CODE-QUALITY-45-game-follower-render.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-46 — game draw confirm menu 窄批](../archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-47 — game draw box 窄批](../archive/tasks/done/CODE-QUALITY-47-game-draw-box.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-48 — game draw equip 窄批](../archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |

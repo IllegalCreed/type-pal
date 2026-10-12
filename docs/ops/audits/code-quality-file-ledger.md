@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：259；已读但待审：5；尚未逐文件核验：3,002；合计未闭合：3,007。
+当前已闭合核验：262；已读但待审：5；尚未逐文件核验：2,999；合计未闭合：3,004。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -293,6 +293,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | CODE-QUALITY-47；公开 drawBox framebuffer oracle | style/rows-cols/grid、动态 shadow、缺帧反例 |
 | `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-47；drawBox/drawSingleLineBox/menuTextMaxCols typed caller oracle | 缺 44-46、shadow=0、屏外、空 rows-cols、width 合同 |
 | `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-47；像素 framebuffer 与透明孔/单行框 caller oracle | 12 条高判别力阴影、透明孔、palette-0、标签宽度合同 |
+| `packages/game/src/present/menu/draw-equip.ts` | product | 已验证 | CODE-QUALITY-48；draw-menu/present/menu-driver callers、uigame.c:1793-2055、itemmenu.c:28-224、装备绘制 tests | list 复用 InventoryMenu；pick-role 背景/图标/装备槽/运行时属性/角色四色/数量投影、缺资源与 framebuffer ownership 逐段核验；未发现直接缺陷 |
+| `packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-48；真实 drawEquipMenu caller 与 fixture framebuffer oracle | 非顺序 party/roleId 位、未知已装备、空槽、缺 role 行反例；与 P03/像素测试排重，3 tests 通过 |
+| `packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-48；真实 EquipMenu state 与 framebuffer pixel oracle | 单人框高、done/缺目录/越界光标/数量 0、运行时属性与 live inventory 反例；11 tests 通过，输入快照隔离 |
 
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
