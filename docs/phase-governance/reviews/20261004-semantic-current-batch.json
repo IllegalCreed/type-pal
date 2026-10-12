@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "138c15646a704c31bac797b765bb90d56d8c7435a46b76e8a211586d7d7961be",
+      "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "138c15646a704c31bac797b765bb90d56d8c7435a46b76e8a211586d7d7961be",
+        "implementationSha": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -822,6 +822,24 @@
             "afterSha256": "138c15646a704c31bac797b765bb90d56d8c7435a46b76e8a211586d7d7961be",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-75-build-state-navigation",
+            "previousAfterSha256": "138c15646a704c31bac797b765bb90d56d8c7435a46b76e8a211586d7d7961be",
+            "afterSha256": "b7c30170aaf125a07fbdef1f58e6d303fe875d3d034c29507c2b2a25728ba42e",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-75-game-audio-midi-race.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-75-audio-race-closeout-navigation",
+            "previousAfterSha256": "b7c30170aaf125a07fbdef1f58e6d303fe875d3d034c29507c2b2a25728ba42e",
+            "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -850,12 +868,12 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "138c15646a704c31bac797b765bb90d56d8c7435a46b76e8a211586d7d7961be",
+        "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "138c15646a704c31bac797b765bb90d56d8c7435a46b76e8a211586d7d7961be",
-          "lineCount": 24,
-          "scope": "CODE-QUALITY-74/75 audio governance navigation and task-state update",
+          "sha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+          "lineCount": 23,
+          "scope": "CODE-QUALITY-75 audio race closeout navigation update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1078,6 +1096,20 @@
           "revision": "working-tree",
           "date": "2026-10-13",
           "action": "code-quality-74-75-audio-governance-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-75-build-state-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-75-audio-race-closeout-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -1944,7 +1976,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "7db847c5b513583e01fffb78d21800d14c7de30b3a96e442cd99f9113d1fa8a5",
+      "afterSha256": "a8c2b6aa709c393141037f495dc10d7209027cadfc9ca6163b5bc1f263fea7c9",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1980,7 +2012,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "7db847c5b513583e01fffb78d21800d14c7de30b3a96e442cd99f9113d1fa8a5",
+        "implementationSha": "a8c2b6aa709c393141037f495dc10d7209027cadfc9ca6163b5bc1f263fea7c9",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2243,6 +2275,24 @@
             "afterSha256": "7db847c5b513583e01fffb78d21800d14c7de30b3a96e442cd99f9113d1fa8a5",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-75-build-state-navigation",
+            "previousAfterSha256": "7db847c5b513583e01fffb78d21800d14c7de30b3a96e442cd99f9113d1fa8a5",
+            "afterSha256": "5b6344e9f513658a265f642ebcad3ca0a23586feff38da3f7b8abb5484ef73d6",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-75-game-audio-midi-race.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-75-audio-race-closeout-navigation",
+            "previousAfterSha256": "5b6344e9f513658a265f642ebcad3ca0a23586feff38da3f7b8abb5484ef73d6",
+            "afterSha256": "a8c2b6aa709c393141037f495dc10d7209027cadfc9ca6163b5bc1f263fea7c9",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2275,12 +2325,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "7db847c5b513583e01fffb78d21800d14c7de30b3a96e442cd99f9113d1fa8a5",
+        "afterSha256": "a8c2b6aa709c393141037f495dc10d7209027cadfc9ca6163b5bc1f263fea7c9",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "7db847c5b513583e01fffb78d21800d14c7de30b3a96e442cd99f9113d1fa8a5",
+          "sha256": "a8c2b6aa709c393141037f495dc10d7209027cadfc9ca6163b5bc1f263fea7c9",
           "lineCount": 418,
-          "scope": "CODE-QUALITY-74/75 audio governance navigation and task-state update",
+          "scope": "CODE-QUALITY-75 audio race closeout navigation update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2546,6 +2596,20 @@
           "revision": "working-tree",
           "date": "2026-10-13",
           "action": "code-quality-74-75-audio-governance-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-75-build-state-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-75-audio-race-closeout-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }

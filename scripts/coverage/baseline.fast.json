@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-12T20:07:32.702Z",
+  "generatedAt": "2026-10-12T21:37:00.678Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19823,
+  "testCount": 19825,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4672,8 +4672,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3498,
-        "testFileCount": 306,
+        "testCount": 3500,
+        "testFileCount": 307,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4908,6 +4908,7 @@
           "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
           "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
           "packages/game/src/present/screen-wave.test.ts",
+          "packages/game/src/shell/audio-midi.boundaries.test.ts",
           "packages/game/src/shell/audio-volume.boundaries.test.ts",
           "packages/game/src/shell/audio-volume.test.ts",
           "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
@@ -6149,6 +6150,11 @@
             "identityDigest": "7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7"
           },
           {
+            "file": "packages/game/src/shell/audio-midi.boundaries.test.ts",
+            "testCount": 2,
+            "identityDigest": "a12087172f5b3a32c3dad25c96e54c8ad469c0b0ad5253de091239bcec5832b0"
+          },
+          {
             "file": "packages/game/src/shell/audio-volume.boundaries.test.ts",
             "testCount": 3,
             "identityDigest": "35268c5c6a4e07481fff6d6e5afbde4e9abcf8d752bfd8d5f22e68a56cccb6e6"
@@ -6514,26 +6520,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "a49d41bc66867cf5ea1b4e7d5d5c28dcac0a65333af25909ffdaaef33f0ed561",
+        "identityDigest": "e551267448b84691a132a11a35a25eaff1db05a7b48b2cb7e46306daa152cf97",
         "duplicateIdentityCount": 0,
-        "executionDigest": "92379be705519ab9cad68fba2bb0d01bcb4d2683612e0375fe460f5a38f20557"
+        "executionDigest": "fe82df5fbdb125fc170010c12724d01df7821c6a169423cb2daba184f476b52d"
       },
       "metrics": {
         "statements": {
-          "covered": 13507,
-          "total": 15536
+          "covered": 13560,
+          "total": 15548
         },
         "branches": {
-          "covered": 8901,
-          "total": 11313
+          "covered": 8924,
+          "total": 11324
         },
         "functions": {
-          "covered": 1519,
-          "total": 1853
+          "covered": 1524,
+          "total": 1854
         },
         "lines": {
-          "covered": 12065,
-          "total": 13638
+          "covered": 12115,
+          "total": 13647
         }
       }
     },
@@ -10552,20 +10558,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70549,
-      "total": 78714
+      "covered": 70602,
+      "total": 78726
     },
     "branches": {
-      "covered": 51394,
-      "total": 61558
+      "covered": 51417,
+      "total": 61569
     },
     "functions": {
-      "covered": 13384,
-      "total": 14986
+      "covered": 13389,
+      "total": 14987
     },
     "lines": {
-      "covered": 63035,
-      "total": 68898
+      "covered": 63085,
+      "total": 68907
     }
   }
 }

@@ -65,18 +65,26 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
   let ready = false
   // 当前想播的曲(play 写入)。用于:① init 完成后补播 ② autoplay 解锁(resume)后补播。
   let last: { track: number; loop: boolean } | undefined
+  // 每次 play/stop 都推进 generation。MIDI fetch 是异步的，旧曲响应不能在新曲/停止后抢播。
+  let playGeneration = 0
   let resuming = false // resume() 防重入(解锁监听持续触发,ctx.resume() pending 期间不重复 doPlay)
 
-  async function doPlay(track: number, loop: boolean): Promise<void> {
-    if (!seq) return
+  async function doPlay(track: number, loop: boolean, generation: number): Promise<void> {
+    const isCurrent = (): boolean =>
+      generation === playGeneration && last?.track === track && last.loop === loop
+    if (!seq || !isCurrent()) return
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
+    if (!isCurrent()) return
     const url = `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
     const res = await fetch(url)
+    if (!isCurrent()) return
     if (!res.ok) {
       console.warn(`[audio] MIDI track ${track} 取不到(${url} HTTP ${res.status})`)
       return
     }
-    seq.loadNewSongList([{ binary: await res.arrayBuffer(), fileName: `${track}.mid` }])
+    const binary = await res.arrayBuffer()
+    if (!isCurrent()) return
+    seq.loadNewSongList([{ binary, fileName: `${track}.mid` }])
     seq.loopCount = loop ? Infinity : 0
     seq.play()
   }
@@ -143,7 +151,7 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
       if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
         ;(window as unknown as Record<string, unknown>).__tpmidi = { ctx, synth, getSeq: () => seq }
       }
-      if (last) void doPlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
+      if (last) void doPlay(last.track, last.loop, playGeneration) // 就绪前已请求的曲 → 补播
     } catch (err) {
       // 具体原因在 err 里(secure-context 缺 AudioWorklet / soundfont 取不到 / 不是 RIFF 等)—— 别在这
       //   硬猜成"没放 soundfont"误导排查。
@@ -153,10 +161,12 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
 
   return {
     play(track, loop) {
+      const generation = ++playGeneration
       last = { track, loop } // 记当前曲(就绪前 init 补播 / autoplay 解锁后 resume 补播都用)
-      if (ready) void doPlay(track, loop)
+      if (ready) void doPlay(track, loop, generation)
     },
     stop() {
+      playGeneration++
       seq?.pause()
       last = undefined
     },
@@ -171,7 +181,7 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
         .resume()
         .then(() => {
           resuming = false
-          if (ready && last) void doPlay(last.track, last.loop)
+          if (ready && last) void doPlay(last.track, last.loop, playGeneration)
         })
         .catch(() => {
           resuming = false
