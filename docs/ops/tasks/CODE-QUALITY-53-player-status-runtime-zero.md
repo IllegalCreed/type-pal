@@ -30,6 +30,7 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
   - 本任务目标：确认生产输入域是否总能证明 hydrated runtime；若能，改为保留 runtime 0 并调整 fixture/oracle；若需要未 hydrate 防御，则必须定义显式 readiness/ownership，而不是用 `||` 猜测。
 - 当前 `before` -> 候选 `after`：runtime HP/MP/level 为 0 时当前显示静态基线值；候选 A 保留现行 fallback（可能掩盖阵亡），候选 B 生产路径直接显示 runtime 0、未 hydrate 输入显式阻断/初始化。代表场景：角色实际 HP=0 打开状态页，或读档后 runtime 缺字段。
 - 最强替代解释 / 什么观察会推翻前提：如果存在真实生产 caller 在 hydrate 前合法打开状态页，且产品明确要求显示静态基线，则需保留 fallback；但独立复核已确认 `battle-system.ts:1703-1711` 先把战斗结果写回 runtime、`game-state.ts:1777-1782` 可写入 HP=0，随后菜单可读取该 runtime；因此真实阵亡角色被当前页显示为静态正数，`||` 是直接 bug。剩余未知只在于如何显式表示未 hydrate fixture。
+- 额外高风险冲突：SDLPal 毒行按 party slot 读取 `rgPoisonStatus[i][iCurrent]`（`uigame.c:1245-1251`，role→party 映射见 `global.c:1483-1499`）；当前 TS 状态注释、`player-poison-state.ts` 与 `draw-player-status.ts:380-392` 都以 roleId 拼 key。非顺序 party（如 `[4,1]`）会让状态页读错毒记录；现有毒测试只覆盖 roleId=slot=0。不能只在绘制层改成 cursor index，需先确定全域 canonical key 或显式 mapper。
 - 是否主动偏离已核真值：待用户/工程裁决；裁决前不得改实现或弱化测试。
 
 ## 上下文锚点
@@ -43,6 +44,7 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
 - 已完整读取实现、4 个范围测试、P07 caller、状态机、公共出口、hydrate/normalize 生命周期和 SDLPal primary source；未运行本批定向测试，不把既有全绿当作合同验收。
 - 用户/工程裁决前不得修改实现或测试；裁决后必须先写失败反例（runtime 0 的真实状态页）、再修复并运行定向、相邻 game、全仓 check、coverage ratchet、protected fast、lint-zero、docs/content review 和 ledger。不能直接把 `||` 改为 `??` 而不处理旧 fixture/未 hydrate 输入域。
 - 该差异涉及第一阶段机制真值、runtime ownership 与用户可见数值，属于高风险边界；不触碰 schema/save，但可能需要显式 runtime readiness 约束。
+- 毒状态 key 冲突同样涉及公共状态 ownership/第一阶段机制真值，保持 blocked，不在本卡直接改绘制层或全局 poison map。
 
 ## 当前模式推进记录
 
@@ -56,7 +58,7 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
 
 ## 交接
 
-- 2026-10-13 Codex：状态页 wave 只读审计发现 runtime-zero ownership 冲突；独立只读复核确认 `uigame.c:1222-1229` 直接读 runtime、`battle-system.ts:1703-1711` + `game-state.ts:1777-1782` 会把死亡 HP=0 写回 runtime，而 `draw-player-status.ts:120-138` 用 `||` 显示静态基线。账本保持 `3266 / 275 closed / 5 review / 2986 pending`，本卡范围不计入 closed。等待决定如何显式区分未 hydrate fixture 与合法 runtime 0。
+- 2026-10-13 Codex：状态页 wave 只读审计发现 runtime-zero 与 poison-key 两项 ownership 冲突；独立只读复核确认 `uigame.c:1222-1229` 直接读 runtime、`battle-system.ts:1703-1711` + `game-state.ts:1777-1782` 会把死亡 HP=0 写回 runtime，而 `draw-player-status.ts:120-138` 用 `||` 显示静态基线；另确认 SDLPal 毒行按 party slot，TS poison state/绘制按 roleId。账本保持 `3266 / 275 closed / 5 review / 2986 pending`，本卡范围不计入 closed。等待 runtime readiness 与 poison canonical key 裁决。
 
 ## 下一位 Agent 提示词
 
