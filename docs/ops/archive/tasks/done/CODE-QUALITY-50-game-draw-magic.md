@@ -1,6 +1,6 @@
 # CODE-QUALITY-50 — game draw magic 窄批
 
-Status: build
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -47,16 +47,16 @@ Visual Verification Timing: e2e-deferred（菜单观感留集中 E2E；本批核
 - 受委派 Coding Owner / 隔离分支: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / `codex/code-quality-3y`
 - build 准入: Codex build allowed（仅本批白名单；发现行为/primary 冲突立即停线）
 - 贡献者交付/自验: N/A（Codex 直接执行）
-- Codex 独立验收: pending
+- Codex 独立验收: accept（4 个范围文件全文、primary source/caller、定向/相邻与全仓质量门完成；未发现直接缺陷）
 - 用户产品裁决/体验验收: N/A（不主动改变形态；视觉留集中 E2E）
-- done 准入: blocked，直到逐文件证据与全部质量门完成。
+- done 准入: Codex done allowed；本批无产品代码修改、schema/save/资源格式或公共接口变化。
 
 ## 交接
 
-- 2026-10-12 Codex：从最新 `origin/main` 建立本批；当前分支相对主线 ahead 19 / behind 0；基线 ledger 为 `3266 files / 265 closed / 5 review / 2996 pending`。下一步：定向测试、相邻回归和全仓质量门。
+- 2026-10-12 Codex：从最新 `origin/main` 建立本批；当前分支相对主线 ahead 20 / behind 0；完整读取 4 个范围文件、P06 caller、draw-menu/present/menu-driver/in-game-magic-menu 及 `magicmenu.c`/`uigame.c`/`uibattle.c` primary source；未发现直接缺陷。定向 4 files/25 tests、game typecheck、game 全包 311/3519、全仓 `pnpm check`（editor631/4951、migrate96/739，其余包全绿）均通过；coverage ratchet 与 protected fast 通过且基线保持、0 项下降；lint-zero 3994 files、error/warning/info 全 0；docs/content review、git diff --check、ledger 均通过。未触碰高风险边界；视觉留集中 E2E。账本更新为 `3266 files / 269 closed / 5 review / 2992 pending`。下一批建议先累积相邻 `present/menu` 只读核验，形成独立 wave 后再统一跑全仓门。
 
 ## 下一位 Agent 提示词
 
 ```text
-无下一位 Agent；Codex继续完成本批审计，未完成逐文件证据与质量门前不得标记 done。
+无下一位 Agent；本批已完成并归档，下一批先累积相邻菜单只读核验再统一跑质量门。
 ```

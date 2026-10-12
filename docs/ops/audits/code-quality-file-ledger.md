@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,266。
-当前已闭合核验：265；已读但待审：5；尚未逐文件核验：2,996；合计未闭合：3,001。
+当前已闭合核验：269；已读但待审：5；尚未逐文件核验：2,992；合计未闭合：2,997。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -293,6 +293,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | CODE-QUALITY-47；公开 drawBox framebuffer oracle | style/rows-cols/grid、动态 shadow、缺帧反例 |
 | `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-47；drawBox/drawSingleLineBox/menuTextMaxCols typed caller oracle | 缺 44-46、shadow=0、屏外、空 rows-cols、width 合同 |
 | `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-47；像素 framebuffer 与透明孔/单行框 caller oracle | 12 条高判别力阴影、透明孔、palette-0、标签宽度合同 |
+| `packages/game/src/present/menu/draw-magic.ts` | product | 已验证 | CODE-QUALITY-50；draw-menu/present/menu-driver callers、magicmenu.c:36-299/301-484、uigame.c:653-875、uibattle.c:31-269 | 施法人/仙术/目标三阶段、PlayerInfoBox、MP/说明、禁用色、分页/光标、缺帧与 runtime stats 逐段核验；未发现直接缺陷 |
+| `packages/game/src/present/menu/draw-magic.test.ts` | test | 已验证 | CODE-QUALITY-50；真实 drawInGameMagicMenu caller、magicmenu.c WIN95 MP/说明 oracle | 2 tests；多行说明、左侧 MP 与右侧空区布局，合法 typed state 与 global script fixture |
+| `packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-50；真实状态/fixture framebuffer oracle | 5 tests；死亡/MP 禁用色、空表、缺 catalog、role/name fallback 与缺资源边界，排重 P06 |
+| `packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-50；P06 相邻 caller 与直接像素 oracle | 15 tests；坐标/说明多行/头像/HP-MP/缺帧/目标箭头/透明孔/运行时数值隔离 |
 | `packages/game/src/present/menu/draw-inventory.ts` | product | 已验证 | CODE-QUALITY-49；draw-menu/present/menu-driver callers、itemmenu.c:28-310、uigame.c:1289-1470、P01/P02 与 menu-driver oracle | list/use-target 布局、6 色规则、live inventory、缺帧/资源、描述/noDesc 与 framebuffer ownership 逐段核验；修复数量归零时仍绘制目标物品图标/名称的 bug；未改退出状态机 |
 | `packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-49；真实 drawInventoryMenu caller 与 fixture framebuffer oracle | 未知目录/过滤混列/use-target 缺上下文反例；与 P01/P02、像素测试排重，3 tests 通过 |
 | `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-49；真实大世界目标层 live-count 与 framebuffer pixel oracle | 12 tests；先以最后一件物品归零反例证实旧实现失败，再验证 SDLPal 语义下图标/名称/数字均隐藏；其余 shadow、数量差额、缺帧、属性和 palette oracle 保持 |
