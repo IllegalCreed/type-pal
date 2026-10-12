@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-12T19:20:31.440Z",
+  "generatedAt": "2026-10-12T20:07:32.702Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19822,
+  "testCount": 19823,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4672,7 +4672,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3497,
+        "testCount": 3498,
         "testFileCount": 306,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6255,8 +6255,8 @@
           },
           {
             "file": "packages/game/src/shell/fetch-retry.test.ts",
-            "testCount": 5,
-            "identityDigest": "aae9e84d230bbe4e7c155693fd3374b9eef17d5da21cf2ddaaef7ec9a85b2bb5"
+            "testCount": 6,
+            "identityDigest": "2c5810e371c66f60d09d3780c7f0145d12c0ef66d601c9b852b11bbbcdef60ef"
           },
           {
             "file": "packages/game/src/shell/input-replay.grok-r1.test.ts",
@@ -6514,26 +6514,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "a434920b93a016adb8322c7f29e05724114f85b250a1bb30d831822f2128a595",
+        "identityDigest": "a49d41bc66867cf5ea1b4e7d5d5c28dcac0a65333af25909ffdaaef33f0ed561",
         "duplicateIdentityCount": 0,
-        "executionDigest": "4bfc365c654da8587a6fb6e923bbfd5f059167f765a14ff0bcfac2a8cc39a865"
+        "executionDigest": "92379be705519ab9cad68fba2bb0d01bcb4d2683612e0375fe460f5a38f20557"
       },
       "metrics": {
         "statements": {
-          "covered": 13504,
-          "total": 15533
+          "covered": 13507,
+          "total": 15536
         },
         "branches": {
-          "covered": 8894,
-          "total": 11306
+          "covered": 8901,
+          "total": 11313
         },
         "functions": {
           "covered": 1519,
           "total": 1853
         },
         "lines": {
-          "covered": 12062,
-          "total": 13635
+          "covered": 12065,
+          "total": 13638
         }
       }
     },
@@ -10552,20 +10552,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70546,
-      "total": 78711
+      "covered": 70549,
+      "total": 78714
     },
     "branches": {
-      "covered": 51387,
-      "total": 61551
+      "covered": 51394,
+      "total": 61558
     },
     "functions": {
       "covered": 13384,
       "total": 14986
     },
     "lines": {
-      "covered": 63032,
-      "total": 68895
+      "covered": 63035,
+      "total": 68898
     }
   }
 }

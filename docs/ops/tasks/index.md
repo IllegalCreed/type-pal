@@ -120,6 +120,7 @@
 | [CODE-QUALITY-69 — game speedrun time format test contracts](../archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-6a - 逐文件账本唯一性与清单对账门](../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-70 — game audio volume boundary](../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-71 — game fetch retry abort boundary](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |

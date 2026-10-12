@@ -40,7 +40,8 @@ export function loadBests(defaults: BestTimes): BestTimes {
     const parsed: unknown = JSON.parse(raw)
     const out: BestTimes = { ...defaults }
     if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) return out
-    for (const [k, value] of Object.entries<unknown>(parsed)) {
+    const record = parsed as Record<string, unknown>
+    for (const [k, value] of Object.entries(record)) {
       if (
         Object.hasOwn(out, k) &&
         (value === null || (typeof value === 'number' && Number.isFinite(value) && value >= 0))
