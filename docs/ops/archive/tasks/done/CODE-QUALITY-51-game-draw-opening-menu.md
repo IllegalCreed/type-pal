@@ -1,6 +1,6 @@
 # CODE-QUALITY-51 — game draw opening menu wave member
 
-Status: build
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -45,13 +45,13 @@ Visual Verification Timing: e2e-deferred（标题菜单观感留集中 E2E；本
 - 受委派 Coding Owner / 隔离分支: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / `codex/code-quality-3y`
 - build 准入: Codex build allowed（本卡只读审计；发现行为冲突立即升级）
 - 贡献者交付/自验: N/A
-- Codex 独立验收: pending
+- Codex 独立验收: accept（3 文件逐段证据、定向 17 tests、wave 全量质量门完成；未发现直接缺陷）
 - 用户产品裁决/体验验收: N/A（保持现有形态）
-- done 准入: blocked，等待 wave 统一质量门。
+- done 准入: Codex done allowed；wave 统一质量门已通过，本批无产品代码修改。
 
 ## 交接
 
-- 2026-10-12 Codex：最新主线同步后建立 wave 成员；分支相对 `origin/main` ahead 21 / behind 0；账本基线 `3266 / 269 closed / 5 review / 2992 pending`。下一步先跑 3 个定向测试并等待相邻 wave 成员汇合。
+- 2026-10-12 Codex：wave 成员完成。定向 3 files/17 tests 通过；与 CODE-QUALITY-52 一起通过全仓 `pnpm check`（editor631/4951、migrate96/739、game311/3519 等）、coverage ratchet、protected fast、lint-zero（3994 files 0/0/0）、docs/content review、diff-check、ledger。无产品代码/schema/save/资源格式变化；账本收口为 `3266 / 275 closed / 5 review / 2986 pending`。
 
 ## 下一位 Agent 提示词
 
