@@ -11,6 +11,7 @@
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
+| CODE-QUALITY-51 | [game draw opening menu wave member](tasks/CODE-QUALITY-51-game-draw-opening-menu.md) | build | Codex / 定向核验，等待 wave 收口 | 标题菜单绘制 3 文件；全仓门延至相邻 menu wave 完整 |
 
 ## 看板规则
 
