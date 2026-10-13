@@ -8,6 +8,7 @@
 ## 当前证据
 - [CODE-QUALITY-53 状态页 runtime-zero 与 party-slot poison](CODE-QUALITY-53/README.md)（候选 build：runtime 0 保留、非顺序队伍毒映射反例与换队清表；待全仓质量门与 Codex 独立收口）。
 - [CODE-QUALITY-80 Dev Panel 换队生命周期](CODE-QUALITY-80/README.md)（用户已裁决战斗禁入队/离队；探索切队补装备效果重建；实现与全部质量门通过，文件仍按逐文件治理保持 pending）。
+- [CODE-QUALITY-81 Dev Panel picker 生命周期](CODE-QUALITY-81/README.md)（observer 断开、列表 generation 与缩略图 rejection 反例；全量 check、ratchet、protected fast、lint、ledger 已通过，新增测试文件可收口）。
 - [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
 - [ControlForm 残余合同](../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（1 合同、2 针反控，已收口）。

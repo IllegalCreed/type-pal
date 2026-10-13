@@ -1,0 +1,27 @@
+$ pnpm --filter @type-pal/game exec vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot
+exit_code=0
+
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects on close, fences queued work, and reuses a successful cache entry
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects a filtered generation and ignores its late fulfillment
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > keeps the existing map placeholder for a renderer with no result
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > loads through the direct fallback when IntersectionObserver is unavailable
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+···stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > converts an injected callback rejection into the existing placeholder state
+[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump
+
+··
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:42:01
+   Duration  1.18s (transform 328ms, setup 18ms, import 374ms, tests 312ms, environment 400ms)

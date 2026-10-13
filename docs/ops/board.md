@@ -11,10 +11,11 @@
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
-| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | Codex / ownership测试已补；等CODE80裁决 | 重复角色候选已修；ratchet/protected fast未过，禁止合main |
+| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | Codex / ownership测试已补；0x61与毒键边界仍待独立收口 | 重复角色候选已修；CODE80裁决与质量门已过，但本卡自身状态/机制核验未完成，禁止合main |
 | CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | Codex / 缺 thumbnail 像素 oracle 与视觉裁决，禁止实现 | bootstrap 两层直绘未调用 seam repair；与 gameplay 补偿边界待核 |
 | CODE-QUALITY-79 | [战斗0x61装备伪毒判定边界](tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | Codex / 只读核原始脚本与后期真值 | 不与CODE53键迁移混改；未授权实现 |
-| CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 独立验收已完成；剩余生命周期风险另开小批 | 用户裁决已实现且全部质量门通过；dev-panel 仍不整文件关闭 |
+| CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 行为切片已验收；CODE81 收 observer/thumbnail | 用户裁决已实现且该批质量门通过；listener/observer/thumbnail 风险分拆，dev-panel 仍不整文件关闭 |
+| CODE-QUALITY-81 | [game Dev Panel picker 生命周期](tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | Codex / 新增生命周期测试可收口；复合 dev-panel 继续待核 | 5 个真实夹具反例与两项精确反控；全量 check、ratchet、protected fast、lint、ledger 均通过 |
 
 ## 看板规则
 

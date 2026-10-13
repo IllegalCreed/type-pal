@@ -2,7 +2,7 @@
 
 Status: review
 Owner: Codex
-Reviewer: Codex（独立验收）
+Reviewer: Codex（行为切片独立验收；生命周期风险转 CODE81）
 Phase: phase1 game
 Capability: Q3 dev party ownership
 Visual Verification Timing: functional-minimal
@@ -40,7 +40,7 @@ Visual Verification Timing: functional-minimal
 
 ## 当前模式推进记录
 
-Codex：用户裁决已记录，前提与范围 verified；build allowed。实现 Owner 为 Codex，独立验收待本批质量门。没有使用历史三签要求阻塞。无下一位 Agent 提示词，继续由 Codex 负责。
+Codex：用户裁决已记录，前提与范围 verified；build allowed。实现 Owner 为 Codex；行为切片独立验收与本批质量门已完成，剩余 picker 生命周期风险由 CODE81 单独承接。没有使用历史三签要求阻塞。无下一位 Agent 提示词，继续由 Codex 负责。
 
 ## 2026-10-13 用户裁决后的实现记录
 

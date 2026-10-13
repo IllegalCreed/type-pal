@@ -465,6 +465,7 @@ export function setupDevPanel(deps: DevPanelDeps): void {
 
 /** 当前打开的 picker root —— 同一时刻只允许一个。 */
 let currentPicker: HTMLDivElement | undefined
+let currentPickerCleanup: (() => void) | undefined
 
 /**
  * 场景缩略图 dataURL 缓存(key = `m{mapNum}` / 无 map 时 `s{sceneId}`)—— **模块级**,跨 picker 开关存活,
@@ -856,9 +857,19 @@ function buildCustomBattleSection(deps: DevPanelDeps): HTMLDivElement {
 
 function openPicker(deps: DevPanelDeps): void {
   // 已开 → 先关再开(防多按 B 累浮层)
-  if (currentPicker) {
-    currentPicker.remove()
-    currentPicker = undefined
+  if (currentPicker) closePicker()
+
+  // picker-owned async resources must stop observing the old DOM before a new
+  // picker takes ownership. The generation also fences deferred thumbnail
+  // results after filtering or closing; the shared URL cache remains useful.
+  let pickerClosed = false
+  let sceneGeneration = 0
+  let sceneObserver: IntersectionObserver | undefined
+  const cleanupPicker = (): void => {
+    if (pickerClosed) return
+    pickerClosed = true
+    sceneObserver?.disconnect()
+    sceneObserver = undefined
   }
 
   injectDevPanelCSS()
@@ -1163,9 +1174,15 @@ function openPicker(deps: DevPanelDeps): void {
     j.mapNum !== undefined && hasMapName(j.mapNum) ? getMapName(j.mapNum) : ''
 
   // 缩略图 lazy 加载:命中模块级缓存立即出图;否则调 bootstrap renderSceneThumbnail(按 mapNum 缓存)。
-  const loadThumb = (img: HTMLImageElement, ph: HTMLElement, j: SceneJump): void => {
+  const loadThumb = (
+    img: HTMLImageElement,
+    ph: HTMLElement,
+    j: SceneJump,
+    generation: number,
+  ): void => {
     const key = thumbKeyOf(j)
     const apply = (url: string): void => {
+      if (pickerClosed || generation !== sceneGeneration) return
       img.src = url
       img.style.display = 'block'
       ph.style.display = 'none'
@@ -1177,22 +1194,32 @@ function openPicker(deps: DevPanelDeps): void {
     }
     if (!deps.renderSceneThumbnail) return
     ph.textContent = '渲染中…'
-    void deps.renderSceneThumbnail(j.sceneId, j.mapNum).then((url) => {
-      if (!url) {
+    void deps
+      .renderSceneThumbnail(j.sceneId, j.mapNum)
+      .then((url) => {
+        // Keep successful results in the shared cache even when this picker or
+        // list generation is gone; only the stale DOM write is suppressed.
+        if (url) sceneThumbCache.set(key, url)
+        if (pickerClosed || generation !== sceneGeneration) return
+        if (!url) {
+          ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
+          return
+        }
+        apply(url)
+      })
+      .catch(() => {
+        if (pickerClosed || generation !== sceneGeneration) return
         ph.textContent = j.mapNum !== undefined ? `map ${j.mapNum}` : '—'
-        return
-      }
-      sceneThumbCache.set(key, url)
-      apply(url)
-    })
+      })
   }
 
   // 单一 observer,每次 filter 重建(列表重建)。场景 tab 初始 display:none → observer 不触发;
   // 用户切到场景 tab 显示后,可见卡片才渲染缩略图(避免 294 张同时打爆网络)。
-  let sceneObserver: IntersectionObserver | undefined
   const hasIO = typeof IntersectionObserver !== 'undefined'
 
   const renderSceneList = (filter: string): void => {
+    if (pickerClosed) return
+    const generation = ++sceneGeneration
     sceneObserver?.disconnect()
     sceneList.textContent = ''
     const f = filter.toLowerCase()
@@ -1215,12 +1242,13 @@ function openPicker(deps: DevPanelDeps): void {
     if (hasIO) {
       sceneObserver = new IntersectionObserver(
         (entries, obs) => {
+          if (pickerClosed || generation !== sceneGeneration) return
           for (const ent of entries) {
             if (!ent.isIntersecting) continue
             const j = cardToJump.get(ent.target)
-            const img = ent.target.querySelector('img')
-            const ph = ent.target.querySelector('[data-ph]')
-            if (j && img && ph) loadThumb(img as HTMLImageElement, ph as HTMLElement, j)
+            const img = ent.target.querySelector<HTMLImageElement>('img')
+            const ph = ent.target.querySelector<HTMLElement>('[data-ph]')
+            if (j && img && ph) loadThumb(img, ph, j, generation)
             obs.unobserve(ent.target)
           }
         },
@@ -1271,7 +1299,7 @@ function openPicker(deps: DevPanelDeps): void {
       sceneList.appendChild(card)
       cardToJump.set(card, jump)
       if (sceneObserver) sceneObserver.observe(card)
-      else loadThumb(img, ph, jump) // 无 IO 兜底:直接加载(命中缓存即出图)
+      else loadThumb(img, ph, jump, generation) // 无 IO 兜底:直接加载(命中缓存即出图)
     }
   }
 
@@ -1926,6 +1954,7 @@ function openPicker(deps: DevPanelDeps): void {
   showTab('battle') // 默认显示战斗 tab
   document.body.appendChild(div)
   currentPicker = div
+  currentPickerCleanup = cleanupPicker
 }
 
 /**
@@ -2042,6 +2071,9 @@ async function triggerCaiyiFlyaway(deps: DevPanelDeps): Promise<void> {
 }
 
 function closePicker(): void {
+  const cleanup = currentPickerCleanup
+  currentPickerCleanup = undefined
+  cleanup?.()
   if (currentPicker) {
     currentPicker.remove()
     currentPicker = undefined

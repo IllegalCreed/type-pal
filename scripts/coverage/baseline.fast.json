@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-13T08:47:30.690Z",
+  "generatedAt": "2026-10-13T13:10:59.319Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19842,
+  "testCount": 19847,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4672,8 +4672,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3517,
-        "testFileCount": 308,
+        "testCount": 3522,
+        "testFileCount": 309,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4825,6 +4825,7 @@
           "packages/game/src/core/scene-system.test.ts",
           "packages/game/src/core/word-lookup.test.ts",
           "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+          "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
           "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
           "packages/game/src/dev/dev-panel.pure.test.ts",
           "packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts",
@@ -5736,6 +5737,11 @@
             "identityDigest": "92790642b4592843316912353d8090383984e39d9eb2b56d08417112a605e1ad"
           },
           {
+            "file": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+            "testCount": 5,
+            "identityDigest": "343cebba11892a3f0f12f92a959e9ea2336de27a8ae6e36b11e2933584a58f6a"
+          },
+          {
             "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
             "testCount": 4,
             "identityDigest": "6e91e1d96388458d039cbc139fd7c10147c9c2b8d64d52cf06be428e753c8ac0"
@@ -6526,26 +6532,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "4116bc78bbee370bc2cebd4c5cdd51b063862499577bc6578badc0d90bbe212b",
+        "identityDigest": "d00da3cc6b62f8d90c6fb265683b9f205b05054a9c5955e8e9ec388bd5f1c6e4",
         "duplicateIdentityCount": 0,
-        "executionDigest": "cbd09c849c47c431094794e05f2b0fa317666917bee1b41013f803434753f992"
+        "executionDigest": "f0261f818f5d1958e754c42fdfad312dcd91660981ebae921b26062e4f3a3112"
       },
       "metrics": {
         "statements": {
-          "covered": 13709,
-          "total": 15569
+          "covered": 13795,
+          "total": 15593
         },
         "branches": {
-          "covered": 8995,
-          "total": 11341
+          "covered": 9046,
+          "total": 11365
         },
         "functions": {
-          "covered": 1540,
-          "total": 1854
+          "covered": 1550,
+          "total": 1856
         },
         "lines": {
-          "covered": 12246,
-          "total": 13662
+          "covered": 12325,
+          "total": 13678
         }
       }
     },
@@ -10564,20 +10570,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70751,
-      "total": 78747
+      "covered": 70837,
+      "total": 78771
     },
     "branches": {
-      "covered": 51488,
-      "total": 61586
+      "covered": 51539,
+      "total": 61610
     },
     "functions": {
-      "covered": 13405,
-      "total": 14987
+      "covered": 13415,
+      "total": 14989
     },
     "lines": {
-      "covered": 63216,
-      "total": 68922
+      "covered": 63295,
+      "total": 68938
     }
   }
 }

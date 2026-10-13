@@ -59,8 +59,8 @@ describe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {
   })
 
   afterEach(() => {
-    // 释放残留 picker DOM(若断言失败留下);openPicker 自身会摘除旧 currentPicker,指针泄漏无副作用。
-    document.querySelector('.tp-dev-panel')?.remove()
+    // 通过 owner handler 关闭，覆盖 observer/异步资源 cleanup；不直接摘 DOM 绕过 currentPicker。
+    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close (Esc)"]')?.click()
     vi.restoreAllMocks()
   })
 

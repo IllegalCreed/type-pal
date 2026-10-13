@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,268。
-当前已闭合核验：338；已读但待审：10；尚未逐文件核验：2,920；合计未闭合：2,930。
+起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,269。
+当前已闭合核验：339；已读但待审：10；尚未逐文件核验：2,920；合计未闭合：2,930。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -29,9 +29,11 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-13 CODE53 ownership补证：离队角色5条合同、正式0x75清毒与装备重建共7个有效反控已记录；两份测试仍待整文件验收。CODE80只读复现dev换队生命周期并等待产品裁决；该检查点当时没有新增关闭，计数为338/10/2919。
 
 2026-10-13 CODE80裁决与实现：用户批准战斗期间 B 面板禁止入队/离队、大世界照常编辑；dev-panel 队伍卡增加 battle disabled/mode guard，探索切队补正式 `updateAllEquipments` 重建伪毒。新增 party-lifecycle 测试与两个实现后反控；最终 check/ratchet/protected fast/lint/docs/ledger 全部通过，但没有新增关闭；dev-panel listener/observer/thumbnail 生命周期风险继续 pending。
+2026-10-13 CODE81 picker 生命周期：直接 caller 核实 `setupDevPanel`/scene picker/`bootstrap.renderSceneThumbnail` 边界；新增 observer disconnect、scene generation 与 rejection placeholder 合同。真实 scene-jumps 夹具的 5 个定向反例、game typecheck、Biome、check、ratchet、protected fast、lint-zero 与 ledger 均通过；仅新增生命周期测试文件完成逐文件关闭，复合 dev-panel 生产文件与既有 GLM 测试继续待核。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | 已验证 | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理 |
 | `packages/shared/src/rle.ts` | product | 已验证 | CODE-QUALITY-1；RLE 定向、shared 全包、check、ratchet、protected fast、lint | generic/strict framing 边界已收 |
 | `packages/shared/src/rle.test.ts` | test | 已验证 | CODE-QUALITY-1；合法帧与回归 oracle | 只登记合同，不以数量验收 |
 | `packages/shared/src/rle.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-1；截断/越界反例 | 高判别力反例 |
@@ -383,6 +385,4 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/speedrun/overlay.ts` | product | 已验证 | CODE-QUALITY-66；index/timer/time-format caller；6 tests、game 全包/check/ratchet/protected fast/lint | DOM row/ETA/diff/clock/pause/style ownership逐段核验，未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/overlay.test.ts` | test | 已验证 | CODE-QUALITY-66；overlay row/value oracle；4 tests | 功能性 DOM 合同 |
 | `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-66；DOM cleanup/diff/paused prefix 反例；2 tests | 视觉形态保持，不做剧情 E2E |
-
-
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。

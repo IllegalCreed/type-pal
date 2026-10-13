@@ -513,7 +513,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-13：CODE80进入review；用户裁决已实现，全部质量门通过，dev-panel剩余listener/observer/thumbnail生命周期风险保持pending。",
+      "coreConclusion": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；复合 dev-panel 与既有 GLM 测试继续待核。",
       "truthAnchors": [
         "docs/ops/board.md:7",
         "docs/ops/board.md:8",
@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
+      "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
+        "implementationSha": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -908,6 +908,30 @@
             "afterSha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
             "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-picker-lifecycle-candidate-document-delta",
+            "previousAfterSha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
+            "afterSha256": "567712092426d5809e65505bfa71ee739dce9d5d860b7fe36fa80cac22890e8b",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["coverage:ratchet", "protected-fast", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-final-doc-sync",
+            "previousAfterSha256": "567712092426d5809e65505bfa71ee739dce9d5d860b7fe36fa80cac22890e8b",
+            "afterSha256": "4392105ce895da1eec6281d10805ae04eb540ba0b165bbba747c3df06d4305c1",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["coverage:ratchet", "protected-fast", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-review-close-test",
+            "previousAfterSha256": "4392105ce895da1eec6281d10805ae04eb540ba0b165bbba747c3df06d4305c1",
+            "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -936,12 +960,12 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "2207e4963d00202d83ef5d8a913b6b2e2f9a0768c0a80dfcee26e29d6f8af909",
+        "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
-          "lineCount": 24,
-          "scope": "2026-10-13：CODE80进入review；用户裁决已实现，全部质量门通过，dev-panel剩余listener/observer/thumbnail生命周期风险保持pending。",
+          "sha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
+          "lineCount": 25,
+          "scope": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；复合 dev-panel 与既有 GLM 测试继续待核。",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1005,6 +1029,27 @@
               "正文信号 12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
               "正文信号 19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
             ]
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "567712092426d5809e65505bfa71ee739dce9d5d860b7fe36fa80cac22890e8b",
+            "lineCount": 25,
+            "scope": "CODE80 行为切片仍为 review；CODE81 picker 生命周期保留 build，定向反例与静态门通过但 ratchet 未通过；dev-panel listener 及其它 pending 文件不因批次通过关闭。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "4392105ce895da1eec6281d10805ae04eb540ba0b165bbba747c3df06d4305c1",
+            "lineCount": 25,
+            "scope": "CODE80 行为切片仍为 review；CODE81 picker 生命周期保留 build，定向反例与静态门通过但 ratchet 未通过；dev-panel listener 及其它 pending 文件不因批次通过关闭。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
+            "lineCount": 25,
+            "scope": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；复合 dev-panel 与既有 GLM 测试继续待核。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
         ]
       },
@@ -1242,7 +1287,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE80实现与全部质量门已留证；逐文件账本不因批次通过自动关闭dev-panel或其它pending文件。",
+      "coreConclusion": "CODE80 质量证据与 CODE81 全量质量门已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
       "truthAnchors": [
         "docs/ops/evidence/README.md:8",
         "docs/ops/evidence/README.md:15",
@@ -1262,7 +1307,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
+      "afterSha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1295,8 +1340,8 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
-        "implementationSha": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
+        "currentSha": "working-tree",
+        "implementationSha": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1407,6 +1452,30 @@
             "afterSha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
             "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-picker-lifecycle-candidate-document-delta",
+            "previousAfterSha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
+            "afterSha256": "1f34e65a075594d1638e7659bcb18876a110b86d9c4bb35d457362f9361ef5f5",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["coverage:ratchet", "protected-fast", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-final-doc-sync",
+            "previousAfterSha256": "1f34e65a075594d1638e7659bcb18876a110b86d9c4bb35d457362f9361ef5f5",
+            "afterSha256": "438bcbf2e188b4f3802590e9e6c78227ce4a201807726aab33260225c3ae4a60",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["coverage:ratchet", "protected-fast", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-review-close-test",
+            "previousAfterSha256": "438bcbf2e188b4f3802590e9e6c78227ce4a201807726aab33260225c3ae4a60",
+            "afterSha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1429,12 +1498,12 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "ee17e77087506df7653842d7c6f13a7d4d90b935066a27c8feae19b9bc571c63",
+        "afterSha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
-          "lineCount": 54,
-          "scope": "CODE80实现与全部质量门已留证；逐文件账本不因批次通过自动关闭dev-panel或其它pending文件。",
+          "sha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
+          "lineCount": 55,
+          "scope": "CODE80 质量证据与 CODE81 全量质量门已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1457,6 +1526,27 @@
             "unresolved": [
               "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
             ]
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "1f34e65a075594d1638e7659bcb18876a110b86d9c4bb35d457362f9361ef5f5",
+            "lineCount": 55,
+            "scope": "CODE80 质量证据与 CODE81 定向反例均已入导航；CODE81 全仓 ratchet 失败，不能宣称批次完成；逐文件账本不因定向绿自动关闭其它 pending 文件。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "438bcbf2e188b4f3802590e9e6c78227ce4a201807726aab33260225c3ae4a60",
+            "lineCount": 55,
+            "scope": "CODE80 质量证据与 CODE81 定向反例均已入导航；CODE81 全仓 ratchet 失败，不能宣称批次完成；逐文件账本不因定向绿自动关闭其它 pending 文件。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
+            "lineCount": 55,
+            "scope": "CODE80 质量证据与 CODE81 全量质量门已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
         ]
       },
@@ -2073,7 +2163,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "官方索引按当前401张任务卡生成，CODE80为review；生成导航不重新验收历史任务。",
+      "coreConclusion": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 均为 review；生成导航不重新验收历史任务。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:7",
         "docs/ops/tasks/index.md:14",
@@ -2090,7 +2180,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
+      "afterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2126,7 +2216,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
+        "implementationSha": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2483,6 +2573,30 @@
             "afterSha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
             "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-picker-lifecycle-candidate-document-delta",
+            "previousAfterSha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
+            "afterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["coverage:ratchet", "protected-fast", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-final-doc-sync",
+            "previousAfterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
+            "afterSha256": "c8c24a7fb738bc512769430f179f9c7b9f171ca0e33eadfeeb9451a0bcc81845",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["coverage:ratchet", "protected-fast", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-81-review-close-test",
+            "previousAfterSha256": "c8c24a7fb738bc512769430f179f9c7b9f171ca0e33eadfeeb9451a0bcc81845",
+            "afterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2515,12 +2629,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "de4f14fb39b58d1fd40b869c74d63c730543383ee1d11570ee9762b3b97c12e0",
+        "afterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
-          "lineCount": 422,
-          "scope": "官方索引按当前401张任务卡生成，CODE80为review；生成导航不重新验收历史任务。",
+          "sha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
+          "lineCount": 423,
+          "scope": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 均为 review；生成导航不重新验收历史任务。",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2604,6 +2718,27 @@
               "正文信号 349:## 已取消（superseded / historical）",
               "正文信号 358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
             ]
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
+            "lineCount": 423,
+            "scope": "官方索引按当前 402 张任务卡生成；CODE80 为 review、CODE81 为 build；生成导航不重新验收历史任务。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "c8c24a7fb738bc512769430f179f9c7b9f171ca0e33eadfeeb9451a0bcc81845",
+            "lineCount": 423,
+            "scope": "官方索引按当前 402 张任务卡生成；CODE80 为 review、CODE81 为 build；生成导航不重新验收历史任务。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-13",
+            "sha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
+            "lineCount": 423,
+            "scope": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 均为 review；生成导航不重新验收历史任务。",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
         ]
       },

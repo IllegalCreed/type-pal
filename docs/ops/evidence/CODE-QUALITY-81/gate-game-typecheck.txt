@@ -1,0 +1,6 @@
+$ pnpm --filter @type-pal/game typecheck
+exit_code=0
+
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+> tsc --noEmit

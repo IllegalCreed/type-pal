@@ -1,0 +1,29 @@
+{
+  "candidate_source_sha256": "d82477551564270e2de8ce41dee51e1a6f6749753e8e6dd4fbc3d7d9da054395",
+  "candidate_test_source_sha256": "57b71c9ce217354a257f13d31813a26b538cc2e88dd21a615edac7cdce29a795",
+  "mutations": [
+    {
+      "mutation": "omit-close-disconnect",
+      "source_sha256": "23b316cbe784e87e597df097f6d6a2c1e402e9c4c30c66159a5b701aabb417f6",
+      "command": "pnpm --filter @type-pal/game exec vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot",
+      "exit_code": 1,
+      "elapsed_seconds": 1.342,
+      "summary_line": "Tests  1 failed | 4 passed (5)",
+      "assertion_error_count": 1,
+      "unhandled_error_count": 0,
+      "stdout_tail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects on close, fences queued work, and reuses a successful cache entry\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects a filtered generation and ignores its late fulfillment\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > keeps the existing map placeholder for a renderer with no result\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > loads through the direct fallback when IntersectionObserver is unavailable\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nx··stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > converts an injected callback rejection into the existing placeholder state\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\n··\n\n Test Files  1 failed (1)\n      Tests  1 failed | 4 passed (5)\n   Start at  22:42:33\n   Duration  1.00s (transform 306ms, setup 16ms, import 351ms, tests 280ms, environment 293ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects on close, fences queued work, and reuses a successful cache entry\nAssertionError: expected +0 to be 1 // Object.is equality\n\n- Expected\n+ Received\n\n- 1\n+ 0\n\n ❯ src/dev/dev-panel-picker-lifecycle.test.ts:174:41\n    172|     expect(render).toHaveBeenCalledWith(1, 12)\n    173|     closePicker()\n    174|     expect(oldObserver.disconnectCalls).toBe(1)\n       |                                         ^\n    175|     oldObserver.emit(oldCard)\n    176|     expect(render).toHaveBeenCalledOnce()\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+    },
+    {
+      "mutation": "reuse-generation-on-filter",
+      "source_sha256": "1b5533bc12ea8ae32e073b0b1662a8f694021235fa11254c7c46b220f6e5f539",
+      "command": "pnpm --filter @type-pal/game exec vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot",
+      "exit_code": 1,
+      "elapsed_seconds": 1.359,
+      "summary_line": "Tests  1 failed | 4 passed (5)",
+      "assertion_error_count": 1,
+      "unhandled_error_count": 0,
+      "stdout_tail": "\n RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects on close, fences queued work, and reuses a successful cache entry\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects a filtered generation and ignores its late fulfillment\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > keeps the existing map placeholder for a renderer with no result\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\nstdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > loads through the direct fallback when IntersectionObserver is unavailable\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\n·x·stdout | src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > converts an injected callback rejection into the existing placeholder state\n[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump\n\n··\n\n Test Files  1 failed (1)\n      Tests  1 failed | 4 passed (5)\n   Start at  22:42:34\n   Duration  1.02s (transform 299ms, setup 16ms, import 341ms, tests 312ms, environment 287ms)\n\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/dev/dev-panel-picker-lifecycle.test.ts --reporter=dot\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/dev/dev-panel-picker-lifecycle.test.ts > Dev Panel picker lifecycle > disconnects a filtered generation and ignores its late fulfillment\nAssertionError: expected \"vi.fn()\" to be called once, but got 2 times\n ❯ src/dev/dev-panel-picker-lifecycle.test.ts:236:20\n    234|     expect(oldObserver.disconnectCalls).toBe(1)\n    235|     oldObserver.emit(oldCard)\n    236|     expect(render).toHaveBeenCalledOnce()\n       |                    ^\n    237|\n    238|     const currentObserver = FakeIntersectionObserver.instances.at(-1)\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+    }
+  ],
+  "restored_source_sha256": "d82477551564270e2de8ce41dee51e1a6f6749753e8e6dd4fbc3d7d9da054395"
+}
