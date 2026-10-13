@@ -858,6 +858,15 @@
             "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-78-avi-player-closeout-navigation",
+            "previousAfterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+            "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -891,7 +900,7 @@
           "date": "2026-10-13",
           "sha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
           "lineCount": 23,
-          "scope": "CODE-QUALITY-77 rng-player closeout navigation update",
+          "scope": "CODE-QUALITY-78 AVI player closeout navigation update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1142,6 +1151,13 @@
           "revision": "working-tree",
           "date": "2026-10-13",
           "action": "code-quality-77-rng-player-closeout-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-78-avi-player-closeout-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -2008,7 +2024,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "377d073a50c232d457835d524fa9c2d6d2ce780541609d0305da1421dd166d7a",
+      "afterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2044,7 +2060,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "377d073a50c232d457835d524fa9c2d6d2ce780541609d0305da1421dd166d7a",
+        "implementationSha": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2343,6 +2359,15 @@
             "afterSha256": "377d073a50c232d457835d524fa9c2d6d2ce780541609d0305da1421dd166d7a",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-78-avi-player-closeout-navigation",
+            "previousAfterSha256": "377d073a50c232d457835d524fa9c2d6d2ce780541609d0305da1421dd166d7a",
+            "afterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+            "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2375,12 +2400,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "377d073a50c232d457835d524fa9c2d6d2ce780541609d0305da1421dd166d7a",
+        "afterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "377d073a50c232d457835d524fa9c2d6d2ce780541609d0305da1421dd166d7a",
-          "lineCount": 420,
-          "scope": "CODE-QUALITY-77 rng-player closeout navigation update",
+          "sha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+          "lineCount": 421,
+          "scope": "CODE-QUALITY-78 AVI player closeout navigation update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2674,6 +2699,13 @@
           "revision": "working-tree",
           "date": "2026-10-13",
           "action": "code-quality-77-rng-player-closeout-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-78-avi-player-closeout-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
