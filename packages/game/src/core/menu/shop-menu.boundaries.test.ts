@@ -31,6 +31,7 @@ describe('G06 shopSelectItem 恰等门与意图收尾', () => {
   })
   it('confirm 期方向键 toggle；确认后 No 意图与收尾；cancel 分层；状态机零副作用', () => {
     const state = createBuyMenu(ITEMS)
+    const catalogBefore = structuredClone(ITEMS)
     state.list.cursor = 1
     shopSelectItem(state, ITEMS, 500)
     shopMoveUp(state) // confirm 期 toggle → yes
@@ -44,8 +45,7 @@ describe('G06 shopSelectItem 恰等门与意图收尾', () => {
     expect(shopCancel(state)).toBe('back')
     expect(shopCancel(state)).toBe('close')
     // 纯状态机：多次进出 confirm 后 items 目录与列表内容不变
-    const snapshot = structuredClone(ITEMS)
-    expect(structuredClone(ITEMS)).toEqual(snapshot)
+    expect(ITEMS).toEqual(catalogBefore)
     expect(state.list.items.map((entry) => entry.rightText)).toEqual(['150', '200'])
   })
 })

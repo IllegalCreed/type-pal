@@ -1,0 +1,28 @@
+CODE-QUALITY-85 source / caller / oracle index
+
+Whitelist (full reads):
+- packages/game/src/core/menu/shop-menu.ts:1-103
+- packages/game/src/core/menu/shop-menu.test.ts:1-187
+- packages/game/src/core/menu/shop-menu.boundaries.test.ts:1-50
+- packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts:1-59
+
+Production callers and ownership:
+- packages/game/src/core/menu/menu-driver.ts:301-418 dispatches shop-buy/shop-sell, menu input, confirm/cancel, transaction application, sell-grid refresh and live iCurInvMenuItem.
+- packages/game/src/shell/bootstrap.ts:1236-1249 injects ShopMenuHandler, resolves storeNum to stores[storeNum].items for buy, and creates sell menu from live GameState/catalog.
+- packages/game/src/core/event-system.ts:204-209 declares 0x0026/0x0027; 2192-2205 blocks event cursor at waiting=shop, increments ip, and resumes after modal close.
+- packages/game/src/core/game-state.ts:55-78 owns ActiveMenuKind/menuStack; dwCash/inventory are live transaction state.
+- packages/game/src/present/menu/draw-shop.ts:1-218 is adjacent read-only renderer; ownedCount includes inventory plus party equipment and buy/sell values follow SDLPal coordinates/price rules.
+- packages/game/src/core/menu/sell-menu.ts:1-147 is adjacent sell picker lifecycle; it delegates item filter/grid navigation to the already audited inventory menu and refreshes after each sale.
+- packages/game/src/present/__tests__/grok-present/p04-shop.test.ts and draw-shop leaves/shop-preview pixel tests are adjacent render/oracle evidence.
+
+Primary source:
+- reference/sdlpal/uigame.c:1615-1707 PAL_BuyMenu: store item order, price gate, confirm default, one-item cash/inventory update, cursor loop.
+- reference/sdlpal/uigame.c:1709-1791 PAL_SellMenu_OnItemChange/PAL_SellMenu: cash/half-price display, sellable picker, confirm, AddItem(-1) success gate and cash credit.
+- reference/sdlpal/itemmenu.c:287-310 sellable + amount>amountInUse + amount>0 selection gate.
+- reference/sdlpal/play.c:289-320 consuming inventory updates are success-gated; adjacent lifecycle evidence only.
+
+Oracle / risk result:
+- Real GameState, menu-driver, event-system and bootstrap callers prove store resolution, modal waiting/resume, transaction ownership and live cash/inventory updates.
+- Targeted 11 files / 408 tests pass; existing event-system skip/goto/setObjectPos output is a deliberate negative-control oracle, not a new diagnostic.
+- No direct implementation defect found. Two low-discrimination test residues were removed: a dead touch import and a self-comparison of a fresh catalog clone; the boundary test now asserts the real catalog remains unchanged after state transitions.
+- No schema/save/migration/asset/public-interface or user-visible behavior change was made.

@@ -1,0 +1,25 @@
+CODE-QUALITY-85 full pnpm check
+command: pnpm check
+exit_code: 0
+
+Documentation/tool gates:
+- docs: PASS (all docs/tools checks; current final docs check after archive records 1257 Markdown / 6699 local links / 405 tasks / content22 SAVE12)
+- testing docs: PASS (0 issues)
+- phase/lore governance: PASS (184 documents)
+- content review: PASS (570 documents; {"content-reviewed":570})
+- coverage-tools: PASS
+- quality-tools: PASS
+- e2e-tools: PASS (395 tests)
+- script-governance: PASS (22 tests)
+
+Workspace checks (serial):
+- @type-pal/content: 149 files / 1498 tests; typecheck PASS
+- @type-pal/shared: 16 files / 131 tests; typecheck PASS
+- @type-pal/game: 314 files / 3550 tests; typecheck PASS
+- @type-pal/pal-extract: 71 files / 431 tests; typecheck PASS
+- @type-pal/reforge: 359 files / 8964 tests; typecheck PASS
+- @type-pal/editor: 631 files / 4951 tests; typecheck + author-check PASS
+- @type-pal/migrate: 96 files / 739 tests; typecheck PASS
+
+lint-zero:
+- 4010 files; 0 errors / 0 warnings / 0 infos; complete report
