@@ -2,7 +2,7 @@
  * TEST-GLM-PHASE1-LEAVES-3 L11（draw-player-status.ts）— 去重表：
  *  - draw-player-status.test（毒 row 三分支）→ 不重复
  *  - grok-present P05/P07（状态页背景+毒 extra、非空装备/立绘/经验/HP）→ 不重复
- *  - 新差异：runtimeOrBase 回退（runtime 0 → base PlayerRoles 值）、装备槽 itemId 不在
+ *  - 新差异：已初始化 runtime 的零值（不回退静态属性）、装备槽 itemId 不在
  *    catalog 跳过该槽（图标与名字都不画）、roles 缺 roleId / cursor 越界早退不崩。
  */
 import { describe, expect, it } from 'vitest'
@@ -16,7 +16,7 @@ import {
   yellowDigit,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
 import type { GameState } from '../../core/game-state.js'
-import { createInitialGameState } from '../../core/game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'
 import type { PlayerStatusState } from '../../core/menu/player-status.js'
 import { createPlayerStatus } from '../../core/menu/player-status.js'
 import { drawPlayerStatus } from './draw-player-status.js'
@@ -26,13 +26,19 @@ const glyphs = fixtureGlyphs
 function gsForStatus(): GameState {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.partyMembers = [0]
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, makeRoles())
   return gs
 }
 
 describe('L11 drawPlayerStatus 剩余分支', () => {
-  it('runtimeOrBase：runtime 0 → 回退 base PlayerRoles 值（level/hp/maxHP/mp/maxMP）', () => {
+  it('runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）', () => {
     const gs = gsForStatus()
-    // runtime 全 0（工厂初始）→ base role 0: level 1/hp 99/maxHP 100/mp 99/maxMP 40
+    // 已走 hydrate，再由运行时变更为 0，不能与未初始化 fixture 混淆。
+    gs.PlayerRolesRuntime.rgwHP[0] = 0
+    gs.PlayerRolesRuntime.rgwMP[0] = 0
+    gs.PlayerRolesRuntime.rgwLevel[0] = 0
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 0
+    gs.PlayerRolesRuntime.rgwMaxMP[0] = 0
     const roles = makeRoles()
     const state: PlayerStatusState = createPlayerStatus([0])
     const fb = newFb()
@@ -45,14 +51,11 @@ describe('L11 drawPlayerStatus 剩余分支', () => {
       uiSpriteFrames: makeUiFrames(),
       glyphs,
     })
-    // hp 99 → 黄 9/9 at ROLE_CUR_HP (42,56) 右对齐 4 位
-    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(9))
-    expect(pixel(fb, rightDigitX(42, 4, 1), 56)).toBe(yellowDigit(9))
-    // maxHP 100 → 蓝 at (63,61)：个位 0、十位 0、百位 1
+    expect(pixel(fb, rightDigitX(42, 4, 0), 56)).toBe(yellowDigit(0))
     expect(pixel(fb, rightDigitX(63, 4, 0), 61)).toBe(0xd0)
-    expect(pixel(fb, rightDigitX(63, 4, 2), 61)).toBe(0xd1)
-    // level 1 → 黄 at (54,35) 2 位
-    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(1))
+    expect(pixel(fb, rightDigitX(42, 4, 0), 78)).toBe(yellowDigit(0))
+    expect(pixel(fb, rightDigitX(63, 4, 0), 83)).toBe(0xd0)
+    expect(pixel(fb, rightDigitX(54, 2, 0), 35)).toBe(yellowDigit(0))
   })
 
   it('runtime 有值优先于 base：hp 41 画 41 非 base 99', () => {

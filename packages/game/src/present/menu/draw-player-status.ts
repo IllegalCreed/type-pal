@@ -117,28 +117,6 @@ const MAX_PLAYER_EQUIPMENTS = 6 // sdlpal palcommon.h:63
 // sdlpal `PAL_GetPlayerXxxStrength(role) = PlayerRoles.rgwXxx[role] + Σ rgEquipmentEffect[i].rgwXxx[role]`
 // C5(2026-05-28)接通真 getter:见 [core/equip-effect.ts](../../core/equip-effect.ts)。
 
-function runtimeOrBase(
-  gs: GameState,
-  roleId: number,
-  playerRoles: PlayerRoles,
-  field: 'level' | 'hp' | 'maxHP' | 'mp' | 'maxMP',
-): number {
-  const runtime = gs.PlayerRolesRuntime
-  const base = playerRoles.roles[roleId]
-  switch (field) {
-    case 'level':
-      return runtime.rgwLevel[roleId] || base?.level || 0
-    case 'hp':
-      return runtime.rgwHP[roleId] || base?.hp || 0
-    case 'maxHP':
-      return runtime.rgwMaxHP[roleId] || base?.maxHP || 0
-    case 'mp':
-      return runtime.rgwMP[roleId] || base?.mp || 0
-    case 'maxMP':
-      return runtime.rgwMaxMP[roleId] || base?.maxMP || 0
-  }
-}
-
 // ── sprite blit(opaque mask)— 与 draw-inventory 同模式 ─────────────────────
 function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
   for (let y = 0; y < frame.height; y++) {
@@ -286,14 +264,14 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
 
   // 8. 7 vital 数字(sdlpal uigame.c:1216-1229)
   const curExp = gs.Exp.rgPrimaryExp[roleId]?.wExp ?? 0
-  const level = runtimeOrBase(gs, roleId, playerRoles, 'level')
+  const level = gs.PlayerRolesRuntime.rgwLevel[roleId] ?? 0
   const nextExp = levelUpExp?.[level] ?? 0
   drawNumber(fb, curExp, 5, ROLE_CURR_EXP, 'yellow', 'right', uiSpriteFrames)
   drawNumber(fb, nextExp, 5, ROLE_NEXT_EXP, 'cyan', 'right', uiSpriteFrames)
   drawNumber(fb, level, 2, ROLE_LEVEL, 'yellow', 'right', uiSpriteFrames)
   drawNumber(
     fb,
-    runtimeOrBase(gs, roleId, playerRoles, 'hp'),
+    gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0,
     4,
     ROLE_CUR_HP,
     'yellow',
@@ -302,7 +280,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   )
   drawNumber(
     fb,
-    runtimeOrBase(gs, roleId, playerRoles, 'maxHP'),
+    gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0,
     4,
     ROLE_MAX_HP,
     'blue',
@@ -311,7 +289,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   )
   drawNumber(
     fb,
-    runtimeOrBase(gs, roleId, playerRoles, 'mp'),
+    gs.PlayerRolesRuntime.rgwMP[roleId] ?? 0,
     4,
     ROLE_CUR_MP,
     'yellow',
@@ -320,7 +298,7 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   )
   drawNumber(
     fb,
-    runtimeOrBase(gs, roleId, playerRoles, 'maxMP'),
+    gs.PlayerRolesRuntime.rgwMaxMP[roleId] ?? 0,
     4,
     ROLE_MAX_MP,
     'blue',
@@ -377,14 +355,16 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
     uiSpriteFrames,
   )
 
-  // 10. poisons(sdlpal uigame.c:1245-1253):遍历 rgPoisonStatus[slot][role] 的 wPoisonID,
+  // 10. poisons(sdlpal uigame.c:1245-1253):遍历 rgPoisonStatus[poisonSlot][partySlot] 的 wPoisonID。
+  //   与 SDLPal iCurrent 相同，用 cursor 读取；重复 roleId 不能回查首个同角色槽。
   //   仅 poison.wPoisonLevel <= 3 显示(诅咒类毒;高级/装备毒哨兵不显)。名 = getWord(wPoisonID),
   //   色 = poison.wColor + 10,fShadow=TRUE。位置 RolePoisonNames[j](185, 58+j*18,j 仅显示项递增;
   //   末两项重叠 184,sdlpal palcfg.c:370 默认布局)。j 是显示计数,跨空 slot 不递增。
   const MAX_POISONS = 16
+  const partySlot = state.cursor
   let j = 0
-  for (let slot = 0; slot < MAX_POISONS && j < 10; slot++) {
-    const wPoisonID = gs.rgPoisonStatus[`${slot}_${roleId}`]?.wPoisonID ?? 0
+  for (let slot = 0; partySlot >= 0 && slot < MAX_POISONS && j < 10; slot++) {
+    const wPoisonID = gs.rgPoisonStatus[`${slot}_${partySlot}`]?.wPoisonID ?? 0
     if (wPoisonID === 0) continue
     const pd = objectPoisons?.get(wPoisonID)
     if (!pd || pd.level > 3) continue // 无数据 / 高级毒(level>3)不显

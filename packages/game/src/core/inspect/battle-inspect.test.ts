@@ -3,7 +3,8 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type { GameState } from '../game-state.js'
+import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
+import { createInitialGameState, type GameState } from '../game-state.js'
 import {
   collectEnemyStatusReadouts,
   collectFieldInfoReadout,
@@ -81,6 +82,17 @@ const exploreGs = (): GameState =>
 const roles: PlayerRoles = { roles: [{ id: 0, _name: '李逍遥' }] } as never
 
 describe('battle-inspect(从 dev-panel 抽出,语义不变)', () => {
+  it('重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [4, 5, 4]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 0 }
+    const rows = collectPartyStatusReadouts(gs, {
+      roles: Array.from({ length: 6 }, (_, id) => makeRole(id)),
+    })
+    expect(rows.map((row) => row.statuses)).toEqual([[{ name: '毒#552', kind: 'poison' }], [], []])
+    expect(rows.map((row) => row.entries)).toEqual([['毒槽0:#552'], [], []])
+  })
+
   it('collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null', () => {
     const f = collectFieldInfoReadout(battleGs())
     expect(f?.fieldId).toBe(7)

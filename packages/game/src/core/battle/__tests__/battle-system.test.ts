@@ -33,10 +33,15 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { FPS_BATTLE } from '@type-pal/shared'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../../command-bus.js'
-import { setGlobalEvents } from '../../event-system.js'
-import { createInitialGameState, type GameState } from '../../game-state.js'
+import { runPlayerPoisonEntrySync, setGlobalEvents, setObjectPoisons } from '../../event-system.js'
+import {
+  createInitialGameState,
+  type GameState,
+  hydratePlayerRolesRuntime,
+  projectRuntimeToBattleRoles,
+} from '../../game-state.js'
 import { tickMenu } from '../../menu/menu-mode.js'
 import { tickByMode } from '../../mode.js'
 import { createSeedableRng } from '../../rng.js'
@@ -299,6 +304,11 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     expect(atkGrowth!.statLabelWord).toBe(51) // 武术
     expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBeGreaterThan(50) // 实际涨了
   })
+})
+
+afterEach(() => {
+  setGlobalEvents([])
+  setObjectPoisons([])
 })
 
 // ============================================================================
@@ -648,6 +658,60 @@ describe('startBattle', () => {
     expect(gs.battleState?.phase).toBe('preBattle')
     expect(gs.battleState?.players).toHaveLength(1)
     expect(gs.battleState?.enemies).toHaveLength(1)
+  })
+
+  // 原版合法重复角色队伍 [4,5,4] 共享 role HP，但 poison tick 按实际队伍槽遍历。
+  it.each([{ party: [4, 1] }, { party: [4, 5, 4] }])('战前毒进入战斗后按队伍槽发作一次：$party', ({
+    party,
+  }) => {
+    const staticRoles = { roles: Array.from({ length: 6 }, (_, id) => makeRole({ id })) }
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = party
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, staticRoles)
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x29, operands: [0, 552, 0] },
+      { op: 'end' },
+      { op: 'end', advance: true },
+      { op: 'raw', opcode: 0x1b, operands: [0, 0xfff6, 0] },
+      { op: 'end' },
+    ]
+    const objectPoisons = [{ id: 552, level: 1, color: 0, playerScript: 3, enemyScript: 0 }]
+    setGlobalEvents(commands)
+    setObjectPoisons(objectPoisons)
+    runPlayerPoisonEntrySync(gs, 4, 1)
+    expect(gs.rgPoisonStatus).toEqual({ '0_0': { wPoisonID: 552, wPoisonScript: 4 } })
+    const playerRoles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles)
+    startBattle({
+      gs,
+      enemyTeamId: 0,
+      battleFieldId: 0,
+      isBoss: false,
+      enemies: [makeEnemy({ id: 100 })],
+      enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      battleFields: [
+        { id: 0, screenWave: 0, magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 } },
+      ],
+      playerRoles,
+      items: [],
+      spells: [],
+      magics: [],
+      objectMagics: [],
+      objectPoisons,
+      commands,
+    })
+    const state = gs.battleState!
+    const input: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
+    const bus = createCommandBus()
+    tickBattle(gs, input, bus)
+    state.enemies[0]!.status.sleep = 3 // 合法睡眠状态，隔离敌攻伤害。
+    party.forEach((_, slot) => state.pendingActions.set(slot, { type: 'defend', target: -1 }))
+    for (let i = 0; i < 100 && state.phase !== 'postAction'; i++) tickBattle(gs, input, bus)
+    expect(state.phase).toBe('postAction')
+    tickBattle(gs, input, bus)
+    expect(playerRoles.roles[4]!.hp).toBe(190)
+    expect(playerRoles.roles[party[1]!]!.hp).toBe(200)
+    expect(gs.rgPoisonStatus).toEqual({ '0_0': { wPoisonID: 552, wPoisonScript: 4 } })
   })
 
   it('0xFFFF 不占槽,0 保留为 defeated 空槽(DH1,battle.c:1604/1716)', () => {

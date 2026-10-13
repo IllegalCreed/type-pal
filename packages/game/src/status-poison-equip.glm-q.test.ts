@@ -37,11 +37,15 @@ function effectRoles(fields: Partial<EquipmentEffectRoles>): EquipmentEffectRole
 }
 
 function gs(): GameState {
-  return createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  const state = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  state.partyMembers = [0]
+  return state
 }
 
 function seed(gs0: GameState, roleId: number, slot: number, poisonId: number, script = 0): void {
-  gs0.rgPoisonStatus[`${slot}_${roleId}`] = { wPoisonID: poisonId, wPoisonScript: script }
+  const partySlot = gs0.partyMembers.indexOf(roleId)
+  if (partySlot < 0) throw new Error(`test fixture role ${roleId} is not in party`)
+  gs0.rgPoisonStatus[`${slot}_${partySlot}`] = { wPoisonID: poisonId, wPoisonScript: script }
 }
 
 describe('Q06 isPlayerPoisoned', () => {

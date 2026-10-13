@@ -68,6 +68,7 @@ import {
   collectFieldInfoReadout,
   collectPartyStatusReadouts,
 } from '../core/inspect/battle-inspect.js'
+import { partySlotForRole } from '../core/player-poison-state.js'
 import { loadScene } from '../core/scene-system.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { getMapName, hasMapName } from '../tools/map-names.js'
@@ -1061,11 +1062,12 @@ function openPicker(deps: DevPanelDeps): void {
           console.warn('[dev] 战斗状态调试:无 player 0')
           return
         }
+        const partySlot = partySlotForRole(deps.gs, p0.roleId)
         if (key === 'poison') {
-          if (role0 !== undefined)
-            deps.gs.rgPoisonStatus[`0_${role0}`] = { wPoisonID: 5, wPoisonScript: 0 }
+          if (partySlot >= 0)
+            deps.gs.rgPoisonStatus[`0_${partySlot}`] = { wPoisonID: 5, wPoisonScript: 0 }
           console.log(
-            `[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${role0}]=id5;打完战斗应被清(D21)`,
+            `[dev] P0(role ${role0})中毒 rgPoisonStatus[0_${partySlot}]=id5;打完战斗应被清(D21)`,
           )
         } else if (key === 'clear') {
           const s = p0.status as unknown as Record<string, number>
@@ -1082,8 +1084,9 @@ function openPicker(deps: DevPanelDeps): void {
             'dualAttack',
           ])
             s[k] = 0
-          if (role0 !== undefined)
-            for (let slot = 0; slot < 16; slot++) delete deps.gs.rgPoisonStatus[`${slot}_${role0}`]
+          if (partySlot >= 0)
+            for (let slot = 0; slot < 16; slot++)
+              delete deps.gs.rgPoisonStatus[`${slot}_${partySlot}`]
           console.log('[dev] P0 全部状态/毒已清')
         } else {
           ;(p0.status as unknown as Record<string, number>)[key] = 5
@@ -1464,6 +1467,7 @@ function openPicker(deps: DevPanelDeps): void {
       if (!isLeader) {
         card.addEventListener('click', () => {
           deps.gs.partyMembers = togglePartyMembership(deps.gs.partyMembers, roleId)
+          deps.gs.rgPoisonStatus = {} // 队伍重组后毒槽不继承给新成员（SDLPal 0x75）。
           // Dev 切队后同步当前队首 runtime sprite;present 会按 partyMembers[0] 的 rgwSpriteNum 渲染。
           const leader = deps.gs.partyMembers[0]
           if (leader !== undefined) {
@@ -2050,6 +2054,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
 
   // 2. 设 partyMembers + inventory(浅拷贝 inventory 防 fixture 数据被 mutate 影响下次)
   deps.gs.partyMembers = [...fixture.partyMembers]
+  deps.gs.rgPoisonStatus = {} // fixture 重建队伍，不能继承上一队的毒槽。
   deps.gs.inventory = (fixture.inventory ?? []).map((i) => ({ ...i }))
 
   // 2.5 边界同步:把(override 后的)静态 roles hydrate 进 gs.PlayerRolesRuntime —— 战斗经 projection

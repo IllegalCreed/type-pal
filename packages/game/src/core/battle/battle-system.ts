@@ -3027,12 +3027,14 @@ function tickPostAction(
   const prePoisonEnemyHp = state.enemies.map((e) => e.e.health)
   // 玩家毒 tick —— sdlpal fight.c:1657-1697(PAL_BattleStartFrame,action queue 耗尽时):每队员每毒槽
   //   跑 wPlayerScript(target=该队员;毒脚本 0x1B 负 delta 扣血,0x1B battle handler 自带活人 gate)。
-  //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${roleId}`](持久,16 槽/role)。sdlpal 先玩家后敌。
+  //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${partySlot}`](持久,16 槽/party slot)。sdlpal 先玩家后敌。
   // battleDecidedByCombat → 跳过毒 tick(sdlpal 已 Won/Lost 则 PostActionCheck 前 return,不跑回合末毒)。
   if (!battleDecidedByCombat) {
-    state.players.forEach((player, idx) => {
+    state.players.forEach((_, idx) => {
+      // fight.c:1616：遍历实际队伍槽；重复 roleId 不重复执行首槽的毒。
+      const partySlot = idx
       for (let slot = 0; slot < 16; slot++) {
-        const ps = gs.rgPoisonStatus[`${slot}_${player.roleId}`]
+        const ps = gs.rgPoisonStatus[`${slot}_${partySlot}`]
         if (ps && ps.wPoisonID !== 0 && ps.wPoisonScript > 0) {
           const next = (runPoisonScript as (o: RunScriptOptions) => number)({
             commands: res.commands,

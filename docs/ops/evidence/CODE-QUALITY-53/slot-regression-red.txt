@@ -1,0 +1,92 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+ ❯ src/core/inspect/battle-inspect.test.ts (6 tests | 1 failed | 5 skipped) 7ms
+     × 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽 6ms
+ ❯ src/present/menu/draw-player-status.test.ts (5 tests | 1 failed | 4 skipped) 7ms
+     × 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽 7ms
+ ❯ src/core/battle/__tests__/battle-system.test.ts (186 tests | 1 failed | 184 skipped) 14ms
+     × 战前毒进入战斗后按队伍槽发作一次：[ 4, 5, 4 ] 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/present/menu/draw-player-status.test.ts > drawPlayerStatus 毒 row(uigame.c:1245-1253) > 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽
+AssertionError: expected [ '蛊毒' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "蛊毒",
++ ]
+
+ ❯ src/present/menu/draw-player-status.test.ts:126:103
+    124|       objectPoisons: new Map([[100, { level: 2, color: 30 }]]),
+    125|     })
+    126|     expect(spy.mock.calls.filter((call) => call[2] === 185 && call[3] …
+       |                                                                                                       ^
+    127|   })
+    128|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/core/inspect/battle-inspect.test.ts > battle-inspect(从 dev-panel 抽出,语义不变) > 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽
+AssertionError: expected [ [ { name: '毒#552', …(1) } ], …(2) ] to deeply equal [ [ { name: '毒#552', …(1) } ], [], [] ]
+
+- Expected
++ Received
+
+@@ -4,7 +4,12 @@
+        "kind": "poison",
+        "name": "毒#552",
+      },
+    ],
+    [],
+-   [],
++   [
++     {
++       "kind": "poison",
++       "name": "毒#552",
++     },
++   ],
+  ]
+
+ ❯ src/core/inspect/battle-inspect.test.ts:90:45
+     88|     gs.rgPoisonStatus['0_0'] = { wPoisonID: 552, wPoisonScript: 0 }
+     89|     const rows = collectPartyStatusReadouts(gs, { roles: Array.from({ …
+     90|     expect(rows.map((row) => row.statuses)).toEqual([[{ name: '毒#552',…
+       |                                             ^
+     91|     expect(rows.map((row) => row.entries)).toEqual([['毒槽0:#552'], [], …
+     92|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/core/battle/__tests__/battle-system.test.ts > startBattle > 战前毒进入战斗后按队伍槽发作一次：[ 4, 5, 4 ]
+AssertionError: expected 180 to be 190 // Object.is equality
+
+- Expected
++ Received
+
+- 190
++ 180
+
+ ❯ src/core/battle/__tests__/battle-system.test.ts:694:38
+    692|     expect(state.phase).toBe('postAction')
+    693|     tickBattle(gs, input, bus)
+    694|     expect(playerRoles.roles[4]!.hp).toBe(190)
+       |                                      ^
+    695|     expect(playerRoles.roles[party[1]!]!.hp).toBe(200)
+    696|     expect(gs.rgPoisonStatus).toEqual({ '0_0': { wPoisonID: 552, wPois…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  3 failed | 1 passed | 193 skipped (197)
+   Start at  11:26:58
+   Duration  1.16s (transform 902ms, setup 102ms, import 1.01s, tests 29ms, environment 1.68s)
+
+undefined
+/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/battle/__tests__/battle-system.test.ts src/present/menu/draw-player-status.test.ts src/core/inspect/battle-inspect.test.ts -t 战前毒|重复角色

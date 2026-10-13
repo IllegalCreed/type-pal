@@ -1779,7 +1779,7 @@
           "lines": "12-19",
           "anchor": "export function setObjectPoisons",
           "role": "owner",
-          "sha256": "074b4318ac0b92d6e9a5621e23ea84303a335056b83a60803e6690a690de214c"
+          "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c"
         },
         {
           "path": "packages/game/src/core/scene-identity.ts",
@@ -1800,7 +1800,7 @@
           "lines": "26-45",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "6a514f7752e11dc9fabe9828c954688803060e041ea2898df1753dfc374423ed"
+          "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",

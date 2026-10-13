@@ -122,7 +122,7 @@ describe('P05 菜单栈转发', () => {
     const gs = makeGs()
     const roles = makeRoles()
     gs.partyMembers = [4, 1]
-    gs.rgPoisonStatus['0_4'] = { wPoisonID: 77, wPoisonScript: 1 }
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }
     const menu = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: menu })
     const frames = makeUiFrames()

@@ -101,7 +101,7 @@ function persistentStatusValue(gs: GameState, roleId: number, def: DevStatusDef)
 
 function collectPoisonStatusEntries(
   gs: GameState,
-  roleId: number,
+  partySlot: number,
   objectPoisons: readonly ObjectPoisonView[],
   items: readonly Item[],
 ): string[] {
@@ -109,7 +109,7 @@ function collectPoisonStatusEntries(
   const itemNamesById = new Map(items.map((item) => [item.id, item._name ?? '']))
   const entries: string[] = []
   for (let slot = 0; slot < 16; slot++) {
-    const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
+    const ps = gs.rgPoisonStatus[`${slot}_${partySlot}`]
     if (!ps || ps.wPoisonID === 0) continue
     const poison = poisonsById.get(ps.wPoisonID)
     const name = itemNamesById.get(ps.wPoisonID)
@@ -122,11 +122,11 @@ function collectPoisonStatusEntries(
 }
 
 /** 工具面板用:中毒结构化标签(只毒名)。 */
-function collectPoisonTags(gs: GameState, roleId: number, items: readonly Item[]): StatusTag[] {
+function collectPoisonTags(gs: GameState, partySlot: number, items: readonly Item[]): StatusTag[] {
   const itemNamesById = new Map(items.map((item) => [item.id, item._name ?? '']))
   const tags: StatusTag[] = []
   for (let slot = 0; slot < 16; slot++) {
-    const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
+    const ps = gs.rgPoisonStatus[`${slot}_${partySlot}`]
     if (!ps || ps.wPoisonID === 0) continue
     tags.push({ name: itemNamesById.get(ps.wPoisonID) || `毒#${ps.wPoisonID}`, kind: 'poison' })
   }
@@ -157,8 +157,8 @@ export function collectPartyStatusReadouts(
         statuses.push({ name: def.cn, kind: def.kind, rounds })
       }
     }
-    entries.push(...collectPoisonStatusEntries(gs, roleId, objectPoisons, items))
-    statuses.push(...collectPoisonTags(gs, roleId, items))
+    entries.push(...collectPoisonStatusEntries(gs, slot, objectPoisons, items))
+    statuses.push(...collectPoisonTags(gs, slot, items))
     const rt = gs.PlayerRolesRuntime
     const level = rt.rgwLevel[roleId] ?? 0
     return {

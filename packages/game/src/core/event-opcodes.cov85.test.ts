@@ -10,8 +10,8 @@
 import type { Command } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { makeBattle } from '../__tests__/coverage85-glm-game/harness.js'
-import { runScript, setMapReloader } from './event-system.js'
-import type { GameState, NpcState } from './game-state.js'
+import { runPlayerPoisonEntrySync, runScript, setMapReloader } from './event-system.js'
+import { createInitialGameState, type GameState, type NpcState } from './game-state.js'
 import { setGlobalEvents } from './script-catalog.js'
 
 function freshGs(): GameState {
@@ -104,11 +104,15 @@ describe('cov85 世界/队伍 opcode(3550+,4436-4446)', () => {
     expect(gs.party.y).toBe(3 * 16 + 1 * 8)
   })
 
-  it('0x75 SetParty:partyMembers = op0..op2 各 -1(0xffff 槽跳过)', () => {
-    const gs = freshGs()
-    gs.partyMembers = [0]
-    run1(gs, 0x75, [1, 2, 0])
-    expect(gs.partyMembers).toEqual([0, 1])
+  it('0x75 SetParty:partyMembers = op0..op2 各 -1(0 槽跳过),并清空旧队伍毒槽', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [4, 1]
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }
+    gs.rgPoisonStatus['0_1'] = { wPoisonID: 88, wPoisonScript: 2 }
+    setGlobalEvents([{ op: 'raw', opcode: 0x75, operands: [2, 3, 0] }, { op: 'end' }])
+    runPlayerPoisonEntrySync(gs, 4, 0)
+    expect(gs.partyMembers).toEqual([1, 2])
+    expect(gs.rgPoisonStatus).toEqual({})
   })
 
   it('0x71 WaveScreen:wScreenWave/sWaveProgression 写入', () => {

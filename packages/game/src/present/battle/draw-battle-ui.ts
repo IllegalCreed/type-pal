@@ -39,6 +39,7 @@ import {
 } from '../../core/menu/inventory-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
+import { partySlotForRole } from '../../core/player-poison-state.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
@@ -369,9 +370,10 @@ export function computePlayerFaceColor(
 ): number {
   let bPoisonColor = 0xff
   let maxLevel = 0
+  const partySlot = partySlotForRole(gs, roleId)
   if (objectPoisons) {
     for (let slot = 0; slot < 16; slot++) {
-      const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
+      const ps = partySlot >= 0 ? gs.rgPoisonStatus[`${slot}_${partySlot}`] : undefined
       if (!ps || ps.wPoisonID === 0) continue
       const pd = objectPoisons.get(ps.wPoisonID)
       if (pd && pd.level <= 3 && pd.level >= maxLevel) {

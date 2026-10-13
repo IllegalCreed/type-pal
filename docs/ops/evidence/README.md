@@ -6,6 +6,7 @@
 上级：[协作与工程维护](../README.md)。
 
 ## 当前证据
+- [CODE-QUALITY-53 状态页 runtime-zero 与 party-slot poison](CODE-QUALITY-53/README.md)（候选 build：runtime 0 保留、非顺序队伍毒映射反例与换队清表；待全仓质量门与 Codex 独立收口）。
 - [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
 - [ControlForm 残余合同](../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（1 合同、2 针反控，已收口）。

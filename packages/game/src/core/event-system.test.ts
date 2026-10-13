@@ -4612,6 +4612,7 @@ describe('A3 opcode:0x75 setParty / 0x90 setObjectScript', () => {
       { id: 6, level: 3, color: 128, playerScript: 2, enemyScript: 0 },
     ])
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
     gs.rgPoisonStatus = {
       '0_0': { wPoisonID: 5, wPoisonScript: 1 },
       '1_0': { wPoisonID: 6, wPoisonScript: 2 },

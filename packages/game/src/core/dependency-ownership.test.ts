@@ -123,7 +123,7 @@ describe('D1 shared-state ownership after dependency split', () => {
     gs.PlayerRolesRuntime.rgwPoisonResistance[1] = 0
     equipEntry.runEquipScript(gs, 520, 1)
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(70)
-    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
   })
 
   it('equipment removal sees poison definitions registered at the original event entrypoint', () => {
@@ -132,6 +132,7 @@ describe('D1 shared-state ownership after dependency split', () => {
       { id: 101, level: 2, color: 0, playerScript: 0, enemyScript: 0 },
     ])
     const gs = fresh()
+    gs.partyMembers = [0, 1]
     poison.addPoisonForPlayer(gs, 0, 100)
     poison.addPoisonForPlayer(gs, 0, 101)
     poison.addPoisonForPlayer(gs, 1, 100)
