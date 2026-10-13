@@ -11,6 +11,7 @@
 - [CODE-QUALITY-81 Dev Panel picker 生命周期](CODE-QUALITY-81/README.md)（observer 断开、列表 generation 与缩略图 rejection 反例；全量 check、ratchet、protected fast、lint、ledger 已通过，新增测试文件可收口）。
 - [CODE-QUALITY-82 DATA.MKF 独立诊断脚本](CODE-QUALITY-82/README.md)（相对 checkout 路径、MKF 边界 fail-closed 与真实资源输出等价；已归档 done）。
 - [CODE-QUALITY-83 game menu mode / stack](CODE-QUALITY-83/README.md)（menu-mode/menu-stack/menu-mode.test 逐文件核验；全套质量门通过，三条账本记录已验证并归档）。
+- [CODE-QUALITY-84 game inventory menu state / target](CODE-QUALITY-84/README.md)（四文件逐文件核验完成；无实现改动，全套质量门通过，四条账本记录已验证并归档）。
 - [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
 - [ControlForm 残余合同](../tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/)（1 合同、2 针反控，已收口）。
