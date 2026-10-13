@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+      "afterSha256": "cc6d79bf771ed4823c3204a5fc6483886f6fb9f4b2023da0c2394a0ad49ef8e0",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+        "implementationSha": "cc6d79bf771ed4823c3204a5fc6483886f6fb9f4b2023da0c2394a0ad49ef8e0",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -867,6 +867,15 @@
             "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-53-product-decision-navigation",
+            "previousAfterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+            "afterSha256": "cc6d79bf771ed4823c3204a5fc6483886f6fb9f4b2023da0c2394a0ad49ef8e0",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -895,12 +904,12 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+        "afterSha256": "cc6d79bf771ed4823c3204a5fc6483886f6fb9f4b2023da0c2394a0ad49ef8e0",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "8249cd4436e39283682a30d8c16df6d77fb9cd377d59bcce2891798c3a069a15",
+          "sha256": "cc6d79bf771ed4823c3204a5fc6483886f6fb9f4b2023da0c2394a0ad49ef8e0",
           "lineCount": 23,
-          "scope": "CODE-QUALITY-78 AVI player closeout navigation update",
+          "scope": "CODE-QUALITY-53 product decision navigation update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1158,6 +1167,13 @@
           "revision": "working-tree",
           "date": "2026-10-13",
           "action": "code-quality-78-avi-player-closeout-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-53-product-decision-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }
@@ -2024,7 +2040,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+      "afterSha256": "9f71ece623c4d6a303e1b08f19cabbc3db560166932646f4fad46e9bb4b4ad68",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2060,7 +2076,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+        "implementationSha": "9f71ece623c4d6a303e1b08f19cabbc3db560166932646f4fad46e9bb4b4ad68",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2368,6 +2384,15 @@
             "afterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
             "evidence": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
             "notRun": ["runtime", "E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-13",
+            "action": "code-quality-53-product-decision-navigation",
+            "previousAfterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+            "afterSha256": "9f71ece623c4d6a303e1b08f19cabbc3db560166932646f4fad46e9bb4b4ad68",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+            "notRun": ["runtime", "E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2400,12 +2425,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+        "afterSha256": "9f71ece623c4d6a303e1b08f19cabbc3db560166932646f4fad46e9bb4b4ad68",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "e988d6af3765591d5158843498367963c43195252f46dc3fc047cbc0cde8003f",
+          "sha256": "9f71ece623c4d6a303e1b08f19cabbc3db560166932646f4fad46e9bb4b4ad68",
           "lineCount": 421,
-          "scope": "CODE-QUALITY-78 AVI player closeout navigation update",
+          "scope": "CODE-QUALITY-53 product decision navigation update",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2706,6 +2731,13 @@
           "revision": "working-tree",
           "date": "2026-10-13",
           "action": "code-quality-78-avi-player-closeout-navigation",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "date": "2026-10-13",
+          "action": "code-quality-53-product-decision-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         }

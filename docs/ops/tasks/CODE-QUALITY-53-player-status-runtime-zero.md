@@ -1,6 +1,6 @@
 # CODE-QUALITY-53 — game player status runtime-zero ownership conflict
 
-Status: blocked
+Status: build
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -28,10 +28,10 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
   - 第一阶段当前实现：`draw-player-status.ts:120-137` 使用 `runtime.value || base.value`；`core/game-state.ts:1385-1425` 明确 hydrate runtime；`bootstrap.ts:1642-1655` normalize 读档 runtime 后进入菜单。
   - 当前测试 oracle：`draw-player-status.glm-phase1-leaves.test.ts:33-57` 把全零 runtime 回退 base 当作合同；相邻 P07/pixel tests 主要覆盖已写 runtime 值。该 oracle 与 primary 的真实零语义存在潜在冲突。
   - 本任务目标：确认生产输入域是否总能证明 hydrated runtime；若能，改为保留 runtime 0 并调整 fixture/oracle；若需要未 hydrate 防御，则必须定义显式 readiness/ownership，而不是用 `||` 猜测。
-- 当前 `before` -> 候选 `after`：runtime HP/MP/level 为 0 时当前显示静态基线值；候选 A 保留现行 fallback（可能掩盖阵亡），候选 B 生产路径直接显示 runtime 0、未 hydrate 输入显式阻断/初始化。代表场景：角色实际 HP=0 打开状态页，或读档后 runtime 缺字段。
+- 当前 `before` -> 目标 `after`：runtime HP/MP/level 为 0 时当前显示静态基线值；用户已裁决保留真实 runtime 0，未 hydrate 输入必须显式处理，不得用 `||` 猜测。代表场景：角色实际 HP=0 打开状态页，必须显示 0。
 - 最强替代解释 / 什么观察会推翻前提：如果存在真实生产 caller 在 hydrate 前合法打开状态页，且产品明确要求显示静态基线，则需保留 fallback；但独立复核已确认 `battle-system.ts:1703-1711` 先把战斗结果写回 runtime、`game-state.ts:1777-1782` 可写入 HP=0，随后菜单可读取该 runtime；因此真实阵亡角色被当前页显示为静态正数，`||` 是直接 bug。剩余未知只在于如何显式表示未 hydrate fixture。
-- 额外高风险冲突：SDLPal 毒行按 party slot 读取 `rgPoisonStatus[i][iCurrent]`（`uigame.c:1245-1251`，role→party 映射见 `global.c:1483-1499`）；当前 TS 状态注释、`player-poison-state.ts` 与 `draw-player-status.ts:380-392` 都以 roleId 拼 key。非顺序 party（如 `[4,1]`）会让状态页读错毒记录；现有毒测试只覆盖 roleId=slot=0。不能只在绘制层改成 cursor index，需先确定全域 canonical key 或显式 mapper。
-- 是否主动偏离已核真值：待用户/工程裁决；裁决前不得改实现或弱化测试。
+- 额外高风险冲突：SDLPal 在施毒/解毒/战斗回合读取时把 roleId 映射到当前 party slot（`global.c:1483-1505,1543-1599`; `fight.c:1622-1628,4454-4461`），但 `script.c:2153-2188` 的 `0x75 SetPlayerParty` 会 `memset(rgPoisonStatus, 0)` 清空换队伍后的全部毒，因此毒不会因换员转移给另一个人。用户已裁决状态页按当前队伍位置读取，并保留该清空语义；实现必须提供统一 role→slot mapper，不能只改绘制层。
+- 是否主动偏离已核真值：no（用户明确批准真实 runtime 0、按 party slot 读取毒，换队伍清空毒表）。
 
 ## 上下文锚点
 
@@ -43,18 +43,18 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
 
 - 已完整读取实现、4 个范围测试、P07 caller、状态机、公共出口、hydrate/normalize 生命周期和 SDLPal primary source；未运行本批定向测试，不把既有全绿当作合同验收。
 - 独立只读复核实际运行相邻定向集：`draw-player-status.test.ts`、`draw-player-status.glm-phase1-leaves.test.ts`、`status-vitals-pixels.grok-r1.test.ts`、P07/P05、`menu-driver.test.ts`、`menu-driver.cov85.test.ts` 共 7 files / 99 tests 全绿；该结果只证明现有合同，不覆盖 runtime HP/MP=0 或非顺序 party poison 反例。
-- 用户/工程裁决前不得修改实现或测试；裁决后必须先写失败反例（runtime 0 的真实状态页）、再修复并运行定向、相邻 game、全仓 check、coverage ratchet、protected fast、lint-zero、docs/content review 和 ledger。不能直接把 `||` 改为 `??` 而不处理旧 fixture/未 hydrate 输入域。
+- 用户已裁决：①A 真实 runtime 0 保留；②A 按当前 party slot 读取，统一 role→slot mapper，换队伍按 SDLPal 清空毒表。必须先写失败反例（runtime 0 状态页、非顺序 party poison），再修复并运行定向、相邻 game、全仓 check、coverage ratchet、protected fast、lint-zero、docs/content review 和 ledger。不能直接把 `||` 改为 `??` 而不处理未 hydrate 输入域。
 - 该差异涉及第一阶段机制真值、runtime ownership 与用户可见数值，属于高风险边界；不触碰 schema/save，但可能需要显式 runtime readiness 约束。
-- 毒状态 key 冲突同样涉及公共状态 ownership/第一阶段机制真值，保持 blocked，不在本卡直接改绘制层或全局 poison map。
+- 毒状态 key 冲突的修复范围包含 role→party-slot mapper 与 `0x75` 清空语义；不把 mapper 限定在绘制层。
 
 ## 当前模式推进记录
 
-- Codex 范围/前提核验: counter（primary source 与真实 battle→runtime→menu caller 已证明 runtime 0 被错误 fallback）
+- Codex 范围/前提核验: verified（primary source、battle→runtime→menu caller、party-change poison clear 与用户裁决已对齐）
 - 受委派 Coding Owner / 隔离分支: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / `codex/code-quality-3y`
-- build 准入: blocked（用户/工程裁决前不得实现、不得标记 done）
+- build 准入: Codex build allowed（先写失败反例，再改白名单实现与 mapper；不改 schema/save）
 - 贡献者交付/自验: N/A
 - Codex 独立验收: pending
-- 用户产品裁决/体验验收: pending
+- 用户产品裁决/体验验收: 2026-10-13 用户批准：①A 保留真实 0；②A 按队伍位置（SDLPal 对齐）
 - done 准入: blocked
 
 ## 交接
