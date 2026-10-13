@@ -106,7 +106,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
   const makeMagic = (id: number, costMP: number): Magic => ({
     id,
     effect: 0,
-    type: 0 as unknown as Magic['type'],
+    type: 'normal',
     xOffset: 0,
     yOffset: 0,
     special: 0,
@@ -138,7 +138,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
   })
 
   const magics: Magic[] = [makeMagic(1, 5), makeMagic(2, 30)]
-  const spells: Spell[] = [makeSpell(1, 1, '小火球'), makeSpell(2, 2, '大火球')]
+  const spells: Spell[] = [makeSpell(300, 1, '小火球'), makeSpell(301, 2, '大火球')]
   const playerRoles: PlayerRoles = {
     roles: [
       {
@@ -167,10 +167,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
         criticalSound: 0,
         magicSound: 0,
         deathSound: 0,
-        magic: [
-          1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0,
-        ],
+        magic: [300, 301, ...Array<number>(30).fill(0)],
       },
     ],
   }
@@ -186,7 +183,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
     expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])
     expect(s.items[0]?.rightText).toBe('MP 5')
     expect(s.items[1]?.rightText).toBe('MP 30')
-    expect(getSelected(s)?.id).toBe(1)
+    expect(getSelected(s)?.id).toBe(300)
   })
 
   it('MP 不够 → disabled(灰色),初始 cursor 仍按默认项', () => {
@@ -231,7 +228,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
         {
           ...playerRoles.roles[0]!,
           // 习得顺序 [2,1]:先学大火球(id2)后学小火球(id1) —— rgwMagic 按习得追加,乱序
-          magic: [2, 1, ...Array<number>(30).fill(0)],
+          magic: [301, 300, ...Array<number>(30).fill(0)],
         },
       ],
     }
@@ -242,8 +239,8 @@ describe('M-w0.2 MagicSelectionMenu', () => {
       magics,
       currentMp: 100,
     })
-    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(1), 大火球(2)],不随习得序
-    expect(s.items.map((i) => i.id)).toEqual([1, 2])
+    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(300), 大火球(301)],不随习得序
+    expect(s.items.map((i) => i.id)).toEqual([300, 301])
     expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])
   })
 })

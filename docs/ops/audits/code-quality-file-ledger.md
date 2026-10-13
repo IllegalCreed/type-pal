@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,270。
-当前已闭合核验：360；已读但待审：9；尚未逐文件核验：2,901；合计未闭合：2,910。
+当前已闭合核验：364；已读但待审：9；尚未逐文件核验：2,897；合计未闭合：2,906。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -32,6 +32,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-13 CODE81 picker 生命周期：直接 caller 核实 `setupDevPanel`/scene picker/`bootstrap.renderSceneThumbnail` 边界；新增 observer disconnect、scene generation 与 rejection placeholder 合同。真实 scene-jumps 夹具的 5 个定向反例、game typecheck、Biome、check、ratchet、protected fast、lint-zero 与 ledger 均通过；仅新增生命周期测试文件完成逐文件关闭，复合 dev-panel 生产文件与既有 GLM 测试继续待核。
 2026-10-13 CODE82 DATA.MKF 诊断：独立读取 `audit-data-mkf.mjs`、shared MKF 与 extractor CLI/SDLPal chunk caller；修复机器绝对路径并补 header/offset/chunk fail-closed 校验，保留 standalone Node `.mjs` 入口。临时 checkout/cwd 反例与真实 DATA.MKF 输出等价证据通过；新增诊断测试文件与脚本进入已验证，其他 Q3/Q6 文件不受影响。
 2026-10-14 CODE87 in-game/system menu state：完整读取 `in-game-menu.ts` 及三份测试，核对 `menu-driver.ts:457-620`、`game-state.ts`、`draw-menu.ts`、P05/menu-driver/draw-menu caller，并对照 SDLPal `uigame.c`/`ui.c`；未发现直接缺陷。补强确认重置、WORD id mapping、词表隔离和开关初始化测试 oracle；7 个定向测试文件共 74 tests、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过。只关闭上述四条记录，当前 inventory 3,270：closed 360、review 9、pending 2,901。相邻 save/load/audio/quit 与 CODE53/57/79/80/81 保持原状态。
+2026-10-14 CODE88 magic-select state/catalog：完整读取 `magic-select.ts` 与三份测试（组合文件含 ItemSelect/MagicSelectionMenu），核对 `in-game-magic-menu.ts`、battle-system magic builder/input、draw-magic/draw-battle-ui、primitives、shared types、extractor/player-role parser callers，并对照 SDLPal `magicmenu.c`/`uigame.c`。object-id 排序、Spell→Magic 成本连接、MP 等值/不足、缺失关联、空槽、名称回退、disabled cursor 与输入隔离均有直接 oracle；未发现生产实现直接缺陷。修正测试中的非法最小 fixture 与旧局部 id 断言，3 针隔离反控均业务红→恢复绿且源哈希一致；定向/相邻 10 files / 261 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过，ratchet 基线未变。只关闭上述四条记录，当前 inventory 3,270：closed 364、review 9、pending 2,897。shared `tables.ts` 旧 Spell.id 注释与 parser 真值不一致，保留 pending，未修改公共类型；in-game-magic/battle/present 生产文件仍按整文件范围待后续治理。
 
 2026-10-14 CODE86 equip menu state/role swap：完整读取 `equip-menu.ts` 及三份测试，核对 `menu-driver.ts:753-852`、`equip-effect.ts`、`equipment-state.ts`、`game-state.ts`、`draw-equip.ts` callers/ownership，并对照 SDLPal `itemmenu.c`、`uigame.c`、`play.c`、`script.c`；未发现白名单生产实现直接缺陷。清理测试中的 `as never`/空 party 输入并补齐完整 typed Item/PlayerRoles fixture。12 个定向测试文件共 127 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭上述四条记录，当前 inventory 3,270：closed 356、review 9、pending 2,905。相邻 dispatcher/equip-effect/inventory-state 与 CODE53/57/79/80/81 继续保持原状态。
 
@@ -415,4 +416,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/in-game-menu.test.ts` | test | 已验证 | CODE-QUALITY-87；real public menu state/word-table callers; 74 targeted tests/full gates | id/label/order/default cursor and choice mapping; oracle strengthened by reordered legal items |
 | `packages/game/src/core/menu/in-game-menu.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-87；confirm reset from pre-existing Yes, switch target/current state and reordered id mapping | high-discrimination phase/id contracts |
 | `packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-87；wrap, negative/out-of-range cursor, word-table label and isolation cleanup | de-duplicated lifecycle/boundary contracts |
+| `packages/game/src/core/menu/magic-select.ts` | product | 已验证 | CODE-QUALITY-88；SDLPal `magicmenu.c:301-410,35-116`/`uigame.c:653-875`、in-game/battle/draw callers、parser/player-role id evidence；261 targeted/adjacent tests、3 mutation controls、全仓 gates | object-id sort, Spell→Magic cost join, MP disabled, missing association fail-closed; no direct defect |
+| `packages/game/src/core/menu/magic-select.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-88；typed PlayerRole/Spell/Magic fixtures, MP==cost/<cost, non-contiguous 295 id, input isolation, missing role/spell | high-discrimination boundary contracts; no illegal object-map fixture |
+| `packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-88；missing Magic, missing name fallback, zero cost at MP0, all-zero slots/pageSize | de-duplicated defensive leaves; no script/MP execution claims |
+| `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | 已验证 | CODE-QUALITY-88；ItemSelect and MagicSelectionMenu public contracts with production object ids 300/301; 261 targeted/adjacent tests/full gates | typed magic fixture and canonical id assertion corrected |
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。

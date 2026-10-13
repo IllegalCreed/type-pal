@@ -4,21 +4,96 @@
  * MP 恰等 cost 不禁用；排序不污染实际传入 playerRoles.roles[roleId].magic；非连续
  * wObjectID（如 295）返回 spell.id 而非 magicNumber；坏角色/缺 spell 静默空表。
  */
-import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createMagicSelectMenu } from './magic-select.js'
 
-const magics: Magic[] = [
-  { id: 1, costMP: 5 } as unknown as Magic,
-  { id: 2, costMP: 12 } as unknown as Magic,
-]
+function magic(id: number, costMP: number): Magic {
+  return {
+    id,
+    effect: 0,
+    type: 'normal',
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    costMP,
+    baseDamage: 0,
+    elemental: 0,
+    sound: 0,
+  }
+}
+
+const magics: Magic[] = [magic(1, 5), magic(2, 12)]
 const spells: Spell[] = [
-  { id: 300, magicNumber: 1, _name: '甲' } as unknown as Spell,
-  { id: 295, magicNumber: 2, _name: '乙' } as unknown as Spell, // 非连续（梦蛇 295 在段外）
+  {
+    id: 300,
+    magicNumber: 1,
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: true,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+    _name: '甲',
+  },
+  {
+    id: 295,
+    magicNumber: 2,
+    scriptOnSuccess: 0,
+    scriptOnUse: 0,
+    scriptDesc: 0,
+    flags: {
+      usableOutsideBattle: true,
+      usableInBattle: false,
+      usableToEnemy: false,
+      applyToAll: false,
+    },
+    _name: '乙',
+  }, // 非连续（梦蛇 295 在段外）
 ]
 
+function role(magic: number[]): PlayerRole {
+  return {
+    id: 0,
+    avatar: 0,
+    spriteNumInBattle: 0,
+    spriteNum: 0,
+    name: 0,
+    attackAll: 0,
+    level: 1,
+    maxHP: 100,
+    maxMP: 100,
+    hp: 100,
+    mp: 50,
+    attackStrength: 0,
+    magicStrength: 0,
+    defense: 0,
+    dexterity: 0,
+    fleeRate: 0,
+    poisonResistance: 0,
+    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    walkFrames: 3,
+    attackSound: 0,
+    weaponSound: 0,
+    criticalSound: 0,
+    magicSound: 0,
+    deathSound: 0,
+    magic,
+  }
+}
+
 function roles(magic: number[]): PlayerRoles {
-  return { roles: { 0: { id: 0, magic } } } as unknown as PlayerRoles
+  return { roles: [role(magic)] }
 }
 
 describe('G04 createMagicSelectMenu', () => {
