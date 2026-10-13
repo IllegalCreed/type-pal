@@ -1,6 +1,6 @@
 # CODE-QUALITY-82 — DATA.MKF 独立诊断脚本
 
-Status: review
+Status: done
 Owner: Codex
 Phase: phase1 pal-extract / Q6 diagnostic
 Capability: read-only MKF census

@@ -13,7 +13,6 @@
 | [CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界](CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-80 — game Dev Panel 换队生命周期](CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-81 — game Dev Panel picker 生命周期](CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-82 — DATA.MKF 独立诊断脚本](CODE-QUALITY-82-data-mkf-diagnostic.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -132,6 +131,7 @@
 | [CODE-QUALITY-76 — game main loop contract](../archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-77 — game RNG player contract](../archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-78 — game AVI player contract](../archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-82 — DATA.MKF 独立诊断脚本](../archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |

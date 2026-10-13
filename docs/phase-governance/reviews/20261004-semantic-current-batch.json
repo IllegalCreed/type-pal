@@ -513,7 +513,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；CODE82 DATA.MKF 诊断为 review；复合 dev-panel 与既有 GLM 测试继续待核。",
+      "coreConclusion": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；CODE82 DATA.MKF 诊断已归档 done；复合 dev-panel 与既有 GLM 测试继续待核。",
       "truthAnchors": [
         "docs/ops/board.md:7",
         "docs/ops/board.md:8",
@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "12c38587c8b927fa1e3327492a90f1568df77628bbc68b82e6d8f9bea089bc7c",
+      "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "12c38587c8b927fa1e3327492a90f1568df77628bbc68b82e6d8f9bea089bc7c",
+        "implementationSha": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1287,7 +1287,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE80 质量证据、CODE81 全量质量门与 CODE82 DATA.MKF 诊断证据已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
+      "coreConclusion": "CODE80 质量证据、CODE81 全量质量门与 CODE82 DATA.MKF 诊断证据已入导航；CODE81 仅新增测试文件关闭，CODE82 已归档 done，复合生产文件与既有 GLM 测试继续 pending。",
       "truthAnchors": [
         "docs/ops/evidence/README.md:8",
         "docs/ops/evidence/README.md:15",
@@ -1307,7 +1307,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "70a56a49397266ce65e056612e591ce702bed06436b95e368c023885c4e80b87",
+      "afterSha256": "deba28e4b70c90283030b7b6cf04c5e6556b5cd5a017e8103bd787ad709f0045",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1341,7 +1341,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "70a56a49397266ce65e056612e591ce702bed06436b95e368c023885c4e80b87",
+        "implementationSha": "deba28e4b70c90283030b7b6cf04c5e6556b5cd5a017e8103bd787ad709f0045",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2163,7 +2163,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "官方索引按当前 403 张任务卡生成；CODE80、CODE81 与 CODE82 均为 review；生成导航不重新验收历史任务。",
+      "coreConclusion": "官方索引按当前 403 张任务卡生成；CODE80 与 CODE81 为 review，CODE82 已归档 done；生成导航不重新验收历史任务。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:7",
         "docs/ops/tasks/index.md:14",
@@ -2180,7 +2180,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "c97780b92510e72db19e5a0986ef8770a8a90f4a67884cd21bc82f66ed55404b",
+      "afterSha256": "c38f0ed558674b02e64fa450948ba1a7d80788b950649a252685a5abb87a1570",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2216,7 +2216,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "c97780b92510e72db19e5a0986ef8770a8a90f4a67884cd21bc82f66ed55404b",
+        "implementationSha": "c38f0ed558674b02e64fa450948ba1a7d80788b950649a252685a5abb87a1570",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [

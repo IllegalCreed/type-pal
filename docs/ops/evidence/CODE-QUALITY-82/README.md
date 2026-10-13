@@ -11,4 +11,4 @@
 
 候选改动只把路径解析为 `import.meta.url` 相对路径，并在独立诊断入口补齐 MKF header/offset/chunk 边界失败；保留 standalone `.mjs`，不把 shared TS loader 引入手工 Node 命令。新增 8 个测试使用真实 Node 子进程、临时 checkout、合法/损坏输入和 cwd 隔离；测试后清理临时树。
 
-当前状态：实现、定向/相邻验证、全仓 check、ratchet、protected fast、lint-zero、docs/content-review、ledger 均通过；任务进入 review。全仓治理仍未完成，其他 pending/review 文件不得随本批关闭。
+当前状态：实现、定向/相邻验证、全仓 check、ratchet、protected fast、lint-zero、docs/content-review、ledger 均通过；任务已归档为 done。全仓治理仍未完成，其他 pending/review 文件不得随本批关闭。
