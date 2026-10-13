@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,269。
-当前已闭合核验：339；已读但待审：10；尚未逐文件核验：2,920；合计未闭合：2,930。
+起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,270。
+当前已闭合核验：341；已读但待审：9；尚未逐文件核验：2,920；合计未闭合：2,929。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -30,6 +30,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-13 CODE80裁决与实现：用户批准战斗期间 B 面板禁止入队/离队、大世界照常编辑；dev-panel 队伍卡增加 battle disabled/mode guard，探索切队补正式 `updateAllEquipments` 重建伪毒。新增 party-lifecycle 测试与两个实现后反控；最终 check/ratchet/protected fast/lint/docs/ledger 全部通过，但没有新增关闭；dev-panel listener/observer/thumbnail 生命周期风险继续 pending。
 2026-10-13 CODE81 picker 生命周期：直接 caller 核实 `setupDevPanel`/scene picker/`bootstrap.renderSceneThumbnail` 边界；新增 observer disconnect、scene generation 与 rejection placeholder 合同。真实 scene-jumps 夹具的 5 个定向反例、game typecheck、Biome、check、ratchet、protected fast、lint-zero 与 ledger 均通过；仅新增生命周期测试文件完成逐文件关闭，复合 dev-panel 生产文件与既有 GLM 测试继续待核。
+2026-10-13 CODE82 DATA.MKF 诊断：独立读取 `audit-data-mkf.mjs`、shared MKF 与 extractor CLI/SDLPal chunk caller；修复机器绝对路径并补 header/offset/chunk fail-closed 校验，保留 standalone Node `.mjs` 入口。临时 checkout/cwd 反例与真实 DATA.MKF 输出等价证据通过；新增诊断测试文件与脚本进入已验证，其他 Q3/Q6 文件不受影响。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -149,7 +150,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/pal-extract/scripts/grep-sdlpal-chunks.ts` | product | 已验证 | execFile 参数数组、reference-only read helper | 无写盘 |
 | `packages/pal-extract/scripts/extract-videos.ts` | product | review | ffmpeg external IO/mtime skip/empty output 直接读过 | 需后续工具失败反控，不与主 extract 混写 |
 | `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs` | product | review | scene/event/tilemap BFS 与写盘脚本直接读过 | 诊断生成器需后续 path/input 复核 |
-| `packages/pal-extract/audit-data-mkf.mjs` | product | review | DATA.MKF diagnostic census 直接读过；发现绝对 repo path 与 shared MKF duplicate | 仅诊断脚本，Q6/CLI tool audit 待核 |
+| `packages/pal-extract/audit-data-mkf.mjs` | product | 已验证 | CODE-QUALITY-82；完整读取 standalone 入口、真实 cwd/path、shared MKF/CLI/SDLPal chunk caller；audit+MKF 11 tests、pal-extract typecheck、全仓门记录于 evidence | 路径改为 import.meta.url 相对 checkout；header/offset/chunk fail-closed；保留 standalone parser，未改 CLI/生成物 |
+| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | 已验证 | CODE-QUALITY-82；真实 Node 子进程、临时 checkout、合法/损坏 MKF 与 cwd 隔离；8 tests，修复前 8 failed，修复后 8 passed | 真实 caller/oracle；验证原输出等价与失败传播，不覆盖 extractor 生成管线 |
 | `packages/game/src/assets/loader.ts` | product | 已验证 | CODE-QUALITY-3h；全量读取 loadAll/fetchPalette/SceneAssetsCache，真实 bootstrap caller、asset tests、game 定向测试 | fetch/status 与可选资源降级均有 caller；cache LRU/protect 合同保留，未发现直接缺陷 |
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |

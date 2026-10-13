@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-13T13:10:59.319Z",
+  "generatedAt": "2026-10-13T15:04:12.207Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19847,
+  "testCount": 19855,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1214,11 +1214,12 @@
       ],
       "scopeDigest": "6fda780f908c771fe0dc983993854eef090115057a9d26cb08a487be2e490680",
       "fastTests": {
-        "testCount": 272,
-        "testFileCount": 59,
+        "testCount": 280,
+        "testFileCount": 60,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+          "packages/pal-extract/src/audit-data-mkf.test.ts",
           "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
           "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
           "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
@@ -1287,6 +1288,11 @@
             "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
             "testCount": 3,
             "identityDigest": "705afc3b56efee29e2b13d84330155b8c5649cbe73223d006b659a6ddf9e6fda"
+          },
+          {
+            "file": "packages/pal-extract/src/audit-data-mkf.test.ts",
+            "testCount": 8,
+            "identityDigest": "22176039b4f4e3252a13385c182a8cfb04085ba7cd069ad312cc7afca012d562"
           },
           {
             "file": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
@@ -1574,9 +1580,9 @@
             "identityDigest": "ab56364e7991a21f62ce4ffab6501ff41205a84d08c720cf23efe858ec21e8ee"
           }
         ],
-        "identityDigest": "7d3ab96ad748204fe12f033a9543df05d1a2471d3dcd1d8f0f66e1dd0d60abcc",
+        "identityDigest": "cd314cf55f435a681de69b0dc3dfe52cb5a2c7924e1c289bef3528399269f7dc",
         "duplicateIdentityCount": 0,
-        "executionDigest": "7c9a4cccf0a351b853b98a6635008ddf94515e60be8e54c73d03499495c52e8c"
+        "executionDigest": "9f4fbd3ce001ab21b27bf048f40c11142b7713f3ae407a182c1ec06c8840bb50"
       },
       "metrics": {
         "statements": {

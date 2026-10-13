@@ -1,0 +1,12 @@
+
+> @type-pal/pal-extract@0.0.0 test /Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract
+
+
+ Test Files  71 passed (71)
+      Tests  431 passed (431)
+   Start at  23:39:31
+   Duration  12.76s (transform 1.77s, setup 0ms, import 3.47s, tests 44.07s, environment 4ms)
