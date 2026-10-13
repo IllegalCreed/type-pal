@@ -9,6 +9,7 @@
 - [CODE-QUALITY-53 状态页 runtime-zero 与 party-slot poison](CODE-QUALITY-53/README.md)（候选 build：runtime 0 保留、非顺序队伍毒映射反例与换队清表；待全仓质量门与 Codex 独立收口）。
 - [CODE-QUALITY-80 Dev Panel 换队生命周期](CODE-QUALITY-80/README.md)（用户已裁决战斗禁入队/离队；探索切队补装备效果重建；实现与全部质量门通过，文件仍按逐文件治理保持 pending）。
 - [CODE-QUALITY-81 Dev Panel picker 生命周期](CODE-QUALITY-81/README.md)（observer 断开、列表 generation 与缩略图 rejection 反例；全量 check、ratchet、protected fast、lint、ledger 已通过，新增测试文件可收口）。
+- [CODE-QUALITY-86 game equip menu state / role swap](CODE-QUALITY-86/README.md)（四文件逐文件核验完成；只清理 typed test input，全套质量门通过，四条账本记录已验证并归档）。
 - [CODE-QUALITY-82 DATA.MKF 独立诊断脚本](CODE-QUALITY-82/README.md)（相对 checkout 路径、MKF 边界 fail-closed 与真实资源输出等价；已归档 done）。
 - [CODE-QUALITY-85 game shop menu state / transaction](CODE-QUALITY-85/README.md)（四文件逐文件核验完成；仅清理两处弱测试证据，全套质量门通过，四条账本记录已验证并归档）。
 - [CODE-QUALITY-83 game menu mode / stack](CODE-QUALITY-83/README.md)（menu-mode/menu-stack/menu-mode.test 逐文件核验；全套质量门通过，三条账本记录已验证并归档）。

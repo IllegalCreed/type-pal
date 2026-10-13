@@ -216,6 +216,8 @@ Q3y / CODE-QUALITY-84 已完成 `inventory-menu.ts`、`inventory-menu.test.ts`�
 
 Q3y / CODE-QUALITY-85 已完成 `shop-menu.ts`、`shop-menu.test.ts`、`shop-menu.boundaries.test.ts`、`shop-menu.glm-phase1-leaves.test.ts` 四文件逐文件核验：完整读取实现与测试，并核对 `menu-driver`、`bootstrap`、`event-system`、`game-state`、`sell-menu`、`draw-shop` 真实 caller/ownership，以及 SDLPal `uigame.c`/`itemmenu.c`/`play.c` primary source。买卖状态机、价格门、环绕导航、确认/取消、交易意图与菜单恢复未发现直接缺陷，也未触碰 schema/save、资源、生成物、公共接口或用户可见行为。清理两处测试质量残留（dead touch import 与恒真 clone 自比），补为真实 catalog 不变性 oracle。定向 11 个测试文件 408 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭 4 条记录，当前 inventory 3,270：closed 352、review 9、pending 2,909。相邻 transaction/inventory capacity 与 CODE53/57/79/80/81 继续保持原状态，专项仍未完成。
 
+Q3y / CODE-QUALITY-86 已完成 `equip-menu.ts`、`equip-menu.test.ts`、`equip-menu.boundaries.test.ts`、`equip-menu.glm-phase1-leaves.test.ts` 四文件逐文件核验：完整读取实现与测试，并核对 `menu-driver`、`equip-effect`、`equipment-state`、`game-state`、`draw-equip` 真实 caller/ownership，以及 SDLPal `itemmenu.c`/`uigame.c`/`play.c`/`script.c` primary source。装备过滤、role ID 映射、环绕选人、取消阶段与换装意图未发现白名单生产实现直接缺陷。清理测试中的 `as never`/空 party 输入并补齐完整 typed Item/PlayerRoles fixture。定向 12 个测试文件 127 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭 4 条记录，当前 inventory 3,270：closed 356、review 9、pending 2,905。相邻 dispatcher/equip-effect/inventory-state 与 CODE53/57/79/80/81 继续保持原状态，专项仍未完成。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

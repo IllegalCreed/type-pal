@@ -1307,7 +1307,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "1ff064b8e4b7914670cea092eac12ae3b4d2a9c4be63f7e08345199121b48f2e",
+      "afterSha256": "b9284caceb774e9306d2d5127e0324d8b0b67fb4574af8b988b535ff98c36f92",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1341,7 +1341,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "1ff064b8e4b7914670cea092eac12ae3b4d2a9c4be63f7e08345199121b48f2e",
+        "implementationSha": "b9284caceb774e9306d2d5127e0324d8b0b67fb4574af8b988b535ff98c36f92",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1484,7 +1484,7 @@
         "kind": "content-reading",
         "path": "docs/ops/evidence/README.md",
         "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-        "lineCount": 59,
+        "lineCount": 60,
         "headings": [
           {
             "line": 1,
@@ -2180,7 +2180,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "3d057009313213e92236e52d1c3b60ad97a0a5166dc4bc966737c7a35a081f2a",
+      "afterSha256": "f005d1a7066d4494c9d883cd6bed567a4920e81bdb577e4f692ac84c07f2b2aa",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2216,7 +2216,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "3d057009313213e92236e52d1c3b60ad97a0a5166dc4bc966737c7a35a081f2a",
+        "implementationSha": "f005d1a7066d4494c9d883cd6bed567a4920e81bdb577e4f692ac84c07f2b2aa",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2604,7 +2604,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 427,
+        "lineCount": 428,
         "headings": [
           {
             "line": 1,

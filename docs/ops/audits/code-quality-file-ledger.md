@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,270。
-当前已闭合核验：352；已读但待审：9；尚未逐文件核验：2,909；合计未闭合：2,918。
+当前已闭合核验：356；已读但待审：9；尚未逐文件核验：2,905；合计未闭合：2,914。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -31,6 +31,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-13 CODE80裁决与实现：用户批准战斗期间 B 面板禁止入队/离队、大世界照常编辑；dev-panel 队伍卡增加 battle disabled/mode guard，探索切队补正式 `updateAllEquipments` 重建伪毒。新增 party-lifecycle 测试与两个实现后反控；最终 check/ratchet/protected fast/lint/docs/ledger 全部通过，但没有新增关闭；dev-panel listener/observer/thumbnail 生命周期风险继续 pending。
 2026-10-13 CODE81 picker 生命周期：直接 caller 核实 `setupDevPanel`/scene picker/`bootstrap.renderSceneThumbnail` 边界；新增 observer disconnect、scene generation 与 rejection placeholder 合同。真实 scene-jumps 夹具的 5 个定向反例、game typecheck、Biome、check、ratchet、protected fast、lint-zero 与 ledger 均通过；仅新增生命周期测试文件完成逐文件关闭，复合 dev-panel 生产文件与既有 GLM 测试继续待核。
 2026-10-13 CODE82 DATA.MKF 诊断：独立读取 `audit-data-mkf.mjs`、shared MKF 与 extractor CLI/SDLPal chunk caller；修复机器绝对路径并补 header/offset/chunk fail-closed 校验，保留 standalone Node `.mjs` 入口。临时 checkout/cwd 反例与真实 DATA.MKF 输出等价证据通过；新增诊断测试文件与脚本进入已验证，其他 Q3/Q6 文件不受影响。
+2026-10-14 CODE86 equip menu state/role swap：完整读取 `equip-menu.ts` 及三份测试，核对 `menu-driver.ts:753-852`、`equip-effect.ts`、`equipment-state.ts`、`game-state.ts`、`draw-equip.ts` callers/ownership，并对照 SDLPal `itemmenu.c`、`uigame.c`、`play.c`、`script.c`；未发现白名单生产实现直接缺陷。清理测试中的 `as never`/空 party 输入并补齐完整 typed Item/PlayerRoles fixture。12 个定向测试文件共 127 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭上述四条记录，当前 inventory 3,270：closed 356、review 9、pending 2,905。相邻 dispatcher/equip-effect/inventory-state 与 CODE53/57/79/80/81 继续保持原状态。
+
 2026-10-14 CODE85 shop menu state/transaction：完整读取 `shop-menu.ts` 与三份测试，核对 `menu-driver`、`bootstrap`、`event-system`、`game-state`、`sell-menu`、`draw-shop` callers/ownership，并对照 SDLPal `uigame.c:1615-1791`、`itemmenu.c:287-310`、`play.c:289-320`；未发现 shop 状态机直接缺陷或高风险边界。清理 dead touch import 与恒真 clone 自比，改为真实 catalog 不变性 oracle。11 个定向测试文件共 408 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭上述四条记录，当前 inventory 3,270：closed 352、review 9、pending 2,909。相邻 transaction/inventory capacity 与 CODE53/57/79/80/81 继续保持原状态。
 
 2026-10-14 CODE84 inventory menu state/target：完整读取 `inventory-menu.ts` 及三份测试，核对 `menu-driver`、`event-system`、`draw-inventory`、`item-select`、`game-state` caller/ownership，并对照 SDLPal `itemmenu.c`、`uigame.c`、`play.c` primary source；未发现直接缺陷或高风险边界。9 个定向测试文件共 413 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭上述四条记录，当前 inventory 3,270：closed 348、review 9、pending 2,913。CODE53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件仍保持原状态，下一批继续从最新 ledger 选择互斥 pending 文件。
@@ -403,4 +405,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/shop-menu.test.ts` | test | 已验证 | CODE-QUALITY-85；real GameState/event/menu public callers, stores catalog IDs, 408 targeted tests and full gates | 0x0026 open/wait/resume, buy/sell transaction, no-money and close contracts; dead touch import removed |
 | `packages/game/src/core/menu/shop-menu.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-85；cash===price, price-1, empty list, No/Yes/cancel and pre-operation catalog snapshot oracle | high-discrimination price/state/ownership boundaries; tautological clone self-comparison removed |
 | `packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-85；real public function leaves for fallback label/pageSize, wrong phase, missing catalog item and list confirm null | de-duplicated defensive branch contracts |
+| `packages/game/src/core/menu/equip-menu.ts` | product | 已验证 | CODE-QUALITY-86；SDLPal `itemmenu.c:287-310,331-377`/`uigame.c:1793-2056`/`play.c:328-359`/`script.c:768-811,1090-1145`，menu-driver/equip-effect/runtime callers；127 targeted tests、game typecheck/Biome、全仓 gates | equip filter, role-id mapping, role wrap, cancel phases and swap intent; no direct defect |
+| `packages/game/src/core/menu/equip-menu.test.ts` | test | 已验证 | CODE-QUALITY-86；real GameState/public menu functions, typed Item/PlayerRoles fixtures and real partyMembers; 127 targeted tests/full gates | grid/filter, inactive item, pick-role, cancellation and cursor wrap; typed fixture cleanup |
+| `packages/game/src/core/menu/equip-menu.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-86；inUse exhaustion, non-sequential party [2,0], role-id oracle, zero side effects and done phase | high-discrimination role/state ownership; typed fixture cleanup |
+| `packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-86；real public function leaves for filter, missing catalog, done no-op and single-party wrap | de-duplicated lifecycle/defensive contracts |
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
