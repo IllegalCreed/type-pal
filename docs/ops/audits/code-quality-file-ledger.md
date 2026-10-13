@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,270。
-当前已闭合核验：341；已读但待审：9；尚未逐文件核验：2,920；合计未闭合：2,929。
+当前已闭合核验：344；已读但待审：9；尚未逐文件核验：2,917；合计未闭合：2,926。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -31,6 +31,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-13 CODE80裁决与实现：用户批准战斗期间 B 面板禁止入队/离队、大世界照常编辑；dev-panel 队伍卡增加 battle disabled/mode guard，探索切队补正式 `updateAllEquipments` 重建伪毒。新增 party-lifecycle 测试与两个实现后反控；最终 check/ratchet/protected fast/lint/docs/ledger 全部通过，但没有新增关闭；dev-panel listener/observer/thumbnail 生命周期风险继续 pending。
 2026-10-13 CODE81 picker 生命周期：直接 caller 核实 `setupDevPanel`/scene picker/`bootstrap.renderSceneThumbnail` 边界；新增 observer disconnect、scene generation 与 rejection placeholder 合同。真实 scene-jumps 夹具的 5 个定向反例、game typecheck、Biome、check、ratchet、protected fast、lint-zero 与 ledger 均通过；仅新增生命周期测试文件完成逐文件关闭，复合 dev-panel 生产文件与既有 GLM 测试继续待核。
 2026-10-13 CODE82 DATA.MKF 诊断：独立读取 `audit-data-mkf.mjs`、shared MKF 与 extractor CLI/SDLPal chunk caller；修复机器绝对路径并补 header/offset/chunk fail-closed 校验，保留 standalone Node `.mjs` 入口。临时 checkout/cwd 反例与真实 DATA.MKF 输出等价证据通过；新增诊断测试文件与脚本进入已验证，其他 Q3/Q6 文件不受影响。
+2026-10-14 CODE83 menu mode/stack：完整读取 `menu-mode.ts`、`menu-stack.ts`、`menu-mode.test.ts`，并核对 mode/scene/menu-driver/battle/shop/present caller、GameState ownership 与 SDLPal `uigame.c`/`script.c`/`uibattle.c` 返回语义；无实现缺陷、无高风险边界或行为变更。定向 342 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；仅这 3 条记录标记已验证。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -387,4 +388,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/speedrun/overlay.ts` | product | 已验证 | CODE-QUALITY-66；index/timer/time-format caller；6 tests、game 全包/check/ratchet/protected fast/lint | DOM row/ETA/diff/clock/pause/style ownership逐段核验，未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/overlay.test.ts` | test | 已验证 | CODE-QUALITY-66；overlay row/value oracle；4 tests | 功能性 DOM 合同 |
 | `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-66；DOM cleanup/diff/paused prefix 反例；2 tests | 视觉形态保持，不做剧情 E2E |
+| `packages/game/src/core/menu/menu-mode.ts` | product | 已验证 | CODE-QUALITY-83；mode.ts/scene-system/menu-driver/battle/shop/present callers 与 SDLPal `uigame.c`/`script.c`/`uibattle.c` modal 返回合同；定向 342 tests、game typecheck/Biome、全仓质量门 | 空栈恢复、栈顶 dispatch、同帧关闭边界；未发现直接缺陷 |
+| `packages/game/src/core/menu/menu-stack.ts` | product | 已验证 | CODE-QUALITY-83；GameState.menuStack ownership、battle/shop/explore resume caller 与 SDLPal 返回域；全仓质量门 | push/pop ownership、battle/shop/explore mode 恢复；未发现直接缺陷 |
+| `packages/game/src/core/menu/menu-mode.test.ts` | test | 已验证 | CODE-QUALITY-83；真实 `createInitialGameState`/`dispatchMenuInput`/menu factories 与相邻 caller；5 个定向测试文件 342 tests、全仓质量门 | 空栈、单/双层栈、inventory goto-out、非 Menu 输入与 open/pop 合同；无弱测试 |
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。

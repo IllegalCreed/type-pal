@@ -210,6 +210,8 @@ Q3x 已完成 `battle-progression.ts` 与两个专属 progression/levelup 测试
 205 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；ratchet 基线未变化。Q3x 关闭 3 条账本记录（1 个 product +
 2 个 test），当前账本为 2,966 条：已闭合 229、review 5、pending 2,732；全仓仍未完成。
 
+Q3y / CODE-QUALITY-83 已完成 `menu-mode.ts`、`menu-stack.ts`、`menu-mode.test.ts` 三文件逐文件核验：完整读取实现与测试，并核对 `mode.ts`、`scene-system.ts`、`menu-driver.ts`、`battle-system.ts`、`bootstrap.ts`、`present.ts` caller、`GameState.menuStack` ownership，以及 SDLPal `uigame.c`/`script.c`/`uibattle.c` modal 返回合同。空栈恢复、栈顶 dispatch、嵌套 pop、inventory goto-out、battle/shop/explore resume、同帧关闭边界均有直接 oracle；未发现输入、边界、状态 ownership、异步取消、资源清理或公共接口缺陷，也未触碰高风险边界。定向/相邻 342 tests、game typecheck、Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；ratchet 基线未变化。CODE-QUALITY-83 只关闭 3 条账本记录，当前 inventory 3,270：closed 344、review 9、pending 2,917；CODE53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件仍保持原状态，下一批从最新账本选择互斥 pending 文件。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。
