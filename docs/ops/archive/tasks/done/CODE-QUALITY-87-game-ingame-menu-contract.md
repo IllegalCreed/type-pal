@@ -57,7 +57,7 @@ Codex：premise verified / build allowed。当前无实现改动；完成全部�
 
 ## 实际验证记录
 
-- 定向/相邻：7 个测试文件、72 tests 通过；save-slot stdout 是已有相邻 caller oracle。
+- 定向/相邻：早期检查点为 7 个测试文件、72 tests 通过；随后测试合同补强后重新实测为 74 tests；save-slot stdout 是已有相邻 caller oracle。
 - game typecheck 通过；四条白名单 Biome 通过且无诊断。
 
 
@@ -74,7 +74,7 @@ Codex：premise verified / build allowed。当前无实现改动；完成全部�
 
 - Codex 独立验收：四个白名单文件完整读取，并核对真实 menu-driver/GameState/draw-menu caller 与 SDLPal uigame/ui primary source；未发现白名单生产实现直接缺陷。
 - 测试证据补强：确认框补齐已有 Yes 状态重置反例；choice mapping 改为重排合法菜单项后按 WORD id 解析；词表状态统一 before/after 清理；拆分开关初始化合同。
-- 仅测试与官方 coverage baseline 记录发生变化，未修改生产实现、schema/save、资源、公共接口或用户行为。
+- 运行时逻辑、schema/save、资源、公共接口和用户行为均未改变；源码头部菜单说明注释按真实菜单项修正，测试与官方 coverage baseline 也随合同补强更新。
 
 ## 剩余与交接
 

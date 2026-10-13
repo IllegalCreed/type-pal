@@ -18,6 +18,6 @@ Primary source:
 
 Oracle / risk result:
 - Real menu-driver/GameState/draw callers and SDLPal source agree on id mapping, label lookup, cursor memory, wrap navigation and phase ownership.
-- Targeted 7 files / 72 tests pass; existing save-slot stdout is an intentional adjacent oracle, not a new diagnostic.
+- Targeted 7 files / 74 tests pass; existing save-slot stdout is an intentional adjacent oracle, not a new diagnostic.
 - No direct whitelist implementation or test defect found. No production/schema/save/resource/public-interface change was made.
 - Save/load/audio/quit side effects remain adjacent dispatcher/shell scope and are not auto-closed by this batch.
