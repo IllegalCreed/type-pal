@@ -136,6 +136,7 @@
 | [CODE-QUALITY-84 — game inventory menu state / target contract](../archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-85 — game shop menu state / transaction contract](../archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-86 — game equip menu state / role swap contract](../archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-87 — game in-game/system menu state contract](../archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |

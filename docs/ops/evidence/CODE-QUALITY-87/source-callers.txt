@@ -1,0 +1,23 @@
+CODE-QUALITY-87 source / caller / oracle index
+
+Whitelist (full reads):
+- packages/game/src/core/menu/in-game-menu.ts:1-141
+- packages/game/src/core/menu/in-game-menu.test.ts:1-125
+- packages/game/src/core/menu/in-game-menu.boundaries.test.ts:1-46
+- packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts:1-72
+
+Production callers and ownership:
+- packages/game/src/core/menu/menu-driver.ts:457-620 dispatches in-game/system menu input, cursor memories, inventory-action/magic/status/system child menus, save/load/switch/quit phases and menu-stack close behavior.
+- packages/game/src/core/menu/menu-driver.ts:180-220 opens overworld shortcut menus that bypass the hub according to SDLPal play.c.
+- packages/game/src/core/game-state.ts:57-74 owns ActiveMenuKind/menuStack; :1002-1008 owns iCurMainMenuItem/iCurSystemMenuItem and :1917-1920 defaults.
+- packages/game/src/present/menu/draw-menu.ts plus draw-menu tests and P05 menu-stack tests are adjacent render/stack oracles.
+
+Primary source:
+- reference/sdlpal/uigame.c:878-919 PAL_InventoryMenu, 922-1048 PAL_InGameMenu and 500-651 PAL_SystemMenu confirm true WORD IDs, cursor callback, child menu routing, save/load/switch/quit return behavior.
+- reference/sdlpal/ui.c:401-585 PAL_ReadMenu confirms default cursor clamp, up/down wrap, cancel and confirm semantics.
+
+Oracle / risk result:
+- Real menu-driver/GameState/draw callers and SDLPal source agree on id mapping, label lookup, cursor memory, wrap navigation and phase ownership.
+- Targeted 7 files / 72 tests pass; existing save-slot stdout is an intentional adjacent oracle, not a new diagnostic.
+- No direct whitelist implementation or test defect found. No production/schema/save/resource/public-interface change was made.
+- Save/load/audio/quit side effects remain adjacent dispatcher/shell scope and are not auto-closed by this batch.

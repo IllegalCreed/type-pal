@@ -6,7 +6,7 @@
  *    负 defaultCursor 与 SystemMenu 越界 defaultCursor 归 0。
  * 锚：sdlpal uigame.c:961-966（InGame）/ 543-552（System PAL_CLASSIC 5 项）。
  */
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { setWordTable } from '../word-lookup.js'
 import {
   createInGameMenu,
@@ -19,9 +19,10 @@ import {
   systemMenuUp,
 } from './in-game-menu.js'
 
-describe('L04 InGameMenu 首尾环绕', () => {
-  afterEach(() => setWordTable([]))
+beforeEach(() => setWordTable([]))
+afterEach(() => setWordTable([]))
 
+describe('L04 InGameMenu 首尾环绕', () => {
   it('cursor 0 Up → 末项 system；末项 Down → 0 status', () => {
     const s = createInGameMenu()
     inGameMenuUp(s)
@@ -39,8 +40,6 @@ describe('L04 InGameMenu 首尾环绕', () => {
 })
 
 describe('L04 SystemMenu 剩余合同', () => {
-  afterEach(() => setWordTable([]))
-
   it('cursor 0 Up → quit；quit Down → save（5 项环绕）', () => {
     const s = createSystemMenu()
     systemMenuUp(s)
@@ -53,6 +52,9 @@ describe('L04 SystemMenu 剩余合同', () => {
 
   it('defaultCursor 越上界 → 归 0；词表载入取 flat[11..15] 文案', () => {
     expect(createSystemMenu(99).selection.cursor).toBe(0)
+  })
+
+  it('SystemMenu 词表载入取 flat[11..15] 文案', () => {
     const flat: string[] = []
     flat[11] = '存档X'
     flat[12] = '读档X'

@@ -218,6 +218,8 @@ Q3y / CODE-QUALITY-85 已完成 `shop-menu.ts`、`shop-menu.test.ts`、`shop-men
 
 Q3y / CODE-QUALITY-86 已完成 `equip-menu.ts`、`equip-menu.test.ts`、`equip-menu.boundaries.test.ts`、`equip-menu.glm-phase1-leaves.test.ts` 四文件逐文件核验：完整读取实现与测试，并核对 `menu-driver`、`equip-effect`、`equipment-state`、`game-state`、`draw-equip` 真实 caller/ownership，以及 SDLPal `itemmenu.c`/`uigame.c`/`play.c`/`script.c` primary source。装备过滤、role ID 映射、环绕选人、取消阶段与换装意图未发现白名单生产实现直接缺陷。清理测试中的 `as never`/空 party 输入并补齐完整 typed Item/PlayerRoles fixture。定向 12 个测试文件 127 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭 4 条记录，当前 inventory 3,270：closed 356、review 9、pending 2,905。相邻 dispatcher/equip-effect/inventory-state 与 CODE53/57/79/80/81 继续保持原状态，专项仍未完成。
 
+Q3y / CODE-QUALITY-87 已完成 `in-game-menu.ts`、`in-game-menu.test.ts`、`in-game-menu.boundaries.test.ts`、`in-game-menu.glm-phase1-leaves.test.ts` 四文件逐文件核验：完整读取实现与测试，并核对 `menu-driver`、`game-state`、`draw-menu` 真实 caller/ownership，以及 SDLPal `uigame.c`/`ui.c` primary source。真实 WORD id/label、cursor memory、环绕导航、confirm/switch phase 与错 phase 合同均未发现白名单缺陷。补强确认重置、按 id mapping、词表隔离和开关初始化测试 oracle。定向 7 个测试文件 74 tests、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭 4 条记录，当前 inventory 3,270：closed 360、review 9、pending 2,901。相邻 save/load/audio/quit 与 CODE53/57/79/80/81 继续保持原状态，专项仍未完成。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

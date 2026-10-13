@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-13T15:04:12.207Z",
+  "generatedAt": "2026-10-13T20:08:30.310Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19855,
+  "testCount": 19857,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4678,7 +4678,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3522,
+        "testCount": 3524,
         "testFileCount": 309,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5549,13 +5549,13 @@
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "b689ab2fdb1fc55593083cfea04a6926eaddf2fbcf866e65fc8154b2f2debb09"
+            "testCount": 3,
+            "identityDigest": "d70b368939285cdaa6eed7dfda219036d42007e80cbfc748607d3681cf6f34b5"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
-            "testCount": 4,
-            "identityDigest": "9e486b1673bf71174d835eaa1d96bba62372659ae79fd27669ee8ce4c7d7111d"
+            "testCount": 5,
+            "identityDigest": "39367a1492bcc0484daeb76f6c034fa328638f709683a7fe8a965f6cbf4c714a"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.test.ts",
@@ -6538,9 +6538,9 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "d00da3cc6b62f8d90c6fb265683b9f205b05054a9c5955e8e9ec388bd5f1c6e4",
+        "identityDigest": "132fcfd66f155a5abdccf6a8726a39ae5db3e79beeaa98cd57e65781ea7a639a",
         "duplicateIdentityCount": 0,
-        "executionDigest": "f0261f818f5d1958e754c42fdfad312dcd91660981ebae921b26062e4f3a3112"
+        "executionDigest": "561c95f796489668e7516363c47a5441a7ad88a2b5ccb90558e3d8c0a3b58382"
       },
       "metrics": {
         "statements": {
