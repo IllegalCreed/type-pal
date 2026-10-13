@@ -16,6 +16,7 @@
 | CODE-QUALITY-79 | [战斗0x61装备伪毒判定边界](tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | Codex / 只读核原始脚本与后期真值 | 不与CODE53键迁移混改；未授权实现 |
 | CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 行为切片已验收；CODE81 收 observer/thumbnail | 用户裁决已实现且该批质量门通过；listener/observer/thumbnail 风险分拆，dev-panel 仍不整文件关闭 |
 | CODE-QUALITY-81 | [game Dev Panel picker 生命周期](tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | Codex / 新增生命周期测试可收口；复合 dev-panel 继续待核 | 5 个真实夹具反例与两项精确反控；全量 check、ratchet、protected fast、lint、ledger 均通过 |
+| CODE-QUALITY-90 | [magic revive status clearing boundary](tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | blocked | 等用户裁决 / 不得实现 | SDLPal revive 清全状态，当前 TS 只清毒；高风险机制差异已停线 |
 
 ## 看板规则
 

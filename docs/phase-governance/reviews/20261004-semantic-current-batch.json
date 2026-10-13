@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
+      "afterSha256": "9150b61f052ac2706d2b207927d49da32c42bafaf6d96254168ff2e2144baeb3",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
+        "implementationSha": "9150b61f052ac2706d2b207927d49da32c42bafaf6d96254168ff2e2144baeb3",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -2180,7 +2180,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "5f794ce39f0b0207d23a608df51460a9ef38816a067720c19fa15ef5f31688cf",
+      "afterSha256": "1060968e1306964fb7cfa80154026858506b771b3fc6432fcdaee38e8338fe8c",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2216,7 +2216,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "5f794ce39f0b0207d23a608df51460a9ef38816a067720c19fa15ef5f31688cf",
+        "implementationSha": "1060968e1306964fb7cfa80154026858506b771b3fc6432fcdaee38e8338fe8c",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
