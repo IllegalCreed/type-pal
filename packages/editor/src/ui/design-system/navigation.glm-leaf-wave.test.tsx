@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   DsMenuBar,
   type DsMenuDefinition,
+  type DsMenuItem,
   DsToolbar,
   handleMenuCharacterSearch,
 } from './navigation.js'
@@ -133,7 +134,11 @@ describe('DsMenuBar 剩余合同', () => {
   })
 
   test('sections, checkbox items, href navigation and disabled entries keep their contracts', async () => {
-    const onNavigate = vi.fn()
+    // The production shell may choose SPA navigation; this contract test supplies the
+    // host policy explicitly so jsdom does not attempt a real document navigation.
+    const onNavigate = vi.fn((event: { preventDefault: () => void }, _item: DsMenuItem) =>
+      event.preventDefault(),
+    )
     const toggled = vi.fn()
     const sectioned: DsMenuDefinition[] = [
       {

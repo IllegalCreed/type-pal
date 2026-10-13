@@ -14,7 +14,7 @@
 | CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | Codex / ownership测试已补；等CODE80裁决 | 重复角色候选已修；ratchet/protected fast未过，禁止合main |
 | CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | Codex / 缺 thumbnail 像素 oracle 与视觉裁决，禁止实现 | bootstrap 两层直绘未调用 seam repair；与 gameplay 补偿边界待核 |
 | CODE-QUALITY-79 | [战斗0x61装备伪毒判定边界](tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | Codex / 只读核原始脚本与后期真值 | 不与CODE53键迁移混改；未授权实现 |
-| CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | blocked | Codex / 待战中换队策略裁决 | 已复现队伍与战斗成员不同步；探索换队丢装备伪毒，未实现 |
+| CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 独立验收已完成；剩余生命周期风险另开小批 | 用户裁决已实现且全部质量门通过；dev-panel 仍不整文件关闭 |
 
 ## 看板规则
 

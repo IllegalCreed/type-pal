@@ -28,6 +28,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-13 CODE53 ownership补证：离队角色5条合同、正式0x75清毒与装备重建共7个有效反控已记录；两份测试仍待整文件验收。CODE80只读复现dev换队生命周期并等待产品裁决；没有新增关闭，计数仍338/10/2919。
 
+2026-10-13 CODE80裁决与实现：用户批准战斗期间 B 面板禁止入队/离队、大世界照常编辑；dev-panel 队伍卡增加 battle disabled/mode guard，探索切队补正式 `updateAllEquipments` 重建伪毒。新增 party-lifecycle 测试与两个实现后反控；最终 check/ratchet/protected fast/lint/docs/ledger 全部通过，但没有新增关闭；dev-panel listener/observer/thumbnail 生命周期风险继续 pending。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
 | `packages/shared/src/rle.ts` | product | 已验证 | CODE-QUALITY-1；RLE 定向、shared 全包、check、ratchet、protected fast、lint | generic/strict framing 边界已收 |

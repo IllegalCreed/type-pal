@@ -513,7 +513,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-13：CODE53仍build；新增CODE80 blocked等待战中Dev Panel换队策略裁决。两文件ownership测试补证不关闭文件，未合main。",
+      "coreConclusion": "2026-10-13：CODE80进入review；用户裁决已实现，全部质量门通过，dev-panel剩余listener/observer/thumbnail生命周期风险保持pending。",
       "truthAnchors": [
         "docs/ops/board.md:7",
         "docs/ops/board.md:8",
@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "8d1c54c5c384270ab4893444f87fb55a3ac4f3206626c1b37dcdfed42e047ddd",
+      "afterSha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "8d1c54c5c384270ab4893444f87fb55a3ac4f3206626c1b37dcdfed42e047ddd",
+        "implementationSha": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -892,6 +892,22 @@
             "afterSha256": "8d1c54c5c384270ab4893444f87fb55a3ac4f3206626c1b37dcdfed42e047ddd",
             "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-user-decision-and-build",
+            "previousAfterSha256": "8d1c54c5c384270ab4893444f87fb55a3ac4f3206626c1b37dcdfed42e047ddd",
+            "afterSha256": "e6ffb13a188b8eab7e200913184cfc34e0346278ed397994dfbb4b6f42f46c58",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-review-and-final-gates",
+            "previousAfterSha256": "e6ffb13a188b8eab7e200913184cfc34e0346278ed397994dfbb4b6f42f46c58",
+            "afterSha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -923,9 +939,9 @@
         "afterSha256": "2207e4963d00202d83ef5d8a913b6b2e2f9a0768c0a80dfcee26e29d6f8af909",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "8d1c54c5c384270ab4893444f87fb55a3ac4f3206626c1b37dcdfed42e047ddd",
+          "sha256": "9d7790686cb1944b5e0920482d042db541e9af561fbf03c407b1a481c7aad79e",
           "lineCount": 24,
-          "scope": "CODE53仍build；新增CODE80 blocked等待战中Dev Panel换队策略裁决。两文件ownership测试补证不关闭文件，未合main。",
+          "scope": "2026-10-13：CODE80进入review；用户裁决已实现，全部质量门通过，dev-panel剩余listener/observer/thumbnail生命周期风险保持pending。",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1226,7 +1242,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-13：新增CODE80只读DOM诊断证据入口，明确fixture已间接重建装备、队伍点击存在另两处风险；无产品修复/视觉验收声明。",
+      "coreConclusion": "CODE80实现与全部质量门已留证；逐文件账本不因批次通过自动关闭dev-panel或其它pending文件。",
       "truthAnchors": [
         "docs/ops/evidence/README.md:8",
         "docs/ops/evidence/README.md:15",
@@ -1246,7 +1262,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "bfe827b1920490afa27d0c65d9c31a7656b0b6df629c1146ec775f56bacefb24",
+      "afterSha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1280,7 +1296,7 @@
       },
       "revision": {
         "currentSha": "37f7da4f10ed4116b2b1df45b07dbf7965d6a8c0",
-        "implementationSha": "bfe827b1920490afa27d0c65d9c31a7656b0b6df629c1146ec775f56bacefb24",
+        "implementationSha": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1375,6 +1391,22 @@
             "afterSha256": "bfe827b1920490afa27d0c65d9c31a7656b0b6df629c1146ec775f56bacefb24",
             "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-user-decision-and-build",
+            "previousAfterSha256": "bfe827b1920490afa27d0c65d9c31a7656b0b6df629c1146ec775f56bacefb24",
+            "afterSha256": "28e2363ddf534300fc3b3abeae75d3768c72190f47f1add8e756d3fd0eb151e6",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-review-and-final-gates",
+            "previousAfterSha256": "28e2363ddf534300fc3b3abeae75d3768c72190f47f1add8e756d3fd0eb151e6",
+            "afterSha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1400,9 +1432,9 @@
         "afterSha256": "ee17e77087506df7653842d7c6f13a7d4d90b935066a27c8feae19b9bc571c63",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "bfe827b1920490afa27d0c65d9c31a7656b0b6df629c1146ec775f56bacefb24",
+          "sha256": "75b1003808c9bdcbd234c1099e37a1f0285511d496d9b02ed3f18d935bb71831",
           "lineCount": 54,
-          "scope": "新增CODE80只读DOM诊断证据入口，明确fixture已间接重建装备、队伍点击存在另两处风险；无产品修复/视觉验收声明。",
+          "scope": "CODE80实现与全部质量门已留证；逐文件账本不因批次通过自动关闭dev-panel或其它pending文件。",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2041,7 +2073,7 @@
       "templateCompliance": "governed-legacy",
       "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-13：官方索引按401张任务卡重新生成，新增CODE80 blocked；历史验收不因索引生成改变。",
+      "coreConclusion": "官方索引按当前401张任务卡生成，CODE80为review；生成导航不重新验收历史任务。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:7",
         "docs/ops/tasks/index.md:14",
@@ -2058,7 +2090,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "823a5ddc6809a9decb753903f19ce99141376631cae2c4beb0942b2a894f8729",
+      "afterSha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2094,7 +2126,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "823a5ddc6809a9decb753903f19ce99141376631cae2c4beb0942b2a894f8729",
+        "implementationSha": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2427,6 +2459,30 @@
             "afterSha256": "823a5ddc6809a9decb753903f19ce99141376631cae2c4beb0942b2a894f8729",
             "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-user-decision-and-build",
+            "previousAfterSha256": "823a5ddc6809a9decb753903f19ce99141376631cae2c4beb0942b2a894f8729",
+            "afterSha256": "454cd65e4ee0a77ef8ee451230ea3279aa8fcb0862618888a59f2e38e9dbe202",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-review-and-final-gates",
+            "previousAfterSha256": "454cd65e4ee0a77ef8ee451230ea3279aa8fcb0862618888a59f2e38e9dbe202",
+            "afterSha256": "454cd65e4ee0a77ef8ee451230ea3279aa8fcb0862618888a59f2e38e9dbe202",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-13",
+            "action": "code-quality-80-review-index-sync",
+            "previousAfterSha256": "454cd65e4ee0a77ef8ee451230ea3279aa8fcb0862618888a59f2e38e9dbe202",
+            "afterSha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -2462,9 +2518,9 @@
         "afterSha256": "de4f14fb39b58d1fd40b869c74d63c730543383ee1d11570ee9762b3b97c12e0",
         "currentReading": {
           "date": "2026-10-13",
-          "sha256": "823a5ddc6809a9decb753903f19ce99141376631cae2c4beb0942b2a894f8729",
+          "sha256": "30552d5327be9b238e28e59496a45c1b382cc9493a8eec179d58ce0ed7d3fb83",
           "lineCount": 422,
-          "scope": "官方索引按401张任务卡重新生成，新增CODE80 blocked；历史验收不因索引生成改变。",
+          "scope": "官方索引按当前401张任务卡生成，CODE80为review；生成导航不重新验收历史任务。",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [

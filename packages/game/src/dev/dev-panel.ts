@@ -38,6 +38,7 @@ import type { DialogSprite } from '../assets/dialog-assets.js'
 import type { SceneAssets, SceneAssetsCache } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
 import { startBattle } from '../core/battle/battle-system.js'
+import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap,
   getGlobalCommands,
@@ -1433,12 +1434,14 @@ function openPicker(deps: DevPanelDeps): void {
       const role = deps.resources.playerRoles.roles.find((r) => r.id === roleId)
       const inParty = deps.gs.partyMembers.includes(roleId)
       const isLeader = roleId === 0
+      const partyEditingDisabled = deps.gs.mode === 'battle'
       const card = document.createElement('button')
       card.style.cssText =
         `display:flex; flex-direction:column; align-items:center;` +
-        ` padding:0; overflow:hidden; height:140px; cursor:${isLeader ? 'default' : 'pointer'};` +
+        ` padding:0; overflow:hidden; height:140px; cursor:${isLeader || partyEditingDisabled ? 'default' : 'pointer'};` +
         ` background:${inParty ? '#1f3a24' : '#3a1f1f'};` +
         ` border:1px solid ${inParty ? '#4c8' : '#c55'}; border-radius:4px`
+      if (partyEditingDisabled && !isLeader) card.disabled = true
       // 头像:object-fit:cover 自适应裁剪(统一尺寸、不变形、顶对齐显示脸);缺 palette/帧 → 名字占位块
       const sprite = deps.portraitFrames?.get(role?.avatar ?? -1)
       if (sprite && deps.palette) {
@@ -1463,11 +1466,19 @@ function openPicker(deps: DevPanelDeps): void {
         `width:9px; height:9px; border-radius:50%; margin:auto 0 7px;` +
         ` background:${inParty ? '#4f4' : '#f44'}; box-shadow:0 0 4px ${inParty ? '#4f4' : '#f44'}`
       card.appendChild(lamp)
-      card.title = isLeader ? '队首李逍遥常驻,不可离队' : inParty ? '点击离队' : '点击入队'
+      card.title = isLeader
+        ? '队首李逍遥常驻,不可离队'
+        : partyEditingDisabled
+          ? '战斗中不可编辑队伍'
+          : inParty
+            ? '点击离队'
+            : '点击入队'
       if (!isLeader) {
         card.addEventListener('click', () => {
+          if (deps.gs.mode === 'battle') return
           deps.gs.partyMembers = togglePartyMembership(deps.gs.partyMembers, roleId)
           deps.gs.rgPoisonStatus = {} // 队伍重组后毒槽不继承给新成员（SDLPal 0x75）。
+          updateAllEquipments(deps.gs, deps.resources.items)
           // Dev 切队后同步当前队首 runtime sprite;present 会按 partyMembers[0] 的 rgwSpriteNum 渲染。
           const leader = deps.gs.partyMembers[0]
           if (leader !== undefined) {
