@@ -43,13 +43,22 @@
       "name": "pnpm lint",
       "exit": 0,
       "log": "gate-lint-final.txt",
-      "evidence": ["4006 files; 0 errors / 0 warnings / 0 infos"]
+      "evidence": [
+        "full pnpm check lint: 4006 files; 0 errors / 0 warnings / 0 infos",
+        "post-evidence-commit pnpm lint: 4007 files; 0 errors / 0 warnings / 0 infos"
+      ]
     },
     {
       "name": "node scripts/quality/code-quality-ledger.mjs",
       "exit": 0,
       "log": "gate-ledger-final.txt",
-      "evidence": ["3267 files; 338 closed / 10 review / 2919 pending"]
+      "evidence": ["3268 files; 338 closed / 10 review / 2920 pending"]
+    },
+    {
+      "name": "post-evidence-commit pnpm lint",
+      "exit": 0,
+      "log": "gate-lint-post-commit.txt",
+      "evidence": ["4007 files; 0 errors / 0 warnings / 0 infos"]
     }
   ],
   "targeted": "4 files / 45 tests passed; game typecheck exit 0",
@@ -65,5 +74,6 @@
     "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx": "a73e19eea4855fae5bad4e698c55d8ecd4abe16fc14a51cbb02f74f2a85b2ebf"
   },
   "closedFiles": [],
-  "remainingRisk": "dev-panel full-file lifecycle risks (global key listener disposer, picker observer/thumbnail cancellation) remain pending; no file was force-closed."
+  "remainingRisk": "dev-panel full-file lifecycle risks (global key listener disposer, picker observer/thumbnail cancellation) remain pending; no file was force-closed.",
+  "gateRunAnchor": "f4cfaa47e719440cd04e49853316e2bb2022f4f0 (working tree before closeout commit)"
 }

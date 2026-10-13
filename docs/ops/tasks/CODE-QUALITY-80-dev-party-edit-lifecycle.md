@@ -54,7 +54,7 @@ Codex：用户裁决已记录，前提与范围 verified；build allowed。实�
 ## 2026-10-13 批次收口记录
 
 - 最终定向：dev-panel 两份测试、CODE53 status/event 相邻回归共 4 files / 45 tests 通过；game typecheck exit0。
-- 最终 `pnpm check` exit0：content 149/1498、shared 16/131、game 313/3545、pal-extract 70/423、reforge 359/8964、editor 631/4951、migrate 96/739；lint 4006 files，error/warning/info 全0。完整输出见 `docs/ops/evidence/CODE-QUALITY-80/gate-check-final.txt`。
+- 最终 `pnpm check` exit0：content 149/1498、shared 16/131、game 313/3545、pal-extract 70/423、reforge 359/8964、editor 631/4951、migrate 96/739；lint 4006 files，error/warning/info 全0；证据提交后追加当前 lint 4007 files，同样全0。完整输出见 `docs/ops/evidence/CODE-QUALITY-80/gate-check-final.txt`。
 - 官方 `pnpm coverage:ratchet` exit0；game statements 88.05%、branches 79.31%、lines 89.63%，TOTAL statements 89.85%、branches 83.60%、lines 91.72%；基线只升不降。protected fast 以 `origin/main` 为基线 exit0，见 `gate-ratchet-final.txt` 与 `gate-protected-final.txt`。
-- `pnpm check:docs`、`pnpm lint`、`node scripts/quality/code-quality-ledger.mjs` 均 exit0；账本仍 3267 / 338 closed / 10 review / 2919 pending。没有把任何 dev-panel、测试、状态页或 battle 文件强行改为已验证。
+- `pnpm check:docs`、`pnpm lint`、`node scripts/quality/code-quality-ledger.mjs` 均 exit0；账本当前为 3268 / 338 closed / 10 review / 2920 pending。没有把任何 dev-panel、测试、状态页或 battle 文件强行改为已验证。
 - CODE80 从 `build` 进入 `review`：用户裁决、行为修复和本批门禁已完成，Codex 独立验收记录在本卡；剩余 dev-panel 的全局 listener disposer、picker IntersectionObserver 与异步 thumbnail 取消/关闭生命周期仍 pending，另需后续小批，不影响本批行为合同。

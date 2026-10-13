@@ -15,6 +15,6 @@
 
 最终生命周期回归共 8 tests：真实战斗状态下入队/离队均保持 party、battle players、毒表、runtime 不变；面板先开后启战时旧卡也被 mode guard 拦截；探索离队和入队分别验证清除旧真毒并在新队伍槽重建 563/564。全仓静态门新增两处测试宿主修正：零存档 reload 使用可恢复的 location seam，菜单链接测试显式 preventDefault，消除两条 jsdom navigation 诊断。
 
-最终质量门收据已保存：`gate-check-final.txt`（完整 `pnpm check` exit 0）、`gate-ratchet-final.txt`（官方 ratchet exit 0）、`gate-protected-final.txt`（以 `origin/main` 为保护基线 exit 0）、`gate-docs-final.txt`、`gate-lint-final.txt`、`gate-ledger-final.txt` 与 `final-gates.json`。check 包含 game 313/3545、pal-extract 70/423、reforge 359/8964、editor 631/4951、migrate 96/739；lint 为 4006 files、0 error/warning/info。ratchet 与 protected fast 均通过，coverage baseline 只升不降。
+最终质量门收据已保存：`gate-check-final.txt`（完整 `pnpm check` exit 0）、`gate-ratchet-final.txt`（官方 ratchet exit 0）、`gate-protected-final.txt`（以 `origin/main` 为保护基线 exit 0）、`gate-docs-final.txt`、`gate-lint-final.txt`、`gate-ledger-final.txt` 与 `final-gates.json`。check 包含 game 313/3545、pal-extract 70/423、reforge 359/8964、editor 631/4951、migrate 96/739；check 当时 lint 为 4006 files、0 error/warning/info。证据提交后追加的当前 `pnpm lint` 扫描 4007 files，仍为 0/0/0；ratchet 与 protected fast 均通过，coverage baseline 只升不降。
 
 日志收据只去掉末尾空白行和覆盖率表格的行尾填充空格，诊断、计数、退出结果与原始命令均保留。

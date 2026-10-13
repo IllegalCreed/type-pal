@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,267。
-当前已闭合核验：338；已读但待审：10；尚未逐文件核验：2,919；合计未闭合：2,929。
+起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,268。
+当前已闭合核验：338；已读但待审：10；尚未逐文件核验：2,920；合计未闭合：2,930。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -26,7 +26,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-13 CODE53候选复核：毒键语义与0x61额外机制边界使两个已有实现恢复review；没有新增关闭。状态页、battle-system、inspect、dev-panel仍pending，待整文件/生命周期证据与统一门。
 
-2026-10-13 CODE53 ownership补证：离队角色5条合同、正式0x75清毒与装备重建共7个有效反控已记录；两份测试仍待整文件验收。CODE80只读复现dev换队生命周期并等待产品裁决；没有新增关闭，计数仍338/10/2919。
+2026-10-13 CODE53 ownership补证：离队角色5条合同、正式0x75清毒与装备重建共7个有效反控已记录；两份测试仍待整文件验收。CODE80只读复现dev换队生命周期并等待产品裁决；该检查点当时没有新增关闭，计数为338/10/2919。
 
 2026-10-13 CODE80裁决与实现：用户批准战斗期间 B 面板禁止入队/离队、大世界照常编辑；dev-panel 队伍卡增加 battle disabled/mode guard，探索切队补正式 `updateAllEquipments` 重建伪毒。新增 party-lifecycle 测试与两个实现后反控；最终 check/ratchet/protected fast/lint/docs/ledger 全部通过，但没有新增关闭；dev-panel listener/observer/thumbnail 生命周期风险继续 pending。
 
