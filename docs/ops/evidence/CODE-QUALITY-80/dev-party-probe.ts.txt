@@ -1,0 +1,101 @@
+// Read-only diagnostic: records observations, not an acceptance test for current behavior.
+import { writeFileSync } from 'node:fs'
+import type { Command, Item } from '@type-pal/shared'
+import { expect, test, vi } from 'vitest'
+import { makeEnemy, makeField, makeRole } from '../__tests__/coverage85-glm-game/harness.js'
+import { SceneAssetsCache } from '../assets/loader.js'
+import { updateAllEquipments } from '../core/equip-effect.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-state.js'
+import { setObjectPoisons } from '../core/player-poison-state.js'
+import { setGlobalEvents } from '../core/script-catalog.js'
+import { applyFixture, type DevPanelDeps, setupDevPanel } from './dev-panel.js'
+
+const gourd: Item = {
+  id: 269, bitmap: 8, price: 8600, scriptOnUse: 0, scriptOnEquip: 39163,
+  scriptOnThrow: 0, scriptDesc: 40275,
+  flags: { usable: false, equipable: true, throwable: false, consuming: false,
+    applyToAll: false, sellable: true, equipableBy: [true, true, true, false, true, false] },
+}
+const commands: Command[] = [
+  { op: 'end' },
+  { op: 'raw', opcode: 0x18, operands: [16, 269, 0], label: 'L_39163' },
+  { op: 'raw', opcode: 0x29, operands: [0, 563, 0] },
+  { op: 'raw', opcode: 0x29, operands: [0, 564, 0] },
+  { op: 'end' },
+  { op: 'raw', opcode: 0x1b, operands: [0, 20, 0], label: 'L_40860' },
+  { op: 'end' },
+  { op: 'raw', opcode: 0x1c, operands: [0, 20, 0], label: 'L_40858' },
+  { op: 'end' },
+]
+function makeDeps(): DevPanelDeps {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  return {
+    gs, fixtures: { fixtures: [] }, sceneJumps: { jumps: [] },
+    sceneAssetsCache: new SceneAssetsCache(() => Promise.reject(new Error('unexpected scene load'))),
+    resources: {
+      enemies: [makeEnemy()], enemyObjects: [], enemyTeams: [{id: 1, enemies: [100, 65535, 65535, 65535, 65535]}],
+      battleFields: [makeField()],
+      playerRoles: {roles: Array.from({length: 6}, (_, id) => makeRole(id, {
+        hp: 100, maxHP: 500, mp: 10, maxMP: 40,
+        equipment: [0, 0, 0, 0, 0, id === 0 ? 269 : 0],
+      }))},
+      levelUpExp: [], levelUpMagic: [], items: [gourd], spells: [], magics: [],
+      objectMagics: [], objectPlayers: [],
+      objectPoisons: [
+        {id: 563, level: 99, color: 0, playerScript: 40860, enemyScript: 0},
+        {id: 564, level: 99, color: 0, playerScript: 40858, enemyScript: 0},
+      ],
+      commands, enemyPos: {layouts: []}, battleEffectIndex: [], magicSpriteFrameCounts: new Map(),
+    },
+  }
+}
+
+test('record actual dev fixture and DOM party transitions', () => {
+  const deps = makeDeps()
+  const listenerSpy = vi.spyOn(window, 'addEventListener')
+  const snapshot = () => structuredClone({
+    mode: deps.gs.mode, party: deps.gs.partyMembers,
+    battlePlayers: deps.gs.battleState?.players.map((p) => p.roleId),
+    poison: deps.gs.rgPoisonStatus, hp0: deps.gs.PlayerRolesRuntime.rgwHP[0],
+    equipped0: deps.gs.PlayerRolesRuntime.rgwEquipment[5]?.[0],
+  })
+  const clickPartyRole1 = () => {
+    window.dispatchEvent(new KeyboardEvent('keydown', {code: 'KeyB', cancelable: true}))
+    const tab = Array.from(document.querySelectorAll<HTMLButtonElement>('.tp-dev-tab')).find((b) => b.textContent === '👥 队伍')
+    expect(tab).toBeDefined()
+    tab?.click()
+    const card = Array.from(document.querySelectorAll<HTMLButtonElement>('.tp-dev-panel button')).find((b) => b.textContent === 'Role1Role1')
+    expect(card).toBeDefined()
+    expect(card?.disabled).toBe(false)
+    card?.click()
+    window.dispatchEvent(new KeyboardEvent('keydown', {code: 'KeyB', cancelable: true}))
+    expect(document.querySelector('.tp-dev-panel')).toBeNull()
+  }
+  try {
+    setGlobalEvents(commands)
+    setObjectPoisons(deps.resources.objectPoisons)
+    deps.gs.rgPoisonStatus = {'0_0': {wPoisonID: 552, wPoisonScript: 42}}
+    applyFixture(deps, {id:'probe', label:'probe', partyMembers:[0,1], enemyTeamId:1, battleFieldId:0}, 7)
+    expect(deps.gs.mode).toBe('battle')
+    expect(deps.gs.battleState?.players.map((p) => p.roleId)).toEqual([0,1])
+    const fixture = snapshot()
+    setupDevPanel(deps)
+    clickPartyRole1()
+    const battleClick = snapshot()
+    deps.gs.mode = 'explore'
+    deps.gs.battleState = undefined
+    deps.gs.partyMembers = [0,1]
+    hydratePlayerRolesRuntime(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles)
+    updateAllEquipments(deps.gs, deps.resources.items)
+    const exploreBefore = snapshot()
+    clickPartyRole1()
+    const exploreAfter = snapshot()
+    writeFileSync('/tmp/type-pal-dev-party-observations.json', JSON.stringify({fixture,battleClick,exploreBefore,exploreAfter}, null, 2)+'\n')
+  } finally {
+    for (const [type, listener, options] of listenerSpy.mock.calls) window.removeEventListener(type, listener, options)
+    listenerSpy.mockRestore()
+    setGlobalEvents([])
+    setObjectPoisons([])
+    document.querySelector('.tp-dev-panel')?.remove()
+  }
+})

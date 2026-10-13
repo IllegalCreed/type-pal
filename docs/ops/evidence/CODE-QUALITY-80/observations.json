@@ -1,0 +1,50 @@
+{
+  "fixture": {
+    "mode": "battle",
+    "party": [0, 1],
+    "battlePlayers": [0, 1],
+    "poison": {
+      "0_0": {
+        "wPoisonID": 563,
+        "wPoisonScript": 5
+      },
+      "1_0": {
+        "wPoisonID": 564,
+        "wPoisonScript": 7
+      }
+    },
+    "hp0": 120,
+    "equipped0": 269
+  },
+  "battleClick": {
+    "mode": "battle",
+    "party": [0],
+    "battlePlayers": [0, 1],
+    "poison": {},
+    "hp0": 120,
+    "equipped0": 269
+  },
+  "exploreBefore": {
+    "mode": "explore",
+    "party": [0, 1],
+    "poison": {
+      "0_0": {
+        "wPoisonID": 563,
+        "wPoisonScript": 5
+      },
+      "1_0": {
+        "wPoisonID": 564,
+        "wPoisonScript": 7
+      }
+    },
+    "hp0": 120,
+    "equipped0": 269
+  },
+  "exploreAfter": {
+    "mode": "explore",
+    "party": [0],
+    "poison": {},
+    "hp0": 120,
+    "equipped0": 269
+  }
+}

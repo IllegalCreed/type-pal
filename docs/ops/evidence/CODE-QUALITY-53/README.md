@@ -16,3 +16,13 @@ The earlier uncommitted two-file replay used weaker fixtures and has been supers
 `gate-results.json` records command, environment, start/end and exit for the serial check/ratchet/protected-fast/lint/ledger run. Its original local log paths correspond to the bundled `gate-*.txt` files. Protected fast also exited 1 for the same coverage regression. Static lint exited 0 with all error/warning/info counts zero; ledger remained 338 closed / 10 review / 2919 pending. Final documentation/static checks are recorded separately after these receipts were saved. No E2E, browser visual verification or hosted CI acceptance is claimed.
 
 The bundled green regression log omits its final empty line, and the two coverage logs omit trailing table-padding spaces only; diagnostic messages, values and result lines are retained. `final-docs.txt` and `final-lint.txt` are the successful final documentation and static-check outputs (lint: 4000 files, zero errors/warnings/infos).
+
+
+`ownership-controls.json` adds seven post-implementation discrimination checks: five absent-role operations against a role-ID fallback, plus the existing 0x75 test against omitted clearing and omitted equipment reconstruction. Each mutation produces exactly one AssertionError; the same test passes after source bytes are restored. These test improvements do not close the files or erase previous failed gates.
+
+The CODE80 evidence directory contains a typed diagnostic DOM probe. It disproves the provisional claim that applyFixture omits equipment reconstruction (startBattle already performs it), and records separate party-click lifecycle gaps. That probe is not a permanent test accepting broken behavior; its source is saved as text and the temporary test is removed after execution.
+
+
+`ownership-results.json` and `ownership-{targeted,typecheck,game}.txt` record the final two-file 37-test run, game typecheck, and 312-file / 3540-test adjacent package run. All exit zero; the changed test hashes and seven control hashes match. Root check/ratchet/protected fast are intentionally deferred until this lifecycle batch is ready; their prior failures remain unresolved. Documentation and zero-diagnostic static receipts follow separately.
+
+The ownership game/targeted/typecheck text logs omit the final empty line only; result lines and diagnostics are unchanged.

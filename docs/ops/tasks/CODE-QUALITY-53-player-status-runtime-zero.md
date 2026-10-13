@@ -157,3 +157,19 @@ Visual Verification Timing: mixed（状态数值为用户可见行为；视觉�
 下一批直接继续：优先保留当前候选，核离队角色调用域并补有判别力的 ownership 反例；把现有0x75用例改为正式事件入口，连同dev换队/fixture的装备恢复和战中ownership一起判断。完成这组生命周期与测试质量修正后集中重跑统一门；另行定位jsdom导航诊断。CODE79继续只读核真实battle-item链，不夹带产品改动。未完成全文件核验、统一门和集中视觉前，不得把任何上述pending/review改为已验证。
 
 检查点文档落盘后复查：`pnpm check:docs` exit 0、0 issues；`pnpm lint` exit 0、4000 files、0 error / 0 warning / 0 info；ledger exit 0、计数未变。25个game变更文件与质量门源SHA逐一相同。最近fetch仍为 `646c8097034e4bd30a3ebde86cd61d46a2382e8a`，主工作树仅只读检查；完整复查输出见 `final-docs.txt` / `final-lint.txt`。
+
+
+### 2026-10-13 ownership测试与Dev入口补证（本轮无生产实现改动）
+
+- 实际全文读取：`status-poison-equip.glm-q.test.ts`、`core/event-opcodes.cov85.test.ts`、`core/player-poison-state.ts`、`core/event-opcode-player.ts`、`core/equipment-state.ts`、`core/equip-effect.ts`、typed `__tests__/coverage85-glm-game/harness.ts`；CODE53/CODE79和历史CODE3o卡。dev-panel上轮已全文读，本轮补读入口/队伍handler/applyFixture与其真实startBattle caller，未冒充重读完整battle-system。
+- Primary：SDLPal `global.c:1400-1457,1459-1693` 的卸装备/施毒/查询/两类解毒均先找party slot；`script.c:2164-2200` 0x75先清毒后刷新装备。正式注入caller是bootstrap:1176，实际处理入口是event-system正式tick。
+- `status-poison-equip.glm-q.test.ts` 新增5条离队角色合同：合法role0不在[4,1]，不能误读/改写当前slot0的role4。分别核查询、施毒、按种类解毒、按等级解毒、卸装备清伪毒；全表前后比较确保其它槽及脚本续点不受影响，施毒还核runner不执行。afterEach清空注入毒定义以隔离测试。
+- 现有0x75用例替换为正式事件tick，接真实updateAllEquipments；真实寿葫芦269/563/564脚本验证旧真毒552/553被清（续点1指向本片段end，毒定义取当前提取表）、新队伍装备效果重建、离队但仍装备角色不运行毒入口。原脚本label通过压缩数组解析，保存的6/8为解析后索引。没有为同一合同另堆重复用例。
+- `ownership-controls.json`：5次roleId兜底退化、1次省略0x75清表、1次省略刷新，每次恰1个AssertionError，逐次恢复原源字节后同一fullName通过。属于实现之后的判别力反控，不是修复前red历史。初次参数化测试筛选因Vitest名称包含引号未命中，已按实际fullName修正并完整重跑7针；未把零命中当作通过。
+- 更正上一检查点的待核推断：`applyFixture → startBattle:285 → updateAllEquipments` 已经重算装备。完整DOM探针显示fixture的寿葫芦563/564存在且HP100→120；不能只看applyFixture函数体再次增加刷新。CODE80保存此反证。
+- 另有实证风险：B面板战中点击Role1离队使party=[0]而battlePlayers=[0,1]；探索换队也只清表，仍装备的寿葫芦效果丢失。已开高风险CODE80并提出“战斗期间禁用入队/离队”或“完整支持战中换人”两种具体取舍，等待用户，未改产品行为。
+- 本轮两文件定向37 tests passed；game typecheck exit0。game相邻包运行结果及最终文档/静态复查另记。按照用户集中检查偏好，生命周期切片尚未完成，此检查点不重复全仓check/coverage；上一检查点ratchet/protected失败和导航诊断仍未解决，不得借本轮局部通过宣布全门通过。
+- 本轮没有关闭文件。ledger机器结果仍3267 /338 closed /10 review /2919 pending。player-poison-state、battle-opcodes继续review；两份测试及dev-panel/状态页/battle-system/inspect等未完成整文件证据的文件继续pending。待CODE80裁决后先写失败反例再修改，集中运行全部质量门；CODE79另行推进。
+
+
+本次最终测试输入统一后实测：两文件37 tests通过；game typecheck exit0；game全包312 files/3540 tests通过，日志无error/warning/navigation诊断。7个反控的源/测试SHA均与当前字节一致。完整命令、起止时间、退出码和日志见 `ownership-results.json` / `ownership-{targeted,typecheck,game}.txt`。这是未收口检查点；CODE80裁决仍待答复，未因game全绿把文件改为已验证。

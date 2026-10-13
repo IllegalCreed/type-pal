@@ -26,6 +26,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-13 CODE53候选复核：毒键语义与0x61额外机制边界使两个已有实现恢复review；没有新增关闭。状态页、battle-system、inspect、dev-panel仍pending，待整文件/生命周期证据与统一门。
 
+2026-10-13 CODE53 ownership补证：离队角色5条合同、正式0x75清毒与装备重建共7个有效反控已记录；两份测试仍待整文件验收。CODE80只读复现dev换队生命周期并等待产品裁决；没有新增关闭，计数仍338/10/2919。
+
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
 | `packages/shared/src/rle.ts` | product | 已验证 | CODE-QUALITY-1；RLE 定向、shared 全包、check、ratchet、protected fast、lint | generic/strict framing 边界已收 |

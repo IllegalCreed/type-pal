@@ -1,7 +1,7 @@
 // Q06 · game status 毒槽与装备派生值直测残差（排重：opcode 层 0x29/cure-by-level 与
 // 装备效果重建旧测已证；本文件只补 isPlayerPoisoned ByKind/伪毒臂、curePlayerPoisonByKind、
 // removePoisonLevel99、addPoisonForPlayer runner 契约与 fleeRate/poisonResistance 读取器）。
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { getPlayerFleeRate, getPlayerPoisonResistance } from './core/equipment-state.js'
 import type { EquipmentEffectRoles } from './core/game-state.js'
 import { createInitialGameState, type GameState } from './core/game-state.js'
@@ -47,6 +47,55 @@ function seed(gs0: GameState, roleId: number, slot: number, poisonId: number, sc
   if (partySlot < 0) throw new Error(`test fixture role ${roleId} is not in party`)
   gs0.rgPoisonStatus[`${slot}_${partySlot}`] = { wPoisonID: poisonId, wPoisonScript: script }
 }
+
+afterEach(() => setObjectPoisons([]))
+
+describe('CODE53 离队角色没有毒槽 ownership', () => {
+  function partyWithPoisons(): GameState {
+    const state = gs()
+    state.partyMembers = [4, 1]
+    setObjectPoisons([
+      { id: 552, level: 1, color: 64, playerScript: 10, enemyScript: 0 },
+      { id: 553, level: 2, color: 64, playerScript: 20, enemyScript: 0 },
+      { id: 563, level: 99, color: 0, playerScript: 30, enemyScript: 0 },
+    ])
+    state.rgPoisonStatus = {
+      '0_0': { wPoisonID: 552, wPoisonScript: 11 },
+      '1_0': { wPoisonID: 563, wPoisonScript: 31 },
+      '0_1': { wPoisonID: 553, wPoisonScript: 21 },
+    }
+    return state
+  }
+
+  // role 0 是合法角色，但不在当前队伍；其 ID 恰好与 role 4 的队伍槽 0 相同。
+  // global.c:1483-1493/1543-1555/1590-1602/1641-1653 要求先查队伍，不能回退 roleId。
+  test('查询离队角色不能读到当前首槽角色的真毒或指定毒', () => {
+    const state = partyWithPoisons()
+    expect(isPlayerPoisoned(state, 0)).toBe(false)
+    expect(isPlayerPoisoned(state, 0, 552)).toBe(false)
+    expect(isPlayerPoisoned(state, 4, 552)).toBe(true)
+  })
+
+  test('向离队角色施毒不执行入口，也不创建槽或改变在队角色的毒', () => {
+    const state = partyWithPoisons()
+    const before = structuredClone(state.rgPoisonStatus)
+    const runner = vi.fn((ip: number) => ip + 1)
+    addPoisonForPlayer(state, 0, 553, runner)
+    expect(runner).not.toHaveBeenCalled()
+    expect(state.rgPoisonStatus).toEqual(before)
+  })
+
+  test.each([
+    { name: '按种类解毒', run: (state: GameState) => curePlayerPoisonByKind(state, 0, 552) },
+    { name: '按等级解毒', run: (state: GameState) => curePlayerPoisonByLevel(state, 0, 3) },
+    { name: '卸装备清伪毒', run: (state: GameState) => removePoisonLevel99(state, 0) },
+  ])('$name：离队角色操作不能修改当前队伍毒表', ({ run }) => {
+    const state = partyWithPoisons()
+    const before = structuredClone(state.rgPoisonStatus)
+    run(state)
+    expect(state.rgPoisonStatus).toEqual(before)
+  })
+})
 
 describe('Q06 isPlayerPoisoned', () => {
   test('ByKind 只查指定毒 id，不看等级与其它毒', () => {
