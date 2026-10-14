@@ -51,3 +51,10 @@ Branch: codex/code-quality-3y
 - 门禁最终 `exit 1`，明确失败为 `候选 baseline 删除仍存在文件中的 fast tests: test-file: packages/game/src/core/event-rng-scene-restore.test.ts`。候选分支 baseline 仍是 d7 旧快照，主线已新增 RNG 测试；不能把这条删除当作批准退役，也不能恢复30条旧关闭。
 - 同一真实结果的 coverage 汇总为 game `13805/15602` statements、total `70847/78780` statements，ratchet floor 也仍有精确回退；因此即使先处理 RNG baseline scope，coverage ratchet 仍需独立解决，不能降基线或加弱测试。原生 receipt：`docs/ops/evidence/CODE-QUALITY-92/protected-fast-current.txt`，exit：`protected-fast-current.exit`。
 - 当前 ledger 保持 3271 / 340 closed / 42 review / 2889 pending；CODE83–89/91 的30条记录继续 review，CODE90 两文件继续 review。
+
+
+### 2026-10-14 protected fast 在新 baseline 上通过
+
+- 官方 ratchet 已在 `edbcad970` 更新 baseline，纳入 origin/main 的 RNG test 与本批 6 条真实 runner 合同。随后在同一治理分支执行 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`，7 包 731 files / 19,870 tests 全部通过。
+- protected gate exit 0，候选 baseline 与 origin/main scope 通过；最终 consolidated game `13812/15602` statements、`9064/11373` branches、`12336/13685` lines，total `70854/78780` statements、`51557/61618` branches、`63306/68945` lines；工具报告相对 baseline 提升0项。receipt：`evidence/CODE-QUALITY-92/protected-fast-after-ratchet.txt`，exit：`protected-fast-after-ratchet.exit`。
+- 30/30 当前文件与各自关闭提交源码字节一致；下一步仅剩全仓 `pnpm check`、最终 lint/docs/content-review/ledger，再恢复30条账本状态并把本卡收口。CODE90 两文件不随本卡恢复。

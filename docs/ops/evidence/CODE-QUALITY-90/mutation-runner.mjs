@@ -115,12 +115,13 @@ async function main() {
     const originalRun = await run('pnpm', testArgs, temp)
     await writeFile(join(rawRoot, 'original.txt'), originalRun.stdout + originalRun.stderr)
     if (originalRun.code !== 0) throw new Error('original test set was not green')
+    const originalAssertions = assertions(originalRun, canonicalRoot)
     results.push({
       phase: 'original',
       command: `pnpm ${testArgs.join(' ')}`,
       cwd: temp,
       exitCode: originalRun.code,
-      assertions: assertions(originalRun, canonicalRoot),
+      assertions: originalAssertions,
     })
     const missingCleanup = original.toString().replace(mutations[0].replace, mutations[0].with)
     await writeFile(sourcePath, missingCleanup)
@@ -130,9 +131,15 @@ async function main() {
     const preFixFailed = preFixAssertions.executed.filter((test) => test.status === 'failed')
     if (
       preFixRun.code !== 1 ||
-      preFixAssertions.executed.length < 31 ||
+      JSON.stringify(
+        preFixAssertions.executed.map(({ file, fullName }) => ({ file, fullName })),
+      ) !==
+        JSON.stringify(
+          originalAssertions.executed.map(({ file, fullName }) => ({ file, fullName })),
+        ) ||
       preFixFailed.length !== 2 ||
       preFixAssertions.runtimeError ||
+      !preFixFailed.every((test) => [singleName, allName].includes(test.fullName)) ||
       !preFixFailed.every((test) => test.failureMessages[0]?.startsWith('AssertionError:'))
     )
       throw new Error('pre-fix reproduction did not produce the expected two business failures')
