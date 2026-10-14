@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
+      "afterSha256": "666964598718dbb3f6d0e98a6b70c9838bf974f19bd040c9aaabfcf6cc75d363",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
+        "implementationSha": "666964598718dbb3f6d0e98a6b70c9838bf974f19bd040c9aaabfcf6cc75d363",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -729,6 +729,14 @@
             "previousAfterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
             "afterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
             "scope": "GLM 完成逐文件复核与独立全门（check/ratchet/protected fast）；30 条保持 review 交 Codex 独立验收。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
+            "afterSha256": "666964598718dbb3f6d0e98a6b70c9838bf974f19bd040c9aaabfcf6cc75d363",
+            "scope": "CODE-QUALITY-97 review-only 批登记；CODE94/95 待 Codex 验收不变。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
@@ -967,7 +975,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
+      "afterSha256": "e48c178b9e0497af953ce80c7fb709bdcf1fc920b9a78aced9bad7bc4dc353f0",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1001,7 +1009,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
+        "implementationSha": "e48c178b9e0497af953ce80c7fb709bdcf1fc920b9a78aced9bad7bc4dc353f0",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1132,6 +1140,14 @@
             "afterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
             "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
             "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
+            "afterSha256": "e48c178b9e0497af953ce80c7fb709bdcf1fc920b9a78aced9bad7bc4dc353f0",
+            "scope": "CODE-QUALITY-97 证据目录导航登记。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
@@ -1870,7 +1886,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
+      "afterSha256": "4fa6abafd1a3e0d83399460d567b1d8f16ac0bf9496e79ef60633c508e8a6a69",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1906,7 +1922,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
+        "implementationSha": "4fa6abafd1a3e0d83399460d567b1d8f16ac0bf9496e79ef60633c508e8a6a69",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2064,6 +2080,22 @@
             "previousAfterSha256": "906123cb420e51cd1649e649743d38a1993ba97ca528a124e470a318ef97a3da",
             "afterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
             "scope": "用户指定停止后交GLM；仅review检查点导航，完整质量门与main集成未完成。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
+            "afterSha256": "d1633c410b3b238754bbe8b236069d6e878bebc8356efbcfe7ac427ae152668d",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-97 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "d1633c410b3b238754bbe8b236069d6e878bebc8356efbcfe7ac427ae152668d",
+            "afterSha256": "4fa6abafd1a3e0d83399460d567b1d8f16ac0bf9496e79ef60633c508e8a6a69",
+            "scope": "任务索引再生成去 EOF 空行后重钉。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
