@@ -62,3 +62,4 @@
 - [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 交付证据](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md)（r1 候选：battle core/session 排重后 6 残余合同（敌方施法三门/复活无保底/敌逃战果会计/AI 敌逃回执）+ identity TSV 全量反控 6/6 + 11 自测反例，待 Codex 独立验收）。
 - [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 交付证据](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md)（r1 候选：main 宿主编排排重后 5 残余合同（入场揭幕/触发脚本错误恢复/试打终局与错误回执/存档失败计数与队列）+ identity TSV 全量反控 5/5 + 11 自测反例 + D-1 `?battle-scene=` 投影死路缺陷披露，待 Codex 独立验收）。
 - [CODE-QUALITY-97 交付证据](CODE-QUALITY-97/README.md)（review-only：menu helper primitives/item-select 逐文件四维结论 + E-4/E-5 死面登记，49 定向，待 Codex 验收）。
+- [CODE-QUALITY-98 交付证据](CODE-QUALITY-98/README.md)（review-only：opening-menu/player-status 逐文件四维结论 + E-6 currentRoleId test-only 登记，52 定向，待 Codex 验收）。

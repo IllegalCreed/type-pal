@@ -14,7 +14,7 @@
 | CODE-QUALITY-94 | [menu 独立阶段集成窗口](tasks/CODE-QUALITY-94-menu-integration-window.md) | review | Codex / 独立验收 GLM 复核与独立门 | 30 文件 GLM 复核+全门完成（glm-review.md）；不借源分支全绿关闭 |
 | CODE-QUALITY-95 | [menu fixture 合法性 counter](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | Codex / 独立验收三份修复 | 三份 typed fixture 裁定合法、oracle 无弱化；随 94 同批验收 |
 | CODE-QUALITY-97 | [menu 基础 helper 逐文件审核](tasks/CODE-QUALITY-97-menu-helper-primitives-item-select.md) | draft | Codex / 独立验收 review-only 结论 | primitives/item-select 四维通过；E-4/E-5 死面登记 |
-## 看板规则
+| CODE-QUALITY-98 | [menu 剩余状态机审核](tasks/CODE-QUALITY-98-menu-opening-player-status.md) | draft | Codex / 独立验收 review-only 结论 | opening/player-status 四维通过；E-6 登记待实现批 |## 看板规则
 
 - 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。
 - 任务顶部 Status、任务索引和此表必须一致。

@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含编辑器预览集成与第一阶段 RNG 回归）：3,267。
-当前已闭合核验：229；已读但待审：37；尚未逐文件核验：3,001；合计未闭合：3,038。
+当前已闭合核验：229；已读但待审：39；尚未逐文件核验：2,999；合计未闭合：3,038。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -295,7 +295,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；GLM 逐文件复核+独立全门完成（evidence/CODE-QUALITY-94/glm-review.md），待 Codex 独立验收 | 不借源分支全绿关闭；不带CODE53/90实现 |
 | `packages/game/src/core/menu/primitives.ts` | product | review | CODE-QUALITY-97 review-only；GLM 逐文件四维结论（L38 双语义锚齐/caller 10+ 生产文件/纯 data），E-4 pageUp/pageDown/findNextSelectable 无生产 caller 已登记 | 死面删除须另卡；不借本批复核关闭 |
 | `packages/game/src/core/menu/item-select.ts` | product | review | CODE-QUALITY-97 review-only；GLM 逐文件四维结论（matchesFilter 3 真实 caller/sellPrice floor/M5 近似显式标注），E-5 createItemSelectMenu 无生产 caller 已登记 | 同上 |
-| `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
+| `packages/game/src/core/menu/opening-menu.ts` | product | review | CODE-QUALITY-98 review-only；GLM 逐文件四维结论（WORD id 7/8 byte 级验证备注/caller=bootstrap+menu-driver+draw-opening/纯状态机） | 无死面；待 Codex 验收 |
+| `packages/game/src/core/menu/player-status.ts` | product | review | CODE-QUALITY-98 review-only；GLM 逐文件四维结论（输入循环逐键锚 uigame.c:1271/1276/1281/done 幂等/caller=menu-driver+battle-system+draw） | E-6 currentRoleId test-only 已登记；待 Codex 验收 || `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 
@@ -304,3 +305,4 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-14 CODE94 独立 menu 集成窗口：从最新 origin/main cddf65557 建分支，仅接收治理分支已闭合30条 menu 记录及其测试治理候选，完整原卡/证据保留。集成前暂登记 review，当前机器 inventory3267：closed229/review35/pending3003；主线其它 pending 不升级，不导入 CODE53/90 等未收口生产行为。
 2026-10-15 CODE94/95 GLM 复核：30/30 全文复核（四维质量+caller/oracle）与 manifest SHA 机械核验完成；CODE95 三份 fixture 修复裁定合法且 oracle 无弱化；定向241/typecheck/docs/lint-zero 4012/ledger 独立复跑通过；protected fast 首跑 fail-closed（范围变化 4 文件/+2 测试）后经 official ratchet 确认新基线再复跑，回执见 evidence/CODE-QUALITY-94。30 条仍 review 交 Codex 独立验收，不因本批复核自动 closed。
 2026-10-15 CODE-QUALITY-97 review-only 批：新增 primitives/item-select 两行 review（四维结论+E-4/E-5 死面登记），review35→37、pending3003→3001；零代码改动，与 CODE94/95 批共用 5cb6b9d22 树的完整门禁。
+2026-10-15 CODE-QUALITY-98 review-only 批：新增 opening-menu/player-status 两行 review（四维结论+E-6 currentRoleId test-only 登记），review37→39、pending3001→2999；零代码改动，共用 5cb6b9d22 树门禁。
