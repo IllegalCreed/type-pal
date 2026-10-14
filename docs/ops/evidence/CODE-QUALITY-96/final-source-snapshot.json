@@ -1,0 +1,60 @@
+{
+  "status": "closed; all quality gates terminal exit 0; final static gates zero diagnostics",
+  "sourceBranch": "codex/code-quality-3y",
+  "head": "dc38e42fa7bbc2fa5a5d0285d8997cca738aa239",
+  "originMain": "cddf65557e60619e40e38168b276cf01981a106a",
+  "files": [
+    {
+      "file": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "lines": 139,
+      "reading": "full text; production callers/public types/lifecycle; primary oracles recorded in CODE93/96"
+    },
+    {
+      "file": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+      "lines": 161,
+      "reading": "full text; production callers/public types/lifecycle; primary oracles recorded in CODE93/96"
+    },
+    {
+      "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+      "lines": 136,
+      "reading": "full text; production callers/public types/lifecycle; primary oracles recorded in CODE93/96"
+    },
+    {
+      "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "lines": 64,
+      "reading": "full text; production callers/public types/lifecycle; primary oracles recorded in CODE93/96"
+    },
+    {
+      "file": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "1c5e80d43882718a73064c57c38b0514569f982ce498b4429a44f1027db3fade",
+      "lines": 145,
+      "reading": "full text; production callers/public types/lifecycle; primary oracles recorded in CODE93/96"
+    },
+    {
+      "file": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "0532c36cfbaebf26dee62a0cb005082d6b4ba08d5899e32a9d8503894eee3490",
+      "lines": 71,
+      "reading": "full text; production callers/public types/lifecycle; primary oracles recorded in CODE93/96"
+    }
+  ],
+  "baselineSha256": "b6fee7230bf4d63f4ea559b3eb090777a685a97a545e91f0a0bbad162d0b89fc",
+  "productChange": false,
+  "highRiskBoundaryTouched": false,
+  "retirement": "one proven duplicate; exact old/new count+identity+file SHA; original predicate/source guard/thresholds unchanged",
+  "ledger": {
+    "inventory": 3271,
+    "closed": 373,
+    "review": 15,
+    "pending": 2883
+  },
+  "finalLint": {
+    "files": 4056,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  }
+}

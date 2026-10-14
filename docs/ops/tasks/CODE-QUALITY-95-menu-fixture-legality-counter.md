@@ -46,4 +46,6 @@ Codex build allowed：补齐 typed Item/PlayerRole；按 roleId 索引构造真�
 
 ## 下一位 Agent 提示词
 
+已有用户裁决须保留阶段边界：大世界物品用尽对齐 SDLPal；状态页保留真实 runtime 0、poison canonical party-slot（切队 ownership 先核 CODE53/79 当前证据，不能推断中毒换人）；战斗期间 B 面板禁止入队/离队、大世界可编辑。第一阶段复活只清 `<=999` 临时状态，保留 `>999` 武器/装备效果；第二阶段 status/grantedStatuses 和装备 grantStatus 独立区分来源，不搬一阶段回合数判据。这些授权不批准把未收口实现整条合 main；后续先核最新卡和一手证据，不重复索要已有明确裁决。
+
 用户指定后续由 GLM 完成。先 fetch 最新 origin/main，读取 AGENTS/CLAUDE/agent-workflow、board/治理账本及 CODE94/95。使用 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal` 的 `codex/code-quality-menu-integration`，已推送检查点 abf284d75。完整提示词在该候选的 CODE94/95 卡；30条仍review，24 files/241 tests、game typecheck、docs、最终lint4012零诊断、ledger3267/229/35/3003通过，独立全仓check/ratchet/protected未运行。允许核验/修正白名单测试，不授权产品/public/schema/save/资产改动；不整条合旧治理分支，不碰主工作树。CODE93/96收口后才按白名单接收其文件与精确退役metadata，不复制整份源coverage baseline。提交证据和全部门供Codex独立验收，未知保持review，不得标done。

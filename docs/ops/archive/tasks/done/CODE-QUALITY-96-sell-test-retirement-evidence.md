@@ -1,6 +1,6 @@
 # CODE-QUALITY-96 — sell 测试精确退役保护账
 
-Status: build
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: ops
@@ -52,3 +52,20 @@ Codex build allowed：只新增这一精确批准数据项，更新冻结账数�
 ## 官方 ratchet 终态
 
 `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet --allow-scope-removal` exit0：731生产文件/19874 fast tests；game3541，statements13814/15602、branches9067/11373、lines12336/13685；total70856/78780、51560/61618、63306/68945。官方工具只升不降更新baseline，提升4项/范围变化2项；未手改基线。真实protected已开始，session93008继续有效，六文件仍review。
+
+
+## 最终验收与用户停止交接（2026-10-14）
+
+Codex review accept：完整读取与直接caller/primary/oracle成立，定向相邻96、coverage工具59、quality工具37、game/七包typecheck、完整pnpm check及official ratchet和真正protected fast均exit0，无Warning/act/Unhandled诊断。protected明确核准唯一sell GLM测试3→2精确退役；731生产文件/19874fast tests、指标与ratchet新基线一致，未降低规则、ignore/exclude或生产范围。最终导航/账本/lint回执见CODE96/final-*，未通过时不得提交done。
+
+只关闭CODE93四文件及CODE96两工具文件。当前3271/373closed/15review/2883pending；CODE95三份旧测试、CODE90两文件与其它review/pending保持未闭合。来源/最终文件SHA见CODE96/final-source-snapshot.json，原始失败回执保留，不追溯改写历史。
+
+再次fetch后origin/main仍cddf65557e60619e40e38168b276cf01981a106a；0behind，本分支含未收口行为，未合main。用户要求本部分后停止，Codex不领取新的pending；GLM候选abf284d75已推送，独立30文件仍review、24files/241tests及typecheck/docs/lint4012零诊断通过，独立完整check/ratchet/protected尚未执行。
+
+## 下一位 Agent 提示词（GLM）
+
+接手CODE94/95，工作树`/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal`、分支`codex/code-quality-menu-integration`（推送检查点abf284d75）。先fetch/status/show/ledger，完整读取AGENTS/CLAUDE/agent-workflow、board/治理总纲/逐文件账本、phase1工程经验/机制，以及CODE94/95和83–89/91/92历史卡；完整提示词在候选CODE94/95。30条仍review，先独立核typed fixture/真实caller/oracle、跑全部门再交Codex验收；不得把旧卡或源分支门当当前接收，未验收不得标done。允许白名单测试补证，不允许未知产品/public/schema/save/资产修改。
+
+CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。
+
+最终收口静态回执：docs1280 Markdown/6792links/417tasks、content-review570、quality工具37/37、lint4056/0errors/0warnings/0infos、ledger3271/373/15/2883均exit0。CODEx仅本六文件accept，未合main，后续GLM按上述提示词接手。

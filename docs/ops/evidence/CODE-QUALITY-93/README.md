@@ -15,4 +15,6 @@
 
 全仓 `VITEST_MAX_WORKERS=1 pnpm check` 已完整 exit0，7 包 typecheck/test 与工具/文档门通过；game3569、editor4951、migrate739，最终 lint4047 files / 0 errors / 0 warnings / 0 infos，见 `gate-check.txt`/`.exit`。
 
-official `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` → `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 继续串行运行。两 coverage 门还未有 terminal receipt，不计通过；只有完成全部质量门并更新实际退出码后允许归档与关闭四条账本记录。其它 pending/review 保持原状态。
+历史 review 检查点：official `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` → `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 继续串行运行。两 coverage 门还未有 terminal receipt，不计通过；只有完成全部质量门并更新实际退出码后允许归档与关闭四条账本记录。其它 pending/review 保持原状态。
+
+最终联合门均exit0：见CODE96的gate-check/ratchet/protected-fast（每门txt/exit/raw.json），最终file SHA snapshot与final-docs/lint/ledger回执。全量check、两个真正coverage门和静态零诊断通过才收口；仅关闭CODE93四条+CODE96两条，其他review/pending不变。用户指定停止后交GLM，候选CODE94/95全部独立门尚未完成，未合main。可读日志只去行尾/末尾空白，同名raw.json保留逐字输出/SHA。

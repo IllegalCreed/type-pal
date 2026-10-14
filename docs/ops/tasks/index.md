@@ -14,9 +14,7 @@
 | [CODE-QUALITY-80 — game Dev Panel 换队生命周期](CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-81 — game Dev Panel picker 生命周期](CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-90 — magic revive status clearing boundary](CODE-QUALITY-90-magic-revive-status-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-93 — game sell menu state contract](CODE-QUALITY-93-game-sell-menu-contract.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-95 — menu 测试夹具合法性 counter](CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-96 — sell 测试精确退役保护账](CODE-QUALITY-96-sell-test-retirement-evidence.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -145,6 +143,8 @@
 | [CODE-QUALITY-89 — game in-game-magic state / execution boundary](../archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-91 - game inventory-action menu contract](../archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-92 — protected fast 命令误标纠正](../archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-93 — game sell menu state contract](../archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-96 — sell 测试精确退役保护账](../archive/tasks/done/CODE-QUALITY-96-sell-test-retirement-evidence.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归](../archive/tasks/done/CURSOR-WAVE-2-1-docs-and-pure-regressions.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D12-1 - 音频动态过渡与分层（议题 12 剩余①）](../archive/tasks/done/D12-1-audio-transition-layering.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [D13-1 - 调试工具首刀（议题 13）](../archive/tasks/done/D13-1-debug-tools-first-batch.md) | done | 完成证据、历史签字与交接见原卡。 |
