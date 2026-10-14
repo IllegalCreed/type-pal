@@ -64,3 +64,4 @@
 - [CODE-QUALITY-97 交付证据](CODE-QUALITY-97/README.md)（review-only：menu helper primitives/item-select 逐文件四维结论 + E-4/E-5 死面登记，49 定向，待 Codex 验收）。
 - [CODE-QUALITY-98 交付证据](CODE-QUALITY-98/README.md)（review-only：opening-menu/player-status 逐文件四维结论 + E-6 currentRoleId test-only 登记，52 定向，待 Codex 验收）。
 - [CODE-QUALITY-99 交付证据](CODE-QUALITY-99/README.md)（review-only：menu-driver 逐文件四维结论 + E-7 fixture counter/E-8 死参/E-9 死导出登记，79 定向，待 Codex 验收）。
+- [CODE-QUALITY-100 交付证据](CODE-QUALITY-100/README.md)（review-only：save-slot-menu 逐文件四维结论 + 存档域边界核验，56 定向，待 Codex 验收）。

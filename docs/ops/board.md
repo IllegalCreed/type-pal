@@ -16,7 +16,7 @@
 | CODE-QUALITY-97 | [menu 基础 helper 逐文件审核](tasks/CODE-QUALITY-97-menu-helper-primitives-item-select.md) | draft | Codex / 独立验收 review-only 结论 | primitives/item-select 四维通过；E-4/E-5 死面登记 |
 | CODE-QUALITY-98 | [menu 剩余状态机审核](tasks/CODE-QUALITY-98-menu-opening-player-status.md) | draft | Codex / 独立验收 review-only 结论 | opening/player-status 四维通过；E-6 登记待实现批 |## 看板规则
 | CODE-QUALITY-99 | [menu 输入路由中枢审核](tasks/CODE-QUALITY-99-menu-driver-review.md) | draft | Codex / 独立验收 review-only 结论 | driver 四维通过；E-7 fixture counter/E-8 死参/E-9 死导出登记 |
-- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。
+| CODE-QUALITY-100 | [存档槽菜单审核](tasks/CODE-QUALITY-100-save-slot-menu-review.md) | draft | Codex / 独立验收 review-only 结论 | save-slot-menu 四维通过；save 边界核验无触碰；56 定向 |- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。
 - 任务顶部 Status、任务索引和此表必须一致。
 - 证据只放 evidence/<task-id>/；审计正文与探针脚本分离。
 - 历史报告保留原结论，不因归档升级为当前通过。
