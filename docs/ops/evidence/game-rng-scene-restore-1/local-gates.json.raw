@@ -1,0 +1,81 @@
+{
+  "sourceCommit": "5116cd5bb5b582ae3d3a6b8d65cb8953ac755239",
+  "packages": [
+    {
+      "name": "content",
+      "files": 149,
+      "tests": 1498
+    },
+    {
+      "name": "shared",
+      "files": 16,
+      "tests": 131
+    },
+    {
+      "name": "game",
+      "files": 312,
+      "tests": 3523
+    },
+    {
+      "name": "pal-extract",
+      "files": 70,
+      "tests": 423
+    },
+    {
+      "name": "reforge",
+      "files": 359,
+      "tests": 8964
+    },
+    {
+      "name": "editor",
+      "files": 631,
+      "tests": 4951
+    },
+    {
+      "name": "migrate",
+      "files": 96,
+      "tests": 739
+    }
+  ],
+  "runtimeTestsAcrossPackages": 20229,
+  "reruns": [
+    {
+      "name": "adoption",
+      "success": true,
+      "passed": [
+        {
+          "fullName": "design-system adoption gate rejects prose-only adoption truth, forged reserved markers, and legacy drift",
+          "durationMs": 11576.378708
+        }
+      ],
+      "reportSha256": "0e701ee5daa045bf22dcf02e2e8fe0c74624a446dbeeff265ec982c8aece5047"
+    },
+    {
+      "name": "migrate",
+      "success": true,
+      "passed": [
+        {
+          "fullName": "PAL current-only publication accepts merged author shop lifecycle and command changes, retaining the pure generated baseline",
+          "durationMs": 61181.422416
+        }
+      ],
+      "reportSha256": "3a9a310407923d281deefce8d982e9a42602b738ed8a7aeafc968f89a14e5efb"
+    }
+  ],
+  "wholeCommandInitiallyGreen": false,
+  "reason": "Initial default run had 10 CLI timeouts; bounded rerun had one editor audit timeout; separate migrate check had one PAL publication timeout. Original reports preserved, exact failed contracts rechecked without timeout or assertion changes.",
+  "staticDiagnostics": {
+    "lint": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "files": 3995
+    },
+    "types": "all package checks passed"
+  },
+  "qualityTools": {
+    "passed": 37,
+    "failed": 0
+  },
+  "docs": "PASS: link/index, testing docs, phase/lore and content review"
+}

@@ -41,7 +41,8 @@
 - [额外生产 build](build.log.gz)成功；649.68 kB 主包触发一条 >500 kB 的体积提示。
   原始提示如实保留。用户授权发布后静态拆分音频依赖，主包381.03 kB/audio268.03 kB，
   [最终 build](build-split.log.raw)零告警，默认阈值保持。
-- 未改第二阶段、生成资产和部署脚本；当前未发送 issue 回复、未发布生产。覆盖率由合入提交 CI 实测。
+- 未改第二阶段、生成资产和部署脚本；当前未发送 issue 回复、未发布生产。覆盖率由合入提交 CI 实测；
+  当前严格门尚未通过，详见下方历史回执。
 - 原始 20 个 PlayRNG caller 的独立静态核验支持当前窄修。普通 RNG 背景对话之后再 redraw 的合成序列
   仍涉及现有双重保持语义，不纳入本次“进入对话前 redraw”的修复承诺。
 
@@ -55,3 +56,21 @@
   缓存条目、离线 fetch 失败。两个生产包使用同一 SW 与测试流程，说明不是新增 audio chunk 的特有回归。
   [诊断脚本](preview-cache-diagnostic.mjs.raw)和失败原件保留；不把启动/音频通过混称离线通过。
   既有 SW 资源缓存问题不在本次 RNG 修复范围内，尚未修复；离线冷启动原本也不受支持。
+
+## 全仓门与 CI 历史回执
+
+- [本地门汇总](local-gates.json.raw)：七包 20229 项；初次整仓命令并非 exit 0。
+  [默认并发失败](check-all.log.gz)、[限制并发复跑](check-all-bounded.log.gz)原件保留。
+  提取器 10 项 CLI 超时在复跑中通过；编辑器 AST 审计单项[原生复核](adoption-recheck.json.raw)
+  11.58s 通过，同一 15s 门限。
+- [迁移包检查](migrate-check.log.gz)738/739 通过、一项 120s 超时；
+  [同一合同隔离复核](migrate-recheck.json.raw)61.18s 通过，未改超时或断言。
+  汇总代表各包执行与精确复核，不代表对全部 20229 项测试合同重新做语义审计。
+- [首轮 CI 失败](ci-first-failure.log.gz)：新测试 tracked 后账本计数差 1；已同步机器总数/待核数，
+  保持 verified 229 不变，[质量工具复核](quality-ledger-recheck.log.gz)37/37。
+- [第二轮 CI 失败](ci-second-failure.log.gz)：源码 `5116cd5b`，19820 项 fast 执行通过、指标无下降；
+  严格门正确拒绝未登记的 game 新增 4 用例及执行 digest。后续必须官方 ratchet 和严格 CI 闭合。
+  [CI 原生汇总](ci-second-summary.json.gz)与[只读比对](ci-second-analysis.json.raw)：
+  范围仅新增 1 测试文件/4 项及 game execution digest，无移除，6 项指标提升。
+- [官方 ratchet 原生日志](coverage-ratchet.log.gz)及[原生汇总](coverage-ratchet-summary.json.gz)：
+  19820 项/731 生产文件，exit 0；与 GitHub 原生实测所有整数一致。基线更新后仍须严格 CI 放行。
