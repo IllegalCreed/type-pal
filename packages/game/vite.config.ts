@@ -89,6 +89,13 @@ export default defineConfig({
     outDir: 'dist',
     target: 'es2022',
     assetsInlineLimit: 0,
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [{ name: 'audio', test: /node_modules[\\/]spessasynth_lib[\\/]/ }],
+        },
+      },
+    },
   },
   server: {
     // host:true 绑 0.0.0.0,别人用局域网 IP 直接能连(免得每次手敲 --host)。
