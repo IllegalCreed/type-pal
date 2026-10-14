@@ -122,3 +122,7 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 下一批候选: 先完整审 magic-script 两文件未闭合项，或不重叠 sell-menu.ts 与三份专属测试；已对 sell-menu 四文件只读，不等于已完成核验
 不要做: 不清 >999；不改phase2 grantedStatuses模型、schema/save、battle runner或poison key；不混入主工作树改动；本分支含其它未收口治理卡，禁止直接合main
 输出要求: 定向与全仓门实际回执、直接oracle/反控、账本3271inventory/370closed/12review/2889pending与分支ahead/behind；尚有失败时继续review，不宣称专项完成
+
+## 当前验证与门纠错补充
+
+最新集成源基点7a93336c6（包含origin/main588790383）：9 files / 522定向相邻tests、game typecheck和完整pnpm check已通过（worker1；game315/3559，editor631/4951，migrate96/739，lint4031/0/0/0）。真正protected fast是TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast，先前pnpm check:fast不能替代，原件保留且不计此门。CODE92已对Code83–89/91的30条记录开当前counter，机器账本暂为3271/340closed/42review/2889pending，待真实门通过与30/30已证源码一致性一起恢复。CODE90两文件仍review，不因工程门纠错而关闭。

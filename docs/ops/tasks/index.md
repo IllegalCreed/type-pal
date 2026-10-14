@@ -14,6 +14,7 @@
 | [CODE-QUALITY-80 — game Dev Panel 换队生命周期](CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-81 — game Dev Panel picker 生命周期](CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-90 — magic revive status clearing boundary](CODE-QUALITY-90-magic-revive-status-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-92 — protected fast 命令误标纠正](CODE-QUALITY-92-protected-fast-command-correction.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |

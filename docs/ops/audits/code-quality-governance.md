@@ -227,6 +227,8 @@ Q3y / CODE-QUALITY-90 phase1 magic revive 行为切片进入 review：`magic-scr
 
 2026-10-14 最新主线同步到 `5116cd5bb`：保留 RNG 功能任务与静态音频分包，新增 RNG 测试只计pending；event-system 最新机制改动保守重开review，旧CODE3r结论留作历史。机器库存3271：closed370/review12/pending2889。CODE90修复检查点d7e9831f4已推送但仍review；旧基点门/失败原件保留，最新集成基点质量门须重跑，不以同步或包级全绿自动关闭任何文件。
 
+2026-10-14 CODE92 当前工程counter：Code83–89/91将pnpm check:fast误标为protected fast，实际正确门为TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast。历史原件与语义核验保持；关联30条暂转review，当前inventory3271、closed340/review42/pending2889。真实门和逐文件当前源/关闭源比对前不恢复关闭；不变更产品、测试或规则。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

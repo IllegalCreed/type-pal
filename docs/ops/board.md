@@ -19,6 +19,8 @@
 | CODE-QUALITY-81 | [game Dev Panel picker 生命周期](tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | Codex / 新增生命周期测试可收口；复合 dev-panel 继续待核 | 5 个真实夹具反例与两项精确反控；全量 check、ratchet、protected fast、lint、ledger 均通过 |
 | CODE-QUALITY-90 | [magic revive status clearing boundary](tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | Codex / 最新main全门待重跑 | 已补复活状态边界；两文件整文件审查仍未闭合，不得按包全绿关闭 |
 
+| CODE-QUALITY-92 | [protected fast命令误标纠正](tasks/CODE-QUALITY-92-protected-fast-command-correction.md) | rework | Codex / 真实覆盖保护门与逐文件源快照 | 30条旧记录暂转review；旧语义/原件保留，禁止用check:fast替代coverage:fast |
+
 ## 看板规则
 
 - 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。
