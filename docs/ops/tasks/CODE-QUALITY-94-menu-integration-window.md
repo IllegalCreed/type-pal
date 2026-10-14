@@ -1,6 +1,6 @@
 # CODE-QUALITY-94 — menu 独立阶段集成窗口
 
-Status: review
+Status: rework
 Owner: GLM（用户指定后续 Coding Owner；Codex 当前交付 review 检查点）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -71,3 +71,15 @@ Visual Verification Timing: N/A（无产品/UI行为修改）
 ## 下一位 Agent 提示词（Codex 独立验收，2026-10-15 GLM 交付后）
 
 CODE94/95 的 GLM 复核与独立门已完成并推送至 `codex/code-quality-menu-integration`（候选提交后 0 behind）。验收材料：`docs/ops/evidence/CODE-QUALITY-94/glm-review.md`（逐文件结论+四维质量+CODE95 裁定+机械核验）、证据目录新增 glm-* 回执（定向 241 复跑/typecheck/docs/lint/ledger/protected-fast 首跑 fail-closed/ratchet/protected-fast 终跑/全仓 check）、账本 30 条仍 review。Codex 按卡独立核：30 文件抽样直读、CODE95 oracle 保持性、ratchet 基线 diff 只含 game 测试范围合法变化、protected fast exit 0。验收通过后由 Codex 收口集成（对齐 main、合并、重 fetch）；E-1/E-2/E-3 为下一批候选不在本窗口。不得由 GLM 自行标 done。
+
+## Codex 独立验收（2026-10-15）
+
+Codex counter：当前GLM统一门含3489/3527/3499条React act警告，且各有2条jsdom导航诊断，虽然exit0也不能算干净通过。inventory-menu仍有id0/stub过时注释；组合测试残缺flags入参强转与“21测试零强转”报告矛盾，逐文件测试证据不能合并一行。见同批evidence/CODE-QUALITY-94/codex-review.md及codex-review-proof.json的直接锚点、SHA与返工项。
+
+Codex独立24files/241tests及game typecheck通过；CODE95完整字段/数组修正成立，但R4真实caller前提不成立，30文件整批不accept，不标done、不合main。CODE94/95均转rework，账本信用不增加。未修改任何实现/测试源，不扩大到CODE97–102验收；当前机器数量按ledger工具。
+
+下一位GLM：先fetch本分支读上述counter，按R2/R3/R4只在白名单内修注释/fixture类型并补逐文件证据；R1集中诊断须核Owner/另卡白名单，不为过门静音或越界改UI。保留原失败/带诊断原件，统一门未干净通过不得标done。完整可复制交接提示词在codex-review.md末尾。
+
+### Codex caller 复核补充：CODE95同样counter
+
+库存测试的200物品applyToAll=true，死人目标/取消却直接进选人；生产menu-driver:711-717和SDLPal play.c:268-323会跳过picker。因此“typed修正局部通过”初判须收紧：字段/数组修正成立，真实单体caller前提仍需R4修正，CODE95转rework。见codex-review.md的R4；只修合法测试输入，不改变产品行为。30文件保持review，未有accept、未合main。

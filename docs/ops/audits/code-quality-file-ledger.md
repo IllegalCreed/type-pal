@@ -313,3 +313,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-15 CODE-QUALITY-100 review-only 批：新增 save-slot-menu.ts 一行 review（存档域边界切片，无 schema/写路径触碰，四维通过），review40→41、pending2998→2997；零代码改动，共用 5cb6b9d22 树门禁。
 2026-10-15 CODE-QUALITY-101 review-only 批：新增 save/api.ts + indexed-db.ts 两行 review（schema/save 边界零触碰；E-10 注释过时/E-12 IDB 驱动无 game 内直接测试登记；U-1 引用既有卡），review41→43、pending2997→2995；零代码改动，共用 5cb6b9d22 树门禁。
 2026-10-15 CODE-QUALITY-102 review-only 批：新增 quick-save.ts 一行 review（四维通过；quick-save.test.ts E-13 as never 部分 GameState fixture 登记），review43→44、pending2995→2994；零代码改动，共用 5cb6b9d22 树门禁。
+
+2026-10-15 Codex独立验收CODE94/95：GLM全仓check/ratchet/protected终跑分别含3489/3527/3499条React act警告，各另2条jsdom导航诊断；exit0及lint0不构成干净统一门。已证inventory-menu旧id0/stub注释、组合测试flags入参强转和合并报告证据问题，CODE94返工。CODE95局部修正通过独立241定向/typecheck，但30条保持review，closed不增加；CODE97–102未在本次验收范围。当前机器ledger口径不因counter改数。
+
+同次caller复核追加CODE95 counter：inventory-menu.test以applyToAll=true物品直接进单体目标层，违背menu-driver/SDLPal实际picker前提；typed字段修正不等于真实调用域成立。CODE95同样返工；没有新增关闭，所有原review计数不变，详见CODE94/codex-review.md R4。

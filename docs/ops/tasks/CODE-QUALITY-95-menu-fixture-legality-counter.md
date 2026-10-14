@@ -1,6 +1,6 @@
 # CODE-QUALITY-95 — menu 测试夹具合法性 counter
 
-Status: review
+Status: rework
 Owner: GLM（用户指定后续 Coding Owner；Codex 当前交付 review 检查点）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -56,3 +56,15 @@ Codex build allowed：补齐 typed Item/PlayerRole；按 roleId 索引构造真�
 先接手 CODE94/95 验收并补全部门。CODE93/96 在 `codex/code-quality-3y` 单独收口后才可按白名单接收；如接收卖菜单删重，必须同时核精确退役 metadata 的 count/两端 identity digest/文件SHA，不能复制源分支整份 coverage baseline。用官方工具重新测，保留失败原件；禁止降低规则/ignore/exclude/强转/弱断言。每文件完整读取实现、真实 caller、出口、类型、生命周期和 primary/oracle；行为修复先失败反例，触高风险先停线开卡。不得整条合入含 CODE53/90 未收口行为的旧治理分支。
 
 允许在 CODE94/95 白名单内修复已证测试问题并补证，当前生产行为/公共接口/schema/save/资产改动未授权。与 ED-ENTITY-STATE-PLAN-1、活跃 GLM 分支不抢写。阶段交付先 commit/push，再 fetch 确认 origin/main...HEAD 的 behind=0；提交逐文件结论、未修风险、全部真实门、账本数字和下一批候选供 Codex 独立验收。未知保持 review/pending，不得自行把历史 accept 搬成当前验收。完成本模块后再按最新账本选2–4文件最小不重叠批次。
+
+## Codex 独立验收（2026-10-15）
+
+Codex counter：当前GLM统一门含3489/3527/3499条React act警告，且各有2条jsdom导航诊断，虽然exit0也不能算干净通过。inventory-menu仍有id0/stub过时注释；组合测试残缺flags入参强转与“21测试零强转”报告矛盾，逐文件测试证据不能合并一行。见同批evidence/CODE-QUALITY-94/codex-review.md及codex-review-proof.json的直接锚点、SHA与返工项。
+
+Codex独立24files/241tests及game typecheck通过；CODE95完整字段/数组修正成立，但R4真实caller前提不成立，30文件整批不accept，不标done、不合main。CODE94/95均转rework，账本信用不增加。未修改任何实现/测试源，不扩大到CODE97–102验收；当前机器数量按ledger工具。
+
+下一位GLM：先fetch本分支读上述counter，按R2/R3/R4只在白名单内修注释/fixture类型并补逐文件证据；R1集中诊断须核Owner/另卡白名单，不为过门静音或越界改UI。保留原失败/带诊断原件，统一门未干净通过不得标done。完整可复制交接提示词在codex-review.md末尾。
+
+### Codex caller 复核补充：CODE95同样counter
+
+库存测试的200物品applyToAll=true，死人目标/取消却直接进选人；生产menu-driver:711-717和SDLPal play.c:268-323会跳过picker。因此“typed修正局部通过”初判须收紧：字段/数组修正成立，真实单体caller前提仍需R4修正，CODE95转rework。见codex-review.md的R4；只修合法测试输入，不改变产品行为。30文件保持review，未有accept、未合main。

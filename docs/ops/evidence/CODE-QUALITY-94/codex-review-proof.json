@@ -1,0 +1,254 @@
+{
+  "candidate": "5cb6b9d226c9240d9f4d383fba22197e35ec8a8e",
+  "originMain": "cddf65557e60619e40e38168b276cf01981a106a",
+  "result": "counter; no closure or main merge",
+  "diagnostics": [
+    {
+      "file": "docs/ops/evidence/CODE-QUALITY-94/glm-check.txt",
+      "rawSha256": "b8d9b95eedca4326a2c7dfb27e6cf6d14498d27229d64afada8211134f39eddf",
+      "rawBytes": 1940707,
+      "actWarningOccurrences": 3489,
+      "firstLines": [6428, 6438, 6448],
+      "terminalMarker": "CHECK_EXIT=0",
+      "jsdomNavigationDiagnosticOccurrences": 2,
+      "jsdomNavigationFirstLines": [5250, 43827]
+    },
+    {
+      "file": "docs/ops/evidence/CODE-QUALITY-94/glm-ratchet.txt",
+      "rawSha256": "5df589cd4a7d091ccf1403c374fd96e49cf8f9f2b9a9f945f76393e76995011a",
+      "rawBytes": 1805100,
+      "actWarningOccurrences": 3527,
+      "firstLines": [3300, 3310, 3320],
+      "terminalMarker": "RATCHET_EXIT=0",
+      "jsdomNavigationDiagnosticOccurrences": 2,
+      "jsdomNavigationFirstLines": [1633, 41059]
+    },
+    {
+      "file": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast2.txt",
+      "rawSha256": "c5af30621792df51d76bfbd028ae014341528976895c368485deddf26964f045",
+      "rawBytes": 1792751,
+      "actWarningOccurrences": 3499,
+      "firstLines": [3300, 3310, 3320],
+      "terminalMarker": "PROTECTED_EXIT=0",
+      "jsdomNavigationDiagnosticOccurrences": 2,
+      "jsdomNavigationFirstLines": [1633, 40968]
+    }
+  ],
+  "manifest": [
+    {
+      "file": "packages/game/src/core/menu/menu-mode.ts",
+      "candidateSha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "mainSha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/menu-stack.ts",
+      "candidateSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "mainSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/menu-mode.test.ts",
+      "candidateSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
+      "mainSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-menu.ts",
+      "candidateSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+      "mainSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "candidateSha256": "e198e51372afbb27b447f460482978d200944a2e992cb101bf25b55a728d1cbf",
+      "mainSha256": "060994a9e7a67f9488d7cee1fcf72b561adb3c96201c946c64cd07f75ea6684e",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "candidateSha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "mainSha256": "c989da3e8b7ceceff9f6c92d7660466d0a23ac1d5586ee4c4a88a01a9ee18ec8",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "candidateSha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "mainSha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/shop-menu.ts",
+      "candidateSha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "mainSha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/shop-menu.test.ts",
+      "candidateSha256": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
+      "mainSha256": "980913fd4160f877b09dbdac4dca13991cec99118953f6a62d9fe18880ccbae0",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "candidateSha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "mainSha256": "c69ea0def978bfee76554d6c671e5bb55186d528234809932a50017fb23982bd",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "candidateSha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "mainSha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/equip-menu.ts",
+      "candidateSha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+      "mainSha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/equip-menu.test.ts",
+      "candidateSha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "mainSha256": "59c431563d504b3c784d756ff48f03c3c77762b23c09dc6c49bd268deefe22e1",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "candidateSha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "mainSha256": "07740034c3555bb84c3a106ac831634e70cc073e7912459e263bdc590b17e0e2",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "candidateSha256": "bef1ec6e11dd2ee1476325e7c16caea792e4338248095f4cc206a1a75ce88782",
+      "mainSha256": "bef1ec6e11dd2ee1476325e7c16caea792e4338248095f4cc206a1a75ce88782",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-menu.ts",
+      "candidateSha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+      "mainSha256": "5387e21e873228f0f4ab07c13bcb21bca39a0fcf4de85face9ceefdea6f7699e",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "candidateSha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "mainSha256": "7f89cfe7f147f251adb4fbe403006a489c1f5fdc223943d3c699fc28c839c409",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "candidateSha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+      "mainSha256": "c6a02af0a577d5100220ffa620898cb2b43d0041349cdfd58aa9cec32b62e305",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "candidateSha256": "d80cb2670f407a8ae46178b5e2ed99dac2c6c0fb794e16c9269b506e60e82aab",
+      "mainSha256": "01fe6045ddc2113c6331dfa31e86dedfce981faa4552da9f2ba4754e3ecb03df",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/magic-select.ts",
+      "candidateSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "mainSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "candidateSha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26",
+      "mainSha256": "4f4ad22aaa7cc19235ee01ac0ca1357f496b02674d0e040a23169e32f56d9af1",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "candidateSha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd",
+      "mainSha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "candidateSha256": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
+      "mainSha256": "7e755b64947798ca2e37aafda166eacb0aa53df24846586f276867ed69a6b442",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "candidateSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "mainSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "candidateSha256": "f9bdde69dac26275ed920a44113100933a90b5c93dbd9ddfa81408f02525b454",
+      "mainSha256": "db0f45d38f70a7519b3b831f5ffdfa681053e7b9a2b8e4f24b5b615369ace3fa",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "candidateSha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+      "mainSha256": "3f1a4333fa21184a800465b4a1bc0ed687acf7512ecf8bdda75445216b1db055",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "candidateSha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+      "mainSha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "candidateSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "mainSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "candidateSha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "mainSha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    },
+    {
+      "file": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "candidateSha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "mainSha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "matchesRecordedCandidate": true,
+      "matchesRecordedMain": true
+    }
+  ],
+  "sourceChangesDuringReview": false,
+  "codexTargetedExit": 0,
+  "codexTypecheckExit": 0,
+  "reviewDocumentationBase": "e45378a81",
+  "sourceUnchangedFromPinnedCandidate": true
+}

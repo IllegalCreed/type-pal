@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "39b0c3eb12babdb73727e99731fc83f121ac8bd89e6fe9320689e9dcae8aca8b",
+      "afterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "39b0c3eb12babdb73727e99731fc83f121ac8bd89e6fe9320689e9dcae8aca8b",
+        "implementationSha": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -778,6 +778,22 @@
             "afterSha256": "39b0c3eb12babdb73727e99731fc83f121ac8bd89e6fe9320689e9dcae8aca8b",
             "scope": "CODE-QUALITY-102 review-only 批登记；94/95/97-101 待 Codex 验收不变。",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code94-95-independent-counter",
+            "previousAfterSha256": "39b0c3eb12babdb73727e99731fc83f121ac8bd89e6fe9320689e9dcae8aca8b",
+            "afterSha256": "2f86fdafd35425bb88c8259c98100d650088173af8516c11e5f7a8ef1d613af0",
+            "scope": "GLM零诊断验收被原日志反证；94返工，95局部合同通过但不闭合。97–102状态保留。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code95-real-caller-premise-counter",
+            "previousAfterSha256": "2f86fdafd35425bb88c8259c98100d650088173af8516c11e5f7a8ef1d613af0",
+            "afterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+            "scope": "CODE95 applyAll fixture不能冒称单体picker域，亦转rework；没有任何文件关闭。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
           }
         ]
       },
@@ -1966,7 +1982,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "541d4687ef3d1053e4897f0040847ee76a4f9b559728941c35dd0e8d755ead0c",
+      "afterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2002,7 +2018,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "541d4687ef3d1053e4897f0040847ee76a4f9b559728941c35dd0e8d755ead0c",
+        "implementationSha": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2217,6 +2233,22 @@
             "afterSha256": "541d4687ef3d1053e4897f0040847ee76a4f9b559728941c35dd0e8d755ead0c",
             "scope": "任务索引再生成纳入 CODE-QUALITY-102 卡。",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code94-95-independent-counter",
+            "previousAfterSha256": "541d4687ef3d1053e4897f0040847ee76a4f9b559728941c35dd0e8d755ead0c",
+            "afterSha256": "9d20942347fa40278d2bab602b4ba6b9ed267e6d378606906f18dd6bb4edaac1",
+            "scope": "GLM零诊断验收被原日志反证；94返工，95局部合同通过但不闭合。97–102状态保留。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code95-real-caller-premise-counter",
+            "previousAfterSha256": "9d20942347fa40278d2bab602b4ba6b9ed267e6d378606906f18dd6bb4edaac1",
+            "afterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+            "scope": "CODE95 applyAll fixture不能冒称单体picker域，亦转rework；没有任何文件关闭。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
           }
         ]
       },
