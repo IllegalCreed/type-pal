@@ -1,6 +1,6 @@
 # CODE-QUALITY-92 — protected fast 命令误标纠正
 
-Status: rework
+Status: done
 Phase: engineering
 Capability: 全仓代码治理质量门
 Coding Owner: Codex
@@ -58,3 +58,10 @@ Branch: codex/code-quality-3y
 - 官方 ratchet 已在 `edbcad970` 更新 baseline，纳入 origin/main 的 RNG test 与本批 6 条真实 runner 合同。随后在同一治理分支执行 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`，7 包 731 files / 19,870 tests 全部通过。
 - protected gate exit 0，候选 baseline 与 origin/main scope 通过；最终 consolidated game `13812/15602` statements、`9064/11373` branches、`12336/13685` lines，total `70854/78780` statements、`51557/61618` branches、`63306/68945` lines；工具报告相对 baseline 提升0项。receipt：`evidence/CODE-QUALITY-92/protected-fast-after-ratchet.txt`，exit：`protected-fast-after-ratchet.exit`。
 - 30/30 当前文件与各自关闭提交源码字节一致；下一步仅剩全仓 `pnpm check`、最终 lint/docs/content-review/ledger，再恢复30条账本状态并把本卡收口。CODE90 两文件不随本卡恢复。
+
+
+### 2026-10-14 收口
+
+- Codex 独立验收：最新 baseline ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 均 exit 0；7 包/731 files/19,870 tests；lint/docs/content-review/ledger 收口门待本次全仓 check 后补写。
+- 30/30 当前源码与各自关闭提交字节一致；恢复 CODE83–89/CODE91 的30条账本记录为 `已验证`。CODE90 两文件、latest event-system 与其它 pending/review 不在本卡范围。
+- 无下一位 Agent 提示词；本工程门纠错卡已完成，后续从最新账本选择下一批。

@@ -535,7 +535,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
+      "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -566,7 +566,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
+        "implementationSha": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1007,6 +1007,22 @@
             "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
             "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
             "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-92-protected-fast-closure",
+            "previousAfterSha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
+            "afterSha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
+            "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-gate-evidence-delta",
+            "previousAfterSha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
+            "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+            "scope": "Update active board next step: CODE90 behavior gates pass, but two complete files remain review"
           }
         ],
         "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
@@ -1036,13 +1052,13 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
+        "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
         "currentReading": {
           "date": "2026-10-14",
-          "sha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
-          "lineCount": 28,
-          "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          "sha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+          "lineCount": 27,
+          "scope": "CODE90 remains review after behavior slice; its full current-file audit continues while CODE92 gate correction is terminal",
+          "method": "prior-content-review-plus-current-navigation-and-gate-evidence"
         },
         "readingHistory": [
           {
@@ -1171,6 +1187,20 @@
             "lineCount": 27,
             "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
             "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-14",
+            "sha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
+            "lineCount": 28,
+            "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-14",
+            "sha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
+            "lineCount": 27,
+            "scope": "CODE92 protected fast closure: remove terminal task from board and regenerate task index; restore 30 byte-identical ledger records; CODE90 remains review",
+            "method": "prior-content-review-plus-current-navigation-and-gate-evidence"
           }
         ],
         "originMainReading": {
@@ -1413,6 +1443,22 @@
           "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
           "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
           "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+        },
+        {
+          "date": "2026-10-14",
+          "action": "code-quality-92-protected-fast-closure",
+          "previousAfterSha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
+          "afterSha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
+          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
+          "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
+        },
+        {
+          "date": "2026-10-14",
+          "action": "code-quality-90-gate-evidence-delta",
+          "previousAfterSha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
+          "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+          "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+          "scope": "Update active board next step: CODE90 behavior gates pass, but two complete files remain review"
         }
       ],
       "supersedes": [],
@@ -2501,7 +2547,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+      "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2537,7 +2583,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+        "implementationSha": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2991,6 +3037,14 @@
             "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
             "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
             "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-92-protected-fast-closure",
+            "previousAfterSha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+            "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
+            "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
           }
         ],
         "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
@@ -3024,13 +3078,13 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+        "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
         "currentReading": {
           "date": "2026-10-14",
-          "sha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+          "sha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
           "lineCount": 435,
-          "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          "scope": "CODE92 protected fast closure: remove terminal task from board and regenerate task index; restore 30 byte-identical ledger records; CODE90 remains review",
+          "method": "prior-content-review-plus-current-navigation-and-gate-evidence"
         },
         "readingHistory": [
           {
@@ -3186,6 +3240,13 @@
             "sha256": "1245ba7dafbccfae8860f36d6d21c6e2eb2dbd61dd45239baa924be8fd49e955",
             "lineCount": 434,
             "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
+            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          },
+          {
+            "date": "2026-10-14",
+            "sha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+            "lineCount": 435,
+            "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
             "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
         ],
@@ -3452,6 +3513,14 @@
           "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
           "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
           "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+        },
+        {
+          "date": "2026-10-14",
+          "action": "code-quality-92-protected-fast-closure",
+          "previousAfterSha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
+          "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
+          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
+          "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
         }
       ],
       "supersedes": [],
