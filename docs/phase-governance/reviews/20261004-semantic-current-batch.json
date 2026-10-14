@@ -535,7 +535,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
+      "afterSha256": "281cb3466e94bbf5ff691273d02e1b79a2ac65389605b1835eb724a4e003e889",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -566,7 +566,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
+        "implementationSha": "281cb3466e94bbf5ff691273d02e1b79a2ac65389605b1835eb724a4e003e889",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1049,6 +1049,14 @@
             "afterSha256": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
             "evidence": "docs/ops/tasks/CODE-QUALITY-96-sell-test-retirement-evidence.md",
             "scope": "Add exact source/test retirement evidence; source closure still pending official ratchet/protected gate; CODE95 counter retained",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-95-user-glm-handoff-navigation",
+            "previousAfterSha256": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
+            "afterSha256": "281cb3466e94bbf5ff691273d02e1b79a2ac65389605b1835eb724a4e003e889",
+            "scope": "用户指定GLM后续；原分支三份旧测试仍review；候选单独全部门尚未完成。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
@@ -2592,7 +2600,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
+      "afterSha256": "2f7a0b4752c5c24dd0c85a769c22ea09cba2090a58a6b3dbb110624b675c6b35",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2628,7 +2636,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
+        "implementationSha": "2f7a0b4752c5c24dd0c85a769c22ea09cba2090a58a6b3dbb110624b675c6b35",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -3116,6 +3124,14 @@
             "afterSha256": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
             "evidence": "docs/ops/tasks/CODE-QUALITY-96-sell-test-retirement-evidence.md",
             "scope": "Add exact source/test retirement evidence; source closure still pending official ratchet/protected gate; CODE95 counter retained",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-95-user-glm-handoff-navigation",
+            "previousAfterSha256": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
+            "afterSha256": "2f7a0b4752c5c24dd0c85a769c22ea09cba2090a58a6b3dbb110624b675c6b35",
+            "scope": "用户指定GLM后续；原分支三份旧测试仍review；候选单独全部门尚未完成。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],

@@ -19,7 +19,7 @@
 | CODE-QUALITY-90 | [magic revive status clearing boundary](tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | Codex / 两文件整文件审查继续 | 行为切片的全仓 check/ratchet/protected fast 已通过；spell-chain、输入与测试隔离仍未闭合 |
 | CODE-QUALITY-93 | [game sell menu state contract](tasks/CODE-QUALITY-93-game-sell-menu-contract.md) | review | Codex / 质量门与逐文件收口 | sell-menu 四文件已完整核验；仅测试夹具强转清理，等待全仓门 |
 
-| CODE-QUALITY-95 | [menu 测试夹具合法性 counter](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | build | Codex / 独立 menu 集成候选补证 | 撤回3条旧闭合；非法/不完整 typed 输入不得因旧全绿保留信用 |
+| CODE-QUALITY-95 | [menu 测试夹具合法性 counter](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | GLM / 独立 menu 集成候选补证 | 撤回3条旧闭合；非法/不完整 typed 输入不得因旧全绿保留信用 |
 | CODE-QUALITY-96 | [sell 测试精确退役保护账](tasks/CODE-QUALITY-96-sell-test-retirement-evidence.md) | build | Codex / 重跑两 coverage 门 | 仅登记已证重复的3→2精确退役，不降门槛或生产范围 |
 
 ## 看板规则

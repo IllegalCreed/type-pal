@@ -1,7 +1,7 @@
 # CODE-QUALITY-95 — menu 测试夹具合法性 counter
 
-Status: build
-Owner: Codex
+Status: review
+Owner: GLM（用户指定后续；原分支仅保留 counter）
 Reviewer: Codex（独立验收）
 Phase: phase1
 Capability: menu test legal typed input and isolation
@@ -37,9 +37,13 @@ Codex build allowed：补齐 typed Item/PlayerRole；按 roleId 索引构造真�
 
 - 三份文件须全文复核，定向/相邻与 typecheck 先完成；独立 CODE94 候选的全部质量门作为同一模块集成门，不以旧源分支门冒充。
 - 原治理分支三条由已验证恢复 review；旧卡/旧 receipt 作为历史保留，不追溯改写成符合新结论。
-- 完整门前不恢复已验证、不标 done；无下一位 Agent 提示词，同一 Codex 继续。
+- 完整门前不恢复已验证、不标 done；GLM 按下方提示词接手，原分支三份旧字节不得恢复闭合。
 
 ## 跨工作树候选与用户交接
 
 独立候选 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal` 的三份测试已补完整 typed fixture；24文件/241相邻定向 tests 和 game typecheck、docs/content-review、lint4008零诊断通过。原治理分支3份源仍为旧版本，明确保持review；不能用候选结果恢复旧字节信用。
 用户于2026-10-14要求当前部分完成后停止，后续GLM接手；CODE94/95候选待独立全仓门/主线集成，Codex不再领取新批次。
+
+## 下一位 Agent 提示词
+
+用户指定后续由 GLM 完成。先 fetch 最新 origin/main，读取 AGENTS/CLAUDE/agent-workflow、board/治理账本及 CODE94/95。使用 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal` 的 `codex/code-quality-menu-integration`，已推送检查点 abf284d75。完整提示词在该候选的 CODE94/95 卡；30条仍review，24 files/241 tests、game typecheck、docs、最终lint4012零诊断、ledger3267/229/35/3003通过，独立全仓check/ratchet/protected未运行。允许核验/修正白名单测试，不授权产品/public/schema/save/资产改动；不整条合旧治理分支，不碰主工作树。CODE93/96收口后才按白名单接收其文件与精确退役metadata，不复制整份源coverage baseline。提交证据和全部门供Codex独立验收，未知保持review，不得标done。
