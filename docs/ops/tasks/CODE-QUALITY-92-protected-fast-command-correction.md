@@ -43,3 +43,11 @@ Branch: codex/code-quality-3y
 继续 CODE92 工程门纠错；先读 AGENTS.md、code-quality-governance/ledger、脚本真门与本卡。保持单Agent，不能改30条源码或产品/规则。保留旧实际日志，执行当前真实门，逐一比较源快照。只对证据和门均齐全的文件恢复关闭，差异/未知继续review。CODE90/53/57/79/80/81及event-system独立counter不自动消失。
 
 - 2026-10-14 源快照核对：30/30 当前文件与各自旧任务归档/关闭提交的源码字节一致，逐条closureCommit/双SHA256见 evidence/CODE-QUALITY-92/source-snapshot-comparison.json。原语义/primary/caller/oracle证据可沿用；真实受保护覆盖门尚未通过前仍review。
+
+
+### 2026-10-14 最新真实 protected fast
+
+- 在最新治理提交 `06839866f`、`origin/main=cddf65557` 上实际执行 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`；7 包 731 files / 19,864 tests 均完成并通过原生测试。
+- 门禁最终 `exit 1`，明确失败为 `候选 baseline 删除仍存在文件中的 fast tests: test-file: packages/game/src/core/event-rng-scene-restore.test.ts`。候选分支 baseline 仍是 d7 旧快照，主线已新增 RNG 测试；不能把这条删除当作批准退役，也不能恢复30条旧关闭。
+- 同一真实结果的 coverage 汇总为 game `13805/15602` statements、total `70847/78780` statements，ratchet floor 也仍有精确回退；因此即使先处理 RNG baseline scope，coverage ratchet 仍需独立解决，不能降基线或加弱测试。原生 receipt：`docs/ops/evidence/CODE-QUALITY-92/protected-fast-current.txt`，exit：`protected-fast-current.exit`。
+- 当前 ledger 保持 3271 / 340 closed / 42 review / 2889 pending；CODE83–89/91 的30条记录继续 review，CODE90 两文件继续 review。
