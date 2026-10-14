@@ -1,0 +1,60 @@
+import { chromium } from '/Users/zhangxu/illegal/type-pal/node_modules/playwright/index.mjs'
+import { writeFile } from 'node:fs/promises'
+const base=process.argv[2]??'http://127.0.0.1:6006'
+const name=process.argv[3]??'preview'
+const browser=await chromium.launch({channel:'chrome',headless:true})
+const report={base,started:new Date().toISOString(),errors:[],failed:[],console:[],resources:[]}
+try {
+ const page=await browser.newPage({viewport:{width:1200,height:800}})
+ page.on('pageerror',e=>report.errors.push(String(e)))
+ page.on('console',m=>report.console.push({type:m.type(),text:m.text()}))
+ page.on('requestfailed',r=>report.failed.push({url:r.url(),error:r.failure()}))
+ page.on('response',r=>{if(/\/assets\/|spessasynth|soundfont|music\//.test(r.url())||r.status()>=400)report.resources.push({url:r.url(),status:r.status(),sw:r.fromServiceWorker()})})
+ await page.addInitScript(()=>{
+  // Read-only audio signal observation: keep all existing destinations connected.
+  window.__audioTaps=[]
+  const connect=AudioNode.prototype.connect
+  AudioNode.prototype.connect=function(...args){
+   const result=connect.apply(this,args)
+   if(args[0]===this.context.destination){const analyser=this.context.createAnalyser();connect.call(this,analyser);window.__audioTaps.push(analyser)}
+   return result
+  }
+ })
+ await page.goto(base+'/?skip-intro=1',{waitUntil:'domcontentloaded'})
+ await page.locator('.boot-loading-disclaimer').waitFor()
+ report.disclaimer=await page.locator('.boot-loading-disclaimer').innerText()
+ await page.screenshot({path:`/tmp/type-pal-issue-3/${name}-loading.png`})
+ if(await page.getByRole('button',{name:'拒绝',exact:true}).count())await page.getByRole('button',{name:'拒绝',exact:true}).click()
+ await page.setViewportSize({width:667,height:375})
+ report.smallLayout=await page.locator('.boot-loading-disclaimer').boundingBox()
+ await page.screenshot({path:`/tmp/type-pal-issue-3/${name}-loading-small.png`})
+ await page.setViewportSize({width:1200,height:800})
+ await page.locator('#boot-loading-enter-btn').waitFor({timeout:180000})
+ await page.locator('#boot-loading-enter-btn').click()
+ await page.locator('#boot-loading').waitFor({state:'detached',timeout:60000})
+ await page.waitForFunction(()=>window.__audioTaps.some(a=>{const v=new Float32Array(a.fftSize);a.getFloatTimeDomainData(v);return v.some(x=>Math.abs(x)>0.001)}),undefined,{timeout:45000})
+ report.audio=await page.evaluate(()=>window.__audioTaps.map(a=>{const v=new Float32Array(a.fftSize);a.getFloatTimeDomainData(v);return{state:a.context.state,peak:Math.max(...v.map(Math.abs))}}))
+ report.onlineFailures=[...report.failed]
+ report.serviceWorker=await page.evaluate(()=>({controller:navigator.serviceWorker.controller?.scriptURL,secure:isSecureContext}))
+ await page.screenshot({path:`/tmp/type-pal-issue-3/${name}-game.png`})
+ await new Promise(r=>setTimeout(r,1500))
+ const urls=await page.evaluate(()=>[...document.querySelectorAll('script[src],link[rel=modulepreload]')].map(e=>e.src||e.href))
+ await page.evaluate(async urls=>{for(const url of urls)await(await fetch(url)).arrayBuffer()},urls)
+ for(let attempt=0;attempt<10;attempt++){
+  await new Promise(r=>setTimeout(r,250))
+  if(await page.evaluate(async urls=>(await Promise.all(urls.map(u=>caches.match(u)))).every(Boolean),urls))break
+ }
+ report.cacheInventory=await page.evaluate(async()=>Promise.all((await caches.keys()).map(async name=>({name,totalEntries:(await(await caches.open(name)).keys()).length,assets:(await(await caches.open(name)).keys()).filter(r=>r.url.includes('/assets/')).map(r=>({url:r.url,headers:[...r.headers]}))}))))
+ report.storageEstimate=await page.evaluate(()=>navigator.storage.estimate())
+ report.cacheBeforeOffline=await page.evaluate(async urls=>({keys:await caches.keys(),matches:await Promise.all(urls.map(async url=>{const r=await caches.match(url);return{url,status:r?.status,headers:r?[...r.headers]:null}}))}),urls)
+ // A second controlled fetch must be served directly from the SW cache.
+ report.cacheReads=await page.evaluate(async urls=>Promise.all(urls.map(async url=>{const r=await fetch(url);return{url,status:r.status,bytes:(await r.arrayBuffer()).byteLength}})),urls)
+ await page.context().setOffline(true)
+ report.offlineChunks=await page.evaluate(async urls=>Promise.all(urls.map(async url=>{try{const r=await fetch(url);return{url,status:r.status,bytes:(await r.arrayBuffer()).byteLength}}catch(e){const r=await caches.match(url);return{url,error:String(e),cacheStatus:r?.status,cacheBytes:r?(await r.arrayBuffer()).byteLength:null}}})),urls)
+ await page.context().setOffline(false)
+ report.offlineChunksConfirmed=report.offlineChunks.every(r=>r.status===200)
+ report.scope='Startup/audio/layout are release smoke; offline chunk caching is a separate diagnostic with single-bundle control.'
+ if(report.errors.length||report.onlineFailures.length||!report.audio.some(a=>a.peak>0.001))throw new Error('Online startup/audio smoke failed')
+ report.completed=true
+} catch(e){report.failure=String(e);process.exitCode=1}
+finally{report.finished=new Date().toISOString();await writeFile(`/tmp/type-pal-issue-3/${name}-smoke.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));await browser.close()}

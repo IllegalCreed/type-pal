@@ -1,6 +1,6 @@
 # GAME-RNG-SCENE-RESTORE-1 — 酒剑仙传功后动画末帧遮挡场景
 
-Status: review
+Status: done
 Phase: phase1
 Capability: 第一阶段脚本演出与场景恢复
 Coding Owner: Codex
@@ -9,7 +9,7 @@ Reviewer: Codex（专项独立审查另行记录）
 Visual Verification Owner: Codex
 Visual Verification Timing: mixed
 Contributor: Codex
-Branch: codex/game-rng-scene-restore
+Branch: main（临时分支 codex/game-rng-scene-restore 已合并删除）
 
 ## 目标
 
@@ -86,8 +86,8 @@ Branch: codex/game-rng-scene-restore
   不扩大解释成所有 PAL_MakeScene caller 或全部合法合成脚本的生命周期治理。
 - 专项独立验收：state_plan_review accept。实现前直接核全部 20 个原始 PlayRNG caller；实现后指出
   初版结局测试绕过新增 guard 的缺口，补无正文分支后以独立反控闭合；复核修后两张截图与运行记录。
-- done 准入：pending；本地修复、生产发布、线上验收分别记录，不混算。初次构建的体积提示已由静态音频分包消除，
-  本地各包门及精确失败项复核完成；CI 和生产发布继续按实际结果记录。
+- done 准入：Codex accept。专项独立审查、回归/反控、本地各包门、官方覆盖率基线与严格 CI 已核；
+  阿里云发布和线上启动/音频/版权声明复验通过。初次失败保留，完整剧情 E2E 与既有离线缓存局限不冒充完成。
 
 ## Draft: 设计与风险
 
@@ -102,7 +102,7 @@ Branch: codex/game-rng-scene-restore
 - `game-state.ts` 更新标记生命周期注释；移除“全部 RNG 后都会切场景”的错误假设。
 - `event-rng-scene-restore.test.ts` 4 合同：普通重绘的延时/淡入路径，RNG 对话在正文前/正文后的重绘。
   媒体 IO 替身之外均执行真实解释器与 renderer，断言背景像素/人物像素与跪姿状态。
-- 测试红绿与 guard 反控、源 hash、命令、原生报告、截图见[证据目录](../evidence/game-rng-scene-restore-1/README.md)。
+- 测试红绿与 guard 反控、源 hash、命令、原生报告、截图见[证据目录](../../../evidence/game-rng-scene-restore-1/README.md)。
 - 相关三文件 387 项通过；最终新增 guard 用例另核 4/4；最终整包 **312 文件/3523 项通过**，无失败/跳过。
 - 第一阶段 typecheck 与全仓 lint（3995 文件）零诊断；文档门通过。新增工程经验已同步维护
   phase/lore 治理目录的内容 hash 与增量审查记录，保留历史审查事实。
@@ -116,7 +116,7 @@ Branch: codex/game-rng-scene-restore
 - 正式包本地可进入客栈，实测 MIDI 非零波形；小屏版权声明已看图。额外离线 assets 缓存诊断在拆包前后
   同样失败，独立复核认为是既有局限，失败原件与单包对照已留证，不把在线启动通过混称离线通过。
 - 分包独立提交 `579cdf668`；RNG 修复随后独立提交。覆盖率由合入提交的 Coverage ratchet CI 实测；
-  生产发布须等待对应源码提交 CI 通过。当前未部署或回复 issue。
+  生产发布须等待对应源码提交 CI 通过。发布结果见下方回执；未回复 issue。
 - RNG 修复 `d24981591` 合入 main 后，首轮 CI 的质量工具发现新测试文件使 tracked inventory 增加一项，
   账本计数未同步（本地开跑时文件尚未 tracked）。仅更新机器总数/待核数，不虚增本专项逐文件已审数量；
   修正文档后重新核 37 项质量工具及 CI，保留首轮失败记录。
@@ -140,6 +140,22 @@ Branch: codex/game-rng-scene-restore
   独立核重建 mutant hash/原始执行集合/恰一业务红/恢复绿/原树不变/临时树删除，未发现其它返工项。
 - state_plan_review：官方基线增量 accept。直接核新 baseline、本地原生汇总和 CI 原生汇总，全部整数、
   范围及指纹一致；只新增 game 的 1 文件/4 项，无新增排除、范围缩减、额外不稳定提升或指标回退。
+- state_plan_review：发布回执 accept。7 个源码 hash、62 个证据 hash 全部匹配；CI、线上与远端文件、
+  元数据清理和浏览器原件支持归档结论。归档 diff 仅 docs，无产品/脚本/锁文件变化，无剩余返工项。
+
+## 发布与线上验收
+
+- 2026-10-14，发布源码 `588790383ac4f8692019acd7f94dc292b0acd640`，GitHub 文档与 Coverage ratchet 均通过，原生回执见证据目录。
+- 按现有 `bash scripts/deploy.sh app --skip-check` 构建并发布；skip-check 避免重复已经执行的各包门及严格 CI，
+  不代表初次整仓 check 全绿。构建零告警，远端应用文件逐个与本地 SHA-256 一致，旧版保留在 `dist.old`。
+- macOS tar 附带了 10 个 AppleDouble 元数据文件，首次远端清单为 18 项；核实其格式后精确删除，
+  最终 8 个应用文件全量一致。原始打包提示、首次不一致与清理回执均保留，没有改部署脚本。
+- 原版资源清单未变，采用 app 部署；版权声明提交 `fd2c64522` 已包含。
+- HTTPS 首页、SW、两个脚本包均 200 且与构建字节一致；真实 Chrome 正常进入游戏、MIDI 非零输出，
+  未捕获异常/在线请求失败均为 0。已查看桌面、小屏版权声明与游戏截图。
+- 线上验证与本地修后传功演出证据分别留档；没有把线上启动烟测当作完整剧情 E2E。
+- 本地拆包前后离线脚本请求均失败，原件保留。线上普通离线 fetch 成功，但 JS 的 CacheStorage 条目为空；
+  数据缓存有 601 项，排除存储整体不可用。不能把普通离线请求成功当成 SW 脚本缓存已修复，不属于本卡范围。
 
 ## 用户验收
 
@@ -152,6 +168,8 @@ Branch: codex/game-rng-scene-restore
 - 2026-10-14 Codex：本地真实浏览器复现并修复，补回归及隔离反控；专项复核 accept。
   生产旧 bundle 保持原状，发布和线上复验未执行。
 
+- 2026-10-14 Codex：官方基线更新、严格 CI、阿里云发布、线上文件及浏览器复验闭合，归档 done。
+
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，由 Codex 继续质量门、合并推送、CI 与授权部署。
+无下一位 Agent 提示词，本卡修复及授权发布已完成；完整剧情 E2E 继续按集中批次执行。

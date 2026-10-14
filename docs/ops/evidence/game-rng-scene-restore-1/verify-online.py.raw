@@ -1,0 +1,15 @@
+import json,hashlib,pathlib,re,urllib.request,datetime,subprocess
+root=pathlib.Path('/Users/zhangxu/illegal/type-pal/packages/game/dist')
+base='https://pal.illegalscreed.cn'
+paths=['index.html','sw.js']+[str(p.relative_to(root)) for p in sorted((root/'assets').glob('*.js'))]
+receipt={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'site':base,'files':[]}
+for rel in paths:
+ url=base+('/' if rel=='index.html' else '/'+rel)
+ req=urllib.request.Request(url,headers={'Cache-Control':'no-cache','User-Agent':'type-pal-deploy-verification'})
+ with urllib.request.urlopen(req,timeout=60) as res:
+  remote=res.read();local=(root/rel).read_bytes();record={'path':rel,'status':res.status,'bytes':len(remote),'sha256':hashlib.sha256(remote).hexdigest(),'expectedSha256':hashlib.sha256(local).hexdigest(),'match':remote==local,'contentType':res.headers.get('Content-Type'),'cacheControl':res.headers.get('Cache-Control')};receipt['files'].append(record)
+  if rel=='index.html':receipt['htmlAssets']=re.findall(r'/(assets/[^" ]+\.js)',remote.decode());receipt['copyrightTextPresent']='Unofficial fan project. Not affiliated with Softstar.' in remote.decode()
+receipt['passed']=all(x['status']==200 and x['match'] for x in receipt['files']) and receipt['copyrightTextPresent']
+pathlib.Path('/tmp/type-pal-issue-3/online-verification.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps(receipt,indent=2))
+if not receipt['passed']:raise SystemExit(1)

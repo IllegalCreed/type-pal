@@ -1,0 +1,364 @@
+{
+  "base": "https://pal.illegalscreed.cn",
+  "started": "2026-10-14T04:23:18.764Z",
+  "errors": [],
+  "failed": [],
+  "console": [
+    {
+      "type": "log",
+      "text": "[bootstrap] global script array loaded:43503 commands(单一全局脚本数组)"
+    },
+    {
+      "type": "log",
+      "text": "[bootstrap] preloading 29 cutscene party sprite(s): [193, 208, 232, 627, 361, 228, 236, 242, 245, 259, 273, 394, 379, 385, 511, 532, 534, 533, 541, 521, 538, 550, 607, 563, 531, 576, 630, 631, 632]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0073 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [4, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x008e [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x008e [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [8, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [4, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [4, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [12, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0070 [41, 18, 1]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0070 [42, 18, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [5, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [10, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "log",
+      "text": "[bootstrap] startup ready, SCENE_ID= 1 skipIntro= true build= win95"
+    }
+  ],
+  "resources": [
+    {
+      "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": false
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": false
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/soundfont.sf3",
+      "status": 200,
+      "sw": false
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/extracted/music/031.mid",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": true
+    }
+  ],
+  "disclaimer": "非官方同人项目，与大宇、软星及《仙剑奇侠传》权利人无关。原版资源仅供学习交流，权利人如有要求将立即下架。请支持正版。\nUnofficial fan project. Not affiliated with Softstar. For study only; removed on request. Please support the official game.",
+  "smallLayout": {
+    "x": 113.5,
+    "y": 250.59375,
+    "width": 440,
+    "height": 82.875
+  },
+  "audio": [
+    {
+      "state": "running",
+      "peak": 0.2431676983833313
+    },
+    {
+      "state": "running",
+      "peak": 0.14880938827991486
+    }
+  ],
+  "onlineFailures": [],
+  "serviceWorker": {
+    "controller": "https://pal.illegalscreed.cn/sw.js",
+    "secure": true
+  },
+  "cacheInventory": [
+    {
+      "name": "type-pal-937548870e77bfea",
+      "totalEntries": 601,
+      "assets": []
+    }
+  ],
+  "storageEstimate": {
+    "quota": 10756946359,
+    "usage": 19528119,
+    "usageDetails": {
+      "caches": 19520749,
+      "serviceWorkerRegistrations": 7370
+    }
+  },
+  "cacheBeforeOffline": {
+    "keys": [
+      "type-pal-937548870e77bfea"
+    ],
+    "matches": [
+      {
+        "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+        "headers": null
+      },
+      {
+        "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+        "headers": null
+      }
+    ]
+  },
+  "cacheReads": [
+    {
+      "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+      "status": 200,
+      "bytes": 381033
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "bytes": 268030
+    }
+  ],
+  "offlineChunks": [
+    {
+      "url": "https://pal.illegalscreed.cn/assets/index-CTToMLs2.js",
+      "status": 200,
+      "bytes": 381033
+    },
+    {
+      "url": "https://pal.illegalscreed.cn/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "bytes": 268030
+    }
+  ],
+  "offlineChunksConfirmed": true,
+  "scope": "Startup/audio/layout are release smoke; offline chunk caching is a separate diagnostic with single-bundle control.",
+  "completed": true,
+  "finished": "2026-10-14T04:23:35.442Z"
+}
