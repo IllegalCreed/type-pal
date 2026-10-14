@@ -1,0 +1,28 @@
+CODE-QUALITY-84 source/caller/oracle index
+
+Whitelist:
+- packages/game/src/core/menu/inventory-menu.ts (full 276-line read)
+- packages/game/src/core/menu/inventory-menu.test.ts (full 389-line read)
+- packages/game/src/core/menu/inventory-menu.boundaries.test.ts (full 105-line read)
+- packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts (full 186-line read)
+
+Production callers and lifecycle:
+- packages/game/src/core/menu/menu-driver.ts:640-744 reads live gs.inventory, updates iCurInvMenuItem, routes Menu/Confirm/target and starts item scripts.
+- packages/game/src/core/event-system.ts:3286-3364 resolves item scripts, delays consumption until fScriptSuccess, and restores menu/explore mode.
+- packages/game/src/present/menu/draw-inventory.ts:130-390 renders state/filter and reads live inventory amount for use-target; CODE49 owns zero-count pixel closure.
+- packages/game/src/core/menu/item-select.ts:29-93 provides public filter and SelectionMenu projection.
+- packages/game/src/core/game-state.ts:71-78,680-710,1000-1020 owns ActiveMenuEntry, inventory and iCurInvMenuItem.
+
+Primary source:
+- reference/sdlpal/itemmenu.c:24-460: 8-key non-wrapping clamp, full inventory/filter colors, equipped usable append, confirm gate.
+- reference/sdlpal/uigame.c:1289-1510: target slot memory, runtime role mapping, live amount and target cancellation.
+- reference/sdlpal/play.c:244-325: single-target/apply-to-all item script and consuming success gate.
+
+Test oracle:
+- Real createInitialGameState and public inventory state functions; typed item/player-role fixtures.
+- Four whitelist tests cover color/filter/list, navigation, count/inUse gates, non-sequential party role identity, snapshot ownership, target/cancel lifecycle and no-op phases.
+- Adjacent menu-driver/event-system/draw-inventory tests cover dispatch, script resume/consumption and present live-count behavior.
+
+Evidence result:
+- No implementation change and no direct input, boundary, role identity, async cancellation, resource cleanup or public-interface defect found.
+- Existing event-system stderr is recorded in targeted.txt as negative-control output, not a new static diagnostic.

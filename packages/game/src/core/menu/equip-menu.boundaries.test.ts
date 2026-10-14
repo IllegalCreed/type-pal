@@ -4,7 +4,7 @@
  * inUse 耗尽拒绝、party[2,0] 请求 roleId、confirm 只返回意图不改装备/钱/库存、
  * cancel 复位 playerCursor、错 phase 零请求。
  */
-import type { Item } from '@type-pal/shared'
+import type { Item, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState } from '../game-state.js'
 import {
@@ -18,7 +18,12 @@ import {
 const mkItem = (id: number, flagsPart: Partial<Item['flags']>): Item =>
   ({
     id,
+    bitmap: id,
     price: 0,
+    scriptOnUse: 0,
+    scriptOnEquip: 39000 + id,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
     flags: {
       usable: false,
       equipable: false,
@@ -30,9 +35,10 @@ const mkItem = (id: number, flagsPart: Partial<Item['flags']>): Item =>
       ...flagsPart,
     },
     _name: `item-${id}`,
-  }) as unknown as Item
+  }) satisfies Item
 
 const ITEMS = [mkItem(500, { equipable: true }), mkItem(501, { equipable: true })]
+const ROLES: PlayerRoles = { roles: [] }
 
 function gsWith(inventory: Array<{ itemId: number; count: number; inUse?: number }>) {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -54,10 +60,10 @@ describe('G08 confirmEquipItem/Role 意图合同', () => {
     })
     const state = createEquipMenu(gs, ITEMS)
     state.list.cursor = 0
-    confirmEquipItem(state, ITEMS, {} as never, [2, 0])
+    confirmEquipItem(state, ITEMS, ROLES, gs.partyMembers)
     expect(state.phase).toBe('list') // 耗尽 no-op
     state.list.cursor = 1
-    confirmEquipItem(state, ITEMS, {} as never, [2, 0])
+    confirmEquipItem(state, ITEMS, ROLES, gs.partyMembers)
     expect(state.phase).toBe('pick-role')
     expect(state.selectedItemId).toBe(501)
     equipMoveDown(state) // cursor 0 → 1（第二位 = roleId 0）
@@ -76,7 +82,7 @@ describe('G08 confirmEquipItem/Role 意图合同', () => {
     const state = createEquipMenu(gs, ITEMS)
     expect(confirmEquipRole(state)).toBeNull() // list 阶段无请求
     state.list.cursor = 0
-    confirmEquipItem(state, ITEMS, {} as never, [2, 0])
+    confirmEquipItem(state, ITEMS, ROLES, gs.partyMembers)
     equipMoveDown(state)
     cancelEquipMenu(state)
     expect(state.phase).toBe('list')
@@ -86,7 +92,7 @@ describe('G08 confirmEquipItem/Role 意图合同', () => {
     expect(state.phase).toBe('done')
     // done 阶段 Confirm 无副作用：同一 state 调用前后完整相等（错写 phase 即红）
     const doneSnapshot = structuredClone(state)
-    confirmEquipItem(state, ITEMS, {} as never, [2, 0])
+    confirmEquipItem(state, ITEMS, ROLES, gs.partyMembers)
     expect(state).toEqual(doneSnapshot)
     state.phase = 'pick-role'
     state.selectedItemId = undefined

@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含编辑器预览集成与第一阶段 RNG 回归）：3,267。
-当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,033；合计未闭合：3,038。
+当前已闭合核验：229；已读但待审：35；尚未逐文件核验：3,003；合计未闭合：3,038。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -263,9 +263,41 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/event-opcode-player.test.ts` | test | 已验证 | CODE-QUALITY-3p；player/equipment/HP-MP/revive/poison/status/magic opcode contracts | direct opcode oracle |
 | `packages/game/src/core/event-opcode-player.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3p；opcode family branch contracts | branch boundary oracle |
 | `packages/game/src/core/event-opcode-player.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3p；role context/slot/poison runner/invalid input contracts | independent caller/negative oracle |
+| `packages/game/src/core/menu/menu-mode.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/menu-stack.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/menu-mode.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/shop-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/shop-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/shop-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/equip-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/equip-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/equip-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/magic-select.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/magic-select.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-magic-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-magic-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-action-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-action-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
+| `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；独立主线候选质量门待完成 | 不借源分支全绿关闭；不带CODE53/90实现 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1；Codex 接收 1 合同与 2 针反控；语义治理待后续专专项读取 | 测试合同已独立验收，未计入逐文件代码治理闭合 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | 待核 | TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1；Codex 接收 3 合同与 3 针反控；语义治理待后续专项读取 | P1 puppet product-counter 保留，未固化产品行为 |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
+
+2026-10-14 CODE94 独立 menu 集成窗口：从最新 origin/main cddf65557 建分支，仅接收治理分支已闭合30条 menu 记录及其测试治理候选，完整原卡/证据保留。集成前暂登记 review，当前机器 inventory3267：closed229/review35/pending3003；主线其它 pending 不升级，不导入 CODE53/90 等未收口生产行为。

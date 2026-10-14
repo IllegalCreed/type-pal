@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+      "afterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+        "implementationSha": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -705,6 +705,23 @@
             "reviewedRanges": ["7-7"],
             "scope": "GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
             "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-menu-integration-candidate-navigation",
+            "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+            "afterSha256": "b29b2c7ebf1f5d6a8bb806abcb1aab52e550c1cbb3b8316d5e9af1e33bd66441",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+            "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-95-glm-review-handoff",
+            "previousAfterSha256": "b29b2c7ebf1f5d6a8bb806abcb1aab52e550c1cbb3b8316d5e9af1e33bd66441",
+            "afterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
+            "scope": "用户指定停止后交GLM；仅review检查点导航，完整质量门与main集成未完成。",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },
@@ -942,7 +959,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+      "afterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -976,7 +993,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+        "implementationSha": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1099,6 +1116,15 @@
             "reviewedRanges": ["9-9"],
             "scope": "issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
             "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-menu-integration-candidate-navigation",
+            "previousAfterSha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+            "afterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+            "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1836,7 +1862,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+      "afterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1872,7 +1898,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+        "implementationSha": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2014,6 +2040,23 @@
             "reviewedRanges": ["15-15", "192-192"],
             "scope": "官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
             "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-menu-integration-candidate-navigation",
+            "previousAfterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+            "afterSha256": "906123cb420e51cd1649e649743d38a1993ba97ca528a124e470a318ef97a3da",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+            "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-95-glm-review-handoff",
+            "previousAfterSha256": "906123cb420e51cd1649e649743d38a1993ba97ca528a124e470a318ef97a3da",
+            "afterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
+            "scope": "用户指定停止后交GLM；仅review检查点导航，完整质量门与main集成未完成。",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
       },

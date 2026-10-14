@@ -5,13 +5,7 @@
 import type { AbstractKey, Command, InputSnapshot, Item, ItemFlags } from '@type-pal/shared'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
-import {
-  addItemToInventory,
-  buildLabelMap,
-  OP_BUY_MENU,
-  setShopMenuHandler,
-  tickEventSystem,
-} from '../event-system.js'
+import { buildLabelMap, OP_BUY_MENU, setShopMenuHandler, tickEventSystem } from '../event-system.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { dispatchMenuInput, setMenuCatalogs } from './menu-driver.js'
 import { openMenu, tickMenu } from './menu-mode.js'
@@ -176,7 +170,6 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
 
   it('卖 1 个:cash += price/2 + item 出包', () => {
     gs.inventory = [{ itemId: 105, count: 2 }] // 105 可卖,价 50 → 售 25
-    addItemToInventory // (touch import)
     openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, CATALOG) })
     dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 选 105
     dispatchMenuInput(gs, snap(['Down']), createCommandBus()) // toggle Yes

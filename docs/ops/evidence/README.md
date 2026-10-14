@@ -6,6 +6,16 @@
 上级：[协作与工程维护](../README.md)。
 
 ## 当前证据
+- [CODE-QUALITY-94 menu 集成证据](CODE-QUALITY-94/README.md)（独立候选源/身份清单、typed fixture 修正与新质量门；尚未集成）。
+- [CODE-QUALITY-83 历史 menu 治理原件](CODE-QUALITY-83/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-84 历史 menu 治理原件](CODE-QUALITY-84/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-85 历史 menu 治理原件](CODE-QUALITY-85/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-86 历史 menu 治理原件](CODE-QUALITY-86/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-87 历史 menu 治理原件](CODE-QUALITY-87/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-88 历史 menu 治理原件](CODE-QUALITY-88/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-89 历史 menu 治理原件](CODE-QUALITY-89/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-91 历史 menu 治理原件](CODE-QUALITY-91/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-92 历史 menu 治理原件](CODE-QUALITY-92/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
 - [酒剑仙传功后场景恢复](game-rng-scene-restore-1/README.md)（issue #3；真实复现、4项回归及反控，CI/阿里云发布/线上复验已完成）。
 - [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
