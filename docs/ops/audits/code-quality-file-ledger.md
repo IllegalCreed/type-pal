@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,270。
-当前已闭合核验：371；已读但待审：9；尚未逐文件核验：2,890；合计未闭合：2,899。
+当前已闭合核验：371；已读但待审：11；尚未逐文件核验：2,888；合计未闭合：2,899。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -43,6 +43,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 2026-10-14 CODE84 inventory menu state/target：完整读取 `inventory-menu.ts` 及三份测试，核对 `menu-driver`、`event-system`、`draw-inventory`、`item-select`、`game-state` caller/ownership，并对照 SDLPal `itemmenu.c`、`uigame.c`、`play.c` primary source；未发现直接缺陷或高风险边界。9 个定向测试文件共 413 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；只关闭上述四条记录，当前 inventory 3,270：closed 348、review 9、pending 2,913。CODE53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件仍保持原状态，下一批继续从最新 ledger 选择互斥 pending 文件。
 
 2026-10-14 CODE83 menu mode/stack：完整读取 `menu-mode.ts`、`menu-stack.ts`、`menu-mode.test.ts`，并核对 mode/scene/menu-driver/battle/shop/present caller、GameState ownership 与 SDLPal `uigame.c`/`script.c`/`uibattle.c` 返回语义；无实现缺陷、无高风险边界或行为变更。定向 342 tests、game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger 全部通过；仅这 3 条记录标记已验证。
+
+2026-10-14 CODE90 phase1 magic revive 行为切片：完整读过 `magic-script.ts`/测试并核对 SDLPal、runtime status ownership、event-opcode-player 与 menu-driver caller；先红 2 failed/29 passed 后补 `<=999` 清除，保留 `>999` 武器/装备状态。31 定向 tests、518 相邻 tests、game typecheck/Biome、full check 与 lint4022零诊断已通过；official ratchet 原命令重试完整通过并自动提升6项基线，protected fast 的 pal-extract CLI 5000ms 超时按原命令重试，最终回执待续。整文件仍有 script-chain/输入/unsupported-op/step-limit 待核，以及无断言伪用例、Spell fixture/poison table 隔离质量项，因此两文件仅改 review，不增加 closed。当前 inventory 3,270：closed371、review11、pending2,888。二阶段 grantedStatuses/status 模型未修改。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -429,4 +431,6 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/inventory-action-menu.ts` | product | 已验证 | CODE-QUALITY-91；SDLPal `uigame.c:878-919`/`ui.h:80-81`/`play.c:244-359`、menu-driver/game-state/primitives/draw callers；5 files / 85 targeted-adjacent tests、4 mutation controls、全仓 gates | equip/use action mapping, WORD 22/23, cursor guard/wrap, WORD lookup and empty-choice boundary; no direct defect |
 | `packages/game/src/core/menu/inventory-action-menu.test.ts` | test | 已验证 | CODE-QUALITY-91；public factory/choice/movement with canonical labels and ids; 5 files / 85 targeted-adjacent tests and mutation controls | order/id/default cursor/Down-Up contracts; legal typed public inputs |
 | `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-91；upper-bound guard, two-step wrap, WORD table labels and empty-selection defensive oracle | de-duplicated lifecycle/defensive leaves; initial equivalent mutation excluded |
+| `packages/game/src/core/menu/magic-script.ts` | product | review | CODE-QUALITY-90；SDLPal `script.c:1052-1102`/`global.c:2279-2344`、runtime/menu-driver/event-opcode-player；31 targeted、518 adjacent、4 exact mutation controls；full check/official ratchet PASS，protected fast/最终 lint 待续 | revive <=999 repair only; full spell-chain/input/unsupported-op/step-limit contract not closed |
+| `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-90；真实 GameState HP/status/poison oracle；999/1000/32760、party [2,0] 与 party 外隔离；先红后绿/4 mutations | existing assertion-free pseudo applyAll case, incomplete Spell fixture and poison-table isolation remain unclosed |
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。

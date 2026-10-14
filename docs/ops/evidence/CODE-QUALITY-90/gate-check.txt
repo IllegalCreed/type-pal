@@ -1,0 +1,19 @@
+Command: pnpm check
+Exit: 0 (completed before interrupted coverage run; recovered from tool completion receipt)
+
+Docs: 1271 Markdown / 6719 local links / 412 tasks; PASS 0 issues
+Testing docs: PASS 0 issues
+Phase/lore: PASS 184 documents
+Content review: PASS 570 documents
+Tools: docs48/coverage58/e2e395/script-governance22 passed; quality tools passed
+Package checks (all typecheck and tests passed):
+content: 149 files / 1498 tests
+shared: 16 files / 131 tests
+game: 314 files / 3555 tests
+pal-extract: 71 files / 431 tests
+reforge: 359 files / 8964 tests
+editor: 631 files / 4951 tests
+migrate: 96 files / 739 tests
+lint: PASS 4022 files / 0 errors / 0 warnings / 0 infos
+
+Subsequent changes were task/evidence/ledger/review-record documentation plus removal of the redundant Command[] cast from the new fully typed applyAll fixture; final docs, strict content-review, lint and protected-fast are recorded separately. This receipt does not claim complete semantic audit of either magic-script file.

@@ -1,0 +1,503 @@
+
+> type-pal@ coverage:ratchet /Users/zhangxu/illegal/type-pal-quality-3x
+> pnpm test:coverage-tools && node scripts/coverage/run.mjs fast --ratchet
+
+
+> type-pal@ test:coverage-tools /Users/zhangxu/illegal/type-pal-quality-3x
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: 批准账只含精确历史/审计文件，运行时不能扩大
+ok 1 - 批准账只含精确历史/审计文件，运行时不能扩大
+  ---
+  duration_ms: 1.198292
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+ok 2 - 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+  ---
+  duration_ms: 0.16125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+ok 3 - 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+  ---
+  duration_ms: 0.044875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+ok 4 - 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+  ---
+  duration_ms: 0.04125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+ok 5 - 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+  ---
+  duration_ms: 0.045334
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/render.test.ts
+ok 6 - 仅精确历史快照获准：packages/reforge/src/render.test.ts
+  ---
+  duration_ms: 0.074541
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+ok 7 - 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+  ---
+  duration_ms: 0.185791
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+ok 8 - 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+  ---
+  duration_ms: 0.094667
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+ok 9 - 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+  ---
+  duration_ms: 0.354125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+ok 10 - 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+  ---
+  duration_ms: 0.74525
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+ok 11 - 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+  ---
+  duration_ms: 0.15125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+ok 12 - 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+  ---
+  duration_ms: 0.074958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+ok 13 - 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+  ---
+  duration_ms: 0.035667
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+ok 14 - 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+  ---
+  duration_ms: 0.024792
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：未知第六文件
+ok 15 - 退役判据拒绝：未知第六文件
+  ---
+  duration_ms: 0.06275
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：test-file删除不是计数退役
+ok 16 - 退役判据拒绝：test-file删除不是计数退役
+  ---
+  duration_ms: 0.873375
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：生产范围删除不适用
+ok 17 - 退役判据拒绝：生产范围删除不适用
+  ---
+  duration_ms: 0.039833
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：额外删除一例
+ok 18 - 退役判据拒绝：额外删除一例
+  ---
+  duration_ms: 0.02275
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：其它旧数量
+ok 19 - 退役判据拒绝：其它旧数量
+  ---
+  duration_ms: 0.037667
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧身份摘要漂移
+ok 20 - 退役判据拒绝：旧身份摘要漂移
+  ---
+  duration_ms: 0.0315
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：同数替换新身份
+ok 21 - 退役判据拒绝：同数替换新身份
+  ---
+  duration_ms: 0.022917
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：候选数量伪造
+ok 22 - 退役判据拒绝：候选数量伪造
+  ---
+  duration_ms: 0.020875
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧数量伪造
+ok 23 - 退役判据拒绝：旧数量伪造
+  ---
+  duration_ms: 0.020334
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧文件不相同
+ok 24 - 退役判据拒绝：旧文件不相同
+  ---
+  duration_ms: 0.020625
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：新文件不相同
+ok 25 - 退役判据拒绝：新文件不相同
+  ---
+  duration_ms: 0.018834
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：文件字节漂移
+ok 26 - 退役判据拒绝：文件字节漂移
+  ---
+  duration_ms: 0.018375
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺旧条目
+ok 27 - 退役判据拒绝：缺旧条目
+  ---
+  duration_ms: 0.018625
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺新条目
+ok 28 - 退役判据拒绝：缺新条目
+  ---
+  duration_ms: 0.018334
+  type: 'test'
+  ...
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 29 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.756166
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 30 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.108458
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 31 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.112542
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 32 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.060166
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 33 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 1.323542
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 34 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 39.867584
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 35 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 10.057833
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 36 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 7.358958
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 37 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 3.649542
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 38 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.422917
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 39 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 0.795834
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 40 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.251792
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 41 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.21425
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 42 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 6.758959
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 43 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 194.011625
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 44 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 101.70775
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 45 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 97.268291
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 46 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 102.326167
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 47 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.730625
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 48 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 0.94375
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 49 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 1.132333
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 50 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1266.460625
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 51 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1531.338708
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 52 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 1.9445
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 53 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.31475
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 54 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.344459
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 55 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 0.963542
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 56 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.538542
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 57 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.410666
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 58 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.275042
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4086.798
+
+[coverage:fast] @type-pal/shared
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/shared
+      Coverage enabled with v8
+
+
+ Test Files  16 passed (16)
+      Tests  131 passed (131)
+   Start at  11:56:27
+   Duration  616ms (transform 792ms, setup 0ms, import 1.15s, tests 215ms, environment 1ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.13% ( 448/466 )
+Branches     : 93.57% ( 204/218 )
+Functions    : 100% ( 23/23 )
+Lines        : 97.08% ( 400/412 )
+================================================================================
+
+[coverage:fast] @type-pal/content
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/content
+      Coverage enabled with v8
+
+
+ Test Files  149 passed (149)
+      Tests  1498 passed (1498)
+   Start at  11:56:39
+   Duration  9.41s (transform 17.74s, setup 0ms, import 33.21s, tests 4.03s, environment 42ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.42% ( 5668/5878 )
+Branches     : 94.11% ( 4827/5129 )
+Functions    : 98.06% ( 811/827 )
+Lines        : 97.34% ( 5061/5199 )
+================================================================================
+
+[coverage:fast] @type-pal/pal-extract
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract
+      Coverage enabled with v8
+
+ ❯ src/cli-font-lookup.glm-q.test.ts (2 tests | 1 failed) 7811ms
+   × Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容 5017ms
+ ❯ src/cli-battle-assets.glm-q.test.ts (2 tests | 1 failed) 8093ms
+   × Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest 5019ms
+ ❯ src/cli-isolated.glm-q.test.ts (6 tests | 1 failed) 14956ms
+   × Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记） 5017ms
+ ❯ src/cli-error-exits.kimi-r1.test.ts (7 tests | 1 failed) 16229ms
+   × KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand） 5010ms
+ ❯ src/cli-global-entries.glm-q.test.ts (14 tests | 1 failed) 25501ms
+   × Q-NEXT1-01 item.use entry 5019ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cli-battle-assets.glm-q.test.ts > Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/cli-battle-assets.glm-q.test.ts:302:1
+    300| }
+    301|
+    302| test('Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退…
+       | ^
+    303|   const { tree, result } = await runBattleAssetsCli({ fAbc: true, fbp:…
+    304|   expect(result.exitCode).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/cli-error-exits.kimi-r1.test.ts > KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/cli-error-exits.kimi-r1.test.ts:133:1
+    131| }
+    132|
+    133| test('KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 ope…
+       | ^
+    134|   // bytecode: ip0 setPalette(9, op1=1) —— disasm 丢 operand[1]，recompi…
+    135|   //           ip1 end。cli.ts:263-267 自检拒绝 → exit 2（不是 exit 1）。
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/cli-font-lookup.glm-q.test.ts > Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/cli-font-lookup.glm-q.test.ts:119:1
+    117| }
+    118|
+    119| test('Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容'…
+       | ^
+    120|   const { tree, result } = await runTailCli(true)
+    121|   expect(result.exitCode).toBe(0)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/cli-global-entries.glm-q.test.ts > Q-NEXT1-01 item.use entry
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/cli-global-entries.glm-q.test.ts:247:1
+    245| // ── 前十二：每条仅一个 hook 非零（OBJECT 表目标字段=3 → entryIps → shared 恰 L_3）──
+    246|
+    247| test('Q-NEXT1-01 item.use entry', async () => {
+       | ^
+    248|   const r = await runEntry([{ objectId: ITEM_OBJ_START, fieldOff: 4, v…
+    249|   expectPipelineOk(r, 1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/cli-isolated.glm-q.test.ts > Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/cli-isolated.glm-q.test.ts:291:1
+    289| })
+    290|
+    291| test('Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）', async () …
+       | ^
+    292|   const tree = makeTree({
+    293|     'SSS.MKF': buildSss(),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  5 failed | 55 passed (60)
+      Tests  5 failed | 275 passed (280)
+   Start at  11:56:52
+   Duration  26.30s (transform 3.69s, setup 0ms, import 7.13s, tests 74.38s, environment 9ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --passWithNoTests --exclude node_modules/** --exclude dist/** --exclude build/** --exclude coverage/** --exclude **/*.pal.test.js --exclude **/*.pal.test.jsx --exclude **/*.pal.test.ts --exclude **/*.pal.test.tsx --exclude **/*.pal.test.mjs --exclude **/*.pal.test.mts --exclude **/*.pal.test.cjs --exclude **/*.pal.test.cts --exclude src/events/roundtrip.test.ts --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/parsers/__tests__/data-misc.test.ts --exclude src/resources/parsers/__tests__/misc-mkf.test.ts --exclude src/resources/parsers/rng-frames.test.ts --exclude src/resources/sprite.test.ts --exclude src/resources/tables.test.ts --coverage --coverage.provider=v8 --coverage.reportsDirectory=/Users/zhangxu/illegal/type-pal-quality-3x/coverage/fast/pal-extract --coverage.reporter=text-summary --coverage.reporter=json-summary --coverage.reporter=html --coverage.reporter=lcov --coverage.include src/**/*.ts --coverage.include scripts/extract-videos.ts --coverage.exclude **/__tests__/** --coverage.exclude **/*.test.ts --coverage.exclude **/*.test.tsx --coverage.exclude **/*.spec.ts --coverage.exclude **/*.spec.tsx --coverage.exclude **/*.d.ts
+
+[coverage:fast] FAIL
+pnpm 退出码 1
+ ELIFECYCLE  Command failed with exit code 1.

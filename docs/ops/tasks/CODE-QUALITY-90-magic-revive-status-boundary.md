@@ -1,6 +1,6 @@
 # CODE-QUALITY-90 — magic revive status clearing boundary
 
-Status: blocked
+Status: review
 Phase: phase1
 Capability: Q3 phase1 game core/menu magic script
 Coding Owner: Codex
@@ -11,11 +11,11 @@ Visual Verification Timing: e2e-deferred
 Contributor: Codex
 Branch: codex/code-quality-3y
 
-> 高风险停线卡：只记录一手真值与失败反例，等待用户裁决后才允许实现。
+> 高风险机制卡：已完成 primary source 核验并取得用户裁决；实现必须先补失败反例，再按 SDLPal 的 `<=999` 清除边界修复。
 
 ## 目标
 
-核定大世界复活法术是否必须完整清除角色状态，并在用户批准后修复 `magic-script.ts` 的单体/全体复活路径。当前只确认直接证据，不改生产实现。
+按 SDLPal 修复大世界单体/全体复活：清除 `rgPlayerStatus` 的 `<=999` 临时状态，保留 `>999` 武器/装备永久效果；先写失败反例，再修复 `magic-script.ts`。
 
 ## 范围
 
@@ -23,25 +23,25 @@ Branch: codex/code-quality-3y
   - `packages/game/src/core/menu/magic-script.ts` 的 `revivePlayerSingle` / `revivePlayerAll`
   - 对应真实 status ownership、复活 caller 与最小失败反例
 - 范围外: 战斗复活、save/schema/migration、毒键寻址 CODE53/79、其它脚本 opcode。
-- 明确不做: 用户裁决前不修改实现、不改变 status schema、不恢复旧 upgrader/fallback。
+- 明确不做: 不改变 status schema、不恢复旧 upgrader/fallback、不清除 `>999` 装备永久效果、不触碰战斗复活或 CODE53/79 poison key。
 
 ## 前提真值门
 
 ### 一句话行为 / 工程前提
 
-SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 清毒，并调用 `PAL_RemovePlayerStatus` 清除全部玩家状态；当前 TS 只清毒，可能让复活角色保留 sleep/confused/silence/paralyzed/puppet 等状态。
+SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 清毒，并遍历状态调用 `PAL_RemovePlayerStatus`；后者只清 `<=999`，保留 `>999` 的装备永久效果。当前 TS 只清毒，缺少 `rgPlayerStatus` 的 `<=999` 清除。
 
 | 维度 | 当前真值 | 直接证据 |
 |---|---|---|
-| 原版 / primary source | 单体和全体 revive 分支均在复活后调用 `PAL_CurePoisonByLevel(...,3)` 与 `PAL_RemovePlayerStatus(..., x)` | `reference/sdlpal/script.c:1052-1102` |
-| 第一阶段 | `revivePlayerSingle/All` 只写 runtime HP 并调用 `curePlayerPoisonByLevel`，未写 `rgPlayerStatus` | `packages/game/src/core/menu/magic-script.ts:91-111` |
+| 原版 / primary source | 单体和全体 revive 分支均在复活后调用 `PAL_CurePoisonByLevel(...,3)`，遍历 `kStatusAll` 调 `PAL_RemovePlayerStatus`; 该函数与 `PAL_ClearAllPlayerStatus` 只清 `<=999`，保留装备效果 `>999`。 | `reference/sdlpal/script.c:1052-1102`; `reference/sdlpal/global.c:2279-2308,2310-2344` |
+| 第一阶段（修复前，`13229f476`） | `revivePlayerSingle/All` 只写 runtime HP 并调用 `curePlayerPoisonByLevel`，未写 `rgPlayerStatus` | `packages/game/src/core/menu/magic-script.ts:91-111` |
 | 当前二阶段 | N/A；本卡只涉及 phase1 game runtime | N/A |
-| 本任务目标 | 经用户裁决后决定是否镜像 primary source 的全状态清除，并用真实 runtime status oracle 验证单体/全体/失败路径 | 待用户裁决 |
+| 本任务目标 | 单体/全体复活清 `rgPlayerStatus` 中 `<=999`，保留 `>999` 装备状态；用真实 runtime status oracle 验证成功、活人失败、非顺序队伍与毒边界。 | 用户已于 2026-10-14 裁决；实现/31定向/518相邻/4mutation已通过，完整质量门待收口 |
 
 ### 反证与替代解释
 
-- 最强替代解释: `rgPlayerStatus` 可能不是大世界复活可见状态，或 `curePlayerPoisonByLevel` 间接清了全部状态；需由 `player-status` ownership 与函数实现反证。
-- 什么观察会推翻当前前提: 真实 caller/renderer 证明 revive 后状态应保留，或 `curePlayerPoisonByLevel` 已清完整 status（当前只读初查未见）。
+- 最强替代解释: `rgPlayerStatus` 可能只属于战斗或 `curePlayerPoisonByLevel` 可能间接清 status；已由 game-state ownership、player-status caller 与 poison 实现反证，二者分属不同结构。
+- 什么观察会推翻当前前提: primary source 的 `PAL_RemovePlayerStatus` 被证明无 `<=999` guard，或真实 caller 证明大世界 revive 不消费 `rgPlayerStatus`；当前直接源码已排除。
 - 已排查替代根因:
   - runtime 语义 / 命令分类: `magic-script.ts` 明确是大世界 `uigame.c` runner；未混用 battle runner。
   - 原版 / 第一阶段理解: 已逐行对照 `script.c` 单体/全体分支。
@@ -50,22 +50,22 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 
 ### 用户可见偏离
 
-- 是否主动偏离已核真值: pending（修复会改变复活后的状态表现）
-- `before -> after`: 当前可能“复活但保留状态” → 待裁决是否对齐 SDLPal 清全部状态
+- 是否主动偏离已核真值: no（保持 SDLPal 真值；用户已批准）
+- `before -> after`: 当前“复活只清毒、状态槽不动” → 复活清 `<=999` 的临时状态，保留 `>999` 装备永久状态
 - 代表场景: 角色处于 sleep/confused/paralyzed 后使用还魂咒；复活 HP 成功但状态图标/行为是否立即清除。
-- 用户裁决: pending
+- 用户裁决: 2026-10-14 用户批准“对齐 SDLPal”，并补充 `>999` 武器/装备 buff 不清，避免清掉武器双攻。
 
 ## 上下文锚点
 
-- 已拍板决策 / 铁律: 发现第一阶段机制真值与用户可见行为风险必须停线；行为修复先写失败反例再实现；不降低测试/静态门。
+- 已拍板决策 / 铁律: 发现第一阶段机制真值与用户可见行为风险必须停线；行为修复先写失败反例再实现；不降低测试/静态门；`>999` 装备 buff 不是普通临时状态。
 - 代码锚点: `magic-script.ts:91-111,225-251`; `player-poison-state.ts` cure ownership；`game-state.ts:552-570,1876-1880` status runtime；`menu-driver.ts:902-937` caller MP gate。
-- 已知坑 / 审计文档: CODE-QUALITY-89 已将 script/MP caller留 pending；`docs/phase1/game-mechanics.md` status/复活真值；不要与 CODE53/79 poison key 混改。
+- 已知坑 / 审计文档: `docs/phase1/game-mechanics.md:1517-1539` 明确梦蛇 `DualAttack=9` 复活清；`1453,1483` 记录 `<=999` 临时/`>999` 装备分界；装备 `32760` 由 `game-state.ts:1082-1085` 与 SDLPal guard 核定；`packages/game/src/core/game-state.ts:1078-1087` 说明持久装备状态 ownership；不要与 CODE53/79 poison key 混改。
 - 不得重新引入: 只清毒冒充清状态、无失败反例直接改实现、在 battle runner 中复用大世界同步 runner、改变 MP 扣除顺序。
 - 相关测试: `packages/game/src/core/menu/magic-script.test.ts`、menu-driver cov85 magic tests、player status tests。
 
 ## 验收条件（裁决后）
 
-- 功能: 单体/全体复活清状态，活人/满血失败不清状态，毒 level>3 保留规则不变，MP gate 与 scriptSuccess 不变。
+- 功能: 单体/全体复活清 `rgPlayerStatus` 的 `<=999`，保留 `>999`；活人/满血失败不清状态，毒 level>3 保留规则不变，MP gate 与 scriptSuccess 不变。
 - 测试: 失败反例先行；真实 runtime status 数组与 renderer/caller oracle；3 个以上精确反控；相邻 menu-driver/player-status 回归。
 - 质量门: game typecheck/Biome、全仓 `pnpm check`、official ratchet、protected fast、lint-zero、docs/content-review、ledger。
 
@@ -73,16 +73,43 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 
 ### 进入 build 前：Codex 核定
 
-- Coding Owner / 隔离工作树 / 修改白名单: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / 尚未授权实现；仅本卡、失败反例和证据。
-- 前提核验: counter-risk confirmed（primary source 与现实现存在直接差异，但用户可见目标仍待裁决）。
-- 范围、设计和验收条件: pending（等待用户决定是否镜像 SDLPal 全状态清除）。
-- 高风险用户产品裁决: pending
-- build 准入结论: blocked
+- Coding Owner / 隔离工作树 / 修改白名单: Codex / `/Users/zhangxu/illegal/type-pal-quality-3x` / `packages/game/src/core/menu/magic-script.ts`、其专属测试、任务卡与 evidence；不得修改 schema/save、battle runner、poison key 或公共接口。
+- 前提核验: verified（`script.c:1052-1102` + `global.c:2279-2344` 直接证明复活遍历 status 但只清 `<=999`；`game-mechanics.md:1453,1483,1517-1539` 记录 <=999 状态边界和 DualAttack 9 的复活清除；32760 的装备实例见 `game-state.ts:1082-1085`）。
+- 范围、设计和验收条件: agree（先红反例，再最小实现；单体/全体/活人失败/非顺序队伍/`<=999`/`>999`/毒边界与相邻 caller 回归）。
+- 高风险用户产品裁决: 2026-10-14 用户批准 SDLPal 行为，并明确保留 `>999` 武器/装备 buff。
+- build 准入结论: Codex build allowed（仅白名单实现与测试；未完成独立验证前不得标记 done）。
+
+## 本轮实现与验收记录（2026-10-14）
+
+- 完整读取：`magic-script.ts`、`magic-script.test.ts`。核对 SDLPal `script.c:1052-1102` / `global.c:2279-2344`、`game-state.ts` 状态 ownership、`event-opcode-player.ts:170-204` 同类复活实现，以及 `menu-driver.ts:902-937` success/MP caller。
+- 修改：仅在已确认 HP==0 的单体复活臂追加 `rgPlayerStatus[roleId]` 的 `<=999` 清除；全体复活沿用同一函数。活人路径不清状态，`>999` 装备状态、poison level>3、MP ownership 不变。
+- 先红后绿：新增单体、活人失败、全体三例；实现前 2 failed / 29 passed（活人反例已通过），实现后 31/31。新增场景使用真实 GameState，party `[2,0]`，覆盖 999/1000/32760 与 party 外角色隔离。
+- 相邻回归：8 files / 518 tests；game typecheck、两文件 Biome 通过。
+- 4 个隔离精确 mutation：漏清理、999 误留、1000 误清、错误按 party position 寻址；各恰好 1 个业务 AssertionError，恢复绿、源码哈希一致，无运行时错误。
+- 已完成全仓 `pnpm check`：content149/1498、shared16/131、game314/3555、pal-extract71/431、reforge359/8964、editor631/4951、migrate96/739；全包 typecheck 与 lint4022、0 errors/warnings/infos 通过。
+- official ratchet：第一次恢复实跑因 pal-extract 五个 CLI 5000ms 超时失败，原件保留 `gate-ratchet-timeouts.txt`；原命令重试全部通过（731源文件/19860tests，总体89.93/83.66/89.50/91.82）。官方基线提升6项、范围变化2项，仅 game 新增3个复活合同与实现覆盖变化；其它包指标/范围未变化。
+- protected fast：默认并发两次因相同4个 pal-extract CLI 5000ms 超时失败，输出与exit1回执分别保留 `gate-protected-fast-timeouts*`。按已安装 Vitest 4.1.7 的官方 `VITEST_MAX_WORKERS=2` 接口限制文件并发，完整重跑同一 `pnpm check:fast`；pal-extract71/431通过，但全局设2同时覆盖editor原有单worker设置，editor出现1个业务失败（`BattleSpriteLibrary.glm-m.test.tsx:170`，expected apply.disabled=false / actual=true；631 files中1 failed，4951 tests中1 failed）。失败原件保留 `gate-protected-fast-workers2-editor-failure*`。单独重放2例exit0，但有3条React act诊断，**不计干净验收**。当前改用 `VITEST_MAX_WORKERS=1` 恢复editor原有并发，并限制其它包，完整门仍待续；timeout/测试范围/断言/静态规则未改，默认并发超时和editor抖动根因仍未知。
+- 高风险：第一阶段机制/用户可见行为；已在实现前完成 primary source 核验并取得用户裁决，无 schema/save/migration/资产/公共接口改动。
+- 第二阶段边界：`packages/reforge/src/battle/battle-core.ts:107-111` 单独区分 `status` 与 `grantedStatuses`；`:604-624` 复活只清临时 `status`。`packages/content/src/item.ts:36,449-462` 装备 `grantStatus` 实时派生。仅用作阶段区分证据，未修改、未关闭这些二阶段文件。
+- **整文件仍未关闭**：`magic-script.ts` 的完整当前 spell chain/unsupported-op/input/step-limit 合同待核；`magic-script.test.ts` 还存在无断言伪 applyAll 用例、`as unknown as Spell` fixture 与 poison table cleanup 范围待精简/隔离审查。本卡只验复活行为切片，两文件登记 review，closed 不增加。
+- evidence：`docs/ops/evidence/CODE-QUALITY-90/`；protected fast、最终 lint-zero、ledger 与分支提交/推送回执尚待完成。
 
 ## 交接日志
+
+- 2026-10-14 用户裁决后 Codex: 补读 `global.c:2279-2344` 与 `game-mechanics.md:1517-1539`；确认 `PAL_RemovePlayerStatus` 只清 `<=999`，`>999` 装备永久状态必须保留。Next: 先写失败反例，再实现单体/全体最小修复并跑相邻质量门。
 
 - 2026-10-14 Codex: 只读完整读取 `magic-script.ts`/测试、menu-driver caller、runtime status ownership 与 SDLPal `script.c:1052-1102`；确认单体/全体 revive 当前只清 poison，不调用 status removal。未修改实现，未新增会失败的 tracked 测试；等待用户裁决后先加失败反例，再决定实现。
 
 ## 下一位 Agent 提示词
 
-无；本卡 blocked，等待用户裁决，不得开始实现或标记 done。
+接手任务: CODE-QUALITY-90 magic revive status clearing boundary
+任务卡: docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md
+当前状态: review
+你的角色: Codex 验收者，继续本行为切片的质量门与提交；不得把整文件 review 改已验证
+先读: AGENTS.md、CLAUDE.md、docs/phase1/game-mechanics.md:1453,1483,1517-1539、SDLPal script.c:1052-1102 / global.c:2279-2344、magic-script.ts/测试、evidence/CODE-QUALITY-90/
+已完成: 单体/全体仅阵亡角色清 <=999、保留 >999 装备效果；先红2失败/29通过后绿31通过；518相邻tests、4精确mutations、game typecheck/Biome、full check与lint零诊断均通过
+请你做: 检查 official ratchet 完整通过回执（首次5个CLI超时保留原件）；检查 protected fast workers=1 当前完整回执；两次默认CLI超时与workers2 editor失败均保留exit1原件；editor probe虽两断言绿但有3条act诊断，不能accept 与最终lint/docs/content-review/ledger；证据补齐后收行为任务并commit/push治理分支
+整文件剩余: magic-script全script-chain/input/unsupported-op/step-limit；测试无断言伪用例、Spell fixture、poison table隔离。两文件保持review，不增加closed
+下一批候选: 先完整审 magic-script 两文件未闭合项，或不重叠 sell-menu.ts 与三份专属测试；已对 sell-menu 四文件只读，不等于已完成核验
+不要做: 不清 >999；不改phase2 grantedStatuses模型、schema/save、battle runner或poison key；不混入主工作树改动；本分支含其它未收口治理卡，禁止直接合main
+输出要求: 定向与全仓门实际回执、直接oracle/反控、账本371closed/11review/2888pending与分支ahead/behind；尚有失败时继续review，不宣称专项完成

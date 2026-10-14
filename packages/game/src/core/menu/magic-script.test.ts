@@ -243,6 +243,31 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
     expect(gs.rgPoisonStatus['0_0']?.wPoisonID).toBe(0)
   })
 
+  it('单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍', () => {
+    const gs = mkGs()
+    gs.partyMembers = [2, 0]
+    gs.PlayerRolesRuntime.rgwHP[0] = 0
+    gs.rgPlayerStatus[0]![2] = 999 // 临时睡眠边界：应清
+    gs.rgPlayerStatus[0]![8] = 32760 // 武器双攻装备哨兵：应保留
+    gs.rgPlayerStatus[2]![5] = 9 // 队友 role 2：单体目标不是它
+    const ok = runMagicScriptSync(gs, 43024, 0)
+    expect(ok).toBe(true)
+    expect(gs.rgPlayerStatus[0]![2]).toBe(0)
+    expect(gs.rgPlayerStatus[0]![8]).toBe(32760)
+    expect(gs.rgPlayerStatus[2]![5]).toBe(9)
+  })
+
+  it('活人复活失败：状态与 HP 均保持不变', () => {
+    const gs = mkGs()
+    gs.rgPlayerStatus[0]![2] = 999
+    gs.rgPlayerStatus[0]![8] = 32760
+    const ok = runMagicScriptSync(gs, 43024, 0)
+    expect(ok).toBe(false)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50)
+    expect(gs.rgPlayerStatus[0]![2]).toBe(999)
+    expect(gs.rgPlayerStatus[0]![8]).toBe(32760)
+  })
+
   // ── g_fScriptSuccess 真值(sdlpal script.c:1077/1099)── user 2026-05-29 提醒:
   // BattleWon 已 auto-revive 半 HP,大世界几乎无死人 → 还魂咒选活人应不扣 MP。
   it('revive 选活人 target → runner return false(g_fScriptSuccess=FALSE)', () => {
@@ -292,6 +317,28 @@ describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
     const ok = runMagicScriptSync(gs, 77778, 0xffff)
     expect(ok).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(20) // 200 * 1/10
+    setGlobalEvents([])
+  })
+
+  it('applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77779' },
+      { op: 'end' },
+    ])
+    const gs = mkGs()
+    gs.partyMembers = [2, 0]
+    gs.PlayerRolesRuntime.rgwHP[0] = 0
+    gs.PlayerRolesRuntime.rgwHP[2] = 0
+    gs.PlayerRolesRuntime.rgwHP[1] = 0 // party 外，不应被 applyAll 触碰
+    gs.rgPlayerStatus[0]![2] = 999
+    gs.rgPlayerStatus[0]![8] = 1000
+    gs.rgPlayerStatus[2]![5] = 9
+    gs.rgPlayerStatus[1]![2] = 999
+    expect(runMagicScriptSync(gs, 77779, 0xffff)).toBe(true)
+    expect(gs.rgPlayerStatus[0]![2]).toBe(0)
+    expect(gs.rgPlayerStatus[0]![8]).toBe(1000)
+    expect(gs.rgPlayerStatus[2]![5]).toBe(0)
+    expect(gs.rgPlayerStatus[1]![2]).toBe(999)
     setGlobalEvents([])
   })
 })

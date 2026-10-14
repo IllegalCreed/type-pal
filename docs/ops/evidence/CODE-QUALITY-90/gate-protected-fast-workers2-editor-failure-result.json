@@ -1,0 +1,12 @@
+{
+  "command": ["pnpm", "check:fast"],
+  "environment": {
+    "VITEST_MAX_WORKERS": "2"
+  },
+  "exitCode": 1,
+  "sourceSha256": {
+    "packages/game/src/core/menu/magic-script.ts": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "packages/game/src/core/menu/magic-script.test.ts": "e008bd7fb4d52aac26dda06508140269cff0833300f11edbba1b3f6290e07a55"
+  },
+  "sourceUnchanged": true
+}

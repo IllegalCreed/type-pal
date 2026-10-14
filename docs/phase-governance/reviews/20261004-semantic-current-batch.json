@@ -532,7 +532,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "9150b61f052ac2706d2b207927d49da32c42bafaf6d96254168ff2e2144baeb3",
+      "afterSha256": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +563,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "9150b61f052ac2706d2b207927d49da32c42bafaf6d96254168ff2e2144baeb3",
+        "implementationSha": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -931,6 +931,14 @@
             "previousAfterSha256": "4392105ce895da1eec6281d10805ae04eb540ba0b165bbba747c3df06d4305c1",
             "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
             "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-revive-slice-review",
+            "previousAfterSha256": "9150b61f052ac2706d2b207927d49da32c42bafaf6d96254168ff2e2144baeb3",
+            "afterSha256": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
@@ -1307,7 +1315,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "4763ea8757220bb3b496c520e766b18f45045949c02200f53af355b613b79ad2",
+      "afterSha256": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1341,7 +1349,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "4763ea8757220bb3b496c520e766b18f45045949c02200f53af355b613b79ad2",
+        "implementationSha": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1475,6 +1483,14 @@
             "previousAfterSha256": "438bcbf2e188b4f3802590e9e6c78227ce4a201807726aab33260225c3ae4a60",
             "afterSha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
             "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-revive-slice-review",
+            "previousAfterSha256": "4763ea8757220bb3b496c520e766b18f45045949c02200f53af355b613b79ad2",
+            "afterSha256": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
@@ -2180,7 +2196,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "eedd2f05d0d6d282e1aa5535a382e6433e778813f8c275a21ccf39ed49bbae49",
+      "afterSha256": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2216,7 +2232,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "eedd2f05d0d6d282e1aa5535a382e6433e778813f8c275a21ccf39ed49bbae49",
+        "implementationSha": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2596,6 +2612,14 @@
             "previousAfterSha256": "c8c24a7fb738bc512769430f179f9c7b9f171ca0e33eadfeeb9451a0bcc81845",
             "afterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
             "evidence": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-revive-slice-review",
+            "previousAfterSha256": "eedd2f05d0d6d282e1aa5535a382e6433e778813f8c275a21ccf39ed49bbae49",
+            "afterSha256": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
