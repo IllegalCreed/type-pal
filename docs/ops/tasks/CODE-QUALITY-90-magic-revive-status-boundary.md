@@ -88,7 +88,7 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 - 4 个隔离精确 mutation：漏清理、999 误留、1000 误清、错误按 party position 寻址；各恰好 1 个业务 AssertionError，恢复绿、源码哈希一致，无运行时错误。
 - 已完成全仓 `pnpm check`：content149/1498、shared16/131、game314/3555、pal-extract71/431、reforge359/8964、editor631/4951、migrate96/739；全包 typecheck 与 lint4022、0 errors/warnings/infos 通过。
 - official ratchet：第一次恢复实跑因 pal-extract 五个 CLI 5000ms 超时失败，原件保留 `gate-ratchet-timeouts.txt`；原命令重试全部通过（731源文件/19860tests，总体89.93/83.66/89.50/91.82）。官方基线提升6项、范围变化2项，仅 game 新增3个复活合同与实现覆盖变化；其它包指标/范围未变化。
-- protected fast：默认并发两次因相同4个 pal-extract CLI 5000ms 超时失败，输出与exit1回执分别保留 `gate-protected-fast-timeouts*`。按已安装 Vitest 4.1.7 的官方 `VITEST_MAX_WORKERS=2` 接口限制文件并发，完整重跑同一 `pnpm check:fast`；pal-extract71/431通过，但全局设2同时覆盖editor原有单worker设置，editor出现1个业务失败（`BattleSpriteLibrary.glm-m.test.tsx:170`，expected apply.disabled=false / actual=true；631 files中1 failed，4951 tests中1 failed）。失败原件保留 `gate-protected-fast-workers2-editor-failure*`。单独重放2例exit0，但有3条React act诊断，**不计干净验收**。当前改用 `VITEST_MAX_WORKERS=1` 恢复editor原有并发，并限制其它包，完整门仍待续；timeout/测试范围/断言/静态规则未改，默认并发超时和editor抖动根因仍未知。
+- check:fast（历史误标protected fast，已撤回）：默认并发两次因相同4个 pal-extract CLI 5000ms 超时失败，输出与exit1回执分别保留 `gate-protected-fast-timeouts*`。按已安装 Vitest 4.1.7 的官方 `VITEST_MAX_WORKERS=2` 接口限制文件并发，完整重跑同一 `pnpm check:fast`；pal-extract71/431通过，但全局设2同时覆盖editor原有单worker设置，editor出现1个业务失败（`BattleSpriteLibrary.glm-m.test.tsx:170`，expected apply.disabled=false / actual=true；631 files中1 failed，4951 tests中1 failed）。失败原件保留 `gate-protected-fast-workers2-editor-failure*`。单独重放2例exit0，但有3条React act诊断，**不计干净验收**。当前改用 `VITEST_MAX_WORKERS=1` 恢复editor原有并发，并限制其它包，完整门仍待续；timeout/测试范围/断言/静态规则未改，默认并发超时和editor抖动根因仍未知。
 - 高风险：第一阶段机制/用户可见行为；已在实现前完成 primary source 核验并取得用户裁决，无 schema/save/migration/资产/公共接口改动。
 - 第二阶段边界：`packages/reforge/src/battle/battle-core.ts:107-111` 单独区分 `status` 与 `grantedStatuses`；`:604-624` 复活只清临时 `status`。`packages/content/src/item.ts:36,449-462` 装备 `grantStatus` 实时派生。仅用作阶段区分证据，未修改、未关闭这些二阶段文件。
 - **整文件仍未关闭**：`magic-script.ts` 的完整当前 spell chain/unsupported-op/input/step-limit 合同待核；`magic-script.test.ts` 还存在无断言伪 applyAll 用例、`as unknown as Spell` fixture 与 poison table cleanup 范围待精简/隔离审查。本卡只验复活行为切片，两文件登记 review，closed 不增加。
@@ -126,3 +126,10 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 ## 当前验证与门纠错补充
 
 最新集成源基点7a93336c6（包含origin/main588790383）：9 files / 522定向相邻tests、game typecheck和完整pnpm check已通过（worker1；game315/3559，editor631/4951，migrate96/739，lint4031/0/0/0）。真正protected fast是TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast，先前pnpm check:fast不能替代，原件保留且不计此门。CODE92已对Code83–89/91的30条记录开当前counter，机器账本暂为3271/340closed/42review/2889pending，待真实门通过与30/30已证源码一致性一起恢复。CODE90两文件仍review，不因工程门纠错而关闭。
+
+### 新增复活反例的输入合法性复核
+
+- SDLPal `global.h:175-195` 的法术脚本指针为 WORD；pal-extract `resources/parsers/spells.ts:141-142` 用 u16 读取。新增 applyAll 反例原用77779超出该域，已仅改为合法合成入口504，业务输入、assertion与生产实现不变。
+- 新夹具重新实测31/31；隔离去清理反控仍恰好2个业务AssertionError，4针精确身份反控均baseline绿/mutant单业务红/restored绿，源码未动。新原件见 `mutation-raw-legal-script-id/` 与 `mutation-legal-script-id-result.json`；旧77779原件保留为历史，不替代合法输入的新证明。
+- 这次只纠正新增反例的合成script id，不代表既有测试已全部合法：77777/77778、99999、无断言伪applyAll、Spell fixture和poison teardown仍留整文件review。
+- 主线文档发布收口已在隔离治理分支合入 `cddf65557`，不触碰主工作树，不将RNG专项done扩大为event-system整文件关闭。

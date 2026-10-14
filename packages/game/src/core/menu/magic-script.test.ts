@@ -322,7 +322,7 @@ describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
 
   it('applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态', () => {
     setGlobalEvents([
-      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77779' },
+      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_504' },
       { op: 'end' },
     ])
     const gs = mkGs()
@@ -334,7 +334,7 @@ describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
     gs.rgPlayerStatus[0]![8] = 1000
     gs.rgPlayerStatus[2]![5] = 9
     gs.rgPlayerStatus[1]![2] = 999
-    expect(runMagicScriptSync(gs, 77779, 0xffff)).toBe(true)
+    expect(runMagicScriptSync(gs, 504, 0xffff)).toBe(true)
     expect(gs.rgPlayerStatus[0]![2]).toBe(0)
     expect(gs.rgPlayerStatus[0]![8]).toBe(1000)
     expect(gs.rgPlayerStatus[2]![5]).toBe(0)

@@ -99,7 +99,10 @@ const mutations = [
 
 async function main() {
   const temp = await mkdtemp(join(tmpdir(), 'type-pal-cq90-'))
-  const rawRoot = resolve(new URL('./mutation-raw', import.meta.url).pathname)
+  const rawDirectory = process.argv.includes('--legal-script-id')
+    ? './mutation-raw-legal-script-id'
+    : './mutation-raw'
+  const rawRoot = resolve(new URL(rawDirectory, import.meta.url).pathname)
   await mkdir(rawRoot, { recursive: true })
   const original = await readFile(join(packageRoot, sourceRel))
   const originalSha = hash(original)

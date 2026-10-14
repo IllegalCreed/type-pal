@@ -1,0 +1,687 @@
+[
+  {
+    "phase": "original",
+    "command": "pnpm exec vitest run src/core/menu/magic-script.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL",
+    "exitCode": 0,
+    "assertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "setGlobalEvents - 由 label 字段 derive 全局 labelMap(P2#5) FIXTURE_COMMANDS 注册后 getGlobalLabelMap 与 FIXTURE_LABELS 期望下标一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP 气疗术 chain (HP+75 single) → target role HP +75 clamp maxHP",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP HP+75 但当前 HP 已接近 maxHP → clamp maxHP",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP 五气朝元 chain (HP+300 applyToAll) → 全队活着的 +300 clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP applyToAll skip dead role(sdlpal applyHPMPDeltaAll 真值)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP single target=0xFFFF 但 applyAll=false → skip(防越界)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M10:满血单体治疗 → success=false(无变化,sdlpal Avoid over treatment global.c:1324)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M10:死人单体治疗 → success=false + HP 不抬(仅活人,sdlpal PAL_IncreaseHPMP hp>0 global.c:1287)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 single target → clamp maxMP",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 当前 MP 接近 maxMP → clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 同 delta",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 还魂咒 HP==0 → 复活 maxHP * 1/10 = 20",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 赎魂 HP==0 → 复活 maxHP * 3/10 = 60",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER HP > 0 时不复活(sdlpal 真值 PAL_RevivePlayer 检 HP==0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 复活时清 poison(rgPoisonStatus sparse 清 0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 活人复活失败：状态与 HP 均保持不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive 选活人 target → runner return false(g_fScriptSuccess=FALSE)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive 选死人 target → runner return true",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive applyToAll 全活 → runner return false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess revive applyToAll 全活 → return false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess revive applyToAll 至少 1 死 → return true",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 多 op chain 顺序执行(HP-50 → revive 不触发因 HP>0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 多 op chain HP-200 后 revive 真触发(HP=0 → maxHP * 1/10)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 未知 opcode log skip 不阻流",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 scriptId=0 → 返回 true (skip)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 label 不存在 → 返回 false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "castOverworldMagic - 双层 script scriptOnUse=0 → skip,scriptOnSuccess 跑(气疗术真值场景)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "castOverworldMagic - 双层 script scriptOnUse 失败 → 不跑 scriptOnSuccess",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    }
+  },
+  {
+    "phase": "pre-fix-reproduction",
+    "command": "pnpm exec vitest run src/core/menu/magic-script.test.ts --reporter=json",
+    "exitCode": 1,
+    "assertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "setGlobalEvents - 由 label 字段 derive 全局 labelMap(P2#5) FIXTURE_COMMANDS 注册后 getGlobalLabelMap 与 FIXTURE_LABELS 期望下标一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP 气疗术 chain (HP+75 single) → target role HP +75 clamp maxHP",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP HP+75 但当前 HP 已接近 maxHP → clamp maxHP",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP 五气朝元 chain (HP+300 applyToAll) → 全队活着的 +300 clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP applyToAll skip dead role(sdlpal applyHPMPDeltaAll 真值)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP single target=0xFFFF 但 applyAll=false → skip(防越界)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M10:满血单体治疗 → success=false(无变化,sdlpal Avoid over treatment global.c:1324)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M10:死人单体治疗 → success=false + HP 不抬(仅活人,sdlpal PAL_IncreaseHPMP hp>0 global.c:1287)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 single target → clamp maxMP",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 当前 MP 接近 maxMP → clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 同 delta",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 还魂咒 HP==0 → 复活 maxHP * 1/10 = 20",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 赎魂 HP==0 → 复活 maxHP * 3/10 = 60",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER HP > 0 时不复活(sdlpal 真值 PAL_RevivePlayer 检 HP==0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 复活时清 poison(rgPoisonStatus sparse 清 0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 活人复活失败：状态与 HP 均保持不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive 选活人 target → runner return false(g_fScriptSuccess=FALSE)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive 选死人 target → runner return true",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive applyToAll 全活 → runner return false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess revive applyToAll 全活 → return false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess revive applyToAll 至少 1 死 → return true",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL/src/core/menu/magic-script.test.ts:338:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 多 op chain 顺序执行(HP-50 → revive 不触发因 HP>0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 多 op chain HP-200 后 revive 真触发(HP=0 → maxHP * 1/10)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 未知 opcode log skip 不阻流",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 scriptId=0 → 返回 true (skip)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 label 不存在 → 返回 false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "castOverworldMagic - 双层 script scriptOnUse=0 → skip,scriptOnSuccess 跑(气疗术真值场景)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "castOverworldMagic - 双层 script scriptOnUse 失败 → 不跑 scriptOnSuccess",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 2,
+      "runtimeError": false
+    }
+  },
+  {
+    "id": "MUT-01",
+    "description": "revive no longer clears temporary statuses",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/magic-script.test.ts",
+      "-t",
+      "^runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍$",
+      "--reporter=json"
+    ],
+    "executionIdentity": {
+      "file": "src/core/menu/magic-script.test.ts",
+      "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantRuntimeError": false,
+    "originalSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "mutantSha256": "a5f317383f12da5f031fb26b2d0f0a8d95d45e8b2c247bd65b36e7b5b66d39b9",
+    "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "sourceRestoredByteIdentical": true,
+    "repositorySourceUnchanged": true,
+    "testSha256": "d70f7c8942a15d417e41ed43ed9b082c20672b09f9e9a7b976c47fd49856cd0d",
+    "restoredExitCode": 0
+  },
+  {
+    "id": "MUT-02",
+    "description": "boundary 999 is incorrectly retained",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/magic-script.test.ts",
+      "-t",
+      "^runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍$",
+      "--reporter=json"
+    ],
+    "executionIdentity": {
+      "file": "src/core/menu/magic-script.test.ts",
+      "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantRuntimeError": false,
+    "originalSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "mutantSha256": "b8696223ddfa7ca1391a20f17380cd571bbce421547e0a32e9447e267bdc54fd",
+    "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "sourceRestoredByteIdentical": true,
+    "repositorySourceUnchanged": true,
+    "testSha256": "d70f7c8942a15d417e41ed43ed9b082c20672b09f9e9a7b976c47fd49856cd0d",
+    "restoredExitCode": 0
+  },
+  {
+    "id": "MUT-03",
+    "description": "equipment sentinel 1000 is incorrectly cleared",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/magic-script.test.ts",
+      "-t",
+      "^runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态$",
+      "--reporter=json"
+    ],
+    "executionIdentity": {
+      "file": "src/core/menu/magic-script.test.ts",
+      "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected +0 to be 1000 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL/src/core/menu/magic-script.test.ts:339:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantRuntimeError": false,
+    "originalSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "mutantSha256": "3cc85400a48d1f1032cd42fe9eeb6500831dd92ecc8ee64869424ed7df4369af",
+    "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "sourceRestoredByteIdentical": true,
+    "repositorySourceUnchanged": true,
+    "testSha256": "d70f7c8942a15d417e41ed43ed9b082c20672b09f9e9a7b976c47fd49856cd0d",
+    "restoredExitCode": 0
+  },
+  {
+    "id": "MUT-04",
+    "description": "status row is addressed by party position instead of role id",
+    "command": [
+      "pnpm",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/menu/magic-script.test.ts",
+      "-t",
+      "^runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍$",
+      "--reporter=json"
+    ],
+    "executionIdentity": {
+      "file": "src/core/menu/magic-script.test.ts",
+      "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍"
+    },
+    "executionIdentityMatched": true,
+    "baselineAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "mutantAssertions": {
+      "success": false,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-7HYDAL/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "totalFailed": 1,
+      "runtimeError": false
+    },
+    "restoredAssertions": {
+      "success": true,
+      "executed": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "totalFailed": 0,
+      "runtimeError": false
+    },
+    "exactBusinessFailure": true,
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantRuntimeError": false,
+    "originalSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "mutantSha256": "f9a5ee0dd1a79a382c5d0d8a0f72a2d16cef961eedba33788096f1b288f498eb",
+    "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "sourceRestoredByteIdentical": true,
+    "repositorySourceUnchanged": true,
+    "testSha256": "d70f7c8942a15d417e41ed43ed9b082c20672b09f9e9a7b976c47fd49856cd0d",
+    "restoredExitCode": 0
+  }
+]
