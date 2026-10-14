@@ -1,0 +1,227 @@
+{
+  "sourceCommit": "588790383ac4f8692019acd7f94dc292b0acd640",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38509366415,
+      "headSha": "588790383ac4f8692019acd7f94dc292b0acd640",
+      "jobs": [
+        {
+          "completedAt": "2026-10-14T04:21:58Z",
+          "conclusion": "success",
+          "databaseId": 115674082909,
+          "name": "fast-coverage",
+          "startedAt": "2026-10-14T04:02:46Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-10-14T04:02:48Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-10-14T04:02:47Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:56Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "startedAt": "2026-10-14T04:02:48Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:57Z",
+              "conclusion": "success",
+              "name": "Run pnpm/action-setup@v4",
+              "number": 3,
+              "startedAt": "2026-10-14T04:02:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:59Z",
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 4,
+              "startedAt": "2026-10-14T04:02:57Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:03:00Z",
+              "conclusion": "success",
+              "name": "Run pnpm install --frozen-lockfile",
+              "number": 5,
+              "startedAt": "2026-10-14T04:02:59Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:04:00Z",
+              "conclusion": "success",
+              "name": "Check types and lint before coverage",
+              "number": 6,
+              "startedAt": "2026-10-14T04:03:00Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:04:00Z",
+              "conclusion": "skipped",
+              "name": "Check coverage against the protected base branch",
+              "number": 7,
+              "startedAt": "2026-10-14T04:04:00Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:54Z",
+              "conclusion": "success",
+              "name": "Check coverage on a direct main push",
+              "number": 8,
+              "startedAt": "2026-10-14T04:04:00Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:54Z",
+              "conclusion": "skipped",
+              "name": "Check coverage manually",
+              "number": 9,
+              "startedAt": "2026-10-14T04:21:54Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:56Z",
+              "conclusion": "success",
+              "name": "Upload per-package reports",
+              "number": 10,
+              "startedAt": "2026-10-14T04:21:54Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:56Z",
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 18,
+              "startedAt": "2026-10-14T04:21:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:57Z",
+              "conclusion": "success",
+              "name": "Post Run pnpm/action-setup@v4",
+              "number": 19,
+              "startedAt": "2026-10-14T04:21:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:57Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 20,
+              "startedAt": "2026-10-14T04:21:57Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:21:57Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 21,
+              "startedAt": "2026-10-14T04:21:57Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/IllegalCreed/type-pal/actions/runs/38509366415/job/115674082909"
+        }
+      ],
+      "name": "Coverage ratchet",
+      "startedAt": "2026-10-14T04:02:44Z",
+      "status": "completed",
+      "updatedAt": "2026-10-14T04:21:59Z",
+      "url": "https://github.com/IllegalCreed/type-pal/actions/runs/38509366415"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38509366373,
+      "headSha": "588790383ac4f8692019acd7f94dc292b0acd640",
+      "jobs": [
+        {
+          "completedAt": "2026-10-14T04:02:58Z",
+          "conclusion": "success",
+          "databaseId": 115674083012,
+          "name": "documentation",
+          "startedAt": "2026-10-14T04:02:47Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-10-14T04:02:48Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-10-14T04:02:48Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:55Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "startedAt": "2026-10-14T04:02:48Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:55Z",
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "startedAt": "2026-10-14T04:02:55Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:56Z",
+              "conclusion": "success",
+              "name": "Check document tooling",
+              "number": 4,
+              "startedAt": "2026-10-14T04:02:55Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:56Z",
+              "conclusion": "success",
+              "name": "Check repository documentation",
+              "number": 5,
+              "startedAt": "2026-10-14T04:02:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:57Z",
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 9,
+              "startedAt": "2026-10-14T04:02:56Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:57Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 10,
+              "startedAt": "2026-10-14T04:02:57Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T04:02:57Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 11,
+              "startedAt": "2026-10-14T04:02:57Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/IllegalCreed/type-pal/actions/runs/38509366373/job/115674083012"
+        }
+      ],
+      "name": "Documentation",
+      "startedAt": "2026-10-14T04:02:44Z",
+      "status": "completed",
+      "updatedAt": "2026-10-14T04:02:59Z",
+      "url": "https://github.com/IllegalCreed/type-pal/actions/runs/38509366373"
+    }
+  ]
+}

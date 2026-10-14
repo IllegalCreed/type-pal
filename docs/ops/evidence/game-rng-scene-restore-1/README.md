@@ -1,10 +1,10 @@
 # 酒剑仙传功后场景恢复证据
 
-上级：[任务证据](../README.md)。任务：[GAME-RNG-SCENE-RESTORE-1](../../tasks/GAME-RNG-SCENE-RESTORE-1.md)。
+上级：[任务证据](../README.md)。任务：[GAME-RNG-SCENE-RESTORE-1](../../archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md)。
 
 2026-10-14，基点 `646c8097034e4bd30a3ebde86cd61d46a2382e8a`，候选源文件 hash 见
 [manifest](evidence-manifest.json.raw)。这是第一阶段诊断/修复证据，不替代合法剧情存档的完整 E2E。
-用户已授权合并、CI 后部署，当前发布尚未执行。
+用户授权的合并、CI 与阿里云部署已完成，发布源码 `588790383ac4f8692019acd7f94dc292b0acd640`；线上复验见下方回执。
 
 ## 复现与画面
 
@@ -41,8 +41,7 @@
 - [额外生产 build](build.log.gz)成功；649.68 kB 主包触发一条 >500 kB 的体积提示。
   原始提示如实保留。用户授权发布后静态拆分音频依赖，主包381.03 kB/audio268.03 kB，
   [最终 build](build-split.log.raw)零告警，默认阈值保持。
-- 未改第二阶段、生成资产和部署脚本；当前未发送 issue 回复、未发布生产。覆盖率由合入提交 CI 实测；
-  当前严格门尚未通过，详见下方历史回执。
+- 未改第二阶段、生成资产和部署脚本；未发送 issue 回复。覆盖率由官方 ratchet 和严格 CI 实测；已发布生产，初次失败保留在历史回执中。
 - 原始 20 个 PlayRNG caller 的独立静态核验支持当前窄修。普通 RNG 背景对话之后再 redraw 的合成序列
   仍涉及现有双重保持语义，不纳入本次“进入对话前 redraw”的修复承诺。
 
@@ -74,3 +73,19 @@
   范围仅新增 1 测试文件/4 项及 game execution digest，无移除，6 项指标提升。
 - [官方 ratchet 原生日志](coverage-ratchet.log.gz)及[原生汇总](coverage-ratchet-summary.json.gz)：
   19820 项/731 生产文件，exit 0；与 GitHub 原生实测所有整数一致。基线更新后仍须严格 CI 放行。
+
+## 正式发布回执
+
+- [GitHub CI 原生回执](ci-release.json.raw)：发布源码的文档与 Coverage ratchet 均 success。
+- 归档提交前[文档门](docs-release-closeout.log.gz)通过，[lint](lint-release-closeout.log.gz)3995 文件零诊断。
+- [部署日志](deploy.log.gz)：沿用现有 app 发布流程，旧应用保留供回退；没有重同步未变化的原版资源。
+- [远端文件核对](remote-verification.json.raw)和[远端原始清单](remote-manifest.json.raw)：全部应用文件与本地构建一致。
+- macOS tar 的 10 个 AppleDouble 附带文件导致[首次清单比对不一致](remote-verification-before-cleanup.json.raw)；
+  [首次原始清单](remote-manifest-before-cleanup.json.raw)和[精确清理回执](remote-metadata-cleanup.json.raw)保留。
+  最终 8 项一致，[旧版与 extracted 链接核对](remote-rollback.log.gz)通过；原始 tar 提示未隐藏。
+- [HTTPS 核对](online-verification.json.raw)：首页、SW、主包、音频包逐字节一致；版权声明存在。
+- [真实线上 Chrome](production-smoke.json.raw)：在线启动、游戏画面、MIDI 非零输出通过；页面异常和在线请求失败为 0。
+  已查看[桌面加载页](production-loading.png)、[小屏版权声明](production-loading-small.png)、[游戏画面](production-game.png)。
+- [浏览器运行器](production-smoke.mjs.raw)、[HTTPS 核对脚本](verify-online.py.raw)、[远端清单脚本](remote-manifest.py.raw)留原件。
+  线上普通离线 fetch 成功，但 JS 的 CacheStorage 条目仍为空（数据条目 601 项、存储可用）；
+  不据此宣称 SW 脚本缓存已修复。本地拆包前后对照的离线失败记录仍保留，冷启动未验证。

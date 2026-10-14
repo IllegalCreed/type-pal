@@ -1,0 +1,3 @@
+import pathlib,hashlib,json
+root=pathlib.Path('/var/www/type-pal/dist')
+print(json.dumps({str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file() and 'extracted' not in p.relative_to(root).parts},sort_keys=True))
