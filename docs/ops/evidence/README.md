@@ -63,3 +63,4 @@
 - [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 交付证据](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md)（r1 候选：main 宿主编排排重后 5 残余合同（入场揭幕/触发脚本错误恢复/试打终局与错误回执/存档失败计数与队列）+ identity TSV 全量反控 5/5 + 11 自测反例 + D-1 `?battle-scene=` 投影死路缺陷披露，待 Codex 独立验收）。
 - [CODE-QUALITY-97 交付证据](CODE-QUALITY-97/README.md)（review-only：menu helper primitives/item-select 逐文件四维结论 + E-4/E-5 死面登记，49 定向，待 Codex 验收）。
 - [CODE-QUALITY-98 交付证据](CODE-QUALITY-98/README.md)（review-only：opening-menu/player-status 逐文件四维结论 + E-6 currentRoleId test-only 登记，52 定向，待 Codex 验收）。
+- [CODE-QUALITY-99 交付证据](CODE-QUALITY-99/README.md)（review-only：menu-driver 逐文件四维结论 + E-7 fixture counter/E-8 死参/E-9 死导出登记，79 定向，待 Codex 验收）。
