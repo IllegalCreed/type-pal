@@ -45,3 +45,8 @@ Read-only coverage counterfactuals found the current source without the RNG test
 
 
 The full runner audit added four contracts for 0x1C/0x1D applyAll and no-change failure paths, plus malformed label-table and revive `0xFFFF` sentinel negatives. The targeted runner source report now covers all 110 statements and 94 lines in `magic-script.ts`; these are behavior/oracle tests, not coverage-only filler.
+
+
+## Boundary ratchet receipt
+
+After the four opcode contracts and malformed-input negatives, `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` passed at exit 0. It ran 731 production files / 19,870 fast tests (game 3537), raised six metric entries and two scope entries, and atomically wrote baseline SHA-256 `aabca727e834ab4f3c5700ca940208a78a7cc81ee60c8fb4eaa866efd4dc15ce`. Game is `13812/15602` statements, `9064/11373` branches, `12336/13685` lines; total is `70854/78780`, `51557/61618`, `63306/68945`. No threshold or exclusion was lowered.

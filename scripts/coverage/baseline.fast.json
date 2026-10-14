@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-14T03:15:43.252Z",
+  "generatedAt": "2026-10-14T07:28:58.555Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19860,
+  "testCount": 19870,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4678,8 +4678,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3527,
-        "testFileCount": 309,
+        "testCount": 3537,
+        "testFileCount": 310,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4768,6 +4768,7 @@
           "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
           "packages/game/src/core/event-opcode-player.test.ts",
           "packages/game/src/core/event-opcodes.cov85.test.ts",
+          "packages/game/src/core/event-rng-scene-restore.test.ts",
           "packages/game/src/core/event-system.cov85.test.ts",
           "packages/game/src/core/event-system.glm-event-contracts.test.ts",
           "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
@@ -5428,6 +5429,11 @@
             "identityDigest": "915e3122ee8828fd51503c229718874f88267061ff60bba96a6ee8d0f340fe89"
           },
           {
+            "file": "packages/game/src/core/event-rng-scene-restore.test.ts",
+            "testCount": 4,
+            "identityDigest": "58763dcd8a8a6c8c7eb5d04268af315f483edbdaf884a72f865487a86aeaf987"
+          },
+          {
             "file": "packages/game/src/core/event-system.cov85.test.ts",
             "testCount": 26,
             "identityDigest": "346454d281dfadd9da77d1680cd350ee198396a6c13b5540b31b84d53ff13c47"
@@ -5599,8 +5605,8 @@
           },
           {
             "file": "packages/game/src/core/menu/magic-script.test.ts",
-            "testCount": 31,
-            "identityDigest": "34be9f8ccdc271d8409091fd01692f9c73abe46b01d2c435a24e3500477f2e36"
+            "testCount": 37,
+            "identityDigest": "b54cf21e965db09f3701c947dbb2401a5b4cd9ab1676d2e77a542cf41df4b9ba"
           },
           {
             "file": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
@@ -6538,26 +6544,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "79cdd93438884fa6d81644bf9d04c453852714dcbd6bbbe1e529ac6860d9f48b",
+        "identityDigest": "c228e17f7d27d172bf92a2b4cdb04a481d20948318ff94fdc1b66ff273c6c741",
         "duplicateIdentityCount": 0,
-        "executionDigest": "3f63ce406732129578f420cef2c0a5f6166efe65cffe21fa2803735efcded703"
+        "executionDigest": "ae9e42be3b76e64f37755eb9ac3f3142c2e4f97837f1b064b34106bfeef66683"
       },
       "metrics": {
         "statements": {
-          "covered": 13806,
-          "total": 15599
+          "covered": 13812,
+          "total": 15602
         },
         "branches": {
-          "covered": 9054,
-          "total": 11371
+          "covered": 9064,
+          "total": 11373
         },
         "functions": {
           "covered": 1550,
           "total": 1856
         },
         "lines": {
-          "covered": 12332,
-          "total": 13682
+          "covered": 12336,
+          "total": 13685
         }
       }
     },
@@ -10576,20 +10582,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70848,
-      "total": 78777
+      "covered": 70854,
+      "total": 78780
     },
     "branches": {
-      "covered": 51547,
-      "total": 61616
+      "covered": 51557,
+      "total": 61618
     },
     "functions": {
       "covered": 13415,
       "total": 14989
     },
     "lines": {
-      "covered": 63302,
-      "total": 68942
+      "covered": 63306,
+      "total": 68945
     }
   }
 }

@@ -145,3 +145,10 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 
 
 - 追加四条真实 runner 合同：0x1C applyAll、0x1C 单体无变化失败、0x1D applyAll、0x1D 单体无变化失败；另有脚本表越界与复活 0xFFFF 哨兵反例。它们覆盖了完整 magic-script 的剩余语句合同，而不是为覆盖率堆空断言；targeted 41/41，magic-script 独立 coverage source statements/lines 110/110、94/94。
+
+
+### 2026-10-14 ratchet 收口
+
+- `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` 在边界合同加入后 exit 0：731 production files / 19,870 fast tests；game 3537 tests，`13812/15602` statements、`9064/11373` branches、`12336/13685` lines；total `70854/78780` statements、`51557/61618` branches、`63306/68945` lines。
+- 官方工具只升不降地更新 `scripts/coverage/baseline.fast.json`（SHA-256 `aabca727e834ab4f3c5700ca940208a78a7cc81ee60c8fb4eaa866efd4dc15ce`），提升6个指标、范围变化2项；没有降阈值、加排除或手工拼 baseline。原始 receipt：`evidence/CODE-QUALITY-90/gate-ratchet-after-boundary.txt`。
+- 这只完成 official ratchet；真实 protected fast 需在该新 baseline 推送后重跑。两文件仍 `review`，closed 不增加。
