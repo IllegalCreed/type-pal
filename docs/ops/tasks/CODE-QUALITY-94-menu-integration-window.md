@@ -42,6 +42,10 @@ Visual Verification Timing: N/A（无产品/UI行为修改）
 
 ## 当前交付结果
 
+源批 CODE93/96 已在 `codex/code-quality-3y` 的 `d4cf7f57d237895d920ddee72f69e0278680157a` 完成并推送：sell-menu 四文件及 approved-test-retirements 两文件全文/caller/oracle验收、96定向相邻、59coverage工具、37quality工具、七包typecheck/full check、official ratchet、真正protected fast（731源码/19874tests，精确3→2退役获准）、最终lint4056零诊断/docs/ledger均通过。源账本3271/373closed/15review/2883pending，0behind/86ahead，未合main。本候选尚未接收这六个文件，30条review与3267/229/35/3003口径不变；候选最终lint4012零诊断。GLM接收时按精确白名单及其证据，不复制整份源baseline或未收口行为，不把源门当成本候选门。
+
+用户指定Codex完成当前部分后停止。本卡交GLM的review检查点，只补交接事实；未执行候选完整check/ratchet/protected，不标done。原用户裁决详见源CODE95卡：第一阶段复活清<=999临时状态、保留>999装备状态；第二阶段使用status/grantedStatuses区分来源，不能混用。
+
 24 files / 241 tests、game typecheck、docs/content-review、lint4008零诊断与ledger通过；30文件仍review。尚未运行独立全仓check/official ratchet/protected fast，不合main。用户要求Codex当前部分完成后停止，本候选保存为可恢复检查点。
 
 ## 下一位 Agent 提示词（GLM，2026-10-14 用户指定接手）
