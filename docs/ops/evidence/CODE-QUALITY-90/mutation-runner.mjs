@@ -130,7 +130,7 @@ async function main() {
     const preFixFailed = preFixAssertions.executed.filter((test) => test.status === 'failed')
     if (
       preFixRun.code !== 1 ||
-      preFixAssertions.executed.length !== 31 ||
+      preFixAssertions.executed.length < 31 ||
       preFixFailed.length !== 2 ||
       preFixAssertions.runtimeError ||
       !preFixFailed.every((test) => test.failureMessages[0]?.startsWith('AssertionError:'))

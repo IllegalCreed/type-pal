@@ -137,8 +137,11 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 
 ### 2026-10-14 测试合同与最新 ratchet 复核
 
-- 将原错误调用 `L_39554`（0x1B 治疗）且 `void ok` 的全队复活用例改成合法 `L_504`（WORD 脚本入口）并断言全队存活时返回 false、临时/装备状态均不变；`mkSpell` 现在完整满足 shared `Spell` 公共类型，不再用 `as unknown as Spell`。定向 `magic-script.test.ts` + `magic-script.glm-next-wave.test.ts` 为 35/35，game typecheck、Biome 均通过。
+- 将原错误调用 `L_39554`（0x1B 治疗）且 `void ok` 的全队复活用例改成合法 `L_504`（WORD 脚本入口）并断言全队存活时返回 false、临时/装备状态均不变；`mkSpell` 现在完整满足 shared `Spell` 公共类型，不再用 `as unknown as Spell`。定向 `magic-script.test.ts` + `magic-script.glm-next-wave.test.ts` 为 41/41，game typecheck、Biome 均通过。
 - 合法 script-id mutation 重新执行：31/31 基线通过；去清理变异恰好2个业务 AssertionError；MUT-01..04 均 baseline绿、mutant单业务红、restored绿，源码/仓库字节未变。
 - 最新官方 `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` 完整跑完 731 files / 19,864 tests，但仍 FAIL，未更新 baseline：game `13805/15602` statements、`12333/13685` lines；total `70847/78780` statements、`63303/68945` lines，分别低于旧基线 `13806/15599`、`12332/13682`、`70848/78777`、`63302/68942`。原始日志与 exit1 见 `evidence/CODE-QUALITY-90/gate-ratchet-current.txt`。
 - 覆盖诊断不是门通过：当前源移除 RNG 测试为 3527 tests，game `13804/15602` statements；d7 exact/default 源快照重放均为 `13801/15599`，说明旧 d7 基线的 `13806` 在当前同一 V8 环境不可重现；没有因此降基线、加弱测试或改 exclusions。RNG guard 去除反控仍按业务断言失败，恢复绿。结果见 `rng-test-scope-diagnostic-result.json`、`rng-coverage-diagnostic-result.json`、`d7-exact-replay-result.json`、`d7-default-replay-result.json`。
 - 本轮只改善测试合同，不改变生产实现、coverage baseline、规则或 ledger 状态；两文件仍 `review`，closed 不增加。
+
+
+- 追加四条真实 runner 合同：0x1C applyAll、0x1C 单体无变化失败、0x1D applyAll、0x1D 单体无变化失败；另有脚本表越界与复活 0xFFFF 哨兵反例。它们覆盖了完整 magic-script 的剩余语句合同，而不是为覆盖率堆空断言；targeted 41/41，magic-script 独立 coverage source statements/lines 110/110、94/94。

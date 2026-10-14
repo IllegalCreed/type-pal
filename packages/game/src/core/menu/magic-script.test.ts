@@ -9,7 +9,7 @@
  */
 
 import type { Command, Spell } from '@type-pal/shared'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { getGlobalLabelMap, setGlobalEvents, setObjectPoisons } from '../event-system.js'
 import { createInitialGameState } from '../game-state.js'
 import { castOverworldMagic, runMagicScriptSync } from './magic-script.js'
@@ -53,6 +53,12 @@ const FIXTURE_COMMANDS: Command[] = [
   { op: 'raw', opcode: 0xfe, operands: [0, 0, 0], label: 'L_503' },
   { op: 'raw', opcode: 0x1b, operands: [0, 5, 0] },
   { op: 'end' },
+  // L_505 MP+20 applyToAll(idx 18)
+  { op: 'raw', opcode: 0x1c, operands: [1, 20, 0], label: 'L_505' },
+  { op: 'end' },
+  // L_506 HP+10+MP+10 applyToAll(idx 20)
+  { op: 'raw', opcode: 0x1d, operands: [1, 10, 0], label: 'L_506' },
+  { op: 'end' },
 ] as Command[]
 
 const FIXTURE_LABELS: Record<string, number> = {
@@ -64,6 +70,8 @@ const FIXTURE_LABELS: Record<string, number> = {
   L_501: 10,
   L_502: 12,
   L_503: 15,
+  L_505: 18,
+  L_506: 20,
 }
 
 function mkGs() {
@@ -193,6 +201,19 @@ describe('runMagicScriptSync - opcode 0x1C OP_INCREASE_MP', () => {
     runMagicScriptSync(gs, 500, 0)
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(100) // clamp
   })
+
+  it('MP +20 applyToAll → 全队活人 clamp', () => {
+    const gs = mkGs()
+    expect(runMagicScriptSync(gs, 505, 0xffff)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwMP).toEqual([100, 70, 50, 0, 0, 0])
+  })
+
+  it('MP 单体无变化 → success=false', () => {
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwMP[0] = 100
+    expect(runMagicScriptSync(gs, 500, 0)).toBe(false)
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(100)
+  })
 })
 
 // ── opcode 0x1D OP_INCREASE_HP_MP ─────────────────────────────────────────
@@ -206,6 +227,22 @@ describe('runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP', () => {
     runMagicScriptSync(gs, 501, 0)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(60) // 50+10
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(90) // 80+10
+  })
+
+  it('HP+10 + MP+10 applyToAll → 全队活人同步增加', () => {
+    const gs = mkGs()
+    expect(runMagicScriptSync(gs, 506, 0xffff)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP).toEqual([60, 110, 60, 0, 0, 0])
+    expect(gs.PlayerRolesRuntime.rgwMP).toEqual([90, 60, 40, 0, 0, 0])
+  })
+
+  it('HP+10 + MP+10 单体无变化 → success=false', () => {
+    const gs = mkGs()
+    gs.PlayerRolesRuntime.rgwHP[0] = 200
+    gs.PlayerRolesRuntime.rgwMP[0] = 100
+    expect(runMagicScriptSync(gs, 501, 0)).toBe(false)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(200)
+    expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(100)
   })
 })
 
@@ -389,6 +426,28 @@ describe('runMagicScriptSync - 流程控制', () => {
     const gs = mkGs()
     const ok = runMagicScriptSync(gs, 99999, 0)
     expect(ok).toBe(false)
+  })
+
+  it('label 指向命令表外 → fail closed 并报告越界', () => {
+    setGlobalEvents([{ op: 'end', label: 'L_504' }])
+    getGlobalLabelMap().L_504 = 99
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      expect(runMagicScriptSync(mkGs(), 504, 0)).toBe(false)
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('ip 99 越界'))
+    } finally {
+      warn.mockRestore()
+    }
+  })
+
+  it('单体复活收到 0xFFFF 目标哨兵 → 不访问角色并返回 false', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x22, operands: [0, 1, 0], label: 'L_504' },
+      { op: 'end' },
+    ])
+    const gs = mkGs()
+    expect(runMagicScriptSync(gs, 504, 0xffff)).toBe(false)
+    expect(gs.PlayerRolesRuntime.rgwHP).toEqual([50, 100, 50, 0, 0, 0])
   })
 })
 

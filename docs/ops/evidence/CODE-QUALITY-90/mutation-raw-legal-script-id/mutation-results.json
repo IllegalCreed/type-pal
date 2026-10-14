@@ -2,7 +2,7 @@
   {
     "phase": "original",
     "command": "pnpm exec vitest run src/core/menu/magic-script.test.ts --reporter=json",
-    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2",
     "exitCode": 0,
     "assertions": {
       "success": true,
@@ -75,7 +75,31 @@
         },
         {
           "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 applyToAll → 全队活人 clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP 单体无变化 → success=false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
           "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 同 delta",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 applyToAll → 全队活人同步增加",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 单体无变化 → success=false",
           "status": "passed",
           "failureMessages": []
         },
@@ -178,6 +202,18 @@
         {
           "file": "src/core/menu/magic-script.test.ts",
           "fullName": "runMagicScriptSync - 流程控制 label 不存在 → 返回 false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 label 指向命令表外 → fail closed 并报告越界",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 单体复活收到 0xFFFF 目标哨兵 → 不访问角色并返回 false",
           "status": "passed",
           "failureMessages": []
         },
@@ -273,7 +309,31 @@
         },
         {
           "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 applyToAll → 全队活人 clamp",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP 单体无变化 → success=false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
           "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 同 delta",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 applyToAll → 全队活人同步增加",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP HP+10 + MP+10 单体无变化 → success=false",
           "status": "passed",
           "failureMessages": []
         },
@@ -306,7 +366,7 @@
           "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
           "status": "failed",
           "failureMessages": [
-            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2/src/core/menu/magic-script.test.ts:292:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ]
         },
         {
@@ -350,7 +410,7 @@
           "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
           "status": "failed",
           "failureMessages": [
-            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn/src/core/menu/magic-script.test.ts:344:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2/src/core/menu/magic-script.test.ts:381:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ]
         },
         {
@@ -380,6 +440,18 @@
         {
           "file": "src/core/menu/magic-script.test.ts",
           "fullName": "runMagicScriptSync - 流程控制 label 不存在 → 返回 false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 label 指向命令表外 → fail closed 并报告越界",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 单体复活收到 0xFFFF 目标哨兵 → 不访问角色并返回 false",
           "status": "passed",
           "failureMessages": []
         },
@@ -439,7 +511,7 @@
           "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
           "status": "failed",
           "failureMessages": [
-            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2/src/core/menu/magic-script.test.ts:292:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ]
         }
       ],
@@ -468,7 +540,7 @@
     "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
     "sourceRestoredByteIdentical": true,
     "repositorySourceUnchanged": true,
-    "testSha256": "7c0a9247c12991421921145a47d1747516b0e63cafc934aa226bb09a5d0b556f",
+    "testSha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544",
     "restoredExitCode": 0
   },
   {
@@ -510,7 +582,7 @@
           "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
           "status": "failed",
           "failureMessages": [
-            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2/src/core/menu/magic-script.test.ts:292:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ]
         }
       ],
@@ -539,7 +611,7 @@
     "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
     "sourceRestoredByteIdentical": true,
     "repositorySourceUnchanged": true,
-    "testSha256": "7c0a9247c12991421921145a47d1747516b0e63cafc934aa226bb09a5d0b556f",
+    "testSha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544",
     "restoredExitCode": 0
   },
   {
@@ -581,7 +653,7 @@
           "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态",
           "status": "failed",
           "failureMessages": [
-            "AssertionError: expected +0 to be 1000 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn/src/core/menu/magic-script.test.ts:345:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected +0 to be 1000 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2/src/core/menu/magic-script.test.ts:382:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ]
         }
       ],
@@ -610,7 +682,7 @@
     "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
     "sourceRestoredByteIdentical": true,
     "repositorySourceUnchanged": true,
-    "testSha256": "7c0a9247c12991421921145a47d1747516b0e63cafc934aa226bb09a5d0b556f",
+    "testSha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544",
     "restoredExitCode": 0
   },
   {
@@ -652,7 +724,7 @@
           "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
           "status": "failed",
           "failureMessages": [
-            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-e0uwUn/src/core/menu/magic-script.test.ts:255:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+            "AssertionError: expected 999 to be +0 // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq90-A1Jgi2/src/core/menu/magic-script.test.ts:292:38\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
           ]
         }
       ],
@@ -681,7 +753,7 @@
     "restoredSha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
     "sourceRestoredByteIdentical": true,
     "repositorySourceUnchanged": true,
-    "testSha256": "7c0a9247c12991421921145a47d1747516b0e63cafc934aa226bb09a5d0b556f",
+    "testSha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544",
     "restoredExitCode": 0
   }
 ]

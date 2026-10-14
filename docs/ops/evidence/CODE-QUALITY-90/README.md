@@ -37,8 +37,11 @@ SDLPal global.h:175-195 stores spell script pointers as WORD; the production par
 
 ## Latest test-contract and coverage evidence
 
-The former all-live applyAll example called the healing fixture and discarded its result with `void`; it now uses legal WORD script entry `504` and asserts `false` plus unchanged temporary/equipment status. The `Spell` fixture is fully typed. Targeted magic tests are 35/35, game typecheck and Biome pass, and the legal-input mutation replay keeps four exact business red mutants with byte-identical restoration.
+The former all-live applyAll example called the healing fixture and discarded its result with `void`; it now uses legal WORD script entry `504` and asserts `false` plus unchanged temporary/equipment status. The `Spell` fixture is fully typed. Targeted magic tests are 41/41, game typecheck and Biome pass, and the legal-input mutation replay keeps four exact business red mutants with byte-identical restoration.
 
 The latest official `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` completed all 731 production files and 19,864 fast tests but failed without changing the baseline: game statements `13805/15602` and lines `12333/13685`, total statements `70847/78780` and lines `63303/68945`, versus the old d7 floor `13806/15599`, `12332/13682`, `70848/78777`, `63302/68942`. Receipt: `gate-ratchet-current.txt` and `gate-ratchet-current.exit`.
 
 Read-only coverage counterfactuals found the current source without the RNG test at `13804/15602` statements, while exact d7 source snapshots reproduce `13801/15599` under both worker-one and Vitest-default settings; the historical d7 baseline's `13806` is not reproducible in this environment. No baseline, exclusion, threshold, or weak test was changed. Native result JSON: `rng-test-scope-diagnostic-result.json`, `rng-coverage-diagnostic-result.json`, `d7-exact-replay-result.json`, `d7-default-replay-result.json`, `game-default-workers-diagnostic-result.json`, `game-workers2-diagnostic-result.json`.
+
+
+The full runner audit added four contracts for 0x1C/0x1D applyAll and no-change failure paths, plus malformed label-table and revive `0xFFFF` sentinel negatives. The targeted runner source report now covers all 110 statements and 94 lines in `magic-script.ts`; these are behavior/oracle tests, not coverage-only filler.
