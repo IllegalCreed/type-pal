@@ -6,6 +6,7 @@
 上级：[协作与工程维护](../README.md)。
 
 ## 当前证据
+- [CODE-QUALITY-93 game sell menu state contract](CODE-QUALITY-93/README.md)（四文件逐文件核验；测试排重、真实入口与 3 针精确反控通过，等待全仓质量门）。
 - [CODE-QUALITY-92 protected-fast 命令纠错](CODE-QUALITY-92/README.md)（CODE83–89/91 的30条记录暂转review；旧语义核验与实际check:fast原件保留，等待真实受保护覆盖门和源快照核对）。
 - [CODE-QUALITY-53 状态页 runtime-zero 与 party-slot poison](CODE-QUALITY-53/README.md)（候选 build：runtime 0 保留、非顺序队伍毒映射反例与换队清表；待全仓质量门与 Codex 独立收口）。
 - [CODE-QUALITY-80 Dev Panel 换队生命周期](CODE-QUALITY-80/README.md)（用户已裁决战斗禁入队/离队；探索切队补装备效果重建；实现与全部质量门通过，文件仍按逐文件治理保持 pending）。

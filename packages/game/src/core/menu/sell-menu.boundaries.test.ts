@@ -1,6 +1,6 @@
 /**
  * TEST-GAME-MENU-BOUNDARIES-1 G07：sell-menu 确认门与刷新（sell-menu.ts）。
- * 既有 sell-menu.test（menu-driver 层）已覆盖门/导航/刷新 clamp 主干——不重复。
+ * 既有 sell-menu.test（状态机层）已覆盖门/导航/刷新 clamp 主干——不重复。
  * 本文件：inUse 耗尽拒绝、confirm 期 Page/Home/End 不改 grid、刷新空/等长/增表精确
  * cursor 与内容且不别名实际库存、sellConfirm/sellCancel 状态收尾。
  */
@@ -10,9 +10,9 @@ import { createInitialGameState } from '../game-state.js'
 import {
   createSellMenu,
   refreshSellGrid,
-  sellCancel,
   sellConfirm,
   sellEnd,
+  sellHome,
   sellPageDown,
   sellPageUp,
   sellSelectItem,
@@ -38,10 +38,11 @@ function mkItem(id: number, flagsPart: Partial<Item['flags']>): Item {
       ...flagsPart,
     },
     _name: `item-${id}`,
-  } as unknown as Item
+  }
 }
 
-const ITEMS = [mkItem(300, {}), mkItem(301, { sellable: false }), mkItem(302, {})]
+// 合成 typed catalog 使用真实物品 OBJECT id；此处只验证菜单合同，不宣称原始价格/flag。
+const ITEMS = [mkItem(105, {}), mkItem(87, { sellable: false }), mkItem(110, {})]
 
 function gsWith(inventory: Array<{ itemId: number; count: number; inUse?: number }>) {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -50,10 +51,10 @@ function gsWith(inventory: Array<{ itemId: number; count: number; inUse?: number
 }
 
 describe('G07 sellSelectItem 确认门与 confirm 期导航', () => {
-  it('inUse 耗尽拒绝；少占用正控进 confirm；confirm 期 Page/Home/End 不改 grid', () => {
+  it('inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图', () => {
     const gs = gsWith([
-      { itemId: 300, count: 3, inUse: 3 }, // 耗尽
-      { itemId: 302, count: 2, inUse: 1 }, // 少占用
+      { itemId: 105, count: 3, inUse: 3 }, // 耗尽
+      { itemId: 110, count: 2, inUse: 1 }, // 少占用
     ])
     const state = createSellMenu(gs, ITEMS)
     state.grid.cursor = 0
@@ -63,28 +64,32 @@ describe('G07 sellSelectItem 确认门与 confirm 期导航', () => {
     expect(sellSelectItem(state, ITEMS)).toBe(true)
     expect(state.phase).toBe('confirm')
     expect(state.confirmYes).toBe(false) // 默认 No
-    expect(state.selectedItemId).toBe(302)
-    // confirm 期翻页/首尾不改 grid
-    const cursorBefore = state.grid.cursor
-    sellPageDown(state)
-    sellPageUp(state)
-    sellEnd(state)
-    expect(state.grid.cursor).toBe(cursorBefore)
+    expect(state.selectedItemId).toBe(110)
     // 确认 → 意图并回 list 收尾
-    expect(sellConfirm(state)).toEqual({ itemId: 302, yes: false })
+    expect(sellConfirm(state)).toEqual({ itemId: 110, yes: false })
     expect(state.phase).toBe('list')
     expect(state.selectedItemId).toBeUndefined()
-    // cancel 收尾
-    state.grid.cursor = 1
-    expect(sellSelectItem(state, ITEMS)).toBe(true) // 302 再选（仍有 1 可卖）
-    expect(sellCancel(state)).toBe('back')
-    expect(state.phase).toBe('list')
-    expect(sellCancel(state)).toBe('close')
   })
-  it('刷新：空表归 0、等长保 cursor、增表保 cursor；内容不别名实际库存', () => {
+  it('confirm 期 Page/Home/End 不改 grid 或确认选择', () => {
+    const state = createSellMenu(
+      gsWith([
+        { itemId: 105, count: 1 },
+        { itemId: 110, count: 1 },
+      ]),
+      ITEMS,
+    )
+    state.grid.cursor = 1
+    expect(sellSelectItem(state, ITEMS)).toBe(true)
+    const before = structuredClone(state)
+    for (const move of [sellPageDown, sellPageUp, sellHome, sellEnd]) {
+      move(state)
+      expect(state).toEqual(before)
+    }
+  })
+  it('等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存', () => {
     const gs = gsWith([
-      { itemId: 300, count: 2 },
-      { itemId: 302, count: 1 },
+      { itemId: 105, count: 2 },
+      { itemId: 110, count: 1 },
     ])
     const state = createSellMenu(gs, ITEMS)
     state.grid.cursor = 1
@@ -93,20 +98,39 @@ describe('G07 sellSelectItem 确认门与 confirm 期导航', () => {
     refreshSellGrid(state, gs, ITEMS)
     expect(state.grid.cursor).toBe(1)
     expect(state.grid.inventory).toHaveLength(2)
-    state.grid.inventory[0]!.count = 777
+    expect(state.grid.inventory[0]!.count).toBe(9)
+    state.grid.inventory[0]!.count = 7
     expect(gs.inventory[0]!.count).toBe(9) // 不别名
-    // 卖空 → 空表 cursor 0
-    const emptied = gsWith([])
-    refreshSellGrid(state, emptied, ITEMS)
+  })
+  it('刷新空表：非零 cursor 归 0', () => {
+    const state = createSellMenu(
+      gsWith([
+        { itemId: 105, count: 1 },
+        { itemId: 110, count: 1 },
+      ]),
+      ITEMS,
+    )
+    state.grid.cursor = 1
+    refreshSellGrid(state, gsWith([]), ITEMS)
     expect(state.grid.inventory).toEqual([])
     expect(state.grid.cursor).toBe(0)
-    // 增表：cursor 越界前值保住（仍 0 < 新长度）
+  })
+  it('增表刷新：保非零 cursor，不复用 GameState 记忆光标', () => {
+    const state = createSellMenu(
+      gsWith([
+        { itemId: 105, count: 1 },
+        { itemId: 110, count: 1 },
+      ]),
+      ITEMS,
+    )
+    state.grid.cursor = 1
     const grown = gsWith([
-      { itemId: 300, count: 1 },
-      { itemId: 302, count: 1 },
+      { itemId: 105, count: 1 },
+      { itemId: 110, count: 1 },
+      { itemId: 87, count: 1 },
     ])
     refreshSellGrid(state, grown, ITEMS)
-    expect(state.grid.inventory.map((slot) => slot.itemId)).toEqual([300, 302])
-    expect(state.grid.cursor).toBe(0)
+    expect(state.grid.inventory.map((slot) => slot.itemId)).toEqual([105, 110, 87])
+    expect(state.grid.cursor).toBe(1)
   })
 })

@@ -17,6 +17,7 @@
 | CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 行为切片已验收；CODE81 收 observer/thumbnail | 用户裁决已实现且该批质量门通过；listener/observer/thumbnail 风险分拆，dev-panel 仍不整文件关闭 |
 | CODE-QUALITY-81 | [game Dev Panel picker 生命周期](tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | Codex / 新增生命周期测试可收口；复合 dev-panel 继续待核 | 5 个真实夹具反例与两项精确反控；全量 check、ratchet、protected fast、lint、ledger 均通过 |
 | CODE-QUALITY-90 | [magic revive status clearing boundary](tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | Codex / 两文件整文件审查继续 | 行为切片的全仓 check/ratchet/protected fast 已通过；spell-chain、输入与测试隔离仍未闭合 |
+| CODE-QUALITY-93 | [game sell menu state contract](tasks/CODE-QUALITY-93-game-sell-menu-contract.md) | review | Codex / 质量门与逐文件收口 | sell-menu 四文件已完整核验；仅测试夹具强转清理，等待全仓门 |
 
 
 ## 看板规则

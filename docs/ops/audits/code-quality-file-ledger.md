@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,271。
-当前已闭合核验：370；已读但待审：12；尚未逐文件核验：2,889；合计未闭合：2,901。
+当前已闭合核验：370；已读但待审：16；尚未逐文件核验：2,885；合计未闭合：2,901。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -440,6 +440,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-91；upper-bound guard, two-step wrap, WORD table labels and empty-selection defensive oracle | de-duplicated lifecycle/defensive leaves; initial equivalent mutation excluded |
 | `packages/game/src/core/menu/magic-script.ts` | product | review | CODE-QUALITY-90；SDLPal `script.c:1052-1102`/`global.c:2279-2344`、runtime/menu-driver/event-opcode-player；41 targeted、518 adjacent、4 exact mutation controls；full check/official ratchet/protected fast/lint/docs 均通过 | revive <=999 repair only; full spell-chain/input/unsupported-op/step-limit contract not closed |
 | `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-90；真实 GameState HP/status/poison oracle；999/1000/32760、party [2,0] 与 party 外隔离；先红后绿/4 mutations | poison-table cleanup, remaining synthetic fixtures and full runner input/unsupported-op/step-limit review remain unclosed |
+| `packages/game/src/core/menu/sell-menu.ts` | product | review | CODE-QUALITY-93；全文/SDLPal uigame/itemmenu/global、menu-driver/bootstrap/event/draw caller 已核；96 定向相邻、typecheck、3 精确反控通过 | 全仓质量门待完成；实现未改 |
+| `packages/game/src/core/menu/sell-menu.test.ts` | test | review | CODE-QUALITY-93；typed Item/GameState、公共导航/选择/意图与 cash/inventory ownership oracle；确认默认重置反控 | 已移除强转，独立导航/取消/意图合同；全仓门待完成 |
+| `packages/game/src/core/menu/sell-menu.boundaries.test.ts` | test | review | CODE-QUALITY-93；inUse 等值、confirm 期四键逐次不变、等长/空/增表与非零 cursor oracle；2 精确反控 | typed fixture；独立输入轴与快照不别名；全仓门待完成 |
+| `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-93；真实公共入口进入 confirm，空库存与重复选择/确认合同 | 已删与主测试重复的缩表用例；全仓门待完成 |
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 
 2026-10-14 CODE92 门纠错收口：`TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 在新 baseline `edbcad970` 后 exit 0，7包/731 files/19,870 tests；30/30 当前源码与各自关闭提交字节一致。恢复 CODE83–89/CODE91 关联30条记录为已验证。CODE90 两文件仍 review，event-system 与其它 pending/review 不因门通过关闭。当前 inventory3271：closed370/review12/pending2889。

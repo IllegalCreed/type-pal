@@ -535,7 +535,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+      "afterSha256": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -566,7 +566,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+        "implementationSha": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1023,6 +1023,15 @@
             "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
             "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "scope": "Update active board next step: CODE90 behavior gates pass, but two complete files remain review"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-93-review-navigation",
+            "previousAfterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+            "afterSha256": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-93-game-sell-menu-contract.md",
+            "scope": "sell-menu four-file review added; previous task states unchanged; full gates pending",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
@@ -1517,7 +1526,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "7a85496425205b15bba910288f85eb3a573c2d700fc8ceb0fb1c4f0886d24031",
+      "afterSha256": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1551,7 +1560,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "7a85496425205b15bba910288f85eb3a573c2d700fc8ceb0fb1c4f0886d24031",
+        "implementationSha": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1749,6 +1758,15 @@
             "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
             "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
             "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-93-evidence-navigation-review",
+            "previousAfterSha256": "7a85496425205b15bba910288f85eb3a573c2d700fc8ceb0fb1c4f0886d24031",
+            "afterSha256": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
+            "scope": "Add CODE93 evidence link after full navigation read; prior history and other task verdicts retained",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-93/README.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
@@ -2547,7 +2565,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
+      "afterSha256": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2583,7 +2601,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
+        "implementationSha": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -3045,6 +3063,15 @@
             "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
             "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
             "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-93-review-navigation",
+            "previousAfterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
+            "afterSha256": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-93-game-sell-menu-contract.md",
+            "scope": "sell-menu four-file review added; previous task states unchanged; full gates pending",
+            "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
         "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"

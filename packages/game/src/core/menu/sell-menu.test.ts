@@ -11,6 +11,7 @@ import {
   sellCancel,
   sellConfirm,
   sellMoveDown,
+  sellMoveLeft,
   sellMoveRight,
   sellMoveUp,
   sellSelectItem,
@@ -26,7 +27,7 @@ function flags(over: Partial<ItemFlags> = {}): ItemFlags {
     sellable: false,
     equipableBy: [false, false, false, false, false, false],
     ...over,
-  } as ItemFlags
+  }
 }
 
 function mkItem(id: number, price: number, over: Partial<Item> = {}): Item {
@@ -58,7 +59,7 @@ function gsWith(inv: { itemId: number; count: number }[]): GameState {
 }
 
 describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)', () => {
-  it('createSellMenu:grid 含全部库存(sdlpal 全显示),非可卖项渲染成红色,phase=list', () => {
+  it('createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter', () => {
     // sdlpal PAL_ItemSelectMenuInit(itemmenu.c:331-377)不按 kItemFlagSellable 过滤;87 照样列出,
     // 只是 PAL_ItemSelectMenuUpdate 把不可卖项画成 INACTIVE 红色,确认时 itemmenu.c:289 no-op。
     const gs = gsWith([
@@ -73,12 +74,16 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
     expect(s.confirmYes).toBe(false)
   })
 
-  it('sellSelectItem:选中 sellable cursor → 进 confirm(默认 No)', () => {
+  it('sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No', () => {
     const gs = gsWith([{ itemId: 105, count: 2 }])
     const s = createSellMenu(gs, CATALOG)
     expect(sellSelectItem(s, CATALOG)).toBe(true)
     expect(s.phase).toBe('confirm')
     expect(s.selectedItemId).toBe(105)
+    expect(s.confirmYes).toBe(false)
+    sellMoveDown(s)
+    expect(sellConfirm(s)).toEqual({ itemId: 105, yes: true })
+    expect(sellSelectItem(s, CATALOG)).toBe(true)
     expect(s.confirmYes).toBe(false)
   })
 
@@ -90,7 +95,7 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
     expect(s.phase).toBe('list')
   })
 
-  it('grid 导航 right 跨列 clamp + confirm 阶段方向键 toggle yes/no', () => {
+  it('grid 导航 right 跨列且末项 clamp', () => {
     const gs = gsWith([
       { itemId: 105, count: 2 },
       { itemId: 110, count: 1 },
@@ -100,17 +105,24 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
     expect(s.grid.cursor).toBe(1) // 105 → 110
     sellMoveRight(s)
     expect(s.grid.cursor).toBe(1) // clamp(只 2 项)
-    // 进 confirm 后方向键 = toggle
-    sellSelectItem(s, CATALOG)
-    expect(s.confirmYes).toBe(false)
-    sellMoveDown(s)
-    expect(s.confirmYes).toBe(true)
-    sellMoveUp(s)
-    expect(s.confirmYes).toBe(false)
   })
 
-  it('sellConfirm yes → 返回 {itemId,yes} + 回 list;sellCancel confirm→back / list→close', () => {
+  it('confirm 期四方向键只 toggle yes/no，不移动 grid', () => {
+    for (const move of [sellMoveUp, sellMoveDown, sellMoveLeft, sellMoveRight]) {
+      const s = createSellMenu(gsWith([{ itemId: 105, count: 2 }]), CATALOG)
+      expect(sellSelectItem(s, CATALOG)).toBe(true)
+      move(s)
+      expect(s.confirmYes).toBe(true)
+      move(s)
+      expect(s.confirmYes).toBe(false)
+      expect(s.grid.cursor).toBe(0)
+    }
+  })
+
+  it('sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有', () => {
     const gs = gsWith([{ itemId: 110, count: 1 }])
+    gs.dwCash = 50
+    const inventoryBefore = structuredClone(gs.inventory)
     const s = createSellMenu(gs, CATALOG)
     sellSelectItem(s, CATALOG)
     sellMoveDown(s) // yes
@@ -118,12 +130,19 @@ describe('sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu k
     expect(r).toEqual({ itemId: 110, yes: true })
     expect(s.phase).toBe('list')
     expect(s.selectedItemId).toBeUndefined()
-    // cancel:list → close
-    expect(sellCancel(s)).toBe('close')
-    // 再进 confirm → cancel back
-    sellSelectItem(s, CATALOG)
+    expect(gs.dwCash).toBe(50)
+    expect(gs.inventory).toEqual(inventoryBefore)
+  })
+
+  it('sellCancel confirm→back 清选择，list→close，实际库存不变', () => {
+    const gs = gsWith([{ itemId: 110, count: 1 }])
+    const s = createSellMenu(gs, CATALOG)
+    expect(sellSelectItem(s, CATALOG)).toBe(true)
     expect(sellCancel(s)).toBe('back')
     expect(s.phase).toBe('list')
+    expect(s.selectedItemId).toBeUndefined()
+    expect(sellCancel(s)).toBe('close')
+    expect(gs.inventory).toEqual([{ itemId: 110, count: 1 }])
   })
 
   it('refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)', () => {
