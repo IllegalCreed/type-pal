@@ -48,3 +48,7 @@ Codex build allowed：只新增这一精确批准数据项，更新冻结账数�
 `VITEST_MAX_WORKERS=1 pnpm check`真实exit0：7包typecheck和各包测试均通过；最终lint4051/0/0/0，无React act/Unhandled/Warning诊断。退役工具59项、quality工具37项与docs/content-review通过。当前官方ratchet带精确退役确认正在采集，之后串行真实protected；exec session **93008** 必须续接，旧68449/39466已经失败终态，不得当成活进程或通过。四条sell与两条保护账仍review。
 
 用户要求本部分完成后Codex停止；后续GLM候选已推送abf284d75，不领取新pending。当前goal服务返回null，本机automations目录未找到旧type-pal-goal-recovery配置；view只渲染卡片，pause工具因缺现存完整配置拒绝，未宣称定时任务已暂停。后续heartbeat不授权越过用户停止指令继续工作。
+
+## 官方 ratchet 终态
+
+`VITEST_MAX_WORKERS=1 pnpm coverage:ratchet --allow-scope-removal` exit0：731生产文件/19874 fast tests；game3541，statements13814/15602、branches9067/11373、lines12336/13685；total70856/78780、51560/61618、63306/68945。官方工具只升不降更新baseline，提升4项/范围变化2项；未手改基线。真实protected已开始，session93008继续有效，六文件仍review。

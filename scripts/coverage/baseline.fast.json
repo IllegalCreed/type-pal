@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-14T07:28:58.555Z",
+  "generatedAt": "2026-10-14T13:50:09.557Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19870,
+  "testCount": 19874,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4678,7 +4678,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3537,
+        "testCount": 3541,
         "testFileCount": 310,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5680,18 +5680,18 @@
           },
           {
             "file": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "b3a9168444de11a292916a368b6198d435ecd709fee2f9b50d975c480a1d7c92"
+            "testCount": 5,
+            "identityDigest": "8a5aaaa82345cd5708d2cbff91dcbaceec6fb7ce613b32d2353503d4e95e4139"
           },
           {
             "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
-            "testCount": 3,
-            "identityDigest": "dd67b18ef8f80d571eb72081f40814f9714ac2c3468eaa803997a21a09019064"
+            "testCount": 2,
+            "identityDigest": "fd69e9746ea0c03527cef4411f4cc5c0256daf750e7f15de7d9d5934cff1d7f1"
           },
           {
             "file": "packages/game/src/core/menu/sell-menu.test.ts",
-            "testCount": 6,
-            "identityDigest": "7ce4024e76e7d4def169a749ee6620adec2c7a74d9b7deef04fc4296c5f73df5"
+            "testCount": 8,
+            "identityDigest": "cbb36a353732708e430591aaa35be9e4564e56012541f2602d02dc4aff79d961"
           },
           {
             "file": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
@@ -6544,17 +6544,17 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "c228e17f7d27d172bf92a2b4cdb04a481d20948318ff94fdc1b66ff273c6c741",
+        "identityDigest": "9ecc550873f1927fe22f6ec493120a847e17f2472c095c53d45f31b1f8ae3202",
         "duplicateIdentityCount": 0,
-        "executionDigest": "ae9e42be3b76e64f37755eb9ac3f3142c2e4f97837f1b064b34106bfeef66683"
+        "executionDigest": "c0de99dd9ed7c52b03a9e7503ab99b89a610e9c8713e7ba022c28dce9588e23e"
       },
       "metrics": {
         "statements": {
-          "covered": 13812,
+          "covered": 13814,
           "total": 15602
         },
         "branches": {
-          "covered": 9064,
+          "covered": 9067,
           "total": 11373
         },
         "functions": {
@@ -10582,11 +10582,11 @@
   },
   "total": {
     "statements": {
-      "covered": 70854,
+      "covered": 70856,
       "total": 78780
     },
     "branches": {
-      "covered": 51557,
+      "covered": 51560,
       "total": 61618
     },
     "functions": {
