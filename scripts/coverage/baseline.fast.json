@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-11T17:26:40.190Z",
+  "generatedAt": "2026-10-14T04:00:36.065Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19816,
+  "testCount": 19820,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4672,8 +4672,8 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3491,
-        "testFileCount": 306,
+        "testCount": 3495,
+        "testFileCount": 307,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4762,6 +4762,7 @@
           "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
           "packages/game/src/core/event-opcode-player.test.ts",
           "packages/game/src/core/event-opcodes.cov85.test.ts",
+          "packages/game/src/core/event-rng-scene-restore.test.ts",
           "packages/game/src/core/event-system.cov85.test.ts",
           "packages/game/src/core/event-system.glm-event-contracts.test.ts",
           "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
@@ -5417,6 +5418,11 @@
             "file": "packages/game/src/core/event-opcodes.cov85.test.ts",
             "testCount": 21,
             "identityDigest": "5a8a4340b2140b994f56cfbada807cd13fad776edd8cd3becbead58a98d413e9"
+          },
+          {
+            "file": "packages/game/src/core/event-rng-scene-restore.test.ts",
+            "testCount": 4,
+            "identityDigest": "58763dcd8a8a6c8c7eb5d04268af315f483edbdaf884a72f865487a86aeaf987"
           },
           {
             "file": "packages/game/src/core/event-system.cov85.test.ts",
@@ -6514,26 +6520,26 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "6cff978c86e89307953c7c61c680280f266320b70b30d305deeb8254152298c0",
+        "identityDigest": "718b95ac9be4d49ca94753ab1cda25e3a4f64b997a5274756d2b59618a9ff881",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b74a17774d619fbcfbd15df123db7ca20eb6492cb054930628113396e6033c75"
+        "executionDigest": "e8183105dc0a22ba09d63ce2d4d08a1246848b318ca10747725557877eb56244"
       },
       "metrics": {
         "statements": {
-          "covered": 13486,
-          "total": 15523
+          "covered": 13490,
+          "total": 15526
         },
         "branches": {
-          "covered": 8875,
-          "total": 11294
+          "covered": 8883,
+          "total": 11296
         },
         "functions": {
           "covered": 1517,
           "total": 1853
         },
         "lines": {
-          "covered": 12045,
-          "total": 13626
+          "covered": 12049,
+          "total": 13629
         }
       }
     },
@@ -10552,20 +10558,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70528,
-      "total": 78701
+      "covered": 70532,
+      "total": 78704
     },
     "branches": {
-      "covered": 51368,
-      "total": 61539
+      "covered": 51376,
+      "total": 61541
     },
     "functions": {
       "covered": 13382,
       "total": 14986
     },
     "lines": {
-      "covered": 63015,
-      "total": 68886
+      "covered": 63019,
+      "total": 68889
     }
   }
 }

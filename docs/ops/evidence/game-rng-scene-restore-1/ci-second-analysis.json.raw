@@ -1,0 +1,25 @@
+{
+  "runId": 38506501789,
+  "sourceCommit": "5116cd5bb5b582ae3d3a6b8d65cb8953ac755239",
+  "workflowConclusion": "failure",
+  "testCount": 19820,
+  "sourceFileCount": 731,
+  "comparison": {
+    "regressions": [],
+    "improvements": [
+      "game.statements",
+      "game.branches",
+      "game.lines",
+      "total.statements",
+      "total.branches",
+      "total.lines"
+    ]
+  },
+  "scopeAudit": {
+    "changes": [
+      "game: fast test files +1/-0，内容变化 0（3491 -> 3495 tests）",
+      "game: fast test execution config/digest 已变化"
+    ],
+    "removals": []
+  }
+}
