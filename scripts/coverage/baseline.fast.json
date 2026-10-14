@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-14T04:00:36.065Z",
+  "generatedAt": "2026-10-14T15:08:53.106Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 731,
-  "testCount": 19820,
+  "testCount": 19822,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4672,7 +4672,7 @@
       ],
       "scopeDigest": "76a72f63a8624cfd219214e150493868ed047400df313543a1f0844c491daf75",
       "fastTests": {
-        "testCount": 3495,
+        "testCount": 3497,
         "testFileCount": 307,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5546,13 +5546,13 @@
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "b689ab2fdb1fc55593083cfea04a6926eaddf2fbcf866e65fc8154b2f2debb09"
+            "testCount": 3,
+            "identityDigest": "d70b368939285cdaa6eed7dfda219036d42007e80cbfc748607d3681cf6f34b5"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
-            "testCount": 4,
-            "identityDigest": "9e486b1673bf71174d835eaa1d96bba62372659ae79fd27669ee8ce4c7d7111d"
+            "testCount": 5,
+            "identityDigest": "39367a1492bcc0484daeb76f6c034fa328638f709683a7fe8a965f6cbf4c714a"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.test.ts",
@@ -5572,7 +5572,7 @@
           {
             "file": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
             "testCount": 3,
-            "identityDigest": "4cb2c0015ee0b566f67941be430c474d63ed429b539dbd846a480672ff25be27"
+            "identityDigest": "bff54bf56e997a7921515d8ea94c0aa9dfa2731b88122a42f8937afa6d65b67f"
           },
           {
             "file": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
@@ -5582,7 +5582,7 @@
           {
             "file": "packages/game/src/core/menu/inventory-menu.test.ts",
             "testCount": 23,
-            "identityDigest": "91f4d4f295197df69f612ec80eb7717bf888a25ad04a5d19bf28d777327b509f"
+            "identityDigest": "9d059a4497c84faf46c46c91976bbde1fb4d91556d609707954feb45604b263d"
           },
           {
             "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
@@ -6520,9 +6520,9 @@
             "identityDigest": "916c70c2855d90db70208a6895de9b3254f0e3f039c2bb0b96bc8fd4287d249d"
           }
         ],
-        "identityDigest": "718b95ac9be4d49ca94753ab1cda25e3a4f64b997a5274756d2b59618a9ff881",
+        "identityDigest": "8e5a287d005ab4813a0601f03bb6036c4fb035394f9e7c5609d36526242ad837",
         "duplicateIdentityCount": 0,
-        "executionDigest": "e8183105dc0a22ba09d63ce2d4d08a1246848b318ca10747725557877eb56244"
+        "executionDigest": "845cba901494cf8f1956e2b43f6fa4828b53e00f6fa07a463d09691b5dbcf398"
       },
       "metrics": {
         "statements": {

@@ -48,6 +48,16 @@ Visual Verification Timing: N/A（无产品/UI行为修改）
 
 24 files / 241 tests、game typecheck、docs/content-review、lint4008零诊断与ledger通过；30文件仍review。尚未运行独立全仓check/official ratchet/protected fast，不合main。用户要求Codex当前部分完成后停止，本候选保存为可恢复检查点。
 
+## GLM 逐文件复核与独立门（2026-10-15，基点不变 cddf65557，0 behind/2 ahead）
+
+- 30/30 候选全文复核完成：9 生产实现（纯状态机、caller=menu-driver/scene-system/draw-menu 接线核对、sdlpal 锚注释抽核无误）+ 21 测试（合同正交、typed fixture 零强转、防御分支标注"公开 state 直造"）；逐文件结论与"好代码"四维（注释/复用/测试质量/内聚耦合）见 `docs/ops/evidence/CODE-QUALITY-94/glm-review.md`。
+- manifest 机械复核：candidate/main SHA 30/30 字节一致；closure 身份 27/30 候选=闭合版本，恰 3 份按标记偏离=closureSha 记录准确的 CODE95 修复。无 CODE53/57/79/80/81/90/毒键/状态页导入，新增强转 0，sell-menu.ts（CODE93 域）未被触碰，baseline.fast.json 未被预改。
+- CODE95 三份独立裁定合法（详见 glm-review.md）：旧"空角色"用例断言经 closure 原文核对 oracle 未变、仅更正误导标题并加强断言；makeRole 工厂纯函数核验通过。
+- 独立复跑门：定向 24 files/241 tests PASS（VITEST_MAX_WORKERS=1）、game typecheck 0 错、check:docs PASS、lint-zero PASS 4012 files 0/0/0、ledger PASS 3267=229 closed/35 review/3003 pending。
+- protected fast 首跑按设计 fail-closed：七包 731 files/19822 tests 全绿、覆盖率无回退，范围审计报 game 测试内容变化 4 文件/+2 测试（3495→3497）+执行 digest 变化 → 按门指示接 official ratchet（exit 0，基线只升不降更新，提升 0 项/范围变化 2 项；baseline diff 精确=+2 计数、4 文件 identityDigest、game scope/execution digest，无其它改动）；protected fast 终跑 exit 0「覆盖率门禁通过；相对 fast 基线未下降」。全仓 `pnpm check` exit 0（最终 lint-zero 4012 files 0/0/0）。board.md content-review pin 按 Codex 先例外科刷新（×2 处+history 追加）。
+- 发现登记（不在本窗口执行）：E-1 equip-menu.confirmEquipItem 死参（公共签名，另卡）；E-2 5 处测试内联 PlayerRole/Magic 工厂可统一至 harness（~150 行重复）；E-3 item-magic-select flags 展开强转清理。
+- 30 条账本保持 review 交 Codex 独立验收；不标 done、不合 main。
+
 ## 下一位 Agent 提示词（GLM，2026-10-14 用户指定接手）
 
 继续 type-pal 有限模块代码治理，默认单 Agent。先读 AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md、board.md、code-quality-governance.md、code-quality-file-ledger.md、phase1 engineering-notes/game-mechanics，以及 CODE94/95 与 CODE83–89/91/92 的历史卡和证据。工作目录 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal`，分支 `codex/code-quality-menu-integration`；main 基点 cddf65557e60619e40e38168b276cf01981a106a。先 fetch/status/show/ledger，核对最新 main；不得写主工作树 `/Users/zhangxu/illegal/type-pal` 或覆盖别人未提交文件。
@@ -57,3 +67,7 @@ Visual Verification Timing: N/A（无产品/UI行为修改）
 先接手 CODE94/95 验收并补全部门。CODE93/96 在 `codex/code-quality-3y` 单独收口后才可按白名单接收；如接收卖菜单删重，必须同时核精确退役 metadata 的 count/两端 identity digest/文件SHA，不能复制源分支整份 coverage baseline。用官方工具重新测，保留失败原件；禁止降低规则/ignore/exclude/强转/弱断言。每文件完整读取实现、真实 caller、出口、类型、生命周期和 primary/oracle；行为修复先失败反例，触高风险先停线开卡。不得整条合入含 CODE53/90 未收口行为的旧治理分支。
 
 允许在 CODE94/95 白名单内修复已证测试问题并补证，当前生产行为/公共接口/schema/save/资产改动未授权。与 ED-ENTITY-STATE-PLAN-1、活跃 GLM 分支不抢写。阶段交付先 commit/push，再 fetch 确认 origin/main...HEAD 的 behind=0；提交逐文件结论、未修风险、全部真实门、账本数字和下一批候选供 Codex 独立验收。未知保持 review/pending，不得自行把历史 accept 搬成当前验收。完成本模块后再按最新账本选2–4文件最小不重叠批次。
+
+## 下一位 Agent 提示词（Codex 独立验收，2026-10-15 GLM 交付后）
+
+CODE94/95 的 GLM 复核与独立门已完成并推送至 `codex/code-quality-menu-integration`（候选提交后 0 behind）。验收材料：`docs/ops/evidence/CODE-QUALITY-94/glm-review.md`（逐文件结论+四维质量+CODE95 裁定+机械核验）、证据目录新增 glm-* 回执（定向 241 复跑/typecheck/docs/lint/ledger/protected-fast 首跑 fail-closed/ratchet/protected-fast 终跑/全仓 check）、账本 30 条仍 review。Codex 按卡独立核：30 文件抽样直读、CODE95 oracle 保持性、ratchet 基线 diff 只含 game 测试范围合法变化、protected fast exit 0。验收通过后由 Codex 收口集成（对齐 main、合并、重 fetch）；E-1/E-2/E-3 为下一批候选不在本窗口。不得由 GLM 自行标 done。

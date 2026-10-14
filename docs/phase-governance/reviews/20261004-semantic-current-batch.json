@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
+      "afterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
+        "implementationSha": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -721,6 +721,14 @@
             "previousAfterSha256": "b29b2c7ebf1f5d6a8bb806abcb1aab52e550c1cbb3b8316d5e9af1e33bd66441",
             "afterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
             "scope": "用户指定停止后交GLM；仅review检查点导航，完整质量门与main集成未完成。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-94-95-glm-independent-gates",
+            "previousAfterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
+            "afterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
+            "scope": "GLM 完成逐文件复核与独立全门（check/ratchet/protected fast）；30 条保持 review 交 Codex 独立验收。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]

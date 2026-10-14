@@ -11,8 +11,8 @@
 | E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
-| CODE-QUALITY-94 | [menu 独立阶段集成窗口](tasks/CODE-QUALITY-94-menu-integration-window.md) | review | GLM / 接手逐文件复核与独立门 | 仅接收已审 menu 切片；不合入 CODE53/90 行为 |
-| CODE-QUALITY-95 | [menu fixture 合法性 counter](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | GLM / 三份测试返工验收 | 角色数组/完整字段已补，241定向相邻通过；全仓门待补 |
+| CODE-QUALITY-94 | [menu 独立阶段集成窗口](tasks/CODE-QUALITY-94-menu-integration-window.md) | review | Codex / 独立验收 GLM 复核与独立门 | 30 文件 GLM 复核+全门完成（glm-review.md）；不借源分支全绿关闭 |
+| CODE-QUALITY-95 | [menu fixture 合法性 counter](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | Codex / 独立验收三份修复 | 三份 typed fixture 裁定合法、oracle 无弱化；随 94 同批验收 |
 
 ## 看板规则
 

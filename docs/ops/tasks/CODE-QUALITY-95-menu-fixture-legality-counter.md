@@ -43,6 +43,10 @@ Codex build allowed：补齐 typed Item/PlayerRole；按 roleId 索引构造真�
 
 24 files / 241 tests、game typecheck、docs/content-review、lint4008零诊断与ledger通过；30文件仍review。尚未运行独立全仓check/official ratchet/protected fast，不合main。用户要求Codex当前部分完成后停止，本候选保存为可恢复检查点。
 
+## GLM 独立复核（2026-10-15）
+
+三份修复全文复核裁定合法（详见 `../evidence/CODE-QUALITY-94/glm-review.md`）：typed Item/PlayerRoles 数组形态与 `tables.ts` 合同及 `inventory-menu.ts:213-254`/`shop-menu.ts` 真实 caller 一致；`makeRole` harness 纯函数核验（无顶层状态/IO、fresh typed、`magic` 可选字段合法）；关键保 oracle 核对——旧"空角色"用例断言本就期望 use-target+selectedItemId=200（closure 原文），修复仅更正误导标题并新增 targetMenu 空断言（加强），party[2,0] roleId≠cursor、cash===price/price-1、inUse 恰等门均与 closure 一致；id 400/401→105/110 后 oracle 等价。三份相对 closure 增量即修复本身，无夹带。定向/相邻/typecheck/docs/lint/ledger 与 CODE94 同批独立复跑通过；ratchet/protected fast 回执见 CODE94 证据目录。仍 review，待 Codex 独立验收。
+
 ## 下一位 Agent 提示词（GLM，2026-10-14 用户指定接手）
 
 继续 type-pal 有限模块代码治理，默认单 Agent。先读 AGENTS.md、CLAUDE.md、docs/ops/agent-workflow.md、board.md、code-quality-governance.md、code-quality-file-ledger.md、phase1 engineering-notes/game-mechanics，以及 CODE94/95 与 CODE83–89/91/92 的历史卡和证据。工作目录 `/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal`，分支 `codex/code-quality-menu-integration`；main 基点 cddf65557e60619e40e38168b276cf01981a106a。先 fetch/status/show/ledger，核对最新 main；不得写主工作树 `/Users/zhangxu/illegal/type-pal` 或覆盖别人未提交文件。
