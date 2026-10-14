@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "ae5aeab8e9fdac4584ee9c2d2c1744ffeafaea8322896a86f3fe25041d43c834",
+      "afterSha256": "0edecf72a30d7189dcd8a7454656c15e8091cba0c20aeda4511890c2eba1738f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "ae5aeab8e9fdac4584ee9c2d2c1744ffeafaea8322896a86f3fe25041d43c834",
+        "implementationSha": "0edecf72a30d7189dcd8a7454656c15e8091cba0c20aeda4511890c2eba1738f",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -761,6 +761,14 @@
             "previousAfterSha256": "22575cc6d1865534f0f6be0b41729a51be1fe3c654effd43897a91dec1f66481",
             "afterSha256": "ae5aeab8e9fdac4584ee9c2d2c1744ffeafaea8322896a86f3fe25041d43c834",
             "scope": "CODE-QUALITY-100 review-only 批登记；94/95/97/98/99 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-101-save-api-review-navigation",
+            "previousAfterSha256": "ae5aeab8e9fdac4584ee9c2d2c1744ffeafaea8322896a86f3fe25041d43c834",
+            "afterSha256": "0edecf72a30d7189dcd8a7454656c15e8091cba0c20aeda4511890c2eba1738f",
+            "scope": "CODE-QUALITY-101 review-only 批登记；94/95/97-100 待 Codex 验收不变。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]
@@ -999,7 +1007,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "5a2a520b48f8dd68de9298c2e8bde80217b3ff5e799ddc29ae00e4b8cdecb0e1",
+      "afterSha256": "530e3440c36fc91ce3451c4b1f0e81ca29c9321e4dc877f18ec0b8fee684b91f",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1033,7 +1041,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "5a2a520b48f8dd68de9298c2e8bde80217b3ff5e799ddc29ae00e4b8cdecb0e1",
+        "implementationSha": "530e3440c36fc91ce3451c4b1f0e81ca29c9321e4dc877f18ec0b8fee684b91f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1196,6 +1204,14 @@
             "previousAfterSha256": "f284ff0a64b2ae850a4ca770c429e7f65e0b24026bf2fb83028721324ede49e0",
             "afterSha256": "5a2a520b48f8dd68de9298c2e8bde80217b3ff5e799ddc29ae00e4b8cdecb0e1",
             "scope": "CODE-QUALITY-100 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-101-save-api-review-navigation",
+            "previousAfterSha256": "5a2a520b48f8dd68de9298c2e8bde80217b3ff5e799ddc29ae00e4b8cdecb0e1",
+            "afterSha256": "530e3440c36fc91ce3451c4b1f0e81ca29c9321e4dc877f18ec0b8fee684b91f",
+            "scope": "CODE-QUALITY-101 证据目录导航登记。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
@@ -1934,7 +1950,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "5c912263c35da4747a964972a4ee0b1db59c05c602e3f5e7c72beff49f8f5f31",
+      "afterSha256": "fcde2550dbcf9d87ce249c9e6c822102a0a54bb2b2179ba0d3090b3c2b62ff38",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -1970,7 +1986,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "5c912263c35da4747a964972a4ee0b1db59c05c602e3f5e7c72beff49f8f5f31",
+        "implementationSha": "fcde2550dbcf9d87ce249c9e6c822102a0a54bb2b2179ba0d3090b3c2b62ff38",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2168,6 +2184,14 @@
             "previousAfterSha256": "0b41f41e51e644d40ded33e0637c480410b64f7e112cd7853b6afda0de550057",
             "afterSha256": "5c912263c35da4747a964972a4ee0b1db59c05c602e3f5e7c72beff49f8f5f31",
             "scope": "任务索引再生成纳入 CODE-QUALITY-100 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-101-save-api-review-navigation",
+            "previousAfterSha256": "5c912263c35da4747a964972a4ee0b1db59c05c602e3f5e7c72beff49f8f5f31",
+            "afterSha256": "fcde2550dbcf9d87ce249c9e6c822102a0a54bb2b2179ba0d3090b3c2b62ff38",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-101 卡。",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ]

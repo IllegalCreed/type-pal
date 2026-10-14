@@ -9,6 +9,7 @@
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）](CODE-QUALITY-100-save-slot-menu-review.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）](CODE-QUALITY-101-save-api-review.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-94 — menu 独立阶段集成窗口](CODE-QUALITY-94-menu-integration-window.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-95 — menu 测试夹具合法性 counter](CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）](CODE-QUALITY-97-menu-helper-primitives-item-select.md) | draft | 以任务卡当前准入与看板分工为准。 |
