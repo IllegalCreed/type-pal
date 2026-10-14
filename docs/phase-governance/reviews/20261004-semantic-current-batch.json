@@ -535,7 +535,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
+      "afterSha256": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -566,7 +566,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
+        "implementationSha": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1031,6 +1031,24 @@
             "afterSha256": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
             "evidence": "docs/ops/tasks/CODE-QUALITY-93-game-sell-menu-contract.md",
             "scope": "sell-menu four-file review added; previous task states unchanged; full gates pending",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-95-input-legality-counter-navigation",
+            "previousAfterSha256": "7210121ddc67a874bb5c0598caa65a0a6dbf56ea7c1c49dc60a232e03ba20b85",
+            "afterSha256": "f8f029b5478321c99313334c4d6bdb577517c732d9d144ff5ff4a72762f0d40c",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md",
+            "scope": "Reopen three previously closed tests based on direct public-type fixture mismatch; CODE93 still review; no runtime or product change",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-96-exact-retirement-evidence-navigation",
+            "previousAfterSha256": "f8f029b5478321c99313334c4d6bdb577517c732d9d144ff5ff4a72762f0d40c",
+            "afterSha256": "5fae17be5e1f062671d47722d7654bf727e3fda3814f2f729853122f98565ff3",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-96-sell-test-retirement-evidence.md",
+            "scope": "Add exact source/test retirement evidence; source closure still pending official ratchet/protected gate; CODE95 counter retained",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
@@ -1526,7 +1544,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
+      "afterSha256": "a1755660969ca1cea5cb0a4e6f175ee5b9dbf2d243e4bc4810a16fa64f729858",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1560,7 +1578,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
+        "implementationSha": "a1755660969ca1cea5cb0a4e6f175ee5b9dbf2d243e4bc4810a16fa64f729858",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1766,6 +1784,15 @@
             "afterSha256": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
             "scope": "Add CODE93 evidence link after full navigation read; prior history and other task verdicts retained",
             "evidence": "docs/ops/evidence/CODE-QUALITY-93/README.md",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-96-exact-retirement-evidence-navigation",
+            "previousAfterSha256": "f2d39e62de6098bec3affc9cdeb7839691999353e9ab3f492ce8671542cd1b30",
+            "afterSha256": "a1755660969ca1cea5cb0a4e6f175ee5b9dbf2d243e4bc4810a16fa64f729858",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-96-sell-test-retirement-evidence.md",
+            "scope": "Add exact source/test retirement evidence; source closure still pending official ratchet/protected gate; CODE95 counter retained",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],
@@ -2565,7 +2592,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
+      "afterSha256": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2601,7 +2628,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
+        "implementationSha": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -3071,6 +3098,24 @@
             "afterSha256": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
             "evidence": "docs/ops/tasks/CODE-QUALITY-93-game-sell-menu-contract.md",
             "scope": "sell-menu four-file review added; previous task states unchanged; full gates pending",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-95-input-legality-counter-navigation",
+            "previousAfterSha256": "40bca9b2ae158093af6f16235e3359dfb3340b81ef597a0d92c123bd7f057f1b",
+            "afterSha256": "5a2e1a9848979c1f8c49fc79442e7b7fe48c4770e124a0fe72ae413c3757ebbf",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md",
+            "scope": "Reopen three previously closed tests based on direct public-type fixture mismatch; CODE93 still review; no runtime or product change",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-96-exact-retirement-evidence-navigation",
+            "previousAfterSha256": "5a2e1a9848979c1f8c49fc79442e7b7fe48c4770e124a0fe72ae413c3757ebbf",
+            "afterSha256": "0a66b19cde1b51b3e0c595262a728387822d314864b8eb5f339b1ecdce78659b",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-96-sell-test-retirement-evidence.md",
+            "scope": "Add exact source/test retirement evidence; source closure still pending official ratchet/protected gate; CODE95 counter retained",
             "notRun": ["E2E", "visual", "hosted CI"]
           }
         ],

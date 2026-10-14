@@ -2,6 +2,17 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE-QUALITY-93, 2026-10-14: user-required precision/deduplication.
+    // The non-empty shrink/clamp oracle remains in sell-menu.test.ts.
+    // Pin this exact accepted file snapshot; no future retirement is authorized.
+    {
+      file: 'packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: 'dd67b18ef8f80d571eb72081f40814f9714ac2c3468eaa803997a21a09019064',
+      currentIdentityDigest: 'fd69e9746ea0c03527cef4411f4cc5c0256daf750e7f15de7d9d5934cff1d7f1',
+      fileSha256: '8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f',
+    },
     {
       file: 'packages/migrate/src/pal-authored-overlays.test.ts',
       previous: 9,

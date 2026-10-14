@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含当前主线与治理分支文件）：3,271。
-当前已闭合核验：370；已读但待审：16；尚未逐文件核验：2,885；合计未闭合：2,901。
+当前已闭合核验：367；已读但待审：21；尚未逐文件核验：2,883；合计未闭合：2,904。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -412,12 +412,12 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/menu-stack.ts` | product | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-83；GameState.menuStack ownership、battle/shop/explore resume caller 与 SDLPal 返回域；全仓质量门 | push/pop ownership、battle/shop/explore mode 恢复；未发现直接缺陷 |
 | `packages/game/src/core/menu/menu-mode.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-83；真实 `createInitialGameState`/`dispatchMenuInput`/menu factories 与相邻 caller；5 个定向测试文件 342 tests、全仓质量门 | 空栈、单/双层栈、inventory goto-out、非 Menu 输入与 open/pop 合同；无弱测试 |
 | `packages/game/src/core/menu/inventory-menu.ts` | product | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-84；SDLPal itemmenu/uigame/play primary source、menu-driver/event-system/draw-inventory callers；413 targeted tests、game typecheck/Biome、全仓 gates | full inventory/filter colors, equipped usable append, non-wrap grid, live target/ownership; no direct defect |
-| `packages/game/src/core/menu/inventory-menu.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-84；real createInitialGameState/public functions; 413 targeted tests and full gates | six-case color/filter/list, navigation, target/cancel and dead-target contracts; no weak tests |
-| `packages/game/src/core/menu/inventory-menu.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-84；count/inUse, equipped count0, party [2,0], wrong phase and snapshot ownership oracles | high-discrimination role-id/slot/ownership counterexamples |
+| `packages/game/src/core/menu/inventory-menu.test.ts` | test | review | CODE-QUALITY-95 counter；旧 CODE84/85/92 字节/门回执保留历史；直接读当前全文与 public Item/PlayerRoles，发现对象映射/不完整 typed fixture | 独立 menu integration 候选补合法数组/完整类型，尚未最终门；不因旧绿灯恢复闭合 |
+| `packages/game/src/core/menu/inventory-menu.boundaries.test.ts` | test | review | CODE-QUALITY-95 counter；旧 CODE84/85/92 字节/门回执保留历史；直接读当前全文与 public Item/PlayerRoles，发现对象映射/不完整 typed fixture | 独立 menu integration 候选补合法数组/完整类型，尚未最终门；不因旧绿灯恢复闭合 |
 | `packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-84；real state/public function leaves for cursor restore, missing inUse, target delegation, done no-op and cancel memory | de-duplicated lifecycle/boundary contracts |
 | `packages/game/src/core/menu/shop-menu.ts` | product | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-85；SDLPal `uigame.c:1615-1791`/`itemmenu.c:287-310`、menu-driver/bootstrap/event-system/draw-shop/sell-menu callers；408 targeted tests、game typecheck/Biome、全仓 gates | buy/sell phases, price gate, wrap navigation, intent ownership and cancel/resume; no direct defect |
 | `packages/game/src/core/menu/shop-menu.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-85；real GameState/event/menu public callers, stores catalog IDs, 408 targeted tests and full gates | 0x0026 open/wait/resume, buy/sell transaction, no-money and close contracts; dead touch import removed |
-| `packages/game/src/core/menu/shop-menu.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-85；cash===price, price-1, empty list, No/Yes/cancel and pre-operation catalog snapshot oracle | high-discrimination price/state/ownership boundaries; tautological clone self-comparison removed |
+| `packages/game/src/core/menu/shop-menu.boundaries.test.ts` | test | review | CODE-QUALITY-95 counter；旧 CODE84/85/92 字节/门回执保留历史；直接读当前全文与 public Item/PlayerRoles，发现对象映射/不完整 typed fixture | 独立 menu integration 候选补合法数组/完整类型，尚未最终门；不因旧绿灯恢复闭合 |
 | `packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-85；real public function leaves for fallback label/pageSize, wrong phase, missing catalog item and list confirm null | de-duplicated defensive branch contracts |
 | `packages/game/src/core/menu/equip-menu.ts` | product | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-86；SDLPal `itemmenu.c:287-310,331-377`/`uigame.c:1793-2056`/`play.c:328-359`/`script.c:768-811,1090-1145`，menu-driver/equip-effect/runtime callers；127 targeted tests、game typecheck/Biome、全仓 gates | equip filter, role-id mapping, role wrap, cancel phases and swap intent; no direct defect |
 | `packages/game/src/core/menu/equip-menu.test.ts` | test | 已验证 | CODE-QUALITY-92 protected fast + source snapshot；历史 CODE-QUALITY-86；real GameState/public menu functions, typed Item/PlayerRoles fixtures and real partyMembers; 127 targeted tests/full gates | grid/filter, inactive item, pick-role, cancellation and cursor wrap; typed fixture cleanup |
@@ -444,6 +444,10 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/sell-menu.test.ts` | test | review | CODE-QUALITY-93；typed Item/GameState、公共导航/选择/意图与 cash/inventory ownership oracle；确认默认重置反控 | 已移除强转，独立导航/取消/意图合同；全仓门待完成 |
 | `packages/game/src/core/menu/sell-menu.boundaries.test.ts` | test | review | CODE-QUALITY-93；inUse 等值、confirm 期四键逐次不变、等长/空/增表与非零 cursor oracle；2 精确反控 | typed fixture；独立输入轴与快照不别名；全仓门待完成 |
 | `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-93；真实公共入口进入 confirm，空库存与重复选择/确认合同 | 已删与主测试重复的缩表用例；全仓门待完成 |
+| `scripts/coverage/approved-test-retirements.mjs` | tool | review | CODE-QUALITY-96；全文、run.mjs protected/ratchet caller 与 count/identity/file-SHA 精确批准 predicate 已读；单一已证重复用例退役 | 不改变规则、阈值、exclude；全仓 gate 待补 |
+| `scripts/coverage/approved-test-retirements.test.mjs` | test | review | CODE-QUALITY-96；全文、冻结表/精确正控与identity/SHA/count/源码范围拒绝反例已核 | 数量断言按新增精确项更新；新全仓门待补 |
 后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 
 2026-10-14 CODE92 门纠错收口：`TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 在新 baseline `edbcad970` 后 exit 0，7包/731 files/19,870 tests；30/30 当前源码与各自关闭提交字节一致。恢复 CODE83–89/CODE91 关联30条记录为已验证。CODE90 两文件仍 review，event-system 与其它 pending/review 不因门通过关闭。当前 inventory3271：closed370/review12/pending2889。
+
+2026-10-14 CODE95 集成前语义 counter：3份旧测试仍含非法 PlayerRoles 对象映射/最小不完整角色/Item fixture，强转掩盖 public 输入合同。撤回3条已验证并转review；源字节相同和 protected 全绿不能替代合法输入验收。修复仅在独立 codex/code-quality-menu-integration，原分支正在 coverage 时不改测试。当前 inventory3271：closed367/review19/pending2885；CODE93四文件仍review。

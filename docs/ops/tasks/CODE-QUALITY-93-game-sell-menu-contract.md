@@ -108,3 +108,7 @@ Codex：premise verified / build allowed。完整读取与 caller/primary-source
 - 当前正在串行运行官方 `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` → `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`；第一门失败时不会运行第二门。工具 exec session 为 **68449**，续接必须先查询该 handle 或当前真实进程，不因观察超时或只有日志文件就重启。
 - 官方 coverage 回执仍未 terminal，不计通过；四条记录继续 review，机器 inventory3271 / closed370 / review16 / pending2885。全仓治理未完成。
 - 下一步：等 coverage 两门实际终态、核日志/官方 baseline、最终 lint/docs/ledger 后才关闭本四文件；提交推送批次收口后，从最新 main 拆出已闭合 menu 的独立集成候选。不得整条合入含 CODE53/90 未收口行为的分支，不再继续积累新的 pending 实现批次而跳过阶段集成窗口。
+
+## 用户收尾边界（2026-10-14）
+
+用户要求当前部分完成后停止，后续由 GLM 接手。Codex 完成 CODE93 与配套 CODE96 的全部门、归档与治理分支提交推送；不领取新的 pending 文件。独立 CODE94 集成候选/CODE95 fixture 修正以明确 review 检查点和 GLM 提示词交接，不在未验收前合 main。
