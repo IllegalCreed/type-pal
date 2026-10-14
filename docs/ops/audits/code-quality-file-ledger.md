@@ -301,7 +301,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/menu/save-slot-menu.ts` | product | review | CODE-QUALITY-100 review-only；GLM 逐文件四维结论（WORD id 43+i/DM24 id 反查/只读 listSlots IO 边界；caller=menu-driver×5+draw-menu） | 无死面无 fixture 问题；不触碰 save schema/写路径；待 Codex 验收 || `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | 待核 | TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1；Codex 接收 5 合同与 5 针反控；语义治理待后续专项读取 | draw-call oracle 测试文件，未计入逐文件代码治理闭合 |
 | `packages/game/src/core/save/api.ts` | product | review | CODE-QUALITY-101 review-only；GLM 逐文件四维结论（双路径门面/deepClone 双向隔离/槽位域校验；caller=menu-driver+save-slot-menu+bootstrap+quick-save） | E-10 头注释过时（仍称 in-memory stub）登记 E-批；U-1 引用既有卡；待 Codex 验收 |
 | `packages/game/src/core/save/indexed-db.ts` | product | review | CODE-QUALITY-101 review-only；GLM 逐文件四维结论（P2#5 版本纪律范本注释/单例+hot-reload 重置/错误传播不吞） | E-12 game 包无直接 IDB 测试登记；待 Codex 验收 |
-| `packages/game/src/tools/quick-save.ts` | product | review | CODE-QUALITY-102 review-only；GLM 逐文件四维结论（三条件脏档门+全路径 toast+deps 注入；caller=bootstrap:98） | quick-save.test.ts E-13 as never fixture 登记并入 E-批；待 Codex 验收 |后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
+| `packages/game/src/tools/quick-save.ts` | product | review | CODE-QUALITY-102 review-only；GLM 逐文件四维结论（三条件脏档门+全路径 toast+deps 注入；caller=bootstrap:98） | quick-save.test.ts E-13 as never fixture 登记并入 E-批；待 Codex 验收 |
+
+后续每个 Q3b/Q3c/Q4/Q5/Q6 子批都必须先把文件加入这里并写直接证据；只跑 `pnpm check`、只看 lint、只看覆盖率或只看静态计数，都不能把 `待核` 变成已审。全量账本未清零前，专项不得宣布“所有代码治理完成”。
 
 2026-10-14 CODE94 独立 menu 集成窗口：从最新 origin/main cddf65557 建分支，仅接收治理分支已闭合30条 menu 记录及其测试治理候选，完整原卡/证据保留。集成前暂登记 review，当前机器 inventory3267：closed229/review35/pending3003；主线其它 pending 不升级，不导入 CODE53/90 等未收口生产行为。
 2026-10-15 CODE94/95 GLM 复核：30/30 全文复核（四维质量+caller/oracle）与 manifest SHA 机械核验完成；CODE95 三份 fixture 修复裁定合法且 oracle 无弱化；定向241/typecheck/docs/lint-zero 4012/ledger 独立复跑通过；protected fast 首跑 fail-closed（范围变化 4 文件/+2 测试）后经 official ratchet 确认新基线再复跑，回执见 evidence/CODE-QUALITY-94。30 条仍 review 交 Codex 独立验收，不因本批复核自动 closed。
