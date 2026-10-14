@@ -1,0 +1,124 @@
+import type { AbstractKey, Command } from '@type-pal/shared'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { createFramebuffer } from '../present/framebuffer.js'
+import { type PresentContext, presentFrame } from '../present/present.js'
+import { createCommandBus } from './command-bus.js'
+import { buildLabelMap, setRngPlayHandler, tickEventSystem } from './event-system.js'
+import { createInitialGameState } from './game-state.js'
+
+const ANIMATION_PIXEL = 173
+const PARTY_PIXEL = 5
+
+// Only the media IO boundary is substituted. The interpreter, dialog lifecycle and
+// renderer are real; the callback completes like bootstrap's RNG handler.
+function cutscene(commands: Command[]) {
+  const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+  const fb = createFramebuffer()
+  const sprite = {
+    width: 2,
+    height: 2,
+    indices: new Uint8Array(4).fill(PARTY_PIXEL),
+    opaque: new Uint8Array(4).fill(1),
+    anchorX: 1,
+    anchorY: 2,
+  }
+  const ctx: PresentContext = {
+    tilemap: {
+      width: 1,
+      height: 1,
+      cells: [[{ lower: 0, upper: 0 }]],
+      tileset: 'test',
+    },
+    tileImages: { get: () => undefined },
+    partyFrames: Array.from({ length: 12 }, () => sprite),
+    partyWalkFrames: 3,
+    npcSprites: new Map(),
+  }
+  const bus = createCommandBus()
+  let now = 1000
+  vi.spyOn(performance, 'now').mockImplementation(() => now)
+  setRngPlayHandler(({ gs: playing }) => {
+    playing.suspendRaf = true
+    fb.indices.fill(ANIMATION_PIXEL)
+    void Promise.resolve().then(() => {
+      playing.rngDialogBackup = new Uint8Array(fb.indices)
+      playing.suspendRaf = false
+      if (playing.eventCursor?.waiting === 'rng-play') {
+        playing.eventCursor.waiting = undefined
+      }
+    })
+  })
+  gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
+  gs.mode = 'event'
+  return {
+    gs,
+    fb,
+    async tick(pressed: AbstractKey[] = []) {
+      now += 100
+      gs.nowMs = now
+      tickEventSystem(gs, { pressed: new Set(pressed), held: new Set(), frameNum: 0 }, bus)
+      await Promise.resolve()
+      presentFrame(fb, gs, ctx)
+    },
+  }
+}
+
+afterEach(() => {
+  setRngPlayHandler(null)
+  vi.restoreAllMocks()
+})
+
+describe('RNG screen ownership at script redraw', () => {
+  it.each([
+    false,
+    true,
+  ])('redraw restores the scene before ordinary dialog (fade=%s)', async (fade) => {
+    // Original temple sequence: 2248 PlayRNG, 2249 FadeOut, 2250/2252
+    // position/pose, 2260 redraw, 2261 ordinary dialog. No loadScene occurs.
+    const { gs, fb, tick } = cutscene([
+      { op: 'raw', opcode: 0x36, operands: [1, 0, 0] },
+      { op: 'raw', opcode: 0x37, operands: [267, 0, 16] },
+      ...(fade ? [{ op: 'raw', opcode: 0x50, operands: [0, 0, 0] } satisfies Command] : []),
+      { op: 'raw', opcode: 0x46, operands: [21, 25, 0] },
+      { op: 'raw', opcode: 0x15, operands: [0, 9, 0] },
+      { op: 'raw', opcode: 0x05, operands: [0, 0, 0] },
+      { op: 'setDialogStyleBottom', arg0: 1 },
+      { op: 'showDialog', messageIndex: 800, text: '前辈！请您收我为徒。' },
+      { op: 'end' },
+    ])
+    for (let i = 0; i < 30 && gs.dialogBox?.currentLineText !== '前辈！请您收我为徒。'; i++) {
+      await tick()
+    }
+    expect(gs.dialogBox?.currentLineText).toBe('前辈！请您收我为徒。')
+    // Observe the real scene and party pixels, not merely a cleared flag.
+    expect(fb.indices[0]).toBe(0)
+    expect(fb.indices.includes(PARTY_PIXEL)).toBe(true)
+    expect(gs.partyScriptedFrame[0]).toBe(9)
+  })
+
+  it.each([
+    false,
+    true,
+  ])('RNG dialog redraw preserves the background (open text=%s)', async (openText) => {
+    // The explicit RNG mode survives a redraw both before text and after a page.
+    // A later ordinary style also inherits it, as in original 35607/35617.
+    const { gs, fb, tick } = cutscene([
+      { op: 'raw', opcode: 0x36, operands: [9, 0, 0] },
+      { op: 'raw', opcode: 0x37, operands: [0, 1, 8] },
+      { op: 'setDialogStyleBottom', arg0: 9, arg2: 0xffff },
+      ...(openText
+        ? [{ op: 'showDialog', messageIndex: 12202, text: '你已经无路可逃了' } satisfies Command]
+        : []),
+      { op: 'raw', opcode: 0x05, operands: [0, 0, 0] },
+      { op: 'setDialogStyleBottom', arg0: 29 },
+      { op: 'showDialog', messageIndex: 12212, text: '终于恢复和平的日子' },
+      { op: 'end' },
+    ])
+    for (let i = 0; i < 20 && gs.dialogBox?.currentLineText !== '终于恢复和平的日子'; i++) {
+      await tick(['Confirm'])
+    }
+    expect(gs.dialogBox?.currentLineText).toBe('终于恢复和平的日子')
+    expect(fb.indices[0]).toBe(ANIMATION_PIXEL)
+    expect(fb.indices.includes(PARTY_PIXEL)).toBe(false)
+  })
+})

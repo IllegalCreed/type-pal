@@ -1,0 +1,37 @@
+import { chromium } from '/Users/zhangxu/illegal/type-pal/node_modules/playwright/index.mjs'
+import { writeFile } from 'node:fs/promises'
+const phase = process.argv[2] ?? 'before'
+const browser = await chromium.launch({channel:'chrome', headless:true})
+const events = [], errors = []
+const page = await browser.newPage({viewport:{width:1200,height:800}})
+page.on('pageerror', e => errors.push(String(e)))
+const state = () => page.evaluate(() => {
+  const g=window.__tpgs
+  return {scene:g?.wNumScene, mode:g?.mode, cursor:g?.eventCursor && {ip:g.eventCursor.ip,waiting:g.eventCursor.waiting}, party:g?.party, rngFrameActive:g?.rngFrameActive ?? false, dialogPlayingRNG:g?.dialogPlayingRNG ?? false, backup:!!g?.rngDialogBackup, suspendRaf:g?.suspendRaf ?? false, line:g?.dialogBox?.currentLineText, lines:g?.dialogBox?.shownLines, rng:g?.iCurPlayingRNG}
+})
+try {
+ await page.goto('http://localhost:6005/?skip-intro=1&dev-scene=11')
+ await page.waitForFunction(() => window.__tpgs?.mode==='explore', {timeout:45000})
+ console.log('boot',JSON.stringify(await state()))
+ // Diagnostic placement only; real scene proximity and the original L_2205 trigger run unchanged.
+ await page.evaluate(()=>{const g=window.__tpgs;g.party.x=736;g.party.y=400;g.camera.x=576;g.camera.y=288})
+ await page.waitForFunction(()=>window.__tpgs?.mode==='event')
+ const start=Date.now()
+ let last=''
+ while(Date.now()-start<60000) {
+  const s=await state(), key=JSON.stringify(s.cursor)
+  if(key!==last){events.push(s);console.log(JSON.stringify(s));last=key}
+  if(s.cursor?.ip===2263 && !events.some(e=>e.checkpoint==='after-redraw-dialog')) {
+   await page.screenshot({path:`/tmp/type-pal-issue-3/${phase}-dialog.png`})
+   events.push({checkpoint:'after-redraw-dialog',...s})
+  }
+  if(s.mode==='explore' && events.some(e=>e.checkpoint==='after-redraw-dialog')) {
+   await page.screenshot({path:`/tmp/type-pal-issue-3/${phase}-completed.png`})
+   events.push({checkpoint:'completed-in-temple',...s}); break
+  }
+  if(!s.suspendRaf && s.cursor?.waiting==='dialog') await page.keyboard.press('Space')
+  await new Promise(r=>setTimeout(r,120))
+ }
+ console.log('RESULT',JSON.stringify(await state()))
+ await writeFile(`/tmp/type-pal-issue-3/${phase}-browser.json`,JSON.stringify({phase,events,errors},null,2))
+} finally {await browser.close()}

@@ -1437,7 +1437,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
-      "afterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+      "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
       "sourceRefs": [
         {
           "path": "docs/phase2/READ-FIRST.md",
@@ -1459,6 +1459,13 @@
           "anchor": "import iconv from 'iconv-lite'",
           "role": "body-source-reference",
           "sha256": "67d6c4d73113aef34f85e608d112c9c64b51d2f4a624919eef7f139f475fa3dd"
+        },
+        {
+          "path": "packages/game/src/core/event-system.ts",
+          "lines": "2447-2453",
+          "anchor": "普通0x05在进入RNG背景对话前释放末帧所有权",
+          "role": "issue-3-fix",
+          "sha256": "c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397"
         }
       ],
       "publicCallers": ["`pnpm extract", "`git log --since=<日期>"],
@@ -1482,8 +1489,8 @@
         "notes": "Inventory entry only; no runtime, E2E, visual or coverage credit."
       },
       "revision": {
-        "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+        "currentSha": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+        "implementationSha": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -1492,6 +1499,17 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+            "date": "2026-10-14",
+            "action": "issue-3-RNG-screen-ownership-addendum",
+            "workingTree": true,
+            "previousAfterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+            "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+            "reviewedRanges": ["142-152"],
+            "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+            "scope": "新增已复现的RNG末帧生命周期经验，未重审其它既有条目。"
           }
         ]
       },
@@ -1505,12 +1523,23 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+          "date": "2026-10-14",
+          "action": "issue-3-RNG-screen-ownership-addendum",
+          "workingTree": true,
+          "previousAfterSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
+          "afterSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+          "reviewedRanges": ["142-152"],
+          "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
+          "scope": "新增已复现的RNG末帧生命周期经验，未重审其它既有条目。"
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-14"
     },
     {
       "id": "docs-phase1-game-mechanics",

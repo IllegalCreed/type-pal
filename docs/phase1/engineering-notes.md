@@ -139,6 +139,16 @@ sdlpal `text.c:1649-1658`在同一次ShowDialogText调用内等键/清页后继�
 - 修:`repairTilemapSeams`(draw-tilemap.ts;drawTilemap 传 coverage mask 标记已画像素 → 没画的用最近邻地形逐圈 dilation 填,在两层 tilemap 之后、applyScreenWave 之前)。**关键:用 coverage 判漏黑,不能用 `indices===0`**(瓦片可合法画 opaque index-0)。
 - ⚠ 改 present/渲染循环后 Vite HMR 常不重载 rAF loop,要硬刷/重启 dev 才见效。
 
+### RNG 末帧不能跨场景重绘复活
+
+2026-10-14 [issue #3](https://github.com/IllegalCreed/type-pal/issues/3)：酒剑仙传功后动画末帧遮住跪拜，
+人物可移动、出门恢复。当前本地 Chrome 同样复现，不能先认定为线上缓存/慢网缺陷。
+原始 2248 PlayRNG → 2260 redraw → 2261 普通对话中，0x05 未使 rngFrameActive 失效，
+maybeEnterDialogRNG 因旧标记重新锁定备份。普通重绘须在淡入/延时前清标记和备份；已进入 RNG 对话的
+redraw 仍恢复背景，不能在播放器 finally 无条件清（会破坏求雨/结局）。
+当前窄修仅覆盖进入背景对话前的 redraw；不把 dialogPlayingRNG 的双重含义当作参考实现 fPlayingRNG 的完整等价。
+原始调用集、反控和实际画面见[任务证据](../ops/evidence/game-rng-scene-restore-1/README.md)。
+
 ### 3.9 SW 离线预缓存
 `packages/game/public/sw.js` + `src/shell/precache-{client,ui}.ts` + `boot-loading.ts` + bootstrap onPresent。
 - **两段进度条**:虚线前(0→12%)= 必要资源前台 fetch 计数(`ui.setNecessaryProgress`);虚线后(12→100%)= SW 全量 `bytes/total`(`ui.setFullProgress`)。按钮卡在虚线(=必要资源就绪 `onPlayable`)。

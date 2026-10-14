@@ -1,0 +1,4 @@
+JSON report written to /tmp/type-pal-issue-3/red.json
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/event-rng-scene-restore.test.ts --reporter=json --outputFile=/tmp/type-pal-issue-3/red.json

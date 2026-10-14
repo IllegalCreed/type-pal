@@ -94,6 +94,15 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 - **整文件仍未关闭**：`magic-script.ts` 的完整当前 spell chain/unsupported-op/input/step-limit 合同待核；`magic-script.test.ts` 还存在无断言伪 applyAll 用例、`as unknown as Spell` fixture 与 poison table cleanup 范围待精简/隔离审查。本卡只验复活行为切片，两文件登记 review，closed 不增加。
 - evidence：`docs/ops/evidence/CODE-QUALITY-90/`；protected fast、最终 lint-zero、ledger 与分支提交/推送回执尚待完成。
 
+## 最新主线同步（2026-10-14）
+
+- 修复/复活反例/旧基点质量与失败原件已以 review 检查点 `d7e9831f4` 提交并推送 `codex/code-quality-3y`；未合 main，未闭合文件。
+- 主线随后新增 `579cdf668`（静态音频 chunk）、`d24981591`（RNG 普通 redraw 清遗留帧）和 `5116cd5bb`（库存纠正）。已 fetch，在隔离治理分支合入 origin/main；合并冲突只位于账本/证据导航/审查 JSON，保留双方记录与历史，没有改主工作树。
+- 完整读取新增 RNG 任务卡/124行专属测试；核源差分 event-system/game-state/vite。RNG 实现保持主线原样，未扩大其产品范围或更改其任务状态。
+- 默认fast两次CLI超时、workers2 editor断言失败、verbose probe的3条act诊断都保留原件；旧基点在跑的workers1 fast因主线推进而精确取消，仅结束确认属于本工作树的5个自有进程，receipt exit130，不算通过。
+- 新机器计数：3271 inventory / 370 closed / 12 review / 2889 pending。新增 RNG 测试只计pending；event-system 最新机制改动尚未做本专项整文件复核，由旧已验证保守转review，历史 CODE3r 结论保留。
+- magic-script 两文件源码字节未变，但最新集成基点的定向/typecheck、full check、official ratchet、protected fast、lint-zero、docs/content-review/ledger需重新实测；此前所有全门回执明确属于旧基点，不冒充最新基点结果。
+
 ## 交接日志
 
 - 2026-10-14 用户裁决后 Codex: 补读 `global.c:2279-2344` 与 `game-mechanics.md:1517-1539`；确认 `PAL_RemovePlayerStatus` 只清 `<=999`，`>999` 装备永久状态必须保留。Next: 先写失败反例，再实现单体/全体最小修复并跑相邻质量门。
@@ -108,8 +117,8 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 你的角色: Codex 验收者，继续本行为切片的质量门与提交；不得把整文件 review 改已验证
 先读: AGENTS.md、CLAUDE.md、docs/phase1/game-mechanics.md:1453,1483,1517-1539、SDLPal script.c:1052-1102 / global.c:2279-2344、magic-script.ts/测试、evidence/CODE-QUALITY-90/
 已完成: 单体/全体仅阵亡角色清 <=999、保留 >999 装备效果；先红2失败/29通过后绿31通过；518相邻tests、4精确mutations、game typecheck/Biome、full check与lint零诊断均通过
-请你做: 检查 official ratchet 完整通过回执（首次5个CLI超时保留原件）；检查 protected fast workers=1 当前完整回执；两次默认CLI超时与workers2 editor失败均保留exit1原件；editor probe虽两断言绿但有3条act诊断，不能accept 与最终lint/docs/content-review/ledger；证据补齐后收行为任务并commit/push治理分支
+请你做: 先核最新 origin/main 5116cd5bb 及治理分支同步；最新基点重新跑定向/typecheck/full check/official ratchet/protected fast与最终静态/文档/ledger；旧基点的 official ratchet 完整通过回执（首次5个CLI超时保留原件）；检查 protected fast workers=1 当前完整回执；两次默认CLI超时与workers2 editor失败均保留exit1原件；editor probe虽两断言绿但有3条act诊断，不能accept 与最终lint/docs/content-review/ledger；证据补齐后收行为任务并commit/push治理分支
 整文件剩余: magic-script全script-chain/input/unsupported-op/step-limit；测试无断言伪用例、Spell fixture、poison table隔离。两文件保持review，不增加closed
 下一批候选: 先完整审 magic-script 两文件未闭合项，或不重叠 sell-menu.ts 与三份专属测试；已对 sell-menu 四文件只读，不等于已完成核验
 不要做: 不清 >999；不改phase2 grantedStatuses模型、schema/save、battle runner或poison key；不混入主工作树改动；本分支含其它未收口治理卡，禁止直接合main
-输出要求: 定向与全仓门实际回执、直接oracle/反控、账本371closed/11review/2888pending与分支ahead/behind；尚有失败时继续review，不宣称专项完成
+输出要求: 定向与全仓门实际回执、直接oracle/反控、账本3271inventory/370closed/12review/2889pending与分支ahead/behind；尚有失败时继续review，不宣称专项完成

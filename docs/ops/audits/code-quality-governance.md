@@ -225,6 +225,8 @@ Q3y / CODE-QUALITY-91 已完成 `inventory-action-menu.ts` 与两份状态测试
 
 Q3y / CODE-QUALITY-90 phase1 magic revive 行为切片进入 review：`magic-script.ts` 漏调用 status removal 已经先红后绿修复，单体/全体清 `<=999`，保留 `>999` 武器/装备效果；31 定向与 518 相邻 tests、game typecheck/Biome、full check/lint4022零诊断通过，ratchet 原命令重试完整通过并提升6项基线，protected fast 超时按原命令重试，最终回执待续。两份文件完整读取后仍有完整 script-chain、unsupported-op/input/step-limit 与测试精简/fixture/隔离项待核，**不按行为切片或包级全绿关闭文件**；只登记两条 review。当前 inventory3,270：closed371、review11、pending2,888；CODE53/57/79/80/81 和其它 pending 继续原状态，二阶段显式 grantedStatuses/status 模型未动。
 
+2026-10-14 最新主线同步到 `5116cd5bb`：保留 RNG 功能任务与静态音频分包，新增 RNG 测试只计pending；event-system 最新机制改动保守重开review，旧CODE3r结论留作历史。机器库存3271：closed370/review12/pending2889。CODE90修复检查点d7e9831f4已推送但仍review；旧基点门/失败原件保留，最新集成基点质量门须重跑，不以同步或包级全绿自动关闭任何文件。
+
 同一文件同一时间只有 Codex 作为 Coding Owner；Q2–Q6 不能因为清单已生成就自动进入 build。每个批次闭合问题
 清单后停止，跑定向/相邻测试、受影响 typecheck、Biome 零诊断，再按风险串行全仓 `pnpm check` → 官方 ratchet →
 受保护 strict；不借测试候选或历史门替代独立验收。

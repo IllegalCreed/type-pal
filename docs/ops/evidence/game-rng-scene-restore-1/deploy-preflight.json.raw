@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-14",
+  "site": "https://pal.illegalscreed.cn",
+  "target": "app",
+  "manifestEqual": true,
+  "manifestSha256": "11a09ac629d6f28dd1242074372562469ac756d404a166561e92f3a064bc61b3",
+  "manifestVersion": "937548870e77bfea",
+  "copyrightCommit": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+  "copyrightCommitAncestorVerified": true,
+  "script": "scripts/deploy.sh",
+  "rollbackDirectory": "/var/www/type-pal/dist.old"
+}

@@ -511,14 +511,16 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
+      "readMethod": "prior-full-reading-plus-governance-and-origin-main-delta-read-20261014",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；CODE82 DATA.MKF 诊断与 CODE83 menu mode/stack 已归档 done；复合 dev-panel 与既有 GLM 测试继续待核。",
+      "coreConclusion": "治理分支历史增量：CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；CODE82 DATA.MKF 诊断与 CODE83 menu mode/stack 已归档 done；复合 dev-panel 与既有 GLM 测试继续待核。；主线本次增量：2026-10-14：新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
       "truthAnchors": [
         "docs/ops/board.md:7",
         "docs/ops/board.md:8",
         "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:11",
-        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11"
+        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
+        "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "编辑器完整world/条件/auto/接管与在途动作恢复、E2E采集待续。",
@@ -532,7 +534,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
+      "afterSha256": "253d3907a2a35eb167c0acb03c8034db169993f14fdf893b3efb1f3e9c863e9a",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -563,7 +565,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
+        "implementationSha": "253d3907a2a35eb167c0acb03c8034db169993f14fdf893b3efb1f3e9c863e9a",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -940,8 +942,44 @@
             "afterSha256": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
             "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-11",
+            "action": "three-glm-test-integration-navigation-review",
+            "previousAfterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
+            "notRun": ["E2E", "visual", "new GitHub CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+            "workingTree": true,
+            "action": "issue-3-fix-evidence-delta-review",
+            "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+            "afterSha256": "bad86c72864758cdeb0e9d0f015048f4fbb9a2620be26ef7ee98970630ed7da9",
+            "reviewedRanges": ["7-7"],
+            "scope": "新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
+            "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-origin-main-5116-sync-review",
+            "previousAfterSha256": "b7fb1069b21385430b13495b59beebca5608b1c9c8418c6e65dc4b665be8715f",
+            "afterSha256": "253d3907a2a35eb167c0acb03c8034db169993f14fdf893b3efb1f3e9c863e9a",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+            "scope": "Preserve governance histories and RNG review/task/evidence entry; no new product or file closure",
+            "notRun": [
+              "latest-base full check",
+              "latest-base coverage ratchet",
+              "latest-base protected fast",
+              "E2E",
+              "hosted CI"
+            ]
           }
-        ]
+        ],
+        "integrationBase": "5116cd5bb5b582ae3d3a6b8d65cb8953ac755239"
       },
       "evidence": {
         "kind": "content-reading",
@@ -970,10 +1008,10 @@
         ],
         "afterSha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
         "currentReading": {
-          "date": "2026-10-13",
-          "sha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
-          "lineCount": 25,
-          "scope": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；复合 dev-panel 与既有 GLM 测试继续待核。",
+          "date": "2026-10-14",
+          "sha256": "253d3907a2a35eb167c0acb03c8034db169993f14fdf893b3efb1f3e9c863e9a",
+          "lineCount": 27,
+          "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1059,7 +1097,15 @@
             "scope": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；复合 dev-panel 与既有 GLM 测试继续待核。",
             "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
-        ]
+        ],
+        "originMainReading": {
+          "date": "2026-10-14",
+          "sha256": "bad86c72864758cdeb0e9d0f015048f4fbb9a2620be26ef7ee98970630ed7da9",
+          "lineCount": 21,
+          "reviewedRanges": ["7-7"],
+          "scope": "新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
+          "method": "prior-content-review-plus-current-delta-and-primary-evidence"
+        }
       },
       "history": [
         {
@@ -1261,6 +1307,17 @@
           "action": "code-quality-53-product-decision-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-14",
+          "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+          "workingTree": true,
+          "action": "issue-3-fix-evidence-delta-review",
+          "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+          "afterSha256": "bad86c72864758cdeb0e9d0f015048f4fbb9a2620be26ef7ee98970630ed7da9",
+          "reviewedRanges": ["7-7"],
+          "scope": "新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
+          "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         }
       ],
       "supersedes": [],
@@ -1293,16 +1350,19 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
+      "readMethod": "prior-full-reading-plus-governance-and-origin-main-delta-read-20261014",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "CODE80 质量证据、CODE81 全量质量门、CODE82 DATA.MKF 与 CODE83 menu mode/stack 证据已入导航；CODE81 仅新增测试文件关闭，CODE82/CODE83 已归档 done，复合生产文件与既有 GLM 测试继续 pending。",
+      "coreConclusion": "治理分支历史增量：CODE80 质量证据、CODE81 全量质量门、CODE82 DATA.MKF 与 CODE83 menu mode/stack 证据已入导航；CODE81 仅新增测试文件关闭，CODE82/CODE83 已归档 done，复合生产文件与既有 GLM 测试继续 pending。；主线本次增量：2026-10-14：新增 issue #3 证据入口，直接核真实 Chrome 修前修后、四合同、隔离反控原件；保留生产尚未发布和完整 E2E 未验的边界。",
       "truthAnchors": [
         "docs/ops/evidence/README.md:8",
         "docs/ops/evidence/README.md:15",
         "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
         "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1.md:157",
         "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1.md:85",
-        "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md:122"
+        "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md:122",
+        "docs/ops/evidence/README.md:9",
+        "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "TURN-BOUNDARIES原生反控原件、合法输入及阶段可达性待补。",
@@ -1315,7 +1375,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
+      "afterSha256": "c08583d069bd0aeb34a1218a3fe3006f774c12a8b0a6b8836aa3213e6a3d1e32",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1349,7 +1409,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
+        "implementationSha": "c08583d069bd0aeb34a1218a3fe3006f774c12a8b0a6b8836aa3213e6a3d1e32",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1492,9 +1552,35 @@
             "afterSha256": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
             "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+            "workingTree": true,
+            "action": "issue-3-fix-evidence-delta-review",
+            "previousAfterSha256": "e5d004cb53c483e0b9ef5ff139ac5318ce2c54d272d2230006748d1b659e8ca8",
+            "afterSha256": "7193c182178c837d8ae558d3fddd4270a02247f4aa550a60922230c24ee2bfc4",
+            "reviewedRanges": ["9-9"],
+            "scope": "新增 issue #3 证据入口，直接核真实 Chrome 修前修后、四合同、隔离反控原件；保留生产尚未发布和完整 E2E 未验的边界。",
+            "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-origin-main-5116-sync-review",
+            "previousAfterSha256": "b0f205833548d2d7440867815a86553eeea8961ef8a6d562f72e351748d7148f",
+            "afterSha256": "c08583d069bd0aeb34a1218a3fe3006f774c12a8b0a6b8836aa3213e6a3d1e32",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+            "scope": "Preserve governance histories and RNG review/task/evidence entry; no new product or file closure",
+            "notRun": [
+              "latest-base full check",
+              "latest-base coverage ratchet",
+              "latest-base protected fast",
+              "E2E",
+              "hosted CI"
+            ]
           }
         ],
-        "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
+        "integrationBase": "5116cd5bb5b582ae3d3a6b8d65cb8953ac755239"
       },
       "evidence": {
         "kind": "content-reading",
@@ -1516,10 +1602,10 @@
         ],
         "afterSha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
         "currentReading": {
-          "date": "2026-10-13",
-          "sha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
-          "lineCount": 55,
-          "scope": "CODE80 质量证据与 CODE81 全量质量门已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
+          "date": "2026-10-14",
+          "sha256": "c08583d069bd0aeb34a1218a3fe3006f774c12a8b0a6b8836aa3213e6a3d1e32",
+          "lineCount": 67,
+          "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -1564,7 +1650,15 @@
             "scope": "CODE80 质量证据与 CODE81 全量质量门已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
             "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
-        ]
+        ],
+        "originMainReading": {
+          "date": "2026-10-14",
+          "sha256": "7193c182178c837d8ae558d3fddd4270a02247f4aa550a60922230c24ee2bfc4",
+          "lineCount": 53,
+          "reviewedRanges": ["9-9"],
+          "scope": "新增 issue #3 证据入口，直接核真实 Chrome 修前修后、四合同、隔离反控原件；保留生产尚未发布和完整 E2E 未验的边界。",
+          "method": "prior-content-review-plus-current-delta-and-primary-evidence"
+        }
       },
       "history": [
         {
@@ -1579,6 +1673,17 @@
           "action": "main-sync-navigation-sha-refresh",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-14",
+          "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+          "workingTree": true,
+          "action": "issue-3-fix-evidence-delta-review",
+          "previousAfterSha256": "e5d004cb53c483e0b9ef5ff139ac5318ce2c54d272d2230006748d1b659e8ca8",
+          "afterSha256": "7193c182178c837d8ae558d3fddd4270a02247f4aa550a60922230c24ee2bfc4",
+          "reviewedRanges": ["9-9"],
+          "scope": "新增 issue #3 证据入口，直接核真实 Chrome 修前修后、四合同、隔离反控原件；保留生产尚未发布和完整 E2E 未验的边界。",
+          "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         }
       ],
       "supersedes": [],
@@ -2177,14 +2282,17 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-text-review-plus-current-delta-and-primary-evidence-read-20261013",
+      "readMethod": "prior-full-reading-plus-governance-and-origin-main-delta-read-20261014",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 为 review，CODE82/CODE83 已归档 done；生成导航不重新验收历史任务。",
+      "coreConclusion": "治理分支历史增量：官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 为 review，CODE82/CODE83 已归档 done；生成导航不重新验收历史任务。；主线本次增量：2026-10-14：官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
       "truthAnchors": [
         "docs/ops/tasks/index.md:7",
         "docs/ops/tasks/index.md:14",
         "docs/ops/tasks/index.md:17",
-        "scripts/docs/check.mjs:67"
+        "scripts/docs/check.mjs:67",
+        "docs/ops/tasks/index.md:15",
+        "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2196,7 +2304,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
+      "afterSha256": "1245ba7dafbccfae8860f36d6d21c6e2eb2dbd61dd45239baa924be8fd49e955",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2232,7 +2340,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
+        "implementationSha": "1245ba7dafbccfae8860f36d6d21c6e2eb2dbd61dd45239baa924be8fd49e955",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2621,8 +2729,45 @@
             "afterSha256": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
             "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
             "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
+            "date": "2026-10-11",
+            "action": "E2E-integration-delta-review",
+            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+            "previousAfterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
+            "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+            "reviewedRanges": ["123-123"],
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-14",
+            "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+            "workingTree": true,
+            "action": "issue-3-fix-evidence-delta-review",
+            "previousAfterSha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
+            "afterSha256": "3baad60ceee0b260cccdfd4a88517c2bb6461ca42cda61503eccf82f29501ac9",
+            "reviewedRanges": ["15-15"],
+            "scope": "官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
+            "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-90-origin-main-5116-sync-review",
+            "previousAfterSha256": "ff0da0877e83360648b392fb450cfe8f252018ef5f183451cb4e3271201d769d",
+            "afterSha256": "1245ba7dafbccfae8860f36d6d21c6e2eb2dbd61dd45239baa924be8fd49e955",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+            "scope": "Preserve governance histories and RNG review/task/evidence entry; no new product or file closure",
+            "notRun": [
+              "latest-base full check",
+              "latest-base coverage ratchet",
+              "latest-base protected fast",
+              "E2E",
+              "hosted CI"
+            ]
           }
-        ]
+        ],
+        "integrationBase": "5116cd5bb5b582ae3d3a6b8d65cb8953ac755239"
       },
       "evidence": {
         "kind": "content-reading",
@@ -2655,10 +2800,10 @@
         ],
         "afterSha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
         "currentReading": {
-          "date": "2026-10-13",
-          "sha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
-          "lineCount": 423,
-          "scope": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 均为 review；生成导航不重新验收历史任务。",
+          "date": "2026-10-14",
+          "sha256": "1245ba7dafbccfae8860f36d6d21c6e2eb2dbd61dd45239baa924be8fd49e955",
+          "lineCount": 434,
+          "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
           "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
         },
         "readingHistory": [
@@ -2764,7 +2909,15 @@
             "scope": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 均为 review；生成导航不重新验收历史任务。",
             "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
-        ]
+        ],
+        "originMainReading": {
+          "date": "2026-10-14",
+          "sha256": "3baad60ceee0b260cccdfd4a88517c2bb6461ca42cda61503eccf82f29501ac9",
+          "lineCount": 379,
+          "reviewedRanges": ["15-15"],
+          "scope": "官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
+          "method": "prior-content-review-plus-current-delta-and-primary-evidence"
+        }
       },
       "history": [
         {
@@ -2989,6 +3142,17 @@
           "action": "code-quality-53-product-decision-navigation",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-14",
+          "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+          "workingTree": true,
+          "action": "issue-3-fix-evidence-delta-review",
+          "previousAfterSha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
+          "afterSha256": "3baad60ceee0b260cccdfd4a88517c2bb6461ca42cda61503eccf82f29501ac9",
+          "reviewedRanges": ["15-15"],
+          "scope": "官方生成器新增 GAME-RNG-SCENE-RESTORE-1 review 入口，共359张任务卡，其它任务状态不变。",
+          "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         }
       ],
       "supersedes": [],
