@@ -1,0 +1,403 @@
+{
+  "base": "http://127.0.0.1:6006",
+  "started": "2026-10-14T03:12:32.791Z",
+  "errors": [],
+  "failed": [
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "error": {
+        "errorText": "net::ERR_FAILED"
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "log",
+      "text": "[bootstrap] global script array loaded:43503 commands(单一全局脚本数组)"
+    },
+    {
+      "type": "log",
+      "text": "[bootstrap] preloading 29 cutscene party sprite(s): [193, 208, 232, 627, 361, 228, 236, 242, 245, 259, 273, 394, 379, 385, 511, 532, 534, 533, 541, 521, 538, 550, 607, 563, 531, 576, 630, 631, 632]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0073 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [4, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x008e [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x008e [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [8, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [4, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [4, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [12, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0070 [41, 18, 1]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0070 [42, 18, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [2, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [5, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [10, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0009 [3, 0, 0]"
+    },
+    {
+      "type": "debug",
+      "text": "event-system: skip raw opcode=0x0005 [0, 0, 0]"
+    },
+    {
+      "type": "log",
+      "text": "[bootstrap] startup ready, SCENE_ID= 1 skipIntro= true build= win95"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    }
+  ],
+  "resources": [
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": false
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": false
+    },
+    {
+      "url": "http://127.0.0.1:6006/soundfont.sf3",
+      "status": 200,
+      "sw": false
+    },
+    {
+      "url": "http://127.0.0.1:6006/extracted/music/031.mid",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "sw": true
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "status": 200,
+      "sw": true
+    }
+  ],
+  "disclaimer": "非官方同人项目，与大宇、软星及《仙剑奇侠传》权利人无关。原版资源仅供学习交流，权利人如有要求将立即下架。请支持正版。\nUnofficial fan project. Not affiliated with Softstar. For study only; removed on request. Please support the official game.",
+  "smallLayout": {
+    "x": 113.5,
+    "y": 250.59375,
+    "width": 440,
+    "height": 82.875
+  },
+  "audio": [
+    {
+      "state": "running",
+      "peak": 0.21343551576137543
+    },
+    {
+      "state": "running",
+      "peak": 0.14337408542633057
+    }
+  ],
+  "serviceWorker": {
+    "controller": "http://127.0.0.1:6006/sw.js",
+    "secure": true
+  },
+  "cacheInventory": [
+    {
+      "name": "type-pal-937548870e77bfea",
+      "assets": []
+    }
+  ],
+  "cacheBeforeOffline": {
+    "keys": [
+      "type-pal-937548870e77bfea"
+    ],
+    "matches": [
+      {
+        "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+        "headers": null
+      },
+      {
+        "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+        "headers": null
+      }
+    ]
+  },
+  "cacheReads": [
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "status": 200,
+      "bytes": 381033
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "status": 200,
+      "bytes": 268030
+    }
+  ],
+  "offlineChunks": [
+    {
+      "url": "http://127.0.0.1:6006/assets/index-CTToMLs2.js",
+      "error": "TypeError: Failed to fetch",
+      "cacheBytes": null
+    },
+    {
+      "url": "http://127.0.0.1:6006/assets/audio-T8kdK6_l.js",
+      "error": "TypeError: Failed to fetch",
+      "cacheBytes": null
+    }
+  ],
+  "failure": "Error: Offline chunk cache not confirmed",
+  "finished": "2026-10-14T03:12:40.779Z"
+}

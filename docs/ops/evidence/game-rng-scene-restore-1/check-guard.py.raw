@@ -1,0 +1,45 @@
+import hashlib,json,pathlib,shutil,subprocess,tempfile
+repo=pathlib.Path('/Users/zhangxu/illegal/type-pal')
+out=pathlib.Path('/tmp/type-pal-issue-3')
+root=pathlib.Path(tempfile.mkdtemp(prefix='issue-3-guard-',dir=repo/'build'))
+pkg=root/'game'
+pkg.mkdir()
+source=repo/'packages/game/src/core/event-system.ts'
+test=repo/'packages/game/src/core/event-rng-scene-restore.test.ts'
+hashfile=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+report={'originalSourceSha256':hashfile(source),'testSha256':hashfile(test),'temporaryRoot':str(root),'runs':[]}
+try:
+ shutil.copytree(repo/'packages/game/src',pkg/'src')
+ for name in ['package.json','vitest.config.ts','vitest.setup.ts']:
+  shutil.copy2(repo/'packages/game'/name,pkg/name)
+ (pkg/'node_modules').symlink_to(repo/'packages/game/node_modules',target_is_directory=True)
+ target=pkg/'src/core/event-system.ts';original=target.read_text()
+ needle='if (!gs.dialogPlayingRNG) {'
+ assert original.count(needle)==1
+ mutant=original.replace(needle,'{',1)
+ for name,content in [('guard-baseline',original),('guard-mutant',mutant),('guard-restored',original)]:
+  target.write_text(content)
+  raw=out/f'{name}.json'
+  command=[str(repo/'node_modules/.bin/vitest'),'run','src/core/event-rng-scene-restore.test.ts','--reporter=json',f'--outputFile={raw}']
+  run=subprocess.run(command,cwd=pkg,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
+  (out/f'{name}.log').write_text(run.stdout)
+  parsed=json.loads(raw.read_text())
+  tests=[{'file':suite['name'],'fullName':t['fullName'],'status':t['status'],'failureMessages':t['failureMessages']} for suite in parsed['testResults'] for t in suite['assertionResults']]
+  entry={'name':name,'command':command,'cwd':str(pkg),'exit':run.returncode,'signal':None,'spawnError':None,'sourceSha256':hashfile(target),'testSha256':hashfile(pkg/'src/core/event-rng-scene-restore.test.ts'),'raw':raw.name,'tests':tests}
+  report['runs'].append(entry)
+  print(name,run.returncode,[(t['status'],t['fullName']) for t in tests],flush=True)
+  assert len(tests)==4
+  bad=[t for t in tests if t['status']!='passed']
+  if name=='guard-mutant':
+   assert run.returncode==1 and len(bad)==1 and 'open text=false' in bad[0]['fullName']
+   assert len(bad[0]['failureMessages'])==1 and bad[0]['failureMessages'][0].startswith('AssertionError: expected +0 to be 173')
+  else:assert run.returncode==0 and not bad
+ report['testSetsIdentical']=all([(t['file'],t['fullName']) for t in r['tests']]==[(t['file'],t['fullName']) for t in report['runs'][0]['tests']] for r in report['runs'])
+ assert report['testSetsIdentical']
+ report['success']=True
+finally:
+ report['originalSourceUnchanged']=hashfile(source)==report['originalSourceSha256']
+ report['originalTestUnchanged']=hashfile(test)==report['testSha256']
+ shutil.rmtree(root)
+ report['temporaryRootRemoved']=not root.exists()
+ (out/'guard-counter-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')

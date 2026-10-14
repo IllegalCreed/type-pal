@@ -1,0 +1,143 @@
+{
+  "originalSourceSha256": "c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397",
+  "testSha256": "5b2795bc962361c67cae6889256f4340cdeeb0ece790df8faae00497e193cfd9",
+  "temporaryRoot": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0",
+  "runs": [
+    {
+      "name": "guard-baseline",
+      "command": [
+        "/Users/zhangxu/illegal/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/event-rng-scene-restore.test.ts",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-issue-3/guard-baseline.json"
+      ],
+      "cwd": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397",
+      "testSha256": "5b2795bc962361c67cae6889256f4340cdeeb0ece790df8faae00497e193cfd9",
+      "raw": "guard-baseline.json",
+      "tests": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=false)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=true)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw RNG dialog redraw preserves the background (open text=false)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw RNG dialog redraw preserves the background (open text=true)",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "name": "guard-mutant",
+      "command": [
+        "/Users/zhangxu/illegal/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/event-rng-scene-restore.test.ts",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-issue-3/guard-mutant.json"
+      ],
+      "cwd": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "75c642b8d1330b16cacc2eb1946de125c078efaa248dc6e468cc541d55b9e8ae",
+      "testSha256": "5b2795bc962361c67cae6889256f4340cdeeb0ece790df8faae00497e193cfd9",
+      "raw": "guard-mutant.json",
+      "tests": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=false)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=true)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw RNG dialog redraw preserves the background (open text=false)",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected +0 to be 173 // Object.is equality\n    at /Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts:121:27\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw RNG dialog redraw preserves the background (open text=true)",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "name": "guard-restored",
+      "command": [
+        "/Users/zhangxu/illegal/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/event-rng-scene-restore.test.ts",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-issue-3/guard-restored.json"
+      ],
+      "cwd": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "c88115f88f729389d1bae4593814e26b2894ab6a41b1d3ac6cff317139f4d397",
+      "testSha256": "5b2795bc962361c67cae6889256f4340cdeeb0ece790df8faae00497e193cfd9",
+      "raw": "guard-restored.json",
+      "tests": [
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=false)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw redraw restores the scene before ordinary dialog (fade=true)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw RNG dialog redraw preserves the background (open text=false)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/illegal/type-pal/build/issue-3-guard-x1j81jm0/game/src/core/event-rng-scene-restore.test.ts",
+          "fullName": "RNG screen ownership at script redraw RNG dialog redraw preserves the background (open text=true)",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "testSetsIdentical": true,
+  "success": true,
+  "originalSourceUnchanged": true,
+  "originalTestUnchanged": true,
+  "temporaryRootRemoved": true
+}
