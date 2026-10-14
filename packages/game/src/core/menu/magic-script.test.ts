@@ -285,11 +285,17 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
   })
 
-  it('revive applyToAll 全活 → runner return false', () => {
+  it('revive applyToAll 全活 → return false 且不清活人状态', () => {
+    setGlobalEvents([
+      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_504' },
+      { op: 'end' },
+    ])
     const gs = mkGs() // 全活
-    const ok = runMagicScriptSync(gs, 39554, 0xffff) // 用 39554 fixture? — 是 0x1B,不对
-    // 改用 L_500 之外的真 revive applyToAll 测,新加 fixture L_504
-    void ok
+    gs.rgPlayerStatus[0]![2] = 999
+    gs.rgPlayerStatus[0]![8] = 1000
+    expect(runMagicScriptSync(gs, 504, 0xffff)).toBe(false)
+    expect(gs.rgPlayerStatus[0]![2]).toBe(999)
+    expect(gs.rgPlayerStatus[0]![8]).toBe(1000)
   })
 })
 
@@ -406,7 +412,7 @@ describe('castOverworldMagic - 双层 script', () => {
         applyToAll: false,
       },
       _name: 'test',
-    } as unknown as Spell
+    }
   }
 
   it('scriptOnUse=0 → skip,scriptOnSuccess 跑(气疗术真值场景)', () => {

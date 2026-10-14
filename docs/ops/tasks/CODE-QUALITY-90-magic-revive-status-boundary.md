@@ -91,7 +91,7 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 - check:fast（历史误标protected fast，已撤回）：默认并发两次因相同4个 pal-extract CLI 5000ms 超时失败，输出与exit1回执分别保留 `gate-protected-fast-timeouts*`。按已安装 Vitest 4.1.7 的官方 `VITEST_MAX_WORKERS=2` 接口限制文件并发，完整重跑同一 `pnpm check:fast`；pal-extract71/431通过，但全局设2同时覆盖editor原有单worker设置，editor出现1个业务失败（`BattleSpriteLibrary.glm-m.test.tsx:170`，expected apply.disabled=false / actual=true；631 files中1 failed，4951 tests中1 failed）。失败原件保留 `gate-protected-fast-workers2-editor-failure*`。单独重放2例exit0，但有3条React act诊断，**不计干净验收**。当前改用 `VITEST_MAX_WORKERS=1` 恢复editor原有并发，并限制其它包，完整门仍待续；timeout/测试范围/断言/静态规则未改，默认并发超时和editor抖动根因仍未知。
 - 高风险：第一阶段机制/用户可见行为；已在实现前完成 primary source 核验并取得用户裁决，无 schema/save/migration/资产/公共接口改动。
 - 第二阶段边界：`packages/reforge/src/battle/battle-core.ts:107-111` 单独区分 `status` 与 `grantedStatuses`；`:604-624` 复活只清临时 `status`。`packages/content/src/item.ts:36,449-462` 装备 `grantStatus` 实时派生。仅用作阶段区分证据，未修改、未关闭这些二阶段文件。
-- **整文件仍未关闭**：`magic-script.ts` 的完整当前 spell chain/unsupported-op/input/step-limit 合同待核；`magic-script.test.ts` 还存在无断言伪 applyAll 用例、`as unknown as Spell` fixture 与 poison table cleanup 范围待精简/隔离审查。本卡只验复活行为切片，两文件登记 review，closed 不增加。
+- **整文件仍未关闭**：`magic-script.ts` 的完整当前 spell chain/unsupported-op/input/step-limit 合同待核；`magic-script.test.ts` 的无断言伪 applyAll 用例已改成活人状态不变 oracle，`Spell` fixture 已改为完整公共类型；poison table cleanup、其余 synthetic fixture 与完整 script-chain/input/unsupported-op/step-limit 合同仍待隔离审查。本卡只验复活行为切片，两文件登记 review，closed 不增加。
 - evidence：`docs/ops/evidence/CODE-QUALITY-90/`；protected fast、最终 lint-zero、ledger 与分支提交/推送回执尚待完成。
 
 ## 最新主线同步（2026-10-14）
@@ -133,3 +133,12 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 - 新夹具重新实测31/31；隔离去清理反控仍恰好2个业务AssertionError，4针精确身份反控均baseline绿/mutant单业务红/restored绿，源码未动。新原件见 `mutation-raw-legal-script-id/` 与 `mutation-legal-script-id-result.json`；旧77779原件保留为历史，不替代合法输入的新证明。
 - 这次只纠正新增反例的合成script id，不代表既有测试已全部合法：77777/77778、99999、无断言伪applyAll、Spell fixture和poison teardown仍留整文件review。
 - 主线文档发布收口已在隔离治理分支合入 `cddf65557`，不触碰主工作树，不将RNG专项done扩大为event-system整文件关闭。
+
+
+### 2026-10-14 测试合同与最新 ratchet 复核
+
+- 将原错误调用 `L_39554`（0x1B 治疗）且 `void ok` 的全队复活用例改成合法 `L_504`（WORD 脚本入口）并断言全队存活时返回 false、临时/装备状态均不变；`mkSpell` 现在完整满足 shared `Spell` 公共类型，不再用 `as unknown as Spell`。定向 `magic-script.test.ts` + `magic-script.glm-next-wave.test.ts` 为 35/35，game typecheck、Biome 均通过。
+- 合法 script-id mutation 重新执行：31/31 基线通过；去清理变异恰好2个业务 AssertionError；MUT-01..04 均 baseline绿、mutant单业务红、restored绿，源码/仓库字节未变。
+- 最新官方 `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` 完整跑完 731 files / 19,864 tests，但仍 FAIL，未更新 baseline：game `13805/15602` statements、`12333/13685` lines；total `70847/78780` statements、`63303/68945` lines，分别低于旧基线 `13806/15599`、`12332/13682`、`70848/78777`、`63302/68942`。原始日志与 exit1 见 `evidence/CODE-QUALITY-90/gate-ratchet-current.txt`。
+- 覆盖诊断不是门通过：当前源移除 RNG 测试为 3527 tests，game `13804/15602` statements；d7 exact/default 源快照重放均为 `13801/15599`，说明旧 d7 基线的 `13806` 在当前同一 V8 环境不可重现；没有因此降基线、加弱测试或改 exclusions。RNG guard 去除反控仍按业务断言失败，恢复绿。结果见 `rng-test-scope-diagnostic-result.json`、`rng-coverage-diagnostic-result.json`、`d7-exact-replay-result.json`、`d7-default-replay-result.json`。
+- 本轮只改善测试合同，不改变生产实现、coverage baseline、规则或 ledger 状态；两文件仍 `review`，closed 不增加。

@@ -18,7 +18,7 @@ Mutation evidence is in `mutation-results.json` and `mutation-raw/`. Four exact 
 
 ## Scope limits and remaining review
 
-This behavioral slice does not close either complete file. `magic-script.ts` still needs current production spell-chain, unsupported-op, input and step-limit contract audit. `magic-script.test.ts` contains an existing assertion-free pseudo applyAll case, an incomplete `as unknown as Spell` fixture, and poison-table cleanup requiring review. Both files remain `review` in the file ledger.
+This behavioral slice does not close either complete file. `magic-script.ts` still needs current production spell-chain, unsupported-op, input and step-limit contract audit. `magic-script.test.ts` now uses an assertionful all-live applyAll status oracle and a complete public `Spell` fixture; poison-table cleanup, remaining synthetic fixtures and the full runner contract still require review. Both files remain `review` in the file ledger.
 
 Phase2 uses `BattlePlayerState.status` for temporary turns and a separate `grantedStatuses` collection for equipment-derived persistent status (`battle-core.ts:107-111`). Phase2 revive clears only `status` (`:604-624`); equipment `grantStatus` is derived from current equipment (`content/src/item.ts:36,449-462`). None of those phase2 files are modified or closed by this batch.
 
@@ -33,3 +33,12 @@ Review checkpoint d7e9831f4 was pushed before integrating origin/main 5116cd5bb.
 ## Legal script-pointer correction
 
 SDLPal global.h:175-195 stores spell script pointers as WORD; the production parser reads u16 at spells.ts:141-142. The new applyAll status example used77779 and now uses504, with the same command/role/status/assertion contract. The legal fixture passes31 cases; removing cleanup produces exactly2 business failures and each of4 exact mutants produces one business failure then a green restore. New native reports are in `mutation-raw-legal-script-id/`, with `mutation-legal-script-id-result.json`; original reports remain historical. Production code is unchanged. Existing77777/77778/99999 fixtures and the other whole-file review issues remain unresolved.
+
+
+## Latest test-contract and coverage evidence
+
+The former all-live applyAll example called the healing fixture and discarded its result with `void`; it now uses legal WORD script entry `504` and asserts `false` plus unchanged temporary/equipment status. The `Spell` fixture is fully typed. Targeted magic tests are 35/35, game typecheck and Biome pass, and the legal-input mutation replay keeps four exact business red mutants with byte-identical restoration.
+
+The latest official `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` completed all 731 production files and 19,864 fast tests but failed without changing the baseline: game statements `13805/15602` and lines `12333/13685`, total statements `70847/78780` and lines `63303/68945`, versus the old d7 floor `13806/15599`, `12332/13682`, `70848/78777`, `63302/68942`. Receipt: `gate-ratchet-current.txt` and `gate-ratchet-current.exit`.
+
+Read-only coverage counterfactuals found the current source without the RNG test at `13804/15602` statements, while exact d7 source snapshots reproduce `13801/15599` under both worker-one and Vitest-default settings; the historical d7 baseline's `13806` is not reproducible in this environment. No baseline, exclusion, threshold, or weak test was changed. Native result JSON: `rng-test-scope-diagnostic-result.json`, `rng-coverage-diagnostic-result.json`, `d7-exact-replay-result.json`, `d7-default-replay-result.json`, `game-default-workers-diagnostic-result.json`, `game-workers2-diagnostic-result.json`.
