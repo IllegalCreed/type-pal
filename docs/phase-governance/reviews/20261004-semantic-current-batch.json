@@ -629,7 +629,7 @@
             "date": "2026-10-11",
             "action": "three-glm-test-integration-navigation-review",
             "previousAfterSha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
-            "afterSha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+            "afterSha256": "9150b61f052ac2706d2b207927d49da32c42bafaf6d96254168ff2e2144baeb3",
             "evidence": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
             "notRun": ["E2E", "visual", "new GitHub CI"]
           },
@@ -1307,7 +1307,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "158669a59c7bbc6ab6fc4c75e26b0e8eebaefbb0f3be93f88b73afa958a50af1",
+      "afterSha256": "4763ea8757220bb3b496c520e766b18f45045949c02200f53af355b613b79ad2",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1341,7 +1341,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "158669a59c7bbc6ab6fc4c75e26b0e8eebaefbb0f3be93f88b73afa958a50af1",
+        "implementationSha": "4763ea8757220bb3b496c520e766b18f45045949c02200f53af355b613b79ad2",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2180,7 +2180,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "1060968e1306964fb7cfa80154026858506b771b3fc6432fcdaee38e8338fe8c",
+      "afterSha256": "eedd2f05d0d6d282e1aa5535a382e6433e778813f8c275a21ccf39ed49bbae49",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2216,7 +2216,7 @@
       },
       "revision": {
         "currentSha": "working-tree",
-        "implementationSha": "1060968e1306964fb7cfa80154026858506b771b3fc6432fcdaee38e8338fe8c",
+        "implementationSha": "eedd2f05d0d6d282e1aa5535a382e6433e778813f8c275a21ccf39ed49bbae49",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2269,7 +2269,7 @@
             "action": "E2E-integration-delta-review",
             "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
             "previousAfterSha256": "0ea24369d1c912ca628ba9ec3367ca38f8bc5734757a21636d525b0d4d51c8f2",
-            "afterSha256": "971a31b05fd31516776850a4f001a53920f4acf738b19a42bda1ed0e3abc1ac8",
+            "afterSha256": "eedd2f05d0d6d282e1aa5535a382e6433e778813f8c275a21ccf39ed49bbae49",
             "reviewedRanges": ["123-123"],
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           },

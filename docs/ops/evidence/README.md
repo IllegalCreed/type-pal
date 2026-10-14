@@ -11,6 +11,7 @@
 - [CODE-QUALITY-87 game in-game/system menu state](CODE-QUALITY-87/README.md)（四文件逐文件核验完成；补强测试 oracle，全套质量门通过，四条账本记录已验证并归档）。
 - [CODE-QUALITY-88 game magic-select state / catalog](CODE-QUALITY-88/README.md)（四文件逐文件核验完成；object-id/排序/MP 与缺失关联合同、3 针反控及全套质量门通过，四条账本记录已验证并归档）。
 - [CODE-QUALITY-89 game in-game-magic state / execution boundary](CODE-QUALITY-89/README.md)（四文件逐文件核验完成；runtime projection、phase/cancel/target/MP ownership、typed fixtures 与 3 针反控均通过，全套质量门已完成）。
+- [CODE-QUALITY-91 game inventory-action menu contract](CODE-QUALITY-91/README.md)（三文件逐文件核验完成；WORD 22/23、cursor/wrap、caller ownership 与 4 针精确 identity 反控通过，full check、ratchet、protected fast、lint-zero、ledger 全通过）。
 - [CODE-QUALITY-81 Dev Panel picker 生命周期](CODE-QUALITY-81/README.md)（observer 断开、列表 generation 与缩略图 rejection 反例；全量 check、ratchet、protected fast、lint、ledger 已通过，新增测试文件可收口）。
 - [CODE-QUALITY-86 game equip menu state / role swap](CODE-QUALITY-86/README.md)（四文件逐文件核验完成；只清理 typed test input，全套质量门通过，四条账本记录已验证并归档）。
 - [CODE-QUALITY-82 DATA.MKF 独立诊断脚本](CODE-QUALITY-82/README.md)（相对 checkout 路径、MKF 边界 fail-closed 与真实资源输出等价；已归档 done）。
