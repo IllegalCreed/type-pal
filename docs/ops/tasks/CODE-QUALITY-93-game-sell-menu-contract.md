@@ -100,3 +100,11 @@ Codex：premise verified / build allowed。完整读取与 caller/primary-source
 - 定向/相邻 96 项、game typecheck、白名单 Biome、3 针反控、文档预检与 lint-zero 4045/0/0/0 已通过；全仓 check 正在 editor，official ratchet/protected fast 尚未运行。
 - 本次提交为 review 检查点，四条新增记录保持 review；不视为批次收口或合 main 准入。正在写入的 gate-check 原件不进入本检查点提交，待真实 terminal exit 后补入。
 - 阶段集成窗口须拆出已验收 menu 白名单，避免携带 CODE53/90 未收口生产改动。
+
+## 全仓 check 已通过，coverage 两门执行中（2026-10-14）
+
+- Review 检查点 `2399b59ec` 已推送；首次 push SSL 连接错误，原命令重试成功。再次 fetch 后 origin/main 仍 `cddf65557e60619e40e38168b276cf01981a106a`，0 behind / 81 ahead；未合 main。
+- `VITEST_MAX_WORKERS=1 pnpm check` exit0：content149/1498、shared16/131、game315/3569、pal-extract71/431、reforge359/8964、editor631/4951、migrate96/739；7包 typecheck 与文档/工具门通过。最终 lint 4047 files，0 errors/warnings/infos；未出现 React act/Warning/Unhandled 诊断。原件 `gate-check.txt`、`gate-check.exit`。
+- 当前正在串行运行官方 `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` → `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`；第一门失败时不会运行第二门。工具 exec session 为 **68449**，续接必须先查询该 handle 或当前真实进程，不因观察超时或只有日志文件就重启。
+- 官方 coverage 回执仍未 terminal，不计通过；四条记录继续 review，机器 inventory3271 / closed370 / review16 / pending2885。全仓治理未完成。
+- 下一步：等 coverage 两门实际终态、核日志/官方 baseline、最终 lint/docs/ledger 后才关闭本四文件；提交推送批次收口后，从最新 main 拆出已闭合 menu 的独立集成候选。不得整条合入含 CODE53/90 未收口行为的分支，不再继续积累新的 pending 实现批次而跳过阶段集成窗口。

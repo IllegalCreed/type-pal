@@ -13,4 +13,6 @@
 
 测试质量复核：已删除与主测试同合同的 GLM 缩表用例；去两处无必要强转，以公共选择/确认入口替代直改 phase；拆开独立导航/意图/取消/刷新输入轴。确认导航逐操作断言防抵消，增表使用非零 cursor，数量均合法；typed catalog 使用物品 OBJECT ID，仅作菜单输入，不宣称是原始价格/flag。
 
-全仓 `pnpm check` → official coverage ratchet → protected fast 仍按顺序运行；只有完成全部质量门并更新实际退出码后允许归档与关闭四条账本记录。未完成的其它 pending/review 保持原状态。
+全仓 `VITEST_MAX_WORKERS=1 pnpm check` 已完整 exit0，7 包 typecheck/test 与工具/文档门通过；game3569、editor4951、migrate739，最终 lint4047 files / 0 errors / 0 warnings / 0 infos，见 `gate-check.txt`/`.exit`。
+
+official `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` → `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 继续串行运行。两 coverage 门还未有 terminal receipt，不计通过；只有完成全部质量门并更新实际退出码后允许归档与关闭四条账本记录。其它 pending/review 保持原状态。
