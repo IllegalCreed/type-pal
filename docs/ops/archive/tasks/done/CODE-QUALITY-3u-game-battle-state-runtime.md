@@ -11,7 +11,7 @@ Visual Verification Timing: e2e-deferred（战斗演出视觉集中 E2E；本卡
 Contributor: Codex
 Branch: codex/code-quality-governance
 Last reviewed: 2026-10-16
-Governance Owner: Codex（历史卡包 F 文档治理候选，待根线程独立接收）
+Governance Owner: Codex（文档治理；非作者独立复核后根接收）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -32,7 +32,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-原done保持；原始相反计数不删、不凭标题复用7次关闭。共享总纲t/u均215却u又称新增5，统计时点未解释，根后继治理；作者仅交文档候选，不写共享账或独立accept。
+原done保持；原始相反计数不删、不凭标题复用7次关闭。共享总纲t/u均215却u又称新增5，统计时点未解释，根后继治理；2026-10-16文档迁移经非作者history_cards_c_tail复核、根Codex独立接收。
 
 以下保留原标题入口。导航指向本卡历史原文或归纳；原命令、build/验收提示及分支操作只按其日期读取，不恢复执行。
 

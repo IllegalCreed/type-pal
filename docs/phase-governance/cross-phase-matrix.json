@@ -600,6 +600,71 @@
       ],
       "unresolved": ["未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"],
       "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。"
+    },
+    {
+      "id": "catalog-own-labels-vs-inherited-properties",
+      "from": ["docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md"],
+      "to": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "Q3n只修继承属性误解析；null-prototype/Object.hasOwn允许自有toString/constructor/__proto__label，zero-item overlay和WORD/fade降级各属原caller，不因旧兼容字样删除。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json:1"
+      ],
+      "unresolved": [
+        "只核历史语义及catalog98源码；原最终pushSHA/时刻未在卡给出，其它依赖/测试与当前overlay适用性未全文重验。"
+      ],
+      "stopLine": "不得把原型名变禁词或从历史done补造push证据，不授当前整产品代码/旧测试质量。"
+    },
+    {
+      "id": "battle-opcode-user-decision-vs-stale-canon-summary",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md"
+      ],
+      "to": [
+        "docs/phase1/game-mechanics.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "保留既定0x2E >=与6月13日敌吉运裁决；抗性关rangeInclusive(0,9)>=0为100%，canon1075同享90cap与1074/实际dispatch冲突，整体招式其它固定率不在该结论。早期应照搬敌身法建议不恢复。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json:1",
+        "docs/phase1/game-mechanics.md:1074",
+        "docs/phase1/game-mechanics.md:1075",
+        "docs/phase1/game-mechanics.md:855"
+      ],
+      "unresolved": [
+        "机制文档尚未逐篇全文治理，1075旧摘要在本批未越界修改；未重新认证原版late-version/raw或整招命中率。"
+      ],
+      "stopLine": "不回改既定产品行为、不从单抗性门外推整招100%，不凭本批静态迁移认证全canon。"
+    },
+    {
+      "id": "battle-state-finalization-dedupe-vs-historical-counts",
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+      ],
+      "to": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "relationship": "Q3u明确2product+3newtest=5，positions和runtime.test沿用Q3m/Q3s；Q3w仅2product+1newtest=3，finalization.test沿用u。旧u4tests619/close7、w2newtests/close4原句保留guarded；总纲t/u同215与新增5时点未知，不累加。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json:1"
+      ],
+      "unresolved": [
+        "四测试619只数行，不授新测试语义信用；旧统计/执行先后未有raw解释；w复用同轮全门不是再跑一次。"
+      ],
+      "stopLine": "不重复关闭或造执行时序，不把74+1特定超时推广所有屏，不把宿主审计扩成全部actions/save/视觉通过。"
     }
   ],
   "acceptance": {

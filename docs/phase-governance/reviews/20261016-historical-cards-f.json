@@ -1,0 +1,2679 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "Twelve historical quality task cards, new central intake after independent semantic accept; no product execution",
+  "integration": {
+    "sourceRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+    "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+    "candidateImportCommit": "8c2480f4deef64481bafb49bf449772ac594f9a0",
+    "rootBeforeIntegration": "8c2480f4deef64481bafb49bf449772ac594f9a0",
+    "authorReceipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json",
+    "authorReceiptSha256": "9181e045b166c868e95bb0134e77a20fc380fe9594e736cc2733da174ebdce92",
+    "authorReceiptPolicy": "Immutable author/pending historical snapshot; acceptance is separate here.",
+    "priorCentralCoverage": {
+      "registry": 0,
+      "review": 0,
+      "routing": 0,
+      "documents": 12,
+      "meaning": "Old strict628 root gate and candidate strict616 gate did not cover F; add12 new entries, no invented prior record or anticipated drift waiver."
+    },
+    "reviewers": {
+      "history_cards_c_tail": {
+        "result": "accept all12 semantic migrations at exact77b6875 candidate; no counter",
+        "scope": "Full1229 original lines, full1332 new layer lines, full2146 receipt lines; exact source/preflight/candidate/hash/inverse and original metadata.166 headings/140 outbound fragments/0external inbound. Full script-catalog98; rng1-45; mechanics808-855/987-1014/1065-1084; dispatch653-689. Four test files line metadata only, no semantic credit.",
+        "limits": "No original timeout/stderr/coverage/raw replay or product/old tests/browser. Four test file line metadata does not grant semantic reading. Independent scoped docs consumers passed; author68 tools/full lint are not non-author execution."
+      },
+      "rootCodex": {
+        "result": "candidate received and receipt_review independent central integration accepted",
+        "scope": "All12 substantive new task/history paragraphs and metadata, receipt top/readScope/guardedSources/key fields; full605 shared governance/ledger/September coverage sources read separately, relevant mechanics1065-1084 and dispatch661-685 narrow direct reading. Strict all12 Git/source/candidate/inverse/accepted proof. Entire1229 original and2146 receipt semantic reading belongs author/non-author, not root."
+      }
+    },
+    "guardedSharedSources": [
+      {
+        "id": "F-t-canon90cap",
+        "sources": [
+          "game-mechanics:1074 >= adopted",
+          "game-mechanics:1075 shared90cap",
+          "battle-opcodes.ts:653–689 actual rangeInclusive(0,9)>=resistance",
+          "Q3t:70,79"
+        ],
+        "conclusion": "Preserve established >=; resistance0 passes this gate100%, not whole spell; disclose stale shared90cap. No canon/product edit or full-canon review.",
+        "status": "guarded",
+        "owner": "root follow-up shared-source governance",
+        "sharedBodyChanged": false
+      },
+      {
+        "id": "F-u-dedupe",
+        "sources": [
+          "Q3u:65 four newtests619",
+          "Q3u:117 close7",
+          "Q3u:77,100,112 three newtests/close5",
+          "governance:177–178",
+          "ledger:215,241–245"
+        ],
+        "conclusion": "Use explicit deduped2product+3test=5; old4/619 and7 preserved; no inferred execution chronology or semantic test reading from line counts.",
+        "status": "guarded",
+        "owner": "root follow-up shared-source governance",
+        "sharedBodyChanged": false
+      },
+      {
+        "id": "F-u-governance-total",
+        "sources": ["governance:169–170 Q3t215", "governance:177–179 Q3u new5 and total215"],
+        "conclusion": "Statistical timepoint unexplained; do not sum snippets or treat215 as current full-governance completion.",
+        "status": "guarded",
+        "owner": "root follow-up shared-source governance",
+        "sharedBodyChanged": false
+      },
+      {
+        "id": "F-w-dedupe",
+        "sources": [
+          "Q3w:50 two newtests",
+          "Q3w:67 close4",
+          "Q3w:58 explicit new3",
+          "Q3u:112 finalization.test already closed",
+          "governance:194–195",
+          "ledger:245,252–254"
+        ],
+        "conclusion": "Use explicit2product+1test=3; finalization.test reused; retain contradictory old4 and no invented fresh full-gate execution.",
+        "status": "guarded",
+        "owner": "root follow-up shared-source governance",
+        "sharedBodyChanged": false
+      }
+    ],
+    "scopedLinkProof": {
+      "oldHeadings": 166,
+      "outboundFragments": 140,
+      "externalInbound": 0,
+      "method": "Non-author full candidate Marked GFM/local Unicode slug check; source inverse and administrative root changes preserve destinations/headings.",
+      "limit": "No hosted browser or full-repository fragment claim."
+    },
+    "artifactRules": {
+      "authorReceipt": {
+        "producer": "history_cards_a",
+        "owner": "root Codex receives",
+        "callers": [
+          "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        ],
+        "retention": "Keep exact immutable candidate receipt and Git branch until final whole-goal acceptance; no author self-accept rewrite."
+      },
+      "historicalRaw": {
+        "producer": "Original commands/owners recorded literally in each full quote",
+        "owner": "Original product task owner; Codex documentation provenance maintenance",
+        "callers": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "retention": "Keep original literal producer commands, references and committed evidence. Original raw/tmp availability was not re-audited in F; no invented present/missing assertion, reconstruction, replay or execution hash. Document/source/quote hashes are separate."
+      }
+    },
+    "notRun": [
+      "product source execution",
+      "old tests",
+      "runtime",
+      "E2E",
+      "visual",
+      "coverage",
+      "main merge/push"
+    ],
+    "centralIntegrationReview": {
+      "reviewer": "receipt_review",
+      "result": "accept; no new counter",
+      "scope": "Full12 current central records/new substantive prose and root two-line delta; exact1229 source inverse and metadata, unique new mappings,28unchanged matrix objects/3newguarded/31navigation/current review; tail entire original/receipt reads not claimed.",
+      "actualIndependentChecks": {
+        "strictReview": 640,
+        "bodyContracts": 120,
+        "docsMarkdown": 1223,
+        "localLinks": 7247,
+        "tasks": 361,
+        "progressIssues": 0,
+        "diffIssues": 0
+      },
+      "reviewedSnapshotsSha256": {
+        "centralF": "cca6736ea0ade08ed63bfcc5ee621fc773aad36f88b78a2a805cf359a2f7ae39",
+        "registry": "230f3c0aabfa83d7f7d640b1c065180069c858c956ab0fe11a5ee646cd404570",
+        "routing": "6a09b7fc45e3eb946bf87f71340e8a70193b9e09c07b97676d81ad03811cdfde",
+        "matrixJson": "6df39909b18b31a16f9115b4854b335ffd8befaf89d52fda5b8eb72b87049a6d",
+        "matrixMd": "9ecc13739f206a5706505c1e6c0b4439856eddf7766615d05957d02f2af3930d",
+        "matrixReview": "d7253e66d4adcd3cb740a815253ebd533e3623ab7dc102053075f9e747334b00"
+      },
+      "maintenanceBoundary": "Later root acceptance/gate append changes control bytes only and does not falsely reuse reviewed snapshot SHA for new bytes."
+    },
+    "finalIntegrationGates": {
+      "status": "PASS scoped required docs/lint/diff; no whole-quality/runtime acceptance",
+      "checkDocs": {
+        "tools": 68,
+        "failed": 0,
+        "skipped": 0,
+        "markdown": 1223,
+        "links": 7247,
+        "tasks": 361,
+        "bodyContracts": 120,
+        "phase": 184,
+        "review": 640,
+        "issues": 0
+      },
+      "lint": {
+        "files": 4087,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "diff": 0,
+      "notWholeQualityAcceptance": true
+    },
+    "intakeUtilityHistory": [
+      {
+        "status": "corrected before writing F records",
+        "event": "Temporary copied intake first failed compilation, then receipt SHA assertion detected an unchanged D receipt path; corrected temp utility. F candidate and its receipt remained byte-identical, no gate bypass or source rewrite."
+      }
+    ],
+    "additionalQualityLedgerFailure": {
+      "command": "node scripts/quality/code-quality-ledger.mjs",
+      "status": "open inherited root preflight, documented at D; F does not change inventory code scope",
+      "declared": [3283, 229, 5, 3049, 3054],
+      "actual": [3290, 229, 5, 3056, 3061],
+      "noWaiver": true
+    }
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 battle present七文件审计：背景、effect、数字、结算、精灵、UI与一帧装配的顺序/坐标/mask/寿命依原caller和primary核对；原批未改实现、未发现直接缺陷，不写成七处生产修复。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "e5c3c6c3f6a159abf4b13cd6a3bb4dbc43095053",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:117–120",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:190–210",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:117–120",
+        "docs/ops/audits/code-quality-file-ledger.md:190–210"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原七个present/battle生产文件与直接测试/caller；不接battle core、公式、opcode、save/schema、剧情E2E或runner。背景index0不透明、mask及UI early-return等具体合同保留，不凭静态分支数量删除缺资源降级。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:117–120",
+        "docs/ops/audits/code-quality-file-ledger.md:190–210",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原基点c740b4a48；原接手ledger146/5review/2813待核是旧清单快照，不能与当前docs分母或今天代码总量混写。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3l - game battle present 逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "present-battle装配七层及相邻pixel/canvas合同，均按原卡引用，未本轮重读全caller。"
+      ],
+      "legalInputs": [
+        "原合法资源/BattleState与明确缺资源降级；背景index0不可按透明，sprite/数字须保opaque；未重新审核全部typed fixture。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "层序/坐标/mask/寿命及跨帧状态保持；不是仅179全绿或截图看似正确。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "原批未改实现，不造生产修复。",
+        "canvas primitive不等浏览器视觉/E2E，未知坐标无直接反例不重判。"
+      ],
+      "unresolved": [
+        "原批未改实现，不造生产修复。",
+        "canvas primitive不等浏览器视觉/E2E，未知坐标无直接反例不重判。"
+      ],
+      "sourceSha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "e5c3c6c3f6a159abf4b13cd6a3bb4dbc43095053",
+      "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
+      "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
+        "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
+        "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+        "lineCount": 159,
+        "exactOriginalBytes": 5022,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 5022,
+          "sourceLines": 66,
+          "sourceFinalNewline": true,
+          "inverseSha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
+          "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+          "originalHistory": "2026-10-05，原基点c740b4a48；原接手ledger146/5review/2813待核是旧清单快照，不能与当前docs分母或今天代码总量混写。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3m](CODE-QUALITY-3m-game-battle-core-contracts.md)接续core helpers；当前新工作按[现行工作流](../../../agent-workflow.md)重新准入，无可执行旧Agent提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。原七文件审计不等于battle core/menu/dialog或全仓完成；缺资源降级、坐标/opaque边界仍需其当时caller解释，不能以文档模板认证当前产品行为、测试质量或视觉。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-159",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原14/179与game3400/full gates、b0c171c28推送仅历史引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05六个battle core helper审计：公式、magic damage、status、queue、positions及seeded RNG按原primary/caller/反例保留，原批无实现修改或直接缺陷。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "ce4a92a29c4e26cbfc9ff4bcd0a0914affcb3733",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "packages/game/src/core/rng.ts:1–45",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:122–125",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:211–221",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "packages/game/src/core/rng.ts:1–45",
+        "docs/ops/audits/code-quality-governance.md:122–125",
+        "docs/ops/audits/code-quality-file-ledger.md:211–221"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "仅formulas/magic-damage/status/turn-queue/battle-positions与core/rng；不改battle-system/progression/actions/save/schema、玩法或runner。现有dualMove缺dex2 fallback与RNG选择不能因C文本不同就改。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "packages/game/src/core/rng.ts:1–45",
+        "docs/ops/audits/code-quality-governance.md:122–125",
+        "docs/ops/audits/code-quality-file-ledger.md:211–221",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原基点07e2c1c39；原ledger167/5review/2792待核是当时快照，128定向与3400全包不同分母，不能相加。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3m - game battle core 合同逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "battle-system/magic/action helper callers按原卡引用；本轮仅rng窄读，不是六文件完整复审。"
+      ],
+      "legalInputs": [
+        "原合法typed公式/status/queue/positions与TS seeded RNG合同；不把C LCG或未证坏输入变成新增合法输入门。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "SHORT/WORD、状态/排序/layout/seed行为保持既有oracle；C与TS RNG内部state不要求相等。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "mulberry32与SDL LCG为已有设计差异，不凭偏好替换。",
+        "无实现变更，不扩大battle-system/actions或重新认证数值。"
+      ],
+      "unresolved": [
+        "mulberry32与SDL LCG为已有设计差异，不凭偏好替换。",
+        "无实现变更，不扩大battle-system/actions或重新认证数值。"
+      ],
+      "sourceSha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "ce4a92a29c4e26cbfc9ff4bcd0a0914affcb3733",
+      "candidateSha256": "23e781d8407739b3d67d5caa7f64e4ea49f8628bb2cec0266e6f7301e06e2113",
+      "afterSha256": "cabe17fe5246e76c76602a9cc5f2f36f47ddb3061f39661f32db23aca982a276",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "cabe17fe5246e76c76602a9cc5f2f36f47ddb3061f39661f32db23aca982a276",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
+        "candidateSha256": "23e781d8407739b3d67d5caa7f64e4ea49f8628bb2cec0266e6f7301e06e2113",
+        "afterSha256": "cabe17fe5246e76c76602a9cc5f2f36f47ddb3061f39661f32db23aca982a276",
+        "lineCount": 161,
+        "exactOriginalBytes": 5234,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 5234,
+          "sourceLines": 68,
+          "sourceFinalNewline": true,
+          "inverseSha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "23e781d8407739b3d67d5caa7f64e4ea49f8628bb2cec0266e6f7301e06e2113",
+          "afterSha256": "cabe17fe5246e76c76602a9cc5f2f36f47ddb3061f39661f32db23aca982a276",
+          "originalHistory": "2026-10-05，原基点07e2c1c39；原ledger167/5review/2792待核是当时快照，128定向与3400全包不同分母，不能相加。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3n](CODE-QUALITY-3n-game-core-fade-identity-catalog.md)接续identity/catalog；[Q3u](CODE-QUALITY-3u-game-battle-state-runtime.md)只相邻复核positions、不重复关闭。新反例按[现行工作流](../../../agent-workflow.md)另立卡。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。保留mulberry32及现行fallback是本卡旧合同，不由本次宣告新产品决定；同seed TS序列确定性不等于与SDL内部state相同。旧绿数不代表本轮coverage或机制认证。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-161",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原7/128、game3400/full gates、6c48c1390记录仅引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 fade/identity/WORD/catalog四helper治理：只有继承原型属性误解析成label IP有直接缺陷，catalog以own-property/null-prototype窄修；其它三helper未发现直接缺陷。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "c717dd4dc6286fdb62d0064bca25f6352bc2210a",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "packages/game/src/core/script-catalog.ts:1–98",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:127–131",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:222–228",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md:53–54",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "packages/game/src/core/script-catalog.ts:1–98",
+        "docs/ops/audits/code-quality-governance.md:127–131",
+        "docs/ops/audits/code-quality-file-ledger.md:222–228",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md:53–54"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原四core文件与直接caller/tests，不改scene/battle主流程、save/schema、生成物或E2E。zero-item tp overlay、WORD启动fallback及event-system归一化fade delay边界保留，不以旧兼容字样擅删。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "packages/game/src/core/script-catalog.ts:1–98",
+        "docs/ops/audits/code-quality-governance.md:127–131",
+        "docs/ops/audits/code-quality-file-ledger.md:222–228",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md:53–54",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原基点60ef9e0f0；3400→3403与第二轮门按原日志分时，原最终push细节unknown。zero-item注释另保留2026-06-13用户修正时点，不与本轮label guard混为一次变更。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3n - game core fade / identity / catalog 逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "bootstrap注入全局事件，event-system/cursor读取catalog；本轮仅catalog全文，不是四helper及全部caller/test重审。"
+      ],
+      "legalInputs": [
+        "自有label包括原型同名字符串可正常登记；继承属性不得当IP；zero-item overlay限已记messageIndex/前置showDialog，不扩成按名称猜。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "own-property解析有定义的IP，缺label返回undefined/null；不把合法自有原型名拒绝，也不改原overlay的窄输入域。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "原待提交推送与后继归档并存；具体最终push SHA/时刻未知。",
+        "34/3400及后继3403不同记录保留；三负控未本轮重跑。"
+      ],
+      "unresolved": [
+        "原待提交推送与后继归档并存；具体最终push SHA/时刻未知。",
+        "34/3400及后继3403不同记录保留；三负控未本轮重跑。"
+      ],
+      "sourceSha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "c717dd4dc6286fdb62d0064bca25f6352bc2210a",
+      "candidateSha256": "6b9ff0e22239bf329d38d66b2d6db6bdb557b8455187faf6ddd185e4c4402b6b",
+      "afterSha256": "d078ffc4ca504e32e0a4b7a786e838ffccde853d73fb1af0caf04f33b6f810d8",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "d078ffc4ca504e32e0a4b7a786e838ffccde853d73fb1af0caf04f33b6f810d8",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
+        "candidateSha256": "6b9ff0e22239bf329d38d66b2d6db6bdb557b8455187faf6ddd185e4c4402b6b",
+        "afterSha256": "d078ffc4ca504e32e0a4b7a786e838ffccde853d73fb1af0caf04f33b6f810d8",
+        "lineCount": 162,
+        "exactOriginalBytes": 5240,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 5240,
+          "sourceLines": 69,
+          "sourceFinalNewline": true,
+          "inverseSha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "6b9ff0e22239bf329d38d66b2d6db6bdb557b8455187faf6ddd185e4c4402b6b",
+          "afterSha256": "d078ffc4ca504e32e0a4b7a786e838ffccde853d73fb1af0caf04f33b6f810d8",
+          "originalHistory": "2026-10-05，原基点60ef9e0f0；3400→3403与第二轮门按原日志分时，原最终push细节unknown。zero-item注释另保留2026-06-13用户修正时点，不与本轮label guard混为一次变更。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3o](CODE-QUALITY-3o-game-core-mode-history-poison-search.md)54行明确Q3n已归档；后续共享catalog/overlay变更按[现行工作流](../../../agent-workflow.md)重新核准，无可执行旧提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。原型名不是黑名单；自有label与继承属性必须区分。原待push残留不重开任务，后继归档也不能补出缺失push证据；旧overlay/fallback不成为当前版本兼容豁免。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-162",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原34定向/三组负控/两轮全门与旧push待办仅引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 history/mode/player poison/Confirm Search四helper审计：历史缓冲、顶层调度、毒槽/寿命和搜索cell/trigger按原caller保留，未改实现、未发现直接缺陷。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "80c29e75c93b4eca74d87696646cdaac9794d80d",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:133–136",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:230–233",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:133–136",
+        "docs/ops/audits/code-quality-file-ledger.md:230–233"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原四core helper；不接event-opcode-player、scene/battle主流程、save/schema、生成物或runner。反直觉mode门、Search阈值、level>=99装备伪毒不能凭记忆重判。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:133–136",
+        "docs/ops/audits/code-quality-file-ledger.md:230–233",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原基点f9daa6a29；186已闭合/5review/2773待核属于接手快照，42定向/3403全包不相加，也不当今天docs或代码治理进度。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3o - game core mode/history/poison/search 逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "上下文锚点",
+          "验证",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "bootstrap/event-system/scene-system与mode caller按原卡引用；本包未全文重读四生产文件或测试。"
+      ],
+      "legalInputs": [
+        "原history/session、mode gate、poison slot/level和Search cell/trigger合同；不从名字或阈值反直觉推成坏输入。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "状态无跨session污染、搜索首命中与原阈值顺序保持；未知fallback先核caller，不凭42全绿删。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "未改实现；不能冒称四项生产修复。",
+        "原mode/Search/伪毒合同保留，不恢复旧prompt或扩全系统。"
+      ],
+      "unresolved": [
+        "未改实现；不能冒称四项生产修复。",
+        "原mode/Search/伪毒合同保留，不恢复旧prompt或扩全系统。"
+      ],
+      "sourceSha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "80c29e75c93b4eca74d87696646cdaac9794d80d",
+      "candidateSha256": "bcfb6e5ff28ad3faab0fa31613cdbbfbe66b433c74aa2a5345257b3382de08a7",
+      "afterSha256": "606d327e8d5df5e593543aac3adb1df1f771bf814a9bd9b6e94cd778edcef745",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "606d327e8d5df5e593543aac3adb1df1f771bf814a9bd9b6e94cd778edcef745",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
+        "candidateSha256": "bcfb6e5ff28ad3faab0fa31613cdbbfbe66b433c74aa2a5345257b3382de08a7",
+        "afterSha256": "606d327e8d5df5e593543aac3adb1df1f771bf814a9bd9b6e94cd778edcef745",
+        "lineCount": 160,
+        "exactOriginalBytes": 4673,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 4673,
+          "sourceLines": 67,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "bcfb6e5ff28ad3faab0fa31613cdbbfbe66b433c74aa2a5345257b3382de08a7",
+          "afterSha256": "606d327e8d5df5e593543aac3adb1df1f771bf814a9bd9b6e94cd778edcef745",
+          "originalHistory": "2026-10-05，原基点f9daa6a29；186已闭合/5review/2773待核属于接手快照，42定向/3403全包不相加，也不当今天docs或代码治理进度。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3p](CODE-QUALITY-3p-event-opcode-player.md)接续玩家opcode，[Q3q](CODE-QUALITY-3q-game-scene-system.md)接续移动/触发；新变更依[现行工作流](../../../agent-workflow.md)另准入。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。原fallback与搜索阈值按其阶段/caller读取，未核前不删；旧包级全门不能推广成event-system/battle/save全文通过，更不等本次视觉或coverage执行。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-160",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原5/42、game3403/full gates、b9b078e1f推送记录只引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05玩家属性/装备/HPMP/复活/毒/状态/魔法opcode单文件审计：按原role/slot/owner及C primary保留行为，原批无实现修改、无direct defect。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "a8f70d603f4d95790f2f4e3f3e8f27d6ebd6ed41",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:138–141",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:264–267",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:138–141",
+        "docs/ops/audits/code-quality-file-ledger.md:264–267"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "仅event-opcode-player helper与公开/相邻测试caller；不接完整event-system、battle-opcodes、save/schema、raw/生成物或runner。不得把helper状态双写回event-system，也不重写opcode抽象。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:138–141",
+        "docs/ops/audits/code-quality-file-ledger.md:264–267",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05高风险卡；原头未给Base字段，不补造历史Base。保留原“不要求固定三贤人”前言为当时模式记录，本次不追签或重开产品门。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3p - event player/equipment/poison opcode 逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "Build: 实现与自测",
+          "Review: 审查与返工",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "applyPlayerOpcode经真实event-system及equipment/inventory/poison owner；本轮未生产/测试全文复审。"
+      ],
+      "legalInputs": [
+        "原role context/0xFFFF/slot/SHORT-WORD与合法失败/no-op；不能从静态复杂度新增拒绝或改变fScriptSuccess。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "仅改拥有字段且合法opcode与C/既定合同一致；slot/role错误不能污染他方状态。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "原下半pending与最终accept/done并存，必须分域，不伪造新修改或重启build。",
+        "7相邻文件不等七新增关闭记录；未全文读source不授新机制信用。"
+      ],
+      "unresolved": [
+        "原下半pending与最终accept/done并存，必须分域，不伪造新修改或重启build。",
+        "7相邻文件不等七新增关闭记录；未全文读source不授新机制信用。"
+      ],
+      "sourceSha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "a8f70d603f4d95790f2f4e3f3e8f27d6ebd6ed41",
+      "candidateSha256": "019f029784f39d2830e2861c2c9d8059e82dd8dedb921b12da2e7b5c301ad874",
+      "afterSha256": "678a803e729b95c526a7238cdbc30d32d488c30cfd4b82f2379e3ca999982755",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "678a803e729b95c526a7238cdbc30d32d488c30cfd4b82f2379e3ca999982755",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
+        "candidateSha256": "019f029784f39d2830e2861c2c9d8059e82dd8dedb921b12da2e7b5c301ad874",
+        "afterSha256": "678a803e729b95c526a7238cdbc30d32d488c30cfd4b82f2379e3ca999982755",
+        "lineCount": 262,
+        "exactOriginalBytes": 8102,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 8102,
+          "sourceLines": 130,
+          "sourceFinalNewline": true,
+          "inverseSha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "019f029784f39d2830e2861c2c9d8059e82dd8dedb921b12da2e7b5c301ad874",
+          "afterSha256": "678a803e729b95c526a7238cdbc30d32d488c30cfd4b82f2379e3ca999982755",
+          "originalHistory": "2026-10-05高风险卡；原头未给Base字段，不补造历史Base。保留原“不要求固定三贤人”前言为当时模式记录，本次不追签或重开产品门。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3q](CODE-QUALITY-3q-game-scene-system.md)与[Q3r](CODE-QUALITY-3r-game-event-system.md)接续主流程；新反例按[现行工作流](../../../agent-workflow.md)更新前提后另准入。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。旧pending不把原done改为今天build，原accept也不能成为本次独立接受。合法slot fallback/no-op依原caller，不因复杂度或原模板空段改变行为。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-262",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原7/99/game3403/full gates、dfec903b3推送及旧pending命令只引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 scene-system移动/碰撞/触发审计：原卡称662行实现与2064行主测试全文核验，未发现直接缺陷、未改实现；只关闭scene-system及其专属主测试，不扩大到event/battle/save。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "13ca9dfee6139f8210270131f240fe682ee971db",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:143–148",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:234",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:143–148",
+        "docs/ops/audits/code-quality-file-ledger.md:234"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原scene-system与scene/event/present/mode/bootstrap/dev caller合同；不改坐标、scene数据、schema/save/迁移、UI或runner。剧情视觉延后，不从纯机制测试推导真实路线观感。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:143–148",
+        "docs/ops/audits/code-quality-file-ledger.md:234",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05；原头没有Base字段，按原文保留。原剩余2760待核与726/19285是旧清单/质量范围，不作为当前全docs或全game完成量。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3q - game scene-system 移动/碰撞/触发逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "交接日志",
+          "逐段审计证据（2026-10-05）",
+          "反证排查记录",
+          "build / review 结论",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "tickSceneSystem、event/mode/present/SceneAssetsCache/boot/dev caller按卡引用；未本轮全文重读。"
+      ],
+      "legalInputs": [
+        "原合法scene/输入顺序/碰撞/trigger与已解析Tilemap，partyStart仅原dev helper；不按截图猜新坐标或迁移数据。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "合法输入tick顺序、步长/碰撞/触发/异步收尾保持，四类替代根因先核；旧131绿不单独证明。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "首轮timeout真实保留，后续完整通过不抹失败；资源竞争旧归因未回raw认证。",
+        "旧代码/测试全文读取只属原作者声称；不继承新审计/E2E信用。"
+      ],
+      "unresolved": [
+        "首轮timeout真实保留，后续完整通过不抹失败；资源竞争旧归因未回raw认证。",
+        "旧代码/测试全文读取只属原作者声称；不继承新审计/E2E信用。"
+      ],
+      "sourceSha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "13ca9dfee6139f8210270131f240fe682ee971db",
+      "candidateSha256": "dc827c11e32d973cc58995546fb8f11bb6cb927aed81e949340a37811da3b4c9",
+      "afterSha256": "89b6c3b23f4833442145cbba8c680e8d3306cf9ef1f3ac88e8c851d86a389ccc",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "89b6c3b23f4833442145cbba8c680e8d3306cf9ef1f3ac88e8c851d86a389ccc",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
+        "candidateSha256": "dc827c11e32d973cc58995546fb8f11bb6cb927aed81e949340a37811da3b4c9",
+        "afterSha256": "89b6c3b23f4833442145cbba8c680e8d3306cf9ef1f3ac88e8c851d86a389ccc",
+        "lineCount": 253,
+        "exactOriginalBytes": 12611,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 12611,
+          "sourceLines": 129,
+          "sourceFinalNewline": true,
+          "inverseSha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "dc827c11e32d973cc58995546fb8f11bb6cb927aed81e949340a37811da3b4c9",
+          "afterSha256": "89b6c3b23f4833442145cbba8c680e8d3306cf9ef1f3ac88e8c851d86a389ccc",
+          "originalHistory": "2026-10-05；原头没有Base字段，按原文保留。原剩余2760待核与726/19285是旧清单/质量范围，不作为当前全docs或全game完成量。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3r](CODE-QUALITY-3r-game-event-system.md)接续解释器；任何新路线/坐标/scene行为取舍依[现行工作流](../../../agent-workflow.md)重新核primary，不执行旧prompt。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。资源竞争是旧归因而非本次已证观察；直接碰撞/坐标真值或异步caller不确定时停线，不为模板选数据迁移。原纯机制通过不是浏览器/E2E/coverage或旧测试当代质量信用。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-253",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原3/131、第一次check失败/单跑/第二全门、ratchet/protected及无提升只引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 event-system解释器/脚本生命周期审计：原卡称5110行实现与5973行主测试核验，无新direct defect、无实现改动；global ip、waiting、异步owner与resume均按原caller，不移植为Reforge结构。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "1aa0b56ee010044f6925f9c19536e53da475d740",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:150–155",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:235",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:150–155",
+        "docs/ops/audits/code-quality-file-ledger.md:235"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原event-system与公开/相邻caller合同；scene-system已由Q3q关闭，battle-opcodes全域另卡，save/schema/迁移/raw生成物/剧情E2E/runner均排除。原定向数量不授权重写事件格式或玩法。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:150–155",
+        "docs/ops/audits/code-quality-file-ledger.md:235",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原头无Base，不补造；原覆盖率范围/总数与历史pending量限定旧树。91行stderr陈述与92行静态零诊断各保留其范围，不把历史说明变常驻豁免。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3r - game event-system 事件解释器/脚本生命周期逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "交接日志",
+          "逐段审计证据（2026-10-05）",
+          "反证排查记录",
+          "build / review 结论",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "tickEventSystem/tickAutoScripts/runScript/runEnterScript及mode/scene/battle/menu等caller按原卡引用，非本轮完整审核。"
+      ],
+      "legalInputs": [
+        "原合法Command/GameState/SceneAssets与caller-owned cursor/wait/异步resume；不从复杂度删除合同fallback或新增opcode。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "合法控制流ip/callStack/waiting/mode与收尾正确；诊断/绿测数量不能单独证明，未知源保持待核。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "旧stderr warn/debug原样留，不作为当前静态门豁免。",
+        "尾draft与done并存，历史化；未重新执行或全文审5973测试。"
+      ],
+      "unresolved": [
+        "旧stderr warn/debug原样留，不作为当前静态门豁免。",
+        "尾draft与done并存，历史化；未重新执行或全文审5973测试。"
+      ],
+      "sourceSha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "1aa0b56ee010044f6925f9c19536e53da475d740",
+      "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
+      "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
+        "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
+        "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+        "lineCount": 256,
+        "exactOriginalBytes": 14309,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 14309,
+          "sourceLines": 132,
+          "sourceFinalNewline": true,
+          "inverseSha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
+          "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+          "originalHistory": "2026-10-05，原头无Base，不补造；原覆盖率范围/总数与历史pending量限定旧树。91行stderr陈述与92行静态零诊断各保留其范围，不把历史说明变常驻豁免。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3s](CODE-QUALITY-3s-game-battle-system.md)接续battle宿主，[Q3t](CODE-QUALITY-3t-game-battle-opcodes.md)接续battle dispatch；新反例依[现行工作流](../../../agent-workflow.md)重新核前提，无可执行旧prompt。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。旧全绿和预期stderr不能代替当前零诊断/测试质量判断；未知fallback仍需真实caller而非静态删分支。尾draft不改变历史done，也不授本次实现或动态信用。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-256",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原10/370、预期stderr与完整check/ratchet/protected/Biome只引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 battle-system宿主/phase生命周期审计：原卡称3139行实现与4182行主测试全文核验，无直接缺陷/实现修改；start、hold、phase、cleanup与resume保持原owner。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "575098304177d4937217ff094a18e93035ed63ff",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:157–162",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": ["docs/ops/audits/code-quality-governance.md:157–162"],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原startBattle/tickBattle及直接lifecycle oracle；公式/status/queue/positions归Q3m，battle-opcodes/actions/settlement/finalization各有owner，不因宿主审计全包代关闭。save/schema/生成物/演出/runner排除。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:157–162",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原头无Base；原完整门基线未变，不能把19285变成本轮运行量。原只关闭宿主及四直接lifecycle oracle，不代表全部actions/opcodes/save。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3s - game battle-system 战斗生命周期/phase 路由逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "交接日志",
+          "逐段审计证据（2026-10-05）",
+          "反证排查记录",
+          "build / review 结论",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "startBattle/tickBattle经bootstrap/mode与actions/opcodes/settlement/finalization连接，当前未完整重读。"
+      ],
+      "legalInputs": [
+        "原合法BattleState/start资源/phase输入与有证据的hold/fallback；不把相邻action/settlement owner再写进宿主。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "start→phase→结果→cleanup/resume不重复奖励/污染下一战；242绿与phase数量不单独证明。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "末draft、done与追加audit-only日志保留，不补造重新准入时序。",
+        "主4182与分散测试职责入口范围区分，不将相邻测试全部计新增全文。"
+      ],
+      "unresolved": [
+        "末draft、done与追加audit-only日志保留，不补造重新准入时序。",
+        "主4182与分散测试职责入口范围区分，不将相邻测试全部计新增全文。"
+      ],
+      "sourceSha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "575098304177d4937217ff094a18e93035ed63ff",
+      "candidateSha256": "4b6a5167832ef5848e693182646c387cfc4611aa9b234dc7d51240a5cf0999e3",
+      "afterSha256": "476feafe7a315f89518765108742f6c73175b9ca5bb6577574aa2820714e9800",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "476feafe7a315f89518765108742f6c73175b9ca5bb6577574aa2820714e9800",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
+        "candidateSha256": "4b6a5167832ef5848e693182646c387cfc4611aa9b234dc7d51240a5cf0999e3",
+        "afterSha256": "476feafe7a315f89518765108742f6c73175b9ca5bb6577574aa2820714e9800",
+        "lineCount": 255,
+        "exactOriginalBytes": 13525,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 13525,
+          "sourceLines": 131,
+          "sourceFinalNewline": true,
+          "inverseSha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "4b6a5167832ef5848e693182646c387cfc4611aa9b234dc7d51240a5cf0999e3",
+          "afterSha256": "476feafe7a315f89518765108742f6c73175b9ca5bb6577574aa2820714e9800",
+          "originalHistory": "2026-10-05，原头无Base；原完整门基线未变，不能把19285变成本轮运行量。原只关闭宿主及四直接lifecycle oracle，不代表全部actions/opcodes/save。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3t](CODE-QUALITY-3t-game-battle-opcodes.md)、[Q3u](CODE-QUALITY-3u-game-battle-state-runtime.md)、[Q3w](CODE-QUALITY-3w-game-battle-settlement-finalization.md)分域接续；新治理按[现行工作流](../../../agent-workflow.md)另开互斥卡。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。胜败逃、hold和结算owner边界保留；纯phase合同不等于当前完整战斗视觉/E2E验收。追加日志与旧draft只作历史，不产生新的公共API或玩法授权。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-255",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原9/242、完整check/ratchet/protected/Biome及旧追加准入只引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 battle opcode dispatch审计：原1528行实现与四专属测试3848行核验，无实现改动；consumed/newIp、target/context与event fallback保留，0x2E既定>=不改回SDL的>。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "5537347dacb07dd2f9944a0000fb77ed1b1c0e79",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:164–171",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:236–240",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/phase1/game-mechanics.md:987–1014,1069–1083",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "packages/game/src/core/battle/battle-opcodes.ts:653–689",
+          "revision": "83750d8425709257a609c1b9f62b8c6686d53987",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:164–171",
+        "docs/ops/audits/code-quality-file-ledger.md:236–240",
+        "docs/phase1/game-mechanics.md:987–1014,1069–1083",
+        "packages/game/src/core/battle/battle-opcodes.ts:653–689"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "仅battle-opcodes与真实battle runScript/action/anim oracle；不重复Q3s宿主/公式helpers，排除event-system全域、save/schema/生成物/剧情E2E/runner。原补读四测试后恢复done的过程保留，不把最初记录称为已完整。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:164–171",
+        "docs/ops/audits/code-quality-file-ledger.md:236–240",
+        "docs/phase1/game-mechanics.md:987–1014,1069–1083",
+        "packages/game/src/core/battle/battle-opcodes.ts:653–689",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05；原头无Base，四专属主/cov/GLM/summon测试与470相邻是不同分母。总纲旧215已闭合属于旧快照，不能直接累加到当前全仓或docs迁移量。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3t - game battle-opcodes 战斗脚本解释器逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "逐段证据与结论（2026-10-05 Codex）",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "收口证据",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "runScript(runtimeMode=battle)→dispatchBattleOpcode及action/anim/event fallback；本轮仅653–689窄读。"
+      ],
+      "legalInputs": [
+        "合法battle context/target与opcode；未消费项按caller回退，0x2E现>=的抗性关与其它固定率分开，不能一概整招100%。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "consumed/newIp/side/资源/状态按owner正确；0x2E既定>=不被SDL早期>倒改，canon旧90cap不能当当前oracle。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "canon1074>=与1075投掷90cap及实际dispatch冲突guarded，根后继治理；不改共享源/产品。",
+        "补读四专属后恢复done保留，不把470相邻均算新增全文或当前执行。"
+      ],
+      "unresolved": [
+        "canon1074>=与1075投掷90cap及实际dispatch冲突guarded，根后继治理；不改共享源/产品。",
+        "补读四专属后恢复done保留，不把470相邻均算新增全文或当前执行。"
+      ],
+      "sourceSha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "5537347dacb07dd2f9944a0000fb77ed1b1c0e79",
+      "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
+      "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
+        "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
+        "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+        "lineCount": 243,
+        "exactOriginalBytes": 11798,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 11798,
+          "sourceLines": 123,
+          "sourceFinalNewline": true,
+          "inverseSha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
+          "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+          "originalHistory": "2026-10-05；原头无Base，四专属主/cov/GLM/summon测试与470相邻是不同分母。总纲旧215已闭合属于旧快照，不能直接累加到当前全仓或docs迁移量。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3u](CODE-QUALITY-3u-game-battle-state-runtime.md)接续状态资源；共享canon1075及旧总纲进度由根后继治理，未全文核机制文档，不宣称其整体已验。新工作依[现行工作流](../../../agent-workflow.md)另准入。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical，canon1075旧90cap guarded。保留现有>=产品边界，不因C旧文本回改；其它固定命中率和脚本组合未核，不能宣称整招100%。原四测试全文是旧主张，不给本轮470测试或coverage信用。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-243",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原10/470、四专属3848、全仓check/coverage精确计数仅历史引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "original closeout5=1product+4test; 470 adjacent tests do not add470 ledger entries"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 BattleState/runtime/positions审计：原三实现918/98/93共1109行，无直接缺陷/实现修改；状态快照、资源owner、空槽/位置与cleanup保持，明确原新增记录按排重5条。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "e8f538e358d420ce5013b274513c83783d35cd34",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:173–180",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:215,241–245",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:173–180",
+        "docs/ops/audits/code-quality-file-ledger.md:215,241–245"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原三实现及相邻state/runtime/finalization/anim oracle；positions已Q3m、runtime-context.test已Q3s，只复核不重复关闭。原phase1三玩家/生产五敌槽不改，也不推广成phase2作者工程容量；不从factory宽数组签名增加第二容量门。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:173–180",
+        "docs/ops/audits/code-quality-file-ledger.md:215,241–245",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原头无Base。1109实现、619四文件读域、55相邻tests与5新增账本记录是不同分母；其中619含复用runtime-context.test，不能把该总行数证明四份新语义验收。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3u - game battle-state/runtime-context/positions 逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "用户可见偏离",
+          "上下文锚点",
+          "逐段证据与结论（2026-10-05 Codex）",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "收口证据",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "createBattleState/runtime注入/positions由battle-system/finalization/anim消费；本轮未全文重读，仅测试行数统计。"
+      ],
+      "legalInputs": [
+        "原phase1工厂>3player拒绝、生产EnemyTeam五槽与null/0/0xFFFF槽合同；不因内部宽数组签名新设容量规则或跨阶段推广。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "快照/identity/空槽/位置和资源清理不串战斗；positions/runtime test排重，仅2prod+3test新增记录。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "65的4/619、117关闭7与77/100/112的3新test/5记录冲突guarded，按明确排重5不虚构时间线。",
+        "总纲Q3t/Q3u同215但u新增5，统计时点unknown，不能累计为当前全仓数。"
+      ],
+      "unresolved": [
+        "65的4/619、117关闭7与77/100/112的3新test/5记录冲突guarded，按明确排重5不虚构时间线。",
+        "总纲Q3t/Q3u同215但u新增5，统计时点unknown，不能累计为当前全仓数。"
+      ],
+      "sourceSha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "e8f538e358d420ce5013b274513c83783d35cd34",
+      "candidateSha256": "dd19420794445f5103bb03999bb1391e7b7d4e20a56d232f4223c9cd529acd73",
+      "afterSha256": "24536c1be644b3103a7cdfb216f96a05263820f92af9afb060ffec9a11417839",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "24536c1be644b3103a7cdfb216f96a05263820f92af9afb060ffec9a11417839",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364",
+        "candidateSha256": "dd19420794445f5103bb03999bb1391e7b7d4e20a56d232f4223c9cd529acd73",
+        "afterSha256": "24536c1be644b3103a7cdfb216f96a05263820f92af9afb060ffec9a11417839",
+        "lineCount": 243,
+        "exactOriginalBytes": 12846,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 12846,
+          "sourceLines": 123,
+          "sourceFinalNewline": true,
+          "inverseSha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "dd19420794445f5103bb03999bb1391e7b7d4e20a56d232f4223c9cd529acd73",
+          "afterSha256": "24536c1be644b3103a7cdfb216f96a05263820f92af9afb060ffec9a11417839",
+          "originalHistory": "2026-10-05，原头无Base。1109实现、619四文件读域、55相邻tests与5新增账本记录是不同分母；其中619含复用runtime-context.test，不能把该总行数证明四份新语义验收。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3m](CODE-QUALITY-3m-game-battle-core-contracts.md)沿用positions，[Q3s](CODE-QUALITY-3s-game-battle-system.md)沿用runtime test；[Q3v](CODE-QUALITY-3v-game-battle-actions-basic.md)/[Q3w](CODE-QUALITY-3w-game-battle-settlement-finalization.md)分域接续。共享计数由根治理，新机制反例另准入。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical，4/7与3/5、总纲215统计时点均guarded。保留明确新增5边界，不能据旧7多授重复记录；合法fallback/空槽依原caller，不新增schema/容量规则，也不让phase1上限跨阶段生效。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-243",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": [
+          "原7/55、1109实现读证/619读域和旧full gates仅历史引用；本轮只四测试行数统计"
+        ],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "explicit closeout5 =2product+3test; positions/runtime test reused; old4/619 and7 retained guarded, not new time/order proof"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 attack/attack-mate/defend/flee四action审计：614/111/20/81共826行，原无直接缺陷/实现修改；目标side、伤害/状态与timeline/CommandBus责任保持，敌吉运修复按已定裁决。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "b47db58dd2fdbbad26d1cb14567bd7e35fffb12a",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:182–189",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:246–251",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/phase1/game-mechanics.md:808–855",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:182–189",
+        "docs/ops/audits/code-quality-file-ledger.md:246–251",
+        "docs/phase1/game-mechanics.md:808–855"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "原四action、两专属测试全文与actions.test相关段及必要anim/formula oracle；不接battle-system/opcodes全域、magic/item/throw/coop、公式重判、schema/save/生成物或演出/runner。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:182–189",
+        "docs/ops/audits/code-quality-file-ledger.md:246–251",
+        "docs/phase1/game-mechanics.md:808–855",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原头无Base；826源码、154运行、6新增记录不同分母。敌吉运裁决另保留2026-06-13日期；本包不重认证原版/raw事实，也不改伤害/容量/演出。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3v - game battle actions attack/attack-mate/defend/flee 逐文件治理",
+          "目标",
+          "范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "真值矩阵",
+          "反证与替代解释",
+          "上下文锚点",
+          "逐段证据与结论（2026-10-05 Codex）",
+          "验收条件",
+          "当前模式推进记录",
+          "进入 build 前：Codex 核定",
+          "进入 done 前：独立验收",
+          "收口证据",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "performBattleAction→四executor及anim/formula/CommandBus按原卡引用，未本轮全文重读。"
+      ],
+      "legalInputs": [
+        "原合法action/目标side/空槽/状态及既有timeline委托；enemy fleeRate用用户修复，不按较早建议改dexterity。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "只改拥有字段、随机/防御/HP/动画委托不重复；actions相关段不算全文，原敌吉运裁决保持。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "actions.test仅相关段，相邻154不等全份新全文审核；新增6而非每个相邻文件都关闭。",
+        "853早建议与855用户裁决分时点；legacy fallback未本轮审，不凭名称删。"
+      ],
+      "unresolved": [
+        "actions.test仅相关段，相邻154不等全份新全文审核；新增6而非每个相邻文件都关闭。",
+        "853早建议与855用户裁决分时点；legacy fallback未本轮审，不凭名称删。"
+      ],
+      "sourceSha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "b47db58dd2fdbbad26d1cb14567bd7e35fffb12a",
+      "candidateSha256": "1a54018ff5f94ad2622b6d8cb88bd27b40a2bd7d0bdc41f63b1ae6d1c7ef0cf9",
+      "afterSha256": "c5981ff41c5589eafeea57767a1dd1986ee95c1998cbc0e7e732ac2c871ede4b",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "c5981ff41c5589eafeea57767a1dd1986ee95c1998cbc0e7e732ac2c871ede4b",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
+        "candidateSha256": "1a54018ff5f94ad2622b6d8cb88bd27b40a2bd7d0bdc41f63b1ae6d1c7ef0cf9",
+        "afterSha256": "c5981ff41c5589eafeea57767a1dd1986ee95c1998cbc0e7e732ac2c871ede4b",
+        "lineCount": 236,
+        "exactOriginalBytes": 11633,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 11633,
+          "sourceLines": 120,
+          "sourceFinalNewline": true,
+          "inverseSha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "1a54018ff5f94ad2622b6d8cb88bd27b40a2bd7d0bdc41f63b1ae6d1c7ef0cf9",
+          "afterSha256": "c5981ff41c5589eafeea57767a1dd1986ee95c1998cbc0e7e732ac2c871ede4b",
+          "originalHistory": "2026-10-05，原头无Base；826源码、154运行、6新增记录不同分母。敌吉运裁决另保留2026-06-13日期；本包不重认证原版/raw事实，也不改伤害/容量/演出。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3w](CODE-QUALITY-3w-game-battle-settlement-finalization.md)接续结果/清理；新机制或演出反例按[现行工作流](../../../agent-workflow.md)重新核准，actions主测试不因相关段复用重复关闭。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical。保留用户敌吉运取舍，不从SDL旧身法字段或早建议倒改；legacy fallback的当前具体适用性未本轮重核，不能仅按名字删除或授新版本豁免。动作/时间线合同不等视觉通过。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-236",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原6/154、四826行审计与旧完整门仅引用"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "original closeout6=4product+2test; actions.test related segments not full-file closure"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 settlement/finalization两文件313行只读审计：回写战果/HPMP、结算屏序、Phase E只一次、半血后cleanup与outcome resume按原caller；无直接缺陷或实现改动。",
+      "documentStatus": "historical; original done",
+      "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
+      "originalIdentity": {
+        "owner": "not present; preserve original Coding Owner field",
+        "codingOwner": "Codex",
+        "reviewer": "Codex（独立验收）"
+      },
+      "provenance": [
+        {
+          "governanceOwner": "Codex / contributor history_cards_a",
+          "role": "author candidate; not independent acceptance",
+          "preflightRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "preflightGitBlob": "a3d6b073a116051f6a9e82ccd5a8cf7592d9622f",
+          "sourceBlobEqualityVerified": true,
+          "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 包D候选引入与包F文档准入",
+          "generationOwner": "N/A"
+        },
+        {
+          "nonAuthorReviewer": "history_cards_c_tail",
+          "candidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+          "result": "accept documentation semantic migration only",
+          "rootChange": "Only new Governance Owner and acceptance tense, original quote byte-identical"
+        }
+      ],
+      "primarySource": [
+        {
+          "anchor": "docs/ops/audits/code-quality-governance.md:191–195",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/audits/code-quality-file-ledger.md:245,252–254",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md:112",
+          "revision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+          "reading": "read only within explicit readScope; no whole-file credit beyond listed ranges"
+        }
+      ],
+      "truthAnchors": [
+        "docs/ops/audits/code-quality-governance.md:191–195",
+        "docs/ops/audits/code-quality-file-ledger.md:245,252–254",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md:112"
+      ],
+      "phaseAnchors": [
+        {
+          "phase": "phase1 game",
+          "boundary": "仅67行finalization与246行settlement，progression/宿主只相邻oracle；不接完整battle-system、升级数值、其它actions、save/schema/生成物/演出或runner。finalization.test已Q3u关闭，不重复计新增。 All12 are phase1 game; phase2 behavior/capacity is not authorized.",
+          "rules": "CLAUDE.md and docs/ops/agent-workflow.md; no phase1 behavior change authorized"
+        }
+      ],
+      "dependencies": [
+        "docs/ops/audits/code-quality-governance.md:191–195",
+        "docs/ops/audits/code-quality-file-ledger.md:245,252–254",
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md:112",
+        "docs/ops/agent-workflow.md"
+      ],
+      "applicability": "2026-10-05，原头无Base；4相邻files/196tests、2实现313行、3新增record与已读两专属测试不是同一分母。原沿用完整门未给独立执行SHA/场次，本次不补造fresh run。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "CODE-QUALITY-3w - game battle settlement/finalization 逐文件治理",
+          "目标与范围",
+          "前提真值门",
+          "一句话行为 / 工程前提",
+          "替代解释与可证伪观察",
+          "逐段证据与结论（2026-10-05 Codex）",
+          "验收与收口证据",
+          "当前模式推进记录",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "preservation": "original H1/目标/范围 remain; other original ATX headings have live same-title navigation before quote"
+      },
+      "publicCallers": [
+        "tickBattle/finalize/settlement及progression相邻owner按原卡，未本轮生产/测试全文复审。"
+      ],
+      "legalInputs": [
+        "原合法胜/败/逃及结算屏/首帧键/超时/dialog hold；74+1仅特定oracle，不新增统一屏时长或升级规则。"
+      ],
+      "businessOracle": {
+        "type": "historical-quality-contract-and-source-scope-preserved",
+        "assertions": [
+          "Phase E一次且先于半血，正确outcome cleanup/release/resume；finalization.test排重，仅2prod+1test新增。",
+          "Entire original UTF-8 bytes recover exactly; original identities, dates, failed rounds, counters and prompts remain historical.",
+          "No new product/old-test-quality/runtime/E2E/visual/coverage credit; legal permissive inputs are not silently rejected."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-document-migration-only",
+        "against": [
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+          "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md"
+        ],
+        "notes": "按原生产文件白名单与codec/纯转换/IO/工具域排重；full/fast/定向/mutant计数分开，包级绿灯不扩大逐文件已审范围。"
+      },
+      "counterReworkBlocked": [
+        "50/67两新test/关闭4与58明确新增3冲突guarded，按排重3不造时间线。",
+        "原完整门沿用同轮结果，不声称本卡/本轮新跑；未给执行SHA仍unknown。"
+      ],
+      "unresolved": [
+        "50/67两新test/关闭4与58明确新增3冲突guarded，按排重3不造时间线。",
+        "原完整门沿用同轮结果，不声称本卡/本轮新跑；未给执行SHA仍unknown。"
+      ],
+      "sourceSha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
+      "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
+      "sourceGitObject": "a3d6b073a116051f6a9e82ccd5a8cf7592d9622f",
+      "candidateSha256": "a6a10358e724053b13d75cc41a4584e917e502e196ffe2996ac4a5e7cb6dbed1",
+      "afterSha256": "b52651c2cefdb216648a701d8bf890dd2d33aa300cdd8ea9ebb90db346faaa1d",
+      "revision": {
+        "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
+        "implementationSha": "b52651c2cefdb216648a701d8bf890dd2d33aa300cdd8ea9ebb90db346faaa1d",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "full-semantic-task-and-history-migration",
+            "authorCandidate": "77b687560cc7ec600faa7bc240483af47c10f991",
+            "independentReviewer": "history_cards_c_tail",
+            "notRun": ["product tests", "runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "sourceSha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
+        "candidateSha256": "a6a10358e724053b13d75cc41a4584e917e502e196ffe2996ac4a5e7cb6dbed1",
+        "afterSha256": "b52651c2cefdb216648a701d8bf890dd2d33aa300cdd8ea9ebb90db346faaa1d",
+        "lineCount": 171,
+        "exactOriginalBytes": 5573,
+        "originalPreservation": {
+          "startMarker": "<!-- original-source-quote:start -->",
+          "method": "complete original, each line only prefixed > or > space; no tail body after quote",
+          "sourceBytes": 5573,
+          "sourceLines": 71,
+          "sourceFinalNewline": true,
+          "inverseSha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
+          "exactRoundTrip": true,
+          "originalLinkDestinationsChanged": false,
+          "oldHeadingReachability": "PASS actual GFM heading parse and derived local Unicode slug; original titles live before quote, no hosted browser rendering"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "Non-author candidate accept, root receives with two new-layer administrative changes only",
+          "candidateSha256": "a6a10358e724053b13d75cc41a4584e917e502e196ffe2996ac4a5e7cb6dbed1",
+          "afterSha256": "b52651c2cefdb216648a701d8bf890dd2d33aa300cdd8ea9ebb90db346faaa1d",
+          "originalHistory": "2026-10-05，原头无Base；4相邻files/196tests、2实现313行、3新增record与已读两专属测试不是同一分母。原沿用完整门未给独立执行SHA/场次，本次不补造fresh run。",
+          "authorNextStepAtCandidate": "根从固定source/候选/关键primary独立核内容与保真，决定accept/counter并维护中央账和共享guarded关系；本作者不合推main。"
+        }
+      ],
+      "supersedes": [
+        {
+          "scope": "document organization only; no replacement of historical product conclusion",
+          "note": "Only document organization at the same path; no supersession of original product decisions or historical execution bytes."
+        }
+      ],
+      "successor": "[Q3u](CODE-QUALITY-3u-game-battle-state-runtime.md)提供finalization.test已关闭依据；后续progression等仍另批，不授本包阅读或完成信用。新反例依[现行工作流](../../../agent-workflow.md)另开互斥卡，无可执行旧提示词。",
+      "stopLine": "不执行旧prompt或producer命令，不改产品/旧测试/coverage/共享账；unknown/guarded计数与动态缺口不能为模板过门伪造闭合。",
+      "nextStep": "本篇历史文档迁移已独立接收；根继续全量治理并独立核中央接入。共享canon/ledger/总纲计数和原raw/动态缺口由后继相应文档/产品任务处理，不恢复旧build或重跑旧测试。",
+      "userVisibleBeforeAfter": {
+        "before": "一次性历史质量任务卡，含原准入/旧测试/coverage数字及未完全同步的中间态。",
+        "after": "historical，旧2新test/4记录与明确1新test/3记录冲突guarded，保留3新增排重边界。Phase E/半血/cleanup不靠文档重认证；旧完整门复用不是新执行，演出视觉与未知raw继续未验。",
+        "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
+      },
+      "reviewedLines": "1-171",
+      "phase": "ops",
+      "module": "historical-quality-contracts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "method": "Actual five task and five history sections, independent semantic review and exact byte inverse, not a path-based or wrapper-only pass."
+      },
+      "producerReferences": {
+        "references": ["原4/196与同轮完整check/ratchet/protected/Biome复用只引用；未新执行"],
+        "executedThisMigration": false,
+        "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
+      },
+      "historicalRecordDedupe": "explicit closeout3=2product+1test; finalization.test reused fromQ3u; old2test/4records retained guarded"
+    }
+  ]
+}

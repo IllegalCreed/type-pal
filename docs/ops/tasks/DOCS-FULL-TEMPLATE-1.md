@@ -456,3 +456,46 @@ Branch: codex/docs-full-template-proposal
 - receipt_review对根12条current record/12新层/两行政行、943原行逆回读、元数据/唯一registry-route、矩阵原25不变/新增3guarded及当前MD review逐项签accept，无新增counter；独立实际strict628/model108/docs1223-7190-361/progress完整性0/diff0。其未冒领tail原卡全文与2040回执全文，实际受审维护快照SHA记D集成receipt；后续根签收/门维护单列，不说新record字节等于原快照。
 - 本批104/1838基线+4增量已接收，1954候选/1846pending，520governed-legacy仍未迁移。额外quality ledger3283→3290计数失败继续open，不由D文档accept豁免；G已完成605行源阅读/真实consumer内存pilot设计，正文尚未迁移。
 - F77b687560cc7ec600faa7bc240483af47c10f991已获history_cards_c_tail全1229源/1332新层/2146回执独立12/12语义accept，166heading/140outgoing/0external inbound成立，当前尚未引入root中央/未计数。H13只读预审进行中，实际10旧ARCH已有governed记录、3CODE卡缺席，不能类推0/13或先实施。目标active，main未写，不标全量done。
+
+
+### 2026-10-16 包F中央候选与包G设计复核
+
+- F77b6875精确13文件白名单/source根字节一致后，引入为8c2480f4deef64481bafb49bf449772ac594f9a0。根实核12源/预审/候选/完整1229原行逆回读，读全12新增实质层与关键receipt字段；全原文/1332新层/2146回执独立全文语义签属于tail，不冒领根全读。仅新Governance Owner和接收时态两行政行另变，原quote/metadata保持。
+- 新增12条current records/registry/routes至640条/120正文合同；F原0/12，作者旧616及根旧628过门均不覆盖F。新增矩阵3条使28→31，原28对象不变；current MD review全部当前字段同步、旧完整current入flatten priorReadings。receipt9181e045b166c868e95bb0134e77a20fc380fe9594e736cc2733da174ebdce92不可变。中央接入正由receipt_review独立核，不先写其accept。
+- 当前真实投影116/1838基线+4增量，1956候选/1836pending，520governed-legacy。根temp intake复制工具先编译错误、后原D receipt路径被SHA断言拒绝，均在写F中央前改正；原候选与回执没被覆盖，历史留F集成记录，不降门或绕过断言。D的四条missing raw结论不复制给F；F raw可用性本轮未审仍unknown。
+- G非作者tail全文独立读605来源行、ledger142/inventory216行，agree既定plan-status(active)/governance-index(current)/audit-report(historical)及archive1.0方案。独立反证：普通quote重复汇总失败，fenced旧snapshot+live唯一表实调consumer零问题；旧parser只消费234条，原末3待核在空行后未消费，迁移明确归并为live待核，不增闭合数。7新增待核分别为5tool/2test，当前质量账本3290差额依旧open，尚未写正文或修门。
+- 根又全文读inventory216行，确认实际过滤所有tracked packages/或scripts/下代码扩展及JSON；七包名单只做domain标记，原scope字符串与总纲“只扫描七包”是近似陈述，G新说明须按真实filter纠正，旧原文保留。不得因机器清单每条默认待核而重置ledger已登记状态；不得把静态productionCallers当完整运行图。
+
+
+### 2026-10-16 包H十三卡内容设计与文档准入
+
+- 固定预审83750d8425709257a609c1b9f62b8c6686d53987，history_cards_a全文13卡4338行；根核每篇具体设计、白名单、停止线、中央10既有/3缺席和源。13blob/字节与F77及根当前相同，源manifest按path\0blob\0SHA256换行摘要c5774d16f19cc56bd5a125a3f11325589c60c794e72dd0bf9bb767c9ca394f1c。10ARCH现为governed-legacy且source=after实际原SHA，3QUALITY无中央条目；没有预设漂移或虚构0/13。
+- 文档build allowed：history_cards_a为唯一正文Owner；根Codex独立接收，非作者必须全文源/候选/原quote与必要primary另验。待F中央稳定提交后，从该明确根提交复用干净候选worktree开codex/docs-history-cards-h，保留F77分支与C/D分支；再核13blob与预审相同后才写。白名单仅下表13张docs/ops/archive/tasks/done/卡及contributor-history-cards-h-20261016.json专属回执（位于本任务evidence目录），不得共享中央/矩阵/总纲/ledger/canon、产品/旧测试/coverage/browser写入。
+- 全部依实际一次性目标/范围/准入/验收/交接绑定task-card-v1/1.0.0+archive-record-v1/1.0.0，不因路径直接判型，无新模板/变体。每篇五任务章/五历史章、原H1/身份/日期/签字/失败/counter/旧prompt及完整UTF8逐字节可逆quote；ENTRY-ACTOR原中文blockquote metadata原样保留，治理元数据另列，不能将引用状态重命名为当前build。原标题live入口/真实GFM片段/无孤儿/全字段review与SHA由根接收时统一更新。
+
+| H卡名（.md） | 具体正文合同与历史停止线 |
+|---|---|
+| ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions | 两condition作者链/三carrier/8可携状态、puppet排除、入口seed与剧情必中毒；战后仅参战者severe与restore全员清分开；content19/8a51a2b2/replay537、39error18warning6info与超时返工历史化，08-31done不等本轮动态 |
+| ARCH-CONTINUATION-1-remaining-queue | 原剩11项+A1/A2=13批，八项集成、各owner；固定f884e07c/26479604/a2485e7d与9573/9081/728/109针不同轴；62warning6info/chunk原记录保留，不关full/Q1/Q2/剧情E2E或全仓质量 |
+| ARCH-CURRENT-ONLY-1-development-current-only-consolidation | G0–G5 canonical准入、产品epoch/局部格式/源标签/平台轴、RA1删除；content16/SAVE8、170处69文件→0、294场景223地图1935资产与de234143删5sidecar；4/208 replay warning保留，不机械删所有V5/V1/legacy或恢复已退役表示 |
+| ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state | 角色基线与入口稀疏当前值唯一owner，删除learnedSkills双写，undefined首次seed/空数组/离归/读档不重播，原子setParty；content18/0558819e/replay537/技能345；原296诊断及SFX72/74大于64失败不抹，旧blocked/保留候选由冻结合同取代 |
+| ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model | 稳定defaultEntryId与真实独立入口快照/存档解耦；默认/query/menu/intro/scene/复制删除undo引用；content17/SAVE8/ff5e3a96/467处88文件/GE1–4；有效?scene跳?menu是已披露组合行为收敛，不写全组合零行为差异，SFXexit1和describe债保留 |
+| ARCH-F2-CURSOR-BATCH-1-domain-modules | 24组/32模块、119/50出口139/78声明、正文/DOM/ARIA/采样身份不变；Cursor实现Codex接收；首轮d0684e78counter与fc09645e/R1–3/24针保留，原5warning不叫零诊断；720裁切/隐藏命中区未证 |
+| ARCH-F2-CURSOR-BATCH-2-remaining-commands | 9组13模块，90声明119出口62绑定，正式seed→loader合法fixture与实际judge/5针/undo；6952ffee产品/2022acc3候选/96e9d3c1集成分开；55warning6info与16新增测试无新增覆盖行分支保留，不靠旁路judge掩counter |
+| ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement | 作者检查/窄供应/完整转换退役r1–r7与各owner、四伤亡两提示/作者正文权/537冻结oracle/事务/Node边界；r5供应被r6用户退役替代、r7最终收口，97删除144路径与1031−490−9−85+3=450按当时；不恢复原脚本生成或删整个migrate，不把会recover journal的dry-run叫绝对只读 |
+| ARCH-REGRESSION-LAB-GLM-1-twelve-packs | 8回归+4视觉准备，隔离候选与正式接入、合法caller/oracle/排重/反控；32→37→42候选、37+4=41正式、75账、G06-11/E2十三项分母分开；旧warning/截图误标/焦点separator泛化撤回保留，原生zoom/boot三态/旧options未证 |
+| ARCH-SUPPORT-GLM-1-eight-audit-packages | 八只读准备包，38唯一ID/7节点15runtime边/22hash/17图，Codex收材料不授产品build；09-25接收与10-02清账分时；原明确17临时原图全失、004用户肯定不扩所有卡，hash不证明今天在盘，P5那条边不可凭总数放过 |
+| CODE-QUALITY-1-governance | 有限Q1RLE/Q1bcensus：generic0/0x80合法framing与strict零长拒绝不同，合法pixel/opaque/坏帧skip；7fde00ce与22666→22663为旧oracle；原一律零进度风险被同卡172重核收窄，raw全扫未知，首批done不关全仓 |
+| CODE-QUALITY-3x-game-battle-progression | 306实现/139与340专属测试属原审查，活人gate/池顺序RNG/主升级cap与隐藏无cap/回满/技能去重；只关1product+2test=3，4files205相邻不算4新增；226/5/2735→229/5/2732按旧时点，不代G修当前汇总 |
+| CODE-QUALITY-6a-ledger-integrity | 记录唯一性/inventory对账/真实runner，只读工具与37项/9反例；2966/226/5/2735是旧口径，Q3u/w排重与Q3t误替Q3s背景保留；semantic review still required，不把机器PASS自动标代码已验证 |
+
+- 实际补读完整来源：4集成/完成回执182行、PERF-B交接119行、READ-FIRST/architecture-debt；condition/startup仅列明窄段，actor-condition-lifecycle45行全文、startup-entry63全文、shared/rle1–225、ledger消费者142全文；其它产品/旧tests/raw/tmp/screenshots本轮未核，不借历史全读声称今天全读。entry/card原16→17→18→19/SAVE8和旧central.minimumSaveVersion11保留其时点，当前版本必须独立真源，不能抄旧数字或以lineCount多EOF空行造SHA漂移。
+- 任何旧非零诊断被改零、r5被重升当前、候选计数当正式数量、旧截图缺失被抹掉、组合query语义被称全程不变、机器完整性替代码深审，均counter/rework。作者只交候选和真实source/after/producer/保留证明，未根独立接受不计迁移/不合main。整体goal active，G/H准入只属文档，不授产品build或运行。
+
+
+### 2026-10-16 包F最终中央接收与下一批稳定交接
+
+- receipt_review对F12条current record/12实质新层、两行根delta、原1229行逆回读/身份/数字/唯一registry-route和28原矩阵对象不变+3guarded签accept，无新增counter。独立实跑strict640/model120/docs1223-7247-361/progress完整性0/diff0，未冒领tail1229原/1332新/2146回执全文信用。精确受审维护SHA存F集成记录，后续根签收新字节另列。
+- 根实际全check:docs68工具0fail0skip、1223MD/7247links/361tasks、120正文合同、testing0、phase184、review640全部通过；lint4087文件零error/warning/info，diff0。签收维护后再同门实测；仅本文档范围通过，qualityledger库存3283/3290漂移仍open、等待G真实修复，不标统一质量门或全量done。
+- 当前116/1838基线+4增量已接收，1956候选中1836pending，520governed-legacy无保留豁免；新增控制JSON/快照与产物仍计后继治理，main仍f98d0ddd未改，目标active。F候选原branch77保留，H13设计/4338源manifest和10旧+3新中央前提已由根实际复核相同。待本签收稳定提交后把明确SHA发history_cards_a开H隔离branch；tail在并行独立全文预审H，未对尚无候选预签accept。
+- G范围窄补：3共享源实际独立接受后，可将已接收Q3k新增历史说明中“ledger摘要仍待根治理”的当前时态改为已纠正live摘要并保原错句snapshot，限新增层相关段落与after/current review/matrix同步、原quote不动、0新增迁移信用。其它历史guarded计数/缺raw不因此闭合。G正文尚未写；后继仍需真实machine consumer/逐行状态与source/after/原snapshot保真检查，不能只用内存pilot过门。

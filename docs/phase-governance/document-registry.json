@@ -6,9 +6,9 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 628,
+    "total": 640,
     "byPhase": {
-      "ops": 400,
+      "ops": 412,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
@@ -23,7 +23,7 @@
       "evidence-receipt": 45,
       "design-spec": 43,
       "governance-index": 24,
-      "task-card": 318,
+      "task-card": 330,
       "quality-gate": 1,
       "reference-canon": 16,
       "narrative-idea": 2,
@@ -36,10 +36,10 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 628
+      "content-reviewed": 640
     },
     "templateCompliance": {
-      "template-compliant": 108,
+      "template-compliant": 120,
       "governed-legacy": 520
     }
   },
@@ -7137,6 +7137,162 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-historical-cards-d.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-cards-f.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

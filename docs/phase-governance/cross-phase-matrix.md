@@ -56,6 +56,10 @@ Template: governance-index-v1 / 1.0.0
 | 历史质量计数 ↔ 共享摘要 | YJ2的131/129未解释，wave明确3过1败与ledger误述并列 | guarded | 不择数造轮次、不继承3fail、不冒充raw重跑 |
 | coverage后继证据 ↔ runner猜测 | 单branch回归收窄旧归因，fast/full/probe分母分开 | guarded | 不为历史计数降低门，不以单包绿灯代全仓 |
 
+| catalog自有label ↔ 继承属性 | own-property修继承误认，自有原型同名label仍合法 | guarded | 不添黑名单，不从旧done补push或当前代码质量信用 |
+| battle既定裁决 ↔ 机制旧摘要 | >=抗性关与敌吉运已定；旧90cap矛盾显式登记 | guarded | 不回改产品，不从单门推出整招100%或全canon认证 |
+| 状态/清理排重 ↔ 历史计数 | u新增5、w新增3，复用测试不重复，旧4/7/215并列 | guarded | 不造执行先后，不重复关账，旧全门沿用不算新跑 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步
