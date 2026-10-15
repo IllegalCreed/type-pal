@@ -207,3 +207,11 @@ Branch: codex/docs-full-template-proposal
 - 根线程新增脚本卡UI历史回执与finite-intake审计两篇迁移，分别按evidence-receipt/audit-report加历史overlay。原文逐字节逆回读、具体typed章节和历史边界由非作者独立accept；09-28UI、10-03筛选/计数/撤销反控与后继统一封板不可混为当前动态通过。矩阵现16条已登记关系，仍非全量穷尽。
 - 累计52/1838基线+4增量、当前1888候选待迁移；603条旧+新ledger不等于603篇迁移，仍有547条governed-legacy。63项文档工具测试、7路由/56正文、check:docs全项、lint4072文件零error/warning/info、diff检查通过。首轮两个本批JSON格式诊断已修正复跑，未降规则。
 - main工作树未写入；候选保留build，持续目标active，未合main/推main。没有产品源码、旧测试、coverage改动或新runtime/E2E/视觉结论。最终全量独立复核仍待；下一步继续逐篇处理剩余候选及artifact归属，不能由局部门绿提前done。
+
+### 2026-10-15 分派：历史任务卡包 B
+
+- 基准b08554e61c7818a8e1d23ecdd7636ae78e4a4666；复用已核干净的隔离worktree，切新候选分支codex/docs-history-cards-b，不改根线程/main。Coding Owner为贡献者history_cards_a；根线程为独立接收者。
+- build allowed仅为10张已存在归档卡的task-card1.0.0+history overlay语义迁移与单独候选回执。白名单：A4-own-sprite-upload、ARCH-F2-DS-LABELS-1、ARCH-F2-DS-OVERFLOW-1、ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1、ARCH-REFORGE-BATTLE-1-host-lifecycle、ARCH-REFORGE-FRAME-1-clock-and-input、ARCH-REFORGE-MENU-1-session-controller、ARCH-REFORGE-SCENE-1-resources-and-preflight、AUDIT-TEST-QUALITY-1、B10-poison-structured-editor，均在docs/ops/archive/tasks/done/。
+- 必须全文读原卡及相关直接来源，再写具体目标/范围/前提证据/验收/状态交接和五节历史overlay；完整原文、Status/Owner/日期/数字/counter/用户裁决保留，不执行旧prompt或恢复退役工作。未知实施/视觉/raw继续unknown，不为模板补造。
+- 只允许上述10个Markdown和docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json。禁止写共享registry/reviews/routing/catalog/board/index、产品源码/旧测试/coverage；未独立接收前不计进度、不合main。
+- 交付须有逐篇源Git blob/source/after SHA、具体结论/历史冲突与继任范围、完整原文回读、真实检查结果和限制；根线程直接读源/候选/一手证据决定accept/rework并更新中央账。无用户搬运环节。
