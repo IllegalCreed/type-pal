@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+协作与操作路由统一从 [AGENTS.md](AGENTS.md#操作与必读)进入；本文保留第一阶段知识和已有证据锚点，不维护独立的文档状态源。改 docs 前先读[项目文档模型](docs/ops/guides/documentation-model.md)。
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 > ## ⚠️ 动手前先判断：第一阶段 还是 第二阶段 的工作？

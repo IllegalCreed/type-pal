@@ -9,3 +9,4 @@
 - [Kimi 浏览器实测操作手册](browser-verification.md)
 - [本地开发服务器 · 端口与启动命令](dev-servers.md)
 - [文档维护与自动检查](documentation.md)
+- [type-pal 文档模型](documentation-model.md)：操作路由、事实权、模板与写回闭环。

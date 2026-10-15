@@ -1,5 +1,9 @@
 # 文档维护与自动检查
 
+## AI Quick Path
+
+先读[项目文档模型](documentation-model.md)确认读取/写回路径，再用本文执行链接、索引和版本检查。模板符合性与结构门均不替代内容核读或产品实跑。
+
 维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，
 全仓结构整理见 [DOC-IA-2](../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md)。
 本轮依据 [文档审计](../archive/audits/documentation-2026-09-06.md) 修正信息与导航；产品缺陷仍由
@@ -25,13 +29,13 @@
 ## 索引与文件存放
 
 - `docs/` 下每个直接含 Markdown 的目录都有 README；README 链接该目录的每份直接文档，按上述类型说明。
-- 活动任务放 `docs/ops/tasks/`；终态任务按 `done/cancelled` 放 `docs/ops/archive/tasks/`，模板放
-  `docs/ops/templates/`。任务卡使用 [独立生成索引](../tasks/index.md)。当前行动只从 [看板](../archive/board-history/board-20261004.md) 进入；已完成卡内的旧交接提示
+- 活动任务放 `docs/ops/tasks/`；既有终态任务保留 `docs/ops/archive/tasks/` 的稳定路径，模板放
+  `docs/ops/templates/`。任务卡使用 [独立生成索引](../tasks/index.md)。当前行动只从 [看板](../board.md) 进入；已完成卡内的旧交接提示
   不构成新的授权，历史状态也不覆盖卡片顶部终态。
 - 新任务顶部写 `Status: draft`，使用既定状态机；既有五张终态卡的中文状态标签按确切文件名单读取，
   无需为工具统一字段而改写历史。索引不根据正文中零散的 `build/done` 判断状态。
 - 新增长任务将当前摘要、准入和最终回执留在卡中，大段日志、独立复核和截图按任务 ID 放证据目录。
-  关闭卡归档时同步更新全部入链和机器索引，保留签字与正文；目录移动必须先有显式映射和预检。
+  新任务完成后先更新顶部状态、索引和看板，不因 done 自动移动；确需迁移时同步全部入链和机器索引，保留签字与正文，先有显式映射和预检。
 - 现行入口尽量链接单一权威来源，不手抄“铁律数量”“决策编号上限”“文档行数”等易漂移计数。
 
 ## 检查命令

@@ -4,7 +4,7 @@ Status: build
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: Codex（独立验收）
+Reviewer: Codex（最终独立复核待完成；本轮接入由同一 Owner 自验）
 Branch: codex/docs-full-template-proposal
 
 ## 目标
@@ -83,10 +83,33 @@ Branch: codex/docs-full-template-proposal
 - 浏览器 / 手工检查：N/A；本阶段仅静态文档治理。
 - 跳过的检查及原因：最终 `check:docs` 在 content-review 阶段因候选分支新增导航文件尚未合并到旧 review ledger，报告 3 个 after SHA drift；不是正文语义通过。`pnpm lint` 尚未运行。
 
-## Pilot 结果
+## 2026-10-11 Pilot 原记录（已被 2026-10-15 复核收窄）
 
 - 17/17 模板候选生成，17/17 原文保留检查通过。
 - Markdown 候选：源正文作为 byte-preserved body substring 保留；canonical 文件未改写。
 - JSON 候选：payload deep roundtrip 保持机器字段；canonical evidence 未改写。
 - Pilot 只证明包装结构与字段保留，不证明 runtime、E2E、视觉或 coverage。
 - 下一批：先更新完整 registry/review ledger 的新 schema，再按 domain 批次逐篇正文迁移。
+
+## 2026-10-15 指南接入与持续目标
+
+- 用户明确要求：参考其 `agent-doc-architecture` 指南进一步治理；随后要求设定目标，按指南完成全量治理。已建立持续 active 目标，无额外 token 预算。
+- 指南锚点：`IllegalCreed/agent-doc-architecture@169fc3d04f86ededf567e2b9d0417497ed7ef775`，四篇正文与 SKILL/references 已读；[项目适配](../guides/documentation-model.md)保留本项目状态机、测试排重裁决和零诊断要求。
+- 同步 main：候选合并 `f98d0ddd89ebdee7b04502ee35de26ee82c6d246`，解决 board 冲突时保留实体状态 review、回合测试 rework 及本卡 build；没有改主工作树。
+- 前提重新核定：1838 是 2026-10-11 固定必审 cohort，后续新增/变化另记。旧 570 ledger 不能覆盖全量，也不能作为模板迁移证明。
+- Codex build allowed：入口/模型/写回检查及有效 pilot；同类 pilot 未通过前不得批量迁移。
+- [旧 pilot 复核](../evidence/DOCS-FULL-TEMPLATE-1/pilot-assessment-20261015.json)：17 个回读样本均不算模板迁移验收。JSON 搬进 payload 也没有证明既有 consumer 可读；`.md.raw` 不构成链接修复。旧结果保留历史，accepted pilot 回到 0。
+- 已实改：docs 总入口、治理入口、模板入口；新增项目文档模型；AGENTS 加 7 条操作路由，CLAUDE 先转发；修正文档维护当前看板链接与稳定路径规则。
+- 新增结构门：操作行必须真实存在、必读链接有目标；迁移正文检查真实章节，代码样例和空标题不算。JSON 的必填字段保持顶层，不因 envelope 绕过 consumer。
+- 验证与审查记录：本轮为 Owner 自验；无 runtime/E2E/视觉/coverage 新通过结论。最终独立复核、全量门及 main 集成仍未完成。
+- 下一步：更新逐篇 review/SHA 与增量 inventory；以真实短文分别完成模板 pilot，再按职责批次全文迁移。全量完成前不标 done，不把入口接入当作全部交付。
+
+### 2026-10-15 本批验证与后续锚点
+
+- 54 项 docs tooling 回归通过；docs 链接/索引、testing、phase/lore 以及 content review 全部零问题。本轮 ledger 是旧范围加四篇实际改写的 574 条，不是全量验收。
+- 新结构门通过 7 条操作路由和 4 篇正文合同；无效 wrapper、代码围栏中的假路由、缺目标和 JSON payload 包装反例均被拒绝。
+- 全仓 lint 零 error/warning/info（4056 个已核文件），`git diff --check` 通过。过大 inventory 分成 9 片，3412 条逐项回读相等，不改规则、不加 ignore。
+- 1838 基线全部仍在；本次增量快照见 `delta-inventory-20261015.json`，23 份基线 hash 已变、新增 88 份候选（快照写入前）。它们分别待核，不从旧账继承 reviewed。
+- 有效 pilot：当前治理入口的 governance-index 与新项目模型的 guide-runbook 已有实际内容/结构检查和全文 review；其余类型仍待选真实代表、核 consumer 与历史边界。旧 17 个保真样本的 counter 不因结构门绿而闭合。
+- 下一批具体入口：先核 `docs/ops/agent-workflow.md` 与根入口的历史协议分层、目录 README 的事实权；再分别核 testing catalog/contract/stage/report/machine evidence 与 HTML 的实际 consumer。未读文件不得由批量脚本填写内容结论。
+- 持续目标保持 active，任务保持 build；原 1838 全量与增量尚未完成，未推 main，最终独立验收待实施完成后执行。

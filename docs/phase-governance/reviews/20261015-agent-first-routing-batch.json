@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "scope": "four actually rewritten/read routing documents only; not the full 1838 cohort",
+  "entries": [
+    {
+      "path": "docs/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-and-manual-semantic-rewrite",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "全局入口按职责导航到 ops/lore/phase1/phase2/phase3/testing/governance，消除重复 H1 与空章节；保留所有包与工程来源入口。",
+      "truthAnchors": ["AGENTS.md:14", "docs/ops/guides/documentation-model.md:1"],
+      "unresolved": [],
+      "nextStep": "保留全量任务 build；本批入口迁移不授权将其余文档标为已读或迁移完成。",
+      "phase": "phase-governance",
+      "module": "routing-and-authority",
+      "owner": "Codex",
+      "provenance": [
+        "user-approved-1838-baseline",
+        "user-authored-agent-doc-architecture@169fc3d04f86ededf567e2b9d0417497ed7ef775",
+        "repository-source-and-manual-rewrite"
+      ],
+      "sourceSha256": "31b698d8e2eff0fedc2107086308ec04f8da54a36e68ef49daca0faaba4a1003",
+      "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+      "sourceGitObject": "8da9b1f47b708e479bbddb4de4c4c45fadafdb18",
+      "sourceState": "present",
+      "afterSha256": "50d199f1915d9bcb4ef8e8979c00901981f960aebb0579b21c0ef946a688f883",
+      "publicCallers": [
+        "AGENTS.md operation routing",
+        "docs/README.md",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "项目文档读取、导航与维护；不是游戏运行输入",
+        "Git 跟踪或未忽略的文档与已批准任务范围"
+      ],
+      "businessOracle": {
+        "type": "document-routing-and-writeback-contract",
+        "assertions": [
+          "读者可从操作路由到现行规范并定位唯一状态源",
+          "源文档的可用入口、历史范围和事实权在改写后保留",
+          "模板章节承载具体正文；结构检查不授予运行时通过状态"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/README.md",
+          "docs/phase-governance/README.md",
+          "docs/phase-governance/templates/README.md",
+          "docs/ops/guides/documentation-model.md"
+        ],
+        "notes": "总入口按职责导航，治理入口按控制职责导航，模板入口只登记合同，模型说明如何读写；不另建 tasks/testing 状态事实源。"
+      },
+      "revision": {
+        "currentSha": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+        "contentVersion": "N/A-docs-only",
+        "minimumSaveVersion": "N/A-docs-only",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "manual-routing-and-authority-rewrite",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "full-text-content-and-link-review",
+        "path": "docs/README.md",
+        "sourceSha256": "31b698d8e2eff0fedc2107086308ec04f8da54a36e68ef49daca0faaba4a1003",
+        "afterSha256": "50d199f1915d9bcb4ef8e8979c00901981f960aebb0579b21c0ef946a688f883",
+        "lineCount": 43
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "31b698d8e2eff0fedc2107086308ec04f8da54a36e68ef49daca0faaba4a1003",
+          "afterSha256": "50d199f1915d9bcb4ef8e8979c00901981f960aebb0579b21c0ef946a688f883",
+          "beforeAfter": "两段文档总入口、空文档附件栏目 -> 一个按职责和下一跳组织的总入口。",
+          "scope": "documentation semantics only"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "两段文档总入口、空文档附件栏目 -> 一个按职责和下一跳组织的总入口。",
+      "reviewedLines": "1-43",
+      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-and-manual-semantic-rewrite",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "治理范围明确包括全 docs；旧阶段 catalog 与 570 registry 的范围被显式收窄，模板、review、matrix 与主任务各自只保存自己的事实。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
+        "docs/phase-governance/document-registry.json:1"
+      ],
+      "unresolved": [],
+      "nextStep": "保留全量任务 build；本批入口迁移不授权将其余文档标为已读或迁移完成。",
+      "phase": "phase-governance",
+      "module": "routing-and-authority",
+      "owner": "Codex",
+      "provenance": [
+        "user-approved-1838-baseline",
+        "user-authored-agent-doc-architecture@169fc3d04f86ededf567e2b9d0417497ed7ef775",
+        "repository-source-and-manual-rewrite"
+      ],
+      "sourceSha256": "c8b2201cde0e65c82b74a3d9e7465ef4d0bf944e264b879641f262ce1ccb25db",
+      "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+      "sourceGitObject": "77d2d4711394b03c3114f464e854ce5e1b18b5a6",
+      "sourceState": "present",
+      "afterSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2",
+      "publicCallers": [
+        "AGENTS.md operation routing",
+        "docs/README.md",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "项目文档读取、导航与维护；不是游戏运行输入",
+        "Git 跟踪或未忽略的文档与已批准任务范围"
+      ],
+      "businessOracle": {
+        "type": "document-routing-and-writeback-contract",
+        "assertions": [
+          "读者可从操作路由到现行规范并定位唯一状态源",
+          "源文档的可用入口、历史范围和事实权在改写后保留",
+          "模板章节承载具体正文；结构检查不授予运行时通过状态"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/README.md",
+          "docs/phase-governance/README.md",
+          "docs/phase-governance/templates/README.md",
+          "docs/ops/guides/documentation-model.md"
+        ],
+        "notes": "总入口按职责导航，治理入口按控制职责导航，模板入口只登记合同，模型说明如何读写；不另建 tasks/testing 状态事实源。"
+      },
+      "revision": {
+        "currentSha": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+        "contentVersion": "N/A-docs-only",
+        "minimumSaveVersion": "N/A-docs-only",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "manual-routing-and-authority-rewrite",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "full-text-content-and-link-review",
+        "path": "docs/phase-governance/README.md",
+        "sourceSha256": "c8b2201cde0e65c82b74a3d9e7465ef4d0bf944e264b879641f262ce1ccb25db",
+        "afterSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2",
+        "lineCount": 32
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "c8b2201cde0e65c82b74a3d9e7465ef4d0bf944e264b879641f262ce1ccb25db",
+          "afterSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2",
+          "beforeAfter": "lore/三阶段入口 -> 全 docs 治理入口，保留旧索引但禁止外推为全量完成。",
+          "scope": "documentation semantics only"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "lore/三阶段入口 -> 全 docs 治理入口，保留旧索引但禁止外推为全量完成。",
+      "reviewedLines": "1-32",
+      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-and-manual-semantic-rewrite",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "统一导航 17 类模板，完整与轻量卡是变体；明确旧回读样本不构成 pilot 验收，JSON schema/consumer 不由 Markdown 章节替代。",
+      "truthAnchors": [
+        "docs/phase-governance/templates/registry.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-assessment-20261015.json:1"
+      ],
+      "unresolved": [],
+      "nextStep": "保留全量任务 build；本批入口迁移不授权将其余文档标为已读或迁移完成。",
+      "phase": "phase-governance",
+      "module": "routing-and-authority",
+      "owner": "Codex",
+      "provenance": [
+        "user-approved-1838-baseline",
+        "user-authored-agent-doc-architecture@169fc3d04f86ededf567e2b9d0417497ed7ef775",
+        "repository-source-and-manual-rewrite"
+      ],
+      "sourceSha256": "f93818e5a2e66c474586f7a852bd4ab844f977abfa50e333ab46ad38b8cc152a",
+      "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+      "sourceGitObject": "e74c870ed481711efba4e20b61c2f3ee683f1bda",
+      "sourceState": "present",
+      "afterSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+      "publicCallers": [
+        "AGENTS.md operation routing",
+        "docs/README.md",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "项目文档读取、导航与维护；不是游戏运行输入",
+        "Git 跟踪或未忽略的文档与已批准任务范围"
+      ],
+      "businessOracle": {
+        "type": "document-routing-and-writeback-contract",
+        "assertions": [
+          "读者可从操作路由到现行规范并定位唯一状态源",
+          "源文档的可用入口、历史范围和事实权在改写后保留",
+          "模板章节承载具体正文；结构检查不授予运行时通过状态"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/README.md",
+          "docs/phase-governance/README.md",
+          "docs/phase-governance/templates/README.md",
+          "docs/ops/guides/documentation-model.md"
+        ],
+        "notes": "总入口按职责导航，治理入口按控制职责导航，模板入口只登记合同，模型说明如何读写；不另建 tasks/testing 状态事实源。"
+      },
+      "revision": {
+        "currentSha": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+        "contentVersion": "N/A-docs-only",
+        "minimumSaveVersion": "N/A-docs-only",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "manual-routing-and-authority-rewrite",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "full-text-content-and-link-review",
+        "path": "docs/phase-governance/templates/README.md",
+        "sourceSha256": "f93818e5a2e66c474586f7a852bd4ab844f977abfa50e333ab46ad38b8cc152a",
+        "afterSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+        "lineCount": 49
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "f93818e5a2e66c474586f7a852bd4ab844f977abfa50e333ab46ad38b8cc152a",
+          "afterSha256": "f97ee828e6114b2bd075d30aa764fc88cd15c7ba7ca463d184ae0866ad382f6d",
+          "beforeAfter": "10 类旧范围与永久 governed-legacy 表述 -> 17 类全 docs 模板与有效 pilot 准入。",
+          "scope": "documentation semantics only"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "10 类旧范围与永久 governed-legacy 表述 -> 17 类全 docs 模板与有效 pilot 准入。",
+      "reviewedLines": "1-49",
+      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-and-manual-semantic-rewrite",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "落实 L0-L3、任务卡/testing catalog/document registry 的事实权、同提交写回、稳定路径、机器字段与附件保留规则；明确外部指南与现行零诊断/测试精简裁决的适配。",
+      "truthAnchors": [
+        "AGENTS.md:14",
+        "docs/testing/governance.md:1",
+        "docs/phase2/READ-FIRST.md:1"
+      ],
+      "unresolved": [],
+      "nextStep": "保留全量任务 build；本批入口迁移不授权将其余文档标为已读或迁移完成。",
+      "phase": "ops",
+      "module": "routing-and-authority",
+      "owner": "Codex",
+      "provenance": [
+        "user-approved-1838-baseline",
+        "user-authored-agent-doc-architecture@169fc3d04f86ededf567e2b9d0417497ed7ef775",
+        "repository-source-and-manual-rewrite"
+      ],
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+      "sourceGitObject": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c:docs/ops/guides/documentation-model.md",
+      "sourceState": "absent-new-document-empty-byte-source",
+      "afterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
+      "publicCallers": [
+        "AGENTS.md operation routing",
+        "docs/README.md",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "项目文档读取、导航与维护；不是游戏运行输入",
+        "Git 跟踪或未忽略的文档与已批准任务范围"
+      ],
+      "businessOracle": {
+        "type": "document-routing-and-writeback-contract",
+        "assertions": [
+          "读者可从操作路由到现行规范并定位唯一状态源",
+          "源文档的可用入口、历史范围和事实权在改写后保留",
+          "模板章节承载具体正文；结构检查不授予运行时通过状态"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/README.md",
+          "docs/phase-governance/README.md",
+          "docs/phase-governance/templates/README.md",
+          "docs/ops/guides/documentation-model.md"
+        ],
+        "notes": "总入口按职责导航，治理入口按控制职责导航，模板入口只登记合同，模型说明如何读写；不另建 tasks/testing 状态事实源。"
+      },
+      "revision": {
+        "currentSha": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+        "contentVersion": "N/A-docs-only",
+        "minimumSaveVersion": "N/A-docs-only",
+        "history": [
+          {
+            "date": "2026-10-15",
+            "action": "manual-routing-and-authority-rewrite",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "full-text-content-and-link-review",
+        "path": "docs/ops/guides/documentation-model.md",
+        "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "afterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
+        "lineCount": 109
+      },
+      "history": [
+        {
+          "date": "2026-10-15",
+          "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "afterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
+          "beforeAfter": "无项目层文档模型 -> 按职责读取、写回和复核的具体 runbook。",
+          "scope": "documentation semantics only"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
+      "userVisibleBeforeAfter": "无项目层文档模型 -> 按职责读取、写回和复核的具体 runbook。",
+      "reviewedLines": "1-109",
+      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
+    }
+  ]
+}

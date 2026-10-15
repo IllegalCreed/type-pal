@@ -14,3 +14,11 @@
 
 ## 限制与复核
 标题和 JSON keys 仅供阅读排期，不能替代全文语义阅读。artifact owner 全部待核，不以目录猜 owner。候选工作树不含用户 draft 的正文；接收前必须重新核原树 delta。本轮无 runtime/E2E/视觉/coverage 结论。
+
+## 2026-10-15 指南接入与更正
+
+- [指南接入后的 pilot 复核](pilot-assessment-20261015.json)：旧 17 项只证明可回读，实际模板与 consumer 验收为 counter，accepted 0；不抹除原始记录。
+- [逐文件绑定基线](binding-baseline.json)：1838 条候选排期，仍为 unread/needs-migration，不能作为全文审阅。
+- [原 pilot 来源记录](pilots.json)、[原候选回读记录](pilot-candidates.json)与 `pilots/` 原样保留为历史证据；`.raw` 后缀不代表免审。
+- [项目文档模型](../../guides/documentation-model.md)给出路由、事实权、写回与迁移完成标准；接入增量另记，不改变用户批准的分母。
+- [2026-10-15 增量清单](delta-inventory-20261015.json)：1838 基线全部仍存在；新增候选与 23 份基线变化单列，不冒充重新深审。快照自身用 Git 定位，不自嵌 hash。

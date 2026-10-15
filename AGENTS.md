@@ -8,6 +8,22 @@
 - [`docs/ops/board.md`](docs/ops/board.md): 当前任务看板。
 - [`docs/ops/tasks/`](docs/ops/tasks): 任务卡。
 
+## 操作与必读
+
+先按操作选择规范，再进入对应任务和证据；这样可以避免把归档结论当成当前授权。目录职责与事实权见[项目文档模型](docs/ops/guides/documentation-model.md)。
+
+| 操作 | 必读 | 一句话要点 |
+|---|---|---|
+| 新建、修改或治理文档 | [项目文档模型](docs/ops/guides/documentation-model.md) | 先定唯一事实源与模板；同提交写回；提交前运行 check:docs、lint 和 diff 检查，诊断全部为零 |
+| 开始或接手非小改 | [当前协作流程](docs/ops/agent-workflow.md)、[活动看板](docs/ops/board.md) | 读卡顶部状态与准入；历史三签不恢复，旧 counter 不自动消失 |
+| 写、改或审查测试 | [测试治理](docs/testing/governance.md)、[测试质量验收](docs/ops/agent-workflow.md#测试质量验收用户-2026-10-03-固化) | 核 caller、合法输入、oracle、排重和反控；catalog 与 evidence 配对 |
+| 第一阶段机制或缺陷 | [第一阶段知识](CLAUDE.md)、[机制真值](docs/phase1/game-mechanics.md) | 分清原始数据、sdlpal 参考与本项目观察，保留原版证据边界 |
+| 第二阶段引擎、编辑器或内容 | [Reforge 开工规则](docs/phase2/READ-FIRST.md) | 干净架构、当前 canonical；先 harvest，演出差异先归因 |
+| E2E、剧情回写或编辑器预览起点 | [E2E 合同](docs/testing/e2e/contract.md)、[剧情时间线](docs/lore/timeline.md) | 只将实际核读、实跑与用户判断写回各自证据范围 |
+| 封板、合并或发布回执 | [文档完成定义](docs/ops/guides/documentation-model.md#完成定义)、[文档检查](docs/ops/guides/documentation.md) | 静态零诊断是必要条件，不能代替 runtime、E2E、视觉或部署验收 |
+
+本节只路由。完整项目知识与历史协议保留在下游；其他 Agent 入口先转发本节，不维护第二套操作规则。
+
 ## 当前临时模式：Codex 分派、贡献者执行、Codex 独立验收
 
 用户于 2026-09-25 明确改为此模式，**三贤人强制三签暂时退休**，直到用户再次明确恢复。本文下方及旧任务卡中与此冲突的 Codex/Kimi/GLM 三方必签、缺签豁免、额度代班和固定席位交接要求仅作历史记录，**不再是当前 `build`/`done` 门禁**；已完成任务的历史签字和结论原样保留，不追溯重写。

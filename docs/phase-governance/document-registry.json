@@ -6,30 +6,32 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 570,
+    "total": 574,
     "byPhase": {
-      "ops": 383,
+      "ops": 384,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
-      "phase3": 5
+      "phase3": 5,
+      "phase-governance": 3
     },
     "byType": {
+      "guide-runbook": 15,
       "archive-record": 15,
       "audit-report": 58,
-      "design-spec": 41,
       "evidence-receipt": 37,
-      "governance-index": 16,
-      "guide-runbook": 14,
-      "plan-status": 64,
+      "task-card": 307,
+      "governance-index": 19,
       "reference-canon": 18,
-      "task-card": 307
+      "plan-status": 64,
+      "design-spec": 41
     },
     "reviewStatus": {
-      "content-reviewed": 570
+      "content-reviewed": 574
     },
     "templateCompliance": {
-      "governed-legacy": 570
+      "governed-legacy": 570,
+      "template-compliant": 4
     }
   },
   "entries": [
@@ -6302,6 +6304,55 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261004-lore-phase3-batch1.json"
+    },
+    {
+      "path": "docs/README.md",
+      "phase": "phase-governance",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-agent-first-routing-batch.json"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "phase": "phase-governance",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-agent-first-routing-batch.json"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "phase": "phase-governance",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-agent-first-routing-batch.json"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "phase": "ops",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-agent-first-routing-batch.json"
     }
-  ]
+  ],
+  "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
 }

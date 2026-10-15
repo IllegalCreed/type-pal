@@ -8,131 +8,221 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "requiredSections": [
-        "目的",
-        "范围",
-        "当前状态",
-        "入口与责任",
-        "证据与下一步"
+      "requiredSections": ["目的", "范围", "当前状态", "入口与责任", "证据与下一步"],
+      "templateVersion": "1.0.0",
+      "purpose": "职责导航与权威入口",
+      "statuses": ["current", "draft", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "task-card.md",
-      "requiredSections": [
-        "目标",
-        "范围",
-        "前提与证据",
-        "验收",
-        "状态与交接"
+      "requiredSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+      "templateVersion": "1.0.0",
+      "purpose": "单一变更的目标、准入、实施与交接",
+      "statuses": ["draft", "build", "review", "done", "blocked", "rework", "cancelled"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "guide-runbook.md",
-      "requiredSections": [
-        "目的",
-        "前置条件",
-        "步骤",
-        "失败处理",
-        "完成定义"
+      "requiredSections": ["目的", "前置条件", "步骤", "失败处理", "完成定义"],
+      "templateVersion": "1.0.0",
+      "purpose": "可重复操作的前提、步骤与失败处理",
+      "statuses": ["draft", "current", "retired"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "audit-report.md",
-      "requiredSections": [
-        "审计问题",
-        "范围与证据",
-        "发现",
-        "结论",
-        "整改与复核"
+      "requiredSections": ["审计问题", "范围与证据", "发现", "结论", "整改与复核"],
+      "templateVersion": "1.0.0",
+      "purpose": "审计问题、发现与整改复核",
+      "statuses": ["draft", "open", "resolved", "blocked", "rework", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "evidence-receipt.md",
-      "requiredSections": [
-        "证据身份",
-        "来源与输入",
-        "断言与业务 oracle",
-        "结果",
-        "限制与复核"
+      "requiredSections": ["证据身份", "来源与输入", "断言与业务 oracle", "结果", "限制与复核"],
+      "templateVersion": "1.0.0",
+      "purpose": "指定来源、输入与候选的证据回执",
+      "statuses": ["draft", "recorded", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "design-spec.md",
-      "requiredSections": [
-        "问题与目标",
-        "真值与约束",
-        "方案",
-        "边界与风险",
-        "验收"
+      "requiredSections": ["问题与目标", "真值与约束", "方案", "边界与风险", "验收"],
+      "templateVersion": "1.0.0",
+      "purpose": "问题、真值约束与设计验收",
+      "statuses": ["draft", "proposed", "current", "superseded", "blocked"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "plan-status.md",
-      "requiredSections": [
-        "目标与时间范围",
-        "里程碑",
-        "当前状态",
-        "阻塞与决策",
-        "下一步"
+      "requiredSections": ["目标与时间范围", "里程碑", "当前状态", "阻塞与决策", "下一步"],
+      "templateVersion": "1.0.0",
+      "purpose": "时间范围、里程碑与阻塞",
+      "statuses": ["planned", "active", "blocked", "done", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "reference-canon.md",
-      "requiredSections": [
-        "适用范围",
-        "一手来源",
-        "当前真值",
-        "未知与冲突",
-        "使用边界"
+      "requiredSections": ["适用范围", "一手来源", "当前真值", "未知与冲突", "使用边界"],
+      "templateVersion": "1.0.0",
+      "purpose": "分清已核真值与候选来源",
+      "statuses": ["candidate", "current", "historical", "superseded"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "narrative-idea",
       "templateId": "narrative-idea-v1",
       "template": "narrative-idea.md",
-      "requiredSections": [
-        "创意目的",
-        "已知约束",
-        "候选内容",
-        "未决选择",
-        "升级为 canon 的门槛"
+      "requiredSections": ["创意目的", "已知约束", "候选内容", "未决选择", "升级为 canon 的门槛"],
+      "templateVersion": "1.0.0",
+      "purpose": "尚未升格 canon 的创意与取舍",
+      "statuses": ["idea", "draft", "approved", "rejected", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "archive-record.md",
-      "requiredSections": [
-        "历史范围",
-        "原始结论",
-        "当时证据",
-        "当前有效性",
-        "继任文档"
+      "requiredSections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+      "templateVersion": "1.0.0",
+      "purpose": "保留时点结论、证据与继任关系",
+      "statuses": ["historical", "superseded", "retained"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
       ],
-      "templateVersion": "1.0.0"
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "test-catalog",
@@ -143,7 +233,22 @@
         "Catalog identity",
         "Domain and lifecycle",
         "Dependencies and publication rules"
-      ]
+      ],
+      "purpose": "机器索引与依赖的事实源",
+      "statuses": ["current", "draft", "rework"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "test-contract",
@@ -156,7 +261,22 @@
         "Caller and oracle",
         "Dedupe and limits",
         "Revision"
-      ]
+      ],
+      "purpose": "合法输入、caller、oracle 与排重的测试合同",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "archived", "current"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "test-domain-report",
@@ -169,19 +289,44 @@
         "Inputs and fixtures",
         "Results and gaps",
         "Quality gate"
-      ]
+      ],
+      "purpose": "域内 claim/evidence 与缺口",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "template": "../../testing/_templates/test-e2e-stage.md",
       "templateVersion": "1.0.0",
-      "requiredSections": [
-        "入口与前置",
-        "当前结论",
-        "证据与状态",
-        "依赖与历史"
-      ]
+      "requiredSections": ["入口与前置", "当前结论", "证据与状态", "依赖与历史"],
+      "purpose": "稳定阶段的入口、前驱与当期结论",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "archived"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "test-run-report",
@@ -194,7 +339,22 @@
         "Results",
         "Evidence",
         "Revision history"
-      ]
+      ],
+      "purpose": "一次执行的断言、结果与回执",
+      "statuses": ["draft", "active", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     },
     {
       "docType": "test-machine-evidence",
@@ -207,6 +367,38 @@
         "Steps and hashes",
         "Exit and cleanup",
         "Limits"
+      ],
+      "purpose": "机器执行身份、步骤与退出清理",
+      "statuses": ["draft", "recorded", "verified", "rework", "superseded", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "json",
+      "requiredFields": [
+        "schemaVersion",
+        "id",
+        "status",
+        "execution",
+        "sourceRefs",
+        "publicCallers",
+        "legalInputs",
+        "businessOracle",
+        "dedupe",
+        "steps",
+        "hashes",
+        "artifacts",
+        "failures",
+        "cleanup",
+        "history"
       ]
     },
     {
@@ -220,8 +412,29 @@
         "Commands and raw counts",
         "Decision",
         "Stop line"
-      ]
+      ],
+      "purpose": "命令、原始诊断与接受/拒绝判据",
+      "statuses": ["draft", "active", "passed", "failed", "blocked", "historical"],
+      "evidenceFields": [
+        "owner",
+        "provenance",
+        "primarySource",
+        "scope",
+        "revision",
+        "history",
+        "supersedes",
+        "stopLine",
+        "nextStep"
+      ],
+      "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
+      "format": "markdown"
     }
   ],
-  "status": "frozen-for-pilot"
+  "status": "frozen-for-pilot",
+  "adoption": {
+    "date": "2026-10-15",
+    "guideCommit": "169fc3d04f86ededf567e2b9d0417497ed7ef775",
+    "pilotStatus": "not-accepted; historical samples preserve payload only",
+    "model": "docs/ops/guides/documentation-model.md"
+  }
 }

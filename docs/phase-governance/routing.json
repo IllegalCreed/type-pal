@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "entry": "AGENTS.md",
+  "entrySection": "操作与必读",
+  "forwardingEntries": ["CLAUDE.md"],
+  "routes": [
+    { "operation": "新建、修改或治理文档", "required": ["docs/ops/guides/documentation-model.md"] },
+    {
+      "operation": "开始或接手非小改",
+      "required": ["docs/ops/agent-workflow.md", "docs/ops/board.md"]
+    },
+    {
+      "operation": "写、改或审查测试",
+      "required": ["docs/testing/governance.md", "docs/ops/agent-workflow.md"]
+    },
+    {
+      "operation": "第一阶段机制或缺陷",
+      "required": ["CLAUDE.md", "docs/phase1/game-mechanics.md"]
+    },
+    { "operation": "第二阶段引擎、编辑器或内容", "required": ["docs/phase2/READ-FIRST.md"] },
+    {
+      "operation": "E2E、剧情回写或编辑器预览起点",
+      "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
+    },
+    {
+      "operation": "封板、合并或发布回执",
+      "required": ["docs/ops/guides/documentation-model.md", "docs/ops/guides/documentation.md"]
+    }
+  ],
+  "migratedDocuments": [
+    { "path": "docs/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase-governance/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/phase-governance/templates/README.md", "templateId": "governance-index-v1" },
+    { "path": "docs/ops/guides/documentation-model.md", "templateId": "guide-runbook-v1" }
+  ],
+  "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
+}

@@ -26,3 +26,6 @@ jobs:
         run: node --test scripts/docs/*.test.mjs
       - name: Check repository documentation
         run: node scripts/docs/check.mjs
+
+      - name: Check documentation routing and body contracts
+        run: node scripts/docs/check-document-model.mjs

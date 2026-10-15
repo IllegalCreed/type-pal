@@ -508,9 +508,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "current-full-text-and-primary-evidence-read-20261012",
+      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-14：GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
+      "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
       "truthAnchors": [
         "docs/ops/board.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -528,7 +528,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+      "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -724,6 +724,14 @@
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+            "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -752,14 +760,12 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+        "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
         "currentReading": {
-          "date": "2026-10-14",
-          "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
-          "lineCount": 20,
-          "reviewedRanges": ["7-7"],
-          "scope": "GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
-          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
+          "date": "2026-10-15",
+          "sha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+          "scope": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
+          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
         },
         "readingHistory": [
           {
@@ -919,13 +925,23 @@
           "afterSha256": "9b1dd0d163bfadc62c69ca775f09a884481e973e1ca5aa5595bc3a41065d4036",
           "scope": "新增GAME-RIX-MUSIC-1：用户批准第一阶段MIDI/DOS FM可选音源，当前build；原有任务状态不变。",
           "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+          "afterSha256": "3337d55ab91a4025f72769a546a15460f3dad31359308bab728e890997be78b7",
+          "previousCoreConclusion": "2026-10-14：GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
+          "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
+          "method": "prior-full-text-review-plus-navigation-delta",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-21",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。 2026-10-15核对新音源任务导航和生成索引；只核本次变化，不重验其它任务。",
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -951,9 +967,9 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "current-full-text-and-primary-evidence-read-20261012",
+      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-14：issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
+      "coreConclusion": "仅新增本任务证据入口，未改其它测试包回执或验收状态；入口不构成新执行证据。",
       "truthAnchors": [
         "docs/ops/evidence/README.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -970,7 +986,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "f8e12ef73d092e976cde88f3ff289cb944e9dbcb165f1cbb06acc70c07d215d6",
+      "afterSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1142,6 +1158,14 @@
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "f8e12ef73d092e976cde88f3ff289cb944e9dbcb165f1cbb06acc70c07d215d6",
+            "afterSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -1164,14 +1188,12 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+        "afterSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
         "currentReading": {
-          "date": "2026-10-14",
-          "sha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
-          "lineCount": 53,
-          "reviewedRanges": ["9-9"],
-          "scope": "issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
-          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
+          "date": "2026-10-15",
+          "sha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+          "scope": "仅新增本任务证据入口，未改其它测试包回执或验收状态；入口不构成新执行证据。",
+          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
         },
         "readingHistory": [
           {
@@ -1268,13 +1290,23 @@
           "reviewedRanges": ["9-9"],
           "scope": "issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "f8e12ef73d092e976cde88f3ff289cb944e9dbcb165f1cbb06acc70c07d215d6",
+          "afterSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
+          "previousCoreConclusion": "2026-10-14：issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
+          "coreConclusion": "仅新增本任务证据入口，未改其它测试包回执或验收状态；入口不构成新执行证据。",
+          "method": "prior-full-text-review-plus-navigation-delta",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-53",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "reviewedLines": "1-59",
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -1544,9 +1576,9 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
+      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "文档维护与自动检查：这是 guide-runbook，当前文档状态为 draft。全文 82 行、6 个标题；摘要/首段为「维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "核全文后补 AI Quick Path；修正当前看板误指向历史快照的问题；完成卡不因 done 自动移动，已有归档稳定路径保留，显式迁移仍需映射/链接预检。",
       "truthAnchors": [
         "docs/ops/guides/documentation.md:1",
         "1:文档维护与自动检查",
@@ -1572,7 +1604,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
-      "afterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+      "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
       "publicCallers": [
         "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md",
         "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md",
@@ -1609,6 +1641,14 @@
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+            "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -1653,7 +1693,14 @@
           "70:本地目标缺失、索引漏项、活动任务未进入看板、终态任务留在看板、生成索引漂移或选定现行合同版本错配均失败。",
           "79:允许的例外只精确到 `source + target + reason`，当前仅记录未改写的 vendored SDLPal 上游断链。",
           "80:例外未命中、目标恢复或缺少理由会失败；不忽略整片项目文档，也不把历史问题数量转成可任意新增的额度。"
-        ]
+        ],
+        "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+        "currentReading": {
+          "date": "2026-10-15",
+          "sha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+          "scope": "核全文后补 AI Quick Path；修正当前看板误指向历史快照的问题；完成卡不因 done 自动移动，已有归档稳定路径保留，显式迁移仍需映射/链接预检。",
+          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
+        }
       },
       "history": [
         {
@@ -1661,13 +1708,23 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "1eb37e1dd742e01287fc16a8345be0ef5629e5c29b0e2456edb1c926d3448d1d",
+          "afterSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
+          "previousCoreConclusion": "文档维护与自动检查：这是 guide-runbook，当前文档状态为 draft。全文 82 行、6 个标题；摘要/首段为「维护者：当前 Coding Owner。纠错门禁见 [DOC-GOV-1](../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md)，」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+          "coreConclusion": "核全文后补 AI Quick Path；修正当前看板误指向历史快照的问题；完成卡不因 done 自动移动，已有归档稳定路径保留，显式迁移仍需映射/链接预检。",
+          "method": "full-text-and-delta-read",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-82",
-      "reviewNotes": "把 current/historical/evidence/superseded 四类有效范围、归档与索引规则、链接和版本检查边界写清；工具检查不能替代语义判断。"
+      "reviewedLines": "1-85",
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。"
     },
     {
       "path": "docs/ops/guides/README.md",
@@ -1676,9 +1733,9 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-read",
+      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "工程维护指南：这是 guide-runbook，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「开发服务、浏览器验证和文档维护的操作方法。覆盖率及 E2E 的跨阶段合同统一放 docs/testing。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "coreConclusion": "仅新增项目文档模型入口，其余工程指南入口保留；目录是导航，不承担 runbook 事实权。",
       "truthAnchors": ["docs/ops/guides/README.md:1", "1:工程维护指南", "7:文档与附件"],
       "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
       "nextStep": "按统一模板补齐元数据与状态；内容变化必须同步更新本记录、SHA 和跨阶段矩阵。",
@@ -1688,7 +1745,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
-      "afterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+      "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
       "publicCallers": [
         "docs/ops/guides/README.md → ../README.md",
         "docs/ops/guides/README.md → browser-verification.md",
@@ -1724,6 +1781,14 @@
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+            "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -1742,7 +1807,14 @@
             "text": "文档与附件"
           }
         ],
-        "unresolvedSignals": []
+        "unresolvedSignals": [],
+        "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+        "currentReading": {
+          "date": "2026-10-15",
+          "sha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+          "scope": "仅新增项目文档模型入口，其余工程指南入口保留；目录是导航，不承担 runbook 事实权。",
+          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
+        }
       },
       "history": [
         {
@@ -1750,13 +1822,23 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "674274986eda6f626b7c71e04380f6b83784c4e9b6b698fddf69172e3f452903",
+          "afterSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
+          "previousCoreConclusion": "工程维护指南：这是 guide-runbook，当前文档状态为 current。全文 12 行、2 个标题；摘要/首段为「开发服务、浏览器验证和文档维护的操作方法。覆盖率及 E2E 的跨阶段合同统一放 docs/testing。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+          "coreConclusion": "仅新增项目文档模型入口，其余工程指南入口保留；目录是导航，不承担 runbook 事实权。",
+          "method": "prior-full-text-review-plus-navigation-delta",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
       "reviewedLines": "1-12",
-      "reviewNotes": "指南入口只负责操作方法，覆盖率和 E2E 合同统一放 testing，避免同类流程另造模型。"
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。"
     },
     {
       "path": "docs/ops/README.md",
@@ -1861,9 +1943,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-text-review + current-delta-and-primary-evidence-read-20261012",
+      "readMethod": "prior-full-text-review-plus-explicit-reviewed-delta-20261015",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-14：官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
+      "coreConclusion": "生成索引仅新增 DOCS-FULL-TEMPLATE-1 build 行；实际生成器已核全部顶部状态，当前变化不重新验收历史任务。",
       "truthAnchors": [
         "docs/ops/tasks/index.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -1879,7 +1961,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "266d998304534b8c30d3a2ec5c68133576fb538d80eee459d17a9e5d772ff593",
+      "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2079,6 +2161,14 @@
             "revision": "working-tree",
             "date": "2026-10-15",
             "action": "GAME-RIX-MUSIC-1 user accepted, CI passed, Aliyun deployed and verified, issue4 closed; archive card and reconcile navigation only"
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
+            "action": "agent-first-reviewed-delta",
+            "previousAfterSha256": "266d998304534b8c30d3a2ec5c68133576fb538d80eee459d17a9e5d772ff593",
+            "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -2111,14 +2201,12 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+        "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
         "currentReading": {
-          "date": "2026-10-14",
-          "sha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
-          "lineCount": 379,
-          "reviewedRanges": ["15-15", "192-192"],
-          "scope": "官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
-          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
+          "date": "2026-10-15",
+          "sha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+          "scope": "生成索引仅新增 DOCS-FULL-TEMPLATE-1 build 行；实际生成器已核全部顶部状态，当前变化不重新验收历史任务。",
+          "method": "prior-full-text-review-plus-explicit-reviewed-delta-20261015"
         },
         "readingHistory": [
           {
@@ -2322,13 +2410,23 @@
           "afterSha256": "63686654d29b1d608b8c0e83eb75077fc931a3f0302fb491ecf63072ca7df1a2",
           "scope": "官方生成器新增GAME-RIX-MUSIC-1活动入口，共360张任务卡；其它任务状态不变。",
           "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "agent-first-reviewed-delta",
+          "previousAfterSha256": "266d998304534b8c30d3a2ec5c68133576fb538d80eee459d17a9e5d772ff593",
+          "afterSha256": "3fb2cc026c9ccaeb5e379d7998e0d20c306c4cfd243d7ae973d7e3705867b056",
+          "previousCoreConclusion": "2026-10-14：官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
+          "coreConclusion": "生成索引仅新增 DOCS-FULL-TEMPLATE-1 build 行；实际生成器已核全部顶部状态，当前变化不重新验收历史任务。",
+          "method": "prior-full-text-review-plus-navigation-delta",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-381",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。 2026-10-15核对新音源任务导航和生成索引；只核本次变化，不重验其它任务。",
+      "reviewedLines": "1-382",
+      "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
