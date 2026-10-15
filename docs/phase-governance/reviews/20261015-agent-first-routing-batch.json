@@ -303,7 +303,7 @@
       "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
       "sourceGitObject": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c:docs/ops/guides/documentation-model.md",
       "sourceState": "absent-new-document-empty-byte-source",
-      "afterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
+      "afterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
       "publicCallers": [
         "AGENTS.md operation routing",
         "docs/README.md",
@@ -341,14 +341,15 @@
             "action": "manual-routing-and-authority-rewrite",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
-        ]
+        ],
+        "implementationSha": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50"
       },
       "evidence": {
         "kind": "full-text-content-and-link-review",
         "path": "docs/ops/guides/documentation-model.md",
         "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "afterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
-        "lineCount": 109
+        "afterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "lineCount": 111
       },
       "history": [
         {
@@ -357,12 +358,19 @@
           "afterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
           "beforeAfter": "无项目层文档模型 -> 按职责读取、写回和复核的具体 runbook。",
           "scope": "documentation semantics only"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "reviewed-explicit-full-completion-stop-line-or-stage-uncertainty-rule",
+          "previousAfterSha256": "92291c455ba281ac69c6b0ddd8ad320c93ba439bef7b52135ba2603f97ba19e2",
+          "afterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
       "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
       "userVisibleBeforeAfter": "无项目层文档模型 -> 按职责读取、写回和复核的具体 runbook。",
-      "reviewedLines": "1-109",
+      "reviewedLines": "1-111",
       "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
     }
   ]

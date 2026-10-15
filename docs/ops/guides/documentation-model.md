@@ -106,4 +106,6 @@ pilot 必须在真实模板章节中表达该文档的具体语义，并检查�
 
 本轮规则接入至少通过：路由目标存在；新迁移正文的必填章节有内容；任务/测试索引与源一致；历史 pilot 的不足已记 counter。全量任务继续由 [DOCS-FULL-TEMPLATE-1](../tasks/DOCS-FULL-TEMPLATE-1.md)记录，不能用接入完成代替 1838 份正文完成。
 
+全量交付另运行 `node scripts/docs/report-governance-progress.mjs --require-complete`；它要求全部 1838 基线、当前新增候选和模板 pilot 都已闭合，局部 registry 绿色不算完成。
+
 提交前运行 `pnpm check:docs`、`pnpm lint`、`git diff --check`；所有 error/warning/info 必须为零。发布另核对应产品与部署回执，不新增“文档全绿即批准发布”的捷径。

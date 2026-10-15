@@ -6,32 +6,36 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 574,
+    "total": 580,
     "byPhase": {
-      "ops": 384,
+      "ops": 387,
       "lore": 14,
       "phase1": 60,
       "phase2": 108,
       "phase3": 5,
-      "phase-governance": 3
+      "phase-governance": 3,
+      "testing": 3
     },
     "byType": {
       "guide-runbook": 15,
-      "archive-record": 15,
+      "archive-record": 16,
       "audit-report": 58,
       "evidence-receipt": 37,
-      "task-card": 307,
-      "governance-index": 19,
+      "governance-index": 22,
+      "task-card": 306,
       "reference-canon": 18,
       "plan-status": 64,
-      "design-spec": 41
+      "design-spec": 41,
+      "test-e2e-stage": 1,
+      "test-run-report": 1,
+      "test-machine-evidence": 1
     },
     "reviewStatus": {
-      "content-reviewed": 574
+      "content-reviewed": 580
     },
     "templateCompliance": {
-      "governed-legacy": 570,
-      "template-compliant": 4
+      "template-compliant": 15,
+      "governed-legacy": 565
     }
   },
   "entries": [
@@ -41,10 +45,11 @@
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
@@ -379,13 +384,14 @@
     {
       "path": "docs/ops/archive/README.md",
       "phase": "ops",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewDepth": "structured-content",
-      "reviewRecord": "20261004-structured-content-ops-01.json"
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
@@ -4056,10 +4062,11 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
@@ -4174,13 +4181,14 @@
     {
       "path": "docs/ops/tasks/README.md",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "governed-legacy",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
@@ -4221,10 +4229,11 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "governed-legacy",
+      "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
-      "reviewRecord": "20261004-semantic-current-batch.json"
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
@@ -6352,6 +6361,79 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-agent-first-routing-batch.json"
+    },
+    {
+      "path": "docs/ops/archive/protocols/README.md",
+      "phase": "ops",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json"
+    },
+    {
+      "path": "docs/ops/archive/protocols/three-sages-20261015.md",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json"
+    },
+    {
+      "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "phase": "testing",
+      "docType": "test-e2e-stage",
+      "templateId": "test-e2e-stage-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-e2e-stage.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "phase": "testing",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-run-report.md",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.1.0",
+      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "templateVariant": "document-audit-v2"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

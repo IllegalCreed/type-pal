@@ -2,16 +2,45 @@
   "schemaVersion": 1,
   "id": "test-NNN",
   "status": "recorded",
-  "execution": { "command": "", "cwd": "", "startedAt": "", "exitCode": null, "signal": null },
+  "execution": {
+    "command": "",
+    "cwd": "",
+    "startedAt": "",
+    "exitCode": null,
+    "signal": null
+  },
   "sourceRefs": [],
   "publicCallers": [],
   "legalInputs": [],
-  "businessOracle": { "type": "", "assertions": [] },
-  "dedupe": { "result": "", "against": [] },
+  "businessOracle": {
+    "type": "",
+    "assertions": []
+  },
+  "dedupe": {
+    "result": "",
+    "against": []
+  },
   "steps": [],
   "hashes": [],
   "artifacts": [],
   "failures": [],
-  "cleanup": { "complete": false, "paths": [] },
-  "history": []
+  "cleanup": {
+    "complete": false,
+    "paths": []
+  },
+  "history": [],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.1.0",
+    "variant": "execution",
+    "lastReviewed": "YYYY-MM-DD",
+    "owner": "<owner>",
+    "provenance": [],
+    "sourceSha256": "<source-document-sha256>",
+    "sourceGitObject": "<source-git-blob>",
+    "scope": "execution evidence only; preserve consumer fields",
+    "beforeAfter": "describe actual structural migration",
+    "stopLine": "no fabricated execution or claims",
+    "nextStep": "fill real evidence, never infer runtime status"
+  }
 }

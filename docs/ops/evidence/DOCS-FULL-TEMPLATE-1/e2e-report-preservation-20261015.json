@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "recorded",
+  "sourcePath": "docs/testing/e2e/stages/001-opening/report.md",
+  "sourceRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+  "sourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
+  "afterSha256": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+  "preservedSections": [
+    "2026-10-08 当前验收：复用新录制，统一比较器离线通过",
+    "2026-10-07 历史验收：独立流程与双轨比较通过",
+    "2026-10-04 文档深审",
+    "新旧脚本具体差异",
+    "自动失败门",
+    "怎么运行和观看",
+    "一阶段真实执行链",
+    "二阶段真实执行链",
+    "稀疏NPC提交与语义比较",
+    "有界证据与停止线",
+    "边界与历史未完成项",
+    "本轮失败记录与归因"
+  ],
+  "method": "all original section paragraphs retained; heading levels demoted without changing heading titles; dated pre-title notes moved to revision history; testing frontmatter/meta unchanged",
+  "originalSectionTextPreserved": true,
+  "notRun": ["runtime", "E2E", "visual", "coverage"]
+}

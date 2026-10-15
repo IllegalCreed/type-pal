@@ -3829,79 +3829,81 @@
     {
       "path": "docs/ops/archive/README.md",
       "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "governed-legacy",
-      "readMethod": "full-text-structured-review",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "运维历史归档：这是 archive-record，当前文档状态为 historical。全文 16 行、2 个标题；摘要/首段为「已关闭任务、历史审计、验收批次和证据统一归档。保留原始签字和结论，通过任务总索引查找；活动任务只看 board。」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/ops/archive/README.md:1", "1:运维历史归档", "10:分类入口"],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
-      "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-plus-semantic-migration",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "历史目录入口保留验收/审计/证据/任务/看板与布局记录，并接入完整旧协议；historical 只表导航范围，不给历史内容新授权。",
+      "truthAnchors": [
+        "docs/ops/archive/ops-governance-layout-20261004.json:1",
+        "docs/ops/board.md:1"
+      ],
+      "unresolved": [],
+      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
       "phase": "ops",
-      "module": "archive",
+      "module": "protocol-and-e2e-pilot",
       "capability": "ops-archive-README",
       "owner": "Codex",
-      "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
-      "afterSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
-      "publicCallers": [
-        "docs/ops/archive/README.md → ../README.md",
-        "docs/ops/archive/README.md → board-history/README.md",
-        "docs/ops/archive/README.md → ops-governance-layout-20261004.json",
-        "docs/ops/archive/README.md → acceptance/README.md",
-        "docs/ops/archive/README.md → audits/README.md",
-        "docs/ops/archive/README.md → evidence/README.md",
-        "docs/ops/archive/README.md → tasks/README.md"
+      "provenance": [
+        "source-document-full-text",
+        "user-approved-agent-first-adoption",
+        "manual-semantic-migration"
       ],
-      "legalInputs": ["current repository documentation", "docs/ops/archive/README.md"],
+      "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+      "afterSha256": "8dc99951d383d6d11e1b1a6e32c34384b61740bcf903ebc58dc3ebfcb49d5dec",
+      "publicCallers": [
+        "AGENTS.md operation routing",
+        "node scripts/docs/check-document-model.mjs",
+        "docs/ops/README.md"
+      ],
+      "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
       "businessOracle": {
-        "type": "content-review",
+        "type": "semantic-preservation-and-real-document-consumer",
         "assertions": [
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "历史目录入口保留验收/审计/证据/任务/看板与布局记录，并接入完整旧协议；historical 只表导航范围，不给历史内容新授权。",
+          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
+          "不新增 runtime/E2E/visual/coverage 通过结论"
         ]
       },
       "dedupe": {
         "result": "reviewed",
         "against": [
-          "docs/ops/archive/README.md",
-          "docs/phase-governance/templates/archive-record.md"
+          "AGENTS.md",
+          "docs/ops/agent-workflow.md",
+          "docs/testing/catalog.json",
+          "docs/phase-governance/templates/registry.json"
         ],
-        "notes": "Type/template and content review are distinct from product verification."
+        "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
-        "contentVersion": 22,
-        "minimumSaveVersion": 11,
+        "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+        "implementationSha": "8dc99951d383d6d11e1b1a6e32c34384b61740bcf903ebc58dc3ebfcb49d5dec",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
         "history": [
           {
             "revision": "working-tree",
             "date": "2026-10-04",
             "action": "full-text-structured-content-review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "full-text-protocol-or-e2e-pilot-migration",
+            "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+            "afterSha256": "8dc99951d383d6d11e1b1a6e32c34384b61740bcf903ebc58dc3ebfcb49d5dec",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "content-reading",
+        "kind": "full-text-preservation-and-consumer-review",
         "path": "docs/ops/archive/README.md",
         "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
-        "lineCount": 16,
-        "headings": [
-          {
-            "line": 1,
-            "text": "运维历史归档"
-          },
-          {
-            "line": 10,
-            "text": "分类入口"
-          }
-        ],
-        "unresolvedSignals": []
+        "afterSha256": "8dc99951d383d6d11e1b1a6e32c34384b61740bcf903ebc58dc3ebfcb49d5dec",
+        "lineCount": 30
       },
       "history": [
         {
@@ -3909,12 +3911,120 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-15",
+          "beforeAfter": "归档文件列表 -> 明确历史效力与追溯路径的职责索引。",
+          "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+          "afterSha256": "8dc99951d383d6d11e1b1a6e32c34384b61740bcf903ebc58dc3ebfcb49d5dec",
+          "previousAfterSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b"
         }
       ],
       "supersedes": [],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-16"
+      "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
+      "userVisibleBeforeAfter": "归档文件列表 -> 明确历史效力与追溯路径的职责索引。",
+      "reviewedLines": "1-30",
+      "priorReadings": [
+        {
+          "date": "2026-10-15",
+          "reason": "actual full-text migration; prior record kept without granting new runtime credit",
+          "record": {
+            "path": "docs/ops/archive/README.md",
+            "contentReviewStatus": "content-reviewed",
+            "docType": "archive-record",
+            "templateId": "archive-record-v1",
+            "template": "docs/phase-governance/templates/archive-record.md",
+            "templateCompliance": "governed-legacy",
+            "readMethod": "full-text-structured-review",
+            "reviewDepth": "structured-content",
+            "coreConclusion": "运维历史归档：这是 archive-record，当前文档状态为 historical。全文 16 行、2 个标题；摘要/首段为「已关闭任务、历史审计、验收批次和证据统一归档。保留原始签字和结论，通过任务总索引查找；活动任务只看 board。」。属于历史/归档材料，不能单独证明当前实现。",
+            "truthAnchors": ["docs/ops/archive/README.md:1", "1:运维历史归档", "10:分类入口"],
+            "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+            "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
+            "phase": "ops",
+            "module": "archive",
+            "capability": "ops-archive-README",
+            "owner": "Codex",
+            "provenance": ["source-document", "full-text-structured-review", "repository-history"],
+            "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+            "afterSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+            "publicCallers": [
+              "docs/ops/archive/README.md → ../README.md",
+              "docs/ops/archive/README.md → board-history/README.md",
+              "docs/ops/archive/README.md → ops-governance-layout-20261004.json",
+              "docs/ops/archive/README.md → acceptance/README.md",
+              "docs/ops/archive/README.md → audits/README.md",
+              "docs/ops/archive/README.md → evidence/README.md",
+              "docs/ops/archive/README.md → tasks/README.md"
+            ],
+            "legalInputs": ["current repository documentation", "docs/ops/archive/README.md"],
+            "businessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/archive/README.md",
+                "docs/phase-governance/templates/archive-record.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "revision": {
+              "currentSha": "working-tree",
+              "implementationSha": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+              "contentVersion": 22,
+              "minimumSaveVersion": 11,
+              "history": [
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-04",
+                  "action": "full-text-structured-content-review",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            },
+            "evidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/archive/README.md",
+              "sourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+              "lineCount": 16,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "运维历史归档"
+                },
+                {
+                  "line": 10,
+                  "text": "分类入口"
+                }
+              ],
+              "unresolvedSignals": []
+            },
+            "history": [
+              {
+                "revision": "working-tree",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "structured-content"
+              }
+            ],
+            "supersedes": [],
+            "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+            "userVisibleBeforeAfter": null,
+            "reviewedLines": "1-16"
+          }
+        }
+      ],
+      "templateVersion": "1.0.0",
+      "reviewedSourceSha256": "77879dbf49cfed65c1f5621d0ab0de2210a095980addac41dc77f1651fc9b31b",
+      "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
+      "sourceState": "present",
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。"
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",

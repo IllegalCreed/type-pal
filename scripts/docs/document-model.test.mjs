@@ -72,3 +72,24 @@ test('moving a machine receipt into payload breaks its public top-level field co
   ])
   assert.deepEqual(checkTemplateBody('null', template), ['expected machine evidence object'])
 })
+
+test('a source audit cannot become execution evidence by changing its performed flag or envelope label', () => {
+  const template = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  ).types.find((type) => type.docType === 'test-machine-evidence')
+  const receipt = JSON.parse(
+    readFileSync(new URL('../../docs/testing/e2e/evidence/e2e-001.json', import.meta.url)),
+  )
+  const options = { variant: 'document-audit-v2' }
+  assert.deepEqual(checkTemplateBody(JSON.stringify(receipt), template, options), [])
+  const falseExecution = structuredClone(receipt)
+  falseExecution.runtimeExecution.performed = true
+  assert.deepEqual(checkTemplateBody(JSON.stringify(falseExecution), template, options), [
+    'machine field mismatch: runtimeExecution.performed',
+  ])
+  const mislabeled = structuredClone(receipt)
+  mislabeled._governance.variant = 'execution'
+  assert.deepEqual(checkTemplateBody(JSON.stringify(mislabeled), template, options), [
+    'governance variant mismatch',
+  ])
+})

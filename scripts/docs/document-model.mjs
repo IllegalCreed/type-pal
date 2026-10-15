@@ -51,9 +51,11 @@ export function checkRouting(config, read) {
 }
 
 /** Structure checks never grant content-reviewed or execution status. */
-export function checkTemplateBody(text, template) {
+export function checkTemplateBody(text, template, { variant } = {}) {
   const issues = []
-  if (template.format === 'json') {
+  const contract = variant ? template.variants?.[variant] : template
+  if (!contract) return [`unknown template variant: ${variant}`]
+  if (contract.format === 'json') {
     let value
     try {
       value = JSON.parse(text)
@@ -62,13 +64,22 @@ export function checkTemplateBody(text, template) {
     }
     if (value === null || Array.isArray(value) || typeof value !== 'object')
       return ['expected machine evidence object']
-    for (const key of template.requiredFields ?? [])
+    for (const key of contract.requiredFields ?? [])
       if (!Object.hasOwn(value, key)) issues.push(`missing machine field: ${key}`)
+    for (const [path, expected] of Object.entries(contract.requiredValues ?? {})) {
+      const actual = path.split('.').reduce((object, key) => object?.[key], value)
+      if (actual !== expected) issues.push(`machine field mismatch: ${path}`)
+    }
+    for (const key of template.requiredGovernanceFields ?? [])
+      if (value._governance?.[key] === undefined || value._governance[key] === '')
+        issues.push(`missing governance field: ${key}`)
+    if (variant && value._governance?.variant !== variant)
+      issues.push('governance variant mismatch')
     return issues
   }
   const visible = withoutFences(text)
   if ((visible.match(/^# /gm) ?? []).length !== 1) issues.push('expected one document title')
-  for (const heading of template.requiredSections) {
+  for (const heading of contract.requiredSections ?? template.requiredSections) {
     const body = section(text, heading)
     if (body === undefined) issues.push(`missing section: ${heading}`)
     else if (!body.replace(/^#{3,}.*$/gm, '').trim()) issues.push(`empty section: ${heading}`)
@@ -88,7 +99,22 @@ export function checkDocumentModel(config, registry, read) {
     if (text === undefined) issues.push(`${doc.path}: migrated document missing`)
     else if (!template) issues.push(`${doc.path}: unknown template ${doc.templateId}`)
     else {
-      for (const issue of checkTemplateBody(text, template)) issues.push(`${doc.path}: ${issue}`)
+      for (const issue of checkTemplateBody(text, template, { variant: doc.variant }))
+        issues.push(`${doc.path}: ${issue}`)
+      if (template.format === 'json') {
+        let metadata
+        try {
+          metadata = JSON.parse(text)._governance
+        } catch {
+          // The body check already reports malformed JSON.
+        }
+        if (
+          metadata?.templateId !== template.templateId ||
+          metadata?.templateVersion !== template.templateVersion
+        )
+          issues.push(`${doc.path}: machine template declaration mismatch`)
+        continue
+      }
       const visible = withoutFences(text)
       if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible))
         issues.push(`${doc.path}: review date missing`)

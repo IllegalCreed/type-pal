@@ -4,7 +4,10 @@
   "entrySection": "操作与必读",
   "forwardingEntries": ["CLAUDE.md"],
   "routes": [
-    { "operation": "新建、修改或治理文档", "required": ["docs/ops/guides/documentation-model.md"] },
+    {
+      "operation": "新建、修改或治理文档",
+      "required": ["docs/ops/guides/documentation-model.md"]
+    },
     {
       "operation": "开始或接手非小改",
       "required": ["docs/ops/agent-workflow.md", "docs/ops/board.md"]
@@ -17,7 +20,10 @@
       "operation": "第一阶段机制或缺陷",
       "required": ["CLAUDE.md", "docs/phase1/game-mechanics.md"]
     },
-    { "operation": "第二阶段引擎、编辑器或内容", "required": ["docs/phase2/READ-FIRST.md"] },
+    {
+      "operation": "第二阶段引擎、编辑器或内容",
+      "required": ["docs/phase2/READ-FIRST.md"]
+    },
     {
       "operation": "E2E、剧情回写或编辑器预览起点",
       "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
@@ -28,10 +34,67 @@
     }
   ],
   "migratedDocuments": [
-    { "path": "docs/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase-governance/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase-governance/templates/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/ops/guides/documentation-model.md", "templateId": "guide-runbook-v1" }
+    {
+      "path": "docs/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/ops/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/tasks/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/archive/protocols/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/archive/protocols/three-sages-20261015.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
+      "templateId": "archive-record-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "templateId": "test-e2e-stage-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "document-audit-v2"
+    },
+    {
+      "path": "docs/ops/archive/README.md",
+      "templateId": "governance-index-v1"
+    }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."
 }

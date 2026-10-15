@@ -51,7 +51,7 @@ Branch: codex/docs-full-template-proposal
 - `pnpm check:docs`、`pnpm lint`、`git diff --check` 零诊断；不宣称未运行的 runtime/E2E/视觉/coverage。
 
 ## 当前模式推进记录
-- Coding Owner / 隔离工作树 / 修改白名单：Codex；仅本任务卡、proposal、inventory、registry 设计证据；不得覆盖主树 dirty 文件。
+- Coding Owner / 隔离工作树 / 修改白名单：Codex；全 docs 与必要的 scripts/docs、Documentation CI；按批次登记实际白名单，禁止产品源码/旧测试/coverage 越界；不得覆盖主树其他 Owner 改动。
 - 前提核验：verified（用户 2026-10-11 明确批准当前实际树 1838 份候选作为全量分母；inventory/protection 已记录）。
 - 范围、设计和验收条件：agree（用户 2026-10-11 批准 17 类模板、testing 专用类型和 pilot）。
 - 高风险用户产品裁决：2026-10-11 用户批准 1838 分母、testing 模板和 pilot；正文迁移仍须保留语义与机器字段。
@@ -113,3 +113,15 @@ Branch: codex/docs-full-template-proposal
 - 有效 pilot：当前治理入口的 governance-index 与新项目模型的 guide-runbook 已有实际内容/结构检查和全文 review；其余类型仍待选真实代表、核 consumer 与历史边界。旧 17 个保真样本的 counter 不因结构门绿而闭合。
 - 下一批具体入口：先核 `docs/ops/agent-workflow.md` 与根入口的历史协议分层、目录 README 的事实权；再分别核 testing catalog/contract/stage/report/machine evidence 与 HTML 的实际 consumer。未读文件不得由批量脚本填写内容结论。
 - 持续目标保持 active，任务保持 build；原 1838 全量与增量尚未完成，未推 main，最终独立验收待实施完成后执行。
+
+
+### 2026-10-15 第二批：现行协作与真实 pilot
+
+- 完整核读并分层根 AGENTS 与工作流：L0 为 45 行，现行 workflow 约 100 行，旧全文保存在两个带 source SHA/Git blob 的 archive-record；相对链接重算，引用逐行可回读。
+- 实改 ops 总入口、任务说明、模板说明与历史入口。任务 README 的原 task-card 误分类纠正为 governance-index，所有当前看板入口指向实际 board，不再指历史快照。
+- E2E-001 stage 补四个必填章节；report 保留全部原段落与标题锚，按 Scope/执行/结果/证据/history 分组。没有改原 YAML、testing-meta、catalog 状态、lastVerified、candidate/version 或原执行结论。
+- 已先写设计补充再引入 test-machine-evidence 1.1.0 的 document-audit-v2 变体：原 document-audit 顶层对象全部不变，只增 governance envelope；actual paired consumer 零问题，performed 仍 false。拒绝把 source audit 变 execution、错 variant 或 payload 包装的反控已加入 docs tooling。
+- 55 项 docs tools 回归、全部文档检查和 15 篇已迁移正文合同通过；旧 17 个回读样本仍为 counter。有效类型为 governance-index、guide-runbook、archive-record、test-e2e-stage、test-run-report、test-machine-evidence；其余类型必须先做真实 pilot。
+- 进度命令：`node scripts/docs/report-governance-progress.mjs`。它只从实际 review、after SHA 和正文合同投影，不生成内容结论。最终必须另跑 `--require-complete`，当前预期仍非零，不能用局部 check 绿色宣布全量完成。
+- 下一批：选择真实 task-card、audit/evidence、design/plan/reference/narrative 和 testing contract/domain/quality/canonical catalog 代表，按正文判断类型并验证 consumer；之后再扩大同类迁移。
+- 本批最终复核：check:docs 的 55 项 tooling、全部链接/索引/testing/阶段与 580 条已登记 review 通过；lint 核 4062 文件，零 error/warning/info；diff 检查通过。全量完成门仍因 1919 份当前候选待迁移而拒绝，未合 main。

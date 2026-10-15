@@ -14,3 +14,4 @@
 - [其余历史/证据全文结构深审（phase2 批次 01–02）](20261004-structured-content-phase2-01.json)
 - [合并最新 main 后新增材料全文结构深审](20261004-structured-content-new-01.json)
 - [Agent-first 操作路由与权威入口实际改写](20261015-agent-first-routing-batch.json)：仅四份全文核读与改写；全量任务仍在 build。
+- [协作历史分层与 E2E-001 真实 pilot](20261015-protocol-and-e2e-pilot-batch.json)：保留原协议全文、报告段落和 JSON 顶层字段，不新增实跑信用。

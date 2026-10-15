@@ -22,3 +22,9 @@
 - [原 pilot 来源记录](pilots.json)、[原候选回读记录](pilot-candidates.json)与 `pilots/` 原样保留为历史证据；`.raw` 后缀不代表免审。
 - [项目文档模型](../../guides/documentation-model.md)给出路由、事实权、写回与迁移完成标准；接入增量另记，不改变用户批准的分母。
 - [2026-10-15 增量清单](delta-inventory-20261015.json)：1838 基线全部仍存在；新增候选与 23 份基线变化单列，不冒充重新深审。快照自身用 Git 定位，不自嵌 hash。
+
+## 协作分层与 E2E-001 真实 pilot
+
+- [旧协议保留回执](protocol-preservation-20261015.json)：完整原文引用与链接重算，原始字节由 Git blob 定位。
+- [报告段落保留回执](e2e-report-preservation-20261015.json)：原段落按执行/结果/证据/历史重组，原 testing-meta 不变。
+- [机器证据 consumer 回执](machine-pilot-consumer-20261015.json)：移除 envelope 后原对象 deep-equal，真实 paired consumer 零问题；无新增运行时通过。

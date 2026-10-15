@@ -360,7 +360,7 @@
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "../../testing/_templates/test-machine-evidence.json",
-      "templateVersion": "1.0.0",
+      "templateVersion": "1.1.0",
       "requiredSections": [
         "Machine envelope",
         "Execution identity",
@@ -399,7 +399,50 @@
         "failures",
         "cleanup",
         "history"
-      ]
+      ],
+      "requiredGovernanceFields": [
+        "templateId",
+        "templateVersion",
+        "variant",
+        "lastReviewed",
+        "owner",
+        "provenance",
+        "sourceSha256",
+        "sourceGitObject",
+        "scope",
+        "beforeAfter",
+        "stopLine",
+        "nextStep"
+      ],
+      "variants": {
+        "document-audit-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": false
+          }
+        }
+      }
     },
     {
       "docType": "quality-gate",
