@@ -924,3 +924,9 @@ Branch: codex/docs-full-template-proposal
 - Q正式设计：[六篇指南与首篇准入](../../phase-governance/reviews/20261016-phase2-guides-q-design.md)。根已读132设计/413六原文，17primary只明确必要范围与精确复用；source6仍等d564。Owner history_cards_a，待根提供新隔离树/commit后，仅publication26行+原17/43格式首1回执两路径pilot；其余五篇未build。真实recover写入边界保留，不运行迁移/产品/旧tests/coverage。
 - A8正式设计：[有界格式与工作树namespace门](../../phase-governance/reviews/20261016-terminal-a8-design.md)。新receipt_review提案由非作者tail新A-only复核7774/da9e；根明确8MiB/64MiB/depth128/2M/16MiB raw-token计数、nonGit空namespace合法caller、唯一physical工作树质量视图。Owner receipt_review，待新隔离树/commit后仅6新docs工具+check/lint两现入口8路径；其余B/C0/C1仍counter不build，不改F1/model/规则/旧tests/产品。真实A代码/双入口/少精反控另非作者验。
 - 新Q/A8设计自身是待治理增量；0新正文迁移/代码accept信用。N f577单receipt窄修已由A2176关闭，六正文源语义仍af263固定SHA接受；根尚未接入6旧中央/phase/routes，不能提前计6迁移。1838固定基线及所有新增候选/artifacts继续active；不得done/main推送/清理源历史。
+
+#### P 接收状态镜像返工与两独立写包
+
+- 首六文件真实aa5快照在独立843e报告仍counter：PS-C1是11条嵌套limit、PS-C2是11catalog四字段共44处、PS-C3是矩阵M/P两条过期pending；零静态门不闭合它们。完整首200报告/全部错误current和两whole row在真实Git保留。根只同步57个当前进度值和完整prior/真实producer/GFM bookkeeping，不重写源、类型、状态、链接目标或39条关系；新的扩大8范围待精确非作者接收。
+- 同一首报告对Q/A8冻本保真及最小准入分别agree；与P镜像返工无写域依赖。根已给新clean aa5a62f85d76233b2db37fc570d7bf97ae2b4054隔离树：history_cards_a在codex/docs-phase2-guides-q只写publication+首1回执两路径；receipt_review在codex/docs-terminal-a8只写冻结八代码路径。两设计SHA5a4c69b7/c9d2d240不变，原source/primary pins不变；作者自验不accept/done/main，实际交付另非作者验。
+- 其余五Q、HTML格式/CI bootstrap、B/C0/C1仍未build。N六源+f577回执已真实A接收，中央6接入仍未计完成。1838与所有增量/artifacts继续build/active。

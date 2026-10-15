@@ -226,9 +226,9 @@
       "template": "docs/phase-governance/templates/governance-index.md",
       "historyOverlay": false,
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse accepted39-row matrix and other38 complete machine objects. P source actual202/888/full43 semantic acceptance is non-author A fixed0dac; root fully read823report/486delivery and only current one relation/row. No new all39 underlying-source or107target/HTML review.",
+      "readMethod": "Reuse accepted exact c562 MD39rows and prior source semantics. Actually read two stale M/P machine reception clauses and precise replacements, whole immediate two rows and matrix-current record retrieved; no fresh all39 underlying-source or target audit.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Matrix39 remains39; only existing legacy-classification-vs-semantic-reading row extends to actual content-proven P navigation types/current axes. Target history and L dual-source parsing remain intact; other38 objects exact.",
+      "coreConclusion": "Matrix remains39 relationships. Existing M/P machine-row reception clauses now name actual independently received fixed snapshots; MD39rows unchanged and other37 whole machine rows exact. No new source/target/runtime review or migration credit.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261016-lore-reference-n.json:1",
         "docs/lore/README.md:1-53",
@@ -384,7 +384,7 @@
         }
       ],
       "sourceSha256": "87d8774d0bd3d35a64742ddd22e98f1720fda603a623bbcb78154d66b1f7f940",
-      "reviewedSourceSha256": "68548bed3b52f2b567173ee30dd47f5946fe7f0768694c1e83947625a8b63ed5",
+      "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
       "afterSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
@@ -396,9 +396,9 @@
       "businessOracle": {
         "type": "semantic-preservation-and-authority-bounds",
         "assertions": [
-          "One existing classification/navigation relation and one GFMrow changes;39to39, other38 exact.",
-          "Ten types and seven navigation statuses derive from actual source/body acceptance, not paths or oldreviewed labels.",
-          "Current navigation and static graph do not promote107 targets/old signatures/threeHTML/runtime."
+          "MD one table39data rows byte-exact, no body/relationship change.",
+          "Only two existing machine-row reception-time clauses synchronized; other37 complete objects exact, full prior two rows preserved.",
+          "Actual M777 source tail b715 and root dc2 A8d7/42b receipt b40; P121 source A0dac and root c562 fdf102 remain separate scoped authorities; no runtime/raw/target recertification."
         ]
       },
       "dedupe": {
@@ -466,22 +466,34 @@
         "actualRowCounts": {
           "registeredMachineRows": 39,
           "addedThisBatch": 0,
-          "updatedThisBatch": 1,
-          "other38ObjectsUnchanged": true,
+          "updatedMachineRowsThisBatch": 2,
+          "other37CompleteMachineObjectsUnchanged": true,
+          "MDUpdatedRowsThisBatch": 0,
+          "all39MDRowsUnchanged": true,
           "actualGFM": {
-            "scope": "Actual current P11 root candidate, no underlying39-source/full-target acceptance",
-            "tables": 1,
-            "dataRows": 39,
-            "updatedRows": 1,
-            "other38RowsExact": true,
-            "proof": "/tmp/type-pal-p11-root-current-consumers-20261016.json",
-            "sha256": "0cabb99ec3377484060ceac6f9c73f2ed72bc3ad7c6f900c202d1e8ed27c4952"
+            "path": "/tmp/type-pal-p-signoff-sync-matrix-consumer-20261016.json",
+            "sha256": "0551e13a9c4a61af27aeb143836b81c33654677ff8a47081183844aeca5b64c4",
+            "proof": {
+              "scope": "Actual PS-C3 current two machine reception metadata changes only; no fresh underlying39-source/body/migration acceptance",
+              "matrix": {
+                "rows": 39,
+                "changedMachineRows": 2,
+                "other37CompleteObjectsExact": true,
+                "MDByteExact": true,
+                "actualGFMTables": 1,
+                "actualGFMRows": 39,
+                "changedMDRows": 0
+              },
+              "machineSha256": "54663beb4f547bda782f4190ab5c81a1130170a4bcbd803490c4337f8f9dff05",
+              "machineLines": 1268,
+              "issues": []
+            }
           }
         },
         "machineSource": {
           "path": "docs/phase-governance/cross-phase-matrix.json",
-          "sha256": "63a2d41900259caa835606a669a39956ea610fc874ea0b6ea0361347c07dda8e",
-          "lineCount": 1075,
+          "sha256": "54663beb4f547bda782f4190ab5c81a1130170a4bcbd803490c4337f8f9dff05",
+          "lineCount": 1268,
           "role": "Current39-relation JSON SSOT separate from MD subject/SHA"
         }
       },
@@ -827,6 +839,23 @@
             "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
             "gitObject": "dfd6997347e02f1add6f47f4b8137a1943041b38",
             "fileSha256": "8bdef4b4e4b2cffc93d315a8019868869f658ce485d1f237b1e930b27eaeffe1",
+            "selector": {
+              "entries.path": "docs/phase-governance/cross-phase-matrix.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C3 only two machine-row reception-time clauses, zero MD/body/relationship changes",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+            "gitObject": "dbac8fc0b2f2cc445a23f6027cd094899f3fb0df",
+            "fileSha256": "525f59ef31e1271be1e60dd622e33d9f611cad7f521047b6ffd01e172b6303d2",
             "selector": {
               "entries.path": "docs/phase-governance/cross-phase-matrix.md",
               "uniqueMatches": 1
@@ -7227,9 +7256,9 @@
         "templateId": "governance-index-v1",
         "templateVersion": "1.0.0",
         "historyOverlay": false,
-        "method": "Same governance-index39rows, one existing classification/navigation row; actual current GFM and independent reception required, original fixed source approval does not sign future bytes."
+        "method": "Same accepted governance-index MD39rows byte-exact. PS-C3 only two existing machine-row status facts update from actual fixed scoped receipts; actual GFM/machine pins rechecked, no underlying39-source review."
       },
-      "reviewedSourceGitRevision": "42b7009e405b0a3b71fd6579ff1f894e13716164",
+      "reviewedSourceGitRevision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
       "priorReadingSources": [
         {
           "kind": "complete-prior-current-in-fixed-reachable-Git",

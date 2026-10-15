@@ -12521,7 +12521,7 @@
           "检索25份时点审计、普查与复核，帮助读者把旧基线发现和当前修复台账分开。",
           "Source 2 headings/25 members/26 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页为 current 导航，报告保持历史时点。“三方逐函数”“复核”“普查”等标签不代表本轮重新读其源码、新三签、运行时或coverage通过；已接收材料仍只在其实际固定范围有效。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/audits/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/audits/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -12531,9 +12531,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/audits/README.md",
           "20261004-structured-content-phase2-01.json",
@@ -12566,7 +12566,7 @@
         "sourceSha256": "b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f",
         "afterSha256": "2152778fb328585de2056c08d60d62e2a3ab36e79a0df3df6b2615077c5814ff",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -12603,6 +12603,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/archive/audits/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -14673,7 +14689,7 @@
           "检索22份原始设计与混合规范快照，保留旧字段、取舍和增量记录的来源入口。",
           "Source 2 headings/22 members/23 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页为 current 导航，集合按历史来源阅读。“已评审”、用户定调日期和混合规范标签只描述旧目标当时文字，不是本轮新reviewed/build/实现签字，也不表示所有技术设计被废弃。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/designs/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/designs/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -14683,9 +14699,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/designs/README.md",
           "20261004-structured-content-phase2-01.json",
@@ -14718,7 +14734,7 @@
         "sourceSha256": "52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a",
         "afterSha256": "48c0b359310f5baab22e49886d5730d20db9b5582bff26fa6c25c5e7ab975235",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -14755,6 +14771,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/archive/designs/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -15286,7 +15318,7 @@
           "找到三份历史 HTML界面草案，并把草案检索与当前界面合同的事实权分开。",
           "Source 2 headings/3 members/4 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页为 current 导航，三份 HTML仍为历史草案及待逐篇治理的正文候选。它们没有因归档或附件命名而退出全量正文范围。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/mockups/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/mockups/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -15296,9 +15328,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/mockups/README.md",
           "20261004-structured-content-phase2-01.json",
@@ -15331,7 +15363,7 @@
         "sourceSha256": "0cbc7e9997a2b8f05db14657be910959947c905e3b6f6b36dd7087858ee40e9e",
         "afterSha256": "5a2092db4ee0a5cd5b1471c8e243f60b9cdce4d2bd6fc1f803b6f32ea9930248",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -15368,6 +15400,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/archive/mockups/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -17329,7 +17377,7 @@
           "按原计划名称检索过去的推进与验证安排，同时防止旧计划入口被当作当前待办池。",
           "Source 2 headings/24 members/25 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页为 current 导航，计划集合仍历史。给 GLM、给 GLM 开工和“现在能做”等标题保留为旧名称，不恢复旧提示、固定三签或当前build授权，也不从标签猜done。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/plans/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/plans/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -17339,9 +17387,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/plans/README.md",
           "20261004-structured-content-phase2-01.json",
@@ -17374,7 +17422,7 @@
         "sourceSha256": "1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2",
         "afterSha256": "e5e9aee0fa911b27a14eaa62c2511b9c00983b035d4a97f6345ae83f2dadac73",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -17411,6 +17459,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/archive/plans/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -18466,7 +18530,7 @@
           "让读者按审计、设计、界面草案、实施计划和早期切片五种职责检索历史材料，同时找到阶段现行入口。",
           "Source 2 headings/5 members/6 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页是 current 导航，被索引材料仍是各自历史来源。旧 catalog 的 archived 是源时点分类；本批只校正本页导航为 current 的轴，不提升任何目标结论。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -18476,9 +18540,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/README.md",
           "20261004-structured-content-phase2-01.json",
@@ -18511,7 +18575,7 @@
         "sourceSha256": "99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2",
         "afterSha256": "2a0ee8c80e0ae65623eb8c8968e55173ac44cdc579a9735b44bdaa6408c4d355",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -18558,6 +18622,22 @@
             "path": "docs/phase-governance/catalog.json",
             "gitObject": "4d8fa21b997c4a14ae18078cb45e50d67ab85acb",
             "fileSha256": "033711bc29a778b11890d7607a4d3633f3165e20826d98a7744cf0bb8b7054d9",
+            "selector": {
+              "entries.path": "docs/phase2/archive/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
             "selector": {
               "entries.path": "docs/phase2/archive/README.md",
               "uniqueMatches": 1
@@ -18911,7 +18991,7 @@
           "检索鬼界民居与室内切片的四份设计、旧计划，说明旧方案和后续切片验证之间的适用边界。",
           "Source 3 headings/4 members/5 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页为 current 导航，目标材料保持历史。源第3行关于早期图片退出、验收提交仍在Git的说法没有具体路径或提交；本轮没有核这些图片的存在性、内容或旧验收commit。WebGL/MMO旧方案与后来的切片通过仍须分开理解。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/slices/indoor/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/slices/indoor/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -18921,9 +19001,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/slices/indoor/README.md",
           "20261004-structured-content-phase2-02.json",
@@ -18956,7 +19036,7 @@
         "sourceSha256": "a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1",
         "afterSha256": "e406b99f77c3b28c3d775a7f31d93bcfcf2386e9ecf9a76a641f1957bc69c521",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -18993,6 +19073,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/archive/slices/indoor/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -19141,7 +19237,7 @@
           "找到项目起步时室内垂直切片的资料与旧验证证据，避免把早期切片结构混入现行模块分类。",
           "Source 2 headings/1 members/2 href occurrences preserved; these are per-document, not batch24/107/118.",
           "本页作为 current 导航服务历史集合。目录仍可达不表示切片今天重新运行，也不表示所有原版本继续适用。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/slices/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/archive/slices/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -19151,9 +19247,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/archive/slices/README.md",
           "20261004-structured-content-phase2-02.json",
@@ -19186,7 +19282,7 @@
         "sourceSha256": "ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16",
         "afterSha256": "488aa92fbc2a9c11f4d1f74dcdaae843f59964cad5f658c272572f612be6a34a",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -19223,6 +19319,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "archived"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/archive/slices/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -19908,7 +20020,7 @@
           "按作者要完成的操作，把人物、战场、内容发布、调试、场景入场和共享脚本六类指南放在同一入口。",
           "Source 2 headings/6 members/7 href occurrences preserved; these are per-document, not batch24/107/118.",
           "current 表示操作导航有效。“D13-1 首刀”保留为原调试文档标签，不表示本轮重跑或核验其旧实现。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/guides/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/guides/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -19918,9 +20030,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/guides/README.md",
           "20261004-structured-content-phase2-02.json",
@@ -19953,7 +20065,7 @@
         "sourceSha256": "65f2c62aa3af036f5bc1a985382d98da0e91ff583e18ad974ac1f9b5ae806af7",
         "afterSha256": "84234e0dcc425ab81f2dda87bf7a645984adb4bc8e75110656e77a138d64c778",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -19990,6 +20102,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/guides/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -20352,7 +20480,7 @@
           "把第二阶段的开工原则、产品方向和进度入口，与规范、操作、知识参考、历史材料分开。读者先选职责，再进入承担事实权的文档。",
           "Source 3 headings/9 members/10 href occurrences preserved; these are per-document, not batch24/107/118.",
           "current 表示这个阶段总导航继续使用。开工规则归 READ-FIRST，进度归 capability-map，决策、议题与路线分别回到各自文档；链接标签不代替目标正文审查。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -20362,9 +20490,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/README.md",
           "20261004-structured-content-phase2-02.json",
@@ -20397,7 +20525,7 @@
         "sourceSha256": "1f2adbb86528bb03e05422339493e3cab07654de00bf51493a521503f3485da9",
         "afterSha256": "84106ec12c0e7f69f338f637ce3f0eee6be65513adb2558edee982dbaea7bd12",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -20434,6 +20562,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -20724,7 +20868,7 @@
           "为可移植的一阶段知识和呈现考证提供来源入口，帮助读者把参考资料与当前实施规则分开。",
           "Source 2 headings/2 members/3 href occurrences preserved; these are per-document, not batch24/107/118.",
           "current 表示知识参考导航仍在使用。原“spec for Claude”只是旧目标的标题文字，不恢复旧席位、提示词或一阶段保真方针。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/reference/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/reference/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -20734,9 +20878,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/reference/README.md",
           "20261004-structured-content-phase2-02.json",
@@ -20769,7 +20913,7 @@
         "sourceSha256": "3ff1b35a2fd9a7292d39022539f955c967af954384cbe6bfcffac78ae9b1d7c5",
         "afterSha256": "8d268baabd570c20517c3276ed77609fd9f189dcef04c69d21b66acf2e55a888",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -20806,6 +20950,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/reference/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
@@ -21346,7 +21506,7 @@
           "定位当前内容、编辑器、设计系统、工程生命周期、存档和脚本合同，明确现行规范与历史推导的维护位置。",
           "Source 2 headings/6 members/7 href occurrences preserved; these are per-document, not batch24/107/118.",
           "current 只表示现行合同的路由职责。原“现行”标签保留，不构成本轮对六份规范全文、产品实现或零缺陷状态的新认证。",
-          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/specs/README.md. Source121ff independently accepted; root current intake pending; target/HTML/runtime credit0."
+          "Detailed current oracle and accepted-author checks: docs/phase-governance/reviews/20261016-phase2-navigation-p.json entries.path=docs/phase2/specs/README.md. Source121ff accepted by nonauthor A0dac; exact c562 root intake received by fdf102, later metadata separately scoped; target/HTML/runtime credit0."
         ]
       },
       "dedupe": {
@@ -21356,9 +21516,9 @@
         "existingMigratedRoutes": 1,
         "newTypeOrVariant": 0,
         "historyOverlay": false,
-        "migrationCredit": "Unique current record replaces one prior; source121ff independently accepted, root exact intake pending; target/runtime credit0",
+        "migrationCredit": "One unique baseline source/body migration, fixed121 A-source and c562 root reception; targets/runtime0. Whole derived233/1838+5 is not full acceptance.",
         "targets": "Original indexed targets are not new migration or execution credit.",
-        "result": "unique-current-record; fixed121ff source independently accepted, root current intake separately pending",
+        "result": "unique-current-record; actual fixed121 source acceptance and exact c562 root intake acceptance recorded",
         "against": [
           "docs/phase2/specs/README.md",
           "20261004-structured-content-phase2-02.json",
@@ -21391,7 +21551,7 @@
         "sourceSha256": "2a4fb5f263f8e3418d9471625873d76d48ecb9931d611e70d1fbeb86e2d485fc",
         "afterSha256": "783dacaf180e07b0cc945b8c2d3abca341417545fd1ed9d38d6b9f9b404f2b95",
         "claims": [
-          "fixed121ff source independently accepted; root current delta separately pending"
+          "Fixed121ff source accepted by nonauthor A0dac; exact c562 root intake independently received by fdf102. Later metadata has its own exact scope; no target/runtime approval."
         ],
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -21428,6 +21588,22 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousStatus": "current"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "PS-C2: four current reception mirrors synchronize actual c562 event; source/body/type/status and targets unchanged",
+          "completePrior": {
+            "kind": "complete-immediate-prior-in-fixed-reachable-Git",
+            "revision": "aa5a62f85d76233b2db37fc570d7bf97ae2b4054",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "74f66e7f698fb62bdcbf543cafefbf3bd7d3c1ee",
+            "fileSha256": "2a10078db4761f0c1d791974bd48d35ad29878ec3d1d84899b1cd7ecead2b5e4",
+            "selector": {
+              "entries.path": "docs/phase2/specs/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          }
         }
       ],
       "supersedes": [],
