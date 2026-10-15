@@ -278,3 +278,17 @@ Branch: codex/docs-full-template-proposal
 - receipt_review非作者设计agree，独立核定006外部path/commit/blob/SHA pin与固定1838基线一致；C2.1自选后来真Git源、C2.2移除routing绕progress两counter在设计层闭合，反例仍须实际实现验证。machine1.3.0合同按提案冻结用于pilot；Codex为唯一实现Owner，docs工具与006文档build allowed，无产品/旧测试/coverage授权。
 - 白名单：templates registry/proposal与说明、docs工具新源码/必要反例测试、model/progress两个入口、006三文档、既有13机器仅版本声明与对应after账、专属pilot回执/中央review/registry/routing/catalog若仅附加审查说明/矩阵/本卡。实际字段保持、真实Git读取和外部pin比对为硬门，未通过不得签pilot accept；不放宽旧default/false门。
 - 本次未实跑；006原rework/lastVerified与reviewBy原字段保留。按2026-10-16检查的reviewBy过期属于明确未闭合门，不用静态排版伪造延期。全量done/main推送仍禁止；独立审查后按真实语义与前提处理，不把旧连续批次done等同本轮动态通过。
+
+### 2026-10-16 C2实现counter返工
+
+- 非作者C2.3实际临时Git/CLI反例：后来false→true提交+外部pin/envelope/工作树baseline/review联合变造，原实现progress仍exit0/计1；C2.4 reader把tree当commit；七份conformity保留旧1.1与新1.3同时当前。接受暂停，原68工具全绿不能消除counter。
+- Codex按已核原始1838源快照收窄可信根：独立固定baseline commit/blob/SHA写入docs工具，真实Git与当前工作树双向核同，文档pin必须该快照，未来变更根要另独立来源/设计核验；不能从候选改baseline自证。reader严格commit对象，新增实际联合变造CLI与tree/blob/tag拒绝证明，旧false和产品机器字段不放宽。七份conformity当前字段统一1.3、旧值入history。
+- 同时已实核006paired consumer零问题，但validateCatalog(today=2026-10-16)明确报reviewBy过期；默认UTC15静态门通过不覆盖此义务。中央task仍build，C2pilot及包C八卡都未独立接收/未计入已接收数。等待非作者针对返工候选实核，后续继续配对MD/日期义务与全量治理。
+
+### 2026-10-16 C2独立接收与下一批状态
+
+- receipt_review针对最终六源码SHA签accept：外部批准pin与固定Git baseline/source、完整原对象保真、真实commit种类、model/progress统一逐篇门、全部compliant/route被删仍核固定baseline、缺Git源的人类/JSON/require-complete分母均1838。C2.3联合变造曾真实CLI伪通过、C2.4 tree误接及七conformity/失败输出counter全部修复并独立闭合，原失败记录保留，不用初轮68绿替代反证。
+- 实际006 JSON去envelope与原对象逐字段相等，原performed=true只属旧10-04批次；currentAudit=false。test-machine-evidence1.3.0同类变体pilot通过，不新增模板类别。13份既有机器只声明升版，正文原字段逐字节只改版本；不重复计迁移。固定baseline本身仍待治理，临时守卫不授予永久保留或豁免，其未来control-metadata迁移必须另独立设计保留原绑定/Git可信根。
+- 当前77/1838基线+4增量实际迁移，1869当前候选待迁移；68文档工具、81正文合同、614旧+新账本、默认UTC15的check:docs通过；lint4081文件0 error/warning/info、diff0。已实测today=2026-10-16仍拒绝006 reviewBy过期，本项未关闭，不能宣称最终全仓准入。任务build/目标active，未动main/产品源码/旧测试/coverage。
+- 包C作者候选7ddc35d65ce9a88f14db3a341dbca0a43003fc53（源33cc2df5），隔离树干净，精确8卡+专属回执。作者200旧标题/176出站fragment/4930行完整逆回读自验并不等独立接收，未合并/未计数。根已全文A7-0源528行、全部新增章节/回执首条与顶层，直接全文音乐报告98行、静态图报告117行、MIG-PAL-ACTOR-FACE-1继任卡389行；其余原卡/回执与总审计/过场设计/retention尚待独立核，不提前accept。
+- 下一步继续006两篇Markdown的真实内容迁移与publication日期义务，及包C非作者独立复核；不由旧连续卡done拼出新实跑。无新的用户产品裁决项，不需反复审批或转发。

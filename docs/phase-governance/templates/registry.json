@@ -394,7 +394,7 @@
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "../../testing/_templates/test-machine-evidence.json",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "requiredSections": [
         "Machine envelope",
         "Execution identity",
@@ -489,6 +489,57 @@
             "axis": "catalog-publication",
             "catalog": "docs/testing/catalog.json"
           }
+        },
+        "historical-execution-publication-v2": {
+          "format": "json",
+          "requiredFields": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history",
+            "_governance"
+          ],
+          "requiredValues": {
+            "schemaVersion": 2,
+            "kind": "document-audit",
+            "runtimeExecution.performed": true,
+            "_governance.currentAudit.runtimeExecutionPerformed": false
+          },
+          "statuses": [
+            "draft",
+            "active",
+            "verified",
+            "rework",
+            "superseded",
+            "archived",
+            "proposal",
+            "current"
+          ],
+          "statusPolicy": {
+            "axis": "catalog-publication",
+            "catalog": "docs/testing/catalog.json"
+          },
+          "requiredGovernanceFields": ["sourceGitRevision", "currentAudit"],
+          "preservedSource": {
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+            "requiredValues": {
+              "schemaVersion": 2,
+              "kind": "document-audit",
+              "runtimeExecution.performed": true
+            }
+          }
         }
       },
       "statusPolicy": {
@@ -530,7 +581,18 @@
     "guideCommit": "169fc3d04f86ededf567e2b9d0417497ed7ef775",
     "pilotStatus": "Old 2026-10-11 preservation-only samples remain counter; no acceptance inherited from them.",
     "model": "docs/ops/guides/documentation-model.md",
-    "realPilotStatus": "17 types exercised by actual reviewed migrations, matching SHA/body contracts and format-specific consumers on 2026-10-15; partial progress only, not full-docs acceptance"
+    "realPilotStatus": "17 types exercised by actual reviewed migrations, matching SHA/body contracts and format-specific consumers on 2026-10-15; partial progress only, not full-docs acceptance",
+    "historicalExecutionVariantPilot": "C2 test-machine-evidence1.3.0 actual006 JSON pilot independently accepted2026-10-16 after C2.1/.2/.3/.4 and metadata/human-output counters closed; all original fields retained, real consumers and rejection proofs passed; no runtime/expiry credit"
   },
-  "historyOverlayTemplateId": "archive-record-v1"
+  "historyOverlayTemplateId": "archive-record-v1",
+  "historicalSourcePins": [
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+      "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+      "approvedBy": "Codex and independent receipt_review design review 2026-10-16",
+      "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+    }
+  ]
 }

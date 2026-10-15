@@ -91,3 +91,11 @@ Pilot只选全文读的006 JSON；待实际consumer、严格原对象回读、�
 另一counter是progress完成数原来独立检查registry，但model的provenance校验仅覆盖routing；删除某篇routing可绕开新门。将提取统一逐篇验收函数，model和progress对每个待计完成的compliant registry条目都执行body、声明、catalog及批准pin/Git原对象验证；不因routing缺失而省源验证，且compliant registry必须在routing恰有一条相符记录。删除路由、只改variant/source元数据或制造后来提交都应作为真实反例拒绝。
 
 C2设计冻结（2026-10-16）：非作者receipt_review独立核006原文、实际Git pin/固定基线、consumer与progress路径后agree，C2.1/C2.2设计counter已闭合。上述1.3.0合同冻结用于006 pilot；实现/反例/真实consumer和非作者pilot accept仍待，不据设计签字宣称迁移或动态通过。
+
+### C2.3/C2.4 实现反例与准入收窄
+
+非作者真实临时Git反例已证明：仅工作树baseline仍可与后来false→true提交、外部pin/envelope/review一起联合改写，实际progress曾exit0/计1；该结果保留为counter，原68绿不授予pilot接受。另reader把真实tree对象当commit接收，也不满足完整commit合同。
+
+收窄C2的可信根为已独立核的1838源快照：`scripts/docs/frozen-document-source.mjs`固定baseline路径、commit33cc2df50c7279d2750ddad4fcf6c373b7b2bda3、blob00da11bb594126105abbb5ea596c7272ed8e5542及SHA256 1c9a01c80a477e8de0d23d064f00a45fbbe9eab4aaffd9e1d5b26114f92e71f5。该根不是从candidate/pin/工作树数据生成，变更必须另做独立来源/设计复核。C2各文档pin须同一已批准原始快照；当前baseline字节必须与冻结Git对象相同，条目源SHA从已核固定对象解析。新增非该快照文档不能自行改根或续pin来放行，需另立经独立核的范围修订。reader另以cat-file对象种类严格要求commit，tree/blob/tag均拒绝。
+
+反例必须复现联合变造后的实际progress拒绝，以及真实tree/blob/annotated-tag拒绝；原false/默认execution门与所有原机器字段保持。中央conformity出现1.1.0/1.3.0双当前字段的元数据counter同步修正，旧值入history。以上仍待非作者实现/pilot复核，不能以设计或作者修复自签accept。

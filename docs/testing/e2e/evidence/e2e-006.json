@@ -92,5 +92,29 @@
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.3.0",
+    "variant": "historical-execution-publication-v2",
+    "lastReviewed": "2026-10-16",
+    "owner": "Codex",
+    "provenance": [
+      "Full original 006 JSON/stage/report and actual paired consumer read",
+      "Independently approved external source pin; fixed 1838 baseline source SHA matches",
+      "Historical 10-04 runtime object retained; current audit performs no execution"
+    ],
+    "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+    "sourceGitObject": "a7148a1c5087e2fcef899cb79818560fc3dd7bc5",
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "currentAudit": {
+      "runtimeExecutionPerformed": false,
+      "date": "2026-10-16",
+      "scope": "Document semantics/source preservation and template/consumer checks only; not runtime/E2E/visual/coverage"
+    },
+    "scope": "Original mixed document-audit and historical 10-04 execution publication for e2e-006; old true, candidate d02278dc and versions22/11 remain historical. Current catalog publication rework remains.",
+    "beforeAfter": "All original top-level fields and values unchanged; add one non-overwriting governance envelope with independently pinned original source and distinct current non-execution audit.",
+    "stopLine": "Original runtimeExecution.performed=true is historical, not this audit. No renewed reviewBy, new source-backed→runtime-backed claim, old raw existence or current E2E acceptance.",
+    "nextStep": "Independently verify C2 implementation/pilot and migrate paired Markdown; expired review obligation and later frozen continuous batch require distinct scoped follow-up."
+  }
 }

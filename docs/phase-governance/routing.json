@@ -399,6 +399,11 @@
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-execution-publication-v2"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

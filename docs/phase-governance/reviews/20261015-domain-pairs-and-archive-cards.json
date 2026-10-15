@@ -180,7 +180,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -268,10 +268,10 @@
       "reviewedSourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "9056c86f9c02ea3069c12c9bb2038e232ded8322",
-      "afterSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+      "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+        "implementationSha": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -295,6 +295,13 @@
             "afterSha256": "15c5b0fb2269bd2770315b97a5f64f627ce2ea37f5060be0d9d1d4ae9e19b128",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+            "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -302,7 +309,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
-        "afterSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+        "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
         "lineCount": 155
       },
       "history": [
@@ -324,6 +331,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "b48fbc6ec56b318c7363486512a859118483e2c07ed652f6af5cab233ab64ff3",
+          "afterSha256": "70f5537a4326538e62a2abe2c3945fd52db9fc0992e6663f128caf44c15a9936",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -335,9 +363,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -525,7 +554,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -611,10 +640,10 @@
       "reviewedSourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "aa2033e75e4b696b4ddae46cd3699d394b4e25de",
-      "afterSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+      "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+        "implementationSha": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -638,6 +667,13 @@
             "afterSha256": "baa7c7232c35a833d69f59db9943f74333244ea5736b56567fa19baba6fb164a",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+            "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -645,7 +681,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
-        "afterSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+        "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
         "lineCount": 146
       },
       "history": [
@@ -667,6 +703,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "fe876eb5b702487dd5eae89ef0e5e0f0e202d4fdd92d2153060ef5a96b37c626",
+          "afterSha256": "e4422d434e4874dda56fc0ed5f521dcfec76899b98e218c1474bd0137231660b",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -678,9 +735,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -871,7 +929,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -960,10 +1018,10 @@
       "reviewedSourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "f3f39bb9dea26be0aa0d14fda1c8904c1db0193f",
-      "afterSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+      "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+        "implementationSha": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -987,6 +1045,13 @@
             "afterSha256": "7405a861bf496a1873a6981f61f157ca38735c401506592d4fdddbe016a7a915",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+            "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -994,7 +1059,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "f8d353c0514ffadd4049ac6deb737f02236a083663cbc344491beac1c73dfba8",
-        "afterSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+        "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
         "lineCount": 154
       },
       "history": [
@@ -1016,6 +1081,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "48acbf31281ba2a131792e662ed0bfffe8f52a5b84e44e3c71edd28454a9214f",
+          "afterSha256": "8c3978a91747aeaa93293092b28f6a04b62645e19916be0d2b9211d31f9794f1",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -1027,9 +1113,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -1220,7 +1307,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -1309,10 +1396,10 @@
       "reviewedSourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "aaaf2adab425fc1bdfc2e3a3ae9ec1e41ed3646a",
-      "afterSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+      "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+        "implementationSha": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
         "originalPublicationRevision": {
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "versions": {
@@ -1336,6 +1423,13 @@
             "afterSha256": "d3e06ba83b24548e86ddd1a94bfa90cb3491328c5c31d106986df377c147ad59",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+            "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -1343,7 +1437,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
-        "afterSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+        "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
         "lineCount": 156
       },
       "history": [
@@ -1365,6 +1459,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "0d2283faa7aa624b3cb1726e7a9a0a819016486275611409c9d48abcfd877b13",
+          "afterSha256": "a6e3fa75f9221e9b2308b21bc1f5cef2a76b4d586b1868e00298b5793cdb5720",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -1376,9 +1491,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -1396,7 +1512,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -1482,10 +1598,10 @@
       "reviewedSourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "5b4221079752c043124ea7e4fc1bc5bcea9f6c4f",
-      "afterSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+      "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+        "implementationSha": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -1509,6 +1625,13 @@
             "afterSha256": "caffe380d8c9be3c9ba657e18f5a7d9c11063d58b73fc35e2349d2abbd06aad9",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+            "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -1516,7 +1639,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "c3daeda786f1d290209913d5192b5a8d490c819be6e5ea59e816f1e8664077e4",
-        "afterSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+        "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
         "lineCount": 141
       },
       "history": [
@@ -1538,6 +1661,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "adee8e8cd467ed25561693ee8a4273955f53c1ee6156b9981b8e5e631ea66911",
+          "afterSha256": "4255216702dc4bf98d9d811749931b6ef27ea9f69bd1ca035d38d7e62b1a191b",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -1549,9 +1693,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -1569,7 +1714,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -1657,10 +1802,10 @@
       "reviewedSourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "bef4af6281531c85585b6672e78947cf2ff1841e",
-      "afterSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+      "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+        "implementationSha": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -1684,6 +1829,13 @@
             "afterSha256": "cbc1a6c32de9803f3d9114f24c41da5faad52a7878d105f808c3671cf6f68069",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+            "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -1691,7 +1843,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "3d3e5c38154b65c6bfd9e0585da5518639d142530a4be6e5dc8384132b67a955",
-        "afterSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+        "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
         "lineCount": 150
       },
       "history": [
@@ -1713,6 +1865,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "643f293208a5026eae19a72b809638c9a67f6e55329dbadf92121585785592c1",
+          "afterSha256": "d4ca07c2d6c8058c80e4807b29da1696f78ed89371006dc069a9534c18cc9426",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -1724,9 +1897,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -1744,7 +1918,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
       "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
@@ -1838,10 +2012,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+      "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
-        "implementationSha": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+        "implementationSha": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -1865,6 +2039,13 @@
             "afterSha256": "c0161b47d7e5e4a556e5990e171595e2854c48da5a4f22063553ea529e55df50",
             "beforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+            "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -1872,7 +2053,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+        "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
         "lineCount": 177
       },
       "history": [
@@ -1894,6 +2075,27 @@
           "templateVersionAfter": "1.2.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "387366772fd65c6f3337e4456ffc4eb4046976fa05f3f54bf18b701f39c2e783",
+          "afterSha256": "39a7d341e4e462b9cc4761914fc19bb30e2dfc2a4326e4edb012ff018b276502",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-independent-metadata-counter-conformity-version-reconciled",
+          "previousConformity": {
+            "result": "template-compliant",
+            "templateId": "test-machine-evidence-v1",
+            "templateVersion": "1.1.0",
+            "sourceSpecificBodyOrEnvelope": true,
+            "historyAndCurrentScopeSeparated": true,
+            "version": "1.3.0"
+          },
+          "currentTemplateVersion": "1.3.0",
+          "note": "Historical version preserved here; current conformity fields now agree, no body or runtime change"
         }
       ],
       "supersedes": [],
@@ -1905,9 +2107,10 @@
       "templateConformity": {
         "result": "template-compliant",
         "templateId": "test-machine-evidence-v1",
-        "templateVersion": "1.1.0",
+        "templateVersion": "1.3.0",
         "sourceSpecificBodyOrEnvelope": true,
-        "historyAndCurrentScopeSeparated": true
+        "historyAndCurrentScopeSeparated": true,
+        "version": "1.3.0"
       },
       "templateVariant": "document-audit-v2",
       "statusContractReview": {
@@ -2251,7 +2454,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -2331,15 +2534,22 @@
       "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "a8faff546ddfa9d2a5543e0b232964618bc643d7",
-      "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+      "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+        "implementationSha": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
         "history": [
           {
             "date": "2026-10-15",
             "action": "field-preserving-audit-envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+            "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -2347,7 +2557,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
-        "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+        "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
         "lineCount": 141
       },
       "history": [
@@ -2356,6 +2566,13 @@
           "sourceSha256": "4856e7ae5e21b9304bf5c4c19b6cc86395d3a8bfc9f5501187ae74eb0d9a12b4",
           "afterSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
           "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "4064862cd89e01bebc3175694b76711a290618c30412ef905e664e52591235c4",
+          "afterSha256": "1a89a8431631e7e84370259cd5351ceb8fdc7171bd526b5c016f5ecb0c2d9225",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
         }
       ],
       "supersedes": [],
@@ -2367,7 +2584,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       }
     },
@@ -2376,7 +2593,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -2457,15 +2674,22 @@
       "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "ad861a2af42b628a5d5637dd842869deed704282",
-      "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+      "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+        "implementationSha": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
         "history": [
           {
             "date": "2026-10-15",
             "action": "field-preserving-audit-envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+            "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -2473,7 +2697,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
-        "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+        "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
         "lineCount": 113
       },
       "history": [
@@ -2482,6 +2706,13 @@
           "sourceSha256": "06d3596b29e690364de12988bf0edf7dcf9d228e8c0ea5d933af83fb98cef7d7",
           "afterSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
           "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "6fe5e83daea838161e3f62284462f389d5a7fb332888f44edaaf7c63a8ff22da",
+          "afterSha256": "99db03a625ad80edb9616f901a83a068dad375893169e74a637bf680d1416271",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
         }
       ],
       "supersedes": [],
@@ -2493,7 +2724,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       }
     },
@@ -2502,7 +2733,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -2569,15 +2800,22 @@
       "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
-      "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+      "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+        "implementationSha": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
         "history": [
           {
             "date": "2026-10-15",
             "action": "field-preserving-audit-envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+            "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -2585,7 +2823,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
-        "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+        "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
         "lineCount": 100
       },
       "history": [
@@ -2594,6 +2832,13 @@
           "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
           "afterSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
           "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "c4813950492550e21679e666879b9fe3dff26216ca12438f937ad18260a662e9",
+          "afterSha256": "b75f9641d643038d25d07f2a0935732e4f58833f529077a95daa4e6ddc936efb",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
         }
       ],
       "supersedes": [],
@@ -2605,7 +2850,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       }
     },
@@ -2614,7 +2859,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -2705,15 +2950,22 @@
       "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
-      "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+      "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+        "implementationSha": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
         "history": [
           {
             "date": "2026-10-15",
             "action": "field-preserving-audit-envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+            "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -2721,7 +2973,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
-        "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+        "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
         "lineCount": 156
       },
       "history": [
@@ -2730,6 +2982,13 @@
           "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
           "afterSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
           "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "c5d5de4c4b4340fc8b4c866b1dc8a441567c396f7dafd68ad9012aba4a40693d",
+          "afterSha256": "dd62e44bb8f8b04f7daae700787197e4f3f58b85ed72a734b6743189e1ec50f3",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
         }
       ],
       "supersedes": [],
@@ -2741,7 +3000,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       }
     },
@@ -2750,7 +3009,7 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.2.0",
+      "templateVersion": "1.3.0",
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
@@ -2839,15 +3098,22 @@
       "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "ef385d68f17ffcadff51b7f7e37d9002f3b03faf",
-      "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+      "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+        "implementationSha": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
         "history": [
           {
             "date": "2026-10-15",
             "action": "field-preserving-audit-envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "C2-backward-contract-version-declaration-only",
+            "sourceSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+            "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+            "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
           }
         ]
       },
@@ -2855,7 +3121,7 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
-        "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+        "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
         "lineCount": 182
       },
       "history": [
@@ -2864,6 +3130,13 @@
           "sourceSha256": "91c4a17d04d80fd00e9db5da47df3e1a473e608692ce62b240d7b4d27705282a",
           "afterSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
           "beforeAfter": "Top-level original object → registered document-audit-v2 envelope; machine fields and original publication/execution axes exact."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "C2-backward-contract-version-declaration-only",
+          "sourceSha256": "214a78e89f7764c2cbb21cd36492f8ffdf865cda8fbb6ce13f2d3b49ce58ddb7",
+          "afterSha256": "5eac3e4be5904d138ae8fb8a097038735742000f6b65796e8e53108333b6628c",
+          "note": "Only _governance.templateVersion changed 1.2.0→1.3.0; original machine fields/default false contract unchanged, no new migration or dynamic credit"
         }
       ],
       "supersedes": [],
@@ -2875,7 +3148,7 @@
       "module": "publication-machine-audits",
       "templateConformity": {
         "result": "template-compliant",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
       }
     }

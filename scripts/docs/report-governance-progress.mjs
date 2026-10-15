@@ -3,17 +3,17 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { checkDocumentModel, checkTemplateBody } from './document-model.mjs'
+import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
+import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
+import { readGitDocumentSource } from './git-document-source.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const read = (path) => readFileSync(resolve(root, path), 'utf8')
 const json = (path) => JSON.parse(read(path))
 const digest = (text) => createHash('sha256').update(text).digest('hex')
-const cohort = new Set(
-  json('docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json').entries.map(
-    (entry) => entry.path,
-  ),
-)
+const sourceOptions = { readSource: (pin) => readGitDocumentSource(root, pin) }
+const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource)
+const cohort = new Set(baseline.entries.map((entry) => entry.path))
 const candidates = execFileSync(
   'git',
   ['ls-files', '--cached', '--others', '--exclude-standard', '-z', 'docs'],
@@ -25,11 +25,11 @@ const registry = json('docs/phase-governance/document-registry.json')
 const templateRegistry = json('docs/phase-governance/templates/registry.json')
 const templates = new Map(templateRegistry.types.map((entry) => [entry.templateId, entry]))
 const records = new Map()
-const issues = checkDocumentModel(
-  json('docs/phase-governance/routing.json'),
-  templateRegistry,
-  read,
-)
+const routing = json('docs/phase-governance/routing.json')
+const issues = [
+  ...baseline.issues,
+  ...checkDocumentModel(routing, templateRegistry, read, sourceOptions),
+]
 const completed = []
 if (
   registry.entries.some((entry) => entry.historyOverlay) &&
@@ -58,14 +58,25 @@ for (const entry of registry.entries) {
     issues.push(`${entry.path}: unknown template`)
     continue
   }
-  const bodyIssues = checkTemplateBody(text, template, {
+  const document = {
+    path: entry.path,
+    templateId: entry.templateId,
     variant: entry.templateVariant,
-    additionalSections: entry.historyOverlay
-      ? (templates.get(templateRegistry.historyOverlayTemplateId)?.requiredSections ?? [])
-      : [],
-  })
+    historyOverlay: entry.historyOverlay,
+  }
+  const bodyIssues = checkMigratedDocument(document, templateRegistry, read, sourceOptions)
+  const routes = routing.migratedDocuments.filter((route) => route.path === entry.path)
+  if (
+    routes.length !== 1 ||
+    routes[0].templateId !== document.templateId ||
+    routes[0].variant !== document.variant ||
+    Boolean(routes[0].historyOverlay) !== Boolean(document.historyOverlay)
+  )
+    bodyIssues.push('completed review requires one matching migrated route')
   if (digest(text) !== record.afterSha256 || bodyIssues.length) {
-    issues.push(`${entry.path}: completed review SHA or body contract drift`)
+    if (digest(text) !== record.afterSha256)
+      issues.push(`${entry.path}: completed review SHA drift`)
+    issues.push(...bodyIssues.map((issue) => `${entry.path}: ${issue}`))
     continue
   }
   completed.push({
@@ -87,9 +98,9 @@ const report = {
   kind: 'derived-migration-progress',
   policy:
     'Read-only projection of explicit reviewed migrations, SHA and body contracts. Progress is not full acceptance or runtime/E2E/visual/coverage proof. require-complete also demands every current candidate; final semantic audit remains mandatory.',
-  approvedCohort: cohort.size,
+  approvedCohort: frozenDocumentBaseline.denominator,
   cohortMigrated: cohortDone,
-  cohortPending: cohort.size - cohortDone,
+  cohortPending: frozenDocumentBaseline.denominator - cohortDone,
   currentCandidates: allCandidates.length,
   currentPending: pending.length,
   incrementalMigrated: completed.length - cohortDone,
@@ -106,12 +117,14 @@ if (args.some((arg) => !['--json', '--require-complete'].includes(arg)))
 if (args.includes('--json')) console.log(JSON.stringify(report, null, 2))
 else
   console.log(
-    `migration progress: ${cohortDone}/${cohort.size} baseline + ${completed.length - cohortDone} incremental; ${pending.length} current candidates pending; ${exercised.size}/${templateIds.length} templates exercised; ${issues.length} integrity issues; not full acceptance`,
+    `migration progress: ${cohortDone}/${frozenDocumentBaseline.denominator} baseline + ${completed.length - cohortDone} incremental; ${pending.length} current candidates pending; ${exercised.size}/${templateIds.length} templates exercised; ${issues.length} integrity issues; not full acceptance`,
   )
 if (issues.length) process.exitCode = 1
 if (
   args.includes('--require-complete') &&
-  (cohortDone !== cohort.size || pending.length || report.pendingTemplates.length)
+  (cohortDone !== frozenDocumentBaseline.denominator ||
+    pending.length ||
+    report.pendingTemplates.length)
 ) {
   console.error(
     'full governance incomplete: unread/unmigrated candidates or unexercised templates remain',

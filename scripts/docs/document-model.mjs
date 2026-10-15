@@ -1,5 +1,8 @@
+import { createHash } from 'node:crypto'
 import { dirname, posix } from 'node:path'
+import { isDeepStrictEqual } from 'node:util'
 import { parseTestingFrontMatter } from './check-testing.mjs'
+import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 
 function documentStatus(text, contract) {
@@ -121,7 +124,10 @@ export function checkTemplateBody(text, template, { variant, additionalSections 
       const actual = path.split('.').reduce((object, key) => object?.[key], value)
       if (actual !== expected) issues.push(`machine field mismatch: ${path}`)
     }
-    for (const key of template.requiredGovernanceFields ?? [])
+    for (const key of new Set([
+      ...(template.requiredGovernanceFields ?? []),
+      ...(contract.requiredGovernanceFields ?? []),
+    ]))
       if (value._governance?.[key] === undefined || value._governance[key] === '')
         issues.push(`missing governance field: ${key}`)
     if (variant && value._governance?.variant !== variant)
@@ -166,54 +172,125 @@ export function checkTemplateBody(text, template, { variant, additionalSections 
   return issues
 }
 
-export function checkDocumentModel(config, registry, read) {
-  const issues = checkRouting(config, read)
-  const templates = new Map(registry.types.map((type) => [type.templateId, type]))
+function preservedSourceIssues(text, doc, registry, contract, read, readSource) {
+  if (!contract?.preservedSource) return []
+  let value
+  try {
+    value = JSON.parse(text)
+  } catch {
+    return [] // The body contract reports malformed JSON.
+  }
+  if (!value || Array.isArray(value) || typeof value !== 'object') return []
+  const pins = Array.isArray(registry.historicalSourcePins)
+    ? registry.historicalSourcePins.filter((pin) => pin.path === doc.path)
+    : []
+  if (pins.length !== 1) return ['historical source requires one approved external path pin']
+  const pin = pins[0]
   if (
-    config.migratedDocuments.some((doc) => doc.historyOverlay) &&
-    !templates.get(registry.historyOverlayTemplateId)?.requiredSections?.length
+    !/^[a-f\d]{40}$/.test(pin.revision ?? '') ||
+    !/^[a-f\d]{40}$/.test(pin.gitObject ?? '') ||
+    !/^[a-f\d]{64}$/.test(pin.sha256 ?? '')
   )
+    return ['approved historical source pin invalid']
+  if (contract.preservedSource) {
+    if (
+      contract.preservedSource.baseline !== frozenDocumentBaseline.path ||
+      pin.revision !== frozenDocumentBaseline.revision
+    )
+      return ['historical source pin is outside the independently frozen snapshot']
+    if (!readSource) return ['approved historical Git source unavailable']
+    const baseline = inspectFrozenDocumentBaseline(read, readSource)
+    if (baseline.issues.length) return baseline.issues
+    const bindings = baseline.entries.filter((entry) => entry.path === doc.path)
+    if (bindings.length !== 1 || bindings[0].sourceSha256 !== pin.sha256)
+      return ['historical source pin differs from frozen baseline']
+  }
+  const metadata = value._governance
+  if (
+    metadata?.sourceGitRevision !== pin.revision ||
+    metadata?.sourceGitObject !== pin.gitObject ||
+    metadata?.sourceSha256 !== pin.sha256
+  )
+    return ['historical source declaration differs from approved external pin']
+  const source = readSource?.(pin)
+  if (!source || typeof source.text !== 'string')
+    return ['approved historical Git source unavailable']
+  if (
+    source.gitObject !== pin.gitObject ||
+    createHash('sha256').update(source.text).digest('hex') !== pin.sha256
+  )
+    return ['approved historical Git source blob or SHA mismatch']
+  let original
+  try {
+    original = JSON.parse(source.text)
+  } catch {
+    return ['approved historical source is not JSON']
+  }
+  if (!original || Array.isArray(original) || typeof original !== 'object')
+    return ['approved historical source is not an object']
+  const issues = []
+  if (Object.hasOwn(original, '_governance'))
+    issues.push('historical source already contains a governance envelope')
+  for (const [path, expected] of Object.entries(contract.preservedSource.requiredValues ?? {})) {
+    const actual = path.split('.').reduce((object, key) => object?.[key], original)
+    if (actual !== expected) issues.push(`historical source field mismatch: ${path}`)
+  }
+  const preserved = { ...value }
+  delete preserved._governance
+  if (!isDeepStrictEqual(preserved, original))
+    issues.push('historical original machine fields changed')
+  return issues
+}
+
+/** The same complete per-document checks serve routing and completion accounting. */
+export function checkMigratedDocument(doc, registry, read, { readSource } = {}) {
+  const text = read(doc.path)
+  const template = registry.types.find((type) => type.templateId === doc.templateId)
+  if (text === undefined) return ['migrated document missing']
+  if (!template) return [`unknown template ${doc.templateId}`]
+  const overlay = registry.types.find(
+    (type) => type.templateId === registry.historyOverlayTemplateId,
+  )
+  const issues = checkTemplateBody(text, template, {
+    variant: doc.variant,
+    additionalSections: doc.historyOverlay ? (overlay?.requiredSections ?? []) : [],
+  })
+  if (doc.historyOverlay && !overlay?.requiredSections?.length)
     issues.push('history overlay contract missing')
+  const contract = doc.variant ? template.variants?.[doc.variant] : template
+  if (contract) {
+    issues.push(...publicationIssues(text, contract, read))
+    issues.push(...preservedSourceIssues(text, doc, registry, contract, read, readSource))
+  }
+  if (template.format === 'json') {
+    let metadata
+    try {
+      metadata = JSON.parse(text)._governance
+    } catch {
+      // The body check already reports malformed JSON.
+    }
+    if (
+      metadata?.templateId !== template.templateId ||
+      metadata?.templateVersion !== template.templateVersion
+    )
+      issues.push('machine template declaration mismatch')
+    return issues
+  }
+  const visible = withoutFences(text)
+  if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible)) issues.push('review date missing')
+  if (!visible.includes(`Template: ${template.templateId} / ${template.templateVersion}`))
+    issues.push('template declaration mismatch')
+  return issues
+}
+
+export function checkDocumentModel(config, registry, read, options = {}) {
+  const issues = checkRouting(config, read)
   const paths = new Set()
   for (const doc of config.migratedDocuments) {
     if (paths.has(doc.path)) issues.push(`${doc.path}: duplicate migrated document`)
     paths.add(doc.path)
-    const text = read(doc.path)
-    const template = templates.get(doc.templateId)
-    if (text === undefined) issues.push(`${doc.path}: migrated document missing`)
-    else if (!template) issues.push(`${doc.path}: unknown template ${doc.templateId}`)
-    else {
-      for (const issue of checkTemplateBody(text, template, {
-        variant: doc.variant,
-        additionalSections: doc.historyOverlay
-          ? (templates.get(registry.historyOverlayTemplateId)?.requiredSections ?? [])
-          : [],
-      }))
-        issues.push(`${doc.path}: ${issue}`)
-      const contract = doc.variant ? template.variants?.[doc.variant] : template
-      if (contract)
-        for (const issue of publicationIssues(text, contract, read))
-          issues.push(`${doc.path}: ${issue}`)
-      if (template.format === 'json') {
-        let metadata
-        try {
-          metadata = JSON.parse(text)._governance
-        } catch {
-          // The body check already reports malformed JSON.
-        }
-        if (
-          metadata?.templateId !== template.templateId ||
-          metadata?.templateVersion !== template.templateVersion
-        )
-          issues.push(`${doc.path}: machine template declaration mismatch`)
-        continue
-      }
-      const visible = withoutFences(text)
-      if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible))
-        issues.push(`${doc.path}: review date missing`)
-      if (!visible.includes(`Template: ${template.templateId} / ${template.templateVersion}`))
-        issues.push(`${doc.path}: template declaration mismatch`)
-    }
+    for (const issue of checkMigratedDocument(doc, registry, read, options))
+      issues.push(`${doc.path}: ${issue}`)
   }
   return issues
 }
