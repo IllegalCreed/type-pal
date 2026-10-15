@@ -139,6 +139,7 @@ function makeTree(rawFiles: Record<string, Uint8Array>): string {
   symlinkSync(join(REAL_PACKAGE, 'node_modules'), join(pkgDir, 'node_modules'), 'dir')
   const rawDir = join(tree, 'data', 'raw')
   mkdirSync(rawDir, { recursive: true })
+  writeFileSync(join(rawDir, 'mus.mkf'), mkf([new Uint8Array()]))
   for (const [name, bytes] of Object.entries(rawFiles)) writeFileSync(join(rawDir, name), bytes)
   return tree
 }
@@ -420,6 +421,7 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   // Musics：{NNN}.MID → 归一化 007.mid；ogg 原名
   expect(existsSync(out('music/007.mid'))).toBe(true)
   expect(existsSync(out('music/TRACK02.ogg'))).toBe(true)
+  expect(readFileSync(out('music/mus.mkf'))).toEqual(readFileSync(join(tree, 'data/raw/mus.mkf')))
   const music = JSON.parse(readFileSync(out('data/music-manifest.json'), 'utf8'))
   expect(music).toEqual({ midi: [7], cdTracks: ['TRACK02.ogg'] })
 })

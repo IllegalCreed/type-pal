@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-15",
+  "site": "https://pal.illegalscreed.cn",
+  "target": "all",
+  "oldManifestVersion": "937548870e77bfea",
+  "newManifestVersion": "7b0cf09680554792",
+  "filesAdded": ["music/mus.mkf"],
+  "filesRemoved": [],
+  "filesModified": [],
+  "rawMusicSha256": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+  "extractedMusicSha256": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+  "script": "scripts/deploy.sh",
+  "environment": {
+    "COPYFILE_DISABLE": "1"
+  },
+  "rollbackDirectory": "/var/www/type-pal/dist.old",
+  "copyrightCommit": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
+  "copyrightCommitAncestorVerified": true
+}

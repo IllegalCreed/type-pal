@@ -294,6 +294,7 @@ async function runBattleAssetsCli(opts: { fAbc: boolean; fbp: boolean }): Promis
     ...buildBattleAssetsInputs(opts),
   })
   mkdirSync(join(tree, 'data', 'raw', 'Musics'), { recursive: true })
+  writeFileSync(join(tree, 'data', 'raw', 'mus.mkf'), new Uint8Array([8, 0, 0, 0, 8, 0, 0, 0]))
   trees.push(tree)
   const result = await runCli(tree)
   return { tree, result }

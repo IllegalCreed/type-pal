@@ -1,0 +1,43 @@
+
+> type-pal@ extract /Users/zhangxu/illegal/type-pal
+> pnpm --filter @type-pal/pal-extract run extract
+
+
+> @type-pal/pal-extract@0.0.0 extract /Users/zhangxu/illegal/type-pal/packages/pal-extract
+> tsx src/cli.ts
+
+[pal-extract] start
+[pal-extract] scenes=295, events=5077, bytecode=348024B
+[pal-extract] events …
+[pal-extract] events round-trip OK
+[pal-extract] events written: 295 scenes + shared(含 694 item/spell/enemyObj script entries)+ objects + all(43503 全局命令)
+[pal-extract] data tables …
+[pal-extract] SPRITEUI (chunk 9) written: 71 frames
+[pal-extract] battle effect sprite blob (chunk 10): 85 frames
+[pal-extract] dialog-icons (DATA.MKF chunk 12) written: 282 bytes
+[pal-extract] RNG.MKF blobs written (12 chunks, 1464 frames total)
+[pal-extract] RGM.MKF written: 88 / 92 portraits → images/portraits/{NN}.png
+[pal-extract] BALL.MKF written: 251 / 252 icons → images/items/{NNN}.png
+[pal-extract] FIRE.MKF blobs written (55 chunks, 837 frames total)
+[pal-extract] SOUNDS.MKF (full WAV dump) …
+[pal-extract] SOUNDS.MKF: 363 WAV written + metadata (505 chunks)
+[pal-extract] Musics: 86 MIDI + 8 CD ogg → music/
+[pal-extract] splash written → images/splash/
+[pal-extract] data tables written
+[pal-extract] full scope: 295 scenes, 222 scene-ref mapNums + 2 unreferenced non-empty = 224 total
+[pal-extract] mapNum=0: MAP.MKF chunk 为空,skip
+[pal-extract] tilesets written: 223 / 224 unique mapNums
+[pal-extract] scenes written: 295
+[pal-extract] event-objects.json written: 5077 objects, 295 scene ranges
+[pal-extract] palette written (9 chunks)
+[pal-extract] character sprites: 全 MGO.MKF chunks (dump-all, no filter) …
+[pal-extract] sprite scan: 636 / 637 MGO chunks 可解
+[pal-extract] sprite blobs written: 636 sprites, 4133 frames total
+[pal-extract] battle sprites: 全 F.MKF + ABC.MKF chunks (dump-all) …
+[pal-extract] battle sprite blobs written: 172 sprites, 775 frames total
+[pal-extract] battle backgrounds from FBP.MKF …
+[pal-extract] battle backgrounds written: 76 / 78 chunks
+[pal-extract] BDF → JSON font glyphs …
+[pal-extract] font glyphs written: 57083
+[extract] asset-manifest.json: 2906 files, 198MB, version=7b0cf09680554792
+[pal-extract] done. output → /Users/zhangxu/illegal/type-pal/data/extracted

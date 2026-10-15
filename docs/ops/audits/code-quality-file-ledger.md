@@ -4,8 +4,8 @@
 [`code-quality-inventory.mjs`](../../../scripts/quality/code-quality-inventory.mjs) 生成；本账本只登记已经由
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
-起始基点机器清单：2,962。当前 tracked 清单（含编辑器预览集成与第一阶段 RNG 回归）：3,267。
-当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,033；合计未闭合：3,038。
+起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG 回归及第一阶段音乐音源）：3,283。
+当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,049；合计未闭合：3,054。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -26,6 +26,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-14 酒剑仙传功修复新增 `event-rng-scene-restore.test.ts`，tracked inventory 增加一项并计入待核。
 专项四合同、像素回归与反控见[修复证据](../evidence/game-rng-scene-restore-1/README.md)，不自动增加本账本治理闭合数量。
+
+2026-10-15 第一阶段音乐音源与缓存回归新增16项tracked记录，均计入待核；功能/独立复核不自动增加本专项语义治理闭合数。精确路径见[新增机器清单](../evidence/game-rix-music-1/release-inventory-delta.json)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|

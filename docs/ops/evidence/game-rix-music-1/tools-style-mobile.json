@@ -1,0 +1,319 @@
+[
+  {
+    "tab": "场景",
+    "controls": [],
+    "overflow": false,
+    "panelRight": 361,
+    "viewport": 375
+  },
+  {
+    "tab": "战斗",
+    "controls": [],
+    "overflow": false,
+    "panelRight": 361,
+    "viewport": 375
+  },
+  {
+    "tab": "对话",
+    "controls": [],
+    "overflow": false,
+    "panelRight": 361,
+    "viewport": 375
+  },
+  {
+    "tab": "快捷键",
+    "controls": [],
+    "overflow": false,
+    "panelRight": 361,
+    "viewport": 375
+  },
+  {
+    "tab": "系统",
+    "controls": [
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "全屏",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "音乐音源",
+        "tag": "SELECT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "🔊 静音",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导出",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导入",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导出",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导入",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导出",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导入",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导出",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导入",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导出",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "导入",
+        "tag": "BUTTON"
+      }
+    ],
+    "overflow": false,
+    "panelRight": 361,
+    "viewport": 375
+  },
+  {
+    "tab": "计时器",
+    "controls": [
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "重置本局",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "本次设为最佳",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "清空最佳",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "计时器跳转节点",
+        "tag": "SELECT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "跳到此节点",
+        "tag": "BUTTON"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "见石碑最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "学功夫最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "上船最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "出林家堡最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "出隐龙窟最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "生化危机最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "过鬼将军最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "过赤鬼王最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "进扬州最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "出扬州最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "出麻烦洞最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "进京城最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "过彩依最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "进锁妖塔最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "剑柱最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "拆塔最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "过凤凰最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "进十年前最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "水灵珠最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "祈雨最佳时间",
+        "tag": "INPUT"
+      },
+      {
+        "clipped": false,
+        "fontSize": "14px",
+        "height": 32,
+        "label": "通关最佳时间",
+        "tag": "INPUT"
+      }
+    ],
+    "overflow": false,
+    "panelRight": 361,
+    "viewport": 375
+  }
+]

@@ -12,6 +12,7 @@
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-RIX-MUSIC-1 - 第一阶段 MIDI / DOS FM 音源选择](GAME-RIX-MUSIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |

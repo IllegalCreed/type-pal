@@ -1,0 +1,374 @@
+{
+  "date": "2026-10-15",
+  "referenceTree": "ee23013943973ad9eb67e1d272e56ed6dff67ce0",
+  "candidate": {
+    "packages/game/src/shell/audio-midi.ts": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+    "packages/game/src/shell/audio-midi.test.ts": "5310870943689fd623d4d29f4e5cd4443c422411e90793750725c0574bc8d155",
+    "packages/game/src/shell/rix/kernel.ts": "ef7c3965bf799df826900c13cee9444aae9d60b9a70f5e7dc82eb7ad8705d908",
+    "packages/game/src/shell/rix/rix.wasm": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+    "packages/game/vendor/rix/bridge.cpp": "c425456b23d32bb22a88563c01a3cb4f3e927fe510d0ebdca2ecbf55854e8cd2",
+    "packages/game/public/sw.js": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+    "scripts/e2e/sw-cache.test.mjs": "a3351c2ca3f73a36bc9e3d5f1b2467bb56e25e08945ca1a20bbe3f02956eda1e",
+    "scripts/coverage/approved-test-retirements.mjs": "18834b67f5085a09abc77b01166d723ce9ad6034c342b16dba60e6f7109c2c06",
+    "scripts/coverage/approved-test-retirements.test.mjs": "0532c36cfbaebf26dee62a0cb005082d6b4ba08d5899e32a9d8503894eee3490",
+    "scripts/audio/build-rix.mjs": "e18ac79cca312662622c2f6bdbfff1f64e626d3971bd2624e2a848e07befed35",
+    "data/raw/mus.mkf": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+    "data/extracted/music/mus.mkf": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+    "data/extracted/asset-manifest.json": "8d41cd12cd5ca53e20509cda97db690fb26d3a5ecacfcf4f2331ee76b6fad48d",
+    "scripts/coverage/baseline.fast.json": "bd814e9fbf4f1c0a3a369aa9af4afa027479b894ce23fa1876681a809cd11f2e",
+    "packages/game/vendor/rix/source-manifest.json": "58b65a88bac78f444f24f993a0f1309ef8b2ef48bc33fbfe173deea0cdcc0557"
+  },
+  "counterCwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+  "mutantCwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-mutant-s7mijppr",
+  "counterArtifacts": {
+    "clock-counter.test.ts.raw": "8854f92ca75053524883095deaefe9103264b0dcecf7aa2311b8bf6d7e1dcb56",
+    "counter-red-setup-failure.raw": "469c11a2b33ba2837136168ac9dc0218a0d4c33ef86f0705558d0d08d067a56d",
+    "wasm-build.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sw-restored.raw": "2db691f9560a75af487ed7c5d9eda7ba474624db7c9438b1175cd18c4e7699f7",
+    "midi-return-targeted-red.json.raw": "0c3342c2fcd6c40e5530dd889d53ac2466bd314efdff9ec64090f000c7c2d1c4",
+    "native-reference-build.raw": "816274432420b29c8a003398c8cfef34e7d12c45deae9a2764637f2bf220e50d",
+    "counter-final-restored.raw": "00d365c134b5e6450bef258fb34a0114a8eb4e0e51196fb7a6f67f2dfda3eeed",
+    "counter-restored.raw": "18348b2db4c466bc3a590f6d95aa7692a91c8371a68440a897d6fcfe37ad0909",
+    "vite-build-final.raw": "79c172b5fc7a03e8b3ab8ca5b151f1f0e0c0fbb6790764a4b0d8edea6cc5b0af",
+    "midi-red-setup-failure.json.raw": "7b44dece28a24ce72ad13411e3991a2e68fd1017b6e4524fe3674f779c5db722",
+    "sw-preliminary-red.raw": "92eb30cb71c6b3e1a6e6f357297f4162427850a5ad4af4e13410382272ed451f",
+    "clock-red-setup-failure.raw": "21ad4553cbef3c34b5a1c65e975638cbc4fda11b726b6e928209a0e0b18910a6",
+    "docs-final.raw": "319166516f6d0f26fcb15bb9b4a421a0a1d79cd732f21f1c6542186a905bd95a",
+    "midi-return-red.json.raw": "6a34f14bd9b5ded1efecb6f14b5c009e262ee1146a8c481881987d72ff994cb5",
+    "coverage-intermediate-failure.raw.gz": "10eae74e648a277775cbd911eeb6d5124df37b26bc7849d2c2ee47bf196d2120",
+    "counter-candidate-audio-midi.test.ts.raw": "f74ff05cbb1a2ffb22912744dd0fd61869bcb312c175f2e42df62e83887d626b",
+    "midi-return-red.raw": "a1c1a49c5f196e40c1d61956c55973cdc7cb1b2a7e70de0dcdf37dd3fec32323",
+    "sw-red.raw.gz": "0ae95ffecdd1d88e2c8f6777ac892a7fb705f204afdffb735c06aa83f56f953b",
+    "counter-candidate-audio-midi.ts.raw": "15044530342f9eadb09c362542eb7a54bdc7e940f9a3190a0d95e021f1e66e63",
+    "typecheck-final.raw": "fc86b11bd48e7847823f062dc205cc8980878255c2c4152595bb83f4e6c403e6",
+    "clock-red.json.raw": "7198e3de087ed2c681469a9869b999b0e5939e2f97fb691362babf3187dc7b55",
+    "clock-red-setup-failure.json.raw": "c3ded993908913bad2c5cc1454bee4ed9c62bb4ed88a79e7a6cd12ce9e1d63d3",
+    "coverage-retirement-rejection.raw.gz": "1961cdaf8ae24129f64165265a0d9dc3d976a6f1f3b86bc00671adf79a0637bb",
+    "midi-red-setup-failure.raw": "3ace500851b88e8a164d1aeca4b479bf075c637e96c715f922cd8a1baa5bec5b",
+    "e2e-tools-final.raw": "375c51d948417c8b4c7256247a7d0a749d8a74a839e771fa22f10e4a70a9a16f",
+    "sw-before.js.raw": "90a5f1f42329c329e63e4dae3b9fc9d55bbc49e2a0571573ba23cd78d98c7b85",
+    "midi-red.raw": "3ace500851b88e8a164d1aeca4b479bf075c637e96c715f922cd8a1baa5bec5b",
+    "clock-red.raw": "21ad4553cbef3c34b5a1c65e975638cbc4fda11b726b6e928209a0e0b18910a6",
+    "extract.raw": "47f28e8305334d42a68466507cddc660437f92b58ee67d5c4813593fde4adc02",
+    "coverage-final.raw.gz": "038b65c7267ba16cf04937f1a72b6782a738dd0ad0dfa3eb12e22a04c6cbde66",
+    "midi-return-targeted-red.raw": "a1c1a49c5f196e40c1d61956c55973cdc7cb1b2a7e70de0dcdf37dd3fec32323",
+    "final-candidate-audio-midi.ts.raw": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+    "midi-red.json.raw": "94ac6ecb62fd4f9b3837fe4d8ba9cdbd5abdd8f6664730194cf7a1cbef3038e6",
+    "counter-restored.json.raw": "b4e98650a7677606b5e725fe414232fd312e2970106caa723d7fb9e74ce09708",
+    "extract-idempotent.raw": "8919721e1d79ca1cf0095b68f2ec30b0025187dd985c3a50be2b9765970e73a9",
+    "wasm-final-rebuild.raw": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "counter-red-setup-failure.json.raw": "154b9e3adf3d2fcbde27e09c49d36ee6a3889d54e7508d26ab0558e1f411b6b3",
+    "browser-final.raw": "6fd11de86bc219c942b6ef30027d9637ccd119ffc20cbf5d7090f16a7311132f",
+    "final-candidate-audio-midi.test.ts.raw": "5310870943689fd623d4d29f4e5cd4443c422411e90793750725c0574bc8d155",
+    "lint-final.raw": "471a08235e48729690e9dfbada8239ca25352e15fa335b1581345b49f21a4ef2",
+    "clock-mutant-bridge.cpp.raw": "5c350cbf04657fd2439b3d900496a02f3505797e9ccb30e3dea880ac976d5c41",
+    "clock-counter.raw": "4c2bcf983a24bd9442cd4c27593dc70884970b380c54e0751371aba6c317de88",
+    "counter-final-restored.json.raw": "2a6bb8bfd4b4df213100d8a30a968ddc5cc1cedcdf93c9b38748d55c94570051",
+    "browser-cache-before.raw": "193576996df17e876beab0df0a4afb9644a78985c4084c595e4695c029d9c7ba",
+    "midi-return-setup-failure.raw": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724"
+  },
+  "commands": [
+    {
+      "command": "EMSDK_PYTHON=/opt/homebrew/bin/python3.13 RIX_EMXX=/tmp/type-pal-emsdk/upstream/emscripten/em++ node scripts/audio/build-rix.mjs",
+      "exitCode": 0,
+      "scope": "Canonical WASM, zero diagnostics and zero imports"
+    },
+    {
+      "command": "node build/game-rix-music/browser-smoke.mjs",
+      "exitCode": 0,
+      "scope": "Real Chrome desktop/mobile, source switch, mute, reload; stops isolated preview6007 and tests cached FM reinitialization offline"
+    },
+    {
+      "command": "vitest run src/shell/rix/clock-counter.test.ts --reporter=json",
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+      "exitCode": 1,
+      "report": "clock-red.json.raw",
+      "result": "Exactly 1 business failure, 0 pending, floor70Hz mutant"
+    },
+    {
+      "command": "vitest run src/shell/audio-midi.test.ts --reporter=json",
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+      "exitCode": 1,
+      "report": "midi-red.json.raw",
+      "candidate": "counter-candidate-audio-midi.ts.raw + counter-candidate-audio-midi.test.ts.raw",
+      "result": "10 cases, exactly 1 business failure, 0 pending; remove current-generation guard in doPlay catch"
+    },
+    {
+      "command": "vitest run src/shell/audio-midi.test.ts --reporter=json",
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+      "exitCode": 1,
+      "report": "midi-return-red.json.raw",
+      "candidate": "final-candidate-audio-midi.ts.raw + final-candidate-audio-midi.test.ts.raw",
+      "result": "12 cases, exactly 1 business failure, 0 pending; remove playingTrack invalidation before parser submission"
+    },
+    {
+      "command": "vitest run src/shell/audio-midi.test.ts src/shell/rix/clock-counter.test.ts --reporter=json",
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+      "exitCode": 0,
+      "report": "counter-final-restored.json.raw",
+      "result": "Final MIDI12 and original clock1 all pass"
+    },
+    {
+      "command": "node --test scripts/e2e/sw-cache.test.mjs",
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+      "exitCode": 1,
+      "report": "sw-red.raw.gz",
+      "candidate": "sw-before.js.raw with current sw-cache.test.mjs",
+      "result": "2 cases, exactly1 assertion failure, no skipped/pending"
+    },
+    {
+      "command": "node --test scripts/e2e/sw-cache.test.mjs",
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rix-counter-tests-mvg8u6yq",
+      "exitCode": 0,
+      "report": "sw-restored.raw",
+      "result": "Same2cases after canonical SW restored"
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "report": "typecheck-final.raw",
+      "scope": "All seven workspace packages, zero diagnostics"
+    },
+    {
+      "command": "pnpm test:e2e-tools",
+      "exitCode": 0,
+      "report": "e2e-tools-final.raw",
+      "result": "397/397 including SW200/206"
+    },
+    {
+      "command": "pnpm exec tsx docs/ops/evidence/game-rix-music-1/scan-tracks.mjs",
+      "exitCode": 0,
+      "report": "all-tracks-recheck.json",
+      "result": "172/172 track/rate combinations produce PCM"
+    },
+    {
+      "command": "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1 TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:ratchet --allow-scope-removal",
+      "exitCode": 0,
+      "report": "coverage-final.raw.gz",
+      "result": "19857 tests, 736 sources; 12 improved metrics, 8 scope changes, no coverage regression; exact retired test3→2"
+    },
+    {
+      "command": "EMSDK_PYTHON=/opt/homebrew/bin/python3.13 RIX_EMXX=/tmp/type-pal-emsdk/upstream/emscripten/em++ node scripts/audio/build-rix.mjs",
+      "exitCode": 0,
+      "report": "wasm-final-rebuild.raw",
+      "result": "Normalized upstream trailing whitespace; final compiled WASM byte-identical to fully tested candidate, zero diagnostics"
+    },
+    {
+      "command": "pnpm check:docs",
+      "exitCode": 0,
+      "report": "docs-final.raw",
+      "result": "Links/tasks/testing docs/phase lore/content review all pass"
+    },
+    {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "report": "lint-final.raw",
+      "result": "4019 files; 0 errors/warnings/info; complete report"
+    },
+    {
+      "command": "git diff --check HEAD",
+      "exitCode": 0,
+      "result": "Zero whitespace diagnostics; raw terminal bytes and valid patch whitespace preserved in lossless gzip"
+    }
+  ],
+  "cleanup": {
+    "counterTrees": "Deleted exact isolated counter and mutant directories after saving sources, reports and hashes; canonical files unchanged.",
+    "emsdk": "Reusable SDK retained in /tmp, no shell profile change"
+  },
+  "limitations": [
+    "Only installed Chrome browser verified; no Safari/Firefox evidence",
+    "Offline check covers reinitialization in an already open page; navigation/index.html remains network-only under existing SW policy",
+    "Native reference build raw retains original upstream pointer-size warning; adopted browser build has zero diagnostics",
+    "setup-failure and targeted-red with11skipped reports are supplementary history, not valid counter runs"
+  ],
+  "clockMutantSha256": "e54a335f534774c40839ebea066dc1744583564f9dd9cf4e2f4de45eb4496f90",
+  "nativeReferenceInputs": {
+    "probe.cpp": "83989cac2127f106b41512494d7f218b59dfbca945e507f310f5ecf4a89e33c8",
+    "golden.cpp": "0621a87b6d5430a45a336d00adb55cab8147cea21934dae68357c0aba438f071",
+    "common.h": "6844b11e3f168e62b9b7241c5482390541fa198ebccb6c8271001a7fc639dc17",
+    "adplug/opltypes.h": "365c580f63fe33b5ce6d62c483e49f34b6ab46129f1f7340310624f6f792e3b3",
+    "adplug/player.cpp": "34885f3b2c10d54958c4109dd4db29e6ba47c80811b3a90872564ff348df7ed9",
+    "adplug/binfile.h": "0e1f827af46092a99a039da6f85bc1bd944c75640047d3c67cf94420c67f88e1",
+    "adplug/binio.h": "e4be2a96f2ef0176849d866ed05762d380b3389c64659dcc4554f755c60ad2a4",
+    "adplug/player.h": "35f42542e15560de8edd1dee2f648c44ea7c3e9170ea54902eb521a39e362842",
+    "adplug/binio.cpp": "2bf6005e4ccb592514ddca3c0ddef400c1d947b4f191e500e125449ee14ddc02",
+    "adplug/fprovide.cpp": "86505394d15014dc4c2e79778e056ab554a5bd75df8678563118c9b939edc0f8",
+    "adplug/opl.h": "039c70225168bc0f949c2f8caa35484a5ae101d185618e0ad1aad119ec8e8da2",
+    "adplug/binfile.cpp": "7b076d4670eaae77a8d5f5a67123cfcb8349b66bb177950abfb867a5050eb472",
+    "adplug/rix.h": "67636fe33cb954ebf2e5df7db6485553683c2e5cd622185d292e9b84ac9a5073",
+    "adplug/rix.cpp": "8cfdb260642634f0461b0da0e1c39fbd98b7372127504033497ac52ad55fe4e9",
+    "adplug/fprovide.h": "473338804a6a1b99144a8239026ad74decd31de00883c0545c0c2c85b238853d",
+    "adplug/nuked/opl3.c.h": "74ae48b68cac8602ae00686bfb461be79096e81a5adde076ac862f70bbb01a60",
+    "adplug/nuked/opl3.h": "de85ea1afe034d5461e9bb7518e569c5cbc5da59133f49242916dc68d70f4e11"
+  },
+  "compressedRawInputs": {
+    "coverage-final.raw.gz": {
+      "decompressedSha256": "ff8ba67b911f9f51a0e45e27f7ef85b43c97798807e64ffe84623a5ab7446344",
+      "storageSha256": "038b65c7267ba16cf04937f1a72b6782a738dd0ad0dfa3eb12e22a04c6cbde66"
+    },
+    "coverage-intermediate-failure.raw.gz": {
+      "decompressedSha256": "7340f1fabc53a6ce181642a8f308f8e96ced19f4d1be528819cec4cddf6616b6",
+      "storageSha256": "10eae74e648a277775cbd911eeb6d5124df37b26bc7849d2c2ee47bf196d2120"
+    },
+    "coverage-retirement-rejection.raw.gz": {
+      "decompressedSha256": "b319b24ae9c1030fbc29f35d6d2534c93c66f164f84545a43090370d3524e339",
+      "storageSha256": "1961cdaf8ae24129f64165265a0d9dc3d976a6f1f3b86bc00671adf79a0637bb"
+    },
+    "sw-red.raw.gz": {
+      "decompressedSha256": "deda919874c320d26beadbe2c0fa57072822c8e20496ef22010e44973fdb9f47",
+      "storageSha256": "0ae95ffecdd1d88e2c8f6777ac892a7fb705f204afdffb735c06aa83f56f953b"
+    },
+    "music-select-tests.raw.gz": {
+      "decompressedSha256": "7b78fd94dc8543501140057b6006fdc1ea1274d69b9368abcb9be4915e491f15",
+      "storageSha256": "e6cd639eb349cec9683ddb26d3bcef3546d0c6ea7d675a2d3c427fc86e3f5678"
+    },
+    "music-select-typecheck.raw.gz": {
+      "decompressedSha256": "a855d4a3602a15c992f3d1f1ea4b27a5fc9b2410919519082f62e780aed03ee2",
+      "storageSha256": "a2100e800e8823766bc83b44047c6f8eeff355e8d10ea216fedae584a3a38422"
+    }
+  },
+  "uiRefinement": {
+    "date": "2026-10-15",
+    "source": "packages/game/src/tools/tools-panel.ts",
+    "sha256": "ee34e0bf5e21a09c86d4cd43a5299f91095cd47eddef6dcf2a9cb7eb11fe1cf1",
+    "before": {
+      "selectHeight": 38,
+      "adjacentButtonHeight": 32
+    },
+    "after": {
+      "selectHeight": 32,
+      "adjacentButtonHeight": 32,
+      "arrowRightInset": 12,
+      "textPaddingRight": 34
+    },
+    "nativeSelectRetained": true,
+    "browser": "Current Codex in-app browser at localhost:6006, actual DOM measurements and screenshot",
+    "screenshot": "music-select-refinement.png",
+    "checks": [
+      {
+        "command": "pnpm --filter @type-pal/game exec vitest run src/tools/tools-panel.test.ts src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "exitCode": 0,
+        "report": "music-select-tests.raw.gz",
+        "tests": 18
+      },
+      {
+        "command": "pnpm --filter @type-pal/game build",
+        "exitCode": 0,
+        "report": "music-select-build.raw"
+      },
+      {
+        "command": "pnpm lint",
+        "exitCode": 0,
+        "report": "music-select-lint.raw"
+      },
+      {
+        "command": "pnpm --filter @type-pal/game typecheck",
+        "exitCode": 0,
+        "report": "music-select-typecheck.raw.gz"
+      },
+      {
+        "command": "pnpm check:docs",
+        "exitCode": 0,
+        "report": "music-select-docs.raw"
+      }
+    ],
+    "coverageRerun": false,
+    "screenshotSha256": "139f558c7f3b0dc6a233d65d3dd338077a912b2599a1f1d0d97849ccce1e2d55"
+  },
+  "toolsStyleUnification": {
+    "date": "2026-10-15",
+    "source": "packages/game/src/tools/tools-panel.ts",
+    "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+    "scope": "All six first-phase tools tabs; shared controls, focus, narrow layout, no action/schema/save changes",
+    "standard": {
+      "height": 32,
+      "fontSize": 14,
+      "radius": 5,
+      "gap": 8,
+      "paddingInline": 10,
+      "arrowRightInset": 12
+    },
+    "actualBrowsers": [
+      "Current Codex in-app browser, native viewport689 and temporary375x667; override reset after verification"
+    ],
+    "actualReports": [
+      "tools-style-desktop.json",
+      "tools-style-mobile.json",
+      "tools-style-focus.json"
+    ],
+    "checks": [
+      {
+        "command": "pnpm --filter @type-pal/game exec vitest run src/tools/tools-panel.test.ts src/tools/tools-panel.glm-phase1-leaves.test.ts src/tools/speedrun",
+        "exitCode": 0,
+        "tests": 99,
+        "report": "tools-style-tests.raw.gz",
+        "note": "Final frozen source and test candidate, after removing nondiscriminating style assertions."
+      },
+      {
+        "command": "pnpm --filter @type-pal/game exec vitest run src/tools/tools-panel.test.ts src/tools/tools-panel.glm-phase1-leaves.test.ts",
+        "exitCode": 0,
+        "tests": 18,
+        "report": "tools-style-panel-final.raw.gz"
+      },
+      {
+        "command": "pnpm --filter @type-pal/game build",
+        "exitCode": 0,
+        "report": "tools-style-build.raw.gz"
+      },
+      {
+        "command": "pnpm lint",
+        "exitCode": 0,
+        "report": "tools-style-lint.raw.gz"
+      },
+      {
+        "command": "pnpm --filter @type-pal/game typecheck",
+        "exitCode": 0,
+        "report": "tools-style-typecheck.raw.gz"
+      },
+      {
+        "command": "pnpm check:docs",
+        "exitCode": 0,
+        "report": "tools-style-docs.raw.gz"
+      }
+    ],
+    "testPrecision": "A trial computedStyle assertion in jsdom did not fail the known real-browser hidden/display regression (18/18 green). The added assertions were removed; report is limitation evidence, not an effective counter. Real native before/after screenshot and DOM visibility prove the fix. No test-count changes.",
+    "coverageRerun": false,
+    "limitations": [
+      "Battle and dialog tabs inspected in current empty state; no game-state injection or story replay to create content.",
+      "No Safari/Firefox-specific measurements."
+    ],
+    "independentReview": {
+      "reviewer": "state_plan_review",
+      "conclusion": "accept",
+      "scope": "Read-only source/DOM/screenshot audit; did not run browser/tests",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1"
+    },
+    "evidenceHashes": {
+      "tools-style-lint.raw.gz": "bbaa57dddf4f71fb336e4b619cb862504c2115dd20028574eff31a5552f4a5e5",
+      "tools-style-audit.md": "8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94",
+      "tools-style-tests.raw.gz": "ef6851344b68cc8c53bca4071b1d36323c37b22bd56657e97487a0668007d9b5",
+      "tools-style-battle-mobile.png": "0ce56c17f1d948519d5d16e9a52eb3935703ae07c9a4c90cc40fde5c8ea3df11",
+      "tools-style-focus.json": "97a7e47e21945980480499c0fcacb465d1d5e0b499e72e5b72bd9a3cb32a30db",
+      "tools-style-system-mobile.png": "5f7b2249225b7ae6f03252f67921846c4339b9867616707e40acac4e8f9e8652",
+      "tools-style-typecheck.raw.gz": "a2100e800e8823766bc83b44047c6f8eeff355e8d10ea216fedae584a3a38422",
+      "tools-style-build.raw.gz": "50b79cf7f3f9d1bdb1329b514e8ba3ec4f79646811bd1155d8604936ffef3f28",
+      "tools-style-system.png": "e41988b496dd71f0cddbf62c96d55c21b99f4de9c2695aa866ab0bc74c02a61f",
+      "tools-style-scene-mobile.png": "40c97d46c7cbe7839efd9f44736f0ec7e5c7bed8d15d5338ec81fbd52166adf7",
+      "tools-style-dialog-mobile.png": "b11af1876106c074d70a364d5bdf6920f1046d4a5dd047cd41110fe57a8579dc",
+      "tools-style-desktop.json": "51e018b22efa58cfacc86e477b450a8991cfc8fbf0c22b5e852149cff77b7b28",
+      "tools-style-docs.raw.gz": "a91d211d0d4ea509ef46830815c2aa5b87e41205dfe95216f2165d2a483235aa",
+      "tools-style-mobile.json": "529389185675c372552859a9756e95e1efb9c21ea79cc034c8ed18a91ed66cb2",
+      "tools-style-dialog.png": "c58ff6db7855fa96dbc6e0244d44db32a1974ecea47e82af25e4e0eed10235eb",
+      "tools-style-focus-mobile.png": "6bbb4e9155f8f53b4fac6088bff40cc115aec96150dbe275765634f51f976cda",
+      "tools-style-scene.png": "d92c87ae887c268912592735d7da9028982621c84963cf42e902ba76519c3078",
+      "tools-style-keys.png": "a5e6c5f1d86ad69b0254b12c152d08f662468447f4f48497394a76289be7484a",
+      "tools-style-timer.png": "1073c6cf2dd7c7bea78adf2453d0d4d5c07a7d8ff2395d1d132cc9f7d3c923cb",
+      "tools-style-battle.png": "5bed724701018aec1704eb476c2f62797a210bb553960e2a23a8aa19e2786b23",
+      "tools-style-system-before-hidden-fix.png": "b31573085659a9b57b329ae98736fb01c8bcc48f1f5f8fbf3ee1e2f1e7e625b8",
+      "tools-style-keys-mobile.png": "fa3ce9fbba8a1f9c8b27612ba6e3b8fb90268e8e11830af0db18212de169d822",
+      "tools-style-jsdom-nondiscriminating.json.raw": "6e307bb4ad656d7279b1087cb00e2d2d5fbce0b5d93c7f88afa619ff24d792cf",
+      "tools-style-timer-mobile.png": "08f4f2037fe23b75f87679907b65be7059f82d059331966c9bf3d36234e773e4",
+      "tools-style-panel-final.raw.gz": "a9025ed03df4e61ec7ced266652d5cd0031e3057328dd2440049c24e2bb6d7dd"
+    }
+  }
+}
