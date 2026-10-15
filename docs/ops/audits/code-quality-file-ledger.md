@@ -5,7 +5,7 @@
 Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把“所在包全绿”推成文件已审。
 
 起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG、音乐音源与IDB事务回归）：3,284。
-当前已闭合核验：229；已读但待审：71；尚未逐文件核验：2,984；合计未闭合：3,055。
+当前已闭合核验：225；已读但待审：75；尚未逐文件核验：2,984；合计未闭合：3,059。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。
@@ -76,7 +76,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |
 | `packages/shared/src/rng.test.ts` | test | 已验证 | RNG public decoder contract | Q2 相邻 oracle |
 | `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
-| `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done |
+| `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |
 | `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |
@@ -228,11 +228,11 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/script-catalog.ts` | product | 已验证 | CODE-QUALITY-3n；bootstrap setGlobalEvents、event-system resolveLabel/getCmds callers、dependency ownership tests；prototype-label negative controls | 修复 inherited `toString`/`constructor`/`__proto__` 被误解析为脚本 IP；global label map 改为 own-property/null-prototype，zero-item fixup 边界保留 |
 | `packages/game/src/core/palette-fade.test.ts` | test | 已验证 | CODE-QUALITY-3n；fade60/fade63/lerp/approach/finalize/bounds contracts | primary palette oracle |
 | `packages/game/src/core/word-lookup.test.ts` | test | 已验证 | CODE-QUALITY-3n；unloaded/fallback/table priority/out-of-range contracts | direct WORD caller oracle |
-| `packages/game/src/core/dependency-ownership.test.ts` | test | 已验证 | CODE-QUALITY-3n；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle |
+| `packages/game/src/core/dependency-ownership.test.ts` | test | review | CODE-QUALITY-3n；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |
 | `packages/game/src/core/cross-module-boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3n；scene/event/equipment/battle cross-module caller contracts | 相邻模块回归证据 |
 | `packages/game/src/core/dialog-history.ts` | product | 已验证 | CODE-QUALITY-3o；event-system history writer/tools caller、dialog-history tests | trim/连续去重/map 维度/CAP/restore 老档归一合同完整 |
 | `packages/game/src/core/mode.ts` | product | 已验证 | CODE-QUALITY-3o；main-loop caller、event/scene/battle/menu mode tests | frameNum、autoScript gate、mode dispatch、同步 event 再驱动合同完整 |
-| `packages/game/src/core/player-poison-state.ts` | product | 已验证 | CODE-QUALITY-3o；event-opcode/equipment/battle callers、ownership/poison tests | poison definition ownership/level99/slot dedup/cure/runner 合同完整 |
+| `packages/game/src/core/player-poison-state.ts` | product | rework | CODE-QUALITY-3o；event-opcode/equipment/battle callers、ownership/poison tests | poison definition ownership/level99/slot dedup/cure/runner 合同完整；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |
 | `packages/game/src/core/scene-system-search.ts` | product | 已验证 | CODE-QUALITY-3o；scene-system Confirm caller、play.c:362-510、search tests | 13-cell range、trigger mode 阈值、grid/h/sState/first-hit 合同完整 |
 | `packages/game/src/core/scene-system.ts` | product | 已验证 | CODE-QUALITY-3q；play.c:25-238,423-591、scene.c:512-847、map.c:277-299、res.c:229-301、global.h:75-121；mode/event/bootstrap/dev callers | 662 行逐段核验；131 定向测试、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
 | `packages/game/src/core/event-system.ts` | product | 已验证 | CODE-QUALITY-3r；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；mode/bootstrap/scene/battle/menu/equipment/poison callers | 5110 行逐段核验全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析与移动；定向 370、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷 |
@@ -245,7 +245,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/core/battle/battle-runtime-context.ts` | product | 已验证 | CODE-QUALITY-3u；battle.c:1741-1754,1838-1857；battle-system:324-344；battle-finalization:63；runtime/finalization callers | 98 行逐段核验资源表与 runner stash、live-role identity、override 优先级和 finalize release；未发现跨战斗残留或清理缺口 |
 | `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | 已验证 | CODE-QUALITY-3u；BattleState 工厂/位置/状态 seed oracle，定向/相邻 55 tests | 383 行逐段读取；未知 role、>3 player、状态 seed、快照、EnemyPos/fallback/y offset 和独立坐标对象反例 |
 | `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3u；null 空槽、maxHealth/object identity、autoBattle/scriptPrevHp oracle，定向/相邻 55 tests | 81 行逐段读取；0 占位槽不压缩、真实槽浅拷贝、开战 seed 反例 |
-| `packages/game/src/core/battle/battle-finalization.test.ts` | test | 已验证 | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例 |
+| `packages/game/src/core/battle/battle-finalization.test.ts` | test | review | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |
 | `packages/game/src/core/battle/actions/attack.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:3618-3754,4910-5148,4591-4654；battle-system:2769-2825；action/anim/formula callers | 614 行逐段核验玩家/敌方物攻、群攻/DualAttack、auto-defend/cover/protect、equiv poison、混乱友敌与 timeline/legacy fallback；154 定向/相邻 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
 | `packages/game/src/core/battle/actions/attack-mate.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:3760-3853；battle-system attack-mate dispatch；attack-mate/action tests | 111 行逐段核验随机活友军、目标防御/protect、HP clamp、武器声、动画与无目标 Pass；未发现直接缺陷 |
 | `packages/game/src/core/battle/actions/defend.ts` | product | 已验证 | CODE-QUALITY-3v；fight.c:4110-4117,4924-4929；battle-system dispatch；actions tests | 20 行全文核验；只写 defending，减伤由 enemy attack owner 消费，越界 no-op 合同闭合 |
@@ -380,3 +380,5 @@ check/确认版ratchet/普通protected均exit0，但未包act3001/3009/2955、�
 C02完整窗口7433f71f5：七包20270与typecheck通过，check/确认版ratchet/protected仍带2049/2076/2081条act、577/584/584环境与各2导航；零诊断门不通过。官方baseline736/19861、覆盖计数不变，未合main，三个review不升级closed。见[完整窗口](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
 
 2026-10-15 C02导入/历史三测试仅从pending列review；共用UI助手已在review，本轮仍review。3284/229closed/54review/3001pending，0文件关闭。
+
+2026-10-15 用户要求94前回溯：36卡结构盘点、8卡与13源码/测试/工具全文抽查，四条旧关闭因直接前提/fixture/注释counter撤回；3284/225closed/75review/2984pending，0新关闭。旧计数保持历史，未复验其它225条。见[回溯](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)。

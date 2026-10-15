@@ -86,3 +86,5 @@
 - [大世界精灵宿主与字节oracle](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)（9身份保留/121相邻，204act→0；两枚有效反控与被拒弱oracle均留证，0关闭）。
 
 - [C03查看器真实生命周期](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md)（20例先清51act；精确退役1纯宿主用例；相邻仍63act，完整门待续）。
+
+- [94前治理风险回溯](QUALITY-PRE94-RETROSPECTIVE-1/README.md)（36卡结构盘点、8卡与13源码/测试/工具全文抽样；四旧关闭撤回，非全仓复验）。

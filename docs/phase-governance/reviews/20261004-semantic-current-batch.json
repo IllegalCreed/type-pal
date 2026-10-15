@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "678bf68423608701b26cc8c967edb8f103e3f1824b9849ae6e1840e1fbf23e82",
-      "afterSha256": "678bf68423608701b26cc8c967edb8f103e3f1824b9849ae6e1840e1fbf23e82",
+      "sourceSha256": "8249fcc392a6ef45340bcd0ae69a811d12f07e8d91e2bf5b05c1a13dcf992929",
+      "afterSha256": "8249fcc392a6ef45340bcd0ae69a811d12f07e8d91e2bf5b05c1a13dcf992929",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "4f4b236df",
+        "implementationSha": "f0cf0f7f",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -950,6 +950,14 @@
             "previousAfterSha256": "61cb11c3d9ff27db9cc5d41b2d99daae708b05ed214ce356b45e9ae732fd8aa5",
             "afterSha256": "678bf68423608701b26cc8c967edb8f103e3f1824b9849ae6e1840e1fbf23e82",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Pre94 risk retrospective: 36 card inventory, selected direct reads and four closure counters; poison domain draft, no product changes",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "678bf68423608701b26cc8c967edb8f103e3f1824b9849ae6e1840e1fbf23e82",
+            "afterSha256": "8249fcc392a6ef45340bcd0ae69a811d12f07e8d91e2bf5b05c1a13dcf992929",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
           }
         ]
       },
@@ -1250,8 +1258,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "3f1878e4f985a68348b20e3a256b4c1363a629d09cc07d642f0b841d9f60d46f",
-      "afterSha256": "3f1878e4f985a68348b20e3a256b4c1363a629d09cc07d642f0b841d9f60d46f",
+      "sourceSha256": "baea1f0117b4ec1b282ec061a97f1c4caa4c0574bc8940627d1e9c51e4f77c52",
+      "afterSha256": "baea1f0117b4ec1b282ec061a97f1c4caa4c0574bc8940627d1e9c51e4f77c52",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1285,7 +1293,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "4f4b236df",
+        "implementationSha": "f0cf0f7f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1567,6 +1575,14 @@
             "previousAfterSha256": "5142430d259027d9903a663c8f830ecc90f9d93423f92c0b1f8ab41d4ca0bfe2",
             "afterSha256": "3f1878e4f985a68348b20e3a256b4c1363a629d09cc07d642f0b841d9f60d46f",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Pre94 risk retrospective: 36 card inventory, selected direct reads and four closure counters; poison domain draft, no product changes",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "3f1878e4f985a68348b20e3a256b4c1363a629d09cc07d642f0b841d9f60d46f",
+            "afterSha256": "baea1f0117b4ec1b282ec061a97f1c4caa4c0574bc8940627d1e9c51e4f77c52",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
           }
         ],
         "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
@@ -2319,8 +2335,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "5f5c1ee8f71858e630fda8f3df9304b758ab709456b1b5ee1df6eb91b5b24743",
-      "afterSha256": "5f5c1ee8f71858e630fda8f3df9304b758ab709456b1b5ee1df6eb91b5b24743",
+      "sourceSha256": "868e51da5498f4e61555a871ea5a8597de3bf65af79930cdcc336a49eb798f51",
+      "afterSha256": "868e51da5498f4e61555a871ea5a8597de3bf65af79930cdcc336a49eb798f51",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2356,7 +2372,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "4f4b236df",
+        "implementationSha": "f0cf0f7f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2732,6 +2748,14 @@
             "previousAfterSha256": "bd1f59e18938d11e173eecad92abd0f028586601e45b1e6538fbf14ae2d35730",
             "afterSha256": "5f5c1ee8f71858e630fda8f3df9304b758ab709456b1b5ee1df6eb91b5b24743",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Pre94 risk retrospective: 36 card inventory, selected direct reads and four closure counters; poison domain draft, no product changes",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "5f5c1ee8f71858e630fda8f3df9304b758ab709456b1b5ee1df6eb91b5b24743",
+            "afterSha256": "868e51da5498f4e61555a871ea5a8597de3bf65af79930cdcc336a49eb798f51",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
           }
         ]
       },

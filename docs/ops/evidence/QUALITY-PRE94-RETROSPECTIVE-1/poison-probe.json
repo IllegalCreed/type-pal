@@ -1,0 +1,9 @@
+{
+  "command": ["pnpm", "exec", "tsx", "/tmp/type-pal-pre94-poison-probe.mts"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "bytes": 127,
+  "sha256": "5c0bdc2bcaa1d49f6578d9ddf2c64f4153ed30872e8b7627a321f20971286c73",
+  "sourceSha256": "c4edb044c989b319a2b73acb8c1d7b26632b73fb8804c141e4ddbc1d25c4a8b0",
+  "kind": "read-only domain observation; not an approved behavior change or full caller audit"
+}

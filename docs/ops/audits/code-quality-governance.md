@@ -7,6 +7,13 @@
 不把机器快照当作产品源文件提交。
 已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
 
+## 2026-10-15 94前风险回溯
+
+用户新增大致浏览94前治理：36卡结构盘点、8卡和13源码/测试/工具全文抽样，范围外未知不冒充逐文件复验。
+毒键role/party前提、ownership测试域、cleanup非法fixture与YJ2过期待证注释有直接counter，撤回四条旧关闭；
+机器3284/225closed/75review/2984pending，0新增关闭。毒域另开高风险draft，不改机制/save。
+[完整范围与分层结论](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)。94–102与editor零诊断原goal持续；其它旧关闭保留历史身份，未重新签accept。
+
 ## 2026-10-15 C02宿主/删除切片
 
 三个文件列review，0新关闭；G04完整十例先404→0，精度补强后同合同undo并入redo，最终九例0诊断、两有效业务反控。
