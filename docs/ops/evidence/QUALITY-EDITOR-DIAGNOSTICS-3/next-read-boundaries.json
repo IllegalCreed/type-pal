@@ -1,0 +1,125 @@
+{
+  "boundary": "Read-only preparation during source-frozen C03 window; no closure, ownership or implementation authorization claimed",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+      "sha256": "6b0b961b04ecf3577f488b56daa55b638d10101b0f1cae86c8f050d73975a7a9",
+      "lines": 652
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+      "sha256": "98eac49c32f24efe94daec485a0a328c34881a42ca577645bd1ef6d5831b73c4",
+      "lines": 528
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "sha256": "e6e36550a22ca7b1a24b60c8b32f5194263e942a5e90df8a32252d039adf14e9",
+      "lines": 268
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx",
+      "sha256": "01864a4c900179d9be655eb306eac888ce9b063788e90e630ad478c09322fdf4",
+      "lines": 213
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "sha256": "79e76390490103d7632f37996078a9fcae6b6b8a82c7f5b604e60eff6575f00d",
+      "lines": 294
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts",
+      "sha256": "5d9fe768b3825cbb1cca4c848ea8ca3fa18b6bcc89de749b4414407ae2929391",
+      "lines": 337
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/image-ports.ts",
+      "sha256": "104eef848b3a1e082e224bfe48ae97c585893af0805eef5c1ca045d1e3fa761f",
+      "lines": 14
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45",
+      "lines": 246
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/glm-ui-wave-kit.ts",
+      "sha256": "490aea62ef0d7be1d4dacb81c2b3326fff0256746dbbe9df0de104c436a80f9c",
+      "lines": 173
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+      "sha256": "63d89a1152e9830ebd7d603edbf5431f64e4bf58425c2891adc051debd322aba",
+      "lines": 294
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf",
+      "lines": 59
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "sha256": "3f223e453af72bfa260953f74dc8dbc4dfce1042ab1abaa0032782121cc77a05",
+      "lines": 212
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "sha256": "e784719c4d73f37127870bebe442e312b0141e39297bd5e538735f11b741134a",
+      "lines": 188
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "sha256": "2f1e7b025ce13d966ed8c09020c63c073b8998440a9e4e4dde04bc988e78f839",
+      "lines": 248
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sha256": "6bbc63231f2cef26c975024fb8c6aef45ad5fc015625aa66e32dff93c9620f3d",
+      "lines": 209
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.tsx",
+      "sha256": "ce5b38093cef05cf89397d337393356d2ed3f019ba19e9f2109f4c8812c31af9",
+      "lines": 314
+    },
+    {
+      "path": "packages/editor/src/ui/EditorAppHeader.tsx",
+      "sha256": "d65401dd5851b3519fc0a8acb67879e6eba546d72bf7b53c174c60bf579b8572",
+      "lines": 54
+    },
+    {
+      "path": "packages/editor/src/core/battle-sprite-import.ts",
+      "sha256": "1555462c48741ebc6ee975d8dc3071c11caeda8b27324e776b9543580aac2db9",
+      "lines": 131
+    },
+    {
+      "path": "packages/reforge/src/__tests__/runtime-shell/dom-host.ts",
+      "sha256": "3bc0f5490d50e711a6226655846abbe04793332a56a0348b892cf6b70e99161d",
+      "lines": 232
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "sha256": "c97b0b80ad1d7e2445daff4a390617d1f69dbc90a64d8426b471770fc9c94ff5",
+      "lines": 354
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "range": "670-1030; prior full-source hash unchanged"
+    },
+    {
+      "path": "packages/editor/src/ui/App.tsx",
+      "range": "2194-2225 onHeaderNavigate/header caller; no full App audit"
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "range": "global location consumers searched; prior 2200-2250 reload branch only, no full main audit"
+    }
+  ],
+  "candidate": "BattleSpriteLibrary.kimi-workflows.test.tsx: reuse typed C02 host/real IO waiters; preserve original six cases initially; proof/cancel and self-model oracles need review",
+  "unverified": [
+    "Kimi World held old read navigation cannot reuse a waiter over every historical promise without isolation counter",
+    "Two native-navigation clues remain unverified",
+    "Kimi duplicate claims and forced import preparation overrides need precision review; no retirement planned without proof"
+  ]
+}

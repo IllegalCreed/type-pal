@@ -527,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "1cced7beaa86913d558f355238dda79722b3c9f6a751cfe265766a554b806a36",
-      "afterSha256": "1cced7beaa86913d558f355238dda79722b3c9f6a751cfe265766a554b806a36",
+      "sourceSha256": "a61cfd979ee18b3c4844af4d74ba9c17f2602fda4a800e990da7aeb588b920e0",
+      "afterSha256": "a61cfd979ee18b3c4844af4d74ba9c17f2602fda4a800e990da7aeb588b920e0",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -559,7 +559,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "51215be62",
+        "implementationSha": "addf1dca1400cf864535ce4b67257ab0adcdcb5e",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -894,6 +894,14 @@
             "previousAfterSha256": "2e057721dfb52073dab3e289ecfb44c5d0deaf15668860738176e2e488920c64",
             "afterSha256": "1cced7beaa86913d558f355238dda79722b3c9f6a751cfe265766a554b806a36",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 stable module window recorded; numeric gates passed but strict diagnostics failed; no closure or merge",
+            "previousAfterSha256": "1cced7beaa86913d558f355238dda79722b3c9f6a751cfe265766a554b806a36",
+            "afterSha256": "a61cfd979ee18b3c4844af4d74ba9c17f2602fda4a800e990da7aeb588b920e0",
+            "scope": "docs/ops/board.md",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md"
           }
         ]
       },
@@ -2215,8 +2223,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "68fb8c99cbf6baaeabc0c361c015eb2646104206097115fee83422715ecb6049",
-      "afterSha256": "68fb8c99cbf6baaeabc0c361c015eb2646104206097115fee83422715ecb6049",
+      "sourceSha256": "d2851dfc76c5e9cac9723aa88ff659e04be40a408b93c1baa73aee4b95771bb3",
+      "afterSha256": "d2851dfc76c5e9cac9723aa88ff659e04be40a408b93c1baa73aee4b95771bb3",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2252,7 +2260,7 @@
       },
       "revision": {
         "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
-        "implementationSha": "2eb5b1401",
+        "implementationSha": "addf1dca1400cf864535ce4b67257ab0adcdcb5e",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2572,6 +2580,14 @@
             "previousAfterSha256": "e88c4c3e887b1bb40b788088e34d2f6c7fc7ef2ec7d47eca0ad1ef7fa4bd80d4",
             "afterSha256": "68fb8c99cbf6baaeabc0c361c015eb2646104206097115fee83422715ecb6049",
             "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 stable module window recorded; numeric gates passed but strict diagnostics failed; no closure or merge",
+            "previousAfterSha256": "68fb8c99cbf6baaeabc0c361c015eb2646104206097115fee83422715ecb6049",
+            "afterSha256": "d2851dfc76c5e9cac9723aa88ff659e04be40a408b93c1baa73aee4b95771bb3",
+            "scope": "docs/ops/tasks/index.md",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md"
           }
         ]
       },

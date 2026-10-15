@@ -13,3 +13,5 @@
 精度检查点：G01真实reader交付闸门证pending窗口；移除生产守卫后01/08均准确红。草稿reset反控证原03漏报、原02与合并后03均检出同一缺陷，故只退役02，全部独有oracle迁入03。见oracle-proof.json与清理后独立核验oracle-rebuild.json、retirement-proof.json。精度前30例与精简后29例完整0skip/0诊断。G05消除unknown强转，头注撤回未核实的新颖性。
 
 第一次相邻命令误写两个过滤名，实际上7文件69例（precision-adjacent）；不计为完整相邻。纠正后9文件77例通过且0skip/0诊断（precision-adjacent-corrected）。coverage-tools65/65，editor typecheck通过。判据与拒绝用例未动；只有G01精确10→9支持行。完整check/ratchet/protected将在此稳定模块统一运行，不能据局部结果合main。
+
+稳定模块全门已完成：[完整报告](window-review.md)。数值check/ratchet/protected均exit0，统一零诊断门仍失败；本片0关闭、四文件review、未合main。官方基线只由ratchet更新，覆盖分子/分母和生产范围全同，仅已证G01退役一例。下一只读范围见next-read-boundaries.json。

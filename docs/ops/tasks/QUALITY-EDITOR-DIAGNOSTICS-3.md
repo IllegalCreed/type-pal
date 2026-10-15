@@ -1,6 +1,6 @@
 # QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流
 
-Status: build
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验与独立验收分开）
 Phase: phase2
@@ -67,3 +67,9 @@ Codex：premise verified / design agree，build allowed；需以隔离产品muta
 实际精简仅G01-02→03，10→9；三个文件总30→29，精确身份/文件SHA支持已登记，判据与拒绝用例不变。G05以canonical判别联合取代强转；头注只声明直接覆盖的合同。
 相邻首次命令两个文件过滤名写错，实际只运行7文件69例，原件保留且不冒充全相邻；纠正为真实registry与command文件后9文件77例0skip/0诊断。coverage工具65/65与editor typecheck通过。
 本片仍build等待稳定模块全门，账本仍3284/229closed/54review/3001pending，0关闭；不是独立验收或全仓完成。
+
+## 稳定窗口回执与交接
+
+精度检查点addf1dca1已提交并推送两条治理分支后才集中跑完整门。check、官方确认版ratchet、普通protected fast均exit0；实际各门诊断计数及完整原件见[窗口报告](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)。静态门0/0/0，不代表运行时诊断已清零；统一门仍不通过，禁止合main。
+六份源码在整个窗口字节冻结，packages/scripts只产生官方baseline。736源文件/19860 fast测试，四项覆盖分子分母与前基线完全相同，仅G01 10→9精确精简。定向29、相邻77、工具65及七包typecheck通过，0关闭；账本3284/229closed/54review/3001pending。
+当前review，仅冻结作者实测，不冒称另一个Reviewer独立accept；宿主历史pending导航/异常清理故障注入与未知跨文件重复仍待核。下一候选Kimi BattleSprite工作流须先新卡白名单，处理真实完成信号与准备结果自写问题。无下一位Agent提示词，由Codex继续。

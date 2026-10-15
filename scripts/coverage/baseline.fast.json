@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-15T09:42:36.882Z",
+  "generatedAt": "2026-10-15T12:15:57.686Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 736,
-  "testCount": 19861,
+  "testCount": 19860,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6901,7 +6901,7 @@
       ],
       "scopeDigest": "714747a53e2a4641a7b8c1099aa9a962b2012de0217f2d05a2ccb979350489a4",
       "fastTests": {
-        "testCount": 4785,
+        "testCount": 4784,
         "testFileCount": 612,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -9075,8 +9075,8 @@
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "eb92a404a3d7f85c7e94297d886cf65acbe67907cd105149f07b1e4d6212f315"
+            "testCount": 9,
+            "identityDigest": "941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
@@ -10579,9 +10579,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "41abf2c2d5ad40d83b070f8839e9598ef01718c1ad4ddbb36dbf6f5201e40ab8",
+        "identityDigest": "a630f482d4c22669f551b5e321369a68f9eae7887c31efbd952ec83ea0b05de9",
         "duplicateIdentityCount": 8,
-        "executionDigest": "ae4dc5ab32e8a3c6b3796a3b3ffe36f1dee629b9e0c48dc928630c3671df169d"
+        "executionDigest": "2d685d0627f0cde349da6c24d4d1255dfa5585061df14379fc8187211657f06d"
       },
       "metrics": {
         "statements": {
