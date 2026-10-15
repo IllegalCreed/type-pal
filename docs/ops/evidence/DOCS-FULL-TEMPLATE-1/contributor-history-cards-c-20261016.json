@@ -1,0 +1,1456 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-history-cards-c-20261016",
+  "kind": "documentation-migration-candidate",
+  "status": "author-candidate-pending-independent-acceptance",
+  "owner": "Codex / contributor history_cards_a",
+  "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+  "branch": "codex/docs-history-cards-c",
+  "governanceTask": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+  "scope": {
+    "documents": 8,
+    "paths": [
+      "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md"
+    ],
+    "onlyNewArtifact": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-c-20261016.json",
+    "centralLedgerWrite": false,
+    "progressCredit": "未根独立接收前不计全量迁移完成数；目标1838基线+增量仍active。"
+  },
+  "entries": [
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-07-15至16日工程资源地基与音乐首切片的结论：AssetId → AssetRecord → FileSource/resolver 成为音乐/MIDI音色库的唯一工程读取链，作者替换不被重迁覆盖。该卡只关闭音乐族与地基，不等于A7全资源闭包完成。",
+      "originalTitle": "A7-0 - 工程资源闭包地基与音乐注册表首切片",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Opus + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / W5 / X2",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Opus + GLM",
+        "Visual Verification Owner": "Codex + Opus",
+        "Unavailable Agents": "none",
+        "Branch": "current"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "44b7dfec187dd4aac12375d4d8d4547ecc1bce1d",
+      "sourceSha256": "7053660d982106c25bc2a3933b586fa1a3f91307e74cd2d1c58e5d45e7c952c3",
+      "afterSha256": "a41f73ebd4ce3bb9a048d4ab765a337cb15415e31811656223b52e33360ac527",
+      "candidateSha256": "a41f73ebd4ce3bb9a048d4ab765a337cb15415e31811656223b52e33360ac527",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。资源单链是本卡历史设计目标，四角色口径已经失效；静态引用完整性不能证明002/048实际听验、当前零诊断或当前测试质量。旧upgrader、normalizer与legacy回退按[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不由本卡恢复；该账自身版本数字也只代表其日期。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md:13",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "当时PAL与空白工程的音乐引用、编辑、试听、运行、保存和重迁；87文件由86份MIDI与1份音色库组成，共6,737,214B。数字号约定、content/music.json与当时v2→v3过渡仅按原文时点保留；不恢复旧版本兼容，也不把后来新增的音效、图像或过场计入本卡。"
+      },
+      "scope": "当时PAL与空白工程的音乐引用、编辑、试听、运行、保存和重迁；87文件由86份MIDI与1份音色库组成，共6,737,214B。数字号约定、content/music.json与当时v2→v3过渡仅按原文时点保留；不恢复旧版本兼容，也不把后来新增的音效、图像或过场计入本卡。",
+      "versionAndApplicability": "2026-07-15设计/实现与2026-07-16用户验收。早期1326引用/13未用属于标题菜单角色补齐之前；后续1327/12不回填成该轮原结果。历史三方签字、版本v3与Branch current均限定原卡时点，不能当今天分支或版本事实。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-0 - 工程资源闭包地基与音乐注册表首切片",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "A. catalog 是唯一物理真值",
+          "B. A7-0 runtime 只认识 v3,资源族不双轨",
+          "C. 音乐首切片",
+          "D. 所有权与二进制",
+          "E. A7-0 之后",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "当时合法工程catalog音乐/音色库记录、作者稳定AssetId引用；缺失曲29不凭空造文件，数字号路径不构成新输入许可。",
+      "publicCallers": "工程音乐编辑/试听、场景与战斗播放、读档恢复和FileSource；002/048特定场景尚无完整动态回执。",
+      "businessOracle": "作者资源被实际resolver读取且重迁不覆盖；引用清单与播放状态正确，比仅文件数或全绿更强。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "GLM 1223/52漏内联脚本，最终1227不能与早期数相加。",
+        "Record/arrayMode错误归因撤回，作者整项克隆及目标校验是实际修复。",
+        "四角色漏标题菜单，A7-0A新增第五角色；002/048动态证据缺口保留。O2各自已有独立覆盖，缺统一static scan/local reload/same-fixture跨adapter回执。"
+      ],
+      "history": "2026-07-15设计/实现与2026-07-16用户验收。早期1326引用/13未用属于标题菜单角色补齐之前；后续1327/12不回填成该轮原结果。历史三方签字、版本v3与Branch current均限定原卡时点，不能当今天分支或版本事实。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "[A7-0A](A7-0A-opening-menu-music-role.md)接替标题菜单角色遗漏；现行产品前提取[二阶段规则](../../../../phase2/READ-FIRST.md)，新验证按[现行工作流](../../../agent-workflow.md)。本次无新产品贡献者提示词，历史O2及未走场项目只能由另行核准的验证任务处理。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根线程独立读八卡与回执并写中央账；未完成的音乐动态验证另行立卡，不从历史done恢复build。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 51454,
+        "sourceLines": 528,
+        "sourceFinalNewline": true,
+        "inverseSha256": "7053660d982106c25bc2a3933b586fa1a3f91307e74cd2d1c58e5d45e7c952c3",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md:1",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+        "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md:13",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-07-16标题菜单“新的故事 / 旧的回忆”的第五个音乐角色补齐：PAL经audio.openingMenuMusic绑定music.pal.004，运行时按角色循环播放，离开菜单可靠停止，编辑器可定位引用并阻止误删。该菜单不等于ESC系统菜单或战斗菜单，splash005也不并入本角色。",
+      "originalTitle": "A7-0A - 标题菜单音乐角色与删除保护",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "both",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / X2",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "both",
+        "Visual Verification Owner": "Codex + User",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "7fd3f7a40a6f038805b5a2274eae24a2f5846d39",
+      "sourceSha256": "cbb319c5b0ba01f90c583df81c8f612f19143b03d66a5351edae5ce01a594b94",
+      "afterSha256": "ac5e138cae5fa5c545b0e1300e828ac204ed7edda494035211c682e6eb64a4b0",
+      "candidateSha256": "ac5e138cae5fa5c545b0e1300e828ac204ed7edda494035211c682e6eb64a4b0",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。五角色修正取代A7-0的四角色穷尽说法，用户当时听验结论保留；不能将旧v3 fallback或旧签字当作当前运行时/测试质量认证。当前只支持canonical的政策以[二阶段规则](../../../../phase2/READ-FIRST.md)及[保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)为后继边界。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md:13",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md:83",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "当时manifest角色、迁移/升级、启动菜单播放生命周期与音乐页删除保护。1326引用/13未用变为1327/12，037仍39引用，属于加入004角色边而非修改已有战斗音乐。v3角色补齐、无音乐时静音及排序首曲fallback是历史升级说明，不构成当前canonical之外的兼容许可。"
+      },
+      "scope": "当时manifest角色、迁移/升级、启动菜单播放生命周期与音乐页删除保护。1326引用/13未用变为1327/12，037仍39引用，属于加入004角色边而非修改已有战斗音乐。v3角色补齐、无音乐时静音及排序首曲fallback是历史升级说明，不构成当前canonical之外的兼容许可。",
+      "versionAndApplicability": "2026-07-16单日遗漏纠正，原卡先审查后用户听验的次序保留。“没有第六角色”仅是该轮需求核对结论，不限制未来产品角色；004号只用于PAL角色映射，不能变为运行时硬编码。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-0A - 标题菜单音乐角色与删除保护",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "标题菜单角色绑定合法音乐AssetId；无音乐工程静音；004为PAL映射，不允许推广成运行时固定号。",
+      "publicCallers": "启动菜单、新游戏、读档分流、音乐管理引用定位和删除保护。",
+      "businessOracle": "004角色真实播放且离开菜单停止，不把迟到await重新播放带入世界状态；历史用户听验与CDP各有证据范围。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "早期待用户听验已被July16“听了没问题”关闭。",
+        "CDP performance buffer全零为取证误区，网络链不冒充物理听觉。",
+        "无第六角色与v3 fallback仅限当时，不能授权未来范围/旧兼容。"
+      ],
+      "history": "2026-07-16单日遗漏纠正，原卡先审查后用户听验的次序保留。“没有第六角色”仅是该轮需求核对结论，不限制未来产品角色；004号只用于PAL角色映射，不能变为运行时硬编码。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "与[A7-0音乐地基](A7-0-resource-closure-registry.md)互补，后续资源族见[A7历史总审计](../../../../phase2/archive/audits/a7-resource-closure-audit.md)。新角色产品取舍或重新运行按[现行工作流](../../../agent-workflow.md)另行准入；本卡无待执行的下一位产品Agent提示词。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根独立接收本次文档候选；保留已完成用户听验，未来角色变更另走产品准入。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 36930,
+        "sourceLines": 407,
+        "sourceFinalNewline": true,
+        "inverseSha256": "cbb319c5b0ba01f90c583df81c8f612f19143b03d66a5351edae5ce01a594b94",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md:13",
+        "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md:83",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存2026-07-17至18日sound族纵向闭包：脚本、角色、敌人、技能/召唤与战斗UI用稳定AssetId，经AssetResolver/FileSource读取；编辑器导入、替换、试听、引用保护与保存可回读。只退出sound这一项legacy family，不因本卡done宣称A7或后来的测试质量治理完成。",
+      "originalTitle": "A7-1 - SFX 音效资源闭包与编辑工作台",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Opus + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / X2 / B5",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Opus + GLM",
+        "Visual Verification Owner": "Codex + Opus",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "73a04f1936c45c9b10b20b6b7d01ee583b9aa54a",
+      "sourceSha256": "1e2dd1fa8a526c9dbc9ace79f01c10ff03836cc17c08a5000a9afe520a434857",
+      "afterSha256": "8470d329cc1921d5adffce79ad1533234a4689af00fd2991c846d8aacdb1da04",
+      "candidateSha256": "8470d329cc1921d5adffce79ad1533234a4689af00fd2991c846d8aacdb1da04",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。readiness最终51基底/27队伍/26入口与最大单技能2（315）及active poison额外0只适用该轮模型；早期违规规模不再是最终失败数。未重跑产品/浏览器/coverage，未验证旧测试是否符合今天少而精门槛。旧upgrader/legacy由[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不恢复兼容，也不把消费矩阵未事件槽扩成新B5能力。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md:336",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md:478",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "505槽中363份非空WAV，共18,110,864B；142空槽不伪造音效。原1953数字位点、1661非零、325绝对号唯一与最终1666 sound边/3020全资源引用/328已用/35未用/50警告分母分开。4个可选UI音效角色28/29/45/47属于公开配置，不能隐匿成固定实现。"
+      },
+      "scope": "505槽中363份非空WAV，共18,110,864B；142空槽不伪造音效。原1953数字位点、1661非零、325绝对号唯一与最终1666 sound边/3020全资源引用/328已用/35未用/50警告分母分开。4个可选UI音效角色28/29/45/47属于公开配置，不能隐匿成固定实现。",
+      "versionAndApplicability": "July17两轮readiness撤签、重设与最终反证闭合，July18用户收口。四包1059与pnpm check 3705 passed/1 skipped、699 lint为不同范围，原chunk warning/favicon404与50资源警告不抹除，也不等于今天允许非零诊断。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-1 - SFX 音效资源闭包与编辑工作台",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "设计期数据基线",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "build 中 readiness 反证与重新设计门禁（2026-07-17）",
+          "readiness 重签后的 side-aware 毒链与屏障结算反证（二次门禁，2026-07-17）",
+          "进入 done 前:审查签字",
+          "Draft:设计与风险",
+          "设计结论",
+          "A. schema 与引用只有一套",
+          "B. PAL 迁移先修上游",
+          "C. runtime 保持挂帧语义",
+          "D. editor 与旧工程边界",
+          "E. 分段实现与每段门禁",
+          "已知风险",
+          "主审立场",
+          "三方争议记录",
+          "额度 / 代班记录",
+          "Build:实现与自测",
+          "资源生成记录",
+          "视觉验证记录",
+          "Review:审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "非空WAV与合法AssetId引用；负enemy.magic的绝对号及suppress语义、双侧毒链和既有游戏状态才是业务输入。旧readiness fixture/cast合法性未在本包重验。",
+      "publicCallers": "playSound、角色/敌人/技能、战斗UI、prepare屏障、编辑器引用/删除/保存；预算在decode前拒绝。",
+      "businessOracle": "实际音效时序不重复、屏障结算/取消不跨world/session、只对当前回合所需驻留集预算；不能以测试数/覆盖率代替。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "全learned集合超64，调96被拒；改逐回合readiness而非掩盖预算。",
+        "side-aware毒链、adapter前预算、allSettled与异步身份反证均须按最终方案读。",
+        "早期1665等及grep1675不是终值；native picker未跑，readiness cast测试质量待核。"
+      ],
+      "history": "July17两轮readiness撤签、重设与最终反证闭合，July18用户收口。四包1059与pnpm check 3705 passed/1 skipped、699 lint为不同范围，原chunk warning/favicon404与50资源警告不抹除，也不等于今天允许非零诊断。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "[二阶段规则](../../../../phase2/READ-FIRST.md)确定当前版本及产品边界，[现行工作流](../../../agent-workflow.md)约束任何新的测试质量审查。原动态raw/声音缺口须另给可执行证据，不以本次文档迁移关闭；无待执行的原产品Agent提示词。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根独立接收文档；新测试质量/物理音频验证另立卡，不重开已由用户接受的工程手工流程。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 93352,
+        "sourceLines": 936,
+        "sourceFinalNewline": true,
+        "inverseSha256": "1e2dd1fa8a526c9dbc9ace79f01c10ff03836cc17c08a5000a9afe520a434857",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md:336",
+        "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md:478",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存July18至19日“工程内容图像/引擎chrome”分离：portrait/face/icon/battle-background进工程catalog、可编辑与保存；默认菜单皮、字体、光标与标题壳由引擎分发。特别标注后继raw核验撤回6face与透明stub的正确性结论，不把旧已accept摘要当今天真值。",
+      "originalTitle": "A7-2 - 静态内容图像闭包与引擎 chrome 自包含",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Kimi + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / A4 / C1 / C4",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Kimi + GLM",
+        "Visual Verification Owner": "Codex + Kimi",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "f16a2013e2ffaa1fbe4df7b3557ddb138916b925",
+      "sourceSha256": "a2e3f274dd0d6f172aacafab958c58ddb9a901588b7bce4a5360f42a30cb18bc",
+      "afterSha256": "1730d1ca89492140917bbe81fefe783831029ba4b9a6fbfac0ece292fc37442a",
+      "candidateSha256": "1730d1ca89492140917bbe81fefe783831029ba4b9a6fbfac0ece292fc37442a",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical，且原“6face/68B有效stub”已被后继反证。真实face为48–52共5份/10,324B/5引用，移除盖罗娇face AssetId/PNG，portrait044保留；编辑器用通用头像fallback，运行时不新增按角色号或透明度猜测。源卡旧6/10,392/379/848/2656仍是历史快照。旧版本fallback已受[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)退役约束，不重新准入。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md:7",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:402",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "用户July18拍板默认UI属ENGINE，A5工程ZIP不含chrome、A8分发壳加工程；standardColorTable仍属工程且不新增palette UI。原379图像记录/5,464,181B/2656引用、4未用及catalog469→848/59,704,628B限定July19；不将后继删face后的口径静默回填旧数字。"
+      },
+      "scope": "用户July18拍板默认UI属ENGINE，A5工程ZIP不含chrome、A8分发壳加工程；standardColorTable仍属工程且不新增palette UI。原379图像记录/5,464,181B/2656引用、4未用及catalog469→848/59,704,628B限定July19；不将后继删face后的口径静默回填旧数字。",
+      "versionAndApplicability": "July18归属裁决、July19实现/用户验收及其后许可证修补，与Aug23/24 raw face纠错分开。原版权/许可描述只保留工程当时的来源记录，不能当今天法律/IP发布认证；Sept3替代美术归phase3的后继边界不由本卡改动。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-2 - 静态内容图像闭包与引擎 chrome 自包含",
+          "目标",
+          "用户裁决与边界勘误（2026-07-18）",
+          "范围",
+          "上下文锚点",
+          "设计期数据基线",
+          "终态设计",
+          "1. 归属与单一路径",
+          "2. 内容 schema",
+          "3. 稳定 ID、所有权与升级",
+          "4. 战场背景索引语义",
+          "5. 编辑器工作台",
+          "6. 分段实现与退出门禁",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "下一位 Agent 提示词",
+          "用户验收",
+          "交接日志"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "工程图像族的合法AssetId与作者RGBA上传；透明PAL face占位必须用后继absence结论，不能以旧合法stub作为新输入合同。",
+      "publicCallers": "编辑器图像工作台、引用/删除与量化预览、FSA持久化、两应用engine chrome bundler；A5 ZIP只打工程内容。",
+      "businessOracle": "内容图像可回读、引擎壳独立分发、索引字节稳定且用户归属裁决保持；raw透明face应缺席而非生成伪资源。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "旧6face/68B合法stub已被raw字节反证；5face/10,324B仅作为后继历史结论，不刷新全库今天census。",
+        "OFL原失败不回填零；5b7b49c8恢复许可证原文而非改期望。",
+        "工程闭包不等于IP发布权或今天视觉/许可证复核。"
+      ],
+      "history": "July18归属裁决、July19实现/用户验收及其后许可证修补，与Aug23/24 raw face纠错分开。原版权/许可描述只保留工程当时的来源记录，不能当今天法律/IP发布认证；Sept3替代美术归phase3的后继边界不由本卡改动。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "[raw face后继卡](MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)在face absence问题上取代旧结论；[A7-3T](A7-3T-tileset-asset-closure.md)保留许可证失败，[A7-3W](A7-3W-world-sprite-asset-closure.md)记后继修复。当前事实依[二阶段规则](../../../../phase2/READ-FIRST.md)重新定位；本次不重听/重看/重导出，也不认证旧技术或法律建议。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根接收文档候选；face结论沿MIG后继，任何新视觉/IP发布决定另行核准。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 52994,
+        "sourceLines": 582,
+        "sourceFinalNewline": true,
+        "inverseSha256": "a2e3f274dd0d6f172aacafab958c58ddb9a901588b7bce4a5360f42a30cb18bc",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md:7",
+        "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md:1",
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:402",
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存July16至17日视频/帧动画资源闭包与作者工作台：稳定AssetId、工程内读取、导入/逐帧编辑/引用保护/保存，不再依赖仓库extracted目录。撤回原自验“剧情空格跳过通过”，以用户与Opus提出的C1–C5最终闭合为历史终态；不把早期accept继续当有效前提。",
+      "originalTitle": "A7-3 - 视频与帧动画资源闭包及过场工作台",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Opus + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / X3",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Opus + GLM",
+        "Visual Verification Owner": "Codex + Opus + User",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "77451c7908dd4ca6e11456618eaef5989da4255b",
+      "sourceSha256": "630f14b51ca7db2d044d61a92c7adb50c8d1b736a427202fdeeaa58b14f8510b",
+      "afterSha256": "590214f468ae9d03b747b7c3c2b6b39f94d58e5be01acc18a26c135a76991956",
+      "candidateSha256": "590214f468ae9d03b747b7c3c2b6b39f94d58e5be01acc18a26c135a76991956",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。空格跳过的旧accept无效，默认不跳的最终修正不等于本次重新执行。原OPFS是真实句柄保存/重开，未实跑原生OS文件框；s066→s059整路未走、物理视觉raw可用性缺证须保留。旧upgrader由[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)退役；故事视觉按[现行工作流](../../../agent-workflow.md)集中E2E，不从这次静态治理补签。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md:351",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/phase2/archive/audits/a7-resource-closure-audit.md:208",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:197",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:422",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "6份H264/AAC、288×180 MP4，12份RNG/1464帧，20处playRng指向稳定frame-animation；9份脚本引用、3份未用[6,10,11]不是文件总数。startup001/002、intro003、ending004/005/006及quitToTitle的视频角色按原卡保留，AAC不替代脚本独立BGM/SFX绑定。PAL palette3/6/7映到2/3/6后离线烘RGBA，不新增运行时palette UI。"
+      },
+      "scope": "6份H264/AAC、288×180 MP4，12份RNG/1464帧，20处playRng指向稳定frame-animation；9份脚本引用、3份未用[6,10,11]不是文件总数。startup001/002、intro003、ending004/005/006及quitToTitle的视频角色按原卡保留，AAC不替代脚本独立BGM/SFX绑定。PAL palette3/6/7映到2/3/6后离线烘RGBA，不新增运行时palette UI。",
+      "versionAndApplicability": "July16早期自验与C1–C5撤签/返工、July17最终验收按顺序保留。早期包体357/375MB是试验估计，O1 Biome5/O2 fixture遗留后已在当时清理，最终pnpm check 682文件不覆盖今天树。第一阶段chunk6 bootstrap单独消费不证明二阶段已移植相同启动演出。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-3 - 视频与帧动画资源闭包及过场工作台",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "工程video/frame-animation AssetId、TPFS严格帧结构；普通剧情默认不可空格跳过，只有明确dev preview opt-in。",
+      "publicCallers": "过场工作台、playRng、启动/片尾角色、world-clock wave渲染、saveAs授权链。",
+      "businessOracle": "资源完整可编辑/持久化且剧情默认不跳，wave上下文/队形/fade按真实调用域正确；邻场景实测不可冒充完整门路线。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "旧“空格跳过通过”被撤回，C1–C5最终签字取代；共享审计§3.8/设计§11旧相反陈述仍待根后继治理。",
+        "s059故障路径实测不等于s066→s059真实过门；native OS picker与用户证书信任未认证。",
+        "历史包体/编码实验是不同轮次；不扩大第一阶段bootstrap为二阶段消费。"
+      ],
+      "history": "July16早期自验与C1–C5撤签/返工、July17最终验收按顺序保留。早期包体357/375MB是试验估计，O1 Biome5/O2 fixture遗留后已在当时清理，最终pnpm check 682文件不覆盖今天树。第一阶段chunk6 bootstrap单独消费不证明二阶段已移植相同启动演出。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "当前产品前提依[二阶段规则](../../../../phase2/READ-FIRST.md)。本卡内部C1–C5最终记录覆盖旧设计/审计的跳过陈述，但共享来源的模板化后继仍待根统一治理；本包不把其静默遗漏，也不将根后续文档修正当新动态证据。无待执行的旧Agent提示词。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根独立接收文档并维护共享来源冲突；未来集中E2E另记路线/视觉证据，不重放旧提示词。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 60404,
+        "sourceLines": 605,
+        "sourceFinalNewline": true,
+        "inverseSha256": "630f14b51ca7db2d044d61a92c7adb50c8d1b736a427202fdeeaa58b14f8510b",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/phase2/archive/designs/cutscene-asset-workbench-design.md:351",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md:208",
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:197",
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md:422",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存July19至21日战斗精灵索引闭包：角色、敌人、换装/持久形象/梦蛇、召唤与敌人变身/召唤通过BattleSpriteDef语义定义指向唯一AssetId；player-fighter/enemy/summon profile保留动作契约，不能把Enemy位置或Skill速度/色相/音效挪入资源定义。",
+      "originalTitle": "A7-3B - 战斗精灵索引资源闭包",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Kimi + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / A4 / B5 / X4",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Kimi + GLM",
+        "Visual Verification Owner": "Codex + Kimi",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "44e7748a4e36b4e57363bdd1929f874f67b317a1",
+      "sourceSha256": "461a626ccee6f94bcef360c9809d707042407185796371b5cb30b2b979b04b5d",
+      "afterSha256": "aaec56aa822ec585fd2cf9fefac8d95d567abe883b61bbfab941259eb0be7975",
+      "candidateSha256": "aaec56aa822ec585fd2cf9fefac8d95d567abe883b61bbfab941259eb0be7975",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。资源语义层/物理层、player0合法与通道边界按当时结论保留，但本次不重核产品实现/旧测试输入质量，也不赋予当前runtime、E2E或coverage通过。旧local upgrader/legacy分支按[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继删除，不能以原卡描述恢复。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md:60",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md:449",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md:499",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "172物理文件由player0..18共19份与enemy1..153共153份组成；900,973 gzip B、2,313,598 raw B、775有效帧与6旧尾异常分开。171定义=10 fighter/9 summon/152 enemy，179直接引用、171已用、5共享组/8额外边、enemy98唯一未用；catalog1707→1879/68,439,367B仅是该轮快照。"
+      },
+      "scope": "172物理文件由player0..18共19份与enemy1..153共153份组成；900,973 gzip B、2,313,598 raw B、775有效帧与6旧尾异常分开。171定义=10 fighter/9 summon/152 enemy，179直接引用、171已用、5共享组/8额外边、enemy98唯一未用；catalog1707→1879/68,439,367B仅是该轮快照。",
+      "versionAndApplicability": "July19 build/Kimi审查、July20 GLM、July21用户收口按日期分开。原save v4与content v3属于不同版本轴；当时展望A7-4 content4不是今天版本。物理tuple SHA、6尾异常、语义到物理分组及原签字完整保留于原文，不重新生成或刷新。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-3B - 战斗精灵索引资源闭包",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词",
+          "Kimi（当前正式 review）",
+          "GLM（当前正式 review）",
+          "Kimi（历史 draft）",
+          "GLM（历史 draft）"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "player0是合法资源，enemy/player通道独立；BattleSpriteDef及profile必须与帧结构/有效形象一致，不能按旧装备id猜映射。",
+      "publicCallers": "装备/持久形象/梦蛇、战斗actor与enemy、有效技能授予的召唤及enemy transform/summon preload。",
+      "businessOracle": "同一active图像/ABI/effect profile、原动作时序与清理边界一致；preload包含真实授技调用而非仅静态Skill表。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "19份player不能硬设11帧；六PAL尾异常不是runtime id豁免。",
+        "July19待用户与July21用户最终accept按日期闭合，旧prompt不再执行。",
+        "初始battle217及作者217/175不足以认证全部毫秒级演出或物理FSA。"
+      ],
+      "history": "July19 build/Kimi审查、July20 GLM、July21用户收口按日期分开。原save v4与content v3属于不同版本轴；当时展望A7-4 content4不是今天版本。物理tuple SHA、6尾异常、语义到物理分组及原签字完整保留于原文，不重新生成或刷新。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "现行版本/机制真值由[二阶段规则](../../../../phase2/READ-FIRST.md)及[现行工作流](../../../agent-workflow.md)重新定位；本卡不新增产品取舍。需要额外完整动态矩阵时另立可执行验证任务，无待执行的旧Kimi/GLM提示词，也不把本卡done外推A7总收口。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根独立接收文档候选；任何额外战斗视觉/测试质量任务另行准入。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 61214,
+        "sourceLines": 646,
+        "sourceFinalNewline": true,
+        "inverseSha256": "461a626ccee6f94bcef360c9809d707042407185796371b5cb30b2b979b04b5d",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md:60",
+        "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md:449",
+        "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md:499",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存July19瓦片集索引资源闭包：map/stamp稳定tilesetId不变，TilesetDef.asset连接唯一物理AssetId，编辑/运行/导入/保存/克隆只经resolver与工程FileSource；沿D25用gzip索引RLE，不烘RGBA、不增加作者palette UI。",
+      "originalTitle": "A7-3T - 瓦片集索引资源闭包",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Kimi + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / A4",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Kimi + GLM",
+        "Visual Verification Owner": "Codex + Kimi",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "cfe4fdd02bc8141f3e1e22d5636aa10680026616",
+      "sourceSha256": "89be2bbfee9e3044941e2fafcdd7563ae3fc2330044bbd51bd9d60046a9d9634",
+      "afterSha256": "a0bdb23d61281613d8134132b977328664c15f4231d510387b14ef27f726a88e",
+      "candidateSha256": "a0bdb23d61281613d8134132b977328664c15f4231d510387b14ef27f726a88e",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。223范围、gzip原字节、两层删除与保存顺序是原轮合同；原OFL失败依后继修复闭合但旧222/1/1必须保留，不变成当时通过。当前只支持canonical的边界以[二阶段规则](../../../../phase2/READ-FIRST.md)与[版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)为准，本卡旧upgrader/兼容路径不恢复。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:56",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:402",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md:540",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "223个真实mapNum为1..225缺168/171，不能写成连续1..223。6,501,041 gzip B、67,715严格帧、223定义/223资产/223地图引用、catalog848→1071属于同轮但不同对象；PAL单个零尾sentinel有来源限制，作者输入不得带尾。tuple摘要与五集合一致的原证据原样保留。"
+      },
+      "scope": "223个真实mapNum为1..225缺168/171，不能写成连续1..223。6,501,041 gzip B、67,715严格帧、223定义/223资产/223地图引用、catalog848→1071属于同轮但不同对象；PAL单个零尾sentinel有来源限制，作者输入不得带尾。tuple摘要与五集合一致的原证据原样保留。",
+      "versionAndApplicability": "July19设计、实现、反证与用户收口。原截图按用户要求删除，不能说现在仍有可回读raw；503 extracted source阻断只覆盖该HTTP探针，不能推广所有legacy输入都已验证。历史catalog1071与后续W/B递增不是冲突的今天全库数量。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-3T - 瓦片集索引资源闭包",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词",
+          "历史：给 Kimi（架构、代码与视觉主审）",
+          "历史：给 GLM（数据、迁移、测试与文档审查）"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "合法gzip索引RLE与完整SHA；PAL单尾sentinel仅来源限定，作者文件严格解析，缺168/171不伪造。",
+      "publicCallers": "地图/图章tilesetId、编辑器导入/替换/共享定义删除、FSA save/clone/retry与runtime resolver。",
+      "businessOracle": "byte-exact gzip克隆、等长修改可保存、maxTileId不越界、失败IO可恢复且不误删未触达文件。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "223真实号1..225缺168/171，拒绝连续1..223和sha8。",
+        "migrate222/1/1失败原样保留；后继5b7b49c8恢复许可证不是改期望。",
+        "原截图已删除，503 probe/核心IO不代表全legacy/物理picker验收。"
+      ],
+      "history": "July19设计、实现、反证与用户收口。原截图按用户要求删除，不能说现在仍有可回读raw；503 extracted source阻断只覆盖该HTTP探针，不能推广所有legacy输入都已验证。历史catalog1071与后续W/B递增不是冲突的今天全库数量。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "[A7-3W](A7-3W-world-sprite-asset-closure.md)继续世界精灵闭包并记录5b7b49c8许可证修复；[A7总审计](../../../../phase2/archive/audits/a7-resource-closure-audit.md)按后续时点汇总。新瓦片集产品/视觉验收依[现行工作流](../../../agent-workflow.md)另行准入，无可执行的旧review提示词。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根独立接受文档；后继许可修复按历史日期解释，不为了今天门禁回写旧失败数。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 55906,
+        "sourceLines": 602,
+        "sourceFinalNewline": true,
+        "inverseSha256": "89be2bbfee9e3044941e2fafcdd7563ae3fc2330044bbd51bd9d60046a9d9634",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:56",
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md:402",
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md:540",
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": "archive-record-v1 / 1.0.0",
+      "coreConclusion": "保存July19世界精灵索引闭包：SpriteDef语义定义以asset连接唯一工程gzip索引RLE，角色/实体/脚本/存档只引用稳定SpriteDef.id；编辑/逐帧预览/替换/保存/克隆与运行时走同一工程资源链，保持当时一阶段方向、动作及fade/dither所有权边界。",
+      "originalTitle": "A7-3W - 大世界精灵索引资源闭包",
+      "originalStatus": "done",
+      "originalOwner": "原卡无Owner字段；不补造原产品Owner",
+      "originalCodingOwner": "Codex",
+      "originalReviewer": "Kimi + GLM",
+      "originalMetadata": {
+        "Status": "done",
+        "Phase": "phase2",
+        "Capability": "A7 / R3 / R7 / A4 / C2",
+        "Coding Owner": "Codex",
+        "Generation Owner": "N/A",
+        "Reviewer": "Kimi + GLM",
+        "Visual Verification Owner": "Codex + Kimi",
+        "Unavailable Agents": "none",
+        "Branch": "main"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "63e6f4f71f91105be06be2f38113d799d57bced7",
+      "sourceSha256": "a2d513bb343eba9ed43d5b8f5aa178a62ed6196267f494a55d7da77680033d95",
+      "afterSha256": "d877b0334ad86002b5e93638cef729121bfc9742bc32b2472752c6a27760776d",
+      "candidateSha256": "d877b0334ad86002b5e93638cef729121bfc9742bc32b2472752c6a27760776d",
+      "beforeAfter": {
+        "before": "原卡将不同设计/反证/验收时点交错保留，且旧标题作为公开入口。",
+        "after": "historical。5+15+1与3类appearance边界保留为该轮最终纠错，不把636/580/13等数字当今天census。未跑产品测试/浏览器/coverage、未重新审核旧测试合法输入。旧spriteNum/path/legacy与升级兼容以[当前版本保留账](../../evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md)后继退役，不能借本卡恢复；当前版本取[二阶段规则](../../../../phase2/READ-FIRST.md)。",
+        "contentChange": "按实际语义写五任务章节与五历史章节，原卡完整逐字节引用；旧标题增 live 导航；未修改产品结论、原头字段或历史日期。"
+      },
+      "primarySource": [
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:51",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:395",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        },
+        {
+          "anchor": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "reading": "直接全文已读；卡自身行号定位引用中的原时点，不冒充新正文同号行。"
+        }
+      ],
+      "phaseAnchor": {
+        "phase": "phase2",
+        "rules": "docs/phase2/READ-FIRST.md",
+        "boundary": "636份源1..636、1,332,725B、4133帧、30尾异常与580定义/559已用/21共享组/77未用分层，catalog1071→1707是July19快照。共享组最终为5主角配对+15方向/静态+1方向framesPerDir变体，不沿用4+17旧归类。setActorAppearance共9指令仅3改spriteId，另3 portrait/3 battle不越界纳入；entities3695、actors6、setActorSprite116及setFollowers两处各有分母。"
+      },
+      "scope": "636份源1..636、1,332,725B、4133帧、30尾异常与580定义/559已用/21共享组/77未用分层，catalog1071→1707是July19快照。共享组最终为5主角配对+15方向/静态+1方向framesPerDir变体，不沿用4+17旧归类。setActorAppearance共9指令仅3改spriteId，另3 portrait/3 battle不越界纳入；entities3695、actors6、setActorSprite116及setFollowers两处各有分母。",
+      "versionAndApplicability": "July19资源迁移、共享/layout口径纠错与异步owner反证；13条布局债中某些16帧行有重复定义，不能当13个独立产品缺陷。demo/e2e/blank矩阵包含单测，不等于每一工程都看过像素；临时截图删除事实保留，旧chunk warning不升为现行质量豁免。",
+      "publicEntry": {
+        "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+        "stablePath": true,
+        "originalHeadings": [
+          "A7-3W - 大世界精灵索引资源闭包",
+          "目标",
+          "范围",
+          "上下文锚点",
+          "验收条件",
+          "推进签字",
+          "进入 build 前:设计签字",
+          "进入 done 前:审查签字",
+          "Draft: 设计与风险",
+          "设计结论",
+          "已知风险",
+          "主审立场",
+          "三方争议记录(按需)",
+          "额度 / 代班记录(如适用)",
+          "Build: 实现与自测",
+          "资源生成记录(如适用)",
+          "视觉验证记录(如适用)",
+          "Review: 审查与返工",
+          "用户验收",
+          "交接日志",
+          "下一位 Agent 提示词",
+          "历史：给 Kimi（架构、runtime 并发与视觉主审）",
+          "历史：给 GLM（数据、迁移、保存与测试矩阵审查）",
+          "历史：给 Kimi（架构/schema/跨包主审）",
+          "历史：给 GLM（数据/schema/迁移/测试矩阵审查）"
+        ],
+        "method": "保留原H1/目标/范围，其他旧ATX标题在完整引用之前设同标题live导航；引用本身另保留原标题。"
+      },
+      "legalInputs": "合法SpriteDef/AssetId、严格authored/generated RLE与来源限定旧尾；layout声明不等于实际帧，followers用语义id。",
+      "publicCallers": "角色/实体/setActorSprite与真正3处sprite appearance、followers、三预览与reloadMap/fade/dither异步owner。",
+      "businessOracle": "语义/物理引用正确、共享定义可安全编辑、晚到异步不清新owner；真实帧与合法选择器一致。",
+      "dedupe": "本卡按资源族、物理文件/语义定义/引用边/测试轮次区分分母；不与其它A7卡重复授予闭包或动态执行信用。",
+      "counterReworkBlocked": [
+        "共享组由4+17纠为5+15+1，9 appearance仅3世界sprite边。",
+        "13布局债/30尾异常为旧来源范围，不是今日统计/id豁免。",
+        "首次migrate flaky不抹去；重跑通过不认证物理OS picker、所有像素或当前测试质量。"
+      ],
+      "history": "July19资源迁移、共享/layout口径纠错与异步owner反证；13条布局债中某些16帧行有重复定义，不能当13个独立产品缺陷。demo/e2e/blank矩阵包含单测，不等于每一工程都看过像素；临时截图删除事实保留，旧chunk warning不升为现行质量豁免。",
+      "supersedes": "仅替代本路径的文档组织；不以本次迁移覆盖原历史产品决定或后继纠错。",
+      "successor": "[A7-3B](A7-3B-battle-sprite-asset-closure.md)接续战斗精灵，勿把appearance中portrait/battle纳入世界sprite计数；[A7历史总审计](../../../../phase2/archive/audits/a7-resource-closure-audit.md)只按后继日期读取。新动态/视觉/质量任务按[现行工作流](../../../agent-workflow.md)另行核准，无可执行的旧Kimi/GLM提示词。",
+      "stopLine": "不恢复旧build/三签/兼容；缺原始动态、物理OS交互或测试质量证据时不得升格；不写共享中央账或产品源码/旧测试/coverage。",
+      "nextStep": "根独立接收八卡；剩余动态/raw与测试质量缺口只在新核准任务中验证。",
+      "provenance": {
+        "governanceOwner": "Codex / contributor history_cards_a",
+        "reviewRole": "author self-check only; root independent acceptance pending",
+        "preflightRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "preflightBlobsEqual": true,
+        "buildAdmission": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md — 2026-10-16 五份历史回执独立接收与包C分派",
+        "originalGenerationOwner": "N/A"
+      },
+      "templateConformity": {
+        "taskSections": ["目标", "范围", "前提与证据", "验收", "状态与交接"],
+        "historySections": ["历史范围", "原始结论", "当时证据", "当前有效性", "继任文档"],
+        "bodyCheck": "PASS author self-check: actual checkTemplateBody(task-card-v1) + archive-record required sections; zero issues. Not root independent acceptance.",
+        "semanticReview": "逐篇全文读后具体归纳，非路径推断；根独立验收待定。"
+      },
+      "originalPreservation": {
+        "method": "完整原卡每行仅加quote前缀，空行>；引用后无追加正文；UTF-8逐字节严格逆回读。",
+        "startMarker": "<!-- original-source-quote:start -->",
+        "sourceBytes": 58832,
+        "sourceLines": 624,
+        "sourceFinalNewline": true,
+        "inverseSha256": "a2d513bb343eba9ed43d5b8f5aa178a62ed6196267f494a55d7da77680033d95",
+        "exactRoundTrip": true,
+        "historicalAnchors": "PASS: actual GFM heading parse; all original headings preserved as live entries before quote; local derived Unicode slug comparison. No hosted browser rendering.",
+        "originalLinkDestinations": "原文所有Markdown链接目的地未改，稳定路径未移动；新导航和后继链接另加，不覆盖原引用。"
+      },
+      "execution": {
+        "runtimeExecution": false,
+        "productTests": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "historicalClaimsRetained": true
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:51",
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:395",
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md:254",
+        "docs/phase2/archive/audits/a7-resource-closure-audit.md:1",
+        "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md:1",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/agent-workflow.md"
+      ]
+    }
+  ],
+  "checks": {
+    "status": "author static checks passed; integration review/SHA gate intentionally pending root update",
+    "documentToolTests": {
+      "command": "node --test scripts/docs/*.test.mjs",
+      "tests": 63,
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0
+    },
+    "actualConsumers": [
+      {
+        "command": "node scripts/docs/check.mjs",
+        "status": "PASS",
+        "markdown": 1223,
+        "localLinks": 7107,
+        "tasks": 361,
+        "issues": 0
+      },
+      {
+        "command": "node scripts/docs/check-document-model.mjs",
+        "status": "PASS",
+        "existingBodyContracts": 80,
+        "routes": 7,
+        "issues": 0,
+        "scope": "中央80合同；本包8卡另直接调用同一checkTemplateBody，尚未写中央routing。"
+      },
+      {
+        "command": "node scripts/docs/check-testing.mjs",
+        "status": "PASS",
+        "issues": 0
+      },
+      {
+        "command": "node scripts/docs/check-phase-lore-governance.mjs",
+        "status": "PASS",
+        "documents": 184,
+        "issues": 0
+      }
+    ],
+    "packageContractsAndFragments": {
+      "status": "pass",
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "method": "Marked GFM real heading parse; compare exact original heading text and derived local Unicode slug before quote; local outbound and tracked-repository inbound fragment lookup, not online GitHub rendering.",
+      "perFile": [
+        {
+          "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+          "sourceLines": 528,
+          "sourceHeadings": 26,
+          "livePreservedHeadings": 26,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 23
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+          "sourceLines": 407,
+          "sourceHeadings": 21,
+          "livePreservedHeadings": 21,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 18
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+          "sourceLines": 936,
+          "sourceHeadings": 29,
+          "livePreservedHeadings": 29,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 26
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+          "sourceLines": 582,
+          "sourceHeadings": 30,
+          "livePreservedHeadings": 30,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 27
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+          "sourceLines": 605,
+          "sourceHeadings": 21,
+          "livePreservedHeadings": 21,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 18
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+          "sourceLines": 646,
+          "sourceHeadings": 25,
+          "livePreservedHeadings": 25,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 22
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+          "sourceLines": 602,
+          "sourceHeadings": 23,
+          "livePreservedHeadings": 23,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 20
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+          "sourceLines": 624,
+          "sourceHeadings": 25,
+          "livePreservedHeadings": 25,
+          "typedHistoryIssues": 0,
+          "exactOriginal": true,
+          "shaMatch": true,
+          "outgoingFragments": 22
+        }
+      ],
+      "outgoingCount": 176,
+      "inboundCount": 0,
+      "inbound": [],
+      "nonMaterializedGitFallback": ["reference/sdlpal/AUTHORS.md"],
+      "issues": []
+    },
+    "originalSource": {
+      "cards": 8,
+      "sourceLines": 4930,
+      "exactByteRoundTrip": true,
+      "allGitBlobsAndSha256Verified": true,
+      "originalMetadataRetained": true,
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3"
+    },
+    "centralReviewGate": {
+      "command": "node scripts/docs/check-content-review.mjs --strict",
+      "status": "FAIL as expected; pending independent acceptance and central ledger write by root",
+      "documents": 613,
+      "diagnostics": 8,
+      "allDiagnostics": "after SHA drift",
+      "paths": [
+        "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+        "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+        "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+        "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md"
+      ],
+      "unexpectedDiagnostics": 0,
+      "notWaived": true
+    },
+    "whitelist": {
+      "status": "PASS",
+      "exactFiles": 9,
+      "paths": [
+        "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+        "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+        "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+        "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+        "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-c-20261016.json"
+      ],
+      "sharedOrProductWrites": 0
+    },
+    "lint": {
+      "command": "biome check .",
+      "status": "PASS",
+      "files": 4077,
+      "errors": 0,
+      "warnings": 0,
+      "info": 0,
+      "fixesApplied": false,
+      "executable": "configured workspace Biome; dependency location not stored"
+    },
+    "diffCheck": "PASS (git diff --check, zero output)",
+    "verificationDevelopmentNote": "首轮全仓fragment扫描遇未物化reference/sdlpal/AUTHORS.md；补用固定Git对象读取后完成全仓tracked Markdown扫描。不是正文断链；未忽略该文件。",
+    "formatter": {
+      "command": "biome format --write <candidate receipt only>",
+      "scope": "仅本专属JSON回执；八张Markdown及原文引用未格式化",
+      "status": "PASS"
+    }
+  },
+  "independentAcceptance": {
+    "status": "pending",
+    "owner": "root Codex",
+    "authorMayAcceptOwnWork": false
+  },
+  "unresolved": [
+    "A7-3直接旧总审计§3.8和设计§11仍保留空格跳过通过；本候选明确后续撤签/默认不可跳，原共享两源待根统一治理，不能依旧句发动态信用。",
+    "旧动态raw/被删除截图/未走路线/物理OS picker/部分听觉与当代测试质量未重验，逐篇保留原范围。"
+  ],
+  "notRun": [
+    "产品测试",
+    "runtime/E2E",
+    "浏览器/视觉/音频",
+    "coverage",
+    "新版权/法律/技术建议认证",
+    "main合并/推送"
+  ],
+  "nextStep": "根线程从固定源全文读新章节/原文/直接一手证据，独立决定accept或counter并更新中央review/SHA/矩阵；本贡献者不推main。",
+  "authorChecksCompletedLocalDate": "2026-10-16"
+}
