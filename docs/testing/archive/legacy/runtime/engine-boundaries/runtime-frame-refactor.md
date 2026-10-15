@@ -1,11 +1,48 @@
-# A3首段：帧调度、时钟与输入仲裁
+# A3-a帧会话与输入仲裁历史回执
+
+Status: historical
+Last reviewed: 2026-10-16
+Owner: Codex（文档治理；原贡献与验收身份保留）
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+冻结b11d4bc9、实现8eb93bb7，A3-a当时done；Codex按用户单席授权实施自验，非第三方独立审查，不代表A3整批完成。
+
+## 来源与输入
+
+合法128层组合、7键集合与64门×6时间点；真实main wait/时钟/输入端口，单一rAF、同步phase与原取消/清理次序。旧Git代码只在/tmp诊断，不进产品兼容层。
+
+## 断言与业务 oracle
+
+36新增与44正控/11针分开；128内部枚举、384帧/896输入诊断不另加正式测试。19函数仅逆归一化时间owner后AST相等，render换行不冒称原字节相等；普通Error针曾被拒，修业务状态断言而不放宽判据。
+
+## 结果
+
+原117定向、中途1584与最终check8499/strict8008项639文件不相加。745→746单步与菜单可用被记录；短按位置仍42,17，仅朝向变化，不宣称浏览器持续走位。旧47warnings/6infos和build大chunk提示保留。
+
+## 限制与复核
+
+cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动修复成功不倒填cb1远端成功。本轮未运行工具或恢复summary；未跑剧情/full/Q1/Q2、移动视觉对拍，未达长期90/85目标。
+
+本轮仅全文审读并迁移历史记录，未执行旧产品测试、诊断工具、浏览器或coverage；旧exit0不能替代当前零诊断门。
+
+## 历史范围
+
+原范围为2026-09-25配对归档卡所记窄切片。原本地/远端、作者/接收者与中间/最终时态分别保留，不重开旧任务或执行旧交接提示词。
+
+## 原始结论
+
+以下完整保留原文，仅将原ATX标题降两级；原链接仍在原目录，原完整字节另由Git源对象固定。原标题身份继续可达。
+
+### A3首段：帧调度、时钟与输入仲裁
 
 卡：[ARCH-REFORGE-FRAME-1](../../../../../ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)。
 冻结b11d4bc9；实现8eb93bb7，本段已done，由Codex按用户全架构队列单席授权实施自验，不代签。
 A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核success。
 **这是A3-a，不代表A3整批完成**；场景事务、移动协调、绘制组装仍是后续段。
 
-## 变化与不变项
+#### 变化与不变项
 
 - RuntimeFrameSession独占时钟实例、当前gameplay时间、单步两个字段、等待队列；无新增rAF/setTimeout。
   main只保留唯一rAF注册，tick依次同步调领域端口；新tick不含await，不提前采集跨阶段的UI/battle状态。
@@ -20,7 +57,7 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
   render的原始文本差异只是Biome因标识符变长换行，不误称原始字节全等。
 - GameplayClock算法、移动/碰撞算法、场景原子提交、渲染坐标/层序、BattleSession、SAVE8/content20和第一阶段生产代码零改。
 
-## 正式回归与鉴别力
+#### 正式回归与鉴别力
 
 新增36项：frame会话15项、input路由21项；其中一项内部穷举128种活跃层组合，不把内部枚举另算测试条数。
 直接回归与H4真实宿主共44项正控、11针业务反例：
@@ -43,7 +80,7 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
 - 最终对照日志`/tmp/type-pal-frame-parity-frozen.log`，含19函数保护检查，机账
   `/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-frame-parity-jV2fs6/summary.json`。
 
-## 开发期问题（不当作产品反证）
+#### 开发期问题（不当作产品反证）
 
 1. Biome拒绝局部变量escape遮蔽受限全局名，改名cancel；TC发现shop输入端口只读类型不匹配，改为真实只读参数注解。
 2. 冻结工具首个临时config少一个对象闭括号而未运行用例；修后暴露fixture沿用了A2前activeBattle名，
@@ -52,7 +89,7 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
    改成先观察resolved/rejected状态，再对状态作普通业务断言，判据没有放宽成接受Error。
 4. raw-text保护检查命中render换行差异；改用正式AST token树且仅归一化时间所有者后，19函数一致。
 
-## 最小功能验证（Codex）
+#### 最小功能验证（Codex）
 
 本次自建6051 PAL服务，IAB原生操作：
 `?scene=s135&pos=42,17&skip-startup=1&debug`，仅临时内存，不读写用户存档/项目。
@@ -64,7 +101,7 @@ A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核succes
   持按移动仍由既有真实宿主键盘/帧驱动回归及advanceMoves AST保真验证；本次不改移动算法。
 - 截图为本会话内联证据，无新调试图片入仓；未跑完整剧情/资源观感/E2E/Q1/Q2。
 
-## 统一质量门
+#### 统一质量门
 
 最终源码8eb93bb7：全仓check **8499项**、官方ratchet与保护b11d4bc9的**单次严格fast8008项/639生产文件**全部exit0。
 Node22.23.2，strict用CI=true/FORCE_COLOR=1与注入NODE_COMPILE_CACHE的环境验证隔离策略；
@@ -86,9 +123,23 @@ GLM八包准备在独立分支按b11冻结，只读取证，不作为本段实�
 
 无下一位Agent提示词，本段独立收口；GLM的单独取证提示词见其工作包，不与本卡签字混用。
 
-## 2026-09-25远端后续
+#### 2026-09-25远端后续
 
 cb1cb26d的Coverage36023454364后来失败于两个既有battle-host readiness测试的固定150轮轮询预算，
 不是上述本地门禁失败。独立提交ad16ba94将helper改为默认waitFor；旧驱动业务红/新驱动绿的隔离见证、
 旧29正控/11反例及远端Coverage36026355596/Documentation36026354848均通过。
 详见[本轮跟进记录](../../content/authoring-and-runtime/scene-preparation-refactor.md#开发期问题与ci修复披露)；未提高套件timeout或改变产品。
+
+## 当时证据
+
+b11d4bc9保护基线SHA 527557392c11abda292c2cf3163c7c1304a41641d1856dbc2a3513d4700aa064 与原summary路径保留；现存统一JSON和两类诊断脚本只是历史证据引用，执行兼容性尚未重核。
+
+原临时路径为历史产物标识，不认定当前存在或可恢复；现存被引机器证据/诊断脚本保留字段与路径，本次不改写、不执行、不继承迁移完成信用。
+
+## 当前有效性
+
+historical。本次接受对象是文档语义、结构和来源保留；原产品实现、动态反证、视觉及覆盖率只按原候选时点读。未重验项保持unknown，不能由文档静态门推成当前通过。
+
+## 继任文档
+
+[配对历史任务卡](../../../../../ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)拥有该历史任务收口；[当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。

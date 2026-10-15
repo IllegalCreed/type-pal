@@ -1,7 +1,7 @@
 # 跨阶段文档真值矩阵
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-16
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -43,6 +43,9 @@ Template: governance-index-v1 / 1.0.0
 
 | Phase3导航 ↔ 实施成熟度 | 两个current索引只导航，议题/地图设计draft，已拍板归属仍有效 | guarded | 48e旧源码/估期/MMO愿景不变成当前build或二阶段预留 |
 | Phase3入口 ↔ 候选正文事实权 | 14原块重组，长篇目标移入原议题池，原路径/标题继续导航 | resolved | 原块保真还须语义/链接/模板复核，不等运行或全量完成 |
+
+| F2贡献/集成 ↔ 历史独立验收 | 作者与真实生产加载针、额外登记、最终接收各有身份；09-25/26状态不倒写 | guarded | 不把原生confirm替身或旧截图/绿数外推为当前通过 |
+| A3段落/对照/CI ↔ 当前信用 | 内部枚举不加用例，cb1失败/ad16驱动成功/fdad候选分开 | guarded | 朝向不等位移；loader不等SFX/Canvas；旧47/6不等今天零诊断 |
 
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 

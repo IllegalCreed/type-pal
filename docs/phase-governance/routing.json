@@ -374,6 +374,31 @@
     {
       "path": "docs/phase3/map-reconstruction.md",
       "templateId": "design-spec-v1"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

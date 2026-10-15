@@ -1,0 +1,643 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "scope": "Five fully read historical architecture evidence receipts; not current runtime or whole docs acceptance",
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "readMethod": "Full original receipt and paired archived task reading; manually authored concrete type chapters and original heading-only reversible preservation",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Cursor贡献9593b06f，Codex选择性接入27f61a4e；只接受DsTag/DsReadonlyValue窄切片，不代表F2整批完成。 同一函数出口身份、精确DOM/SSR与属性透传保持。真实tone变异只让同一正式测试的一项AssertionError失败；截图字节略异，不能宣称像素相等。 旧controls两条warning及boundary warning不追溯归零。未跑剧情E2E，ReadonlyValue没有该页目视；内存分配失败若复发需另卡，不许可跳过。原临时截图/日志未在本轮恢复。",
+      "documentStatus": "historical",
+      "owner": "Codex（文档治理，不代签旧执行）",
+      "provenance": [
+        "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "fd909400a64e248c5fa70942f1eda6dceb04690a",
+        "complete original and paired card read"
+      ],
+      "primarySource": [
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md @ 67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md"
+      ],
+      "truthAnchors": [
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md:1",
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md:1"
+      ],
+      "phaseAnchors": [
+        "phase2 historical architecture slice, 2026-09-26",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "applicability": "Cursor贡献9593b06f，Codex选择性接入27f61a4e；只接受DsTag/DsReadonlyValue窄切片，不代表F2整批完成。",
+      "publicEntry": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "publicCallers": [
+        "paired archived task navigation",
+        "node scripts/docs/check.mjs",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "合法输入是默认及neutral/warning/danger tone、monospace、span/div与data属性透传；真实Vite模块加载视图只改默认tone。独立Design Lab RF-22只呈现neutral Tag，ReadonlyValue不在该页面。"
+      ],
+      "businessOracle": {
+        "type": "historical-source-and-scope-preservation",
+        "assertions": [
+          "同一函数出口身份、精确DOM/SSR与属性透传保持。真实tone变异只让同一正式测试的一项AssertionError失败；截图字节略异，不能宣称像素相等。",
+          "138/138与typecheck为当时定向证据。首轮adoption登记错误由Codex额外最小集成修正；ratchet未改game子进程SIGABRT后隔离25/25及原范围重跑均保留。最终8122项/643文件、78.00%行/68.28%分支是原strict统计。",
+          "No new dynamic verification, test quantity or current acceptance credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md"],
+        "notes": "Receipt owns detailed historical execution; card owns historical task state. Same run is not counted twice."
+      },
+      "counterReworkBlocked": {
+        "migration": "accepted by independent non-author receipt_review 2026-10-16; C1 closed, no open migration counter",
+        "originalLimitsRetained": [
+          "旧controls两条warning及boundary warning不追溯归零。未跑剧情E2E，ReadonlyValue没有该页目视；内存分配失败若复发需另卡，不许可跳过。原临时截图/日志未在本轮恢复。"
+        ]
+      },
+      "unresolved": [
+        "旧controls两条warning及boundary warning不追溯归零。未跑剧情E2E，ReadonlyValue没有该页目视；内存分配失败若复发需另卡，不许可跳过。原临时截图/日志未在本轮恢复。",
+        "Original temporary logs/images/summary not recovered; current source and runtime not revalidated."
+      ],
+      "sourceSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd",
+      "sourceGitRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "fd909400a64e248c5fa70942f1eda6dceb04690a",
+      "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+      "revision": {
+        "currentSha": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "implementationSha": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-historical-evidence-template-migration",
+            "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+            "sourceSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd",
+            "afterSha256": "54f6e5271e1fb198ec63763f9c24de685e6d788956d2c63457d02061626a132a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-16",
+            "action": "non-author-counter-callback-claim-narrowed-to-actual-property-forwarding-evidence",
+            "previousCandidateSha256": "54f6e5271e1fb198ec63763f9c24de685e6d788956d2c63457d02061626a132a",
+            "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+            "reason": "Neither original 13-line receipt nor paired card supplies a callback-specific oracle; no new product investigation or test credit"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-specific-migration-and-heading-only-reversible-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+        "sourceSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd",
+        "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+        "lineCount": 64
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-evidence-template-migration",
+          "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+          "sourceSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd",
+          "afterSha256": "54f6e5271e1fb198ec63763f9c24de685e6d788956d2c63457d02061626a132a",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "non-author-counter-callback-claim-narrowed-to-actual-property-forwarding-evidence",
+          "previousCandidateSha256": "54f6e5271e1fb198ec63763f9c24de685e6d788956d2c63457d02061626a132a",
+          "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+          "reason": "Neither original 13-line receipt nor paired card supplies a callback-specific oracle; no new product investigation or test credit"
+        },
+        {
+          "date": "2026-10-16",
+          "action": "non-author-independent-document-migration-accepted",
+          "reviewer": "receipt_review",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+          "scope": "Historical evidence semantics/source/anchors/actual consumer only; no dynamic credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Historical documents never authorize current product changes, old diagnostic execution or runtime/E2E/visual/coverage success.",
+      "nextStep": "Continue full-docs content and artifact governance; retain current execution/source replay unknown and final whole-scope audit pending.",
+      "userVisibleBeforeAfter": "Unstructured historical acceptance receipt → five concrete evidence sections and five historical sections with complete source semantics and original heading identities.",
+      "reviewedLines": "1-64",
+      "phase": "testing",
+      "module": "historical-architecture-receipts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Five specific evidence chapters plus five archive overlay chapters; complete source preserved with reversible heading demotion only."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "readMethod": "Full original receipt and paired archived task reading; manually authored concrete type chapters and original heading-only reversible preservation",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Grok贡献09dddce6，Codex接入fea0d9a0；只接受DsOverflowText窄拆，controls/根出口身份与CSS/消费者保持。 一像素容差、Tab止点、ARIA/焦点/ResizeObserver与SSR合同不变。原7/7绿、同一旧业务用例恰一项AssertionError红；不以超时或普通Error认针。 不认证其它UI或PAL剧情。mutant工具与adoption额外登记由Codex明示接收，固定临时文件改唯一目录/finally清理；不把作者原脚本视作安全收口版。文末标签卡仍draft属于09-25快照，不倒写09-26后状态。",
+      "documentStatus": "historical",
+      "owner": "Codex（文档治理，不代签旧执行）",
+      "provenance": [
+        "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "125c5d7423c6e718b781bca769442fa695977a91",
+        "complete original and paired card read"
+      ],
+      "primarySource": [
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md @ 67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md"
+      ],
+      "truthAnchors": [
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md:1",
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md:1"
+      ],
+      "phaseAnchors": [
+        "phase2 historical architecture slice, 2026-09-25",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "applicability": "Grok贡献09dddce6，Codex接入fea0d9a0；只接受DsOverflowText窄拆，controls/根出口身份与CSS/消费者保持。",
+      "publicEntry": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "publicCallers": [
+        "paired archived task navigation",
+        "node scripts/docs/check.mjs",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "历史RF-06短值、长ID聚焦、Esc关闭和同实例宽窄变化；真实加载视图将scrollWidth > clientWidth + 1改为> clientWidth，磁盘生产不变。"
+      ],
+      "businessOracle": {
+        "type": "historical-source-and-scope-preservation",
+        "assertions": [
+          "一像素容差、Tab止点、ARIA/焦点/ResizeObserver与SSR合同不变。原7/7绿、同一旧业务用例恰一项AssertionError红；不以超时或普通Error认针。",
+          "118/118、typecheck与旧出口身份通过；两个状态截图分别46504/44419字节且同状态两实现逐字节相同，仅限该RF-06操作。原fast8110/642、分支43134/63176与两条旧warning保留。",
+          "No new dynamic verification, test quantity or current acceptance credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md"],
+        "notes": "Receipt owns detailed historical execution; card owns historical task state. Same run is not counted twice."
+      },
+      "counterReworkBlocked": {
+        "migration": "accepted by independent non-author receipt_review 2026-10-16; C1 closed, no open migration counter",
+        "originalLimitsRetained": [
+          "不认证其它UI或PAL剧情。mutant工具与adoption额外登记由Codex明示接收，固定临时文件改唯一目录/finally清理；不把作者原脚本视作安全收口版。文末标签卡仍draft属于09-25快照，不倒写09-26后状态。"
+        ]
+      },
+      "unresolved": [
+        "不认证其它UI或PAL剧情。mutant工具与adoption额外登记由Codex明示接收，固定临时文件改唯一目录/finally清理；不把作者原脚本视作安全收口版。文末标签卡仍draft属于09-25快照，不倒写09-26后状态。",
+        "Original temporary logs/images/summary not recovered; current source and runtime not revalidated."
+      ],
+      "sourceSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff",
+      "sourceGitRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "125c5d7423c6e718b781bca769442fa695977a91",
+      "afterSha256": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+      "revision": {
+        "currentSha": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "implementationSha": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-historical-evidence-template-migration",
+            "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+            "sourceSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff",
+            "afterSha256": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-specific-migration-and-heading-only-reversible-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+        "sourceSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff",
+        "afterSha256": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+        "lineCount": 63
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-evidence-template-migration",
+          "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+          "sourceSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff",
+          "afterSha256": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "non-author-independent-document-migration-accepted",
+          "reviewer": "receipt_review",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+          "scope": "Historical evidence semantics/source/anchors/actual consumer only; no dynamic credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Historical documents never authorize current product changes, old diagnostic execution or runtime/E2E/visual/coverage success.",
+      "nextStep": "Continue full-docs content and artifact governance; retain current execution/source replay unknown and final whole-scope audit pending.",
+      "userVisibleBeforeAfter": "Unstructured historical acceptance receipt → five concrete evidence sections and five historical sections with complete source semantics and original heading identities.",
+      "reviewedLines": "1-63",
+      "phase": "testing",
+      "module": "historical-architecture-receipts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Five specific evidence chapters plus five archive overlay chapters; complete source preserved with reversible heading demotion only."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "readMethod": "Full original receipt and paired archived task reading; manually authored concrete type chapters and original heading-only reversible preservation",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "GLM在f5f166aa冻结上贡献83833719，Codex最终接收并以22a4492c推主线；620a29dd只属更早准入锚。GLM自验、已删除mock与Codex真实加载反证分开。 原203行7276 bytes/hash、119→119出口与13模块无回环，加真实D24对应断言红/对照8绿支撑窄拆保真。GLM删除mock的记录保留，不将其重新认证为当前有效负控。 只完成战场族，不关闭其它ARCH-REGRESSION-LAB counter。未重取/tmp日志或验证归档远端标签；原文不合main/不标done是GLM交付中间态，后文Codex独立接收与清理为后继事实。",
+      "documentStatus": "historical",
+      "owner": "Codex（文档治理，不代签旧执行）",
+      "provenance": [
+        "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "cebc85ee7c0a32e1638f140af39414061cf94273",
+        "complete original and paired card read"
+      ],
+      "primarySource": [
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md @ 67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md"
+      ],
+      "truthAnchors": [
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md:1",
+        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md:1"
+      ],
+      "phaseAnchors": [
+        "phase2 historical architecture slice, 2026-09-26",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "applicability": "GLM在f5f166aa冻结上贡献83833719，Codex最终接收并以22a4492c推主线；620a29dd只属更早准入锚。GLM自验、已删除mock与Codex真实加载反证分开。",
+      "publicEntry": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "publicCallers": [
+        "paired archived task navigation",
+        "node scripts/docs/check.mjs",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "D24合法战场、首次登记/undo、patch深保真、引用阻断、七公开符号身份与instanceof；同一Vite模块图直接去阻断门或让Add.invert返回state。原生confirm受工具限制，后续仅替换window.confirm宿主边界。"
+      ],
+      "businessOracle": {
+        "type": "historical-source-and-scope-preservation",
+        "assertions": [
+          "原203行7276 bytes/hash、119→119出口与13模块无回环，加真实D24对应断言红/对照8绿支撑窄拆保真。GLM删除mock的记录保留，不将其重新认证为当前有效负控。",
+          "156/156与8657完整check、8165项/644文件strict是原最终不同范围；覆盖分子分母未变不等覆盖提升。历史界面新建/复制/撤销及默认024引用阻断通过；confirm宿主替身删除/恢复不代表IAB原生确认自动化通过。",
+          "No new dynamic verification, test quantity or current acceptance credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md"],
+        "notes": "Receipt owns detailed historical execution; card owns historical task state. Same run is not counted twice."
+      },
+      "counterReworkBlocked": {
+        "migration": "accepted by independent non-author receipt_review 2026-10-16; C1 closed, no open migration counter",
+        "originalLimitsRetained": [
+          "只完成战场族，不关闭其它ARCH-REGRESSION-LAB counter。未重取/tmp日志或验证归档远端标签；原文不合main/不标done是GLM交付中间态，后文Codex独立接收与清理为后继事实。"
+        ]
+      },
+      "unresolved": [
+        "只完成战场族，不关闭其它ARCH-REGRESSION-LAB counter。未重取/tmp日志或验证归档远端标签；原文不合main/不标done是GLM交付中间态，后文Codex独立接收与清理为后继事实。",
+        "Original temporary logs/images/summary not recovered; current source and runtime not revalidated."
+      ],
+      "sourceSha256": "3c3b8b790bbc6f805f4cd55957dbee3537c18fbbde54bf2c501e191ac5d4a1cf",
+      "sourceGitRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "cebc85ee7c0a32e1638f140af39414061cf94273",
+      "afterSha256": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+      "revision": {
+        "currentSha": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "implementationSha": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-historical-evidence-template-migration",
+            "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+            "sourceSha256": "3c3b8b790bbc6f805f4cd55957dbee3537c18fbbde54bf2c501e191ac5d4a1cf",
+            "afterSha256": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-specific-migration-and-heading-only-reversible-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+        "sourceSha256": "3c3b8b790bbc6f805f4cd55957dbee3537c18fbbde54bf2c501e191ac5d4a1cf",
+        "afterSha256": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+        "lineCount": 213
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-evidence-template-migration",
+          "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+          "sourceSha256": "3c3b8b790bbc6f805f4cd55957dbee3537c18fbbde54bf2c501e191ac5d4a1cf",
+          "afterSha256": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "non-author-independent-document-migration-accepted",
+          "reviewer": "receipt_review",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+          "scope": "Historical evidence semantics/source/anchors/actual consumer only; no dynamic credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Historical documents never authorize current product changes, old diagnostic execution or runtime/E2E/visual/coverage success.",
+      "nextStep": "Continue full-docs content and artifact governance; retain current execution/source replay unknown and final whole-scope audit pending.",
+      "userVisibleBeforeAfter": "Unstructured historical acceptance receipt → five concrete evidence sections and five historical sections with complete source semantics and original heading identities.",
+      "reviewedLines": "1-213",
+      "phase": "testing",
+      "module": "historical-architecture-receipts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Five specific evidence chapters plus five archive overlay chapters; complete source preserved with reversible heading demotion only."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "readMethod": "Full original receipt and paired archived task reading; manually authored concrete type chapters and original heading-only reversible preservation",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "冻结b11d4bc9、实现8eb93bb7，A3-a当时done；Codex按用户单席授权实施自验，非第三方独立审查，不代表A3整批完成。 36新增与44正控/11针分开；128内部枚举、384帧/896输入诊断不另加正式测试。19函数仅逆归一化时间owner后AST相等，render换行不冒称原字节相等；普通Error针曾被拒，修业务状态断言而不放宽判据。 cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动修复成功不倒填cb1远端成功。本轮未运行工具或恢复summary；未跑剧情/full/Q1/Q2、移动视觉对拍，未达长期90/85目标。",
+      "documentStatus": "historical",
+      "owner": "Codex（文档治理，不代签旧执行）",
+      "provenance": [
+        "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "8fde2e790568f22cedc86e6d457bad11d175fe44",
+        "complete original and paired card read"
+      ],
+      "primarySource": [
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md @ 67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md"
+      ],
+      "truthAnchors": [
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md:1",
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md:1"
+      ],
+      "phaseAnchors": [
+        "phase2 historical architecture slice, 2026-09-25",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/testing/domains/runtime/engine-boundaries/tools/runtime-frame-mutants.mjs",
+        "docs/testing/archive/legacy/unresolved-tools/runtime-frame-parity.mjs",
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json"
+      ],
+      "applicability": "冻结b11d4bc9、实现8eb93bb7，A3-a当时done；Codex按用户单席授权实施自验，非第三方独立审查，不代表A3整批完成。",
+      "publicEntry": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "publicCallers": [
+        "paired archived task navigation",
+        "node scripts/docs/check.mjs",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "合法128层组合、7键集合与64门×6时间点；真实main wait/时钟/输入端口，单一rAF、同步phase与原取消/清理次序。旧Git代码只在/tmp诊断，不进产品兼容层。"
+      ],
+      "businessOracle": {
+        "type": "historical-source-and-scope-preservation",
+        "assertions": [
+          "36新增与44正控/11针分开；128内部枚举、384帧/896输入诊断不另加正式测试。19函数仅逆归一化时间owner后AST相等，render换行不冒称原字节相等；普通Error针曾被拒，修业务状态断言而不放宽判据。",
+          "原117定向、中途1584与最终check8499/strict8008项639文件不相加。745→746单步与菜单可用被记录；短按位置仍42,17，仅朝向变化，不宣称浏览器持续走位。旧47warnings/6infos和build大chunk提示保留。",
+          "No new dynamic verification, test quantity or current acceptance credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md"],
+        "notes": "Receipt owns detailed historical execution; card owns historical task state. Same run is not counted twice."
+      },
+      "counterReworkBlocked": {
+        "migration": "accepted by independent non-author receipt_review 2026-10-16; C1 closed, no open migration counter",
+        "originalLimitsRetained": [
+          "cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动修复成功不倒填cb1远端成功。本轮未运行工具或恢复summary；未跑剧情/full/Q1/Q2、移动视觉对拍，未达长期90/85目标。"
+        ]
+      },
+      "unresolved": [
+        "cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动修复成功不倒填cb1远端成功。本轮未运行工具或恢复summary；未跑剧情/full/Q1/Q2、移动视觉对拍，未达长期90/85目标。",
+        "Original temporary logs/images/summary not recovered; current source and runtime not revalidated."
+      ],
+      "sourceSha256": "7a667b55fd8cf7b68b3de8f94134bf4c8e58fa2f22eda57527d910f0c5440408",
+      "sourceGitRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "8fde2e790568f22cedc86e6d457bad11d175fe44",
+      "afterSha256": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+      "revision": {
+        "currentSha": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "implementationSha": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-historical-evidence-template-migration",
+            "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+            "sourceSha256": "7a667b55fd8cf7b68b3de8f94134bf4c8e58fa2f22eda57527d910f0c5440408",
+            "afterSha256": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-specific-migration-and-heading-only-reversible-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+        "sourceSha256": "7a667b55fd8cf7b68b3de8f94134bf4c8e58fa2f22eda57527d910f0c5440408",
+        "afterSha256": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+        "lineCount": 145
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-evidence-template-migration",
+          "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+          "sourceSha256": "7a667b55fd8cf7b68b3de8f94134bf4c8e58fa2f22eda57527d910f0c5440408",
+          "afterSha256": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "non-author-independent-document-migration-accepted",
+          "reviewer": "receipt_review",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+          "scope": "Historical evidence semantics/source/anchors/actual consumer only; no dynamic credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Historical documents never authorize current product changes, old diagnostic execution or runtime/E2E/visual/coverage success.",
+      "nextStep": "Continue full-docs content and artifact governance; retain current execution/source replay unknown and final whole-scope audit pending.",
+      "userVisibleBeforeAfter": "Unstructured historical acceptance receipt → five concrete evidence sections and five historical sections with complete source semantics and original heading identities.",
+      "reviewedLines": "1-145",
+      "phase": "testing",
+      "module": "historical-architecture-receipts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Five specific evidence chapters plus five archive overlay chapters; complete source preserved with reversible heading demotion only."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "readMethod": "Full original receipt and paired archived task reading; manually authored concrete type chapters and original heading-only reversible preservation",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "冻结cb1cb26d、实现fdad980f；Codex按用户单席授权实施自审，不是第三方独立验收。A3-b结束不增加原13大批队列完成数，活动态/移动/绘制仍有后续段。 26新增=11资源+14预检+1真实main；36正控/11针与18函数+2宿主属性AST保真分开。首轮main两针没命中raw入口被拒，修隔离钩子后才认业务红；冻结对照只逆归一化peek接线。 ad16ba94只证明旧readiness等待驱动修复，不能代替fdad候选远端CI。原cb1远端失败不抹除A3-a本地证据；不跑剧情/full/Q1/Q2、不修默认地图落点、不把GLM准备包当本卡独立验收。",
+      "documentStatus": "historical",
+      "owner": "Codex（文档治理，不代签旧执行）",
+      "provenance": [
+        "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "e9820b9c14bab08541ce29b02e0329f161dbf9d7",
+        "complete original and paired card read"
+      ],
+      "primarySource": [
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md @ 67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md"
+      ],
+      "truthAnchors": [
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md:1",
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md:1"
+      ],
+      "phaseAnchors": [
+        "phase2 historical architecture slice, 2026-09-25",
+        "docs/testing/governance.md"
+      ],
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/testing/archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json",
+        "docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs",
+        "docs/testing/domains/content/authoring-and-runtime/tools/scene-preparation-mutants.mjs",
+        "docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs"
+      ],
+      "applicability": "冻结cb1cb26d、实现fdad980f；Codex按用户单席授权实施自审，不是第三方独立验收。A3-b结束不增加原13大批队列完成数，活动态/移动/绘制仍有后续段。",
+      "publicEntry": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "publicCallers": [
+        "paired archived task navigation",
+        "node scripts/docs/check.mjs",
+        "node scripts/docs/check-document-model.mjs"
+      ],
+      "legalInputs": [
+        "正式loader的合法map/sprite/物品/装备fixture、首次await前冻结world/script/override、四缓存原策略和LRU16。声音/renderer为外部端口；16诊断组合不冒充实际SFX解码或Canvas。"
+      ],
+      "businessOracle": {
+        "type": "historical-source-and-scope-preservation",
+        "assertions": [
+          "26新增=11资源+14预检+1真实main；36正控/11针与18函数+2宿主属性AST保真分开。首轮main两针没命中raw入口被拒，修隔离钩子后才认业务红；冻结对照只逆归一化peek接线。",
+          "原check8525与strict8034项/641文件、分母和未执行分支逐项保留。s135→s134→s135与菜单是最小功能验证；预检47/48、27/29及资源LRU防御分支没有靠非法输入补满。旧47warnings/6infos不追溯改零。",
+          "No new dynamic verification, test quantity or current acceptance credit."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-no-new-test-credit",
+        "against": ["docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md"],
+        "notes": "Receipt owns detailed historical execution; card owns historical task state. Same run is not counted twice."
+      },
+      "counterReworkBlocked": {
+        "migration": "accepted by independent non-author receipt_review 2026-10-16; C1 closed, no open migration counter",
+        "originalLimitsRetained": [
+          "ad16ba94只证明旧readiness等待驱动修复，不能代替fdad候选远端CI。原cb1远端失败不抹除A3-a本地证据；不跑剧情/full/Q1/Q2、不修默认地图落点、不把GLM准备包当本卡独立验收。"
+        ]
+      },
+      "unresolved": [
+        "ad16ba94只证明旧readiness等待驱动修复，不能代替fdad候选远端CI。原cb1远端失败不抹除A3-a本地证据；不跑剧情/full/Q1/Q2、不修默认地图落点、不把GLM准备包当本卡独立验收。",
+        "Original temporary logs/images/summary not recovered; current source and runtime not revalidated."
+      ],
+      "sourceSha256": "3c86be40c209be7e285a100f386a8bee149c83fce30fb84bfa5662898cbbbf3d",
+      "sourceGitRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "e9820b9c14bab08541ce29b02e0329f161dbf9d7",
+      "afterSha256": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+      "revision": {
+        "currentSha": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+        "implementationSha": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+        "history": [
+          {
+            "date": "2026-10-16",
+            "action": "actual-historical-evidence-template-migration",
+            "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+            "sourceSha256": "3c86be40c209be7e285a100f386a8bee149c83fce30fb84bfa5662898cbbbf3d",
+            "afterSha256": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "content-specific-migration-and-heading-only-reversible-preservation",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+        "sourceSha256": "3c86be40c209be7e285a100f386a8bee149c83fce30fb84bfa5662898cbbbf3d",
+        "afterSha256": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+        "lineCount": 128
+      },
+      "history": [
+        {
+          "date": "2026-10-16",
+          "action": "actual-historical-evidence-template-migration",
+          "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+          "sourceSha256": "3c86be40c209be7e285a100f386a8bee149c83fce30fb84bfa5662898cbbbf3d",
+          "afterSha256": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-16",
+          "action": "non-author-independent-document-migration-accepted",
+          "reviewer": "receipt_review",
+          "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+          "scope": "Historical evidence semantics/source/anchors/actual consumer only; no dynamic credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Historical documents never authorize current product changes, old diagnostic execution or runtime/E2E/visual/coverage success.",
+      "nextStep": "Continue full-docs content and artifact governance; retain current execution/source replay unknown and final whole-scope audit pending.",
+      "userVisibleBeforeAfter": "Unstructured historical acceptance receipt → five concrete evidence sections and five historical sections with complete source semantics and original heading identities.",
+      "reviewedLines": "1-128",
+      "phase": "testing",
+      "module": "historical-architecture-receipts",
+      "templateConformity": {
+        "result": "template-compliant",
+        "version": "1.0.0",
+        "method": "Five specific evidence chapters plus five archive overlay chapters; complete source preserved with reversible heading demotion only."
+      }
+    }
+  ]
+}

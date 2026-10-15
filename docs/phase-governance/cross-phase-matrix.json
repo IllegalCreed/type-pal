@@ -398,6 +398,51 @@
         "docs/phase3/backlog.md:1"
       ],
       "stopLine": "Block preservation is only one check; semantic review and actual link/contract gates remain mandatory and do not grant runtime acceptance."
+    },
+    {
+      "id": "f2-historical-contributor-and-integration-evidence",
+      "from": [
+        "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+        "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+        "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+        "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md"
+      ],
+      "relationship": "Contributor assertions, Codex independent source-loading evidence, extra integration metadata fixes and final historical acceptance retain separate identities. Overflow September 25 labels-draft state precedes labels September 26 accept. RF-22 image nonidentity, RF-06 two-state byte identity and confirm host substitution have distinct scopes.",
+      "status": "guarded",
+      "evidence": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json:1"],
+      "unresolved": [
+        "Old temporary screenshots/logs and deleted contributor mock tools not recovered or rerun.",
+        "Current source/test quality and runtime/visual/coverage acceptance not established by migration."
+      ],
+      "stopLine": "Do not reopen old pending prompts, count contributor self-check as independent, promote confirm host substitution to native-dialog automation, or carry old warning exemptions into current zero-diagnostic gates."
+    },
+    {
+      "id": "a3-slice-parity-ci-and-current-acceptance",
+      "from": [
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+        "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "A3-a/b are historical narrow ownership slices under explicit single-agent authorization, not whole-A3 completion or non-author product audit. Internal enumeration/parity combinations are not additional official tests; loader fixtures do not prove decoder/Canvas behavior. cb1 remote readiness failure, ad16 waiting-driver fix and fdad candidate CI remain distinct.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json:1",
+        "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md:1",
+        "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md:1"
+      ],
+      "unresolved": [
+        "Original transient summaries and in-chat images not recovered; old diagnostic execution and runtime compatibility not revalidated.",
+        "Frame browser short press changed direction without observed movement; full narrative/E2E/full/Q1/Q2 were excluded."
+      ],
+      "stopLine": "Do not infer locomotion from direction, current execution from AST/static records, fdad remote pass from ad16 helper CI, or current zero diagnostics from historical 47 warnings/6 infos."
     }
   ],
   "acceptance": {
@@ -406,6 +451,6 @@
     "unresolvedItemsAreExplicit": true,
     "runtimeClaimsDeferred": true
   },
-  "lastReviewed": "2026-10-15",
+  "lastReviewed": "2026-10-16",
   "acceptanceScope": "Only relationships registered in rows; not an exhaustive census of all docs and not product/runtime or full-governance acceptance."
 }

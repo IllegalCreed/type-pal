@@ -249,3 +249,21 @@ Branch: codex/docs-full-template-proposal
 - 实际GFM解析与本地slug核37个旧标题、16个出站fragment与4个版权段入链均可达；仅本批范围，不冒称线上点击或全库锚点检查。原48e快照、MMO阶段、版权、旧技术/估期及未来验收边界保留。
 - 累计71/1838基线+4增量已迁移，1871当前候选待迁移；新增治理回执仍列增量候选，不静默豁免。63文档工具测试、75正文合同、完整check:docs零问题，lint4074文件零error/warning/info，diff检查零诊断；首轮地图EOF空行被拒并修复，失败记录保留。
 - 主树未改、未合main，任务build/目标active。最终全库附件归属、片段链接和独立验收仍待完成，阶段文档迁移不等于产品runtime/E2E/视觉/coverage通过。继续下一批，不需用户搬运或重复批准。
+
+### 2026-10-16 五份架构历史回执准入
+
+- 根线程再次全文读标签/overflow/战场命令/帧会话/场景预检五份回执，并对读已独立接收的配对卡。按实际用途均为指定候选的evidence-receipt1.0.0加五节archive overlay，不将其当当前run contract或新动态执行报告；Codex为唯一写入Owner，文档build allowed。
+- 原路径、原文日期/数字/owner/失败/权限和历史中间态完整保留。原ATX标题降两级，其它原文字节保留并可逆回读；保留旧标题身份供入链使用。补具体来源、合法输入、业务oracle、排重、结果与复核边界，不认证旧工具今天可运行、旧raw可恢复或旧warning为零。
+- 白名单五篇正文、专属回执及中央review/registry/routing/证据导航/本卡。当前JSON与诊断脚本只登记历史producer/引用关系，未修改机器字段或运行旧测试；所有新增候选仍纳增量分母。非作者候选复核后才能接收本批，不能将作者自验当accept。
+
+### 2026-10-16 五份历史回执独立接收与包C分派
+
+- receipt_review非作者全文读五原文358行、新正文613行、配对卡636行及中央账/完整回执，独立accept。C1指出labels新增“回调保持”超原证据，已收窄为“属性透传保持”，原13行不变；旧候选SHA、counter和复核闭合均留存。
+- 五篇仅原ATX标题降两级，逐行严格逆回读通过。25个旧标题、1出站/2入站fragment经实际GFM解析/本地slug可达；7个JSON/工具只登记原producer和引用SHA/保留规则，不授予全文审查或执行信用。跨域矩阵现21行，仍非全库穷尽。
+- 当前真实迁移76/1838基线+4增量，1868当前候选仍待迁移；613账本条目不等613份实际迁移。63文档工具测试/80正文合同与完整check:docs零问题、lint4076文件0 error/warning/info、diff0；目标active，任务build，未合main/推main。
+- 下一包C：复用已核干净隔离树，分支codex/docs-history-cards-c。贡献者history_cards_a为唯一Coding Owner，根Codex独立接收；八卡内容设计与直接一手证据已由贡献者全文盘点，根按范围/反证/模板核准文档build allowed。八卡全部task-card1.0.0+历史overlay，不新增类型。
+- 白名单：docs/ops/archive/tasks/done/ 下A7-0-resource-closure-registry、A7-0A-opening-menu-music-role、A7-1-sfx-asset-closure、A7-2-static-images-engine-chrome、A7-3-cutscene-asset-workbench、A7-3B-battle-sprite-asset-closure、A7-3T-tileset-asset-closure、A7-3W-world-sprite-asset-closure八个.md，另专属contributor-history-cards-c-20261016.json。禁止共享registry/reviews/routing/catalog/board/index、产品/旧测试/coverage写入；未根接收不合main/不计数。
+- 包C关键边界：四→五音乐角色公开勘误；SFX中间violations非最终结果；engine chrome归属及用户验收日期；A7-3旧空格跳过accept被C1-C5撤销，不能沿用总审计/旧设计的相反口径；tileset缺168/171与OFL 222pass/1fail/1skip原数字保留；共享sprite组和appearance/layout不同分母分开；battle player0合法且channel独立。旧upgrader/current-only债已由后继收口，不恢复兼容或旧版本build。
+- A7-2旧6face/10,392B与68B透明stub结论，后由2026-08-23/24 raw独立字节复核更正为5face/10,324B，盖罗娇全透明占位走通用头像兜底。原文保留，当前有效性指向MIG-PAL-ACTOR-FACE-1与A7-2后继报告，不把旧accept变当前真值。共享audit/design未在本包白名单改写，只记录冲突及继任权威。
+- 包C隔离基点由根在本接收提交后fast-forward核同一批八源blob，再执行；原设计盘点67cc95eb作为历史来源。贡献者交逐篇source/blob/after/保真及具体历史缺口，根全文核源/候选/一手证据后决定accept/rework；不以作者自验或数量替代验收。
+- E2E-006三份文档已全文预读：原publication rework与后继连续卡顶部固定批次done并存；连续卡只读前160/3510行，不计整卡深审/迁移。boat-journey364行完整及当前版本窄源已读，未实跑；后续需逐篇区分原runtimeExecution=true历史与本次未执行，不得为reviewBy续期或排版伪造动态通过。

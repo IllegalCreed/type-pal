@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "id": "DOCS-FULL-TEMPLATE-1-historical-receipts-20261016",
+  "date": "2026-10-16",
+  "kind": "historical-semantic-migration",
+  "owner": "Codex",
+  "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+  "scope": "Five historical evidence receipts only; no dynamic execution or whole docs acceptance",
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "pairedCard": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+      "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "fd909400a64e248c5fa70942f1eda6dceb04690a",
+      "sourceSha256": "dbb60182d6620dd13cbc7d7b06e151573c5d382b8e716a75378e53dd8f22bbbd",
+      "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+      "sourceLineCount": 13,
+      "lineCount": 64,
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "preservation": "Every original line retained; only real ATX headings demoted by two levels outside fences. Strict line-wise inverse proved.",
+      "coreConclusion": "Cursor贡献9593b06f，Codex选择性接入27f61a4e；只接受DsTag/DsReadonlyValue窄切片，不代表F2整批完成。 同一函数出口身份、精确DOM/SSR与属性透传保持。真实tone变异只让同一正式测试的一项AssertionError失败；截图字节略异，不能宣称像素相等。 旧controls两条warning及boundary warning不追溯归零。未跑剧情E2E，ReadonlyValue没有该页目视；内存分配失败若复发需另卡，不许可跳过。原临时截图/日志未在本轮恢复。",
+      "artifactLimits": "旧controls两条warning及boundary warning不追溯归零。未跑剧情E2E，ReadonlyValue没有该页目视；内存分配失败若复发需另卡，不许可跳过。原临时截图/日志未在本轮恢复。"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "pairedCard": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+      "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "125c5d7423c6e718b781bca769442fa695977a91",
+      "sourceSha256": "a41e51ad95a12dd927547f772936bbd30b4a7ef00cfbf14ad52fe2c438ffd9ff",
+      "afterSha256": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+      "sourceLineCount": 12,
+      "lineCount": 63,
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "preservation": "Every original line retained; only real ATX headings demoted by two levels outside fences. Strict line-wise inverse proved.",
+      "coreConclusion": "Grok贡献09dddce6，Codex接入fea0d9a0；只接受DsOverflowText窄拆，controls/根出口身份与CSS/消费者保持。 一像素容差、Tab止点、ARIA/焦点/ResizeObserver与SSR合同不变。原7/7绿、同一旧业务用例恰一项AssertionError红；不以超时或普通Error认针。 不认证其它UI或PAL剧情。mutant工具与adoption额外登记由Codex明示接收，固定临时文件改唯一目录/finally清理；不把作者原脚本视作安全收口版。文末标签卡仍draft属于09-25快照，不倒写09-26后状态。",
+      "artifactLimits": "不认证其它UI或PAL剧情。mutant工具与adoption额外登记由Codex明示接收，固定临时文件改唯一目录/finally清理；不把作者原脚本视作安全收口版。文末标签卡仍draft属于09-25快照，不倒写09-26后状态。"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "pairedCard": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+      "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "cebc85ee7c0a32e1638f140af39414061cf94273",
+      "sourceSha256": "3c3b8b790bbc6f805f4cd55957dbee3537c18fbbde54bf2c501e191ac5d4a1cf",
+      "afterSha256": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+      "sourceLineCount": 162,
+      "lineCount": 213,
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "preservation": "Every original line retained; only real ATX headings demoted by two levels outside fences. Strict line-wise inverse proved.",
+      "coreConclusion": "GLM在f5f166aa冻结上贡献83833719，Codex最终接收并以22a4492c推主线；620a29dd只属更早准入锚。GLM自验、已删除mock与Codex真实加载反证分开。 原203行7276 bytes/hash、119→119出口与13模块无回环，加真实D24对应断言红/对照8绿支撑窄拆保真。GLM删除mock的记录保留，不将其重新认证为当前有效负控。 只完成战场族，不关闭其它ARCH-REGRESSION-LAB counter。未重取/tmp日志或验证归档远端标签；原文不合main/不标done是GLM交付中间态，后文Codex独立接收与清理为后继事实。",
+      "artifactLimits": "只完成战场族，不关闭其它ARCH-REGRESSION-LAB counter。未重取/tmp日志或验证归档远端标签；原文不合main/不标done是GLM交付中间态，后文Codex独立接收与清理为后继事实。"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "pairedCard": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "8fde2e790568f22cedc86e6d457bad11d175fe44",
+      "sourceSha256": "7a667b55fd8cf7b68b3de8f94134bf4c8e58fa2f22eda57527d910f0c5440408",
+      "afterSha256": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+      "sourceLineCount": 94,
+      "lineCount": 145,
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "preservation": "Every original line retained; only real ATX headings demoted by two levels outside fences. Strict line-wise inverse proved.",
+      "coreConclusion": "冻结b11d4bc9、实现8eb93bb7，A3-a当时done；Codex按用户单席授权实施自验，非第三方独立审查，不代表A3整批完成。 36新增与44正控/11针分开；128内部枚举、384帧/896输入诊断不另加正式测试。19函数仅逆归一化时间owner后AST相等，render换行不冒称原字节相等；普通Error针曾被拒，修业务状态断言而不放宽判据。 cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动修复成功不倒填cb1远端成功。本轮未运行工具或恢复summary；未跑剧情/full/Q1/Q2、移动视觉对拍，未达长期90/85目标。",
+      "artifactLimits": "cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动修复成功不倒填cb1远端成功。本轮未运行工具或恢复summary；未跑剧情/full/Q1/Q2、移动视觉对拍，未达长期90/85目标。"
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "pairedCard": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "sourceRevision": "67cc95eb04120cc3beacff6d0938afce65e46e4b",
+      "sourceGitObject": "e9820b9c14bab08541ce29b02e0329f161dbf9d7",
+      "sourceSha256": "3c86be40c209be7e285a100f386a8bee149c83fce30fb84bfa5662898cbbbf3d",
+      "afterSha256": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+      "sourceLineCount": 77,
+      "lineCount": 128,
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "preservation": "Every original line retained; only real ATX headings demoted by two levels outside fences. Strict line-wise inverse proved.",
+      "coreConclusion": "冻结cb1cb26d、实现fdad980f；Codex按用户单席授权实施自审，不是第三方独立验收。A3-b结束不增加原13大批队列完成数，活动态/移动/绘制仍有后续段。 26新增=11资源+14预检+1真实main；36正控/11针与18函数+2宿主属性AST保真分开。首轮main两针没命中raw入口被拒，修隔离钩子后才认业务红；冻结对照只逆归一化peek接线。 ad16ba94只证明旧readiness等待驱动修复，不能代替fdad候选远端CI。原cb1远端失败不抹除A3-a本地证据；不跑剧情/full/Q1/Q2、不修默认地图落点、不把GLM准备包当本卡独立验收。",
+      "artifactLimits": "ad16ba94只证明旧readiness等待驱动修复，不能代替fdad候选远端CI。原cb1远端失败不抹除A3-a本地证据；不跑剧情/full/Q1/Q2、不修默认地图落点、不把GLM准备包当本卡独立验收。"
+    }
+  ],
+  "artifactOwnership": [
+    {
+      "path": "docs/testing/domains/runtime/engine-boundaries/tools/runtime-frame-mutants.mjs",
+      "ownerReceipt": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "17ab91e01cd340cd38d99f2c3b2844e36ecb43808ee193f13c70957d8ad552cb",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    },
+    {
+      "path": "docs/testing/archive/legacy/unresolved-tools/runtime-frame-parity.mjs",
+      "ownerReceipt": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "035d90ac016efeffaa910fec6d9a3ca48318a5c9fd6bc96f341b2edc1acda601",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json",
+      "ownerReceipt": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "8342150b8bb9a7fd3a206274a41a2a518c3690c83bd0001695881f96aaee89ab",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json",
+      "ownerReceipt": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "1eea9d2b6e034aa089b8aa9bcb6476acaa450ba25daa93cc67126d1e01608f21",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    },
+    {
+      "path": "docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs",
+      "ownerReceipt": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "de43b43c8871152ea317cae93989a31b46fdc1484ef057841a7a50f37e1ece8c",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    },
+    {
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/scene-preparation-mutants.mjs",
+      "ownerReceipt": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "97dd2c40da85e069beb996465ef895d0ccc7cff8b30964dfcf2227aaacf243bb",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    },
+    {
+      "path": "docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs",
+      "ownerReceipt": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "ownerTask": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "role": "historical diagnostic script or machine evidence cited by this receipt",
+      "sha256Observed": "7a40792856b0ca06164db3018cf42b41acd72e850730df9d77d3e46b81107ece",
+      "currentStatus": "reference-exists; bytes observed only, current execution and full content review not claimed",
+      "retention": "Keep original bytes/path until own candidate content review and evidence retention decision; never run old handoff implicitly",
+      "candidateGovernance": "JSON remains separate prose/structured candidate; scripts are nonprose artifact; reference ownership gives neither completion credit"
+    }
+  ],
+  "independentReview": {
+    "reviewer": "receipt_review (non-author, read-only)",
+    "date": "2026-10-16",
+    "result": "accept",
+    "countersClosed": [
+      "C1 callback claim narrowed to property forwarding; original text unchanged"
+    ],
+    "scope": [
+      "All five original receipts (358 lines), actual candidate bodies (613 lines), paired archived cards (636 lines), central five records and complete receipt read",
+      "Five strict source/blob/after/line identity and heading-only inverse source proofs; registry/routing history overlay and ten actual H2 chapters per document",
+      "Marked GFM plus local slug: 25 old heading identities, one outgoing fragment and two incoming fragments reachable",
+      "Two new F2/A3 guarded consistency relations reviewed; actual model80/content613/diff zero issues"
+    ],
+    "limits": "No online click or whole-tree fragment proof; seven artifact SHA references only, no full artifact review/execution or runtime/E2E/visual/coverage credit"
+  },
+  "selfHashPolicy": "External Git identity; no recursive self SHA",
+  "reviewRework": [
+    {
+      "id": "C1",
+      "reviewer": "receipt_review",
+      "finding": "labels new callback-preservation phrase exceeded the original direct evidence",
+      "resolution": "Changed only the new summary to property forwarding, synchronized central/source-after identity; original text remains unchanged",
+      "previousCandidateSha256": "54f6e5271e1fb198ec63763f9c24de685e6d788956d2c63457d02061626a132a",
+      "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+      "status": "closed by independent non-author recheck"
+    }
+  ],
+  "staticGates": {
+    "docs": {
+      "command": "pnpm check:docs",
+      "exitCode": 0,
+      "toolTests": 63,
+      "routes": 7,
+      "bodyContracts": 80,
+      "registeredContentReviews": 613,
+      "issues": 0
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "files": 4076,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "diff": {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    "scope": "Partial static document gates, not full goal acceptance"
+  }
+}

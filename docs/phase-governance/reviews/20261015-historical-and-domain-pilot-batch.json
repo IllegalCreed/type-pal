@@ -254,7 +254,7 @@
       "reviewedSourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
+      "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -283,7 +283,7 @@
       },
       "revision": {
         "currentSha": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
-        "implementationSha": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
+        "implementationSha": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
         "contentVersion": "N/A-doc-governance; original revision versions retained",
         "minimumSaveVersion": "N/A-doc-governance; current constant separately source-backed",
         "history": [
@@ -313,8 +313,8 @@
         "kind": "static-semantic-migration-and-original-content-preservation",
         "path": "docs/phase-governance/cross-phase-matrix.json",
         "sourceSha256": "5582da7a4864f4b138213e80fee3eb32a5e572a93a390e9aaf78ac78abd9f6a2",
-        "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
-        "lineCount": 45
+        "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+        "lineCount": 56
       },
       "history": [
         {
@@ -358,12 +358,19 @@
           "sourceSha256": "dd3a9e2835f36550d7b38c76a548bea06568ab318251a318824d13a19573544f",
           "afterSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
           "beforeAfter": "17 registered relationships → 19; explain current navigation/draft design and unique candidate-text ownership without new product authority."
+        },
+        {
+          "date": "2026-10-16",
+          "action": "append-two-content-reviewed-historical-F2-A3-relationships",
+          "sourceSha256": "78d0260981dd63a01b5a1fcb64adf5ead61cf3c4bcf95fa7579507cb13b39bc1",
+          "afterSha256": "93d971db8ec26523d6ff63d89492062a27d17d76b83996c2bd138173116170df",
+          "scope": "21 registered relationships, not exhaustive; five body migrations still await non-author candidate acceptance"
         }
       ],
       "supersedes": [],
       "stopLine": "Template conformity and historical/static results grant no new runtime/E2E/visual/coverage, product, or zero-diagnostics acceptance.",
       "userVisibleBeforeAfter": "11条关系导航 → 12条，新增历史诊断边界并收窄 acceptance scope。",
-      "reviewedLines": "1-45",
+      "reviewedLines": "1-56",
       "reviewNotes": "全文实际读取并按具体语义改写；原材料的未知按历史/候选/源码范围解释，不捏造缺失执行证据。最终全量独立验收未完成。",
       "priorReadings": [
         {

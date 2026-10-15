@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 608,
+    "total": 613,
     "byPhase": {
       "ops": 388,
       "lore": 14,
@@ -14,13 +14,13 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 29
+      "testing": 34
     },
     "byType": {
       "guide-runbook": 15,
       "archive-record": 17,
       "audit-report": 58,
-      "evidence-receipt": 39,
+      "evidence-receipt": 44,
       "governance-index": 24,
       "task-card": 306,
       "quality-gate": 1,
@@ -36,10 +36,10 @@
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 608
+      "content-reviewed": 613
     },
     "templateCompliance": {
-      "template-compliant": 75,
+      "template-compliant": 80,
       "governed-legacy": 533
     }
   },
@@ -6853,6 +6853,71 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261015-domain-pairs-and-archive-cards.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-architecture-receipts.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-architecture-receipts.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-architecture-receipts.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-architecture-receipts.json"
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": true,
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-historical-architecture-receipts.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."
