@@ -1,0 +1,26 @@
+{
+  "canonicalBranch": "codex/code-quality-3y",
+  "workingDirectory": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "pushedIntegrationTip": "32855a267e4e0f717524726a2b851906ec7c92bf",
+  "qualityRefs": [
+    "codex/code-quality-3y 32855a267e4e0f717524726a2b851906ec7c92bf",
+    "origin/codex/code-quality-3y 32855a267e4e0f717524726a2b851906ec7c92bf"
+  ],
+  "bothOriginalHistoriesAreAncestors": true,
+  "deletedLocalAndRemote": [
+    "codex/code-quality-menu-integration",
+    "codex/quality-menu-accept-94-95"
+  ],
+  "deletedTemporaryLocal": ["codex/code-quality-3y-closeout"],
+  "archivedRecoverableWorktrees": [
+    "/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal",
+    "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal"
+  ],
+  "old3yTree": "detached at unchanged d4cf7f57d; clean files/index preserved",
+  "mainModified": false,
+  "mergedToMain": false,
+  "currentBehindMain": 0,
+  "currentAheadMain": 132,
+  "cardRereviewsPending": 58,
+  "closedThisWindow": 0
+}

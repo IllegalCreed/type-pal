@@ -1,0 +1,11 @@
+{
+  "command": ["pnpm", "lint"],
+  "exit": 0,
+  "files": 4330,
+  "errors": 0,
+  "warnings": 0,
+  "infos": 0,
+  "bytes": 193,
+  "sha256": "dda4d5b60e19643df8bd49f2c0da46b00ef67e3be14b92d3118ad6c3151d267d",
+  "fullRuntimeAndCoverageGates": "not passed for unified candidate; MIDI old test baseline has a known failure"
+}

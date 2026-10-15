@@ -1,0 +1,7 @@
+{
+  "command": ["pnpm", "check:docs"],
+  "exit": 0,
+  "bytes": 11716,
+  "sha256": "8d07879d50916472d2cf6a57077ceec5e92d9acef2415fcbe65f835c5878c3fb",
+  "hardGateOnly": "docs; full check/ratchet/protected/typecheck still pending new candidate"
+}
