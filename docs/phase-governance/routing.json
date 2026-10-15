@@ -677,6 +677,76 @@
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
       "templateId": "task-card-v1",
       "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/README.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "templateId": "audit-report-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab-history.md",
+      "templateId": "governance-index-v1",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-review-payload-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

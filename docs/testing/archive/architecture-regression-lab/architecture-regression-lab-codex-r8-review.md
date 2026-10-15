@@ -1,6 +1,6 @@
 # ARCH-REGRESSION-LAB-GLM-1 r8 独立接收
 
-Governance Owner: Codex（history_cards_a；作者候选，待根与非作者独立接收）
+Governance Owner: Codex（历史文档治理；非作者独立语义验收后根接收）
 Last reviewed: 2026-10-16
 Template: audit-report-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -95,7 +95,7 @@ GLM候选贡献与Codex当轮复核按原文分工。相邻轮与[最终回执](
 
 ## 当前有效性
 
-仅对原2026-09-26候选的审查结论有效：整批counter收窄至G05-02与G08-05/06。G03/G05-04接收，但不能将三针和37绿外推未被针覆盖的等待/图语义；G06不是七入口全矩阵。 本次只形成模板候选，未获独立accept，不标I14完成；机器JSON仍未迁移。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
+仅对原2026-09-26候选的审查结论有效：整批counter收窄至G05-02与G08-05/06。G03/G05-04接收，但不能将三针和37绿外推未被针覆盖的等待/图语义；G06不是七入口全矩阵。 2026-10-16本篇文档迁移已获非作者history_cards_c_tail语义验收，根Codex接收；配对r10 JSON的1.4原生保真pilot另获独立验收。这只接收文档与机器格式，不改变原历史counter或授产品、运行信用。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
 
 ## 继任文档
 

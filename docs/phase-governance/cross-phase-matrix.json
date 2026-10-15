@@ -805,6 +805,51 @@
         "原zoom/boot/options、720与separator命中区及旧warning/info不因done或数量关闭；17图丢失是10-02原记录，本轮未新查盘。"
       ],
       "stopLine": "不以机械拆分/绿数/材料接受授当前代码质量、完整E2E或视觉通过，不恢复旧Agent交接执行。"
+    },
+    {
+      "id": "historical-lab-counter-vs-successor-acceptance",
+      "from": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md"
+      ],
+      "to": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "同一实验包逐轮原生counter与后来接收分时点：r9仅三个候选合同，r10整批counter/主卡build，后继completion才接准备包、代表视觉和正式41项。G06-08/09/10接入与G06-11对E2十三路径排重分开；42/41/75与共享8707/strict8215/686不重复计本包。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-history-i-20261016.json:1"
+      ],
+      "unresolved": [
+        "原缩图/16位hash、只读verify缺执行JSON、TS/格式失败和误归因撤回按原轮保留；zoom/boot/布局/options未由本次模板核验关闭。"
+      ],
+      "stopLine": "不倒写旧counter为accept，不把后来Map深快照/完整输出修正等同中间JSON.stringify(Map)候选，不恢复旧产品实现或旧prompt。"
+    },
+    {
+      "id": "historical-native-review-vs-current-document-audit",
+      "from": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md"
+      ],
+      "to": [
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/guides/documentation-model.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "r10原九字段是历史复核对象，没有publication schema/id/status；1.4历史原生变体只加_governance，固定33cc来源和完整native深等约束历史counter/MISSED/exit0。currentAudit=false记录这次静态治理，不能拿旧五针detected或退出0授今天动态执行信用。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261016-testing-lab-history.json:1",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-json-i-20261016.json:1"
+      ],
+      "unresolved": [
+        "历史/tmp/截图/raw未新查可用性，不补造运行；该原生模板只适用于已批准九键合同，其它机器shape仍须设计和pilot。"
+      ],
+      "stopLine": "不补造schema2/catalog状态，不改原九字段/失败/警告；联合换标签或刷review SHA不得绕过固定原生源，格式通过不关闭全量或产品验收。"
     }
   ],
   "acceptance": {

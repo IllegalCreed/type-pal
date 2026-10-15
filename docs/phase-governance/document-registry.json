@@ -6,7 +6,7 @@
   "roots": ["docs/ops", "docs/lore", "docs/phase1", "docs/phase2", "docs/phase3"],
   "extensions": [".md", ".json", ".html"],
   "summary": {
-    "total": 645,
+    "total": 659,
     "byPhase": {
       "ops": 417,
       "lore": 14,
@@ -14,15 +14,15 @@
       "phase2": 108,
       "phase3": 5,
       "phase-governance": 4,
-      "testing": 37
+      "testing": 51
     },
     "byType": {
       "guide-runbook": 15,
       "archive-record": 17,
-      "audit-report": 56,
-      "evidence-receipt": 45,
+      "audit-report": 66,
+      "evidence-receipt": 46,
       "design-spec": 43,
-      "governance-index": 25,
+      "governance-index": 27,
       "task-card": 333,
       "quality-gate": 1,
       "reference-canon": 16,
@@ -30,16 +30,16 @@
       "plan-status": 64,
       "test-e2e-stage": 2,
       "test-run-report": 2,
-      "test-machine-evidence": 14,
+      "test-machine-evidence": 15,
       "test-domain-report": 8,
       "test-contract": 1,
       "test-catalog": 1
     },
     "reviewStatus": {
-      "content-reviewed": 645
+      "content-reviewed": 659
     },
     "templateCompliance": {
-      "template-compliant": 136,
+      "template-compliant": 150,
       "governed-legacy": 509
     }
   },
@@ -7380,6 +7380,189 @@
       "reviewStatus": "content-reviewed",
       "reviewDepth": "deep-semantic",
       "reviewRecord": "20261016-historical-cards-h.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/README.md",
+      "phase": "testing",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "phase": "testing",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "template": "docs/phase-governance/templates/audit-report.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "phase": "testing",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab-history.md",
+      "phase": "testing",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "docs/phase-governance/templates/governance-index.md",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "phase": "testing",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/testing/_templates/test-machine-evidence.json",
+      "templateVersion": "1.4.0",
+      "templateVariant": "historical-review-payload-v1",
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewDepth": "deep-semantic",
+      "reviewRecord": "20261016-testing-lab-history.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

@@ -1,6 +1,6 @@
 # 架构回归实验历史原文
 
-Governance Owner: Codex（history_cards_a；作者候选，待根与非作者独立接收）
+Governance Owner: Codex（历史文档治理；非作者独立语义验收后根接收）
 Last reviewed: 2026-10-16
 Template: governance-index-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -19,7 +19,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 当前状态
 
-本轮导航候选已按governance-index1.0与archive1.0组织，尚待非作者验收。原文没有独立发布日期、Owner或Status字段；不把治理日期当历史发布日期。JSON第14项仍等I0，不将13MD候选写成I14完成。
+本轮导航已按governance-index1.0与archive1.0组织并获非作者语义验收。原文没有独立发布日期、Owner或Status字段；不把治理日期当历史发布日期。配对JSON已完成单篇原生保真pilot；本包14份文档迁移不等于全量治理完成。
 
 ## 入口与责任
 
@@ -35,7 +35,7 @@ History overlay: archive-record-v1 / 1.0.0
 - [第8轮独立复核](architecture-regression-lab-codex-r8-review.md)
 - [第9轮独立复核](architecture-regression-lab-codex-r9-review.md)
 - [第10轮独立复核](architecture-regression-lab-codex-r10-review.md)
-- [r10 原机器证据](architecture-regression-lab-codex-r10-evidence.json)（JSON 待 I0 后另行治理）
+- [r10 原机器证据](architecture-regression-lab-codex-r10-evidence.json)（已套1.4原生保真envelope，历史九字段不变）
 - [准备包最终接收](architecture-regression-lab-completion.md)
 - [历次复核合并索引](../architecture-regression-lab-history.md)
 
@@ -43,7 +43,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 证据与下一步
 
-源身份见[原迁移清单](../migrations/testing-domains-20261004.json)，它保存当时迁移前SHA，不能当今天afterSHA刷新。13MD候选待独立接收，机器对象待根I0；新实验须另开任务而不是重启原命令。
+源身份见[原迁移清单](../migrations/testing-domains-20261004.json)，它保存当时迁移前SHA，不能当今天afterSHA刷新。十三篇Markdown及配对机器对象已分别经非作者验收、根文档接收；新实验须另开任务而不是重启原命令。
 
 ## 历史范围
 
@@ -84,7 +84,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 当前有效性
 
-同一GLM实验包十轮独立审查与最终接收的原文目录；只导航，不新增产品/执行结论。 本次只形成模板候选，未获独立accept，不标I14完成；机器JSON仍未迁移。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
+同一GLM实验包十轮独立审查与最终接收的原文目录；只导航，不新增产品/执行结论。 2026-10-16本篇文档迁移已获非作者history_cards_c_tail语义验收，根Codex接收；配对r10 JSON的1.4原生保真pilot另获独立验收。这只接收文档与机器格式，不改变原历史counter或授产品、运行信用。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
 
 ## 继任文档
 

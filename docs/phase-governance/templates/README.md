@@ -43,7 +43,7 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 
 采用 statusPolicy 的域报告/document-audit按唯一catalog id校验发布状态，默认机器execution按执行状态校验。机器1.4新增historical-review-payload-v1保留九字段lab复核原对象，治理lifecycle独立固定historical、本轮执行false，不造catalog身份或把verdict当状态。各轴不互换，版本设计与pilot边界见设计提案C1/C2/I补充。
 
-1.4仅扩展既有test-machine-evidence类型，不新增第18类；原三个变体合同保持。十四份已接收JSON仅治理版本对齐，新增历史九字段变体的固定源/真实consumer/反例和独立pilot验收仍须分别完成；旧类型pilot不授新格式自动接受。
+1.4仅扩展既有test-machine-evidence类型，不新增第18类；原三个变体合同保持。十四份已接收JSON仅治理版本对齐，历史九字段r10已分别通过固定源/真实consumer/反例与非作者独立pilot验收；旧类型pilot仍不授其它新格式自动接受。
 
 ## 证据与下一步
 

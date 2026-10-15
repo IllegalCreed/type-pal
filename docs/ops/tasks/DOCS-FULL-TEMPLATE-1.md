@@ -591,3 +591,29 @@ Branch: codex/docs-full-template-proposal
 - I1修后根全门71工具0fail0skip/docs1223-7329-361/content22 SAVE12/model136-7routes0/testing0/phase184/strict645、lint4090文件零诊断/diff0；本签收后按新字节再复跑。原初次71/8机械绿及I1盲点保持历史，不回写为首次即有完全联合证明。
 - 文档build allowed后继：待本I0根稳定提交通知，history_cards_a可另建codex/docs-testing-lab-history-i-json从该commit出发，cherry-pick冻结I13候选271464843b29e169f4f67d440d475797d82a7e7f（原I分支保留），只新增原r10 JSON的_governance和专属contributor-testing-lab-json-i-20261016.json；I13正文/原回执8eb88b...不可顺手改写。pin源固定33cc，迁移读源基点另记I0commit，两者原JSON/13源blob须相同；JSON全原对象去gov深等，实际model/progress及原consumer核验后非作者独立accept，才准根接入/计数。I13也仍在tail全文候选审查，不预签I14完成。
 - 当前仍132/1838+4；I0仅合同和已有声明维护，native canonical仍原raw，1959当前候选/1823pending；main干净f98d0ddd未写，目标active/build。
+
+
+#### I14独立语义接收与中央候选
+
+- I13固定271464843b29e169f4f67d440d475797d82a7e7f获tail逐篇accept；全文429原MD+配对67JSON、1412新层与2491回执已独立读，52原标题/19旧链接/38fragments/0外部入链成立。根全14原496与13实质新层读域单列，不冒领2491回执全文。
+- r10单篇固定97e64a8ef923480d6311cd9b5c8f532b5002d25c获tail独立pilot accept；196候选/510回执全文、九顶/65leaf/type/valueSHA与固定33cc严格深等，真实137model/完整Gitreader/六变造+九删键全拒，actualclassifier只68→197行数。其strict645对本篇0/1，作者71工具/lint4092不冒领为非作者执行。
+- 根分别导入两精确白名单候选。十三MD仅新Owner及当前等待/I0句窄同步，I-SOURCE双marker间原quote逐字节不变；JSON仅五个新增治理叶值同步，原九字段完整深等且native前缀字节不变。两作者回执8eb88b.../8d9630...保持不可变pending历史，当前接受另记中央，不改原失败/日期/身份。
+- 新增14条真实current record/registry/routes：659条中央、150正文合同；原实际0/14，不继承12条legacy成员reviewed，不补造prior或catalog身份。I0 contractDesign整对象冻结为1ae时事件，旧136及pendingcanonical时态只属该快照，当前I14接收见integration/entries。根150内存完整model/六变造已实跑；中央delta及全门正待独立复核，不预签整体通过。
+- 矩阵35→37新增逐轮counter/后继接收与历史原生对象/本轮文档审计两关系；原35对象不变。两模板入口仅同步r10单篇pilot接收句、0新迁移，各当前review全字段与完整旧current保留。原G06-08/09/10正式、11排重E2十三项、42/41/75/共享8707各轴不相加；原warning/TS/格式失败、MISSED/exit0和未证zoom/boot/layout/options保留。
+- 当前投影须由真实progress再核；本轮未跑产品/旧测试/coverage/browser/raw，不把格式或历史接收变成今天动态通过。main未写、goal active/build，全量尚未完成。K49导航仅全文只读预审，J6三机器shape仅/tmp设计，均未准入实施或计数。
+
+- I2根接入元数据反例：首轮全门严格拒绝14条遗漏的显式truthAnchors，原primarySource完整不等必填字段存在。保失败日志与修前精确/tmp中央快照；根补真实path/原行/固定revision，不增加读域。原71工具/链接/model150与lint4092零诊断只各自成立，strict失败不算统一门通过；修后新日志重跑并由非作者定点复核。
+
+- I3独立GFM反证：matrix虽37条pipe数据行，实际Marked只解析14行表，其余23行（含I新2条）因旧空行分段成为paragraph。根仅移除表内空行，37条原数据行逐字节不变、原35JSON对象不变，当前真实1表37数据行；完整修前current入flatten prior，原误计和非作者counter保留，待独立lexer复核。
+
+- I4非作者发现两模板入口current review的unresolved仍称r10待接受、legalInputs仍只schema2，与新正文/core矛盾。根完整回读两篇所有当前非历史字段，修unresolved/legalInputs/applicability/oracle类型/排重，批准九键原生对象与publication/default/示例分轴；完整错误current留flatten prior。正文/afterSHA/旧机器合同不动，待非作者定点闭合，不凭工具全绿跳过语义counter。
+
+
+#### I14最终独立中央接收
+
+- receipt_review最终accept根14current/行政delta/实际消费者；I2显式锚点、I3真实GFM1表37行、I4入口当前未决与合法输入均独立闭合。原645registry/136routes及原35矩阵对象不动，新增14与2关系；13quote严格inverse、JSON仅五治理叶值变且九native/前缀/字段摘要不变，I0整contractDesign与作者双receipt不变。
+- 非作者实际model150/strict659/docs1223-7437-361/ledger3290-229-5-3056-3061/progress146of1838+4/current1961pending1811/0issues/diff通过；原raw/browser/product/旧tests/coverage未执行。其只核根行政/中央/来源与2关系，不冒领tail429原/1412新/2491回执全文读域。
+- 精确11维护文件受审SHA与14正文after绑定入I.integration；本签收/计数/门维护是后来root元数据，不冒用非作者旧hash。当前146/1838基线+4增量、150compliant、659中央、509governed-legacy仍无豁免；全量未完成/goal active，main未写。
+- I3后根71工具/0fail0skip/docs/model150/strict659、lint4092零诊断属早于I4及本签收字节；提交前按本签收新字节全门重跑，失败原日志/快照永久保持时点，不回写首次即通过。
+
+- I14根签收后真实全门通过：71工具0fail/0skip、docs1223/7437/361/content22SAVE12/model150/7routes0、testing0/phase184/strict659；lint4092文件零error/warning/info，diff及相对main检查0。本次结果与日志SHA入I集成；该结果追加是后续元数据，提交前再按最终字节实跑，不冒用独立旧hash。146/1838+4、1811pending仍非全量完成；main干净f98d0ddd未改。

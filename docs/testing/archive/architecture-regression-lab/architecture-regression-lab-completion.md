@@ -1,6 +1,6 @@
 # ARCH-REGRESSION-LAB-GLM-1 · 十二组准备包最终接收
 
-Governance Owner: Codex（history_cards_a；作者候选，待根与非作者独立接收）
+Governance Owner: Codex（历史文档治理；非作者独立语义验收后根接收）
 Last reviewed: 2026-10-16
 Template: evidence-receipt-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -124,7 +124,7 @@ V01真实提交/undo/焦点、V02非空工作区resize/滚动/恢复、V03持续
 
 ## 当前有效性
 
-2026-09-26只接收准备包、代表功能视觉及正式测试41项；不等于架构/覆盖目标/完整E2E或本轮动态验证。 本次只形成模板候选，未获独立accept，不标I14完成；机器JSON仍未迁移。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
+2026-09-26只接收准备包、代表功能视觉及正式测试41项；不等于架构/覆盖目标/完整E2E或本轮动态验证。 2026-10-16本篇文档迁移已获非作者history_cards_c_tail语义验收，根Codex接收；配对r10 JSON的1.4原生保真pilot另获独立验收。这只接收文档与机器格式，不改变原历史counter或授产品、运行信用。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
 
 ## 继任文档
 

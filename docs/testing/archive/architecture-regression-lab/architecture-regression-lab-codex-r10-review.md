@@ -1,6 +1,6 @@
 # ARCH-REGRESSION-LAB-GLM-1 r10 独立接收
 
-Governance Owner: Codex（history_cards_a；作者候选，待根与非作者独立接收）
+Governance Owner: Codex（历史文档治理；非作者独立语义验收后根接收）
 Last reviewed: 2026-10-16
 Template: audit-report-v1 / 1.0.0
 History overlay: archive-record-v1 / 1.0.0
@@ -13,7 +13,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 范围与证据
 
-候选分支codex/glm-architecture-regression-lab-r2、起点f5f166aa、复核main8e028beb；41/41、51账48/1/2、五针detected、原tsc/docs/diff通过，Biome仍1个warning。配对JSON原九字段当前保持不动，待I0；它记录该轮静态/浏览器窄事实及MISSED，不是本轮重跑。
+候选分支codex/glm-architecture-regression-lab-r2、起点f5f166aa、复核main8e028beb；41/41、51账48/1/2、五针detected、原tsc/docs/diff通过，Biome仍1个warning。配对JSON原九字段保持不动，仅新增已独立验收的1.4历史envelope；它记录该轮静态/浏览器窄事实及MISSED，不是本轮重跑。
 
 该篇一手文档为本页完整保留的43行源；本轮sourceRevision为fd5042551af1170d99af93218aa6a43d7f645f69，Git blob d781dec4f596e334cea1bb3660bfb89f6cb9a7e7。原执行结论仅由旧正文和其producer承载，本轮只作内容治理。
 
@@ -119,7 +119,7 @@ GLM候选贡献与Codex当轮复核按原文分工。相邻轮与[最终回执](
 
 ## 当前有效性
 
-仅对原2026-09-26候选的审查结论有效：整批counter，G01-07及V01人物名仅窄轴成立；原主卡保持build而不是退回候选旧draft。五针真实judge要求业务红，独立G08丢命令exit0明确MISSED；41绿和五针不能关闭该漏洞。 本次只形成模板候选，未获独立accept，不标I14完成；机器JSON仍未迁移。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
+仅对原2026-09-26候选的审查结论有效：整批counter，G01-07及V01人物名仅窄轴成立；原主卡保持build而不是退回候选旧draft。五针真实judge要求业务红，独立G08丢命令exit0明确MISSED；41绿和五针不能关闭该漏洞。 2026-10-16本篇文档迁移已获非作者history_cards_c_tail语义验收，根Codex接收；配对r10 JSON的1.4原生保真pilot另获独立验收。这只接收文档与机器格式，不改变原历史counter或授产品、运行信用。历史警告、误归因撤回和未证轴均留原时点，静态治理不代替现行[测试质量合同](../../governance.md)。
 
 ## 继任文档
 
