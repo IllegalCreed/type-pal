@@ -1,0 +1,84 @@
+{
+  "boundary": "Read-only preparation during frozen C02 quality window; no audit closure or new Coding Owner claim",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "sha256": "bc210cbddb218b027dd01c9473db139eab3d46d07ddcac1832d90fed4614009f",
+      "lines": 373
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "sha256": "7860434cbecaf7837afb2e23e7fbf96a6f0f6421c455f9e7db4f4de17de5ac21",
+      "lines": 294
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+      "sha256": "3f223e453af72bfa260953f74dc8dbc4dfce1042ab1abaa0032782121cc77a05",
+      "lines": 212
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "sha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
+      "lines": 303
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
+      "sha256": "e784719c4d73f37127870bebe442e312b0141e39297bd5e538735f11b741134a",
+      "lines": 188
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
+      "sha256": "2f1e7b025ce13d966ed8c09020c63c073b8998440a9e4e4dde04bc988e78f839",
+      "lines": 248
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "sha256": "6bbc63231f2cef26c975024fb8c6aef45ad5fc015625aa66e32dff93c9620f3d",
+      "lines": 209
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "sha256": "e6e36550a22ca7b1a24b60c8b32f5194263e942a5e90df8a32252d039adf14e9",
+      "lines": 268
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "sha256": "c97b0b80ad1d7e2445daff4a390617d1f69dbc90a64d8426b471770fc9c94ff5",
+      "lines": 354
+    },
+    {
+      "path": "packages/reforge/src/__tests__/runtime-shell/dom-host.ts",
+      "sha256": "3bc0f5490d50e711a6226655846abbe04793332a56a0348b892cf6b70e99161d",
+      "lines": 232
+    }
+  ],
+  "nextFiniteCandidate": [
+    "battle-sprite-ui.ts",
+    "BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+    "BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+    "BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx"
+  ],
+  "actualAdjacentDiagnosticSplit": {
+    "g01": 111,
+    "g02": 377,
+    "g05": 47,
+    "others": 0
+  },
+  "unverifiedCandidates": [
+    "G01 proof-pending assertions lack controlled IO: establish a real gate before changing tests",
+    "G02 image/application completion and two external undo calls need separate actual work waits",
+    "G05 actual import/append completion and unchecked profile cast need review",
+    "Prototype resource observer currently waits historical promises; held old-resource navigation is outside verified callers and needs a real counter before changing semantics",
+    "Navigation clues: real location.reload in no-save host and native anchor activation with unhandled onNavigate; isolate before assigning root cause"
+  ],
+  "partialReads": [
+    {
+      "path": "packages/reforge/src/main.ts",
+      "range": "2200-2250 reload call; no full main audit"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.tsx",
+      "range": "onNavigate signature and activation grep only; full read still required"
+    }
+  ]
+}

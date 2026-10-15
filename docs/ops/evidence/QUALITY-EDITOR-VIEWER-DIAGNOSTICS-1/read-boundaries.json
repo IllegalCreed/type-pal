@@ -1,0 +1,87 @@
+{
+  "base": "4f4b236df",
+  "fullSourceReads": [
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "sha256": "b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5",
+      "status": "review"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "sha256": "238090bb14c337d58d2549809812d96123bf1cbedf8aa2e1bd74d095c29d8c84",
+      "status": "review"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "sha256": "fe07dc0eaf023e45fd6775e5d227117d0bad79654f14fd805c7313e39b4f7e8b",
+      "status": "review"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts",
+      "sha256": "a6417c2d001d5eac1708b96858462544f52be4b0597cc92d4c1be25014847e8d",
+      "status": "review"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "3725ea19d9b29dc8d6b5900685953f43ec40db7c1e2a16bf33bf94dc085375df",
+      "status": "review"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "a47a830468aeef044cb80e197f8b4b53859d146938c984026eb8ed4e3a7f3c48",
+      "status": "review"
+    }
+  ],
+  "fullPrimaryReads": [
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-assets.ts",
+      "sha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f"
+    },
+    {
+      "path": "packages/reforge/src/asset-resolver.ts",
+      "sha256": "d61bfe5d7b68331d6b182aabec9b9e2b66977c2af1c701fd712535fb697db92b"
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "ranges": ["1-85", "175-300"]
+    },
+    {
+      "path": "packages/editor/src/core/sprite-commands.ts",
+      "ranges": ["1-190", "388-549"]
+    },
+    {
+      "path": "packages/editor/src/ui/DataMode.tsx",
+      "ranges": ["704-770"]
+    }
+  ],
+  "unreviewedHelperSegments": [
+    "Wizard and Uploader implementation retained unchanged; regressions only",
+    "upload-ui non-Viewer helpers unchanged"
+  ],
+  "callerRegressionFiles": [
+    "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+    "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+    "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+    "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+    "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+    "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+    "src/ui/SpriteResourceViewer.test.tsx",
+    "src/ui/SpriteFrameDeletion.test.ts",
+    "src/core/editor-asset-reader.test.ts"
+  ],
+  "closedFiles": []
+}

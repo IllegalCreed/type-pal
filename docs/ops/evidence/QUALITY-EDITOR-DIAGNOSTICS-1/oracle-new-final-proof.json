@@ -1,0 +1,136 @@
+{
+  "isolatedTree": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+  "productionFileInWorkingTreeUnchanged": true,
+  "note": "Only one test selected per run; pending tests are explicit -t filtering, not green recovery. No core mocking.",
+  "runs": [
+    {
+      "phase": "new-final",
+      "case": "C01-G04-08",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/new-final-stem.json",
+        "--silent=false",
+        "-t",
+        "C01-G04-08"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "b912bef320313f140f8d2645249acd4786bdbb8abd21009b9a11200042925044",
+      "rawBytes": 6839,
+      "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "mutantSha256": "56d340559ff030283efd1af194d383dbac9b2721067e83a3b676649a741a78d4",
+      "rebuiltMutantSha256": "56d340559ff030283efd1af194d383dbac9b2721067e83a3b676649a741a78d4",
+      "testSha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56",
+      "executed": [
+        {
+          "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+          "fullName": "C01-G04 新增用途 begin/cancel/apply 与 ID stem C01-G04-08 默认草稿 id 从资源 label stem 派生且含 static 后缀",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 'c01gamma-broken' to be 'c01gamma-static' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx:651:27\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "numFailedTests": 1,
+      "numPassedTests": 0,
+      "numPendingTests": 66,
+      "unwrappedAct": 0
+    },
+    {
+      "phase": "new-final",
+      "case": "C01-G05-10",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/new-final-pending.json",
+        "--silent=false",
+        "-t",
+        "C01-G05-10"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "b9bcfb3cbb563d31bfc7bf0ec9cd68996569df1151cacfe20dffc50224ed0dd1",
+      "rawBytes": 6915,
+      "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "mutantSha256": "b49cd49802153669cf0d1e567ad57183159293d33bdedd2324172b2ff8ecd604",
+      "rebuiltMutantSha256": "b49cd49802153669cf0d1e567ad57183159293d33bdedd2324172b2ff8ecd604",
+      "testSha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56",
+      "executed": [
+        {
+          "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+          "fullName": "C01-G05 布局编辑与 session undo/redo C01-G05-10 布局类型 select 在 proof 未就绪前保持 disabled 然后启用",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx:884:33\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "numFailedTests": 1,
+      "numPassedTests": 0,
+      "numPendingTests": 66,
+      "unwrappedAct": 0
+    },
+    {
+      "phase": "new-final",
+      "case": "C01-G07-07",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/new-final-count.json",
+        "--silent=false",
+        "-t",
+        "C01-G07-07"
+      ],
+      "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "5fde73c7ce1af33754f40afaa1670b209e2177ea7c2e8a5d6b369704a989bcea",
+      "rawBytes": 6776,
+      "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "mutantSha256": "44069ac2129a4a6495e9d2b4b4244b867398344629396ea6468bb54ac3f66574",
+      "rebuiltMutantSha256": "44069ac2129a4a6495e9d2b4b4244b867398344629396ea6468bb54ac3f66574",
+      "testSha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56",
+      "executed": [
+        {
+          "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+          "fullName": "C01-G07 检查器页签/动作入口/引用面板与选择恢复 C01-G07-07 精灵库精确显示 starter 加三个 authored 资源，共4项",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '0 项' to be '4 项' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-editor-oracle-mypp3sc7/packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx:1130:7\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "numFailedTests": 1,
+      "numPassedTests": 0,
+      "numPendingTests": 66,
+      "unwrappedAct": 0
+    }
+  ]
+}

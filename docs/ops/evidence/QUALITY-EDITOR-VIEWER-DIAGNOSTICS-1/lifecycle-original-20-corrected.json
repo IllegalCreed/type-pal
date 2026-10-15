@@ -1,0 +1,31 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+    "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c08-lifecycle-original-20-corrected.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 3.03,
+  "bytes": 502,
+  "sha256": "843c8a08c4ac7abc25d71416d14d4f9d516895c30512142175cdb045713d1994",
+  "testsSha256": "ba153cad4ee4158f759dd814aea5e77961d26b358fdebc697f5c5b9f0909faba",
+  "passed": 20,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

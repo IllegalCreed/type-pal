@@ -53,6 +53,33 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '6ff88bee5f7e7fd6fb2b7d4103d73c9db56948d05fabb39498f3746bdeb0cb4a',
       fileSha256: 'a4a475aea163b36b20a457cf1ca28805c2d3dec55c63e47d9b507e0301aed3da',
     },
+    // User-approved 2026-10-15 CODE94 C5 rework (Codex codex-r2-review R2 counter
+    // ordered removal of proven-duplicate / self-model tests; GLM handoff instruction
+    // of the same date). Exact snapshots only, same rules as above.
+    {
+      file: 'packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'e78dc305842326ee719ff997624584df2de2b9e7156b5a2f56c18f6765c19cd4',
+      currentIdentityDigest: '1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619',
+      fileSha256: '5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9',
+    },
+    {
+      file: 'packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: 'bd2f2514088aac7ebd9d4c4dc924499c960d819ed3b6e12fad431342ef311b1a',
+      currentIdentityDigest: '9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112',
+      fileSha256: '28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46',
+    },
+    {
+      file: 'packages/game/src/core/menu/save-slot-menu.test.ts',
+      previous: 15,
+      current: 14,
+      previousIdentityDigest: 'f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581',
+      currentIdentityDigest: '6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda',
+      fileSha256: 'e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174',
+    },
     // User-approved 2026-10-03 audit baseline reconciliation. These six files
     // were already stale relative to main 8efe0486; pin exact identities so
     // protected strict distinguishes this migration from later deletions.
@@ -134,6 +161,46 @@ export const approvedTestRetirements = Object.freeze(
       previousIdentityDigest: '6c6ec1df3e8efe2335274ab5ea7033ba08a65d0984db90569993d2f6e6537be7',
       currentIdentityDigest: '4266df0b0afa52f15590c4750f6d6033b93691311e52be95fcc96904fe7c36f5',
       fileSha256: '3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3',
+    },
+    // Codex 2026-10-15, standing test-quality rule: C01 G01-10/G03-09/G03-10
+    // are strict subsets of G07-06/G03-04/G03-05. Exact snapshots, no relaxed matcher.
+    {
+      file: 'packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx',
+      previous: 70,
+      current: 67,
+      previousIdentityDigest: '46baea1df50d2f6a042bf0921c9e8d1bb1316a3a85a872893003acc20ba90386',
+      currentIdentityDigest: 'c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892',
+      fileSha256: '3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56',
+    },
+    // Codex 2026-10-15: G04-04 disk restore oracles merged into G04-05 undo/redo.
+    // Exact C02 snapshot under the standing test-quality rule; predicates unchanged.
+    {
+      file: 'packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: '7bf7e47e40a170aaa72d29130bc792cf3f7ab87aeeb1959cce36a31abdcd12b5',
+      currentIdentityDigest: '7bb478138d4d76b9b49fb0e408de429bba1616f31e4e525237f457b4a026c44e',
+      fileSha256: 'e967c34abf1c71d590cca61dcfd5ac8df3ba1bf208c8f3c3121b426ae3428927',
+    },
+    // Codex 2026-10-15: G01-02 draft-reset oracles merged into G01-03.
+    // Same external shrink input; oracle-transfer mutants recorded in diagnostics-3.
+    {
+      file: 'packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: 'eb92a404a3d7f85c7e94297d886cf65acbe67907cd105149f07b1e4d6212f315',
+      currentIdentityDigest: '941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157',
+      fileSha256: '43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13',
+    },
+    // Codex 2026-10-15 C08: G03-10 only rendered a test-host placeholder.
+    // Actual viewer call-through positive/absence traces retained; exact snapshot only.
+    {
+      file: 'packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: '5772ecfbe5ee2d180df9ff094b09cc394198efabe2ca48e1f8cf25182a4acdb2',
+      currentIdentityDigest: '4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da',
+      fileSha256: 'b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5',
     },
   ].map((entry) => Object.freeze(entry)),
 )

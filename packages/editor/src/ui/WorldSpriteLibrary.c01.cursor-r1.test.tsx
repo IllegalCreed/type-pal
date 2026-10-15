@@ -1,14 +1,17 @@
 // @vitest-environment jsdom
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 C01：WorldSpriteLibrary 静态资源/选择/过滤/引用/命令合同。
- * 排重：WorldSpriteLibrary.test.tsx / .glm-ui-wave / .kimi-workflows 已证 matcher 不重领；
+ * 本轮移除G01-10/G03-09/G03-10，分别由G07-06/G03-04/G03-05的更强oracle覆盖。
+ * 与相邻WorldSpriteLibrary测试的完整合同排重仍review，不由例数推导净新合同。
  * 自动脚本预览与完成流投影轴因 world-sprite-behavior 漂移只读停线（不作主合同）。
  */
 import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
+  applyHistoryAction,
   clickButtonByText,
   fillAndBlur,
+  gatedFileSource,
   pickCombobox,
   stubNodeTestHost,
   typeDraft,
@@ -18,11 +21,15 @@ import {
   type MountedWorldSpriteLibrary,
   mountWorldSpriteLibrary,
   unmountWorldSpriteLibrary,
+  waitForWorldSpriteResource,
 } from '../__tests__/cursor-asset-r1/world-sprite-harness.js'
+import { loadEditorSprite } from '../core/sprite-assets.js'
 
 let mounted: MountedWorldSpriteLibrary | undefined
 
 beforeEach(async () => {
+  // Register ownership so teardown restores the previous host flag after unmount.
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   await stubNodeTestHost()
   vi.spyOn(window, 'confirm').mockReturnValue(true)
 })
@@ -48,15 +55,15 @@ function catalogMetas(host: HTMLElement): string[] {
   )
 }
 
-async function selectAssetRow(host: HTMLElement, asset: string): Promise<void> {
-  await vi.waitFor(() => {
-    const row = [...host.querySelectorAll<HTMLElement>('.sprite-resource-row')].find(
-      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === asset,
-    )
-    expect(row, `目录行 ${asset}`).toBeDefined()
+async function selectAssetRow(library: MountedWorldSpriteLibrary, asset: string): Promise<void> {
+  const row = [...library.host.querySelectorAll<HTMLElement>('.sprite-resource-row')].find(
+    (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === asset,
+  )
+  expect(row, `目录行 ${asset}`).toBeDefined()
+  await act(async () => {
     row!.click()
   })
-  await act(async () => Promise.resolve())
+  await waitForWorldSpriteResource(library, asset)
 }
 
 async function setKindFilter(host: HTMLElement, label: string): Promise<void> {
@@ -136,7 +143,7 @@ describe('C01-G01 目录选择与视图归属', () => {
     const project = await multiAssetProject('c01-g01-02')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01gamma')
+    await selectAssetRow(mounted, 'sprite.authored.c01gamma')
     await waitMeta(mounted.host, 3, 0)
     expect(mounted.host.querySelector('.what')?.textContent).toBe('大世界精灵资源')
     expect(mounted.focusHistory.at(-1)).toEqual({
@@ -149,7 +156,7 @@ describe('C01-G01 目录选择与视图归属', () => {
     const project = await multiAssetProject('c01-g01-03')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01beta')
+    await selectAssetRow(mounted, 'sprite.authored.c01beta')
     await waitMeta(mounted.host, 4, 1)
     const rows = [
       ...mounted.host.querySelectorAll<HTMLElement>('[aria-label="选择用途定义"] .ds-catalog-row'),
@@ -241,24 +248,6 @@ describe('C01-G01 目录选择与视图归属', () => {
     })
     await waitMeta(mounted.host, 8, 2)
   })
-
-  test('C01-G01-10 检查器引用页签可切换且 panel-references 可见', async () => {
-    const project = await multiAssetProject('c01-g01-10')
-    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
-    await waitMeta(mounted.host, 8, 2)
-    await act(async () => {
-      const tab = [...mounted!.host.querySelectorAll<HTMLElement>('[role="tab"]')].find(
-        (candidate) => /^引用/.test(candidate.textContent?.trim() ?? ''),
-      )
-      expect(tab, '引用 tab').toBeDefined()
-      tab!.click()
-    })
-    await vi.waitFor(() => {
-      const panel = mounted!.host.querySelector('#world-sprite-inspector-panel-references')
-      expect(panel).not.toBeNull()
-      expect(panel?.hasAttribute('hidden')).toBe(false)
-    })
-  })
 })
 
 function buttonByLoose(host: ParentNode, text: string): HTMLButtonElement | undefined {
@@ -341,7 +330,7 @@ describe('C01-G02 文本过滤与空结果恢复', () => {
     await vi.waitFor(() =>
       expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01gamma']),
     )
-    await selectAssetRow(mounted.host, 'sprite.authored.c01gamma')
+    await selectAssetRow(mounted, 'sprite.authored.c01gamma')
     await waitMeta(mounted.host, 3, 0)
     expect(mounted.focusHistory.at(-1)?.objectId).toBe('sprite.authored.c01gamma')
   })
@@ -481,26 +470,6 @@ describe('C01-G03 用途/行为 kind 过滤（不含自动脚本轴）', () => {
     await setTextFilter(mounted.host, 'c01alpha')
     await vi.waitFor(() => {
       expect(catalogMetas(mounted!.host)).toEqual(['sprite.authored.c01alpha'])
-    })
-  })
-
-  test('C01-G03-09 无 poses 的 beta 在含预制动作下被排除', async () => {
-    const project = await multiAssetProject('c01-g03-09')
-    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })
-    await waitMeta(mounted.host, 4, 1)
-    await setKindFilter(mounted.host, '含预制动作')
-    await vi.waitFor(() => {
-      expect(catalogMetas(mounted!.host)).not.toContain('sprite.authored.c01beta')
-    })
-  })
-
-  test('C01-G03-10 含循环动作不把仅有 static 无 loopFrom 的 beta 纳入', async () => {
-    const project = await multiAssetProject('c01-g03-10')
-    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })
-    await waitMeta(mounted.host, 4, 1)
-    await setKindFilter(mounted.host, '含循环动作')
-    await vi.waitFor(() => {
-      expect(catalogMetas(mounted!.host)).not.toContain('sprite.authored.c01beta')
     })
   })
 })
@@ -679,7 +648,7 @@ describe('C01-G04 新增用途 begin/cancel/apply 与 ID stem', () => {
       staticBtn!.click()
     })
     const idInput = mounted.host.querySelector<HTMLInputElement>('#world-sprite-new-usage-id')!
-    expect(idInput.value).toMatch(/c01gamma|static/i)
+    expect(idInput.value).toBe('c01gamma-static')
   })
 
   test('C01-G04-09 新增用途后 undo 还原 sprites 列表', async () => {
@@ -713,7 +682,7 @@ describe('C01-G04 新增用途 begin/cancel/apply 与 ID stem', () => {
     await vi.waitFor(() =>
       expect(mounted!.session.getState().sprites.some((s) => s.id === 'c01-gamma-undo')).toBe(true),
     )
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
       mounted.session
         .getState()
@@ -749,8 +718,8 @@ describe('C01-G04 新增用途 begin/cancel/apply 与 ID stem', () => {
     await vi.waitFor(() =>
       expect(mounted!.session.getState().sprites.some((s) => s.id === 'c01-gamma-redo')).toBe(true),
     )
-    mounted.session.undo()
-    expect(mounted.session.redo()).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'redo')).toBe(true)
     expect(mounted.session.getState().sprites.some((s) => s.id === 'c01-gamma-redo')).toBe(true)
   })
 })
@@ -777,21 +746,13 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
     await fillAndBlur(field, '1')
     await vi.waitFor(() => {
       expect(
-        (
-          mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-            framesPerDir: number
-          }
-        ).framesPerDir,
-      ).toBe(1)
+        mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+      ).toEqual({ kind: 'directional', framesPerDir: 1 })
     })
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
-      (
-        mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-          framesPerDir: number
-        }
-      ).framesPerDir,
-    ).toBe(2)
+      mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+    ).toEqual({ kind: 'directional', framesPerDir: 2 })
   })
 
   test('C01-G05-03 static→directional 布局切换写入四向且 framesPerDir 受帧数约束', async () => {
@@ -846,12 +807,8 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
     await fillAndBlur(field, '1')
     await vi.waitFor(() => {
       expect(
-        (
-          mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-            framesPerDir: number
-          }
-        ).framesPerDir,
-      ).toBe(1)
+        mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+      ).toEqual({ kind: 'directional', framesPerDir: 1 })
     })
     expect(
       mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-idle')?.layout,
@@ -868,12 +825,8 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
     await fillAndBlur(field, '1')
     await vi.waitFor(() =>
       expect(
-        (
-          mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-            framesPerDir: number
-          }
-        ).framesPerDir,
-      ).toBe(1),
+        mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+      ).toEqual({ kind: 'directional', framesPerDir: 1 }),
     )
     await fillAndBlur(
       mounted.host.querySelector<HTMLInputElement>('#world-sprite-frames-per-dir')!,
@@ -881,29 +834,17 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
     )
     await vi.waitFor(() =>
       expect(
-        (
-          mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-            framesPerDir: number
-          }
-        ).framesPerDir,
-      ).toBe(2),
+        mounted!.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+      ).toEqual({ kind: 'directional', framesPerDir: 2 }),
     )
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
-      (
-        mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-          framesPerDir: number
-        }
-      ).framesPerDir,
-    ).toBe(1)
-    mounted.session.undo()
+      mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+    ).toEqual({ kind: 'directional', framesPerDir: 1 })
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(
-      (
-        mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout as {
-          framesPerDir: number
-        }
-      ).framesPerDir,
-    ).toBe(2)
+      mounted.session.getState().sprites.find((s) => s.id === 'c01-alpha-walk')?.layout,
+    ).toEqual({ kind: 'directional', framesPerDir: 2 })
   })
 
   test('C01-G05-08 用途页空白文案：有消费者未选时提示选择上方用途', async () => {
@@ -928,7 +869,28 @@ describe('C01-G05 布局编辑与 session undo/redo', () => {
 
   test('C01-G05-10 布局类型 select 在 proof 未就绪前保持 disabled 然后启用', async () => {
     const project = await multiAssetProject('c01-g05-10')
-    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
+    const asset = 'sprite.authored.c01alpha'
+    const path = project.seeded.get(asset)!.path
+    const gated = gatedFileSource(project.source)
+    const read = gated.gate(path)
+    mounted = await mountWorldSpriteLibrary(project, {
+      focus: 'c01-alpha-walk',
+      source: gated.source,
+      waitForResource: false,
+    })
+    try {
+      const pending = mounted.host.querySelector<HTMLButtonElement>('#world-sprite-layout-kind')
+      expect(pending).not.toBeNull()
+      expect(pending!.disabled).toBe(true)
+      expect(gated.calls).toContain(path)
+      expect(gated.completed).not.toContain(path)
+    } finally {
+      // Release even after a failed assertion, so teardown owns no abandoned read.
+      await act(async () => {
+        read.resolve()
+        await loadEditorSprite(mounted!.reader, asset)
+      })
+    }
     await waitMeta(mounted.host, 8, 2)
     const trigger = mounted.host.querySelector<HTMLButtonElement>('#world-sprite-layout-kind')
     expect(trigger?.disabled).toBe(false)
@@ -996,7 +958,7 @@ describe('C01-G06 删除用途确认取消/成功与引用门控', () => {
         false,
       ),
     )
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     expect(mounted.session.getState().sprites.some((s) => s.id === 'c01-beta-static')).toBe(true)
   })
 
@@ -1063,7 +1025,7 @@ describe('C01-G06 删除用途确认取消/成功与引用门控', () => {
         mounted!.session.getState().assetCatalog.assets['sprite.authored.c01gamma'],
       ).toBeUndefined(),
     )
-    mounted.session.undo()
+    expect(await applyHistoryAction(mounted.session, 'undo')).toBe(true)
     const restored = mounted.session.getState().assetCatalog.assets['sprite.authored.c01gamma']
     expect(restored?.sha256).toBe(seeded.sha256)
   })
@@ -1159,20 +1121,22 @@ describe('C01-G07 检查器页签/动作入口/引用面板与选择恢复', () 
     })
   })
 
-  test('C01-G07-07 精灵库计数单位为「项」且 count≥authored+starter', async () => {
+  test('C01-G07-07 精灵库精确显示 starter 加三个 authored 资源，共4项', async () => {
     const project = await multiAssetProject('c01-g07-07')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    expect(mounted.host.textContent).toMatch(/\d+\s*项/)
+    expect(
+      mounted.host.querySelector('.world-sprite-outliner .ds-list-header__count')?.textContent,
+    ).toBe('4 项')
   })
 
   test('C01-G07-08 从 gamma 切回 alpha 后 who 恢复 AlphaWalk', async () => {
     const project = await multiAssetProject('c01-g07-08')
     mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01gamma')
+    await selectAssetRow(mounted, 'sprite.authored.c01gamma')
     await waitMeta(mounted.host, 3, 0)
-    await selectAssetRow(mounted.host, 'sprite.authored.c01alpha')
+    await selectAssetRow(mounted, 'sprite.authored.c01alpha')
     await waitMeta(mounted.host, 8, 2)
     await act(async () => {
       const walk = [

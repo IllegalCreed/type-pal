@@ -1,0 +1,38 @@
+{
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/menu/menu-mode.test.ts",
+    "src/core/menu/inventory-menu.test.ts",
+    "src/core/menu/inventory-menu.boundaries.test.ts",
+    "src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/shop-menu.test.ts",
+    "src/core/menu/shop-menu.boundaries.test.ts",
+    "src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/equip-menu.test.ts",
+    "src/core/menu/equip-menu.boundaries.test.ts",
+    "src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/in-game-menu.test.ts",
+    "src/core/menu/in-game-menu.boundaries.test.ts",
+    "src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/magic-select.boundaries.test.ts",
+    "src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+    "src/core/menu/__tests__/item-magic-select.test.ts",
+    "src/core/menu/in-game-magic-menu.test.ts",
+    "src/core/menu/in-game-magic-menu.boundaries.test.ts",
+    "src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/inventory-action-menu.test.ts",
+    "src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/menu-driver.test.ts",
+    "src/core/menu/menu-driver.cov85.test.ts",
+    "src/core/menu/item-select.glm-phase1-leaves.test.ts"
+  ],
+  "environment": {
+    "VITEST_MAX_WORKERS": "1"
+  }
+}

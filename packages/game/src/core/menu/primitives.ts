@@ -1,14 +1,14 @@
 /**
  * M5.M-w0.1:底层菜单 primitive — 数据 + cursor 操作。
  *
- * 4 个 primitive 对照 sdlpal `uigame.c:242-451` 真值:
+ * 4 个工程数据结构，供具体菜单组合使用:
  *  - SelectionMenu:列表光标(物品 / 法术 / 队员 选择)
  *  - ConfirmMenu:Yes/No 确认框
  *  - TripleMenu:3 选 1(常见于"上 / 下 / 取消")
  *  - SwitchMenu:多选项循环切换(战斗 主菜单 5 项类似)
  *
  * 渲染层(draw-menu.ts)由 M-w0.1 Step 3 实现;本文件不持任何 DOM / canvas
- * 引用,纯 pure data + tick fn,方便 unit test + L2 baseline 比对。
+ * 引用。原版对应关系由具体菜单的 caller 核定，不将所有 helper 都称为 SDLPal 机制。
  */
 
 export interface SelectionMenuItem {
@@ -66,9 +66,9 @@ export function createSelectionMenu(
 }
 
 /**
- * 跳过 disabled 找下一个可选 index;循环;无任何可选时返回当前。
- * L38 后**仅供翻页(pageUp/Down)落到可选项**;逐项移动(moveSelectionUp/Down)改为不跳过、
- * 可停在 disabled 上(对齐 sdlpal PAL_ReadMenu)。带 disabled 的菜单(法术 / 选施法者)不走翻页,无冲突。
+ * 从 from 后循环查找可选 index；全 disabled 时返回传入的 from。
+ * 只供 test-only pageUp/pageDown 使用；调用方随后还会钳制，最终落点可能仍是 disabled。
+ * 生产菜单的逐项移动可停在 disabled 上（SDLPal PAL_ReadMenu），不调用本 helper。
  */
 function findNextSelectable(items: SelectionMenuItem[], from: number, dir: 1 | -1): number {
   const n = items.length
@@ -105,8 +105,12 @@ function ensureCursorVisible(s: SelectionMenuState): void {
 }
 
 /**
- * M5.6 T6:PgUp 翻页 — cursor 跳到上一页第一个可选项;若已在第一页,跳到首项。
- * sdlpal ui.c:540+ PAL_ReadMenu kKeyPgUp 真值。
+ * test-only PgUp：计算 cursor-pageSize 的目标，再向后找可选项并钳下界。
+ * 当前全 disabled 等边界并不保证落到可选项；只记录现状，正确合同仍待清理任务核定。
+ * 2026-10-15 更正:PAL_ReadMenu(ui.c)无 kKeyPgUp 分支,旧注"ui.c:540+ 真值"锚错误
+ * (该行是 Up/Left 分支);sdlpal 物品翻页在 itemmenu.c:63-94,由 inventory-menu 的
+ * inventoryPageUp/Down 独立实现。pageUp/pageDown 当前无生产 caller(test-only 保留),
+ * 公共出口删除须另卡走准入,不因覆盖率留存也不擅自删。
  */
 export function pageUp(s: SelectionMenuState): void {
   const target = Math.max(0, s.cursor - s.pageSize)
@@ -115,9 +119,7 @@ export function pageUp(s: SelectionMenuState): void {
   ensureCursorVisible(s)
 }
 
-/**
- * M5.6 T6:PgDn 翻页 — cursor 跳到下一页第一个可选项;末页时跳到末项。
- */
+/** PgDn 翻页 — 同 pageUp 的 test-only 状态说明(见上)。 */
 export function pageDown(s: SelectionMenuState): void {
   const target = Math.min(s.items.length - 1, s.cursor + s.pageSize)
   s.cursor = findNextSelectable(s.items, target - 1, 1)

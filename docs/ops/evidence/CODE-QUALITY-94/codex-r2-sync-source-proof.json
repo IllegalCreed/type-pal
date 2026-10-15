@@ -1,0 +1,36 @@
+{
+  "main": "8f5d17ff16f6352cf36e43c4d18895d60d808eaa",
+  "reviewedMenuFilesStillIdentical": 30,
+  "changedMenuFiles": [],
+  "baselineSHA256": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088",
+  "baselineByteIdenticalToCurrentMain": true,
+  "coverageGateAccepted": false,
+  "primarySourceFiles": [
+    {
+      "file": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312"
+    },
+    {
+      "file": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "file": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74"
+    },
+    {
+      "file": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242"
+    },
+    {
+      "file": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8"
+    },
+    {
+      "file": "/Users/zhangxu/illegal/type-pal/reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c"
+    }
+  ],
+  "allReviewedSourceFilesStillIdentical": 57,
+  "changedReviewedSources": []
+}

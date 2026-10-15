@@ -1,0 +1,65 @@
+{
+  "game": {
+    "exitCode": 0,
+    "rawSha256": "01bc22cd26b39a58e994ca948e237ea6b6081b7f2e996fca7c2f5c814af5ed9b",
+    "actDiagnostics": 0,
+    "navigationDiagnostics": 0,
+    "rawBytes": 426
+  },
+  "typecheck": {
+    "exitCode": 0,
+    "rawSha256": "febd502ffabd8611920f04911e6fa0e88fac6cb8ff063bb009b63b02bf965931",
+    "actDiagnostics": 0,
+    "navigationDiagnostics": 0,
+    "rawBytes": 131
+  },
+  "extract": {
+    "exitCode": 0,
+    "rawSha256": "3e3d3305798b3daa6da5f111049165cda83a449f30748f1926b08fd2cb7cbf77",
+    "actDiagnostics": 0,
+    "navigationDiagnostics": 0,
+    "rawBytes": 275
+  },
+  "coverage-tools": {
+    "exitCode": 0,
+    "rawSha256": "340c1b702f96f30fe560bcc649c405b56a088354c56af781d84cecb22d79a66a",
+    "actDiagnostics": 0,
+    "navigationDiagnostics": 0,
+    "rawBytes": 12434
+  },
+  "docs": {
+    "exitCode": 0,
+    "rawSha256": "15898fa4863eb32ee6616f55d761031fed730a78349c6d653a5e9e79fe2845ce",
+    "actDiagnostics": 0,
+    "navigationDiagnostics": 0,
+    "rawBytes": 11751
+  },
+  "lint": {
+    "files": 4073,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  },
+  "ledger": {
+    "inventory": 3283,
+    "closed": 229,
+    "review": 44,
+    "pending": 3010,
+    "newClosures": 0
+  },
+  "main": "8f5d17ff1",
+  "reviewCheckpoint": "25d2d3c42",
+  "gameResult": {
+    "files": 317,
+    "tests": 3558,
+    "skips": 0
+  },
+  "extractResult": {
+    "files": 5,
+    "tests": 28
+  },
+  "coverageToolTests": 59,
+  "notRerun": ["full repository check", "official ratchet", "protected fast"],
+  "integrationAccepted": false,
+  "reason": "semantic counters and existing nonzero diagnostics; merged candidate coverage unverified"
+}

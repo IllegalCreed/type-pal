@@ -1,0 +1,7 @@
+{
+  "rawCombinedOutput": "{\n  \"openingCancel\": {\n    \"observedCursor\": 1,\n    \"primaryCursor\": 0,\n    \"primary\": \"SDLPal uigame.c:143-150\",\n    \"sameOpeningObjectRetained\": true\n  },\n  \"outsideMagic\": {\n    \"observedIds\": [\n      300\n    ],\n    \"primaryIds\": [\n      300,\n      305\n    ],\n    \"primary305Enabled\": false,\n    \"primary\": \"SDLPal magicmenu.c:338-372\"\n  },\n  \"conclusion\": \"COUNTER: current assertions miss opening cursor reset and enshrine hiding a disabled learned spell\"\n}\n",
+  "rawSha256": "de7f7281a0efc395ab3c9608c0fb011cba7de17d2b3da2cfca0c5c54b77c199c",
+  "rawBytes": 463,
+  "exitCode": 0,
+  "readableTextNormalization": "strip trailing line whitespace and normalize EOF only; rawCombinedOutput preserves exact receipt"
+}

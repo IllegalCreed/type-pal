@@ -143,21 +143,9 @@ describe('SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值', () => {
     expect(slots[0]?.meta.savedTimes).toBe(42)
   })
 
-  it('sdlpal 真值 cross-slot max + 1 算法验证(dispatcher 模拟)', async () => {
-    // 模拟用户依次存 3 个 slot,每次先算 max+1 再 save
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    async function simulateSave(slot: number) {
-      const slots = await Save.listSlots()
-      const maxSaved = slots.reduce((m, s) => Math.max(m, s.meta.savedTimes ?? 0), 0)
-      gs.wSavedTimes = maxSaved + 1
-      await Save.saveSlot(slot, gs)
-      return gs.wSavedTimes
-    }
-    expect(await simulateSave(1)).toBe(1) // 0 + 1
-    expect(await simulateSave(2)).toBe(2) // max(1) + 1
-    expect(await simulateSave(3)).toBe(3) // max(1,2) + 1
-    expect(await simulateSave(1)).toBe(4) // 覆盖 slot 1;max(2,3) + 1
-  })
+  // C5 排重(2026-10-15)：原"cross-slot max+1 算法验证(dispatcher 模拟)"自写聚合模型
+  // 重复实现 dispatcher 逻辑，不算真实 caller 证据 —— 真正触发 driver 聚合的合同由
+  // menu-save-chain.glm-msio.test.ts 承担（跨槽 7→8、原槽不变），删除本模拟。
 })
 
 // ── Save / Load roundtrip ────────────────────────────────────────────────────

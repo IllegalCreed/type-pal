@@ -51,7 +51,12 @@ describe('L01 matchesFilter 直接真值表（菜单级未覆盖的分支）', (
     expect(matchesFilter(cases.usableOnly, 'potion')).toBe(true)
     expect(matchesFilter(cases.usableEquip, 'potion')).toBe(false) // equipable 否决
     expect(matchesFilter(cases.usableConsuming, 'potion')).toBe(true)
-    expect(matchesFilter(cases.throwableOnly, 'potion')).toBe(false) // throwable 否决（即使非 usable）
+    expect(matchesFilter(cases.throwableOnly, 'potion')).toBe(false) // throwable+非usable 双因否决
+    // C5 更正(2026-10-15)：usable=true 且 throwable=true —— 隔离"投掷位单独否决"
+    // （原 throwableOnly 同时非 usable，否决被 !usable 遮蔽，投掷守卫未被独立证明）。
+    expect(
+      matchesFilter(mkItem(11, ' usable镖', { usable: true, throwable: true }), 'potion'),
+    ).toBe(false)
   })
 
   it('battle = throwable 或 (usable 且 consuming)：三分支各一', () => {
@@ -62,10 +67,15 @@ describe('L01 matchesFilter 直接真值表（菜单级未覆盖的分支）', (
     expect(matchesFilter(cases.equipOnly, 'battle')).toBe(false)
   })
 
-  it('important = 非 sellable 且非 equipable；sellable 直接按标志', () => {
+  it('important = 非 sellable 且非 equipable；两守卫各自独立否决；sellable 直接按标志', () => {
     expect(matchesFilter(cases.importantStory, 'important')).toBe(true)
     expect(matchesFilter(cases.plain, 'important')).toBe(true) // 白板：非卖非装备（fixture 默认双 false）
-    expect(matchesFilter(cases.sellableEquip, 'important')).toBe(false) // equipable 否决
+    // C5 更正(2026-10-15)：原 sellableEquip 双真无法区分是哪个守卫否决；
+    // 补两个单真用例分别隔离 equipable 守卫与 sellable 守卫。
+    expect(matchesFilter(cases.equipOnly, 'important')).toBe(false) // equipable=true、sellable=false → 仅装备守卫否决
+    expect(matchesFilter(mkItem(12, '可卖药', { usable: true, sellable: true }), 'important')).toBe(
+      false,
+    ) // sellable=true、非装备 → 仅卖出守卫否决
     expect(matchesFilter(cases.usableConsuming, 'important')).toBe(true) // 可用草药非卖 → 本判定也归 important
     expect(matchesFilter(cases.sellableEquip, 'sellable')).toBe(true)
     expect(matchesFilter(cases.importantStory, 'sellable')).toBe(false)

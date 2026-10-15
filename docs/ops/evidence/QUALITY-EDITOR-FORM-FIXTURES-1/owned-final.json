@@ -1,0 +1,33 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/LevelingEditor.test.tsx",
+    "src/ui/LevelCurveEditor.ui.test.tsx",
+    "src/ui/CasualtyEditor.test.tsx",
+    "src/ui/CasualtyEditor.glm-m.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c06-owned-final.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 4.29,
+  "bytes": 545,
+  "sha256": "54fdf4aefd97ee7232c9f770e45105b99b83d892694c9b3fbaa3cd1db72d5ca3",
+  "testsSha256": "14babedd201a60e361f537562f10d1dd71c90906ba7cb639b0ef72bf173d133e",
+  "passed": 16,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

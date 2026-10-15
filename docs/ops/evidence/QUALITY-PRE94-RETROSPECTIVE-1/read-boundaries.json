@@ -1,0 +1,157 @@
+{
+  "fullCards": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "sha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "sha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "sha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "sha256": "5e13a953a15a5f1e6a21abcb56d35fcdace461ec771f8830840a16cef2bd31dd"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "sha256": "b3990fb6d2564711e74cdfd4fba0e8368664fdc2f0d11c9411cbeebee4a724e9"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+      "sha256": "c7a2171ebfae4a9d9bc63527638e6104cfde3f94a3c8d9ce40bf7bf0c515be48"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "sha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "sha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13"
+    }
+  ],
+  "fullSourceReads": [
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "074b4318ac0b92d6e9a5621e23ea84303a335056b83a60803e6690a690de214c",
+      "lines": 124
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "lines": 67
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b",
+      "lines": 80
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "6a514f7752e11dc9fabe9828c954688803060e041ea2898df1753dfc374423ed",
+      "lines": 177
+    },
+    {
+      "path": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "sha256": "f19d45cd5f90cc728a6d9118f5c80ad1595ca425e47ba9161e01484d33f21e4e",
+      "lines": 165
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "878b3fb48427f20aede9c660c7030cbd0a74db09c5cb1f01979541a7c192343f",
+      "lines": 211
+    },
+    {
+      "path": "packages/shared/src/yj2.boundaries.test.ts",
+      "sha256": "9b35d8a20031fc1fdbb7ac97268b113a0c92c59a87eded446a628593c7d1e7e6",
+      "lines": 69
+    },
+    {
+      "path": "packages/shared/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "bda9a52f990cf145a1fc4749abccac440258139e8f93d0681099a4116535d847",
+      "lines": 46
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "76a33dfb0fae1ca83f6e8c163d9d4d7ff01d9ae2a1893a9819c3a3291855f98e",
+      "lines": 39
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.ts",
+      "sha256": "b01a32ad4f2a313c52accc8ebecc67e550994fa61c802c031d91a7ad31f126c0",
+      "lines": 6
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.test.ts",
+      "sha256": "8e1c0f42266d39f3236af35e40da211d900de1184813b4099454e671372e0882",
+      "lines": 42
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.mjs",
+      "sha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2",
+      "lines": 142
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.test.mjs",
+      "sha256": "1cd882cd1ec6daced32aa438b2760dac9fc6891ab76648d45be81cfcd2948f77",
+      "lines": 123
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "ranges": ["1065-1090", "1870-1989"]
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "ranges": ["210-250"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "ranges": ["3005-3070"]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "ranges": ["368-410"]
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "ranges": ["4425-4480"]
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "ranges": ["1635-1710"]
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "ranges": ["1325-1625"]
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "ranges": ["1810-1865"]
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "ranges": ["1050-1102"]
+    },
+    {
+      "path": "reference/sdlpal/yj1.c",
+      "ranges": ["350-455"]
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "ranges": ["1236-1257"]
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "ranges": ["1435-1490"]
+    }
+  ],
+  "structuredCardCount": 36,
+  "fullCardCount": 8,
+  "noClaimOfAllFilesOrAllHistoryRead": true,
+  "noNewClosures": true
+}

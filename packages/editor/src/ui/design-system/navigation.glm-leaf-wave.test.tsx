@@ -5,7 +5,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   DsMenuBar,
   type DsMenuDefinition,
-  type DsMenuItem,
   DsToolbar,
   handleMenuCharacterSearch,
 } from './navigation.js'
@@ -14,7 +13,7 @@ let host: HTMLDivElement
 let root: Root
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   // 首个可用菜单项聚焦发生在 rAF（渲染后），桩延迟到微任务以贴近真实时序。
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     queueMicrotask(() => callback(0))
@@ -26,10 +25,13 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
-  vi.unstubAllGlobals()
-  vi.restoreAllMocks()
+  try {
+    await act(async () => root.unmount())
+  } finally {
+    host.remove()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 const menus: DsMenuDefinition[] = [
@@ -82,7 +84,8 @@ async function key(element: Element, keyName: string): Promise<void> {
 }
 
 async function click(element: Element): Promise<void> {
-  await act(async () => (element as HTMLElement).click())
+  if (!(element instanceof HTMLElement)) throw new Error('click target must be an HTMLElement')
+  await act(async () => element.click())
 }
 
 describe('DsMenuBar 剩余合同', () => {
@@ -134,9 +137,7 @@ describe('DsMenuBar 剩余合同', () => {
   })
 
   test('sections, checkbox items, href navigation and disabled entries keep their contracts', async () => {
-    // The production shell may choose SPA navigation; this contract test supplies the
-    // host policy explicitly so jsdom does not attempt a real document navigation.
-    const onNavigate = vi.fn((event: { preventDefault: () => void }, _item: DsMenuItem) =>
+    const onNavigate = vi.fn<NonNullable<Parameters<typeof DsMenuBar>[0]['onNavigate']>>((event) =>
       event.preventDefault(),
     )
     const toggled = vi.fn()
@@ -185,6 +186,8 @@ describe('DsMenuBar 剩余合同', () => {
     await click(link)
     expect(onNavigate).toHaveBeenCalledTimes(1)
     expect(onNavigate.mock.calls[0]?.[1]?.id).toBe('docs')
+    expect(onNavigate.mock.calls[0]?.[1]?.href).toBe('https://example.com/docs')
+    expect(onNavigate.mock.calls[0]?.[0]?.nativeEvent.defaultPrevented).toBe(true)
     expect(openMenu()).toBeNull()
   })
 })
@@ -247,27 +250,52 @@ describe('DsToolbar 剩余合同', () => {
 describe('handleMenuCharacterSearch 剩余合同', () => {
   const labels = ['新建', '打开', '保存']
 
-  function event(key: string, modifiers: { meta?: boolean; ctrl?: boolean; alt?: boolean } = {}) {
-    // 测试宿主垫片：函数只读取 key/修饰键，等价于生产侧的 React 合成事件字段。
-    return {
-      key,
-      metaKey: modifiers.meta ?? false,
-      ctrlKey: modifiers.ctrl ?? false,
-      altKey: modifiers.alt ?? false,
-    } as Parameters<typeof handleMenuCharacterSearch>[0]
+  function search(
+    key: string,
+    labels: readonly string[],
+    modifiers: { meta?: boolean; ctrl?: boolean; alt?: boolean } = {},
+  ): number | undefined {
+    let result: number | undefined
+    act(() =>
+      root.render(
+        <button
+          type="button"
+          onKeyDown={(event) => {
+            result = handleMenuCharacterSearch(event, labels)
+          }}
+        >
+          Keyboard host
+        </button>,
+      ),
+    )
+    const target = host.querySelector('button')
+    if (!target) throw new Error('keyboard host missing')
+    act(() => {
+      target.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key,
+          metaKey: modifiers.meta ?? false,
+          ctrlKey: modifiers.ctrl ?? false,
+          altKey: modifiers.alt ?? false,
+          bubbles: true,
+          cancelable: true,
+        }),
+      )
+    })
+    return result
   }
 
   test('matches single unmodified characters case-insensitively by label prefix', () => {
-    expect(handleMenuCharacterSearch(event('保'), labels)).toBe(2)
-    expect(handleMenuCharacterSearch(event('d'), ['Open', 'Duplicate'])).toBe(1)
-    expect(handleMenuCharacterSearch(event('z'), labels)).toBeUndefined()
+    expect(search('保', labels)).toBe(2)
+    expect(search('d', ['Open', 'Duplicate'])).toBe(1)
+    expect(search('z', labels)).toBeUndefined()
   })
 
   test('ignores multi-character keys and modifier chords', () => {
-    expect(handleMenuCharacterSearch(event('ArrowDown'), labels)).toBeUndefined()
-    expect(handleMenuCharacterSearch(event('Enter'), labels)).toBeUndefined()
-    expect(handleMenuCharacterSearch(event('s', { meta: true }), labels)).toBeUndefined()
-    expect(handleMenuCharacterSearch(event('s', { ctrl: true }), labels)).toBeUndefined()
-    expect(handleMenuCharacterSearch(event('s', { alt: true }), labels)).toBeUndefined()
+    expect(search('ArrowDown', labels)).toBeUndefined()
+    expect(search('Enter', labels)).toBeUndefined()
+    expect(search('s', labels, { meta: true })).toBeUndefined()
+    expect(search('s', labels, { ctrl: true })).toBeUndefined()
+    expect(search('s', labels, { alt: true })).toBeUndefined()
   })
 })

@@ -7,6 +7,55 @@
 不把机器快照当作产品源文件提交。
 已经直接核验的文件另记在[逐文件代码治理账本](code-quality-file-ledger.md)；账本未清零前不得宣布专项完成。
 
+## 2026-10-15 94前风险回溯
+
+用户新增大致浏览94前治理：36卡结构盘点、8卡和13源码/测试/工具全文抽样，范围外未知不冒充逐文件复验。
+毒键role/party前提、ownership测试域、cleanup非法fixture与YJ2过期待证注释有直接counter，撤回四条旧关闭；
+机器3284/225closed/75review/2984pending，0新增关闭。毒域另开高风险draft，不改机制/save。
+[完整范围与分层结论](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)。94–102与editor零诊断原goal持续；其它旧关闭保留历史身份，未重新签accept。
+
+## 2026-10-15 C02宿主/删除切片
+
+三个文件列review，0新关闭；G04完整十例先404→0，精度补强后同合同undo并入redo，最终九例0诊断、两有效业务反控。
+真实cache/palette Promise只观察透传，不静音或另造decode；全库helper caller/排重和完整门仍待核。
+完整check/确认版ratchet/普通protected数值通过但仍2049/2076/2081条未包act，另有环境/导航诊断，不合main。
+3284/229closed/51review/3004pending；[证据与读取边界](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md)。
+
+## 2026-10-15 editor三文件首片
+
+生命周期604→200→0、三oracle有效反控、三重复精简，67定向0诊断。相邻54带231条act，完整check/确认版ratchet/protected数值通过但全仓诊断仍未清；
+不合main、不关闭文件。机器3284/229closed/48review/3007pending；[首片证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md)。
+三个已读文件仅列review，未核相邻/其它helper caller域仍待审。
+
+## 2026-10-15 menu候选最终窗口
+
+两项获批修复的定向125、game3564、七包typecheck通过；完整check/ratchet/protected均已执行，
+数值通过但真实诊断未清零，因此CODE94仍rework，其它本批卡review、第三项显示未实施。
+官方基线与原件完整性、逐文件变更、未修风险见[最终窗口](../evidence/CODE-QUALITY-94/codex-final-window.md)。
+机器账本3284/229closed/45review/3010pending，0新关闭，未合main；不宣告专项完成。
+
+## 2026-10-15 menu候选独立再验收
+
+Codex随后接手已证低风险返工，并按用户明确批准修复存档事务与标题取消（c81f469e3、23f4effbf）；
+第三项法术显示未批准、不实施。当前CODE95/97–102及两张修复卡保持review；CODE94与统一门尚未闭合。
+新增真实IDB回归文件列review，机器账本须重新读取；0新关闭。最新修复及门状态见
+[Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)，下文R3为冻结作者旧候选的独立结论。
+
+当前三验见 [Codex R3](../evidence/CODE-QUALITY-94/codex-r3-review.md)，候选5477af1e4、main=f98d0ddd8。
+CODE95三份夹具局部accept；其余批次有效增量接收但仍有测试/注释counter、机制/Save风险和全仓非零诊断。
+3283 inventory /229 closed /44 review /3010 pending，0新关闭、未合main。用户本轮授权后由Codex接手低风险返工。
+下文R2数字与裁定保留为历史，不将旧门或作者自验升级为当前通过。
+
+CODE94/97–102当前counter/rework，CODE95仅三份fixture局部accept、仍review。
+[Codex R2逐文件证据](../evidence/CODE-QUALITY-94/codex-r2-review.md)钉候选1f8bcd468；0新闭合，
+3267 inventory /229 closed /44 review /2994 pending。全仓门含真实诊断不计通过，未合main。
+发现的机制/Save风险分别登记[标题取消](../tasks/GAME-OPENING-CANCEL-CURSOR-1.md)、
+[大世界法术禁用](../tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md)、
+[IDB事务](../tasks/GAME-SAVE-IDB-COMMIT-1.md)三张draft卡，无build allowed，不得直接实现。
+先完成有限测试/注释返工，再按完整模块窗口统一跑全门；不将包绿当作逐文件完成。
+
+同步origin/main=8f5d17ff1后，当前机器口径为3283/229closed/44review/3010pending；新增16项音乐记录保持pending。上方3267仅为1f验收快照，R2结论不变，未集成main。
+
 ## 边界与当前责任
 
 本专项按工程 → 模块 → 功能 → 文件推进，Coding Owner 为 Codex，单批单一写入者；不接管

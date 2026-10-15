@@ -1,0 +1,10 @@
+{
+  "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "exitCode": 0,
+  "seconds": 2.33,
+  "bytes": 112,
+  "sha256": "7e92dfaa55c1829a7b5bb254a945878ecfaf7ddf9e84e3b8dac748342cc131a8",
+  "combinedOutput": "code-quality ledger: PASS \u2014 3283 files; 229 closed / 44 review / 3010 pending; semantic review still required\n"
+}

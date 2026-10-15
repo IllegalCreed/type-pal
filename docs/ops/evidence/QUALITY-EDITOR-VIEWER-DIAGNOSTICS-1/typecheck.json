@@ -1,0 +1,7 @@
+{
+  "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"],
+  "exit": 0,
+  "seconds": 15.72,
+  "bytes": 189,
+  "sha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194"
+}

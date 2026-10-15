@@ -1,0 +1,158 @@
+{
+  "purpose": "Keep historical raw receipts immutable while .txt display copies comply with whitespace checks; use decompressed original when verifying a historical raw hash. No test results, counts or diagnostics altered.",
+  "files": [
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-100/targeted.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-100__targeted.txt.original.gz",
+      "originalBytes": 171,
+      "originalSha256": "2e6ad51c0a2e00d451e2fb20cf025a6db27a0e6ad298b374fbcd820ef40bc7f2",
+      "displaySha256": "381e3eb227151fc6d9ee02a459a1452b0c1a3d6208dc37c229484d1776043a37",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-101/targeted.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-101__targeted.txt.original.gz",
+      "originalBytes": 171,
+      "originalSha256": "71ce94ab6e8f6ea1e5d193527cc784ebc6758299bf2fa9f22a6cd921c6c0a579",
+      "displaySha256": "5a975fa463a15429dc07def51e9ca7319af89291a84b6a7da937ff0d3626bd67",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-102/targeted.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-102__targeted.txt.original.gz",
+      "originalBytes": 167,
+      "originalSha256": "1664390a11bdc5e39b57ba1fa64d71a2400fdc03fe8fb0dfb4da769c8355db9c",
+      "displaySha256": "33958ccb08eb0ba62cdb08947d73b0f2c65c2d744902397e00873d59c4b55884",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-90/gate-ratchet-after-boundary.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-90__gate-ratchet-after-boundary.txt.original.gz",
+      "originalBytes": 18174,
+      "originalSha256": "8f28a157741d613b04155972e24e0ff7d203fd8fb2d7fd93ceb21136268a29c7",
+      "displaySha256": "531cdab07d886d2b91103e2996860bbfdd2f432c59c856a76d9eeeddaa7999f8",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-90/gate-ratchet-current.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-90__gate-ratchet-current.txt.original.gz",
+      "originalBytes": 18402,
+      "originalSha256": "c1d93eb2e28cc03125ff1d6f7ba4b6111b15264e20061bf62c68759df0507fd3",
+      "displaySha256": "0414c8647fc9aec610ab8e9ccc22a7d0332cc2899a6a42857181a160465303ba",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-merge-protected.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-c5-merge-protected.txt.original.gz",
+      "originalBytes": 1784225,
+      "originalSha256": "f7146182785be8a553556c22b9308cd5c1ab73cb39e2ea8e375af6f3e4a095e7",
+      "displaySha256": "08e3a258872cc95dbcd90d22d392c48113ebfce48ed3a55a0dee382a460f55d2",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-merge-ratchet.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-c5-merge-ratchet.txt.original.gz",
+      "originalBytes": 1787810,
+      "originalSha256": "0c6ace8531e61a8e87cd3d36e6313d35dfaa43373d3f56b951e3095d26e3eac4",
+      "displaySha256": "68d7c257fccdd6fca7ef3ba3d747cb4b8659a87ca57413e8ea46045be4039ea9",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-protected.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-c5-protected.txt.original.gz",
+      "originalBytes": 1825138,
+      "originalSha256": "aee6c3c231a276d2c2b76c0b1cc32df21510515c41184e1c05eb8f21ff3845a3",
+      "displaySha256": "6dccfcd03a5f8e920ecbd3411f2749101572fdbfd03c332bcd65d432d793dd80",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-ratchet.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-c5-ratchet.txt.original.gz",
+      "originalBytes": 1779302,
+      "originalSha256": "6cfb0996b0cbce208e1eb653d8fd86e0352caa4b1143de681194a8a36c259974",
+      "displaySha256": "5e306071f9adf664e2a9f5e16a5aa53f604525234854cf83f8519f3cbcb9f48a",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-protected-fast.txt.original.gz",
+      "originalBytes": 1777642,
+      "originalSha256": "a28492ee55defada03e852f1c6f3af6c4ad4c235f3e80be40112b2104e9d534b",
+      "displaySha256": "22a57d33702cdaa9ebee602f8b117a4b84d8e6e466274e99f98ad6c39f7d0e55",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast2.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-protected-fast2.txt.original.gz",
+      "originalBytes": 1792751,
+      "originalSha256": "c5af30621792df51d76bfbd028ae014341528976895c368485deddf26964f045",
+      "displaySha256": "f8f4778b641b05448e19879713d6ed03f2ced8f5a67c1d1194475fd550bfa0b2",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-r2-protected.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-r2-protected.txt.original.gz",
+      "originalBytes": 1862669,
+      "originalSha256": "3b50d0ce484407cf5df334f0ef665b7ce802559f627171dd8aab8e664476f4e3",
+      "displaySha256": "69d7e1b0d825477d5ea2581b36c3f66efc5cd45237f7abccd8e1d0a0ceb40985",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-r2-ratchet.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-r2-ratchet.txt.original.gz",
+      "originalBytes": 1789693,
+      "originalSha256": "2a8aba28e270fd8c9a0bf76e261b3fa1ccf71bdfc7310828bce033d85d1c5ecf",
+      "displaySha256": "e13f75273a907c65f70339dcf46fedea6557ddd28ea7230016bf9a4df2248d99",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-94/glm-ratchet.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-94__glm-ratchet.txt.original.gz",
+      "originalBytes": 1805100,
+      "originalSha256": "5df589cd4a7d091ccf1403c374fd96e49cf8f9f2b9a9f945f76393e76995011a",
+      "displaySha256": "e2b0eebfeb39860aa98c4d55e9d9b88d9fb739b1ee356a4f61febd99d06c631a",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-97/targeted.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-97__targeted.txt.original.gz",
+      "originalBytes": 172,
+      "originalSha256": "88ebc2c94716a4ab7d19176ce790d4bb220b42840680140ad0b473531e76e34f",
+      "displaySha256": "163fd20969e5b512c1d0f6572b14b97edd18406d1fcf030875130c0ea0113a27",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-98/targeted.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-98__targeted.txt.original.gz",
+      "originalBytes": 171,
+      "originalSha256": "2ded62d79f1e4930257a92765a37ea484bfa2cae46324757134eca5133dc7f4d",
+      "displaySha256": "6812af48b10e4e42e5a5c849d3620694b86b1049466d1bf0058be8c00ab14b1a",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    },
+    {
+      "historicalPath": "docs/ops/evidence/CODE-QUALITY-99/targeted.txt",
+      "rawGzip": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/docs__ops__evidence__CODE-QUALITY-99__targeted.txt.original.gz",
+      "originalBytes": 171,
+      "originalSha256": "1afece52617b18a038799a394f393307ead0aa24af220b697a2575e87543841f",
+      "displaySha256": "9cc89e6d4f4984e7a4952aa3220b19ff350de5af26b11308e65f6128f00b1a10",
+      "onlyTrailingWhitespaceAndEofBlankLinesChanged": true,
+      "allNonWhitespaceBytesEqual": true
+    }
+  ]
+}

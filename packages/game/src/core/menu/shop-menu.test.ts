@@ -37,7 +37,7 @@ function flags(over: Partial<ItemFlags> = {}): ItemFlags {
     sellable: false,
     equipableBy: [false, false, false, false, false, false],
     ...over,
-  } as ItemFlags
+  }
 }
 
 function mkItem(id: number, price: number, over: Partial<Item> = {}): Item {
@@ -110,7 +110,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
   let gs: GameState
 
   beforeEach(() => {
-    setMenuCatalogs({ items: CATALOG, spells: [], magics: [], playerRoles: { roles: [] } as never })
+    setMenuCatalogs({ items: CATALOG, spells: [], magics: [], playerRoles: { roles: [] } })
     // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单
     setShopMenuHandler(({ gs: g, mode }) => {
       if (mode === 'buy') openMenu(g, { kind: 'shop-buy', state: createBuyMenu(CATALOG) })

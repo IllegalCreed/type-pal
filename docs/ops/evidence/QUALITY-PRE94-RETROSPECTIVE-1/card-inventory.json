@@ -1,0 +1,630 @@
+{
+  "base": "f0cf0f7f",
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "purpose": "rough retrospective, not per-file reacceptance",
+  "cardCount": 36,
+  "cards": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+      "sha256": "3893c7855c67c0135815bafb3dbf004b7126d659ee1879f2c6c91738ad74f98f",
+      "lines": 179,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "34ccffd5abcf2029153a869bcfb73beeeffb0954\tIllegalCreed\tquality: close shared codec boundary batch",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md:11-25,66-84`（单一 Owner、零诊断、证据先于方案）；`CLAUDE.md:5-29`（阶段区分、只修根因、允许行为不漂移治理）；`docs/phase2/READ-FIRST.md:1-11,17-30`（Reforge 架构优先、不可把旧引擎怪癖带入）。",
+        "- 已知坑 / 审计文档：`docs/ops/audits/architecture-debt.md:18-23,67-80`（不以行数判债、状态/错误/释放证据）；`docs/testing/quality-zero/README.md`（静态零诊断已收口，不借本卡修改规则）；`docs/phase1/engineering-notes.md:34-37`（修真因、不在相邻层叠补丁）。",
+        "- 相关测试：`packages/shared/src/rle.test.ts`、`packages/shared/src/rle.boundaries.test.ts`、`packages/shared/src/rle-encode.test.ts`；受影响包 typecheck/test 与最终 `pnpm check`/`pnpm lint`。",
+        "- done 准入结论：Codex done allowed（完整 `pnpm check`、官方 `coverage:ratchet`、受保护 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 均通过；本卡首批完成，不等于全仓逐文件治理完成）",
+        "4. 每批定向门后按风险串行全仓 `pnpm check`、官方 ratchet/受保护 strict（若源码变更进入统计域），再更新本卡与看板；未全仓零诊断不宣布专项总体完成。",
+        "- 结论：build allowed 已核；仍需在 review 读 diff、真实 callers、失败语义与零诊断门。",
+        "- 运行命令：shared 全包 `vitest` 117/117、shared typecheck；game 资产相邻 39/39；reforge 资产/对话相邻 11/11；pal-extract RLE/sprite 相邻 10/10；质量清单工具 28/28；完整 `pnpm check` 通过（editor 605/4844、migrate 95/723）；`pnpm coverage:ratchet` 通过，shared 语句/分支 401/420、184/199；`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 通过；全仓 `pnpm lint`（3196 文件）零诊断。",
+        "- 审查结论：accept。RLE 失败语义、合法 callers、editor 当前 census、官方 ratchet 和受保护 fast 均已直接复核；未修改 editor collector 或产品数据。",
+        "- 2026-10-04 Codex：Q1 实现完成。`decodeRle`/strict parser 增加 header、尺寸、游标、零进度和段越界失败语义；宽容入口保留坏帧跳过；历史 runtime-resource 回执中的截断死循环登记转为可反证回归。影响包定向/全包测试与 typecheck 通过，`pnpm lint` 3196 文件零诊断。Evidence: `packages/shared/src/rle*.test.ts`、`docs/testing/glm-runtime-resource-wave/receipt.md:73-81`。Next: review/选择性集成。",
+        "- 2026-10-04 Codex：全仓 `pnpm check` 已串行尝试；主树 ignored raw/extracted 输入以只读 symlink 补齐后，除 editor 全包一个既有 `project-reference` 计数合同（22666→22663）外均通过；不修改该存量 oracle。候选已提交并推送 `7fde00ce302250e823fe53edd7c705560e698acf`（`codex/code-quality-governance`）。专项留在 review，统一质量门不宣称 done。Next: 用户/后续 Codex 处理存量合同后再重跑全仓门。",
+        "- 2026-10-04 Codex：继续核实 `379304503` 与后续 `66676dc9f` 的内容/测试历史，确认 22666、4356、4450、25201/28104 是旧 census；当前 collector 与精确关系断言在 22663、4353、4448、25196/28092 下全绿。完整 check、ratchet 与 protected fast 均通过。Next: 归档本卡，保留 Q2–Q6 路线。",
+        "- 2026-10-04 Codex：为 RLE 新增尺寸/透明段/像素段/命令流四个原子反例，shared 117/117；`pnpm coverage:ratchet` 只升不降（shared 401/420 statements、184/199 branches），`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 受保护门通过；全仓 `pnpm check` 与 lint 已通过。Next: 本卡完成，后续按 Q2–Q6 另开窄批。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "sha256": "71fb42fb4c264e4cbdff220a96784814d084e341bcb723d1c6298e87bdf48f73",
+      "lines": 95,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "34ccffd5abcf2029153a869bcfb73beeeffb0954\tIllegalCreed\tquality: close shared codec boundary batch",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md:11-25,66-84`：单 Owner、零诊断、证据先于方案。",
+        "- 测试：shared 全包/typecheck；受影响 game/pal-extract 相邻测试；完整 `pnpm check`、`pnpm coverage:ratchet`、受保护 fast、`pnpm lint`。",
+        "- 验证证据：shared 127/127 + typecheck；game RNG/sprite snapshot 18/18；pal-extract RNG/MKF 17/17；真实 raw MKF 15 个文件、2,373 chunks 全部可读，RNG 1,464 帧全量解码；Biome 定向零诊断。",
+        "- Codex 独立复核：accept（完整 check、ratchet、protected fast、lint 和真实 raw 对拍均通过）",
+        "- 2026-10-04 Codex：完整 `pnpm check`、`pnpm lint`、`pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 全部通过；shared 127/127、game/pal-extract 相邻测试全绿。Q2 完成，Q3 phase1 extract/game 保留为下一窄批。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "sha256": "526e79d8fbfd491bcdf33907633880a3413f9dad03aec10096dc602aa46e9341",
+      "lines": 84,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "3f5d917fa114a0f95e82a2b2375deb1844799545\tIllegalCreed\tquality: close shared yj2 boundary batch",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 测试：YJ2 定向、shared 全包、相邻 caller、全仓 check、ratchet、受保护 fast、lint；受保护 fast 若仍受 CODE-QUALITY-3c 阻塞，保留为独立未决，不降门。",
+        "- 独立验收：accept（真实 raw 逐字节、targeted/shared/full check、official ratchet、protected fast、lint 均有证据；editor 默认 runner 的时序差异单列 CODE-QUALITY-3c）。",
+        "- 全仓 `pnpm check`：docs/tools、content 149/149、shared 129/129、game 3391/3391、pal-extract 417/417、reforge 8682/8682、editor 605/4844、migrate 95/723、lint 3196 文件零诊断通过。",
+        "- Official ratchet：支持的 `TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1 pnpm coverage:ratchet` 通过并更新 baseline；shared 合法提升到 448/466 statements、204/218 branches、400/412 lines，test count 127→131，未降低其它包/总量。",
+        "- Protected fast：`TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 通过；七包范围、origin/main 保护线和零诊断均通过。默认串行 runner 曾因 editor 单分支抖动失败，已独立登记 CODE-QUALITY-3c，未放宽门槛。",
+        "- 2026-10-05 Codex：YJ2 实现与反控完成；真实 raw 2,626 段/34,367,608B 逐字节一致。全仓 check/lint、支持并行 editor 的 official ratchet、protected fast 通过；shared baseline 合法上升。Next: 归档 Q2b，继续 Q3c/Q3 phase1 文件治理。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "sha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4",
+      "lines": 95,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "48b623d66e1a0c8715529fbf312467f6f8c63635\tIllegalCreed\tquality: close pal-extract event type boundaries",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md:11-25,66-84`：零诊断、单 Owner、证据先于方案。",
+        "- 类型：目标生产文件无 `as unknown as`，typecheck 零诊断；不以 `any`/ignore 替代。",
+        "- 测试：pal-extract 全包、shared 相邻、完整 check、ratchet、protected fast、lint。",
+        "- 验证证据：pal-extract 定向 45/45、全包 68/415、typecheck、lint 3196 文件零诊断通过。",
+        "- Codex 独立复核：accept（完整 check、ratchet、protected fast、lint 与 pal-extract 全包均通过）",
+        "- 2026-10-04 Codex：完整 `pnpm check`、`pnpm lint`、`pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 全部通过；pal-extract 纯转换输出合同无漂移。Q3a 完成，Q3 其它 extract/game 文件保持待核。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "sha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
+      "lines": 141,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "ea0ba6c9745cd63e1d4ba87830de904af46d771c\tIllegalCreed\tquality: close pal-extract input boundaries",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md:11-25,66-84`：单一 Owner、证据先于方案、零诊断与质量门。",
+        "- 测试：SSS/M.MSG 边界回归、pal-extract 全包、typecheck、相邻 shared codec；完整 `pnpm check`、官方 ratchet、受保护 fast、`pnpm lint` 零诊断。",
+        "- 贡献者交付与自验：Codex；SSS/M.MSG targeted 34/34、pal-extract 68 files / 417 tests、全仓 `pnpm check` 与 lint 通过。",
+        "- Codex 独立复核：accept；直接读取 primary/raw、生产 callers、diff 与反控；支持并行 editor 的 official ratchet 与受保护 fast 均通过，未降低门槛。",
+        "- 运行命令：定向 SSS/M.MSG/相邻真实测试 34/34、pal-extract `check` 68 files / 417 tests、全仓 `pnpm check`（editor 605/4844、migrate 95/723、lint 3196 文件零诊断）通过；`pnpm coverage:ratchet` 通过并更新 pal-extract 266 tests / 1037/1500 statements / 429/551 branches；受保护 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 串行两次及并行 editor 一次均因 editor 分支当前 24165/29058 比本地 ratchet 基线 24166/29058 少 1 而失败，未放宽门槛。",
+        "- 审查结论：实现范围、primary source、真实 raw 合同、相邻回归和零诊断已独立复核；覆盖率 ratchet 通过，但受保护 fast 的 editor 单分支差额未闭合。",
+        "- 2026-10-04 Codex：Q3b 实现完成，SSS/M.MSG 边界 34/34、pal-extract 68/417、全仓 check 与 lint 通过；ratchet 通过。受保护 fast 串行两次与 editor/game 并行一次均稳定暴露 editor 少 1 branch，任务留 review/rework，不宣称 done。Next: 先闭合 coverage 确定性门，再归档 Q3b。",
+        "- 2026-10-05 Codex：在 Q2b 后续质量门中，支持并行 editor 的 official ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=b9ba7e0fa pnpm coverage:fast` 均通过；Q3b 合法门闭合，CODE-QUALITY-3c 独立保留。Next: 归档 Q3b，进入 Q3c/Q3 其它文件。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "sha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb",
+      "lines": 66,
+      "statusClaim": "done",
+      "ownerClaim": null,
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "8fea6a4ec87240972ba8011343281e9034b6dc76\tIllegalCreed\tquality: close editor coverage and png boundary batches",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 一句话工程前提：当前 Q3b 代码候选不触碰 editor，但 `pnpm coverage:ratchet` 的 editor branches 为 24166/29058 后，连续两次串行受保护 fast 和一次 `TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1` 都为 24165/29058；同一命令必须可重复，不能靠一次幸运命中放行。",
+        "- `AGENTS.md` 零诊断、精确门、不得用 ignore/缩窄范围逃避。",
+        "- `scripts/coverage/run.mjs` 当前 ratchet/protected 比较与 `scripts/coverage/config.mjs` editor selection。",
+        "- 不得重新引入：降低 baseline、增大排除、sleep 猜阶段、把 `pnpm check` 全绿冒充 coverage closure。",
+        "- 任何修复必须有直接反控（删调度/清理或生产 guard 时应按合同失败），再跑 editor 定向、全仓 check、ratchet、受保护 fast、lint。",
+        "- Codex 独立验收: accept（公开组件回归、negative control、全仓 check、support-mode ratchet、protected fast、lint）。",
+        "- 2026-10-04 Codex：Q3b 的 pal-extract 变更不触碰 editor，但 protected fast 连续暴露 editor branches 24165/29058 对 ratchet baseline 24166/29058 的差 1；历史调查要求不得多数放行。Next: 先做逐文件 coverage 对照，未闭合前 Q3b 不标 done。",
+        "- 2026-10-05 Codex：新增 `SpriteFrameWorkbench.animation-boundary.test.tsx`，合法缺帧请求命中第0帧并在动作终点停止；删除 fallback 的单点 mutant 失败。editor 606/4845、全仓 check、support-mode ratchet、protected fast、lint 均通过，差额闭合。Next: 归档 Q3c，后续继续逐文件治理。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "sha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
+      "lines": 65,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "8fea6a4ec87240972ba8011343281e9034b6dc76\tIllegalCreed\tquality: close editor coverage and png boundary batches",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 测试：定向边界、pal-extract 全包、全仓 check、official ratchet、protected fast、lint；CODE-QUALITY-3c 的 runner 证据独立登记。",
+        "- 独立验收：accept；实现、定向、全仓 check、support-mode ratchet、protected fast、lint 均通过；editor runner 差额由 CODE-QUALITY-3c 闭合。",
+        "- 全仓：`pnpm check` 通过（pal-extract 419、editor 605/4844、migrate 95/723、lint 3197 文件零诊断）。",
+        "- Coverage：Q3d 单包达到 1044/1507 statements、441/563 branches、922/1332 lines；support-mode ratchet/protected fast 已通过，未降门槛。",
+        "- 2026-10-05 Codex：实现 guard 与专属边界测试，负控失败；全仓 check/lint 通过。Q3d 留 review/rework，等待 CODE-QUALITY-3c 的 coverage runner 门，不把单包提升冒充全仓 ratchet/protected closure。",
+        "- 2026-10-05 Codex：Q3c 闭合后重跑 support-mode ratchet/protected fast，Q3d 质量门通过；PNG 合法输出/alpha 合同保持。Next: 归档 Q3d。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "sha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
+      "lines": 54,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "abb759cebde4315c3c43be4c7562e4f8bfbae8fd\tIllegalCreed\tquality: close pal-extract symbols contract",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 测试：symbols parser/annotate 定向、pal-extract 全包、全仓 check、support-mode ratchet、protected fast、lint。",
+        "- 独立验收：accept；定向/包级、全仓 check、support-mode ratchet、protected fast、lint 均通过，事件数字真值与生成物边界不变。",
+        "- 2026-10-05 Codex：新增 `parseSymbols` 结构验证并接入 CLI；annotate 定向 17/17、pal-extract 69/421、typecheck 通过。Next: 跑全仓 check/ratchet/protected/lint。",
+        "- 2026-10-05 Codex：全仓 check、support-mode ratchet、protected fast、lint 通过；symbols 合同闭合，归档 done。Next: 继续逐文件 CLI/game/content/migrate 治理。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "sha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
+      "lines": 55,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "d76c24fe10c0081901c55c024e4e6873db4ec441\tIllegalCreed\tquality: close pal-extract cli audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md` 单 Owner、生成物上游、零诊断和测试质量规则。",
+        "- 若修代码：定向/相邻、pal-extract 全包、全仓 check、support-mode ratchet、protected fast、lint；若纯审计：记录直接证据与已跑全包/全仓门，不标生产问题已修。",
+        "- 独立验收：accept；完整 CLI 分段 caller/清理/写盘/降级/manifest 直接复核，pal-extract/full check、support-mode ratchet、protected fast、lint 均通过；未发现需修的直接证据问题。",
+        "- 2026-10-05 Codex：完成 73-896 行全量分段审计：OUT 清理有固定 suffix guard 且保留 videos，round-trip fail-loud，资源异常降级均有 caller 注释，manifest 最后写入；未发现新增直接缺陷。全包/full check、ratchet/protected/lint 通过，归档 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "sha256": "e5d610ac1be8a7064d3b53cbb19d3d8aba8830cb8fd1670218b1b09888a957ca",
+      "lines": 72,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "9c9b4b9734147b52be5e1952b47c754b32586f0d\tIllegalCreed\tdocs: archive game asset shell audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：单一 Coding Owner、逐文件台账、硬性零诊断、少而精测试与生成物上游规则。",
+        "- 若修代码：定向/相邻 game 测试、game typecheck、全仓 `pnpm check`、官方 support-mode coverage ratchet、受保护 fast、Biome 零诊断；若纯审计：同样跑受影响包与全仓质量门并只登记证据。",
+        "- Codex 独立验收：accept（直接重读六个生产文件与真实 caller；negative control 删除 fetch-retry guard 后新合同变红；全仓 `pnpm check` 第二轮通过；support-mode ratchet 与 protected fast 均通过；lint 3198 文件零诊断）。",
+        "- 2026-10-05 Codex：六个生产文件逐文件复核；仅 `fetch-retry.ts` 的非法 retries/backoff 有直接可证伪缺陷，已最小修复并拆出 9 个原子合同。定向 12 files/77 tests；game 全包 298/3397；全仓 check 二轮、ratchet、protected fast、lint 全通过。Next: 提交后独立检查并归档本卡；继续 game 其余模块。",
+        "输出要求：给出每个白名单文件的 verified/review/blocked 结论、候选与反证；运行定向/相邻、game typecheck、pnpm check、support-mode ratchet、protected fast、lint；通过后提交并推送，未完成项保留待核。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "sha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
+      "lines": 69,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "fe189dc4deed4283aef784be076b2e2d14dd56bf\tIllegalCreed\tdocs: archive game dialog precache audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：单一 Coding Owner、逐文件账本、硬零诊断、少而精测试和视觉/E2E 延后规则。",
+        "- 若修代码：定向/相邻 game tests、game typecheck、全仓 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断；DOM 只做功能性状态最小验证，不替代剧情 E2E。",
+        "- Codex 独立验收：accept（五个生产文件逐个重读；NaN guard negative control 变红；过时 skipKeys 注释已纠正；全仓第二轮 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断均通过）。",
+        "- 2026-10-05 Codex：五个生产文件逐个核验；`audio-volume.ts` 发现 NaN 可进入 sink/localStorage，已按 0 修复并由负控验证；`trademark-fallback.ts` 仅修正与 playRng 真值冲突的过时注释；dialog/precache UI/client 未发现直接缺陷。定向 68、game 全包 3398、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档并继续 game 未核模块。",
+        "输出要求：每个文件给 verified/review/blocked 结论；运行定向、game typecheck、pnpm check、support-mode ratchet、protected fast、lint；更新账本和卡，提交推送后才能标记 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "sha256": "f900312c604c58bdbfdd439c88e1af49ac0293ca17258a8865725db4460e18cf",
+      "lines": 73,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "c1bce8b42a677ddec4cfccbbd230566ce2e0eac8\tIllegalCreed\tdocs: archive game tools speedrun audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：逐文件 ledger、硬零诊断、少而精测试、用户可见 UI 仍需保持形态。",
+        "- 若修代码：定向工具测试、game typecheck、全仓 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断；DOM 只做功能性最小验证。",
+        "- Codex 独立验收：accept（七个生产文件逐个重读；display-scale NaN guard 负控 6 tests=5 pass/1 fail，恢复后 6/6；速通 checkpoints 坐标只读核验并保留实跑未知；全仓 `pnpm check`、support ratchet、protected fast、Biome 零诊断通过）。",
+        "- 2026-10-05 Codex：七个生产文件逐个核验；仅 `display-scale.ts` NaN 输入有直接证据并修复，删除 guard 的隔离 mutant 失败（5/6），恢复后 6/6；FPS/toast/map-names/time-format/countdown 合同保留；checkpoints 仅核配置与 caller，坐标仍待真实运行证据。定向 47、game 全包 3399、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 game core/present 未核文件。",
+        "输出要求：每文件 verified/review/blocked；定向、game typecheck、pnpm check、support ratchet、protected fast、lint 全通过后更新账本、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "sha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
+      "lines": 74,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "c740b4a488778eb1766404d05a72911fddc1572e\tIllegalCreed\tdocs: archive game present primitive audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：逐文件 ledger、硬零诊断、少而精测试、原版/第一阶段真值门。",
+        "- 若修代码：定向/相邻 present tests、game typecheck、全仓 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断；不以截图替代公式/typed 合同。",
+        "- Codex 独立验收：accept（完整读取六个生产文件与 `present.ts` 真实 caller；真实 raw opcode 0x71 `[255,65532,0]` 与 `global.h:379 WORD` 直接证明；mutant 4 total/3 passed/1 failed，恢复 4/4；全仓 check、official ratchet、protected fast、Biome 零诊断通过）。",
+        "输出要求：每文件 verified/review/blocked；定向、game typecheck、pnpm check、support ratchet、protected fast、lint 全通过后更新账本、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "sha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
+      "lines": 66,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "07e2c1c39c883167120e1b52f19e0bfc766ab579\tIllegalCreed\tdocs: archive game battle present audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：逐文件 ledger、硬零诊断、少而精测试、原版真值门。",
+        "- 若修代码：定向/相邻 battle present tests、game typecheck、全仓 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断；不以剧情截图替代战斗合同。",
+        "- Codex 独立验收：accept（七个生产文件逐段读取、primary source/caller/测试证据完整；未发现直接缺陷；全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断通过）。",
+        "- 2026-10-05 Codex：七个 battle-present 生产文件与 `present-battle.ts` 真实 caller 逐段核验；未发现需修的直接证据问题。定向 179、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 battle/menu/dialog/core 未核文件。",
+        "输出要求：每文件 verified/review/blocked；定向、game typecheck、pnpm check、support ratchet、protected fast、lint 全通过后更新账本、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "sha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
+      "lines": 68,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "60ef9e0f0fe931b707fafdd755f37af736e77918\tIllegalCreed\tdocs: archive game battle core audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：高风险公式/第一阶段机制需一手证据、可证伪反例、单一 owner、硬零诊断。",
+        "- 若修代码或改变合同：定向/相邻 battle tests、game typecheck、全仓 `pnpm check`、support-mode ratchet、protected fast、Biome 零诊断；纯审计也需记录实际验证范围。",
+        "- Codex 独立验收：accept（formula/magic/status/queue/positions/RNG 的 primary source、真实 caller、反例合同逐段核对；全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断通过）。",
+        "- 2026-10-05 Codex：六个 battle core helper 逐文件核验；SHORT/WORD、formula、status、dualMove、layout、seed state 合同均有 primary source/caller/tests，未发现直接缺陷。定向 128、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 battle core/system/menu/scene 未核文件。",
+        "输出要求：每文件 verified/review/blocked；定向、game typecheck、pnpm check、support ratchet、protected fast、lint 全通过后更新账本、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "sha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
+      "lines": 69,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "f9daa6a29d056dbb0e2daa7a51d222f6f87a4a81\tIllegalCreed\tdocs: archive game core fade catalog audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：逐文件 ledger、硬零诊断、上游/生成物边界和少而精测试。",
+        "- 若修代码或改变合同：定向/相邻 game tests、game typecheck、全仓 `pnpm check`、support ratchet、protected fast、Biome 零诊断；纯审计也记录实际门禁结果。",
+        "- Codex 独立验收：accept（直接发现并修复 script-catalog inherited label lookup 缺陷；own-property/null-prototype negative contracts；全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断通过）。",
+        "- 2026-10-05 Codex：四个 core helper 逐文件核验；script-catalog 发现原型属性可被误当 label IP，已以 own-property/null-prototype 最小修复并补 3 组负控；palette/scene identity/WORD lookup 无其它直接缺陷。定向 34、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 scene/event/system/menu 未核文件。",
+        "- 2026-10-05 Codex：修复后第二轮全仓 `pnpm check`、ratchet、protected fast、Biome 零诊断全通过；game 3403/full coverage tests 19285。准备归档本卡，继续 scene/event/system/menu 未核文件。",
+        "输出要求：每文件 verified/review/blocked；定向、game typecheck、pnpm check、support ratchet、protected fast、lint 全通过后更新账本、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "sha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
+      "lines": 67,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "3be047a4d55094b931eff1e449ca7f735ea6202f\tIllegalCreed\tdocs: archive game mode history poison search audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `AGENTS.md`：逐文件 ledger、硬零诊断、少而精测试和第一阶段真值门。",
+        "- 若修代码：定向/相邻 game tests、game typecheck、全仓 `pnpm check`、support ratchet、protected fast、Biome 零诊断。",
+        "- Codex 独立验收：accept（mode/history/poison/search primary source、真实 callers、边界合同逐段核对；全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断通过）。",
+        "- 2026-10-05 Codex：四个 core helper 逐文件核验；history/mode/poison/search 均保持既有 caller/primary 合同，未发现直接缺陷。定向 42、game 全包 3403、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 event-opcode/scene-system/battle-system 未核文件。",
+        "输出要求：每文件 verified/review/blocked；定向、game typecheck、pnpm check、support ratchet、protected fast、lint 全通过后更新账本、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "sha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
+      "lines": 130,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "44d06e1368d025d108a9a6a63d3912721a8bb473\tIllegalCreed\tdocs: archive event player opcode audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 单一 owner、第一阶段 primary source、生成物上游、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻 event-opcode/equip/poison/ownership tests；若改代码还要 game check、全仓 check、ratchet、protected fast、lint。",
+        "- Codex 独立复核：accept（script/global primary source、event/equipment/inventory/poison callers、role/slot/SHORT/WORD/fScriptSuccess 合同逐段核对；全仓 check、official ratchet、protected fast、Biome 零诊断通过）。",
+        "- 2026-10-05 Codex：event-opcode-player 全段核验；3 个专属测试/相邻 equipment/ownership 合同 99 tests 通过，未发现直接缺陷。全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 event-system/scene-system 未核文件。",
+        "输出要求：每个 opcode 分支 evidence + verified/review/blocked；运行定向、game typecheck、pnpm check、ratchet、protected fast、lint；通过后更新 ledger/卡、提交推送并标 done。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "sha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
+      "lines": 129,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "8d0412cfbd88df2a974035057379de9a7b5d11c1\tIllegalCreed\tdocs: close scene-system quality audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、第一阶段忠实还原、迁移上游优先、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻 scene tests、game typecheck；若改代码再跑全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断。",
+        "- 贡献者交付与自验：scene-system 定向 3 files/131 tests、game typecheck 通过；完整 `pnpm check` 第二次重跑通过，editor 606/4,845、migrate 95/723，最终 lint 3198 files / 0 errors / 0 warnings / 0 infos。",
+        "- Codex 独立复核：accept（逐段 primary source/caller/test 证据核对；官方 ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 均通过，726 files / 19,285 tests，逐包及全仓无回退，提升 0）。",
+        "- 2026-10-05 Codex：完整 `pnpm check`、官方 `pnpm coverage:ratchet`、保护 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 和 Biome 零诊断全部通过；ratchet 基线未变化，protected fast 逐包/全仓 0 回退。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "sha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
+      "lines": 132,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "6f9ee9d327d90d709bc72995478345c0bd93c114\tIllegalCreed\tdocs: close event-system quality audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、第一阶段忠实还原、C 阻塞异步化同帧后续、时间状态指定收尾人、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻事件与生命周期 tests、game typecheck；若改代码再跑全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断。",
+        "- Codex 独立复核：accept（完整 `pnpm check`、official `pnpm coverage:ratchet`、`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 和 Biome 零诊断均通过；726 files / 19,285 tests，逐包及全仓无回退，提升 0）。",
+        "- 2026-10-05 Codex：定向 10 files/370 tests 与 game typecheck 通过；stderr 中仅为测试覆盖的预期 warn/debug（invalid label、missing handler、unimplemented raw 诊断），未发现 failure 或零诊断门问题；暂不改实现。",
+        "- 2026-10-05 Codex：event-system 无实现变更；完整 check（game 3403、editor 606/4845、migrate 95/723、lint 3198 files 零诊断）、official ratchet、protected fast 全部通过，coverage 基线未变化。归档本卡，继续下一个未核文件。",
+        "- `accept` 前置条件：定向 event/caller tests、game typecheck、全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断全部通过；否则保留 review，不归档。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "sha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
+      "lines": 131,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "2a73fef03bdb1e3570e769ca10bc0000bb5a1f68\tIllegalCreed\tdocs: close battle-system quality audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、第一阶段忠实还原、battle animation wall-clock/logic 分离、战后状态收尾、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻 battle lifecycle tests、game typecheck；若改代码再跑全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断。",
+        "- Codex 独立复核：accept（完整 `pnpm check`、official `pnpm coverage:ratchet`、`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`、Biome 零诊断均通过；726 files / 19,285 tests，逐包及全仓无回退，提升 0）。",
+        "- 2026-10-05 Codex：完整 check、official ratchet、protected fast、Biome 零诊断全通过；ratchet 基线未变化，protected fast 逐包/全仓 0 回退。归档本卡，继续下一个未核文件。",
+        "- `accept` 前置条件：定向 battle lifecycle tests、game typecheck、全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断全部通过；否则保留 review，不归档。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "sha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
+      "lines": 123,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "342b280f70bb8b34807390be99dce99d6da2aa24\tIllegalCreed\tdocs: finish battle opcode file review",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、双解释器边界、第一阶段忠实还原、战斗动画逻辑/render 分离、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻 battle opcode/action/anim tests、game typecheck；若改代码再跑全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断。",
+        "- 全仓 `pnpm check`：docs 909 Markdown / 4703 links / 308 tasks；content 149/1490；shared 16/131；game 298/3403；pal-extract 69/421；reforge 325/8682；editor 606/4845；migrate 95/723；Biome 3198 files，0 errors / 0 warnings / 0 infos。",
+        "- `pnpm coverage:ratchet`：consolidated 726 files / 19,285 tests；statements 88.89% (68812/77410)，branches 82.67% (49777/60209)，functions 88.59% (13032/14710)，lines 90.80% (61540/67775)；baseline unchanged。",
+        "- `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：同一 consolidated metrics；coverage gate passed，0 improvements，未下降。",
+        "- 文档/静态：本轮全仓 check/ratchet/protected fast/Biome 均通过；未修改实现文件、schema/save、生成物或 UI。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "sha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364",
+      "lines": 123,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "b730513f34df9a0ecc7d3c8e3619559094513149\tIllegalCreed\tdocs: correct per-file governance status",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、第一阶段忠实还原、BattleState/runtime context 单一 owner、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻 state/runtime/positions/finalization/animation tests、game typecheck；若改代码再跑全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断。",
+        "- Codex 独立复核：`accept`（全仓 check、official ratchet、protected fast、Biome 零诊断及账本/治理正文均已完成）。",
+        "- 全仓 `pnpm check`：docs 910 Markdown / 4704 links / 309 tasks；content 149/1490；shared 16/131；game 298/3403；pal-extract 69/421；reforge 325/8682；editor 606/4845；migrate 95/723；Biome 3198 files，0 errors / 0 warnings / 0 infos。",
+        "- `pnpm coverage:ratchet`：consolidated 726 files / 19,285 tests；statements 88.89% (68812/77410)，branches 82.67% (49777/60209)，functions 88.59% (13032/14710)，lines 90.80% (61540/67775)；baseline unchanged。",
+        "- `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：同一 consolidated metrics；coverage gate passed，0 improvements，未下降。",
+        "- 2026-10-05 Codex：完成前提门、逐段 primary/caller/oracle 核验与 55 个定向/相邻测试；无直接缺陷。全仓 check、official ratchet、protected fast、Biome 零诊断通过，账本关闭 7 条记录，卡转 done 后归档。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "sha256": "d33511e3f402de11b32b3467f313a9e26a4fc2cf128195bc5be84aa291243432",
+      "lines": 120,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "c5304d98a144e63a832c4873e078114773dbebca\tIllegalCreed\tdocs: close basic battle actions audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、第一阶段忠实还原、action/timeline 逻辑与呈现分离、硬零诊断、测试少而精。",
+        "- 测试：定向/相邻 action/anim/formula tests、game typecheck；若改代码再跑全仓 `pnpm check`、official ratchet、protected fast、Biome 零诊断。",
+        "- Codex 独立复核：`accept`（全仓 check、official ratchet、protected fast、Biome 零诊断及账本/治理正文均已完成；actions.test.ts 仅相关段读取，不计入本批关闭）。",
+        "- 全仓 `pnpm check`：docs 911 Markdown / 4705 links / 310 tasks；content 149/1490；shared 16/131；game 298/3403；pal-extract 69/421；reforge 325/8682；editor 606/4845；migrate 95/723；Biome 3198 files，0 errors / 0 warnings / 0 infos。",
+        "- `pnpm coverage:ratchet`：consolidated 726 files / 19,285 tests；statements 88.89% (68812/77410)，branches 82.67% (49777/60209)，functions 88.59% (13032/14710)，lines 90.80% (61540/67775)；baseline unchanged。",
+        "- `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：同一 consolidated metrics；coverage gate passed，0 improvements，未下降。",
+        "- 2026-10-05 Codex：完成 4 个实现文件与 2 个专属测试全文核验，154 个定向/相邻测试通过；无直接缺陷。全仓 check、official ratchet、protected fast、Biome 零诊断通过，关闭 6 条账本记录并归档。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "sha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
+      "lines": 71,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "25732410ff90ad16911423e965251de5d7bf8a1e\tIllegalCreed\tdocs: close battle settlement quality audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- `pnpm check`、official `pnpm coverage:ratchet`、`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`、Biome 零诊断均沿用本轮最新完整门禁结果；基线未变、coverage 无提升/无下降。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "sha256": "5e13a953a15a5f1e6a21abcb56d35fcdace461ec771f8830840a16cef2bd31dd",
+      "lines": 99,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "e3069057c494e6c13a242bccc2c05108dc962cd0\tIllegalCreed\tdocs: close battle progression quality audit",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 已拍板决策 / 铁律：`AGENTS.md` 前提真值门、第一阶段数值忠实、runtime raw base 与装备有效值分离、硬零诊断、测试少而精。",
+        "- 测试：直接 tests 全文核验、定向/相邻 progression/settlement tests、game typecheck；若改代码再跑完整 check、official ratchet、protected fast、Biome 零诊断。",
+        "- Codex 独立复核：`accept`（本批文档、完整 check、ratchet、protected fast、zero diagnostics 已完成）。",
+        "- 全仓 `pnpm check`：docs 914 Markdown / 4708 links / 313 tasks；content 149/1490；shared 16/131；game 298/3403；pal-extract 69/421；reforge 325/8682；editor 606/4845；migrate 95/723；Biome 3200 files，0 errors / 0 warnings / 0 infos。",
+        "- `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：726 files / 19,285 tests；statements 88.89%、branches 82.67%、functions 88.59%、lines 90.80%；baseline unchanged，0 improvements，未下降。",
+        "- 2026-10-05 Codex：完成全文核验与 205 定向/相邻测试，未发现直接缺陷；全仓门、账本 integrity gate、ratchet、protected fast 和零诊断通过，卡转 done 后归档。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "sha256": "b3990fb6d2564711e74cdfd4fba0e8368664fdc2f0d11c9411cbeebee4a724e9",
+      "lines": 46,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（复核并执行质量门；不冒充第三方）",
+      "lastPathCommit": "48a9b8a025247617195378480cf77a0baa730af1\tIllegalCreed\tquality: enforce per-file ledger integrity",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 定向测试包括独立反例和实际仓库调用；补充根质量工具、docs、lint零诊断。",
+        "- 恢复 Q3s 被误替换的原账本行；历史测试/coverage 数值原样保留，不追溯伪造零诊断。",
+        "- 全仓 `pnpm check`：docs 914 Markdown / 4709 links / 313 tasks；content 149/1490；shared 16/131；game 298/3403；pal-extract 69/421；reforge 325/8682；editor 606/4845；migrate 95/723；Biome 3200 files，0 errors / 0 warnings / 0 infos。",
+        "- `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：726 files / 19,285 tests，statements 88.89%、branches 82.67%、functions 88.59%、lines 90.80%，基线不变、无回退、0 improvements。",
+        "2026-10-05 Codex：账本门、反例测试、全仓 check、ratchet、protected fast 和零诊断全部通过；卡转 done 后归档。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+      "sha256": "45b305ee161630da06507573395aa6d9191be23dea7f6aa045b2b41e3970636f",
+      "lines": 70,
+      "statusClaim": "done",
+      "ownerClaim": null,
+      "reviewerClaim": null,
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 全仓 `pnpm check`：docs、testing docs、phase/lore、content-review、coverage-tools、quality-tools、e2e-tools、script-governance 全部通过；content 149/1498、shared 16/131、game 314/3550、pal-extract 71/431、reforge 359/8964、editor 631/4951、migrate 96/739；lint-zero 4010 files，0 errors / 0 warnings / 0 infos。",
+        "- `pnpm coverage:ratchet` exit 0：731 source files / 19855 tests；statements 89.93% (70837/78771)、branches 83.65% (51539/61610)、functions 89.50% (13415/14989)、lines 91.81% (63295/68938)；基线、阈值和排除未变。",
+        "- `pnpm check:fast` exit 0：全部 workspace typecheck/test 与 lint-zero 通过，editor 631/4951、migrate 96/739；4010 files，0/0/0 diagnostics。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+      "sha256": "db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93",
+      "lines": 96,
+      "statusClaim": "done",
+      "ownerClaim": null,
+      "reviewerClaim": null,
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。",
+        "- 全仓 `pnpm check`：docs 1257 Markdown / 6700 local links / 405 tasks、testing docs、phase/lore 184、content review 570、coverage-tools、quality-tools、e2e-tools 395、script-governance 22 全部通过；content 149/1498、shared 16/131、game 314/3550、pal-extract 71/431、reforge 359/8964、editor 631/4951、migrate 96/739 全部通过；lint-zero 4010 files、0 errors / 0 warnings / 0 infos。",
+        "- 官方 `pnpm coverage:ratchet`：731 source files / 19855 tests；全仓 statements 89.93% (70837/78771)、branches 83.65% (51539/61610)、functions 89.50% (13415/14989)、lines 91.81% (63295/68938)，基线与阈值未放宽。",
+        "- `pnpm check:fast`：上述文档/工具门、7 包 typecheck、content 149/1498、shared 16/131、game 314/3550、pal-extract 71/431、reforge 359/8964、editor 631/4951、migrate 96/739 全部通过；lint-zero 4010 files、0 errors / 0 warnings / 0 infos。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+      "sha256": "60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3",
+      "lines": 93,
+      "statusClaim": "done",
+      "ownerClaim": null,
+      "reviewerClaim": null,
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。",
+        "- 全仓 `pnpm check`：docs/tool、7 包 typecheck/test、lint-zero 全部通过；content 149/1498、shared 16/131、game 314/3550、pal-extract 71/431、reforge 359/8964、editor 631/4951、migrate 96/739；4010 files lint，0 errors / 0 warnings / 0 infos。",
+        "- 官方 `pnpm coverage:ratchet`：731 source files / 19855 tests；statements 89.93% (70837/78771)、branches 83.65% (51539/61610)、functions 89.50% (13415/14989)、lines 91.81% (63295/68938)，覆盖率和范围均保持基线。",
+        "- `pnpm check:fast`：文档/工具门、7 包 typecheck/test、lint-zero 全部通过；editor 631/4951、migrate 96/739 也已通过。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+      "sha256": "3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162",
+      "lines": 84,
+      "statusClaim": "done",
+      "ownerClaim": null,
+      "reviewerClaim": null,
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。",
+        "- 全仓 `pnpm check`：docs/tool、7 包 typecheck/test、lint-zero 全部通过；content 149/1498、shared 16/131、game 314/3550、pal-extract 71/431、reforge 359/8964、editor 631/4951、migrate 96/739；4010 files lint，0 errors / 0 warnings / 0 infos。",
+        "- 官方 `pnpm coverage:ratchet`：731 source files / 19855 tests；statements 89.93% (70837/78771)、branches 83.65% (51539/61610)、functions 89.50% (13415/14989)、lines 91.81% (63295/68938)，范围与基线不变。",
+        "- `pnpm check:fast`：文档/工具门、7 包 typecheck/test、lint-zero 全部通过；editor 631/4951、migrate 96/739 通过。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+      "sha256": "8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d",
+      "lines": 82,
+      "statusClaim": "done",
+      "ownerClaim": null,
+      "reviewerClaim": null,
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 受影响 typecheck 与四条白名单 Biome；随后全仓 `pnpm check`、官方 coverage ratchet、protected fast、lint-zero、docs/content-review、ledger。",
+        "- 全仓 `pnpm check`：docs/tool、7 包 typecheck/test、lint-zero 全部通过；content 149/1498、shared 16/131、game 314/3552、pal-extract 71/431、reforge 359/8964、editor 631/4951、migrate 96/739；4010 files lint，0 errors / 0 warnings / 0 infos。",
+        "- 官方 `pnpm coverage:ratchet`：731 source files / 19857 tests；总覆盖率保持 statements 89.93%、branches 83.65%、functions 89.50%、lines 91.81%；仅记录两项合法的 in-game-menu 测试范围变化。",
+        "- `pnpm check:fast`：文档/工具门、7 包 typecheck/test、lint-zero 全部通过；editor 631/4951、migrate 96/739 通过。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+      "sha256": "f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0",
+      "lines": 136,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 2026-10-14 Codex: 定向/相邻 10 files / 261 tests、game typecheck、Biome 通过；3 个隔离单点 mutation（排序、MP 等值、id 错配）均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit 0；coverage baseline 未变。账本 3,270：closed 364、review 9、pending 2,897。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+      "sha256": "41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca",
+      "lines": 109,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- 运行命令: 定向/相邻 9 files / 158 tests；白名单 3 files / 37 tests；game typecheck/Biome；3 针隔离 mutation；`pnpm check`；`pnpm coverage:ratchet`；`pnpm check:fast`；`pnpm lint`；`pnpm check:docs`；ledger。",
+        "- 2026-10-14 Codex: 定向/相邻 9 files / 158 tests、白名单 3 files / 37 tests、game typecheck/Biome 通过；3 针隔离反控均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit 0；coverage baseline 未变。账本 3,270：closed 368、review 9、pending 2,893。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+      "sha256": "787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef",
+      "lines": 137,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立验收）",
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "- Codex 独立复核: accept（5 files / 85 targeted-adjacent tests；4 针精确反控；game typecheck/Biome；full check、ratchet、protected fast、lint-zero、ledger 全通过）。",
+        "- 运行命令: 白名单/相邻 5 files / 85 tests；`node docs/ops/evidence/CODE-QUALITY-91/mutation-runner.mjs`（4 针精确 identity 反控）；`pnpm --filter @type-pal/game typecheck`；Biome 白名单；`pnpm check`；`pnpm coverage:ratchet`；`pnpm check:fast`；`pnpm lint`；`node scripts/quality/code-quality-ledger.mjs`。"
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+      "sha256": "c7a2171ebfae4a9d9bc63527638e6104cfde3f94a3c8d9ce40bf7bf0c515be48",
+      "lines": 67,
+      "statusClaim": "done",
+      "ownerClaim": "Codex",
+      "reviewerClaim": "Codex（独立复核）",
+      "lastPathCommit": "abf284d75e31128e9f58604768e374f3acc90712\tIllegalCreed\ttest(game): checkpoint menu integration and legal fixture review for GLM",
+      "currentReviewDepth": "structured card inventory only; selected full reads listed separately",
+      "gateClaimLines": [
+        "纠正 CODE83–89、CODE91 将 `pnpm check:fast` 误标 protected fast 的门禁结论。范围限本卡、账本、导航、审查增量及 evidence/CODE-QUALITY-92；不改30条关联文件、测试断言或产品。",
+        "- 一手证据：`scripts/coverage/run.mjs:403-462,526-558`，只有设置 TYPE_PAL_COVERAGE_BASE_REF 的 coverage fast 才保护目标 baseline 的比例和存量生产/测试范围；`pnpm check:fast` 是另一条检查命令。",
+        "- 历史真门示例：CODE48 卡明确 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`。",
+        "- 错误原件：CODE83–89、CODE91 卡/日志实际执行 pnpm check:fast；保留命令、计数与先前结论，补当前 counter，不追溯伪造 protected 运行。",
+        "- AGENTS.md：硬门零诊断、未知不关闭；用户要求逐文件证据与完整质量门，不能用包级全绿作文件完成。",
+        "- 在最新同步基点完成全仓 check、official ratchet、**真正的 protected coverage fast**、静态0/0/0、docs/content-review/ledger。",
+        "- 正确命令：`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`。并发资源限制可披露，不能改变 timeout/范围/断言/规则。",
+        "- 2026-10-14 Codex：发现 protected gate 命令误标，明确告知用户；建立当前counter并暂转30条review。最新 full check 在7a93336c6源基点完整通过（worker1；7包check与lint4031、0/0/0）；下一步 official ratchet→两父基线核对→真正protected coverage fast→逐文件源快照检查，不宣布专项完成。",
+        "- 在最新治理提交 `06839866f`、`origin/main=cddf65557` 上实际执行 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`；7 包 731 files / 19,864 tests 均完成并通过原生测试。",
+        "- 同一真实结果的 coverage 汇总为 game `13805/15602` statements、total `70847/78780` statements，ratchet floor 也仍有精确回退；因此即使先处理 RNG baseline scope，coverage ratchet 仍需独立解决，不能降基线或加弱测试。原生 receipt：`docs/ops/evidence/CODE-QUALITY-92/protected-fast-current.txt`，exit：`protected-fast-current.exit`。",
+        "- 官方 ratchet 已在 `edbcad970` 更新 baseline，纳入 origin/main 的 RNG test 与本批 6 条真实 runner 合同。随后在同一治理分支执行 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast`，7 包 731 files / 19,870 tests 全部通过。",
+        "- protected gate exit 0，候选 baseline 与 origin/main scope 通过；最终 consolidated game `13812/15602` statements、`9064/11373` branches、`12336/13685` lines，total `70854/78780` statements、`51557/61618` branches、`63306/68945` lines；工具报告相对 baseline 提升0项。receipt：`evidence/CODE-QUALITY-92/protected-fast-after-ratchet.txt`，exit：`protected-fast-after-ratchet.exit`。",
+        "- 30/30 当前文件与各自关闭提交源码字节一致；下一步仅剩全仓 `pnpm check`、最终 lint/docs/content-review/ledger，再恢复30条账本状态并把本卡收口。CODE90 两文件不随本卡恢复。",
+        "- Codex 独立验收：最新 baseline ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 均 exit 0；7 包/731 files/19,870 tests；lint/docs/content-review/ledger 收口门待本次全仓 check 后补写。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/save/__tests__/indexed-db.test.ts",
+    "src/core/save/__tests__/api.test.ts",
+    "src/core/menu/menu-driver.test.ts",
+    "src/core/menu/menu-driver.cov85.test.ts",
+    "src/core/menu/menu-save-chain.glm-msio.test.ts",
+    "src/core/menu/save-slot-menu.test.ts",
+    "src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/opening-menu.test.ts",
+    "src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+    "src/tools/quick-save.test.ts",
+    "src/tools/toast.test.ts",
+    "--reporter=default",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "sha256": "ea6c2789b859e85081e16edf20cc2243bfbdc11422651bd6e94dfedec3c6e1bd",
+  "combinedOutput": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n\n \u2713 src/tools/toast.test.ts (4 tests) 66ms\n \u2713 src/tools/quick-save.test.ts (8 tests) 74ms\nstdout | src/core/menu/menu-driver.cov85.test.ts > cov85 \u5b58\u6863\u69fd\u83dc\u5355(save-slot) > save \u6a21\u5f0f Confirm \u5b58\u6863:\u5199 currentSaveSlot \u5e76\u5173\u6574\u6808(Up/Down \u4f4d\u79fb\u65e7 menu-driver.test.ts \u5df2\u8bc1,\u4e0d\u91cd\u590d)\n[save] saved to slot 1(times=1)\n\n \u2713 src/core/menu/menu-driver.cov85.test.ts (37 tests) 42ms\n \u2713 src/core/menu/save-slot-menu.test.ts (14 tests) 16ms\n \u2713 src/core/save/__tests__/indexed-db.test.ts (3 tests) 20ms\nstdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm \u2192 close save-slot(pop \u4e00\u5c42)\n[save] saved to slot 1(times=1)\n\n \u2713 src/core/menu/menu-driver.test.ts (37 tests) 16ms\n \u2713 src/core/save/__tests__/api.test.ts (8 tests) 10ms\n \u2713 src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts (4 tests) 9ms\n \u2713 src/core/menu/opening-menu.glm-phase1-leaves.test.ts (2 tests) 5ms\n \u2713 src/core/menu/menu-save-chain.glm-msio.test.ts (2 tests) 11ms\n \u2713 src/core/menu/opening-menu.test.ts (6 tests) 5ms\n\n Test Files  11 passed (11)\n      Tests  125 passed (125)\n   Start at  14:58:50\n   Duration  3.12s (transform 1.55s, setup 292ms, import 2.00s, tests 274ms, environment 6.93s)\n\n"
+}

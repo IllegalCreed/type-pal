@@ -508,17 +508,13 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-reading-plus-governance-and-origin-main-delta-read-20261014",
+      "readMethod": "current-full-text-and-primary-evidence-read-20261012",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "治理分支 CODE92 的30条当前 counter 和其它治理状态保留；主线 RNG 修复已授权发布并归档，集成仅同步文档与历史，不关闭其它文件。",
+      "coreConclusion": "2026-10-14：GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
       "truthAnchors": [
-        "docs/ops/board.md:7",
-        "docs/ops/board.md:8",
-        "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:11",
-        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
-        "docs/ops/evidence/game-rng-scene-restore-1/README.md",
         "docs/ops/board.md",
-        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md"
+        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "编辑器完整world/条件/auto/接管与在途动作恢复、E2E采集待续。",
@@ -531,8 +527,8 @@
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0104faf9b3e985d15454ca27047e948e7f93f31ff649d603de3b6e44b33f4da7",
+      "sourceSha256": "b6bf3c86b7496c1fcf4ccf8d19a7622b4e72e268f7b42ca65eb7f12c65c799f0",
+      "afterSha256": "b6bf3c86b7496c1fcf4ccf8d19a7622b4e72e268f7b42ca65eb7f12c65c799f0",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -562,8 +558,8 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "7a05be2bb942697fd86ec65d7abe0df9d04f456324c6f5c9777c69a5f9576d03",
+        "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
+        "implementationSha": "f0cf0f7f",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -1127,15 +1123,255 @@
             "scope": "docs/ops/board.md",
             "afterSha256": "0104faf9b3e985d15454ca27047e948e7f93f31ff649d603de3b6e44b33f4da7",
             "evidence": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-menu-integration-candidate-navigation",
+            "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+            "afterSha256": "b29b2c7ebf1f5d6a8bb806abcb1aab52e550c1cbb3b8316d5e9af1e33bd66441",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+            "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-95-glm-review-handoff",
+            "previousAfterSha256": "b29b2c7ebf1f5d6a8bb806abcb1aab52e550c1cbb3b8316d5e9af1e33bd66441",
+            "afterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
+            "scope": "用户指定停止后交GLM；仅review检查点导航，完整质量门与main集成未完成。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-94-95-glm-independent-gates",
+            "previousAfterSha256": "baf5e5f3c1912c20afc7991d063243d938d2c5e904a848d513ae21c354590897",
+            "afterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
+            "scope": "GLM 完成逐文件复核与独立全门（check/ratchet/protected fast）；30 条保持 review 交 Codex 独立验收。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "688bed3fb5c41f96a0707b690ea8d7de6006477eb6e715e81a4b56a35689c9f0",
+            "afterSha256": "666964598718dbb3f6d0e98a6b70c9838bf974f19bd040c9aaabfcf6cc75d363",
+            "scope": "CODE-QUALITY-97 review-only 批登记；CODE94/95 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-98-menu-status-review-navigation",
+            "previousAfterSha256": "666964598718dbb3f6d0e98a6b70c9838bf974f19bd040c9aaabfcf6cc75d363",
+            "afterSha256": "251b8dba42448cd0ea08df8a3b96a3694f413bd13b40e42bb5d45f36f68cf94b",
+            "scope": "CODE-QUALITY-98 review-only 批登记；CODE94/95/97 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-99-menu-driver-review-navigation",
+            "previousAfterSha256": "251b8dba42448cd0ea08df8a3b96a3694f413bd13b40e42bb5d45f36f68cf94b",
+            "afterSha256": "22575cc6d1865534f0f6be0b41729a51be1fe3c654effd43897a91dec1f66481",
+            "scope": "CODE-QUALITY-99 review-only 批登记；94/95/97/98 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-100-save-slot-menu-review-navigation",
+            "previousAfterSha256": "22575cc6d1865534f0f6be0b41729a51be1fe3c654effd43897a91dec1f66481",
+            "afterSha256": "ae5aeab8e9fdac4584ee9c2d2c1744ffeafaea8322896a86f3fe25041d43c834",
+            "scope": "CODE-QUALITY-100 review-only 批登记；94/95/97/98/99 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-101-save-api-review-navigation",
+            "previousAfterSha256": "ae5aeab8e9fdac4584ee9c2d2c1744ffeafaea8322896a86f3fe25041d43c834",
+            "afterSha256": "0edecf72a30d7189dcd8a7454656c15e8091cba0c20aeda4511890c2eba1738f",
+            "scope": "CODE-QUALITY-101 review-only 批登记；94/95/97-100 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-102-quick-save-review-navigation",
+            "previousAfterSha256": "0edecf72a30d7189dcd8a7454656c15e8091cba0c20aeda4511890c2eba1738f",
+            "afterSha256": "39b0c3eb12babdb73727e99731fc83f121ac8bd89e6fe9320689e9dcae8aca8b",
+            "scope": "CODE-QUALITY-102 review-only 批登记；94/95/97-101 待 Codex 验收不变。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code94-95-independent-counter",
+            "previousAfterSha256": "39b0c3eb12babdb73727e99731fc83f121ac8bd89e6fe9320689e9dcae8aca8b",
+            "afterSha256": "2f86fdafd35425bb88c8259c98100d650088173af8516c11e5f7a8ef1d613af0",
+            "scope": "GLM零诊断验收被原日志反证；94返工，95局部合同通过但不闭合。97–102状态保留。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code95-real-caller-premise-counter",
+            "previousAfterSha256": "2f86fdafd35425bb88c8259c98100d650088173af8516c11e5f7a8ef1d613af0",
+            "afterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+            "scope": "CODE95 applyAll fixture不能冒称单体picker域，亦转rework；没有任何文件关闭。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "1f8bcd468",
+            "workingTree": true,
+            "action": "codex-r2-independent-review-94-95-97-102",
+            "previousAfterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+            "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+            "reviewedRanges": ["14-30"],
+            "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-r2-sync-main-music-preserving-both-histories",
+            "revision": "8f5d17ff1",
+            "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout",
+            "previousAfterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+            "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+            "scope": "C5 返工交付后合并 main 音乐收口；两线 history 双保留。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "5477af1e4",
+            "date": "2026-10-15",
+            "action": "Codex R3 counter and user-authorized test/comment takeover; no file closure",
+            "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "0a039271c",
+            "date": "2026-10-15",
+            "action": "Codex takeover fixes; reviews remain open; editor diagnostic draft",
+            "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "23f4effbf",
+            "date": "2026-10-15",
+            "action": "Two user-approved phase1 fixes implemented and author-verified; third display change on hold; no file closure",
+            "notRun": ["full quality window pending"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "75e9eb7d7",
+            "action": "C02 finite slice build checkpoint; no closure; unrelated verdicts preserved",
+            "previousAfterSha256": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
+            "afterSha256": "ac04a29397b0e55867ce2346bc9bdf57abbb25ccf09a7fa5fc933b615d58cd94",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 author precision checkpoint review; full window pending; no closure",
+            "previousAfterSha256": "ac04a29397b0e55867ce2346bc9bdf57abbb25ccf09a7fa5fc933b615d58cd94",
+            "afterSha256": "6c0bd12a601c77dbf57f88464cb207985e3ffa0b3d655e3493805c6b284a00ce",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 full window recorded; strict zero diagnostics failed; no closure or merge",
+            "previousAfterSha256": "6c0bd12a601c77dbf57f88464cb207985e3ffa0b3d655e3493805c6b284a00ce",
+            "afterSha256": "d4fcba458c4a7ea2474dc41b6fdfca6a45666f8a7d95396c3d00418cdcb77985",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 next four-file slice build; lifecycle30 zero diagnostics; precision/global gates pending; no closure",
+            "previousAfterSha256": "d4fcba458c4a7ea2474dc41b6fdfca6a45666f8a7d95396c3d00418cdcb77985",
+            "afterSha256": "2e057721dfb52073dab3e289ecfb44c5d0deaf15668860738176e2e488920c64",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 precision counter and exact retirement checkpoint; full window pending, no closure",
+            "previousAfterSha256": "2e057721dfb52073dab3e289ecfb44c5d0deaf15668860738176e2e488920c64",
+            "afterSha256": "1cced7beaa86913d558f355238dda79722b3c9f6a751cfe265766a554b806a36",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 stable module window recorded; numeric gates passed but strict diagnostics failed; no closure or merge",
+            "previousAfterSha256": "1cced7beaa86913d558f355238dda79722b3c9f6a751cfe265766a554b806a36",
+            "afterSha256": "a61cfd979ee18b3c4844af4d74ba9c17f2602fda4a800e990da7aeb588b920e0",
+            "scope": "docs/ops/board.md",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Kimi sprite workflow finite build checkpoint; six cases zero diagnostic, three oracle counters; full window pending and no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "a61cfd979ee18b3c4844af4d74ba9c17f2602fda4a800e990da7aeb588b920e0",
+            "afterSha256": "4450b6c9cfbad6516e1cebc5366f742142a1896ae8b2246cdb6d0abc339fda50",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Native navigation finite two-test checkpoint; real event/IO oracles verified; other runtime output and full window pending, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "4450b6c9cfbad6516e1cebc5366f742142a1896ae8b2246cdb6d0abc339fda50",
+            "afterSha256": "89d9a0442d0769a7f3d9cd59004643b55da20edc46b4d114716a44453f2b4488",
+            "evidence": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Four-test form checkpoint: legal fixtures, lifecycle ablation and K4 oracle; full window pending, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "89d9a0442d0769a7f3d9cd59004643b55da20edc46b4d114716a44453f2b4488",
+            "afterSha256": "e68b24d16b24990e934f1ffb61e2fdf82fbc176a59cca1317260896e47e5152c",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C04/C05/C06 frozen stable window recorded; strict runtime diagnostics NOT zero; review only, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "e68b24d16b24990e934f1ffb61e2fdf82fbc176a59cca1317260896e47e5152c",
+            "afterSha256": "6f794f44c5a3d0cb77ecb35abeb308b83746655aa3e71ad631553caae2014c6a",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "World-sprite finite checkpoint: real shared host, byte/threshold oracles and rejected weak counter retained; next full window pending, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "6f794f44c5a3d0cb77ecb35abeb308b83746655aa3e71ad631553caae2014c6a",
+            "afterSha256": "61cb11c3d9ff27db9cc5d41b2d99daae708b05ed214ce356b45e9ae732fd8aa5",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Viewer finite checkpoint: stable callback and actual IO ownership, exact harness-only retirement; next full window pending, no closure",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "61cb11c3d9ff27db9cc5d41b2d99daae708b05ed214ce356b45e9ae732fd8aa5",
+            "afterSha256": "678bf68423608701b26cc8c967edb8f103e3f1824b9849ae6e1840e1fbf23e82",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Pre94 risk retrospective: 36 card inventory, selected direct reads and four closure counters; poison domain draft, no product changes",
+            "scope": "docs/ops/board.md",
+            "previousAfterSha256": "678bf68423608701b26cc8c967edb8f103e3f1824b9849ae6e1840e1fbf23e82",
+            "afterSha256": "8249fcc392a6ef45340bcd0ae69a811d12f07e8d91e2bf5b05c1a13dcf992929",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Unify 3y and acceptance work on sole governance branch; preserve both histories, current reviews remain open",
+            "scope": "docs/ops/board.md",
+            "afterSha256": "b6bf3c86b7496c1fcf4ccf8d19a7622b4e72e268f7b42ca65eb7f12c65c799f0",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md"
           }
-        ],
-        "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
+        ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/board.md",
-        "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-        "lineCount": 25,
+        "sourceSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
+        "lineCount": 32,
         "headings": [
           {
             "line": 1,
@@ -1156,13 +1392,14 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
+        "afterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
         "currentReading": {
           "date": "2026-10-14",
-          "sha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
-          "lineCount": 27,
-          "scope": "CODE90 remains review after behavior slice; its full current-file audit continues while CODE92 gate correction is terminal",
-          "method": "prior-content-review-plus-current-navigation-and-gate-evidence"
+          "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+          "lineCount": 20,
+          "reviewedRanges": ["7-7"],
+          "scope": "GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
+          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
         },
         "readingHistory": [
           {
@@ -1227,27 +1464,6 @@
             ]
           },
           {
-            "date": "2026-10-13",
-            "sha256": "567712092426d5809e65505bfa71ee739dce9d5d860b7fe36fa80cac22890e8b",
-            "lineCount": 25,
-            "scope": "CODE80 行为切片仍为 review；CODE81 picker 生命周期保留 build，定向反例与静态门通过但 ratchet 未通过；dev-panel listener 及其它 pending 文件不因批次通过关闭。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "4392105ce895da1eec6281d10805ae04eb540ba0b165bbba747c3df06d4305c1",
-            "lineCount": 25,
-            "scope": "CODE80 行为切片仍为 review；CODE81 picker 生命周期保留 build，定向反例与静态门通过但 ratchet 未通过；dev-panel listener 及其它 pending 文件不因批次通过关闭。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "e7f51f9ef83acb64d8658071a315884dbaa9ab1243eaf331f7c4944812620ea5",
-            "lineCount": 25,
-            "scope": "CODE80 行为切片为 review；CODE81 picker 生命周期为 review，新增生命周期测试文件已关闭；复合 dev-panel 与既有 GLM 测试继续待核。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
             "date": "2026-10-12",
             "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
             "lineCount": 20,
@@ -1284,37 +1500,8 @@
               "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
               "docs/ops/evidence/game-rng-scene-restore-1/README.md"
             ]
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "253d3907a2a35eb167c0acb03c8034db169993f14fdf893b3efb1f3e9c863e9a",
-            "lineCount": 27,
-            "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
-            "lineCount": 28,
-            "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
-            "lineCount": 27,
-            "scope": "CODE92 protected fast closure: remove terminal task from board and regenerate task index; restore 30 byte-identical ledger records; CODE90 remains review",
-            "method": "prior-content-review-plus-current-navigation-and-gate-evidence"
           }
-        ],
-        "originMainReading": {
-          "date": "2026-10-14",
-          "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
-          "lineCount": 20,
-          "reviewedRanges": ["7-7"],
-          "scope": "GAME-RNG-SCENE-RESTORE-1 已完成授权发布和线上复验，移出活动看板；其它任务状态不变。",
-          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
-        }
+        ]
       },
       "history": [
         {
@@ -1343,181 +1530,6 @@
           "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
         },
         {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-3z-analytics-governance-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-3z-analytics-governance-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-40-analytics-install-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-40-analytics-install-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-41-consent-ui-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-41-consent-ui-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-42-dialog-box-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-42-dialog-box-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-43-draw-sprite-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-43-draw-sprite-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-44-font-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-44-font-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-45-follower-render-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-45-follower-render-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-46-draw-confirm-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-46-draw-confirm-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-47-draw-box-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-12",
-          "action": "code-quality-47-draw-box-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-74-75-audio-governance-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-75-build-state-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-75-audio-race-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-76-main-loop-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-77-rng-player-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-78-avi-player-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-53-product-decision-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
           "date": "2026-10-14",
           "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
           "workingTree": true,
@@ -1540,36 +1552,75 @@
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         },
         {
-          "date": "2026-10-14",
-          "action": "code-quality-92-origin-main-cddf-sync-review",
-          "previousAfterSha256": "71f1f5fda73cf47c1f993108d57872631edf1703c254bd2655a9ce8a3df017d9",
-          "afterSha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
-          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
-          "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-          "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+          "date": "2026-10-15",
+          "revision": "1f8bcd468",
+          "workingTree": true,
+          "action": "codex-r2-independent-review-94-95-97-102",
+          "previousAfterSha256": "587b7a1a9ad8d7a04d21b19f32af0afdeefbf10ee8e632c234380eef231fff82",
+          "afterSha256": "5a293369468cfc59572d900efe13eaf2a48434f6e4ef342009dbc96bd66e299c",
+          "reviewedRanges": ["14-30"],
+          "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
         },
         {
-          "date": "2026-10-14",
-          "action": "code-quality-92-protected-fast-closure",
-          "previousAfterSha256": "3ee478100fc8d19f3a7c73b272f22e4440cb66a0a26a78f7497758c66ac5b11e",
-          "afterSha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
-          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
-          "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "rix-music-feature-navigation-review",
+          "previousAfterSha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+          "afterSha256": "9b1dd0d163bfadc62c69ca775f09a884481e973e1ca5aa5595bc3a41065d4036",
+          "scope": "新增GAME-RIX-MUSIC-1：用户批准第一阶段MIDI/DOS FM可选音源，当前build；原有任务状态不变。",
+          "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
         },
         {
-          "date": "2026-10-14",
-          "action": "code-quality-90-gate-evidence-delta",
-          "previousAfterSha256": "6f9257d16f235db45c26203759e023eec167cd1f5dff72e9d1bd8f961e04e90c",
-          "afterSha256": "f44c04b13efbf2b25ab72870fecebf1f0116a1d3eaeca16b0ffcb865d794f40e",
-          "evidence": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
-          "scope": "Update active board next step: CODE90 behavior gates pass, but two complete files remain review"
+          "date": "2026-10-15",
+          "action": "codex-r2-sync-main-music-preserving-both-histories",
+          "revision": "8f5d17ff1",
+          "afterSha256": "8fe9f0717e740150ce1176548e16880e9849f996e6747993f4680bd09e0fa280",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+          "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "bb94ad8e2",
+          "action": "codex-final-menu-window-navigation-delta-review",
+          "previousAfterSha256": "dfe0922d1085fc1c11f13a70fce6af8e07b1bdd0f233200149668b0685490abb",
+          "afterSha256": "989ceaee6547dd938bf94c6081bea41d5831a5fcb201859220192f6b1894619b",
+          "scope": "Only own menu governance rows and generated navigation; no acceptance of unrelated tasks.",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-final-window.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "editor-three-file-lifecycle-build-checkpoint",
+          "previousAfterSha256": "989ceaee6547dd938bf94c6081bea41d5831a5fcb201859220192f6b1894619b",
+          "afterSha256": "dd745c9fdacd387059f9e641112ed97dfba312a2dd4475151cb74ba990b01a74",
+          "scope": "Own diagnostic card draft to build only; other task statuses preserved; no closure or merge.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "editor-three-file-oracle-review-checkpoint",
+          "previousAfterSha256": "dd745c9fdacd387059f9e641112ed97dfba312a2dd4475151cb74ba990b01a74",
+          "afterSha256": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
+          "scope": "Own diagnostic first slice review only; 67 clean targeted, three valid counters, global diagnostics remain; no closure or merge.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "c8ad9416f",
+          "action": "editor-three-file-complete-window-delta",
+          "previousAfterSha256": "f19d6deb2006b63dc176a5319342ba02aecde7e8638f19181abc030d29d81153",
+          "afterSha256": "e0b33953da9682a582352645f491930c7a8f3aca4dbaa151278ca58def223904",
+          "scope": "First slice review only; local C01 clean, global diagnostics remain, no closure or merge; other tasks preserved.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-24",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "reviewedLines": "1-21",
+      "reviewNotes": "只更新C03准入、导航与索引；其它任务裁定不动，统一门仍未收。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -1595,20 +1646,13 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-reading-plus-governance-and-origin-main-delta-read-20261014",
+      "readMethod": "current-full-text-and-primary-evidence-read-20261012",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "治理分支 CODE92 的30条当前 counter 和其它治理状态保留；主线 RNG 修复已授权发布并归档，集成仅同步文档与历史，不关闭其它文件。",
+      "coreConclusion": "2026-10-14：issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
       "truthAnchors": [
-        "docs/ops/evidence/README.md:8",
-        "docs/ops/evidence/README.md:15",
-        "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
-        "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1.md:157",
-        "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1.md:85",
-        "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1.md:122",
-        "docs/ops/evidence/README.md:9",
-        "docs/ops/evidence/game-rng-scene-restore-1/README.md",
         "docs/ops/evidence/README.md",
-        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md"
+        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "TURN-BOUNDARIES原生反控原件、合法输入及阶段可达性待补。",
@@ -1620,8 +1664,8 @@
       "capability": "ops-evidence-README",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-      "afterSha256": "0b3168a2b43155c3f57e4866a123767504583c02f6960a287956e3d318fd2e30",
+      "sourceSha256": "755678dcf55e23da91fb0670876cb9590355026830e04c971a308d82fb570f09",
+      "afterSha256": "755678dcf55e23da91fb0670876cb9590355026830e04c971a308d82fb570f09",
       "publicCallers": [
         "docs/ops/evidence/README.md → ../archive/README.md",
         "docs/ops/evidence/README.md → ../README.md",
@@ -1654,8 +1698,8 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "a1755660969ca1cea5cb0a4e6f175ee5b9dbf2d243e4bc4810a16fa64f729858",
+        "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
+        "implementationSha": "f0cf0f7f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -1925,15 +1969,174 @@
             "scope": "docs/ops/evidence/README.md",
             "afterSha256": "0b3168a2b43155c3f57e4866a123767504583c02f6960a287956e3d318fd2e30",
             "evidence": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-menu-integration-candidate-navigation",
+            "previousAfterSha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+            "afterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+            "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "29cdd0681bbfaf8c3c89207c10dfdedc0a4be5842c11cf768ed11a2947f7cae6",
+            "afterSha256": "e48c178b9e0497af953ce80c7fb709bdcf1fc920b9a78aced9bad7bc4dc353f0",
+            "scope": "CODE-QUALITY-97 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-98-menu-status-review-navigation",
+            "previousAfterSha256": "e48c178b9e0497af953ce80c7fb709bdcf1fc920b9a78aced9bad7bc4dc353f0",
+            "afterSha256": "921a8fb7c2ca39e57c948ccb483d1b480a4947edc84e927b46450ed937bd500b",
+            "scope": "CODE-QUALITY-98 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-99-menu-driver-review-navigation",
+            "previousAfterSha256": "921a8fb7c2ca39e57c948ccb483d1b480a4947edc84e927b46450ed937bd500b",
+            "afterSha256": "f284ff0a64b2ae850a4ca770c429e7f65e0b24026bf2fb83028721324ede49e0",
+            "scope": "CODE-QUALITY-99 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-100-save-slot-menu-review-navigation",
+            "previousAfterSha256": "f284ff0a64b2ae850a4ca770c429e7f65e0b24026bf2fb83028721324ede49e0",
+            "afterSha256": "5a2a520b48f8dd68de9298c2e8bde80217b3ff5e799ddc29ae00e4b8cdecb0e1",
+            "scope": "CODE-QUALITY-100 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-101-save-api-review-navigation",
+            "previousAfterSha256": "5a2a520b48f8dd68de9298c2e8bde80217b3ff5e799ddc29ae00e4b8cdecb0e1",
+            "afterSha256": "530e3440c36fc91ce3451c4b1f0e81ca29c9321e4dc877f18ec0b8fee684b91f",
+            "scope": "CODE-QUALITY-101 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-102-quick-save-review-navigation",
+            "previousAfterSha256": "530e3440c36fc91ce3451c4b1f0e81ca29c9321e4dc877f18ec0b8fee684b91f",
+            "afterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+            "scope": "CODE-QUALITY-102 证据目录导航登记。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "8f5d17ff1",
+            "action": "codex-r2-evidence-navigation-merge",
+            "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+            "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+            "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout",
+            "previousAfterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+            "afterSha256": "a19a5d6752eb9c0cbd61c70791271b015e7d7d3ff3dd251b0ed109a96834a91e",
+            "scope": "同上合并后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout-readme",
+            "previousAfterSha256": "a19a5d6752eb9c0cbd61c70791271b015e7d7d3ff3dd251b0ed109a96834a91e",
+            "afterSha256": "9ad14679707b5ecd957a8d46b282dc156f0b04793e3b559254af03863d467e6c",
+            "scope": "evidence README 冲突解决（治理块+main 音乐收口状态）后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "75e9eb7d7",
+            "action": "C02 finite slice build checkpoint; no closure; unrelated verdicts preserved",
+            "previousAfterSha256": "18f5e9e8a372907d797ac9aa3304da3574e5e69bed93b9d4d9af9f237d0c366a",
+            "afterSha256": "28b5b3da5de111357b6cc1253cec92407ce38c2bb928e866fc02f41d2b709d91",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 next four-file slice build; lifecycle30 zero diagnostics; precision/global gates pending; no closure",
+            "previousAfterSha256": "28b5b3da5de111357b6cc1253cec92407ce38c2bb928e866fc02f41d2b709d91",
+            "afterSha256": "abadc326c5d2223e356bb5620116f63180a5266afc3176b18a9b1a0b45c26a63",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Kimi sprite workflow finite build checkpoint; six cases zero diagnostic, three oracle counters; full window pending and no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "abadc326c5d2223e356bb5620116f63180a5266afc3176b18a9b1a0b45c26a63",
+            "afterSha256": "40d1963c36fdcfc839f6d9754f5e966c2e23b2171965695957d17925270a6be3",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Native navigation finite two-test checkpoint; real event/IO oracles verified; other runtime output and full window pending, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "40d1963c36fdcfc839f6d9754f5e966c2e23b2171965695957d17925270a6be3",
+            "afterSha256": "f379a3372883a35c1075862864bb9b690337f30442b1b71d2e39c5cc8b0941a3",
+            "evidence": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Four-test form checkpoint: legal fixtures, lifecycle ablation and K4 oracle; full window pending, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "f379a3372883a35c1075862864bb9b690337f30442b1b71d2e39c5cc8b0941a3",
+            "afterSha256": "d39a3531f004079209c42780444ae6618c2d4336cf9e6cbf256c03bb1d7b61bc",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C04/C05/C06 frozen stable window recorded; strict runtime diagnostics NOT zero; review only, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "d39a3531f004079209c42780444ae6618c2d4336cf9e6cbf256c03bb1d7b61bc",
+            "afterSha256": "e2a15d59dbc680aaf1e9252661df655d820892ae58f0644aa6e15bab53271bb7",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "World-sprite finite checkpoint: real shared host, byte/threshold oracles and rejected weak counter retained; next full window pending, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "e2a15d59dbc680aaf1e9252661df655d820892ae58f0644aa6e15bab53271bb7",
+            "afterSha256": "5142430d259027d9903a663c8f830ecc90f9d93423f92c0b1f8ab41d4ca0bfe2",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Viewer finite checkpoint: stable callback and actual IO ownership, exact harness-only retirement; next full window pending, no closure",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "5142430d259027d9903a663c8f830ecc90f9d93423f92c0b1f8ab41d4ca0bfe2",
+            "afterSha256": "3f1878e4f985a68348b20e3a256b4c1363a629d09cc07d642f0b841d9f60d46f",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Pre94 risk retrospective: 36 card inventory, selected direct reads and four closure counters; poison domain draft, no product changes",
+            "scope": "docs/ops/evidence/README.md",
+            "previousAfterSha256": "3f1878e4f985a68348b20e3a256b4c1363a629d09cc07d642f0b841d9f60d46f",
+            "afterSha256": "baea1f0117b4ec1b282ec061a97f1c4caa4c0574bc8940627d1e9c51e4f77c52",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Unify 3y and acceptance work on sole governance branch; preserve both histories, current reviews remain open",
+            "scope": "docs/ops/evidence/README.md",
+            "afterSha256": "755678dcf55e23da91fb0670876cb9590355026830e04c971a308d82fb570f09",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md"
           }
         ],
-        "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
+        "integrationBase": "89133ca0fe5d7db6c9dcd54dd9bbcf17b9b09f1e"
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/evidence/README.md",
         "sourceSha256": "00d4ed1b49cdbedc551086e3008772620244f96abb4165523a3805ac53aa9356",
-        "lineCount": 61,
+        "lineCount": 40,
         "headings": [
           {
             "line": 1,
@@ -1947,13 +2150,14 @@
         "unresolvedSignals": [
           "11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
         ],
-        "afterSha256": "7a85496425205b15bba910288f85eb3a573c2d700fc8ceb0fb1c4f0886d24031",
+        "afterSha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
         "currentReading": {
           "date": "2026-10-14",
-          "sha256": "7a85496425205b15bba910288f85eb3a573c2d700fc8ceb0fb1c4f0886d24031",
-          "lineCount": 68,
-          "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-          "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+          "sha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
+          "lineCount": 53,
+          "reviewedRanges": ["9-9"],
+          "scope": "issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
+          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
         },
         "readingHistory": [
           {
@@ -1975,27 +2179,6 @@
             "unresolved": [
               "正文信号 11:- [TEST-COVERAGE85-GLM-REFORGE-1 交付证据](TEST-COVERAGE85-GLM-REFORGE-1/README.md)（r5 三态反控、逐 fullName ledger 与 80.44% honest branch 账；覆盖率续跑未结束）。"
             ]
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "1f34e65a075594d1638e7659bcb18876a110b86d9c4bb35d457362f9361ef5f5",
-            "lineCount": 55,
-            "scope": "CODE80 质量证据与 CODE81 定向反例均已入导航；CODE81 全仓 ratchet 失败，不能宣称批次完成；逐文件账本不因定向绿自动关闭其它 pending 文件。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "438bcbf2e188b4f3802590e9e6c78227ce4a201807726aab33260225c3ae4a60",
-            "lineCount": 55,
-            "scope": "CODE80 质量证据与 CODE81 定向反例均已入导航；CODE81 全仓 ratchet 失败，不能宣称批次完成；逐文件账本不因定向绿自动关闭其它 pending 文件。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "619d77f98dc6e55e662edba44d2b1b89ee4732c89f4ce4145a098f7a412530f6",
-            "lineCount": 55,
-            "scope": "CODE80 质量证据与 CODE81 全量质量门已入导航；CODE81 仅新增测试文件关闭，复合生产文件与既有 GLM 测试继续 pending。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           },
           {
             "date": "2026-10-12",
@@ -2040,35 +2223,13 @@
               "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
               "docs/ops/evidence/game-rng-scene-restore-1/README.md"
             ]
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "c08583d069bd0aeb34a1218a3fe3006f774c12a8b0a6b8836aa3213e6a3d1e32",
-            "lineCount": 67,
-            "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
-        ],
-        "originMainReading": {
-          "date": "2026-10-14",
-          "sha256": "39184617edd99f6d2ebf3b019eb844df7dc8580eb23f4dfad19a89edf0b01835",
-          "lineCount": 53,
-          "reviewedRanges": ["9-9"],
-          "scope": "issue #3 证据入口更新为 CI、阿里云发布与线上复验完成；保留初次失败、完整剧情 E2E 和既有离线诊断边界。",
-          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
-        }
+        ]
       },
       "history": [
         {
           "revision": "working-tree",
           "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "main-sync-navigation-sha-refresh",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
         },
@@ -2095,20 +2256,27 @@
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         },
         {
-          "date": "2026-10-14",
-          "action": "code-quality-92-origin-main-cddf-sync-review",
-          "previousAfterSha256": "919675b94fb5c84343ba56ea65786cc99e62494dd8c9dd7ac8786450c04b7603",
-          "afterSha256": "7a85496425205b15bba910288f85eb3a573c2d700fc8ceb0fb1c4f0886d24031",
-          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
-          "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-          "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+          "date": "2026-10-15",
+          "revision": "8f5d17ff1",
+          "action": "codex-r2-evidence-navigation-merge",
+          "previousAfterSha256": "baffffeb4ed309b704103e1101abde1996effb92886a53195544a472e164657c",
+          "afterSha256": "29555bacd2620fc5357812e56b7e6e24e263148ebb88949fdb655c0f0a081353",
+          "scope": "Retain main music evidence and CODE94 source/re-review evidence links; historical receipts do not imply accept."
+        },
+        {
+          "date": "2026-10-15",
+          "action": "editor-first-slice-evidence-navigation-repair",
+          "revision": "da342d6f7",
+          "previousAfterSha256": "9ad14679707b5ecd957a8d46b282dc156f0b04793e3b559254af03863d467e6c",
+          "afterSha256": "18f5e9e8a372907d797ac9aa3304da3574e5e69bed93b9d4d9af9f237d0c366a",
+          "scope": "Add own diagnostic evidence link only; other task acceptance preserved."
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-54",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "reviewedLines": "1-53",
+      "reviewNotes": "只更新C03准入、导航与索引；其它任务裁定不动，统一门仍未收。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -2695,18 +2863,13 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "governed-legacy",
-      "readMethod": "prior-full-reading-plus-governance-and-origin-main-delta-read-20261014",
+      "readMethod": "prior-full-text-review + current-delta-and-primary-evidence-read-20261012",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "治理分支 CODE92 的30条当前 counter 和其它治理状态保留；主线 RNG 修复已授权发布并归档，集成仅同步文档与历史，不关闭其它文件。",
+      "coreConclusion": "2026-10-14：官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
       "truthAnchors": [
-        "docs/ops/tasks/index.md:7",
-        "docs/ops/tasks/index.md:14",
-        "docs/ops/tasks/index.md:17",
-        "scripts/docs/check.mjs:67",
-        "docs/ops/tasks/index.md:15",
-        "docs/ops/evidence/game-rng-scene-restore-1/README.md",
         "docs/ops/tasks/index.md",
-        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md"
+        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
+        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
       ],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -2717,8 +2880,8 @@
       "capability": "ops-tasks-index",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "7a3525c30ca05cb4b8263be40b019b867e193eb5372ce2a05000af1da290f6bb",
+      "sourceSha256": "b20379a25e8ebe65b82f6373399f3a3d86320296e1394698e73d102672b4effc",
+      "afterSha256": "b20379a25e8ebe65b82f6373399f3a3d86320296e1394698e73d102672b4effc",
       "publicCallers": [
         "docs/ops/tasks/index.md → ../board.md",
         "docs/ops/tasks/index.md → README.md",
@@ -2753,8 +2916,8 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "working-tree",
-        "implementationSha": "d71a29530090cb00942183ae795b2866fe67bb1b22f2f0f33d4494067efa6a01",
+        "currentSha": "588790383ac4f8692019acd7f94dc292b0acd640",
+        "implementationSha": "f0cf0f7f",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -3326,15 +3489,241 @@
             "scope": "docs/ops/tasks/index.md",
             "afterSha256": "7a3525c30ca05cb4b8263be40b019b867e193eb5372ce2a05000af1da290f6bb",
             "evidence": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md"
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-menu-integration-candidate-navigation",
+            "previousAfterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+            "afterSha256": "906123cb420e51cd1649e649743d38a1993ba97ca528a124e470a318ef97a3da",
+            "evidence": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+            "scope": "Historical source cards retained; current CODE94/95 review/build candidate only; no runtime/main closure claim",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-14",
+            "action": "code-quality-94-95-glm-review-handoff",
+            "previousAfterSha256": "906123cb420e51cd1649e649743d38a1993ba97ca528a124e470a318ef97a3da",
+            "afterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
+            "scope": "用户指定停止后交GLM；仅review检查点导航，完整质量门与main集成未完成。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "fbe75764ef7eb1374c12a8e6eb18b6c38a0766856fe204625f06164e54be35b3",
+            "afterSha256": "d1633c410b3b238754bbe8b236069d6e878bebc8356efbcfe7ac427ae152668d",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-97 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-97-menu-helper-review-navigation",
+            "previousAfterSha256": "d1633c410b3b238754bbe8b236069d6e878bebc8356efbcfe7ac427ae152668d",
+            "afterSha256": "4fa6abafd1a3e0d83399460d567b1d8f16ac0bf9496e79ef60633c508e8a6a69",
+            "scope": "任务索引再生成去 EOF 空行后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-98-menu-status-review-navigation",
+            "previousAfterSha256": "4fa6abafd1a3e0d83399460d567b1d8f16ac0bf9496e79ef60633c508e8a6a69",
+            "afterSha256": "0862d9d77c62dc6917cf384f8b36ba37dcc453b82c27e5405d7c32b3d688ae74",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-98 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-99-menu-driver-review-navigation",
+            "previousAfterSha256": "0862d9d77c62dc6917cf384f8b36ba37dcc453b82c27e5405d7c32b3d688ae74",
+            "afterSha256": "0b41f41e51e644d40ded33e0637c480410b64f7e112cd7853b6afda0de550057",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-99 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-100-save-slot-menu-review-navigation",
+            "previousAfterSha256": "0b41f41e51e644d40ded33e0637c480410b64f7e112cd7853b6afda0de550057",
+            "afterSha256": "5c912263c35da4747a964972a4ee0b1db59c05c602e3f5e7c72beff49f8f5f31",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-100 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-101-save-api-review-navigation",
+            "previousAfterSha256": "5c912263c35da4747a964972a4ee0b1db59c05c602e3f5e7c72beff49f8f5f31",
+            "afterSha256": "fcde2550dbcf9d87ce249c9e6c822102a0a54bb2b2179ba0d3090b3c2b62ff38",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-101 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "code-quality-102-quick-save-review-navigation",
+            "previousAfterSha256": "fcde2550dbcf9d87ce249c9e6c822102a0a54bb2b2179ba0d3090b3c2b62ff38",
+            "afterSha256": "541d4687ef3d1053e4897f0040847ee76a4f9b559728941c35dd0e8d755ead0c",
+            "scope": "任务索引再生成纳入 CODE-QUALITY-102 卡。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code94-95-independent-counter",
+            "previousAfterSha256": "541d4687ef3d1053e4897f0040847ee76a4f9b559728941c35dd0e8d755ead0c",
+            "afterSha256": "9d20942347fa40278d2bab602b4ba6b9ed267e6d378606906f18dd6bb4edaac1",
+            "scope": "GLM零诊断验收被原日志反证；94返工，95局部合同通过但不闭合。97–102状态保留。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-code95-real-caller-premise-counter",
+            "previousAfterSha256": "9d20942347fa40278d2bab602b4ba6b9ed267e6d378606906f18dd6bb4edaac1",
+            "afterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+            "scope": "CODE95 applyAll fixture不能冒称单体picker域，亦转rework；没有任何文件关闭。",
+            "notRun": ["E2E", "visual", "new full check or coverage"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "1f8bcd468",
+            "workingTree": true,
+            "action": "codex-r2-independent-review-94-95-97-102",
+            "previousAfterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+            "afterSha256": "dd1980c6225a0ad46085a3fd3d9f98dc01b688daa9ec2ac4a29e9d234dd3b23e",
+            "reviewedRanges": ["11-13", "15-18", "23-25", "400-400"],
+            "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "codex-r2-sync-main-music-preserving-both-histories",
+            "revision": "8f5d17ff1",
+            "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+            "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+          },
+          {
+            "date": "2026-10-15",
+            "action": "glm-c5-merge-main-rix-closeout",
+            "previousAfterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+            "afterSha256": "e5a9199090233951d434343e634f02849e9d6e51c101ba60aade13fc39a9d01a",
+            "scope": "任务索引再生成（音乐卡归档+C5 卡）后重钉。",
+            "notRun": ["E2E", "visual", "hosted CI"]
+          },
+          {
+            "revision": "5477af1e4",
+            "date": "2026-10-15",
+            "action": "Codex R3 counter and user-authorized test/comment takeover; no file closure",
+            "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "0a039271c",
+            "date": "2026-10-15",
+            "action": "Codex takeover fixes; reviews remain open; editor diagnostic draft",
+            "notRun": ["E2E", "visual"]
+          },
+          {
+            "revision": "23f4effbf",
+            "date": "2026-10-15",
+            "action": "Two user-approved phase1 fixes implemented and author-verified; third display change on hold; no file closure",
+            "notRun": ["full quality window pending"]
+          },
+          {
+            "date": "2026-10-15",
+            "revision": "75e9eb7d7",
+            "action": "C02 finite slice build checkpoint; no closure; unrelated verdicts preserved",
+            "previousAfterSha256": "245431c36d14a962c16b313f29e4e7bca8a00d77e817361b2e39293c7887e2a0",
+            "afterSha256": "a16358d81c00ec952e2a238addcf5dbfc22fbb261c6f92a2679cdc4e78a4cdf6",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 author precision checkpoint review; full window pending; no closure",
+            "previousAfterSha256": "a16358d81c00ec952e2a238addcf5dbfc22fbb261c6f92a2679cdc4e78a4cdf6",
+            "afterSha256": "e88c4c3e887b1bb40b788088e34d2f6c7fc7ef2ec7d47eca0ad1ef7fa4bd80d4",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 next four-file slice build; lifecycle30 zero diagnostics; precision/global gates pending; no closure",
+            "previousAfterSha256": "e88c4c3e887b1bb40b788088e34d2f6c7fc7ef2ec7d47eca0ad1ef7fa4bd80d4",
+            "afterSha256": "68fb8c99cbf6baaeabc0c361c015eb2646104206097115fee83422715ecb6049",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C02 stable module window recorded; numeric gates passed but strict diagnostics failed; no closure or merge",
+            "previousAfterSha256": "68fb8c99cbf6baaeabc0c361c015eb2646104206097115fee83422715ecb6049",
+            "afterSha256": "d2851dfc76c5e9cac9723aa88ff659e04be40a408b93c1baa73aee4b95771bb3",
+            "scope": "docs/ops/tasks/index.md",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Kimi sprite workflow finite build checkpoint; six cases zero diagnostic, three oracle counters; full window pending and no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "d2851dfc76c5e9cac9723aa88ff659e04be40a408b93c1baa73aee4b95771bb3",
+            "afterSha256": "395f84c9cbfba61236d9d38c82e3abd49467828907ff8197d6cb9576587efbdf",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Native navigation finite two-test checkpoint; real event/IO oracles verified; other runtime output and full window pending, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "395f84c9cbfba61236d9d38c82e3abd49467828907ff8197d6cb9576587efbdf",
+            "afterSha256": "f3e0f5f1af81b402318543468c46cbdbb2d9b5f7fd6c59c5f011903af7d8ff15",
+            "evidence": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Four-test form checkpoint: legal fixtures, lifecycle ablation and K4 oracle; full window pending, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "f3e0f5f1af81b402318543468c46cbdbb2d9b5f7fd6c59c5f011903af7d8ff15",
+            "afterSha256": "ce0a609e507f9ce094e8835622493630a94f98c0bd17fe971d92950ecd5346c0",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "C04/C05/C06 frozen stable window recorded; strict runtime diagnostics NOT zero; review only, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "ce0a609e507f9ce094e8835622493630a94f98c0bd17fe971d92950ecd5346c0",
+            "afterSha256": "65352023bd006832c113e556093c6b1628a173cc5ef61db998af2ce2585a4d13",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "World-sprite finite checkpoint: real shared host, byte/threshold oracles and rejected weak counter retained; next full window pending, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "65352023bd006832c113e556093c6b1628a173cc5ef61db998af2ce2585a4d13",
+            "afterSha256": "bd1f59e18938d11e173eecad92abd0f028586601e45b1e6538fbf14ae2d35730",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Viewer finite checkpoint: stable callback and actual IO ownership, exact harness-only retirement; next full window pending, no closure",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "bd1f59e18938d11e173eecad92abd0f028586601e45b1e6538fbf14ae2d35730",
+            "afterSha256": "5f5c1ee8f71858e630fda8f3df9304b758ab709456b1b5ee1df6eb91b5b24743",
+            "evidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Pre94 risk retrospective: 36 card inventory, selected direct reads and four closure counters; poison domain draft, no product changes",
+            "scope": "docs/ops/tasks/index.md",
+            "previousAfterSha256": "5f5c1ee8f71858e630fda8f3df9304b758ab709456b1b5ee1df6eb91b5b24743",
+            "afterSha256": "868e51da5498f4e61555a871ea5a8597de3bf65af79930cdcc336a49eb798f51",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
+          },
+          {
+            "date": "2026-10-15",
+            "action": "Unify 3y and acceptance work on sole governance branch; preserve both histories, current reviews remain open",
+            "scope": "docs/ops/tasks/index.md",
+            "afterSha256": "b20379a25e8ebe65b82f6373399f3a3d86320296e1394698e73d102672b4effc",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md"
           }
-        ],
-        "integrationBase": "cddf65557e60619e40e38168b276cf01981a106a"
+        ]
       },
       "evidence": {
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
-        "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 429,
+        "sourceSha256": "0a68fbc5b11ce5add22ae37f4d57c932205d2cb40c063a1cd3474119ae3e01a6",
+        "lineCount": 401,
         "headings": [
           {
             "line": 1,
@@ -3359,13 +3748,14 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
+        "afterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
         "currentReading": {
           "date": "2026-10-14",
-          "sha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
-          "lineCount": 435,
-          "scope": "CODE92 protected fast closure: remove terminal task from board and regenerate task index; restore 30 byte-identical ledger records; CODE90 remains review",
-          "method": "prior-content-review-plus-current-navigation-and-gate-evidence"
+          "sha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+          "lineCount": 379,
+          "reviewedRanges": ["15-15", "192-192"],
+          "scope": "官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
+          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
         },
         "readingHistory": [
           {
@@ -3450,27 +3840,6 @@
             ]
           },
           {
-            "date": "2026-10-13",
-            "sha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
-            "lineCount": 423,
-            "scope": "官方索引按当前 402 张任务卡生成；CODE80 为 review、CODE81 为 build；生成导航不重新验收历史任务。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "c8c24a7fb738bc512769430f179f9c7b9f171ca0e33eadfeeb9451a0bcc81845",
-            "lineCount": 423,
-            "scope": "官方索引按当前 402 张任务卡生成；CODE80 为 review、CODE81 为 build；生成导航不重新验收历史任务。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-13",
-            "sha256": "d66ecf43c32f82ed13588b5dd96c034810dfd7c5b61f63b53ef8a5faa229cc5e",
-            "lineCount": 423,
-            "scope": "官方索引按当前 402 张任务卡生成；CODE80 与 CODE81 均为 review；生成导航不重新验收历史任务。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
             "date": "2026-10-12",
             "sha256": "d71ee3f91ecbe2e0cb0a7e8f5ec0db0802131490106573a36b8060b6cd6f79d5",
             "lineCount": 378,
@@ -3515,30 +3884,8 @@
               "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
               "docs/ops/evidence/game-rng-scene-restore-1/README.md"
             ]
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "1245ba7dafbccfae8860f36d6d21c6e2eb2dbd61dd45239baa924be8fd49e955",
-            "lineCount": 434,
-            "scope": "Prior full text and current generated/navigation delta reviewed; current task state follows cards, product acceptance remains separate",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
-            "lineCount": 435,
-            "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
           }
-        ],
-        "originMainReading": {
-          "date": "2026-10-14",
-          "sha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
-          "lineCount": 379,
-          "reviewedRanges": ["15-15", "192-192"],
-          "scope": "官方生成器将 GAME-RNG-SCENE-RESTORE-1 移至 done 归档入口，仍为359张任务卡；不重新验收其它任务。",
-          "method": "prior-content-review-plus-current-navigation-and-release-evidence"
-        }
+        ]
       },
       "history": [
         {
@@ -3583,188 +3930,6 @@
           "notRun": ["runtime", "E2E", "visual", "coverage", "new GitHub CI"]
         },
         {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-3z-analytics-governance-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-3z-analytics-governance-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-40-analytics-install-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-40-analytics-install-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "main-sync-navigation-sha-refresh",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-41-consent-ui-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-41-consent-ui-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-42-dialog-box-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-42-dialog-box-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-43-draw-sprite-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-43-draw-sprite-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-44-font-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-44-font-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-45-follower-render-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-45-follower-render-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-46-draw-confirm-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-46-draw-confirm-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-11",
-          "action": "code-quality-47-draw-box-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-12",
-          "action": "code-quality-47-draw-box-closeout",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-74-75-audio-governance-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-75-build-state-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-75-audio-race-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-76-main-loop-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-77-rng-player-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-78-avi-player-closeout-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "date": "2026-10-13",
-          "action": "code-quality-53-product-decision-navigation",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
           "date": "2026-10-14",
           "revision": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
           "workingTree": true,
@@ -3787,28 +3952,57 @@
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md"
         },
         {
-          "date": "2026-10-14",
-          "action": "code-quality-92-origin-main-cddf-sync-review",
-          "previousAfterSha256": "2594bfde30c29dca195b691e82a722bccb71650f1a54142fa7084f1c8378cf37",
-          "afterSha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
-          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
-          "scope": "Prior full review plus CODE92 counter and upstream RNG release navigation delta; preserve both histories, no new product or file closure",
-          "notRun": ["latest protected coverage fast", "E2E", "hosted CI"]
+          "date": "2026-10-15",
+          "revision": "1f8bcd468",
+          "workingTree": true,
+          "action": "codex-r2-independent-review-94-95-97-102",
+          "previousAfterSha256": "7a74955160d2436c6a587359c4704c8919b2cb60076129f8f7ce71d4c03077f2",
+          "afterSha256": "dd1980c6225a0ad46085a3fd3d9f98dc01b688daa9ec2ac4a29e9d234dd3b23e",
+          "reviewedRanges": ["11-13", "15-18", "23-25", "400-400"],
+          "scope": "Eight batch verdicts and three high-risk draft cards; generated task index and board consistent; no new file closures or product implementation.",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md"
         },
         {
-          "date": "2026-10-14",
-          "action": "code-quality-92-protected-fast-closure",
-          "previousAfterSha256": "466cd18e8f48cff34af0326ab2ec6a456f6579b0633ea556fb9094ab9071e7f9",
-          "afterSha256": "0dad9a2e3f762fad4f7e09b069b87a6e93407ad7cfbb9653b5177144c2ebf794",
-          "evidence": "docs/ops/tasks/CODE-QUALITY-92-protected-fast-command-correction.md",
-          "scope": "Protected fast and source snapshots passed; CODE92 terminal task removed from current board/index; CODE90 and other pending/review unchanged"
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "rix-music-feature-navigation-review",
+          "previousAfterSha256": "4ac7e84a6b9ab4a5964a741fc1f540d848c71e54eac376fa3f73e191e008d7f8",
+          "afterSha256": "63686654d29b1d608b8c0e83eb75077fc931a3f0302fb491ecf63072ca7df1a2",
+          "scope": "官方生成器新增GAME-RIX-MUSIC-1活动入口，共360张任务卡；其它任务状态不变。",
+          "evidence": "docs/ops/tasks/GAME-RIX-MUSIC-1.md"
+        },
+        {
+          "date": "2026-10-15",
+          "action": "codex-r2-sync-main-music-preserving-both-histories",
+          "revision": "8f5d17ff1",
+          "afterSha256": "3841de0dc34766a1dcbf56eaade9d5cfc8919e3f97547b7aaff5b20680c16680",
+          "evidence": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+          "scope": "Retain main music review card and governance review verdicts; regenerate index, no runtime acceptance."
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "editor-three-file-lifecycle-build-checkpoint",
+          "previousAfterSha256": "0a68fbc5b11ce5add22ae37f4d57c932205d2cb40c063a1cd3474119ae3e01a6",
+          "afterSha256": "b41102d606347b86e433791a0f04f4ad64b4456e98413a777959eccc536f3fed",
+          "scope": "Own diagnostic card draft to build only; other task statuses preserved; no closure or merge.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md"
+        },
+        {
+          "date": "2026-10-15",
+          "revision": "working-tree",
+          "action": "editor-three-file-oracle-review-checkpoint",
+          "previousAfterSha256": "b41102d606347b86e433791a0f04f4ad64b4456e98413a777959eccc536f3fed",
+          "afterSha256": "245431c36d14a962c16b313f29e4e7bca8a00d77e817361b2e39293c7887e2a0",
+          "scope": "Own diagnostic first slice review only; 67 clean targeted, three valid counters, global diagnostics remain; no closure or merge.",
+          "evidence": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md"
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": null,
-      "reviewedLines": "1-422",
-      "reviewNotes": "保留原全文阅读、source SHA和历史裁决；当前状态直接与卡正文及原件对照。索引历史行沿用既有审阅，本轮核生成器、变化行与顶部状态，不重验全部历史任务。静态文档审阅不代替产品、运行时、E2E、覆盖率或托管CI验证。",
+      "reviewedLines": "1-381",
+      "reviewNotes": "只更新C03准入、导航与索引；其它任务裁定不动，统一门仍未收。",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

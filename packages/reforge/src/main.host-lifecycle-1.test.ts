@@ -328,26 +328,27 @@ test('战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开
 
 test('战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换', async () => {
   host = await installShellHost()
-  // Replace only the browser reload boundary: jsdom's native reload emits a navigation
-  // diagnostic. The production GameOver branch still runs through the real host.
-  const originalLocation = window.location
-  const reload = vi.fn()
-  const testLocation = { ...originalLocation, reload } as unknown as Location
-  Object.defineProperty(window, 'location', { configurable: true, value: testLocation })
-  try {
-    // 零档下战败链不误读空档、不替换世界、流程干净收口(重开行由覆盖账证明执行)。
-    const scene = sceneWithCommands('a', [{ kind: 'gameOver' }])
-    const fixture = await shellProject({ first: scene })
-    await bootAndAwait(fixture)
-    await until(host, () => observation().dialogue)
-    for (let i = 0; i < 6 && observation().dialogue; i++) await key(host, 'Enter', 200)
-    await advance(() => !observation().script.running)
-    expect(reload).toHaveBeenCalledTimes(1)
-    expect(observation().world.money).toBe(50)
-    expect(observation().sceneId).toBe('a')
-  } finally {
-    Object.defineProperty(window, 'location', { configurable: true, value: originalLocation })
-  }
+  // Native navigation is terminal browser IO. Keep the boot URL and observe reload;
+  // the real no-save branch must reach this port after its asynchronous metadata read.
+  const originalHref = location.href
+  const navigation = {
+    search: location.search,
+    pathname: location.pathname,
+    href: originalHref,
+    reload: vi.fn<Location['reload']>(),
+  } satisfies Pick<Location, 'search' | 'pathname' | 'href' | 'reload'>
+  vi.stubGlobal('location', navigation)
+  const scene = sceneWithCommands('a', [{ kind: 'gameOver' }])
+  const fixture = await shellProject({ first: scene })
+  await bootAndAwait(fixture)
+  await until(host, () => observation().dialogue)
+  for (let i = 0; i < 6 && observation().dialogue; i++) await key(host, 'Enter', 200)
+  await advance(() => navigation.reload.mock.calls.length > 0)
+  expect(navigation.reload).toHaveBeenCalledOnce()
+  expect(navigation.href).toBe(originalHref)
+  expect(observation().script.running).toBe(false)
+  expect(observation().world.money).toBe(50)
+  expect(observation().sceneId).toBe('a')
 })
 
 test('场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键', async () => {

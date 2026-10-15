@@ -1,0 +1,7 @@
+{
+  "rawCombinedOutput": "{\n  \"positiveControlSlot1\": true,\n  \"abortedSlot2\": true,\n  \"saveSlotResolvedDespiteAbort\": true,\n  \"slot2Persisted\": false,\n  \"conclusion\": \"COUNTER: request success was reported as save success before transaction commit\",\n  \"limitation\": \"spec-compatible fake-indexeddb 6.2.5 fault injection; no claim of natural browser quota reproduction\"\n}\n",
+  "rawSha256": "ecd6f6da72e4ac3c0ad8e32c03c5160629487eaeeb92a9873a5fcb1256119e6d",
+  "rawBytes": 345,
+  "exitCode": 0,
+  "readableTextNormalization": "strip trailing line whitespace and normalize EOF only; rawCombinedOutput preserves exact receipt"
+}

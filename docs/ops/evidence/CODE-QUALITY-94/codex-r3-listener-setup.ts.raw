@@ -1,0 +1,20 @@
+import { afterAll, expect, vi } from 'vitest'
+const live = new Set()
+const add = window.addEventListener.bind(window)
+const remove = window.removeEventListener.bind(window)
+const added = vi.spyOn(window, 'addEventListener').mockImplementation((type, listener, options) => {
+  if (type === 'keydown') live.add(listener)
+  return add(type, listener, options)
+})
+const removed = vi.spyOn(window, 'removeEventListener').mockImplementation((type, listener, options) => {
+  if (type === 'keydown') live.delete(listener)
+  return remove(type, listener, options)
+})
+afterAll(() => {
+  const count = live.size
+  for (const listener of live) remove('keydown', listener)
+  added.mockRestore()
+  removed.mockRestore()
+  console.log(JSON.stringify({ reviewProbe: 'keydown listener balance after real quick-save tests', leakedListeners: count }))
+  expect(count, 'all test-owned keydown listeners must be removed').toBe(0)
+})

@@ -1,0 +1,39 @@
+{
+  "candidate": "cae26b1c7d3f48f200d34aea280726591b36c41b",
+  "protectedRef": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "baselineBeforeSha256": "462ddc75f0bdde8cfa1f168669c08f44b9cc145452eb1dd7c79172bf4299e433",
+  "sources": [
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+      "sha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts",
+      "sha256": "79f8470ad9d688cdd32cb9305ff4495030c6bf774be7abe5ca4dffc72d97eab0"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "sha256": "0ea63f9e60135a5deade4011729bf1f3f8bd5f8a7dfa831d8ee4c203ad891dff"
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "sha256": "648a935cb7e750499896e07ce7b40b48657d36c4ea9da5ec179c87bfa870bd6b"
+    },
+    {
+      "path": "packages/editor/src/ui/LevelingEditor.test.tsx",
+      "sha256": "b77ab682f564408298d9bc9ae711e6eee0d9459582bbd350c995479911db2af2"
+    },
+    {
+      "path": "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+      "sha256": "7bc56f598747a7d18224a338c1caf321ea47b5273180b2c4324f44c8b32a0157"
+    },
+    {
+      "path": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+      "sha256": "cc300cf80dd6d14d1e2a020421c8d3f6813ad7359ffdfc5cedd8e72f194d0a82"
+    },
+    {
+      "path": "packages/editor/src/ui/CasualtyEditor.glm-m.test.tsx",
+      "sha256": "d3a2e0fe189a803e34d8275e057b1601930161fb0f579c2ca4b0367d919379c5"
+    }
+  ]
+}

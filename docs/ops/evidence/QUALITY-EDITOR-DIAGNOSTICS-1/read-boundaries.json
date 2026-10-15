@@ -1,0 +1,86 @@
+{
+  "fullReads": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "sha256": "e5aaa1b553c3eedee2d2ce56346a57cf7d11ce081ddd393d330301ae50bf3bab",
+      "lines": 148,
+      "readBoundary": "full pre-edit text plus complete implementation diff",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45",
+      "lines": 246,
+      "readBoundary": "full pre-edit text plus complete implementation diff",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "sha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56",
+      "lines": 1165,
+      "readBoundary": "full pre-edit text plus complete implementation diff",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "lines": 1457,
+      "readBoundary": "full text",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "lines": 581,
+      "readBoundary": "full text",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf",
+      "lines": 59,
+      "readBoundary": "full text",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-assets.ts",
+      "sha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f",
+      "lines": 31,
+      "readBoundary": "full text",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts",
+      "sha256": "e7d1580d84771445a3d230f40a0a6c598ff847adcbbae33d13cc133d23c22aa2",
+      "lines": 147,
+      "readBoundary": "full text",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/list-header.tsx",
+      "sha256": "f91ec8407248daba9acec46d7e7b346adc27f238c096a3cfd2870419c4af5982",
+      "lines": 155,
+      "readBoundary": "full text",
+      "auditCredit": "Scoped test files remain review; caller reading does not close dependency files"
+    }
+  ],
+  "partialCallerReads": [
+    {
+      "path": "packages/editor/src/core/edit-session.ts",
+      "boundary": "constructor/state/dispatch/undo/redo and subscribe/notify sections only",
+      "sha256": "57b82d62298c3981eb1c903ca400e8765f28f5d103b5c67d27e1cac249989eed"
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "boundary": "loadStandardPalette, SpriteAssetCache and sprite decode call sections only",
+      "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/recipes.tsx",
+      "boundary": "DsCatalogControls and surrounding type/caller only",
+      "sha256": "5a55da87223a1680178e06af1e799e8395d57c1c61536fe6849f8713d9e72b5f"
+    }
+  ],
+  "remaining": "kit other callers and external test dedupe not fully verified; failure-cleanup conditional source reviewed but no separate fault regression added; no closure credit from package greens",
+  "primary": "https://react.dev/reference/react/act"
+}

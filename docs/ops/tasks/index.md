@@ -8,6 +8,9 @@
 
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
+| [CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）](CODE-QUALITY-100-save-slot-menu-review.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）](CODE-QUALITY-101-save-api-review.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-102 — 快存快读工具审核（quick-save）](CODE-QUALITY-102-quick-save-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -15,11 +18,27 @@
 | [CODE-QUALITY-80 — game Dev Panel 换队生命周期](CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-81 — game Dev Panel picker 生命周期](CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-90 — magic revive status clearing boundary](CODE-QUALITY-90-magic-revive-status-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-94 — menu 独立阶段集成窗口](CODE-QUALITY-94-menu-integration-window.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-95 — menu 测试夹具合法性 counter](CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）](CODE-QUALITY-97-menu-helper-primitives-item-select.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）](CODE-QUALITY-98-menu-opening-player-status.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）](CODE-QUALITY-99-menu-driver-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle](QUALITY-EDITOR-FORM-FIXTURES-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-PRE94-RETROSPECTIVE-1 — 94前治理回溯抽审](QUALITY-PRE94-RETROSPECTIVE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
@@ -434,6 +453,7 @@
 | [D15-2 - PAL auto 地形路线兼容修复](../archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md) | cancelled | 用户否定 authored 移动必须查地形的前提，回到 D15-1 修运行时语义。 |
 | [ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界](../archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md) | cancelled | 用户要求恢复原始帧时间线，由 ED-FRAME-TIMELINE-UX-RESTORE-1 承接。 |
 | [ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing](../archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md) | cancelled | 合并进 ED-FRAME-TIMELINE-UX-RESTORE-1，保留原始可见窗口合同。 |
+| [GAME-PLAYER-POISON-KEY-DOMAIN-1 — 玩家毒键域前提返工](../archive/tasks/cancelled/GAME-PLAYER-POISON-KEY-DOMAIN-1.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |

@@ -1,0 +1,31 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+    "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c08-retirement-probe.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 3.3,
+  "bytes": 487,
+  "sha256": "31c249d96511cbd0907fa539dbefa6a52989746ea1b01868f66587a358a6d2e8",
+  "testsSha256": "71bac2d7e201314d1807f168638712947d04052455282c7fd9417c957a63fb0f",
+  "passed": 20,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

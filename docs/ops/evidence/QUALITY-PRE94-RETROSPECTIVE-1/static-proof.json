@@ -1,0 +1,59 @@
+{
+  "runs": [
+    {
+      "command": ["pnpm", "check:docs"],
+      "exit": 0,
+      "bytes": 11738,
+      "sha256": "6e154558888f8887db825a9c25c6dfd4801a37f0b0b7c3633be3c3184a264888"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "exit": 0,
+      "bytes": 199,
+      "sha256": "9dfe360970c9aa53a0af56bb90b12d3aac805b8f48e9244cea38a1aa29e2582a"
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "exit": 0,
+      "bytes": 112,
+      "sha256": "e684c59a0cca5e95807cc14401f4ec0f42da53484fd74d6e5e67414a9a35bcc0"
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "exit": 0,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "semanticEntriesChanged": [
+    "docs/ops/board.md",
+    "docs/ops/evidence/README.md",
+    "docs/ops/tasks/index.md"
+  ],
+  "unchangedOtherEntries": 18,
+  "noProductTestConfigChanges": true,
+  "currentLedger": {
+    "inventory": 3284,
+    "closed": 225,
+    "review": 75,
+    "pending": 2984
+  },
+  "lint": {
+    "files": 4270,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  },
+  "fullGatesForNewCandidate": "pending next editor stable window",
+  "unmergedOldBranch": {
+    "branch": "codex/code-quality-3y",
+    "tip": "d4cf7f57d237895d920ddee72f69e0278680157a",
+    "behindMain": 5,
+    "aheadMain": 86,
+    "nonMergePatchesNotEquivalent": 82,
+    "mainAncestor": false,
+    "currentGovernanceAncestor": false,
+    "worktreeClean": true,
+    "deleted": false
+  }
+}

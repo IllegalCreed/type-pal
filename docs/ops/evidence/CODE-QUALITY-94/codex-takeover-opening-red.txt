@@ -1,0 +1,72 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+ ❯ src/core/menu/menu-driver.cov85.test.ts (37 tests | 1 failed | 36 skipped) 15ms
+     ↓ setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错
+     ↓ menuStack 空 → 直接返回不炸
+     ↓ list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店
+     ↓ list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段
+     ↓ confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库
+     ↓ confirm:Up/Left 也 toggle;Confirm 否 → 不交易
+     ↓ confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)
+     ↓ list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)
+     ↓ 不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list
+     ↓ confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动
+     ↓ music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开
+     ↓ sound switch:Up toggle;Menu 取消关整栈(保持当前态)
+     ↓ quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler
+     ↓ save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移
+     ↓ Left/Right 在 menu 阶段也位移(DL21)
+     ↓ Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory
+     ↓ list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回
+     ↓ Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈
+     ↓ applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return
+     ↓ list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)
+     ↓ pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)
+     ↓ 不可装备角色 Confirm → no-op 留 pick-role
+     ↓ 单人队:直接 pick-spell;8 键导航;Menu 关整栈
+     ↓ Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单
+     ↓ Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回
+     ↓ Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关
+     × in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening 13ms
+     ↓ save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+     ↓ load 模式:有 handler → 调用;无 handler → pop 顶 + 警告
+     ↓ shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本
+     ↓ 法术菜单 MP 不足禁用项 Confirm → no-op 留 pick-spell(禁用项)
+     ↓ equip pick-role 确认时 item 已不在 catalog → 错误返回不动状态(错误返回)
+     ↓ save-slot load 异步 handler:fire-and-forget 不阻塞关栈,promise 照常完成(异步生命周期)
+     ↓ save-slot load handler 异步 reject:被 dispatcher catch 吞掉,不产生 unhandled 且栈态不被破坏
+     ↓ save-slot load handler 同步 throw:穿透 dispatchMenuInput(Promise.resolve 不裹同步域)
+     ↓ system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)
+     ↓ system switch 阶段 Down/Left 也 toggle(535-536 补臂)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/core/menu/menu-driver.cov85.test.ts:847:38
+    845|     expect(gs2.menuStack[0]?.kind).toBe('opening')
+    846|     expect(gs2.menuStack[0]?.state).toBe(opening)
+    847|     expect(opening.selection.cursor).toBe(0) // uigame.c:150 cancels b…
+       |                                      ^
+    848|   })
+    849|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 36 skipped (37)
+   Start at  14:56:59
+   Duration  1.60s (transform 374ms, setup 42ms, import 405ms, tests 15ms, environment 952ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/menu/menu-driver.cov85.test.ts -t in-game 上下文 --reporter=default --silent=false

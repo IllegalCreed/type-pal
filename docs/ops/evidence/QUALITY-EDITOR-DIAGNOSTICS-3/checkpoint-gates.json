@@ -1,0 +1,32 @@
+{
+  "sourcesStillInBuild": true,
+  "receipts": [
+    {
+      "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "rawArtifact": "checkpoint-editor-typecheck.raw.gz",
+      "bytes": 189,
+      "sha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194"
+    },
+    {
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "rawArtifact": "checkpoint-docs.raw.gz",
+      "bytes": 11738,
+      "sha256": "cfc2a5f38afdae90833d4b262af45da6b4ad3ae2ee38900fb6514d7855aa8fa6"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "rawArtifact": "checkpoint-lint.raw.gz",
+      "bytes": 199,
+      "sha256": "793db53e5a57b30112d6f5549be4ba82078d5196b975841f9d5a9d4ddfa7f284"
+    }
+  ],
+  "targeted": "lifecycle-final.json:30/30,0diagnostic",
+  "adjacent": "adjacent-lifecycle.json:78/78,0diagnostic",
+  "ledger": "3284/229closed/54review/3001pending"
+}

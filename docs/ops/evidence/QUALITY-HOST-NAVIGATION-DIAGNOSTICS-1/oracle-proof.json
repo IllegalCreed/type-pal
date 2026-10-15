@@ -1,0 +1,270 @@
+{
+  "sourceCandidate": "384f068ee + two scoped tests",
+  "testPath": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+  "sourceSha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s",
+  "noWorkingTreeProductMutation": true,
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "recipe": {
+    "target": "packages/reforge/src/main.ts",
+    "find": "      location.reload() // 无档:重开",
+    "replace": "      // mutant: native restart omitted"
+  },
+  "runs": [
+    {
+      "label": "oracle-old-no-reload",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/main.host-lifecycle-1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s/oracle-old-no-reload.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 3747,
+      "rawSha256": "5bfd6422fcc914679e1526da219474edbb80458d29e46ec445fb10d57c23d95d",
+      "runnerBytes": 3142,
+      "runnerSha256": "bfe6c99b214d28d6ead602d6876f0c3a3b07f07bcf3b4bd8b74fc3a478aa840c",
+      "testSha256": "c97b0b80ad1d7e2445daff4a390617d1f69dbc90a64d8426b471770fc9c94ff5",
+      "executedProductSha256": "e536cd0dfb23eda77bf0061af8b7898a9f07bfb52188e50c9ecfdc59e52cfd48",
+      "passed": 8,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "标题入口视频:选中入口先播 intro 视频再进世界",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "oracle-new-no-reload",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/main.host-lifecycle-1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s/oracle-new-no-reload.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 5503,
+      "rawSha256": "0e10b2e914a03595361c831017d824104095946ba2c9286519589b9efe9e2236",
+      "runnerBytes": 3703,
+      "runnerSha256": "33a69707978b265d4bd25d8e6047718520bb720156f28f5dc5dc65de623a64db",
+      "testSha256": "648a935cb7e750499896e07ce7b40b48657d36c4ea9da5ec179c87bfa870bd6b",
+      "executedProductSha256": "e536cd0dfb23eda77bf0061af8b7898a9f07bfb52188e50c9ecfdc59e52cfd48",
+      "passed": 7,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "标题入口视频:选中入口先播 intro 视频再进世界",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at advance (/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s/packages/reforge/src/main.host-lifecycle-1.test.ts:169:23)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s/packages/reforge/src/main.host-lifecycle-1.test.ts:346:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/main.host-lifecycle-1.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s/oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c05-oracle-zi67kp5s",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 3741,
+      "rawSha256": "056a6ef24c08b68488d5e4158b83d3f3bdd68e81c54aec2e0119e2471f9cf7fb",
+      "runnerBytes": 3142,
+      "runnerSha256": "6b6b29e5deb3b1735f344d9aff980d1c3658277d4e10030bbb28c9d772059eeb",
+      "testSha256": "648a935cb7e750499896e07ce7b40b48657d36c4ea9da5ec179c87bfa870bd6b",
+      "executedProductSha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+      "passed": 8,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "标题入口视频:选中入口先播 intro 视频再进世界",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+          "name": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ]
+}

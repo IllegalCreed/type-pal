@@ -3,10 +3,11 @@
  * SpriteUploadWizard / SpriteResourceViewer / BattleSpriteUploader。
  * 不 mock 任何产品组件；不使用 as never 资产桥。
  */
-import type { AssetId } from '@type-pal/content'
-import type { AssetBase, FileSource } from '@type-pal/reforge'
-import { act, type ReactNode, useState, useSyncExternalStore } from 'react'
+import type { AssetId, AssetRole } from '@type-pal/content'
+import { type AssetBase, AssetResolver, type FileSource, SpriteAssetCache } from '@type-pal/reforge'
+import { act, type ReactNode, useCallback, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
+import { vi } from 'vitest'
 import { EditSession } from '../../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../../core/editor-asset-reader.js'
 import { BattleSpriteUploader } from '../../ui/BattleSpriteUploader.js'
@@ -113,9 +114,17 @@ export async function mountWizard(
   return mounted
 }
 
-export async function unmountHost(mounted: { host: HTMLElement; root: Root }): Promise<void> {
-  await act(async () => mounted.root.unmount())
-  mounted.host.remove()
+export async function unmountHost(mounted: {
+  host: HTMLElement
+  root: Root
+  restoreResourceObservers?: () => void
+}): Promise<void> {
+  try {
+    await act(async () => mounted.root.unmount())
+  } finally {
+    mounted.restoreResourceObservers?.()
+    mounted.host.remove()
+  }
 }
 
 // ─────────────────────────── SpriteResourceViewer ───────────────────────────
@@ -132,13 +141,45 @@ export interface MountedViewer {
   selectedLog: number[]
   definitionSelects: string[]
   actionSelects: Array<[string, string]>
-  setAsset(asset: AssetId, label: string): Promise<void>
+  restoreResourceObservers(): void
+  setAsset(asset: AssetId, label: string, waitForResource?: boolean): Promise<void>
   setFrame(frame: number): Promise<void>
 }
 
 interface ViewerController {
   setTarget?: (next: { asset: AssetId; label: string }) => void
   setFrame?: (frame: number) => void
+}
+
+/** A typed IO observer that delegates even non-configurable fixture role methods unchanged. */
+class PaletteReadObserver extends AssetResolver {
+  readonly reads: Promise<string>[] = []
+  private readonly delegate: AssetResolver
+
+  constructor(base: AssetBase) {
+    super(
+      base.assetResolver.projectId,
+      base.assetResolver.catalog,
+      base.assetResolver.roles,
+      base.source,
+    )
+    this.delegate = base.assetResolver
+  }
+
+  override readRoleText(role: AssetRole): Promise<string> {
+    const pending = this.delegate.readRoleText(role)
+    if (role === 'visual.standardColorTable') this.reads.push(pending)
+    return pending
+  }
+}
+
+const viewerResourceWaiters = new WeakMap<HTMLElement, () => Promise<void>>()
+
+/** Observe the viewer's real cache/palette calls without starting substitute reads. */
+export async function waitForSpriteViewerResources(host: HTMLElement): Promise<void> {
+  const wait = viewerResourceWaiters.get(host)
+  if (!wait) throw new Error('SpriteResourceViewer host is not mounted')
+  await wait()
 }
 
 function ViewerHarness(props: {
@@ -171,6 +212,13 @@ function ViewerHarness(props: {
   const current = props.session.getState()
   const record = current.assetCatalog.assets[target.asset]
   const consumers = current.sprites.filter((entry) => entry.asset === target.asset)
+  const handleSelectedFrame = useCallback(
+    (next: number) => {
+      props.onSelectedFrameChange(next)
+      if (props.controlledFrame) setFrame(next)
+    },
+    [props.controlledFrame, props.onSelectedFrameChange],
+  )
   if (!record) return <div data-testid="viewer-no-record">无 {target.asset}</div>
   return (
     <SpriteResourceViewer
@@ -190,10 +238,7 @@ function ViewerHarness(props: {
       onFramesLoaded={props.onFramesLoaded}
       onStatusNotice={props.onStatusNotice}
       selectedFrame={props.controlledFrame ? frame : undefined}
-      onSelectedFrameChange={(next) => {
-        props.onSelectedFrameChange(next)
-        if (props.controlledFrame) setFrame(next)
-      }}
+      onSelectedFrameChange={handleSelectedFrame}
       enableFrameDrag={props.enableFrameDrag}
     />
   )
@@ -213,6 +258,8 @@ export async function mountViewer(
     activeActionId?: string
     headerActions?: ReactNode
     enableFrameDrag?: boolean
+    /** Pending-state tests release their IO gate before explicitly waiting. */
+    waitForResource?: boolean
   },
 ): Promise<MountedViewer> {
   const host = document.createElement('div')
@@ -227,6 +274,28 @@ export async function mountViewer(
   const definitionSelects: string[] = []
   const actionSelects: Array<[string, string]> = []
   const controller: ViewerController = {}
+  const originalBase = input.assetBase ?? project.assetBase
+  const paletteReads = new PaletteReadObserver(originalBase)
+  const assetBase: AssetBase = { ...originalBase, assetResolver: paletteReads }
+  let currentAsset = input.asset
+  const cacheLoad = vi.spyOn(SpriteAssetCache.prototype, 'load')
+  const restoreResourceObservers = () => {
+    viewerResourceWaiters.delete(host)
+    cacheLoad.mockRestore()
+  }
+  viewerResourceWaiters.set(host, async () => {
+    await act(async () => {
+      const sprites = cacheLoad.mock.results.flatMap((result, index) =>
+        cacheLoad.mock.calls[index]?.[0] === reader &&
+        cacheLoad.mock.calls[index]?.[1] === currentAsset &&
+        result.type === 'return'
+          ? [result.value]
+          : [],
+      )
+      // The real viewer catches rejections; callers must assert its error UI and callbacks.
+      await Promise.allSettled([...sprites, ...paletteReads.reads])
+    })
+  })
   const onLoaded = (proof: SpriteResourceLoadProof | undefined): void => {
     proofs.push(proof)
   }
@@ -245,30 +314,40 @@ export async function mountViewer(
   const onActionSelect = (definitionId: string, actionId: string): void => {
     actionSelects.push([definitionId, actionId])
   }
-  await act(async () => {
-    root.render(
-      <ViewerHarness
-        session={session}
-        assetBase={input.assetBase ?? project.assetBase}
-        reader={reader}
-        initial={{ asset: input.asset, label: input.label }}
-        controlledFrame={input.controlledFrame ?? false}
-        initialFrame={input.initialFrame ?? 0}
-        controller={controller}
-        onLoaded={onLoaded}
-        onFramesLoaded={onFramesLoaded}
-        onStatusNotice={onStatusNotice}
-        onSelectedFrameChange={onSelectedFrameChange}
-        onDefinitionSelect={onDefinitionSelect}
-        onActionSelect={onActionSelect}
-        activeDefinitionId={input.activeDefinitionId}
-        activeActionId={input.activeActionId}
-        headerActions={input.headerActions}
-        enableFrameDrag={input.enableFrameDrag}
-      />,
-    )
-    await Promise.resolve()
-  })
+  try {
+    await act(async () => {
+      root.render(
+        <ViewerHarness
+          session={session}
+          assetBase={assetBase}
+          reader={reader}
+          initial={{ asset: input.asset, label: input.label }}
+          controlledFrame={input.controlledFrame ?? false}
+          initialFrame={input.initialFrame ?? 0}
+          controller={controller}
+          onLoaded={onLoaded}
+          onFramesLoaded={onFramesLoaded}
+          onStatusNotice={onStatusNotice}
+          onSelectedFrameChange={onSelectedFrameChange}
+          onDefinitionSelect={onDefinitionSelect}
+          onActionSelect={onActionSelect}
+          activeDefinitionId={input.activeDefinitionId}
+          activeActionId={input.activeActionId}
+          headerActions={input.headerActions}
+          enableFrameDrag={input.enableFrameDrag}
+        />,
+      )
+    })
+    if (input.waitForResource !== false) await waitForSpriteViewerResources(host)
+  } catch (reason) {
+    try {
+      await act(async () => root.unmount())
+    } finally {
+      restoreResourceObservers()
+      host.remove()
+    }
+    throw reason
+  }
   return {
     host,
     root,
@@ -281,11 +360,13 @@ export async function mountViewer(
     selectedLog,
     definitionSelects,
     actionSelects,
-    async setAsset(asset, label) {
+    restoreResourceObservers,
+    async setAsset(asset, label, waitForResource = true) {
+      currentAsset = asset
       await act(async () => {
         controller.setTarget?.({ asset, label })
-        await Promise.resolve()
       })
+      if (waitForResource) await waitForSpriteViewerResources(host)
     },
     async setFrame(frame) {
       await act(async () => controller.setFrame?.(frame))

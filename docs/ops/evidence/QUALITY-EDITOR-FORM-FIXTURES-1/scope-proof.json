@@ -1,0 +1,24 @@
+{
+  "beforeSha256": "462ddc75f0bdde8cfa1f168669c08f44b9cc145452eb1dd7c79172bf4299e433",
+  "afterSha256": "f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790",
+  "beforeCount": 19860,
+  "afterCount": 19860,
+  "editorBeforeCount": 4784,
+  "editorAfterCount": 4784,
+  "sourceFileCount": 736,
+  "scope": {
+    "changes": [
+      "editor: fast test files +0/-0，内容变化 1（4784 -> 4784 tests）",
+      "editor: fast test execution config/digest 已变化"
+    ],
+    "removals": []
+  },
+  "comparison": {
+    "regressions": [],
+    "improvements": []
+  },
+  "allMetricsExactlyUnchanged": true,
+  "sixOtherPackagesExactlyUnchanged": true,
+  "sourceScopesUnchanged": true,
+  "confirmation": "Ordinary official ratchet and protected fast; no scope-removal flag or retirement metadata change"
+}

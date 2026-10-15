@@ -1,0 +1,20 @@
+{
+  "base": "30d42c983",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/menu/menu-driver.test.ts",
+    "src/core/menu/menu-driver.cov85.test.ts",
+    "src/tools/quick-save.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "seconds": 3.13,
+  "bytes": 269,
+  "sha256": "3f67dcb0bd6e4d2c8068ef135b00a1b11a5212744c3643bf5a4f3f08f064847a",
+  "combinedOutput": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n\n\n Test Files  3 passed (3)\n      Tests  82 passed (82)\n   Start at  14:39:43\n   Duration  2.58s (transform 491ms, setup 58ms, import 615ms, tests 110ms, environment 1.50s)\n\n"
+}

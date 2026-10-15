@@ -1,11 +1,13 @@
 /**
- * M5.S-w0.1:Save API stub(in-memory)。
+ * Save API(双路径门面)。
  *
  * 5 个槽位(sdlpal 真值 1-5),save / load / list / delete 4 个原语。
- * 当前 in-memory map,S-w1.a 后切 IndexedDB(真持久化)。
+ * 浏览器走 IndexedDB 主路径(indexed-db.ts,M5.S-w1.a 起接);无 indexedDB 的环境
+ * (vitest jsdom / SSR)自动 fallback 到本文件内存 map。2026-10-15 更正:旧头注
+ * "stub(in-memory),S-w1.a 后切 IndexedDB"是切换前历史,与现状不符。
  *
- * Slot meta:Sync.1 后 GameState 全字段冻结,可直接 JSON.stringify 存。
- * Meta(预览用)简版 stub:partyLevel / cash / sceneId。
+ * Slot meta:GameState 全字段可结构化克隆存储;Meta(预览用)含
+ * partyLevel / cash / sceneId / savedAt / savedTimes。
  */
 
 import type { GameState } from '../game-state.js'

@@ -1,0 +1,482 @@
+{
+  "sourceCandidate": "52d046f0b + scoped two-file uncommitted test patch",
+  "testPath": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+  "noWorkingTreeProductMutation": true,
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "recipes": [
+    {
+      "name": "finite-frame",
+      "target": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "find": "Number.isInteger(rawFrame)",
+      "replace": "Number.isFinite(rawFrame)",
+      "case": "动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销"
+    },
+    {
+      "name": "reuse-asset",
+      "target": "packages/editor/src/core/battle-sprite-import.ts",
+      "find": "      asset,\n      profile: defaultBattleSpriteProfile",
+      "replace": "      asset: existing ? `${asset}-duplicate` : asset,\n      profile: defaultBattleSpriteProfile",
+      "case": "追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致"
+    },
+    {
+      "name": "shrink-repairs",
+      "target": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "find": "repairs: deletionPlan?.repairs ?? {},",
+      "replace": "repairs: {},",
+      "case": "删除原始帧走敌人分段 ABI 修复事务；确认取消零提交"
+    }
+  ],
+  "runs": [
+    {
+      "label": "oracle-old-finite-frame",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/oracle-old-finite-frame.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 164596,
+      "rawSha256": "91f4092997d45360505862247663219d665d8edd4e99156fc6264460c977f1ef",
+      "runnerBytes": 3119,
+      "runnerSha256": "ca48e22d29a5d7fa29962efd8798576f504f39fe41ece3e3f2d5da267f6bf125",
+      "testSha256": "6b0b961b04ecf3577f488b56daa55b638d10101b0f1cae86c8f050d73975a7a9",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 398,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "recipe": "finite-frame",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "executedMutantSha256": "c8772291fad0c39cda286e4c6d94a2b681ebc0c3ff09a414b68d8cf0a63781fc",
+      "mutantSha256": "c8772291fad0c39cda286e4c6d94a2b681ebc0c3ff09a414b68d8cf0a63781fc"
+    },
+    {
+      "label": "oracle-new-finite-frame",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/oracle-new-finite-frame.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2464,
+      "rawSha256": "53169a8d3c32180e29b7ad4e77dcbf2799ff07996394c1db770cdd93c90f4d71",
+      "runnerBytes": 3522,
+      "runnerSha256": "b6146e961067cb5ed3884dac4e93d840da5f660be81cea0f84ce1fffc8ce88c3",
+      "testSha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '3命中#1.5用已选 #0' to contain '#9'\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx:513:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "recipe": "finite-frame",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "executedMutantSha256": "c8772291fad0c39cda286e4c6d94a2b681ebc0c3ff09a414b68d8cf0a63781fc",
+      "mutantSha256": "c8772291fad0c39cda286e4c6d94a2b681ebc0c3ff09a414b68d8cf0a63781fc"
+    },
+    {
+      "label": "oracle-old-reuse-asset",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/oracle-old-reuse-asset.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 164595,
+      "rawSha256": "d90ae22b24e93a458416c5d39c270df86d391614946f95992c28121f2df25e86",
+      "runnerBytes": 3120,
+      "runnerSha256": "86cf71465c49a7171b3e6be535800b011475e22260b111706a7e630f49134b39",
+      "testSha256": "6b0b961b04ecf3577f488b56daa55b638d10101b0f1cae86c8f050d73975a7a9",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 398,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "recipe": "reuse-asset",
+      "sourceSha256": "1555462c48741ebc6ee975d8dc3071c11caeda8b27324e776b9543580aac2db9",
+      "executedMutantSha256": "f1789d34b0ec145ccfdc1995de7c4cdd533afd8da080e6c8b2f96d227acd4fd3",
+      "mutantSha256": "f1789d34b0ec145ccfdc1995de7c4cdd533afd8da080e6c8b2f96d227acd4fd3"
+    },
+    {
+      "label": "oracle-new-reuse-asset",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/oracle-new-reuse-asset.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2581,
+      "rawSha256": "1d2c9a5dca28cef493dd2d0c7cc36f194184a2bc733ad504434254e894b2bb38",
+      "runnerBytes": 3685,
+      "runnerSha256": "1149df28b1c070e8ddcca1862f0c2232990966a8e07cb439bf374cd4074e21c0",
+      "testSha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 'battle-sprite.authored.7a61ab46663b9c…' to be 'battle-sprite.authored.7a61ab46663b9c…' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx:289:37\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "recipe": "reuse-asset",
+      "sourceSha256": "1555462c48741ebc6ee975d8dc3071c11caeda8b27324e776b9543580aac2db9",
+      "executedMutantSha256": "f1789d34b0ec145ccfdc1995de7c4cdd533afd8da080e6c8b2f96d227acd4fd3",
+      "mutantSha256": "f1789d34b0ec145ccfdc1995de7c4cdd533afd8da080e6c8b2f96d227acd4fd3"
+    },
+    {
+      "label": "oracle-new-shrink-repairs",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/oracle-new-shrink-repairs.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2482,
+      "rawSha256": "5d4ff95563d291a681456b6525f2fa4602221900afe4b38e73cf361c8c2944e0",
+      "runnerBytes": 3533,
+      "runnerSha256": "433aaf55ecb99c516375b3a1926cda710c8aad7a27e4230a93fc0bd46df34097",
+      "testSha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx:380:50\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "recipe": "shrink-repairs",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "executedMutantSha256": "e6381a3d6fd232dbd458db9a956b802cabcbeeda749c1400ee24fb5253d4e0a3",
+      "mutantSha256": "e6381a3d6fd232dbd458db9a956b802cabcbeeda749c1400ee24fb5253d4e0a3"
+    },
+    {
+      "label": "oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63/oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c04-oracle-d3wkrm63",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 584,
+      "rawSha256": "6530f8618b4db9a48c61edfa60d4bc0df6b212ae37b6006155b48a34f63531d0",
+      "runnerBytes": 3119,
+      "runnerSha256": "84f655ff20a219b8887465baaf35665a665c5d8ad70cb3a3509084d85878c43c",
+      "testSha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ]
+}

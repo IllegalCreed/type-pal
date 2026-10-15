@@ -1,0 +1,66 @@
+{
+  "3ySynced": "66376bf5164936b00d7160b5948a7457eb99a24d",
+  "acceptanceTip": "a9be8ab9847aee995f02c241910ae1751a6ab14d",
+  "conflicts": [
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "3ySha256": "70a7e9ae6418db00cec0a23fa9602c38065909988fb9ff54d01c565b1df6c34d",
+      "acceptSha256": "748db779a8d1f02c18c998fc58cca16f2e6f16bfc46e9eb35e11f2c9876c6bea"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "3ySha256": "0104faf9b3e985d15454ca27047e948e7f93f31ff649d603de3b6e44b33f4da7",
+      "acceptSha256": "8249fcc392a6ef45340bcd0ae69a811d12f07e8d91e2bf5b05c1a13dcf992929"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-92/protected-fast-after-ratchet.txt",
+      "3ySha256": "93142fc1e7eb0038e27709a6354a65123a54cc91b9d5261e4aec01175d799b38",
+      "acceptSha256": "c2199ebff5cb4ab3a16ce4e0961e71eec9b222147331cc61dd6b7a9e854cd83f"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-92/protected-fast-current.txt",
+      "3ySha256": "f7fda245e2eb00e15567b4370875f3db7552ce910c3110d2292eccb9e4886e10",
+      "acceptSha256": "c97de6c8b7a4cf3db46ac78c698a523a4f187eba0ac01152ca3183a1158305f3"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "3ySha256": "0b3168a2b43155c3f57e4866a123767504583c02f6960a287956e3d318fd2e30",
+      "acceptSha256": "baea1f0117b4ec1b282ec061a97f1c4caa4c0574bc8940627d1e9c51e4f77c52"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md",
+      "3ySha256": "f76c9ff72b83716a48b45a2e24db8ac35975a45d110801fe625ab5e6b615cc79",
+      "acceptSha256": "43fee31ad9b7bdb0c694853bb330dd100cf66d35198cdfb6793831f33135295b"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "3ySha256": "7a3525c30ca05cb4b8263be40b019b867e193eb5372ce2a05000af1da290f6bb",
+      "acceptSha256": "868e51da5498f4e61555a871ea5a8597de3bf65af79930cdcc336a49eb798f51"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "3ySha256": "1d88965c6e6fd904ffb06a8d7e9a398bde46a72071bff4b609bd997c3fcfde47",
+      "acceptSha256": "53732b504f299e410c8915503deb3be501a1dc331fdfdfaedaaa53e8fc12216d"
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "3ySha256": "a73e19eea4855fae5bad4e698c55d8ecd4abe16fc14a51cbb02f74f2a85b2ebf",
+      "acceptSha256": "0ea63f9e60135a5deade4011729bf1f3f8bd5f8a7dfa831d8ee4c203ad891dff"
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "3ySha256": "ce1ba6f3c0dc91540b2329c0d351871a6d57edb030e626424d430e56bf6900c3",
+      "acceptSha256": "648a935cb7e750499896e07ce7b40b48657d36c4ea9da5ec179c87bfa870bd6b"
+    }
+  ],
+  "testChoices": "Exact acceptance C05 bytes; native event/reload ports already tested, no product logic changed",
+  "ledgerStatusPolicy": "Conservative union, no historical closure credit restored",
+  "currentLedger": {
+    "total": 3288,
+    "closed": 223,
+    "review": 198,
+    "pending": 2867
+  },
+  "duplicatePoisonPremiseCard": "cancelled in favour of existing CODE53; prior main snapshot observation retained",
+  "notAcceptance": true
+}

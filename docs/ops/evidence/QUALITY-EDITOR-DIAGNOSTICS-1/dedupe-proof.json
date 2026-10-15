@@ -1,0 +1,27 @@
+{
+  "sourceRevisionBeforeRetirement": "76b17e685bca4a34c991b103607673a24151830b",
+  "removedCases": [
+    {
+      "removed": "C01-G01-10",
+      "retained": "C01-G07-06",
+      "removedBody": "\n  test('C01-G01-10 检查器引用页签可切换且 panel-references 可见', async () => {\n    const project = await multiAssetProject('c01-g01-10')\n    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-alpha-walk' })\n    await waitMeta(mounted.host, 8, 2)\n    await act(async () => {\n      const tab = [...mounted!.host.querySelectorAll<HTMLElement>('[role=\"tab\"]')].find(\n        (candidate) => /^引用/.test(candidate.textContent?.trim() ?? ''),\n      )\n      expect(tab, '引用 tab').toBeDefined()\n      tab!.click()\n    })\n    await vi.waitFor(() => {\n      const panel = mounted!.host.querySelector('#world-sprite-inspector-panel-references')\n      expect(panel).not.toBeNull()\n      expect(panel?.hasAttribute('hidden')).toBe(false)\n    })\n  })\n",
+      "removedBodySha256": "af10870a28e2222aff3e098145021a6c845de615bf02b6d4c2cc74b9cb9d532e",
+      "reason": "same legal fixture/interaction; retained case asserts a strict superset of visible results"
+    },
+    {
+      "removed": "C01-G03-09",
+      "retained": "C01-G03-04",
+      "removedBody": "\n  test('C01-G03-09 无 poses 的 beta 在含预制动作下被排除', async () => {\n    const project = await multiAssetProject('c01-g03-09')\n    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })\n    await waitMeta(mounted.host, 4, 1)\n    await setKindFilter(mounted.host, '含预制动作')\n    await vi.waitFor(() => {\n      expect(catalogMetas(mounted!.host)).not.toContain('sprite.authored.c01beta')\n    })\n  })\n",
+      "removedBodySha256": "9c793946dd0964d9e8df8ad018fb0034e69a7d2316c08aca182150304eacb1de",
+      "reason": "same legal fixture/interaction; retained case asserts a strict superset of visible results"
+    },
+    {
+      "removed": "C01-G03-10",
+      "retained": "C01-G03-05",
+      "removedBody": "\n  test('C01-G03-10 含循环动作不把仅有 static 无 loopFrom 的 beta 纳入', async () => {\n    const project = await multiAssetProject('c01-g03-10')\n    mounted = await mountWorldSpriteLibrary(project, { focus: 'c01-beta-static' })\n    await waitMeta(mounted.host, 4, 1)\n    await setKindFilter(mounted.host, '含循环动作')\n    await vi.waitFor(() => {\n      expect(catalogMetas(mounted!.host)).not.toContain('sprite.authored.c01beta')\n    })\n  })\n",
+      "removedBodySha256": "441024686384f2aee738a89f43625b483f88c4ceaadefd4a72a7f4f063ac20ad",
+      "reason": "same legal fixture/interaction; retained case asserts a strict superset of visible results"
+    }
+  ],
+  "unknownOracles": "not automatically deleted; other cases retain review status"
+}

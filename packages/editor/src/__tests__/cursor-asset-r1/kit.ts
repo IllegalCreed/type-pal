@@ -13,7 +13,7 @@ import {
 import { act } from 'react'
 import { expect } from 'vitest'
 import { memoryAuthorDirectory } from '../../core/__tests__/author-save-fixture.js'
-import type { EditorState } from '../../core/edit-session.js'
+import type { EditorState, EditSession } from '../../core/edit-session.js'
 import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
@@ -163,6 +163,18 @@ export async function clickButtonByText(host: ParentNode, text: string): Promise
   await act(async () => {
     buttonByText(host, text).click()
   })
+}
+
+/** Session history notifies React subscribers synchronously, just like a UI event. */
+export async function applyHistoryAction(
+  session: Pick<EditSession, 'undo' | 'redo'>,
+  action: 'undo' | 'redo',
+): Promise<boolean> {
+  let applied = false
+  await act(async () => {
+    applied = session[action]()
+  })
+  return applied
 }
 
 export interface Deferred<T> {

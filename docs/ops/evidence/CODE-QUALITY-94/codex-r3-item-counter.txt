@@ -1,0 +1,15 @@
+{
+  "existingFixture": {
+    "phase": "use-target",
+    "mode": "menu",
+    "scriptStarted": false,
+    "count": 2
+  },
+  "positiveControl": {
+    "phase": "use-target",
+    "mode": "event",
+    "scriptStarted": true,
+    "count": 2
+  },
+  "verdict": "COUNTER: phase alone passes without starting the item script"
+}

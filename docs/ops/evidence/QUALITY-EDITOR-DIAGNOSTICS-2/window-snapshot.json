@@ -1,0 +1,27 @@
+{
+  "candidate": "7433f71f555e457dd06f56122fa7273033f9bb4e",
+  "protectedRef": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "baselineBeforeSha256": "ecdb1e78f35b75914113ad5a7828013a015d115fbe78e9134e62cc56631da13d",
+  "sources": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "sha256": "0ff8f1b5ecf000cd6aee415b32d0ac20231ffbc78563cbc1c064d7c6872a9515"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx",
+      "sha256": "01864a4c900179d9be655eb306eac888ce9b063788e90e630ad478c09322fdf4"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "sha256": "e967c34abf1c71d590cca61dcfd5ac8df3ba1bf208c8f3c3121b426ae3428927"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "6af3f67d1eaf00fe16e1b709c3fc710c02c10d6dc8d49408a9a3092f1be7d4b2"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "f42a9fd5dff65ac16b982f227c47335e4ccbc55a9605a7d46c0db679aa6761e9"
+    }
+  ]
+}

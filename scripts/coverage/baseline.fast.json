@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-15T01:23:10.725Z",
+  "generatedAt": "2026-10-15T13:40:34.422Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 736,
-  "testCount": 19857,
+  "testCount": 19860,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4683,8 +4683,8 @@
       ],
       "scopeDigest": "c989cc3144e11a587080f7bba5c6c04db8d4d4c321e9e409c9018733fb0cd058",
       "fastTests": {
-        "testCount": 3528,
-        "testFileCount": 312,
+        "testCount": 3536,
+        "testFileCount": 313,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4833,6 +4833,7 @@
           "packages/game/src/core/palette-fade.test.ts",
           "packages/game/src/core/rng.test.ts",
           "packages/game/src/core/save/__tests__/api.test.ts",
+          "packages/game/src/core/save/__tests__/indexed-db.test.ts",
           "packages/game/src/core/scene-system-search.test.ts",
           "packages/game/src/core/scene-system.test.ts",
           "packages/game/src/core/word-lookup.test.ts",
@@ -5537,8 +5538,8 @@
           },
           {
             "file": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
-            "testCount": 4,
-            "identityDigest": "e78dc305842326ee719ff997624584df2de2b9e7156b5a2f56c18f6765c19cd4"
+            "testCount": 3,
+            "identityDigest": "1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619"
           },
           {
             "file": "packages/game/src/core/menu/equip-menu.test.ts",
@@ -5562,13 +5563,13 @@
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "b689ab2fdb1fc55593083cfea04a6926eaddf2fbcf866e65fc8154b2f2debb09"
+            "testCount": 3,
+            "identityDigest": "d70b368939285cdaa6eed7dfda219036d42007e80cbfc748607d3681cf6f34b5"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
-            "testCount": 4,
-            "identityDigest": "9e486b1673bf71174d835eaa1d96bba62372659ae79fd27669ee8ce4c7d7111d"
+            "testCount": 5,
+            "identityDigest": "64d94462c67d7e5be92a6c19049dcb8ff29cd1539adaf8a9db761c6bd1f3635b"
           },
           {
             "file": "packages/game/src/core/menu/in-game-menu.test.ts",
@@ -5588,7 +5589,7 @@
           {
             "file": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
             "testCount": 3,
-            "identityDigest": "4cb2c0015ee0b566f67941be430c474d63ed429b539dbd846a480672ff25be27"
+            "identityDigest": "bff54bf56e997a7921515d8ea94c0aa9dfa2731b88122a42f8937afa6d65b67f"
           },
           {
             "file": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
@@ -5598,12 +5599,12 @@
           {
             "file": "packages/game/src/core/menu/inventory-menu.test.ts",
             "testCount": 23,
-            "identityDigest": "91f4d4f295197df69f612ec80eb7717bf888a25ad04a5d19bf28d777327b509f"
+            "identityDigest": "9d059a4497c84faf46c46c91976bbde1fb4d91556d609707954feb45604b263d"
           },
           {
             "file": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
             "testCount": 8,
-            "identityDigest": "7cd342efb505b10f90acae18afa21573b0c2ed7fe13a542fb74b7794de06943d"
+            "identityDigest": "3693e9e4c0a653f71743386441f80365952db3433f2bef9e24d57bf010a36779"
           },
           {
             "file": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
@@ -5627,8 +5628,8 @@
           },
           {
             "file": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
-            "testCount": 35,
-            "identityDigest": "8a7877ae5d27f800f14f144b46b8c1af2c4653085d39e938f293f85ff72e0e27"
+            "testCount": 37,
+            "identityDigest": "592dacf8da67cc6a03f9a9e06e7af07f5626bfa334164e7a438f7f3a20cdf5e0"
           },
           {
             "file": "packages/game/src/core/menu/menu-driver.test.ts",
@@ -5647,8 +5648,8 @@
           },
           {
             "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
-            "testCount": 3,
-            "identityDigest": "bd2f2514088aac7ebd9d4c4dc924499c960d819ed3b6e12fad431342ef311b1a"
+            "testCount": 2,
+            "identityDigest": "9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112"
           },
           {
             "file": "packages/game/src/core/menu/opening-menu.test.ts",
@@ -5668,7 +5669,7 @@
           {
             "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
             "testCount": 10,
-            "identityDigest": "4995eaab24a91267bd6192045adad20e8e41ca070e15adcfe83543a495dd7b33"
+            "identityDigest": "4eb15ca39810af7ebf75ce75bc07cc15795205e3558d5344d09ff856825174ea"
           },
           {
             "file": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
@@ -5677,8 +5678,8 @@
           },
           {
             "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
-            "testCount": 15,
-            "identityDigest": "f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581"
+            "testCount": 14,
+            "identityDigest": "6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda"
           },
           {
             "file": "packages/game/src/core/menu/script-desc.test.ts",
@@ -5734,6 +5735,11 @@
             "file": "packages/game/src/core/save/__tests__/api.test.ts",
             "testCount": 8,
             "identityDigest": "75eb57ac110be8c5377b9c9de8cc095e5822a8d63c94584136fe20bfc1d4bd3b"
+          },
+          {
+            "file": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+            "testCount": 3,
+            "identityDigest": "22667866aa96b8b978d9f8246da6b89be2683711fcb6b003edd8add6cf8d4565"
           },
           {
             "file": "packages/game/src/core/scene-system-search.test.ts",
@@ -6437,8 +6443,8 @@
           },
           {
             "file": "packages/game/src/tools/quick-save.test.ts",
-            "testCount": 4,
-            "identityDigest": "f50ef6436df811bd9013ed7a255c6a6a2e93b60e235ef5a64045979ba7e2b1bf"
+            "testCount": 8,
+            "identityDigest": "27a112eeedf97f4349dda9243c92c59cf679d27e9c362dbccf6746b22e2629fe"
           },
           {
             "file": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
@@ -6561,26 +6567,26 @@
             "identityDigest": "e537b3aa3bfb413bbe52098ea9ada8727e52e38f41de757334faeb9eda0e9973"
           }
         ],
-        "identityDigest": "276c6c6ef7c30227898e28d119a88d07b595d84aedccf1dc1fe565776264a3a5",
+        "identityDigest": "63ac6b869f4f520a7185647a6c7981f04d4890392eb68531b125083f1e2c570b",
         "duplicateIdentityCount": 0,
-        "executionDigest": "8cb352a0c781b322104611ab529186b54405ca2e314792adaa1c74aa64e156d1"
+        "executionDigest": "7c59d56e01b566d05978a55dcba93153fb2b3fe077e1e72a006e4a2358cf867c"
       },
       "metrics": {
         "statements": {
-          "covered": 13818,
-          "total": 15822
+          "covered": 13869,
+          "total": 15836
         },
         "branches": {
-          "covered": 9032,
-          "total": 11452
+          "covered": 9045,
+          "total": 11456
         },
         "functions": {
-          "covered": 1570,
-          "total": 1904
+          "covered": 1591,
+          "total": 1910
         },
         "lines": {
-          "covered": 12339,
-          "total": 13878
+          "covered": 12385,
+          "total": 13891
         }
       }
     },
@@ -6895,7 +6901,7 @@
       ],
       "scopeDigest": "714747a53e2a4641a7b8c1099aa9a962b2012de0217f2d05a2ccb979350489a4",
       "fastTests": {
-        "testCount": 4789,
+        "testCount": 4784,
         "testFileCount": 612,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -9069,8 +9075,8 @@
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "eb92a404a3d7f85c7e94297d886cf65acbe67907cd105149f07b1e4d6212f315"
+            "testCount": 9,
+            "identityDigest": "941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
@@ -9084,8 +9090,8 @@
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "7bf7e47e40a170aaa72d29130bc792cf3f7ab87aeeb1959cce36a31abdcd12b5"
+            "testCount": 9,
+            "identityDigest": "7bb478138d4d76b9b49fb0e408de429bba1616f31e4e525237f457b4a026c44e"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
@@ -9155,7 +9161,7 @@
           {
             "file": "packages/editor/src/ui/CasualtyEditor.test.tsx",
             "testCount": 10,
-            "identityDigest": "c94254247d42af51463688cc0cfffe9f50d1c7d19a9d5bb1bdb6783413c8c46b"
+            "identityDigest": "591af871e2f65f4d2e011c838489a1323118b29f6be5243ff508734175256eeb"
           },
           {
             "file": "packages/editor/src/ui/CommandForm.actor-workflow-coverage.test.tsx",
@@ -10159,8 +10165,8 @@
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
-            "testCount": 70,
-            "identityDigest": "46baea1df50d2f6a042bf0921c9e8d1bb1316a3a85a872893003acc20ba90386"
+            "testCount": 67,
+            "identityDigest": "c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
@@ -10573,9 +10579,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "36d8a254b3d4fbedc86748acee591a2b8ed1584ff29822085283a08c6c32b573",
+        "identityDigest": "11ad0cfdc881597f662ea20f41218b066099f608fe6838a47d250b8f27c75166",
         "duplicateIdentityCount": 8,
-        "executionDigest": "3698a1f5611673a9a8511bd8a4ebac27c72402f9f4c604cad3873df68464ba19"
+        "executionDigest": "2de99f4a7be1a0a922fa250d5dcf4ceb936597fd77bb2684872c2371419a886f"
       },
       "metrics": {
         "statements": {
@@ -10599,20 +10605,20 @@
   },
   "total": {
     "statements": {
-      "covered": 70871,
-      "total": 79014
+      "covered": 70922,
+      "total": 79028
     },
     "branches": {
-      "covered": 51532,
-      "total": 61704
+      "covered": 51545,
+      "total": 61708
     },
     "functions": {
-      "covered": 13436,
-      "total": 15038
+      "covered": 13457,
+      "total": 15044
     },
     "lines": {
-      "covered": 63318,
-      "total": 69150
+      "covered": 63364,
+      "total": 69163
     }
   }
 }

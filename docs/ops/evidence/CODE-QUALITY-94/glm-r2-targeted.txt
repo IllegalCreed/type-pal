@@ -1,0 +1,40 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal/packages/game
+
+stdout | src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+[save] saved to slot 1(times=1)
+
+ ✓ src/core/menu/menu-driver.cov85.test.ts (35 tests) 18ms
+ ✓ src/core/menu/equip-menu.test.ts (17 tests) 4ms
+stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+ ✓ src/core/menu/menu-driver.test.ts (37 tests) 11ms
+ ✓ src/core/menu/inventory-menu.glm-phase1-leaves.test.ts (6 tests) 3ms
+ ✓ src/core/menu/equip-menu.glm-phase1-leaves.test.ts (4 tests) 2ms
+ ✓ src/core/menu/in-game-magic-menu.test.ts (25 tests) 5ms
+ ✓ src/core/menu/in-game-magic-menu.boundaries.test.ts (2 tests) 3ms
+ ✓ src/core/menu/magic-select.boundaries.test.ts (2 tests) 2ms
+ ✓ src/core/menu/in-game-menu.glm-phase1-leaves.test.ts (5 tests) 3ms
+ ✓ src/core/menu/equip-menu.boundaries.test.ts (2 tests) 2ms
+ ✓ src/core/menu/inventory-action-menu.test.ts (4 tests) 2ms
+ ✓ src/core/menu/shop-menu.boundaries.test.ts (2 tests) 2ms
+ ✓ src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts (4 tests) 2ms
+ ✓ src/core/menu/in-game-menu.test.ts (14 tests) 4ms
+ ✓ src/core/menu/in-game-menu.boundaries.test.ts (3 tests) 2ms
+ ✓ src/core/menu/inventory-menu.test.ts (23 tests) 5ms
+ ✓ src/core/menu/shop-menu.test.ts (10 tests) 5ms
+ ✓ src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts (10 tests) 4ms
+ ✓ src/core/menu/__tests__/item-magic-select.test.ts (11 tests) 3ms
+ ✓ src/core/menu/magic-select.glm-phase1-leaves.test.ts (4 tests) 2ms
+ ✓ src/core/menu/menu-mode.test.ts (7 tests) 3ms
+ ✓ src/core/menu/item-select.glm-phase1-leaves.test.ts (8 tests) 2ms
+ ✓ src/core/menu/inventory-menu.boundaries.test.ts (3 tests) 3ms
+ ✓ src/core/menu/shop-menu.glm-phase1-leaves.test.ts (3 tests) 2ms
+
+ Test Files  24 passed (24)
+      Tests  241 passed (241)
+   Start at  09:34:25
+   Duration  9.08s (transform 386ms, setup 117ms, import 621ms, tests 94ms, environment 6.81s)
+
+EXIT=0

@@ -1,0 +1,10 @@
+{
+  "command": ["pnpm", "lint"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "exitCode": 0,
+  "seconds": 2.73,
+  "bytes": 199,
+  "sha256": "78a716f65f23af96f89756010384277b4c858f2e91594ff2bde06ff0e2700da8",
+  "combinedOutput": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS \u2014 4095 files; 0 errors / 0 warnings / 0 infos; complete report\n"
+}

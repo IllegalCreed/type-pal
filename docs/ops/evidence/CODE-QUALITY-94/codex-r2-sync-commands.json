@@ -1,0 +1,28 @@
+{
+  "main": "8f5d17ff1",
+  "reviewCheckpoint": "25d2d3c42",
+  "jobs": [
+    ["game", ["pnpm", "--filter", "@type-pal/game", "test"]],
+    ["typecheck", ["pnpm", "--filter", "@type-pal/game", "typecheck"]],
+    [
+      "extract",
+      [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/rix.test.ts",
+        "src/cli-battle-assets.glm-q.test.ts",
+        "src/cli-font-lookup.glm-q.test.ts",
+        "src/cli-global-entries.glm-q.test.ts",
+        "src/cli-isolated.glm-q.test.ts"
+      ]
+    ],
+    ["coverage-tools", ["pnpm", "test:coverage-tools"]]
+  ],
+  "environment": {
+    "VITEST_MAX_WORKERS": "1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "candidate": "addf1dca1400cf864535ce4b67257ab0adcdcb5e",
+  "protectedRef": null,
+  "command": ["pnpm", "coverage:ratchet", "--allow-scope-removal"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "seconds": 379.17,
+  "bytes": 961946,
+  "sha256": "7e4a3cb314b4f1ed56e15ef331667719a92e7b920ad4c70b1eb53060f12b17c5",
+  "rawArtifact": "window-ratchet-confirmed.raw.gz",
+  "rawEncoding": "gzip; bytes and sha256 describe uncompressed original",
+  "removedReporterDetectionVariables": ["CODEX_THREAD_ID"],
+  "reporterVerification": "{\"isAgent\":false}",
+  "VITEST_MAX_WORKERS": 4,
+  "TYPE_PAL_COVERAGE_PARALLEL_EDITOR": 1,
+  "unwrappedAct": 1466,
+  "unsupportedActEnvironment": 577,
+  "navigationDiagnostics": 2
+}

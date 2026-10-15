@@ -1,7 +1,8 @@
 /**
  * TEST-GLM-PHASE1-LEAVES-3 L06（save-slot-menu.ts）— 去重表：
  *  - save-slot-menu.test（默认 5 slot/label/mode/slotMeta override/Up-Down wrap/current/
- *    fetchSlotMetas×IndexedDB）→ 不重复
+ *    fetchSlotMetas×内存 fallback Save）→ 不重复（2026-10-15 更正:测试环境无 IndexedDB,
+ *    走 api.ts 内存路径;旧注"×IndexedDB"不实）
  *  - 本卡边界：**只测同步工厂/导航/current**，不调 fetchSlotMetas/Save API/真实 IndexedDB。
  *  - 新差异：defaultSlot 自定义槽号（uigame.c:582/605 bCurrentSaveSlot）、defaultSlot 越界
  *    保持 0、非顺序自定义 slot id 的 current 按 id 反查、空列表防御。
@@ -21,6 +22,8 @@ describe('L06 SaveSlotMenu 同步合同', () => {
     expect(saveSlotMenuCurrent(s)).toBe(3)
   })
 
+  // C5 限定(2026-10-15)：slot 10/20 是公开工厂的防御输入（id 反查正确性），
+  // 不代表可传到 Save 生产域（生产槽位恒 1..5，超界会被 Save.saveSlot 拒绝）。
   it('非顺序自定义 slot id：defaultSlot 按 id 反查非下标；current 返回真 id', () => {
     const s = createSaveSlotMenu(
       'load',

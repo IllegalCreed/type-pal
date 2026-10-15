@@ -7,25 +7,20 @@
 
 ## 当前证据
 
+- [Editor三文件诊断与oracle](QUALITY-EDITOR-DIAGNOSTICS-1/README.md)（生命周期604→200→0，断言及完整门待续，未关闭文件）。
+
+- [CODE-QUALITY-94 menu 集成证据](CODE-QUALITY-94/README.md)（独立候选源/身份清单、typed fixture 修正与新质量门；尚未集成）。
+- [CODE-QUALITY-83 历史 menu 治理原件](CODE-QUALITY-83/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-84 历史 menu 治理原件](CODE-QUALITY-84/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-85 历史 menu 治理原件](CODE-QUALITY-85/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-86 历史 menu 治理原件](CODE-QUALITY-86/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-87 历史 menu 治理原件](CODE-QUALITY-87/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-88 历史 menu 治理原件](CODE-QUALITY-88/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-89 历史 menu 治理原件](CODE-QUALITY-89/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-91 历史 menu 治理原件](CODE-QUALITY-91/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+- [CODE-QUALITY-92 历史 menu 治理原件](CODE-QUALITY-92/README.md)（治理来源历史证据；当前集成准入以 CODE94/95 为准）。
+
 - [第一阶段 MIDI / DOS FM 音源选择](game-rix-music-1/README.md)（真实FM输出、音源生命周期、独立PCM参考、反控和停服离线缓存；用户accept；CI、阿里云上线、线上切换及issue #4关闭完成）。
-
-- [CODE-QUALITY-96 精确测试退役保护账](CODE-QUALITY-96/README.md)（已证重复删重的旧/新身份/count/SHA；门槛与生产范围不变，最终门待补）。
-- [CODE-QUALITY-93 game sell menu state contract](CODE-QUALITY-93/README.md)（四文件逐文件核验；测试排重、真实入口与 3 针精确反控通过，等待全仓质量门）。
-- [CODE-QUALITY-92 protected-fast 命令纠错](CODE-QUALITY-92/README.md)（CODE83–89/91 的30条记录暂转review；旧语义核验与实际check:fast原件保留，等待真实受保护覆盖门和源快照核对）。
-- [CODE-QUALITY-53 状态页 runtime-zero 与 party-slot poison](CODE-QUALITY-53/README.md)（候选 build：runtime 0 保留、非顺序队伍毒映射反例与换队清表；待全仓质量门与 Codex 独立收口）。
-- [CODE-QUALITY-80 Dev Panel 换队生命周期](CODE-QUALITY-80/README.md)（用户已裁决战斗禁入队/离队；探索切队补装备效果重建；实现与全部质量门通过，文件仍按逐文件治理保持 pending）。
-- [CODE-QUALITY-87 game in-game/system menu state](CODE-QUALITY-87/README.md)（四文件逐文件核验完成；补强测试 oracle，全套质量门通过，四条账本记录已验证并归档）。
-- [CODE-QUALITY-88 game magic-select state / catalog](CODE-QUALITY-88/README.md)（四文件逐文件核验完成；object-id/排序/MP 与缺失关联合同、3 针反控及全套质量门通过，四条账本记录已验证并归档）。
-- [CODE-QUALITY-89 game in-game-magic state / execution boundary](CODE-QUALITY-89/README.md)（四文件逐文件核验完成；runtime projection、phase/cancel/target/MP ownership、typed fixtures 与 3 针反控均通过，全套质量门已完成）。
-- [CODE-QUALITY-90 game magic revive status boundary](CODE-QUALITY-90/README.md)（SDLPal `<=999` 临时状态清除与 `>999` 装备效果保留；失败反例、相邻回归和 4 针精确 mutation 反控已通过，待全仓质量门与收口）。
-- [CODE-QUALITY-91 game inventory-action menu contract](CODE-QUALITY-91/README.md)（三文件逐文件核验完成；WORD 22/23、cursor/wrap、caller ownership 与 4 针精确 identity 反控通过，full check、ratchet、protected fast、lint-zero、ledger 全通过）。
-- [CODE-QUALITY-81 Dev Panel picker 生命周期](CODE-QUALITY-81/README.md)（observer 断开、列表 generation 与缩略图 rejection 反例；全量 check、ratchet、protected fast、lint、ledger 已通过，新增测试文件可收口）。
-- [CODE-QUALITY-86 game equip menu state / role swap](CODE-QUALITY-86/README.md)（四文件逐文件核验完成；只清理 typed test input，全套质量门通过，四条账本记录已验证并归档）。
-- [CODE-QUALITY-82 DATA.MKF 独立诊断脚本](CODE-QUALITY-82/README.md)（相对 checkout 路径、MKF 边界 fail-closed 与真实资源输出等价；已归档 done）。
-- [CODE-QUALITY-85 game shop menu state / transaction](CODE-QUALITY-85/README.md)（四文件逐文件核验完成；仅清理两处弱测试证据，全套质量门通过，四条账本记录已验证并归档）。
-- [CODE-QUALITY-83 game menu mode / stack](CODE-QUALITY-83/README.md)（menu-mode/menu-stack/menu-mode.test 逐文件核验；全套质量门通过，三条账本记录已验证并归档）。
-- [CODE-QUALITY-84 game inventory menu state / target](CODE-QUALITY-84/README.md)（四文件逐文件核验完成；无实现改动，全套质量门通过，四条账本记录已验证并归档）。
-
 - [酒剑仙传功后场景恢复](game-rng-scene-restore-1/README.md)（issue #3；真实复现、4项回归及反控，CI/阿里云发布/线上复验已完成）。
 - [战斗回合/结算边界返工](../tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md#当前裁决2026-10-12)（2026-10-12撤回先前accept；原生反控报告、合法输入与阶段可达性待补）。
 - [2026-10-11 residual 测试派发](TEST-DISPATCH-20261011.md)（ControlForm、ItemEffect、MenuBox 三包已由 Codex 独立验收并收口）。
@@ -71,5 +66,36 @@
 - [TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 交付证据](TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md)（r1 候选：migration plan/transaction/write-plan 2 净新合同 + 2/2 identity 反控，待 Codex 验收）。
 - [TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 交付证据](TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md)（r1 候选：battle core/session 排重后 6 残余合同（敌方施法三门/复活无保底/敌逃战果会计/AI 敌逃回执）+ identity TSV 全量反控 6/6 + 11 自测反例，待 Codex 独立验收）。
 - [TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 交付证据](TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md)（r1 候选：main 宿主编排排重后 5 残余合同（入场揭幕/触发脚本错误恢复/试打终局与错误回执/存档失败计数与队列）+ identity TSV 全量反控 5/5 + 11 自测反例 + D-1 `?battle-scene=` 投影死路缺陷披露，待 Codex 独立验收）。
+- [CODE-QUALITY-97 交付证据](CODE-QUALITY-97/README.md)（review-only：menu helper primitives/item-select 逐文件四维结论 + E-4/E-5 死面登记，49 定向，待 Codex 验收）。
+- [CODE-QUALITY-98 交付证据](CODE-QUALITY-98/README.md)（review-only：opening-menu/player-status 逐文件四维结论 + E-6 currentRoleId test-only 登记，52 定向，待 Codex 验收）。
+- [CODE-QUALITY-99 交付证据](CODE-QUALITY-99/README.md)（review-only：menu-driver 逐文件四维结论 + E-7 fixture counter/E-8 死参/E-9 死导出登记，79 定向，待 Codex 验收）。
+- [CODE-QUALITY-100 交付证据](CODE-QUALITY-100/README.md)（review-only：save-slot-menu 逐文件四维结论 + 存档域边界核验，56 定向，待 Codex 验收）。
+- [CODE-QUALITY-101 交付证据](CODE-QUALITY-101/README.md)（review-only：save api+indexed-db 逐文件四维结论 + schema 边界核验零触碰，29 定向，待 Codex 验收）。
+- [CODE-QUALITY-102 交付证据](CODE-QUALITY-102/README.md)（review-only：quick-save 逐文件四维结论 + E-13 fixture 登记，8 定向，待 Codex 验收）。
 
+- [C02宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2/README.md)（有限三文件，零关闭，统一门待续）。
+
+- [C02导入与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3/README.md)（有限四文件，30例535→0，精度与完整窗口待续）。
+
+- [Kimi战斗精灵工作流治理](QUALITY-EDITOR-DIAGNOSTICS-4/README.md)（六例398→0、三反控；统一门待续，0关闭）。
+
+- [测试宿主原生导航](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)（两例来源各1→0；其它输出与完整窗口已测但诊断未清，0关闭）。
+
+- [数值表单合法夹具与生命周期](QUALITY-EDITOR-FORM-FIXTURES-1/README.md)（四文件16/相邻78例，K4反控；完整窗口已测但诊断未清，0关闭）。
+
+- [大世界精灵宿主与字节oracle](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md)（9身份保留/121相邻，204act→0；两枚有效反控与被拒弱oracle均留证，0关闭）。
+
+- [C03查看器真实生命周期](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md)（20例先清51act；精确退役1纯宿主用例；相邻仍63act，完整门待续）。
+
+- [94前治理风险回溯](QUALITY-PRE94-RETROSPECTIVE-1/README.md)（36卡结构盘点、8卡与13源码/测试/工具全文抽样；四旧关闭撤回，非全仓复验）。
+
+- [CODE-QUALITY-96 精确测试退役保护账](CODE-QUALITY-96/README.md)（已证重复删重的旧/新身份/count/SHA；门槛与生产范围不变，最终门待补）。
+- [CODE-QUALITY-93 game sell menu state contract](CODE-QUALITY-93/README.md)（四文件逐文件核验；测试排重、真实入口与 3 针精确反控通过，等待全仓质量门）。
+- [CODE-QUALITY-53 状态页 runtime-zero 与 party-slot poison](CODE-QUALITY-53/README.md)（候选 build：runtime 0 保留、非顺序队伍毒映射反例与换队清表；待全仓质量门与 Codex 独立收口）。
+- [CODE-QUALITY-80 Dev Panel 换队生命周期](CODE-QUALITY-80/README.md)（用户已裁决战斗禁入队/离队；探索切队补装备效果重建；实现与全部质量门通过，文件仍按逐文件治理保持 pending）。
+- [CODE-QUALITY-90 game magic revive status boundary](CODE-QUALITY-90/README.md)（SDLPal `<=999` 临时状态清除与 `>999` 装备效果保留；失败反例、相邻回归和 4 针精确 mutation 反控已通过，待全仓质量门与收口）。
+- [CODE-QUALITY-81 Dev Panel picker 生命周期](CODE-QUALITY-81/README.md)（observer 断开、列表 generation 与缩略图 rejection 反例；全量 check、ratchet、protected fast、lint、ledger 已通过，新增测试文件可收口）。
+- [CODE-QUALITY-82 DATA.MKF 独立诊断脚本](CODE-QUALITY-82/README.md)（相对 checkout 路径、MKF 边界 fail-closed 与真实资源输出等价；已归档 done）。
 - [3y统一治理线收尾](CODE-QUALITY-3Y-CLOSEOUT-1/README.md)（65差异文件、58任务卡待复审；合并候选不是质量验收，未合main）。
+
+历史日志原件映射：[3y整合raw存储](CODE-QUALITY-3Y-CLOSEOUT-1/README.md)（仅17份显示副本规范空白，原字节/SHA无损保留，不改变历史质量结论）。

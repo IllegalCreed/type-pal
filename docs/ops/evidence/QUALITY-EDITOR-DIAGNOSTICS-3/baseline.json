@@ -1,0 +1,32 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+    "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+    "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c03-baseline.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 7.01,
+  "bytes": 216713,
+  "sha256": "8b8ddef902e73c946376f6e43dbbae6732e3429dda2d5c7068a5fde9f53d9eda",
+  "testsSha256": "096b6009fffa226200a7a138e166ba226a8c2cbd73fa46abfbd2149a77dbf90f",
+  "passed": 30,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 535,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

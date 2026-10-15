@@ -1,0 +1,20 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "--config",
+    "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/node_modules/.cache/codex-r3-review/config.mts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 1,
+  "elapsedSeconds": 1.18,
+  "sha256": "06481b791b6b73a8a899d5dde08baf55c4f077446bc79031011af30175b1976e",
+  "bytes": 1464,
+  "expectedCounter": true,
+  "combinedOutput": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n\nstdout | src/tools/quick-save.test.ts\n{\"reviewProbe\":\"keydown listener balance after real quick-save tests\",\"leakedListeners\":1}\n\n \u276f src/tools/quick-save.test.ts (8 tests) 56ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af Failed Suites 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/tools/quick-save.test.ts [ src/tools/quick-save.test.ts ]\nAssertionError: all test-owned keydown listeners must be removed: expected 1 to be +0 // Object.is equality\n\n- Expected\n+ Received\n\n- 0\n+ 1\n\n \u276f node_modules/.cache/codex-r3-review/setup.ts:19:69\n     17|   removed.mockRestore()\n     18|   console.log(JSON.stringify({ reviewProbe: 'keydown listener balance \u2026\n     19|   expect(count, 'all test-owned keydown listeners must be removed').to\u2026\n       |                                                                     ^\n     20| })\n     21|\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n\n Test Files  1 failed (1)\n      Tests  8 passed (8)\n   Start at  14:32:28\n   Duration  693ms (transform 53ms, setup 29ms, import 42ms, tests 56ms, environment 405ms)\n\nundefined\n/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:\n\u2009ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL\u2009 Command failed with exit code 1: vitest run --config /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/node_modules/.cache/codex-r3-review/config.mts\n"
+}

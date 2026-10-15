@@ -1,8 +1,9 @@
-import type { AbstractKey, InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { AbstractKey, InputSnapshot, Item, Magic, Spell } from '@type-pal/shared'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState } from '../game-state.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
+import { createInventoryMenu } from './inventory-menu.js'
 import { setMenuCatalogs } from './menu-driver.js'
 import { closeTopMenu, openMenu, tickMenu } from './menu-mode.js'
 
@@ -10,7 +11,7 @@ const MOCK_CATALOGS = {
   items: [] as Item[],
   spells: [] as Spell[],
   magics: [] as Magic[],
-  playerRoles: { roles: [] } as unknown as PlayerRoles,
+  playerRoles: { roles: [] },
 }
 
 beforeEach(() => {
@@ -62,7 +63,7 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
   it('DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
-    openMenu(gs, { kind: 'inventory', state: { phase: 'list' } })
+    openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, []) })
     tickMenu(gs, snap(['Menu']), createCommandBus())
     expect(gs.menuStack.length).toBe(0)
   })
@@ -72,7 +73,7 @@ describe('openMenu / closeTopMenu', () => {
   it('openMenu push + 切 menu mode', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(gs.mode).toBe('explore')
-    openMenu(gs, { kind: 'inventory', state: {} })
+    openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, []) })
     expect(gs.mode).toBe('menu')
     expect(gs.menuStack[0]?.kind).toBe('inventory')
   })

@@ -1,0 +1,30 @@
+{
+  "method": "Independent split rebuild from untouched main.ts after temporary workspace cleanup; raw/runner SHA and all eight execution identities checked",
+  "workspaceAbsent": true,
+  "rows": [
+    {
+      "label": "oracle-old-no-reload",
+      "passed": 8,
+      "failed": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": []
+    },
+    {
+      "label": "oracle-new-no-reload",
+      "passed": 7,
+      "failed": 1,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": ["战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换"]
+    },
+    {
+      "label": "oracle-recovery",
+      "passed": 8,
+      "failed": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": false,
+      "failedNames": []
+    }
+  ]
+}

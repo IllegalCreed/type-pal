@@ -5,6 +5,7 @@
 import { act } from 'react'
 import { expect, vi } from 'vitest'
 import { loadFilesIntoInput, typeDraft } from './kit.js'
+import { waitForSpriteViewerResources } from './upload-harness.js'
 
 // ───────── SpriteUploadWizard ─────────
 
@@ -107,11 +108,13 @@ export async function waitDone(done: readonly unknown[], count = 1): Promise<voi
 
 // ───────── SpriteResourceViewer ─────────
 
-export async function waitMeta(host: ParentNode, frames: number, consumers: number): Promise<void> {
-  await vi.waitFor(() => {
-    expect((host as HTMLElement).textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
-  })
-  await flush(1)
+export async function waitMeta(
+  host: HTMLElement,
+  frames: number,
+  consumers: number,
+): Promise<void> {
+  await waitForSpriteViewerResources(host)
+  expect(host.textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
 }
 
 export function hiddenImageInputs(host: ParentNode): HTMLInputElement[] {

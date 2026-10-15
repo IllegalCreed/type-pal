@@ -334,9 +334,14 @@ describe('cov85 商店买菜单(shop-buy)', () => {
 })
 
 describe('cov85 商店卖菜单(shop-sell)', () => {
+  // C5(2026-10-15)：导航用 11 条库存改为 11 个**不同**合法条目 —— 真实
+  // addItemToInventory 按 id 合并（inventory-state.ts），同 id 重复 push 不是生产库存形态。
   const items = [
     mkItem(10, { price: 10, flags: flags({ sellable: true }), _name: '可卖' }),
     mkItem(11, { price: 10, flags: flags({ sellable: false }), _name: '不可卖' }),
+    ...Array.from({ length: 9 }, (_, i) =>
+      mkItem(12 + i, { price: 10, flags: flags({ sellable: true }), _name: `可卖${12 + i}` }),
+    ),
   ]
   function openSell(gs: GameState): ReturnType<typeof createSellMenu> {
     setMenuCatalogs({ items, spells: [], magics: [], playerRoles: typedRoles() })
@@ -356,7 +361,7 @@ describe('cov85 商店卖菜单(shop-sell)', () => {
   it('list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)', () => {
     const gs = mkGs()
     stocked(gs)
-    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 11, count: 1 }) // 11 条(0..10)
+    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 12 + i, count: 1 }) // 11 条不同 id(0..10)
     const s = openSell(gs)
     const bus = createCommandBus()
     dispatchMenuInput(gs, snap(['Down']), bus)
@@ -535,12 +540,16 @@ describe('cov85 物品一级子菜单(inventory-action)', () => {
 })
 
 describe('cov85 物品菜单(inventory,use 路由)', () => {
+  // C5(2026-10-15)：导航用 11 条库存改为 11 个**不同**合法条目（真 addItem 按 id 合并）。
   const items = [
     mkItem(10, { scriptOnUse: 5, flags: flags({ usable: true, consuming: true }) }),
     mkItem(12, {
       scriptOnUse: 6,
       flags: flags({ usable: true, applyToAll: true, consuming: true }),
     }),
+    ...Array.from({ length: 9 }, (_, i) =>
+      mkItem(13 + i, { flags: flags({ usable: true, consuming: true }) }),
+    ),
   ]
   function openUse(gs: GameState): ReturnType<typeof createInventoryMenu> {
     const s = createInventoryMenu(gs, items, 'usable')
@@ -551,8 +560,9 @@ describe('cov85 物品菜单(inventory,use 路由)', () => {
 
   it('list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回', () => {
     const gs = mkGs()
-    gs.inventory = items.map((it) => ({ itemId: it.id, count: 1 }))
-    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 10, count: 1 }) // 11 条(0..10)
+    // 11 条不同 id：前 2 条取关键物品（单体/全体），后 9 条独立 id 补足网格。
+    gs.inventory = [items[0]!, items[1]!].map((it) => ({ itemId: it.id, count: 1 }))
+    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 13 + i, count: 1 }) // 11 条不同 id(0..10)
     const s = openUse(gs)
     const bus = createCommandBus()
     setMenuCatalogs({ items, spells: [], magics: [], playerRoles: typedRoles() })
@@ -824,11 +834,17 @@ describe('cov85 存档槽菜单(save-slot)', () => {
     expect(gs.menuStack).toHaveLength(0)
 
     const gs2 = mkGs()
-    openMenu(gs2, { kind: 'opening', state: createOpeningMenu() })
-    openMenu(gs2, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    const opening = createOpeningMenu()
+    openMenu(gs2, { kind: 'opening', state: opening })
+    dispatchMenuInput(gs2, snap(['Down']), createCommandBus())
+    expect(opening.selection.cursor).toBe(1)
+    dispatchMenuInput(gs2, snap(['Confirm']), createCommandBus())
+    expect(gs2.menuStack.at(-1)?.kind).toBe('save-slot')
     dispatchMenuInput(gs2, snap(['Menu']), createCommandBus())
     expect(gs2.menuStack).toHaveLength(1)
     expect(gs2.menuStack[0]?.kind).toBe('opening')
+    expect(gs2.menuStack[0]?.state).toBe(opening)
+    expect(opening.selection.cursor).toBe(0) // uigame.c:150 cancels back to new game.
   })
 
   it('save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)', () => {
@@ -965,6 +981,42 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
       setTimeout(resolve, 0)
     })
     expect(gs.wSavedTimes).toBe(100) // 异步段完成
+  })
+
+  // C5(2026-10-15) 补：异步错误/同步 throw 两条 ownership 轴 —— dispatcher 的
+  // fire-and-forget 域（void Promise.resolve(handler).catch(console.error)）：
+  // 异步 reject 被捕获不外泄 unhandled；**同步 throw 不在 catch 域内**（Promise.resolve
+  // 包装只兜 async 域），会同步穿透 dispatchMenuInput —— 钉住当前真实合同，不擅改接口。
+  it('save-slot load handler 异步 reject:被 dispatcher catch 吞掉,不产生 unhandled 且栈态不被破坏', async () => {
+    const gs = mkGs()
+    const errLogged = vi.spyOn(console, 'error').mockImplementation(() => {})
+    setLoadGameHandler(async () => {
+      await Promise.resolve()
+      throw new Error('load-io-failed')
+    })
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    expect(() => dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())).not.toThrow() // reject 在异步段,dispatcher 不因 handler 失败抛错
+    expect(gs.menuStack).toHaveLength(1) // 关栈是 handler 职责,失败后仍由 handler/caller 域处理
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 0)
+    })
+    expect(errLogged).toHaveBeenCalledWith(
+      expect.stringContaining('loadSlot failed'),
+      expect.anything(),
+    )
+    errLogged.mockRestore()
+  })
+
+  it('save-slot load handler 同步 throw:穿透 dispatchMenuInput(Promise.resolve 不裹同步域)', () => {
+    const gs = mkGs()
+    setLoadGameHandler(() => {
+      throw new Error('sync-handler-boom')
+    })
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    expect(() => dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())).toThrowError(
+      'sync-handler-boom',
+    )
+    expect(gs.menuStack).toHaveLength(1) // 关栈未发生(throw 在关栈前)
   })
 
   it('system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)', async () => {

@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c05-editor-baseline.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "seconds": 1.06,
+  "rawBytes": 451,
+  "rawSha256": "e0579eb6783fa943b8faff61058e5a1db20eed9a76d7c129269174b651698ec0",
+  "runnerBytes": 2768,
+  "runnerSha256": "a2bdb67e1a75ce3ad20846119f876fa984690245126c29e8ea8f79544eeb362c",
+  "passed": 6,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 1
+}

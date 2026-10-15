@@ -31,3 +31,13 @@ Codex premise verified / design agree / build allowed仅保全式合并、文档
 ## 质量与交接
 
 先定向/相邻/必要typecheck、代码审查，多个有限片集中跑check/官方ratchet/protected fast/lint-zero/ledger；exit0带诊断不算通过。合main前fetch并确认0behind、治理分支先commit/push。阶段同步提交不是集成accept。无下一位Agent提示词，Codex继续。
+
+## 统一分支检查点（未验收）
+
+最新main与旧3y先以66376bf51保全，临时closeout分支已删除，当前真实分支恢复codex/code-quality-3y并推送。原3x树只在相同d4cf7f57d脱离分支，文件/索引未改。重复menu-integration本地/远端已删，managed旧树归档可恢复。随后将a9be8ab9验收线全部成果合回同一3y，不再新增治理分支；accept ref待确认祖先且远端推送成功后清理。
+
+58旧卡/65源码增量仍逐项复审。首次导入147条新增历史closed声称暂转review；与验收线按更保守状态合并后机器3288/223closed/198review/2867pending，0新增关闭。旧原件保留，不伪造此前读过。CODE53已有party-slot候选，重复GAME毒域卡取消归档，main冻结probe保留原时点事实。
+
+两份C05测试冲突精确保留a9be经实测的真实事件/导航端口版本；其它自动合并增量仍需相邻与整体验证。两个精准退役账合并为22项/net51，固定表测试先67例中1失败，再同步实际清单计数；matcher/拒绝合同不变，原始红绿receipt另记。覆盖率基线仍未由官方重生，完整门未跑本新候选，不能合main。第一次同步git diff --cached --check检出4份历史raw文本的尾空格，尚未当作通过，保留原件待无损归档与链接核对。
+
+补充：后续合入验收线时diff-check又检出历史日志空白；统一17份原件无损gzip+SHA索引，显示副本仅规范尾空格/EOF空行，所有非空白字节一致。旧receipt原哈希仍可按raw-originals-map解压重建，未把失败或非零诊断改写成通过。固定退役表67例全绿；完整质量门与58卡复审仍未完成。

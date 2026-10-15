@@ -7,10 +7,27 @@ import type { Item } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createBuyMenu, shopCancel, shopConfirm, shopMoveUp, shopSelectItem } from './shop-menu.js'
 
-const mkItem = (id: number, price: number): Item =>
-  ({ id, price, _name: `item-${id}`, flags: {} }) as unknown as Item
+const mkItem = (id: number, price: number): Item => ({
+  id,
+  price,
+  _name: `item-${id}`,
+  bitmap: 0,
+  scriptOnUse: 0,
+  scriptOnEquip: 0,
+  scriptOnThrow: 0,
+  scriptDesc: 0,
+  flags: {
+    usable: false,
+    equipable: false,
+    throwable: false,
+    consuming: false,
+    applyToAll: false,
+    sellable: false,
+    equipableBy: [false, false, false, false, false, false],
+  },
+})
 
-const ITEMS = [mkItem(400, 150), mkItem(401, 200)]
+const ITEMS = [mkItem(105, 150), mkItem(110, 200)]
 
 describe('G06 shopSelectItem 恰等门与意图收尾', () => {
   it('cash===price 恰等可进 confirm；差 1 拒绝；空列表拒绝', () => {
@@ -18,8 +35,8 @@ describe('G06 shopSelectItem 恰等门与意图收尾', () => {
     state.list.cursor = 0
     expect(shopSelectItem(state, ITEMS, 150)).toBe(true) // 恰等
     expect(state.phase).toBe('confirm')
-    expect(state.selectedItemId).toBe(400)
-    expect(shopConfirm(state)).toEqual({ itemId: 400, mode: 'buy', yes: false })
+    expect(state.selectedItemId).toBe(105)
+    expect(shopConfirm(state)).toEqual({ itemId: 105, mode: 'buy', yes: false })
     expect(state.phase).toBe('list')
     expect(state.selectedItemId).toBeUndefined()
 
@@ -38,7 +55,7 @@ describe('G06 shopSelectItem 恰等门与意图收尾', () => {
     expect(state.confirmYes).toBe(true)
     shopMoveUp(state) // 再 toggle → no
     expect(state.confirmYes).toBe(false)
-    expect(shopConfirm(state)).toEqual({ itemId: 401, mode: 'buy', yes: false })
+    expect(shopConfirm(state)).toEqual({ itemId: 110, mode: 'buy', yes: false })
     // cancel 分层：confirm → back；list → close
     state.list.cursor = 0
     shopSelectItem(state, ITEMS, 500)
