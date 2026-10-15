@@ -570,7 +570,7 @@
       ],
       "publicCallers": [
         "Human/Agent lore reference/navigation/author creative workflow; no runtime runner",
-        "Actual current checkMigratedDocument + explicit registered status wordlist; shared routing still0/3"
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
       ],
       "legalInputs": [
         "原source/日期/可靠性与明确版本上下文",
@@ -581,7 +581,7 @@
         "type": "docs governance content preservation and authority boundaries",
         "assertions": [
           "六步及其六项具体产出继续适用；①–⑤纸面、⑥另须编辑器能力/内容任务准入。情境/空间/战斗、垂直切片与小实验保方法论范围；旧支线路径显式继任ideas，D19旧例不在写域，第三阶段真时间不重开二阶段。",
-          "完整原source byte inverse，唯一原H1，原标题markup/顺序与33href逐occurrence保留",
+          "Complete original source byte inverse, unique originalH1, originalheading markup/order and this document 7 original href occurrences preserved; batch total33 is not a per-document count.",
           "新五章逐条表达具体结论与停止线；模板绿不替代非作者语义核验"
         ],
         "counter": [
@@ -591,7 +591,7 @@
         ]
       },
       "dedupe": {
-        "result": "author candidate; no independent accept",
+        "result": "unique-current-record; independently accepted fixed c7d source semantics; no duplicate canon or runtime credit",
         "against": [
           "old same-path source",
           "existing lore theme sources and frozen N design",
@@ -662,6 +662,25 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Correct C-N3-1 current consumer/acceptance scope and C-N3-2 per-document href scope",
+          "completeCounteredPrior": {
+            "kind": "complete-countered-current-in-reachable-fixed-git",
+            "revision": "44390acf032b2d9526851a6dad5f5cbada9a42b4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "6562bf26f15bb788e24a882c5412887eb1dae4fc",
+            "fileSha256": "8cbd2f439cb7ed48fb1292152ef3c6493b051de639fb9de02a68f6862b51e3bc",
+            "selector": {
+              "entries.path": "docs/lore/narrative-workflow.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "counterReportSha256": "38ca1359b56f5ff583ab870c4e30065bd0843b759430d0ee16ad1a72313322a8",
+          "scope": "Only identified current scalars; immutable author receipt and accepted source content unchanged. Exact repaired root delta remains separately subject to non-author closure.",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -716,7 +735,7 @@
       ],
       "publicCallers": [
         "Human/Agent lore reference/navigation/author creative workflow; no runtime runner",
-        "Actual current checkMigratedDocument + explicit registered status wordlist; shared routing still0/3"
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
       ],
       "legalInputs": [
         "原source/日期/可靠性与明确版本上下文",
@@ -727,7 +746,7 @@
         "type": "docs governance content preservation and authority boundaries",
         "assertions": [
           "导航以作者裁判、AI辅助、按需查证与主题唯一事实权为核心。原不入轮回摘要与world-rules/timeline待核标签冲突，现列未知，不判假且不撤T1；原八主题索引与旧状态逐项保留，目录current不续授001–005实跑、官方认证或DLC制作。",
-          "完整原source byte inverse，唯一原H1，原标题markup/顺序与33href逐occurrence保留",
+          "Complete original source byte inverse, unique originalH1, originalheading markup/order and this document 15 original href occurrences preserved; batch total33 is not a per-document count.",
           "新五章逐条表达具体结论与停止线；模板绿不替代非作者语义核验"
         ],
         "counter": [
@@ -737,7 +756,7 @@
         ]
       },
       "dedupe": {
-        "result": "author candidate; no independent accept",
+        "result": "unique-current-record; independently accepted fixed c7d source semantics; no duplicate canon or runtime credit",
         "against": [
           "old same-path source",
           "existing lore theme sources and frozen N design",
@@ -808,6 +827,25 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Correct C-N3-1 current consumer/acceptance scope and C-N3-2 per-document href scope",
+          "completeCounteredPrior": {
+            "kind": "complete-countered-current-in-reachable-fixed-git",
+            "revision": "44390acf032b2d9526851a6dad5f5cbada9a42b4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "6562bf26f15bb788e24a882c5412887eb1dae4fc",
+            "fileSha256": "8cbd2f439cb7ed48fb1292152ef3c6493b051de639fb9de02a68f6862b51e3bc",
+            "selector": {
+              "entries.path": "docs/lore/README.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "counterReportSha256": "38ca1359b56f5ff583ab870c4e30065bd0843b759430d0ee16ad1a72313322a8",
+          "scope": "Only identified current scalars; immutable author receipt and accepted source content unchanged. Exact repaired root delta remains separately subject to non-author closure.",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
@@ -862,7 +900,7 @@
       ],
       "publicCallers": [
         "Human/Agent lore reference/navigation/author creative workflow; no runtime runner",
-        "Actual current checkMigratedDocument + explicit registered status wordlist; shared routing still0/3"
+        "scripts/docs/check-document-model.mjs / scripts/docs/report-governance-progress.mjs (static document consumers; not runtime/E2E)"
       ],
       "legalInputs": [
         "原source/日期/可靠性与明确版本上下文",
@@ -873,7 +911,7 @@
         "type": "docs governance content preservation and authority boundaries",
         "assertions": [
           "现行项目硬约束T1–T6含独立T5.5/月如与T6/忆如韩仲晰小蛮全部保留。旧source可靠性与官方核实分轴，T7/8/9待选保未知；仅活层精修四xref，原错指/日期/原URL/标题/表行完整回读，未裁新canon。",
-          "完整原source byte inverse，唯一原H1，原标题markup/顺序与33href逐occurrence保留",
+          "Complete original source byte inverse, unique originalH1, originalheading markup/order and this document 11 original href occurrences preserved; batch total33 is not a per-document count.",
           "新五章逐条表达具体结论与停止线；模板绿不替代非作者语义核验"
         ],
         "counter": [
@@ -883,7 +921,7 @@
         ]
       },
       "dedupe": {
-        "result": "author candidate; no independent accept",
+        "result": "unique-current-record; independently accepted fixed c7d source semantics; no duplicate canon or runtime credit",
         "against": [
           "old same-path source",
           "existing lore theme sources and frozen N design",
@@ -954,6 +992,25 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-16",
+          "action": "Correct C-N3-1 current consumer/acceptance scope and C-N3-2 per-document href scope",
+          "completeCounteredPrior": {
+            "kind": "complete-countered-current-in-reachable-fixed-git",
+            "revision": "44390acf032b2d9526851a6dad5f5cbada9a42b4",
+            "path": "docs/phase-governance/catalog.json",
+            "gitObject": "6562bf26f15bb788e24a882c5412887eb1dae4fc",
+            "fileSha256": "8cbd2f439cb7ed48fb1292152ef3c6493b051de639fb9de02a68f6862b51e3bc",
+            "selector": {
+              "entries.path": "docs/lore/taboos.md",
+              "uniqueMatches": 1
+            },
+            "completePriorObjectRetrievedAndCompared": true
+          },
+          "counterReportSha256": "38ca1359b56f5ff583ab870c4e30065bd0843b759430d0ee16ad1a72313322a8",
+          "scope": "Only identified current scalars; immutable author receipt and accepted source content unchanged. Exact repaired root delta remains separately subject to non-author closure.",
+          "runtimeExecutionPerformed": false
         }
       ],
       "supersedes": [],
