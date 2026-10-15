@@ -63,5 +63,134 @@
     "failed": 0,
     "exit": 0,
     "verdict": "MISSED"
+  },
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.4.0",
+    "variant": "historical-review-payload-v1",
+    "lastReviewed": "2026-10-16",
+    "owner": "Codex / history_cards_a（本轮文档迁移贡献者；独立接收待根与非作者）",
+    "provenance": [
+      {
+        "role": "historical candidate contributor",
+        "name": "GLM",
+        "basis": "r10配对报告及同包任务卡叙述；原JSON没有Owner字段"
+      },
+      {
+        "role": "historical independent review producer",
+        "name": "Codex",
+        "basis": "2026-09-26 r10报告标题/正文；不是本轮原raw重验"
+      },
+      {
+        "role": "current documentation migration author",
+        "name": "Codex / history_cards_a",
+        "basis": "DOCS-FULL-TEMPLATE-1的I JSON单Owner准入；非作者独立验收仍待"
+      }
+    ],
+    "sourceSha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+    "sourceGitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "migrationReadBase": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+    "lifecycle": "historical",
+    "currentAudit": {
+      "date": "2026-10-16",
+      "kind": "static-document-governance",
+      "runtimeExecutionPerformed": false,
+      "sourceReadScope": "Full original 67 lines and every native field/value; paired original r10 review43 lines and completion48 lines were fully read, and equal source blobs rechecked.",
+      "rawAndScreenshotAvailability": "unknown; original /tmp artifacts and browser evidence not reopened or revalidated",
+      "acceptance": "author candidate only; independent canonical-pilot acceptance pending",
+      "coreConclusion": "2026-09-26 r10整体counter，G01取消平移和V01人物名只有当轮窄accept；G06缺options与G08丢输出漏检原样保留。后继completion有限收口不倒写r10，也不由本轮文档治理重认证执行。"
+    },
+    "scope": "Historical 2026-09-26 r10 review at candidate cafac8dc / base f5f166aa / reviewed main8e028beb; this migration is static document governance, not a runtime/E2E/visual/coverage verdict.",
+    "primarySource": [
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+        "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+        "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+        "scope": "Full original67 lines and every native field; fixed Git source only."
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "lines": [1, 43],
+        "scope": "same original r10 review, not later product truth"
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "lines": [1, 48],
+        "scope": "Later 2026-09-26 r12/62142b16 plus Codex34f7bf91 limited closeout; no retroactive r10 accept."
+      }
+    ],
+    "dependencies": [
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "docs/testing/archive/architecture-regression-lab-history.md",
+      "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+      "docs/phase-governance/templates/registry.json",
+      "scripts/docs/document-model.mjs",
+      "scripts/docs/git-document-source.mjs",
+      "scripts/docs/frozen-document-source.mjs"
+    ],
+    "publicCallers": [
+      "r10 paired Markdown directly links this same JSON path; no product/runtime runner reading its nine keys was found in scoped reference search.",
+      "legacy migration/manifest/classifier keeps historical path/source identity; membership reviewed is not content or execution acceptance.",
+      "complete checkMigratedDocument with the independently supplied route object and real approved Git reader verifies this candidate; shared model136 currently does not include it."
+    ],
+    "legalInputs": [
+      "本轮只消费固定33cc同路径原九键JSON；不引入产品输入或执行旧脚本。",
+      "原G01正常DOM PointerEvent与可信迟到move、V01真实表单Enter/blur/undo/Escape属于当轮窄功能输入。",
+      "原G06合法cue含identity；缺identity是应拒绝的反例。原G08缺布局中段异常与补布局合法输出是两条边界，不因当时测试绿而认证恢复oracle。"
+    ],
+    "businessOracle": {
+      "type": "frozen native-object preservation and dated historical review semantics",
+      "assertions": [
+        "去_governance后与批准33cc Git原对象严格deep-equal，九字段原位、嵌套值和类型均不变。",
+        "原verdict=counter、checks.biomeWarnings=1、g08DropOutput.MISSED/passed1/failed0/exit0全部保留；当轮五针不包含该独立丢输出反例。",
+        "G01正控平移/取消冻结/反控漂移与V01人物名提交/撤销只按原时点；不读取旧/tmp实物重签。",
+        "本轮lifecycle固定historical/currentAudit.runtimeExecutionPerformed=false；完整来源门带真实Git reader，不能由JSONparse或模板字段齐全独自证明原对象保真。"
+      ]
+    },
+    "dedupe": {
+      "result": "one historical r10 review payload, not a new test/run or whole-lab acceptance",
+      "against": [
+        "r1–r10同一实验包的多轮复核，不相加重复运行。",
+        "r10的41候选/51账/五针与r12的42候选/41正式/75账分时点；G06-11与E2十三路径排重。",
+        "后继八项集成109针是沿用分项记录，不归此JSON新增执行。"
+      ]
+    },
+    "history": [
+      {
+        "date": "2026-09-26",
+        "candidate": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+        "event": "r10 independent review publication",
+        "verdict": "counter",
+        "limits": "Original G01/V01 narrow accepts coexist with G06 guard defect and G08 MISSED; historical warning1 preserved."
+      },
+      {
+        "date": "2026-09-26",
+        "event": "later r12 preparation-package closeout",
+        "source": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "scope": "62142b16/34f7bf91 limited41 formal tests and representative functional checks; does not change this r10 native verdict."
+      },
+      {
+        "date": "2026-10-16",
+        "event": "canonical historical JSON governance candidate",
+        "migrationReadBase": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+        "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "scope": "only add_governance; keep nine-key original object; no new execution or independent accept."
+      }
+    ],
+    "supersedes": [],
+    "supersededBy": [
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "scope": "later historical package scope only; does not supersede the original r10 counter evidence or alter native fields"
+      }
+    ],
+    "beforeAfter": "Unchanged nine-key native r10 JSON → same original machine object plus a source-pinned historical governance envelope; no prose replacement, no invented publication/execution schema.",
+    "stopLine": "任何原生字段/类型/嵌套值变化、源pin/固定baseline漂移或本轮执行升格即rework；不变造schema2/id/status/catalog，不跑产品旧测/coverage/browser/raw，不把作者自验当独立accept。",
+    "nextStep": "根与非作者按实际canonical JSON/配对原文/来源门独立pilot验收，接收后才新增中央记录与计数；本分支不写中央、目录catalog或I13原候选。"
   }
 }

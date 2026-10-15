@@ -1,0 +1,510 @@
+{
+  "schemaVersion": 1,
+  "id": "contributor-testing-lab-json-i-20261016",
+  "kind": "documentation-migration-candidate",
+  "status": "author-candidate-pending-independent-acceptance",
+  "owner": "Codex / contributor history_cards_a",
+  "branch": "codex/docs-testing-lab-history-i-json",
+  "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+  "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+  "migrationReadBase": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+  "transportCommit": "ae4c46b9331b49bcbfe3b50cf4d20513cd45b751",
+  "immutableI13Commit": "271464843b29e169f4f67d440d475797d82a7e7f",
+  "immutableI13Receipt": {
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-history-i-20261016.json",
+    "sha256": "8eb88b25f7a2ff4d60ef828264fb95cd1f35a11d91a37f2b67963e67de5d8452",
+    "scope": "immutable original13Markdown author snapshot; its pending-JSON wording is historical, not rewritten by this followup"
+  },
+  "governanceTask": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+  "scope": {
+    "documents": 1,
+    "paths": [
+      "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json"
+    ],
+    "onlyNewArtifact": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-json-i-20261016.json",
+    "I13MarkdownOrReceiptWrites": false,
+    "centralCatalogTemplateWrites": false,
+    "productOldTestsCoverageBrowserWrites": false,
+    "progressCredit": "none before independent/root acceptance; central0/1 and sharedmodel136 do not cover the pilot"
+  },
+  "readScope": {
+    "nativeSource": {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+      "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "lines": 67,
+      "fullTextAndEveryNativeFieldRead": true
+    },
+    "migrationBaseRaw14": {
+      "revision": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+      "equalsSource33ccAndFD504255All14Blobs": true,
+      "manifestSha256": "16324c3d4a7747fcdf42ae685d814e88a9775ec536da7ab6a6525764666d72f5"
+    },
+    "immutableI13After": {
+      "transportCommit": "ae4c46b9331b49bcbfe3b50cf4d20513cd45b751",
+      "all13BodyAndReceiptEqual271": true
+    },
+    "pairedOriginals": [
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "lines": 43,
+        "fullTextRead": true
+      },
+      {
+        "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+        "lines": 48,
+        "fullTextRead": true
+      }
+    ],
+    "consumerRead": "已全文读完整document-model来源/声明链、真实Git reader和固定baseline；I0相对旧基点消费者代码不变已由Gitdiff核明。新增来源测试第330–538行完整读过；不授产品全文审计信用。",
+    "noHistoricalExecution": true
+  },
+  "entries": [
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.4.0",
+      "templateVariant": "historical-review-payload-v1",
+      "lifecycle": "historical",
+      "coreConclusion": "2026-09-26 r10整体counter，G01取消平移和V01人物名只有当轮窄accept；G06缺options与G08丢输出漏检原样保留。后继completion有限收口不倒写r10，也不由本轮文档治理重认证执行。",
+      "originalIdentity": {
+        "explicitOwnerField": false,
+        "explicitStatusField": false,
+        "explicitDateField": false,
+        "originalCandidate": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+        "originalCandidateBase": "f5f166aa",
+        "originalReviewedMain": "8e028beb",
+        "originalVerdict": "counter",
+        "derivedReviewDate": {
+          "date": "2026-09-26",
+          "basis": "日期取自配对r10报告原句；原JSON没有日期字段"
+        },
+        "originalReviewProducer": "Codex as stated by paired report; no fake originalOwner field",
+        "originalCandidateContributor": "GLM from paired report/task narrative"
+      },
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "sourceGitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+      "sourceSha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "migrationReadBase": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+      "candidateSha256": "58f6011f324273d0133cd656d5e321bd4bd42b3227101733fce3bbc65411cf9a",
+      "afterSha256": "58f6011f324273d0133cd656d5e321bd4bd42b3227101733fce3bbc65411cf9a",
+      "beforeAfter": "Unchanged nine-key native r10 JSON → same original machine object plus a source-pinned historical governance envelope; no prose replacement, no invented publication/execution schema.",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+          "sha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+          "scope": "Full original67 lines and every native field; fixed Git source only."
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "lines": [1, 43],
+          "scope": "same original r10 review, not later product truth"
+        },
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+          "revision": "fd5042551af1170d99af93218aa6a43d7f645f69",
+          "lines": [1, 48],
+          "scope": "Later 2026-09-26 r12/62142b16 plus Codex34f7bf91 limited closeout; no retroactive r10 accept."
+        }
+      ],
+      "phaseAnchors": {
+        "originalPrimary": "2026-09-26 r10候选cafac8dc/basef5f166aa/main8e028beb及同源JSON/配对报告",
+        "phase1": "本JSON不提出新的第一阶段机制真值；同包G07历史消费者另按原报告范围",
+        "phase2": "当时editor/content/migrate候选与窄功能审查，不代表当前产品状态",
+        "thisMigration": "机器文档1.4静态治理，无新增runtime/E2E/视觉/coverage"
+      },
+      "dependencies": [
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+        "docs/testing/archive/architecture-regression-lab-history.md",
+        "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/git-document-source.mjs",
+        "scripts/docs/frozen-document-source.mjs"
+      ],
+      "applicability": {
+        "historicalDate": "2026-09-26 derivedfrompairedreport",
+        "nativeSchema": "原无schemaVersion/id/status的九键历史复核对象，不补造schema2发布合同",
+        "templateVersion": "1.4.0",
+        "currentOnly": "历史profile/alias/converter材料不恢复当前兼容承诺",
+        "sourcePin": "固定33cc原始Git对象；迁移阅读基点1ae不是pin"
+      },
+      "publicEntry": {
+        "directCaller": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+        "stableMachinePath": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+        "historyIndex": "docs/testing/archive/architecture-regression-lab-history.md"
+      },
+      "publicCallers": [
+        "r10 paired Markdown directly links this same JSON path; no product/runtime runner reading its nine keys was found in scoped reference search.",
+        "legacy migration/manifest/classifier keeps historical path/source identity; membership reviewed is not content or execution acceptance.",
+        "complete checkMigratedDocument with the independently supplied route object and real approved Git reader verifies this candidate; shared model136 currently does not include it."
+      ],
+      "legalInputs": [
+        "本轮只消费固定33cc同路径原九键JSON；不引入产品输入或执行旧脚本。",
+        "原G01正常DOM PointerEvent与可信迟到move、V01真实表单Enter/blur/undo/Escape属于当轮窄功能输入。",
+        "原G06合法cue含identity；缺identity是应拒绝的反例。原G08缺布局中段异常与补布局合法输出是两条边界，不因当时测试绿而认证恢复oracle。"
+      ],
+      "businessOracle": {
+        "type": "frozen native-object preservation and dated historical review semantics",
+        "assertions": [
+          "去_governance后与批准33cc Git原对象严格deep-equal，九字段原位、嵌套值和类型均不变。",
+          "原verdict=counter、checks.biomeWarnings=1、g08DropOutput.MISSED/passed1/failed0/exit0全部保留；当轮五针不包含该独立丢输出反例。",
+          "G01正控平移/取消冻结/反控漂移与V01人物名提交/撤销只按原时点；不读取旧/tmp实物重签。",
+          "本轮lifecycle固定historical/currentAudit.runtimeExecutionPerformed=false；完整来源门带真实Git reader，不能由JSONparse或模板字段齐全独自证明原对象保真。"
+        ]
+      },
+      "dedupe": {
+        "result": "one historical r10 review payload, not a new test/run or whole-lab acceptance",
+        "against": [
+          "r1–r10同一实验包的多轮复核，不相加重复运行。",
+          "r10的41候选/51账/五针与r12的42候选/41正式/75账分时点；G06-11与E2十三路径排重。",
+          "后继八项集成109针是沿用分项记录，不归此JSON新增执行。"
+        ]
+      },
+      "counterReworkBlocked": [
+        "原r10整批counter、G06嵌套守卫反证、G08输出漏检完整保留",
+        "原Biome exit0与warning1同时存在，不能改成旧轮零诊断",
+        "后来completion有限收口不倒写r10失败",
+        "原raw/截图/tmp当前可用性unknown，本轮不重放"
+      ],
+      "history": [
+        {
+          "date": "2026-09-26",
+          "candidate": "cafac8dcf5370c669ec0ddc9bf8575cb0e925dd0",
+          "event": "r10 independent review publication",
+          "verdict": "counter",
+          "limits": "Original G01/V01 narrow accepts coexist with G06 guard defect and G08 MISSED; historical warning1 preserved."
+        },
+        {
+          "date": "2026-09-26",
+          "event": "later r12 preparation-package closeout",
+          "source": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+          "scope": "62142b16/34f7bf91 limited41 formal tests and representative functional checks; does not change this r10 native verdict."
+        },
+        {
+          "date": "2026-10-16",
+          "event": "canonical historical JSON governance candidate",
+          "migrationReadBase": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+          "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "scope": "only add_governance; keep nine-key original object; no new execution or independent accept."
+        }
+      ],
+      "supersedes": [],
+      "supersededBy": [
+        {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+          "scope": "later historical package scope only; does not supersede the original r10 counter evidence or alter native fields"
+        }
+      ],
+      "stopLine": "任何原生字段/类型/嵌套值变化、源pin/固定baseline漂移或本轮执行升格即rework；不变造schema2/id/status/catalog，不跑产品旧测/coverage/browser/raw，不把作者自验当独立accept。",
+      "nextStep": "根与非作者按实际canonical JSON/配对原文/来源门独立pilot验收，接收后才新增中央记录与计数；本分支不写中央、目录catalog或I13原候选。",
+      "nativeFieldReadings": [
+        {
+          "key": "candidate",
+          "nativeType": "string",
+          "sourceValueSha256": "1cd07f3125e693298690115528ec4cdef8abacc323959cec329b975af9369219",
+          "conclusion": "原40位cafac8dc候选身份，不能改成本轮文档commit。"
+        },
+        {
+          "key": "candidateBase",
+          "nativeType": "string",
+          "sourceValueSha256": "6a0b0870eb642bc9d5051164ec327591f1529fbe586ba5ef454350f248872403",
+          "conclusion": "原f5f166aa短SHA保持，不猜补完整值。"
+        },
+        {
+          "key": "reviewedMain",
+          "nativeType": "string",
+          "sourceValueSha256": "bba1c9bee949648c01a4186b70229fa3a8e1cc198093430c80ce804ff46f0d4e",
+          "conclusion": "原8e028beb是当时受审main，不代表当前main。"
+        },
+        {
+          "key": "verdict",
+          "nativeType": "string",
+          "sourceValueSha256": "ebd7de7795d3a69a276fac085ddc01310222f8fdda397a581ec47e435a165ce7",
+          "conclusion": "原整批counter保留；后来completion不倒写此字段。"
+        },
+        {
+          "key": "checks",
+          "nativeType": "object",
+          "sourceValueSha256": "b6f8a1bfbd129bb1c48ae7e890b6d30dea2f2249bf21803725cbfc64f3c6e6aa",
+          "conclusion": "41/41、51账48/1/2和五针是旧机械结果；Biome退出0同时有warning1，两者均保留。"
+        },
+        {
+          "key": "g01",
+          "nativeType": "object",
+          "sourceValueSha256": "5a53e82de87e86fda1164258fc424bebfa83a3ffc0ef24ea73c0844a91a7d9ef",
+          "conclusion": "原取消平移独立浏览器窄接收；复核29%不冒称原38%逐像素重现。hash、输入、trusted和清理布尔值都是当时记录，当前实物未重验。"
+        },
+        {
+          "key": "v01ActorName",
+          "nativeType": "object",
+          "sourceValueSha256": "63f6ca230658747f60530c2343c3057223ac70ed5b4777afdcefca0a983498a5",
+          "conclusion": "原Enter/blur/undo/Escape操作只关闭当时人物名automation阻断；没有本轮视觉复验。"
+        },
+        {
+          "key": "g06AuthorGuard",
+          "nativeType": "object",
+          "sourceValueSha256": "9c29e692d76826c567c79da395a446f241c3c6b56c8e47ad5737249822acdf6a",
+          "conclusion": "原直接拒绝缺identity而嵌套接受的反证及漏options原因保留；E2后来修复另按日期记录。"
+        },
+        {
+          "key": "g08DropOutput",
+          "nativeType": "object",
+          "sourceValueSha256": "af099eeb398011d0588723b5390e2c67221a5482251816ae9ade918434553176",
+          "conclusion": "原见证命中但1passed/0failed/exit0的结果仍为MISSED，不满足真实red judge，不能被其它五针关闭。"
+        }
+      ],
+      "originalPreservation": {
+        "method": "仅删除新增_governance后，完整JSON对象与固定Git原source逐字段深等；全部九键保持顶层。",
+        "originalKeys": [
+          "candidate",
+          "candidateBase",
+          "reviewedMain",
+          "verdict",
+          "checks",
+          "g01",
+          "v01ActorName",
+          "g06AuthorGuard",
+          "g08DropOutput"
+        ],
+        "sourceLines": 67,
+        "rawOrScreenshotReopened": false,
+        "sourceWhitespaceMayBeFormatted": true
+      },
+      "producerReferences": {
+        "originalPublication": {
+          "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "gitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e"
+        },
+        "historicalProducer": [
+          {
+            "role": "historical candidate contributor",
+            "name": "GLM",
+            "basis": "r10配对报告及同包任务卡叙述；原JSON没有Owner字段"
+          },
+          {
+            "role": "historical independent review producer",
+            "name": "Codex",
+            "basis": "2026-09-26 r10报告标题/正文；不是本轮原raw重验"
+          }
+        ],
+        "currentGovernanceProducer": "history_cards_a author only",
+        "independentAcceptance": "pending",
+        "rawOwnership": "原producer/候选revision负责；本轮未重新持有或核验原/tmp产物",
+        "artifactOwner": "DOCS-FULL-TEMPLATE-1；保留固定Git原源及不可变I13候选/回执",
+        "retention": "不删除raw或历史材料；保留源pin、原counter及限制"
+      },
+      "templateConformity": {
+        "authorResult": "pass: complete checkMigratedDocument with real approved Gitreader; exact whole native inverse and independent model route proof",
+        "independentResult": "pending"
+      }
+    }
+  ],
+  "checks": {
+    "status": "author-self-checks-passed; independent/root canonical-pilot acceptance pending",
+    "notRun": [
+      "product or old tests",
+      "coverage",
+      "browser/E2E/visual",
+      "historical red-control or verify execution",
+      "raw/screenshot availability or hash replay"
+    ],
+    "canonicalConsumerVerification": {
+      "status": "pass",
+      "sourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "migrationReadBase": "1ae9158a403f5952e1ab8caf211988285ad59fbd",
+      "sourceGitObject": "3076a25a30f592eff4d357bcaae5cbb4b3c22b6e",
+      "sourceSha256": "ec71ee07087918516d24094ad8b341e275191b3816897af44b904a62eeeda929",
+      "afterSha256": "58f6011f324273d0133cd656d5e321bd4bd42b3227101733fce3bbc65411cf9a",
+      "nativeTopLevelFields": [
+        "candidate",
+        "candidateBase",
+        "reviewedMain",
+        "verdict",
+        "checks",
+        "g01",
+        "v01ActorName",
+        "g06AuthorGuard",
+        "g08DropOutput"
+      ],
+      "nativeLeafPaths": [
+        "candidate",
+        "candidateBase",
+        "reviewedMain",
+        "verdict",
+        "checks.candidateTests",
+        "checks.ledger",
+        "checks.redControls",
+        "checks.tsc",
+        "checks.biome",
+        "checks.biomeWarnings",
+        "checks.docs",
+        "checks.diffCheck",
+        "g01.verdict",
+        "g01.originalScreenshot",
+        "g01.originalSha256",
+        "g01.viewport.0",
+        "g01.viewport.1",
+        "g01.dpr",
+        "g01.canvas.0",
+        "g01.canvas.1",
+        "g01.reviewZoomPercent",
+        "g01.productionMapModeSha256",
+        "g01.positiveBefore",
+        "g01.positiveAfter",
+        "g01.cancelHashBothHosts",
+        "g01.cleanLateHash",
+        "g01.mutantLateHash",
+        "g01.cancelInput.0.0",
+        "g01.cancelInput.0.1",
+        "g01.cancelInput.0.2",
+        "g01.cancelInput.1.0",
+        "g01.cancelInput.1.1",
+        "g01.cancelInput.1.2",
+        "g01.cancelInput.2.0",
+        "g01.cancelInput.2.1",
+        "g01.cancelInput.2.2",
+        "g01.lateInput.x",
+        "g01.lateInput.y",
+        "g01.lateInput.sequence.0",
+        "g01.lateInput.sequence.1",
+        "g01.lateInput.sequence.2",
+        "g01.lateInput.isTrusted",
+        "g01.temporaryHostsStopped",
+        "g01.temporaryTabsClosed",
+        "g01.viewportReset",
+        "v01ActorName.blockedAutomationReproduced",
+        "v01ActorName.enter",
+        "v01ActorName.blur",
+        "v01ActorName.undo",
+        "v01ActorName.escape",
+        "v01ActorName.actorModeSha256",
+        "v01ActorName.controlsSha256",
+        "g06AuthorGuard.directMissingIdentity",
+        "g06AuthorGuard.nestedMissingIdentity",
+        "g06AuthorGuard.directLegal",
+        "g06AuthorGuard.nestedLegal",
+        "g06AuthorGuard.source",
+        "g06AuthorGuard.cause",
+        "g08DropOutput.mutation",
+        "g08DropOutput.witness",
+        "g08DropOutput.executed",
+        "g08DropOutput.passed",
+        "g08DropOutput.failed",
+        "g08DropOutput.exit",
+        "g08DropOutput.verdict"
+      ],
+      "nativeLeafCount": 65,
+      "wholeNativeDeepEqual": true,
+      "completeCheckMigratedDocumentIssues": [],
+      "independentModel": {
+        "issues": [],
+        "bodyContracts": 137,
+        "sharedRoutingWritten": false,
+        "centralAcceptanceCredit": false
+      },
+      "actualLegacyConsumer": {
+        "function": "classifyPath",
+        "source": "scripts/docs/classify-testing-legacy.mjs",
+        "kind": "evidence",
+        "sourceIdentityAndClassificationUnchanged": true,
+        "onlyExpectedInventoryDelta": {
+          "lineCount": {
+            "before": 68,
+            "after": 197
+          }
+        },
+        "membershipReviewedIsNotDepthCredit": true
+      },
+      "negativeResults": [
+        {
+          "label": "counter promoted",
+          "issues": ["historical original machine fields changed"]
+        },
+        {
+          "label": "missed promoted",
+          "issues": ["historical original machine fields changed"]
+        },
+        {
+          "label": "warning erased",
+          "issues": ["historical original machine fields changed"]
+        },
+        {
+          "label": "mutant exit forged",
+          "issues": ["historical original machine fields changed"]
+        },
+        {
+          "label": "current execution forged",
+          "issues": ["machine field mismatch: _governance.currentAudit.runtimeExecutionPerformed"]
+        },
+        {
+          "label": "wrong source base",
+          "issues": ["historical source declaration differs from approved external pin"]
+        }
+      ],
+      "immutableI13": {
+        "bodyFiles": 13,
+        "receiptSha256": "8eb88b25f7a2ff4d60ef828264fb95cd1f35a11d91a37f2b67963e67de5d8452",
+        "allEqual271": true
+      },
+      "centralPilotEntries": 0,
+      "sharedModelNativeEntries": 0,
+      "whitelist": {
+        "changed": [
+          "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json"
+        ],
+        "untracked": [
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-json-i-20261016.json"
+        ]
+      },
+      "runtimeExecutionPerformed": false,
+      "limits": [
+        "not runtime/browser/coverage or raw replay",
+        "standalone real source/body model proof; sharedmodel136 excludes thisnewpilot",
+        "legacyclassifier is an inventory consumer, not a business-runtime parser"
+      ]
+    },
+    "actualCLIInheritedScope": "pnpm check:docs will run all71 docs-tool tests including I0 real model/progress positive/negative fixtures. Sharedmodel136 has zero pilot entries; independent complete source/model proof above tests actual canonical JSON, without central writes.",
+    "sourceBinding": "Fixed33cc source pin retained; migrationReadBase1ae and transportae4 are separate, all14 raw source blobs and immutableI13 verified.",
+    "runs": [
+      {
+        "command": "complete checkMigratedDocument with real Git reader and independent route object",
+        "exitCode": 0,
+        "result": "0issues; source33cc retained; nine-key whole object and65leaves deep-equal; six native/governance mutations rejected"
+      },
+      {
+        "command": "actual classifyPath historical inventory consumer",
+        "exitCode": 0,
+        "result": "identity/domain/module/canonical routing and all inventory fields unchanged except expected lineCount68→197; not runtime proof"
+      },
+      {
+        "command": "pnpm check:docs",
+        "exitCode": 0,
+        "result": "71tests/0fail/0skip; docs1223/7437/361; model136,testing0,phase184,strict645 all pass",
+        "scope": "sharedmodel excludes canonical pilot; standalone independent model137 exercised actualcandidate; I0 actual CLI fixtures also run by71tooltests",
+        "log": "/tmp/type-pal-i-json-check-docs.log"
+      },
+      {
+        "command": "pnpm lint",
+        "exitCode": 0,
+        "result": "4092files;0errors/0warnings/0infos",
+        "log": "/tmp/type-pal-i-json-lint.log"
+      },
+      {
+        "command": "git diff --check",
+        "exitCode": 0,
+        "result": "zero diagnostics"
+      }
+    ],
+    "receiptFinalization": "Only check-result/current receipt descriptions finalized after full gates; candidateJSON58f6...unchanged. Before commit repeat JSONparse/format/native source check/immutableI13/whitelist/diff on final bytes."
+  }
+}
