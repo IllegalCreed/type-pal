@@ -791,3 +791,10 @@ Branch: codex/docs-full-template-proposal
 - JMD-C2非作者发现根三current共用phase1一句将continuation的D2/Game来源镜像给Cursor24/wave2。根重读固定33cc两源完整28/56行：Cursor24无D2/Game/phase1，wave2仅49行列D2为其它仍待队列；据此只收窄两个current.phaseAnchors.phase1，正文/after/native3不动，完整错误current存prior并记录修正，非作者closure仍待。C1后14快照零门保历史，新两记录字节不冒旧门。
 
 - JMD-C2伴随范围复核：两Cursor卡的phase2也按实际editor职责收窄，Cursor24为声明/控件与其原共享门，wave2为九组命令与其原集成门；全仓共享门不授reforge/content正文阅读或实现信用。两完整前current存prior，continuation八队列范围保留。此前C2-phase1快照docs0为历史，最终14快照另核全门/非作者。
+
+- J-MD三篇根接入与两模板入口同步已获非作者receipt_review独立accept，完整14文件proof SHA`9d4535f1fbd65932f0066fb38631118c40b24ec7c36db780f728d23914081d53`；JMD-C1旧待治理、C2两阶段来源镜像及phase2伴随范围均闭合。118项实际来源/绑定、GFM一表39、model205/strict714/链接/ledger/diff均零；其自身probe键名/LF/list递归错误保为探针历史，不归候选。根同字节76工具/0fail0skip、lint4099零诊断与其独立读域分开。
+- 受审14字节完整提交保留`4079482759bddd1c941b92e92eba21c891f571a0`；三current和stage/中央状态旧完整对象均固定该commit/blob/wholeSHA/唯一selector，根实际Git读回逐个对象相等，最终发布历史须可达。原native3/current旧record、immutable MD author候选/设计不改；小矩阵/入口current完整prior保留。此签收为后续根Owner新字节，3MD/2入口/矩阵正文与after不变，不倒用旧peer签字，最后全门按后续字节实跑后才提交。实际201/1838+4、current1968/pending1763；L13候选另已获tail接收但中央仍0/10，M仅设计，goalactive/main未动。
+
+- 根签收辅助脚本的Python3.9.6文件入口两次在执行前报编码错误，两次实核仓库clean；同一保存SHA`2b3da29be93d3d8a6ec625dea302449f33053fdf178d5b21835b202d59c1f6d5`实际严格UTF8解码/compile成功，随后由相同字节compile执行，所有clean/base/14snapshot/fullprior守卫通过并只写五个授权metadata。文件入口根因未确定，不编造首错原始字节；校准proof SHA`fe56d700626b2b1bce4349948b567bb1c61ee877f368a41d907367bdbc4b3038`与两次工具trace保留，两失败不算PASS。后续同字节零全门另跑。
+
+- JMD-C3后签收非作者指出三current的status/documentStatus/consumer.scope仍沿用接收前candidate/pending，虽根4079接收已真实发生。现仅逐篇同步这三类字段，consumer观察明确为接收前固定4079快照，不改body/source/阶段/after，旧完整值仍在固定4079可取；签收字节另交定向复核，初版五metadata docs0为历史，不续授新字节。
